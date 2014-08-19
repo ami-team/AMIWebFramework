@@ -7,6 +7,17 @@ function AMIWebApp() {
 	/* CONSTRUCTOR                                                     */
 	/*-----------------------------------------------------------------*/
 
+	/*-------------------------------*/
+	/* DEFAULT DIVISIONS             */
+	/*-------------------------------*/
+
+	$('body').append('<div id="modal"></div>');
+	$('body').append('<div id="main"></div>');
+
+	/*-------------------------------*/
+	/* DEFAULT SCRIPTS               */
+	/*-------------------------------*/
+
 	$.ajax({
 		url: 'js/jspath.min.js',
 		dataType: 'script',
@@ -28,7 +39,9 @@ function AMIWebApp() {
 		async: false,
 	});
 
-	/*-----------------------------------------------------------------*/
+	/*-------------------------------*/
+	/* DEFAULT FRAGMENTS             */
+	/*-------------------------------*/
 
 	$.ajax({
 		url: 'html/AMI/Fragment/success.html',
@@ -48,9 +61,9 @@ function AMIWebApp() {
 		this.fragmentError = data;
 	});
 
-	/*-----------------------------------------------------------------*/
-	/* ALIAS FOR `JSPath.apply`                                        */
-	/*-----------------------------------------------------------------*/
+	/*-------------------------------*/
+	/* ALIAS FOR `JSPath.apply`      */
+	/*-------------------------------*/
 
 	this.jspath = JSPath.apply;
 
@@ -287,7 +300,6 @@ function AMIWebApp() {
 				var dict = settings['dict'];
 
 				if(dict instanceof Array) {
-
 					var _orig = html;
 
 					html = '';
