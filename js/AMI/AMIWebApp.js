@@ -341,7 +341,7 @@ function AMIWebApp() {
 	}).done(function(data) {
 		this.fragmentSuccess = data;
 	}).fail(function() {
-		throw 'could not load `html/AMI/Fragment/success.html` !';
+		throw 'could not load `html/AMI/Fragment/success.html`';
 	});
 
 	$.ajax({
@@ -352,7 +352,7 @@ function AMIWebApp() {
 	}).done(function(data) {
 		this.fragmentError = data;
 	}).fail(function() {
-		throw 'could not load `html/AMI/Fragment/error.html` !';
+		throw 'could not load `html/AMI/Fragment/error.html`';
 	});
 
 	/*-------------------------------*/
