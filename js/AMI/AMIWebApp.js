@@ -2,103 +2,75 @@
  * AMIWebApp class
  */
 
+/*-------------------------------------------------------------------------*/
+/* INTERNAL FUNCTIONS                                                      */
+/*-------------------------------------------------------------------------*/
+
+function _internal_loadScripts(deferred, context, scripts) {
+
+	if(scripts.length > 0) {
+
+		$.ajax({
+			url: scripts[0],
+			type: 'HEAD',
+		}).done(function(data) {
+			$('head').append('<script type="text/javascript" src="' + scripts[0] + '" />').promise().done(function() {
+				scripts.splice(0, 1);
+				_internal_loadScripts(deferred, context, scripts);
+			});
+		}).fail(function() {
+			if(context) {
+				deferred.rejectWith(context, ['could not load script `' + scripts[0] + '`: ' + e]);
+			} else {
+				deferred.reject('could not load script `' + scripts[0] + '`: ' + e);
+			}
+		});
+	} else {
+		if(context) {
+			deferred.resolveWith(context);
+		} else {
+			deferred.resolve();
+		}
+	}
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _internal_loadSheets(deferred, context, sheets) {
+
+	if(sheets.length > 0) {
+
+		$.ajax({
+			url: sheets[0],
+			type: 'HEAD',
+		}).done(function(data) {
+			$('head').append('<link rel="stylesheet" type="text/css" href="' + sheets[0] + '" />').promise().done(function() {
+				sheets.splice(0, 1);
+				_internal_loadSheets(deferred, context, sheets);
+			});
+		}).fail(function() {
+			if(context) {
+				deferred.rejectWith(context, ['could not load sheet `' + sheets[0] + '`']);
+			} else {
+				deferred.reject('could not load sheet `' + sheets[0] + '`');
+			}
+		});
+	} else {
+		if(context) {
+			deferred.resolveWith(context);
+		} else {
+			deferred.resolve();
+		}
+	}
+}
+
+/*-------------------------------------------------------------------------*/
+/* CLASS AMIWebApp                                                         */
+/*-------------------------------------------------------------------------*/
+
 function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
-	/* CONSTRUCTOR                                                     */
-	/*-----------------------------------------------------------------*/
-
-	/*-------------------------------*/
-	/* DEFAULT DIVISIONS             */
-	/*-------------------------------*/
-
-	$('body').append('<div id="modal"></div>');
-	$('body').append('<div id="main"></div>');
-
-	/*-------------------------------*/
-	/* DEFAULT SCRIPTS               */
-	/*-------------------------------*/
-
-	$.ajax({
-		url: 'js/jspath.min.js',
-		dataType: 'script',
-		context: this,
-		async: false,
-	});
-/*
-	$.ajax({
-		url: 'js/AMI/AMILogin.js',
-		dataType: 'script',
-		context: this,
-		async: false,
-	});
-*/
-	$.ajax({
-		url: 'js/AMI/AMICommand.js',
-		dataType: 'script',
-		context: this,
-		async: false,
-	});
-
-	/*-------------------------------*/
-	/* DEFAULT FRAGMENTS             */
-	/*-------------------------------*/
-
-	$.ajax({
-		url: 'html/AMI/Fragment/success.html',
-		dataType: 'html',
-		context: this,
-		async: false,
-	}).done(function(data) {
-		this.fragmentSuccess = data;
-	});
-
-	$.ajax({
-		url: 'html/AMI/Fragment/error.html',
-		dataType: 'html',
-		context: this,
-		async: false,
-	}).done(function(data) {
-		this.fragmentError = data;
-	});
-
-	/*-------------------------------*/
-	/* ALIAS FOR `JSPath.apply`      */
-	/*-------------------------------*/
-
-	this.jspath = JSPath.apply;
-
-	/*-----------------------------------------------------------------*/
 	/* DYNAMIC JAVASCRIPT LOADING                                      */
-	/*-----------------------------------------------------------------*/
-
-	this._loadScripts = function(deferred, context, scripts) {
-
-		if(scripts.length > 0) {
-
-			$.ajax({
-				url: scripts[0],
-				type: 'HEAD',
-			}).done(function(data) {
-				$('head').append('<script type="text/javascript" src="' + scripts[0] + '" />').promise().done(function() {
-					scripts.splice(0, 1);
-					amiWebApp._loadScripts(deferred, context, scripts);
-				});
-			}).fail(function() {
-				if(context) {
-					deferred.rejectWith(context, ['could not load script `' + scripts[0] + '`: ' + e]);
-				} else {
-					deferred.reject('could not load script `' + scripts[0] + '`: ' + e);
-				}
-			});
-		} else {
-			if(context) {
-				deferred.resolveWith(context);
-			} else {
-				deferred.resolve();
-			}
-		}
-	};
-
 	/*-----------------------------------------------------------------*/
 
 	this.loadScripts = function(scripts, settings) {
@@ -113,7 +85,7 @@ function AMIWebApp() {
 		}
 
 		var result = $.Deferred();
-		this._loadScripts(result, context, scripts);
+		_internal_loadScripts(result, context, scripts);
 		return result;
 	};
 
@@ -121,37 +93,7 @@ function AMIWebApp() {
 	/* DYNAMIC CSS LOADING                                             */
 	/*-----------------------------------------------------------------*/
 
-	this._loadStyles = function(deferred, context, sheets) {
-
-		if(sheets.length > 0) {
-
-			$.ajax({
-				url: sheets[0],
-				type: 'HEAD',
-			}).done(function(data) {
-				$('head').append('<link rel="stylesheet" type="text/css" href="' + sheets[0] + '" />').promise().done(function() {
-					sheets.splice(0, 1);
-					amiWebApp._loadStyles(deferred, context, sheets);
-				});
-			}).fail(function() {
-				if(context) {
-					deferred.rejectWith(context, ['could not load sheet `' + sheets[0] + '`']);
-				} else {
-					deferred.reject('could not load sheet `' + sheets[0] + '`');
-				}
-			});
-		} else {
-			if(context) {
-				deferred.resolveWith(context);
-			} else {
-				deferred.resolve();
-			}
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.loadStyles = function(sheets, settings) {
+	this.loadSheets = function(sheets, settings) {
 
 		var context = undefined;
 
@@ -163,7 +105,7 @@ function AMIWebApp() {
 		}
 
 		var result = $.Deferred();
-		this._loadStyles(result, context, sheets);
+		_internal_loadSheets(result, context, sheets);
 		return result;
 	};
 
@@ -331,10 +273,93 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.start = function()
-	{
-		alert('warning: function `amiWebApp.start()` must be overloaded !');
+	this.userStart = function() {
+		alert('warning: method `amiWebApp.userStart()` must be overloaded !');
+	};
+
+	this.userReload = function() {
+		alert('warning: method `amiWebApp.userReload()` must be overloaded !');
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.start = function() {
+
+		if($('#modal').length === 0) {
+			$('body').append('<div id="modal"></div>');
+		}
+
+		if($('#main').length === 0) {
+			$('body').append('<div id="main"></div>');
+		}
+
+		$('div').promise().done(function() {
+
+			$('#modal').empty();
+			$('#main').empty();
+
+			amiWebApp.userStart();
+		});
 	}
+
+	/*-----------------------------------------------------------------*/
+	/* CONSTRUCTOR                                                     */
+	/*-----------------------------------------------------------------*/
+
+	/*-------------------------------*/
+	/* DEFAULT SHEETS                */
+	/*-------------------------------*/
+
+	this.loadSheets([
+		'css/bootstrap.min.css',
+	]).fail(function(data) {
+		throw data;
+	});
+
+	/*-------------------------------*/
+	/* DEFAULT SCRIPTS               */
+	/*-------------------------------*/
+
+	this.loadScripts([
+		'js/jspath.min.js',
+		'js/bootstrap.min.js',
+		'js/AMI/AMILogin.min.js',
+		'js/AMI/AMICommand.min.js',
+	]).fail(function(data) {
+		throw data;
+	});
+
+	/*-------------------------------*/
+	/* DEFAULT FRAGMENTS             */
+	/*-------------------------------*/
+
+	$.ajax({
+		url: 'html/AMI/Fragment/success.html',
+		dataType: 'html',
+		context: this,
+		async: false,
+	}).done(function(data) {
+		this.fragmentSuccess = data;
+	}).fail(function() {
+		throw 'could not load `html/AMI/Fragment/success.html` !';
+	});
+
+	$.ajax({
+		url: 'html/AMI/Fragment/error.html',
+		dataType: 'html',
+		context: this,
+		async: false,
+	}).done(function(data) {
+		this.fragmentError = data;
+	}).fail(function() {
+		throw 'could not load `html/AMI/Fragment/error.html` !';
+	});
+
+	/*-------------------------------*/
+	/* ALIAS FOR `JSPath.apply`      */
+	/*-------------------------------*/
+
+	this.jspath = JSPath.apply;
 
 	/*-----------------------------------------------------------------*/
 }
