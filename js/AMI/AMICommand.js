@@ -58,11 +58,15 @@ function AMICommand() {
 			}
 		}
 
-		var deferred = $.Deferred();
+		/*---------------------------------------------------------*/
 
 		var ENDPOINT = this.endPoint.trim();
 		var COMMAND = encodeURIComponent(command.trim());
 		var CONVERTER = this.converter.trim();
+
+		/*---------------------------------------------------------*/
+
+		var deferred = $.Deferred();
 
 		var JSONPID = 'AIM_COMMAND_' + _internal_command_cnt++;
 
@@ -70,6 +74,8 @@ function AMICommand() {
 			deferred: deferred,
 			context: context,
 		};
+
+		/*---------------------------------------------------------*/
 
 		$.ajax({
 			url: ENDPOINT + '?JSONP=_internal_command_callback&JSONPID=' + JSONPID + '&Command=' + COMMAND + '&Converter=' + CONVERTER,
@@ -89,6 +95,8 @@ function AMICommand() {
 				}
 			},
 		});
+
+		/*---------------------------------------------------------*/
 
 		return deferred;
 	};
