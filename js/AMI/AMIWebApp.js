@@ -44,6 +44,7 @@ function _internal_loadSheets(deferred, context, sheets) {
 		$.ajax({
 			url: sheets[0],
 			type: 'HEAD',
+			async: false,
 			success: function() {
 				$('head').append('<link rel="stylesheet" type="text/css" href="' + sheets[0] + '" />').promise().done(function() {
 					sheets.splice(0, 1);
@@ -137,6 +138,7 @@ function AMIWebApp() {
 
 		return $.ajax({
 			url: url,
+			cache: false,
 			dataType: 'html',
 			context: context,
 		});
