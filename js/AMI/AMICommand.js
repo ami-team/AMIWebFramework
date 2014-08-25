@@ -70,7 +70,20 @@ function AMICommand() {
 		$.ajax({
 			url: ENDPOINT + '?JSONP=_internal_command_callback&JSONPID=' + JSONPID + '&Command=' + COMMAND + '&Converter=' + CONVERTER,
 			type: 'POST',
+			cache: false,
 			dataType: 'jsonp',
+			crossDomain: true,
+			error: function(data) {
+
+				if(data.statusText !== 'success') {
+
+					if(context) {
+						deferred.rejectWith(context, ['could not execute command `' + command + '`']);
+					} else {
+						deferred.reject('could not execute command `' + command + '`');
+					}
+				}
+			},
 		});
 
 		return deferred;

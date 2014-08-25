@@ -14,15 +14,17 @@ function _internal_loadScripts(deferred, context, scripts) {
 			url: scripts[0],
 			dataType: "script",
 			async: false,
-		}).done(function() {
-			scripts.splice(0, 1);
-			_internal_loadScripts(deferred, context, scripts);
-		}).fail(function() {
-			if(context) {
-				deferred.rejectWith(context, ['could not load script `' + scripts[0] + '`: ' + e]);
-			} else {
-				deferred.reject('could not load script `' + scripts[0] + '`: ' + e);
-			}
+			success: function() {
+				scripts.splice(0, 1);
+				_internal_loadScripts(deferred, context, scripts);
+			},
+			error: function() {
+				if(context) {
+					deferred.rejectWith(context, ['could not load script `' + scripts[0] + '`']);
+				} else {
+					deferred.reject('could not load script `' + scripts[0] + '`');
+				}
+			},
 		});
 	} else {
 		if(context) {
@@ -42,17 +44,19 @@ function _internal_loadSheets(deferred, context, sheets) {
 		$.ajax({
 			url: sheets[0],
 			type: 'HEAD',
-		}).done(function(data) {
-			$('head').append('<link rel="stylesheet" type="text/css" href="' + sheets[0] + '" />').promise().done(function() {
-				sheets.splice(0, 1);
-				_internal_loadSheets(deferred, context, sheets);
-			});
-		}).fail(function() {
-			if(context) {
-				deferred.rejectWith(context, ['could not load sheet `' + sheets[0] + '`']);
-			} else {
-				deferred.reject('could not load sheet `' + sheets[0] + '`');
-			}
+			success: function() {
+				$('head').append('<link rel="stylesheet" type="text/css" href="' + sheets[0] + '" />').promise().done(function() {
+					sheets.splice(0, 1);
+					_internal_loadSheets(deferred, context, sheets);
+				});
+			},
+			error: function() {
+				if(context) {
+					deferred.rejectWith(context, ['could not load sheet `' + sheets[0] + '`']);
+				} else {
+					deferred.reject('could not load sheet `' + sheets[0] + '`');
+				}
+			},
 		});
 	} else {
 		if(context) {
