@@ -11,9 +11,26 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/AMI/AMIWebApp.min.js"></script>
 
+    <script type="text/javascript">
+
+	amiWebApp.userStart = function() {
+
+		amiCommand.endPoint = 'https://lpsc.in2p3.fr/AMI/nedm/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
+
+		amiCommand.execute('GetUserInfo -amiLogin=jodier').done(function(data) {
+			alert(' RESULT ::: ' + JSON.stringify(data));
+		});
+
+		amiWebApp.userReload = function() {
+			alert('Hello !!!');
+		};
+	};
+
+    </script>
+
     <!--[if lt IE 9]>
     <script type="text/javascript" src="js/html5shiv.min.js"></script>
-    <![endif]-->
+    <![endif]--> 
   </head>
   <body>
 

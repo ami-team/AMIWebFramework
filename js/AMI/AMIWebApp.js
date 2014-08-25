@@ -12,12 +12,11 @@ function _internal_loadScripts(deferred, context, scripts) {
 
 		$.ajax({
 			url: scripts[0],
-			type: 'HEAD',
-		}).done(function(data) {
-			$('head').append('<script type="text/javascript" src="' + scripts[0] + '" />').promise().done(function() {
-				scripts.splice(0, 1);
-				_internal_loadScripts(deferred, context, scripts);
-			});
+			dataType: "script",
+			async: false,
+		}).done(function() {
+			scripts.splice(0, 1);
+			_internal_loadScripts(deferred, context, scripts);
 		}).fail(function() {
 			if(context) {
 				deferred.rejectWith(context, ['could not load script `' + scripts[0] + '`: ' + e]);
@@ -84,6 +83,10 @@ function AMIWebApp() {
 			}
 		}
 
+		if(!(scripts instanceof Array)) {
+			scripts = [scripts];
+		}
+
 		var result = $.Deferred();
 		_internal_loadScripts(result, context, scripts);
 		return result;
@@ -102,6 +105,10 @@ function AMIWebApp() {
 			if('context' in settings) {
 				context = settings['context'];
 			}
+		}
+
+		if(!(sheets instanceof Array)) {
+			sheets = [sheets];
 		}
 
 		var result = $.Deferred();
@@ -241,30 +248,31 @@ function AMIWebApp() {
 			if('dict' in settings) {
 				var dict = settings['dict'];
 
-				if(dict instanceof Array) {
-					var _orig = html;
-
-					html = '';
-
-					$.each(dict, function(indx, DICT) {
-						var _html = _orig;
-
-						$.each(DICT, function(key, val) {
-							var regexp = new RegExp('\%\%' + key + '\%\%', 'g');
-							_html = _html.replace(regexp, val);
-						});
-
-						html += _html;
-					});
-				} else if(dict instanceof Object) {
-
-					$.each(dict, function(key, val) {
-						var regexp = new RegExp('\%\%' + key + '\%\%', 'g');
-						html = html.replace(regexp, val);
-					});
-				} else {
-					throw 'wrong parameter type for settings[\'dict\'] (expecting `Object` or `Array[Object]`)';
+				if(!(dict instanceof Array)) {
+					dict = [dict];
 				}
+
+				/*-----------------------------------------*/
+				/* FORMAT HTML                             */
+				/*-----------------------------------------*/
+
+				var result = '';
+
+				$.each(dict, function(indx, DICT) {
+					var frag = html;
+
+					$.each(DICT, function(key, val) {
+						frag = frag.replace(
+							new RegExp('\%\%' + key + '\%\%', 'g'), val
+						);
+					});
+
+					result += frag;
+				});
+
+				return result;
+
+				/*-----------------------------------------*/
 			}
 		}
 
@@ -285,19 +293,10 @@ function AMIWebApp() {
 
 	this.start = function() {
 
-		if($('#modal').length === 0) {
-			$('body').append('<div id="modal"></div>');
-		}
+		$('body').prepend('<div id="modal"></div>');
+		$('body').prepend('<div id="main"></div>');
 
-		if($('#main').length === 0) {
-			$('body').append('<div id="main"></div>');
-		}
-
-		$('div').promise().done(function() {
-
-			$('#modal').empty();
-			$('#main').empty();
-
+		$(document).ready(function() {
 			amiWebApp.userStart();
 		});
 	}
@@ -343,6 +342,8 @@ function AMIWebApp() {
 	}).fail(function() {
 		throw 'could not load `html/AMI/Fragment/success.html`';
 	});
+
+	/*-------------------------------*/
 
 	$.ajax({
 		url: 'html/AMI/Fragment/error.html',
