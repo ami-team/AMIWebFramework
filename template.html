@@ -18,7 +18,7 @@
 		amiCommand.endPoint = 'https://lpsc.in2p3.fr/AMI/nedm/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 
 		amiCommand.execute('GetUserInfo -amiLogin=jodier').done(function(data) {
-			alert(' RESULT ::: ' + JSON.stringify(data));
+			alert('RESULT ::: ' + JSON.stringify(data));
 		});
 
 		amiWebApp.userReload = function() {
