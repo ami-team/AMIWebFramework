@@ -16,12 +16,12 @@ _internal_command_ctx = {};
 
 function _internal_command_callback(data) {
 
-	var JSONPID = data.jsonid;
+	var jsonpid = data.jsonpid;
 
-	var deferred = _internal_command_ctx[JSONPID].deferred;
-	var context = _internal_command_ctx[JSONPID].context;
+	var deferred = _internal_command_ctx[jsonpid].deferred;
+	var context = _internal_command_ctx[jsonpid].context;
 
-	delete data.jsonid;
+	delete data.jsonpid;
 
 	if(context) {
 		deferred.resolveWith(context, [data]);
@@ -29,7 +29,7 @@ function _internal_command_callback(data) {
 		deferred.resolve(data);
 	}
 
-	delete _internal_command_ctx[JSONPID];
+	delete _internal_command_ctx[jsonpid];
 }
 
 /*-------------------------------------------------------------------------*/
@@ -68,9 +68,9 @@ function AMICommand() {
 
 		var deferred = $.Deferred();
 
-		var JSONPID = 'AIM_COMMAND_' + _internal_command_cnt++;
+		var jsonpid = 'AIM_COMMAND_' + _internal_command_cnt++;
 
-		_internal_command_ctx[JSONPID] = {
+		_internal_command_ctx[jsonpid] = {
 			deferred: deferred,
 			context: context,
 		};
@@ -78,7 +78,7 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		$.ajax({
-			url: ENDPOINT + '?JSONP=_internal_command_callback&JSONPID=' + JSONPID + '&Command=' + COMMAND + '&Converter=' + CONVERTER,
+			url: ENDPOINT + '?JSONP=_internal_command_callback&JSONPID=' + jsonpid + '&Command=' + COMMAND + '&Converter=' + CONVERTER,
 			type: 'POST',
 			cache: false,
 			dataType: 'jsonp',
