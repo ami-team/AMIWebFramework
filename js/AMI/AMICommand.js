@@ -72,7 +72,7 @@ function AMICommand() {
 
 		var deferred = $.Deferred();
 
-		var jsonpid = 'AIM_COMMAND_' + _internal_command_cnt++;
+		var jsonpid = 'AMI_COMMAND_' + _internal_command_cnt++;
 
 		_internal_command_ctx[jsonpid] = {
 			deferred: deferred,
@@ -102,7 +102,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return deferred;
+		return deferred.promise();
 	};
  
 	/*-----------------------------------------------------------------*/

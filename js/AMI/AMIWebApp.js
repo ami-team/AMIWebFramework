@@ -98,7 +98,7 @@ function AMIWebApp() {
 
 		var result = $.Deferred();
 		_internal_loadScripts(result, context, scripts);
-		return result;
+		return result.promise();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -122,7 +122,7 @@ function AMIWebApp() {
 
 		var result = $.Deferred();
 		_internal_loadSheets(result, context, sheets);
-		return result;
+		return result.promise();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -178,7 +178,7 @@ function AMIWebApp() {
 			}
 		});
 
-		return result;
+		return result.promise();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -211,7 +211,7 @@ function AMIWebApp() {
 			}
 		});
 
-		return result;
+		return result.promise();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -244,7 +244,7 @@ function AMIWebApp() {
 			}
 		});
 
-		return result;
+		return result.promise();
 	};
 
 	/*-----------------------------------------------------------------*/
