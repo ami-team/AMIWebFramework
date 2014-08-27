@@ -32,20 +32,6 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.logout = function() {
-
-		return amiCommand.logout().done(function(data, login) {
-			amiLogin.user = 'guest';
-			amiLogin._showMenu();
-
-		}).fail(function(data) {
-			amiLogin.user = 'guest';
-			amiLogin._showMenu();
-		});
-	};
-
-	/*-----------------------------------------------------------------*/
-
 	this.passConnect = function() {
 
 		var user = $('#loginForm input[name=user]').val()
@@ -72,6 +58,20 @@ function AMILogin() {
 		/* TODO */
 		alert('TODO');
 		/* TODO */
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.logout = function() {
+
+		return amiCommand.logout().done(function(data, login) {
+			amiLogin.user = 'guest';
+			amiLogin._showMenu();
+
+		}).fail(function(data) {
+			amiLogin.user = 'guest';
+			amiLogin._showMenu();
+		});
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -106,7 +106,7 @@ function AMILogin() {
 
 	this._showMenu = function() {
 		/*---------------------------------------------------------*/
-		/*                                                         */
+		/* DISPLAY CONNECTION FORM                                 */
 		/*---------------------------------------------------------*/
 
 		if(amiLogin.user === 'guest') {
@@ -139,7 +139,7 @@ function AMILogin() {
 		}
 
 		/*---------------------------------------------------------*/
-		/*                                                         */
+		/* RELOAD APPLICATION DATA                                 */
 		/*---------------------------------------------------------*/
 
 		amiWebApp.userReload();

@@ -21,6 +21,9 @@ _internal_command_ctx = {};
 function _internal_command_callback(data) {
 
 	if(data.jsonpid in _internal_command_ctx) {
+		/*---------------------------------------------------------*/
+		/* GET DEFERRED & CONTEXT                                  */
+		/*---------------------------------------------------------*/
 
 		var deferred = _internal_command_ctx[data.jsonpid].deferred;
 		var context = _internal_command_ctx[data.jsonpid].context;
@@ -28,6 +31,10 @@ function _internal_command_callback(data) {
 		delete _internal_command_ctx[data.jsonpid];
 
 		delete data.jsonpid;
+
+		/*---------------------------------------------------------*/
+		/* GET RESULT                                              */
+		/*---------------------------------------------------------*/
 
 		var error = amiWebApp.jspath('..error', data);
 
@@ -45,6 +52,8 @@ function _internal_command_callback(data) {
 				deferred.reject(data);
 			}
 		}
+
+		/*---------------------------------------------------------*/
 	}
 }
 
