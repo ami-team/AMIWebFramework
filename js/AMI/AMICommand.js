@@ -20,20 +20,32 @@ _internal_command_ctx = {};
 
 function _internal_command_callback(data) {
 
-	var jsonpid = data.jsonpid;
+	if(data.jsonpid in _internal_command_ctx) {
 
-	var deferred = _internal_command_ctx[jsonpid].deferred;
-	var context = _internal_command_ctx[jsonpid].context;
+		var deferred = _internal_command_ctx[data.jsonpid].deferred;
+		var context = _internal_command_ctx[data.jsonpid].context;
 
-	delete data.jsonpid;
+		delete _internal_command_ctx[data.jsonpid];
 
-	if(context) {
-		deferred.resolveWith(context, [data]);
-	} else {
-		deferred.resolve(data);
+		delete data.jsonpid;
+
+		var error = amiWebApp.jspath('..error', data);
+
+		if(error.length == 0) {
+
+			if(context) {
+				deferred.resolveWith(context, [data]);
+			} else {
+				deferred.resolve(data);
+			}
+		} else {
+			if(context) {
+				deferred.rejectWith(context, [data]);
+			} else {
+				deferred.reject(data);
+			}
+		}
 	}
-
-	delete _internal_command_ctx[jsonpid];
 }
 
 /*-------------------------------------------------------------------------*/
@@ -87,24 +99,127 @@ function AMICommand() {
 			cache: false,
 			dataType: 'jsonp',
 			crossDomain: true,
-			error: function(data) {
-
-				if(data.statusText !== 'success') {
-
-					if(context) {
-						deferred.rejectWith(context, ['could not execute command `' + command + '`']);
-					} else {
-						deferred.reject('could not execute command `' + command + '`');
-					}
-				}
-			},
 		});
+
+		/*---------------------------------------------------------*/
+
+		setTimeout(function() {
+
+			if(jsonpid in _internal_command_ctx)
+			{
+				delete _internal_command_ctx[jsonpid];
+
+				var message = { "AMIMessage" : [ { "error" : [ { "$" : "could not execute command `" + command + "`, try later" } ] } ] };
+
+				if(context) {
+					deferred.rejectWith(context, message);
+				} else {
+					deferred.reject(message);
+				}
+			}
+
+		}, 30000);
 
 		/*---------------------------------------------------------*/
 
 		return deferred.promise();
 	};
+
+ 	/*-----------------------------------------------------------------*/
+
+	this.session = function(settings) {
+
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		amiCommand.execute('GetSessionUser').done(function(data) {
+
+			var login_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
+
+			var login = login_list.length > 0 ? login_list[0] : '';
+
+			if(context) {
+				result.resolveWith(context, [data, login]);
+			} else {
+				result.resolve(data, login);
+			}
+		}).fail(function(data) {
+
+			if(context) {
+				result.rejectWith(context, [data]);
+			} else {
+				result.reject(data);
+			}
+		});
+
+		/*---------------------------------------------------------*/
+
+		return result;
+	};
+
+	/*-----------------------------------------------------------------*/
  
+	this.login = function(user, pass, settings) {
+
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		amiCommand.execute('GetSessionUser -AMIUser="' + user + '" -AMIPass="' + pass + '"').done(function(data) {
+
+			var login_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
+
+			var login = login_list.length > 0 ? login_list[0] : '';
+
+			if(context) {
+				result.resolveWith(context, [data, login]);
+			} else {
+				result.resolve(data, login);
+			}
+		}).fail(function(data) {
+
+			if(context) {
+				result.rejectWith(context, [data]);
+			} else {
+				result.reject(data);
+			}
+		});
+
+		/*---------------------------------------------------------*/
+
+		return result;
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.logout = function(settings) {
+
+		return this.login('', '', settings);
+	};
+
 	/*-----------------------------------------------------------------*/
 }
 
