@@ -50,16 +50,16 @@ def entry_point():
 
 	#####################################################################
 
-	LEN = len(TMP_DIR) + 1
+	SHIFT = len(TMP_DIR) + 1
 
 	for src, dirs, files in os.walk(TMP_DIR):
 
 		if src != TMP_DIR and src.find('.git') < 0:
-			dst = '.' + os.sep + src[LEN: ]
-
-			print('mkdir %s' % dst)
+			dst = '.' + os.sep + src[SHIFT: ]
 
 			if os.path.isdir(dst) == False:
+				print('mkdir %s' % dst)
+
 				os.mkdir(dst)
 
 			for file in files:
