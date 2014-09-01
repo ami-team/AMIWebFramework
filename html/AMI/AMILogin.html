@@ -1,0 +1,122 @@
+<div id="modal_login" class="modal fade" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+        <h4 class="modal-title">AMI authentication</h4>
+      </div>
+
+      <div class="modal-body">
+
+        <div id="modal_login_message"></div>
+
+        <div class="tabbable">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tab_login1">&nbsp;&nbsp;Sign In&nbsp;&nbsp;</a></li>
+            <li><a data-toggle="tab" href="#tab_login2">Need an account ?</a></li>
+            <li><a data-toggle="tab" href="#tab_login3">Forgot my password</a></li>
+          </ul>
+          <div class="tab-content" style="margin-top: 4px;">
+
+            <div id="tab_login1" class="tab-pane active">
+              <form onsubmit="amiLogin.passConnect(); return false;" id="loginForm" class="row">
+                <div class="col-md-2">
+                  <img src="img/padlock.png" alt="padlock" height="90" wigth="90" />
+                </div>
+                <div class="col-md-10">
+
+                  <div class="form-group">
+                    <label for="user" class="control-label">Login<span class="text-danger">*</span></label>
+                    <input type="text" name="user" class="form-control" placeholder="Type your AMI Login...">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pass" class="control-label">Password<span class="text-danger">*</span></label>
+                    <input type="password" name="pass" class="form-control" placeholder="Type your AMI Password...">
+                  </div>
+
+                  <a href="javascript:amiLogin.passLogin();" class="btn btn-primary">Login</a>
+                  or
+                  <a href="javascript:amiLogin.certLogin();" class="btn btn-primary">Certificate Login</a>
+
+                </div>
+              </form>
+            </div>
+
+            <div id="tab_login2" class="tab-pane">
+              <form onsubmit="amiLogin.createAccount(); return false;" id="createLoginForm" class="row">
+                <div class="col-md-2">
+                  <img src="img/padlock.png" alt="padlock" height="90" wigth="90" />
+                </div>
+                <div class="col-md-5">
+
+                  <div class="form-group">
+                    <label for="firstName" class="control-label">First name<span class="text-danger">*</span></label>
+                    <input type="text" name="firstName" class="form-control" placeholder="Type your first name...">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="user" class="control-label">Login<span class="text-danger">*</span></label>
+                    <input type="text" name="user" class="form-control" placeholder="Choose a login...">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pass1" class="control-label">Password1<span class="text-danger">*</span></label>
+                    <input type="password" name="pass1" class="form-control" placeholder="Choose a password...">
+                  </div>
+
+                  <a href="javascript:amiLogin.createAccount();" class="btn btn-primary">Create</a>
+
+                </div>
+                <div class="col-md-5">
+
+                  <div class="form-group ">
+                    <label for="lastName" class="control-label">Last name<span class="text-danger">*</span></label>
+                    <input type="text" name="lastName" class="form-control" placeholder="Type your last name...">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="email" class="control-label">Mail<span class="text-danger">*</span></label>
+                    <input type="text" name="email" class="form-control" placeholder="Type your mail...">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="pass2" class="control-label">Password2<span class="text-danger">*</span></label>
+                    <input type="password" name="pass2" class="form-control" placeholder="Type your password again...">
+                  </div>
+
+                </div>
+              </form>
+            </div>
+
+            <div id="tab_login3" class="tab-pane">
+              <form onsubmit="amiLogin.remindPass(); return false;" id="remindPasswordForm" class="row">
+                <div class="col-md-2">
+                  <img src="img/padlock.png" alt="padlock" height="90" wigth="90" />
+                </div>
+                <div class="col-md-10">
+
+                  <div class="form-group">
+                    <label for="user" class="control-label">Login<span class="text-danger">*</span></label>
+                    <input type="text" name="user" class="form-control" placeholder="Type your AMI Login...">
+                  </div>
+
+                  <a href="javascript:amiLogin.remindPass();" class="btn btn-primary">Remind</a>
+
+                </div>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="modal-footer" id="modal_footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+
+    </div>
+  </div>
+</div>

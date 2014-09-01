@@ -1,0 +1,41 @@
+<div id="modal_login_account_validation" class="modal fade">
+  <div class="modal-dialog">
+    <form onsubmit="return false;" class="modal-content">
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title">Account Validation</h4>
+      </div>
+      <div class="modal-body">
+
+        <div id="modal_login_account_validation_message"></div>
+
+        <div class="alert alert-info">
+          <h4 class="alert-heading">%%PROJECT%% INFORMATION PROTECTION</h4>
+          This site is available only for members of %%PROJECT%%.<br>If everything is GREEN you have nothing to do. Items in RED need correction.
+        </div>
+
+        <table class="table table-condensed table-bordered">
+          <tr>
+            <td style="width: %%SIZE%%%;">
+              <div align="center" class="alert alert-success" style="margin: 0px">AMI<br>validated</div>
+            </td>
+            <td style="width: %%SIZE%%%;>
+              <div align="center" class="alert alert-success" style="margin: 0px">CERTIFICATE<br>validated</div>
+            </td>
+            <td style="width: %%SIZE%%%;>
+              <div align="center" class="alert alert-success" style="margin: 0px">VOMS<br>validated</div>
+            </td>
+          </tr>
+        </table>
+
+        <div class="alert alert-info">
+          <a href="javascript:;" class="btn btn-primary">Click me !</a> to assign the current certificate to your AMI account.
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal">Close</a>
+      </div>
+    </form>
+  </div>
+</div>

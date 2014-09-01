@@ -74,9 +74,15 @@ function AMICommand() {
 
 	this.execute = function(command, settings) {
 
+		var noCert = true;
+
 		var context = undefined;
 
 		if(settings) {
+
+			if('noCert' in settings) {
+				noCert = settings['noCert'];
+			}
 
 			if('context' in settings) {
 				context = settings['context'];
@@ -91,9 +97,13 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		var deferred = $.Deferred();
-
 		var jsonpid = 'AMI_COMMAND_' + _internal_command_cnt++;
+
+		var INJECTION = encodeURIComponent('"jsonpid": "' + jsonpid + '"');
+
+		/*---------------------------------------------------------*/
+
+		var deferred = $.Deferred();
 
 		_internal_command_ctx[jsonpid] = {
 			deferred: deferred,
@@ -102,8 +112,16 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
+		var url = ENDPOINT + '?Callback=_internal_command_callback&Injection=' + INJECTION + '&Command=' + COMMAND + '&Converter=' + CONVERTER;
+
+		if(noCert) {
+			url += '&NoCert';
+		}
+
+		/*---------------------------------------------------------*/
+
 		$.ajax({
-			url: ENDPOINT + '?JSONP=_internal_command_callback&JSONPID=' + jsonpid + '&Command=' + COMMAND + '&Converter=' + CONVERTER,
+			url: url,
 			type: 'POST',
 			cache: false,
 			dataType: 'jsonp',
@@ -118,7 +136,7 @@ function AMICommand() {
 			{
 				delete _internal_command_ctx[jsonpid];
 
-				var message = { "AMIMessage" : [ { "error" : [ { "$" : "could not execute command `" + command + "`, try later" } ] } ] };
+				var message = {"AMIMessage": [{"error": [{"$": "could not execute command `" + command + "`, try later"}]}]};
 
 				if(context) {
 					deferred.rejectWith(context, message);
@@ -179,8 +197,8 @@ function AMICommand() {
 	};
 
 	/*-----------------------------------------------------------------*/
- 
-	this.login = function(user, pass, settings) {
+
+ 	this.passLogin = function(user, pass, settings) {
 
 		var context = undefined;
 
@@ -220,13 +238,93 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		return result;
-	};
+	}
+
+	/*-----------------------------------------------------------------*/
+
+ 	this.certLogin = function(settings) {
+
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		amiCommand.execute('GetSessionUser', {'noCert': false}).done(function(data) {
+
+			var login_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
+
+			var login = login_list.length > 0 ? login_list[0] : '';
+
+			if(context) {
+				result.resolveWith(context, [data, login]);
+			} else {
+				result.resolve(data, login);
+			}
+		}).fail(function(data) {
+
+			if(context) {
+				result.rejectWith(context, [data]);
+			} else {
+				result.reject(data);
+			}
+		});
+
+		/*---------------------------------------------------------*/
+
+		return result;
+	}
 
 	/*-----------------------------------------------------------------*/
 
 	this.logout = function(settings) {
 
-		return this.login('', '', settings);
+		return this.passLogin('', '', settings);
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.addUser = function(firstName, lastName, user, mail, pass1, pass2, settings) {
+
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		return amiCommand.execute('AddUser -firstName="' + firstName + '"-lastName="' + lastName + '" -amiLogin="' + user + '" -mail="' + mail + '" -amiPasswordxpassx=' + pass1 + '" -amiPasswordxconfirmx' + pass2 + '" -telephone="" -fax=""', {context: context});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.remindPassword = function(user, settings) {
+
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		return amiCommand.execute('RemindPassword -amiLogin="' + user + '"', {context: context});
 	};
 
 	/*-----------------------------------------------------------------*/
