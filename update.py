@@ -17,6 +17,13 @@ import os, sys, shutil
 TMP_DIR = '__WebApp_repo'
 
 #############################################################################
+
+def shutil_jscomp(src, dst):
+	os.system('java -jar %s%syuicompressor-*.jar %s -o %s' % (TMP_DIR, os.sep, src, dst))
+
+shutil.jscomp = shutil_jscomp
+
+#############################################################################
 # ENTRY POINT                                                               #
 #############################################################################
 
@@ -57,18 +64,19 @@ def entry_point():
 		if src != TMP_DIR and src.find('.git') < 0:
 			dst = '.' + os.sep + src[SHIFT: ]
 
-			if os.path.isdir(dst) == False:
-				print('mkdir %s' % dst)
-
+			if not os.path.isdir(dst):
 				os.mkdir(dst)
 
 			for file in files:
 				file_src = src + os.sep + file
 				file_dst = dst + os.sep + file
 
-				print('cp %s %s' % (file_src.replace(TMP_DIR, '<REPO>'), file_dst))
+				if file.endswith('.js') != False and file.endswith('.min.js') == False:
+					file_dst = file_dst[: -3] + '.min.js'
 
-				shutil.copy(file_src, file_dst)
+					shutil.jscomp(file_src, file_dst)
+				else:
+					shutil.copy(file_src, file_dst)
 
 	#####################################################################
 
