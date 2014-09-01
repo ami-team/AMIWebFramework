@@ -64,7 +64,11 @@ function _internal_command_callback(data) {
 function AMICommand() {
 	/*-----------------------------------------------------------------*/
 
-	this.endPoint = '';
+	this.noCert = false;
+
+	/*-----------------------------------------------------------------*/
+
+	this.endPoint = 'http://xxx.yy';
 
 	/*-----------------------------------------------------------------*/
 
@@ -74,15 +78,9 @@ function AMICommand() {
 
 	this.execute = function(command, settings) {
 
-		var noCert = true;
-
 		var context = undefined;
 
 		if(settings) {
-
-			if('noCert' in settings) {
-				noCert = settings['noCert'];
-			}
 
 			if('context' in settings) {
 				context = settings['context'];
@@ -114,7 +112,7 @@ function AMICommand() {
 
 		var url = ENDPOINT + '?Callback=_internal_command_callback&Injection=' + INJECTION + '&Command=' + COMMAND + '&Converter=' + CONVERTER;
 
-		if(noCert) {
+		if(this.noCert) {
 			url += '&NoCert';
 		}
 
@@ -152,50 +150,6 @@ function AMICommand() {
 		return deferred.promise();
 	};
 
- 	/*-----------------------------------------------------------------*/
-
-	this.session = function(settings) {
-
-		var context = undefined;
-
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		amiCommand.execute('GetSessionUser').done(function(data) {
-
-			var login_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
-
-			var login = login_list.length > 0 ? login_list[0] : '';
-
-			if(context) {
-				result.resolveWith(context, [data, login]);
-			} else {
-				result.resolve(data, login);
-			}
-		}).fail(function(data) {
-
-			if(context) {
-				result.rejectWith(context, [data]);
-			} else {
-				result.reject(data);
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result;
-	};
-
 	/*-----------------------------------------------------------------*/
 
  	this.passLogin = function(user, pass, settings) {
@@ -214,6 +168,8 @@ function AMICommand() {
 		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
+
+		this.noCert = true;
 
 		amiCommand.execute('GetSessionUser -AMIUser="' + user + '" -AMIPass="' + pass + '"').done(function(data) {
 
@@ -259,7 +215,9 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('GetSessionUser', {'noCert': false}).done(function(data) {
+		this.noCert = false;
+
+		amiCommand.execute('GetSessionUser').done(function(data) {
 
 			var login_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
 
@@ -288,7 +246,46 @@ function AMICommand() {
 
 	this.logout = function(settings) {
 
-		return this.passLogin('', '', settings);
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		this.noCert = true;
+
+		amiCommand.execute('GetSessionUser -AMIUser="" -AMIPass=""').done(function(data) {
+
+			var login_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
+
+			var login = login_list.length > 0 ? login_list[0] : '';
+
+			if(context) {
+				result.resolveWith(context, [data, login]);
+			} else {
+				result.resolve(data, login);
+			}
+		}).fail(function(data) {
+
+			if(context) {
+				result.rejectWith(context, [data]);
+			} else {
+				result.reject(data);
+			}
+		});
+
+		/*---------------------------------------------------------*/
+
+		return result;
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -306,12 +303,12 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('AddUser -firstName="' + firstName + '"-lastName="' + lastName + '" -amiLogin="' + user + '" -mail="' + mail + '" -amiPasswordxpassx=' + pass1 + '" -amiPasswordxconfirmx' + pass2 + '" -telephone="" -fax=""', {context: context});
+		return amiCommand.execute('AddUser -firstName="' + firstName + '"-lastName="' + lastName + '" -amiLogin="' + user + '" -mail="' + mail + '" -amiPasswordxpassx=' + pass1 + '" -amiPasswordxconfirmx' + pass2 + '"', {context: context});
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.remindPassword = function(user, settings) {
+	this.remindPass = function(user, settings) {
 
 		var context = undefined;
 
@@ -325,6 +322,24 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		return amiCommand.execute('RemindPassword -amiLogin="' + user + '"', {context: context});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.changePass = function(user, old_pass, new_pass, settings) {
+
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		return amiCommand.execute('ChangeLoginPassword -amiLogin="' + user + '" -amiOldPassword="' + old_pass + '" -amiNewPassword="' + new_pass + '"', {context: context});
 	};
 
 	/*-----------------------------------------------------------------*/

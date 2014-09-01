@@ -13,15 +13,21 @@
 
     <script type="text/javascript">
 
-	amiWebApp.userStart = function() {
+	amiWebApp.onStart = function() {
 
 		amiCommand.endPoint = 'https://lpsc.in2p3.fr/AMI/nedm/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 
-		amiWebApp.userReload = function() {
-			//alert('Hello !!!');
+		//alert('ready');
+
+		amiWebApp.onLogin = function() {
+			//alert('onLogin !!!');
 		};
 
-		amiLogin.start();
+		amiWebApp.onLogout = function() {
+			//alert('onLogout !!!');
+		};
+
+		amiLogin.start({project: 'nEDM'});
 	};
 
     </script>

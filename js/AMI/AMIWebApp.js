@@ -291,12 +291,16 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.userStart = function() {
-		alert('warning: method `amiWebApp.userStart()` must be overloaded !');
+	this.onStart = function() {
+		alert('warning: method `amiWebApp.onStart()` must be overloaded !');
 	};
 
-	this.userReload = function() {
-		alert('warning: method `amiWebApp.userReload()` must be overloaded !');
+	this.onLogin = function() {
+		alert('warning: method `amiWebApp.onLogin()` must be overloaded !');
+	};
+
+	this.onLogout = function() {
+		alert('warning: method `amiWebApp.onLogout()` must be overloaded !');
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -307,7 +311,7 @@ function AMIWebApp() {
 		$('body').prepend('<div id="main"></div>');
 
 		$(document).ready(function() {
-			amiWebApp.userStart();
+			amiWebApp.onStart();
 		});
 	}
 

@@ -20,7 +20,7 @@
           <div class="tab-content" style="margin-top: 4px;">
 
             <div id="tab_login1" class="tab-pane active">
-              <form onsubmit="amiLogin.passConnect(); return false;" id="loginForm" class="row">
+              <div id="loginForm" class="row">
                 <div class="col-md-2">
                   <img src="img/padlock.png" alt="padlock" height="90" wigth="90" />
                 </div>
@@ -36,16 +36,16 @@
                     <input type="password" name="pass" class="form-control" placeholder="Type your AMI Password...">
                   </div>
 
-                  <a href="javascript:amiLogin.passLogin();" class="btn btn-primary">Login</a>
+                  <a href="javascript:amiLogin._passLogin();" class="btn btn-primary">Login</a>
                   or
-                  <a href="javascript:amiLogin.certLogin();" class="btn btn-primary">Certificate Login</a>
+                  <a href="javascript:amiLogin._certLogin();" class="btn btn-primary">Certificate Login</a>
 
                 </div>
-              </form>
+              </div>
             </div>
 
             <div id="tab_login2" class="tab-pane">
-              <form onsubmit="amiLogin.createAccount(); return false;" id="createLoginForm" class="row">
+              <div id="createLoginForm" class="row">
                 <div class="col-md-2">
                   <img src="img/padlock.png" alt="padlock" height="90" wigth="90" />
                 </div>
@@ -66,7 +66,7 @@
                     <input type="password" name="pass1" class="form-control" placeholder="Choose a password...">
                   </div>
 
-                  <a href="javascript:amiLogin.createAccount();" class="btn btn-primary">Create</a>
+                  <a href="javascript:amiLogin._createAccount();" class="btn btn-primary">Create</a>
 
                 </div>
                 <div class="col-md-5">
@@ -87,11 +87,11 @@
                   </div>
 
                 </div>
-              </form>
+              </div>
             </div>
 
             <div id="tab_login3" class="tab-pane">
-              <form onsubmit="amiLogin.remindPass(); return false;" id="remindPasswordForm" class="row">
+              <div id="remindPasswordForm" class="row">
                 <div class="col-md-2">
                   <img src="img/padlock.png" alt="padlock" height="90" wigth="90" />
                 </div>
@@ -102,15 +102,16 @@
                     <input type="text" name="user" class="form-control" placeholder="Type your AMI Login...">
                   </div>
 
-                  <a href="javascript:amiLogin.remindPass();" class="btn btn-primary">Remind</a>
+                  <a href="javascript:amiLogin._remindPass();" class="btn btn-primary">Remind</a>
 
                 </div>
-              </form>
+              </div>
             </div>
 
           </div>
 
         </div>
+
       </div>
 
       <div class="modal-footer" id="modal_footer">

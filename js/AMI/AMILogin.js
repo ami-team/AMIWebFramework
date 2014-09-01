@@ -15,6 +15,17 @@ function AMILogin() {
 
 	this.start = function(settings) {
 
+		var project = '???';
+
+		if(settings) {
+
+			if('project' in settings) {
+				project = settings['project'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
 		amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
 			amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
 				amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
@@ -24,18 +35,30 @@ function AMILogin() {
 					amiLogin.fragmentLoginButton = data2;
 					amiLogin.fragmentLogoutButton = data3;
 
-					amiCommand.session().done(function(data, login) {
+					amiCommand.certLogin().done(function(data, login) {
 						amiLogin.user = login;
 						amiLogin._showMenu();
-						amiWebApp.userReload();
 					}).fail(function(data) {
 						amiLogin.user = 'guest';
 						amiLogin._showMenu();
-						amiWebApp.userReload();
+					});
+
+					var dict = {
+						PROJECT: project,
+					};
+
+					amiWebApp.loadHTML('html/AMI/AMILoginChangePass.html').done(function(data) {
+						amiWebApp.appendHTML('modal', data);
+						});
+
+					amiWebApp.loadHTML('html/AMI/AMILoginAccountValidation.html').done(function(data) {
+						amiWebApp.appendHTML('modal', data, {dict: dict});
 					});
 				});
 			});
 		});
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -48,7 +71,37 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.passLogin = function() {
+	this.changePass = function() {
+		$('#modal_login_change_pass_message').empty();
+
+		$('#modal_login_change_pass').modal('show');
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.accountValid = function() {
+		$('#modal_login_account_validation_message').empty();
+
+		$('#modal_login_account_validation').modal('show');
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.logout = function() {
+
+		return amiCommand.logout().done(function(data, login) {
+			amiLogin.user = 'guest';
+			amiLogin._showMenu();
+
+		}).fail(function(data) {
+			amiLogin.user = 'guest';
+			amiLogin._showMenu();
+		});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._passLogin = function() {
 
 		var user = $('#loginForm input[name=user]').val();
 		var pass = $('#loginForm input[name=pass]').val();
@@ -74,7 +127,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.certLogin = function() {
+	this._certLogin = function() {
 
 		amiCommand.certLogin().done(function(data, login) {
 			$('#modal_login').modal('hide');
@@ -91,21 +144,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.logout = function() {
-
-		return amiCommand.logout().done(function(data, login) {
-			amiLogin.user = 'guest';
-			amiLogin._showMenu();
-
-		}).fail(function(data) {
-			amiLogin.user = 'guest';
-			amiLogin._showMenu();
-		});
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.createAccount = function() {
+	this._createAccount = function() {
 
 		var firstName = $('#createLoginForm input[name=firstName]').val();
 		var lastName  = $('#createLoginForm input[name=lastName]' ).val();
@@ -126,7 +165,7 @@ function AMILogin() {
 			return;
 		}
 
-		amiCommand.addUser(firstName, lastName, user, mail, pass1, pass2).done(function(data, login) {
+		amiCommand.addUser(firstName, lastName, user, mail, pass1, pass2).done(function(data) {
 			amiLogin._showSuccessMessage('Done with success.');
 		}).fail(function(data) {
 			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
@@ -135,7 +174,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.remindPass = function() {
+	this._remindPass = function() {
 
 		var user = $('#remindPasswordForm input[name=user]').val();
 
@@ -145,7 +184,7 @@ function AMILogin() {
 			return;
 		}
 
-		amiCommand.remindPassword(user).done(function(data, login) {
+		amiCommand.remindPass(user).done(function(data, login) {
 			amiLogin._showSuccessMessage('Done with success.');
 		}).fail(function(data) {
 			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
@@ -154,15 +193,60 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._showSuccessMessage = function(message) {
-		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-	}
+	this._changePass = function() {
+
+		var old_pass  = $('#changePassForm input[name=old_pass]' ).val();
+		var new_pass1 = $('#changePassForm input[name=new_pass1]').val();
+		var new_pass2 = $('#changePassForm input[name=new_pass2]').val();
+
+		if(old_pass === '' || new_pass1 === '' || new_pass2 === '') {
+			this._showErrorMessage2('Please, fill all fields with a red star.');
+
+			return;
+		}
+
+		if(new_pass1 !== new_pass2) {
+			this._showErrorMessage2('Password1 and Password2 have to be identical.');
+
+			return;
+		}
+
+		amiCommand.changePass(amiLogin.user, old_pass, new_pass1).done(function(data, login) {
+			amiLogin._showSuccessMessage2('Done with success.');
+		}).fail(function(data) {
+			amiLogin._showErrorMessage2(JSPath.apply('..error', data)[0].$);
+		});
+	};
 
 	/*-----------------------------------------------------------------*/
 
+	this._showSuccessMessage = function(message) {
+		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+	};
+
 	this._showErrorMessage = function(message) {
 		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-	}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._showSuccessMessage2 = function(message) {
+		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+	};
+
+	this._showErrorMessage2 = function(message) {
+		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._showSuccessMessage3 = function(message) {
+		amiWebApp.replaceHTML('modal_login_account_validation_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+	};
+
+	this._showErrorMessage3 = function(message) {
+		amiWebApp.replaceHTML('modal_login_account_validation_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+	};
 
 	/*-----------------------------------------------------------------*/
 
@@ -174,9 +258,11 @@ function AMILogin() {
 
 		if(amiLogin.user === 'guest') {
 			amiWebApp.replaceHTML('login', amiLogin.fragmentLoginButton, {dict: dict});
+			amiWebApp.onLogout();
 		}
 		else {
 			amiWebApp.replaceHTML('login', amiLogin.fragmentLogoutButton, {dict: dict});
+			amiWebApp.onLogin();
 		}
 	};
 
