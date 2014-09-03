@@ -171,16 +171,16 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		amiCommand.execute('GetSessionUser -AMIUser="' + user + '" -AMIPass="' + pass + '"').done(function(data) {
+		amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"').done(function(data) {
 
-			var login_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
+			var user_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
 
-			var login = login_list.length > 0 ? login_list[0] : '';
+			var user = user_list.length > 0 ? user_list[0] : '';
 
 			if(context) {
-				result.resolveWith(context, [data, login]);
+				result.resolveWith(context, [data, user]);
 			} else {
-				result.resolve(data, login);
+				result.resolve(data, user);
 			}
 		}).fail(function(data) {
 
@@ -217,16 +217,16 @@ function AMICommand() {
 
 		this.noCert = false;
 
-		amiCommand.execute('GetSessionUser').done(function(data) {
+		amiCommand.execute('GetSessionInfo').done(function(data) {
 
-			var login_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
+			var user_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
 
-			var login = login_list.length > 0 ? login_list[0] : '';
+			var user = user_list.length > 0 ? user_list[0] : '';
 
 			if(context) {
-				result.resolveWith(context, [data, login]);
+				result.resolveWith(context, [data, user]);
 			} else {
-				result.resolve(data, login);
+				result.resolve(data, user);
 			}
 		}).fail(function(data) {
 
@@ -263,16 +263,16 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		amiCommand.execute('GetSessionUser -AMIUser="" -AMIPass=""').done(function(data) {
+		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""').done(function(data) {
 
-			var login_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
+			var user_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
 
-			var login = login_list.length > 0 ? login_list[0] : '';
+			var user = user_list.length > 0 ? user_list[0] : '';
 
 			if(context) {
-				result.resolveWith(context, [data, login]);
+				result.resolveWith(context, [data, user]);
 			} else {
-				result.resolve(data, login);
+				result.resolve(data, user);
 			}
 		}).fail(function(data) {
 
@@ -290,7 +290,7 @@ function AMICommand() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.addUser = function(firstName, lastName, user, mail, pass1, pass2, settings) {
+	this.addUser = function(firstName, lastName, email, user, pass, settings) {
 
 		var context = undefined;
 
@@ -303,25 +303,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('AddUser -firstName="' + firstName + '"-lastName="' + lastName + '" -amiLogin="' + user + '" -mail="' + mail + '" -amiPasswordxpassx=' + pass1 + '" -amiPasswordxconfirmx' + pass2 + '"', {context: context});
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.remindPass = function(user, settings) {
-
-		var context = undefined;
-
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		return amiCommand.execute('RemindPassword -amiLogin="' + user + '"', {context: context});
+		return amiCommand.execute('AddUser -firstName="' + firstName + '"-lastName="' + lastName + '" -email="' + email + '" -amiLogin="' + user + '" -amiPassword="' + pass + '"', {context: context});
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -339,7 +321,25 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('ChangeLoginPassword -amiLogin="' + user + '" -amiOldPassword="' + old_pass + '" -amiNewPassword="' + new_pass + '"', {context: context});
+		return amiCommand.execute('ChangePassword -amiLogin="' + user + '" -amiPasswordOld="' + old_pass + '" -amiPasswordNew="' + new_pass + '"', {context: context});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.resetPass = function(user, settings) {
+
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		return amiCommand.execute('ResetPassword -amiLogin="' + user + '"', {context: context});
 	};
 
 	/*-----------------------------------------------------------------*/
