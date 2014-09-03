@@ -134,7 +134,7 @@ function AMICommand() {
 			{
 				delete _internal_command_ctx[jsonpid];
 
-				var message = {"AMIMessage": [{"error": [{"$": "could not execute command `" + command + "`, try later"}]}]};
+				var message = {"AMIMessage": [{"error": [{"$": "Time out for command `" + command + "`."}]}]};
 
 				if(context) {
 					deferred.rejectWith(context, message);
@@ -308,7 +308,7 @@ function AMICommand() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.changePass = function(user, old_pass, new_pass, settings) {
+	this.changePass = function(old_pass, new_pass, settings) {
 
 		var context = undefined;
 
@@ -321,7 +321,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('ChangePassword -amiLogin="' + user + '" -amiPasswordOld="' + old_pass + '" -amiPasswordNew="' + new_pass + '"', {context: context});
+		return amiCommand.execute('ChangePassword -amiPasswordOld="' + old_pass + '" -amiPasswordNew="' + new_pass + '"', {context: context});
 	};
 
 	/*-----------------------------------------------------------------*/

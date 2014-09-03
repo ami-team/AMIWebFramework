@@ -148,12 +148,12 @@ function AMILogin() {
 
 		var firstName = $('#createLoginForm input[name=firstName]').val();
 		var lastName  = $('#createLoginForm input[name=lastName]' ).val();
-		var mail      = $('#createLoginForm input[name=mail]'     ).val();
+		var email      = $('#createLoginForm input[name=email]'   ).val();
 		var user      = $('#createLoginForm input[name=user]'     ).val();
 		var pass1     = $('#createLoginForm input[name=pass1]'    ).val();
 		var pass2     = $('#createLoginForm input[name=pass2]'    ).val();
 
-		if(firstName === '' || lastName === '' || mail === '' || user === '' || pass1 === '' || pass2 === '') {
+		if(firstName === '' || lastName === '' || email === '' || user === '' || pass1 === '' || pass2 === '') {
 			this._showErrorMessage('Please, fill all fields with a red star.');
 
 			return;
@@ -165,7 +165,7 @@ function AMILogin() {
 			return;
 		}
 
-		amiCommand.addUser(firstName, lastName, mail, user, pass1).done(function(data) {
+		amiCommand.addUser(firstName, lastName, email, user, pass1).done(function(data) {
 			amiLogin._showSuccessMessage('Done with success.');
 		}).fail(function(data) {
 			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
@@ -192,7 +192,7 @@ function AMILogin() {
 			return;
 		}
 
-		amiCommand.changePass(amiLogin.user, old_pass, new_pass1).done(function(data) {
+		amiCommand.changePass(old_pass, new_pass1).done(function(data) {
 			amiLogin._showSuccessMessage2('Done with success.');
 		}).fail(function(data) {
 			amiLogin._showErrorMessage2(JSPath.apply('..error', data)[0].$);
