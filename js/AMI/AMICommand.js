@@ -19,39 +19,42 @@ _internal_command_ctx = {};
 /*-------------------------------------------------------------------------*/
 
 function _internal_command_callback(data) {
-	/*-----------------------------------------------------------------*/
-	/* GET DEFERRED & CONTEXT                                          */
-	/*-----------------------------------------------------------------*/
 
-	var deferred = _internal_command_ctx[data.jsonpid].deferred;
-	var context = _internal_command_ctx[data.jsonpid].context;
+	if(data.jsonpid in _internal_command_ctx) {
+		/*---------------------------------------------------------*/
+		/* GET DEFERRED & CONTEXT                                  */
+		/*---------------------------------------------------------*/
 
-	delete _internal_command_ctx[data.jsonpid];
+		var deferred = _internal_command_ctx[data.jsonpid].deferred;
+		var context = _internal_command_ctx[data.jsonpid].context;
 
-	delete data.jsonpid;
+		delete _internal_command_ctx[data.jsonpid];
 
-	/*-----------------------------------------------------------------*/
-	/* GET RESULT                                                      */
-	/*-----------------------------------------------------------------*/
+		delete data.jsonpid;
 
-	var error = amiWebApp.jspath('..error', data);
+		/*---------------------------------------------------------*/
+		/* GET RESULT                                              */
+		/*---------------------------------------------------------*/
 
-	if(error.length == 0) {
+		var error = amiWebApp.jspath('..error', data);
 
-		if(context) {
-			deferred.resolveWith(context, [data]);
+		if(error.length == 0) {
+
+			if(context) {
+				deferred.resolveWith(context, [data]);
+			} else {
+				deferred.resolve(data);
+			}
 		} else {
-			deferred.resolve(data);
+			if(context) {
+				deferred.rejectWith(context, [data]);
+			} else {
+				deferred.reject(data);
+			}
 		}
-	} else {
-		if(context) {
-			deferred.rejectWith(context, [data]);
-		} else {
-			deferred.reject(data);
-		}
+
+		/*---------------------------------------------------------*/
 	}
-
-	/*-----------------------------------------------------------------*/
 }
 
 /*-------------------------------------------------------------------------*/
@@ -127,14 +130,18 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		setTimeout(function() {
-			delete _internal_command_ctx[jsonpid];
 
-			var message = {"AMIMessage": [{"error": [{"$": "Time out for command `" + command + "`."}]}]};
+			if(jsonpid in _internal_command_ctx) {
 
-			if(context) {
-				deferred.rejectWith(context, message);
-			} else {
-				deferred.reject(message);
+				delete _internal_command_ctx[jsonpid];
+
+				var message = {"AMIMessage": [{"error": [{"$": "Time out for command `" + command + "`."}]}]};
+
+				if(context) {
+					deferred.rejectWith(context, message);
+				} else {
+					deferred.reject(message);
+				}
 			}
 
 		}, 30000);
