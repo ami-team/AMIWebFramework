@@ -330,7 +330,7 @@ function AMIWebApp() {
 		if(cookie_string.length != 0) {
 			var cookie_value = cookie_string.match('(^|;)[\s]*' + name + '=([^;]*)');
 
-			return decodeURIComponent(cookie_value[2]);
+			return cookie_value ? decodeURIComponent(cookie_value[2]) : '';
 		}
 
 		return '';
