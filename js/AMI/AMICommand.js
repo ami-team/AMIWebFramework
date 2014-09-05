@@ -129,6 +129,11 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
+		amiWebApp.getCookie('JSESSIONSTATUS');
+		amiWebApp.setCookie('JSESSIONSTATUS', 'ACTIVE', 25 * 60, '/AMI');
+
+		/*---------------------------------------------------------*/
+
 		setTimeout(function() {
 
 			if(jsonpid in _internal_command_ctx) {

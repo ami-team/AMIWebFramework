@@ -291,6 +291,53 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.setCookie = function(name, value, seconds, path, domain, secure) {
+
+		var cookie = name + '=' + value + ';';
+
+		if(seconds) {
+			var date = new Date();
+			date.setTime(date.getTime() + 1000 * seconds);
+			cookie += 'expires=' + date.toGMTString() + ';';
+		}
+
+		if(path) {
+			cookie += 'path=' + path + ';';
+		}
+
+
+		if(domain) {
+			cookie += 'domain=' + domain + ';';
+		}
+
+
+		if(secure) {
+			cookie += 'secure;';
+		}
+
+
+		document.cookie = cookie;
+	}
+
+	/*-----------------------------------------------------------------*/
+
+	this.getCookie = function(name) {
+
+		var cookie_string = document.cookie;
+
+		alert(cookie_string);
+
+		if(cookie_string.length != 0) {
+			var cookie_value = cookie_string.match('(^|;)[\s]*' + name + '=([^;]*)');
+
+			return decodeURIComponent(cookie_value[2]);
+		}
+
+		return '';
+	}
+
+	/*-----------------------------------------------------------------*/
+
 	this.onStart = function() {
 		alert('warning: method `amiWebApp.onStart()` must be overloaded !');
 	};
