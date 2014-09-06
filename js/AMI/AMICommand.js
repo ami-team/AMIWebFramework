@@ -80,76 +80,105 @@ function AMICommand() {
 
 		var context = undefined;
 
+		var ignore_cookie = false;
+
 		if(settings) {
 
 			if('context' in settings) {
 				context = settings['context'];
 			}
+
+			if('ignore_cookie' in settings) {
+				ignore_cookie = settings['ignore_cookie'];
+			}
 		}
-
-		/*---------------------------------------------------------*/
-
-		var ENDPOINT = this.endPoint.trim();
-		var COMMAND = encodeURIComponent(command.trim());
-		var CONVERTER = this.converter.trim();
-
-		/*---------------------------------------------------------*/
-
-		var jsonpid = 'AMI_COMMAND_' + _internal_command_cnt++;
-
-		var INJECTION = encodeURIComponent('"jsonpid": "' + jsonpid + '"');
 
 		/*---------------------------------------------------------*/
 
 		var deferred = $.Deferred();
 
-		_internal_command_ctx[jsonpid] = {
-			deferred: deferred,
-			context: context,
-		};
-
 		/*---------------------------------------------------------*/
 
-		var url = ENDPOINT + '?Callback=_internal_command_callback&Injection=' + INJECTION + '&Command=' + COMMAND + '&Converter=' + CONVERTER;
+		if(ignore_cookie || amiWebApp.getCookie('AMI_SESSION') == 'ACTIVE') {
+			/*-------------------------------------------------*/
 
-		if(this.noCert) {
-			url += '&NoCert';
-		}
+			var ENDPOINT = this.endPoint.trim();
+			var COMMAND = encodeURIComponent(command.trim());
+			var CONVERTER = this.converter.trim();
 
-		/*---------------------------------------------------------*/
+			/*-------------------------------------------------*/
 
-		$.ajax({
-			url: url,
-			type: 'POST',
-			cache: false,
-			jsonp: false,
-			dataType: 'jsonp',
-			crossDomain: true,
-		});
+			var jsonpid = 'AMI_COMMAND_' + _internal_command_cnt++;
 
-		/*---------------------------------------------------------*/
+			var INJECTION = encodeURIComponent('"jsonpid": "' + jsonpid + '"');
 
-		amiWebApp.getCookie('JSESSIONSTATUS');
-		amiWebApp.setCookie('JSESSIONSTATUS', 'ACTIVE', 25 * 60, '/AMI');
+			/*-------------------------------------------------*/
 
-		/*---------------------------------------------------------*/
+			_internal_command_ctx[jsonpid] = {
+				deferred: deferred,
+				context: context,
+			};
 
-		setTimeout(function() {
+			/*-------------------------------------------------*/
 
-			if(jsonpid in _internal_command_ctx) {
+			var url = ENDPOINT + '?Callback=_internal_command_callback&Injection=' + INJECTION + '&Command=' + COMMAND + '&Converter=' + CONVERTER;
 
-				delete _internal_command_ctx[jsonpid];
-
-				var message = {"AMIMessage": [{"error": [{"$": "Time out for command `" + command + "`."}]}]};
-
-				if(context) {
-					deferred.rejectWith(context, message);
-				} else {
-					deferred.reject(message);
-				}
+			if(this.noCert) {
+				url += '&NoCert';
 			}
 
-		}, 30000);
+			/*-------------------------------------------------*/
+
+			$.ajax({
+				url: url,
+				type: 'POST',
+				cache: false,
+				jsonp: false,
+				dataType: 'jsonp',
+				crossDomain: true,
+			});
+
+			/*-------------------------------------------------*/
+
+			amiWebApp.setCookie('AMI_SESSION', 'ACTIVE', 25 * 60, '/AMI');
+
+			/*-------------------------------------------------*/
+
+			setTimeout(function() {
+
+				if(jsonpid in _internal_command_ctx) {
+
+					delete _internal_command_ctx[jsonpid];
+
+					var message = {"AMIMessage": [{"error": [{"$": "Time out for command `" + command + "`."}]}]};
+
+					if(context) {
+						deferred.rejectWith(context, message);
+					} else {
+						deferred.reject(message);
+					}
+				}
+
+			}, 30000);
+
+			/*-------------------------------------------------*/
+		} else {
+			/*-------------------------------------------------*/
+
+			var message = {"AMIMessage": [{"error": [{"$": "Session expired."}]}]};
+
+			if(context) {
+				deferred.rejectWith(context, message);
+			} else {
+				deferred.reject(message);
+			}
+
+			/*-------------------------------------------------*/
+
+			amiWebApp.onSessionExpired();
+
+			/*-------------------------------------------------*/
+		}
 
 		/*---------------------------------------------------------*/
 
@@ -177,7 +206,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"').done(function(data) {
+		amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {ignore_cookie: true}).done(function(data) {
 
 			var user_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
 
@@ -196,6 +225,8 @@ function AMICommand() {
 				result.reject(data);
 			}
 		});
+
+
 
 		/*---------------------------------------------------------*/
 
@@ -223,7 +254,7 @@ function AMICommand() {
 
 		this.noCert = false;
 
-		amiCommand.execute('GetSessionInfo').done(function(data) {
+		amiCommand.execute('GetSessionInfo', {ignore_cookie: true}).done(function(data) {
 
 			var user_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
 
@@ -269,7 +300,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""').done(function(data) {
+		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {ignore_cookie: true}).done(function(data) {
 
 			var user_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
 

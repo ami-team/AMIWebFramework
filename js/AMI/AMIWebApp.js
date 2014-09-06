@@ -73,6 +73,29 @@ function _internal_loadSheets(deferred, context, sheets) {
 }
 
 /*-------------------------------------------------------------------------*/
+
+function _internal_isLocal() {
+
+	return document.location.protocol === (('file:'))
+	       ||
+	       document.location.hostname === 'localhost'
+	       ||
+	       document.location.hostname === '127.0.0.1'
+	;
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _internal_getExpires(seconds) {
+
+	var result = new Date();
+
+	result.setTime(result.getTime() + 1000 * seconds);
+
+	return result;
+}
+
+/*-------------------------------------------------------------------------*/
 /* CLASS AMIWebApp                                                         */
 /*-------------------------------------------------------------------------*/
 
@@ -291,46 +314,67 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
+	this._internal_cookies = {};
+
+	/*-----------------------------------------------------------------*/
+
 	this.setCookie = function(name, value, seconds, path, domain, secure) {
 
-		var cookie = name + '=' + value + ';';
+		if(_internal_isLocal()) {
 
-		if(seconds) {
-			var date = new Date();
-			date.setTime(date.getTime() + 1000 * seconds);
-			cookie += 'expires=' + date.toGMTString() + ';';
+			var expires = seconds ? _internal_getExpires(seconds).getTime() : -1;
+
+			this._internal_cookies[name] = {
+				value: value,
+				expires: expires,
+			};
+
+		} else {
+			var cookie = name + '=' + value + ';';
+
+			if(seconds) {
+				cookie += 'expires=' + _internal_getExpires(seconds).toGMTString() + ';';
+			}
+
+			if(path) {
+				cookie += 'path=' + path + ';';
+			}
+
+
+			if(domain) {
+				cookie += 'domain=' + domain + ';';
+			}
+
+
+			if(secure) {
+				cookie += 'secure;';
+			}
+
+			document.cookie = cookie;
 		}
-
-		if(path) {
-			cookie += 'path=' + path + ';';
-		}
-
-
-		if(domain) {
-			cookie += 'domain=' + domain + ';';
-		}
-
-
-		if(secure) {
-			cookie += 'secure;';
-		}
-
-
-		document.cookie = cookie;
 	}
 
 	/*-----------------------------------------------------------------*/
 
 	this.getCookie = function(name) {
 
-		var cookie_string = document.cookie;
+		if(_internal_isLocal()) {
 
-		alert(cookie_string);
+			if(name in this._internal_cookies) {
 
-		if(cookie_string.length != 0) {
-			var cookie_value = cookie_string.match('(^|;)[\s]*' + name + '=([^;]*)');
+				var data = this._internal_cookies[name];
 
-			return cookie_value ? decodeURIComponent(cookie_value[2]) : '';
+				if(data['expires'] < 0 || data['expires'] > new Date().getTime()) {
+					return data['value'];
+				}
+			}
+		} else {
+
+			var cookie_value = document.cookie.match('(^|;)[\s]*' + name + '=([^;]*)');
+
+			if(cookie_value) {
+				return decodeURIComponent(cookie_value[2]);
+			}
 		}
 
 		return '';
@@ -348,6 +392,10 @@ function AMIWebApp() {
 
 	this.onLogout = function() {
 		alert('warning: method `amiWebApp.onLogout()` must be overloaded !');
+	};
+
+	this.onSessionExpired  = function() {
+		alert('warning: method `amiWebApp.onSessionExpired()` must be overloaded !');
 	};
 
 	/*-----------------------------------------------------------------*/
