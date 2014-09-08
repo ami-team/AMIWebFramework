@@ -164,7 +164,7 @@ function AMICommand() {
 
 			/*-------------------------------------------------*/
 
-			amiWebApp.setCookie('AMI_SESSION', 'ACTIVE', 25 * 60, '/AMI');
+			amiWebApp.setCookie('AMI_SESSION', 'ACTIVE', {path: '/AMI', seconds: 25 * 60});
 
 			/*-------------------------------------------------*/
 		} else {

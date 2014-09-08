@@ -354,40 +354,57 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.setCookie = function(name, value, seconds, path, domain, secure) {
+	this.setCookie = function(name, value, settings) {
+
+		var path = undefined;
+		var domain = undefined;
+		var seconds = undefined;
+
+		if(settings) {
+
+			if('path' in settings) {
+				pasth = settings['path'];
+			}
+
+			if('domain' in settings) {
+				domain = settings['domain'];
+			}
+
+			if('seconds' in settings) {
+				seconds = settings['seconds'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
 
 		if(_internal_isLocal()) {
 
-			var expires = seconds ? _internal_getExpires(seconds).getTime() : -1;
+			var expires = seconds ? _internal_getExpires(seconds).getTime() : Number.POSITIVE_INFINITY;
 
 			this._internal_cookies[name] = {
-				value  : value  ,
+				value: value,
 				expires: expires,
 			};
 
 		} else {
 			var cookie = name + '=' + value + ';';
 
-			if(seconds) {
-				cookie += 'expires=' + _internal_getExpires(seconds).toGMTString() + ';';
-			}
-
 			if(path) {
 				cookie += 'path=' + path + ';';
 			}
-
 
 			if(domain) {
 				cookie += 'domain=' + domain + ';';
 			}
 
-
-			if(secure) {
-				cookie += 'secure;';
+			if(seconds) {
+				cookie += 'expires=' + _internal_getExpires(seconds).toGMTString() + ';';
 			}
 
 			document.cookie = cookie;
 		}
+
+		/*---------------------------------------------------------*/
 	}
 
 	/*-----------------------------------------------------------------*/
@@ -400,7 +417,7 @@ function AMIWebApp() {
 
 				var data = this._internal_cookies[name];
 
-				if(data['expires'] < 0 || data['expires'] > new Date().getTime()) {
+				if(data['expires'] > new Date().getTime()) {
 					return data['value'];
 				}
 			}
