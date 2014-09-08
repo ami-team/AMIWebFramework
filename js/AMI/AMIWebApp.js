@@ -422,6 +422,16 @@ function AMIWebApp() {
 				}
 			}
 		} else {
+			var regex = new RegExp("(?:; )?" + name + "=([^;]*);?");
+
+			if (regex.test(document.cookie)) {
+				return decodeURIComponent(RegExp["$1"]);
+			}
+
+
+
+
+/*
 			var cn = name + '=';
 
 			var ca = document.cookie.split(';');
@@ -437,6 +447,7 @@ function AMIWebApp() {
 					return c.substring(cn.length, c.length);
 				}
 			}
+*/
 		}
 
 		return '';
