@@ -422,9 +422,7 @@ function AMIWebApp() {
 				}
 			}
 		} else {
-			var regex = new RegExp(name + '=([^;]*);?');
-
-			var value = regex.exec(document.cookie);
+			var value = new RegExp(name + '=([^;]*);?').exec(document.cookie);
 
 			if(value) {
 				return decodeURIComponent(value[1]);
