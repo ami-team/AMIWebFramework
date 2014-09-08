@@ -19,42 +19,49 @@ _internal_command_ctx = {};
 /*-------------------------------------------------------------------------*/
 
 function _internal_command_callback(data) {
+	/*-----------------------------------------------------------------*/
+	/* GET DEFERRED & CONTEXT & TIMER                                  */
+	/*-----------------------------------------------------------------*/
 
-	if(data.jsonpid in _internal_command_ctx) {
-		/*---------------------------------------------------------*/
-		/* GET DEFERRED & CONTEXT                                  */
-		/*---------------------------------------------------------*/
+	var deferred = _internal_command_ctx[data.jsonpid].deferred;
+	var context = _internal_command_ctx[data.jsonpid].context;
+	var timer = _internal_command_ctx[data.jsonpid].timer;
 
-		var deferred = _internal_command_ctx[data.jsonpid].deferred;
-		var context = _internal_command_ctx[data.jsonpid].context;
+	/*-----------------------------------------------------------------*/
+	/* DELETE TIMER                                                    */
+	/*-----------------------------------------------------------------*/
 
-		delete _internal_command_ctx[data.jsonpid];
+	clearTimeout(timer);
 
-		delete data.jsonpid;
+	/*-----------------------------------------------------------------*/
+	/* DELETE COMMAND CONTEXT                                          */
+	/*-----------------------------------------------------------------*/
 
-		/*---------------------------------------------------------*/
-		/* GET RESULT                                              */
-		/*---------------------------------------------------------*/
+	delete _internal_command_ctx[data.jsonpid];
 
-		var error = amiWebApp.jspath('..error', data);
+	/*-----------------------------------------------------------------*/
+	/* GET RESULT                                                      */
+	/*-----------------------------------------------------------------*/
 
-		if(error.length == 0) {
+	var error = amiWebApp.jspath('..error', data);
 
-			if(context) {
-				deferred.resolveWith(context, [data]);
-			} else {
-				deferred.resolve(data);
-			}
+	if(error.length == 0) {
+
+		if(context) {
+			deferred.resolveWith(context, [data]);
 		} else {
-			if(context) {
-				deferred.rejectWith(context, [data]);
-			} else {
-				deferred.reject(data);
-			}
+			deferred.resolve(data);
 		}
+	} else {
 
-		/*---------------------------------------------------------*/
+		if(context) {
+			deferred.rejectWith(context, [data]);
+		} else {
+			deferred.reject(data);
+		}
 	}
+
+	/*-----------------------------------------------------------------*/
 }
 
 /*-------------------------------------------------------------------------*/
@@ -68,7 +75,7 @@ function AMICommand() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.endPoint = 'http://xxx.yy';
+	this.endPoint = 'http://xx.yy';
 
 	/*-----------------------------------------------------------------*/
 
@@ -114,9 +121,26 @@ function AMICommand() {
 
 			/*-------------------------------------------------*/
 
+			timer = setTimeout(function() {
+
+				delete _internal_command_ctx[jsonpid];
+
+				var message = {"AMIMessage": [{"error": [{"$": "Time out for command `" + command + "`."}]}]};
+
+				if(context) {
+					deferred.rejectWith(context, message);
+				} else {
+					deferred.reject(message);
+				}
+
+			}, 30000);
+
+			/*-------------------------------------------------*/
+
 			_internal_command_ctx[jsonpid] = {
 				deferred: deferred,
 				context: context,
+				timer: timer,
 			};
 
 			/*-------------------------------------------------*/
@@ -143,25 +167,6 @@ function AMICommand() {
 			amiWebApp.setCookie('AMI_SESSION', 'ACTIVE', 25 * 60, '/AMI');
 
 			/*-------------------------------------------------*/
-
-			setTimeout(function() {
-
-				if(jsonpid in _internal_command_ctx) {
-
-					delete _internal_command_ctx[jsonpid];
-
-					var message = {"AMIMessage": [{"error": [{"$": "Time out for command `" + command + "`."}]}]};
-
-					if(context) {
-						deferred.rejectWith(context, message);
-					} else {
-						deferred.reject(message);
-					}
-				}
-
-			}, 30000);
-
-			/*-------------------------------------------------*/
 		} else {
 			/*-------------------------------------------------*/
 
@@ -183,6 +188,8 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		return deferred.promise();
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -226,11 +233,11 @@ function AMICommand() {
 			}
 		});
 
-
-
 		/*---------------------------------------------------------*/
 
 		return result;
+
+		/*---------------------------------------------------------*/
 	}
 
 	/*-----------------------------------------------------------------*/
@@ -277,6 +284,8 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		return result;
+
+		/*---------------------------------------------------------*/
 	}
 
 	/*-----------------------------------------------------------------*/
@@ -323,6 +332,8 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		return result;
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -341,6 +352,8 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		return amiCommand.execute('AddUser -firstName="' + firstName + '"-lastName="' + lastName + '" -email="' + email + '" -amiLogin="' + user + '" -amiPassword="' + pass + '"', {context: context});
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -359,6 +372,8 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		return amiCommand.execute('ChangePassword -amiPasswordOld="' + old_pass + '" -amiPasswordNew="' + new_pass + '"', {context: context});
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -377,6 +392,8 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		return amiCommand.execute('ResetPassword -amiLogin="' + user + '"', {context: context});
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
