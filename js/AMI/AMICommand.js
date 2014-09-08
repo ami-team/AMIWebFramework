@@ -105,7 +105,7 @@ function AMICommand() {
 		var deferred = $.Deferred();
 
 		/*---------------------------------------------------------*/
-console.log(amiWebApp.getCookie('AMI_SESSION') + '|' + document.cookie);
+
 		if(ignore_cookie || amiWebApp.getCookie('AMI_SESSION') == 'ACTIVE') {
 			/*-------------------------------------------------*/
 
