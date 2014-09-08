@@ -194,7 +194,7 @@ function AMICommand() {
 
 	/*-----------------------------------------------------------------*/
 
- 	this.passLogin = function(user, pass, settings) {
+	this.passLogin = function(user, pass, settings) {
 
 		var context = undefined;
 
