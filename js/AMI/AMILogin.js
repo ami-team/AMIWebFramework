@@ -148,7 +148,7 @@ function AMILogin() {
 
 		var firstName = $('#createLoginForm input[name=firstName]').val();
 		var lastName  = $('#createLoginForm input[name=lastName]' ).val();
-		var email      = $('#createLoginForm input[name=email]'   ).val();
+		var email     = $('#createLoginForm input[name=email]'    ).val();
 		var user      = $('#createLoginForm input[name=user]'     ).val();
 		var pass1     = $('#createLoginForm input[name=pass1]'    ).val();
 		var pass2     = $('#createLoginForm input[name=pass2]'    ).val();
