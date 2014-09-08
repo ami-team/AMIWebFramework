@@ -424,30 +424,11 @@ function AMIWebApp() {
 		} else {
 			var regex = new RegExp("(?:; )?" + name + "=([^;]*);?");
 
-			if (regex.test(document.cookie)) {
-				return decodeURIComponent(RegExp["$1"]);
+			var value = regex.exec(document.cookie);
+
+			if(value) {
+				return decodeURIComponent(value[1]);
 			}
-
-
-
-
-/*
-			var cn = name + '=';
-
-			var ca = document.cookie.split(';');
-
-			for(var i = 0; i < ca.length; i++) {
-				var c = ca[i];
-
-				while(c.charAt(0) == ' ') {
-					c = c.substring(1);
-				}
-
-				if(c.indexOf(cn) != -1) {
-					return c.substring(cn.length, c.length);
-				}
-			}
-*/
 		}
 
 		return '';
