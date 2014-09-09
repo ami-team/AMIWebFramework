@@ -280,11 +280,11 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage3 = function(message) {
-		amiWebApp.replaceHTML('modal_login_account_status_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: green;">' + message + '</span>');
 	};
 
 	this._showErrorMessage3 = function(message) {
-		amiWebApp.replaceHTML('modal_login_account_status_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: red;">' + message + '</span>');
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -333,7 +333,7 @@ function AMILogin() {
 			}
 		}
 
-		$('#modal_login_account_status_status').html(isValid ? 'VALID' : 'INVALID');
+		$('#modal_login_account_status_status').html(isValid ? 'valid' : 'invalid');
 
 		var dict = {
 			USER: user
