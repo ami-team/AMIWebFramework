@@ -86,8 +86,7 @@ function AMICommand() {
 	this.execute = function(command, settings) {
 
 		var context = undefined;
-
-		var ignore_cookie = false;
+		var loginout = ((false));
 
 		if(settings) {
 
@@ -95,8 +94,8 @@ function AMICommand() {
 				context = settings['context'];
 			}
 
-			if('ignore_cookie' in settings) {
-				ignore_cookie = settings['ignore_cookie'];
+			if('loginout' in settings) {
+				loginout = settings['loginout'];
 			}
 		}
 
@@ -106,7 +105,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		if(ignore_cookie || amiWebApp.getCookie('AMI_SESSION') == 'ACTIVE') {
+		if(loginout || amiWebApp.getCookie('AMI_SESSION') == 'ACTIVE') {
 			/*-------------------------------------------------*/
 
 			var ENDPOINT = this.endPoint.trim();
@@ -213,7 +212,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {ignore_cookie: true}).done(function(data) {
+		amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {loginout: true}).done(function(data) {
 
 			var user_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
 
@@ -261,7 +260,7 @@ function AMICommand() {
 
 		this.noCert = false;
 
-		amiCommand.execute('GetSessionInfo', {ignore_cookie: true}).done(function(data) {
+		amiCommand.execute('GetSessionInfo', {loginout: true}).done(function(data) {
 
 			var user_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
 
@@ -309,7 +308,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {ignore_cookie: true}).done(function(data) {
+		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {loginout: true}).done(function(data) {
 
 			var user_list = amiWebApp.jspath('..field{.@name==="amiUser"}.$', data);
 
@@ -332,6 +331,46 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		return result;
+
+		/*---------------------------------------------------------*/
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.attachCert = function(user, pass, settings) {
+
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		return amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -attachCert', {context: context, loginout: true});
+
+		/*---------------------------------------------------------*/
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeCert = function(user, pass, settings) {
+
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		return amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -removeCert', {context: context, loginout: true});
 
 		/*---------------------------------------------------------*/
 	};

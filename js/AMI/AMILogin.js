@@ -144,6 +144,48 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
+	this._attachCert = function() {
+
+		var user = $('#loginForm input[name=user]').val();
+		var pass = $('#loginForm input[name=pass]').val();
+
+		if(user === '' || pass === '') {
+			this._showErrorMessage('Please, fill all fields with a red star.');
+
+			return;
+		}
+
+		amiCommand.changeCert(user, pass).done(function() {
+			amiLogin._showErrorMessage('Done with success.');
+
+		}).fail(function(data) {
+			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
+		});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._removeCert = function() {
+
+		var user = $('#loginForm input[name=user]').val();
+		var pass = $('#loginForm input[name=pass]').val();
+
+		if(user === '' || pass === '') {
+			this._showErrorMessage('Please, fill all fields with a red star.');
+
+			return;
+		}
+
+		amiCommand.removeCert(user, pass).done(function() {
+			amiLogin._showErrorMessage('Done with success.');
+
+		}).fail(function(data) {
+			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
+		});
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	this._createAccount = function() {
 
 		var firstName = $('#createLoginForm input[name=firstName]').val();
