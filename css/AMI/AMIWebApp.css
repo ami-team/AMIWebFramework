@@ -1,6 +1,6 @@
 @font-face {
-  font-family: 'chopin_script';
-  src: url('../../font/hhh.ttf');
+  font-family: 'janda';
+  src: url('../../font/janda.ttf');
 }
 
 .guilloche {
@@ -18,5 +18,5 @@
   background-size: 100% 400%;
 
   text-align: center;
-  font-family: 'chopin_script';
+  font-family: 'janda';
 }
