@@ -214,9 +214,7 @@ function AMICommand() {
 
 		amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {loginout: true}).done(function(data) {
 
-			var user_list = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data);
-
-			var user = user_list.length > 0 ? user_list[0] : '';
+			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
 			if(context) {
 				result.resolveWith(context, [data, user]);
@@ -262,9 +260,7 @@ function AMICommand() {
 
 		amiCommand.execute('GetSessionInfo', {loginout: true}).done(function(data) {
 
-			var user_list = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data);
-
-			var user = user_list.length > 0 ? user_list[0] : '';
+			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
 			if(context) {
 				result.resolveWith(context, [data, user]);
@@ -310,9 +306,7 @@ function AMICommand() {
 
 		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {loginout: true}).done(function(data) {
 
-			var user_list = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data);
-
-			var user = user_list.length > 0 ? user_list[0] : '';
+			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
 			if(context) {
 				result.resolveWith(context, [data, user]);

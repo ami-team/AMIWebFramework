@@ -15,6 +15,17 @@ function AMILogin() {
 
 	this.start = function(settings) {
 
+		self.hasCert = false;
+
+		if(settings) {
+
+			if('hasCert' in settings) {
+				self.hasCert = settings['hasCert'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
 		amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
 			amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
 				amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
@@ -34,12 +45,14 @@ function AMILogin() {
 						amiWebApp.appendHTML('modal', data);
 						});
 
-					amiWebApp.loadHTML('html/AMI/AMILoginValidateAccount.html').done(function(data) {
+					amiWebApp.loadHTML('html/AMI/AMILoginAccountStatus.html').done(function(data) {
 						amiWebApp.appendHTML('modal', data);
 					});
 				});
 			});
 		});
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -60,10 +73,9 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.validateAccount = function() {
-		$('#modal_login_validate_account_message').empty();
+	this.accountStatus = function() {
 
-		$('#modal_login_validate_account').modal('show');
+		$('#modal_login_account_status').modal('show');
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -101,7 +113,7 @@ function AMILogin() {
 
 			amiLogin._update(data, user);
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
+			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
 
 			amiLogin._update(data, 'guest');
 		});
@@ -121,7 +133,7 @@ function AMILogin() {
 
 			amiLogin._update(data, user);
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
+			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
 
 			amiLogin._update(data, 'guest');
 		});
@@ -144,7 +156,7 @@ function AMILogin() {
 			amiLogin._showSuccessMessage('Done with success.');
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
+			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -165,7 +177,7 @@ function AMILogin() {
 			amiLogin._showSuccessMessage('Done with success.');
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
+			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -195,7 +207,7 @@ function AMILogin() {
 		amiCommand.addUser(firstName, lastName, email, user, pass1).done(function(data) {
 			amiLogin._showSuccessMessage('Done with success.');
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
+			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -222,7 +234,7 @@ function AMILogin() {
 		amiCommand.changePass(old_pass, new_pass1).done(function(data) {
 			amiLogin._showSuccessMessage2('Done with success.');
 		}).fail(function(data) {
-			amiLogin._showErrorMessage2(JSPath.apply('..error', data)[0].$);
+			amiLogin._showErrorMessage2(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -241,7 +253,7 @@ function AMILogin() {
 		amiCommand.resetPass(user).done(function(data) {
 			amiLogin._showSuccessMessage('Done with success.');
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
+			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -268,16 +280,60 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage3 = function(message) {
-		amiWebApp.replaceHTML('modal_login_validate_account_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('modal_login_account_status_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 	};
 
 	this._showErrorMessage3 = function(message) {
-		amiWebApp.replaceHTML('modal_login_validate_account_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('modal_login_account_status_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this._update = function(data, user) {
+
+		var isValid = true;
+
+		var archived = amiWebApp.jspath('..field{.@name==="archived"}.$', data)[0];
+		var cert_in_ami = amiWebApp.jspath('..field{.@name==="cert_in_ami"}.$', data)[0];
+		var cert_in_ami = amiWebApp.jspath('..field{.@name==="cert_in_ami"}.$', data)[0];
+		var cert_in_session = amiWebApp.jspath('..field{.@name==="cert_in_session"}.$', data)[0];
+		var issuer_in_ami = amiWebApp.jspath('..field{.@name==="issuer_in_ami"}.$', data)[0];
+		var issuer_in_session = amiWebApp.jspath('..field{.@name==="issuer_in_session"}.$', data)[0];
+
+		if(archived !== '0') {
+			isValid = false;
+
+			amiLogin._showErrorMessage3('Your account has been deactivated.');
+		} else {
+
+			if(self.hasCert) {
+
+				if(cert_in_ami === undefined
+				   ||
+				   cert_in_session === undefined
+				   ||
+				   issuer_in_ami === undefined
+				   ||
+				   issuer_in_session === undefined
+				 ) {
+					isValid = false;
+
+					amiLogin._showErrorMessage3('You have to provide a certificate.');
+				} else {
+
+					if(cert_in_ami !== cert_in_session
+					   ||
+					   issuer_in_ami !== issuer_in_session
+					 ) {
+						isValid = false;
+
+						amiLogin._showErrorMessage3('You have to use the certificate registered in AMI.');
+					}
+				}
+			}
+		}
+
+		$('#modal_login_account_status_status').html(isValid ? 'VALID' : 'INVALID');
 
 		var dict = {
 			USER: user

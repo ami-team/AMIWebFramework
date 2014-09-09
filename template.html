@@ -27,7 +27,11 @@
 			//alert('onLogout !!!');
 		};
 
-		amiLogin.start({project: 'nEDM'});
+		amiWebApp.onSessionExpired = function() {
+			//alert('onSessionExpired !!!');
+		};
+
+		amiLogin.start({hasCert: true});
 	};
 
     </script>
