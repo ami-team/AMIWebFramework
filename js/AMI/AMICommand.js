@@ -357,7 +357,7 @@ function AMICommand() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.removeCert = function(user, pass, settings) {
+	this.detachCert = function(user, pass, settings) {
 
 		var context = undefined;
 
@@ -370,7 +370,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -removeCert', {context: context, loginout: true});
+		return amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -detachCert', {context: context, loginout: true});
 
 		/*---------------------------------------------------------*/
 	};

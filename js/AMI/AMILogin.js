@@ -165,7 +165,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._removeCert = function() {
+	this._detachCert = function() {
 
 		var user = $('#loginForm input[name=user]').val();
 		var pass = $('#loginForm input[name=pass]').val();
@@ -176,7 +176,7 @@ function AMILogin() {
 			return;
 		}
 
-		amiCommand.removeCert(user, pass).done(function() {
+		amiCommand.detachCert(user, pass).done(function() {
 			amiLogin._showSuccessMessage('Done with success.');
 
 		}).fail(function(data) {
