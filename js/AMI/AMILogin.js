@@ -15,17 +15,6 @@ function AMILogin() {
 
 	this.start = function(settings) {
 
-		var project = '???';
-
-		if(settings) {
-
-			if('project' in settings) {
-				project = settings['project'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
 		amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
 			amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
 				amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
@@ -36,29 +25,21 @@ function AMILogin() {
 					amiLogin.fragmentLogoutButton = data3;
 
 					amiCommand.certLogin().done(function(data, user) {
-						amiLogin.user = user;
-						amiLogin._showMenu();
+						amiLogin._update(data, user);
 					}).fail(function(data) {
-						amiLogin.user = 'guest';
-						amiLogin._showMenu();
+						amiLogin._update(data, 'guest');
 					});
-
-					var dict = {
-						PROJECT: project,
-					};
 
 					amiWebApp.loadHTML('html/AMI/AMILoginChangePass.html').done(function(data) {
 						amiWebApp.appendHTML('modal', data);
 						});
 
 					amiWebApp.loadHTML('html/AMI/AMILoginValidateAccount.html').done(function(data) {
-						amiWebApp.appendHTML('modal', data, {dict: dict});
+						amiWebApp.appendHTML('modal', data);
 					});
 				});
 			});
 		});
-
-		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -90,12 +71,10 @@ function AMILogin() {
 	this.logout = function() {
 
 		return amiCommand.logout().done(function(data) {
-			amiLogin.user = 'guest';
-			amiLogin._showMenu();
+			amiLogin._update(data, 'guest');
 
 		}).fail(function(data) {
-			amiLogin.user = 'guest';
-			amiLogin._showMenu();
+			amiLogin._update(data, 'guest');
 		});
 	};
 
@@ -113,15 +92,18 @@ function AMILogin() {
 		}
 
 		amiCommand.passLogin(user, pass).done(function(data, user) {
-			$('#modal_login').modal('hide');
 
-			amiLogin.user = user;
-			amiLogin._showMenu();
+			if(user === 'guest') {
+				amiLogin._showErrorMessage('Could not log in as `guest`.');
+			} else {
+				$('#modal_login').modal('hide');
+			}
+
+			amiLogin._update(data, user);
 		}).fail(function(data) {
 			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
 
-			amiLogin.user = 'guest';
-			amiLogin._showMenu();
+			amiLogin._update(data, 'guest');
 		});
 	};
 
@@ -130,15 +112,18 @@ function AMILogin() {
 	this._certLogin = function() {
 
 		amiCommand.certLogin().done(function(data, user) {
-			$('#modal_login').modal('hide');
 
-			amiLogin.user = user;
-			amiLogin._showMenu();
+			if(user === 'guest') {
+				amiLogin._showErrorMessage('You must provide a certificate.');
+			} else {
+				$('#modal_login').modal('hide');
+			}
+
+			amiLogin._update(data, user);
 		}).fail(function(data) {
 			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
 
-			amiLogin.user = 'guest';
-			amiLogin._showMenu();
+			amiLogin._update(data, 'guest');
 		});
 	};
 
@@ -292,11 +277,13 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._showMenu = function() {
+	this._update = function(data, user) {
 
 		var dict = {
-			USER: amiLogin.user
+			USER: user
 		};
+
+		amiLogin.user = user;
 
 		if(amiLogin.user === 'guest') {
 			amiWebApp.replaceHTML('login', amiLogin.fragmentLoginButton, {dict: dict});
