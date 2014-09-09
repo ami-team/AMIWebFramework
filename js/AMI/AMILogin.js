@@ -155,8 +155,8 @@ function AMILogin() {
 			return;
 		}
 
-		amiCommand.changeCert(user, pass).done(function() {
-			amiLogin._showErrorMessage('Done with success.');
+		amiCommand.attachCert(user, pass).done(function() {
+			amiLogin._showSuccessMessage('Done with success.');
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
@@ -177,7 +177,7 @@ function AMILogin() {
 		}
 
 		amiCommand.removeCert(user, pass).done(function() {
-			amiLogin._showErrorMessage('Done with success.');
+			amiLogin._showSuccessMessage('Done with success.');
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage(JSPath.apply('..error', data)[0].$);
