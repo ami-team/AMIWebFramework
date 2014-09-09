@@ -36,15 +36,17 @@
                     <input type="password" name="pass" class="form-control" placeholder="Type your AMI Password...">
                   </div>
 
-                  <a href="javascript:amiLogin._passLogin();" class="btn btn-primary">Login</a>
+                  <a href="javascript:amiLogin._passLogin();" class="btn btn-primary">Password Login</a>
                   or
                   <div class="btn-group">
                     <a href="javascript:amiLogin._certLogin();" class="btn btn-primary">Certificate Login</a>
-		    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></button>
+
+		    <i class="btn btn-primary dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></i>
                     <ul class="dropdown-menu" role="menu">
                       <li><a href="javascript:amiLogin._attachCert();">Change Certificate</a></li>
                       <li><a href="javascript:amiLogin._removeCert();">Remove Certificate</a></li>
                     </ul>
+
                   </div>
                 </div>
               </div>
