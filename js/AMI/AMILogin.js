@@ -317,11 +317,21 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this._showInfoMessage4 = function(message) {
-		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: orange;">Warning!</span> ' + message);
+
+		if(message !== '') {
+			message = '<span style="color: orange;">Warning!</span> ' + message;
+		}
+
+		amiWebApp.replaceHTML('modal_login_account_status_message', message);
 	};
 
 	this._showErrorMessage4 = function(message) {
-		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: red;">Error!</span> ' + message);
+
+		if(message !== '') {
+			message = '<span style="color: red;">Error!</span> ' + message;
+		}
+
+		amiWebApp.replaceHTML('modal_login_account_status_message', message);
 	};
 
 	/*-----------------------------------------------------------------*/
