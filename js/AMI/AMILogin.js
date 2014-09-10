@@ -329,6 +329,8 @@ function AMILogin() {
 
 		var isValid;
 
+		/*---------------------------------------------------------*/
+
 		var archived = amiWebApp.jspath('..field{.@name==="archived"}.$', data)[0];
 
 		var cert_enable = amiWebApp.jspath('..field{.@name==="cert_enable"}.$', data)[0];
@@ -343,25 +345,9 @@ function AMILogin() {
 		var last_name = amiWebApp.jspath('..field{.@name==="last_name"}.$', data)[0];
 		var email = amiWebApp.jspath('..field{.@name==="email"}.$', data)[0];
 
-		if(archived !== '0') {
-			isValid = false;
+		/*---------------------------------------------------------*/
 
-			var err_msg;
-
-			if(voms_enable !== 'false') {
-				if(cert_in_ami === undefined) {
-					err_msg = 'you have to register a valid GRID certificate.';
-				}
-				else {
-					err_msg = 'you have to obtain VOMS role for you certificate.';
-				}
-			} else {
-				err_msg = 'contact the AMI team.';
-			}
-
-			amiLogin._showErrorMessage4('Error: your account has been deactivated: ' + err_msg);
-
-		} else {
+		if(archived === '0') {
 			isValid = true;
 
 			if(cert_enable !== 'false' && cert_in_ami !== undefined && issuer_in_ami !== undefined) {
@@ -381,7 +367,27 @@ function AMILogin() {
 					}
 				}
 			}
+		} else {
+			isValid = false;
+
+			var err_msg;
+
+			if(voms_enable !== 'false') {
+
+				if(cert_in_ami === undefined) {
+					err_msg = 'you have to register a valid GRID certificate.';
+				}
+				else {
+					err_msg = 'you have to obtain VOMS role for you certificate.';
+				}
+			} else {
+				err_msg = 'contact the AMI team.';
+			}
+
+			amiLogin._showErrorMessage4('Error: your account has been deactivated: ' + err_msg);
 		}
+
+		/*---------------------------------------------------------*/
 
 		$('#changeInfoForm input[name=firstName]').val(first_name);
 		$('#changeInfoForm input[name=lastName]' ).val(last_name );
@@ -390,6 +396,8 @@ function AMILogin() {
 		$('#modal_login_account_status_status').html(isValid ? 'valid' : 'invalid');
 
 		$('#changeInfoForm input[name=email]').prop('disabled', archived === '0' && voms_enable !== 'false');
+
+		/*---------------------------------------------------------*/
 
 		var dict = {
 			USER: user
@@ -405,6 +413,8 @@ function AMILogin() {
 			amiWebApp.replaceHTML('login', amiLogin.fragmentLogoutButton, {dict: dict});
 			amiWebApp.onLogin();
 		}
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
