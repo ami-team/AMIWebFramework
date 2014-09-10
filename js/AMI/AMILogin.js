@@ -389,11 +389,13 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		$('#changeInfoForm input[name=firstName]').val(first_name);
-		$('#changeInfoForm input[name=lastName]' ).val(last_name );
-		$('#changeInfoForm input[name=email]'    ).val(email     );
-
 		$('#modal_login_account_status_status').html(isValid ? 'valid' : 'invalid');
+
+		/*---------------------------------------------------------*/
+
+		$('#changeInfoForm input[name=firstName]').val(first_name);
+		$('#changeInfoForm input[name=lastName]').val(last_name);
+		$('#changeInfoForm input[name=email]').val(email);
 
 		$('#changeInfoForm input[name=email]').prop('disabled', archived === '0' && voms_enable !== 'false');
 
