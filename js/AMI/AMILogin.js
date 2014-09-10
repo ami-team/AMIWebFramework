@@ -373,9 +373,9 @@ function AMILogin() {
 						amiLogin._showInfoMessage4('The certificate in your session is not the one registered in AMI.');
 					}
 				}
-
-				icon = '';
 			}
+
+			icon = '';
 		} else {
 			isValid = false;
 
