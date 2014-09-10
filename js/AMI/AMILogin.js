@@ -348,8 +348,12 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
+		var dict = {};
+
 		if(archived === '0') {
 			isValid = true;
+
+			dict['USER'] = user;
 
 			if(cert_enable !== 'false' && cert_in_ami !== undefined && issuer_in_ami !== undefined) {
 
@@ -373,6 +377,8 @@ function AMILogin() {
 
 			var err_msg;
 
+			dict['USER'] = user + ' <a href="javascript:amiLogin.accountStatus();" style="color: red;"><span class="glyphicon glyphicon-exclamation-sign"></span></a>';
+
 			if(voms_enable !== 'false') {
 
 				if(cert_in_ami === undefined) {
@@ -390,7 +396,10 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		$('#modal_login_account_status_status').html(isValid ? 'valid' : 'invalid');
+		$('#modal_login_account_status_status').html(
+			isValid ? '<span style="color: green">valid</span>'
+			        : '<span style="color: red">invalid</span>'
+		);
 
 		/*---------------------------------------------------------*/
 
@@ -403,10 +412,6 @@ function AMILogin() {
 		$('#changeInfoForm input[name=email]').prop('disabled', archived === '0' && voms_enable !== 'false');
 
 		/*---------------------------------------------------------*/
-
-		var dict = {
-			USER: user
-		};
 
 		if(user === amiLogin.guest) {
 			amiWebApp.replaceHTML('login', amiLogin.fragmentLoginButton, {dict: dict});
