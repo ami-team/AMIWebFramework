@@ -357,29 +357,33 @@ function AMILogin() {
 		if(archived === '0') {
 			isValid = true;
 
+			var wrn_msg = '';
+
 			if(cert_enable !== 'false' && cert_in_ami !== undefined && issuer_in_ami !== undefined) {
 
 				if(cert_in_session === undefined
 				   ||
 				   issuer_in_session === undefined
 				 ) {
-					amiLogin._showInfoMessage4('You should provide a certificate this AMI web application.');
+					wrn_msg = 'You should provide a certificate this AMI web application.';
 				} else {
 
 					if(cert_in_ami !== cert_in_session
 					   ||
 					   issuer_in_ami !== issuer_in_session
 					 ) {
-						amiLogin._showInfoMessage4('The certificate in your session is not the one registered in AMI.');
+						wrn_msg = 'The certificate in your session is not the one registered in AMI.';
 					}
 				}
 			}
+
+			amiLogin._showInfoMessage4(wrn_msg);
 
 			icon = '';
 		} else {
 			isValid = false;
 
-			var err_msg;
+			var err_msg = '';
 
 			if(voms_enable !== 'false') {
 
