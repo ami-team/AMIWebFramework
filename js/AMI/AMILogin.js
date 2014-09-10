@@ -21,17 +21,6 @@ function AMILogin() {
 
 	this.start = function(settings) {
 
-		self.hasCert = false;
-
-		if(settings) {
-
-			if('hasCert' in settings) {
-				self.hasCert = settings['hasCert'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
 		amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
 			amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
 				amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
@@ -61,8 +50,6 @@ function AMILogin() {
 				});
 			});
 		});
-
-		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -359,11 +346,25 @@ function AMILogin() {
 		if(archived !== '0') {
 			isValid = false;
 
-			amiLogin._showErrorMessage4('Error: your account has been deactivated.');
+			var err_msg;
+
+			if(voms_enable !== 'false') {
+				if(cert_in_ami === undefined) {
+					err_msg = 'you have to register a valid GRID certificate.';
+				}
+				else {
+					err_msg = 'you have to obtain VOMS role for you certificate.';
+				}
+			} else {
+				err_msg = 'contact the AMI team.';
+			}
+
+			amiLogin._showErrorMessage4('Error: your account has been deactivated: ' + err_msg);
+
 		} else {
 			isValid = true;
 
-			if(self.hasCert && cert_in_ami !== undefined && issuer_in_ami !== undefined) {
+			if(cert_enable !== 'false' && cert_in_ami !== undefined && issuer_in_ami !== undefined) {
 
 				if(cert_in_session === undefined
 				   ||
