@@ -391,6 +391,26 @@ function AMICommand() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.changeInfo = function(firstName, lastName, email, settings) {
+
+		var context = undefined;
+
+		if(settings) {
+
+			if('context' in settings) {
+				context = settings['context'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		return amiCommand.execute('ChangeInfo -firstName="' + firstName + '" -lastName="' + lastName + '" -email="' + email + '"', {context: context});
+
+		/*---------------------------------------------------------*/
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	this.changePass = function(old_pass, new_pass, settings) {
 
 		var context = undefined;

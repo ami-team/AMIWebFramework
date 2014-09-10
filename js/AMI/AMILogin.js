@@ -41,9 +41,13 @@ function AMILogin() {
 						amiLogin._update(data, 'guest');
 					});
 
+					amiWebApp.loadHTML('html/AMI/AMILoginChangeInfo.html').done(function(data) {
+						amiWebApp.appendHTML('modal', data);
+					});
+
 					amiWebApp.loadHTML('html/AMI/AMILoginChangePass.html').done(function(data) {
 						amiWebApp.appendHTML('modal', data);
-						});
+					});
 
 					amiWebApp.loadHTML('html/AMI/AMILoginAccountStatus.html').done(function(data) {
 						amiWebApp.appendHTML('modal', data);
@@ -61,6 +65,14 @@ function AMILogin() {
 		$('#modal_login_message').empty();
 
 		$('#modal_login').modal('show');
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.changeInfo = function() {
+		$('#modal_login_change_info_message').empty();
+
+		$('#modal_login_change_info').modal('show');
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -98,7 +110,7 @@ function AMILogin() {
 		var pass = $('#loginForm input[name=pass]').val();
 
 		if(user === '' || pass === '') {
-			this._showErrorMessage('Please, fill all fields with a red star.');
+			this._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
@@ -106,14 +118,14 @@ function AMILogin() {
 		amiCommand.passLogin(user, pass).done(function(data, user) {
 
 			if(user === 'guest') {
-				amiLogin._showErrorMessage('Could not log in as `guest`.');
+				amiLogin._showErrorMessage1('Could not log in as `guest`.');
 			} else {
 				$('#modal_login').modal('hide');
 			}
 
 			amiLogin._update(data, user);
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 
 			amiLogin._update(data, 'guest');
 		});
@@ -126,14 +138,14 @@ function AMILogin() {
 		amiCommand.certLogin().done(function(data, user) {
 
 			if(user === 'guest') {
-				amiLogin._showErrorMessage('You must provide a certificate.');
+				amiLogin._showErrorMessage1('You have to provide a certificate.');
 			} else {
 				$('#modal_login').modal('hide');
 			}
 
 			amiLogin._update(data, user);
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 
 			amiLogin._update(data, 'guest');
 		});
@@ -147,16 +159,16 @@ function AMILogin() {
 		var pass = $('#loginForm input[name=pass]').val();
 
 		if(user === '' || pass === '') {
-			this._showErrorMessage('Please, fill all fields with a red star.');
+			this._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
 
 		amiCommand.attachCert(user, pass).done(function() {
-			amiLogin._showSuccessMessage('Done with success.');
+			amiLogin._showSuccessMessage1('Done with success.');
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -168,22 +180,22 @@ function AMILogin() {
 		var pass = $('#loginForm input[name=pass]').val();
 
 		if(user === '' || pass === '') {
-			this._showErrorMessage('Please, fill all fields with a red star.');
+			this._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
 
 		amiCommand.detachCert(user, pass).done(function() {
-			amiLogin._showSuccessMessage('Done with success.');
+			amiLogin._showSuccessMessage1('Done with success.');
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this._createAccount = function() {
+	this._addUser = function() {
 
 		var firstName = $('#createLoginForm input[name=firstName]').val();
 		var lastName  = $('#createLoginForm input[name=lastName]' ).val();
@@ -193,21 +205,42 @@ function AMILogin() {
 		var pass2     = $('#createLoginForm input[name=pass2]'    ).val();
 
 		if(firstName === '' || lastName === '' || email === '' || user === '' || pass1 === '' || pass2 === '') {
-			this._showErrorMessage('Please, fill all fields with a red star.');
+			this._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
 
 		if(pass1 !== pass2) {
-			this._showErrorMessage('Password1 and Password2 have to be identical.');
+			this._showErrorMessage1('Password1 and Password2 have to be identical.');
 
 			return;
 		}
 
 		amiCommand.addUser(firstName, lastName, email, user, pass1).done(function(data) {
-			amiLogin._showSuccessMessage('Done with success.');
+			amiLogin._showSuccessMessage1('Done with success.');
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+		});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._changeInfo = function() {
+
+		var firstName = $('#changeInfoForm input[name=firstName]').val();
+		var lastName  = $('#changeInfoForm input[name=lastName]' ).val();
+		var email     = $('#changeInfoForm input[name=email]'    ).val();
+
+		if(firstName === '' || lastName === '' || email === '') {
+			this._showErrorMessage1('Please, fill all fields with a red star.');
+
+			return;
+		}
+
+		amiCommand.changeInfo(firstName, lastName, email).done(function(data) {
+			amiLogin._showSuccessMessage1('Done with success.');
+		}).fail(function(data) {
+			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -220,21 +253,21 @@ function AMILogin() {
 		var new_pass2 = $('#changePassForm input[name=new_pass2]').val();
 
 		if(old_pass === '' || new_pass1 === '' || new_pass2 === '') {
-			this._showErrorMessage2('Please, fill all fields with a red star.');
+			this._showErrorMessage3('Please, fill all fields with a red star.');
 
 			return;
 		}
 
 		if(new_pass1 !== new_pass2) {
-			this._showErrorMessage2('Password1 and Password2 have to be identical.');
+			this._showErrorMessage3('Password1 and Password2 have to be identical.');
 
 			return;
 		}
 
 		amiCommand.changePass(old_pass, new_pass1).done(function(data) {
-			amiLogin._showSuccessMessage2('Done with success.');
+			amiLogin._showSuccessMessage3('Done with success.');
 		}).fail(function(data) {
-			amiLogin._showErrorMessage2(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage3(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -245,45 +278,55 @@ function AMILogin() {
 		var user = $('#remindPasswordForm input[name=user]').val();
 
 		if(user === '') {
-			this._showErrorMessage('Please, fill all fields with a red star.');
+			this._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
 
 		amiCommand.resetPass(user).done(function(data) {
-			amiLogin._showSuccessMessage('Done with success.');
+			amiLogin._showSuccessMessage1('Done with success.');
 		}).fail(function(data) {
-			amiLogin._showErrorMessage(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this._showSuccessMessage = function(message) {
+	this._showSuccessMessage1 = function(message) {
 		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 	};
 
-	this._showErrorMessage = function(message) {
+	this._showErrorMessage1 = function(message) {
 		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage2 = function(message) {
-		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 	};
 
 	this._showErrorMessage2 = function(message) {
-		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage3 = function(message) {
-		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: green;">' + message + '</span>');
+		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 	};
 
 	this._showErrorMessage3 = function(message) {
+		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._showSuccessMessage4 = function(message) {
+		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: green;">' + message + '</span>');
+	};
+
+	this._showErrorMessage4 = function(message) {
 		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: red;">' + message + '</span>');
 	};
 
@@ -291,10 +334,13 @@ function AMILogin() {
 
 	this._update = function(data, user) {
 
-		var isValid = true;
+		var isValid;
 
 		var archived = amiWebApp.jspath('..field{.@name==="archived"}.$', data)[0];
-		var cert_in_ami = amiWebApp.jspath('..field{.@name==="cert_in_ami"}.$', data)[0];
+
+		var cert_enable = amiWebApp.jspath('..field{.@name==="cert_enable"}.$', data)[0];
+		var voms_enable = amiWebApp.jspath('..field{.@name==="voms_enable"}.$', data)[0];
+
 		var cert_in_ami = amiWebApp.jspath('..field{.@name==="cert_in_ami"}.$', data)[0];
 		var cert_in_session = amiWebApp.jspath('..field{.@name==="cert_in_session"}.$', data)[0];
 		var issuer_in_ami = amiWebApp.jspath('..field{.@name==="issuer_in_ami"}.$', data)[0];
@@ -303,31 +349,24 @@ function AMILogin() {
 		if(archived !== '0') {
 			isValid = false;
 
-			amiLogin._showErrorMessage3('Your account has been deactivated.');
+			amiLogin._showErrorMessage4('Error: your account has been deactivated.');
 		} else {
+			isValid = true;
 
-			if(self.hasCert) {
+			if(self.hasCert && cert_in_ami !== undefined && issuer_in_ami !== undefined) {
 
-				if(cert_in_ami === undefined
-				   ||
-				   cert_in_session === undefined
-				   ||
-				   issuer_in_ami === undefined
+				if(cert_in_session === undefined
 				   ||
 				   issuer_in_session === undefined
 				 ) {
-					isValid = false;
-
-					amiLogin._showErrorMessage3('You have to provide a certificate.');
+					amiLogin._showErrorMessage4('Warning: you should provide your certificate.');
 				} else {
 
 					if(cert_in_ami !== cert_in_session
 					   ||
 					   issuer_in_ami !== issuer_in_session
 					 ) {
-						isValid = false;
-
-						amiLogin._showErrorMessage3('You have to use the certificate registered in AMI.');
+						amiLogin._showErrorMessage4('Warning: the certificate in your session is not the one registered in AMI.');
 					}
 				}
 			}
