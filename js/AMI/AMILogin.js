@@ -377,7 +377,7 @@ function AMILogin() {
 
 			var err_msg;
 
-			dict['USER'] = user + ' <a href="javascript:amiLogin.accountStatus();" style="color: red;"><span class="glyphicon glyphicon-exclamation-sign"></span></a>';
+			dict['USER'] = user + ' <span onclick="amiLogin.accountStatus();" style="color: red;"><span class="glyphicon glyphicon-exclamation-sign"></span></span>';
 
 			if(voms_enable !== 'false') {
 
