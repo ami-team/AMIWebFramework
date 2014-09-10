@@ -332,6 +332,10 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
+		amiLogin.user = user;
+
+		/*---------------------------------------------------------*/
+
 		var archived = amiWebApp.jspath('..field{.@name==="archived"}.$', data)[0];
 
 		var cert_enable = amiWebApp.jspath('..field{.@name==="cert_enable"}.$', data)[0];
@@ -348,12 +352,10 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		var dict = {};
+		var icon;
 
 		if(archived === '0') {
 			isValid = true;
-
-			dict['USER'] = user;
 
 			if(cert_enable !== 'false' && cert_in_ami !== undefined && issuer_in_ami !== undefined) {
 
@@ -371,13 +373,13 @@ function AMILogin() {
 						amiLogin._showInfoMessage4('The certificate in your session is not the one registered in AMI.');
 					}
 				}
+
+				icon = '';
 			}
 		} else {
 			isValid = false;
 
 			var err_msg;
-
-			dict['USER'] = user + ' <span onclick="amiLogin.accountStatus();" style="color: red;"><span class="glyphicon glyphicon-exclamation-sign"></span></span>';
 
 			if(voms_enable !== 'false') {
 
@@ -392,6 +394,8 @@ function AMILogin() {
 			}
 
 			amiLogin._showErrorMessage4('Your account has been deactivated: ' + err_msg);
+
+			icon = '<a href="javascript:amiLogin.accountStatus();" style="color: red;"><span class="glyphicon glyphicon-exclamation-sign"></span></a>';
 		}
 
 		/*---------------------------------------------------------*/
@@ -413,6 +417,11 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
+		var dict = {
+			USER: user,
+			ICON: icon,
+		};
+
 		if(user === amiLogin.guest) {
 			amiWebApp.replaceHTML('login', amiLogin.fragmentLoginButton, {dict: dict});
 			amiWebApp.onLogout();
@@ -424,7 +433,6 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		amiLogin.user = user;
 
 		/*---------------------------------------------------------*/
 	};
