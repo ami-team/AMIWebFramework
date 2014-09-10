@@ -315,12 +315,12 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._showSuccessMessage4 = function(message) {
-		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: green;">' + message + '</span>');
+	this._showInfoMessage4 = function(message) {
+		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: orange;">Warning!</span> ' + message);
 	};
 
 	this._showErrorMessage4 = function(message) {
-		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: red;">' + message + '</span>');
+		amiWebApp.replaceHTML('modal_login_account_status_message', '<span style="color: red;">Error!</span> ' + message);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -356,14 +356,14 @@ function AMILogin() {
 				   ||
 				   issuer_in_session === undefined
 				 ) {
-					amiLogin._showErrorMessage4('Warning: you should provide your certificate.');
+					amiLogin._showInfoMessage4('You should provide a certificate.');
 				} else {
 
 					if(cert_in_ami !== cert_in_session
 					   ||
 					   issuer_in_ami !== issuer_in_session
 					 ) {
-						amiLogin._showErrorMessage4('Warning: the certificate in your session is not the one registered in AMI.');
+						amiLogin._showInfoMessage4('The certificate in your session is not the one registered in AMI.');
 					}
 				}
 			}
@@ -375,16 +375,16 @@ function AMILogin() {
 			if(voms_enable !== 'false') {
 
 				if(cert_in_ami === undefined) {
-					err_msg = 'you have to register a valid GRID certificate.';
+					err_msg = 'register a valid GRID certificate.';
 				}
 				else {
-					err_msg = 'you have to obtain VOMS role for you certificate.';
+					err_msg = 'check your VOMS roles.';
 				}
 			} else {
 				err_msg = 'contact the AMI team.';
 			}
 
-			amiLogin._showErrorMessage4('Error: your account has been deactivated: ' + err_msg);
+			amiLogin._showErrorMessage4('Your account has been deactivated: ' + err_msg);
 		}
 
 		/*---------------------------------------------------------*/
@@ -396,6 +396,8 @@ function AMILogin() {
 		$('#changeInfoForm input[name=firstName]').val(first_name);
 		$('#changeInfoForm input[name=lastName]').val(last_name);
 		$('#changeInfoForm input[name=email]').val(email);
+
+		/*---------------------------------------------------------*/
 
 		$('#changeInfoForm input[name=email]').prop('disabled', archived === '0' && voms_enable !== 'false');
 
