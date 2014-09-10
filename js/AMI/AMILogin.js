@@ -7,6 +7,12 @@
  */
 
 /*-------------------------------------------------------------------------*/
+/* INTERNAL VARIABLES                                                      */
+/*-------------------------------------------------------------------------*/
+
+var amiGuest = 'guest';
+
+/*-------------------------------------------------------------------------*/
 /* CLASS AMILogin                                                          */
 /*-------------------------------------------------------------------------*/
 
@@ -38,7 +44,7 @@ function AMILogin() {
 					amiCommand.certLogin().done(function(data, user) {
 						amiLogin._update(data, user);
 					}).fail(function(data) {
-						amiLogin._update(data, 'guest');
+						amiLogin._update(data, amiGuest);
 					});
 
 					amiWebApp.loadHTML('html/AMI/AMILoginChangeInfo.html').done(function(data) {
@@ -95,10 +101,10 @@ function AMILogin() {
 	this.logout = function() {
 
 		return amiCommand.logout().done(function(data) {
-			amiLogin._update(data, 'guest');
+			amiLogin._update(data, amiGuest);
 
 		}).fail(function(data) {
-			amiLogin._update(data, 'guest');
+			amiLogin._update(data, amiGuest);
 		});
 	};
 
@@ -110,14 +116,14 @@ function AMILogin() {
 		var pass = $('#loginForm input[name=pass]').val();
 
 		if(user === '' || pass === '') {
-			this._showErrorMessage1('Please, fill all fields with a red star.');
+			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
 
 		amiCommand.passLogin(user, pass).done(function(data, user) {
 
-			if(user === 'guest') {
+			if(user === amiGuest) {
 				amiLogin._showErrorMessage1('Could not log in as `guest`.');
 			} else {
 				$('#modal_login').modal('hide');
@@ -127,7 +133,7 @@ function AMILogin() {
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 
-			amiLogin._update(data, 'guest');
+			amiLogin._update(data, amiGuest);
 		});
 	};
 
@@ -137,7 +143,7 @@ function AMILogin() {
 
 		amiCommand.certLogin().done(function(data, user) {
 
-			if(user === 'guest') {
+			if(user === amiGuest) {
 				amiLogin._showErrorMessage1('You have to provide a certificate.');
 			} else {
 				$('#modal_login').modal('hide');
@@ -147,7 +153,7 @@ function AMILogin() {
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 
-			amiLogin._update(data, 'guest');
+			amiLogin._update(data, amiGuest);
 		});
 	};
 
@@ -159,7 +165,7 @@ function AMILogin() {
 		var pass = $('#loginForm input[name=pass]').val();
 
 		if(user === '' || pass === '') {
-			this._showErrorMessage1('Please, fill all fields with a red star.');
+			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
@@ -180,7 +186,7 @@ function AMILogin() {
 		var pass = $('#loginForm input[name=pass]').val();
 
 		if(user === '' || pass === '') {
-			this._showErrorMessage1('Please, fill all fields with a red star.');
+			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
@@ -205,13 +211,13 @@ function AMILogin() {
 		var pass2     = $('#createLoginForm input[name=pass2]'    ).val();
 
 		if(firstName === '' || lastName === '' || email === '' || user === '' || pass1 === '' || pass2 === '') {
-			this._showErrorMessage1('Please, fill all fields with a red star.');
+			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
 
 		if(pass1 !== pass2) {
-			this._showErrorMessage1('Password1 and Password2 have to be identical.');
+			amiLogin._showErrorMessage1('Password1 and Password2 have to be identical.');
 
 			return;
 		}
@@ -232,15 +238,15 @@ function AMILogin() {
 		var email     = $('#changeInfoForm input[name=email]'    ).val();
 
 		if(firstName === '' || lastName === '' || email === '') {
-			this._showErrorMessage1('Please, fill all fields with a red star.');
+			amiLogin._showErrorMessage2('Please, fill all fields with a red star.');
 
 			return;
 		}
 
 		amiCommand.changeInfo(firstName, lastName, email).done(function(data) {
-			amiLogin._showSuccessMessage1('Done with success.');
+			amiLogin._showSuccessMessage2('Done with success.');
 		}).fail(function(data) {
-			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage2(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -253,13 +259,13 @@ function AMILogin() {
 		var new_pass2 = $('#changePassForm input[name=new_pass2]').val();
 
 		if(old_pass === '' || new_pass1 === '' || new_pass2 === '') {
-			this._showErrorMessage3('Please, fill all fields with a red star.');
+			amiLogin._showErrorMessage3('Please, fill all fields with a red star.');
 
 			return;
 		}
 
 		if(new_pass1 !== new_pass2) {
-			this._showErrorMessage3('Password1 and Password2 have to be identical.');
+			amiLogin._showErrorMessage3('Password1 and Password2 have to be identical.');
 
 			return;
 		}
@@ -278,7 +284,7 @@ function AMILogin() {
 		var user = $('#remindPasswordForm input[name=user]').val();
 
 		if(user === '') {
-			this._showErrorMessage1('Please, fill all fields with a red star.');
+			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
@@ -346,6 +352,10 @@ function AMILogin() {
 		var issuer_in_ami = amiWebApp.jspath('..field{.@name==="issuer_in_ami"}.$', data)[0];
 		var issuer_in_session = amiWebApp.jspath('..field{.@name==="issuer_in_session"}.$', data)[0];
 
+		var first_name = amiWebApp.jspath('..field{.@name==="first_name"}.$', data)[0];
+		var last_name = amiWebApp.jspath('..field{.@name==="last_name"}.$', data)[0];
+		var email = amiWebApp.jspath('..field{.@name==="email"}.$', data)[0];
+
 		if(archived !== '0') {
 			isValid = false;
 
@@ -372,7 +382,13 @@ function AMILogin() {
 			}
 		}
 
+		$('#changeInfoForm input[name=firstName]').val(first_name);
+		$('#changeInfoForm input[name=lastName]' ).val(last_name );
+		$('#changeInfoForm input[name=email]'    ).val(email     );
+
 		$('#modal_login_account_status_status').html(isValid ? 'valid' : 'invalid');
+
+		$('#changeInfoForm input[name=email]').prop('disabled', archived === '0' && voms_enable !== 'false');
 
 		var dict = {
 			USER: user
@@ -380,7 +396,7 @@ function AMILogin() {
 
 		amiLogin.user = user;
 
-		if(amiLogin.user === 'guest') {
+		if(amiLogin.user === amiGuest) {
 			amiWebApp.replaceHTML('login', amiLogin.fragmentLoginButton, {dict: dict});
 			amiWebApp.onLogout();
 		}

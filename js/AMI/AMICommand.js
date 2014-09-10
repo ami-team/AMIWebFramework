@@ -212,7 +212,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {loginout: true}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {loginout: true}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -258,7 +258,7 @@ function AMICommand() {
 
 		this.noCert = false;
 
-		amiCommand.execute('GetSessionInfo', {loginout: true}).done(function(data) {
+		this.execute('GetSessionInfo', {loginout: true}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -304,7 +304,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {loginout: true}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {loginout: true}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -344,7 +344,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -attachCert', {context: context, loginout: true});
+		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -attachCert', {context: context, loginout: true});
 
 		/*---------------------------------------------------------*/
 	};
@@ -364,7 +364,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -detachCert', {context: context, loginout: true});
+		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -detachCert', {context: context, loginout: true});
 
 		/*---------------------------------------------------------*/
 	};
@@ -384,7 +384,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('AddUser -firstName="' + firstName + '"-lastName="' + lastName + '" -email="' + email + '" -amiLogin="' + user + '" -amiPassword="' + pass + '"', {context: context});
+		return this.execute('AddUser -firstName="' + firstName + '"-lastName="' + lastName + '" -email="' + email + '" -amiLogin="' + user + '" -amiPassword="' + pass + '"', {context: context});
 
 		/*---------------------------------------------------------*/
 	};
@@ -404,7 +404,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('ChangeInfo -firstName="' + firstName + '" -lastName="' + lastName + '" -email="' + email + '"', {context: context});
+		return this.execute('SetUserInfo -firstName="' + firstName + '" -lastName="' + lastName + '" -email="' + email + '"', {context: context});
 
 		/*---------------------------------------------------------*/
 	};
@@ -424,7 +424,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('ChangePassword -amiPasswordOld="' + old_pass + '" -amiPasswordNew="' + new_pass + '"', {context: context});
+		return this.execute('ChangePassword -amiPasswordOld="' + old_pass + '" -amiPasswordNew="' + new_pass + '"', {context: context});
 
 		/*---------------------------------------------------------*/
 	};
@@ -444,7 +444,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute('ResetPassword -amiLogin="' + user + '"', {context: context});
+		return this.execute('ResetPassword -amiLogin="' + user + '"', {context: context});
 
 		/*---------------------------------------------------------*/
 	};
