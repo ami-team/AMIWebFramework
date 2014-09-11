@@ -81,7 +81,6 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this.accountStatus = function() {
-
 		$('#modal_login_account_status').modal('show');
 	};
 
@@ -363,7 +362,7 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		var icon;
+		var icon = '';
 
 		if(archived === '0') {
 			isValid = true;
@@ -389,8 +388,6 @@ function AMILogin() {
 			}
 
 			amiLogin._showInfoMessage4(wrn_msg);
-
-			icon = '';
 		} else {
 			isValid = false;
 
@@ -402,18 +399,23 @@ function AMILogin() {
 				   ||
 				   issuer_in_ami === undefined
 				 ) {
-					err_msg = 'register a valid GRID certificate.';
+					err_msg = 'Register a valid GRID certificate.';
 				}
 				else {
-					err_msg = 'check your VOMS roles.';
+					err_msg = 'Check your VOMS roles.';
 				}
 			} else {
-				err_msg = 'contact the AMI team.';
+				err_msg = 'Contact the AMI team.';
 			}
 
-			amiLogin._showErrorMessage4('Your account has been deactivated: ' + err_msg);
+			icon = '<a href="javascript:amiLogin.accountStatus();" style="color: red;">'
+			       +
+			       '<span class="glyphicon glyphicon-exclamation-sign"></span>'
+			       +
+			       '</a>'
+			;
 
-			icon = '<a href="javascript:amiLogin.accountStatus();" style="color: red;"><span class="glyphicon glyphicon-exclamation-sign"></span></a>';
+			amiLogin._showErrorMessage4(err_msg);
 		}
 
 		/*---------------------------------------------------------*/
