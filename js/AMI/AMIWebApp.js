@@ -438,6 +438,10 @@ function AMIWebApp() {
 		alert('warning: method `amiWebApp.onStart()` must be overloaded !');
 	};
 
+	this.onReady = function() {
+		alert('warning: method `amiWebApp.onReady()` must be overloaded !');
+	};
+
 	this.onLogin = function() {
 		alert('warning: method `amiWebApp.onLogin()` must be overloaded !');
 	};

@@ -105,6 +105,8 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
+		alert(command + '|' + loginout + '|' + amiWebApp.getCookie('AMI_SESSION'));
+
 		if(loginout || amiWebApp.getCookie('AMI_SESSION') == 'ACTIVE') {
 			/*-------------------------------------------------*/
 

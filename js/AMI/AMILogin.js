@@ -13,6 +13,7 @@
 function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
+	this._cnt = 0;
 	this.user = 'guest';
 	this.guest = 'guest';
 
@@ -442,11 +443,11 @@ function AMILogin() {
 		}
 		else {
 			amiWebApp.replaceHTML('login', amiLogin.fragmentLogoutButton, {dict: dict});
+			if(amiLogin._cnt++ === 0) {
+				amiWebApp.onReady();
+			}
 			amiWebApp.onLogin();
 		}
-
-		/*---------------------------------------------------------*/
-
 
 		/*---------------------------------------------------------*/
 	};
