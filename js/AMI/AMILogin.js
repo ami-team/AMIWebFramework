@@ -57,9 +57,10 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this.login = function() {
-		$('#modal_login_message').empty();
 
 		amiLogin._clean();
+
+		$('#modal_login_message').empty();
 
 		$('#modal_login').modal('show');
 	};
@@ -67,9 +68,10 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this.changeInfo = function() {
-		$('#modal_login_change_info_message').empty();
 
 		amiLogin._clean();
+
+		$('#modal_login_change_info_message').empty();
 
 		$('#modal_login_change_info').modal('show');
 	};
@@ -77,9 +79,10 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this.changePass = function() {
-		$('#modal_login_change_pass_message').empty();
 
 		amiLogin._clean();
+
+		$('#modal_login_change_pass_message').empty();
 
 		$('#modal_login_change_pass').modal('show');
 	};
@@ -118,7 +121,7 @@ function AMILogin() {
 		amiCommand.passLogin(user, pass).done(function(data, user) {
 
 			if(user === amiLogin.guest) {
-				amiLogin._showErrorMessage1('Could not log in as `guest`.');
+				amiLogin._showErrorMessage1('Could not log in as `' + amiLogin.guest + '`.');
 			} else {
 				$('#modal_login').modal('hide');
 
