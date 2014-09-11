@@ -59,6 +59,8 @@ function AMILogin() {
 	this.login = function() {
 		$('#modal_login_message').empty();
 
+		amiLogin._clean();
+
 		$('#modal_login').modal('show');
 	};
 
@@ -67,6 +69,8 @@ function AMILogin() {
 	this.changeInfo = function() {
 		$('#modal_login_change_info_message').empty();
 
+		amiLogin._clean();
+
 		$('#modal_login_change_info').modal('show');
 	};
 
@@ -74,6 +78,8 @@ function AMILogin() {
 
 	this.changePass = function() {
 		$('#modal_login_change_pass_message').empty();
+
+		amiLogin._clean();
 
 		$('#modal_login_change_pass').modal('show');
 	};
@@ -115,6 +121,8 @@ function AMILogin() {
 				amiLogin._showErrorMessage1('Could not log in as `guest`.');
 			} else {
 				$('#modal_login').modal('hide');
+
+				amiLogin._clean();
 			}
 
 			amiLogin._update(data, user);
@@ -135,6 +143,8 @@ function AMILogin() {
 				amiLogin._showErrorMessage1('You have to provide a certificate.');
 			} else {
 				$('#modal_login').modal('hide');
+
+				amiLogin._clean();
 			}
 
 			amiLogin._update(data, user);
@@ -158,6 +168,8 @@ function AMILogin() {
 			return;
 		}
 
+		amiLogin._clean();
+
 		amiCommand.attachCert(user, pass).done(function() {
 			amiLogin._showSuccessMessage1('Done with success.');
 
@@ -178,6 +190,8 @@ function AMILogin() {
 
 			return;
 		}
+
+		amiLogin._clean();
 
 		amiCommand.detachCert(user, pass).done(function() {
 			amiLogin._showSuccessMessage1('Done with success.');
@@ -210,6 +224,8 @@ function AMILogin() {
 			return;
 		}
 
+		amiLogin._clean();
+
 		amiCommand.addUser(firstName, lastName, email, user, pass1).done(function(data) {
 			amiLogin._showSuccessMessage1('Done with success.');
 		}).fail(function(data) {
@@ -230,6 +246,8 @@ function AMILogin() {
 
 			return;
 		}
+
+		amiLogin._clean();
 
 		amiCommand.changeInfo(firstName, lastName, email).done(function(data) {
 			amiLogin._showSuccessMessage2('Done with success.');
@@ -258,6 +276,8 @@ function AMILogin() {
 			return;
 		}
 
+		amiLogin._clean();
+
 		amiCommand.changePass(old_pass, new_pass1).done(function(data) {
 			amiLogin._showSuccessMessage3('Done with success.');
 		}).fail(function(data) {
@@ -277,11 +297,30 @@ function AMILogin() {
 			return;
 		}
 
+		amiLogin._clean();
+
 		amiCommand.resetPass(user).done(function(data) {
 			amiLogin._showSuccessMessage1('Done with success.');
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 		});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._clean = function(message) {
+
+		$('#loginForm input[name=user]').val('');
+		$('#loginForm input[name=pass]').val('');
+
+		$('#createLoginForm input[name=pass1]').val('');
+		$('#createLoginForm input[name=pass2]').val('');
+
+		$('#remindPasswordForm input[name=user]').val('');
+
+		$('#changePassForm input[name=old_pass]' ).val('');
+		$('#changePassForm input[name=new_pass1]').val('');
+		$('#changePassForm input[name=new_pass2]').val('');
 	};
 
 	/*-----------------------------------------------------------------*/
