@@ -31,10 +31,10 @@ function AMILogin() {
 					amiLogin.fragmentLogoutButton = data3;
 
 					amiCommand.certLogin().done(function(data, user) {
-						this.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
+						amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
 						amiLogin._update(data, user);
 					}).fail(function(data) {
-						this.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
+						amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
 						amiLogin._update(data, amiLogin.guest);
 					});
 
