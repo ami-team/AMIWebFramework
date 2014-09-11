@@ -346,7 +346,7 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		var archived = amiWebApp.jspath('..field{.@name==="archived"}.$', data)[0];
+		var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', data)[0];
 
 		var cert_enable = amiWebApp.jspath('..field{.@name==="cert_enable"}.$', data)[0];
 		var voms_enable = amiWebApp.jspath('..field{.@name==="voms_enable"}.$', data)[0];
@@ -364,7 +364,7 @@ function AMILogin() {
 
 		var icon = '';
 
-		if(archived === '0') {
+		if(valid === '0') {
 			isValid = true;
 
 			var wrn_msg = '';
@@ -433,7 +433,7 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		$('#changeInfoForm input[name=email]').prop('disabled', archived === '0' && voms_enable !== 'false');
+		$('#changeInfoForm input[name=email]').prop('disabled', valid === '0' && voms_enable !== 'false');
 
 		/*---------------------------------------------------------*/
 
