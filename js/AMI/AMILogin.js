@@ -352,8 +352,8 @@ function AMILogin() {
 		var cert_enable = amiWebApp.jspath('..field{.@name==="cert_enable"}.$', data)[0];
 		var voms_enable = amiWebApp.jspath('..field{.@name==="voms_enable"}.$', data)[0];
 
-		var cert_in_ami = amiWebApp.jspath('..field{.@name==="cert_in_ami"}.$', data)[0];
-		var cert_in_session = amiWebApp.jspath('..field{.@name==="cert_in_session"}.$', data)[0];
+		var dn_in_ami = amiWebApp.jspath('..field{.@name==="dn_in_ami"}.$', data)[0];
+		var dn_in_session = amiWebApp.jspath('..field{.@name==="dn_in_session"}.$', data)[0];
 		var issuer_in_ami = amiWebApp.jspath('..field{.@name==="issuer_in_ami"}.$', data)[0];
 		var issuer_in_session = amiWebApp.jspath('..field{.@name==="issuer_in_session"}.$', data)[0];
 
@@ -370,16 +370,16 @@ function AMILogin() {
 
 			var wrn_msg = '';
 
-			if(cert_enable !== 'false' && cert_in_ami !== undefined && issuer_in_ami !== undefined) {
+			if(cert_enable !== 'false' && dn_in_ami !== undefined && issuer_in_ami !== undefined) {
 
-				if(cert_in_session === undefined
+				if(dn_in_session === undefined
 				   ||
 				   issuer_in_session === undefined
 				 ) {
-					wrn_msg = 'You should provide a certificate this AMI web application.';
+					wrn_msg = 'You should provide a certificate to this AMI web application.';
 				} else {
 
-					if(cert_in_ami !== cert_in_session
+					if(dn_in_ami !== dn_in_session
 					   ||
 					   issuer_in_ami !== issuer_in_session
 					 ) {
@@ -398,7 +398,10 @@ function AMILogin() {
 
 			if(voms_enable !== 'false') {
 
-				if(cert_in_ami === undefined) {
+				if(dn_in_ami === undefined
+				   ||
+				   issuer_in_ami === undefined
+				 ) {
 					err_msg = 'register a valid GRID certificate.';
 				}
 				else {

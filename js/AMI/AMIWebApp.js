@@ -74,18 +74,6 @@ function _internal_loadSheets(deferred, context, sheets) {
 
 /*-------------------------------------------------------------------------*/
 
-function _internal_isLocal() {
-
-	return document.location.protocol === (('file:'))
-	       ||
-	       document.location.hostname === 'localhost'
-	       ||
-	       document.location.hostname === '127.0.0.1'
-	;
-}
-
-/*-------------------------------------------------------------------------*/
-
 function _internal_getExpires(seconds) {
 
 	var result = new Date();
@@ -100,6 +88,20 @@ function _internal_getExpires(seconds) {
 /*-------------------------------------------------------------------------*/
 
 function AMIWebApp() {
+	/*-----------------------------------------------------------------*/
+	/* DYNAMIC JAVASCRIPT LOADING                                      */
+	/*-----------------------------------------------------------------*/
+
+	this.isLocal = function() {
+
+		return document.location.protocol === (('file:'))
+		       ||
+		       document.location.hostname === 'localhost'
+		       ||
+		       document.location.hostname === '127.0.0.1'
+		;
+	}
+
 	/*-----------------------------------------------------------------*/
 	/* DYNAMIC JAVASCRIPT LOADING                                      */
 	/*-----------------------------------------------------------------*/
@@ -377,7 +379,7 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		if(_internal_isLocal()) {
+		if(this.isLocal()) {
 
 			var expires = seconds ? _internal_getExpires(seconds).getTime() : Number.POSITIVE_INFINITY;
 
@@ -411,7 +413,7 @@ function AMIWebApp() {
 
 	this.getCookie = function(name) {
 
-		if(_internal_isLocal()) {
+		if(this.isLocal()) {
 
 			if(name in this._internal_cookies) {
 
