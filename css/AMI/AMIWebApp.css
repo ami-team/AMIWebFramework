@@ -4,6 +4,9 @@
 }
 
 .guilloche {
+  margin: 0px;
+  padding: 5px;
+
   height: 180px;
   width: 100%;
 

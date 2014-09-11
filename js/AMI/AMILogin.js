@@ -419,8 +419,8 @@ function AMILogin() {
 		/*---------------------------------------------------------*/
 
 		$('#modal_login_account_status_status').html(
-			isValid ? '<span style="color: green;">valid</span>'
-			        : '<span style="color: red;">invalid</span>'
+			isValid ? '<span style="color: #006400;">valid</span>'
+			        : '<span style="color: #8B0000;">invalid</span>'
 		);
 
 		/*---------------------------------------------------------*/
