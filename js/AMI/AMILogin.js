@@ -124,11 +124,11 @@ function AMILogin() {
 				amiLogin._showErrorMessage1('Could not log in as `' + amiLogin.guest + '`.');
 			} else {
 				$('#modal_login').modal('hide');
-
-				amiLogin._clean();
 			}
 
+			amiLogin._clean();
 			amiLogin._update(data, user);
+
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 
@@ -146,11 +146,11 @@ function AMILogin() {
 				amiLogin._showErrorMessage1('You have to provide a certificate.');
 			} else {
 				$('#modal_login').modal('hide');
-
-				amiLogin._clean();
 			}
 
+			amiLogin._clean();
 			amiLogin._update(data, user);
+
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 
@@ -171,13 +171,13 @@ function AMILogin() {
 			return;
 		}
 
-		amiLogin._clean();
-
 		amiCommand.attachCert(user, pass).done(function() {
 			amiLogin._showSuccessMessage1('Done with success.');
+			amiLogin._clean();
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._clean();
 		});
 	};
 
@@ -194,13 +194,13 @@ function AMILogin() {
 			return;
 		}
 
-		amiLogin._clean();
-
 		amiCommand.detachCert(user, pass).done(function() {
 			amiLogin._showSuccessMessage1('Done with success.');
+			amiLogin._clean();
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._clean();
 		});
 	};
 
@@ -227,12 +227,12 @@ function AMILogin() {
 			return;
 		}
 
-		amiLogin._clean();
-
 		amiCommand.addUser(firstName, lastName, email, user, pass1).done(function(data) {
 			amiLogin._showSuccessMessage1('Done with success.');
+			amiLogin._clean();
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._clean();
 		});
 	};
 
@@ -250,12 +250,12 @@ function AMILogin() {
 			return;
 		}
 
-		amiLogin._clean();
-
 		amiCommand.changeInfo(firstName, lastName, email).done(function(data) {
 			amiLogin._showSuccessMessage2('Done with success.');
+			amiLogin._clean();
 		}).fail(function(data) {
 			amiLogin._showErrorMessage2(JSPath.apply('..error.$', data)[0]);
+			amiLogin._clean();
 		});
 	};
 
@@ -279,12 +279,12 @@ function AMILogin() {
 			return;
 		}
 
-		amiLogin._clean();
-
 		amiCommand.changePass(old_pass, new_pass1).done(function(data) {
 			amiLogin._showSuccessMessage3('Done with success.');
+			amiLogin._clean();
 		}).fail(function(data) {
 			amiLogin._showErrorMessage3(JSPath.apply('..error.$', data)[0]);
+			amiLogin._clean();
 		});
 	};
 
@@ -300,12 +300,12 @@ function AMILogin() {
 			return;
 		}
 
-		amiLogin._clean();
-
 		amiCommand.resetPass(user).done(function(data) {
 			amiLogin._showSuccessMessage1('Done with success.');
+			amiLogin._clean();
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._clean();
 		});
 	};
 
