@@ -452,7 +452,7 @@ function AMILogin() {
 
 			icon = '<a href="javascript:amiLogin.accountStatus();" style="color: red;">'
 			       +
-			       '<span class="glyphicon glyphicon-exclamation-sign"></span>'
+			       '<span class="fa fa-exclamation-triangle"></span>'
 			       +
 			       '</a>'
 			;
