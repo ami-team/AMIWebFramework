@@ -478,6 +478,7 @@ function AMIWebApp() {
 
 	this.loadSheets([
 		'css/bootstrap.min.css',
+		'css/font-awesome.min.css',
 		'css/AMI/AMIWebApp.css',
 	]).fail(function(data) {
 		throw data;

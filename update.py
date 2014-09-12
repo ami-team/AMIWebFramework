@@ -33,7 +33,7 @@ def entry_point():
 	for file in os.listdir('.'):
 
 		if os.path.isfile(file) and file.startswith('yuicompressor'):
-			print('error: could execute here !')
+			print('error: could not execute here !')
 
 			return 1
 
