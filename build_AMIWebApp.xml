@@ -3,8 +3,7 @@
 <project name="AMIWebApp" default="compile">
 
 	<path id="execute-classpath">
-		<fileset dir=".">
-		</fileset>
+		<fileset dir="." />
 	</path>
 
 	<target name="compile" description="Compile the project.">
@@ -30,6 +29,13 @@
 			<arg value="js/AMI/AMILogin.min.js" />
 		</java>
 
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="css/AMI/AMIWebApp.css" />
+			<arg value="-o" />
+			<arg value="css/AMI/AMIWebApp.min.css" />
+		</java>
+
 		<replaceregexp file="css/bootstrap.min.css"
 			match="\.\.\/fonts"
 			replace="../font"
@@ -49,6 +55,7 @@
 		<delete file="js/AMI/AMIWebApp.min.js" />
 		<delete file="js/AMI/AMICommand.min.js" />
 		<delete file="js/AMI/AMILogin.min.js" />
+		<delete file="css/AMI/AMIWebApp.min.css" />
 
 	</target>
 

@@ -31,6 +31,7 @@ function _internal_loadScripts(deferred, context, scripts) {
 			},
 		});
 	} else {
+
 		if(context) {
 			deferred.resolveWith(context);
 		} else {
@@ -64,6 +65,7 @@ function _internal_loadSheets(deferred, context, sheets) {
 			},
 		});
 	} else {
+
 		if(context) {
 			deferred.resolveWith(context);
 		} else {
@@ -479,7 +481,7 @@ function AMIWebApp() {
 	this.loadSheets([
 		'css/bootstrap.min.css',
 		'css/font-awesome.min.css',
-		'css/AMI/AMIWebApp.css',
+		'css/AMI/AMIWebApp.min.css',
 	]).fail(function(data) {
 		throw data;
 	});
