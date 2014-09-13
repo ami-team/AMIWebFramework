@@ -30,6 +30,18 @@
 			<arg value="js/AMI/AMILogin.min.js" />
 		</java>
 
+		<replaceregexp file="css/bootstrap.min.css"
+			match="\.\.\/fonts"
+			replace="../font"
+			flags="g"
+		/>
+
+		<replaceregexp file="css/font-awesome.min.css"
+			match="\.\.\/fonts"
+			replace="../font"
+			flags="g"
+		/>
+
 	</target>
 
 	<target name="clean" description="Clean the project.">
