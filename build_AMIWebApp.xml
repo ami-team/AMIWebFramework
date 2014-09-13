@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+
+<project name="AMIWebApp" default="compile">
+
+	<path id="execute-classpath">
+		<fileset dir=".">
+		</fileset>
+	</path>
+
+	<target name="compile" description="Compile the project.">
+
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="js/AMI/AMIWebApp.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMIWebApp.min.js" />
+		</java>
+
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="js/AMI/AMICommand.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMICommand.min.js" />
+		</java>
+
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="js/AMI/AMILogin.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMILogin.min.js" />
+		</java>
+
+	</target>
+
+	<target name="clean" description="Clean the project.">
+
+		<delete file="js/AMI/AMIWebApp.min.js" />
+		<delete file="js/AMI/AMICommand.min.js" />
+		<delete file="js/AMI/AMILogin.min.js" />
+
+	</target>
+
+</project>
