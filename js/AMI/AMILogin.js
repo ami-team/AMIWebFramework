@@ -126,7 +126,6 @@ function AMILogin() {
 				$('#modal_login').modal('hide');
 			}
 
-			amiLogin._clean();
 			amiLogin._update(data, user);
 
 		}).fail(function(data) {
@@ -148,7 +147,6 @@ function AMILogin() {
 				$('#modal_login').modal('hide');
 			}
 
-			amiLogin._clean();
 			amiLogin._update(data, user);
 
 		}).fail(function(data) {
@@ -230,6 +228,7 @@ function AMILogin() {
 		amiCommand.addUser(firstName, lastName, email, user, pass1).done(function(data) {
 			amiLogin._showSuccessMessage1('Done with success.');
 			amiLogin._clean();
+
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 			amiLogin._clean();
@@ -253,6 +252,7 @@ function AMILogin() {
 		amiCommand.changeInfo(firstName, lastName, email).done(function(data) {
 			amiLogin._showSuccessMessage2('Done with success.');
 			amiLogin._clean();
+
 		}).fail(function(data) {
 			amiLogin._showErrorMessage2(JSPath.apply('..error.$', data)[0]);
 			amiLogin._clean();
@@ -282,6 +282,7 @@ function AMILogin() {
 		amiCommand.changePass(old_pass, new_pass1).done(function(data) {
 			amiLogin._showSuccessMessage3('Done with success.');
 			amiLogin._clean();
+
 		}).fail(function(data) {
 			amiLogin._showErrorMessage3(JSPath.apply('..error.$', data)[0]);
 			amiLogin._clean();
@@ -303,6 +304,7 @@ function AMILogin() {
 		amiCommand.resetPass(user).done(function(data) {
 			amiLogin._showSuccessMessage1('Done with success.');
 			amiLogin._clean();
+
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
 			amiLogin._clean();
@@ -312,14 +314,10 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this._clean = function(message) {
-
-		$('#loginForm input[name=user]').val('');
 		$('#loginForm input[name=pass]').val('');
 
 		$('#createLoginForm input[name=pass1]').val('');
 		$('#createLoginForm input[name=pass2]').val('');
-
-		$('#remindPasswordForm input[name=user]').val('');
 
 		$('#changePassForm input[name=old_pass]' ).val('');
 		$('#changePassForm input[name=new_pass1]').val('');
@@ -381,6 +379,10 @@ function AMILogin() {
 	this._update = function(data, user) {
 
 		var isValid;
+
+		/*---------------------------------------------------------*/
+
+		amiLogin._clean();
 
 		/*---------------------------------------------------------*/
 
