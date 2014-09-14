@@ -452,7 +452,7 @@ function AMILogin() {
 				err_msg = 'Contact the AMI team.';
 			}
 
-			icon = '<a href="javascript:amiLogin.accountStatus();" class="faa-flash animated" style="color: red;">'
+			icon = '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: red;">'
 			       +
 			       '<span class="fa fa-exclamation-triangle"></span>'
 			       +

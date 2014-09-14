@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 
-<project name="AMIWebApp" default="compile">
+<project name="AMIWebApp" default="compile_prod">
 
 	<path id="execute-classpath">
 		<fileset dir="." />
 	</path>
 
-	<target name="compile" description="Compile the project (prod mode).">
+	<target name="compile_prod" description="Compile the project (prod mode).">
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />

@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+
+<project name="AMIWebApp" default="update_prod">
+
+	<property name="AMIWebAppTmpDir" value="${java.io.tmpdir}/__AMIWebApp_repo" />
+
+	<path id="execute-classpath">
+		<fileset dir="${AMIWebAppTmpDir}" />
+	</path>
+
+	<target name="update_prod" description="Update the framework (prod mode).">
+
+		<!-- **************************************************** -->
+		<!-- CLONE REPOSITORY                                     -->
+		<!-- **************************************************** -->
+
+		<delete dir="${AMIWebAppTmpDir}" />
+
+		<exec executable="git">
+			<arg value="clone" />
+			<arg value="https://github.com/ami-lpsc/AMIWebApp.git" />
+			<arg value="${AMIWebAppTmpDir}" />
+		</exec>
+
+		<!-- **************************************************** -->
+		<!-- COPY *.min.css, *.min.js, *.html                     -->
+		<!-- **************************************************** -->
+
+		<copy todir="css">
+			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*.min.css" />
+		</copy>
+
+		<copy todir="js">
+			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*.min.js" />
+		</copy>
+
+		<copy todir="html">
+			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
+		</copy>
+
+		<!-- **************************************************** -->
+		<!-- MAKE DIRECTORIES                                     -->
+		<!-- **************************************************** -->
+
+		<mkdir dir="css/AMI" />
+		<mkdir dir="js/AMI" />
+		<mkdir dir="html/AMI" />
+
+		<!-- **************************************************** -->
+		<!-- GENERATE MINIMIZED FILES                             -->
+		<!-- **************************************************** -->
+
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="${AMIWebAppTmpDir}/js/AMI/AMIWebApp.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMIWebApp.min.js" />
+		</java>
+
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="${AMIWebAppTmpDir}/js/AMI/AMICommand.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMICommand.min.js" />
+		</java>
+
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="${AMIWebAppTmpDir}/js/AMI/AMILogin.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMILogin.min.js" />
+		</java>
+
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="${AMIWebAppTmpDir}/css/AMI/AMIWebApp.css" />
+			<arg value="-o" />
+			<arg value="css/AMI/AMIWebApp.min.css" />
+		</java>
+
+		<!-- **************************************************** -->
+		<!-- REMOVE TEMP DIRECTORY                                -->
+		<!-- **************************************************** -->
+
+		<delete dir="${AMIWebAppTmpDir}" />
+
+		<!-- **************************************************** -->
+
+	</target>
+
+	<target name="update_debug" description="Update the framework (debug mode).">
+
+		<!-- **************************************************** -->
+		<!-- CLONE REPOSITORY                                     -->
+		<!-- **************************************************** -->
+
+		<delete dir="${AMIWebAppTmpDir}" />
+
+		<exec executable="git">
+			<arg value="clone" />
+			<arg value="https://github.com/ami-lpsc/AMIWebApp.git" />
+			<arg value="${AMIWebAppTmpDir}" />
+		</exec>
+
+		<!-- **************************************************** -->
+		<!-- COPY *.min.css, *.min.js, *.html                     -->
+		<!-- **************************************************** -->
+
+		<copy todir="css">
+			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*.min.css" />
+		</copy>
+
+		<copy todir="js">
+			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*.min.js" />
+		</copy>
+
+		<copy todir="html">
+			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
+		</copy>
+
+		<!-- **************************************************** -->
+		<!-- MAKE DIRECTORIES                                     -->
+		<!-- **************************************************** -->
+
+		<mkdir dir="css/AMI" />
+		<mkdir dir="js/AMI" />
+		<mkdir dir="html/AMI" />
+
+		<!-- **************************************************** -->
+		<!-- GENERATE MINIMIZED FILES                             -->
+		<!-- **************************************************** -->
+
+		<copy file="${AMIWebAppTmpDir}/js/AMI/AMIWebApp.js" tofile="js/AMI/AMIWebApp.min.js" overwrite="true" force="true" />
+		<copy file="${AMIWebAppTmpDir}/js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
+		<copy file="${AMIWebAppTmpDir}/js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
+		<copy file="${AMIWebAppTmpDir}/css/AMI/AMIWebApp.css" tofile="css/AMI/AMIWebApp.min.css" overwrite="true" force="true" />
+
+		<!-- **************************************************** -->
+		<!-- REMOVE TEMP DIRECTORY                                -->
+		<!-- **************************************************** -->
+
+		<delete dir="${AMIWebAppTmpDir}" />
+
+		<!-- **************************************************** -->
+
+	</target>
+
+</project>

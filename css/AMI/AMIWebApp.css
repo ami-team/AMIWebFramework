@@ -55,40 +55,44 @@
     background-color: #F5F5F5;
 }
 
-@-webkit-keyframes flash {
-    0%, 100%, 50% {
-      opacity: 1.0;
+@-webkit-keyframes burst {
+    0% {
+        opacity: .6;
     }
 
-    25%, 75% {
-      opacity: 0.2;
-    }
-}
-
-@-moz-keyframes flash {
-    0%, 100%, 50% {
-      opacity: 1.0;
+    50% {
+        -webkit-transform: scale(1.8);
+        transform: scale(1.8);
+        opacity: 0;
     }
 
-    25%, 75% {
-      opacity: 0.2;
+    100% {
+        opacity: 0;
     }
 }
 
-@keyframes flash {
-    0%, 100%, 50% {
-        opacity: 1.0;
+@keyframes burst {
+    0% {
+        opacity: .6;
     }
 
-    25%, 75% {
-        opacity: 0.2;
+    50% {
+        -webkit-transform: scale(1.8);
+        -ms-transform: scale(1.8);
+        transform: scale(1.8);
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
     }
 }
 
-.faa-flash.animated, .faa-flash.animated-hover:hover, .faa-parent.animated-hover:hover > .faa-flash {
-    -webkit-animation: flash 2s ease infinite;
-    -moz-animation: flash 2s ease infinite;
-    animation: flash 2s ease infinite;
+.faa-burst.animated,
+.faa-burst.animated-hover:hover,
+.faa-parent.animated-hover:hover > .faa-burst {
+    -webkit-animation: burst 3s infinite linear;
+    animation: burst 3s infinite linear;
 }
 
 .guilloche {
