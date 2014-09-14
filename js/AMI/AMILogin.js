@@ -13,7 +13,7 @@
 function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
-	this._cnt = 0;
+	this._q = true;
 	this.user = 'guest';
 	this.guest = 'guest';
 
@@ -25,7 +25,7 @@ function AMILogin() {
 			amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
 				amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
 
-					amiWebApp.appendHTML('modal', data1);
+					amiWebApp.appendHTML('ami_modal_content', data1);
 
 					amiLogin.fragmentLoginButton = data2;
 					amiLogin.fragmentLogoutButton = data3;
@@ -39,15 +39,15 @@ function AMILogin() {
 					});
 
 					amiWebApp.loadHTML('html/AMI/AMILoginChangeInfo.html').done(function(data) {
-						amiWebApp.appendHTML('modal', data);
+						amiWebApp.appendHTML('ami_modal_content', data);
 					});
 
 					amiWebApp.loadHTML('html/AMI/AMILoginChangePass.html').done(function(data) {
-						amiWebApp.appendHTML('modal', data);
+						amiWebApp.appendHTML('ami_modal_content', data);
 					});
 
 					amiWebApp.loadHTML('html/AMI/AMILoginAccountStatus.html').done(function(data) {
-						amiWebApp.appendHTML('modal', data);
+						amiWebApp.appendHTML('ami_modal_content', data);
 					});
 				});
 			});
@@ -359,7 +359,7 @@ function AMILogin() {
 	this._showInfoMessage4 = function(message) {
 
 		if(message !== '') {
-			message = '<span style="color: orange;">Warning!</span> ' + message;
+			message = '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message;
 		}
 
 		amiWebApp.replaceHTML('modal_login_account_status_message', message);
@@ -368,7 +368,7 @@ function AMILogin() {
 	this._showErrorMessage4 = function(message) {
 
 		if(message !== '') {
-			message = '<span style="color: red;">Error!</span> ' + message;
+			message = '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message;
 		}
 
 		amiWebApp.replaceHTML('modal_login_account_status_message', message);
@@ -452,7 +452,7 @@ function AMILogin() {
 				err_msg = 'Contact the AMI team.';
 			}
 
-			icon = '<a href="javascript:amiLogin.accountStatus();" style="color: red;">'
+			icon = '<a href="javascript:amiLogin.accountStatus();" class="faa-flash animated" style="color: red;">'
 			       +
 			       '<span class="fa fa-exclamation-triangle"></span>'
 			       +
@@ -487,12 +487,13 @@ function AMILogin() {
 		};
 
 		if(user === amiLogin.guest) {
-			amiWebApp.replaceHTML('login', amiLogin.fragmentLoginButton, {dict: dict});
+			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, {dict: dict});
 			amiWebApp.onLogout();
 		}
 		else {
-			amiWebApp.replaceHTML('login', amiLogin.fragmentLogoutButton, {dict: dict});
-			if(amiLogin._cnt++ === 0) {
+			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
+			if(this._q) {
+				this._q = false;
 				amiWebApp.onReady();
 			}
 			amiWebApp.onLogin();

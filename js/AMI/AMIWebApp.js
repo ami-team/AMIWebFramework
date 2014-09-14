@@ -426,6 +426,7 @@ function AMIWebApp() {
 				}
 			}
 		} else {
+			alert(document.cookie);
 			var value = new RegExp(name + '=([^;]*);?').exec(document.cookie);
 
 			if(value) {
@@ -460,14 +461,55 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.start = function() {
+	this.start = function(settings) {
 
-		$('body').prepend('<div id="modal"></div>');
-		$('body').prepend('<div id="main"></div>');
+		var logo_url = 'img/logo.png';
+		var home_url = 'http://ami.in2p3.fr';
+		var contact_email = 'ami@lpsc.in2p3.fr';
+		var default_template = true;
 
-		$(document).ready(function() {
-			amiWebApp.onStart();
+		if(settings) {
+
+			if('home_url' in settings) {
+				home_url = settings['home_url'];
+			}
+
+			if('contact_email' in settings) {
+				contact_email = settings['contact_email'];
+			}
+
+			if('default_template' in settings) {
+				default_template = settings['default_template'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		var dict = {
+			LOGO_URL: logo_url,
+			HOME_URL: home_url,
+			CONTACT_EMAIL: contact_email,
+		};
+
+		/*---------------------------------------------------------*/
+
+		var file = default_template ? 'html/AMI/AMIWebApp_default.html'
+		                            : 'html/AMI/AMIWebApp_min.html'
+		;
+
+		/*---------------------------------------------------------*/
+
+		$.ajax({
+			url: file,
+			cache: false,
+			dataType: 'html',
+		}).done(function(data) {
+			$('body').append(amiWebApp.formatHTML(data, {dict: dict})).promise().done(amiWebApp.onStart);
+		}).fail(function() {
+			throw 'could not load `' + fragment + '`';
 		});
+
+		/*---------------------------------------------------------*/
 	}
 
 	/*-----------------------------------------------------------------*/
@@ -505,6 +547,7 @@ function AMIWebApp() {
 
 	$.ajax({
 		url: 'html/AMI/Fragment/success.html',
+		cache: false,
 		dataType: 'html',
 		context: this,
 		async: false,
@@ -518,6 +561,7 @@ function AMIWebApp() {
 
 	$.ajax({
 		url: 'html/AMI/Fragment/error.html',
+		cache: false,
 		dataType: 'html',
 		context: this,
 		async: false,

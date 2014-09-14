@@ -4,7 +4,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Template</title>
 
@@ -16,22 +18,17 @@
 	amiWebApp.onStart = function() {
 
 		amiCommand.endPoint = 'https://lpsc.in2p3.fr/AMI/nedm/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
-		//amiCommand.endPoint = 'https://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 
 		amiWebApp.onReady = function() {
-			//alert('onReady !!!');
 		};
 
 		amiWebApp.onLogin = function() {
-			//alert('onLogin !!!');
 		};
 
 		amiWebApp.onLogout = function() {
-			//alert('onLogout !!!');
 		};
 
 		amiWebApp.onSessionExpired = function() {
-			//alert('onSessionExpired !!!');
 		};
 
 		amiLogin.start();
@@ -40,7 +37,8 @@
     </script>
 
     <!--[if lt IE 9]>
-    <script type="text/javascript" src="js/html5shiv.min.js"></script>
+      <script type="text/javascript" src="js/html5shiv.min.js"></script>
+      <script type="text/javascript" src="js/respond.min.js"></script>
     <![endif]--> 
   </head>
   <body>
@@ -48,8 +46,6 @@
     <script type="text/javascript">
 	amiWebApp.start();
     </script>
-
-    <div id="login" class="text-center"></div>
 
   </body>
 </html>
