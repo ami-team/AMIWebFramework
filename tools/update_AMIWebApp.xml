@@ -18,6 +18,7 @@
 
 		<exec executable="git">
 			<arg value="clone" />
+			<arg value="--quiet" />
 			<arg value="https://github.com/ami-lpsc/AMIWebApp.git" />
 			<arg value="${AMIWebAppTmpDir}" />
 		</exec>
@@ -28,6 +29,13 @@
 
 		<copy todir="css">
 			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*.min.css" />
+		</copy>
+
+		<copy todir="font">
+			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.eot" />
+			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.svg" />
+			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.ttf" />
+			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff" />
 		</copy>
 
 		<copy todir="js">
@@ -98,6 +106,7 @@
 
 		<exec executable="git">
 			<arg value="clone" />
+			<arg value="--quiet" />
 			<arg value="https://github.com/ami-lpsc/AMIWebApp.git" />
 			<arg value="${AMIWebAppTmpDir}" />
 		</exec>
@@ -108,6 +117,13 @@
 
 		<copy todir="css">
 			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*.min.css" />
+		</copy>
+
+		<copy todir="font">
+			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.eot" />
+			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.svg" />
+			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.ttf" />
+			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff" />
 		</copy>
 
 		<copy todir="js">
