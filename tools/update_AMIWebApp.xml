@@ -38,6 +38,11 @@
 			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff" />
 		</copy>
 
+		<copy todir="img">
+			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.jpg" />
+			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.png" />
+		</copy>
+
 		<copy todir="js">
 			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*.min.js" />
 		</copy>
@@ -124,6 +129,11 @@
 			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.svg" />
 			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.ttf" />
 			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff" />
+		</copy>
+
+		<copy todir="img">
+			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.jpg" />
+			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.png" />
 		</copy>
 
 		<copy todir="js">
