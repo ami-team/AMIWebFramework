@@ -4,7 +4,9 @@
 }
 
 .container {
-    width: 96%;
+    padding-left: 36px;
+    padding-right: 36px;
+    width: 100%;
 }
 
 .navbar {
