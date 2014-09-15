@@ -426,7 +426,6 @@ function AMIWebApp() {
 				}
 			}
 		} else {
-			alert(document.cookie);
 			var value = new RegExp(name + '=([^;]*);?').exec(document.cookie);
 
 			if(value) {
