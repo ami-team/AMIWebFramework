@@ -20,8 +20,9 @@
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075);
 }
 
-.navbar-default .navbar-nav {
+.navbar-default .navbar-nav > .active > a {
     background-image: none;
+    box-shadow: none;
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
