@@ -3,6 +3,10 @@
     src: url('../../font/janda.ttf');
 }
 
+.container {
+    width: 96%;
+}
+
 .navbar {
     margin-bottom: 5px;
 }
