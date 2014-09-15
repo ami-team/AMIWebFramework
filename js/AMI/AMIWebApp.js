@@ -470,6 +470,10 @@ function AMIWebApp() {
 
 		if(settings) {
 
+			if('logo_url' in settings) {
+				logo_url = settings['logo_url'];
+			}
+
 			if('home_url' in settings) {
 				home_url = settings['home_url'];
 			}
