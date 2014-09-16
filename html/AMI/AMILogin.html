@@ -36,10 +36,10 @@
                     <input type="password" name="pass" class="form-control" placeholder="Type your AMI Password...">
                   </div>
 
-                  <a href="javascript:amiLogin._passLogin();" class="btn btn-primary">Password Login</a>
+                  <a href="javascript:amiLogin.form_passLogin();" class="btn btn-primary">Password Login</a>
                   or
                   <div class="btn-group">
-                    <a href="javascript:amiLogin._certLogin();" class="btn btn-primary">Certificate Login</a>
+                    <a href="javascript:amiLogin.form_certLogin();" class="btn btn-primary">Certificate Login</a>
 
                     <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
                       <span class="fa fa-wrench"></span>
@@ -47,8 +47,8 @@
                     </span>
 
                     <ul class="dropdown-menu" role="menu">
-                      <li><a href="javascript:amiLogin._attachCert();">Attach Certificate</a></li>
-                      <li><a href="javascript:amiLogin._detachCert();">Detach Certificate</a></li>
+                      <li><a href="javascript:amiLogin.form_attachCert();">Attach Certificate</a></li>
+                      <li><a href="javascript:amiLogin.form_detachCert();">Detach Certificate</a></li>
                     </ul>
 
                   </div>
@@ -78,7 +78,7 @@
                     <input type="password" name="pass1" class="form-control" placeholder="Choose a password...">
                   </div>
 
-                  <a href="javascript:amiLogin._addUser();" class="btn btn-primary">Create</a>
+                  <a href="javascript:amiLogin.form_addUser();" class="btn btn-primary">Create</a>
 
                 </div>
                 <div class="col-md-5">
@@ -114,7 +114,7 @@
                     <input type="text" name="user" class="form-control" placeholder="Type your AMI Login...">
                   </div>
 
-                  <a href="javascript:amiLogin._resetPass();" class="btn btn-primary">Remind</a>
+                  <a href="javascript:amiLogin.form_resetPass();" class="btn btn-primary">Remind</a>
 
                 </div>
               </div>

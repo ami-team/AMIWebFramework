@@ -146,7 +146,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._passLogin = function() {
+	this.form_passLogin = function() {
 
 		var user = $('#loginForm input[name=user]').val();
 		var pass = $('#loginForm input[name=pass]').val();
@@ -176,7 +176,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._certLogin = function() {
+	this.form_certLogin = function() {
 
 		amiCommand.certLogin().done(function(data, user) {
 
@@ -197,7 +197,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._attachCert = function() {
+	this.form_attachCert = function() {
 
 		var user = $('#loginForm input[name=user]').val();
 		var pass = $('#loginForm input[name=pass]').val();
@@ -220,7 +220,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._detachCert = function() {
+	this.form_detachCert = function() {
 
 		var user = $('#loginForm input[name=user]').val();
 		var pass = $('#loginForm input[name=pass]').val();
@@ -243,7 +243,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._addUser = function() {
+	this.form_addUser = function() {
 
 		var firstName = $('#createLoginForm input[name=firstName]').val();
 		var lastName  = $('#createLoginForm input[name=lastName]' ).val();
@@ -276,7 +276,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._changeInfo = function() {
+	this.form_changeInfo = function() {
 
 		var firstName = $('#changeInfoForm input[name=firstName]').val();
 		var lastName  = $('#changeInfoForm input[name=lastName]' ).val();
@@ -300,7 +300,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._changePass = function() {
+	this.form_changePass = function() {
 
 		var old_pass  = $('#changePassForm input[name=old_pass]' ).val();
 		var new_pass1 = $('#changePassForm input[name=new_pass1]').val();
@@ -330,7 +330,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._resetPass = function() {
+	this.form_resetPass = function() {
 
 		var user = $('#remindPasswordForm input[name=user]').val();
 
@@ -349,6 +349,20 @@ function AMILogin() {
 			amiLogin._clean();
 		});
 	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._login = function(settings) {
+		amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, settings);
+		amiWebApp.onLogin();
+	}
+
+	/*-----------------------------------------------------------------*/
+
+	this._logout = function(settings) {
+		amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, settings);
+		amiWebApp.onLogout();
+	}
 
 	/*-----------------------------------------------------------------*/
 
@@ -527,12 +541,10 @@ function AMILogin() {
 
 			/*-------------------------------------------------*/
 
-			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
-			amiWebApp.onLogin();
+			amiLogin._login({dict: dict});
 
 		} else {
-			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, (undefined));
-			amiWebApp.onLogout();
+			amiLogin._logout(/**********/);
 		}
 
 		/*---------------------------------------------------------*/
