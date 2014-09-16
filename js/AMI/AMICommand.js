@@ -10,9 +10,9 @@
 /* INTERNAL VARIABLES                                                      */
 /*-------------------------------------------------------------------------*/
 
-_internal_command_cnt = 0;
+var _internal_command_cnt = 0;
 
-_internal_command_ctx = {};
+var _internal_command_ctx = {};
 
 /*-------------------------------------------------------------------------*/
 /* INTERNAL FUNCTIONS                                                      */
@@ -76,9 +76,6 @@ function AMICommand() {
 	/*-----------------------------------------------------------------*/
 
 	this.endPoint = 'http://xx.yy';
-
-	/*-----------------------------------------------------------------*/
-
 	this.converter = 'AMIXmlToJson.xsl';
 
 	/*-----------------------------------------------------------------*/
@@ -86,7 +83,10 @@ function AMICommand() {
 	this.execute = function(command, settings) {
 
 		var context = undefined;
-		var loginout = ((false));
+		var no_check = ((false));
+
+		var endpoint = this.endPoint;
+		var converter = this.converter;
 
 		if(settings) {
 
@@ -94,8 +94,16 @@ function AMICommand() {
 				context = settings['context'];
 			}
 
-			if('loginout' in settings) {
-				loginout = settings['loginout'];
+			if('no_check' in settings) {
+				no_check = settings['no_check'];
+			}
+
+			if('endpoint' in settings) {
+				endpoint = settings['endpoint'];
+			}
+
+			if('converter' in settings) {
+				converter = settings['converter'];
 			}
 		}
 
@@ -105,12 +113,12 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		if(loginout || amiWebApp.getCookie('AMI_SESSION') == 'ACTIVE') {
+		if(no_check || amiCookie.get('AMI_SESSION') == 'ACTIVE') {
 			/*-------------------------------------------------*/
 
-			var ENDPOINT = this.endPoint.trim();
+			var ENDPOINT = endpoint.trim();
 			var COMMAND = encodeURIComponent(command.trim());
-			var CONVERTER = this.converter.trim();
+			var CONVERTER = converter.trim();
 
 			/*-------------------------------------------------*/
 
@@ -163,7 +171,7 @@ function AMICommand() {
 
 			/*-------------------------------------------------*/
 
-			amiWebApp.setCookie('AMI_SESSION', 'ACTIVE', {path: '/AMI', seconds: 25 * 60});
+			amiCookie.set('AMI_SESSION', 'ACTIVE', {seconds: 25 * 60});
 
 			/*-------------------------------------------------*/
 		} else {
@@ -212,7 +220,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {loginout: true}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {no_check: true}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -258,7 +266,7 @@ function AMICommand() {
 
 		this.noCert = false;
 
-		this.execute('GetSessionInfo', {loginout: true}).done(function(data) {
+		this.execute('GetSessionInfo', {no_check: true}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -304,7 +312,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {loginout: true}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {no_check: true}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -344,7 +352,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -attachCert', {context: context, loginout: true});
+		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -attachCert', {context: context, no_check: true});
 
 		/*---------------------------------------------------------*/
 	};
@@ -364,7 +372,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -detachCert', {context: context, loginout: true});
+		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -detachCert', {context: context, no_check: true});
 
 		/*---------------------------------------------------------*/
 	};

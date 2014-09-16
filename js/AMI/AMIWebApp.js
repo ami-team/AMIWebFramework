@@ -75,35 +75,10 @@ function _internal_loadSheets(deferred, context, sheets) {
 }
 
 /*-------------------------------------------------------------------------*/
-
-function _internal_getExpires(seconds) {
-
-	var result = new Date();
-
-	result.setTime(result.getTime() + 1000 * seconds);
-
-	return result;
-}
-
-/*-------------------------------------------------------------------------*/
 /* CLASS AMIWebApp                                                         */
 /*-------------------------------------------------------------------------*/
 
 function AMIWebApp() {
-	/*-----------------------------------------------------------------*/
-	/* DYNAMIC JAVASCRIPT LOADING                                      */
-	/*-----------------------------------------------------------------*/
-
-	this.isLocal = function() {
-
-		return document.location.protocol === (('file:'))
-		       ||
-		       document.location.hostname === 'localhost'
-		       ||
-		       document.location.hostname === '127.0.0.1'
-		;
-	}
-
 	/*-----------------------------------------------------------------*/
 	/* DYNAMIC JAVASCRIPT LOADING                                      */
 	/*-----------------------------------------------------------------*/
@@ -321,12 +296,12 @@ function AMIWebApp() {
 			if('dict' in settings) {
 				var dict = settings['dict'];
 
+				/*-----------------------------------------*/
+
 				if(!(dict instanceof Array)) {
 					dict = [dict];
 				}
 
-				/*-----------------------------------------*/
-				/* FORMAT HTML                             */
 				/*-----------------------------------------*/
 
 				var result = '';
@@ -354,90 +329,6 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._internal_cookies = {};
-
-	/*-----------------------------------------------------------------*/
-
-	this.setCookie = function(name, value, settings) {
-
-		var path = undefined;
-		var domain = undefined;
-		var seconds = undefined;
-
-		if(settings) {
-
-			if('path' in settings) {
-				pasth = settings['path'];
-			}
-
-			if('domain' in settings) {
-				domain = settings['domain'];
-			}
-
-			if('seconds' in settings) {
-				seconds = settings['seconds'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		if(this.isLocal()) {
-
-			var expires = seconds ? _internal_getExpires(seconds).getTime() : Number.POSITIVE_INFINITY;
-
-			this._internal_cookies[name] = {
-				value: value,
-				expires: expires,
-			};
-
-		} else {
-			var cookie = name + '=' + value + ';';
-
-			if(path) {
-				cookie += 'path=' + path + ';';
-			}
-
-			if(domain) {
-				cookie += 'domain=' + domain + ';';
-			}
-
-			if(seconds) {
-				cookie += 'expires=' + _internal_getExpires(seconds).toGMTString() + ';';
-			}
-
-			document.cookie = cookie;
-		}
-
-		/*---------------------------------------------------------*/
-	}
-
-	/*-----------------------------------------------------------------*/
-
-	this.getCookie = function(name) {
-
-		if(this.isLocal()) {
-
-			if(name in this._internal_cookies) {
-
-				var data = this._internal_cookies[name];
-
-				if(data['expires'] > new Date().getTime()) {
-					return data['value'];
-				}
-			}
-		} else {
-			var value = new RegExp(name + '=([^;]*);?').exec(document.cookie);
-
-			if(value) {
-				return decodeURIComponent(value[1]);
-			}
-		}
-
-		return '';
-	}
-
-	/*-----------------------------------------------------------------*/
-
 	this.onStart = function() {
 		alert('warning: method `amiWebApp.onStart()` must be overloaded !');
 	};
@@ -459,13 +350,15 @@ function AMIWebApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
+	/* APPLICATION ENTRY POINT                                         */
+	/*-----------------------------------------------------------------*/
 
 	this.start = function(settings) {
 
 		var logo_url = 'img/logo.png';
 		var home_url = 'http://ami.in2p3.fr';
 		var contact_email = 'ami@lpsc.in2p3.fr';
-		var default_template = true;
+		var template_filename = 'html/AMI/AMIWebApp_default.html';
 
 		if(settings) {
 
@@ -481,8 +374,8 @@ function AMIWebApp() {
 				contact_email = settings['contact_email'];
 			}
 
-			if('default_template' in settings) {
-				default_template = settings['default_template'];
+			if('template_filename' in settings) {
+				template_filename = settings['template_filename'];
 			}
 		}
 
@@ -496,21 +389,56 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		var file = default_template ? 'html/AMI/AMIWebApp_default.html'
-		                            : 'html/AMI/AMIWebApp_min.html'
-		;
+		$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data) {
 
-		/*---------------------------------------------------------*/
+			data = amiWebApp.formatHTML(data, {dict: dict});
 
-		$.ajax({
-			url: file,
-			cache: false,
-			dataType: 'html',
-		}).done(function(data) {
-			$('body').append(amiWebApp.formatHTML(data, {dict: dict})).promise().done(amiWebApp.onStart);
+			$('body').append(data).promise().done(amiWebApp.onStart);
+
 		}).fail(function() {
 			throw 'could not load `' + fragment + '`';
 		});
+
+		/*---------------------------------------------------------*/
+	};
+
+	/*-----------------------------------------------------------------*/
+	/* SUB APPLICATION LOADER                                          */
+	/*-----------------------------------------------------------------*/
+
+	this.loadSubApp = function(app) {
+		/*---------------------------------------------------------*/
+
+		if(app.onReady == undefined) {
+			alert('error: `<app>.onReady()` must be implemented !');
+			return;
+		}
+
+		if(app.onLogin == undefined) {
+			alert('error: `<app>.onLogin()` must be implemented !');
+			return;
+		}
+
+		if(app.onLogout == undefined) {
+			alert('error: `<app>.onLogout()` must be implemented !');
+			return;
+		}
+
+		if(app.onSessionExpired == undefined) {
+			alert('error: `<app>.onSessionExpired()` must be implemented !');
+			return;
+		}
+
+		/*---------------------------------------------------------*/
+
+		this.onReady = app.onReady;
+		this.onLogin = app.onReady;
+		this.onLogout = app.onReady;
+		this.onSessionExpired = app.onReady;
+
+		/*---------------------------------------------------------*/
+
+		amiLogin.start();
 
 		/*---------------------------------------------------------*/
 	}
@@ -538,8 +466,9 @@ function AMIWebApp() {
 	this.loadScripts([
 		'js/jspath.min.js',
 		'js/bootstrap.min.js',
-		'js/AMI/AMILogin.min.js',
+		'js/AMI/AMICookie.min.js',
 		'js/AMI/AMICommand.min.js',
+		'js/AMI/AMILogin.min.js',
 	]).fail(function(data) {
 		throw data;
 	});
@@ -573,6 +502,12 @@ function AMIWebApp() {
 	}).fail(function() {
 		throw 'could not load `html/AMI/Fragment/error.html`';
 	});
+
+	/*-------------------------------*/
+	/* ALIAS FOR `amiCookie.isLocal` */
+	/*-------------------------------*/
+
+	this.isLocal = amiCookie.isLocal;
 
 	/*-------------------------------*/
 	/* ALIAS FOR `JSPath.apply`      */

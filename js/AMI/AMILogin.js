@@ -13,45 +13,52 @@
 function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
-	this._q = true;
 	this.user = 'guest';
 	this.guest = 'guest';
+
+	this.already_started = false;
 
 	/*-----------------------------------------------------------------*/
 
 	this.start = function(settings) {
 
-		amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
-			amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
-				amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
+		amiWebApp.onReady();
 
-					amiWebApp.appendHTML('ami_modal_content', data1);
+		if(!this.already_started) {
+			this.already_started = true;
 
-					amiLogin.fragmentLoginButton = data2;
-					amiLogin.fragmentLogoutButton = data3;
+			amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
+				amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
+					amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
 
-					amiCommand.certLogin().done(function(data, user) {
-						amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
-						amiLogin._update(data, user);
-					}).fail(function(data) {
-						amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
-						amiLogin._update(data, amiLogin.guest);
-					});
+						amiWebApp.appendHTML('ami_modal_content', data1);
 
-					amiWebApp.loadHTML('html/AMI/AMILoginChangeInfo.html').done(function(data) {
-						amiWebApp.appendHTML('ami_modal_content', data);
-					});
+						amiLogin.fragmentLoginButton = data2;
+						amiLogin.fragmentLogoutButton = data3;
 
-					amiWebApp.loadHTML('html/AMI/AMILoginChangePass.html').done(function(data) {
-						amiWebApp.appendHTML('ami_modal_content', data);
-					});
+						amiWebApp.loadHTML('html/AMI/AMILoginChangeInfo.html').done(function(data) {
+							amiWebApp.appendHTML('ami_modal_content', data);
+						});
 
-					amiWebApp.loadHTML('html/AMI/AMILoginAccountStatus.html').done(function(data) {
-						amiWebApp.appendHTML('ami_modal_content', data);
+						amiWebApp.loadHTML('html/AMI/AMILoginChangePass.html').done(function(data) {
+							amiWebApp.appendHTML('ami_modal_content', data);
+						});
+
+						amiWebApp.loadHTML('html/AMI/AMILoginAccountStatus.html').done(function(data) {
+							amiWebApp.appendHTML('ami_modal_content', data);
+						});
+
+						amiCommand.certLogin().done(function(data, user) {
+							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
+							amiLogin._update(data, user);
+						}).fail(function(data) {
+							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
+							amiLogin._update(data, amiLogin.guest);
+						});
 					});
 				});
 			});
-		});
+		}
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -377,14 +384,9 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this._update = function(data, user) {
-
-		var isValid;
-
 		/*---------------------------------------------------------*/
 
 		amiLogin._clean();
-
-		/*---------------------------------------------------------*/
 
 		amiLogin.user = user;
 
@@ -406,7 +408,8 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		var icon = '';
+		var icon;
+		var isValid;
 
 		if(valid === '0') {
 			isValid = true;
@@ -430,6 +433,8 @@ function AMILogin() {
 					}
 				}
 			}
+
+			icon = '';
 
 			amiLogin._showInfoMessage4(wrn_msg);
 		} else {
@@ -486,16 +491,14 @@ function AMILogin() {
 			ICON: icon,
 		};
 
+		/*---------------------------------------------------------*/
+
 		if(user === amiLogin.guest) {
 			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, {dict: dict});
 			amiWebApp.onLogout();
 		}
 		else {
 			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
-			if(this._q) {
-				this._q = false;
-				amiWebApp.onReady();
-			}
 			amiWebApp.onLogin();
 		}
 
