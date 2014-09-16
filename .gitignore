@@ -1,7 +1,8 @@
 .DS_Store
 .DS_Store?
 
+css/AMI/AMIWebApp.min.css
 js/AMI/AMIWebApp.min.js
+js/AMI/AMICookie.min.js
 js/AMI/AMICommand.min.js
 js/AMI/AMILogin.min.js
-css/AMI/AMIWebApp.min.css
