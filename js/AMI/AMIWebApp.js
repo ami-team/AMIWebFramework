@@ -391,9 +391,7 @@ function AMIWebApp() {
 
 		$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data) {
 
-			data = amiWebApp.formatHTML(data, {dict: dict});
-
-			$('body').append(data).promise().done(amiWebApp.onStart);
+			$('body').append(amiWebApp.formatHTML(data, {dict: dict})).promise().done(amiWebApp.onStart);
 
 		}).fail(function() {
 			throw 'could not load `' + fragment + '`';
@@ -431,10 +429,10 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		this.onReady = app.onReady;
-		this.onLogin = app.onReady;
-		this.onLogout = app.onReady;
-		this.onSessionExpired = app.onReady;
+		this.onReady          = app.onReady         ;
+		this.onLogin          = app.onLogin         ;
+		this.onLogout         = app.onLogout        ;
+		this.onSessionExpired = app.onSessionExpired;
 
 		/*---------------------------------------------------------*/
 

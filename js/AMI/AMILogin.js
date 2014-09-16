@@ -22,19 +22,18 @@ function AMILogin() {
 
 	this.start = function(settings) {
 
-		amiWebApp.onReady();
-
 		if(!this.already_started) {
-			this.already_started = true;
-
 			amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
 				amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
 					amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
+						/*-------------------------*/
 
 						amiWebApp.appendHTML('ami_modal_content', data1);
 
 						amiLogin.fragmentLoginButton = data2;
 						amiLogin.fragmentLogoutButton = data3;
+
+						/*-------------------------*/
 
 						amiWebApp.loadHTML('html/AMI/AMILoginChangeInfo.html').done(function(data) {
 							amiWebApp.appendHTML('ami_modal_content', data);
@@ -48,16 +47,49 @@ function AMILogin() {
 							amiWebApp.appendHTML('ami_modal_content', data);
 						});
 
+						/*-------------------------*/
+
 						amiCommand.certLogin().done(function(data, user) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
-							amiLogin._update(data, user);
+
+							var result = amiWebApp.onReady();
+
+							if(result && result.done) {
+								result.done(function() {
+									amiLogin._update(data, user);
+								});
+							} else {
+								amiLogin._update(data, user);
+							}
+
 						}).fail(function(data) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
-							amiLogin._update(data, amiLogin.guest);
+
+							var result = amiWebApp.onReady();
+
+							if(result && result.done) {
+								result.done(function() {
+									amiLogin._update(data, amiLogin.guest);
+								});
+							} else {
+								amiLogin._update(data, amiLogin.guest);
+							}
 						});
+
+						/*-------------------------*/
 					});
 				});
 			});
+		} else {
+			var result = amiWebApp.onReady();
+
+			if(result && result.done) {
+				result.done(function() {
+					amiWebApp.onLogin();
+				});
+			} else {
+				amiWebApp.onLogin();
+			}
 		}
 	};
 
@@ -392,114 +424,115 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', data)[0];
+		if(user !== amiLogin.guest) {
+			/*-------------------------------------------------*/
 
-		var cert_enable = amiWebApp.jspath('..field{.@name==="cert_enable"}.$', data)[0];
-		var voms_enable = amiWebApp.jspath('..field{.@name==="voms_enable"}.$', data)[0];
+			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', data)[0];
 
-		var dn_in_ami = amiWebApp.jspath('..field{.@name==="dn_in_ami"}.$', data)[0];
-		var dn_in_session = amiWebApp.jspath('..field{.@name==="dn_in_session"}.$', data)[0];
-		var issuer_in_ami = amiWebApp.jspath('..field{.@name==="issuer_in_ami"}.$', data)[0];
-		var issuer_in_session = amiWebApp.jspath('..field{.@name==="issuer_in_session"}.$', data)[0];
+			var cert_enable = amiWebApp.jspath('..field{.@name==="cert_enable"}.$', data)[0];
+			var voms_enable = amiWebApp.jspath('..field{.@name==="voms_enable"}.$', data)[0];
 
-		var first_name = amiWebApp.jspath('..field{.@name==="first_name"}.$', data)[0];
-		var last_name = amiWebApp.jspath('..field{.@name==="last_name"}.$', data)[0];
-		var email = amiWebApp.jspath('..field{.@name==="email"}.$', data)[0];
+			var dn_in_ami = amiWebApp.jspath('..field{.@name==="dn_in_ami"}.$', data)[0];
+			var dn_in_session = amiWebApp.jspath('..field{.@name==="dn_in_session"}.$', data)[0];
+			var issuer_in_ami = amiWebApp.jspath('..field{.@name==="issuer_in_ami"}.$', data)[0];
+			var issuer_in_session = amiWebApp.jspath('..field{.@name==="issuer_in_session"}.$', data)[0];
 
-		/*---------------------------------------------------------*/
+			var first_name = amiWebApp.jspath('..field{.@name==="first_name"}.$', data)[0];
+			var last_name = amiWebApp.jspath('..field{.@name==="last_name"}.$', data)[0];
+			var email = amiWebApp.jspath('..field{.@name==="email"}.$', data)[0];
 
-		var icon;
-		var isValid;
+			/*-------------------------------------------------*/
 
-		if(valid === '0') {
-			isValid = true;
+			var icon;
 
-			var wrn_msg = '';
+			if(valid === '0') {
+				var wrn_msg = '';
 
-			if(cert_enable !== 'false' && dn_in_ami !== undefined && issuer_in_ami !== undefined) {
+				if(cert_enable !== 'false' && dn_in_ami !== undefined && issuer_in_ami !== undefined) {
 
-				if(dn_in_session === undefined
-				   ||
-				   issuer_in_session === undefined
-				 ) {
-					wrn_msg = 'You should provide a certificate to this AMI web application.';
-				} else {
-
-					if(dn_in_ami !== dn_in_session
+					if(dn_in_session === undefined
 					   ||
-					   issuer_in_ami !== issuer_in_session
+					   issuer_in_session === undefined
 					 ) {
-						wrn_msg = 'The certificate in your session is not the one registered in AMI.';
+						wrn_msg = 'You should provide a certificate to this AMI web application.';
+					} else {
+
+						if(dn_in_ami !== dn_in_session
+						   ||
+						   issuer_in_ami !== issuer_in_session
+						 ) {
+							wrn_msg = 'The certificate in your session is not the one registered in AMI.';
+						}
 					}
 				}
-			}
 
-			icon = '';
+				icon = '';
 
-			amiLogin._showInfoMessage4(wrn_msg);
-		} else {
-			isValid = false;
+				$('#modal_login_account_status_status').html(
+					'<span style="color: #006400;">valid</span>'
+				);
 
-			var err_msg = '';
+				amiLogin._showInfoMessage4(wrn_msg);
 
-			if(voms_enable !== 'false') {
-
-				if(dn_in_ami === undefined
-				   ||
-				   issuer_in_ami === undefined
-				 ) {
-					err_msg = 'Register a valid GRID certificate.';
-				}
-				else {
-					err_msg = 'Check your VOMS roles.';
-				}
 			} else {
-				err_msg = 'Contact the AMI team.';
+				var err_msg = '';
+
+				if(voms_enable !== 'false') {
+
+					if(dn_in_ami === undefined
+					   ||
+					   issuer_in_ami === undefined
+					 ) {
+						err_msg = 'Register a valid GRID certificate.';
+					}
+					else {
+						err_msg = 'Check your VOMS roles.';
+					}
+				} else {
+					err_msg = 'Contact the AMI team.';
+				}
+
+				icon = '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: red;">'
+				       +
+				       '<span class="fa fa-exclamation-triangle"></span>'
+				       +
+				       '</a>'
+				;
+
+				$('#modal_login_account_status_status').html(
+					'<span style="color: #8B0000;">invalid</span>'
+				);
+
+				amiLogin._showErrorMessage4(err_msg);
 			}
 
-			icon = '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: red;">'
-			       +
-			       '<span class="fa fa-exclamation-triangle"></span>'
-			       +
-			       '</a>'
-			;
+			/*-------------------------------------------------*/
 
-			amiLogin._showErrorMessage4(err_msg);
-		}
+			$('#changeInfoForm input[name=firstName]').val(first_name);
+			$('#changeInfoForm input[name=lastName]').val(last_name);
+			$('#changeInfoForm input[name=email]').val(email);
 
-		/*---------------------------------------------------------*/
+			/*-------------------------------------------------*/
 
-		$('#modal_login_account_status_status').html(
-			isValid ? '<span style="color: #006400;">valid</span>'
-			        : '<span style="color: #8B0000;">invalid</span>'
-		);
+			$('#changeInfoForm input[name=email]').prop('disabled',
+				valid === '0' && voms_enable !== 'false'
+			);
 
-		/*---------------------------------------------------------*/
+			/*-------------------------------------------------*/
 
-		$('#changeInfoForm input[name=firstName]').val(first_name);
-		$('#changeInfoForm input[name=lastName]').val(last_name);
-		$('#changeInfoForm input[name=email]').val(email);
+			var dict = {
+				USER: user,
+				ICON: icon,
+			};
 
-		/*---------------------------------------------------------*/
+			/*-------------------------------------------------*/
 
-		$('#changeInfoForm input[name=email]').prop('disabled', valid === '0' && voms_enable !== 'false');
-
-		/*---------------------------------------------------------*/
-
-		var dict = {
-			USER: user,
-			ICON: icon,
-		};
-
-		/*---------------------------------------------------------*/
-
-		if(user === amiLogin.guest) {
-			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, {dict: dict});
-			amiWebApp.onLogout();
-		}
-		else {
 			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
 			amiWebApp.onLogin();
+
+		} else {
+			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, (undefined));
+			amiWebApp.onLogout();
 		}
 
 		/*---------------------------------------------------------*/
