@@ -12,6 +12,7 @@
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/AMI/AMIWebApp.min.js"></script>
+    <script type="text/javascript" src="subapps/command/js/AMICommandApp.js"></script>
 
     <script type="text/javascript">
 
@@ -19,19 +20,7 @@
 
 		amiCommand.endPoint = 'https://lpsc.in2p3.fr/AMI/nedm/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 
-		amiWebApp.onReady = function() {
-		};
-
-		amiWebApp.onLogin = function() {
-		};
-
-		amiWebApp.onLogout = function() {
-		};
-
-		amiWebApp.onSessionExpired = function() {
-		};
-
-		amiLogin.start();
+		amiWebApp.loadSubApp(amiCommandApp);
 	};
 
     </script>
