@@ -1,0 +1,28 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+
+    <div class="modal-body">
+      <div class="form-group text-left">
+        <label for="modal_command_command" class="control-label">Command</label>
+        <textarea name="command" id="modal_command_command" rows="5" class="form-control">GetUserInfo -amiLogin=jodier</textarea>
+      </div>
+
+      <div class="form-group text-left">
+        <label for="modal_command_converter" class="control-label">Converter</label>
+        <select name="converter" id="modal_command_converter" class="form-control">
+          <option value="">XML</option>
+          <option value="AMIXmlToJson.xsl" selected="selected">JSON</option>
+          <option value="AMIXmlToText.xsl">TEXT</option>
+          <option value="AMIXmlToCsv.xsl">CSV</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <a href="javascript:amiCommandApp.form_execute();" class="btn btn-default" type="button">Submit</a>
+    </div>
+
+  </div>
+</div>
+
+<div id="ami_command_content"></div>
