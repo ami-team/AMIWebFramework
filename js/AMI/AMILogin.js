@@ -544,7 +544,7 @@ function AMILogin() {
 			amiLogin._login({dict: dict});
 
 		} else {
-			amiLogin._logout(/**********/);
+			amiLogin._logout();
 		}
 
 		/*---------------------------------------------------------*/

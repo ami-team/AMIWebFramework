@@ -82,20 +82,19 @@ function AMICommand() {
 
 	this.execute = function(command, settings) {
 
+		var force = false;
 		var context = undefined;
-		var no_check = ((false));
-
 		var endpoint = this.endPoint;
 		var converter = this.converter;
 
 		if(settings) {
 
-			if('context' in settings) {
-				context = settings['context'];
+			if('force' in settings) {
+				force = settings['force'];
 			}
 
-			if('no_check' in settings) {
-				no_check = settings['no_check'];
+			if('context' in settings) {
+				context = settings['context'];
 			}
 
 			if('endpoint' in settings) {
@@ -113,7 +112,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		if(no_check || amiCookie.get('AMI_SESSION') == 'ACTIVE') {
+		if(force || amiCookie.get('AMI_SESSION') == 'ACTIVE') {
 			/*-------------------------------------------------*/
 
 			var ENDPOINT = endpoint.trim();
@@ -224,7 +223,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {no_check: true}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {force: true}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -270,7 +269,7 @@ function AMICommand() {
 
 		this.noCert = false;
 
-		this.execute('GetSessionInfo', {no_check: true}).done(function(data) {
+		this.execute('GetSessionInfo', {force: true}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -316,7 +315,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {no_check: true}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {force: true}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -333,6 +332,10 @@ function AMICommand() {
 				result.reject(data);
 			}
 		});
+
+		/*---------------------------------------------------------*/
+
+		amiCookie.del('AMI_SESSION');
 
 		/*---------------------------------------------------------*/
 
@@ -356,7 +359,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -attachCert', {context: context, no_check: true});
+		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -attachCert', {force: true, context: context});
 
 		/*---------------------------------------------------------*/
 	};
@@ -376,7 +379,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -detachCert', {context: context, no_check: true});
+		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -detachCert', {force: true, context: context});
 
 		/*---------------------------------------------------------*/
 	};

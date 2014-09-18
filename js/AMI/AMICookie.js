@@ -101,14 +101,41 @@ function AMICookie() {
 				}
 			}
 		} else {
-			var value = new RegExp(name + '=([^;]*);?').exec(document.cookie);
+			name += '=';
 
-			if(value) {
-				return decodeURIComponent(value[1]);
+			var item, L = document.cookie.split(';');
+
+			for(var index = 0; index < L.length; index++) {
+
+				for(item = L[index]; item.charAt(0) == ' ';) {
+					item = item.substring(1);
+				}
+
+				if(item.indexOf(name) == 0) {
+					return decodeURIComponent(item.substring(
+						name.length
+						,
+						item.length
+					));
+				}
 			}
 		}
 
 		return '';
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.del = function(name) {
+
+		if(this.isLocal()) {
+
+			if(name in this.local_cookies) {
+				delete this.local_cookies[name];
+			}
+		} else {
+			document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC;';
+		}
 	};
 
 	/*-----------------------------------------------------------------*/
