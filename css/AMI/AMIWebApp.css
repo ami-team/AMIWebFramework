@@ -9,6 +9,17 @@
     width: 100%;
 }
 
+.jumbotron {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    border: 1px solid rgb(238, 238, 238);
+
+    background-color: rgb(255, 255, 255);
+}
+
 .navbar {
     margin-bottom: 5px;
 }
@@ -32,26 +43,17 @@
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-    background-color: rgba(0, 0, 0, 0);
     color: rgb(68, 54, 133);
     text-decoration: none;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-    background-color: rgba(0, 0, 0, 0);
     color: rgb(68, 54, 133);
     text-decoration: none;
 }
 
-.jumbotron {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-
-    border: 1px solid rgb(238, 238, 238);
-
-    background-color: rgb(255, 255, 255);
+.tab-content {
+    margin-top: 4px;
 }
 
 .modal-body {
