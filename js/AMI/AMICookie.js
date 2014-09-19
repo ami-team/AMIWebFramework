@@ -35,7 +35,7 @@ function AMICookie() {
 
 		var path = undefined;
 		var domain = undefined;
-		var seconds = undefined;
+		var expires = undefined;
 
 		if(settings) {
 
@@ -48,20 +48,40 @@ function AMICookie() {
 			}
 
 			if('seconds' in settings) {
-				seconds = new Date(); seconds.setTime(seconds.getTime() + 1000 * settings['seconds']);
+				expires = new Date(); expires.setTime(expires.getTime() + 1000 * settings['seconds']);
+			}
+
+			if('minutes' in settings) {
+				expires = new Date(); expires.setTime(expires.getTime() + 1000 * 60 * settings['minutes']);
+			}
+
+			if('hours' in settings) {
+				expires = new Date(); expires.setTime(expires.getTime() + 1000 * 60 * 60 *settings['hours']);
+			}
+
+			if('days' in settings) {
+				expires = new Date(); expires.setTime(expires.getTime() + 1000 * 60 * 60 * 24 * settings['days']);
+			}
+
+			if('months' in settings) {
+				expires = new Date(); expires.setTime(expires.getTime() + 1000 * 60 * 60 * 24 * 30 * settings['months']);
+			}
+
+			if('years' in settings) {
+				expires = new Date(); expires.setTime(expires.getTime() + 1000 * 60 * 60 * 24 * 30 * 12 * settings['years']);
 			}
 		}
 
 		/*---------------------------------------------------------*/
 
 		if(this.isLocal()) {
-			var expires = seconds ? seconds.getTime()
+			var EXPIRES = expires ? expires.getTime()
 			                      : 99999999999999999
 			;
 
 			this.local_cookies[name] = {
 				value: value,
-				expires: expires,
+				expires: EXPIRES,
 			};
 
 		} else {

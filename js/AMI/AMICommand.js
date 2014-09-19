@@ -108,26 +108,30 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
+		if(force || amiCookie.get('AMI_SESSION') == 'ACTIVE') {
+			amiCookie.set('AMI_SESSION', 'ACTIVE', {minutes: 25});
+		} else {
+			amiLogin._logout();
+
+			amiWebApp.onSessionExpired();
+
+			command += ' -AMIUser="" -AMIPass=""';
+		}
+
+		/*---------------------------------------------------------*/
+
 		var deferred = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		if(force || amiCookie.get('AMI_SESSION') == 'ACTIVE') {
-			/*-------------------------------------------------*/
+		var jsonpid = 'AMI_COMMAND_' + _internal_command_cnt++;
 
-			var ENDPOINT = endpoint.trim();
-			var COMMAND = encodeURIComponent(command.trim());
-			var CONVERTER = converter.trim();
+		/*---------------------------------------------------------*/
 
-			/*-------------------------------------------------*/
-
-			var jsonpid = 'AMI_COMMAND_' + _internal_command_cnt++;
-
-			var INJECTION = encodeURIComponent('"jsonpid": "' + jsonpid + '"');
-
-			/*-------------------------------------------------*/
-
-			timer = setTimeout(function() {
+		_internal_command_ctx[jsonpid] = {
+			deferred: deferred,
+			context: context,
+			timer: setTimeout(function() {
 
 				delete _internal_command_ctx[jsonpid];
 
@@ -139,61 +143,37 @@ function AMICommand() {
 					deferred.reject(message);
 				}
 
-			}, 30000);
+			}, 30000),
+		};
 
-			/*-------------------------------------------------*/
+		/*---------------------------------------------------------*/
 
-			_internal_command_ctx[jsonpid] = {
-				deferred: deferred,
-				context: context,
-				timer: timer,
-			};
+		var INJECTION = encodeURIComponent('"jsonpid": "' + jsonpid + '"');
 
-			/*-------------------------------------------------*/
+		/*---------------------------------------------------------*/
 
-			var url = ENDPOINT + '?Callback=_internal_command_callback&Injection=' + INJECTION + '&Command=' + COMMAND + '&Converter=' + CONVERTER;
+		var ENDPOINT = endpoint.trim();
+		var COMMAND = encodeURIComponent(command.trim());
+		var CONVERTER = converter.trim();
 
-			if(this.noCert) {
-				url += '&NoCert';
-			}
+		/*---------------------------------------------------------*/
 
-			/*-------------------------------------------------*/
+		var url = ENDPOINT + '?Callback=_internal_command_callback&Injection=' + INJECTION + '&Command=' + COMMAND + '&Converter=' + CONVERTER;
 
-			$.ajax({
-				url: url,
-				type: 'POST',
-				cache: false,
-				jsonp: false,
-				dataType: 'jsonp',
-				crossDomain: true,
-			});
-
-			/*-------------------------------------------------*/
-
-			amiCookie.set('AMI_SESSION', 'ACTIVE', {seconds: 25 * 60});
-
-			/*-------------------------------------------------*/
-		} else {
-			/*-------------------------------------------------*/
-
-			var message = {"AMIMessage": [{"error": [{"$": "Session expired."}]}]};
-
-			if(context) {
-				deferred.rejectWith(context, message);
-			} else {
-				deferred.reject(message);
-			}
-
-			/*-------------------------------------------------*/
-
-			amiLogin._logout();
-
-			/*-------------------------------------------------*/
-
-			amiWebApp.onSessionExpired();
-
-			/*-------------------------------------------------*/
+		if(this.noCert) {
+			url += '&NoCert';
 		}
+
+		/*---------------------------------------------------------*/
+
+		$.ajax({
+			url: url,
+			type: 'POST',
+			cache: false,
+			jsonp: false,
+			dataType: 'jsonp',
+			crossDomain: true,
+		});
 
 		/*---------------------------------------------------------*/
 
