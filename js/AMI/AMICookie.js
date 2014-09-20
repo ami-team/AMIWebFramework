@@ -75,15 +75,12 @@ function AMICookie() {
 		/*---------------------------------------------------------*/
 
 		if(this.isLocal()) {
-			var EXPIRES = expires ? expires.getTime()
-			                      : 99999999999999999
-			;
 
 			this.local_cookies[name] = {
 				value: value,
-				expires: EXPIRES,
+				expires: expires ? expires.getTime()
+				                 : 99999999999999999
 			};
-
 		} else {
 			var cookie = name + '=' + value + ';';
 

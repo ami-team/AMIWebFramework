@@ -20,27 +20,19 @@ var _internal_command_ctx = {};
 
 function _internal_command_callback(data) {
 	/*-----------------------------------------------------------------*/
-	/* GET DEFERRED & CONTEXT & TIMER                                  */
-	/*-----------------------------------------------------------------*/
 
 	var deferred = _internal_command_ctx[data.jsonpid].deferred;
 	var context = _internal_command_ctx[data.jsonpid].context;
 	var timer = _internal_command_ctx[data.jsonpid].timer;
 
 	/*-----------------------------------------------------------------*/
-	/* DELETE TIMER                                                    */
-	/*-----------------------------------------------------------------*/
 
 	clearTimeout(timer);
 
 	/*-----------------------------------------------------------------*/
-	/* DELETE COMMAND CONTEXT                                          */
-	/*-----------------------------------------------------------------*/
 
 	delete _internal_command_ctx[data.jsonpid];
 
-	/*-----------------------------------------------------------------*/
-	/* GET RESULT                                                      */
 	/*-----------------------------------------------------------------*/
 
 	var error = amiWebApp.jspath('..error', data);
@@ -68,6 +60,11 @@ function _internal_command_callback(data) {
 /* CLASS AMICommand                                                        */
 /*-------------------------------------------------------------------------*/
 
+var COMMAND_FLAGS_ALWAYS = 64
+var COMMAND_FLAGS_LOGOUT = 65
+
+/*-------------------------------------------------------------------------*/
+
 function AMICommand() {
 	/*-----------------------------------------------------------------*/
 
@@ -82,15 +79,15 @@ function AMICommand() {
 
 	this.execute = function(command, settings) {
 
-		var force = false;
+		var flags = 0x00;
 		var context = undefined;
 		var endpoint = this.endPoint;
 		var converter = this.converter;
 
 		if(settings) {
 
-			if('force' in settings) {
-				force = settings['force'];
+			if('flags' in settings) {
+				flags = settings['flags'];
 			}
 
 			if('context' in settings) {
@@ -108,14 +105,25 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		if(force || amiCookie.get('AMI_SESSION') == 'ACTIVE') {
+		/**/ if(flags == 0x000000000000000000) {
+
+			if(amiCookie.get('AMI_SESSION') == 'ACTIVE') {
+				amiCookie.set('AMI_SESSION', 'ACTIVE', {minutes: 25});
+			} else {
+				amiWebApp.replaceHTML(
+					'ami_login_content'
+					,
+					amiLogin.fragmentLoginButton
+				);
+
+				amiWebApp.onSessionExpired();
+			}
+		}
+		else if(flags == COMMAND_FLAGS_ALWAYS) {
 			amiCookie.set('AMI_SESSION', 'ACTIVE', {minutes: 25});
-		} else {
-			amiLogin._logout();
-
-			amiWebApp.onSessionExpired();
-
-			command += ' -AMIUser="" -AMIPass=""';
+		}
+		else if(flags == COMMAND_FLAGS_LOGOUT) {
+			amiCookie.del('AMI_SESSION');
 		}
 
 		/*---------------------------------------------------------*/
@@ -143,7 +151,7 @@ function AMICommand() {
 					deferred.reject(message);
 				}
 
-			}, 30000),
+			}, 30000)
 		};
 
 		/*---------------------------------------------------------*/
@@ -203,7 +211,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {force: true}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {flags: COMMAND_FLAGS_ALWAYS}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -249,7 +257,7 @@ function AMICommand() {
 
 		this.noCert = false;
 
-		this.execute('GetSessionInfo', {force: true}).done(function(data) {
+		this.execute('GetSessionInfo', {flags: COMMAND_FLAGS_ALWAYS}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -295,7 +303,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {force: true}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {flags: COMMAND_FLAGS_LOGOUT}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -312,10 +320,6 @@ function AMICommand() {
 				result.reject(data);
 			}
 		});
-
-		/*---------------------------------------------------------*/
-
-		amiCookie.del('AMI_SESSION');
 
 		/*---------------------------------------------------------*/
 
@@ -339,7 +343,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -attachCert', {force: true, context: context});
+		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -attachCert', {flags: COMMAND_FLAGS_ALWAYS, context: context});
 
 		/*---------------------------------------------------------*/
 	};
@@ -359,7 +363,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -detachCert', {force: true, context: context});
+		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -detachCert', {flags: COMMAND_FLAGS_ALWAYS, context: context});
 
 		/*---------------------------------------------------------*/
 	};

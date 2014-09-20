@@ -352,20 +352,6 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._login = function(settings) {
-		amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, settings);
-		amiWebApp.onLogin();
-	}
-
-	/*-----------------------------------------------------------------*/
-
-	this._logout = function(settings) {
-		amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, settings);
-		amiWebApp.onLogout();
-	}
-
-	/*-----------------------------------------------------------------*/
-
 	this._clean = function(message) {
 		$('#loginForm input[name=pass]').val('');
 
@@ -433,6 +419,8 @@ function AMILogin() {
 		/*---------------------------------------------------------*/
 
 		amiLogin._clean();
+
+		/*---------------------------------------------------------*/
 
 		amiLogin.user = user;
 
@@ -541,10 +529,12 @@ function AMILogin() {
 
 			/*-------------------------------------------------*/
 
-			amiLogin._login({dict: dict});
+			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
+			amiWebApp.onLogin();
 
 		} else {
-			amiLogin._logout();
+			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton);
+			amiWebApp.onLogout();
 		}
 
 		/*---------------------------------------------------------*/
