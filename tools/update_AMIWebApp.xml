@@ -40,6 +40,7 @@
 
 		<copy todir="img">
 			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.jpg" />
+			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.gif" />
 			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.png" />
 		</copy>
 
@@ -140,6 +141,7 @@
 
 		<copy todir="img">
 			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.jpg" />
+			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.gif" />
 			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.png" />
 		</copy>
 

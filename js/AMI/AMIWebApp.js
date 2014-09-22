@@ -22,11 +22,12 @@ function _internal_loadScripts(deferred, context, scripts) {
 				scripts.splice(0, 1);
 				_internal_loadScripts(deferred, context, scripts);
 			},
-			error: function() {
+			error: function(data, info) {
+
 				if(context) {
-					deferred.rejectWith(context, ['could not load script `' + scripts[0] + '`']);
+					deferred.rejectWith(context, ['could not load script `' + scripts[0] + '`: ' + info]);
 				} else {
-					deferred.reject('could not load script `' + scripts[0] + '`');
+					deferred.reject('could not load script `' + scripts[0] + '`: ' + info);
 				}
 			},
 		});
@@ -56,11 +57,12 @@ function _internal_loadSheets(deferred, context, sheets) {
 					_internal_loadSheets(deferred, context, sheets);
 				});
 			},
-			error: function() {
+			error: function(data, info) {
+
 				if(context) {
-					deferred.rejectWith(context, ['could not load sheet `' + sheets[0] + '`']);
+					deferred.rejectWith(context, ['could not load sheet `' + sheets[0] + '`: ' + info]);
 				} else {
-					deferred.reject('could not load sheet `' + sheets[0] + '`');
+					deferred.reject('could not load sheet `' + sheets[0] + '`: ' + info);
 				}
 			},
 		});
@@ -330,23 +332,46 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onStart = function() {
-		alert('warning: method `amiWebApp.onStart()` must be overloaded !');
+		alert('error: `<app>.onReady()` must be implemented !');
 	};
 
+	/*-----------------------------------------------------------------*/
+
+	this.currentSubApp = function() {
+
+		this.onReady = function() {
+			alert('error: `<sub application>.onReady()` must be implemented !');
+		};
+
+		this.onLogin = function() {
+			alert('error: `<sub application>.onLogin()` must be implemented !');
+		};
+
+		this.onLogout = function() {
+			alert('error: `<sub application>.onLogout()` must be implemented !');
+		};
+
+		this.onSessionExpired = function() {
+			alert('error: `<sub application>.onSessionExpired()` must be implemented !');
+		};
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	this.onReady = function() {
-		alert('warning: method `amiWebApp.onReady()` must be overloaded !');
+		return this.currentSubApp.onReady();
 	};
 
 	this.onLogin = function() {
-		alert('warning: method `amiWebApp.onLogin()` must be overloaded !');
+		return this.currentSubApp.onLogin();
 	};
 
 	this.onLogout = function() {
-		alert('warning: method `amiWebApp.onLogout()` must be overloaded !');
+		return this.currentSubApp.onLogout();
 	};
 
-	this.onSessionExpired  = function() {
-		alert('warning: method `amiWebApp.onSessionExpired()` must be overloaded !');
+	this.onSessionExpired = function() {
+		return this.currentSubApp.onSessionExpired()
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -404,37 +429,32 @@ function AMIWebApp() {
 	/* SUB APPLICATION LOADER                                          */
 	/*-----------------------------------------------------------------*/
 
-	this.loadSubApp = function(app) {
+	this.loadSubApp = function(subApp) {
 		/*---------------------------------------------------------*/
 
-		if(app.onReady == undefined) {
-			alert('error: `<app>.onReady()` must be implemented !');
+		if(subApp.onReady == undefined) {
+			alert('error: `<sub application>.onReady()` must be implemented !');
 			return;
 		}
 
-		if(app.onLogin == undefined) {
-			alert('error: `<app>.onLogin()` must be implemented !');
+		if(subApp.onLogin == undefined) {
+			alert('error: `<sub application>.onLogin()` must be implemented !');
 			return;
 		}
 
-		if(app.onLogout == undefined) {
-			alert('error: `<app>.onLogout()` must be implemented !');
+		if(subApp.onLogout == undefined) {
+			alert('error: `<sub application>.onLogout()` must be implemented !');
 			return;
 		}
 
-		if(app.onSessionExpired == undefined) {
-			alert('error: `<app>.onSessionExpired()` must be implemented !');
+		if(subApp.onSessionExpired == undefined) {
+			alert('error: `<sub application>.onSessionExpired()` must be implemented !');
 			return;
 		}
 
 		/*---------------------------------------------------------*/
 
-		this.onReady          = app.onReady         ;
-		this.onLogin          = app.onLogin         ;
-		this.onLogout         = app.onLogout        ;
-		this.onSessionExpired = app.onSessionExpired;
-
-		/*---------------------------------------------------------*/
+		this.currentSubApp = subApp;
 
 		amiLogin.start();
 

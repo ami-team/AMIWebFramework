@@ -16,7 +16,7 @@ function AMICommandApp() {
 	this.onReady = function() {
 
 		$('#ami_jumbotron_title').html('Command Line');
-		$('#ami_jumbotron_content').html('Execute AMI commandes');
+		$('#ami_jumbotron_content').html('');
 		$('#ami_breadcrumb_content').html('<li><a href="">Tools</a></li><li><a href="">Command Line</a></li>');
 
 		amiWebApp.loadHTML('subapps/command/html/AMICommandApp.html').done(function(data1) {

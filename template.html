@@ -13,6 +13,7 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/AMI/AMIWebApp.min.js"></script>
     <script type="text/javascript" src="subapps/command/js/AMICommandApp.js"></script>
+    <script type="text/javascript" src="subapps/catalogmodeler/js/amiCatalogModelerApp.js"></script>
 
     <script type="text/javascript">
 
@@ -21,7 +22,8 @@
 //		amiCommand.endPoint = 'https://lpsc.in2p3.fr/AMI/nedm/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 		amiCommand.endPoint = 'https://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 
-		amiWebApp.loadSubApp(amiCommandApp);
+//		amiWebApp.loadSubApp(amiCommandApp);
+		amiWebApp.loadSubApp(amiCatalogModelerApp);
 	};
 
     </script>

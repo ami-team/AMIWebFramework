@@ -72,6 +72,10 @@ function AMICommand() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.timeout = 30000;
+
+	/*-----------------------------------------------------------------*/
+
 	this.endPoint = 'http://xx.yy';
 	this.converter = 'AMIXmlToJson.xsl';
 
@@ -107,16 +111,12 @@ function AMICommand() {
 
 		/**/ if(flags == 0x000000000000000000) {
 
-			if(amiCookie.get('AMI_SESSION') == 'ACTIVE') {
-				amiCookie.set('AMI_SESSION', 'ACTIVE', {minutes: 25});
-			} else {
-				amiWebApp.replaceHTML(
-					'ami_login_content'
-					,
-					amiLogin.fragmentLoginButton
-				);
+			if(amiCookie.get('AMI_SESSION') != 'ACTIVE') {
+				amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton);
 
 				amiWebApp.onSessionExpired();
+			} else {
+				amiCookie.set('AMI_SESSION', 'ACTIVE', {minutes: 25});
 			}
 		}
 		else if(flags == COMMAND_FLAGS_ALWAYS) {
@@ -151,7 +151,7 @@ function AMICommand() {
 					deferred.reject(message);
 				}
 
-			}, 30000)
+			}, this.timeout)
 		};
 
 		/*---------------------------------------------------------*/
@@ -343,7 +343,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -attachCert', {flags: COMMAND_FLAGS_ALWAYS, context: context});
+		return this.execute('GetSessionInfo -attachCert -amiLogin="' + user + '" -amiPassword="' + pass + '"', {flags: COMMAND_FLAGS_ALWAYS, context: context});
 
 		/*---------------------------------------------------------*/
 	};
@@ -363,7 +363,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '" -detachCert', {flags: COMMAND_FLAGS_ALWAYS, context: context});
+		return this.execute('GetSessionInfo -detachCert -amiLogin="' + user + '" -amiPassword="' + pass + '"', {flags: COMMAND_FLAGS_ALWAYS, context: context});
 
 		/*---------------------------------------------------------*/
 	};
