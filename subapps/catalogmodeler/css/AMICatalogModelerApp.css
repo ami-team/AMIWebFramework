@@ -1,4 +1,12 @@
-.my_grid {
+.form-control-xs {
+    height: 23px;
+    padding: 5px 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    border-radius: 3px;
+}
+
+.sql_editor_grid {
     pointer-events: none;
     stroke: #16a085;
     stroke-opacity: 0.5;
@@ -14,4 +22,16 @@
 
 #ami-catalog-modeler-toolbar .btn-default {
     background-image: none;
+}
+
+#ami-catalog-modeler-accordion .panel-heading {
+    padding: 5px 10px;
+}
+
+#ami-catalog-modeler-accordion .panel-body {
+    background-color: LightGrey;
+}
+
+#ami-catalog-modeler-accordion input {
+    background-color: #ddd;
 }

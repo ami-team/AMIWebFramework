@@ -1,13 +1,100 @@
 <div class="row">
 
-  <div class="col-md-2">
+  <div class="col-md-3">
+
+    <ul class="nav nav-tabs" style="margin-top: 10px; margin-bottom: 5px;" role="tablist">
+      <li class="active"><a href="#ami-catalog-modeler-tab-catalogs" role="tab" data-toggle="tab">Catalogs</a></li>
+      <li               ><a href="#ami-catalog-modeler-tab-properties" role="tab" data-toggle="tab">Properties</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="ami-catalog-modeler-tab-catalogs">
+
+        <div class="panel-group" id="ami-catalog-modeler-accordion">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#collapseOne" data-toggle="collapse">
+                  Catalogs
+                </a>
+              </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse in">
+              <div class="panel-body">
+
+                TODO
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="tab-pane" id="ami-catalog-modeler-tab-properties">
+
+        <div class="panel-group" id="ami-catalog-modeler-accordion">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#collapseTwo" data-toggle="collapse">
+                  Table
+                </a>
+              </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse in">
+              <div class="panel-body">
+		<table style="width: 100%;"><tr><td>Please, select a table.</tr></td></table>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#collapseThree" data-toggle="collapse">
+                  Fields
+                </a>
+              </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse in">
+              <div class="panel-body">
+		<table style="width: 100%;"><tr><td>Please, select a table.</tr></td></table>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#collapseFour" data-toggle="collapse">
+                  Foreign Keys
+                </a>
+              </h4>
+            </div>
+            <div id="collapseFour" class="panel-collapse collapse in">
+              <div class="panel-body">
+		<table style="width: 100%;"><tr><td>Please, select a table.</tr></td></table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
 
   </div>
 
-  <div class="col-md-10">
+  <div class="col-md-9">
 
     <nav class="navbar navbar-default">
-      <div class="container-fluid" style="padding-right: 0px;">
+      <div class="container-fluid">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ami-catalog-modeler-toolbar">
             <span class="sr-only">Toggle navigation</span>
@@ -15,18 +102,46 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <span class="navbar-brand">Catalog Modeler</span>
+          <span class="navbar-brand">Editor</span>
         </div>
         <div class="collapse navbar-collapse" id="ami-catalog-modeler-toolbar">
 
-          <div class="navbar-form navbar-left">
-            <a href="javascript:alert('Hello !');" class="btn btn-default"><i class="fa fa-table"></i> new table</a>
-          </div>
+          <ul class="nav navbar-nav navbar-left">
+	    <li>
+              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addTable();">
+                <i class="fa fa-table"></i> new table
+              </button>
+            </li>
+	    <li>&nbsp;</li>
+	    <li>&nbsp;</li>
+	    <li>&nbsp;</li>
+	    <li>&nbsp;</li>
+	    <li>
+              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.newField();">
+               <i class="fa fa-bars"></i> new field
+              </button>
+            </li>
+	    <li>&nbsp;</li>
+	    <li>
+              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addForeignKey();">
+                <i class="fa fa-ellipsis-h"></i> foreign key
+              </button>
+            </li>
+          </ul>
 
-          <div class="navbar-form navbar-right">
-            <a href="javascript:alert('Hello !');" class="btn btn-default"><i class="fa fa-code"></i> view code</a>
-            <a href="javascript:alert('Hello !');" class="btn btn-default"><i class="fa fa-database"></i> synchronize</a>
-          </div>
+          <ul class="nav navbar-nav navbar-right">
+	    <li>
+              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.viewSQL();">
+                <i class="fa fa-code"></i> view SQL
+              </button>
+            </li>
+	    <li>&nbsp;</li>
+	    <li>
+              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.synchronize();">
+                <i class="fa fa-database"></i> synchronize
+              </button>
+            </li>
+          </ul>
 
         </div>
       </div>
@@ -37,5 +152,3 @@
   </div>
 
 </div>
-
-<div>&nbsp;</div>
