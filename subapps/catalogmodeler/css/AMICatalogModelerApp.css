@@ -1,0 +1,17 @@
+.my_grid {
+    pointer-events: none;
+    stroke: #16a085;
+    stroke-opacity: 0.5;
+    stroke-width: 0.5;
+    transition-duration: 1s;
+    transition-property: stroke-opacity;
+}
+
+#sqldiagram svg {
+    border: LightGray 1px solid;
+    border-radius: 3px;
+}
+
+#ami-catalog-modeler-toolbar .btn-default {
+    background-image: none;
+}
