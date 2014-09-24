@@ -1,9 +1,7 @@
 .form-control-xs {
     height: 23px;
-    padding: 5px 5px;
-    font-size: 12px;
-    line-height: 1.5;
-    border-radius: 3px;
+    padding: 1px 5px;
+    line-height: 18px;
 }
 
 .sql_editor_grid {
@@ -32,6 +30,7 @@
     background-color: LightGrey;
 }
 
-#ami-catalog-modeler-accordion input {
+#ami-catalog-modeler-accordion input, #ami-catalog-modeler-accordion select {
     background-color: #ddd;
+    width: 100%;
 }

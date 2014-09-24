@@ -92,8 +92,8 @@ function AMICookie() {
 				cookie += 'domain=' + domain + ';';
 			}
 
-			if(seconds) {
-				cookie += 'expires=' + seconds.toGMTString() + ';';
+			if(expires) {
+				cookie += 'expires=' + expires.toGMTString() + ';';
 			}
 
 			document.cookie = cookie;

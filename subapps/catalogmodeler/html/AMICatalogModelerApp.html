@@ -48,7 +48,17 @@
             </div>
             <div id="collapseTwo" class="panel-collapse collapse in">
               <div class="panel-body">
-		<table style="width: 100%;"><tr><td>Please, select a table.</tr></td></table>
+		<table style="width: 100%;">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Encoding</th>
+                      <th></th>
+                    <tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -63,7 +73,18 @@
             </div>
             <div id="collapseThree" class="panel-collapse collapse in">
               <div class="panel-body">
-		<table style="width: 100%;"><tr><td>Please, select a table.</tr></td></table>
+		<table style="width: 100%;">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th></th>
+                      <th></th>
+                    <tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -78,7 +99,18 @@
             </div>
             <div id="collapseFour" class="panel-collapse collapse in">
               <div class="panel-body">
-		<table style="width: 100%;"><tr><td>Please, select a table.</tr></td></table>
+		<table style="width: 100%;">
+                  <thead>
+                    <tr>
+                      <th>Field</th>
+                      <th>Table</th>
+                      <th>Field.Table</th>
+                      <th></th>
+                    <tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
@@ -112,30 +144,24 @@
                 <i class="fa fa-table"></i> new table
               </button>
             </li>
-	    <li>&nbsp;</li>
-	    <li>&nbsp;</li>
-	    <li>&nbsp;</li>
-	    <li>&nbsp;</li>
 	    <li>
-              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.newField();">
-               <i class="fa fa-bars"></i> new field
+              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addField();">
+               <i class="fa fa-minus"></i> new field
               </button>
             </li>
-	    <li>&nbsp;</li>
 	    <li>
               <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addForeignKey();">
-                <i class="fa fa-ellipsis-h"></i> foreign key
+                <i class="fa fa-ellipsis-h"></i> new foreign key
               </button>
             </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
 	    <li>
-              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.viewSQL();">
-                <i class="fa fa-code"></i> view SQL
+              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.printDiagram();">
+               <i class="fa fa-print"></i> print diagram
               </button>
             </li>
-	    <li>&nbsp;</li>
 	    <li>
               <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.synchronize();">
                 <i class="fa fa-database"></i> synchronize

@@ -58,8 +58,11 @@ function AMICatalogModelerApp() {
 								gridSize: 10,
 							});
 
+							this.table = undefined;
+
 							this.paper.on('cell:pointerdown', function(cellView, evt, x, y) {
-								amiCatalogModelerApp.updateMenu(cellView.model);
+								amiCatalogModelerApp.table = cellView.model;
+								amiCatalogModelerApp.updateMenu();
 							});
 
 							this.svg = V(this.paper.svg);
@@ -107,7 +110,7 @@ function AMICatalogModelerApp() {
 
 			do {
 				var svgGridX = this.svgHorizontal.clone().translate(x, 0, {absolute: true}).addClass('sql_editor_grid');
-				this.svg.append(svgGridX);
+				this.svg.prepend(svgGridX);
 			
 				x += gridW;
 			
@@ -122,7 +125,7 @@ function AMICatalogModelerApp() {
 
 			do {
 				var svgGridY = this.svgVertical.clone().translate(0, y, {absolute: true}).addClass('sql_editor_grid');
-				this.svg.append(svgGridY);
+				this.svg.prepend(svgGridY);
 
 				y += gridH;
 			
@@ -134,37 +137,8 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.updateMenu = function(table) {
-
-		var dict1 = {
-			TABLE: table.getName(),
-		};
-
-		var dict2 = [];
-		var dict3 = [];
-
-		$.each(table.getFields(), function(nr, field) {
-
-			dict2.push({
-				FIELD: field['name'],
-				TYPE: field['type'],
-			});
-
-			dict3.push({
-				/* TODO */
-			});
-		});
-
-		var divs = $('#ami-catalog-modeler-accordion table');
-
-		divs[0].innerHTML = amiWebApp.formatHTML(this.fragmentTable, {dict: dict1});
-		divs[1].innerHTML = amiWebApp.formatHTML(this.fragmentField, {dict: dict2});
-		divs[2].innerHTML = amiWebApp.formatHTML(this.fragmentFKey, {dict: dict3});
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this._cnt = 0;
+	this._cnt1 = 0;
+	this._cnt2 = 0;
 
 	/*-----------------------------------------------------------------*/
 
@@ -172,24 +146,242 @@ function AMICatalogModelerApp() {
 
 		var table = new joint.shapes.sql.Table({
 			position: {x: 20, y: 20},
-			name: 'Table' + this._cnt++,
+			name: 'Table' + this._cnt1++,
 			fields: [
-				{name: 'id', type: 'int'},
-				{name: 'name', type: 'str'},
-			],
+				{name: 'id', type: 'INT'}
+			]
 		});
 
-		this.graph.addCells([table]);
+		this.graph.addCell(table);
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.viewSQL = function() {
+	this.addField = function() {
+
+		if(this.table) {
+
+			var fields = this.table.getFields();
+
+			fields.push({name: 'field' + this._cnt2++, type: 'INT'});
+
+			this.table.setFields(fields);
+			this.updateMenu();
+
+		} else {
+			alert('Please, select a table.');
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.addForeignKey = function() {
+
+		if(this.table) {
+
+			var fields = this.table.getFKeys();
+
+			fields.push({field: '', table: ''});
+
+			this.table.setFKeys(fields);
+			this.updateMenu();
+
+		} else {
+			alert('Please, select a table.');
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.printDiagram = function() {
+
+		var restorepage = document.body.innerHTML;
+		var printcontent = document.getElementById('sqldiagram').innerHTML;
+
+		document.body.innerHTML = printcontent;
+		window.print();
+		document.body.innerHTML = restorepage;
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.synchronize = function() {
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.updateMenu = function(settings) {
+
+		if(this.table) {
+			/*-------------------------------------------------*/
+
+			var soft = false;
+
+			if(settings) {
+
+				if('soft' in settings) {
+					soft = settings['soft'];
+				}
+			}
+
+			/*-------------------------------------------------*/
+
+			var dict1 = {};
+			var dict2 = [];
+			var dict3 = [];
+
+			var tables = '<option value="">--</option>';
+			var fields = '<option value="">--</option>';
+
+			/*-------------------------------------------------*/
+
+			var cur_name = this.table.getName();
+
+			$.each(this.graph.getElements(), function(index, this_table) {
+
+				var new_name = this_table.getName();
+
+				if(cur_name != new_name) {
+					tables += '<option value="' + new_name + '">' + new_name + '</option>';
+				}
+			});
+
+			/*-------------------------------------------------*/
+
+			dict1['TABLE'] = cur_name;
+
+			/*-------------------------------------------------*/
+
+			$.each(this.table.getFields(), function(index, this_field) {
+
+				dict2.push({
+					INDEX: index,
+					NAME: this_field['name'],
+					TYPE: this_field['type'],
+				});
+
+				fields += '<option value="' + this_field['name'] + '">' + this_field['name'] + '</option>';
+			});
+
+			/*-------------------------------------------------*/
+
+			$.each(this.table.getFKeys(), function(index, this_fkey) {
+
+				var field = this_fkey['field'];
+				var table = this_fkey['table'];
+
+				var _fields = fields.replace('value="' + field + '"', 'value="' + field + '" selected="selected"');
+				var _tables = tables.replace('value="' + table + '"', 'value="' + table + '" selected="selected"');
+
+				dict3.push({
+					INDEX: index,
+					FIELDS: _fields,
+					TABLES: _tables,
+				});
+			});
+
+			/*-------------------------------------------------*/
+
+			var divs = $('#ami-catalog-modeler-accordion table tbody');
+
+			if(!soft) {
+				divs[0].innerHTML = amiWebApp.formatHTML(this.fragmentTable, {dict: dict1});
+				divs[1].innerHTML = amiWebApp.formatHTML(this.fragmentField, {dict: dict2});
+			}
+			if(0x001) {
+				divs[2].innerHTML = amiWebApp.formatHTML(this.fragmentFKey, {dict: dict3});
+			}
+
+			/*-------------------------------------------------*/
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setTableName = function(name) {
+
+		if(this.table) {
+			this.table.setName(name);
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeTable = function(name) {
+
+		if(this.table) {
+			alert('TODO');
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setFieldName = function(value, index) {
+
+		if(this.table) {
+
+			var fields = this.table.getFields();
+
+			fields[index]['name'] = value;
+			
+			this.table.setFields(fields);
+			this.updateMenu({soft: true});
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setFieldType = function(value, index) {
+
+		if(this.table) {
+
+			var fields = this.table.getFields();
+
+			fields[index]['type'] = value;
+			
+			this.table.setFields(fields);
+			this.updateMenu({soft: true});
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeField = function(index) {
+
+		if(this.table) {
+			var fields = this.table.getFields();
+
+			fields.splice(index, 1);
+			
+			this.table.setFields(fields);
+			this.updateMenu({soft: false});
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setFKeyField = function(value, index) {
+
+		if(this.table) {
+			var fKeys = this.table.getFKeys();
+
+			fKeys[index]['field'] = value;
+
+			this.table.setFKeys(fKeys);
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setFKeyTable = function(value, index) {
+
+		if(this.table) {
+			var fKeys = this.table.getFKeys();
+
+			fKeys[index]['table'] = value;
+
+			this.table.setFKeys(fKeys);
+		}
 	};
 
 	/*-----------------------------------------------------------------*/
