@@ -53,16 +53,19 @@ function AMICatalogModelerApp() {
 							this.paper = new joint.dia.Paper({
 								model: this.graph,
 								el: $('#sqldiagram'),
-								width: '100%',
-								height: '550',
-								gridSize: 10,
+								width: 900,
+								height: 300,
+								gridSize: 5.0,
 							});
 
 							this.table = undefined;
 
-							this.paper.on('cell:pointerdown', function(cellView, evt, x, y) {
-								amiCatalogModelerApp.table = cellView.model;
-								amiCatalogModelerApp.updateMenu();
+							this.paper.on('cell:pointerclick', function(cellView) {
+
+								if(cellView.model.get('type') === 'sql.Table') {
+									amiCatalogModelerApp.table = cellView.model;
+									amiCatalogModelerApp.updateMenu();
+								}
 							});
 
 							this.svg = V(this.paper.svg);
@@ -98,6 +101,7 @@ function AMICatalogModelerApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.drawGrid = function(gridW, gridH) {
+		/*---------------------------------------------------------*/
 
 		var width = $('#sqldiagram svg').width();
 		var height = $('#sqldiagram svg').height();
@@ -105,29 +109,27 @@ function AMICatalogModelerApp() {
 		/*---------------------------------------------------------*/
 
 		if(gridW > 2) {
-
-			var x = gridW;
+			var x = 0.1;
 
 			do {
+				x += gridW;
+
 				var svgGridX = this.svgHorizontal.clone().translate(x, 0, {absolute: true}).addClass('sql_editor_grid');
 				this.svg.prepend(svgGridX);
-			
-				x += gridW;
-			
+
 			} while(x < width);
 		}
 
 		/*---------------------------------------------------------*/
 
 		if(gridH > 2) {
-
-			var y = gridH;
+			var y = 0.1;
 
 			do {
+				y += gridH;
+
 				var svgGridY = this.svgVertical.clone().translate(0, y, {absolute: true}).addClass('sql_editor_grid');
 				this.svg.prepend(svgGridY);
-
-				y += gridH;
 			
 			} while(y < height);
 		}
@@ -145,8 +147,9 @@ function AMICatalogModelerApp() {
 	this.addTable = function() {
 
 		var table = new joint.shapes.sql.Table({
-			position: {x: 20, y: 20},
-			name: 'Table' + this._cnt1++,
+			position: {x: 20 + 10 * this._cnt1, y: 20 + 10 * this._cnt1},
+			name: 'table' + this._cnt1++,
+			encoding: 'utf8_general_ci',
 			fields: [
 				{name: 'id', type: 'INT'}
 			]
@@ -195,12 +198,14 @@ function AMICatalogModelerApp() {
 
 	this.printDiagram = function() {
 
-		var restorepage = document.body.innerHTML;
-		var printcontent = document.getElementById('sqldiagram').innerHTML;
+		var width = $('#sqldiagram svg').width();
+		var height = $('#sqldiagram svg').height();
 
-		document.body.innerHTML = printcontent;
-		window.print();
-		document.body.innerHTML = restorepage;
+		var w = window.open('', '', 'height=' + height + ', width=' + width + ', toolbar=no');
+
+		w.document.write('<html><head><link type="text/css" rel="stylesheet" href="http://jointjs.com/downloads/joint.min.css" /><style>body { margin: 0px; } </style></head><body>' + $('#sqldiagram').html() + '</body></html>');
+		//w.print();
+        	//w.close();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -233,50 +238,62 @@ function AMICatalogModelerApp() {
 			var tables = '<option value="">--</option>';
 			var fields = '<option value="">--</option>';
 
+			var tableName     = this.table.getName    ();
+			var tableEncoding = this.table.getEncoding();
+
 			/*-------------------------------------------------*/
 
-			var cur_name = this.table.getName();
+			dict1['NAME'] = tableName;
 
-			$.each(this.graph.getElements(), function(index, this_table) {
+			dict1['ENCODINGS'] = (
+				'<option value="utf8_general_ci">utf8_general_ci</option>'
+				+
+				'<option value="utf8_bin">utf8_bin</option>'
+				+
+				'<option value="latin1_general_ci">latin1_general_ci</option>'
+				+
+				'<option value="latin1_bin">latin1_bin</option>'
 
-				var new_name = this_table.getName();
+			).replace('value="' + tableEncoding + '"', 'value="' + tableEncoding + '" selected="selected"');
 
-				if(cur_name != new_name) {
-					tables += '<option value="' + new_name + '">' + new_name + '</option>';
+			/*-------------------------------------------------*/
+
+			$.each(this.graph.getElements(), function(index, table) {
+
+				var name = table.getName();
+
+				if(tableName != name) {
+					tables += '<option value="' + name + '">' + name + '</option>';
 				}
 			});
 
 			/*-------------------------------------------------*/
 
-			dict1['TABLE'] = cur_name;
+			$.each(this.table.getFields(), function(index, field) {
 
-			/*-------------------------------------------------*/
-
-			$.each(this.table.getFields(), function(index, this_field) {
+				var name = field['name'];
+				var type = field['type'];
 
 				dict2.push({
 					INDEX: index,
-					NAME: this_field['name'],
-					TYPE: this_field['type'],
+					NAME: name,
+					TYPE: type,
 				});
 
-				fields += '<option value="' + this_field['name'] + '">' + this_field['name'] + '</option>';
+				fields += '<option value="' + name + '">' + name + '</option>';
 			});
 
 			/*-------------------------------------------------*/
 
-			$.each(this.table.getFKeys(), function(index, this_fkey) {
+			$.each(this.table.getFKeys(), function(index, fkey) {
 
-				var field = this_fkey['field'];
-				var table = this_fkey['table'];
-
-				var _fields = fields.replace('value="' + field + '"', 'value="' + field + '" selected="selected"');
-				var _tables = tables.replace('value="' + table + '"', 'value="' + table + '" selected="selected"');
+				var field = fkey['field'];
+				var table = fkey['table'];
 
 				dict3.push({
 					INDEX: index,
-					FIELDS: _fields,
-					TABLES: _tables,
+					FIELDS: fields.replace('value="' + field + '"', 'value="' + field + '" selected="selected"'),
+					TABLES: tables.replace('value="' + table + '"', 'value="' + table + '" selected="selected"'),
 				});
 			});
 
@@ -288,7 +305,7 @@ function AMICatalogModelerApp() {
 				divs[0].innerHTML = amiWebApp.formatHTML(this.fragmentTable, {dict: dict1});
 				divs[1].innerHTML = amiWebApp.formatHTML(this.fragmentField, {dict: dict2});
 			}
-			if(0x001) {
+			if(!0x00) {
 				divs[2].innerHTML = amiWebApp.formatHTML(this.fragmentFKey, {dict: dict3});
 			}
 
@@ -298,10 +315,71 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.updateArrows = function() {
+		/*---------------------------------------------------------*/
+
+		var dict = {}
+
+		$.each(this.graph.getElements(), function(index, curr_table) {
+
+			dict[curr_table.getName()] = curr_table;
+		});
+
+		/*---------------------------------------------------------*/
+
+		var arrows = [];
+
+		$.each(this.graph.getElements(), function(index, curr_table) {
+
+			$.each(curr_table.getFKeys(), function(index, curr_fkey) {
+
+				var source = curr_table.getName();
+
+				var target = curr_fkey['table'];
+
+				if(target !== '') {
+					arrows.push({
+						source: dict[source].id,
+						target: dict[target].id,
+					});
+				}
+			});
+		});
+
+		/*---------------------------------------------------------*/
+
+		var graph = this.graph;
+
+		$.each(arrows, function(index, curr_arrow) {
+
+			var link = new joint.dia.Link({
+				source: { id: curr_arrow['source'] },
+				target: { id: curr_arrow['target'] },
+			});
+
+			link.attr({'.connection': {'stroke': 'black', 'stroke-width': 3, 'stroke-dasharray': '5 2'}});
+
+			graph.addCell(link);
+		});
+
+		/*---------------------------------------------------------*/
+	}
+
+	/*-----------------------------------------------------------------*/
+
 	this.setTableName = function(name) {
 
 		if(this.table) {
 			this.table.setName(name);
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setTableEncoding = function(encoding) {
+
+		if(this.table) {
+			this.table.setEncoding(encoding);
 		}
 	};
 
@@ -355,6 +433,7 @@ function AMICatalogModelerApp() {
 			
 			this.table.setFields(fields);
 			this.updateMenu({soft: false});
+			this.updateArrows();
 		}
 	};
 
@@ -368,6 +447,7 @@ function AMICatalogModelerApp() {
 			fKeys[index]['field'] = value;
 
 			this.table.setFKeys(fKeys);
+			this.updateArrows();
 		}
 	};
 
@@ -381,6 +461,22 @@ function AMICatalogModelerApp() {
 			fKeys[index]['table'] = value;
 
 			this.table.setFKeys(fKeys);
+			this.updateArrows();
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeFKey = function(index) {
+
+		if(this.table) {
+			var fKeys = this.table.getFKeys();
+
+			fKeys.splice(index, 1);
+			
+			this.table.setFKeys(fKeys);
+			this.updateMenu({soft: false});
+			this.updateArrows();
 		}
 	};
 

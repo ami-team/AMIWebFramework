@@ -18,6 +18,7 @@ function _internal_loadScripts(deferred, context, scripts) {
 			url: scripts[0],
 			dataType: "script",
 			async: false,
+			cache: false,
 			success: function() {
 				scripts.splice(0, 1);
 				_internal_loadScripts(deferred, context, scripts);
@@ -51,6 +52,7 @@ function _internal_loadSheets(deferred, context, sheets) {
 			url: sheets[0],
 			type: 'HEAD',
 			async: false,
+			cache: false,
 			success: function() {
 				$('head').append('<link rel="stylesheet" type="text/css" href="' + sheets[0] + '" />').promise().done(function() {
 					sheets.splice(0, 1);
