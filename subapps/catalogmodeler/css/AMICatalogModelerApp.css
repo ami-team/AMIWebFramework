@@ -13,7 +13,15 @@
     transition-property: stroke-opacity;
 }
 
-#sqldiagram svg {
+#drop_zone {
+    padding: 25px;
+    border: LightGray 2px dashed;
+    border-radius: 5px;
+    color: #bbb;
+    text-align: center;
+}
+
+#editor_zone svg {
     border: LightGray 1px solid;
     border-radius: 3px;
 }
@@ -22,15 +30,15 @@
     background-image: none;
 }
 
-#ami-catalog-modeler-accordion .panel-heading {
+#ami-catalog-modeler-tab-properties .panel-heading {
     padding: 5px 10px;
 }
 
-#ami-catalog-modeler-accordion .panel-body {
+#ami-catalog-modeler-tab-properties .panel-body {
     background-color: LightGrey;
 }
 
-#ami-catalog-modeler-accordion input, #ami-catalog-modeler-accordion select {
+#ami-catalog-modeler-tab-properties input, #ami-catalog-modeler-tab-properties select {
     background-color: #ddd;
     width: 100%;
 }

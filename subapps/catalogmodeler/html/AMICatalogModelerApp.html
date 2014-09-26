@@ -11,13 +11,13 @@
 
       <div class="tab-pane active" id="ami-catalog-modeler-tab-catalogs">
 
-        <div class="panel-group" id="ami-catalog-modeler-accordion">
+        <div class="panel-group">
 
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#collapseOne" data-toggle="collapse">
-                  Catalogs
+                  Online schemes
                 </a>
               </h4>
             </div>
@@ -32,23 +32,46 @@
 
         </div>
 
-      </div>
-
-      <div class="tab-pane" id="ami-catalog-modeler-tab-properties">
-
-        <div class="panel-group" id="ami-catalog-modeler-accordion">
+        <div class="panel-group">
 
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#collapseTwo" data-toggle="collapse">
-                  Table
+                  Import / Export schemes
                 </a>
               </h4>
             </div>
             <div id="collapseTwo" class="panel-collapse collapse in">
               <div class="panel-body">
-		<table style="width: 100%;">
+                <div id="drop_zone">Drop file here to open it</div>
+                <div>&nbsp;</div>
+                <div>
+                  <button class="btn btn-default btn-xs" style="width: 100%;" onclick="amiCatalogModelerApp.exportSchema();">Export</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="tab-pane" id="ami-catalog-modeler-tab-properties">
+
+        <div class="panel-group">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#collapseThree" data-toggle="collapse">
+                  Table
+                </a>
+              </h4>
+            </div>
+            <div id="collapseThree" class="panel-collapse collapse in">
+              <div class="panel-body">
+		<table class="table table-condensed" style="margin: 0px;">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -66,14 +89,14 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapseThree" data-toggle="collapse">
+                <a href="#collapseFour" data-toggle="collapse">
                   Fields
                 </a>
               </h4>
             </div>
-            <div id="collapseThree" class="panel-collapse collapse in">
+            <div id="collapseFour" class="panel-collapse collapse in">
               <div class="panel-body">
-		<table style="width: 100%;">
+		<table class="table table-condensed" style="margin: 0px;">
                   <thead>
                     <tr>
                       <th>Name</th>
@@ -92,14 +115,14 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapseFour" data-toggle="collapse">
+                <a href="#collapseFive" data-toggle="collapse">
                   Foreign Keys
                 </a>
               </h4>
             </div>
-            <div id="collapseFour" class="panel-collapse collapse in">
+            <div id="collapseFive" class="panel-collapse collapse in">
               <div class="panel-body">
-		<table style="width: 100%;">
+		<table class="table table-condensed" style="margin: 0px;">
                   <thead>
                     <tr>
                       <th>Field</th>
@@ -154,6 +177,11 @@
                 <i class="fa fa-ellipsis-h"></i> new foreign key
               </button>
             </li>
+	    <li>
+              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addIndex();">
+                <i class="fa fa-ellipsis-h"></i> new index
+              </button>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
@@ -173,7 +201,7 @@
       </div>
     </nav>
 
-    <div id="sqldiagram"></div>
+    <div id="editor_zone"></div>
 
   </div>
 

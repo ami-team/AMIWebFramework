@@ -20,9 +20,7 @@ function AMICatalogModelerApp() {
 		amiWebApp.loadSheets([
 			'subapps/catalogmodeler/css/joint.min.css',
 			'subapps/catalogmodeler/css/AMICatalogModelerApp.css',
-		]).fail(function(info) {
-			alert(info);
-		});
+		]);
 
 		amiWebApp.loadScripts([
 			'subapps/catalogmodeler/js/lodash.min.js',
@@ -31,6 +29,7 @@ function AMICatalogModelerApp() {
 			'subapps/catalogmodeler/js/vectorizer.min.js',
 			'subapps/catalogmodeler/js/geometry.min.js',
 			'subapps/catalogmodeler/js/joint.shapes.sql.min.js',
+			'subapps/catalogmodeler/js/FileSaver.min.js',
 		]);
 
 		$('#ami_jumbotron_title').html('Catalog Modeler');
@@ -43,20 +42,41 @@ function AMICatalogModelerApp() {
 					amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/fkey.html', {context: this}).done(function(data4) {
 
 						amiWebApp.replaceHTML('ami_main_content', data1, {context: this}).done(function() {
+							/*-----------------*/
 
 							this.fragmentTable = data2;
 							this.fragmentField = data3;
 							this.fragmentFKey = data4;
 
+							/*-----------------*/
+
+							var dropZone = document.getElementById('drop_zone');
+
+							dropZone.addEventListener('dragover', this.handleDragOver, false);
+							dropZone.addEventListener('drop', this.handleFileSelect, false);
+  
+							/*-----------------*/
+
 							this.graph = new joint.dia.Graph;
 
 							this.paper = new joint.dia.Paper({
 								model: this.graph,
-								el: $('#sqldiagram'),
+								el: $('#editor_zone'),
 								width: 900,
-								height: 300,
+								height: 418,
 								gridSize: 5.0,
 							});
+
+							this.svg = V(this.paper.svg);
+
+							/*-----------------*/
+
+							this.svgVertical = V('path').attr('d', 'M -10000 -1 L 10000 -1');
+							this.svgHorizontal = V('path').attr('d', 'M -1 -10000 L -1 10000');
+
+							this.drawGrid(10, 10);
+
+							/*-----------------*/
 
 							this.table = undefined;
 
@@ -68,12 +88,7 @@ function AMICatalogModelerApp() {
 								}
 							});
 
-							this.svg = V(this.paper.svg);
-
-							this.svgVertical = V('path').attr('d', 'M -10000 -1 L 10000 -1');
-							this.svgHorizontal = V('path').attr('d', 'M -1 -10000 L -1 10000');
-
-							this.drawGrid(10, 10);
+							/*-----------------*/
 						});
 					});
 				});
@@ -103,8 +118,8 @@ function AMICatalogModelerApp() {
 	this.drawGrid = function(gridW, gridH) {
 		/*---------------------------------------------------------*/
 
-		var width = $('#sqldiagram svg').width();
-		var height = $('#sqldiagram svg').height();
+		var width = $('#editor_zone svg').width();
+		var height = $('#editor_zone svg').height();
 
 		/*---------------------------------------------------------*/
 
@@ -135,6 +150,46 @@ function AMICatalogModelerApp() {
 		}
 
 		/*---------------------------------------------------------*/
+	};
+
+	/*-------------------------------------------------------------------------*/
+
+	this.handleFileSelect = function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+
+		var files = e.dataTransfer.files;
+
+		for(var i = 0, f = null; f = files[i]; i++) {
+
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+				amiCatalogModelerApp.graph.fromJSON(JSON.parse(e.target.result));
+			}
+
+			reader.readAsText(f);
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.handleDragOver = function(e) {
+		e.stopPropagation();
+		e.preventDefault();
+
+		e.dataTransfer.dropEffect = 'copy';
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.exportSchema = function() {
+
+		var json = JSON.stringify(this.graph.toJSON());
+
+		var blob = new Blob([json], {type : 'application/json'});
+
+		saveAs(blob, 'schema.json');
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -198,19 +253,26 @@ function AMICatalogModelerApp() {
 
 	this.printDiagram = function() {
 
-		var width = $('#sqldiagram svg').width();
-		var height = $('#sqldiagram svg').height();
+		var width = $('#editor_zone svg').width();
+		var height = $('#editor_zone svg').height();
 
 		var w = window.open('', '', 'height=' + height + ', width=' + width + ', toolbar=no');
 
-		w.document.write('<html><head><link type="text/css" rel="stylesheet" href="http://jointjs.com/downloads/joint.min.css" /><style>body { margin: 0px; } </style></head><body>' + $('#sqldiagram').html() + '</body></html>');
-		//w.print();
-        	//w.close();
+		w.document.write('<html><head><style>body { margin: 0px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap { opacity: 0; } .connection { fill: none; }</style></head><body>' + $('#editor_zone').html() + '</body></html>');
+		w.print();
+        	w.close();
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.synchronize = function() {
+
+		var json = this.graph.toJSON();
+
+		this.graph.clear();
+		alert(JSON.stringify(json));
+
+		this.graph.fromJSON(json);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -299,7 +361,7 @@ function AMICatalogModelerApp() {
 
 			/*-------------------------------------------------*/
 
-			var divs = $('#ami-catalog-modeler-accordion table tbody');
+			var divs = $('#ami-catalog-modeler-tab-properties table tbody');
 
 			if(!soft) {
 				divs[0].innerHTML = amiWebApp.formatHTML(this.fragmentTable, {dict: dict1});
@@ -357,7 +419,10 @@ function AMICatalogModelerApp() {
 				target: { id: curr_arrow['target'] },
 			});
 
-			link.attr({'.connection': {'stroke': 'black', 'stroke-width': 3, 'stroke-dasharray': '5 2'}});
+			link.attr({
+				'.connection': {'stroke': '#707070', 'stroke-width': 3},
+				'.marker-source': {'stroke': '#707070', 'fill': '#707070', 'd': 'm 14.456044,15.990164 1.23e-4,7.500564 0,-7.179668 -9.0002053,5.179668 0,-11.000206 9.0000823,5.178745 1.23e-4,-7.178745 z'}
+			});
 
 			graph.addCell(link);
 		});

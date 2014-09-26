@@ -3,6 +3,10 @@
     src: url('../../font/janda.ttf');
 }
 
+th, label {
+    font-weight: 500;
+}
+
 .container {
     padding-left: 35px;
     padding-right: 35px;
