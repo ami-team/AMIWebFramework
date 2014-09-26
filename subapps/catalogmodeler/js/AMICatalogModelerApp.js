@@ -251,6 +251,23 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.addIndex = function() {
+
+		if(this.table) {
+			var indices = this.table.getIndices();
+
+			indices.push({field: ''});
+
+			this.table.setIndices(indices);
+			this.updateMenu();
+
+		} else {
+			alert('Please, select a table.');
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	this.printDiagram = function() {
 
 		var width = $('#editor_zone svg').width();
