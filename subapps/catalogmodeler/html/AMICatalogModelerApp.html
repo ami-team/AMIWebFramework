@@ -19,13 +19,20 @@
                 <a href="#collapseOne" data-toggle="collapse">
                   Online schemes
                 </a>
+                <a href="javascript:amiCatalogModelerApp.listSchemes();" class="pull-right text-primary">
+                  <i class="fa fa-refresh"></i>
+                </a>
               </h4>
             </div>
             <div id="collapseOne" class="panel-collapse collapse in">
               <div class="panel-body">
-
-                TODO
-
+                <div>
+                  <select class="form-control form-control-xs" id="ami-catalog-modeler-catalog-list"></select>
+                </div>
+                <div>&nbsp;</div>
+                <div>
+                  <button class="btn btn-default btn-xs" style="width: 100%;" onclick="amiCatalogModelerApp.openSchema();">Open</button>
+                </div>
               </div>
             </div>
           </div>
@@ -141,12 +148,12 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapseFive" data-toggle="collapse">
+                <a href="#collapseSix" data-toggle="collapse">
                   Indices
                 </a>
               </h4>
             </div>
-            <div id="collapseFive" class="panel-collapse collapse in">
+            <div id="collapseSix" class="panel-collapse collapse in">
               <div class="panel-body">
 		<table class="table table-condensed" style="margin: 0px;">
                   <thead>
@@ -193,17 +200,17 @@
             </li>
 	    <li>
               <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addField();">
-               <i class="fa fa-minus"></i> new field
+               new field
               </button>
             </li>
 	    <li>
               <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addForeignKey();">
-                <i class="fa fa-ellipsis-h"></i> new foreign key
+                new foreign key
               </button>
             </li>
 	    <li>
               <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addIndex();">
-                <i class="fa fa-ellipsis-h"></i> new index
+                new index
               </button>
             </li>
           </ul>
