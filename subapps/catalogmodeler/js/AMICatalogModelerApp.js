@@ -7,6 +7,30 @@
  */
 
 /*-------------------------------------------------------------------------*/
+
+function __hhh(graph) {
+
+	var tables = {};
+
+	$.each(graph.getElements(), function(index1, item1) {
+
+		var fields = {};
+	
+		$.each(item.getFields(), function(index2, item2) {
+
+			fields[item2['name']] = item2;
+		});
+
+		tables[item1.getName()] = {
+			table: item1,
+			fields: fields,
+		};
+	});
+
+	return tables;
+}
+
+/*-------------------------------------------------------------------------*/
 /* CLASS AMICatalogModelerApp                                              */
 /*-------------------------------------------------------------------------*/
 
@@ -39,7 +63,7 @@ function AMICatalogModelerApp() {
 		amiWebApp.loadHTML('subapps/catalogmodeler/html/AMICatalogModelerApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/table.html', {context: this}).done(function(data2) {
 				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/field.html', {context: this}).done(function(data3) {
-					amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/fkey.html', {context: this}).done(function(data4) {
+					amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/fekey.html', {context: this}).done(function(data4) {
 						amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/index.html', {context: this}).done(function(data5) {
 
 							amiWebApp.replaceHTML('ami_main_content', data1, {context: this}).done(function() {
@@ -47,7 +71,7 @@ function AMICatalogModelerApp() {
 
 								this.fragmentTable = data2;
 								this.fragmentField = data3;
-								this.fragmentFKey = data4;
+								this.fragmentFeKey = data4;
 								this.fragmentIndex = data5;
 
 								/*---------*/
@@ -65,7 +89,7 @@ function AMICatalogModelerApp() {
 									model: this.graph,
 									el: $('#editor_zone'),
 									width: 900,
-									height: 418,
+									height: 343,
 									gridSize: 5.0,
 								});
 
@@ -91,10 +115,6 @@ function AMICatalogModelerApp() {
 								});
 
 								/*---------*/
-
-								this.listSchemes();
-
-								/*---------*/
 							});
 						});
 					});
@@ -116,6 +136,7 @@ function AMICatalogModelerApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onSessionExpired = function() {
+		this.clearSchemes();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -163,23 +184,115 @@ function AMICatalogModelerApp() {
 
 	this.listSchemes = function() {
 
-		$('#ami-catalog-modeler-catalog-list').empty();
+		routerDBs = [];
 
-		amiCommand.execute('SearchQuery -project="self" -processingStep="self" -glite="SELECT router_db.db, router_db.jsonSchema WHERE (1=1)"').done(function(data) {
+		this.clearSchemes();
+
+		amiCommand.execute('SearchQuery -project="self" -processingStep="self" -sql="SELECT router_db.db, router_project.name AS project, router_process.name AS process, router_db.jsonSchema FROM router_db, router_project, router_process WHERE router_db.process = router_project.identifier AND router_db.project = router_process.identifier"').done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
 
 			$.each(rows, function(index, row) {
+				var db = amiWebApp.jspath('..field{.@name==="db"}.$', row)[0];
+				var project = amiWebApp.jspath('..field{.@name==="project"}.$', row)[0];
+				var process = amiWebApp.jspath('..field{.@name==="process"}.$', row)[0];
+				var jsonSchema = amiWebApp.jspath('..field{.@name==="jsonSchema"}.$', row)[0];
 
-				var name = amiWebApp.jspath('..field{.@name==="db"}.$', row)[0];
-				var json = amiWebApp.jspath('..field{.@name==="jsonSchema"}.$', row)[0];
+				if(!jsonSchema) {
+					jsonSchema = '{"cells":[]}';
+				}
 
-				$('#ami-catalog-modeler-catalog-list').append('<option value="' + index + '">' + name + '</option>');
+				$('#ami-catalog-modeler-catalog-list').append('<option value="' + index + '">' + db + '</option>');
+
+				routerDBs.push({
+					db: db,
+					project: project,
+					process: process,
+					jsonSchema: jsonSchema,
+				});
 			});
 
 		}).fail(function(data) {
 			alert(JSPath.apply('..error.$', data)[0]);
 		});
+
+		this.routerDBs = routerDBs;
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.clearSchemes = function() {
+		$('#ami-catalog-modeler-catalog-list').empty();
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.openSchema = function() {
+		/*---------------------------------------------------------*/
+
+		var db = this.routerDBs[$('#ami-catalog-modeler-catalog-list').val()];
+
+		var name = db['name'];
+		var project = db['project'];
+		var process = db['process'];
+		var jsonSchema = db['jsonSchema'];
+
+		/*---------------------------------------------------------*/
+
+		this.graph.fromJSON(JSON.parse(jsonSchema));
+
+		/*---------------------------------------------------------*/
+
+		var tables = __hhh(this.graph);
+
+		/*---------------------------------------------------------*/
+
+ 		amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -glite="SELECT db_field.tab, db_field.field, db_field.type WHERE (1=1)"', {context: this}).done(function(data) {
+
+			var cnt = 0;
+
+			var graph = this.graph;
+
+			var rows = amiWebApp.jspath('..row', data);
+
+			$.each(rows, function(index, row) {
+				var tab = amiWebApp.jspath('..field{.@name==="tab"}.$', row)[0];
+				var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0];
+				var type = amiWebApp.jspath('..field{.@name==="type"}.$', row)[0];
+
+				if(tab.indexOf('db_') != 0) {
+
+ 					if(!(tab in tables)) {
+	
+						table = graph.newTable({
+							position: {x: 20 + 10 * cnt, y: 20 + 10 * cnt},
+							name: tab,
+							encoding: 'utf8_general_ci',
+							fields: [],
+						});
+
+						cnt++;
+
+						tables[tab] = {
+							table: table,
+							fields: {   },
+						};
+					}
+
+					if(!(field in tables[tab]['fields'])) {
+
+						tables[tab]['table'].appendField({
+							name: field,
+							type: type,
+						});
+					}
+				}
+			});
+
+			$('#collapse3').addClass('in');
+		});
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -196,6 +309,7 @@ function AMICatalogModelerApp() {
 
 			reader.onload = function(e) {
 				amiCatalogModelerApp.graph.fromJSON(JSON.parse(e.target.result));
+				$('#collapse3').addClass('in');
 			}
 
 			reader.readAsText(f);
@@ -224,78 +338,6 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._cnt1 = 0;
-	this._cnt2 = 0;
-
-	/*-----------------------------------------------------------------*/
-
-	this.addTable = function() {
-
-		var table = new joint.shapes.sql.Table({
-			position: {x: 20 + 10 * this._cnt1, y: 20 + 10 * this._cnt1},
-			name: 'table' + this._cnt1++,
-			encoding: 'utf8_general_ci',
-			fields: [
-				{name: 'id', type: 'INT'}
-			]
-		});
-
-		this.graph.addCell(table);
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.addField = function() {
-
-		if(this.table) {
-			var fields = this.table.getFields();
-
-			fields.push({name: 'field' + this._cnt2++, type: 'INT'});
-
-			this.table.setFields(fields);
-			this.updateMenu();
-
-		} else {
-			alert('Please, select a table.');
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.addForeignKey = function() {
-
-		if(this.table) {
-			var fields = this.table.getFKeys();
-
-			fields.push({field: '', table: ''});
-
-			this.table.setFKeys(fields);
-			this.updateMenu();
-
-		} else {
-			alert('Please, select a table.');
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.addIndex = function() {
-
-		if(this.table) {
-			var indices = this.table.getIndices();
-
-			indices.push({field: ''});
-
-			this.table.setIndices(indices);
-			this.updateMenu();
-
-		} else {
-			alert('Please, select a table.');
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
 	this.printDiagram = function() {
 
 		var width = $('#editor_zone svg').width();
@@ -312,7 +354,7 @@ function AMICatalogModelerApp() {
 
 	this.synchronize = function() {
 
-		alert('* TODO *');
+		alert(this.graph.getElements());
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -388,7 +430,7 @@ function AMICatalogModelerApp() {
 
 			/*-------------------------------------------------*/
 
-			$.each(this.table.getFKeys(), function(index, item) {
+			$.each(this.table.getFeKeys(), function(index, item) {
 
 				var field = item['field'];
 				var table = item['table'];
@@ -414,16 +456,33 @@ function AMICatalogModelerApp() {
 
 			/*-------------------------------------------------*/
 
-			var divs = $('#ami-catalog-modeler-tab-properties table tbody');
+			$('#collapse4').addClass('in');
+			$('#collapse5').addClass('in');
+			$('#collapse6').addClass('in');
+			$('#collapse7').addClass('in');
 
-			if(!soft) {
-				divs[0].innerHTML = amiWebApp.formatHTML(this.fragmentTable, {dict: dict1});
-				divs[1].innerHTML = amiWebApp.formatHTML(this.fragmentField, {dict: dict2});
-				divs[3].innerHTML = amiWebApp.formatHTML(this.fragmentIndex, {dict: dict4});
+			if(soft == false) {
+				$('#collapse5 tbody').html(amiWebApp.formatHTML(this.fragmentField, {dict: dict2}));
 			}
-			if(!0x00) {
-				divs[2].innerHTML = amiWebApp.formatHTML(this.fragmentFKey, {dict: dict3});
+			if(0x00 == false) {
+				$('#collapse4 tbody').html(amiWebApp.formatHTML(this.fragmentTable, {dict: dict1}));
+				$('#collapse6 tbody').html(amiWebApp.formatHTML(this.fragmentFeKey, {dict: dict3}));
+				$('#collapse7 tbody').html(amiWebApp.formatHTML(this.fragmentIndex, {dict: dict4}));
 			}
+
+			/*-------------------------------------------------*/
+		} else {
+			/*-------------------------------------------------*/
+
+			$('#collapse4').removeClass('in');
+			$('#collapse5').removeClass('in');
+			$('#collapse6').removeClass('in');
+			$('#collapse7').removeClass('in');
+
+			$('#collapse4 tbody').html('');
+			$('#collapse5 tbody').html('');
+			$('#collapse6 tbody').html('');
+			$('#collapse7 tbody').html('');
 
 			/*-------------------------------------------------*/
 		}
@@ -447,11 +506,11 @@ function AMICatalogModelerApp() {
 
 		$.each(this.graph.getElements(), function(index, curr_table) {
 
-			$.each(curr_table.getFKeys(), function(index, curr_fkey) {
+			$.each(curr_table.getFeKeys(), function(index, curr_fekey) {
 
 				var source = curr_table.getName();
 
-				var target = curr_fkey['table'];
+				var target = curr_fekey['table'];
 
 				if(target !== '') {
 					arrows.push({
@@ -485,6 +544,40 @@ function AMICatalogModelerApp() {
 	}
 
 	/*-----------------------------------------------------------------*/
+	/* TABLE                                                           */
+	/*-----------------------------------------------------------------*/
+
+	this._table_cnt = 0;
+
+	/*-----------------------------------------------------------------*/
+
+	this.addTable = function() {
+
+		this.graph.newTable({
+			position: {x: 20 + 10 * this._table_cnt, y: 20 + 10 * this._table_cnt},
+			name: 'table' + this._table_cnt++,
+			encoding: 'utf8_general_ci',
+			fields: [{
+				name: 'id',
+				type: 'INT',
+			}],
+		});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeTable = function() {
+
+		if(this.table) {
+			this.table.remove();
+
+			this.table = undefined;
+
+			this.updateMenu();
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
 
 	this.setTableName = function(name) {
 
@@ -503,11 +596,33 @@ function AMICatalogModelerApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
+	/* FIELD                                                           */
+	/*-----------------------------------------------------------------*/
 
-	this.removeTable = function(name) {
+	this.addField = function() {
 
 		if(this.table) {
-			alert('TODO');
+			var fields = this.table.appendField({
+				name: '???',
+				type: '???',
+			});
+
+			this.updateMenu();
+
+		} else {
+			alert('Please, select a table.');
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeField = function(index) {
+
+		if(this.table) {
+			this.table.removeField(index);
+
+			this.updateMenu();
+			this.updateArrows();
 		}
 	};
 
@@ -516,11 +631,10 @@ function AMICatalogModelerApp() {
 	this.setFieldName = function(value, index) {
 
 		if(this.table) {
-			var items = this.table.getFields();
+			var item = this.table.getField(index);
+			item['name'] = value;
+			this.table.setField(index, item)
 
-			items[index]['name'] = value;
-			
-			this.table.setFields(items);
 			this.updateMenu({soft: true});
 		}
 	};
@@ -530,70 +644,97 @@ function AMICatalogModelerApp() {
 	this.setFieldType = function(value, index) {
 
 		if(this.table) {
-			var items = this.table.getFields();
+			var item = this.table.getField(index);
+			item['type'] = value;
+			this.table.setField(index, item)
 
-			items[index]['type'] = value;
-			
-			this.table.setFields(items);
 			this.updateMenu({soft: true});
 		}
 	};
 
 	/*-----------------------------------------------------------------*/
+	/* FEKEY                                                           */
+	/*-----------------------------------------------------------------*/
 
-	this.removeField = function(index) {
+	this.addFeKey = function() {
 
 		if(this.table) {
-			var items = this.table.getFields();
+			var fields = this.table.appendFeKey({
+				field: '',
+				table: '',
+			});
 
-			items.splice(index, 1);
-			
-			this.table.setFields(items);
-			this.updateMenu({soft: false});
+			this.updateMenu();
+
+		} else {
+			alert('Please, select a table.');
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeFeKey = function(index) {
+
+		if(this.table) {
+			this.table.removeFeKey(index);
+
+			this.updateMenu();
 			this.updateArrows();
 		}
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.setFKeyField = function(value, index) {
+	this.setFeKeyField = function(value, index) {
 
 		if(this.table) {
-			var items = this.table.getFKeys();
+			var item = this.table.getFeKey(index);
+			item['field'] = value;
+			this.table.setFeKey(index, item)
 
-			items[index]['field'] = value;
-
-			this.table.setFKeys(items);
 			this.updateArrows();
 		}
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.setFKeyTable = function(value, index) {
+	this.setFeKeyTable = function(value, index) {
 
 		if(this.table) {
-			var items = this.table.getFKeys();
+			var item = this.table.getFeKey(index);
+			item['table'] = value;
+			this.table.setFeKey(index, item)
 
-			items[index]['table'] = value;
-
-			this.table.setFKeys(items);
 			this.updateArrows();
 		}
 	};
 
 	/*-----------------------------------------------------------------*/
+	/* INDEX                                                           */
+	/*-----------------------------------------------------------------*/
 
-	this.removeFKey = function(index) {
+	this.addIndex = function() {
 
 		if(this.table) {
-			var items = this.table.getFKeys();
+			this.table.appendIndex({
+				field: ''
+			});
 
-			items.splice(index, 1);
-			
-			this.table.setFKeys(items);
-			this.updateMenu({soft: false});
-			this.updateArrows();
+			this.updateMenu();
+
+		} else {
+			alert('Please, select a table.');
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeIndex = function(index) {
+
+		if(this.table) {
+			this.table.removeIndex(index);
+
+			this.updateMenu();
 		}
 	};
 
@@ -602,27 +743,9 @@ function AMICatalogModelerApp() {
 	this.setIndexField = function(value, index) {
 
 		if(this.table) {
-			var items = this.table.getIndices();
-
-			items[index]['field'] = value;
-
-			this.table.setIndices(items);
-			this.updateArrows();
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.removeFKey = function(index) {
-
-		if(this.table) {
-			var items = this.table.getIndices();
-
-			items.splice(index, 1);
-			
-			this.table.setIndices(items);
-			this.updateMenu({soft: true});
-			this.updateArrows();
+			var item = this.table.getIndex(index);
+			item['field'] = value;
+			this.table.setIndex(index, item);
 		}
 	};
 

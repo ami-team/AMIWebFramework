@@ -16,7 +16,7 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapseOne" data-toggle="collapse">
+                <a href="#collapse1" data-toggle="collapse">
                   Online schemes
                 </a>
                 <a href="javascript:amiCatalogModelerApp.listSchemes();" class="pull-right text-primary">
@@ -24,7 +24,7 @@
                 </a>
               </h4>
             </div>
-            <div id="collapseOne" class="panel-collapse collapse in">
+            <div id="collapse1" class="panel-collapse collapse in">
               <div class="panel-body">
                 <div>
                   <select class="form-control form-control-xs" id="ami-catalog-modeler-catalog-list"></select>
@@ -44,12 +44,12 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapseTwo" data-toggle="collapse">
+                <a href="#collapse2" data-toggle="collapse">
                   Import / Export schemes
                 </a>
               </h4>
             </div>
-            <div id="collapseTwo" class="panel-collapse collapse in">
+            <div id="collapse2" class="panel-collapse collapse in">
               <div class="panel-body">
                 <div id="drop_zone">Drop file here to open it</div>
                 <div>&nbsp;</div>
@@ -71,20 +71,20 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapseThree" data-toggle="collapse">
-                  Table
+                <a href="#collapse3" data-toggle="collapse">
+                  DB
                 </a>
               </h4>
             </div>
-            <div id="collapseThree" class="panel-collapse collapse in">
+            <div id="collapse3" class="panel-collapse collapse">
               <div class="panel-body">
 		<table class="table table-condensed" style="margin: 0px;">
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Encoding</th>
-                      <th></th>
-                    <tr>
+                      <th>Width</th>
+                      <th>Height</th>
+                    </tr>
                   </thead>
                   <tbody>
                   </tbody>
@@ -96,12 +96,38 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapseFour" data-toggle="collapse">
+                <a href="#collapse4" data-toggle="collapse">
+                  Table
+                </a>
+              </h4>
+            </div>
+            <div id="collapse4" class="panel-collapse collapse">
+              <div class="panel-body">
+		<table class="table table-condensed" style="margin: 0px;">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Encoding</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#collapse5" data-toggle="collapse">
                   Fields
                 </a>
               </h4>
             </div>
-            <div id="collapseFour" class="panel-collapse collapse in">
+            <div id="collapse5" class="panel-collapse collapse">
               <div class="panel-body">
 		<table class="table table-condensed" style="margin: 0px;">
                   <thead>
@@ -122,12 +148,12 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapseFive" data-toggle="collapse">
+                <a href="#collapse6" data-toggle="collapse">
                   Foreign Keys
                 </a>
               </h4>
             </div>
-            <div id="collapseFive" class="panel-collapse collapse in">
+            <div id="collapse6" class="panel-collapse collapse">
               <div class="panel-body">
 		<table class="table table-condensed" style="margin: 0px;">
                   <thead>
@@ -148,12 +174,12 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapseSix" data-toggle="collapse">
+                <a href="#collapse7" data-toggle="collapse">
                   Indices
                 </a>
               </h4>
             </div>
-            <div id="collapseSix" class="panel-collapse collapse in">
+            <div id="collapse7" class="panel-collapse collapse">
               <div class="panel-body">
 		<table class="table table-condensed" style="margin: 0px;">
                   <thead>
@@ -204,7 +230,7 @@
               </button>
             </li>
 	    <li>
-              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addForeignKey();">
+              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addFeKey();">
                 new foreign key
               </button>
             </li>

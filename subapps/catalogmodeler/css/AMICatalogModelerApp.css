@@ -19,6 +19,7 @@
     border-radius: 5px;
     color: #bbb;
     text-align: center;
+    cursor: pointer;
 }
 
 #drop_zone:hover {
@@ -38,11 +39,6 @@
     padding: 5px 10px;
 }
 
-#ami-catalog-modeler-tab-properties .panel-body {
-    background-color: LightGrey;
-}
-
 #ami-catalog-modeler-tab-properties input, #ami-catalog-modeler-tab-properties select {
-    background-color: #ddd;
     width: 100%;
 }
