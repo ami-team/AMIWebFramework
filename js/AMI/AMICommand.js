@@ -156,28 +156,28 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		var INJECTION = encodeURIComponent('"jsonpid": "' + jsonpid + '"');
-
-		/*---------------------------------------------------------*/
-
-		var ENDPOINT = endpoint.trim();
-		var COMMAND = encodeURIComponent(command.trim());
+		var URL = endpoint.trim();
+		var COMMAND = command.trim();
 		var CONVERTER = converter.trim();
 
 		/*---------------------------------------------------------*/
 
-		var url = ENDPOINT + '?Callback=_internal_command_callback&Injection=' + INJECTION + '&Command=' + COMMAND + '&Converter=' + CONVERTER;
+		data = {
+			Callback: '_internal_command_callback',
+			Injection: '"jsonpid": "' + jsonpid + '"',
+			Command: COMMAND,
+			Converter: CONVERTER,
+		}
 
 		if(this.noCert) {
-			url += '&NoCert';
+			data['NoCert'] = '';
 		}
 
 		/*---------------------------------------------------------*/
 
 		$.ajax({
-			url: url,
-			type: 'POST',
-			cache: false,
+			url: URL,
+			data: data,
 			jsonp: false,
 			dataType: 'jsonp',
 			crossDomain: true,
