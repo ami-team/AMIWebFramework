@@ -17,7 +17,7 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#collapse1" data-toggle="collapse">
-                  Online schemes
+                  Existing schemes
                 </a>
                 <a href="javascript:amiCatalogModelerApp.listSchemes();" class="pull-right text-primary">
                   <i class="fa fa-refresh"></i>
@@ -76,7 +76,7 @@
                 </a>
               </h4>
             </div>
-            <div id="collapse3" class="panel-collapse collapse">
+            <div id="collapse3" class="panel-collapse collapse in">
               <div class="panel-body">
 		<table class="table table-condensed" style="margin: 0px;">
                   <thead>
@@ -87,6 +87,11 @@
                     </tr>
                   </thead>
                   <tbody>
+                    <tr>
+                      <td><input type="text" value="" class="form-control form-control-xs" id="dbName" onkeyup="amiCatalogModelerApp.setDBName(this.value);" /></td>
+                      <td><input type="number" step="10" class="form-control form-control-xs" id="dbWidth" onkeyup="amiCatalogModelerApp.setDBWidth(this.value);" onchange="amiCatalogModelerApp.setDBWidth(this.value);" /></td>
+                      <td><input type="number" step="10" class="form-control form-control-xs" id="dbHeight" onkeyup="amiCatalogModelerApp.setDBHeight(this.value);" onchange="amiCatalogModelerApp.setDBHeight(this.value);" /></td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -247,10 +252,14 @@
                <i class="fa fa-print"></i> print diagram
               </button>
             </li>
-	    <li>
-              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.synchronize();">
-                <i class="fa fa-database"></i> synchronize
-              </button>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-database"></i> Database <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="javascript:amiCatalogModelerApp.save();">Save</a></li>
+                <li><a href="javascript:amiCatalogModelerApp.saveAndSynchronize();">Save and Synchronize</a></li>
+              </ul>
             </li>
           </ul>
 

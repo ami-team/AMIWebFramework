@@ -8,6 +8,10 @@
 
 /*-------------------------------------------------------------------------*/
 
+var LZString={_keyStr:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",_f:String.fromCharCode,compressToBase64:function(e){if(e==null)return"";var t="";var n,r,i,s,o,u,a;var f=0;e=LZString.compress(e);while(f<e.length*2){if(f%2==0){n=e.charCodeAt(f/2)>>8;r=e.charCodeAt(f/2)&255;if(f/2+1<e.length)i=e.charCodeAt(f/2+1)>>8;else i=NaN}else{n=e.charCodeAt((f-1)/2)&255;if((f+1)/2<e.length){r=e.charCodeAt((f+1)/2)>>8;i=e.charCodeAt((f+1)/2)&255}else r=i=NaN}f+=3;s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+LZString._keyStr.charAt(s)+LZString._keyStr.charAt(o)+LZString._keyStr.charAt(u)+LZString._keyStr.charAt(a)}return t},decompressFromBase64:function(e){if(e==null)return"";var t="",n=0,r,i,s,o,u,a,f,l,c=0,h=LZString._f;e=e.replace(/[^A-Za-z0-9\+\/\=]/g,"");while(c<e.length){u=LZString._keyStr.indexOf(e.charAt(c++));a=LZString._keyStr.indexOf(e.charAt(c++));f=LZString._keyStr.indexOf(e.charAt(c++));l=LZString._keyStr.indexOf(e.charAt(c++));i=u<<2|a>>4;s=(a&15)<<4|f>>2;o=(f&3)<<6|l;if(n%2==0){r=i<<8;if(f!=64){t+=h(r|s)}if(l!=64){r=o<<8}}else{t=t+h(r|i);if(f!=64){r=s<<8}if(l!=64){t+=h(r|o)}}n+=3}return LZString.decompress(t)},compressToUTF16:function(e){if(e==null)return"";var t="",n,r,i,s=0,o=LZString._f;e=LZString.compress(e);for(n=0;n<e.length;n++){r=e.charCodeAt(n);switch(s++){case 0:t+=o((r>>1)+32);i=(r&1)<<14;break;case 1:t+=o(i+(r>>2)+32);i=(r&3)<<13;break;case 2:t+=o(i+(r>>3)+32);i=(r&7)<<12;break;case 3:t+=o(i+(r>>4)+32);i=(r&15)<<11;break;case 4:t+=o(i+(r>>5)+32);i=(r&31)<<10;break;case 5:t+=o(i+(r>>6)+32);i=(r&63)<<9;break;case 6:t+=o(i+(r>>7)+32);i=(r&127)<<8;break;case 7:t+=o(i+(r>>8)+32);i=(r&255)<<7;break;case 8:t+=o(i+(r>>9)+32);i=(r&511)<<6;break;case 9:t+=o(i+(r>>10)+32);i=(r&1023)<<5;break;case 10:t+=o(i+(r>>11)+32);i=(r&2047)<<4;break;case 11:t+=o(i+(r>>12)+32);i=(r&4095)<<3;break;case 12:t+=o(i+(r>>13)+32);i=(r&8191)<<2;break;case 13:t+=o(i+(r>>14)+32);i=(r&16383)<<1;break;case 14:t+=o(i+(r>>15)+32,(r&32767)+32);s=0;break}}return t+o(i+32)},decompressFromUTF16:function(e){if(e==null)return"";var t="",n,r,i=0,s=0,o=LZString._f;while(s<e.length){r=e.charCodeAt(s)-32;switch(i++){case 0:n=r<<1;break;case 1:t+=o(n|r>>14);n=(r&16383)<<2;break;case 2:t+=o(n|r>>13);n=(r&8191)<<3;break;case 3:t+=o(n|r>>12);n=(r&4095)<<4;break;case 4:t+=o(n|r>>11);n=(r&2047)<<5;break;case 5:t+=o(n|r>>10);n=(r&1023)<<6;break;case 6:t+=o(n|r>>9);n=(r&511)<<7;break;case 7:t+=o(n|r>>8);n=(r&255)<<8;break;case 8:t+=o(n|r>>7);n=(r&127)<<9;break;case 9:t+=o(n|r>>6);n=(r&63)<<10;break;case 10:t+=o(n|r>>5);n=(r&31)<<11;break;case 11:t+=o(n|r>>4);n=(r&15)<<12;break;case 12:t+=o(n|r>>3);n=(r&7)<<13;break;case 13:t+=o(n|r>>2);n=(r&3)<<14;break;case 14:t+=o(n|r>>1);n=(r&1)<<15;break;case 15:t+=o(n|r);i=0;break}s++}return LZString.decompress(t)},compress:function(e){if(e==null)return"";var t,n,r={},i={},s="",o="",u="",a=2,f=3,l=2,c="",h=0,p=0,d,v=LZString._f;for(d=0;d<e.length;d+=1){s=e.charAt(d);if(!Object.prototype.hasOwnProperty.call(r,s)){r[s]=f++;i[s]=true}o=u+s;if(Object.prototype.hasOwnProperty.call(r,o)){u=o}else{if(Object.prototype.hasOwnProperty.call(i,u)){if(u.charCodeAt(0)<256){for(t=0;t<l;t++){h=h<<1;if(p==15){p=0;c+=v(h);h=0}else{p++}}n=u.charCodeAt(0);for(t=0;t<8;t++){h=h<<1|n&1;if(p==15){p=0;c+=v(h);h=0}else{p++}n=n>>1}}else{n=1;for(t=0;t<l;t++){h=h<<1|n;if(p==15){p=0;c+=v(h);h=0}else{p++}n=0}n=u.charCodeAt(0);for(t=0;t<16;t++){h=h<<1|n&1;if(p==15){p=0;c+=v(h);h=0}else{p++}n=n>>1}}a--;if(a==0){a=Math.pow(2,l);l++}delete i[u]}else{n=r[u];for(t=0;t<l;t++){h=h<<1|n&1;if(p==15){p=0;c+=v(h);h=0}else{p++}n=n>>1}}a--;if(a==0){a=Math.pow(2,l);l++}r[o]=f++;u=String(s)}}if(u!==""){if(Object.prototype.hasOwnProperty.call(i,u)){if(u.charCodeAt(0)<256){for(t=0;t<l;t++){h=h<<1;if(p==15){p=0;c+=v(h);h=0}else{p++}}n=u.charCodeAt(0);for(t=0;t<8;t++){h=h<<1|n&1;if(p==15){p=0;c+=v(h);h=0}else{p++}n=n>>1}}else{n=1;for(t=0;t<l;t++){h=h<<1|n;if(p==15){p=0;c+=v(h);h=0}else{p++}n=0}n=u.charCodeAt(0);for(t=0;t<16;t++){h=h<<1|n&1;if(p==15){p=0;c+=v(h);h=0}else{p++}n=n>>1}}a--;if(a==0){a=Math.pow(2,l);l++}delete i[u]}else{n=r[u];for(t=0;t<l;t++){h=h<<1|n&1;if(p==15){p=0;c+=v(h);h=0}else{p++}n=n>>1}}a--;if(a==0){a=Math.pow(2,l);l++}}n=2;for(t=0;t<l;t++){h=h<<1|n&1;if(p==15){p=0;c+=v(h);h=0}else{p++}n=n>>1}while(true){h=h<<1;if(p==15){c+=v(h);break}else p++}return c},decompress:function(e){if(e==null)return"";if(e=="")return null;var t=[],n,r=4,i=4,s=3,o="",u="",a,f,l,c,h,p,d,v=LZString._f,m={string:e,val:e.charCodeAt(0),position:32768,index:1};for(a=0;a<3;a+=1){t[a]=a}l=0;h=Math.pow(2,2);p=1;while(p!=h){c=m.val&m.position;m.position>>=1;if(m.position==0){m.position=32768;m.val=m.string.charCodeAt(m.index++)}l|=(c>0?1:0)*p;p<<=1}switch(n=l){case 0:l=0;h=Math.pow(2,8);p=1;while(p!=h){c=m.val&m.position;m.position>>=1;if(m.position==0){m.position=32768;m.val=m.string.charCodeAt(m.index++)}l|=(c>0?1:0)*p;p<<=1}d=v(l);break;case 1:l=0;h=Math.pow(2,16);p=1;while(p!=h){c=m.val&m.position;m.position>>=1;if(m.position==0){m.position=32768;m.val=m.string.charCodeAt(m.index++)}l|=(c>0?1:0)*p;p<<=1}d=v(l);break;case 2:return""}t[3]=d;f=u=d;while(true){if(m.index>m.string.length){return""}l=0;h=Math.pow(2,s);p=1;while(p!=h){c=m.val&m.position;m.position>>=1;if(m.position==0){m.position=32768;m.val=m.string.charCodeAt(m.index++)}l|=(c>0?1:0)*p;p<<=1}switch(d=l){case 0:l=0;h=Math.pow(2,8);p=1;while(p!=h){c=m.val&m.position;m.position>>=1;if(m.position==0){m.position=32768;m.val=m.string.charCodeAt(m.index++)}l|=(c>0?1:0)*p;p<<=1}t[i++]=v(l);d=i-1;r--;break;case 1:l=0;h=Math.pow(2,16);p=1;while(p!=h){c=m.val&m.position;m.position>>=1;if(m.position==0){m.position=32768;m.val=m.string.charCodeAt(m.index++)}l|=(c>0?1:0)*p;p<<=1}t[i++]=v(l);d=i-1;r--;break;case 2:return u}if(r==0){r=Math.pow(2,s);s++}if(t[d]){o=t[d]}else{if(d===i){o=f+f.charAt(0)}else{return null}}u+=o;t[i++]=f+o.charAt(0);r--;f=o;if(r==0){r=Math.pow(2,s);s++}}}};if(typeof module!=="undefined"&&module!=null){module.exports=LZString}
+
+/*-------------------------------------------------------------------------*/
+
 function __hhh(graph) {
 
 	var tables = {};
@@ -16,7 +20,7 @@ function __hhh(graph) {
 
 		var fields = {};
 	
-		$.each(item.getFields(), function(index2, item2) {
+		$.each(item1.getFields(), function(index2, item2) {
 
 			fields[item2['name']] = item2;
 		});
@@ -25,6 +29,9 @@ function __hhh(graph) {
 			table: item1,
 			fields: fields,
 		};
+
+		item1.setFeKeys([]);
+		item1.setIndices([]);
 	});
 
 	return tables;
@@ -60,65 +67,74 @@ function AMICatalogModelerApp() {
 		$('#ami_jumbotron_content').html('');
 		$('#ami_breadcrumb_content').html('<li><a href="">Admin</a></li><li><a href="">Catalog Modeler</a></li>');
 
-		amiWebApp.loadHTML('subapps/catalogmodeler/html/AMICatalogModelerApp.html', {context: this}).done(function(data1) {
-			amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/table.html', {context: this}).done(function(data2) {
-				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/field.html', {context: this}).done(function(data3) {
-					amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/fekey.html', {context: this}).done(function(data4) {
-						amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/index.html', {context: this}).done(function(data5) {
+		amiWebApp.loadHTML('subapps/catalogmodeler/html/AMICatalogModelerApp.html', {context: this}).done(function(data) {
 
-							amiWebApp.replaceHTML('ami_main_content', data1, {context: this}).done(function() {
-								/*---------*/
+			amiWebApp.replaceHTML('ami_main_content', data, {context: this}).done(function() {
 
-								this.fragmentTable = data2;
-								this.fragmentField = data3;
-								this.fragmentFeKey = data4;
-								this.fragmentIndex = data5;
-
-								/*---------*/
-
-								var dropZone = document.getElementById('drop_zone');
-
-								dropZone.addEventListener('dragover', this.handleDragOver, false);
-								dropZone.addEventListener('drop', this.handleFileSelect, false);
-  
-								/*---------*/
-
-								this.graph = new joint.dia.Graph;
-
-								this.paper = new joint.dia.Paper({
-									model: this.graph,
-									el: $('#editor_zone'),
-									width: 900,
-									height: 343,
-									gridSize: 5.0,
-								});
-
-								this.svg = V(this.paper.svg);
-
-								/*---------*/
-
-								this.svgVertical = V('path').attr('d', 'M -10000 -1 L 10000 -1');
-								this.svgHorizontal = V('path').attr('d', 'M -1 -10000 L -1 10000');
-
-								this.drawGrid(10, 10);
-
-								/*---------*/
-
-								this.table = undefined;
-
-								this.paper.on('cell:pointerclick', function(cellView) {
-
-									if(cellView.model.get('type') === 'sql.Table') {
-										amiCatalogModelerApp.table = cellView.model;
-										amiCatalogModelerApp.updateMenu();
-									}
-								});
-
-								/*---------*/
-							});
-						});
-					});
+				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/table.html', {context: this}).done(function(data) {
+					this.fragmentTable = data;
 				});
+				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/field.html', {context: this}).done(function(data) {
+					this.fragmentField = data;
+				});
+				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/fekey.html', {context: this}).done(function(data) {
+					this.fragmentFeKey = data;
+				});
+				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/index.html', {context: this}).done(function(data) {
+					this.fragmentIndex = data;
+				});
+
+				/*-----------------------------------------*/
+
+				var dropZone = document.getElementById('drop_zone');
+
+				dropZone.addEventListener('dragover', this.handleDragOver, false);
+				dropZone.addEventListener('drop', this.handleDrop, false);
+  
+  				/*-----------------------------------------*/
+
+				this.dbName = '?';
+				this.dbWidth = 900;
+				this.dbHeight = 340;
+
+				$('#dbName').val(this.dbName);
+				$('#dbWidth').val(this.dbWidth);
+				$('#dbHeight').val(this.dbHeight);
+
+				/*-----------------------------------------*/
+
+				this.table = undefined;
+
+				/*-----------------------------------------*/
+
+				this.graph = new joint.dia.Graph;
+
+				this.paper = new joint.dia.Paper({
+					model: this.graph,
+					el: $('#editor_zone'),
+					width: this.dbWidth,
+					height: this.dbHeight,
+					gridSize: 5.0,
+				});
+
+				/*-----------------------------------------*/
+
+				this.svgVertical = V('path').attr('d', 'M -10000 -1 L 10000 -1');
+				this.svgHorizontal = V('path').attr('d', 'M -1 -10000 L -1 10000');
+
+				this.drawGrid(10, 10);
+
+				/*-----------------------------------------*/
+
+				this.paper.on('cell:pointerclick', function(cellView) {
+
+					if(cellView.model.get('type') === 'sql.Table') {
+						amiCatalogModelerApp.table = cellView.model;
+						amiCatalogModelerApp.updateMenu();
+					}
+				});
+
+				/*-----------------------------------------*/
       			});
 		});
 	};
@@ -146,8 +162,7 @@ function AMICatalogModelerApp() {
 	this.drawGrid = function(gridW, gridH) {
 		/*---------------------------------------------------------*/
 
-		var width = $('#editor_zone svg').width();
-		var height = $('#editor_zone svg').height();
+		var svg = V(this.paper.svg);
 
 		/*---------------------------------------------------------*/
 
@@ -158,9 +173,9 @@ function AMICatalogModelerApp() {
 				x += gridW;
 
 				var svgGridX = this.svgHorizontal.clone().translate(x, 0, {absolute: true}).addClass('sql_editor_grid');
-				this.svg.prepend(svgGridX);
+				svg.prepend(svgGridX);
 
-			} while(x < width);
+			} while(x < 10000);
 		}
 
 		/*---------------------------------------------------------*/
@@ -172,12 +187,44 @@ function AMICatalogModelerApp() {
 				y += gridH;
 
 				var svgGridY = this.svgVertical.clone().translate(0, y, {absolute: true}).addClass('sql_editor_grid');
-				this.svg.prepend(svgGridY);
+				svg.prepend(svgGridY);
 			
-			} while(y < height);
+			} while(y < 10000);
 		}
 
 		/*---------------------------------------------------------*/
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.loadSchema = function(db, json) {
+
+		try {
+			this.graph.fromJSON(JSON.parse(json));
+
+			this.dbName = db;
+
+		} catch(e) {
+			alert(e);
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.autoResize = function() {
+
+		this.paper.fitToContent({
+			padding: 20,
+			gridWidth: 10,
+			gridHeight: 10,
+		});
+
+		this.dbWidth = $('#editor_zone svg').width() + 2;
+		this.dbHeight = $('#editor_zone svg').height() + 2;
+
+		$('#dbName').val(this.dbName);
+		$('#dbWidth').val(this.dbWidth);
+		$('#dbHeight').val(this.dbHeight);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -188,7 +235,7 @@ function AMICatalogModelerApp() {
 
 		this.clearSchemes();
 
-		amiCommand.execute('SearchQuery -project="self" -processingStep="self" -sql="SELECT router_db.db, router_project.name AS project, router_process.name AS process, router_db.jsonSchema FROM router_db, router_project, router_process WHERE router_db.process = router_project.identifier AND router_db.project = router_process.identifier"').done(function(data) {
+		amiCommand.execute('SearchQuery -project="self" -processingStep="self" -sql="SELECT router_db.db, router_project.name AS project, router_process.name AS process, router_db.jsonSchema FROM router_db, router_project, router_process WHERE router_db.process = router_process.identifier AND router_db.project = router_project.identifier"').done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
 
@@ -198,17 +245,14 @@ function AMICatalogModelerApp() {
 				var process = amiWebApp.jspath('..field{.@name==="process"}.$', row)[0];
 				var jsonSchema = amiWebApp.jspath('..field{.@name==="jsonSchema"}.$', row)[0];
 
-				if(!jsonSchema) {
-					jsonSchema = '{"cells":[]}';
-				}
-
 				$('#ami-catalog-modeler-catalog-list').append('<option value="' + index + '">' + db + '</option>');
 
 				routerDBs.push({
 					db: db,
 					project: project,
 					process: process,
-					jsonSchema: jsonSchema,
+					encoding: 'utf8_general_ci',
+					jsonSchema: jsonSchema ? LZString.decompressFromBase64(jsonSchema) : '{"cells":[]}',
 				});
 			});
 
@@ -230,16 +274,17 @@ function AMICatalogModelerApp() {
 	this.openSchema = function() {
 		/*---------------------------------------------------------*/
 
-		var db = this.routerDBs[$('#ami-catalog-modeler-catalog-list').val()];
+		var item = this.routerDBs[$('#ami-catalog-modeler-catalog-list').val()];
 
-		var name = db['name'];
-		var project = db['project'];
-		var process = db['process'];
-		var jsonSchema = db['jsonSchema'];
+		var db = item['db'];
+		var project = item['project'];
+		var process = item['process'];
+		var encoding = item['encoding'];
+		var jsonSchema = item['jsonSchema'];
 
 		/*---------------------------------------------------------*/
 
-		this.graph.fromJSON(JSON.parse(jsonSchema));
+		this.loadSchema(db, jsonSchema);
 
 		/*---------------------------------------------------------*/
 
@@ -247,7 +292,7 @@ function AMICatalogModelerApp() {
 
 		/*---------------------------------------------------------*/
 
- 		amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -glite="SELECT db_field.tab, db_field.field, db_field.type WHERE (1=1)"', {context: this}).done(function(data) {
+ 		amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT tab, field, type FROM db_field WHERE (1=1)"', {context: this}).done(function(data) {
 
 			var cnt = 0;
 
@@ -256,32 +301,30 @@ function AMICatalogModelerApp() {
 			var rows = amiWebApp.jspath('..row', data);
 
 			$.each(rows, function(index, row) {
-				var tab = amiWebApp.jspath('..field{.@name==="tab"}.$', row)[0];
+				var table = amiWebApp.jspath('..field{.@name==="tab"}.$', row)[0];
 				var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0];
 				var type = amiWebApp.jspath('..field{.@name==="type"}.$', row)[0];
 
-				if(tab.indexOf('db_') != 0) {
+				if(table.lastIndexOf('db_', 0) !== 0) {
 
- 					if(!(tab in tables)) {
+					if(!(table in tables)) {
 	
-						table = graph.newTable({
-							position: {x: 20 + 10 * cnt, y: 20 + 10 * cnt},
-							name: tab,
-							encoding: 'utf8_general_ci',
-							fields: [],
-						});
+						tables[table] = {
+							table: graph.newTable({
+								position: {x: 20 + 10 * cnt, y: 20 + 10 * cnt},
+								name: table,
+								encoding: encoding,
+								fields: [],
+							}),
+							fields: {},
+						};
 
 						cnt++;
-
-						tables[tab] = {
-							table: table,
-							fields: {   },
-						};
 					}
 
-					if(!(field in tables[tab]['fields'])) {
+					if(!(field in tables[table]['fields'])) {
 
-						tables[tab]['table'].appendField({
+						tables[table]['table'].appendField({
 							name: field,
 							type: type,
 						});
@@ -289,7 +332,30 @@ function AMICatalogModelerApp() {
 				}
 			});
 
-			$('#collapse3').addClass('in');
+			/*-------------------------------------------------*/
+
+			amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT contain, containkey, container, containerkey FROM db_model WHERE type = 0"', {context: this}).done(function(data) {
+
+				var rows = amiWebApp.jspath('..row', data);
+
+				$.each(rows, function(index, row) {
+					var contain = amiWebApp.jspath('..field{.@name==="contain"}.$', row)[0];
+					var containkey = amiWebApp.jspath('..field{.@name==="containkey"}.$', row)[0];
+					var container = amiWebApp.jspath('..field{.@name==="container"}.$', row)[0];
+					var containerkey = amiWebApp.jspath('..field{.@name==="containerkey"}.$', row)[0];
+
+					tables[contain]['table'].appendFeKey({
+						field: containkey,
+						table: container,
+					});
+				});
+
+				this.autoResize();
+
+				this.updateArrows();
+			});
+
+			/*-------------------------------------------------*/
 		});
 
 		/*---------------------------------------------------------*/
@@ -297,7 +363,7 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.handleFileSelect = function(e) {
+	this.handleDrop = function(e) {
 		e.stopPropagation();
 		e.preventDefault();
 
@@ -308,8 +374,8 @@ function AMICatalogModelerApp() {
 			var reader = new FileReader();
 
 			reader.onload = function(e) {
-				amiCatalogModelerApp.graph.fromJSON(JSON.parse(e.target.result));
-				$('#collapse3').addClass('in');
+				amiCatalogModelerApp.loadSchema('?', e.target.result);
+				amiCatalogModelerApp.autoResize();
 			}
 
 			reader.readAsText(f);
@@ -347,14 +413,29 @@ function AMICatalogModelerApp() {
 
 		w.document.write('<html><head><style>body { margin: 0px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap { opacity: 0; } .connection { fill: none; }</style></head><body>' + $('#editor_zone').html() + '</body></html>');
 		w.print();
-        	w.close();
+		w.close();
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.synchronize = function() {
+	this.save = function() {
 
-		alert(this.graph.getElements());
+		var json = LZString.compressToBase64(JSON.stringify(this.graph.toJSON()));
+
+		amiCommand.execute('UpdateElement -project="self" -processingStep="self" -entity="router_db" -db="' + this.dbName + '" -separator="|" -updateField="jsonSchema" -updateValue="' + json + '"', {context: this}).done(function() {
+			this.listSchemes();
+			alert('Done with success :-)');
+		}).fail(function() {
+			this.listSchemes();
+			alert('Done with error :-(');
+		});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.saveAndSynchronize = function() {
+
+		this.save();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -544,6 +625,33 @@ function AMICatalogModelerApp() {
 	}
 
 	/*-----------------------------------------------------------------*/
+	/* DB                                                              */
+	/*-----------------------------------------------------------------*/
+
+	this.setDBName = function(value) {
+
+		this.dbName = value;
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setDBWidth = function(value) {
+
+		this.dbWidth = Math.ceil(parseInt(value, 10) / 10.0) * 10;
+
+		this.paper.setDimensions(this.dbWidth, this.dbHeight);
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setDBHeight = function(value) {
+
+		this.dbHeight = Math.ceil(parseInt(value, 10) / 10.0) * 10;
+
+		this.paper.setDimensions(this.dbWidth, this.dbHeight);
+	};
+
+	/*-----------------------------------------------------------------*/
 	/* TABLE                                                           */
 	/*-----------------------------------------------------------------*/
 
@@ -602,7 +710,7 @@ function AMICatalogModelerApp() {
 	this.addField = function() {
 
 		if(this.table) {
-			var fields = this.table.appendField({
+			this.table.appendField({
 				name: '???',
 				type: '???',
 			});
@@ -628,7 +736,7 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.setFieldName = function(value, index) {
+	this.setFieldName = function(index, value) {
 
 		if(this.table) {
 			var item = this.table.getField(index);
@@ -641,7 +749,7 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.setFieldType = function(value, index) {
+	this.setFieldType = function(index, value) {
 
 		if(this.table) {
 			var item = this.table.getField(index);
@@ -659,7 +767,7 @@ function AMICatalogModelerApp() {
 	this.addFeKey = function() {
 
 		if(this.table) {
-			var fields = this.table.appendFeKey({
+			this.table.appendFeKey({
 				field: '',
 				table: '',
 			});
@@ -685,7 +793,7 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.setFeKeyField = function(value, index) {
+	this.setFeKeyField = function(index, value) {
 
 		if(this.table) {
 			var item = this.table.getFeKey(index);
@@ -698,7 +806,7 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.setFeKeyTable = function(value, index) {
+	this.setFeKeyTable = function(index, value) {
 
 		if(this.table) {
 			var item = this.table.getFeKey(index);
@@ -740,7 +848,7 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.setIndexField = function(value, index) {
+	this.setIndexField = function(index, value) {
 
 		if(this.table) {
 			var item = this.table.getIndex(index);

@@ -1,6 +1,6 @@
 <tr>
-  <td><input type="text" value="%%NAME%%" class="form-control form-control-xs" onkeyup="amiCatalogModelerApp.setFieldName(this.value, %%INDEX%%);" /></td>
-  <td><input type="text" value="%%TYPE%%" class="form-control form-control-xs" onkeyup="amiCatalogModelerApp.setFieldType(this.value, %%INDEX%%);"/></td>
+  <td><input type="text" value="%%NAME%%" class="form-control form-control-xs" onkeyup="amiCatalogModelerApp.setFieldName(%%INDEX%%, this.value);" /></td>
+  <td><input type="text" value="%%TYPE%%" class="form-control form-control-xs" onkeyup="amiCatalogModelerApp.setFieldType(%%INDEX%%, this.value);"/></td>
   <td><button class="btn btn-default btn-xs" onclick=""><i class="fa fa-pencil-square-o"></i></button></td>
   <td><button class="btn btn-default btn-xs" onclick="amiCatalogModelerApp.removeField(%%INDEX%%);"><i class="fa fa-times"></i></button></td>
 </tr>
