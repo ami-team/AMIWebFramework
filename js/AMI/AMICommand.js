@@ -3,7 +3,11 @@
  * Copyright (c) 2014 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
- * In "$CATALINA_HOME/conf/web.xml":
+ * In "$CATALINA_HOME/lib", copy:
+ ** java-property-utils-x.x.x.jar
+ ** cors-filter-x.x.x.jar
+ *
+ * In "$CATALINA_HOME/conf/web.xml", write:
  **  <filter>
  **    <filter-name>CORS</filter-name>
  **    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
