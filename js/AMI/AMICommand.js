@@ -136,6 +136,7 @@ function AMICommand() {
 				}
 			}
 		}).fail(function(data) {
+
 			if(context) {
 				deferred.rejectWith(context, [data]);
 			} else {
