@@ -1,8 +1,22 @@
 /*!
- * AMICommand class *
+ * AMICommand class
  * Copyright (c) 2014 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
+ * In "$CATALINA_HOME/conf/web.xml":
+ **  <filter>
+ **    <filter-name>CORS</filter-name>
+ **    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
+ **    <init-param>
+ **      <param-name>cors.allowed.methods</param-name>
+ **      <param-value>GET,POST</param-value>
+ **    </init-param>
+ **  </filter>
+ **
+ **  <filter-mapping>
+ **    <filter-name>CORS</filter-name>
+ **    <url-pattern>/*</url-pattern>
+ **  </filter-mapping>
  */
 
 /*-------------------------------------------------------------------------*/
@@ -97,7 +111,7 @@ function AMICommand() {
 		$.ajax({
 			url: URL,
 			data: data,
-			type: "GET",
+			type: "POST",
 			dataType: 'json',
 			xhrFields: {
 				withCredentials: true,
