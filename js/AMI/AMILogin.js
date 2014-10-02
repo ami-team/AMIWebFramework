@@ -49,6 +49,22 @@ function AMILogin() {
 
 						/*-------------------------*/
 
+						document.getElementById('modal_login1_user').addEventListener('keypress', function(e) {
+
+							if(e.keyCode == 13) {
+								amiLogin.form_passLogin();
+							}
+						});
+
+						document.getElementById('modal_login1_pass').addEventListener('keypress', function(e) {
+
+							if(e.keyCode == 13) {
+								amiLogin.form_passLogin();
+							}
+						});
+
+						/*-------------------------*/
+
 						amiCommand.certLogin().done(function(data, user) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
 
