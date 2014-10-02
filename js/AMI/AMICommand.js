@@ -15,6 +15,10 @@
  **      <param-name>cors.allowed.methods</param-name>
  **      <param-value>GET,POST</param-value>
  **    </init-param>
+ **    <init-param>
+ **      <param-name>cors.support.credentials</param-name>
+ **      <param-value>true</param-value>
+ **    </init-param>
  **  </filter>
  **
  **  <filter-mapping>

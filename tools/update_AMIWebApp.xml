@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
-<project name="AMIWebApp" default="update_prod">
+<project name="???" default="update_prod">
 
 	<property name="AMIWebAppTmpDir" value="${java.io.tmpdir}/__AMIWebApp_repo" />
 
