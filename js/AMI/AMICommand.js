@@ -1,60 +1,9 @@
 /*!
- * AMICommand class
- *
+ * AMICommand class *
  * Copyright (c) 2014 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
  */
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL VARIABLES                                                      */
-/*-------------------------------------------------------------------------*/
-
-var _internal_command_cnt = 0;
-
-var _internal_command_ctx = {};
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _internal_command_callback(data) {
-	/*-----------------------------------------------------------------*/
-
-	var deferred = _internal_command_ctx[data.jsonpid].deferred;
-	var context = _internal_command_ctx[data.jsonpid].context;
-	var timer = _internal_command_ctx[data.jsonpid].timer;
-
-	/*-----------------------------------------------------------------*/
-
-	clearTimeout(timer);
-
-	/*-----------------------------------------------------------------*/
-
-	delete _internal_command_ctx[data.jsonpid];
-
-	/*-----------------------------------------------------------------*/
-
-	var error = amiWebApp.jspath('..error', data);
-
-	if(error.length == 0) {
-
-		if(context) {
-			deferred.resolveWith(context, [data]);
-		} else {
-			deferred.resolve(data);
-		}
-	} else {
-
-		if(context) {
-			deferred.rejectWith(context, [data]);
-		} else {
-			deferred.reject(data);
-		}
-	}
-
-	/*-----------------------------------------------------------------*/
-}
 
 /*-------------------------------------------------------------------------*/
 /* CLASS AMICommand                                                        */
@@ -69,10 +18,6 @@ function AMICommand() {
 	/*-----------------------------------------------------------------*/
 
 	this.noCert = false;
-
-	/*-----------------------------------------------------------------*/
-
-	this.timeout = 30000;
 
 	/*-----------------------------------------------------------------*/
 
@@ -128,34 +73,6 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		var deferred = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		var jsonpid = 'AMI_COMMAND_' + _internal_command_cnt++;
-
-		/*---------------------------------------------------------*/
-
-		_internal_command_ctx[jsonpid] = {
-			deferred: deferred,
-			context: context,
-			timer: setTimeout(function() {
-
-				delete _internal_command_ctx[jsonpid];
-
-				var message = {"AMIMessage": [{"error": [{"$": "Time out for command `" + command + "`."}]}]};
-
-				if(context) {
-					deferred.rejectWith(context, message);
-				} else {
-					deferred.reject(message);
-				}
-
-			}, this.timeout)
-		};
-
-		/*---------------------------------------------------------*/
-
 		var URL = endpoint.trim();
 		var COMMAND = command.trim();
 		var CONVERTER = converter.trim();
@@ -163,8 +80,6 @@ function AMICommand() {
 		/*---------------------------------------------------------*/
 
 		data = {
-			Callback: '_internal_command_callback',
-			Injection: '"jsonpid": "' + jsonpid + '"',
 			Command: COMMAND,
 			Converter: CONVERTER,
 		}
@@ -175,12 +90,43 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
+		var deferred = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
 		$.ajax({
 			url: URL,
 			data: data,
-			jsonp: false,
-			dataType: 'jsonp',
-			crossDomain: true,
+			type: "GET",
+			dataType: 'json',
+			xhrFields: {
+				withCredentials: true,
+ 			},
+		}).done(function(data) {
+
+			var error = amiWebApp.jspath('..error', data);
+
+			if(error.length == 0) {
+
+				if(context) {
+					deferred.resolveWith(context, [data]);
+				} else {
+					deferred.resolve(data);
+				}
+			} else {
+
+				if(context) {
+					deferred.rejectWith(context, [data]);
+				} else {
+					deferred.reject(data);
+				}
+			}
+		}).fail(function(data) {
+			if(context) {
+				deferred.rejectWith(context, [data]);
+			} else {
+				deferred.reject(data);
+			}
 		});
 
 		/*---------------------------------------------------------*/
