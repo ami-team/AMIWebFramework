@@ -63,6 +63,13 @@ function AMILogin() {
 							}
 						});
 
+						document.getElementById('modal_login3_user').addEventListener('keypress', function(e) {
+
+							if(e.keyCode == 13) {
+								amiLogin.form_resetPass();
+							}
+						});
+
 						/*-------------------------*/
 
 						amiCommand.certLogin().done(function(data, user) {

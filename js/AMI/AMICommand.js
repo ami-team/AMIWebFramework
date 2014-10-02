@@ -126,7 +126,7 @@ function AMICommand() {
  			},
 		}).done(function(data) {
 
-			var error = amiWebApp.jspath('..error', data);
+			var error = amiWebApp.jspath('.AMIMessage.error', data);
 
 			if(error.length == 0) {
 
@@ -143,7 +143,9 @@ function AMICommand() {
 					deferred.reject(data);
 				}
 			}
-		}).fail(function(data) {
+		}).fail(function(jqXHR, textStatus) {
+
+			var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
 			if(context) {
 				deferred.rejectWith(context, [data]);
