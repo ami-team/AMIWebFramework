@@ -171,8 +171,8 @@ function AMILogin() {
 
 	this.form_passLogin = function() {
 
-		var user = $('#loginForm input[name=user]').val();
-		var pass = $('#loginForm input[name=pass]').val();
+		var user = $('#form_login1 input[name=user]').val();
+		var pass = $('#form_login1 input[name=pass]').val();
 
 		if(user === '' || pass === '') {
 			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
@@ -222,8 +222,8 @@ function AMILogin() {
 
 	this.form_attachCert = function() {
 
-		var user = $('#loginForm input[name=user]').val();
-		var pass = $('#loginForm input[name=pass]').val();
+		var user = $('#form_login1 input[name=user]').val();
+		var pass = $('#form_login1 input[name=pass]').val();
 
 		if(user === '' || pass === '') {
 			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
@@ -245,8 +245,8 @@ function AMILogin() {
 
 	this.form_detachCert = function() {
 
-		var user = $('#loginForm input[name=user]').val();
-		var pass = $('#loginForm input[name=pass]').val();
+		var user = $('#form_login1 input[name=user]').val();
+		var pass = $('#form_login1 input[name=pass]').val();
 
 		if(user === '' || pass === '') {
 			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
@@ -268,12 +268,12 @@ function AMILogin() {
 
 	this.form_addUser = function() {
 
-		var firstName = $('#createLoginForm input[name=firstName]').val();
-		var lastName  = $('#createLoginForm input[name=lastName]' ).val();
-		var email     = $('#createLoginForm input[name=email]'    ).val();
-		var user      = $('#createLoginForm input[name=user]'     ).val();
-		var pass1     = $('#createLoginForm input[name=pass1]'    ).val();
-		var pass2     = $('#createLoginForm input[name=pass2]'    ).val();
+		var firstName = $('#form_login2 input[name=firstName]').val();
+		var lastName  = $('#form_login2 input[name=lastName]' ).val();
+		var email     = $('#form_login2 input[name=email]'    ).val();
+		var user      = $('#form_login2 input[name=user]'     ).val();
+		var pass1     = $('#form_login2 input[name=pass1]'    ).val();
+		var pass2     = $('#form_login2 input[name=pass2]'    ).val();
 
 		if(firstName === '' || lastName === '' || email === '' || user === '' || pass1 === '' || pass2 === '') {
 			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
@@ -301,9 +301,9 @@ function AMILogin() {
 
 	this.form_changeInfo = function() {
 
-		var firstName = $('#changeInfoForm input[name=firstName]').val();
-		var lastName  = $('#changeInfoForm input[name=lastName]' ).val();
-		var email     = $('#changeInfoForm input[name=email]'    ).val();
+		var firstName = $('#form_login_change_info input[name=firstName]').val();
+		var lastName  = $('#form_login_change_info input[name=lastName]' ).val();
+		var email     = $('#form_login_change_info input[name=email]'    ).val();
 
 		if(firstName === '' || lastName === '' || email === '') {
 			amiLogin._showErrorMessage2('Please, fill all fields with a red star.');
@@ -325,9 +325,9 @@ function AMILogin() {
 
 	this.form_changePass = function() {
 
-		var old_pass  = $('#changePassForm input[name=old_pass]' ).val();
-		var new_pass1 = $('#changePassForm input[name=new_pass1]').val();
-		var new_pass2 = $('#changePassForm input[name=new_pass2]').val();
+		var old_pass  = $('#form_login_change_pass input[name=old_pass]' ).val();
+		var new_pass1 = $('#form_login_change_pass input[name=new_pass1]').val();
+		var new_pass2 = $('#form_login_change_pass input[name=new_pass2]').val();
 
 		if(old_pass === '' || new_pass1 === '' || new_pass2 === '') {
 			amiLogin._showErrorMessage3('Please, fill all fields with a red star.');
@@ -355,7 +355,7 @@ function AMILogin() {
 
 	this.form_resetPass = function() {
 
-		var user = $('#remindPasswordForm input[name=user]').val();
+		var user = $('#form_login3 input[name=user]').val();
 
 		if(user === '') {
 			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
@@ -376,14 +376,14 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this._clean = function(message) {
-		$('#loginForm input[name=pass]').val('');
+		$('#form_login1 input[name=pass]').val('');
 
-		$('#createLoginForm input[name=pass1]').val('');
-		$('#createLoginForm input[name=pass2]').val('');
+		$('#form_login2 input[name=pass1]').val('');
+		$('#form_login2 input[name=pass2]').val('');
 
-		$('#changePassForm input[name=old_pass]' ).val('');
-		$('#changePassForm input[name=new_pass1]').val('');
-		$('#changePassForm input[name=new_pass2]').val('');
+		$('#form_login_change_pass input[name=old_pass]' ).val('');
+		$('#form_login_change_pass input[name=new_pass1]').val('');
+		$('#form_login_change_pass input[name=new_pass2]').val('');
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -457,14 +457,24 @@ function AMILogin() {
 			var cert_enable = amiWebApp.jspath('..field{.@name==="cert_enable"}.$', data)[0];
 			var voms_enable = amiWebApp.jspath('..field{.@name==="voms_enable"}.$', data)[0];
 
+			/*-------------------------------------------------*/
+
+			var first_name = amiWebApp.jspath('..field{.@name==="first_name"}.$', data)[0];
+			var last_name = amiWebApp.jspath('..field{.@name==="last_name"}.$', data)[0];
+			var email = amiWebApp.jspath('..field{.@name==="email"}.$', data)[0];
+
 			var dn_in_ami = amiWebApp.jspath('..field{.@name==="dn_in_ami"}.$', data)[0];
 			var dn_in_session = amiWebApp.jspath('..field{.@name==="dn_in_session"}.$', data)[0];
 			var issuer_in_ami = amiWebApp.jspath('..field{.@name==="issuer_in_ami"}.$', data)[0];
 			var issuer_in_session = amiWebApp.jspath('..field{.@name==="issuer_in_session"}.$', data)[0];
 
-			var first_name = amiWebApp.jspath('..field{.@name==="first_name"}.$', data)[0];
-			var last_name = amiWebApp.jspath('..field{.@name==="last_name"}.$', data)[0];
-			var email = amiWebApp.jspath('..field{.@name==="email"}.$', data)[0];
+			/*-------------------------------------------------*/
+
+			$('#modal_login_account_status_first_name').val(first_name);
+			$('#modal_login_account_status_last_name').val(last_name);
+			$('#modal_login_account_status_email').val(email);
+			$('#modal_login_account_status_dn_in_ami').val(dn_in_ami);
+			$('#modal_login_account_status_dn_in_session').val(dn_in_session);
 
 			/*-------------------------------------------------*/
 
@@ -533,13 +543,13 @@ function AMILogin() {
 
 			/*-------------------------------------------------*/
 
-			$('#changeInfoForm input[name=firstName]').val(first_name);
-			$('#changeInfoForm input[name=lastName]').val(last_name);
-			$('#changeInfoForm input[name=email]').val(email);
+			$('#form_login_change_info input[name=firstName]').val(first_name);
+			$('#form_login_change_info input[name=lastName]').val(last_name);
+			$('#form_login_change_info input[name=email]').val(email);
 
 			/*-------------------------------------------------*/
 
-			$('#changeInfoForm input[name=email]').prop(
+			$('#form_login_change_info input[name=email]').prop(
 				'disabled', valid === '0' && voms_enable !== 'false'
 			);
 
