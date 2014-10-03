@@ -183,7 +183,7 @@ function AMILogin() {
 		amiCommand.passLogin(user, pass).done(function(data, user) {
 
 			if(user === amiLogin.guest) {
-				amiLogin._showErrorMessage1('Could not log in as `' + amiLogin.guest + '`.');
+				amiLogin._showErrorMessage1('You could not sign in as `' + amiLogin.guest + '`.');
 			} else {
 				$('#modal_login').modal('hide');
 			}
@@ -204,7 +204,7 @@ function AMILogin() {
 		amiCommand.certLogin().done(function(data, user) {
 
 			if(user === amiLogin.guest) {
-				amiLogin._showErrorMessage1('You have to provide a certificate.');
+				amiLogin._showErrorMessage1('You have to provide your certificate registered in AMI.');
 			} else {
 				$('#modal_login').modal('hide');
 			}
@@ -489,7 +489,7 @@ function AMILogin() {
 					   ||
 					   issuer_in_session === undefined
 					 ) {
-						wrn_msg = 'You should provide a certificate to this AMI web application.';
+						wrn_msg = 'You should provide a certificate to use this AMI web application.';
 					} else {
 
 						if(dn_in_ami !== dn_in_session
