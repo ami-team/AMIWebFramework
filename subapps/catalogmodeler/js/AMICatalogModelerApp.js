@@ -179,6 +179,19 @@ function AMICatalogModelerApp() {
 
 			this.table = null;
 
+			this.paper.fitToContent({
+				padding: 20,
+				gridWidth: 10,
+				gridHeight: 10,
+			});
+
+			this.dbWidth = $('#editor_zone svg').width() + 2;
+			this.dbHeight = $('#editor_zone svg').height() + 2;
+
+			$('#dbName').val(this.dbName);
+			$('#dbWidth').val(this.dbWidth);
+			$('#dbHeight').val(this.dbHeight);
+
 		} catch(e) {
 			alert(e);
 		}
@@ -186,34 +199,17 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.autoResize = function() {
-
-		this.paper.fitToContent({
-			padding: 20,
-			gridWidth: 10,
-			gridHeight: 10,
-		});
-
-		this.dbWidth = $('#editor_zone svg').width() + 2;
-		this.dbHeight = $('#editor_zone svg').height() + 2;
-
-		$('#dbName').val(this.dbName);
-		$('#dbWidth').val(this.dbWidth);
-		$('#dbHeight').val(this.dbHeight);
+	this.clearSchemes = function() {
+		$('#ami-catalog-modeler-catalog-list').empty();
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.listSchemes = function() {
 
-		var cnt = 0;
-
-		this.routerDBs = [
-		];
-
 		this.clearSchemes();
 
-		amiCommand.execute('SearchQuery -project="self" -processingStep="self" -sql="SELECT router_db.db, router_project.name AS project, router_process.name AS process, router_db.jsonSchema FROM router_db, router_project, router_process WHERE router_db.process = router_process.identifier AND router_db.project = router_project.identifier"').done(function(data) {
+		amiCommand.execute('SearchQuery -project="self" -processingStep="self" -sql="SELECT router_db.db, router_project.name AS project, router_process.name AS process FROM router_db, router_project, router_process WHERE router_db.process = router_process.identifier AND router_db.project = router_project.identifier"').done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
 
@@ -221,33 +217,18 @@ function AMICatalogModelerApp() {
 				var db = amiWebApp.jspath('..field{.@name==="db"}.$', row)[0];
 				var project = amiWebApp.jspath('..field{.@name==="project"}.$', row)[0];
 				var process = amiWebApp.jspath('..field{.@name==="process"}.$', row)[0];
-				var jsonSchema = amiWebApp.jspath('..field{.@name==="jsonSchema"}.$', row)[0];
 
 				if(project !== 'self'
 				   ||
 				   process !== 'self'
 				 ) {
-					$('#ami-catalog-modeler-catalog-list').append('<option value="' + cnt++ + '">' + db + '</option>');
-
-					amiCatalogModelerApp.routerDBs.push({
-						db: db,
-						project: project,
-						process: process,
-						encoding: 'utf8_general_ci',
-						jsonSchema: jsonSchema ? jsonSchema.replace(/\~Q\~/g, '"') : '{"cells":[]}',
-					});
+					$('#ami-catalog-modeler-catalog-list').append('<option value="' + db + '">' + db + '</option>');
 				}
 			});
 
 		}).fail(function(data) {
 			alert(JSPath.apply('..error.$', data)[0]);
 		});
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.clearSchemes = function() {
-		$('#ami-catalog-modeler-catalog-list').empty();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -259,107 +240,118 @@ function AMICatalogModelerApp() {
 
 		/*---------------------------------------------------------*/
 
-		var item = this.routerDBs[$('#ami-catalog-modeler-catalog-list').val()];
-
-		var db = item['db'];
-		var project = item['project'];
-		var process = item['process'];
-		var encoding = item['encoding'];
-		var jsonSchema = item['jsonSchema'];
+		var db = $('#ami-catalog-modeler-catalog-list').val();
 
 		/*---------------------------------------------------------*/
 
-		this.loadSchema(db, jsonSchema);
+		amiCommand.execute('SearchQuery -project="self" -processingStep="self" -sql="SELECT router_project.name AS project, router_process.name AS process, \'utf8_general_ci\' AS encoding, router_db.jsonSchema FROM router_db, router_project, router_process WHERE router_db.db = \'' + db + '\' AND router_db.process = router_process.identifier AND router_db.project = router_project.identifier"', {context: this}).done(function(data) {
 
-		/*---------------------------------------------------------*/
+			var project = amiWebApp.jspath('..field{.@name==="project"}.$', data)[0];
+			var process = amiWebApp.jspath('..field{.@name==="process"}.$', data)[0];
+			var encoding = amiWebApp.jspath('..field{.@name==="encoding"}.$', data)[0];
+			var jsonSchema = amiWebApp.jspath('..field{.@name==="jsonSchema"}.$', data)[0];
 
-		var tables = {};
+			/*-------------------------------------------------*/
 
-		$.each(graph.getElements(), function(index1, item1) {
+			this.loadSchema(db, jsonSchema ? jsonSchema.replace(/\~Q\~/g, '"') : '{"cells":[]}');
 
-			var fields = {};
+			/*-------------------------------------------------*/
+
+			var tables = {};
+
+			$.each(graph.getElements(), function(index1, item1) {
+
+				var fields = {};
 	
-			$.each(item1.getFields(), function(index2, item2) {
+				$.each(item1.getFields(), function(index2, item2) {
 
-				fields[item2['name']] = item2;
-			});
+					fields[item2['name']] = item2;
+				});
 
-			tables[item1.getName()] = {
-				table: item1,
-				fields: fields,
-			};
+				tables[item1.getName()] = {
+					table: item1,
+					fields: fields,
+				};
 
-			item1.setFeKeys([]);
-			item1.setIndices([]);
-		});
-
-		/*---------------------------------------------------------*/
-
- 		amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT tab, field, type FROM db_field WHERE tab NOT LIKE \'db_%\'"', {context: this}).done(function(data) {
-
-			var cnt = 0;
-
-			var rows = amiWebApp.jspath('..row', data);
-
-			$.each(rows, function(index, row) {
-				var table = amiWebApp.jspath('..field{.@name==="tab"}.$', row)[0];
-				var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0];
-				var type = amiWebApp.jspath('..field{.@name==="type"}.$', row)[0];
-
-				if(!(table in tables)) {
-	
-					tables[table] = {
-						table: graph.newTable({
-							position: {
-								x: 20 + 10 * cnt,
-								y: 20 + 10 * cnt,
-							},
-							name: table,
-							encoding: encoding,
-						}),
-						fields: {},
-					};
-
-					cnt++;
-				}
-
-				if(!(field in tables[table]['fields'])) {
-
-					tables[table]['table'].appendField({
-						name: field,
-						type: type,
-					});
-				}
+				item1.setFeKeys([]);
+				item1.setIndices([]);
 			});
 
 			/*-------------------------------------------------*/
 
-			amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT contain, containkey, container, containerkey FROM db_model WHERE type = 0"', {context: this}).done(function(data) {
+ 			amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT tab, field, type FROM db_field WHERE tab NOT LIKE \'db_%\'"', {context: this}).done(function(data) {
+
+				var cnt = 0;
 
 				var rows = amiWebApp.jspath('..row', data);
 
 				$.each(rows, function(index, row) {
-					var contain = amiWebApp.jspath('..field{.@name==="contain"}.$', row)[0];
-					var containkey = amiWebApp.jspath('..field{.@name==="containkey"}.$', row)[0];
-					var container = amiWebApp.jspath('..field{.@name==="container"}.$', row)[0];
-					var containerkey = amiWebApp.jspath('..field{.@name==="containerkey"}.$', row)[0];
+					var table = amiWebApp.jspath('..field{.@name==="tab"}.$', row)[0];
+					var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0];
+					var type = amiWebApp.jspath('..field{.@name==="type"}.$', row)[0];
 
-					tables[contain]['table'].appendFeKey({
-						field: containkey,
-						table: container,
+					if(!(table in tables)) {
+	
+						tables[table] = {
+							table: graph.newTable({
+								position: {
+									x: 20 + 10 * cnt,
+									y: 20 + 10 * cnt,
+								},
+								name: table,
+								encoding: encoding,
+							}),
+							fields: {},
+						};
+
+						cnt++;
+					}
+
+					if(!(field in tables[table]['fields'])) {
+
+						tables[table]['table'].appendField({
+							name: field,
+							type: type,
+						});
+					}
+				});
+
+				/*-----------------------------------------*/
+
+				amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT contain, containkey, container, containerkey FROM db_model WHERE type = 0"', {context: this}).done(function(data) {
+
+					var rows = amiWebApp.jspath('..row', data);
+
+					$.each(rows, function(index, row) {
+						var contain = amiWebApp.jspath('..field{.@name==="contain"}.$', row)[0];
+						var containkey = amiWebApp.jspath('..field{.@name==="containkey"}.$', row)[0];
+						var container = amiWebApp.jspath('..field{.@name==="container"}.$', row)[0];
+						var containerkey = amiWebApp.jspath('..field{.@name==="containerkey"}.$', row)[0];
+
+						tables[contain]['table'].appendFeKey({
+							field: containkey,
+							table: container,
+						});
 					});
+
+					this.update({
+						menu: true,
+						soft: false,
+						arrows: false,
+					});
+
+				}).fail(function(data) {
+					alert(JSPath.apply('..error.$', data)[0]);
 				});
 
-				this.update({
-					menu: true,
-					soft: false,
-					arrows: false,
-				});
-
-				this.autoResize();
+				/*-----------------------------------------*/
+			}).fail(function(data) {
+				alert(JSPath.apply('..error.$', data)[0]);
 			});
 
 			/*-------------------------------------------------*/
+		}).fail(function(data) {
+			alert(JSPath.apply('..error.$', data)[0]);
 		});
 
 		/*---------------------------------------------------------*/
@@ -385,9 +377,7 @@ function AMICatalogModelerApp() {
 					soft: false,
 					arrows: true,
 				});
-
-				amiCatalogModelerApp.autoResize();
-			}
+			};
 
 			reader.readAsText(f);
 		}
@@ -434,10 +424,8 @@ function AMICatalogModelerApp() {
 		var json = JSON.stringify(this.graph.toJSON()).replace(/\"/g, '~Q~');
 
 		amiCommand.execute('UpdateElement -project="self" -processingStep="self" -entity="router_db" -db="' + this.dbName + '" -separator="|" -updateField="jsonSchema" -updateValue="' + json + '"', {context: this}).done(function() {
-			this.listSchemes();
 			alert('Done with success :-)');
 		}).fail(function(d) {
-			this.listSchemes();
 			alert('Done with error :-( ' + JSON.stringify(d));
 		});
 	};
@@ -447,6 +435,10 @@ function AMICatalogModelerApp() {
 	this.saveAndSynchronize = function() {
 
 		this.save();
+
+		/* TODO */
+		/* TODO */
+		/* TODO */
 	};
 
 	/*-----------------------------------------------------------------*/
