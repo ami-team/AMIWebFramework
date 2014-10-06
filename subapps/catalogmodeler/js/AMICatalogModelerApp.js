@@ -173,11 +173,9 @@ function AMICatalogModelerApp() {
 	this.loadSchema = function(db, json) {
 
 		try {
+			/*-------------------------------------------------*/
+
 			this.graph.fromJSON(JSON.parse(json));
-
-			this.dbName = (db);
-
-			this.table = null;
 
 			this.paper.fitToContent({
 				padding: 20,
@@ -185,6 +183,9 @@ function AMICatalogModelerApp() {
 				gridHeight: 10,
 			});
 
+			/*-------------------------------------------------*/
+
+			this.dbName = db;
 			this.dbWidth = $('#editor_zone svg').width() + 2;
 			this.dbHeight = $('#editor_zone svg').height() + 2;
 
@@ -192,6 +193,11 @@ function AMICatalogModelerApp() {
 			$('#dbWidth').val(this.dbWidth);
 			$('#dbHeight').val(this.dbHeight);
 
+			/*-------------------------------------------------*/
+
+			this.table = null;
+
+			/*-------------------------------------------------*/
 		} catch(e) {
 			alert(e);
 		}
