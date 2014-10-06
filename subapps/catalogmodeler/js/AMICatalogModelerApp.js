@@ -206,6 +206,8 @@ function AMICatalogModelerApp() {
 
 	this.listSchemes = function() {
 
+		var cnt = 0;
+
 		this.routerDBs = [
 		];
 
@@ -221,15 +223,20 @@ function AMICatalogModelerApp() {
 				var process = amiWebApp.jspath('..field{.@name==="process"}.$', row)[0];
 				var jsonSchema = amiWebApp.jspath('..field{.@name==="jsonSchema"}.$', row)[0];
 
-				$('#ami-catalog-modeler-catalog-list').append('<option value="' + index + '">' + db + '</option>');
+				if(project !== 'self'
+				   ||
+				   process !== 'self'
+				 ) {
+					$('#ami-catalog-modeler-catalog-list').append('<option value="' + cnt++ + '">' + db + '</option>');
 
-				amiCatalogModelerApp.routerDBs.push({
-					db: db,
-					project: project,
-					process: process,
-					encoding: 'utf8_general_ci',
-					jsonSchema: jsonSchema ? jsonSchema.replace(/\~Q\~/g, '"') : '{"cells":[]}',
-				});
+					amiCatalogModelerApp.routerDBs.push({
+						db: db,
+						project: project,
+						process: process,
+						encoding: 'utf8_general_ci',
+						jsonSchema: jsonSchema ? jsonSchema.replace(/\~Q\~/g, '"') : '{"cells":[]}',
+					});
+				}
 			});
 
 		}).fail(function(data) {
