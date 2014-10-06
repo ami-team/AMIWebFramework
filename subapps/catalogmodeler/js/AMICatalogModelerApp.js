@@ -72,7 +72,7 @@ function AMICatalogModelerApp() {
 
 				/*-----------------------------------------*/
 
-				this.table = undefined;
+				this.table = null;
 
 				/*-----------------------------------------*/
 
@@ -99,7 +99,11 @@ function AMICatalogModelerApp() {
 
 					if(cellView.model.get('type') === 'sql.Table') {
 						amiCatalogModelerApp.table = cellView.model;
-						amiCatalogModelerApp.updateMenu();
+						amiCatalogModelerApp.update({
+							menu: true,
+							soft: false,
+							arrows: false,
+						});
 					}
 				});
 
@@ -171,7 +175,9 @@ function AMICatalogModelerApp() {
 		try {
 			this.graph.fromJSON(JSON.parse(json));
 
-			this.dbName = db;
+			this.dbName = (db);
+
+			this.table = null;
 
 		} catch(e) {
 			alert(e);
@@ -337,9 +343,13 @@ function AMICatalogModelerApp() {
 					});
 				});
 
-				this.autoResize();
+				this.update({
+					menu: true,
+					soft: false,
+					arrows: false,
+				});
 
-				this.updateArrows();
+				this.autoResize();
 			});
 
 			/*-------------------------------------------------*/
@@ -362,6 +372,13 @@ function AMICatalogModelerApp() {
 
 			reader.onload = function(e) {
 				amiCatalogModelerApp.loadSchema('?', e.target.result);
+
+				this.update({
+					menu: true,
+					soft: false,
+					arrows: true,
+				});
+
 				amiCatalogModelerApp.autoResize();
 			}
 
@@ -426,21 +443,306 @@ function AMICatalogModelerApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
+	/* DB                                                              */
+	/*-----------------------------------------------------------------*/
 
-	this.updateMenu = function(settings) {
+	this.setDBName = function(value) {
+
+		this.dbName = value;
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setDBWidth = function(value) {
+
+		this.dbWidth = Math.ceil(parseInt(value, 10) / 10.0) * 10;
+
+		this.paper.setDimensions(this.dbWidth, this.dbHeight);
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setDBHeight = function(value) {
+
+		this.dbHeight = Math.ceil(parseInt(value, 10) / 10.0) * 10;
+
+		this.paper.setDimensions(this.dbWidth, this.dbHeight);
+	};
+
+	/*-----------------------------------------------------------------*/
+	/* TABLE                                                           */
+	/*-----------------------------------------------------------------*/
+
+	this._table_cnt = 0;
+
+	/*-----------------------------------------------------------------*/
+
+	this.addTable = function() {
+
+		this.graph.newTable({
+			position: {
+				x: 20 + 10 * this._table_cnt,
+				y: 20 + 10 * this._table_cnt,
+			},
+			name: 'table' + this._table_cnt++,
+			encoding: 'utf8_general_ci',
+			fields: [{
+				name: 'id',
+				type: 'INT',
+			}],
+		});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeTable = function() {
 
 		if(this.table) {
-			/*-------------------------------------------------*/
+			this.table.remove();
 
-			var soft = false;
+			this.table = null;
 
-			if(settings) {
+			this.update({
+				menu: true,
+				soft: false,
+				arrows: true,
+			});
+		}
+	};
 
-				if('soft' in settings) {
-					soft = settings['soft'];
-				}
+	/*-----------------------------------------------------------------*/
+
+	this.setTableName = function(name) {
+
+		if(this.table) {
+			this.table.setName(name);
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setTableEncoding = function(encoding) {
+
+		if(this.table) {
+			this.table.setEncoding(encoding);
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+	/* FIELD                                                           */
+	/*-----------------------------------------------------------------*/
+
+	this.addField = function() {
+
+		if(this.table) {
+			this.table.appendField({
+				name: '???',
+				type: '???',
+			});
+
+			this.update({
+				menu: true,
+				soft: false,
+				arrows: false,
+			});
+		} else {
+			alert('Please, select a table.');
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeField = function(index) {
+
+		if(this.table) {
+			this.table.removeField(index);
+
+			this.update({
+				menu: true,
+				soft: false,
+				arrows: true,
+			});
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setFieldName = function(index, value) {
+
+		if(this.table) {
+			var item = this.table.getField(index);
+			item['name'] = value;
+			this.table.setField(index, item)
+
+			this.update({
+				menu: true,
+				soft: true,
+				arrows: false,
+			});
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setFieldType = function(index, value) {
+
+		if(this.table) {
+			var item = this.table.getField(index);
+			item['type'] = value;
+			this.table.setField(index, item)
+
+			this.update({
+				menu: true,
+				soft: true,
+				arrows: false,
+			});
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+	/* FEKEY                                                           */
+	/*-----------------------------------------------------------------*/
+
+	this.addFeKey = function() {
+
+		if(this.table) {
+			this.table.appendFeKey({
+				field: '',
+				table: '',
+			});
+
+			this.update({
+				menu: true,
+				soft: false,
+				arrows: false,
+			});
+		} else {
+			alert('Please, select a table.');
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeFeKey = function(index) {
+
+		if(this.table) {
+			this.table.removeFeKey(index);
+
+			this.update({
+				menu: true,
+				soft: false,
+				arrows: true,
+			});
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setFeKeyField = function(index, value) {
+
+		if(this.table) {
+			var item = this.table.getFeKey(index);
+			item['field'] = value;
+			this.table.setFeKey(index, item)
+
+			this.update({
+				menu: false,
+				soft: false,
+				arrows: true,
+			});
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setFeKeyTable = function(index, value) {
+
+		if(this.table) {
+			var item = this.table.getFeKey(index);
+			item['table'] = value;
+			this.table.setFeKey(index, item)
+
+			this.update({
+				menu: false,
+				soft: false,
+				arrows: true,
+			});
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+	/* INDEX                                                           */
+	/*-----------------------------------------------------------------*/
+
+	this.addIndex = function() {
+
+		if(this.table) {
+			this.table.appendIndex({
+				field: ''
+			});
+
+			this.update({
+				menu: true,
+				soft: false,
+				arrows: false,
+			});
+		} else {
+			alert('Please, select a table.');
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.removeIndex = function(index) {
+
+		if(this.table) {
+			this.table.removeIndex(index);
+
+			this.update({
+				menu: true,
+				soft: false,
+				arrows: false,
+			});
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setIndexField = function(index, value) {
+
+		if(this.table) {
+			var item = this.table.getIndex(index);
+			item['field'] = value;
+			this.table.setIndex(index, item);
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
+
+	this.update = function(settings) {
+
+		var menu = false;
+		var soft = false;
+		var arrows = false;
+
+		if(settings) {
+
+			if('menu' in settings) {
+				menu = settings['menu'];
 			}
 
+			if('soft' in settings) {
+				soft = settings['soft'];
+			}
+
+			if('arrows' in settings) {
+				arrows = settings['arrows'];
+			}
+		}
+
+		if(menu && this.table) {
 			/*-------------------------------------------------*/
 
 			var dict1 = {};
@@ -554,300 +856,119 @@ function AMICatalogModelerApp() {
 
 			/*-------------------------------------------------*/
 		}
-	};
 
-	/*-----------------------------------------------------------------*/
+		if(arrows) {
+			/*-------------------------------------------------*/
 
-	this.updateArrows = function() {
-		return;
-		/*---------------------------------------------------------*/
+			var dict = {};
 
-		var dict = {}
+			$.each(this.graph.getElements(), function(index, table) {
 
-		$.each(this.graph.getElements(), function(index, curr_table) {
+				dict[table.getName()] = table.id;
+			});
 
-			dict[curr_table.getName()] = curr_table;
-		});
+			/*-------------------------------------------------*/
 
-		/*---------------------------------------------------------*/
+			var arrows1 = [];
 
-		var arrows = [];
+			$.each(graph.getElements(), function(index, table) {
+				$.each(table.getFeKeys(), function(index, fekey) {
 
-		$.each(this.graph.getElements(), function(index, curr_table) {
+					var sourceName = table.getName();
+					var targetName = fekey['table'];
 
-			$.each(curr_table.getFeKeys(), function(index, curr_fekey) {
+					if(sourceName !== ''
+					   &&
+					   targetName !== ''
+					 ) {
+						arrows1.push({
+							source: dict[sourceName],
+							target: dict[targetName],
+							id: null,
+						});
+					}
+				});
+			});
 
-				var source = curr_table.getName();
+			/*-------------------------------------------------*/
 
-				var target = curr_fekey['table'];
+			var arrows2 = [];
 
-				if(target !== '') {
-					arrows.push({
-						source: dict[source].id,
-						target: dict[target].id,
-					});
+			$.each(this.graph.getLinks(), function(index, link) {
+
+				var source = link.prop('source');
+				var target = link.prop('target');
+
+				arrows2.push({
+					source: source['id'],
+					target: target['id'],
+					link: link.id,
+				});
+			});
+
+			/*-------------------------------------------------*/
+
+			var graph = this.graph;
+
+			/*-------------------------------------------------*/
+
+			 $.each(arrows1, function(index1, item1) {
+
+				var isOk = true;
+
+				$.each(arrows2, function(index2, item2) {
+
+					if(item1['source'] === item2['source']
+					   &&
+					   item1['target'] === item2['target']
+					 ) {
+					 	isOk = false;
+
+					 	return;
+					}
+				});
+
+				if(isOk) {
+					graph.addCell(new joint.dia.Link({
+						source: {id: item1['source']},
+						target: {id: item1['target']},
+						attrs: {
+							'.connection': {'stroke': '#707070', 'stroke-width': 3},
+							'.marker-source': {'stroke': '#707070', 'fill': '#707070', 'd': 'm 14.456044,15.990164 1.23e-4,7.500564 0,-7.179668 -9.0002053,5.179668 0,-11.000206 9.0000823,5.178745 1.23e-4,-7.178745 z'}
+						}
+					}));
 				}
 			});
-		});
 
-		/*---------------------------------------------------------*/
+			/*-------------------------------------------------*/
 
-		var graph = this.graph;
+			 $.each(arrows2, function(index1, item1) {
 
-		$.each(arrows, function(index, curr_arrow) {
+				var isOk = true;
 
-			var link = new joint.dia.Link({
-				source: { id: curr_arrow['source'] },
-				target: { id: curr_arrow['target'] },
+				$.each(arrows1, function(index2, item2) {
+
+					if(item1['source'] === item2['source']
+					   &&
+					   item1['target'] === item2['target']
+					 ) {
+					 	isOk = false;
+
+					 	return;
+					}
+				});
+
+				if(isOk) {
+					graph.getCell(item1['link']).remove();
+				}
 			});
 
-			link.attr({
-				'.connection': {'stroke': '#707070', 'stroke-width': 3},
-				'.marker-source': {'stroke': '#707070', 'fill': '#707070', 'd': 'm 14.456044,15.990164 1.23e-4,7.500564 0,-7.179668 -9.0002053,5.179668 0,-11.000206 9.0000823,5.178745 1.23e-4,-7.178745 z'}
-			});
-
-			graph.addCell(link);
-		});
-
-		/*---------------------------------------------------------*/
-	}
-
-	/*-----------------------------------------------------------------*/
-	/* DB                                                              */
-	/*-----------------------------------------------------------------*/
-
-	this.setDBName = function(value) {
-
-		this.dbName = value;
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.setDBWidth = function(value) {
-
-		this.dbWidth = Math.ceil(parseInt(value, 10) / 10.0) * 10;
-
-		this.paper.setDimensions(this.dbWidth, this.dbHeight);
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.setDBHeight = function(value) {
-
-		this.dbHeight = Math.ceil(parseInt(value, 10) / 10.0) * 10;
-
-		this.paper.setDimensions(this.dbWidth, this.dbHeight);
-	};
-
-	/*-----------------------------------------------------------------*/
-	/* TABLE                                                           */
-	/*-----------------------------------------------------------------*/
-
-	this._table_cnt = 0;
-
-	/*-----------------------------------------------------------------*/
-
-	this.addTable = function() {
-
-		this.graph.newTable({
-			position: {
-				x: 20 + 10 * this._table_cnt,
-				y: 20 + 10 * this._table_cnt,
-			},
-			name: 'table' + this._table_cnt++,
-			encoding: 'utf8_general_ci',
-			fields: [{
-				name: 'id',
-				type: 'INT',
-			}],
-		});
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.removeTable = function() {
-
-		if(this.table) {
-			this.table.remove();
-
-			this.table = undefined;
-
-			this.updateMenu();
+			/*-------------------------------------------------*/
 		}
 	};
 
 	/*-----------------------------------------------------------------*/
-
-	this.setTableName = function(name) {
-
-		if(this.table) {
-			this.table.setName(name);
-		}
-	};
-
 	/*-----------------------------------------------------------------*/
-
-	this.setTableEncoding = function(encoding) {
-
-		if(this.table) {
-			this.table.setEncoding(encoding);
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-	/* FIELD                                                           */
-	/*-----------------------------------------------------------------*/
-
-	this.addField = function() {
-
-		if(this.table) {
-			this.table.appendField({
-				name: '???',
-				type: '???',
-			});
-
-			this.updateMenu();
-
-		} else {
-			alert('Please, select a table.');
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.removeField = function(index) {
-
-		if(this.table) {
-			this.table.removeField(index);
-
-			this.updateMenu();
-			this.updateArrows();
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.setFieldName = function(index, value) {
-
-		if(this.table) {
-			var item = this.table.getField(index);
-			item['name'] = value;
-			this.table.setField(index, item)
-
-			this.updateMenu({soft: true});
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.setFieldType = function(index, value) {
-
-		if(this.table) {
-			var item = this.table.getField(index);
-			item['type'] = value;
-			this.table.setField(index, item)
-
-			this.updateMenu({soft: true});
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-	/* FEKEY                                                           */
-	/*-----------------------------------------------------------------*/
-
-	this.addFeKey = function() {
-
-		if(this.table) {
-			this.table.appendFeKey({
-				field: '',
-				table: '',
-			});
-
-			this.updateMenu();
-
-		} else {
-			alert('Please, select a table.');
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.removeFeKey = function(index) {
-
-		if(this.table) {
-			this.table.removeFeKey(index);
-
-			this.updateMenu();
-			this.updateArrows();
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.setFeKeyField = function(index, value) {
-
-		if(this.table) {
-			var item = this.table.getFeKey(index);
-			item['field'] = value;
-			this.table.setFeKey(index, item)
-
-			this.updateArrows();
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.setFeKeyTable = function(index, value) {
-
-		if(this.table) {
-			var item = this.table.getFeKey(index);
-			item['table'] = value;
-			this.table.setFeKey(index, item)
-
-			this.updateArrows();
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-	/* INDEX                                                           */
-	/*-----------------------------------------------------------------*/
-
-	this.addIndex = function() {
-
-		if(this.table) {
-			this.table.appendIndex({
-				field: ''
-			});
-
-			this.updateMenu();
-
-		} else {
-			alert('Please, select a table.');
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.removeIndex = function(index) {
-
-		if(this.table) {
-			this.table.removeIndex(index);
-
-			this.updateMenu();
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.setIndexField = function(index, value) {
-
-		if(this.table) {
-			var item = this.table.getIndex(index);
-			item['field'] = value;
-			this.table.setIndex(index, item);
-		}
-	};
-
 	/*-----------------------------------------------------------------*/
 };
 

@@ -11,6 +11,10 @@
     stroke-width: 0.5;
 }
 
+.link-tools .tool-remove {
+    display: none;
+}
+
 #drop_zone {
     padding: 23.5px;
     border: 2px dashed rgb(231, 231, 231);
