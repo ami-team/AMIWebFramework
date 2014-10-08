@@ -39,6 +39,7 @@ function AMICatalogModelerApp() {
 		amiWebApp.loadHTML('subapps/catalogmodeler/html/AMICatalogModelerApp.html', {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('ami_main_content', data, {context: this}).done(function() {
+				/*-----------------------------------------*/
 
 				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/table.html', {context: this}).done(function(data) {
 					this.fragmentTable = data;
@@ -58,7 +59,7 @@ function AMICatalogModelerApp() {
 				var dropZone = document.getElementById('drop_zone');
 
 				dropZone.addEventListener('dragover', this.handleDragOver, false);
-				dropZone.addEventListener('drop', this.handleDrop, false);
+				dropZone.addEventListener('drop'    , this.handleDrop    , false);
   
   				/*-----------------------------------------*/
 
@@ -297,20 +298,19 @@ function AMICatalogModelerApp() {
 					var type = amiWebApp.jspath('..field{.@name==="type"}.$', row)[0];
 
 					if(!(table in tables)) {
+
+						var pos = 20 + 10 * cnt++;
 	
 						tables[table] = {
 							table: graph.newTable({
 								position: {
-									x: 20 + 10 * cnt,
-									y: 20 + 10 * cnt,
+									x: pos,
+									y: pos,
 								},
 								name: table,
 								encoding: encoding,
 							}),
-							fields: {},
 						};
-
-						cnt++;
 					}
 
 					if(!(field in tables[table]['fields'])) {
@@ -429,10 +429,10 @@ function AMICatalogModelerApp() {
 
 		var json = JSON.stringify(this.graph.toJSON()).replace(/\"/g, '~Q~');
 
-		amiCommand.execute('UpdateElement -project="self" -processingStep="self" -entity="router_db" -db="' + this.dbName + '" -separator="|" -updateField="jsonSchema" -updateValue="' + json + '"', {context: this}).done(function() {
+		amiCommand.execute('UpdateElement -project="self" -processingStep="self" -entity="router_db" -db="' + this.dbName + '" -separator="|" -updateField="jsonSchema" -updateValue="' + json + '"').done(function() {
 			alert('Done with success :-)');
-		}).fail(function(d) {
-			alert('Done with error :-( ' + JSON.stringify(d));
+		}).fail(function(data) {
+			alert(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 

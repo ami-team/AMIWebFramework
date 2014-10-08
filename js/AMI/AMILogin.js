@@ -463,6 +463,8 @@ function AMILogin() {
 			var last_name = amiWebApp.jspath('..field{.@name==="last_name"}.$', data)[0];
 			var email = amiWebApp.jspath('..field{.@name==="email"}.$', data)[0];
 
+			/*-------------------------------------------------*/
+
 			var dn_in_ami = amiWebApp.jspath('..field{.@name==="dn_in_ami"}.$', data)[0];
 			var dn_in_session = amiWebApp.jspath('..field{.@name==="dn_in_session"}.$', data)[0];
 			var issuer_in_ami = amiWebApp.jspath('..field{.@name==="issuer_in_ami"}.$', data)[0];
@@ -473,6 +475,7 @@ function AMILogin() {
 			$('#modal_login_account_status_first_name').val(first_name);
 			$('#modal_login_account_status_last_name').val(last_name);
 			$('#modal_login_account_status_email').val(email);
+
 			$('#modal_login_account_status_dn_in_ami').val(dn_in_ami);
 			$('#modal_login_account_status_dn_in_session').val(dn_in_session);
 
