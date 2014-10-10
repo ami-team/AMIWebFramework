@@ -23,6 +23,7 @@ function AMILogin() {
 	this.start = function(settings) {
 
 		if(!this.already_started) {
+
 			amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
 				amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
 					amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {

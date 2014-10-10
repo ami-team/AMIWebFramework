@@ -428,6 +428,18 @@ function AMIWebApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
+
+	this.success = function(message) {
+		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+	}
+
+	/*-----------------------------------------------------------------*/
+
+	this.error = function(message) {
+		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+	}
+
+	/*-----------------------------------------------------------------*/
 	/* SUB APPLICATION LOADER                                          */
 	/*-----------------------------------------------------------------*/
 

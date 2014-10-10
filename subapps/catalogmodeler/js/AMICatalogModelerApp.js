@@ -36,6 +36,17 @@ function AMICatalogModelerApp() {
 		$('#ami_jumbotron_content').html('');
 		$('#ami_breadcrumb_content').html('<li><a href="">Admin</a></li><li><a href="">Catalog Modeler</a></li>');
 
+		try {
+			var isBrowserSupported = !!new Blob;
+
+		} catch(e) {};
+
+		if(!isBrowserSupported) {
+			amiWebApp.error('Your browser is not supported, this application requires: Firefox 20+, Chrome 1.0+, Safari 6.1+, Opera 15+, IE 10+.');
+
+			return;
+		}
+
 		amiWebApp.loadHTML('subapps/catalogmodeler/html/AMICatalogModelerApp.html', {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('ami_main_content', data, {context: this}).done(function() {
@@ -89,10 +100,7 @@ function AMICatalogModelerApp() {
 
 				/*-----------------------------------------*/
 
-				this.svgVertical = V('path').attr('d', 'M -10000 -1 L 10000 -1');
-				this.svgHorizontal = V('path').attr('d', 'M -1 -10000 L -1 10000');
-
-				this.drawGrid(10, 10);
+				$('#editor_zone svg').css('background-image', 'url("' + getGridBackgroundImage(10, 10) + '")');
 
 				/*-----------------------------------------*/
 
@@ -133,40 +141,29 @@ function AMICatalogModelerApp() {
 	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
-	this.drawGrid = function(gridW, gridH) {
-		/*---------------------------------------------------------*/
+	function getGridBackgroundImage(gridX, gridY) {
 
-		var svg = V(this.paper.svg);
+		var canvas = document.createElement('canvas');
 
-		/*---------------------------------------------------------*/
+		canvas.width = gridX;
+		canvas.height = gridY;
 
-		if(gridW > 2) {
-			var x = 0.1;
+		if(gridX > 5 && gridY > 5) {
 
-			do {
-				x += gridW;
+			var context = canvas.getContext('2d');
 
-				var svgGridX = this.svgHorizontal.clone().translate(x, 0, {absolute: true}).addClass('sql_editor_grid');
-				svg.prepend(svgGridX);
-
-			} while(x < 10000);
+			context.beginPath();
+			context.rect(
+				gridX - 1,
+				gridY - 1,
+				1,
+				1
+			);
+			context.fillStyle = 'black';
+			context.fill();
 		}
 
-		/*---------------------------------------------------------*/
-
-		if(gridH > 2) {
-			var y = 0.1;
-
-			do {
-				y += gridH;
-
-				var svgGridY = this.svgVertical.clone().translate(0, y, {absolute: true}).addClass('sql_editor_grid');
-				svg.prepend(svgGridY);
-			
-			} while(y < 10000);
-		}
-
-		/*---------------------------------------------------------*/
+		return canvas.toDataURL('image/png');
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -200,7 +197,7 @@ function AMICatalogModelerApp() {
 
 			/*-------------------------------------------------*/
 		} catch(e) {
-			alert(e);
+			amiWebApp.error(e);
 		}
 	};
 
@@ -234,7 +231,7 @@ function AMICatalogModelerApp() {
 			});
 
 		}).fail(function(data) {
-			alert(JSPath.apply('..error.$', data)[0]);
+			amiWebApp.error(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -347,17 +344,17 @@ function AMICatalogModelerApp() {
 					});
 
 				}).fail(function(data) {
-					alert(JSPath.apply('..error.$', data)[0]);
+					amiWebApp.error(JSPath.apply('..error.$', data)[0]);
 				});
 
 				/*-----------------------------------------*/
 			}).fail(function(data) {
-				alert(JSPath.apply('..error.$', data)[0]);
+				amiWebApp.error(JSPath.apply('..error.$', data)[0]);
 			});
 
 			/*-------------------------------------------------*/
 		}).fail(function(data) {
-			alert(JSPath.apply('..error.$', data)[0]);
+			amiWebApp.error(JSPath.apply('..error.$', data)[0]);
 		});
 
 		/*---------------------------------------------------------*/
@@ -419,6 +416,9 @@ function AMICatalogModelerApp() {
 		var w = window.open('', '', 'height=' + height + ', width=' + width + ', toolbar=no');
 
 		w.document.write('<html><head><style>body { margin: 0px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap { opacity: 0; } .connection { fill: none; }</style></head><body>' + $('#editor_zone').html() + '</body></html>');
+
+		$(w.document).find('svg').css('background-image', 'none');
+
 		w.print();
 		w.close();
 	};
@@ -430,9 +430,9 @@ function AMICatalogModelerApp() {
 		var json = JSON.stringify(this.graph.toJSON()).replace(/\"/g, '~Q~');
 
 		amiCommand.execute('UpdateElement -project="self" -processingStep="self" -entity="router_db" -db="' + this.dbName + '" -separator="|" -updateField="jsonSchema" -updateValue="' + json + '"').done(function() {
-			alert('Done with success :-)');
+			amiWebApp.success('Done with success :-)');
 		}).fail(function(data) {
-			alert(JSPath.apply('..error.$', data)[0]);
+			amiWebApp.error(JSPath.apply('..error.$', data)[0]);
 		});
 	};
 
@@ -551,7 +551,7 @@ function AMICatalogModelerApp() {
 				arrows: false,
 			});
 		} else {
-			alert('Please, select a table.');
+			amiWebApp.error('Please, select a table.');
 		}
 	};
 
@@ -622,7 +622,7 @@ function AMICatalogModelerApp() {
 				arrows: false,
 			});
 		} else {
-			alert('Please, select a table.');
+			amiWebApp.error('Please, select a table.');
 		}
 	};
 
@@ -692,7 +692,7 @@ function AMICatalogModelerApp() {
 				arrows: false,
 			});
 		} else {
-			alert('Please, select a table.');
+			amiWebApp.error('Please, select a table.');
 		}
 	};
 
