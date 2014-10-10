@@ -18,18 +18,18 @@ function AMICatalogModelerApp() {
 	this.onReady = function() {
 
 		amiWebApp.loadSheets([
-			'subapps/catalogmodeler/css/joint.min.css',
+			'subapps/common/css/joint.min.css',
 			'subapps/catalogmodeler/css/AMICatalogModelerApp.css',
 		]);
 
 		amiWebApp.loadScripts([
-			'subapps/catalogmodeler/js/lodash.min.js',
-			'subapps/catalogmodeler/js/backbone-min.js',
-			'subapps/catalogmodeler/js/joint.min.js',
-			'subapps/catalogmodeler/js/vectorizer.min.js',
-			'subapps/catalogmodeler/js/geometry.min.js',
+			'subapps/common/js/lodash.min.js',
+			'subapps/common/js/backbone-min.js',
+			'subapps/common/js/joint.min.js',
+			'subapps/common/js/vectorizer.min.js',
+			'subapps/common/js/geometry.min.js',
+			'subapps/common/js/filesaver.min.js',
 			'subapps/catalogmodeler/js/joint.shapes.sql.min.js',
-			'subapps/catalogmodeler/js/FileSaver.min.js',
 		]);
 
 		$('#ami_jumbotron_title').html('Catalog Modeler');
