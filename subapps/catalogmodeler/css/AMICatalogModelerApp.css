@@ -4,13 +4,6 @@
     line-height: 18px;
 }
 
-.sql_editor_grid {
-    pointer-events: none;
-    stroke: rgb(22, 160, 133);
-    stroke-opacity: 0.5;
-    stroke-width: 0.5;
-}
-
 .link-tools .tool-remove {
     display: none;
 }

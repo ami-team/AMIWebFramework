@@ -77,6 +77,9 @@ function AMICatalogModelerApp() {
 				this.dbName = '?';
 				this.dbWidth = 900;
 				this.dbHeight = 340;
+				this.dbSearchAlias = '';
+				this.dbSearchEngine = '';
+				this.dbSearchActive = false;
 
 				$('#dbName').val(this.dbName);
 				$('#dbWidth').val(this.dbWidth);
@@ -338,10 +341,12 @@ function AMICatalogModelerApp() {
 					});
 
 					this.update({
-						menu: true,
+						menu: false,
 						soft: false,
 						arrows: false,
 					});
+
+					this.collapse();
 
 				}).fail(function(data) {
 					amiWebApp.error(JSPath.apply('..error.$', data)[0]);
@@ -368,21 +373,23 @@ function AMICatalogModelerApp() {
 
 		var files = e.dataTransfer.files;
 
-		for(var i = 0, f = null; f = files[i]; i++) {
+		for(var i = 0, file = null; file = files[i]; i++) {
 
 			var reader = new FileReader();
 
 			reader.onload = function(e) {
 				amiCatalogModelerApp.loadSchema('?', e.target.result);
 
-				this.update({
-					menu: true,
+				amiCatalogModelerApp.update({
+					menu: false,
 					soft: false,
 					arrows: true,
 				});
+
+				amiCatalogModelerApp.collapse();
 			};
 
-			reader.readAsText(f);
+			reader.readAsText(file);
 		}
 	};
 
@@ -430,7 +437,7 @@ function AMICatalogModelerApp() {
 		var json = JSON.stringify(this.graph.toJSON()).replace(/\"/g, '~Q~');
 
 		amiCommand.execute('UpdateElement -project="self" -processingStep="self" -entity="router_db" -db="' + this.dbName + '" -separator="|" -updateField="jsonSchema" -updateValue="' + json + '"').done(function() {
-			amiWebApp.success('Done with success :-)');
+			amiWebApp.success('Operation done with success :-).');
 		}).fail(function(data) {
 			amiWebApp.error(JSPath.apply('..error.$', data)[0]);
 		});
@@ -472,6 +479,24 @@ function AMICatalogModelerApp() {
 		this.dbHeight = Math.ceil(parseInt(value, 10) / 10.0) * 10;
 
 		this.paper.setDimensions(this.dbWidth, this.dbHeight);
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setDBSearchAlias = function(value) {
+		this.dbSearchAlias = value;
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setDBSearchEngine = function(value) {
+		this.dbSearchEngine = value;
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setDBSearchActive = function(value) {
+		this.dbSearchActive = value;
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -726,6 +751,20 @@ function AMICatalogModelerApp() {
 	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
+	this.collapse = function() {
+		$('#collapse4').removeClass('in');
+		$('#collapse5').removeClass('in');
+		$('#collapse6').removeClass('in');
+		$('#collapse7').removeClass('in');
+
+		$('#collapse4 tbody').empty();
+		$('#collapse5 tbody').empty();
+		$('#collapse6 tbody').empty();
+		$('#collapse7 tbody').empty();
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	this.update = function(settings) {
 
 		var menu = false;
@@ -846,23 +885,10 @@ function AMICatalogModelerApp() {
 			}
 
 			/*-------------------------------------------------*/
-		} else {
-			/*-------------------------------------------------*/
-
-			$('#collapse4').removeClass('in');
-			$('#collapse5').removeClass('in');
-			$('#collapse6').removeClass('in');
-			$('#collapse7').removeClass('in');
-
-			$('#collapse4 tbody').html('');
-			$('#collapse5 tbody').html('');
-			$('#collapse6 tbody').html('');
-			$('#collapse7 tbody').html('');
-
-			/*-------------------------------------------------*/
 		}
 
 		if(arrows) {
+			return; /* BUG BUG */
 			/*-------------------------------------------------*/
 
 			var dict = {};
@@ -876,8 +902,8 @@ function AMICatalogModelerApp() {
 
 			var arrows1 = [];
 
-			$.each(graph.getElements(), function(index, table) {
-				$.each(table.getFeKeys(), function(index, fekey) {
+			$.each(this.graph.getElements(), function(index, table) {
+				$.each(/* */ table.getFeKeys(), function(index, fekey) {
 
 					var sourceName = table.getName();
 					var targetName = fekey['table'];

@@ -93,6 +93,20 @@
                       <td><input type="number" step="10" class="form-control form-control-xs" id="dbHeight" onkeyup="amiCatalogModelerApp.setDBHeight(this.value);" onchange="amiCatalogModelerApp.setDBHeight(this.value);" /></td>
                     </tr>
                   </tbody>
+                  <thead>
+                    <tr>
+		      <th>Search alias</th>
+		      <th>Search engine</th>
+		      <th>Search active</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" value="" class="form-control form-control-xs" id="dbSearchAlias" onkeyup="amiCatalogModelerApp.setDBSearchAlias(this.value);" /></td>
+                      <td><input type="text" value="" class="form-control form-control-xs" id="dbSearchEngine" onkeyup="amiCatalogModelerApp.setDBSearchEngine(this.value);" /></td>
+                      <td><input type="checkbox" class="form-control form-control-xs" id="dbSearchActive" onchange="amiCatalogModelerApp.setDBSearchActive(this.value);" /></td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
             </div>
@@ -213,7 +227,7 @@
     <nav class="navbar navbar-default">
       <div class="container-fluid">
         <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ami-catalog-modeler-toolbar">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ami_catalog_modeler_toolbar">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -221,7 +235,7 @@
           </button>
           <span class="navbar-brand">Editor</span>
         </div>
-        <div class="collapse navbar-collapse" id="ami-catalog-modeler-toolbar">
+        <div class="collapse navbar-collapse" id="ami_catalog_modeler_toolbar">
 
           <ul class="nav navbar-nav navbar-left">
 	    <li>
