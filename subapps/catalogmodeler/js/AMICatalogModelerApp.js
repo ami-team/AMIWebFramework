@@ -67,6 +67,16 @@ function AMICatalogModelerApp() {
 
 				/*-----------------------------------------*/
 
+				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/tableColorModal.html').done(function(data) {
+					amiWebApp.appendHTML('ami_modal_content', data);
+				});
+
+				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/fieldOptionModal.html').done(function(data) {
+					amiWebApp.appendHTML('ami_modal_content', data);
+				});
+
+				/*-----------------------------------------*/
+
 				var dropZone = document.getElementById('drop_zone');
 
 				dropZone.addEventListener('dragover', this.handleDragOver, false);
@@ -559,6 +569,13 @@ function AMICatalogModelerApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
+
+	this.editTableColor = function() {
+	
+		$('#modal_catalog_modeler_table_color').modal('show');
+	};
+
+	/*-----------------------------------------------------------------*/
 	/* FIELD                                                           */
 	/*-----------------------------------------------------------------*/
 
@@ -627,6 +644,13 @@ function AMICatalogModelerApp() {
 				arrows: false,
 			});
 		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.editFieldOptions = function(index) {
+	
+		$('#modal_catalog_modeler_field_options').modal('show');
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -786,7 +810,10 @@ function AMICatalogModelerApp() {
 			}
 		}
 
-		if(menu && this.table) {
+		var graph = this.graph;
+		var table = this.table;
+
+		if(menu && table) {
 			/*-------------------------------------------------*/
 
 			var dict1 = {};
@@ -817,7 +844,7 @@ function AMICatalogModelerApp() {
 
 			/*-------------------------------------------------*/
 
-			$.each(this.graph.getElements(), function(index, item) {
+			$.each(graph.getElements(), function(index, item) {
 
 				var name = item.getName();
 
@@ -828,7 +855,7 @@ function AMICatalogModelerApp() {
 
 			/*-------------------------------------------------*/
 
-			$.each(this.table.getFields(), function(index, item) {
+			$.each(table.getFields(), function(index, item) {
 
 				var name = item['name'];
 				var type = item['type'];
@@ -844,7 +871,7 @@ function AMICatalogModelerApp() {
 
 			/*-------------------------------------------------*/
 
-			$.each(this.table.getFeKeys(), function(index, item) {
+			$.each(table.getFeKeys(), function(index, item) {
 
 				var field = item['field'];
 				var table = item['table'];
@@ -858,7 +885,7 @@ function AMICatalogModelerApp() {
 
 			/*-------------------------------------------------*/
 
-			$.each(this.table.getIndices(), function(index, item) {
+			$.each(table.getIndices(), function(index, item) {
 
 				var field = item['field'];
 
@@ -888,12 +915,11 @@ function AMICatalogModelerApp() {
 		}
 
 		if(arrows) {
-			return; /* BUG BUG */
 			/*-------------------------------------------------*/
 
 			var dict = {};
 
-			$.each(this.graph.getElements(), function(index, table) {
+			$.each(graph.getElements(), function(index, table) {
 
 				dict[table.getName()] = table.id;
 			});
@@ -902,8 +928,8 @@ function AMICatalogModelerApp() {
 
 			var arrows1 = [];
 
-			$.each(this.graph.getElements(), function(index, table) {
-				$.each(/* */ table.getFeKeys(), function(index, fekey) {
+			$.each(graph.getElements(), function(index, table) {
+				$.each(table.getFeKeys(), function(index, fekey) {
 
 					var sourceName = table.getName();
 					var targetName = fekey['table'];
@@ -925,7 +951,7 @@ function AMICatalogModelerApp() {
 
 			var arrows2 = [];
 
-			$.each(this.graph.getLinks(), function(index, link) {
+			$.each(graph.getLinks(), function(index, link) {
 
 				var source = link.prop('source');
 				var target = link.prop('target');
@@ -936,10 +962,6 @@ function AMICatalogModelerApp() {
 					link: link.id,
 				});
 			});
-
-			/*-------------------------------------------------*/
-
-			var graph = this.graph;
 
 			/*-------------------------------------------------*/
 
