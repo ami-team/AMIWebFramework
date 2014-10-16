@@ -1,8 +1,23 @@
 <script type="text/javascript">
 
-function clickColor(hex)
-{
-	$('#divpreview').css('backgroundColor', hex);
+function pad2(s) {
+	return s.length == 1 ? '0' + s : s;
+}
+
+function clickColor(hex) {
+	var r = parseInt('0x' + hex.substring(1, 3));
+	var g = parseInt('0x' + hex.substring(3, 5));
+	var b = parseInt('0x' + hex.substring(5, 7));
+
+	var R = pad2(Math.round(0.9 * r).toString(16));
+	var G = pad2(Math.round(0.9 * g).toString(16));
+	var B = pad2(Math.round(0.9 * b).toString(16));
+
+	var HEX = '#' + R + G + B;
+
+	$('#color_preview0').css('color', HEX);
+	$('#color_preview1').css('border-color', HEX);
+	$('#color_preview1').css('background-color', hex);
 }
 
 </script>
@@ -152,7 +167,9 @@ function clickColor(hex)
           <div class="col-md-6 text-center">
             <img src="subapps/catalogmodeler/img/dropper.png" width="150" height="150" alt="" />
 
-            <div id="divpreview" style="margin-top: 20px; width: 100%; height: 30px; border: 8px dashed black; border-radius: 8px;">&nbsp;</div>
+            <span class="fa fa-tint" id="color_preview0" style="position: relative; top: +94px; left: -158px; font-size: 22pt;"></span>
+
+            <div id="color_preview1" style="margin-top: 20px; width: 100%; height: 30px; border: 8px dashed black; border-radius: 8px;">&nbsp;</div>
           </div>
         </div>
       </div>
