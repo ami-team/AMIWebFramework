@@ -429,24 +429,41 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.lock = function() {
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.unlock = function() {
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	this.success = function(message) {
 		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 		$('#ami_error_content .alert').fadeOut(10000);
-	}
+	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.info = function(message) {
 		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentInfo, {dict: {MESSAGE: message}});
 		$('#ami_error_content .alert').fadeOut(10000);
-	}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.warning = function(message) {
+		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentWarning, {dict: {MESSAGE: message}});
+		$('#ami_error_content .alert').fadeOut(10000);
+	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.error = function(message) {
 		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 		$('#ami_error_content .alert').fadeOut(10000);
-	}
+	};
 
 	/*-----------------------------------------------------------------*/
 	/* SUB APPLICATION LOADER                                          */
@@ -542,6 +559,20 @@ function AMIWebApp() {
 		this.fragmentInfo = data;
 	}).fail(function() {
 		throw 'could not load `html/AMI/Fragment/info.html`';
+	});
+
+	/*-------------------------------*/
+
+	$.ajax({
+		url: 'html/AMI/Fragment/warning.html',
+		cache: false,
+		dataType: 'html',
+		context: this,
+		async: false,
+	}).done(function(data) {
+		this.fragmentError = data;
+	}).fail(function() {
+		throw 'could not load `html/AMI/Fragment/warning.html`';
 	});
 
 	/*-------------------------------*/

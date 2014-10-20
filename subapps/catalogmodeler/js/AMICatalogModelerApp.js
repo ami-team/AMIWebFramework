@@ -355,7 +355,7 @@ function AMICatalogModelerApp() {
 
 				/*-----------------------------------------*/
 
-				amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT contain, containkey, container, containerkey FROM db_model WHERE type = 0"', {context: this}).done(function(data) {
+				amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT contain, containkey, container, containerkey FROM db_model WHERE type = 0 AND contain NOT LIKE \'db_%\'"', {context: this}).done(function(data) {
 
 					var rows = amiWebApp.jspath('..row', data);
 
