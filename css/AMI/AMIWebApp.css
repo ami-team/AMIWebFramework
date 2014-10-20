@@ -133,6 +133,10 @@ th, label {
     font-family: 'janda';
 }
 
+#ami_progressbar {
+    display: none;
+}
+
 #modal_lock {
     top: 0;
     bottom: 0;
