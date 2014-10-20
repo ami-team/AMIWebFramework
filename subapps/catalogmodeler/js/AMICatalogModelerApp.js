@@ -242,6 +242,8 @@ function AMICatalogModelerApp() {
 
 	this.listSchemes = function() {
 
+		amiWebApp.lock();
+
 		this.clearSchemes();
 
 		amiCommand.execute('SearchQuery -project="self" -processingStep="self" -sql="SELECT router_db.db, router_project.name AS project, router_process.name AS process FROM router_db, router_project, router_process WHERE router_db.process = router_process.identifier AND router_db.project = router_project.identifier"').done(function(data) {
@@ -261,6 +263,8 @@ function AMICatalogModelerApp() {
 				}
 			});
 
+			amiWebApp.unlock();
+
 		}).fail(function(data) {
 			amiWebApp.error(JSPath.apply('..error.$', data)[0]);
 		});
@@ -278,107 +282,118 @@ function AMICatalogModelerApp() {
 		var db = $('#ami-catalog-modeler-catalog-list').val();
 
 		if(db)
+		{
+			/*-------------------------------------------------*/
 
-		/*---------------------------------------------------------*/
-
-		amiCommand.execute('SearchQuery -project="self" -processingStep="self" -sql="SELECT router_project.name AS project, router_process.name AS process, \'utf8_general_ci\' AS encoding, router_db.jsonSchema FROM router_db, router_project, router_process WHERE router_db.db = \'' + db + '\' AND router_db.process = router_process.identifier AND router_db.project = router_project.identifier"', {context: this}).done(function(data) {
-
-			var project = amiWebApp.jspath('..field{.@name==="project"}.$', data)[0];
-			var process = amiWebApp.jspath('..field{.@name==="process"}.$', data)[0];
-			var encoding = amiWebApp.jspath('..field{.@name==="encoding"}.$', data)[0];
-			var jsonSchema = amiWebApp.jspath('..field{.@name==="jsonSchema"}.$', data)[0];
+			amiWebApp.lock();
 
 			/*-------------------------------------------------*/
 
-			this.loadSchema(db, jsonSchema ? jsonSchema.replace(/\~Q\~/g, '"') : '{"cells":[]}');
+			amiCommand.execute('SearchQuery -project="self" -processingStep="self" -sql="SELECT router_project.name AS project, router_process.name AS process, \'utf8_general_ci\' AS encoding, router_db.jsonSchema FROM router_db, router_project, router_process WHERE router_db.db = \'' + db + '\' AND router_db.process = router_process.identifier AND router_db.project = router_project.identifier"', {context: this}).done(function(data) {
 
-			/*-------------------------------------------------*/
+				var project = amiWebApp.jspath('..field{.@name==="project"}.$', data)[0];
+				var process = amiWebApp.jspath('..field{.@name==="process"}.$', data)[0];
+				var encoding = amiWebApp.jspath('..field{.@name==="encoding"}.$', data)[0];
+				var jsonSchema = amiWebApp.jspath('..field{.@name==="jsonSchema"}.$', data)[0];
 
-			var tables = {};
+				/*-----------------------------------------*/
 
-			$.each(graph.getElements(), function(index1, item1) {
+				this.loadSchema(db, jsonSchema ? jsonSchema.replace(/\~Q\~/g, '"') : '{"cells":[]}');
 
-				var fields = {};
+				/*-----------------------------------------*/
+
+				var tables = {};
+
+				$.each(graph.getElements(), function(index1, item1) {
+
+					var fields = {};
 	
-				$.each(item1.getFields(), function(index2, item2) {
+					$.each(item1.getFields(), function(index2, item2) {
 
-					fields[item2['name']] = item2;
-				});
+						fields[item2['name']] = item2;
+					});
 
-				tables[item1.getName()] = {
-					table: item1,
-					fields: fields,
-				};
+					tables[item1.getName()] = {
+						table: item1,
+						fields: fields,
+					};
 
-				item1.setFeKeys([]);
-				item1.setIndices([]);
-			});
-
-			/*-------------------------------------------------*/
-
- 			amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT tab, field, type FROM db_field WHERE tab NOT LIKE \'db_%\'"', {context: this}).done(function(data) {
-
-				var cnt = 0;
-
-				var rows = amiWebApp.jspath('..row', data);
-
-				$.each(rows, function(index, row) {
-					var table = amiWebApp.jspath('..field{.@name==="tab"}.$', row)[0];
-					var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0];
-					var type = amiWebApp.jspath('..field{.@name==="type"}.$', row)[0];
-
-					if(!(table in tables)) {
-
-						var pos = 20 + 10 * cnt++;
-	
-						tables[table] = {
-							table: graph.newTable({
-								position: {
-									x: pos,
-									y: pos,
-								},
-								name: table,
-								encoding: encoding,
-							}),
-							fields: [],
-						};
-					}
-
-					if(!(field in tables[table]['fields'])) {
-
-						tables[table]['table'].appendField({
-							name: field,
-							type: type,
-						});
-					}
+					item1.setFeKeys([]);
+					item1.setIndices([]);
 				});
 
 				/*-----------------------------------------*/
 
-				amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT contain, containkey, container, containerkey FROM db_model WHERE type = 0 AND contain NOT LIKE \'db_%\'"', {context: this}).done(function(data) {
+	 			amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT tab, field, type FROM db_field WHERE tab NOT LIKE \'db_%\'"', {context: this}).done(function(data) {
+
+					var cnt = 0;
 
 					var rows = amiWebApp.jspath('..row', data);
 
 					$.each(rows, function(index, row) {
-						var contain = amiWebApp.jspath('..field{.@name==="contain"}.$', row)[0];
-						var containkey = amiWebApp.jspath('..field{.@name==="containkey"}.$', row)[0];
-						var container = amiWebApp.jspath('..field{.@name==="container"}.$', row)[0];
-						var containerkey = amiWebApp.jspath('..field{.@name==="containerkey"}.$', row)[0];
+						var table = amiWebApp.jspath('..field{.@name==="tab"}.$', row)[0];
+						var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0];
+						var type = amiWebApp.jspath('..field{.@name==="type"}.$', row)[0];
 
-						tables[contain]['table'].appendFeKey({
-							field: containkey,
-							table: container,
+						if(!(table in tables)) {
+
+							var pos = 20 + 10 * cnt++;
+	
+							tables[table] = {
+								table: graph.newTable({
+									position: {
+										x: pos,
+										y: pos,
+									},
+									name: table,
+									encoding: encoding,
+								}),
+								fields: [],
+							};
+						}
+
+						if(!(field in tables[table]['fields'])) {
+
+							tables[table]['table'].appendField({
+								name: field,
+								type: type,
+							});
+						}
+					});
+
+					/*---------------------------------*/
+
+					amiCommand.execute('SearchQuery -project="' + project + '" -processingStep="' + process + '" -sql="SELECT contain, containkey, container, containerkey FROM db_model WHERE type = 0 AND contain NOT LIKE \'db_%\'"', {context: this}).done(function(data) {
+
+						var rows = amiWebApp.jspath('..row', data);
+
+						$.each(rows, function(index, row) {
+							var contain = amiWebApp.jspath('..field{.@name==="contain"}.$', row)[0];
+							var containkey = amiWebApp.jspath('..field{.@name==="containkey"}.$', row)[0];
+							var container = amiWebApp.jspath('..field{.@name==="container"}.$', row)[0];
+							var containerkey = amiWebApp.jspath('..field{.@name==="containerkey"}.$', row)[0];
+
+							tables[contain]['table'].appendFeKey({
+								field: containkey,
+								table: container,
+							});
 						});
+
+						this.update({
+							menu: false,
+							soft: false,
+							arrows: true,
+						});
+
+						this.fitToContent();
+
+						amiWebApp.unlock();
+
+					}).fail(function(data) {
+						amiWebApp.error(JSPath.apply('..error.$', data)[0]);
 					});
 
-					this.update({
-						menu: false,
-						soft: false,
-						arrows: true,
-					});
-
-					this.fitToContent();
-
+					/*---------------------------------*/
 				}).fail(function(data) {
 					amiWebApp.error(JSPath.apply('..error.$', data)[0]);
 				});
@@ -389,11 +404,7 @@ function AMICatalogModelerApp() {
 			});
 
 			/*-------------------------------------------------*/
-		}).fail(function(data) {
-			amiWebApp.error(JSPath.apply('..error.$', data)[0]);
-		});
-
-		/*---------------------------------------------------------*/
+		}
 	};
 
 	/*-----------------------------------------------------------------*/

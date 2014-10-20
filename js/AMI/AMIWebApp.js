@@ -418,7 +418,12 @@ function AMIWebApp() {
 
 		$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data) {
 
-			$('body').append(amiWebApp.formatHTML(data, {dict: dict})).promise().done(amiWebApp.onStart);
+			$('body').append(amiWebApp.formatHTML(data, {dict: dict})).promise().done(function() {
+
+				amiWebApp.appendHTML('ami_modal_content', '<div class="modal fade" id="modal_lock"></div>');
+
+				amiWebApp.onStart();
+			});
 
 		}).fail(function() {
 			throw 'could not load `' + fragment + '`';
@@ -430,38 +435,44 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.lock = function() {
+		$('#modal_lock').modal('show');
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.unlock = function() {
+		$('#modal_lock').modal('hide');
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.success = function(message) {
-		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		this.unlock();
+		this.replaceHTML('ami_status_content', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 		$('#ami_error_content .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.info = function(message) {
-		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentInfo, {dict: {MESSAGE: message}});
+		this.unlock();
+		this.replaceHTML('ami_status_content', amiWebApp.fragmentInfo, {dict: {MESSAGE: message}});
 		$('#ami_error_content .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.warning = function(message) {
-		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentWarning, {dict: {MESSAGE: message}});
+		this.unlock();
+		this.replaceHTML('ami_status_content', amiWebApp.fragmentWarning, {dict: {MESSAGE: message}});
 		$('#ami_error_content .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.error = function(message) {
-		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		this.unlock();
+		this.replaceHTML('ami_status_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 		$('#ami_error_content .alert').fadeOut(10000);
 	};
 
@@ -472,22 +483,22 @@ function AMIWebApp() {
 	this.loadSubApp = function(subApp) {
 		/*---------------------------------------------------------*/
 
-		if(subApp.onReady == undefined) {
+		if(!subApp.onReady) {
 			alert('error: `<sub application>.onReady()` must be implemented !');
 			return;
 		}
 
-		if(subApp.onLogin == undefined) {
+		if(!subApp.onLogin) {
 			alert('error: `<sub application>.onLogin()` must be implemented !');
 			return;
 		}
 
-		if(subApp.onLogout == undefined) {
+		if(!subApp.onLogout) {
 			alert('error: `<sub application>.onLogout()` must be implemented !');
 			return;
 		}
 
-		if(subApp.onSessionExpired == undefined) {
+		if(!subApp.onSessionExpired) {
 			alert('error: `<sub application>.onSessionExpired()` must be implemented !');
 			return;
 		}
