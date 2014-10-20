@@ -431,12 +431,14 @@ function AMIWebApp() {
 
 	this.success = function(message) {
 		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		$('#ami_error_content .alert').fadeOut(10000);
 	}
 
 	/*-----------------------------------------------------------------*/
 
 	this.error = function(message) {
 		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		$('#ami_error_content .alert').fadeOut(10000);
 	}
 
 	/*-----------------------------------------------------------------*/

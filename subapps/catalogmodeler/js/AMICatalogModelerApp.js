@@ -182,42 +182,60 @@ function AMICatalogModelerApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.loadSchema = function(db, json) {
+		/*---------------------------------------------------------*/
 
 		try {
-			/*-------------------------------------------------*/
-
 			this.graph.fromJSON(JSON.parse(json));
 
-			this.paper.fitToContent({
-				padding: 20,
-				gridWidth: 10,
-				gridHeight: 10,
-			});
-
-			/*-------------------------------------------------*/
-
-			this.dbName = db;
-			this.dbWidth = $('#editor_zone svg').width() + 2;
-			this.dbHeight = $('#editor_zone svg').height() + 2;
-
-			$('#dbName').val(this.dbName);
-			$('#dbWidth').val(this.dbWidth);
-			$('#dbHeight').val(this.dbHeight);
-
-			/*-------------------------------------------------*/
-
-			this.table = null;
-
-			/*-------------------------------------------------*/
 		} catch(e) {
 			amiWebApp.error(e);
 		}
+
+		/*---------------------------------------------------------*/
+
+		this.dbName = db;
+		this.dbWidth = $('#editor_zone svg').width() + 2;
+		this.dbHeight = $('#editor_zone svg').height() + 2;
+
+		$('#dbName').val(this.dbName);
+		$('#dbWidth').val(this.dbWidth);
+		$('#dbHeight').val(this.dbHeight);
+
+		/*---------------------------------------------------------*/
+
+		$('#collapse4').removeClass('in');
+		$('#collapse5').removeClass('in');
+		$('#collapse6').removeClass('in');
+		$('#collapse7').removeClass('in');
+
+		$('#collapse4 tbody').empty();
+		$('#collapse5 tbody').empty();
+		$('#collapse6 tbody').empty();
+		$('#collapse7 tbody').empty();
+
+		/*---------------------------------------------------------*/
+
+		this.table = null;
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.clearSchemes = function() {
 		$('#ami-catalog-modeler-catalog-list').empty();
+	};
+
+
+	/*-----------------------------------------------------------------*/
+
+	this.fitToContent = function() {
+
+		this.paper.fitToContent({
+			padding: 20,
+			gridWidth: 10,
+			gridHeight: 10,
+		});
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -258,6 +276,8 @@ function AMICatalogModelerApp() {
 		/*---------------------------------------------------------*/
 
 		var db = $('#ami-catalog-modeler-catalog-list').val();
+
+		if(db)
 
 		/*---------------------------------------------------------*/
 
@@ -320,6 +340,7 @@ function AMICatalogModelerApp() {
 								name: table,
 								encoding: encoding,
 							}),
+							fields: [],
 						};
 					}
 
@@ -353,10 +374,10 @@ function AMICatalogModelerApp() {
 					this.update({
 						menu: false,
 						soft: false,
-						arrows: false,
+						arrows: true,
 					});
 
-					this.collapse();
+					this.fitToContent();
 
 				}).fail(function(data) {
 					amiWebApp.error(JSPath.apply('..error.$', data)[0]);
@@ -390,13 +411,13 @@ function AMICatalogModelerApp() {
 			reader.onload = function(e) {
 				amiCatalogModelerApp.loadSchema('?', e.target.result);
 
+				amiCatalogModelerApp.fitToContent();
+
 				amiCatalogModelerApp.update({
 					menu: false,
 					soft: false,
 					arrows: true,
 				});
-
-				amiCatalogModelerApp.collapse();
 			};
 
 			reader.readAsText(file);
@@ -571,9 +592,18 @@ function AMICatalogModelerApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.editTableColor = function() {
-	
-		$('#modal_catalog_modeler_table_color').modal('show');
+
+		if(this.table) {
+			var fill = this.table.getTopColor();
+			var stroke = this.table.getStrokeColor();
+
+			amiColorPeaker.execute({context: this, fillColor: fill, strokeColor: stroke}).done(function(fill, stroke) {
+				this.table.setTopColor(fill);
+				this.table.setStrokeColor(stroke);
+			});
+		}
 	};
+
 
 	/*-----------------------------------------------------------------*/
 	/* FIELD                                                           */
@@ -618,8 +648,40 @@ function AMICatalogModelerApp() {
 
 		if(this.table) {
 			var item = this.table.getField(index);
-			item['name'] = value;
+			var VALUE = item['name']; item['name'] = value;
 			this.table.setField(index, item)
+
+			/*-------------------------------------------------*/
+
+			var feKeys = [];
+
+			$.each(this.table.getFeKeys(), function(index, item) {
+
+				if(item['field'] === VALUE) {
+					item['field'] = value;
+				}
+
+				feKeys.push(item);
+			});
+
+			this.table.setFeKeys(feKeys);
+
+			/*-------------------------------------------------*/
+
+			var indices = [];
+
+			$.each(this.table.getIndices(), function(index, item) {
+			
+				if(item['field'] === VALUE) {
+					item['field'] = value;
+				}
+
+				feKeys.push(item);
+			});
+
+			this.table.setIndices(indices);
+
+			/*-------------------------------------------------*/
 
 			this.update({
 				menu: true,
@@ -773,20 +835,6 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
-	/*-----------------------------------------------------------------*/
-
-	this.collapse = function() {
-		$('#collapse4').removeClass('in');
-		$('#collapse5').removeClass('in');
-		$('#collapse6').removeClass('in');
-		$('#collapse7').removeClass('in');
-
-		$('#collapse4 tbody').empty();
-		$('#collapse5 tbody').empty();
-		$('#collapse6 tbody').empty();
-		$('#collapse7 tbody').empty();
-	};
-
 	/*-----------------------------------------------------------------*/
 
 	this.update = function(settings) {

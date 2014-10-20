@@ -192,7 +192,7 @@ function AMILogin() {
 			amiLogin._update(data, user);
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 
 			amiLogin._update(data, amiLogin.guest);
 		});
@@ -213,7 +213,7 @@ function AMILogin() {
 			amiLogin._update(data, user);
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 
 			amiLogin._update(data, amiLogin.guest);
 		});
@@ -237,7 +237,7 @@ function AMILogin() {
 			amiLogin._clean();
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 			amiLogin._clean();
 		});
 	};
@@ -260,7 +260,7 @@ function AMILogin() {
 			amiLogin._clean();
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 			amiLogin._clean();
 		});
 	};
@@ -293,7 +293,7 @@ function AMILogin() {
 			amiLogin._clean();
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 			amiLogin._clean();
 		});
 	};
@@ -317,7 +317,7 @@ function AMILogin() {
 			amiLogin._clean();
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage2(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage2(amiWebApp.jspath('..error.$', data)[0]);
 			amiLogin._clean();
 		});
 	};
@@ -347,7 +347,7 @@ function AMILogin() {
 			amiLogin._clean();
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage3(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage3(amiWebApp.jspath('..error.$', data)[0]);
 			amiLogin._clean();
 		});
 	};
@@ -369,7 +369,7 @@ function AMILogin() {
 			amiLogin._clean();
 
 		}).fail(function(data) {
-			amiLogin._showErrorMessage1(JSPath.apply('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 			amiLogin._clean();
 		});
 	};
@@ -391,30 +391,36 @@ function AMILogin() {
 
 	this._showSuccessMessage1 = function(message) {
 		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		$('#modal_login_message .alert').fadeOut(10000);
 	};
 
 	this._showErrorMessage1 = function(message) {
 		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		$('#modal_login_message .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage2 = function(message) {
 		amiWebApp.replaceHTML('modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		$('#modal_login_change_info_message .alert').fadeOut(10000);
 	};
 
 	this._showErrorMessage2 = function(message) {
 		amiWebApp.replaceHTML('modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		$('#modal_login_change_info_message .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage3 = function(message) {
 		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		$('#modal_login_change_pass_message .alert').fadeOut(10000);
 	};
 
 	this._showErrorMessage3 = function(message) {
 		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		$('#modal_login_change_pass_message .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
