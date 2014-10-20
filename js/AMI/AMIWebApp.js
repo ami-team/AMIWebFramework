@@ -420,7 +420,7 @@ function AMIWebApp() {
 
 			$('body').append(amiWebApp.formatHTML(data, {dict: dict})).promise().done(function() {
 
-				amiWebApp.appendHTML('ami_modal_content', '<div class="modal fade" id="modal_lock"></div>');
+				amiWebApp.appendHTML('ami_modal_content', '<div id="modal_lock"></div>');
 
 				amiWebApp.onStart();
 			});
@@ -435,13 +435,13 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.lock = function() {
-		$('#modal_lock').modal('show');
+		$('#modal_lock').css('display', 'block');
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.unlock = function() {
-		$('#modal_lock').modal('hide');
+		$('#modal_lock').css('display', 'none');
 	};
 
 	/*-----------------------------------------------------------------*/

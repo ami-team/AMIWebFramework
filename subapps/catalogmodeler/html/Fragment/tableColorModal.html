@@ -45,7 +45,7 @@ function AMIColorPeaker() {
 
 		$('#modal_catalog_modeler_table_color').modal('show');
 
-		return this.deferred = $.Deferred();
+		return (this.deferred = $.Deferred()).promise();
 	};
 
 	/*-----------------------------------------------------------------*/

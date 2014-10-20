@@ -132,3 +132,17 @@ th, label {
     text-align: center;
     font-family: 'janda';
 }
+
+#modal_lock {
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    display: none;
+    position: fixed;
+    overflow: hidden;
+    outline: 0 none;
+
+    z-index: 2050;
+}
