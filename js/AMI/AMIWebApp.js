@@ -436,6 +436,13 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.info = function(message) {
+		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentInfo, {dict: {MESSAGE: message}});
+		$('#ami_error_content .alert').fadeOut(10000);
+	}
+
+	/*-----------------------------------------------------------------*/
+
 	this.error = function(message) {
 		amiWebApp.replaceHTML('ami_error_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 		$('#ami_error_content .alert').fadeOut(10000);
@@ -521,6 +528,20 @@ function AMIWebApp() {
 		this.fragmentSuccess = data;
 	}).fail(function() {
 		throw 'could not load `html/AMI/Fragment/success.html`';
+	});
+
+	/*-------------------------------*/
+
+	$.ajax({
+		url: 'html/AMI/Fragment/info.html',
+		cache: false,
+		dataType: 'html',
+		context: this,
+		async: false,
+	}).done(function(data) {
+		this.fragmentInfo = data;
+	}).fail(function() {
+		throw 'could not load `html/AMI/Fragment/info.html`';
 	});
 
 	/*-------------------------------*/
