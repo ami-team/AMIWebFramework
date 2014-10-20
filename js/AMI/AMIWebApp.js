@@ -435,12 +435,14 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.lock = function() {
+		$('#ami_progressbar').css('display', 'block');
 		$('#modal_lock').css('display', 'block');
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.unlock = function() {
+		$('#ami_progressbar').css('display', 'none');
 		$('#modal_lock').css('display', 'none');
 	};
 
