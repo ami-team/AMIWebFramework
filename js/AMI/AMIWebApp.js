@@ -420,7 +420,15 @@ function AMIWebApp() {
 
 			$('body').append(amiWebApp.formatHTML(data, {dict: dict})).promise().done(function() {
 
-				amiWebApp.appendHTML('ami_modal_content', '<div id="modal_lock"></div>');
+				amiWebApp.appendHTML('ami_modal_content',
+					'<div id="modal_lock">' +
+					'  <div class="progress progress-striped active">' +
+					'    <div class="progress-bar progress-bar-success" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar" style="width: 100%;">' +
+					'      <span class="sr-only">Please wait...</span>' +
+					'    </div>' +
+					'  </div>' +
+					'</div>'
+				);
 
 				amiWebApp.onStart();
 			});
@@ -435,14 +443,12 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.lock = function() {
-		$('#ami_progressbar').css('display', 'block');
 		$('#modal_lock').css('display', 'block');
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.unlock = function() {
-		$('#ami_progressbar').css('display', 'none');
 		$('#modal_lock').css('display', 'none');
 	};
 
@@ -451,7 +457,6 @@ function AMIWebApp() {
 	this.success = function(message) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-		$('#ami_error_content .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -459,7 +464,6 @@ function AMIWebApp() {
 	this.info = function(message) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', amiWebApp.fragmentInfo, {dict: {MESSAGE: message}});
-		$('#ami_error_content .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -467,7 +471,6 @@ function AMIWebApp() {
 	this.warning = function(message) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', amiWebApp.fragmentWarning, {dict: {MESSAGE: message}});
-		$('#ami_error_content .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -475,7 +478,6 @@ function AMIWebApp() {
 	this.error = function(message) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-		$('#ami_error_content .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/

@@ -133,10 +133,6 @@ th, label {
     font-family: 'janda';
 }
 
-#ami_progressbar {
-    display: none;
-}
-
 #modal_lock {
     top: 0;
     bottom: 0;
@@ -149,4 +145,12 @@ th, label {
     outline: 0 none;
 
     z-index: 2050;
+}
+
+#modal_lock .progress {
+    bottom: -20px;
+    left: 0;
+    right: 0;
+
+    position: absolute;
 }
