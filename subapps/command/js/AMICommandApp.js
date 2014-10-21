@@ -6,6 +6,10 @@
  *
  */
 
+/*-------------------------------------------------------------------------*/
+/* INTERNAL FUNCTIONS                                                      */
+/*-------------------------------------------------------------------------*/
+
 function _safe_for_html(s) {
 	return s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
@@ -63,16 +67,20 @@ function AMICommandApp() {
 
 	this.form_execute = function() {
 
+		amiWebApp.lock();
+
 		var command = $('#modal_command_command').val();
 		var converter = $('#modal_command_converter').val();
 
 		amiCommand.execute(command, {context: this, converter: converter}).done(function(data) {
 
 			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : _safe_for_html(data));
+			amiWebApp.unlock();
 
 		}).fail(function(data) {
 
 			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : _safe_for_html(data));
+			amiWebApp.unlock();
 		});
 	};
 
