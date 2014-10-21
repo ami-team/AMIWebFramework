@@ -226,7 +226,6 @@ function AMICatalogModelerApp() {
 		$('#ami-catalog-modeler-catalog-list').empty();
 	};
 
-
 	/*-----------------------------------------------------------------*/
 
 	this.fitToContent = function() {

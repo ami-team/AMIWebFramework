@@ -21,7 +21,7 @@ function _safe_for_html(s) {
 function AMICommandApp() {
 	/*-----------------------------------------------------------------*/
 
-	this.onReady = function() {
+	this.onReady = function(userdata) {
 
 		$('#ami_jumbotron_title').html('Command Line');
 		$('#ami_jumbotron_content').html('');

@@ -360,8 +360,8 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.onReady = function() {
-		return this.currentSubApp.onReady();
+	this.onReady = function(userdata) {
+		return this.currentSubApp.onReady(userdata);
 	};
 
 	this.onLogin = function() {
@@ -484,7 +484,7 @@ function AMIWebApp() {
 	/* SUB APPLICATION LOADER                                          */
 	/*-----------------------------------------------------------------*/
 
-	this.loadSubApp = function(subApp) {
+	this.loadSubApp = function(subApp, userdata) {
 		/*---------------------------------------------------------*/
 
 		if(!subApp.onReady) {
@@ -511,7 +511,7 @@ function AMIWebApp() {
 
 		this.currentSubApp = subApp;
 
-		amiLogin.start();
+		amiLogin.start(userdata);
 
 		/*---------------------------------------------------------*/
 	};

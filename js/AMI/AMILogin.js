@@ -20,7 +20,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.start = function(settings) {
+	this.start = function(userdata) {
 
 		if(!this.already_started) {
 
@@ -76,7 +76,7 @@ function AMILogin() {
 						amiCommand.certLogin().done(function(data, user) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
 
-							var result = amiWebApp.onReady();
+							var result = amiWebApp.onReady(userdata);
 
 							if(result && result.done) {
 								result.done(function() {
@@ -89,7 +89,7 @@ function AMILogin() {
 						}).fail(function(data) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
 
-							var result = amiWebApp.onReady();
+							var result = amiWebApp.onReady(userdata);
 
 							if(result && result.done) {
 								result.done(function() {
@@ -105,7 +105,7 @@ function AMILogin() {
 				});
 			});
 		} else {
-			var result = amiWebApp.onReady();
+			var result = amiWebApp.onReady(userdata);
 
 			if(result && result.done) {
 				result.done(function() {
