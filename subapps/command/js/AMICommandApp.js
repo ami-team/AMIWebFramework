@@ -54,10 +54,16 @@ function AMICommandApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._insertResult = function(data) {
+	this._insertResult = function(code) {
 
+		var lines = [];
+	
+		for(var i = 0; i < code.split('\n').length; i++) {
+			lines.push(i);
+		}
+	
 		var dict = {
-			DATA: data
+			DATA: '<lines>' + lines.join('\n') + '</lines><code>' + code + '</code>'
 		};
 
 		amiWebApp.prependHTML('ami_command_content', amiWebApp.fragmentResult, {dict: dict});
