@@ -6,6 +6,10 @@
  *
  */
 
+function _safe_for_html(s) {
+	return s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 /*-------------------------------------------------------------------------*/
 /* CLASS AMICommandApp                                                     */
 /*-------------------------------------------------------------------------*/
@@ -64,11 +68,11 @@ function AMICommandApp() {
 
 		amiCommand.execute(command, {context: this, converter: converter}).done(function(data) {
 
-			this._insertResult(JSON.stringify(data));
+			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : _safe_for_html(data));
 
 		}).fail(function(data) {
 
-			this._insertResult(JSON.stringify(data));
+			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : _safe_for_html(data));
 		});
 	};
 
@@ -82,4 +86,3 @@ function AMICommandApp() {
 amiCommandApp = new AMICommandApp();
 
 /*-------------------------------------------------------------------------*/
-

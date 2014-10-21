@@ -117,43 +117,81 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		$.ajax({
-			url: URL,
-			data: data,
-			type: "POST",
-			dataType: 'json',
-			xhrFields: {
-				withCredentials: true,
- 			},
-		}).done(function(data) {
+		if(CONVERTER === 'AMIXmlToJson.xsl') {
+			/*-------------------------------------------------*/
+			/* JSON FORMAT                                     */
+			/*-------------------------------------------------*/
 
-			var error = amiWebApp.jspath('.AMIMessage.error', data);
+			$.ajax({
+				url: URL,
+				data: data,
+				type: "POST",
+				dataType: 'json',
+				xhrFields: {
+					withCredentials: true,
+	 			},
+			}).done(function(data) {
 
-			if(error.length == 0) {
+				var error = amiWebApp.jspath('.AMIMessage.error', data);
 
-				if(context) {
-					deferred.resolveWith(context, [data]);
+				if(error.length == 0) {
+
+					if(context) {
+						deferred.resolveWith(context, [data]);
+					} else {
+						deferred.resolve(data);
+					}
 				} else {
-					deferred.resolve(data);
+
+					if(context) {
+						deferred.rejectWith(context, [data]);
+					} else {
+						deferred.reject(data);
+					}
 				}
-			} else {
+			}).fail(function(jqXHR, textStatus) {
+
+				var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
 				if(context) {
 					deferred.rejectWith(context, [data]);
 				} else {
 					deferred.reject(data);
 				}
-			}
-		}).fail(function(jqXHR, textStatus) {
+			});
 
-			var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
+			/*-------------------------------------------------*/
+		} else {
+			/*-------------------------------------------------*/
+			/* OTHER FORMATS                                   */
+			/*-------------------------------------------------*/
 
-			if(context) {
-				deferred.rejectWith(context, [data]);
-			} else {
-				deferred.reject(data);
-			}
-		});
+			$.ajax({
+				url: URL,
+				data: data,
+				type: "POST",
+				dataType: 'text',
+				xhrFields: {
+					withCredentials: true,
+	 			},
+			}).done(function(data) {
+
+				if(context) {
+					deferred.resolveWith(context, [data]);
+				} else {
+					deferred.resolve(data);
+				}
+			}).fail(function(jqXHR, textStatus) {
+
+				if(context) {
+					deferred.rejectWith(context, [textStatus]);
+				} else {
+					deferred.reject(textStatus);
+				}
+			});
+
+			/*-------------------------------------------------*/
+		}
 
 		/*---------------------------------------------------------*/
 
