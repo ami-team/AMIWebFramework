@@ -11,7 +11,7 @@
 /*-------------------------------------------------------------------------*/
 
 function _safe_for_html(s) {
-	return s.replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	return s.replace(/\"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 /*-------------------------------------------------------------------------*/
@@ -62,8 +62,8 @@ function AMICommandApp() {
 				var shortHelp = amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0];
 				var prototype = amiWebApp.jspath('..field{.@name==="prototype"}.$', row)[0];
 
-				shortHelp = shortHelp !== 'TO DO' ? shortHelp.replace(/\n/g, '<br/>').replace(/\"/g, '&quot;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;') : '?????';
-				prototype = prototype !== 'TO DO' ? prototype.replace(/\n/g, '<br/>').replace(/\"/g, '&quot;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;') : command;
+				shortHelp = shortHelp !== 'TO DO' ? _safe_for_html(shortHelp.replace(/\n/g, '<br/>')) : '?????';
+				prototype = prototype !== 'TO DO' ? _safe_for_html(prototype.replace(/\n/g, '<br/>')) : command;
 
 				dict.push({
 					COMMAND: command,

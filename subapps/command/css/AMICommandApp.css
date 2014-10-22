@@ -23,6 +23,14 @@ code.right {
     padding-right: 18px;
 }
 
+#ami_command_list .clearfix {
+	background-color: rgb(255, 255, 255);
+}
+
+#ami_command_list .clearfix:hover {
+	background-color: rgb(245, 245, 245);
+}
+
 #ami_command_list .popover {
     max-width: 760px;
     width: 760px;
