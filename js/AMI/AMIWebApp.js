@@ -191,7 +191,8 @@ function AMIWebApp() {
 		$('#' + targetID).html(html).promise().done(function() {
 
 			$('#' + targetID + ' .amitt').tooltip({delay: {show: 500, hide: 100}});
-			$('#' + targetID + ' .amipo').popover({html: true});
+			$('#' + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+			$('#' + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
 
 			if(context) {
 				result.resolveWith(context);
@@ -232,7 +233,8 @@ function AMIWebApp() {
 		$('#' + targetID).prepend(html).promise().done(function() {
 
 			$('#' + targetID + ' .amitt').tooltip({delay: {show: 500, hide: 100}});
-			$('#' + targetID + ' .amipo').popover({html: true});
+			$('#' + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+			$('#' + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
 
 			if(context) {
 				result.resolveWith(context);
@@ -273,7 +275,8 @@ function AMIWebApp() {
 		$('#' + targetID).append(html).promise().done(function() {
 
 			$('#' + targetID + ' .amitt').tooltip({delay: {show: 500, hide: 100}});
-			$('#' + targetID + ' .amipo').popover({html: true});
+			$('#' + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+			$('#' + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
 
 			if(context) {
 				result.resolveWith(context);

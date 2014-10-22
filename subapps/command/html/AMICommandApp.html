@@ -1,46 +1,90 @@
 <style type="text/css">
 pre {
     background-image: url("subapps/command/img/blueprint-dark.png");
-    border-left: 6px solid #558ABB;
+    border-left: 6px solid rgb(85, 138, 187);
     font-family: "Menlo", "Monaco", "monospace";
 }
-pre lines {
-    color: #888888;
+
+code.left {
+    color: rgb(136, 136, 136);
     float: left;
     margin-right: 5px;
 }
-pre code {
-    color: #000000;
+
+code.right {
+    color: rgb(000, 000, 000);
     float: left;
     margin-left: 5px;
 }
+
+#ami_command_list {
+    width: 100%;
+    height: 250px;
+    overflow: scroll;
+    padding-right: 18px;
+}
+
+#ami_command_list .popover {
+    max-width: 760px;
+    width: 760px;
+}
+
+#ami_command_list .popover-content {
+    background-color: rgba(255, 203, 0, 0.1);
+    background-image: url("subapps/command/img/blueprint-dark.png");
+    font-family: "Menlo", "Monaco", "monospace";
+}
 </style>
 
-<div class="modal-dialog">
-  <div class="modal-content">
+<div class="row">
 
-    <div class="modal-body">
-      <div class="form-group text-left">
-        <label for="modal_command_command" class="control-label">Command</label>
-        <textarea name="command" id="modal_command_command" rows="5" class="form-control">GetUserInfo -amiLogin=jodier</textarea>
+  <div class="col-md-3">
+
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">Common commands</h3>
       </div>
-
-      <div class="form-group text-left">
-        <label for="modal_command_converter" class="control-label">Converter</label>
-        <select name="converter" id="modal_command_converter" class="form-control">
-          <option value="">XML</option>
-          <option value="AMIXmlToJson.xsl" selected="selected">JSON</option>
-          <option value="AMIXmlToText.xsl">TEXT</option>
-          <option value="AMIXmlToCsv.xsl">CSV</option>
-        </select>
+      <div class="panel-body">
+        <div id="ami_command_list"></div>
       </div>
-    </div>
-
-    <div class="modal-footer">
-      <button class="btn btn-default" onclick="amiCommandApp.form_execute();" >Submit</button>
     </div>
 
   </div>
+
+  <div class="col-md-6">
+
+    <div class="modal-dialog" style="margin-top: 00px;">
+      <div class="modal-content">
+
+        <div class="modal-body">
+          <div class="form-group text-left">
+            <label for="modal_command_command" class="control-label">Command</label>
+            <textarea name="command" id="modal_command_command" rows="5" class="form-control">GetUserInfo -amiLogin=jodier</textarea>
+          </div>
+
+          <div class="form-group text-left">
+            <label for="modal_command_converter" class="control-label">Output format</label>
+            <select name="converter" id="modal_command_converter" class="form-control">
+              <option value="">XML</option>
+              <option value="AMIXmlToJson.xsl" selected="selected">JSON</option>
+              <option value="AMIXmlToText.xsl">TEXT</option>
+              <option value="AMIXmlToCsv.xsl">CSV</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="btn btn-default" onclick="amiCommandApp.formExecute();" >Submit</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="col-md-3">
+  </div>
+
 </div>
 
 <div id="ami_command_content"></div>
