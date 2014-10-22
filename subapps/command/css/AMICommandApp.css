@@ -1,5 +1,5 @@
 pre {
-    background-image: url("subapps/command/img/blueprint-dark.png");
+    background-image: url("../img/blueprint-dark.png");
     border-left: 6px solid rgb(85, 138, 187);
     font-family: "Menlo", "Monaco", "monospace";
 }
@@ -38,6 +38,6 @@ code.right {
 
 #ami_command_list .popover-content {
     background-color: rgba(255, 203, 0, 0.1);
-    background-image: url("subapps/command/img/blueprint-dark.png");
+    background-image: url("../img/blueprint-dark.png");
     font-family: "Menlo", "Monaco", "monospace";
 }
