@@ -28,8 +28,10 @@ function AMICommandApp() {
 		]);
 
 		$('#ami_jumbotron_title').html('Command Line');
-		$('#ami_jumbotron_content').html('');
+		$('#ami_jumbotron_content').html('Execute AMI commands');
 		$('#ami_breadcrumb_content').html('<li><a href="">Tools</a></li><li><a href="">Command Line</a></li>');
+
+		var result = $.Deferred();
 
 		amiWebApp.loadHTML('subapps/command/html/AMICommandApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/command/html/Fragment/command.html', {context: this}).done(function(data2) {
@@ -39,16 +41,18 @@ function AMICommandApp() {
 
 					this.fragmentCommand = data2;
 					this.fragmentResult = data3;
+
+					result.resolve();
 				});
 			});
 		});
+
+		return result;
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.onLogin = function() {
-
-		$('#ami_command_select').empty();
 
 		amiCommand.execute('ListCommands', {context: this}).done(function(data) {
 
@@ -62,8 +66,15 @@ function AMICommandApp() {
 				var shortHelp = amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0];
 				var prototype = amiWebApp.jspath('..field{.@name==="prototype"}.$', row)[0];
 
-				shortHelp = shortHelp !== 'TO DO' ? _safe_for_html(shortHelp.replace(/\n/g, '<br/>')) : '?????';
-				prototype = prototype !== 'TO DO' ? _safe_for_html(prototype.replace(/\n/g, '<br/>')) : command;
+				if(command.length > 3)
+				{
+					command = command.substring(3);
+				}
+
+				shortHelp = shortHelp.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
+
+				shortHelp = shortHelp !== 'TO DO' ? _safe_for_html(shortHelp) : '?????';
+				prototype = prototype !== 'TO DO' ? _safe_for_html(prototype) : command;
 
 				dict.push({
 					COMMAND: command,
@@ -72,7 +83,7 @@ function AMICommandApp() {
 				});
 			});
 
-			amiWebApp.appendHTML('ami_command_list', this.fragmentCommand, {dict: dict});
+			amiWebApp.replaceHTML('ami_command_list', this.fragmentCommand, {dict: dict});
 
 		}).fail(function(data) {
 			amiWebApp.error(JSPath.apply('..error.$', data)[0]);

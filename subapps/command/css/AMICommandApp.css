@@ -1,21 +1,3 @@
-pre {
-    background-image: url("../img/blueprint-dark.png");
-    border-left: 6px solid rgb(85, 138, 187);
-    font-family: "Menlo", "Monaco", "monospace";
-}
-
-code.left {
-    color: rgb(136, 136, 136);
-    float: left;
-    margin-right: 5px;
-}
-
-code.right {
-    color: rgb(000, 000, 000);
-    float: left;
-    margin-left: 5px;
-}
-
 #ami_command_list {
     width: 100%;
     height: 250px;
@@ -36,8 +18,27 @@ code.right {
     width: 760px;
 }
 
-#ami_command_list .popover-content {
+#ami_command_list pre {
     background-color: rgba(255, 203, 0, 0.1);
     background-image: url("../img/blueprint-dark.png");
     font-family: "Menlo", "Monaco", "monospace";
+    white-space: pre-wrap;
+}
+
+#ami_command_content pre {
+    background-image: url("../img/blueprint-dark.png");
+    border-left: 6px solid rgb(85, 138, 187);
+    font-family: "Menlo", "Monaco", "monospace";
+}
+
+#ami_command_content code.left {
+    color: rgb(136, 136, 136);
+    float: left;
+    margin-right: 5px;
+}
+
+#ami_command_content code.right {
+    color: rgb(000, 000, 000);
+    float: left;
+    margin-left: 5px;
 }

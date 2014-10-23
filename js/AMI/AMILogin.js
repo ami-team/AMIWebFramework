@@ -22,6 +22,8 @@ function AMILogin() {
 
 	this.start = function(userdata) {
 
+		amiWebApp.lock();
+
 		if(!this.already_started) {
 
 			amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
@@ -86,6 +88,8 @@ function AMILogin() {
 								amiLogin._update(data, user);
 							}
 
+							amiWebApp.unlock();
+
 						}).fail(function(data) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
 
@@ -98,6 +102,8 @@ function AMILogin() {
 							} else {
 								amiLogin._update(data, amiLogin.guest);
 							}
+
+							amiWebApp.unlock();
 						});
 
 						/*-------------------------*/
@@ -114,6 +120,8 @@ function AMILogin() {
 			} else {
 				amiWebApp.onLogin();
 			}
+
+			amiWebApp.unlock();
 		}
 	};
 

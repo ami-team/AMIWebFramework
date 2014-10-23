@@ -421,19 +421,22 @@ function AMIWebApp() {
 
 		$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data) {
 
-			$('body').append(amiWebApp.formatHTML(data, {dict: dict})).promise().done(function() {
+			var template = amiWebApp.formatHTML(data, {dict: dict});
 
-				amiWebApp.appendHTML('ami_modal_content',
-					'<div id="modal_lock">' +
-					'  <div class="progress progress-striped active">' +
-					'    <div class="progress-bar progress-bar-success" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar" style="width: 100%;">' +
-					'      <span class="sr-only">Please wait...</span>' +
-					'    </div>' +
-					'  </div>' +
-					'</div>'
-				);
+			var locker = '<div id="ami_locker">' +
+			             '  <div class="progress progress-striped active">' +
+			             '    <div class="progress-bar progress-bar-success" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar" style="width: 100%;">' +
+			             '      <span class="sr-only">Please wait...</span>' +
+			             '    </div>' +
+			             '  </div>' +
+			             '</div>'
+			;
 
-				amiWebApp.onStart();
+			$('body').append(template).promise().done(function() {
+				$('body').append(locker).promise().done(function() {
+
+					amiWebApp.onStart();
+				});
 			});
 
 		}).fail(function() {
@@ -446,13 +449,13 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.lock = function() {
-		$('#modal_lock').css('display', 'block');
+		$('#ami_locker').css('display', 'block');
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.unlock = function() {
-		$('#modal_lock').css('display', 'none');
+		$('#ami_locker').css('display', 'none');
 	};
 
 	/*-----------------------------------------------------------------*/
