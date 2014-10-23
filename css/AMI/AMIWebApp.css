@@ -39,12 +39,16 @@ th, label {
 }
 
 .navbar-default {
-    background-color: rgb(255, 255, 255);
-    background-image: none;
+    background: url("../../img/stripe1.png");
 }
 
-.navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top, .navbar-static-bottom {
+.navbar-static-top, .navbar-static-bottom {
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075);
+}
+
+.navbar-static-bottom {
+    border-radius: 0px;
+    margin: 8px 0px 22px 0px;
 }
 
 .navbar-default .navbar-nav > .active > a {
@@ -63,7 +67,7 @@ th, label {
 }
 
 .tab-content {
-    margin-top: 4px;
+    margin-top: 10px;
 }
 
 .modal-body {

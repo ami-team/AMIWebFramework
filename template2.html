@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>AMI</title>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script type="text/javascript" src="js/AMI/AMIWebApp.min.js"></script>
+
+    <script type="text/javascript" src="subapps/DatasetSearch_hierarchical/js/AMIDatasetSearch_hierarchicalApp.js"></script>
+    <script type="text/javascript" src="subapps/DatasetSearch_simple/js/AMIDatasetSearch_simpleApp.js"></script>
+
+    <script type="text/javascript" src="subapps/FileSearch_GUID/js/AMIFileSearch_GUIDApp.js"></script>
+    <script type="text/javascript" src="subapps/FileSearch_LFN/js/AMIFileSearch_LFNApp.js"></script>
+
+    <script type="text/javascript" src="subapps/command/js/AMICommandApp.js"></script>
+    <script type="text/javascript" src="subapps/catalogmodeler/js/AMICatalogModelerApp.js"></script>
+
+    <script type="text/javascript">
+
+	amiWebApp.onStart = function() {
+
+		amiCommand.endPoint = 'https://ami3test.in2p3.fr:8443/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
+
+		$('#ami_menu_content').html(
+			'<li class="dropdown">' +
+			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
+			'    Datasets <span class="caret"></span>' +
+			'  </a>' +
+			'  <ul class="dropdown-menu">' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiDatasetSearch_hierarchicalApp);">Dataset Browser</a></li>' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiDatasetSearch_simpleApp);">Simple Search</a></li>' +
+			'    <li><a href="javascript:alert(\'Not yet available\');">Overview</a></li>' +
+			'  </ul>' +
+			'</li>' +
+			'<li class="dropdown">' +
+			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
+			'    Files <span class="caret"></span>' +
+			'  </a>' +
+			'  <ul class="dropdown-menu">' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiFileSearch_GUIDApp);">Search by GUID</a></li>' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiFileSearch_LFNApp);">Search by LFN</a></li>' +
+			'  </ul>' +
+			'</li>' +
+			'<li class="dropdown">' +
+			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
+			'    AMI-Tags <span class="caret"></span>' +
+			'  </a>' +
+			'  <ul class="dropdown-menu">' +
+			'    <li><a href="javascript:alert(\'Not yet available\');">AMI-Tags Browser</a></li>' +
+			'    <li><a href="javascript:alert(\'Not yet available\');">List/Edit</a></li>' +
+			'    <li><a href="javascript:alert(\'Not yet available\');">Compare</a></li>' +
+			'    <li><a href="javascript:alert(\'Not yet available\');">Add</a></li>' +
+			'  </ul>' +
+			'</li>' +
+			'<li class="dropdown">' +
+			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
+			'    Nomenclature <span class="caret"></span>' +
+			'  </a>' +
+			'  <ul class="dropdown-menu">' +
+			'    <li><a href="javascript:alert(\'Not yet available\');">Data Type Manager</a></li>' +
+			'    <li><a href="javascript:alert(\'Not yet available\');">Project Tag Manager</a></li>' +
+			'    <li><a href="javascript:alert(\'Not yet available\');">Production Step Manager</a></li>' +
+			'  </ul>' +
+			'</li>' +
+			'<li class="dropdown">' +
+			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
+			'    Tools <span class="caret"></span>' +
+			'  </a>' +
+			'  <ul class="dropdown-menu">' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiCommandApp);">Command Line</a></li>' +
+			'  </ul>' +
+			'</li>' +
+			'<li class="dropdown">' +
+			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
+			'    Admin <span class="caret"></span>' +
+			'  </a>' +
+			'  <ul class="dropdown-menu">' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiCatalogModelerApp);">Database Modeler</a></li>' +
+			'  </ul>' +
+			'</li>'
+		);
+	};
+
+	amiWebApp.loadSubApp(amiDatasetSearch_hierarchicalApp);
+
+    </script>
+
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="js/html5shiv.min.js"></script>
+      <script type="text/javascript" src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <script type="text/javascript">
+	amiWebApp.start();
+    </script>
+
+  </body>
+</html>
