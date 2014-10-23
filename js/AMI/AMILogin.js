@@ -77,6 +77,7 @@ function AMILogin() {
 
 						amiCommand.certLogin().done(function(data, user) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
+							amiLogin.already_started = true;
 
 							var result = amiWebApp.onReady(userdata);
 
@@ -92,6 +93,7 @@ function AMILogin() {
 
 						}).fail(function(data) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
+							amiLogin.already_started = true;
 
 							var result = amiWebApp.onReady(userdata);
 
