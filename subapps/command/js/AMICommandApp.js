@@ -105,13 +105,13 @@ function AMICommandApp() {
 	this._insertResult = function(code) {
 
 		var tmp = [];
-	
+
 		for(var i = 0; i < code.split('\n').length; i++) {
 			tmp.push(i);
 		}
-	
+
 		var nums = tmp.join('\n');
-	
+
 		var dict = {
 			DATA: '<code class="left">' + nums + '</code>'
 			      +
