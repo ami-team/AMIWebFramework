@@ -597,7 +597,7 @@ function AMIWebApp() {
 		context: this,
 		async: false,
 	}).done(function(data) {
-		this.fragmentError = data;
+		this.fragmentWarning = data;
 	}).fail(function() {
 		throw 'could not load `html/AMI/Fragment/warning.html`';
 	});
