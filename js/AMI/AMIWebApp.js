@@ -424,7 +424,7 @@ function AMIWebApp() {
 			var template = amiWebApp.formatHTML(data, {dict: dict});
 
 			var locker = '<div id="ami_locker">' +
-			             '  <div class="progress progress-striped active">' +
+			             '  <div class="progress progress-striped active" style="border-radius: 0px;">' +
 			             '    <div class="progress-bar progress-bar-success" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar" style="width: 100%;">' +
 			             '      <span class="sr-only">Please wait...</span>' +
 			             '    </div>' +
@@ -484,6 +484,12 @@ function AMIWebApp() {
 	this.error = function(message) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.flush = function() {
+		$('#ami_status_content').empty();
 	};
 
 	/*-----------------------------------------------------------------*/

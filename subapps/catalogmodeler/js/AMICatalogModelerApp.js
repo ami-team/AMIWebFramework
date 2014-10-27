@@ -265,7 +265,7 @@ function AMICatalogModelerApp() {
 			amiWebApp.unlock();
 
 		}).fail(function(data) {
-			amiWebApp.error(JSPath.apply('..error.$', data)[0]);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
 	};
 
@@ -389,17 +389,17 @@ function AMICatalogModelerApp() {
 						amiWebApp.unlock();
 
 					}).fail(function(data) {
-						amiWebApp.error(JSPath.apply('..error.$', data)[0]);
+						amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 					});
 
 					/*---------------------------------*/
 				}).fail(function(data) {
-					amiWebApp.error(JSPath.apply('..error.$', data)[0]);
+					amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 				});
 
 				/*-----------------------------------------*/
 			}).fail(function(data) {
-				amiWebApp.error(JSPath.apply('..error.$', data)[0]);
+				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 			});
 
 			/*-------------------------------------------------*/
@@ -480,7 +480,7 @@ function AMICatalogModelerApp() {
 		amiCommand.execute('UpdateElement -project="self" -processingStep="self" -entity="router_db" -db="' + this.dbName + '" -separator="|" -updateField="jsonSchema" -updateValue="' + json + '"').done(function() {
 			amiWebApp.success('Operation done with success :-).');
 		}).fail(function(data) {
-			amiWebApp.error(JSPath.apply('..error.$', data)[0]);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
 	};
 

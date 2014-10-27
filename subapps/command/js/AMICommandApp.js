@@ -86,7 +86,7 @@ function AMICommandApp() {
 			amiWebApp.replaceHTML('ami_command_list', this.fragmentCommand, {dict: dict});
 
 		}).fail(function(data) {
-			amiWebApp.error(JSPath.apply('..error.$', data)[0]);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
 	};
 
