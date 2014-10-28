@@ -113,9 +113,11 @@ function AMICommandApp() {
 		var nums = tmp.join('\n');
 
 		var dict = {
-			DATA: '<code class="left">' + nums + '</code>'
+			DATA: '<span>' + nums + '</span>'
 			      +
-			      '<code class="right">' + code + '</code>'
+			      '<code>' + code + '</code>'
+			      +
+			      '<div style="clear: both; display: block;"></div>'
 		};
 
 		amiWebApp.prependHTML('ami_command_content', this.fragmentResult, {dict: dict});
