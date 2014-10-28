@@ -22,7 +22,8 @@
     background-color: rgba(255, 203, 0, 0.1);
     background-image: url("../img/blueprint-dark.png");
     font-family: "Menlo", "Monaco", "monospace";
-    overflow: auto;
+    white-space: pre-line;
+    word-break: keep-all;
 }
 
 #ami_command_content pre {
