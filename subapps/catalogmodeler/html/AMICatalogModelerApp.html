@@ -15,13 +15,13 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapse1" data-toggle="collapse">Existing schemes</a>
+                <a href="#__collapse1" data-toggle="collapse">Existing schemes</a>
                 <a href="javascript:amiCatalogModelerApp.listSchemes();" class="pull-right text-primary">
                   <i class="fa fa-refresh"></i>
                 </a>
               </h4>
             </div>
-            <div id="collapse1" class="panel-collapse collapse in">
+            <div id="__collapse1" class="panel-collapse collapse in">
               <div class="panel-body">
 
                 <div>
@@ -43,10 +43,10 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapse2" data-toggle="collapse">Import / Export schemes</a>
+                <a href="#__collapse2" data-toggle="collapse">Import / Export schemes</a>
               </h4>
             </div>
-            <div id="collapse2" class="panel-collapse collapse in">
+            <div id="__collapse2" class="panel-collapse collapse in">
               <div class="panel-body">
 
                 <div id="drop_zone">Drop file here to open it</div>
@@ -70,16 +70,16 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapse3" data-toggle="collapse">DB</a>
+                <a href="#__collapse3" data-toggle="collapse">DB</a>
               </h4>
             </div>
-            <div id="collapse3" class="panel-collapse collapse in">
+            <div id="__collapse3" class="panel-collapse collapse in">
               <div class="panel-body">
 
                 <table class="table table-condensed" style="margin: 0px;">
                   <thead>
                     <tr>
-                      <th colspan="3" class="text-center" style="background-color: #EEEEEE; border: none; border-radius: 4px;">General settings</th>
+                      <th colspan="3" style="background-color: #EEEEEE; border: none; border-radius: 4px; text-align: center;">General settings</th>
                     </tr>
                     <tr>
                       <th style="border-top: none;">Name</th>
@@ -94,22 +94,32 @@
                       <td><input type="number" step="10" class="form-control form-control-xs" id="dbHeight" onkeyup="amiCatalogModelerApp.setDBHeight(this.value);" onchange="amiCatalogModelerApp.setDBHeight(this.value);" /></td>
                     </tr>
                   </tbody>
+                </table>
+
+                <table class="table table-condensed" style="margin: 0px;">
                   <thead>
                     <tr>
-                      <th colspan="3" class="text-center" style="background-color: #EEEEEE; border: none; border-radius: 4px;">Search engine settings</th>
+                      <th colspan="2" style="background-color: #EEEEEE; border: none; border-radius: 4px; text-align: center;">Search engine settings</th>
                     </tr>
                     <tr>
                       <th style="border-top: none;">Alias</th>
-                      <th style="border-top: none;">Engine</th>
                       <th style="border-top: none;">Active</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
-                      <td><input type="text" value="" class="form-control form-control-xs" id="dbSearchAlias" onkeyup="amiCatalogModelerApp.setDBSearchAlias(this.value);" /></td>
-                      <td><input type="text" value="" class="form-control form-control-xs" id="dbSearchEngine" onkeyup="amiCatalogModelerApp.setDBSearchEngine(this.value);" /></td>
-                      <td><input type="checkbox" class="form-control form-control-xs" id="dbSearchActive" onchange="amiCatalogModelerApp.setDBSearchActive(this.value);" /></td>
+                      <td><input type="text" value="" class="form-control form-control-xs" id="searchDBAlias" onkeyup="amiCatalogModelerApp.setEngineAlias(this.value);" /></td>
+                      <td><input type="checkbox" class="form-control form-control-xs" id="searchActive" onchange="amiCatalogModelerApp.setEngineActive(this.value);" /></td>
                     </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <th style="border-top: none;">Paths</div></th>
+                      <th style="border-top: none; text-align: center;"><a href="javascript:amiCatalogModelerApp.addPath();"><i class="fa fa-plus-circle"></i></a></th>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="__path_content">
                   </tbody>
                 </table>
 
@@ -120,10 +130,10 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapse4" data-toggle="collapse">Table</a>
+                <a href="#__collapse4" data-toggle="collapse">Table</a>
               </h4>
             </div>
-            <div id="collapse4" class="panel-collapse collapse">
+            <div id="__collapse4" class="panel-collapse collapse">
               <div class="panel-body">
 
                 <table class="table table-condensed" style="margin: 0px;">
@@ -136,7 +146,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                  </tbody>
+                  </tbody id="__table_content">
                 </table>
 
               </div>
@@ -146,10 +156,10 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapse5" data-toggle="collapse">Fields</a>
+                <a href="#__collapse5" data-toggle="collapse">Fields</a>
               </h4>
             </div>
-            <div id="collapse5" class="panel-collapse collapse">
+            <div id="__collapse5" class="panel-collapse collapse">
               <div class="panel-body">
 
                 <table class="table table-condensed" style="margin: 0px;">
@@ -161,7 +171,7 @@
                       <th></th>
                     <tr>
                   </thead>
-                  <tbody>
+                  <tbody id="__field_content">
                   </tbody>
                 </table>
 
@@ -172,10 +182,10 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapse6" data-toggle="collapse">Foreign Keys</a>
+                <a href="#__collapse6" data-toggle="collapse">Foreign Keys</a>
               </h4>
             </div>
-            <div id="collapse6" class="panel-collapse collapse">
+            <div id="__collapse6" class="panel-collapse collapse">
               <div class="panel-body">
 
                 <table class="table table-condensed" style="margin: 0px;">
@@ -187,7 +197,7 @@
                       <th></th>
                     <tr>
                   </thead>
-                  <tbody>
+                  <tbody id="__fekey_content">
                   </tbody>
                 </table>
 
@@ -198,10 +208,10 @@
           <div class="panel panel-default">
             <div class="panel-heading">
               <h4 class="panel-title">
-                <a href="#collapse7" data-toggle="collapse">Indices</a>
+                <a href="#__collapse7" data-toggle="collapse">Indices</a>
               </h4>
             </div>
-            <div id="collapse7" class="panel-collapse collapse">
+            <div id="__collapse7" class="panel-collapse collapse">
               <div class="panel-body">
 
                 <table class="table table-condensed" style="margin: 0px;">
@@ -211,7 +221,7 @@
                       <th></th>
                     <tr>
                   </thead>
-                  <tbody>
+                  <tbody id="__index_content">
                   </tbody>
                 </table>
 

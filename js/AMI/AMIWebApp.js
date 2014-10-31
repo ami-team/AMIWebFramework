@@ -7,6 +7,12 @@
  */
 
 /*-------------------------------------------------------------------------*/
+/* INTERNAL VARIABLES                                                      */
+/*-------------------------------------------------------------------------*/
+
+var _internal_nonce = jQuery.now();
+
+/*-------------------------------------------------------------------------*/
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
@@ -48,25 +54,9 @@ function _internal_loadSheets(deferred, context, sheets) {
 
 	if(sheets.length > 0) {
 
-		$.ajax({
-			url: sheets[0],
-			type: 'HEAD',
-			async: false,
-			cache: false,
-			success: function() {
-				$('head').append('<link rel="stylesheet" type="text/css" href="' + sheets[0] + '" />').promise().done(function() {
-					sheets.splice(0, 1);
-					_internal_loadSheets(deferred, context, sheets);
-				});
-			},
-			error: function(data, info) {
-
-				if(context) {
-					deferred.rejectWith(context, ['could not load sheet `' + sheets[0] + '`: ' + info]);
-				} else {
-					deferred.reject('could not load sheet `' + sheets[0] + '`: ' + info);
-				}
-			},
+		$('head').append('<link rel="stylesheet" type="text/css" href="' + sheets[0] + '?_=' + _internal_nonce++ + '" />').promise().done(function() {
+			sheets.splice(0, 1);
+			_internal_loadSheets(deferred, context, sheets);
 		});
 	} else {
 

@@ -1,5 +1,6 @@
-.form-control-xs {
+.form-control-xs, .form-control-xs[type="radio"], .form-control-xs[type="checkbox"] {
     height: 23px;
+    margin: 0px 0px;
     padding: 1px 5px;
     line-height: 18px;
 }
@@ -40,4 +41,24 @@
 
 #ami-catalog-modeler-tab-properties input, #ami-catalog-modeler-tab-properties select {
     width: 100%;
+}
+
+#__collapse1 th,
+#__collapse2 th,
+#__collapse3 th,
+#__collapse4 th,
+#__collapse5 th,
+#__collapse6 th,
+#__collapse7 th {
+    text-align: left;
+}
+
+#__collapse1 td,
+#__collapse2 td,
+#__collapse3 td,
+#__collapse4 td,
+#__collapse5 td,
+#__collapse6 td,
+#__collapse7 td {
+    text-align: center;
 }

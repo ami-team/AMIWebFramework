@@ -10,8 +10,14 @@
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
-function _safe_for_html(s) {
-	return s.replace(/\"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+function _text_to_html(s) {
+	return s.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _html_to_text(s) {
+	return s.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 }
 
 /*-------------------------------------------------------------------------*/
@@ -23,15 +29,19 @@ function AMICommandApp() {
 
 	this.onReady = function(userdata) {
 
+		var result = $.Deferred();
+
 		amiWebApp.loadSheets([
 			'subapps/command/css/AMICommandApp.css',
+		]);
+
+		amiWebApp.loadScripts([
+			'subapps/common/js/filesaver.min.js',
 		]);
 
 		$('#ami_jumbotron_title').html('Command Line');
 		$('#ami_jumbotron_content').html('Execute AMI commands');
 		$('#ami_breadcrumb_content').html('<li><a href="">Tools</a></li><li><a href="">Command Line</a></li>');
-
-		var result = $.Deferred();
 
 		amiWebApp.loadHTML('subapps/command/html/AMICommandApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/command/html/Fragment/command.html', {context: this}).done(function(data2) {
@@ -73,8 +83,8 @@ function AMICommandApp() {
 
 				shortHelp = shortHelp.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
 
-				shortHelp = shortHelp !== 'TO DO' ? _safe_for_html(shortHelp) : '?????';
-				prototype = prototype !== 'TO DO' ? _safe_for_html(prototype) : command;
+				shortHelp = shortHelp !== 'TO DO' ? _text_to_html(shortHelp) : '?????';
+				prototype = prototype !== 'TO DO' ? _text_to_html(prototype) : command;
 
 				dict.push({
 					COMMAND: command,
@@ -134,12 +144,12 @@ function AMICommandApp() {
 
 		amiCommand.execute(command, {context: this, converter: converter}).done(function(data) {
 
-			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : _safe_for_html(data));
+			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : _text_to_html(data));
 			amiWebApp.unlock();
 
 		}).fail(function(data) {
 
-			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : _safe_for_html(data));
+			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : _text_to_html(data));
 			amiWebApp.unlock();
 		});
 	};
@@ -149,6 +159,38 @@ function AMICommandApp() {
 	this.select = function(command) {
 
 		$('#modal_command_command').val(command)
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.save = function(container) {
+
+		var data = $(container).parent().find('code').html();
+
+		data = _html_to_text(data);
+
+		var converter = $('#modal_command_converter').val();
+
+		var fileMime;
+		var fileName;
+
+		/****/ if(converter === '') {
+			fileMime = 'text/xml';
+			fileName = 'result.xml';
+		} else if(converter === 'AMIXmlToJson.xsl') {
+			fileMime = 'application/json';
+			fileName = 'result.json';
+		} else if(converter === 'AMIXmlToCsv.xsl') {
+			fileMime = 'text/csv';
+			fileName = 'result.csv';
+		} else {
+			fileMime = 'text/plain';
+			fileName = 'result.txt';
+		}
+
+		var blob = new Blob([data], {type: fileMime});
+
+		saveAs(blob, fileName);
 	};
 
 	/*-----------------------------------------------------------------*/

@@ -52,6 +52,9 @@ function AMICatalogModelerApp() {
 			amiWebApp.replaceHTML('ami_main_content', data, {context: this}).done(function() {
 				/*-----------------------------------------*/
 
+				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/path.html', {context: this}).done(function(data) {
+					this.fragmentPath = data;
+				});
 				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/table.html', {context: this}).done(function(data) {
 					this.fragmentTable = data;
 				});
@@ -87,9 +90,9 @@ function AMICatalogModelerApp() {
 				this.dbName = '?';
 				this.dbWidth = 900;
 				this.dbHeight = 340;
-				this.dbSearchAlias = '';
-				this.dbSearchEngine = '';
-				this.dbSearchActive = false;
+				this.engineAlias = '';
+				this.engineActive = false;
+				this.enginePaths = [];
 
 				$('#dbName').val(this.dbName);
 				$('#dbWidth').val(this.dbWidth);
@@ -203,15 +206,15 @@ function AMICatalogModelerApp() {
 
 		/*---------------------------------------------------------*/
 
-		$('#collapse4').removeClass('in');
-		$('#collapse5').removeClass('in');
-		$('#collapse6').removeClass('in');
-		$('#collapse7').removeClass('in');
+		$('#__collapse4').removeClass('in');
+		$('#__collapse5').removeClass('in');
+		$('#__collapse6').removeClass('in');
+		$('#__collapse7').removeClass('in');
 
-		$('#collapse4 tbody').empty();
-		$('#collapse5 tbody').empty();
-		$('#collapse6 tbody').empty();
-		$('#collapse7 tbody').empty();
+		$('#__table_content').empty();
+		$('#__field_content').empty();
+		$('#__fekey_content').empty();
+		$('#__index_content').empty();
 
 		/*---------------------------------------------------------*/
 
@@ -449,7 +452,7 @@ function AMICatalogModelerApp() {
 
 		var json = JSON.stringify(this.graph.toJSON());
 
-		var blob = new Blob([json], {type : 'application/json'});
+		var blob = new Blob([json], {type: 'application/json'});
 
 		saveAs(blob, 'schema.json');
 	};
@@ -524,20 +527,23 @@ function AMICatalogModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.setDBSearchAlias = function(value) {
-		this.dbSearchAlias = value;
+	this.setEngineAlias = function(value) {
+		this.engineAlias = value;
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.setDBSearchEngine = function(value) {
-		this.dbSearchEngine = value;
+	this.setEngineActive = function(value) {
+		this.engineActive = value;
 	};
 
 	/*-----------------------------------------------------------------*/
+	/* PATH                                                            */
+	/*-----------------------------------------------------------------*/
 
-	this.setDBSearchActive = function(value) {
-		this.dbSearchActive = value;
+	this.addPath = function() {
+
+		amiWebApp.appendHTML('__path_content', this.fragmentPath);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -955,18 +961,18 @@ function AMICatalogModelerApp() {
 
 			/*-------------------------------------------------*/
 
-			$('#collapse4').addClass('in');
-			$('#collapse5').addClass('in');
-			$('#collapse6').addClass('in');
-			$('#collapse7').addClass('in');
+			$('#__collapse4').addClass('in');
+			$('#__collapse5').addClass('in');
+			$('#__collapse6').addClass('in');
+			$('#__collapse7').addClass('in');
 
 			if(soft == false) {
-				$('#collapse5 tbody').html(amiWebApp.formatHTML(this.fragmentField, {dict: dict2}));
+				$('#__field_content').html(amiWebApp.formatHTML(this.fragmentField, {dict: dict2}));
 			}
 			if(0x00 == false) {
-				$('#collapse4 tbody').html(amiWebApp.formatHTML(this.fragmentTable, {dict: dict1}));
-				$('#collapse6 tbody').html(amiWebApp.formatHTML(this.fragmentFeKey, {dict: dict3}));
-				$('#collapse7 tbody').html(amiWebApp.formatHTML(this.fragmentIndex, {dict: dict4}));
+				$('#__table_content').html(amiWebApp.formatHTML(this.fragmentTable, {dict: dict1}));
+				$('#__fekey_content').html(amiWebApp.formatHTML(this.fragmentFeKey, {dict: dict3}));
+				$('#__index_content').html(amiWebApp.formatHTML(this.fragmentIndex, {dict: dict4}));
 			}
 
 			/*-------------------------------------------------*/
