@@ -29,38 +29,65 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMICommand                                                        */
+/* INTERNAL VARIABLES                                                      */
 /*-------------------------------------------------------------------------*/
 
-var COMMAND_FLAGS_ALWAYS = 64
-var COMMAND_FLAGS_LOGOUT = 65
+var _INTERNAL_PING_DELAY = 20 * 60 * 1000;
 
+/*-------------------------------------------------------------------------*/
+/* INTERNAL FUNCTIONS                                                      */
+/*-------------------------------------------------------------------------*/
+
+function _internal_ping() {
+
+	amiCommand.ping();
+
+	setTimeout(_internal_ping, _INTERNAL_PING_DELAY);
+}
+
+/*-------------------------------------------------------------------------*/
+/* CLASS AMICommand                                                        */
 /*-------------------------------------------------------------------------*/
 
 function AMICommand() {
 	/*-----------------------------------------------------------------*/
 
+	this.timer = null;
 	this.noCert = false;
 
 	/*-----------------------------------------------------------------*/
 
-	this.endPoint = 'http://xx.yy';
+	this.endpoint = 'http://xx.yy';
 	this.converter = 'AMIXmlToJson.xsl';
+
+	/*-----------------------------------------------------------------*/
+
+	this.ping = function() {
+
+		var URL = this.endpoint.trim();
+		var data = {Command: 'AMIPing'};
+
+		$.ajax({
+			url: URL,
+			data: data,
+			type: "POST",
+			dataType: 'text',
+			xhrFields: {withCredentials: true},
+		}).fail(function(jqXHR, textStatus) {
+
+			amiWebApp.error('Server error, contact the AMI team.');
+		});
+	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.execute = function(command, settings) {
 
-		var flags = 0x00;
 		var context = undefined;
-		var endpoint = this.endPoint;
+		var endpoint = this.endpoint;
 		var converter = this.converter;
 
 		if(settings) {
-
-			if('flags' in settings) {
-				flags = settings['flags'];
-			}
 
 			if('context' in settings) {
 				context = settings['context'];
@@ -73,25 +100,6 @@ function AMICommand() {
 			if('converter' in settings) {
 				converter = settings['converter'];
 			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		/**/ if(flags == 0x000000000000000000) {
-
-			if(amiCookie.get('AMI_SESSION') != 'ACTIVE') {
-				amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton);
-
-				amiWebApp.onSessionExpired();
-			} else {
-				amiCookie.set('AMI_SESSION', 'ACTIVE', {minutes: 25});
-			}
-		}
-		else if(flags == COMMAND_FLAGS_ALWAYS) {
-			amiCookie.set('AMI_SESSION', 'ACTIVE', {minutes: 25});
-		}
-		else if(flags == COMMAND_FLAGS_LOGOUT) {
-			amiCookie.del('AMI_SESSION');
 		}
 
 		/*---------------------------------------------------------*/
@@ -171,9 +179,7 @@ function AMICommand() {
 				data: data,
 				type: "POST",
 				dataType: 'text',
-				xhrFields: {
-					withCredentials: true,
-	 			},
+				xhrFields: {withCredentials: true},
 			}).done(function(data) {
 
 				if(context) {
@@ -206,11 +212,8 @@ function AMICommand() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
@@ -221,9 +224,11 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {flags: COMMAND_FLAGS_ALWAYS}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"').done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
+
+			setTimeout(_internal_ping, _INTERNAL_PING_DELAY);
 
 			if(context) {
 				result.resolveWith(context, [data, user]);
@@ -248,15 +253,12 @@ function AMICommand() {
 
 	/*-----------------------------------------------------------------*/
 
- 	this.certLogin = function(settings) {
+	this.certLogin = function(settings) {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
@@ -267,9 +269,11 @@ function AMICommand() {
 
 		this.noCert = false;
 
-		this.execute('GetSessionInfo', {flags: COMMAND_FLAGS_ALWAYS}).done(function(data) {
+		this.execute('GetSessionInfo').done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
+
+			setTimeout(_internal_ping, _INTERNAL_PING_DELAY);
 
 			if(context) {
 				result.resolveWith(context, [data, user]);
@@ -298,12 +302,13 @@ function AMICommand() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
+
+		/*---------------------------------------------------------*/
+
+		clearTimeout(this.timer);
 
 		/*---------------------------------------------------------*/
 
@@ -313,7 +318,7 @@ function AMICommand() {
 
 		this.noCert = true;
 
-		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {flags: COMMAND_FLAGS_LOGOUT}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""').done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
@@ -344,16 +349,13 @@ function AMICommand() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('GetSessionInfo -attachCert -amiLogin="' + user + '" -amiPassword="' + pass + '"', {flags: COMMAND_FLAGS_ALWAYS, context: context});
+		return this.execute('GetSessionInfo -attachCert -amiLogin="' + user + '" -amiPassword="' + pass + '"', {context: context});
 
 		/*---------------------------------------------------------*/
 	};
@@ -364,16 +366,13 @@ function AMICommand() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('GetSessionInfo -detachCert -amiLogin="' + user + '" -amiPassword="' + pass + '"', {flags: COMMAND_FLAGS_ALWAYS, context: context});
+		return this.execute('GetSessionInfo -detachCert -amiLogin="' + user + '" -amiPassword="' + pass + '"', {context: context});
 
 		/*---------------------------------------------------------*/
 	};
@@ -384,11 +383,8 @@ function AMICommand() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
@@ -404,11 +400,8 @@ function AMICommand() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
@@ -424,11 +417,8 @@ function AMICommand() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
@@ -444,11 +434,8 @@ function AMICommand() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/

@@ -2,14 +2,12 @@
 
 }
 
-.ami-table > thead td {
-    font-weight: bold;
+.ami-table > thead th {
     text-align: center;
     white-space: nowrap;
 }
 
 .ami-table > tbody td {
-    font-weight: normal;
     text-align: center;
     white-space: nowrap;
 }

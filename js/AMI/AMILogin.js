@@ -16,6 +16,7 @@ function AMILogin() {
 	this.user = 'guest';
 	this.guest = 'guest';
 
+	this.is_connected = false;
 	this.already_started = false;
 
 	/*-----------------------------------------------------------------*/
@@ -25,6 +26,8 @@ function AMILogin() {
 		amiWebApp.lock();
 
 		if(!this.already_started) {
+
+			amiLogin.already_started = true;
 
 			amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
 				amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
@@ -77,7 +80,6 @@ function AMILogin() {
 
 						amiCommand.certLogin().done(function(data, user) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
-							amiLogin.already_started = true;
 
 							var result = amiWebApp.onReady(userdata);
 
@@ -93,7 +95,6 @@ function AMILogin() {
 
 						}).fail(function(data) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
-							amiLogin.already_started = true;
 
 							var result = amiWebApp.onReady(userdata);
 
@@ -503,11 +504,11 @@ function AMILogin() {
 			if(valid === '0') {
 				var wrn_msg = '';
 
-				if(cert_enable !== 'false' && dn_in_ami !== undefined && issuer_in_ami !== undefined) {
+				if(cert_enable && dn_in_ami && issuer_in_ami) {
 
-					if(dn_in_session === undefined
+					if(!dn_in_session
 					   ||
-					   issuer_in_session === undefined
+					   !issuer_in_session
 					 ) {
 						wrn_msg = 'You should provide a certificate to use this AMI web application.';
 					} else {
@@ -532,11 +533,11 @@ function AMILogin() {
 			} else {
 				var err_msg = '';
 
-				if(voms_enable !== 'false') {
+				if(voms_enable) {
 
-					if(dn_in_ami === undefined
+					if(!dn_in_ami
 					   ||
-					   issuer_in_ami === undefined
+					   !issuer_in_ami
 					 ) {
 						err_msg = 'Register a valid GRID certificate.';
 					}
@@ -584,10 +585,12 @@ function AMILogin() {
 
 			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
 			amiWebApp.onLogin();
+			self.is_connected = true;
 
 		} else {
-			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton);
+			self.is_connected = false;
 			amiWebApp.onLogout();
+			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
 		}
 
 		/*---------------------------------------------------------*/

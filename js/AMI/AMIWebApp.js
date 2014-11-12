@@ -18,54 +18,40 @@ var _internal_nonce = jQuery.now();
 
 function _internal_loadScripts(deferred, context, scripts) {
 
-	if(scripts.length > 0) {
+	var html = '';
 
-		$.ajax({
-			url: scripts[0],
-			dataType: "script",
-			async: false,
-			cache: false,
-			success: function() {
-				scripts.splice(0, 1);
-				_internal_loadScripts(deferred, context, scripts);
-			},
-			error: function(data, info) {
+	for(var i = 0; i < scripts.length; i++) {
+		html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _internal_nonce++ + '"></script>';
+	}
 
-				if(context) {
-					deferred.rejectWith(context, ['could not load script `' + scripts[0] + '`: ' + info]);
-				} else {
-					deferred.reject('could not load script `' + scripts[0] + '`: ' + info);
-				}
-			},
-		});
-	} else {
+	$('head').append(html).promise().done(function() {
 
 		if(context) {
 			deferred.resolveWith(context);
 		} else {
 			deferred.resolve();
 		}
-	}
+	});
 }
 
 /*-------------------------------------------------------------------------*/
 
 function _internal_loadSheets(deferred, context, sheets) {
 
-	if(sheets.length > 0) {
+	var html = '';
 
-		$('head').append('<link rel="stylesheet" type="text/css" href="' + sheets[0] + '?_=' + _internal_nonce++ + '" />').promise().done(function() {
-			sheets.splice(0, 1);
-			_internal_loadSheets(deferred, context, sheets);
-		});
-	} else {
+	for(var i = 0; i < sheets.length; i++) {
+		html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _internal_nonce++ + '"></link>';
+	}
+
+	$('head').append(html).promise().done(function() {
 
 		if(context) {
 			deferred.resolveWith(context);
 		} else {
 			deferred.resolve();
 		}
-	}
+	});
 }
 
 /*-------------------------------------------------------------------------*/
@@ -81,11 +67,8 @@ function AMIWebApp() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
@@ -109,11 +92,8 @@ function AMIWebApp() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
@@ -137,11 +117,8 @@ function AMIWebApp() {
 
 		var context = undefined;
 
-		if(settings) {
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
@@ -181,8 +158,8 @@ function AMIWebApp() {
 		$('#' + targetID).html(html).promise().done(function() {
 
 			$('#' + targetID + ' .amitt').tooltip({delay: {show: 500, hide: 100}});
-			$('#' + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			$('#' + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+			$("#" + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+			$("#" + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
 
 			if(context) {
 				result.resolveWith(context);
@@ -223,8 +200,8 @@ function AMIWebApp() {
 		$('#' + targetID).prepend(html).promise().done(function() {
 
 			$('#' + targetID + ' .amitt').tooltip({delay: {show: 500, hide: 100}});
-			$('#' + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			$('#' + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+			$("#" + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+			$("#" + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
 
 			if(context) {
 				result.resolveWith(context);
@@ -265,8 +242,8 @@ function AMIWebApp() {
 		$('#' + targetID).append(html).promise().done(function() {
 
 			$('#' + targetID + ' .amitt').tooltip({delay: {show: 500, hide: 100}});
-			$('#' + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			$('#' + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+			$("#" + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+			$("#" + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
 
 			if(context) {
 				result.resolveWith(context);
@@ -288,11 +265,11 @@ function AMIWebApp() {
 
 	this.formatHTML = function(html, settings) {
 
-		if(settings) {
+		if(settings && 'dict' in settings) {
 
-			if('dict' in settings) {
-				var dict = settings['dict'];
+			var dict = settings['dict'];
 
+			if(dict) {
 				/*-----------------------------------------*/
 
 				if(!(dict instanceof Array)) {
@@ -345,10 +322,6 @@ function AMIWebApp() {
 		this.onLogout = function() {
 			alert('error: `<sub application>.onLogout()` must be implemented !');
 		};
-
-		this.onSessionExpired = function() {
-			alert('error: `<sub application>.onSessionExpired()` must be implemented !');
-		};
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -365,10 +338,6 @@ function AMIWebApp() {
 		return this.currentSubApp.onLogout();
 	};
 
-	this.onSessionExpired = function() {
-		return this.currentSubApp.onSessionExpired()
-	};
-
 	/*-----------------------------------------------------------------*/
 	/* APPLICATION ENTRY POINT                                         */
 	/*-----------------------------------------------------------------*/
@@ -379,6 +348,7 @@ function AMIWebApp() {
 		var home_url = 'http://ami.in2p3.fr';
 		var contact_email = 'ami@lpsc.in2p3.fr';
 		var template_filename = 'html/AMI/AMIWebApp_default.html';
+		var locker_filename = 'html/AMI/Fragment/locker.html';
 
 		if(settings) {
 
@@ -397,6 +367,10 @@ function AMIWebApp() {
 			if('template_filename' in settings) {
 				template_filename = settings['template_filename'];
 			}
+
+			if('locker_filename' in settingd) {
+				locker_filename = settings['locker_filename'];
+			}
 		}
 
 		/*---------------------------------------------------------*/
@@ -409,28 +383,21 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data) {
+		$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data1) {
+			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data2) {
 
-			var template = amiWebApp.formatHTML(data, {dict: dict});
+				var content = amiWebApp.formatHTML(data1, {dict: dict}) + data2;
 
-			var locker = '<div id="ami_locker">' +
-			             '  <div class="progress progress-striped active" style="border-radius: 0px;">' +
-			             '    <div class="progress-bar progress-bar-success" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100" role="progressbar" style="width: 100%;">' +
-			             '      <span class="sr-only">Please wait...</span>' +
-			             '    </div>' +
-			             '  </div>' +
-			             '</div>'
-			;
-
-			$('body').append(template).promise().done(function() {
-				$('body').append(locker).promise().done(function() {
+				$('body').append(content).promise().done(function() {
 
 					amiWebApp.onStart();
 				});
-			});
 
+			}).fail(function() {
+				throw 'could not load `' + locker_filename + '`';
+			});
 		}).fail(function() {
-			throw 'could not load `' + fragment + '`';
+			throw 'could not load `' + template_filename + '`';
 		});
 
 		/*---------------------------------------------------------*/
@@ -452,28 +419,32 @@ function AMIWebApp() {
 
 	this.success = function(message) {
 		this.unlock();
-		this.replaceHTML('ami_status_content', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		this.replaceHTML('ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
+		$('#ami_status_content .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.info = function(message) {
 		this.unlock();
-		this.replaceHTML('ami_status_content', amiWebApp.fragmentInfo, {dict: {MESSAGE: message}});
+		this.replaceHTML('ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
+		$('#ami_status_content .alert').fadeOut(10000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.warning = function(message) {
 		this.unlock();
-		this.replaceHTML('ami_status_content', amiWebApp.fragmentWarning, {dict: {MESSAGE: message}});
+		this.replaceHTML('ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
+		$('#ami_status_content .alert').fadeOut(20000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.error = function(message) {
 		this.unlock();
-		this.replaceHTML('ami_status_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		this.replaceHTML('ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
+		$('#ami_status_content .alert').fadeOut(30000);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -501,11 +472,6 @@ function AMIWebApp() {
 
 		if(!subApp.onLogout) {
 			alert('error: `<sub application>.onLogout()` must be implemented !');
-			return;
-		}
-
-		if(!subApp.onSessionExpired) {
-			alert('error: `<sub application>.onSessionExpired()` must be implemented !');
 			return;
 		}
 

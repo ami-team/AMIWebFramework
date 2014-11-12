@@ -83,6 +83,35 @@ th, label {
     background-image: url("../../img/stripe2.png");
 }
 
+pre {
+    background-image: url("../../img/blueprint-dark.png");
+    font-family: "Menlo", "Monaco", "monospace";
+}
+
+pre.amicode {
+    border-left: 6px solid rgb(85, 138, 187);
+}
+
+pre.amicode span {
+    color: rgb(136, 136, 136);
+    display: block;
+    float: left;
+    margin-right: 6px;
+    text-align: right;
+}
+
+pre.amicode code {
+    display: block;
+    overflow: auto;
+    white-space: pre;
+}
+
+.popover-content pre {
+    background-color: rgba(255, 203, 0, 0.1);
+    white-space: pre-line;
+    word-break: keep-all;
+}
+
 @-webkit-keyframes burst {
     0% {
         opacity: .6;

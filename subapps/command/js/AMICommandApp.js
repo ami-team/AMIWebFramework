@@ -64,40 +64,43 @@ function AMICommandApp() {
 
 	this.onLogin = function() {
 
-		amiCommand.execute('ListCommands', {context: this}).done(function(data) {
+		if($('#ami_command_list').html().trim() === '') {
 
-			var rows = amiWebApp.jspath('..row', data);
+			amiCommand.execute('ListCommands', {context: this}).done(function(data) {
 
-			var dict = [];
+				var rows = amiWebApp.jspath('..row', data);
 
-			$.each(rows, function(index, row) {
+				var dict = [];
 
-				var command = amiWebApp.jspath('..field{.@name==="command"}.$', row)[0];
-				var shortHelp = amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0];
-				var prototype = amiWebApp.jspath('..field{.@name==="prototype"}.$', row)[0];
+				$.each(rows, function(index, row) {
 
-				if(command.length > 3)
-				{
-					command = command.substring(3);
-				}
+					var command = amiWebApp.jspath('..field{.@name==="command"}.$', row)[0];
+					var shortHelp = amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0];
+					var prototype = amiWebApp.jspath('..field{.@name==="prototype"}.$', row)[0];
 
-				shortHelp = shortHelp.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
+					if(command.length > 3)
+					{
+						command = command.substring(3);
+					}
 
-				shortHelp = shortHelp !== 'TO DO' ? _text_to_html(shortHelp) : '?????';
-				prototype = prototype !== 'TO DO' ? _text_to_html(prototype) : command;
+					shortHelp = shortHelp.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
 
-				dict.push({
-					COMMAND: command,
-					SHORTHELP: shortHelp,
-					PROTOTYPE: prototype,
+					shortHelp = shortHelp !== 'TO DO' ? _text_to_html(shortHelp) : '?????';
+					prototype = prototype !== 'TO DO' ? _text_to_html(prototype) : command;
+
+					dict.push({
+						COMMAND: command,
+						SHORTHELP: shortHelp,
+						PROTOTYPE: prototype,
+					});
 				});
+
+				amiWebApp.replaceHTML('ami_command_list', this.fragmentCommand, {dict: dict});
+
+			}).fail(function(data) {
+				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 			});
-
-			amiWebApp.replaceHTML('ami_command_list', this.fragmentCommand, {dict: dict});
-
-		}).fail(function(data) {
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
-		});
+		}
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -165,9 +168,7 @@ function AMICommandApp() {
 
 	this.save = function(container) {
 
-		var data = $(container).parent().find('code').html();
-
-		data = _html_to_text(data);
+		var data = _html_to_text($(container).parent().find('code').html());
 
 		var converter = $('#modal_command_converter').val();
 

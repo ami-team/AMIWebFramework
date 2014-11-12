@@ -19,6 +19,11 @@
     <script type="text/javascript" src="subapps/FileSearch_GUID/js/AMIFileSearch_GUIDApp.js"></script>
     <script type="text/javascript" src="subapps/FileSearch_LFN/js/AMIFileSearch_LFNApp.js"></script>
 
+    <script type="text/javascript" src="subapps/Tags_browse/js/AMITags_browseApp.js"></script>
+    <script type="text/javascript" src="subapps/Tags_show/js/AMITags_showApp.js"></script>
+    <script type="text/javascript" src="subapps/Tags_compare/js/AMITags_compareApp.js"></script>
+    <script type="text/javascript" src="subapps/Tags_add/js/AMITags_addApp.js"></script>
+
     <script type="text/javascript" src="subapps/command/js/AMICommandApp.js"></script>
     <script type="text/javascript" src="subapps/catalogmodeler/js/AMICatalogModelerApp.js"></script>
 
@@ -26,10 +31,10 @@
 
 	amiWebApp.onStart = function() {
 
-		amiCommand.endPoint = 'https://ami3test.in2p3.fr:8443/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
+		amiCommand.endpoint = 'https://ami3test.in2p3.fr:8443/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 
 		$('#ami_menu_content').html(
-			'<li class="dropdown">' +
+/*			'<li class="dropdown">' +
 			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
 			'    Datasets <span class="caret"></span>' +
 			'  </a>' +
@@ -48,18 +53,18 @@
 			'    <li><a href="javascript:amiWebApp.loadSubApp(amiFileSearch_LFNApp);">Search by LFN</a></li>' +
 			'  </ul>' +
 			'</li>' +
-			'<li class="dropdown">' +
+*/			'<li class="dropdown">' +
 			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
 			'    AMI-Tags <span class="caret"></span>' +
 			'  </a>' +
 			'  <ul class="dropdown-menu">' +
-			'    <li><a href="javascript:alert(\'Not yet available\');">AMI-Tags Browser</a></li>' +
-			'    <li><a href="javascript:alert(\'Not yet available\');">List/Edit</a></li>' +
-			'    <li><a href="javascript:alert(\'Not yet available\');">Compare</a></li>' +
-			'    <li><a href="javascript:alert(\'Not yet available\');">Add</a></li>' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiTags_browseApp);">Browse</a></li>' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiTags_showApp);">Show/Edit</a></li>' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiTags_compareApp);">Compare</a></li>' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiTags_addApp);">Add</a></li>' +
 			'  </ul>' +
 			'</li>' +
-			'<li class="dropdown">' +
+/*			'<li class="dropdown">' +
 			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
 			'    Nomenclature <span class="caret"></span>' +
 			'  </a>' +
@@ -69,14 +74,14 @@
 			'    <li><a href="javascript:alert(\'Not yet available\');">Production Step Manager</a></li>' +
 			'  </ul>' +
 			'</li>' +
-			'<li class="dropdown">' +
+*/			'<li class="dropdown">' +
 			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
 			'    Tools <span class="caret"></span>' +
 			'  </a>' +
 			'  <ul class="dropdown-menu">' +
 			'    <li><a href="javascript:amiWebApp.loadSubApp(amiCommandApp);">Command Line</a></li>' +
 			'  </ul>' +
-			'</li>' +
+/*			'</li>' +
 			'<li class="dropdown">' +
 			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
 			'    Admin <span class="caret"></span>' +
@@ -84,12 +89,15 @@
 			'  <ul class="dropdown-menu">' +
 			'    <li><a href="javascript:amiWebApp.loadSubApp(amiCatalogModelerApp);">Database Modeler</a></li>' +
 			'  </ul>' +
-			'</li>'
+*/			'</li>'
 		);
 	};
 
 	//amiWebApp.loadSubApp(amiDatasetSearch_simpleApp);
-	amiWebApp.loadSubApp(amiCommandApp);
+	//amiWebApp.loadSubApp(amiCommandApp);
+	//amiWebApp.loadSubApp(amiTags_showApp);
+	//amiWebApp.loadSubApp(amiTags_compareApp);
+	amiWebApp.loadSubApp(amiTags_browseApp);
 
     </script>
 
