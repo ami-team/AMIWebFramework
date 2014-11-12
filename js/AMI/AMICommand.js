@@ -73,7 +73,7 @@ function AMICommand() {
 			type: "POST",
 			dataType: 'text',
 			xhrFields: {withCredentials: true},
-		}).fail(function(jqXHR, textStatus) {
+		}).fail(function() {
 
 			amiWebApp.error('Server error, contact the AMI team.');
 		});
