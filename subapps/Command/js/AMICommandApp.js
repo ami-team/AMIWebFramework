@@ -110,11 +110,6 @@ function AMICommandApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.onSessionExpired = function() {
-	};
-
-	/*-----------------------------------------------------------------*/
-
 	this._insertResult = function(code) {
 
 		var tmp = [];
