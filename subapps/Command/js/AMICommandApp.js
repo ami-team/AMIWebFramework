@@ -32,7 +32,7 @@ function AMICommandApp() {
 		var result = $.Deferred();
 
 		amiWebApp.loadSheets([
-			'subapps/command/css/AMICommandApp.css',
+			'subapps/Command/css/AMICommandApp.css',
 		]);
 
 		amiWebApp.loadScripts([

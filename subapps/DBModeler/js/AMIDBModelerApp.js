@@ -1,5 +1,5 @@
 /*!
- * AMICatalogModelerApp class
+ * AMIDBModelerApp class
  *
  * Copyright (c) 2014 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -7,10 +7,10 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMICatalogModelerApp                                              */
+/* CLASS AMIDBModelerApp                                                   */
 /*-------------------------------------------------------------------------*/
 
-function AMICatalogModelerApp() {
+function AMIDBModelerApp() {
 	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
@@ -19,7 +19,7 @@ function AMICatalogModelerApp() {
 
 		amiWebApp.loadSheets([
 			'tools/common/css/joint.min.css',
-			'subapps/catalogmodeler/css/AMICatalogModelerApp.css',
+			'subapps/DBModeler/css/AMIDBModelerApp.css',
 		]);
 
 		amiWebApp.loadScripts([
@@ -29,12 +29,12 @@ function AMICatalogModelerApp() {
 			'tools/common/js/vectorizer.min.js',
 			'tools/common/js/geometry.min.js',
 			'tools/common/js/filesaver.min.js',
-			'subapps/catalogmodeler/js/joint.shapes.sql.min.js',
+			'subapps/DBModeler/js/joint.shapes.sql.min.js',
 		]);
 
-		$('#ami_jumbotron_title').html('Catalog Modeler');
+		$('#ami_jumbotron_title').html('DB Modeler');
 		$('#ami_jumbotron_content').html('');
-		$('#ami_breadcrumb_content').html('<li><a href="">Admin</a></li><li><a href="">Catalog Modeler</a></li>');
+		$('#ami_breadcrumb_content').html('<li><a href="">Admin</a></li><li><a href="">DB Modeler</a></li>');
 
 		try {
 			var isBrowserSupported = !!new Blob;
@@ -47,34 +47,34 @@ function AMICatalogModelerApp() {
 			return;
 		}
 
-		amiWebApp.loadHTML('subapps/catalogmodeler/html/AMICatalogModelerApp.html', {context: this}).done(function(data) {
+		amiWebApp.loadHTML('subapps/DBModeler/html/AMIDBModelerApp.html', {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('ami_main_content', data, {context: this}).done(function() {
 				/*-----------------------------------------*/
 
-				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/path.html', {context: this}).done(function(data) {
+				amiWebApp.loadHTML('subapps/DBModeler/html/Fragment/path.html', {context: this}).done(function(data) {
 					this.fragmentPath = data;
 				});
-				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/table.html', {context: this}).done(function(data) {
+				amiWebApp.loadHTML('subapps/DBModeler/html/Fragment/table.html', {context: this}).done(function(data) {
 					this.fragmentTable = data;
 				});
-				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/field.html', {context: this}).done(function(data) {
+				amiWebApp.loadHTML('subapps/DBModeler/html/Fragment/field.html', {context: this}).done(function(data) {
 					this.fragmentField = data;
 				});
-				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/fekey.html', {context: this}).done(function(data) {
+				amiWebApp.loadHTML('subapps/DBModeler/html/Fragment/fekey.html', {context: this}).done(function(data) {
 					this.fragmentFeKey = data;
 				});
-				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/index.html', {context: this}).done(function(data) {
+				amiWebApp.loadHTML('subapps/DBModeler/html/Fragment/index.html', {context: this}).done(function(data) {
 					this.fragmentIndex = data;
 				});
 
 				/*-----------------------------------------*/
 
-				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/tableColorModal.html').done(function(data) {
+				amiWebApp.loadHTML('subapps/DBModeler/html/Fragment/tableColorModal.html').done(function(data) {
 					amiWebApp.appendHTML('ami_modal_content', data);
 				});
 
-				amiWebApp.loadHTML('subapps/catalogmodeler/html/Fragment/fieldOptionModal.html').done(function(data) {
+				amiWebApp.loadHTML('subapps/DBModeler/html/Fragment/fieldOptionModal.html').done(function(data) {
 					amiWebApp.appendHTML('ami_modal_content', data);
 				});
 
@@ -123,8 +123,8 @@ function AMICatalogModelerApp() {
 				this.paper.on('cell:pointerclick', function(cellView) {
 
 					if(cellView.model.get('type') === 'sql.Table') {
-						amiCatalogModelerApp.table = cellView.model;
-						amiCatalogModelerApp.update({
+						amiDBModelerApp.table = cellView.model;
+						amiDBModelerApp.update({
 							menu: true,
 							soft: false,
 							arrows: false,
@@ -422,11 +422,11 @@ function AMICatalogModelerApp() {
 			var reader = new FileReader();
 
 			reader.onload = function(e) {
-				amiCatalogModelerApp.loadSchema('?', e.target.result);
+				amiDBModelerApp.loadSchema('?', e.target.result);
 
-				amiCatalogModelerApp.fitToContent();
+				amiDBModelerApp.fitToContent();
 
-				amiCatalogModelerApp.update({
+				amiDBModelerApp.update({
 					menu: false,
 					soft: false,
 					arrows: true,
@@ -1093,6 +1093,6 @@ function AMICatalogModelerApp() {
 /* GLOBAL INSTANCE                                                         */
 /*-------------------------------------------------------------------------*/
 
-amiCatalogModelerApp = new AMICatalogModelerApp();
+amiDBModelerApp = new AMIDBModelerApp();
 
 /*-------------------------------------------------------------------------*/
