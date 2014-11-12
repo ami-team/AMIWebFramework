@@ -16,7 +16,7 @@
             <div class="panel-heading">
               <h4 class="panel-title">
                 <a href="#__collapse1" data-toggle="collapse">Existing schemes</a>
-                <a href="javascript:amiCatalogModelerApp.listSchemes();" class="pull-right text-primary">
+                <a href="javascript:amiDBModelerApp.listSchemes();" class="pull-right text-primary">
                   <i class="fa fa-refresh"></i>
                 </a>
               </h4>
@@ -29,7 +29,7 @@
                 </div>
                 <div>&nbsp;</div>
                 <div>
-                  <button class="btn btn-default btn-xs" style="width: 100%;" onclick="amiCatalogModelerApp.openSchema();">Open</button>
+                  <button class="btn btn-default btn-xs" style="width: 100%;" onclick="amiDBModelerApp.openSchema();">Open</button>
                 </div>
 
               </div>
@@ -52,7 +52,7 @@
                 <div id="drop_zone">Drop file here to open it</div>
                 <div>&nbsp;</div>
                 <div>
-                  <button class="btn btn-default btn-xs" style="width: 100%;" onclick="amiCatalogModelerApp.exportSchema();">Export</button>
+                  <button class="btn btn-default btn-xs" style="width: 100%;" onclick="amiDBModelerApp.exportSchema();">Export</button>
                 </div>
 
               </div>
@@ -89,9 +89,9 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><input type="text" value="" class="form-control form-control-xs" id="dbName" onkeyup="amiCatalogModelerApp.setDBName(this.value);" /></td>
-                      <td><input type="number" step="10" class="form-control form-control-xs" id="dbWidth" onkeyup="amiCatalogModelerApp.setDBWidth(this.value);" onchange="amiCatalogModelerApp.setDBWidth(this.value);" /></td>
-                      <td><input type="number" step="10" class="form-control form-control-xs" id="dbHeight" onkeyup="amiCatalogModelerApp.setDBHeight(this.value);" onchange="amiCatalogModelerApp.setDBHeight(this.value);" /></td>
+                      <td><input type="text" value="" class="form-control form-control-xs" id="dbName" onkeyup="amiDBModelerApp.setDBName(this.value);" /></td>
+                      <td><input type="number" step="10" class="form-control form-control-xs" id="dbWidth" onkeyup="amiDBModelerApp.setDBWidth(this.value);" onchange="amiDBModelerApp.setDBWidth(this.value);" /></td>
+                      <td><input type="number" step="10" class="form-control form-control-xs" id="dbHeight" onkeyup="amiDBModelerApp.setDBHeight(this.value);" onchange="amiDBModelerApp.setDBHeight(this.value);" /></td>
                     </tr>
                   </tbody>
                 </table>
@@ -108,14 +108,14 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><input type="text" value="" class="form-control form-control-xs" id="searchDBAlias" onkeyup="amiCatalogModelerApp.setEngineAlias(this.value);" /></td>
-                      <td><input type="checkbox" class="form-control form-control-xs" id="searchActive" onchange="amiCatalogModelerApp.setEngineActive(this.value);" /></td>
+                      <td><input type="text" value="" class="form-control form-control-xs" id="searchDBAlias" onkeyup="amiDBModelerApp.setEngineAlias(this.value);" /></td>
+                      <td><input type="checkbox" class="form-control form-control-xs" id="searchActive" onchange="amiDBModelerApp.setEngineActive(this.value);" /></td>
                     </tr>
                   </tbody>
                   <thead>
                     <tr>
                       <th style="border-top: none;">Paths</div></th>
-                      <th style="border-top: none; text-align: center;"><a href="javascript:amiCatalogModelerApp.addPath();"><i class="fa fa-plus-circle"></i></a></th>
+                      <th style="border-top: none; text-align: center;"><a href="javascript:amiDBModelerApp.addPath();"><i class="fa fa-plus-circle"></i></a></th>
                       </th>
                     </tr>
                   </thead>
@@ -253,7 +253,7 @@
 
           <ul class="nav navbar-nav navbar-left">
             <li>
-              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.addTable();">
+              <button class="btn btn-default navbar-btn" onclick="amiDBModelerApp.addTable();">
                 <i class="fa fa-table"></i> New table
               </button>
             </li>
@@ -263,16 +263,16 @@
                 New ...<span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="javascript:amiCatalogModelerApp.addField();">Field</a></li>
-                <li><a href="javascript:amiCatalogModelerApp.addFeKey();">Foreign key</a></li>
-                <li><a href="javascript:amiCatalogModelerApp.addIndex();">Index</a></li>
+                <li><a href="javascript:amiDBModelerApp.addField();">Field</a></li>
+                <li><a href="javascript:amiDBModelerApp.addFeKey();">Foreign key</a></li>
+                <li><a href="javascript:amiDBModelerApp.addIndex();">Index</a></li>
               </ul>
             </li>
           </ul>
 
           <ul class="nav navbar-nav navbar-right">
             <li>
-              <button class="btn btn-default navbar-btn" onclick="amiCatalogModelerApp.printDiagram();">
+              <button class="btn btn-default navbar-btn" onclick="amiDBModelerApp.printDiagram();">
                 <i class="fa fa-print"></i> Print diagram
               </button>
             </li>
@@ -281,8 +281,8 @@
                 <i class="fa fa-database"></i> Database<span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
-                <li><a href="javascript:amiCatalogModelerApp.save();">Save</a></li>
-                <li><a href="javascript:amiCatalogModelerApp.saveAndSynchronize();">Save and Synchronize</a></li>
+                <li><a href="javascript:amiDBModelerApp.save();">Save</a></li>
+                <li><a href="javascript:amiDBModelerApp.saveAndSynchronize();">Save and Synchronize</a></li>
               </ul>
             </li>
           </ul>
