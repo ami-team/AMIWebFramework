@@ -18,17 +18,17 @@ function AMICatalogModelerApp() {
 	this.onReady = function() {
 
 		amiWebApp.loadSheets([
-			'subapps/common/css/joint.min.css',
+			'tools/common/css/joint.min.css',
 			'subapps/catalogmodeler/css/AMICatalogModelerApp.css',
 		]);
 
 		amiWebApp.loadScripts([
-			'subapps/common/js/lodash.min.js',
-			'subapps/common/js/backbone-min.js',
-			'subapps/common/js/joint.min.js',
-			'subapps/common/js/vectorizer.min.js',
-			'subapps/common/js/geometry.min.js',
-			'subapps/common/js/filesaver.min.js',
+			'tools/common/js/lodash.min.js',
+			'tools/common/js/backbone-min.js',
+			'tools/common/js/joint.min.js',
+			'tools/common/js/vectorizer.min.js',
+			'tools/common/js/geometry.min.js',
+			'tools/common/js/filesaver.min.js',
 			'subapps/catalogmodeler/js/joint.shapes.sql.min.js',
 		]);
 
