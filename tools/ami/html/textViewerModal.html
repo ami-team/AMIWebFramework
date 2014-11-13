@@ -8,21 +8,16 @@ function AMICodeViewer() {
 
 	this.show = function(code) {
 
-		var tmp = [];
+		var data = '';
 
-		for(var i = 0; i < code.split('\n').length; i++) {
-			tmp.push(i);
+		var lines = code.split('\n');
+
+		for(var i = 0; i < lines.length; i++) {
+
+			data += '<code>' + lines[i] + '</code>\n';
 		}
 
-		var nums = tmp.join('\n');
-
-		$('#modal_common_code_viewer .amicode').html(
-			'<span>' + nums + '</span>'
-			+
-			'<code>' + code + '</code>'
-			+
-			'<div style="clear: both; display: block;"></div>'
-		);
+		$('#modal_common_code_viewer .amicode').html(data);
 
 		$('#modal_common_code_viewer').modal('show');
 	};
@@ -45,7 +40,9 @@ amiCodeViewer = new AMICodeViewer();
         <h4 class="modal-title"><i class="fa fa-file-text-o"></i> Text Viewer</h4>
       </div>
       <div class="modal-body">
+
         <pre class="amicode"></pre>
+
       </div>
     </div>
   </div>

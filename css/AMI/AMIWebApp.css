@@ -85,30 +85,29 @@ th, label {
 
 pre {
     background-image: url("../../img/blueprint-dark.png");
+}
+
+pre, code {
     font-family: "Menlo", "Monaco", "monospace";
 }
 
-pre.amicode {
+.amicode {
     border-left: 6px solid rgb(85, 138, 187);
+    counter-reset: listing;
 }
 
-pre.amicode span {
-    color: rgb(136, 136, 136);
-    display: block;
-    float: left;
-    margin-right: 6px;
-    text-align: right;
+.amicode code {
+    counter-increment: listing;
 }
 
-pre.amicode code {
-    display: block;
-    overflow: auto;
-    white-space: pre;
+.amicode code:before {
+    content: counter(listing) ". ";
+    color: gray;
 }
 
 .popover-content pre {
     background-color: rgba(255, 203, 0, 0.1);
-    white-space: pre-line;
+    white-space: pre-wrap;
     word-break: keep-all;
 }
 

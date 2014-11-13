@@ -110,22 +110,24 @@ function AMICommandApp() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.onSessionExpired = function() {
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	this._insertResult = function(code) {
 
-		var tmp = [];
+		var data = '';
 
-		for(var i = 0; i < code.split('\n').length; i++) {
-			tmp.push(i);
+		var lines = code.split('\n');
+
+		for(var i = 0; i < lines.length; i++) {
+
+			data += '<code>' + lines[i] + '</code>\n';
 		}
 
-		var nums = tmp.join('\n');
-
 		var dict = {
-			DATA: '<span>' + nums + '</span>'
-			      +
-			      '<code>' + code + '</code>'
-			      +
-			      '<div style="clear: both; display: block;"></div>'
+			DATA: data
 		};
 
 		amiWebApp.prependHTML('ami_command_content', this.fragmentResult, {dict: dict});
