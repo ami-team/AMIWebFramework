@@ -421,6 +421,7 @@ function AMIWebApp() {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
 		$('#ami_status_content .alert').fadeOut(60000);
+		document.bodyElement.scrollTop = '0px';
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -429,6 +430,7 @@ function AMIWebApp() {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
 		$('#ami_status_content .alert').fadeOut(60000);
+		document.bodyElement.scrollTop = '0px';
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -437,6 +439,7 @@ function AMIWebApp() {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
 		$('#ami_status_content .alert').fadeOut(60000);
+		document.bodyElement.scrollTop = '0px';
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -445,6 +448,7 @@ function AMIWebApp() {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
 		$('#ami_status_content .alert').fadeOut(60000);
+		document.bodyElement.scrollTop = '0px';
 	};
 
 	/*-----------------------------------------------------------------*/
