@@ -420,7 +420,7 @@ function AMIWebApp() {
 	this.success = function(message) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
-		$('#ami_status_content .alert').fadeOut(20000);
+		$('#ami_status_content .alert').fadeOut(60000);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -428,7 +428,7 @@ function AMIWebApp() {
 	this.info = function(message) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
-		$('#ami_status_content .alert').fadeOut(20000);
+		$('#ami_status_content .alert').fadeOut(60000);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -436,7 +436,7 @@ function AMIWebApp() {
 	this.warning = function(message) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
-		$('#ami_status_content .alert').fadeOut(40000);
+		$('#ami_status_content .alert').fadeOut(60000);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -444,7 +444,7 @@ function AMIWebApp() {
 	this.error = function(message) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
-		$('#ami_status_content .alert').fadeOut(40000);
+		$('#ami_status_content .alert').fadeOut(60000);
 	};
 
 	/*-----------------------------------------------------------------*/
