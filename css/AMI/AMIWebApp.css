@@ -113,7 +113,7 @@ pre, code {
 
 @-webkit-keyframes burst {
     0% {
-        opacity: .6;
+        opacity: 0.6;
     }
 
     50% {
@@ -129,7 +129,7 @@ pre, code {
 
 @keyframes burst {
     0% {
-        opacity: .6;
+        opacity: 0.6;
     }
 
     50% {
