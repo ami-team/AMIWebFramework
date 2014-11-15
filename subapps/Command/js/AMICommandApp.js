@@ -43,9 +43,9 @@ function AMICommandApp() {
 		$('#ami_jumbotron_content').html('Execute AMI commands');
 		$('#ami_breadcrumb_content').html('<li><a href="">Tools</a></li><li><a href="">Command Line</a></li>');
 
-		amiWebApp.loadHTML('subapps/command/html/AMICommandApp.html', {context: this}).done(function(data1) {
-			amiWebApp.loadHTML('subapps/command/html/Fragment/command.html', {context: this}).done(function(data2) {
-				amiWebApp.loadHTML('subapps/command/html/Fragment/result.html', {context: this}).done(function(data3) {
+		amiWebApp.loadHTML('subapps/Command/html/AMICommandApp.html', {context: this}).done(function(data1) {
+			amiWebApp.loadHTML('subapps/Command/html/Fragment/command.html', {context: this}).done(function(data2) {
+				amiWebApp.loadHTML('subapps/Command/html/Fragment/result.html', {context: this}).done(function(data3) {
 
 					amiWebApp.replaceHTML('ami_main_content', data1);
 
@@ -106,6 +106,11 @@ function AMICommandApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onLogout = function() {
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.onSessionExpired = function() {
 	};
 
 	/*-----------------------------------------------------------------*/

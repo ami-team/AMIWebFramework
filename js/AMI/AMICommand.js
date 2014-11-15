@@ -29,23 +29,6 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* INTERNAL VARIABLES                                                      */
-/*-------------------------------------------------------------------------*/
-
-var _INTERNAL_PING_DELAY = 20 * 60 * 1000;
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _internal_ping() {
-
-	amiCommand.ping();
-
-	setTimeout(_internal_ping, _INTERNAL_PING_DELAY);
-}
-
-/*-------------------------------------------------------------------------*/
 /* CLASS AMICommand                                                        */
 /*-------------------------------------------------------------------------*/
 
@@ -228,8 +211,6 @@ function AMICommand() {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
-			setTimeout(_internal_ping, _INTERNAL_PING_DELAY);
-
 			if(context) {
 				result.resolveWith(context, [data, user]);
 			} else {
@@ -273,8 +254,6 @@ function AMICommand() {
 
 			var user = amiWebApp.jspath('..field{.@name==="amiLogin"}.$', data)[0];
 
-			setTimeout(_internal_ping, _INTERNAL_PING_DELAY);
-
 			if(context) {
 				result.resolveWith(context, [data, user]);
 			} else {
@@ -305,10 +284,6 @@ function AMICommand() {
 		if(settings && 'context' in settings) {
 			context = settings['context'];
 		}
-
-		/*---------------------------------------------------------*/
-
-		clearTimeout(this.timer);
 
 		/*---------------------------------------------------------*/
 
