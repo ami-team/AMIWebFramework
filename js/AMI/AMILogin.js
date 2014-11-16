@@ -402,36 +402,36 @@ function AMILogin() {
 
 	this._showSuccessMessage1 = function(message) {
 		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-		$('#modal_login_message .alert').fadeOut(10000);
+		$('#modal_login_message .alert').fadeOut(30000);
 	};
 
 	this._showErrorMessage1 = function(message) {
 		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-		$('#modal_login_message .alert').fadeOut(10000);
+		$('#modal_login_message .alert').fadeOut(30000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage2 = function(message) {
 		amiWebApp.replaceHTML('modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-		$('#modal_login_change_info_message .alert').fadeOut(10000);
+		$('#modal_login_change_info_message .alert').fadeOut(30000);
 	};
 
 	this._showErrorMessage2 = function(message) {
 		amiWebApp.replaceHTML('modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-		$('#modal_login_change_info_message .alert').fadeOut(10000);
+		$('#modal_login_change_info_message .alert').fadeOut(30000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage3 = function(message) {
 		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-		$('#modal_login_change_pass_message .alert').fadeOut(10000);
+		$('#modal_login_change_pass_message .alert').fadeOut(30000);
 	};
 
 	this._showErrorMessage3 = function(message) {
 		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-		$('#modal_login_change_pass_message .alert').fadeOut(10000);
+		$('#modal_login_change_pass_message .alert').fadeOut(30000);
 	};
 
 	/*-----------------------------------------------------------------*/
