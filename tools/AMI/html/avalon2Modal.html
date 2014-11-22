@@ -1,0 +1,131 @@
+<style type="text/css">
+
+#modal_common_avalon2 .modal-header {
+  background-color: rgb(34, 34, 34);
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: white;
+}
+
+#modal_common_avalon2 .colorgraph {
+  background-color: rgb(196, 225, 127);
+  border: 0px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-image: -webkit-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: -moz-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: -o-linear-gradient(left, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  background-image: linear-gradient(to right, #c4e17f, #c4e17f 12.5%, #f7fdca 12.5%, #f7fdca 25%, #fecf71 25%, #fecf71 37.5%, #f0776c 37.5%, #f0776c 50%, #db9dbe 50%, #db9dbe 62.5%, #c49cde 62.5%, #c49cde 75%, #669ae1 75%, #669ae1 87.5%, #62c2e4 87.5%, #62c2e4);
+  height: 5px;
+}
+
+</style>
+
+<script type="text/javascript">
+/*-------------------------------------------------------------------------*/
+/* CLASS AMIAvalon2                                                        */
+/*-------------------------------------------------------------------------*/
+
+function AMIAvalon2() {
+	/*-----------------------------------------------------------------*/
+
+	this.context = null;
+	this.deferred = null;
+
+	/*-----------------------------------------------------------------*/
+
+	this.execute = function(settings) {
+
+		if(settings) {
+
+			if('context' in settings) {
+				this.context = settings['context'];
+			}
+		}
+
+		$('#modal_common_avalon2').modal('show');
+
+		return (this.deferred = $.Deferred()).promise();
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.resolveByCredential = function() {
+
+		var user = $('#modal_common_avalon2_user').val();
+		var pass = $('#modal_common_avalon2_pass').val();
+
+		if(user == ''
+		   ||
+		   pass == ''
+		 ) {
+			return;
+		}
+
+		if(this.context) {
+			this.deferred.resolveWith(this.context, [user, pass]);
+		} else {
+			this.deferred.resolve(user, pass);
+		}
+
+		$('#modal_common_avalon2').modal('hide');
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.resolveByCertificate = function() {
+
+		if(this.context) {
+			this.deferred.resolveWith(this.context, [null, null]);
+		} else {
+			this.deferred.resolve(null, null);
+		}
+
+		$('#modal_common_avalon2').modal('hide');
+	};
+
+	/*-----------------------------------------------------------------*/
+}
+
+/*-------------------------------------------------------------------------*/
+
+amiAvalon2 = new AMIAvalon2();
+
+/*-------------------------------------------------------------------------*/
+</script>
+
+<div class="modal fade" id="modal_common_avalon2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title"><img src="img/avalon.png" height="44" /> Avalon&#178;</h4>
+      </div>
+      <div class="modal-body">
+
+        <h2>Please Fill Up <small>to delegate your rights to AMI.</small></h2>
+
+        <hr class="colorgraph" />
+
+        <div class="form-group">
+          <input type="text" id="modal_common_avalon2_user" class="form-control input-lg" placeholder="Login" />
+        </div>
+
+        <div class="form-group">
+          <input type="password" id="modal_common_avalon2_pass" class="form-control input-lg" placeholder="Password" />
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <a href="#" class="btn btn-default"  data-dismiss="modal">Close</a>
+	<a href="javascript:amiAvalon2.resolveByCredential();" class="btn btn-primary">By credential</a>
+	<a href="javascript:amiAvalon2.resolveByCertificate();" class="btn btn-primary">By certificate</a>
+      </div>
+    </div>
+  </div>
+</div>
