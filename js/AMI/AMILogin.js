@@ -29,7 +29,7 @@ function AMILogin() {
 
 			amiLogin.already_started = true;
 
-			amiWebApp.loadHTML('html/AMI/AMILogin.html').done(function(data1) {
+			amiWebApp.loadHTML('html/AMI/Modal/login.html').done(function(data1) {
 				amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
 					amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
 						/*-------------------------*/
@@ -41,15 +41,15 @@ function AMILogin() {
 
 						/*-------------------------*/
 
-						amiWebApp.loadHTML('html/AMI/AMILoginChangeInfo.html').done(function(data) {
+						amiWebApp.loadHTML('html/AMI/Modal/login_change_info.html').done(function(data) {
 							amiWebApp.appendHTML('ami_modal_content', data);
 						});
 
-						amiWebApp.loadHTML('html/AMI/AMILoginChangePass.html').done(function(data) {
+						amiWebApp.loadHTML('html/AMI/Modal/login_change_pass.html').done(function(data) {
 							amiWebApp.appendHTML('ami_modal_content', data);
 						});
 
-						amiWebApp.loadHTML('html/AMI/AMILoginAccountStatus.html').done(function(data) {
+						amiWebApp.loadHTML('html/AMI/Modal/login_account_status.html').done(function(data) {
 							amiWebApp.appendHTML('ami_modal_content', data);
 						});
 
