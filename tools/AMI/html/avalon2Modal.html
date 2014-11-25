@@ -54,6 +54,8 @@ function AMIAvalon2() {
 			}
 		}
 
+		$('#modal_common_avalon2_message').empty();
+
 		$('#modal_common_avalon2').modal('show');
 
 		return (this.deferred = $.Deferred()).promise();
@@ -66,6 +68,8 @@ function AMIAvalon2() {
 		var account = $('#modal_common_avalon2_account').val();
 
 		if(account) {
+			amiWebApp.lock();
+
 			var this_context = this.context;
 			var this_deferred = this.deferred;
 
@@ -81,26 +85,29 @@ function AMIAvalon2() {
 				},
 			}).done(function(data, textStatus, jqXHR) {
 
-				var token = jqXHR.getResponseHeader('X-Rucio-Auth-Token') || 'Unexpected error.';
+				var token = jqXHR.getResponseHeader('X-Rucio-Auth-Token');
 
 				if(this_context) {
 					this_deferred.resolveWith(this_context, [token]);
 				} else {
 					this_deferred.resolve(token);
 				}
+
+				$('#modal_common_avalon2').modal('hide');
+
+				amiWebApp.unlock();
+
 			}).fail(function() {
 
-				var error = 'Could not authenticate to RUCIO with account `' + account + '`.';
+				amiWebApp.replaceHTML('modal_common_avalon2_message', amiWebApp.fragmentError, {
+					dict: {MESSAGE: 'Could not authenticate to RUCIO with account `' + account + '`.'}
+				});
 
-				if(this_context) {
-					this_deferred.rejectWith(this_context, [error]);
-				} else {
-					this_deferred.reject(error);
-				}
+				$('#modal_common_avalon2_message .alert').fadeOut(60000);
+
+				amiWebApp.unlock();
 			});
 		}
-
-		$('#modal_common_avalon2').modal('hide');
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -121,6 +128,8 @@ amiAvalon2 = new AMIAvalon2();
         <h4 class="modal-title"><img src="img/avalon.png" height="44" /> Avalon&#178;</h4>
       </div>
       <div class="modal-body">
+
+        <div id="modal_common_avalon2_message"></div>
 
         <h2>Please Fill Up <small>to delegate your rights to AMI.</small></h2>
 
