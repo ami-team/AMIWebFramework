@@ -61,35 +61,43 @@ function AMIAvalon2() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.resolveByCredential = function() {
+	this.getToken = function() {
 
-		var user = $('#modal_common_avalon2_user').val();
-		var pass = $('#modal_common_avalon2_pass').val();
+		var account = $('#modal_common_avalon2_account').val();
 
-		if(user == ''
-		   ||
-		   pass == ''
-		 ) {
-			return;
-		}
+		if(account) {
+			var this_context = this.context;
+			var this_deferred = this.deferred;
 
-		if(this.context) {
-			this.deferred.resolveWith(this.context, [user, pass]);
-		} else {
-			this.deferred.resolve(user, pass);
-		}
+			var toto = $.ajax({
+				url: 'https://rucio-auth-prod.cern.ch/auth/x509',
+				type: 'GET',
+				dataType: 'text',
+				contentType: 'text/plain',
+				xhrFields: {withCredentials: true},
+				crossDomain: true,
+				headers: {
+					'X-Rucio-Account': account,
+				},
+			}).done(function(data, textStatus, jqXHR) {
 
-		$('#modal_common_avalon2').modal('hide');
-	};
+				var token = jqXHR.getResponseHeader('X-Rucio-Auth-Token') || 'Unexpected error.';
 
-	/*-----------------------------------------------------------------*/
+				if(this_context) {
+					this_deferred.resolveWith(this_context, [token]);
+				} else {
+					this_deferred.resolve(token);
+				}
+			}).fail(function() {
 
-	this.resolveByCertificate = function() {
+				var error = 'Could not authenticate to RUCIO with account `' + account + '`.';
 
-		if(this.context) {
-			this.deferred.resolveWith(this.context, [null, null]);
-		} else {
-			this.deferred.resolve(null, null);
+				if(this_context) {
+					this_deferred.rejectWith(this_context, [error]);
+				} else {
+					this_deferred.reject(error);
+				}
+			});
 		}
 
 		$('#modal_common_avalon2').modal('hide');
@@ -119,13 +127,23 @@ amiAvalon2 = new AMIAvalon2();
         <hr class="colorgraph" />
 
         <div class="form-group">
-          <input type="text" id="modal_common_avalon2_account" class="form-control input-lg" placeholder="Account" />
+          <input type="text" id="modal_common_avalon2_account" class="form-control input-lg" placeholder="RUCIO account" />
+        </div>
+
+        <div class="alert alert-info" role="alert">
+          <i class="fa fa-info-circle"></i> Make sure you have installed the CERN Grid Certification Authority Certificates:
+          <ul>
+            <li>CERN Root Certification Authority 2 Certificate</li>
+	    <li>CERN Grid Certification Authority Certificate</li>
+          </ul>
+          <br />
+          <i class="fa fa-arrow-circle-right"></i> <a href="https://cafiles.cern.ch/cafiles/certificates/Grid.aspx" target="_blank">https://cafiles.cern.ch/cafiles/certificates/Grid.aspx</a>
         </div>
 
       </div>
       <div class="modal-footer">
         <a href="#" class="btn btn-default"  data-dismiss="modal">Close</a>
-	<a href="javascript:amiAvalon2.resolveByCertificate();" class="btn btn-primary">Get Token</a>
+	<a href="javascript:amiAvalon2.getToken();" class="btn btn-primary">Get Token</a>
       </div>
     </div>
   </div>
