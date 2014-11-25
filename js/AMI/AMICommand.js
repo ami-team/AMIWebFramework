@@ -119,34 +119,36 @@ function AMICommand() {
 				type: "POST",
 				dataType: 'json',
 				xhrFields: {withCredentials: true},
-			}).done(function(data) {
+				success: function(data) {
 
-				var error = amiWebApp.jspath('.AMIMessage.error', data);
+					var error = amiWebApp.jspath('.AMIMessage.error', data);
 
-				if(error.length == 0) {
+					if(error.length == 0) {
 
-					if(context) {
-						deferred.resolveWith(context, [data]);
+						if(context) {
+							deferred.resolveWith(context, [data]);
+						} else {
+							deferred.resolve(data);
+						}
 					} else {
-						deferred.resolve(data);
+
+						if(context) {
+							deferred.rejectWith(context, [data]);
+						} else {
+							deferred.reject(data);
+						}
 					}
-				} else {
+				},
+				error: function(jqXHR, textStatus) {
+
+					var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
 					if(context) {
 						deferred.rejectWith(context, [data]);
 					} else {
 						deferred.reject(data);
 					}
-				}
-			}).fail(function(jqXHR, textStatus) {
-
-				var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
-
-				if(context) {
-					deferred.rejectWith(context, [data]);
-				} else {
-					deferred.reject(data);
-				}
+				},
 			});
 
 			/*-------------------------------------------------*/
@@ -161,20 +163,22 @@ function AMICommand() {
 				type: "POST",
 				dataType: 'text',
 				xhrFields: {withCredentials: true},
-			}).done(function(data) {
+				success: function(data) {
 
-				if(context) {
-					deferred.resolveWith(context, [data]);
-				} else {
-					deferred.resolve(data);
-				}
-			}).fail(function(jqXHR, textStatus) {
+					if(context) {
+						deferred.resolveWith(context, [data]);
+					} else {
+						deferred.resolve(data);
+					}
+				},
+				error: function(jqXHR, textStatus) {
 
-				if(context) {
-					deferred.rejectWith(context, [textStatus]);
-				} else {
-					deferred.reject(textStatus);
-				}
+					if(context) {
+						deferred.rejectWith(context, [textStatus]);
+					} else {
+						deferred.reject(textStatus);
+					}
+				},
 			});
 
 			/*-------------------------------------------------*/
