@@ -55,6 +55,7 @@ function AMICommand() {
 			data: data,
 			type: "POST",
 			dataType: 'text',
+			contentType: 'text/plain',
 			xhrFields: {withCredentials: true},
 		}).fail(function() {
 
@@ -118,9 +119,8 @@ function AMICommand() {
 				data: data,
 				type: "POST",
 				dataType: 'json',
-				xhrFields: {
-					withCredentials: true,
-	 			},
+				contentType: 'text/plain',
+				xhrFields: {withCredentials: true},
 			}).done(function(data) {
 
 				var error = amiWebApp.jspath('.AMIMessage.error', data);
