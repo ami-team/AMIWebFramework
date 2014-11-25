@@ -47,6 +47,8 @@ function AMICommand() {
 
 	this.ping = function() {
 
+		var result;
+
 		var URL = this.endpoint.trim();
 		var data = {Command: 'AMIPing'};
 
@@ -55,10 +57,13 @@ function AMICommand() {
 			data: data,
 			type: "POST",
 			dataType: 'text',
-			xhrFields: {withCredentials: true},
-		}).fail(function() {
-
-			amiWebApp.error('Server error, contact the AMI team.');
+			xhrFields: {
+				withCredentials: true
+			},
+			error: function(jqXHR, textStatus) {
+				result = textStatus;
+				amiWebApp.error('Server error, contact the AMI team.');
+			},
 		});
 	};
 
@@ -118,7 +123,9 @@ function AMICommand() {
 				data: data,
 				type: "POST",
 				dataType: 'json',
-				xhrFields: {withCredentials: true},
+				xhrFields: {
+					withCredentials: true
+				},
 				success: function(data) {
 
 					var error = amiWebApp.jspath('.AMIMessage.error', data);
@@ -162,7 +169,9 @@ function AMICommand() {
 				data: data,
 				type: "POST",
 				dataType: 'text',
-				xhrFields: {withCredentials: true},
+				xhrFields: {
+					withCredentials: true
+				},
 				success: function(data) {
 
 					if(context) {
