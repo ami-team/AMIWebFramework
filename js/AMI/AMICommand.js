@@ -47,8 +47,6 @@ function AMICommand() {
 
 	this.ping = function() {
 
-		var result;
-
 		var URL = this.endpoint.trim();
 		var data = {Command: 'AMIPing'};
 
@@ -61,7 +59,6 @@ function AMICommand() {
 				withCredentials: true
 			},
 			error: function(jqXHR, textStatus) {
-				result = textStatus;
 				amiWebApp.error('Server error, contact the AMI team.');
 			},
 		});
