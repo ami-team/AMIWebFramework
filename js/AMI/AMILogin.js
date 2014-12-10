@@ -101,12 +101,14 @@ function AMILogin() {
 							if(result && result.done) {
 								result.done(function() {
 									amiLogin._update(data, amiLogin.guest);
+									amiWebApp.unlock();
+								}).fail(function() {
+									amiWebApp.unlock();
 								});
 							} else {
 								amiLogin._update(data, amiLogin.guest);
+								amiWebApp.unlock();
 							}
-
-							amiWebApp.unlock();
 						});
 
 						/*-------------------------*/
@@ -119,12 +121,14 @@ function AMILogin() {
 			if(result && result.done) {
 				result.done(function() {
 					amiWebApp.onLogin();
+					amiWebApp.unlock();
+				}).fail(function() {
+					amiWebApp.unlock();
 				});
 			} else {
 				amiWebApp.onLogin();
+				amiWebApp.unlock();
 			}
-
-			amiWebApp.unlock();
 		}
 	};
 
