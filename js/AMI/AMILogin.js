@@ -79,7 +79,7 @@ function AMILogin() {
 						/*-------------------------*/
 
 						amiCommand.certLogin().done(function(data, user) {
-							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
+							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
 							var result = amiWebApp.onReady(userdata);
 
@@ -94,7 +94,7 @@ function AMILogin() {
 							amiWebApp.unlock();
 
 						}).fail(function(data) {
-							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guest_user"}.$', data)[0];
+							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
 							var result = amiWebApp.onReady(userdata);
 
@@ -476,21 +476,21 @@ function AMILogin() {
 
 			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', data)[0];
 
-			var cert_enable = amiWebApp.jspath('..field{.@name==="cert_enable"}.$', data)[0];
-			var voms_enable = amiWebApp.jspath('..field{.@name==="voms_enable"}.$', data)[0];
+			var cert_enable = amiWebApp.jspath('..field{.@name==="certEnable"}.$', data)[0];
+			var voms_enable = amiWebApp.jspath('..field{.@name==="vomsEnable"}.$', data)[0];
 
 			/*-------------------------------------------------*/
 
-			var first_name = amiWebApp.jspath('..field{.@name==="first_name"}.$', data)[0];
-			var last_name = amiWebApp.jspath('..field{.@name==="last_name"}.$', data)[0];
+			var first_name = amiWebApp.jspath('..field{.@name==="firstName"}.$', data)[0];
+			var last_name = amiWebApp.jspath('..field{.@name==="lastName"}.$', data)[0];
 			var email = amiWebApp.jspath('..field{.@name==="email"}.$', data)[0];
 
 			/*-------------------------------------------------*/
 
-			var dn_in_ami = amiWebApp.jspath('..field{.@name==="dn_in_ami"}.$', data)[0];
-			var dn_in_session = amiWebApp.jspath('..field{.@name==="dn_in_session"}.$', data)[0];
-			var issuer_in_ami = amiWebApp.jspath('..field{.@name==="issuer_in_ami"}.$', data)[0];
-			var issuer_in_session = amiWebApp.jspath('..field{.@name==="issuer_in_session"}.$', data)[0];
+			var client_dn_in_ami = amiWebApp.jspath('..field{.@name==="cliendDNInAMI"}.$', data)[0];
+			var client_dn_in_session = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', data)[0];
+			var issuer_dn_in_ami = amiWebApp.jspath('..field{.@name==="issuerDNInAMI"}.$', data)[0];
+			var issuer_dn_in_session = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', data)[0];
 
 			/*-------------------------------------------------*/
 
@@ -498,8 +498,8 @@ function AMILogin() {
 			$('#modal_login_account_status_last_name').val(last_name);
 			$('#modal_login_account_status_email').val(email);
 
-			$('#modal_login_account_status_dn_in_ami').val(dn_in_ami);
-			$('#modal_login_account_status_dn_in_session').val(dn_in_session);
+			$('#modal_login_account_status_client_dn_in_ami').val(client_dn_in_ami);
+			$('#modal_login_account_status_client_dn_in_session').val(client_dn_in_session);
 
 			/*-------------------------------------------------*/
 
@@ -508,18 +508,18 @@ function AMILogin() {
 			if(valid === '0') {
 				var wrn_msg = '';
 
-				if(cert_enable && dn_in_ami && issuer_in_ami) {
+				if(cert_enable && client_dn_in_ami && issuer_dn_in_ami) {
 
-					if(!dn_in_session
+					if(!client_dn_in_session
 					   ||
-					   !issuer_in_session
+					   !issuer_dn_in_session
 					 ) {
 						wrn_msg = 'You should provide a certificate to use this AMI web application.';
 					} else {
 
-						if(dn_in_ami !== dn_in_session
+						if(client_dn_in_ami !== client_dn_in_session
 						   ||
-						   issuer_in_ami !== issuer_in_session
+						   issuer_dn_in_ami !== issuer_dn_in_session
 						 ) {
 							wrn_msg = 'The certificate in your session is not the one registered in AMI.';
 						}
@@ -539,9 +539,9 @@ function AMILogin() {
 
 				if(voms_enable) {
 
-					if(!dn_in_ami
+					if(!client_dn_in_ami
 					   ||
-					   !issuer_in_ami
+					   !issuer_dn_in_ami
 					 ) {
 						err_msg = 'Register a valid GRID certificate.';
 					}
