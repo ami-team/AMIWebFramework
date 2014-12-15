@@ -21,6 +21,10 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.roles = {};
+
+	/*-----------------------------------------------------------------*/
+
 	this.start = function(userdata) {
 
 		amiWebApp.lock();
@@ -81,8 +85,6 @@ function AMILogin() {
 						amiCommand.certLogin().done(function(data, user) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
-							alert(JSON.stringify(amiWebApp.jspath('..rowset{.@type==="role"}..row', data)));
-
 							var result = amiWebApp.onReady(userdata);
 
 							if(result && result.done) {
@@ -97,8 +99,6 @@ function AMILogin() {
 
 						}).fail(function(data) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
-
-							alert(JSON.stringify(amiWebApp.jspath('..rowset{.@type==="role"}..row', data)));
 
 							var result = amiWebApp.onReady(userdata);
 
@@ -395,6 +395,20 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.hasRole = function(role) {
+	
+		return role in amiLogin.roles;
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.getRoleInfo = function(role) {
+	
+		return role in amiLogin.roles ? amiLogin.roles[role] : null;
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	this._clean = function(message) {
 		$('#form_login1 input[name=pass]').val('');
 
@@ -475,26 +489,31 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
+		var user_rows = amiWebApp.jspath('..rowset{.@type==="user"}..row', data);
+		var role_rows = amiWebApp.jspath('..rowset{.@type==="role"}..row', data);
+
+		/*---------------------------------------------------------*/
+
 		if(user !== amiLogin.guest) {
 			/*-------------------------------------------------*/
 
-			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', data)[0];
+			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', user_rows)[0];
 
-			var cert_enable = amiWebApp.jspath('..field{.@name==="certEnable"}.$', data)[0];
-			var voms_enable = amiWebApp.jspath('..field{.@name==="vomsEnable"}.$', data)[0];
-
-			/*-------------------------------------------------*/
-
-			var first_name = amiWebApp.jspath('..field{.@name==="firstName"}.$', data)[0];
-			var last_name = amiWebApp.jspath('..field{.@name==="lastName"}.$', data)[0];
-			var email = amiWebApp.jspath('..field{.@name==="email"}.$', data)[0];
+			var cert_enable = amiWebApp.jspath('..field{.@name==="certEnable"}.$', user_rows)[0];
+			var voms_enable = amiWebApp.jspath('..field{.@name==="vomsEnable"}.$', user_rows)[0];
 
 			/*-------------------------------------------------*/
 
-			var client_dn_in_ami = amiWebApp.jspath('..field{.@name==="clientDNInAMI"}.$', data)[0];
-			var client_dn_in_session = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', data)[0];
-			var issuer_dn_in_ami = amiWebApp.jspath('..field{.@name==="issuerDNInAMI"}.$', data)[0];
-			var issuer_dn_in_session = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', data)[0];
+			var first_name = amiWebApp.jspath('..field{.@name==="firstName"}.$', user_rows)[0];
+			var last_name = amiWebApp.jspath('..field{.@name==="lastName"}.$', user_rows)[0];
+			var email = amiWebApp.jspath('..field{.@name==="email"}.$', user_rows)[0];
+
+			/*-------------------------------------------------*/
+
+			var client_dn_in_ami = amiWebApp.jspath('..field{.@name==="clientDNInAMI"}.$', user_rows)[0];
+			var client_dn_in_session = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', user_rows)[0];
+			var issuer_dn_in_ami = amiWebApp.jspath('..field{.@name==="issuerDNInAMI"}.$', user_rows)[0];
+			var issuer_dn_in_session = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', user_rows)[0];
 
 			/*-------------------------------------------------*/
 
@@ -599,6 +618,24 @@ function AMILogin() {
 			self.is_connected = false;
 			amiWebApp.onLogout();
 			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
+		}
+
+		/*---------------------------------------------------------*/
+
+		amiLogin.roles = {};
+
+		for(var i = 0; i < role_rows.length; i++) {
+
+			var name = amiWebApp.jspath('..field{.@name==="name"}.$', role_rows[i])[0];
+			var project = amiWebApp.jspath('..field{.@name==="project"}.$', role_rows[i])[0];
+			var process = amiWebApp.jspath('..field{.@name==="process"}.$', role_rows[i])[0];
+			var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', role_rows[i])[0];
+
+			amiLogin.roles[name] = {
+				project: project,
+				process: process,
+				entity: entity,
+			};
 		}
 
 		/*---------------------------------------------------------*/
