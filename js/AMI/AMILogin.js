@@ -487,7 +487,7 @@ function AMILogin() {
 
 			/*-------------------------------------------------*/
 
-			var client_dn_in_ami = amiWebApp.jspath('..field{.@name==="cliendDNInAMI"}.$', data)[0];
+			var client_dn_in_ami = amiWebApp.jspath('..field{.@name==="clientDNInAMI"}.$', data)[0];
 			var client_dn_in_session = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', data)[0];
 			var issuer_dn_in_ami = amiWebApp.jspath('..field{.@name==="issuerDNInAMI"}.$', data)[0];
 			var issuer_dn_in_session = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', data)[0];
