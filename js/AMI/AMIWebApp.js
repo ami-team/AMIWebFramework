@@ -309,7 +309,13 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.currentSubApp = function() {
+	this.onToolbarUpdateNeeded = function() {
+/*		alert('error: `<app>.onToolBarUpdateNeeded()` must be implemented !');
+ */	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._currentSubApp = function() {
 
 		this.onReady = function() {
 			alert('error: `<sub application>.onReady()` must be implemented !');
@@ -327,15 +333,17 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onReady = function(userdata) {
-		return this.currentSubApp.onReady(userdata);
+		return this._currentSubApp.onReady(userdata);
 	};
 
 	this.onLogin = function() {
-		return this.currentSubApp.onLogin();
+		this.onToolbarUpdateNeeded();
+		return this._currentSubApp.onLogin();
 	};
 
 	this.onLogout = function() {
-		return this.currentSubApp.onLogout();
+		this.onToolbarUpdateNeeded();
+		return this._currentSubApp.onLogout();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -368,7 +376,7 @@ function AMIWebApp() {
 				template_filename = settings['template_filename'];
 			}
 
-			if('locker_filename' in settingd) {
+			if('locker_filename' in settings) {
 				locker_filename = settings['locker_filename'];
 			}
 		}
@@ -481,7 +489,7 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		this.currentSubApp = subApp;
+		this._currentSubApp = subApp;
 
 		amiLogin.start(userdata);
 
