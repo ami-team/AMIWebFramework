@@ -396,15 +396,15 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this.hasRole = function(role) {
-	
+
 		return role in amiLogin.roles;
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.getRoleInfo = function(role) {
-	
-		return role in amiLogin.roles ? amiLogin.roles[role] : null;
+
+		return (role in amiLogin.roles) ? amiLogin.roles[role] : null;
 	};
 
 	/*-----------------------------------------------------------------*/
