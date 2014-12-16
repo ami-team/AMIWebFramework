@@ -39,10 +39,12 @@
 			'  </a>' +
 			'  <ul class="dropdown-menu">' +
 			'    <li><a href="javascript:amiWebApp.loadSubApp(amiCommandApp);">Command Line</a></li>' +
-			'  </ul>'
+			'  </ul>' +
+			'</li>'
 		;
 
 		if(amiLogin.hasRole('AMI_administrator_role')) {
+
 			menu +=
 				'</li>' +
 				'<li class="dropdown">' +
@@ -51,11 +53,10 @@
 				'  </a>' +
 				'  <ul class="dropdown-menu">' +
 				'    <li><a href="javascript:amiWebApp.loadSubApp(amiDBModelerApp);">DB Modeler</a></li>' +
-				'  </ul>'
+				'  </ul>' +
+				'</li>'
 			;
 		}
-
-		menu += '</li>';
 
 		$('#ami_menu_content').html(menu);
 	};

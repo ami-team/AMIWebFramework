@@ -429,6 +429,19 @@ function AMICommand() {
 	};
 
 	/*-----------------------------------------------------------------*/
+
+	this.checkAuthorization = function(clazz, settings) {
+
+		var command = 'CheckAuthorization -roleValidatorClass="' + clazz + '"';
+
+		for(var argument in arguments) {
+			command += '-' + argument + '="' + arguments[argument] + '"';
+		}
+
+		return amiCommand.execute(command, settings);
+	};
+
+	/*-----------------------------------------------------------------*/
 }
 
 /*-------------------------------------------------------------------------*/
