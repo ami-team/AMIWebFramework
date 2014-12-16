@@ -13,48 +13,6 @@
 var _internal_nonce = jQuery.now();
 
 /*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _internal_loadScripts(deferred, context, scripts) {
-
-	var html = '';
-
-	for(var i = 0; i < scripts.length; i++) {
-		html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _internal_nonce++ + '"></script>';
-	}
-
-	$('head').append(html).promise().done(function() {
-
-		if(context) {
-			deferred.resolveWith(context);
-		} else {
-			deferred.resolve();
-		}
-	});
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _internal_loadSheets(deferred, context, sheets) {
-
-	var html = '';
-
-	for(var i = 0; i < sheets.length; i++) {
-		html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _internal_nonce++ + '"></link>';
-	}
-
-	$('head').append(html).promise().done(function() {
-
-		if(context) {
-			deferred.resolveWith(context);
-		} else {
-			deferred.resolve();
-		}
-	});
-}
-
-/*-------------------------------------------------------------------------*/
 /* CLASS AMIWebApp                                                         */
 /*-------------------------------------------------------------------------*/
 
@@ -73,12 +31,29 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
+		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		var html = '';
+
 		if(!(scripts instanceof Array)) {
 			scripts = [scripts];
 		}
 
-		var result = $.Deferred();
-		_internal_loadScripts(result, context, scripts);
+		for(var i = 0; i < scripts.length; i++) {
+			html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _internal_nonce++ + '"></script>';
+		}
+
+		$('head').append(html).promise().done(function() {
+
+			if(context) {
+				result.resolveWith(context);
+			} else {
+				result.resolve();
+			}
+		});
+
 		return result.promise();
 
 		/*---------------------------------------------------------*/
@@ -98,12 +73,29 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
+		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		var html = '';
+
 		if(!(sheets instanceof Array)) {
 			sheets = [sheets];
 		}
 
-		var result = $.Deferred();
-		_internal_loadSheets(result, context, sheets);
+		for(var i = 0; i < sheets.length; i++) {
+			html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _internal_nonce++ + '"></link>';
+		}
+
+		$('head').append(html).promise().done(function() {
+
+			if(context) {
+				result.resolveWith(context);
+			} else {
+				result.resolve();
+			}
+		});
+
 		return result.promise();
 
 		/*---------------------------------------------------------*/

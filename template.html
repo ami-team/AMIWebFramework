@@ -20,30 +20,46 @@
 
 	amiWebApp.onStart = function() {
 
-		amiCommand.endpoint = 'https://ami3test.in2p3.fr:8443/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
+		if (amiWebApp.isLocal()) {
+			amiCommand.endpoint = 'https://ami3test.in2p3.fr:8443/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
+		} else {
+			amiCommand.endpoint = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
+		}
 
-		$('#ami_menu_content').html(
+		amiWebApp.loadSubApp(amiCommandApp);
+		//amiWebApp.loadSubApp(amiDBModelerApp);
+	};
+
+	amiWebApp.onToolbarUpdateNeeded = function() {
+
+		var menu =
 			'<li class="dropdown">' +
 			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
 			'    Tools <span class="caret"></span>' +
 			'  </a>' +
 			'  <ul class="dropdown-menu">' +
 			'    <li><a href="javascript:amiWebApp.loadSubApp(amiCommandApp);">Command Line</a></li>' +
-			'  </ul>' +
-			'</li>' +
-			'<li class="dropdown">' +
-			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
-			'    Admin <span class="caret"></span>' +
-			'  </a>' +
-			'  <ul class="dropdown-menu">' +
-			'    <li><a href="javascript:amiWebApp.loadSubApp(amiDBModelerApp);">DB Modeler</a></li>' +
-			'  </ul>' +
-			'</li>'
-		);
+			'  </ul>'
+		;
+
+		if(amiLogin.hasRole('AMI_administrator_role')) {
+			menu +=
+				'</li>' +
+				'<li class="dropdown">' +
+				'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
+				'    Admin <span class="caret"></span>' +
+				'  </a>' +
+				'  <ul class="dropdown-menu">' +
+				'    <li><a href="javascript:amiWebApp.loadSubApp(amiDBModelerApp);">DB Modeler</a></li>' +
+				'  </ul>'
+			;
+		}
+
+		menu += '</li>';
+
+		$('#ami_menu_content').html(menu);
 	};
-
-	amiWebApp.loadSubApp(amiCommandApp);
-
+	
     </script>
 
     <!--[if lt IE 9]>

@@ -85,8 +85,6 @@ function AMILogin() {
 						amiCommand.certLogin().done(function(data, user) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
-							alert(JSON.stringify(amiWebApp.jspath('..rowset{.@type="role"}..row', data)));
-
 							var result = amiWebApp.onReady(userdata);
 
 							if(result && result.done) {
@@ -101,8 +99,6 @@ function AMILogin() {
 
 						}).fail(function(data) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
-
-							alert(JSON.stringify(amiWebApp.jspath('..rowset{.@type="role"}..row', data)));
 
 							var result = amiWebApp.onReady(userdata);
 
@@ -498,6 +494,24 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
+		amiLogin.roles = {};
+
+		for(var i = 0; i < role_rows.length; i++) {
+
+			var name = amiWebApp.jspath('..field{.@name==="name"}.$', role_rows[i])[0];
+			var project = amiWebApp.jspath('..field{.@name==="project"}.$', role_rows[i])[0];
+			var process = amiWebApp.jspath('..field{.@name==="process"}.$', role_rows[i])[0];
+			var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', role_rows[i])[0];
+
+			amiLogin.roles[name] = {
+				project: project,
+				process: process,
+				entity: entity,
+			};
+		}
+
+		/*---------------------------------------------------------*/
+
 		if(user !== amiLogin.guest) {
 			/*-------------------------------------------------*/
 
@@ -622,24 +636,6 @@ function AMILogin() {
 			self.is_connected = false;
 			amiWebApp.onLogout();
 			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
-		}
-
-		/*---------------------------------------------------------*/
-
-		amiLogin.roles = {};
-
-		for(var i = 0; i < role_rows.length; i++) {
-
-			var name = amiWebApp.jspath('..field{.@name==="name"}.$', role_rows[i])[0];
-			var project = amiWebApp.jspath('..field{.@name==="project"}.$', role_rows[i])[0];
-			var process = amiWebApp.jspath('..field{.@name==="process"}.$', role_rows[i])[0];
-			var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', role_rows[i])[0];
-
-			amiLogin.roles[name] = {
-				project: project,
-				process: process,
-				entity: entity,
-			};
 		}
 
 		/*---------------------------------------------------------*/
