@@ -85,6 +85,8 @@ function AMILogin() {
 						amiCommand.certLogin().done(function(data, user) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
+							alert(JSON.stringify(amiWebApp.jspath('..rowset{.@type="role"}..row', data)));
+
 							var result = amiWebApp.onReady(userdata);
 
 							if(result && result.done) {
@@ -99,6 +101,8 @@ function AMILogin() {
 
 						}).fail(function(data) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
+
+							alert(JSON.stringify(amiWebApp.jspath('..rowset{.@type="role"}..row', data)));
 
 							var result = amiWebApp.onReady(userdata);
 
