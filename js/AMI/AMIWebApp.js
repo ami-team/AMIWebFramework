@@ -310,8 +310,8 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onToolbarUpdateNeeded = function() {
-/*		alert('error: `<app>.onToolBarUpdateNeeded()` must be implemented !');
- */	};
+		alert('error: `<app>.onToolBarUpdateNeeded()` must be implemented !');
+ 	};
 
 	/*-----------------------------------------------------------------*/
 
@@ -337,13 +337,15 @@ function AMIWebApp() {
 	};
 
 	this.onLogin = function() {
+		var result = this._currentSubApp.onLogin();
 		this.onToolbarUpdateNeeded();
-		return this._currentSubApp.onLogin();
+		return result;
 	};
 
 	this.onLogout = function() {
+		var result = this._currentSubApp.onLogout();
 		this.onToolbarUpdateNeeded();
-		return this._currentSubApp.onLogout();
+		return result;
 	};
 
 	/*-----------------------------------------------------------------*/
