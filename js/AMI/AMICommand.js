@@ -430,7 +430,7 @@ function AMICommand() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.checkAuthorization = function(clazz, settings) {
+	this.checkAuthorization = function(clazz, arguments, settings) {
 
 		var command = 'CheckAuthorization -roleValidatorClass="' + clazz + '"';
 

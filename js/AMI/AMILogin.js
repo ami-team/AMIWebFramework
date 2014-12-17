@@ -502,12 +502,18 @@ function AMILogin() {
 			var project = amiWebApp.jspath('..field{.@name==="project"}.$', role_rows[i])[0];
 			var process = amiWebApp.jspath('..field{.@name==="process"}.$', role_rows[i])[0];
 			var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', role_rows[i])[0];
+			var row = amiWebApp.jspath('..field{.@name==="row"}.$', role_rows[i])[0];
 
-			amiLogin.roles[name] = {
+			if(!(name in amiLogin.roles)) {
+				amiLogin.roles[name] = [];
+			}
+
+			amiLogin.roles[name].push({
 				project: project,
 				process: process,
 				entity: entity,
-			};
+				row: row,
+			});
 		}
 
 		/*---------------------------------------------------------*/
