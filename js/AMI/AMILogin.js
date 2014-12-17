@@ -395,16 +395,57 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.hasRole = function(role) {
+	this.hasRole = function(roleName) {
 
-		return role in amiLogin.roles;
+		return roleName in amiLogin.roles;
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.getRoleInfo = function(role) {
+	this.hasRoleForEntity = function(roleName, project, process, entity) {
 
-		return (role in amiLogin.roles) ? amiLogin.roles[role] : null;
+		if(roleName in amiLogin.roles) {
+
+			for(var role in amiLogin.roles[roleName]) {
+
+				if(role['project'] === project
+				   &&
+				   role['process'] === process
+				   &&
+				   role['entity'] === entity
+				   &&
+				   role['row'] === '0'
+				 ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.hasRoleForRow = function(roleName, project, process, entity, row) {
+
+		if(roleName in amiLogin.roles) {
+
+			for(var role in amiLogin.roles[roleName]) {
+
+				if(role['project'] === project
+				   &&
+				   role['process'] === process
+				   &&
+				   role['entity'] === entity
+				   &&
+				   role['row'] === row
+				 ) {
+					return true;
+				}
+			}
+		}
+
+		return false;
 	};
 
 	/*-----------------------------------------------------------------*/
