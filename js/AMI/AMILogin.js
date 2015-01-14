@@ -88,14 +88,14 @@ function AMILogin() {
 							var result = amiWebApp.onReady(userdata);
 
 							if(result && result.done) {
-								result.done(function() {
+								result.always(function() {
 									amiLogin._update(data, user);
+									amiWebApp.unlock();
 								});
 							} else {
 								amiLogin._update(data, user);
+								amiWebApp.unlock();
 							}
-
-							amiWebApp.unlock();
 
 						}).fail(function(data) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
@@ -103,10 +103,8 @@ function AMILogin() {
 							var result = amiWebApp.onReady(userdata);
 
 							if(result && result.done) {
-								result.done(function() {
+								result.always(function() {
 									amiLogin._update(data, amiLogin.guest);
-									amiWebApp.unlock();
-								}).fail(function() {
 									amiWebApp.unlock();
 								});
 							} else {
@@ -123,10 +121,8 @@ function AMILogin() {
 			var result = amiWebApp.onReady(userdata);
 
 			if(result && result.done) {
-				result.done(function() {
+				result.always(function() {
 					amiWebApp.onLogin();
-					amiWebApp.unlock();
-				}).fail(function() {
 					amiWebApp.unlock();
 				});
 			} else {
