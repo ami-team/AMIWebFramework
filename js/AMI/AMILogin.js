@@ -560,8 +560,8 @@ function AMILogin() {
 
 			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', user_rows)[0];
 
-			var cert_enable = amiWebApp.jspath('..field{.@name==="certEnable"}.$', user_rows)[0];
-			var voms_enable = amiWebApp.jspath('..field{.@name==="vomsEnable"}.$', user_rows)[0];
+			var cert_enabled = amiWebApp.jspath('..field{.@name==="certEnabled"}.$', user_rows)[0];
+			var voms_enabled = amiWebApp.jspath('..field{.@name==="vomsEnabled"}.$', user_rows)[0];
 
 			/*-------------------------------------------------*/
 
@@ -592,7 +592,7 @@ function AMILogin() {
 			if(valid === '0') {
 				var wrn_msg = '';
 
-				if(cert_enable && client_dn_in_ami && issuer_dn_in_ami) {
+				if(cert_enabled && client_dn_in_ami && issuer_dn_in_ami) {
 
 					if(!client_dn_in_session
 					   ||
@@ -621,7 +621,7 @@ function AMILogin() {
 			} else {
 				var err_msg = '';
 
-				if(voms_enable) {
+				if(voms_enabled) {
 
 					if(!client_dn_in_ami
 					   ||
@@ -659,7 +659,7 @@ function AMILogin() {
 			/*-------------------------------------------------*/
 
 			$('#form_login_change_info input[name=email]').prop(
-				'disabled', valid === '0' && voms_enable !== 'false'
+				'disabled', valid === '0' && voms_enabled !== 'false'
 			);
 
 			/*-------------------------------------------------*/
