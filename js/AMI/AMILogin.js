@@ -589,7 +589,7 @@ function AMILogin() {
 
 			var icon;
 
-			if(valid === '0') {
+			if(valid !== 'false') {
 				var wrn_msg = '';
 
 				if(cert_enabled && client_dn_in_ami && issuer_dn_in_ami) {
