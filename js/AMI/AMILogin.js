@@ -659,7 +659,7 @@ function AMILogin() {
 			/*-------------------------------------------------*/
 
 			$('#form_login_change_info input[name=email]').prop(
-				'disabled', valid === '0' && voms_enabled !== 'false'
+				'disabled', valid !== 'false' && voms_enabled !== 'false'
 			);
 
 			/*-------------------------------------------------*/
