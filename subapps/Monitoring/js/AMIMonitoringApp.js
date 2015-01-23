@@ -13,6 +13,11 @@
 function AMIMonitoringApp() {
 	/*-----------------------------------------------------------------*/
 
+	this._connectionPoolCharts = [  ];
+	this._connectionPoolTimer = null;
+
+	/*-----------------------------------------------------------------*/
+
 	this.onReady = function(userdata) {
 
 		var result = $.Deferred();
@@ -47,107 +52,30 @@ function AMIMonitoringApp() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.onExit = function() {
+
+		if(this._connectionPoolTimer) {
+
+			clearTimeout(this._connectionPoolTimer);
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	this.onLogin = function() {
 		/*---------------------------------------------------------*/
 		/* CONNECTION POOL                                         */
 		/*---------------------------------------------------------*/
 
-		var charts = [];
+		this._connectionPoolUpdater();
 
-		var connectionPoolFragment = this.connectionPoolFragment;
-
-		function __connectionPoolUpdater() {
-
-			var t = new Date().getTime();
-
-			amiCommand.execute('GetConnectionStatus').done(function(data) {
-
-				var rows = amiWebApp.jspath('..row', data);
-
-				$.each(rows, function(index, row) {
-
-					var  numIdle  = parseInt(amiWebApp.jspath('..field{.@name=== "numIdle" }.$', data)[0]);
-					var numActive = parseInt(amiWebApp.jspath('..field{.@name==="numActive"}.$', data)[0]);
-
-					if(charts.length <= index) {
-
-						var url = amiWebApp.jspath('..field{.@name==="url"}.$', data)[0];
-						var name = amiWebApp.jspath('..field{.@name==="name"}.$', data)[0];
-						var poolSize = amiWebApp.jspath('..field{.@name=== "poolSize"}.$', data)[0];
-						var minIdle = amiWebApp.jspath('..field{.@name=== "minIdle"}.$', data)[0];
-						var maxIdle = amiWebApp.jspath('..field{.@name=== "maxIdle"}.$', data)[0];
-						var maxActive = amiWebApp.jspath('..field{.@name=== "maxActive"}.$', data)[0];
-						var timeBetweenEvictionRunsMillis = amiWebApp.jspath('..field{.@name=== "timeBetweenEvictionRunsMillis"}.$', data)[0];
-						var minEvictableIdleTimeMillis = amiWebApp.jspath('..field{.@name=== "minEvictableIdleTimeMillis"}.$', data)[0];
-						var validationInterval = amiWebApp.jspath('..field{.@name=== "validationInterval"}.$', data)[0];
-						var maxWait = amiWebApp.jspath('..field{.@name=== "maxWait"}.$', data)[0];
-
-						var dict = {
-							INDEX: index,
-							URL: url,
-							NAME: name,
-							POOL_SIZE: poolSize,
-							MIN_IDLE: minIdle,
-							MAX_IDLE: maxIdle,
-							MAX_ACTIVE: maxActive,
-							TIME_BETWEEN_EVICTION_RUNS_MILLIS: timeBetweenEvictionRunsMillis,
-							MIN_EVICTABLE_IDLE_TIME_MILLIS: minEvictableIdleTimeMillis,
-							VALIDATION_INTERVAL: validationInterval,
- 							MAX_WAIT: maxWait,
-						};
-
-						amiWebApp.prependHTML('connectionPoolContent', connectionPoolFragment, {dict: dict}).done(function() {
-
-							chart = new Highcharts.Chart({
-								chart: {
-									type: 'spline',
-									renderTo: 'connectionPoolPlot' + index,
-								},
-								title: {
-									text: null,
-								},
-								subtitle: {
-									text: null,
-								},
-								xAxis: {
-									type: 'datetime',
-								},
-								yAxis: {
-									title: {
-										text: 'Number of connections',
-									},
-								},
-								exporting: {
-									enabled: false,
-								},
-								series: [
-									{name:  'Idle' , data: [[t,  numIdle ]]},
-									{name: 'Active', data: [[t, numActive]]},
-								],
-								credits: {
-									enabled: false,
-								},
-							});
-
-							charts.push(chart);
-						});
-
-					} else {
-						var shift = chart.series[0].data.length > 80;
-
-						charts[index].series[0].addPoint([t,  numIdle ], false, shift);
-						charts[index].series[1].addPoint([t, numActive], false, shift);
-
-						charts[index].redraw();
-					}
-				});
-			});
-
-			setTimeout(__connectionPoolUpdater, 4000);
-		}
-
-		__connectionPoolUpdater();
-
+		this._connectionPoolTimer = setInterval(
+			(function(self) {
+				return function() {
+					self._connectionPoolUpdater();
+				}
+     			})(this)
+		, 4000);
 
 		/*---------------------------------------------------------*/
 	};
@@ -160,6 +88,96 @@ function AMIMonitoringApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onSessionExpired = function() {
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._connectionPoolUpdater = function() {
+
+		var t = new Date().getTime();
+
+		amiCommand.execute('GetConnectionStatus', {context: this}).done(function(data) {
+
+			var rows = amiWebApp.jspath('..row', data);
+
+			$.arrayFor(rows, function(index, row) {
+
+				var  numIdle  = parseInt(amiWebApp.jspath('..field{.@name=== "numIdle" }.$', data)[0]);
+				var numActive = parseInt(amiWebApp.jspath('..field{.@name==="numActive"}.$', data)[0]);
+
+				if(this._connectionPoolCharts.length <= index) {
+
+					var url = amiWebApp.jspath('..field{.@name==="url"}.$', data)[0];
+					var name = amiWebApp.jspath('..field{.@name==="name"}.$', data)[0];
+					var poolSize = amiWebApp.jspath('..field{.@name=== "poolSize"}.$', data)[0];
+					var minIdle = amiWebApp.jspath('..field{.@name=== "minIdle"}.$', data)[0];
+					var maxIdle = amiWebApp.jspath('..field{.@name=== "maxIdle"}.$', data)[0];
+					var maxActive = amiWebApp.jspath('..field{.@name=== "maxActive"}.$', data)[0];
+					var timeBetweenEvictionRunsMillis = amiWebApp.jspath('..field{.@name=== "timeBetweenEvictionRunsMillis"}.$', data)[0];
+					var minEvictableIdleTimeMillis = amiWebApp.jspath('..field{.@name=== "minEvictableIdleTimeMillis"}.$', data)[0];
+					var validationInterval = amiWebApp.jspath('..field{.@name=== "validationInterval"}.$', data)[0];
+					var maxWait = amiWebApp.jspath('..field{.@name=== "maxWait"}.$', data)[0];
+
+					var dict = {
+						INDEX: index,
+						URL: url,
+						NAME: name,
+						POOL_SIZE: poolSize,
+						MIN_IDLE: minIdle,
+						MAX_IDLE: maxIdle,
+						MAX_ACTIVE: maxActive,
+						TIME_BETWEEN_EVICTION_RUNS_MILLIS: timeBetweenEvictionRunsMillis,
+						MIN_EVICTABLE_IDLE_TIME_MILLIS: minEvictableIdleTimeMillis,
+						VALIDATION_INTERVAL: validationInterval,
+						MAX_WAIT: maxWait,
+					};
+
+					amiWebApp.prependHTML('connectionPoolContent', this.connectionPoolFragment, {context: this, dict: dict}).done(function() {
+
+						this._connectionPoolCharts.push(new Highcharts.Chart({
+							chart: {
+								type: 'spline',
+								renderTo: 'connectionPoolPlot' + index,
+							},
+							title: {
+								text: null,
+							},
+							subtitle: {
+								text: null,
+							},
+							xAxis: {
+								type: 'datetime',
+							},
+							yAxis: {
+								title: {
+									text: 'Number of connections',
+								},
+							},
+							exporting: {
+								enabled: false,
+							},
+							series: [
+								{name:  'Idle' , data: [[t,  numIdle ]]},
+								{name: 'Active', data: [[t, numActive]]},
+							],
+							credits: {
+								enabled: false,
+							},
+						}));
+					});
+
+				} else {
+
+					var shift = this._connectionPoolCharts[index].series[0].data.length > 80;
+
+					this._connectionPoolCharts[index].series[0].addPoint([t,  numIdle ], false, shift);
+					this._connectionPoolCharts[index].series[1].addPoint([t, numActive], false, shift);
+
+					this._connectionPoolCharts[index].redraw();
+				}
+
+			}, this);
+		});
 	};
 
 	/*-----------------------------------------------------------------*/

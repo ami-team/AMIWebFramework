@@ -63,6 +63,11 @@ function AMICommandApp() {
 
 	/*-----------------------------------------------------------------*/
 
+	this.onExit = function() {
+	};
+
+	/*-----------------------------------------------------------------*/
+
 	this.onLogin = function() {
 
 		if($('#ami_command_list').html().trim() === '') {
@@ -75,11 +80,11 @@ function AMICommandApp() {
 
 				$.each(rows, function(index, row) {
 
-					var command = amiWebApp.jspath('..field{.@name==="command"}.$', row)[0];
-					var shortHelp = amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0];
-					var prototype = amiWebApp.jspath('..field{.@name==="prototype"}.$', row)[0];
+					var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0];
+					var shortHelp = amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0] || 'TO DO';
+					var prototype = amiWebApp.jspath('..field{.@name==="prototype"}.$', row)[0] || 'TO DO';
 
-					if(command.length > 3)
+					if(command.indexOf('AMI') === 0)
 					{
 						command = command.substring(3);
 					}

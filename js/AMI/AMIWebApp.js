@@ -320,25 +320,22 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._currentSubApp = function() {
+	this._currentSubApp = new function() {
 
-		this.onReady = function() {
-			alert('error: `<sub application>.onReady()` must be implemented !');
-		};
-
-		this.onLogin = function() {
-			alert('error: `<sub application>.onLogin()` must be implemented !');
-		};
-
-		this.onLogout = function() {
-			alert('error: `<sub application>.onLogout()` must be implemented !');
-		};
+		this.onReady = function() {};
+		this.onExit = function() {};
+		this.onLogin = function() {};
+		this.onLogout = function() {};
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.onReady = function(userdata) {
 		return this._currentSubApp.onReady(userdata);
+	};
+
+	this.onExit = function() {
+		return this._currentSubApp.onExit();
 	};
 
 	this.onLogin = function() {
@@ -484,6 +481,11 @@ function AMIWebApp() {
 			return;
 		}
 
+		if(!subApp.onExit) {
+			alert('error: `<sub application>.onExit()` must be implemented !');
+			return;
+		}
+
 		if(!subApp.onLogin) {
 			alert('error: `<sub application>.onLogin()` must be implemented !');
 			return;
@@ -493,6 +495,10 @@ function AMIWebApp() {
 			alert('error: `<sub application>.onLogout()` must be implemented !');
 			return;
 		}
+
+		/*---------------------------------------------------------*/
+
+		this._currentSubApp.onExit();
 
 		/*---------------------------------------------------------*/
 
@@ -611,5 +617,23 @@ function AMIWebApp() {
 /*-------------------------------------------------------------------------*/
 
 amiWebApp = new AMIWebApp();
+
+/*-------------------------------------------------------------------------*/
+/* JQUERY EXTENSION                                                        */
+/*-------------------------------------------------------------------------*/
+
+(function($) {
+	/*-----------------------------------------------------------------*/
+
+	$.arrayFor = function(elements, func, context) {
+
+		$.each(elements, function(index, element) {
+
+			func.apply(context || element, [index, element]);
+		});
+	};
+
+	/*-----------------------------------------------------------------*/
+} (jQuery));
 
 /*-------------------------------------------------------------------------*/
