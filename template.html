@@ -14,6 +14,7 @@
     <script type="text/javascript" src="js/AMI/AMIWebApp.min.js"></script>
 
     <script type="text/javascript" src="subapps/Command/js/AMICommandApp.js"></script>
+    <script type="text/javascript" src="subapps/Monitoring/js/AMIMonitoringApp.js"></script>
     <script type="text/javascript" src="subapps/DBModeler/js/AMIDBModelerApp.js"></script>
 
     <script type="text/javascript">
@@ -27,7 +28,8 @@
 			amiCommand.endpoint = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 		}
 
-		amiWebApp.loadSubApp(amiCommandApp);
+		//amiWebApp.loadSubApp(amiCommandApp);
+		amiWebApp.loadSubApp(amiMonitoringApp);
 		//amiWebApp.loadSubApp(amiDBModelerApp);
 	};
 
@@ -44,7 +46,7 @@
 			'</li>'
 		;
 
-		if(amiLogin.hasRole('AMI_administrator_role')) {
+		if(true||amiLogin.hasRole('AMI_administrator_role')) {
 
 			menu +=
 				'</li>' +
@@ -53,6 +55,7 @@
 				'    Admin <span class="caret"></span>' +
 				'  </a>' +
 				'  <ul class="dropdown-menu">' +
+				'    <li><a href="javascript:amiWebApp.loadSubApp(amiMonitoringApp);">Monitoring</a></li>' +
 				'    <li><a href="javascript:amiWebApp.loadSubApp(amiDBModelerApp);">DB Modeler</a></li>' +
 				'  </ul>' +
 				'</li>'

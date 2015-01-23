@@ -47,12 +47,13 @@ function AMICommandApp() {
 			amiWebApp.loadHTML('subapps/Command/html/Fragment/command.html', {context: this}).done(function(data2) {
 				amiWebApp.loadHTML('subapps/Command/html/Fragment/result.html', {context: this}).done(function(data3) {
 
-					amiWebApp.replaceHTML('ami_main_content', data1);
+					amiWebApp.replaceHTML('ami_main_content', data1, {context: this}).done(function() {
 
-					this.fragmentCommand = data2;
-					this.fragmentResult = data3;
+						this.fragmentCommand = data2;
+						this.fragmentResult = data3;
 
-					result.resolve();
+						result.resolve();
+					});
 				});
 			});
 		});

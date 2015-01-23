@@ -3,15 +3,15 @@
 }
 
 .ami-table > thead th {
-    text-align: center;
-    white-space: nowrap;
+	text-align: center;
+	white-space: nowrap;
 }
 
 .ami-table > tbody td {
-    text-align: center;
-    white-space: nowrap;
+	text-align: center;
+	white-space: nowrap;
 }
 
 .ami-table-hidden {
-    display: none;
+	display: none;
 }

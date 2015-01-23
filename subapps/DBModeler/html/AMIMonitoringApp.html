@@ -1,0 +1,297 @@
+<div class="row">
+  <div class="col-md-3">
+
+    <ul class="nav nav-tabs" style="margin-top: 10px;">
+      <li class="active"><a href="#ami-catalog-modeler-tab-catalogs" data-toggle="tab">Catalogs</a></li>
+      <li class="xxxxxx"><a href="#ami-catalog-modeler-tab-properties" data-toggle="tab">Properties</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="ami-catalog-modeler-tab-catalogs">
+
+        <div class="panel-group">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#__collapse1" data-toggle="collapse">Existing schemes</a>
+                <a href="javascript:amiDBModelerApp.listSchemes();" class="pull-right text-primary">
+                  <i class="fa fa-refresh"></i>
+                </a>
+              </h4>
+            </div>
+            <div id="__collapse1" class="panel-collapse collapse in">
+              <div class="panel-body">
+
+                <div>
+                  <select class="form-control form-control-xs" id="ami-catalog-modeler-catalog-list"></select>
+                </div>
+                <div>&nbsp;</div>
+                <div>
+                  <button class="btn btn-default btn-xs" style="width: 100%;" onclick="amiDBModelerApp.openSchema();">Open</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="panel-group">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#__collapse2" data-toggle="collapse">Import / Export schemes</a>
+              </h4>
+            </div>
+            <div id="__collapse2" class="panel-collapse collapse in">
+              <div class="panel-body">
+
+                <div id="drop_zone">Drop file here to open it</div>
+                <div>&nbsp;</div>
+                <div>
+                  <button class="btn btn-default btn-xs" style="width: 100%;" onclick="amiDBModelerApp.exportSchema();">Export</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="tab-pane" id="ami-catalog-modeler-tab-properties">
+
+        <div class="panel-group">
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#__collapse3" data-toggle="collapse">DB</a>
+              </h4>
+            </div>
+            <div id="__collapse3" class="panel-collapse collapse in">
+              <div class="panel-body">
+
+                <table class="table table-condensed" style="margin: 0px;">
+                  <thead>
+                    <tr>
+                      <th colspan="3" style="background-color: #EEEEEE; border: none; border-radius: 4px; text-align: center;">General settings</th>
+                    </tr>
+                    <tr>
+                      <th style="border-top: none;">Name</th>
+                      <th style="border-top: none;">Width</th>
+                      <th style="border-top: none;">Height</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" value="" class="form-control form-control-xs" id="dbName" onkeyup="amiDBModelerApp.setDBName(this.value);" /></td>
+                      <td><input type="number" step="10" class="form-control form-control-xs" id="dbWidth" onkeyup="amiDBModelerApp.setDBWidth(this.value);" onchange="amiDBModelerApp.setDBWidth(this.value);" /></td>
+                      <td><input type="number" step="10" class="form-control form-control-xs" id="dbHeight" onkeyup="amiDBModelerApp.setDBHeight(this.value);" onchange="amiDBModelerApp.setDBHeight(this.value);" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <table class="table table-condensed" style="margin: 0px;">
+                  <thead>
+                    <tr>
+                      <th colspan="2" style="background-color: #EEEEEE; border: none; border-radius: 4px; text-align: center;">Search engine settings</th>
+                    </tr>
+                    <tr>
+                      <th style="border-top: none;">Alias</th>
+                      <th style="border-top: none;">Active</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" value="" class="form-control form-control-xs" id="searchDBAlias" onkeyup="amiDBModelerApp.setEngineAlias(this.value);" /></td>
+                      <td><input type="checkbox" class="form-control form-control-xs" id="searchActive" onchange="amiDBModelerApp.setEngineActive(this.value);" /></td>
+                    </tr>
+                  </tbody>
+                  <thead>
+                    <tr>
+                      <th style="border-top: none;">Paths</div></th>
+                      <th style="border-top: none; text-align: center;"><a href="javascript:amiDBModelerApp.addPath();"><i class="fa fa-plus-circle"></i></a></th>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="__path_content">
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#__collapse4" data-toggle="collapse">Table</a>
+              </h4>
+            </div>
+            <div id="__collapse4" class="panel-collapse collapse">
+              <div class="panel-body">
+
+                <table class="table table-condensed" style="margin: 0px;">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Encoding</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody id="__table_content">
+                </table>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#__collapse5" data-toggle="collapse">Fields</a>
+              </h4>
+            </div>
+            <div id="__collapse5" class="panel-collapse collapse">
+              <div class="panel-body">
+
+                <table class="table table-condensed" style="margin: 0px;">
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>Type</th>
+                      <th></th>
+                      <th></th>
+                    <tr>
+                  </thead>
+                  <tbody id="__field_content">
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#__collapse6" data-toggle="collapse">Foreign Keys</a>
+              </h4>
+            </div>
+            <div id="__collapse6" class="panel-collapse collapse">
+              <div class="panel-body">
+
+                <table class="table table-condensed" style="margin: 0px;">
+                  <thead>
+                    <tr>
+                      <th>Field</th>
+                      <th>Table</th>
+                      <th>Field.Table</th>
+                      <th></th>
+                    <tr>
+                  </thead>
+                  <tbody id="__fekey_content">
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                <a href="#__collapse7" data-toggle="collapse">Indices</a>
+              </h4>
+            </div>
+            <div id="__collapse7" class="panel-collapse collapse">
+              <div class="panel-body">
+
+                <table class="table table-condensed" style="margin: 0px;">
+                  <thead>
+                    <tr>
+                      <th>Field</th>
+                      <th></th>
+                    <tr>
+                  </thead>
+                  <tbody id="__index_content">
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+  <div class="col-md-9">
+
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ami_catalog_modeler_toolbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <span class="navbar-brand">Editor</span>
+        </div>
+        <div class="collapse navbar-collapse" id="ami_catalog_modeler_toolbar">
+
+          <ul class="nav navbar-nav navbar-left">
+            <li>
+              <button class="btn btn-default navbar-btn" onclick="amiDBModelerApp.addTable();">
+                <i class="fa fa-table"></i> New table
+              </button>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                New ...<span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="javascript:amiDBModelerApp.addField();">Field</a></li>
+                <li><a href="javascript:amiDBModelerApp.addFeKey();">Foreign key</a></li>
+                <li><a href="javascript:amiDBModelerApp.addIndex();">Index</a></li>
+              </ul>
+            </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li>
+              <button class="btn btn-default navbar-btn" onclick="amiDBModelerApp.printDiagram();">
+                <i class="fa fa-print"></i> Print diagram
+              </button>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="fa fa-database"></i> Database<span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu">
+                <li><a href="javascript:amiDBModelerApp.save();">Save</a></li>
+                <li><a href="javascript:amiDBModelerApp.saveAndSynchronize();">Save and Synchronize</a></li>
+              </ul>
+            </li>
+          </ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <div id="editor_zone"></div>
+
+  </div>
+</div>

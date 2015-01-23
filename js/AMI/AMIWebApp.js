@@ -13,6 +13,11 @@
 var _internal_nonce = jQuery.now();
 
 /*-------------------------------------------------------------------------*/
+
+var _internal_scripts = [];
+var _internal_sheets = [];
+
+/*-------------------------------------------------------------------------*/
 /* CLASS AMIWebApp                                                         */
 /*-------------------------------------------------------------------------*/
 
@@ -42,7 +47,11 @@ function AMIWebApp() {
 		}
 
 		for(var i = 0; i < scripts.length; i++) {
-			html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _internal_nonce++ + '"></script>';
+
+			if($.inArray(scripts[i], _internal_scripts) < 0) {
+				_internal_scripts.push(scripts[i]);
+				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _internal_nonce++ + '"></script>';
+			}
 		}
 
 		$('head').append(html).promise().done(function() {
@@ -84,7 +93,11 @@ function AMIWebApp() {
 		}
 
 		for(var i = 0; i < sheets.length; i++) {
-			html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _internal_nonce++ + '"></link>';
+
+			if($.inArray(sheets[i], _internal_sheets) < 0) {
+				_internal_sheets.push(sheets[i]);
+				html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _internal_nonce++ + '"></link>';
+			}
 		}
 
 		$('head').append(html).promise().done(function() {

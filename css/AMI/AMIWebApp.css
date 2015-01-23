@@ -1,195 +1,195 @@
 @font-face {
-    font-family: "janda";
-    src: url("../../font/janda.ttf");
+	font-family: "janda";
+	src: url("../../font/janda.ttf");
 }
 
 th, label {
-    font-weight: 500;
+	font-weight: 500;
 }
 
 .container {
-    padding-left: 35px;
-    padding-right: 35px;
-    width: 100%;
+	padding-left: 35px;
+	padding-right: 35px;
+	width: 100%;
 }
 
 .jumbotron {
-    background-color: rgb(255, 255, 255);
-    background-image: url("../../img/stripe1.png");
+	background-color: rgb(255, 255, 255);
+	background-image: url("../../img/stripe1.png");
 
-    border: 1px solid rgb(238, 238, 238);
+	border: 1px solid rgb(238, 238, 238);
 
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .jumbotron h1, .jumbotron .h1, .jumbotron h2, .jumbotron .h2, .jumbotron h3, .jumbotron .h3 {
-    margin-top: 16px;
-    margin-bottom: 16px;
+	margin-top: 16px;
+	margin-bottom: 16px;
 }
 
 .navbar {
-    margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 .navbar-header {
-    line-height: 45px;
+	line-height: 45px;
 }
 
 .navbar-default {
-    background: url("../../img/stripe1.png");
+	background: url("../../img/stripe1.png");
 }
 
 .navbar-static-top, .navbar-static-bottom {
-    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075);
+	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075);
 }
 
 .navbar-static-bottom {
-    border-radius: 0px;
-    margin: 8px 0px 22px 0px;
+	border-radius: 0px;
+	margin: 8px 0px 22px 0px;
 }
 
 .navbar-default .navbar-nav > .active > a {
-    background-image: none;
-    box-shadow: none;
+	background-image: none;
+	box-shadow: none;
 }
 
 .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-    color: rgb(68, 54, 133);
-    text-decoration: none;
+	color: rgb(68, 54, 133);
+	text-decoration: none;
 }
 
 .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-    color: rgb(68, 54, 133);
-    text-decoration: none;
+	color: rgb(68, 54, 133);
+	text-decoration: none;
 }
 
 .tab-content {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .modal-body {
-    padding-bottom: 10px;
+	padding-bottom: 10px;
 }
 
 .modal-footer {
-    background-color: #F5F5F5;
-    background-image: url("../../img/stripe2.png");
+	background-color: #F5F5F5;
+	background-image: url("../../img/stripe2.png");
 
-    -webkit-border-radius: 0 0 6px 6px;
-    -moz-border-radius: 0 0 6px 6px;
-    border-radius: 0 0 6px 6px;
+	-webkit-border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
 }
 
 pre {
-    background-image: url("../../img/blueprint-dark.png");
+	background-image: url("../../img/blueprint-dark.png");
 }
 
 pre, code {
-    font-family: "Menlo", "Monaco", "monospace";
+	font-family: "Menlo", "Monaco", "monospace";
 }
 
 .amicode {
-    border-left: 6px solid rgb(85, 138, 187);
-    counter-reset: listing;
+	border-left: 6px solid rgb(85, 138, 187);
+	counter-reset: listing;
 }
 
 .amicode code {
-    counter-increment: listing;
+	counter-increment: listing;
 }
 
 .amicode code:before {
-    content: counter(listing) ". ";
-    color: gray;
+	content: counter(listing) ". ";
+	color: gray;
 }
 
 .popover-content pre {
-    background-color: rgba(255, 203, 0, 0.1);
-    white-space: pre-wrap;
-    word-break: keep-all;
+	background-color: rgba(255, 203, 0, 0.1);
+	white-space: pre-wrap;
+	word-break: keep-all;
 }
 
 @-webkit-keyframes burst {
-    0% {
-        opacity: 0.6;
-    }
+	0% {
+		opacity: 0.6;
+	}
 
-    50% {
-        -webkit-transform: scale(1.8);
-        transform: scale(1.8);
-        opacity: 0;
-    }
+	50% {
+		-webkit-transform: scale(1.8);
+		transform: scale(1.8);
+		opacity: 0;
+	}
 
-    100% {
-        opacity: 0;
-    }
+	100% {
+		opacity: 0;
+	}
 }
 
 @keyframes burst {
-    0% {
-        opacity: 0.6;
-    }
+	0% {
+		opacity: 0.6;
+	}
 
-    50% {
-        -webkit-transform: scale(1.8);
-        -ms-transform: scale(1.8);
-        transform: scale(1.8);
-        opacity: 0;
-    }
+	50% {
+		-webkit-transform: scale(1.8);
+		-ms-transform: scale(1.8);
+		transform: scale(1.8);
+		opacity: 0;
+	}
 
-    100% {
-        opacity: 0;
-    }
+	100% {
+		opacity: 0;
+	}
 }
 
 .faa-burst.animated,
 .faa-burst.animated-hover:hover,
 .faa-parent.animated-hover:hover > .faa-burst {
-    -webkit-animation: burst 3s infinite linear;
-    animation: burst 3s infinite linear;
+	-webkit-animation: burst 3s infinite linear;
+	animation: burst 3s infinite linear;
 }
 
 .guilloche {
-    margin: 0px;
-    padding: 5px;
+	margin: 0px;
+	padding: 5px;
 
-    height: 180px;
-    width: 100%;
+	height: 180px;
+	width: 100%;
 
-    border: solid 2px rgb(211, 211, 211);
+	border: solid 2px rgb(211, 211, 211);
 
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-    border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
 
-    background-image: url("../../img/guilloche.gif");
-    background-position: center center;
-    background-size: 100% 180%;
+	background-image: url("../../img/guilloche.gif");
+	background-position: center center;
+	background-size: 100% 180%;
 
-    text-align: center;
-    font-family: "janda";
+	text-align: center;
+	font-family: "janda";
 }
 
 #ami_locker {
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
 
-    display: none;
-    position: fixed;
-    overflow: hidden;
-    outline: 0 none;
+	display: none;
+	position: fixed;
+	overflow: hidden;
+	outline: 0 none;
 
-    z-index: 2050;
+	z-index: 2050;
 }
 
 #ami_locker .progress {
-    bottom: -20px;
-    left: 0;
-    right: 0;
+	bottom: -20px;
+	left: 0;
+	right: 0;
 
-    position: absolute;
+	position: absolute;
 }
