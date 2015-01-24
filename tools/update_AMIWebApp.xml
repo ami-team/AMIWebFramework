@@ -36,6 +36,7 @@
 			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.svg" />
 			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.ttf" />
 			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff" />
+			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff2" />
 		</copy>
 
 		<copy todir="img">
@@ -137,6 +138,7 @@
 			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.svg" />
 			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.ttf" />
 			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff" />
+			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff2" />
 		</copy>
 
 		<copy todir="img">
