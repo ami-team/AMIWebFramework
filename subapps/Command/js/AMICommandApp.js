@@ -78,7 +78,7 @@ function AMICommandApp() {
 
 				var dict = [];
 
-				$.each(rows, function(index, row) {
+				$.arrayFor(rows, function(index, row) {
 
 					var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0];
 					var shortHelp = amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0] || 'TO DO';

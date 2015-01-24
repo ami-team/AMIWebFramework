@@ -35,34 +35,8 @@
 function AMICommand() {
 	/*-----------------------------------------------------------------*/
 
-	this.timer = null;
-	this.noCert = false;
-
-	/*-----------------------------------------------------------------*/
-
 	this.endpoint = 'http://xx.yy';
 	this.converter = 'AMIXmlToJson.xsl';
-
-	/*-----------------------------------------------------------------*/
-
-	this.ping = function() {
-
-		var URL = this.endpoint.trim();
-		var data = {Command: 'AMIPing'};
-
-		$.ajax({
-			url: URL,
-			data: data,
-			type: "POST",
-			dataType: 'text',
-			xhrFields: {
-				withCredentials: true
-			},
-			error: function(jqXHR, textStatus) {
-				amiWebApp.error('Server error, contact the AMI team.');
-			},
-		});
-	};
 
 	/*-----------------------------------------------------------------*/
 
@@ -71,6 +45,8 @@ function AMICommand() {
 		var context = undefined;
 		var endpoint = this.endpoint;
 		var converter = this.converter;
+		var extraParam = undefined;
+		var extraValue = undefined;
 
 		if(settings) {
 
@@ -84,6 +60,14 @@ function AMICommand() {
 
 			if('converter' in settings) {
 				converter = settings['converter'];
+			}
+
+			if('extraParam' in settings) {
+				extraParam = settings['extraParam'];
+			}
+
+			if('extraValue' in settings) {
+				extraValue = settings['extraValue'];
 			}
 		}
 
@@ -100,8 +84,15 @@ function AMICommand() {
 			Converter: CONVERTER,
 		}
 
-		if(this.noCert) {
-			data['NoCert'] = '';
+		/*---------------------------------------------------------*/
+
+		if(extraParam) {
+
+			if(extraValue) {
+				data[extraParam] = extraValue;
+			} else {
+				data[extraParam] = (((null)));
+			}
 		}
 
 		/*---------------------------------------------------------*/
@@ -127,7 +118,7 @@ function AMICommand() {
 
 					var error = amiWebApp.jspath('.AMIMessage.error', data);
 
-					if(error.length == 0) {
+					if(error.length === 0) {
 
 						if(context) {
 							deferred.resolveWith(context, [data]);
@@ -213,9 +204,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		this.noCert = true;
-
-		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"').done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {extraParam: 'NoCert'}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', data)[0];
 
@@ -255,8 +244,6 @@ function AMICommand() {
 		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
-
-		this.noCert = false;
 
 		this.execute('GetSessionInfo').done(function(data) {
 
@@ -298,8 +285,6 @@ function AMICommand() {
 		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
-
-		this.noCert = true;
 
 		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""').done(function(data) {
 
