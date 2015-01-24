@@ -156,13 +156,13 @@ function AMIMonitoringApp() {
 					NUMBER_OF_NODES: numericvalues.length,
 				};
 
-				amiWebApp.replaceHTML('serverContent', this.serverFragment, {context: this, dict: dict}).done(function() {
+				amiWebApp.replaceHTML('ami_command_server_content', this.serverFragment, {context: this, dict: dict}).done(function() {
 
 					this._serverCharts.push(new Highcharts.Chart({
 			
 						chart: {
 							type: 'gauge',
-							renderTo: 'serverPlot1',
+							renderTo: 'ami_command_server_plot1',
 							margin: [0, 0, 0, 0],
 						},
 						title: {
@@ -224,7 +224,7 @@ function AMIMonitoringApp() {
 
 						chart: {
 							type: 'spline',
-							renderTo: 'serverPlot2',
+							renderTo: 'ami_command_server_plot2',
 						},
 						title: {
 							text: null,
@@ -310,13 +310,13 @@ function AMIMonitoringApp() {
 						MAX_WAIT: maxWait,
 					};
 
-					amiWebApp.appendHTML('connectionPoolContent', this.connectionPoolFragment, {context: this, dict: dict}).done(function() {
+					amiWebApp.appendHTML('ami_command_connection_pool_content', this.connectionPoolFragment, {context: this, dict: dict}).done(function() {
 
 						this._connectionPoolCharts.push(new Highcharts.Chart({
 
 							chart: {
 								type: 'spline',
-								renderTo: 'connectionPoolPlot' + index,
+								renderTo: 'ami_command_connection_pool_plot' + index,
 							},
 							title: {
 								text: null,
@@ -370,9 +370,9 @@ function AMIMonitoringApp() {
 				NUMBER_OF_INVALID_USERS: 0,
 			};
 
-			amiWebApp.replaceHTML('usersContent', this.usersFragment, {dict: dict}).done(function() {
+			amiWebApp.replaceHTML('ami_command_users_content', this.usersFragment, {dict: dict}).done(function() {
 
-				$('#userPlot1').highcharts({
+				$('#ami_command_user_plot1').highcharts({
 
 					title: {
 						text: 'Countries',
@@ -399,7 +399,7 @@ function AMIMonitoringApp() {
 					},
 				});
 
-				$('#userPlot2').highcharts({
+				$('#ami_command_user_plot2').highcharts({
 
 					title: {
 						text: 'Agents',
@@ -441,9 +441,9 @@ function AMIMonitoringApp() {
 				TEXT: amiBase64Decode(base64),
 			};
 
-			amiWebApp.replaceHTML('logsContent', this.logsFragment, {dict: dict}).done(function() {
+			amiWebApp.replaceHTML('ami_command_logs_content', this.logsFragment, {dict: dict}).done(function() {
 
-				var textarea = document.getElementById('logsTextArea');
+				var textarea = document.getElementById('ami_command_logs_textarea');
 
 				textarea.scrollTop = textarea.scrollHeight;
 			});
