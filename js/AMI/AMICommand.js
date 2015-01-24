@@ -29,6 +29,57 @@
  */
 
 /*-------------------------------------------------------------------------*/
+/* BASE64                                                                  */
+/*-------------------------------------------------------------------------*/
+
+var _internal_base64KeyStr =
+	'ABCDEFGHIJKLMNOP' +
+	'QRSTUVWXYZabcdef' +
+	'ghijklmnopqrstuv' +
+	'wxyz0123456789+/' +
+	'='
+;
+
+/*-------------------------------------------------------------------------*/
+
+function amiBase64Decode(input) {
+
+	var i = 0;
+	var output = '';
+	var chr1, chr2, chr3 = '';
+	var enc1, enc2, enc3, enc4 = '';
+
+	input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '');
+
+	do {
+		enc1 = _internal_base64KeyStr.indexOf(input.charAt(i++));
+		enc2 = _internal_base64KeyStr.indexOf(input.charAt(i++));
+		enc3 = _internal_base64KeyStr.indexOf(input.charAt(i++));
+		enc4 = _internal_base64KeyStr.indexOf(input.charAt(i++));
+
+		chr1 = ((enc1 & 255) << 2) | (enc2 >> 4);
+		chr2 = ((enc2 &  15) << 4) | (enc3 >> 2);
+		chr3 = ((enc3 &   3) << 6) | (enc4 >> 0);
+
+		output = output + String.fromCharCode(chr1);
+
+		if(enc3 != 64) {
+			output = output + String.fromCharCode(chr2);
+		}
+
+		if(enc4 != 64) {
+			output = output + String.fromCharCode(chr3);
+		}
+
+		chr1 = chr2 = chr3 = '';
+		enc1 = enc2 = enc3 = enc4 = '';
+
+	} while (i < input.length);
+
+	return unescape(output);
+}
+
+/*-------------------------------------------------------------------------*/
 /* CLASS AMICommand                                                        */
 /*-------------------------------------------------------------------------*/
 

@@ -450,15 +450,15 @@ function AMIMonitoringApp() {
 
 	this._logsUpdater = function() {
 
-		amiCommand.execute('Echo', {context: this}).done(function(data) {
+		amiCommand.execute('GetTomcatLogs', {context: this}).done(function(data) {
+
+			var base64 = amiWebApp.jspath('..base64.$', data)[0];
 
 			var dict = {
-				CODE: '',
+				TEXT: amiBase64Decode(base64),
 			};
 
-			amiWebApp.replaceHTML('logsContent', this.logsFragment, {dict: dict}).done(function() {
-
-			});
+			amiWebApp.replaceHTML('logsContent', this.logsFragment, {dict: dict});
 		});
 	};
 
