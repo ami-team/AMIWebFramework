@@ -13,11 +13,11 @@
 function AMIMonitoringApp() {
 	/*-----------------------------------------------------------------*/
 
-	this._serverCharts = [];
 	this._serverTimer = null;
+	this._serverCharts = [];
 
-	this._connectionPoolCharts = [];
 	this._connectionPoolTimer = null;
+	this._connectionPoolCharts = [];
 
 	/*-----------------------------------------------------------------*/
 
@@ -73,21 +73,10 @@ function AMIMonitoringApp() {
 
 	this.onExit = function() {
 
-		if(this._serverTimer) {
-
-			clearTimeout(this._serverTimer);
-		}
-
-		if(this._connectionPoolTimer) {
-
-			clearTimeout(this._connectionPoolTimer);
-		}
+		this.onLogout();
 
 		this._serverCharts = [];
-		this._serverTimer = null;
-
 		this._connectionPoolCharts = [];
-		this._connectionPoolTimer = null;
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -141,13 +130,13 @@ function AMIMonitoringApp() {
 	this.onLogout = function() {
 
 		if(this._serverTimer) {
-
 			clearTimeout(this._serverTimer);
+			this._serverTimer = null;
 		}
 
 		if(this._connectionPoolTimer) {
-
 			clearTimeout(this._connectionPoolTimer);
+			this._connectionPoolTimer = null;
 		}
 	};
 
@@ -458,7 +447,12 @@ function AMIMonitoringApp() {
 				TEXT: amiBase64Decode(base64),
 			};
 
-			amiWebApp.replaceHTML('logsContent', this.logsFragment, {dict: dict});
+			amiWebApp.replaceHTML('logsContent', this.logsFragment, {dict: dict}).done(function() {
+
+				var textarea = document.getElementById('logsTextArea');
+
+				textarea.scrollTop = textarea.scrollHeight;
+			});
 		});
 	};
 
