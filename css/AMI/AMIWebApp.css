@@ -1,33 +1,34 @@
+/*--------------------------------------------------------------------------*/
+
 @font-face {
 	font-family: "janda";
 	src: url("../../font/janda.ttf");
 }
 
+/*--------------------------------------------------------------------------*/
+/* GENERAL                                                                  */
+/*--------------------------------------------------------------------------*/
+
 th, label {
 	font-weight: 500;
 }
+
+pre {
+	background-image: url("../../img/blueprint-dark.png");
+}
+
+pre, code {
+	font-family: "Menlo", "Monaco", "monospace";
+}
+
+/*--------------------------------------------------------------------------*/
+/* BOOTSTRAP THEME                                                          */
+/*--------------------------------------------------------------------------*/
 
 .container {
 	padding-left: 35px;
 	padding-right: 35px;
 	width: 100%;
-}
-
-.jumbotron {
-	background-color: rgb(255, 255, 255);
-	background-image: url("../../img/stripe1.png");
-
-	border: 1px solid rgb(238, 238, 238);
-
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-}
-
-.jumbotron h1, .jumbotron .h1, .jumbotron h2, .jumbotron .h2, .jumbotron h3, .jumbotron .h3 {
-	margin-top: 16px;
-	margin-bottom: 16px;
 }
 
 .navbar {
@@ -66,8 +67,21 @@ th, label {
 	text-decoration: none;
 }
 
-.tab-content {
+.jumbotron {
+	background-color: rgb(255, 255, 255);
+	background-image: url("../../img/stripe1.png");
+
+	border: 1px solid rgb(238, 238, 238);
+
 	margin-top: 10px;
+	margin-bottom: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.jumbotron h1, .jumbotron .h1, .jumbotron h2, .jumbotron .h2, .jumbotron h3, .jumbotron .h3 {
+	margin-top: 16px;
+	margin-bottom: 16px;
 }
 
 .modal-body {
@@ -83,26 +97,8 @@ th, label {
 	border-radius: 0 0 6px 6px;
 }
 
-pre {
-	background-image: url("../../img/blueprint-dark.png");
-}
-
-pre, code {
-	font-family: "Menlo", "Monaco", "monospace";
-}
-
-.amicode {
-	border-left: 6px solid rgb(85, 138, 187);
-	counter-reset: listing;
-}
-
-.amicode code {
-	counter-increment: listing;
-}
-
-.amicode code:before {
-	content: counter(listing) ". ";
-	color: gray;
+.tab-content {
+	margin-top: 10px;
 }
 
 .popover-content pre {
@@ -110,6 +106,107 @@ pre, code {
 	white-space: pre-wrap;
 	word-break: keep-all;
 }
+
+/*--------------------------------------------------------------------------*/
+/* AMI COMPONENTS                                                           */
+/*--------------------------------------------------------------------------*/
+
+.ami-guilloche {
+	margin: 0px;
+	padding: 5px;
+
+	height: 180px;
+	width: 100%;
+
+	border: solid 2px rgb(211, 211, 211);
+
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+
+	background-image: url("../../img/guilloche.gif");
+	background-position: center center;
+	background-size: 100% 180%;
+
+	text-align: center;
+	font-family: "janda";
+}
+
+.ami-code {
+	border-left: 6px solid rgb(85, 138, 187);
+	counter-reset: listing;
+}
+
+.ami-code code {
+	counter-increment: listing;
+}
+
+.ami-code code:before {
+	content: counter(listing) ". ";
+	color: gray;
+}
+
+#ami_locker {
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+
+	display: none;
+	position: fixed;
+	overflow: hidden;
+	outline: 0 none;
+
+	z-index: 2050;
+}
+
+#ami_locker .progress {
+	bottom: -20px;
+	left: 0;
+	right: 0;
+
+	position: absolute;
+}
+
+/*--------------------------------------------------------------------------*/
+/* AMI SELECT                                                               */
+/*--------------------------------------------------------------------------*/
+
+.ami-select-wrapper {
+	background: url("../../img/dropdown.png") no-repeat right 0 white;
+
+	padding: 0px;
+}
+
+.ami-select-wrapper select {
+	background-color: white;
+	border: none;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+	outline: none;
+	padding: 4px 16px 4px 12px;
+
+	height: 100%;
+	width: 100%;
+}
+
+.ami-select-wrapper select:focus {
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+@-moz-document url-prefix() {
+	.ami-select-wrapper select {
+		background-color: transparent;
+		-moz-appearance: none;
+		text-indent: 0.01px;
+		text-overflow: '';
+	}
+}
+
+/*--------------------------------------------------------------------------*/
+/* AMI SELECT                                                               */
+/*--------------------------------------------------------------------------*/
 
 @-webkit-keyframes burst {
 	0% {
@@ -151,45 +248,5 @@ pre, code {
 	animation: burst 3s infinite linear;
 }
 
-.guilloche {
-	margin: 0px;
-	padding: 5px;
+/*--------------------------------------------------------------------------*/
 
-	height: 180px;
-	width: 100%;
-
-	border: solid 2px rgb(211, 211, 211);
-
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-
-	background-image: url("../../img/guilloche.gif");
-	background-position: center center;
-	background-size: 100% 180%;
-
-	text-align: center;
-	font-family: "janda";
-}
-
-#ami_locker {
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-
-	display: none;
-	position: fixed;
-	overflow: hidden;
-	outline: 0 none;
-
-	z-index: 2050;
-}
-
-#ami_locker .progress {
-	bottom: -20px;
-	left: 0;
-	right: 0;
-
-	position: absolute;
-}
