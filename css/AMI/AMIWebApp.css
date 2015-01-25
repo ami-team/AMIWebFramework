@@ -1,15 +1,18 @@
-/*--------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/* FONTS                                                                   */
+/*-------------------------------------------------------------------------*/
 
 @font-face {
 	font-family: "janda";
 	src: url("../../font/janda.ttf");
 }
 
-/*--------------------------------------------------------------------------*/
-/* GENERAL                                                                  */
-/*--------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/* GENERAL                                                                 */
+/*-------------------------------------------------------------------------*/
 
-th, label {
+th,
+label {
 	font-weight: 500;
 }
 
@@ -17,13 +20,14 @@ pre {
 	background-image: url("../../img/blueprint-dark.png");
 }
 
-pre, code {
+pre,
+code {
 	font-family: "Menlo", "Monaco", "monospace";
 }
 
-/*--------------------------------------------------------------------------*/
-/* BOOTSTRAP THEME                                                          */
-/*--------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/* BOOTSTRAP THEME                                                         */
+/*-------------------------------------------------------------------------*/
 
 .container {
 	padding-left: 35px;
@@ -43,7 +47,8 @@ pre, code {
 	background: url("../../img/stripe1.png");
 }
 
-.navbar-static-top, .navbar-static-bottom {
+.navbar-static-top,
+.navbar-static-bottom {
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075);
 }
 
@@ -57,12 +62,16 @@ pre, code {
 	box-shadow: none;
 }
 
-.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+.navbar-default .navbar-nav > .open > a,
+.navbar-default .navbar-nav > .open > a:hover,
+.navbar-default .navbar-nav > .open > a:focus {
 	color: rgb(68, 54, 133);
 	text-decoration: none;
 }
 
-.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
 	color: rgb(68, 54, 133);
 	text-decoration: none;
 }
@@ -79,7 +88,12 @@ pre, code {
 	padding-bottom: 10px;
 }
 
-.jumbotron h1, .jumbotron .h1, .jumbotron h2, .jumbotron .h2, .jumbotron h3, .jumbotron .h3 {
+.jumbotron h1,
+.jumbotron .h1,
+.jumbotron h2,
+.jumbotron .h2,
+.jumbotron h3,
+.jumbotron .h3 {
 	margin-top: 16px;
 	margin-bottom: 16px;
 }
@@ -92,9 +106,9 @@ pre, code {
 	background-color: #F5F5F5;
 	background-image: url("../../img/stripe2.png");
 
-	-webkit-border-radius: 0 0 6px 6px;
-	-moz-border-radius: 0 0 6px 6px;
 	border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	-webkit-border-radius: 0 0 6px 6px;
 }
 
 .tab-content {
@@ -107,9 +121,9 @@ pre, code {
 	word-break: keep-all;
 }
 
-/*--------------------------------------------------------------------------*/
-/* AMI COMPONENTS                                                           */
-/*--------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/* AMI COMPONENTS                                                          */
+/*-------------------------------------------------------------------------*/
 
 .ami-guilloche {
 	margin: 0px;
@@ -120,9 +134,9 @@ pre, code {
 
 	border: solid 2px rgb(211, 211, 211);
 
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
 	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
 
 	background-image: url("../../img/guilloche.gif");
 	background-position: center center;
@@ -168,31 +182,21 @@ pre, code {
 	position: absolute;
 }
 
-/*--------------------------------------------------------------------------*/
-/* AMI SELECT                                                               */
-/*--------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/* AMI SELECT                                                              */
+/*-------------------------------------------------------------------------*/
 
 .ami-select-wrapper {
-	background: url("../../img/dropdown.png") no-repeat right 0 white;
-
+	background: url("../../img/dropdown.png") no-repeat right center white;
+	height: 34px;
 	padding: 0px;
 }
 
 .ami-select-wrapper select {
 	background-color: white;
-	border: none;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-	outline: none;
-	padding: 4px 16px 4px 12px;
-
+	padding-right: 16px;
 	height: 100%;
 	width: 100%;
-}
-
-.ami-select-wrapper select:focus {
-	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
 @-moz-document url-prefix() {
@@ -204,9 +208,9 @@ pre, code {
 	}
 }
 
-/*--------------------------------------------------------------------------*/
-/* AMI SELECT                                                               */
-/*--------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
+/* AMI BURST                                                               */
+/*-------------------------------------------------------------------------*/
 
 @-webkit-keyframes burst {
 	0% {
@@ -248,5 +252,4 @@ pre, code {
 	animation: burst 3s infinite linear;
 }
 
-/*--------------------------------------------------------------------------*/
-
+/*-------------------------------------------------------------------------*/

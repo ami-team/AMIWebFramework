@@ -166,6 +166,10 @@ function AMIWebApp() {
 			$("#" + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
 			$("#" + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
 
+			$('#' + targetID + ' .ami-select').each(function() {
+				$(this).wrap('<div class="ami-select-wrapper"></div>');
+			});
+
 			if(context) {
 				result.resolveWith(context);
 			} else {
@@ -208,6 +212,10 @@ function AMIWebApp() {
 			$("#" + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
 			$("#" + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
 
+			$('#' + targetID + ' .ami-select').each(function() {
+				$(this).wrap('<div class="ami-select-wrapper"></div>');
+			});
+
 			if(context) {
 				result.resolveWith(context);
 			} else {
@@ -249,6 +257,10 @@ function AMIWebApp() {
 			$('#' + targetID + ' .amitt').tooltip({delay: {show: 500, hide: 100}});
 			$("#" + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
 			$("#" + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+
+			$('#' + targetID + ' .ami-select').each(function() {
+				$(this).wrap('<div class="ami-select-wrapper"></div>');
+			});
 
 			if(context) {
 				result.resolveWith(context);
