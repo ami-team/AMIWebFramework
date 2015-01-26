@@ -160,13 +160,15 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		$('#' + targetID).html(html).promise().done(function() {
+		var target = $('#' + targetID);
 
-			$('#' + targetID + ' .amitt').tooltip({delay: {show: 500, hide: 100}});
-			$("#" + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			$("#" + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+		target.html(html).promise().done(function() {
 
-			$('#' + targetID + ' .ami-select').each(function() {
+			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
+			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+
+			target.find('.ami-select').each(function() {
 				$(this).wrap('<div class="ami-select-wrapper"></div>');
 			});
 
@@ -206,13 +208,15 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		$('#' + targetID).prepend(html).promise().done(function() {
+		var target = $('#' + targetID);
 
-			$('#' + targetID + ' .amitt').tooltip({delay: {show: 500, hide: 100}});
-			$("#" + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			$("#" + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+		target.prepend(html).promise().done(function() {
 
-			$('#' + targetID + ' .ami-select').each(function() {
+			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
+			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+
+			target.find('.ami-select').each(function() {
 				$(this).wrap('<div class="ami-select-wrapper"></div>');
 			});
 
@@ -252,13 +256,15 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		$('#' + targetID).append(html).promise().done(function() {
+		var target = $('#' + targetID);
 
-			$('#' + targetID + ' .amitt').tooltip({delay: {show: 500, hide: 100}});
-			$("#" + targetID + ' .amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			$("#" + targetID + ' .amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+		target.append(html).promise().done(function() {
 
-			$('#' + targetID + ' .ami-select').each(function() {
+			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
+			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+
+			target.find('.ami-select').each(function() {
 				$(this).wrap('<div class="ami-select-wrapper"></div>');
 			});
 
@@ -620,6 +626,21 @@ function AMIWebApp() {
 	/*-------------------------------*/
 
 	this.jspath = JSPath.apply;
+
+	/*-------------------------------*/
+	/* ARGUMENTS                     */
+	/*-------------------------------*/
+
+	this.args = {};
+
+	var urlParams = window.location.search.substring(1).split("&");
+
+ 	for(var i = 0; i < urlParams.length; i++) {
+
+ 		var pair = urlParams[i].split('=');
+
+ 		this.args[pair[0]] = pair[1];
+ 	}
 
 	/*-----------------------------------------------------------------*/
 }

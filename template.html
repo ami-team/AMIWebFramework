@@ -13,6 +13,7 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/AMI/AMIWebApp.min.js"></script>
 
+    <script type="text/javascript" src="subapps/Document/js/AMIDocumentApp.js"></script>
     <script type="text/javascript" src="subapps/Command/js/AMICommandApp.js"></script>
     <script type="text/javascript" src="subapps/Monitoring/js/AMIMonitoringApp.js"></script>
     <script type="text/javascript" src="subapps/DBModeler/js/AMIDBModelerApp.js"></script>
@@ -28,8 +29,9 @@
 			amiCommand.endpoint = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 		}
 
+		amiWebApp.loadSubApp(amiDocumentApp);
 		//amiWebApp.loadSubApp(amiCommandApp);
-		amiWebApp.loadSubApp(amiMonitoringApp);
+		//amiWebApp.loadSubApp(amiMonitoringApp);
 		//amiWebApp.loadSubApp(amiDBModelerApp);
 	};
 
