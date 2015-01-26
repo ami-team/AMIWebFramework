@@ -23,6 +23,8 @@ function AMIDocumentApp() {
 
 			amiWebApp.replaceHTML('ami_main_content', data, {context: this}).done(function() {
 
+				$('.jumbotron').hide();
+
 				this.load(userdata);
 			});
 		});
@@ -31,6 +33,7 @@ function AMIDocumentApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onExit = function() {
+		$('.jumbotron').show();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -61,8 +64,8 @@ function AMIDocumentApp() {
 			context: this,
 		}).done(function(data) {
 
-			$('#ami_jumbotron_title').html('Documents');
-			$('#ami_jumbotron_content').html(page);
+			$('#ami_jumbotron_title').html('');
+			$('#ami_jumbotron_content').html('');
 			$('#ami_breadcrumb_content').html('<li><a href="">Documents</a></li><li><a href="">' + page + '</a></li>');
 
 			$('#ami_document_content').html(data);
