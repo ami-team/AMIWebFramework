@@ -16,7 +16,7 @@ function AMIDocumentApp() {
 	this.onReady = function(userdata) {
 
 		if(!userdata) {
-			userdata = 'home';
+			userdata = 'home.html';
 		}
 
 		amiWebApp.loadHTML('subapps/Document/html/AMIDocumentApp.html', {context: this}).done(function(data) {
@@ -55,7 +55,15 @@ function AMIDocumentApp() {
 
 	this.load = function(page) {
 
-		var url = window.location.pathname.split('/')[0] + '/pages/' + page + '.html';
+		var src = window.location.pathname;
+
+		var idx = src.lastIndexOf('/');
+
+		if(idx >= 0) {
+			src = src.substring(0, idx);
+		}
+
+		var url = src + '/pages/' + page;
 
 		$.ajax({
 			url: url,
@@ -72,8 +80,8 @@ function AMIDocumentApp() {
 
 		}).fail(function() {
 
-			if(page !== '404') {
-				this.load('404');
+			if(page !== '404.html') {
+				this.load('404.html');
 			}
 		});
 	};
