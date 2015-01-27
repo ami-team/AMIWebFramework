@@ -53,8 +53,8 @@
 			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
 		</copy>
 
-    <copy todir="pages">
-      <fileset dir="${AMIWebAppTmpDir}/pages" includes="**/*.html" />
+    <copy todir="docs">
+      <fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
     </copy>
 
 		<!-- **************************************************** -->
@@ -159,8 +159,8 @@
 			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
 		</copy>
 
-    <copy todir="pages">
-      <fileset dir="${AMIWebAppTmpDir}/pages" includes="**/*.html" />
+    <copy todir="docs">
+      <fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
     </copy>
 
 		<!-- **************************************************** -->

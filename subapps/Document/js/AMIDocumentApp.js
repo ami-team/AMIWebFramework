@@ -63,7 +63,7 @@ function AMIDocumentApp() {
 			src = src.substring(0, idx);
 		}
 
-		var url = src + '/pages/' + page;
+		var url = src + '/docs/' + page;
 
 		$.ajax({
 			url: url,
