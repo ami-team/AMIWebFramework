@@ -633,7 +633,7 @@ function AMIWebApp() {
 
 	this.args = {};
 
-	var urlParams = window.location.search.substring(1).split("&");
+	var urlParams = window.location.search.substring(1).split('&');
 
  	for(var i = 0; i < urlParams.length; i++) {
 
