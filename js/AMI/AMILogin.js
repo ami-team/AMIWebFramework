@@ -87,14 +87,28 @@ function AMILogin() {
 
 							var result = amiWebApp.onReady(userdata);
 
-							if(result && result.done) {
+							if(result && result.always) {
 								result.always(function() {
-									amiLogin._update(data, user);
-									amiWebApp.unlock();
+									var result = amiLogin._update(data, user);
+
+									if(result && result.always) {
+										result.always(function() {
+											amiWebApp.unlock();
+										});
+									} else {
+										amiWebApp.unlock();
+									}
 								});
 							} else {
-								amiLogin._update(data, user);
-								amiWebApp.unlock();
+								var result = amiLogin._update(data, user);
+
+								if(result && result.always) {
+									result.always(function() {
+										amiWebApp.unlock();
+									});
+								} else {
+									amiWebApp.unlock();
+								}
 							}
 
 						}).fail(function(data) {
@@ -102,14 +116,28 @@ function AMILogin() {
 
 							var result = amiWebApp.onReady(userdata);
 
-							if(result && result.done) {
+							if(result && result.always) {
 								result.always(function() {
-									amiLogin._update(data, amiLogin.guest);
-									amiWebApp.unlock();
+									var result = amiLogin._update(data, amiLogin.guest);
+
+									if(result && result.always) {
+										result.always(function() {
+											amiWebApp.unlock();
+										});
+									} else {
+										amiWebApp.unlock();
+									}
 								});
 							} else {
-								amiLogin._update(data, amiLogin.guest);
-								amiWebApp.unlock();
+								var result = amiLogin._update(data, amiLogin.guest);
+
+								if(result && result.always) {
+									result.always(function() {
+										amiWebApp.unlock();
+									});
+								} else {
+									amiWebApp.unlock();
+								}
 							}
 						});
 
@@ -120,14 +148,28 @@ function AMILogin() {
 		} else {
 			var result = amiWebApp.onReady(userdata);
 
-			if(result && result.done) {
+			if(result && result.always) {
 				result.always(function() {
-					amiWebApp.onLogin();
-					amiWebApp.unlock();
+					var result = amiWebApp.onLogin();
+
+					if(result && result.always) {
+						result.always(function() {
+							amiWebApp.unlock();
+						});
+					} else {
+						amiWebApp.unlock();
+					}
 				});
 			} else {
-				amiWebApp.onLogin();
-				amiWebApp.unlock();
+				var result = amiWebApp.onLogin();
+
+				if(result && result.always) {
+					result.always(function() {
+						amiWebApp.unlock();
+					})
+				} else {
+					amiWebApp.unlock();
+				}
 			}
 		}
 	};
@@ -555,6 +597,8 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
+		var result;
+
 		if(user !== amiLogin.guest) {
 			/*-------------------------------------------------*/
 
@@ -672,14 +716,18 @@ function AMILogin() {
 			/*-------------------------------------------------*/
 
 			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
-			amiWebApp.onLogin();
+			result = amiWebApp.onLogin();
 			self.is_connected = true;
 
 		} else {
 			self.is_connected = false;
-			amiWebApp.onLogout();
+			result = amiWebApp.onLogout();
 			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
 		}
+
+		/*---------------------------------------------------------*/
+
+		return result;
 
 		/*---------------------------------------------------------*/
 	};
