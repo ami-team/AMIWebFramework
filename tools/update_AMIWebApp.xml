@@ -64,6 +64,7 @@
 		<mkdir dir="css/AMI" />
 		<mkdir dir="js/AMI" />
 		<mkdir dir="html/AMI" />
+    <mkdir dir="docs" />
 
 		<!-- **************************************************** -->
 		<!-- GENERATE MINIMIZED FILES                             -->
@@ -170,6 +171,7 @@
 		<mkdir dir="css/AMI" />
 		<mkdir dir="js/AMI" />
 		<mkdir dir="html/AMI" />
+    <mkdir dir="docs" />
 
 		<!-- **************************************************** -->
 		<!-- GENERATE MINIMIZED FILES                             -->
