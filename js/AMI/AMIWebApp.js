@@ -562,7 +562,7 @@ function AMIWebApp() {
 	/*-------------------------------*/
 
 	$.ajax({
-		url: 'html/AMI/Fragment/success.html',
+		url: 'html/AMI/Fragment/alert_success.html',
 		cache: false,
 		dataType: 'html',
 		context: this,
@@ -576,7 +576,7 @@ function AMIWebApp() {
 	/*-------------------------------*/
 
 	$.ajax({
-		url: 'html/AMI/Fragment/info.html',
+		url: 'html/AMI/Fragment/alert_info.html',
 		cache: false,
 		dataType: 'html',
 		context: this,
@@ -590,7 +590,7 @@ function AMIWebApp() {
 	/*-------------------------------*/
 
 	$.ajax({
-		url: 'html/AMI/Fragment/warning.html',
+		url: 'html/AMI/Fragment/alert_warning.html',
 		cache: false,
 		dataType: 'html',
 		context: this,
@@ -604,7 +604,7 @@ function AMIWebApp() {
 	/*-------------------------------*/
 
 	$.ajax({
-		url: 'html/AMI/Fragment/error.html',
+		url: 'html/AMI/Fragment/alert_error.html',
 		cache: false,
 		dataType: 'html',
 		context: this,
