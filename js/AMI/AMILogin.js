@@ -7,6 +7,21 @@
  */
 
 /*-------------------------------------------------------------------------*/
+/* INTERNAL FUNCTIONS                                                      */
+/*-------------------------------------------------------------------------*/
+
+function __internal_always(deferred, func) {
+
+	if(deferred && deferred.always) {
+		deferred.always(function() {
+			func();
+		});
+	} else {
+		func();
+	}
+}
+
+/*-------------------------------------------------------------------------*/
 /* CLASS AMILogin                                                          */
 /*-------------------------------------------------------------------------*/
 
@@ -85,60 +100,32 @@ function AMILogin() {
 						amiCommand.certLogin().done(function(data, user) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
-							var result = amiWebApp.onReady(userdata);
-
-							if(result && result.always) {
-								result.always(function() {
-									var result = amiLogin._update(data, user);
-
-									if(result && result.always) {
-										result.always(function() {
+							__internal_always(
+								amiWebApp.onReady(userdata),
+								function() {
+									__internal_always(
+										amiLogin._update(data, user),
+										function() {
 											amiWebApp.unlock();
-										});
-									} else {
-										amiWebApp.unlock();
-									}
-								});
-							} else {
-								var result = amiLogin._update(data, user);
-
-								if(result && result.always) {
-									result.always(function() {
-										amiWebApp.unlock();
-									});
-								} else {
-									amiWebApp.unlock();
+										}
+									);
 								}
-							}
+							);
 
 						}).fail(function(data) {
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
-							var result = amiWebApp.onReady(userdata);
-
-							if(result && result.always) {
-								result.always(function() {
-									var result = amiLogin._update(data, amiLogin.guest);
-
-									if(result && result.always) {
-										result.always(function() {
+							__internal_always(
+								amiWebApp.onReady(userdata),
+								function() {
+									__internal_always(
+										amiLogin._update(data, amiLogin.guest),
+										function() {
 											amiWebApp.unlock();
-										});
-									} else {
-										amiWebApp.unlock();
-									}
-								});
-							} else {
-								var result = amiLogin._update(data, amiLogin.guest);
-
-								if(result && result.always) {
-									result.always(function() {
-										amiWebApp.unlock();
-									});
-								} else {
-									amiWebApp.unlock();
+										}
+									);
 								}
-							}
+							);
 						});
 
 						/*-------------------------*/
@@ -146,31 +133,18 @@ function AMILogin() {
 				});
 			});
 		} else {
-			var result = amiWebApp.onReady(userdata);
 
-			if(result && result.always) {
-				result.always(function() {
-					var result = amiWebApp.onLogin();
-
-					if(result && result.always) {
-						result.always(function() {
+			__internal_always(
+				amiWebApp.onReady(userdata),
+				function() {
+					__internal_always(
+						amiWebApp.onLogin(),
+						function() {
 							amiWebApp.unlock();
-						});
-					} else {
-						amiWebApp.unlock();
-					}
-				});
-			} else {
-				var result = amiWebApp.onLogin();
-
-				if(result && result.always) {
-					result.always(function() {
-						amiWebApp.unlock();
-					})
-				} else {
-					amiWebApp.unlock();
+						}
+					);
 				}
-			}
+			);
 		}
 	};
 
@@ -217,10 +191,8 @@ function AMILogin() {
 
 	this.logout = function() {
 
-		return amiCommand.logout().done(function(data) {
-			amiLogin._update(data, amiLogin.guest);
+		return amiCommand.logout().always(function(data) {
 
-		}).fail(function(data) {
 			amiLogin._update(data, amiLogin.guest);
 		});
 	};
@@ -597,7 +569,9 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		var result;
+		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
 
 		if(user !== amiLogin.guest) {
 			/*-------------------------------------------------*/
@@ -636,7 +610,7 @@ function AMILogin() {
 			if(valid !== 'false') {
 				var wrn_msg = '';
 
-				if(cert_enabled && client_dn_in_ami && issuer_dn_in_ami) {
+				if(cert_enabled !== 'false' && client_dn_in_ami && issuer_dn_in_ami) {
 
 					if(!client_dn_in_session
 					   ||
@@ -665,7 +639,7 @@ function AMILogin() {
 			} else {
 				var err_msg = '';
 
-				if(voms_enabled) {
+				if(voms_enabled !== 'false') {
 
 					if(!client_dn_in_ami
 					   ||
@@ -702,9 +676,7 @@ function AMILogin() {
 
 			/*-------------------------------------------------*/
 
-			$('#form_login_change_info input[name=email]').prop(
-				'disabled', valid !== 'false' && voms_enabled !== 'false'
-			);
+			$('#form_login_change_info input[name=email]').prop('disabled', voms_enabled !== 'false');
 
 			/*-------------------------------------------------*/
 
@@ -715,14 +687,25 @@ function AMILogin() {
 
 			/*-------------------------------------------------*/
 
-			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
-			result = amiWebApp.onLogin();
-			self.is_connected = true;
+			__internal_always(
+				amiWebApp.onLogin(),
+				function() {
+					amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict}),
+					amiLogin.is_connected = true;
+					result.resolve();
+				}
+			);
 
 		} else {
-			self.is_connected = false;
-			result = amiWebApp.onLogout();
-			amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
+
+			__internal_always(
+				amiWebApp.onLogout(),
+				function() {
+					result.resolve();
+					amiLogin.is_connected = false;
+					amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
+				}
+			);
 		}
 
 		/*---------------------------------------------------------*/
