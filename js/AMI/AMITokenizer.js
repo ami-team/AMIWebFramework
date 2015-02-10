@@ -60,8 +60,8 @@ function AMITokenizer() {
 
 			found = false;
 
-			for(var idx = 0; idx < kwords.length; idx++) {
-				kword = kwords[i];
+			for(var idx in kwords) {
+				kword = kwords[idx];
 
 				if(s.substring(i).indexOf(kword) === 0) {
 
@@ -93,8 +93,8 @@ function AMITokenizer() {
 
 			found = false;
 
-			for(var idx = 0; idx < quotes.length; idx++) {
-				quote = quotes[i];
+			for(var idx in quotes) {
+				quote = quotes[idx];
 
 				if(s.substring(i).indexOf(quote) === 0) {
 
