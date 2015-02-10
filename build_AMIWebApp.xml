@@ -24,13 +24,6 @@
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/AMICookie.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/AMICookie.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
 			<arg value="js/AMI/AMICommand.js" />
 			<arg value="-o" />
 			<arg value="js/AMI/AMICommand.min.js" />
@@ -42,6 +35,13 @@
 			<arg value="-o" />
 			<arg value="js/AMI/AMILogin.min.js" />
 		</java>
+
+    <java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+      <classpath refid="execute-classpath" />
+      <arg value="js/AMI/AMITokenizer.js" />
+      <arg value="-o" />
+      <arg value="js/AMI/AMITokenizer.min.js" />
+    </java>
 
 		<replaceregexp file="css/bootstrap.min.css"
 			match="\.\.\/fonts"
@@ -61,9 +61,9 @@
 
 		<copy file="css/AMI/AMIWebApp.css" tofile="css/AMI/AMIWebApp.min.css" overwrite="true" force="true" />
 		<copy file="js/AMI/AMIWebApp.js" tofile="js/AMI/AMIWebApp.min.js" overwrite="true" force="true" />
-		<copy file="js/AMI/AMICookie.js" tofile="js/AMI/AMICookie.min.js" overwrite="true" force="true" />
 		<copy file="js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
 		<copy file="js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
+    <copy file="js/AMI/AMITokenizer.js" tofile="js/AMI/AMITokenizer.min.js" overwrite="true" force="true" />
 
 		<replaceregexp file="css/bootstrap.min.css"
 			match="\.\.\/fonts"

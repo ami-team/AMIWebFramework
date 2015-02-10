@@ -85,13 +85,6 @@
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
-			<arg value="${AMIWebAppTmpDir}/js/AMI/AMICookie.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/AMICookie.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
 			<arg value="${AMIWebAppTmpDir}/js/AMI/AMICommand.js" />
 			<arg value="-o" />
 			<arg value="js/AMI/AMICommand.min.js" />
@@ -103,6 +96,13 @@
 			<arg value="-o" />
 			<arg value="js/AMI/AMILogin.min.js" />
 		</java>
+
+    <java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+      <classpath refid="execute-classpath" />
+      <arg value="${AMIWebAppTmpDir}/js/AMI/AMITokenizer.js" />
+      <arg value="-o" />
+      <arg value="js/AMI/AMITokenizer.min.js" />
+    </java>
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
@@ -177,9 +177,9 @@
 
 		<copy file="${AMIWebAppTmpDir}/css/AMI/AMIWebApp.css" tofile="css/AMI/AMIWebApp.min.css" overwrite="true" force="true" />
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMIWebApp.js" tofile="js/AMI/AMIWebApp.min.js" overwrite="true" force="true" />
-		<copy file="${AMIWebAppTmpDir}/js/AMI/AMICookie.js" tofile="js/AMI/AMICookie.min.js" overwrite="true" force="true" />
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
+    <copy file="${AMIWebAppTmpDir}/js/AMI/AMITokenizer.js" tofile="js/AMI/AMITokenizer.min.js" overwrite="true" force="true" />
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->

@@ -26,6 +26,20 @@ function AMIWebApp() {
 	/* DYNAMIC JAVASCRIPT LOADING                                      */
 	/*-----------------------------------------------------------------*/
 
+	this.isLocal = function() {
+
+		return document.location.protocol === (('file:'))
+		       ||
+		       document.location.hostname === 'localhost'
+		       ||
+		       document.location.hostname === '127.0.0.1'
+		;
+	};
+
+	/*-----------------------------------------------------------------*/
+	/* DYNAMIC JAVASCRIPT LOADING                                      */
+	/*-----------------------------------------------------------------*/
+
 	this.loadScripts = function(scripts, settings) {
 
 		var context = undefined;
@@ -614,12 +628,6 @@ function AMIWebApp() {
 	}).fail(function() {
 		throw 'could not load `html/AMI/Fragment/error.html`';
 	});
-
-	/*-------------------------------*/
-	/* ALIAS FOR `amiCookie.isLocal` */
-	/*-------------------------------*/
-
-	this.isLocal = amiCookie.isLocal;
 
 	/*-------------------------------*/
 	/* ALIAS FOR `JSPath.apply`      */
