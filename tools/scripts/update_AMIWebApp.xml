@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
-<project name="???" default="update_prod">
+<project name="AMIWebApp_atlas" default="update_prod">
 
-	<property name="AMIWebAppTmpDir" value="${java.io.tmpdir}/__AMIWebApp_repo" />
+	<property name="???" value="${java.io.tmpdir}/__AMIWebApp_repo" />
 
 	<path id="execute-classpath">
 		<fileset dir="${AMIWebAppTmpDir}" />
@@ -97,12 +97,12 @@
 			<arg value="js/AMI/AMILogin.min.js" />
 		</java>
 
-    <java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-      <classpath refid="execute-classpath" />
-      <arg value="${AMIWebAppTmpDir}/js/AMI/AMITokenizer.js" />
-      <arg value="-o" />
-      <arg value="js/AMI/AMITokenizer.min.js" />
-    </java>
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="${AMIWebAppTmpDir}/js/AMI/AMITokenizer.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMITokenizer.min.js" />
+		</java>
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
@@ -159,9 +159,9 @@
 			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
 		</copy>
 
-    <copy todir="docs">
-      <fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
-    </copy>
+		<copy todir="docs">
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
+		</copy>
 
 		<!-- **************************************************** -->
 		<!-- MAKE DIRECTORIES                                     -->
@@ -179,7 +179,7 @@
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMIWebApp.js" tofile="js/AMI/AMIWebApp.min.js" overwrite="true" force="true" />
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
-    <copy file="${AMIWebAppTmpDir}/js/AMI/AMITokenizer.js" tofile="js/AMI/AMITokenizer.min.js" overwrite="true" force="true" />
+		<copy file="${AMIWebAppTmpDir}/js/AMI/AMITokenizer.js" tofile="js/AMI/AMITokenizer.min.js" overwrite="true" force="true" />
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
