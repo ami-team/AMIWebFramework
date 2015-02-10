@@ -104,7 +104,7 @@ function AMITokenizer() {
 						word = '';
 					}
 
-					var j = i + amiTokenizer.shift(s.substring(i), quote, escape, line);
+					var j = i + this.shift(s.substring(i), quote, escape, line);
 
 					result_tokens.push(s.substring(i, j));
 					result_lines.push(line);
