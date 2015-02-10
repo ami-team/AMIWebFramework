@@ -19,7 +19,7 @@ function AMITokenizer() {
 		if(!kwords) kwords = [];
 		if(!quotes) quotes = [];
 		if(!escape) escape = '\\';
-		if(!line) line = 1;
+		if(! line )  line  =  1 ;
 
 		var result_tokens = [];
 		var result_lines = [];
@@ -36,14 +36,14 @@ function AMITokenizer() {
 			/*-------------------------------------------------*/
 
 			if(s.charAt(i) === '\n') {
-				line += 1;
+				line++;
 			}
 
 			/*-------------------------------------------------*/
 			/* EAT SPACES                                      */
 			/*-------------------------------------------------*/
 
-			if(s.charAt(i) in spaces) {
+			if($.inArray(s.charAt(i), spaces) >= 0) {
 
 				if(word) {
 					result_tokens.push(word);
