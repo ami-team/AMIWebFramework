@@ -83,7 +83,7 @@ function AMITokenizer() {
 						word = '';
 					}
 
-					var j = i + shift(s.substring(i), quote, escape);
+					var j = i + amiTokenizer.shift(s.substring(i), quote, escape);
 					result.push(s.substring(i, j));
 					i = j;
 
