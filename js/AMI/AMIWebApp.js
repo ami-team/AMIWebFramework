@@ -564,9 +564,9 @@ function AMIWebApp() {
 	this.loadScripts([
 		'js/jspath.min.js',
 		'js/bootstrap.min.js',
-		'js/AMI/AMICookie.min.js',
 		'js/AMI/AMICommand.min.js',
 		'js/AMI/AMILogin.min.js',
+		'js/AMI/AMITokenizer.min.js',
 	]).fail(function(data) {
 		throw data;
 	});
