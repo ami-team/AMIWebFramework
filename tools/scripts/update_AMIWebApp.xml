@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 
-<project name="AMIWebApp_atlas" default="update_prod">
+<project name="???" default="update_prod">
 
-	<property name="???" value="${java.io.tmpdir}/__AMIWebApp_repo" />
+	<property name="AMIWebAppTmpDir" value="${java.io.tmpdir}/__AMIWebApp_repo" />
 
 	<path id="execute-classpath">
 		<fileset dir="${AMIWebAppTmpDir}" />
@@ -31,7 +31,7 @@
 			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*.min.css" />
 		</copy>
 
-		<copy todir="font">
+		<copy todir="fonts">
 			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.eot" />
 			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.svg" />
 			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.ttf" />
@@ -39,7 +39,7 @@
 			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff2" />
 		</copy>
 
-		<copy todir="img">
+		<copy todir="images">
 			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.jpg" />
 			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.gif" />
 			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.png" />
@@ -137,7 +137,7 @@
 			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*.min.css" />
 		</copy>
 
-		<copy todir="font">
+		<copy todir="fonts">
 			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.eot" />
 			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.svg" />
 			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.ttf" />
@@ -145,7 +145,7 @@
 			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff2" />
 		</copy>
 
-		<copy todir="img">
+		<copy todir="images">
 			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.jpg" />
 			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.gif" />
 			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.png" />
@@ -192,3 +192,4 @@
 	</target>
 
 </project>
+
