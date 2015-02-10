@@ -30,7 +30,7 @@ function AMITokenizer() {
 
 			if(s.charAt(i) in spaces) {
 
-				if(!word) {
+				if(word) {
 					result.push(word);
 					word = '';
 				}
@@ -50,7 +50,7 @@ function AMITokenizer() {
 
 				if(s.substring(i).indexOf(kword) === 0) {
 
-					if(!word) {
+					if(word) {
 						result.push(word);
 						word = '';
 					}
@@ -78,7 +78,7 @@ function AMITokenizer() {
 
 				if(s.substring(i).indexOf(quote) === 0) {
 
-					if(!word) {
+					if(word) {
 						result.push(word);
 						word = '';
 					}
@@ -105,7 +105,7 @@ function AMITokenizer() {
 			/*-------------------------------------------------*/
 		}
 
-		if(!word) {
+		if(word) {
 			result.push(word);
 		}
 
