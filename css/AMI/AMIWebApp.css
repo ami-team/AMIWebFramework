@@ -4,7 +4,7 @@
 
 @font-face {
 	font-family: "janda";
-	src: url("../../font/janda.ttf");
+	src: url("../../fonts/janda.ttf");
 }
 
 /*-------------------------------------------------------------------------*/
@@ -17,7 +17,7 @@ label {
 }
 
 pre {
-	background-image: url("../../img/blueprint-dark.png");
+	background-image: url("../../images/blueprint-dark.png");
 }
 
 pre,
@@ -44,7 +44,7 @@ code {
 }
 
 .navbar-default {
-	background: url("../../img/stripe1.png");
+	background: url("../../images/stripe1.png");
 }
 
 .navbar-static-top,
@@ -78,7 +78,7 @@ code {
 
 .jumbotron {
 	background-color: rgb(255, 255, 255);
-	background-image: url("../../img/stripe1.png");
+	background-image: url("../../images/stripe1.png");
 
 	border: 1px solid rgb(238, 238, 238);
 
@@ -104,7 +104,7 @@ code {
 
 .modal-footer {
 	background-color: #F5F5F5;
-	background-image: url("../../img/stripe2.png");
+	background-image: url("../../images/stripe2.png");
 
 	border-radius: 0 0 6px 6px;
 	-moz-border-radius: 0 0 6px 6px;
@@ -138,7 +138,7 @@ code {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 
-	background-image: url("../../img/guilloche.gif");
+	background-image: url("../../images/guilloche.gif");
 	background-position: center center;
 	background-size: 100% 180%;
 
@@ -187,7 +187,7 @@ code {
 /*-------------------------------------------------------------------------*/
 
 .ami-select-wrapper {
-	background: url("../../img/dropdown.png") no-repeat right center white;
+	background: url("../../images/dropdown.png") no-repeat right center white;
 	height: 34px;
 	padding: 0px;
 }

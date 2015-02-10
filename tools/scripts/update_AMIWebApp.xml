@@ -32,17 +32,17 @@
 		</copy>
 
 		<copy todir="font">
-			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.eot" />
-			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.svg" />
-			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.ttf" />
-			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff" />
-			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff2" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.eot" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.svg" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.ttf" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff2" />
 		</copy>
 
 		<copy todir="img">
-			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.jpg" />
-			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.gif" />
-			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.png" />
+			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.jpg" />
+			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.gif" />
+			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.png" />
 		</copy>
 
 		<copy todir="js">
@@ -138,17 +138,17 @@
 		</copy>
 
 		<copy todir="font">
-			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.eot" />
-			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.svg" />
-			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.ttf" />
-			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff" />
-			<fileset dir="${AMIWebAppTmpDir}/font" includes="**/*.woff2" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.eot" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.svg" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.ttf" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff2" />
 		</copy>
 
 		<copy todir="img">
-			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.jpg" />
-			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.gif" />
-			<fileset dir="${AMIWebAppTmpDir}/img" includes="**/*.png" />
+			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.jpg" />
+			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.gif" />
+			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.png" />
 		</copy>
 
 		<copy todir="js">

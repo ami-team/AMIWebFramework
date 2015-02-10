@@ -388,7 +388,7 @@ function AMIWebApp() {
 
 	this.start = function(settings) {
 
-		var logo_url = 'img/logo.png';
+		var logo_url = 'images/logo.png';
 		var home_url = 'http://ami.in2p3.fr';
 		var contact_email = 'ami@lpsc.in2p3.fr';
 		var template_filename = 'html/AMI/AMIWebApp_default.html';
