@@ -15,18 +15,20 @@ function AMITokenizer() {
 
 	this.tokenize = function(s, spaces, kwords, quotes, escape, line) {
 
+		if(!spaces) spaces = [];
+		if(!kwords) kwords = [];
+		if(!quotes) quotes = [];
+		if(!escape) escape = '\\';
+		if(!line) line = 1;
+
 		var result_tokens = [];
 		var result_lines = [];
-
-		var word = "";
-		var found = false;
 
 		var i = 0x000000;
 		var l = s.length;
 
-		if(!line) {
-			line = 1;
-		}
+		var word = '';
+		var found;
 
 		while(i < l) {
 			/*-------------------------------------------------*/
@@ -104,7 +106,7 @@ function AMITokenizer() {
 						word = '';
 					}
 
-					var j = i + this.shift(s.substring(i), quote, escape, line);
+					var j = i + this._shift(s.substring(i), quote, escape, line);
 
 					result_tokens.push(s.substring(i, j));
 					result_lines.push(line);
@@ -139,7 +141,7 @@ function AMITokenizer() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.shift = function(s, quote, escape, line) {
+	this._shift = function(s, quote, escape, line) {
 
 		var l = s.length;
 		var m = quote.length;
