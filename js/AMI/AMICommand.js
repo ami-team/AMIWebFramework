@@ -148,6 +148,10 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
+		var urlWithParameters = URL + '?' + $.param(data);
+
+		/*---------------------------------------------------------*/
+
 		var deferred = $.Deferred();
 
 		/*---------------------------------------------------------*/
@@ -172,16 +176,16 @@ function AMICommand() {
 					if(error.length === 0) {
 
 						if(context) {
-							deferred.resolveWith(context, [data]);
+							deferred.resolveWith(context, [data, urlWithParameters]);
 						} else {
-							deferred.resolve(data);
+							deferred.resolve(data, urlWithParameters);
 						}
 					} else {
 
 						if(context) {
-							deferred.rejectWith(context, [data]);
+							deferred.rejectWith(context, [data, urlWithParameters]);
 						} else {
-							deferred.reject(data);
+							deferred.reject(data, urlWithParameters);
 						}
 					}
 				},
@@ -190,9 +194,9 @@ function AMICommand() {
 					var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
 					if(context) {
-						deferred.rejectWith(context, [data]);
+						deferred.rejectWith(context, [data, urlWithParameters]);
 					} else {
-						deferred.reject(data);
+						deferred.reject(data, urlWithParameters);
 					}
 				},
 			});
@@ -214,17 +218,17 @@ function AMICommand() {
 				success: function(data) {
 
 					if(context) {
-						deferred.resolveWith(context, [data]);
+						deferred.resolveWith(context, [data, urlWithParameters]);
 					} else {
-						deferred.resolve(data);
+						deferred.resolve(data, urlWithParameters);
 					}
 				},
 				error: function(jqXHR, textStatus) {
 
 					if(context) {
-						deferred.rejectWith(context, [textStatus]);
+						deferred.rejectWith(context, [textStatus, urlWithParameters]);
 					} else {
-						deferred.reject(textStatus);
+						deferred.reject(textStatus, urlWithParameters);
 					}
 				},
 			});
