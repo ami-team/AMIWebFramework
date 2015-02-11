@@ -672,7 +672,7 @@ function AMILogin() {
 
 			$('#modal_login_change_info_form_first_name').val(first_name);
 			$('#modal_login_change_info_form_last_name').val(last_name);
-			$('#form_login_change_info input[name=email]').val(email);
+			$('#modal_login_change_info_form_email').val(email);
 
 			/*-------------------------------------------------*/
 
