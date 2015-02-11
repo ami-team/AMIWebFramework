@@ -12,58 +12,60 @@
         <div class="tabbable">
 
           <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#form_login_account_status1">Status</a></li>
-            <li class="xxxxxx"><a data-toggle="tab" href="#form_login_account_status2">Information</a></li>
+            <li class="active"><a href="#modal_login_account_status_form1" data-toggle="tab">Status</a></li>
+            <li class="xxxxxx"><a href="#modal_login_account_status_form2" data-toggle="tab">Information</a></li>
           </ul>
 
           <div class="tab-content">
 
-            <div class="tab-pane active" id="form_login_account_status1">
+            <div class="tab-pane active" id="modal_login_account_status_form1">
 
               <div class="ami-guilloche">
+
                 <div style="font-size: 22pt;">your account is</div>
-                <div id="modal_login_account_status_status" style="font-size: 48pt;"></div>
+                <div id="modal_login_account_status_form1_status" style="font-size: 48pt;"></div>
                 <div style="font-size: 22pt;">* the AMI team *</div>
+
               </div>
 
             </div>
 
-            <div class="tab-pane xxxxxx" id="form_login_account_status2">
+            <div class="tab-pane xxxxxx" id="modal_login_account_status_form2">
 
               <div class="form-horizontal">
 
               <div class="form-group">
-                <label for="modal_login_account_status_first_name" class="col-sm-2 control-label">First name</label>
+                <label for="modal_login_account_status_form2_first_name" class="col-sm-2 control-label">First name</label>
                 <div class="col-sm-10">
-                  <input type="text" disabled="disabled" id="modal_login_account_status_first_name" class="form-control" />
+                  <input type="text" class="form-control" id="modal_login_account_status_form2_first_name" disabled="disabled" />
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="modal_login_account_status_last_name" class="col-sm-2 control-label">Last name</label>
+                <label for="modal_login_account_status_form2_last_name" class="col-sm-2 control-label">Last name</label>
                 <div class="col-sm-10">
-                  <input type="text" disabled="disabled" id="modal_login_account_status_last_name" class="form-control" />
+                  <input type="text" class="form-control" id="modal_login_account_status_form2_last_name" disabled="disabled" />
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="modal_login_account_status_email" class="col-sm-2 control-label">Email</label>
+                <label for="modal_login_account_status_form2_email" class="col-sm-2 control-label">Email</label>
                 <div class="col-sm-10">
-                  <input type="text" disabled="disabled" id="modal_login_account_status_email" class="form-control" />
+                  <input type="text" class="form-control" id="modal_login_account_status_form2_email" disabled="disabled" />
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="modal_login_account_status_client_dn_in_ami" class="col-sm-2 control-label">Certificate registered</label>
+                <label for="modal_login_account_status_form2_client_dn_in_ami" class="col-sm-2 control-label">Certificate registered</label>
                 <div class="col-sm-10">
-                  <input type="text" disabled="disabled" id="modal_login_account_status_client_dn_in_ami" class="form-control" />
+                  <input type="text" class="form-control" id="modal_login_account_status_form2_client_dn_in_ami" disabled="disabled" />
                 </div>
               </div>
 
               <div class="form-group">
-                <label for="modal_login_account_status_client_dn_in_session" class="col-sm-2 control-label">Certificate presented</label>
+                <label for="modal_login_account_status_form2_client_dn_in_session" class="col-sm-2 control-label">Certificate presented</label>
                 <div class="col-sm-10">
-                  <input type="text" disabled="disabled" id="modal_login_account_status_client_dn_in_session" class="form-control" />
+                  <input type="text" class="form-control" id="modal_login_account_status_form2_client_dn_in_session" disabled="disabled" />
                 </div>
               </div>
 
