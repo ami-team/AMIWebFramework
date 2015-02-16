@@ -54,8 +54,14 @@ function AMICommandApp() {
 
 						result.resolve();
 					});
+				}).fail(function() {
+					result.reject();
 				});
+			}).fail(function() {
+				result.reject();
 			});
+		}).fail(function() {
+			result.reject();
 		});
 
 		return result;

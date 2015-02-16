@@ -25,10 +25,6 @@ function AMIMonitoringApp() {
 
 		var result = $.Deferred();
 
-		amiWebApp.loadSheets([
-			'subapps/Monitoring/css/AMIMonitoringApp.css',
-		]);
-
 		amiWebApp.loadScripts([
 			'tools/common/js/highcharts.min.js',
 			'tools/common/js/highcharts-more.min.js',
@@ -156,13 +152,13 @@ function AMIMonitoringApp() {
 					NUMBER_OF_NODES: numericvalues.length,
 				};
 
-				amiWebApp.replaceHTML('ami_command_server_content', this.serverFragment, {context: this, dict: dict}).done(function() {
+				amiWebApp.replaceHTML('ami_monitoring_server_content', this.serverFragment, {context: this, dict: dict}).done(function() {
 
 					this._serverCharts.push(new Highcharts.Chart({
 			
 						chart: {
 							type: 'gauge',
-							renderTo: 'ami_command_server_plot1',
+							renderTo: 'ami_monitoring_server_plot1',
 							margin: [0, 0, 0, 0],
 						},
 						title: {
@@ -189,14 +185,18 @@ function AMIMonitoringApp() {
 							},
 							plotBands: [{
 								from: 0,
-								to: 25,
-								color: '#DF5353' // red
+								to: 40,
+								color: '#FF4500' // red
 							}, {
-								from: 25,
-								to: 87.5,
-								color: '#DDDF0D' // yellow
+								from: 40,
+								to: 75,
+								color: '#FFA500' // orange
 							}, {
-								from: 87.5,
+								from: 75,
+								to: 95,
+								color: '#FFFF00' // yellow
+							}, {
+								from: 95,
 								to: 100,
 								color: '#55BF3B' // green
 							}],
@@ -224,7 +224,7 @@ function AMIMonitoringApp() {
 
 						chart: {
 							type: 'spline',
-							renderTo: 'ami_command_server_plot2',
+							renderTo: 'ami_monitoring_server_plot2',
 						},
 						title: {
 							text: null,
@@ -310,13 +310,13 @@ function AMIMonitoringApp() {
 						MAX_WAIT: maxWait,
 					};
 
-					amiWebApp.appendHTML('ami_command_connection_pool_content', this.connectionPoolFragment, {context: this, dict: dict}).done(function() {
+					amiWebApp.appendHTML('ami_monitoring_connection_pool_content', this.connectionPoolFragment, {context: this, dict: dict}).done(function() {
 
 						this._connectionPoolCharts.push(new Highcharts.Chart({
 
 							chart: {
 								type: 'spline',
-								renderTo: 'ami_command_connection_pool_plot' + index,
+								renderTo: 'ami_monitoring_connection_pool_plot' + index,
 							},
 							title: {
 								text: null,
@@ -370,9 +370,9 @@ function AMIMonitoringApp() {
 				NUMBER_OF_INVALID_USERS: 0,
 			};
 
-			amiWebApp.replaceHTML('ami_command_users_content', this.usersFragment, {dict: dict}).done(function() {
+			amiWebApp.replaceHTML('ami_monitoring_users_content', this.usersFragment, {dict: dict}).done(function() {
 
-				$('#ami_command_user_plot1').highcharts({
+				$('#ami_monitoring_user_plot1').highcharts({
 
 					title: {
 						text: 'Countries',
@@ -399,7 +399,7 @@ function AMIMonitoringApp() {
 					},
 				});
 
-				$('#ami_command_user_plot2').highcharts({
+				$('#ami_monitoring_user_plot2').highcharts({
 
 					title: {
 						text: 'Agents',
@@ -441,9 +441,9 @@ function AMIMonitoringApp() {
 				TEXT: amiBase64Decode(base64),
 			};
 
-			amiWebApp.replaceHTML('ami_command_logs_content', this.logsFragment, {dict: dict}).done(function() {
+			amiWebApp.replaceHTML('ami_monitoring_logs_content', this.logsFragment, {dict: dict}).done(function() {
 
-				var textarea = document.getElementById('ami_command_logs_textarea');
+				var textarea = document.getElementById('ami_monitoring_logs_textarea');
 
 				textarea.scrollTop = textarea.scrollHeight;
 			});

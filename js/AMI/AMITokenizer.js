@@ -19,7 +19,7 @@ function AMITokenizer() {
 		if(!kwords) kwords = [];
 		if(!quotes) quotes = [];
 		if(!escape) escape = '\\';
-		if(! line )  line  =  1 ;
+		if(! line )  line  = 0x01;
 
 		var result_tokens = [];
 		var result_lines = [];

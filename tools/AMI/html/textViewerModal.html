@@ -1,12 +1,13 @@
 <script type="text/javascript">
 /*-------------------------------------------------------------------------*/
-/* CLASS AMICodeViewer                                                    */
+/* CLASS AMICodeViewer                                                     */
 /*-------------------------------------------------------------------------*/
 
 function AMICodeViewer() {
 	/*-----------------------------------------------------------------*/
 
 	this.show = function(code) {
+		/*---------------------------------------------------------*/
 
 		var data = '';
 
@@ -17,9 +18,13 @@ function AMICodeViewer() {
 			data += '<code>' + lines[i] + '</code>\n';
 		}
 
-		$('#modal_common_code_viewer .ami-code').html(data);
+		$('#modal_common_code_viewer .amicode').html(data);
+
+		/*---------------------------------------------------------*/
 
 		$('#modal_common_code_viewer').modal('show');
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -33,7 +38,7 @@ amiCodeViewer = new AMICodeViewer();
 </script>
 
 <div class="modal fade" id="modal_common_code_viewer">
-  <div class="modal-dialog">
+  <div class="modal-dialog" style="width: 96%;">
     <div class="modal-content">
       <div class="modal-header">
         <button class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -41,7 +46,7 @@ amiCodeViewer = new AMICodeViewer();
       </div>
       <div class="modal-body">
 
-        <pre class="am-icode"></pre>
+        <pre class="amicode"></pre>
 
       </div>
     </div>
