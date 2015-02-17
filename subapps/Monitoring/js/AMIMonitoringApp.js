@@ -13,6 +13,10 @@
 function AMIMonitoringApp() {
 	/*-----------------------------------------------------------------*/
 
+	this._nodes = [];
+
+	/*-----------------------------------------------------------------*/
+
 	this._serverTimer = null;
 	this._serverCharts = [];
 
@@ -56,10 +60,20 @@ function AMIMonitoringApp() {
 
 								result.resolve();
 							});
+						}).fail(function() {
+							result.reject();
 						});
+					}).fail(function() {
+						result.reject();
 					});
+				}).fail(function() {
+					result.reject();
 				});
+			}).fail(function() {
+				result.reject();
 			});
+		}).fail(function() {
+			result.reject();
 		});
 
 		return result;
@@ -134,137 +148,161 @@ function AMIMonitoringApp() {
 
 	this._serverUpdater = function() {
 
+		var url = amiCommand.endpoint.replace('FrontEnd', 'SLS').trim();
+
+		data = {
+			Service: '%',
+			Converter: 'AMIXmlToJson.xsl',
+		};
+
 		var t = new Date().getTime();
 
-		amiCommand.execute('Ping', {context: this, converter: '', extraParam: 'Service', extraValue: '%'}).done(function(data) {
+		$.ajax({
+			url: url,
+			data: data,
+			type: 'POST',
+			context: this,
+			dataType: 'xml',
+			xhrFields: {
+				withCredentials: true
+			},
+			success: function(data) {
 
-			var parser = new DOMParser();
+				var numericvalues = data.getElementsByTagName('numericvalue');
 
-			var doc = parser.parseFromString(data, 'text/xml');
+				var availability = parseInt(data.getElementsByTagName('availability')[0].childNodes[0].nodeValue);
 
-			var numericvalues = doc.getElementsByTagName('numericvalue');
+				if(this._serverCharts.length === 0) {
 
-			var availability = parseInt(doc.getElementsByTagName('availability')[0].childNodes[0].nodeValue);
+					var dict = {
+						NUMBER_OF_NODES: numericvalues.length,
+					};
 
-			if(this._serverCharts.length === 0) {
+					amiWebApp.replaceHTML('ami_monitoring_server_content', this.serverFragment, {context: this, dict: dict}).done(function() {
+						/*-------------------------*/
+						/*                         */
+						/*-------------------------*/
 
-				var dict = {
-					NUMBER_OF_NODES: numericvalues.length,
-				};
-
-				amiWebApp.replaceHTML('ami_monitoring_server_content', this.serverFragment, {context: this, dict: dict}).done(function() {
-
-					this._serverCharts.push(new Highcharts.Chart({
+						this._serverCharts.push(new Highcharts.Chart({
 			
-						chart: {
-							type: 'gauge',
-							renderTo: 'ami_monitoring_server_plot1',
-							margin: [0, 0, 0, 0],
-						},
-						title: {
-							text: null,
-						},
-						pane: {
-							center: ['50%', '75%'],
-							size: '140%',
-							startAngle: -90,
-							endAngle: +90,
-							background: {
-								backgroundColor: '#FFFFFF',
-								innerRadius: '60%',
-								outerRadius: '100%',
-								shape: 'arc'
-							}
-						},
-						yAxis: {
-							min: 0,
-							max: 100,
-							title: {
-								text: 'Global availability',
-								y: 20,
+							chart: {
+								type: 'gauge',
+								renderTo: 'ami_monitoring_server_plot1',
+								margin: [0, 0, 0, 0],
 							},
-							plotBands: [{
-								from: 0,
-								to: 40,
-								color: '#FF4500' // red
-							}, {
-								from: 40,
-								to: 75,
-								color: '#FFA500' // orange
-							}, {
-								from: 75,
-								to: 95,
-								color: '#FFFF00' // yellow
-							}, {
-								from: 95,
-								to: 100,
-								color: '#55BF3B' // green
-							}],
-						},
-						series: [
-							{name: 'Availability', data: [availability], dataLabels: {enabled: false}}
-						],
-					}));
+							title: {
+								text: null,
+							},
+							pane: {
+								center: ['50%', '75%'],
+								size: '140%',
+								startAngle: -90,
+								endAngle: +90,
+								background: {
+									backgroundColor: '#FFFFFF',
+									innerRadius: '60%',
+									outerRadius: '100%',
+									shape: 'arc'
+								}
+							},
+							yAxis: {
+								min: 0,
+								max: 100,
+								title: {
+									text: 'Global availability',
+									y: 20,
+								},
+								plotBands: [{
+									from: 0,
+									to: 40,
+									color: '#FF4500' // red
+								}, {
+									from: 40,
+									to: 75,
+									color: '#FFA500' // orange
+								}, {
+									from: 75,
+									to: 95,
+									color: '#FFFF00' // yellow
+								}, {
+									from: 95,
+									to: 100,
+									color: '#55BF3B' // green
+								}],
+							},
+							series: [
+								{name: 'Availability', data: [availability], dataLabels: {enabled: false}}
+							],
+						}));
 
-					var series = [];
+						/*-------------------------*/
+						/*                         */
+						/*-------------------------*/
+
+						var series = [];
+
+						for(var i = 0; i < numericvalues.length; i++) {
+
+							var name = numericvalues[i].getAttribute('name');
+
+							var data = [[t, parseInt(numericvalues[i].childNodes[0].nodeValue)]];
+
+							series.push({
+								name: name,
+								data: data,
+							});
+
+							this._nodes.push(name);
+						}
+
+						/*-------------------------*/
+
+						this._serverCharts.push(new Highcharts.Chart({
+
+							chart: {
+								type: 'spline',
+								renderTo: 'ami_monitoring_server_plot2',
+							},
+							title: {
+								text: null,
+							},
+							subtitle: {
+								text: null,
+							},
+							xAxis: {
+								type: 'datetime',
+								gridLineWidth: 1,
+							},
+							yAxis: {
+								minorTickInterval: 'auto',
+								gridLineWidth: 1,
+								min: 0,
+								max: 125,
+								title: {
+									text: 'Percentage of availability',
+								},
+							},
+							series: series,
+						}));
+
+						/*-------------------------*/
+					});
+
+				} else {
+					this._serverCharts[0].series[0].points[0].update(availability);
 
 					for(var i = 0; i < numericvalues.length; i++) {
 
-						var name = numericvalues[i].getAttribute('name');
+						var value = parseInt(numericvalues[i].childNodes[0].nodeValue);
 
-						var data = [[t, parseInt(numericvalues[i].childNodes[0].nodeValue)]];
+						var shift = this._serverCharts[1].series[i].data.length > 80;
 
-						series.push({
-							name: name,
-							data: data,
-						});
+						this._serverCharts[1].series[i].addPoint([t, value], false, shift);
 					}
 
-					this._serverCharts.push(new Highcharts.Chart({
-
-						chart: {
-							type: 'spline',
-							renderTo: 'ami_monitoring_server_plot2',
-						},
-						title: {
-							text: null,
-						},
-						subtitle: {
-							text: null,
-						},
-						xAxis: {
-							type: 'datetime',
-							gridLineWidth: 1,
-						},
-						yAxis: {
-							minorTickInterval: 'auto',
-							gridLineWidth: 1,
-							min: 0,
-							max: 125,
-							title: {
-								text: 'Percentage of availability',
-							},
-						},
-						series: series,
-					}));
-
-
-				});
-
-			} else {
-				this._serverCharts[0].series[0].points[0].update(availability);
-
-				for(var i = 0; i < numericvalues.length; i++) {
-
-					var value = parseInt(numericvalues[i].childNodes[0].nodeValue);
-
-					var shift = this._serverCharts[1].series[i].data.length > 80;
-
-					this._serverCharts[1].series[i].addPoint([t, value], false, shift);
+					this._serverCharts[1].redraw();
 				}
-
-				this._serverCharts[1].redraw();
-			}
+			},
 		});
 	};
 
@@ -425,27 +463,6 @@ function AMIMonitoringApp() {
 						},
 					},
 				});
-			});
-		});
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this._logsUpdater = function() {
-
-		amiCommand.execute('GetTomcatLogs', {context: this}).done(function(data) {
-
-			var base64 = amiWebApp.jspath('..base64.$', data)[0];
-
-			var dict = {
-				TEXT: amiBase64Decode(base64),
-			};
-
-			amiWebApp.replaceHTML('ami_monitoring_logs_content', this.logsFragment, {dict: dict}).done(function() {
-
-				var textarea = document.getElementById('ami_monitoring_logs_textarea');
-
-				textarea.scrollTop = textarea.scrollHeight;
 			});
 		});
 	};

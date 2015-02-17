@@ -74,7 +74,7 @@ function amiBase64Decode(input) {
 		chr1 = chr2 = chr3 = '';
 		enc1 = enc2 = enc3 = enc4 = '';
 
-	} while (i < input.length);
+	} while(i < input.length);
 
 	return unescape(output);
 }
@@ -164,7 +164,7 @@ function AMICommand() {
 			$.ajax({
 				url: URL,
 				data: data,
-				type: "POST",
+				type: 'POST',
 				dataType: 'json',
 				xhrFields: {
 					withCredentials: true
@@ -210,7 +210,7 @@ function AMICommand() {
 			$.ajax({
 				url: URL,
 				data: data,
-				type: "POST",
+				type: 'POST',
 				dataType: 'text',
 				xhrFields: {
 					withCredentials: true
