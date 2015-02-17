@@ -23,7 +23,7 @@ var _internal_sheets = [];
 
 function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
-	/* DYNAMIC JAVASCRIPT LOADING                                      */
+	/* TOOLS                                                           */
 	/*-----------------------------------------------------------------*/
 
 	this.isLocal = function() {
@@ -34,6 +34,36 @@ function AMIWebApp() {
 		       ||
 		       document.location.hostname === '127.0.0.1'
 		;
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.textToHtml = function(s) {
+		return s.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	};
+
+	this.htmlToText = function(s) {
+		return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"');
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.textToString = function(s) {
+		return s.replace(/\\/g, '\\\\').replace(/"/g, '\\\"').replace(/'/g, '\\\'');
+	};
+
+	this.stringToText = function(s) {
+		return s.replace(/\\'/g, '\'').replace(/\\"/g, '\"').replace(/\\\\/g, '\\');
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.htmlToString = function(s) {
+		return s.replace(/\\/g, '\\\\').replace(/&quot;/g, '\\\&quot;').replace(/'/g, '\\\'');
+	};
+
+	this.stringToHtml = function(s) {
+		return s.replace(/\\'/g, '\'').replace(/\\&quot;/g, '\&quot;').replace(/\\\\/g, '\\');
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -666,7 +696,7 @@ amiWebApp = new AMIWebApp();
 (function($) {
 	/*-----------------------------------------------------------------*/
 
-	$.arrayFor = function(elements, func, context) {
+	$.foreach = function(elements, func, context) {
 
 		$.each(elements, function(index, element) {
 

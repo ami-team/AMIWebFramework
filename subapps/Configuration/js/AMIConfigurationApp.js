@@ -58,7 +58,7 @@ function AMIConfigurationApp() {
 
 			var dict = [];
 
-			$.arrayFor(fields, function(index, field) {
+			$.foreach(fields, function(index, field) {
 
 				var name = field['@name'] || '';
 				var value = field[(('$'))] || '';

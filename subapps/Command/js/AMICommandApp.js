@@ -7,20 +7,6 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _text_to_html(s) {
-	return s.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _html_to_text(s) {
-	return s.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-}
-
-/*-------------------------------------------------------------------------*/
 /* CLASS AMICommandApp                                                     */
 /*-------------------------------------------------------------------------*/
 
@@ -84,7 +70,7 @@ function AMICommandApp() {
 
 				var dict = [];
 
-				$.arrayFor(rows, function(index, row) {
+				$.foreach(rows, function(index, row) {
 
 					var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0];
 					var shortHelp = amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0] || 'TO DO';
@@ -97,8 +83,8 @@ function AMICommandApp() {
 
 					shortHelp = shortHelp.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
 
-					shortHelp = shortHelp !== 'TO DO' ? _text_to_html(shortHelp) : '?????';
-					prototype = prototype !== 'TO DO' ? _text_to_html(prototype) : command;
+					shortHelp = shortHelp !== 'TO DO' ? amiWebApp.textToHtml(shortHelp) : '?????';
+					prototype = prototype !== 'TO DO' ? amiWebApp.textToHtml(prototype) : command;
 
 					dict.push({
 						COMMAND: command,
@@ -157,12 +143,12 @@ function AMICommandApp() {
 
 		amiCommand.execute(command, {context: this, converter: converter}).done(function(data, url) {
 
-			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : _text_to_html(data), url);
+			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : amiWebApp.textToHtml(data), url);
 			amiWebApp.unlock();
 
 		}).fail(function(data, url) {
 
-			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : _text_to_html(data), url);
+			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : amiWebApp.textToHtml(data), url);
 			amiWebApp.unlock();
 		});
 	};
@@ -178,14 +164,12 @@ function AMICommandApp() {
 
 	this.copy = function(url) {
 
-		window.prompt('Copy to clipboard: Ctrl+C', url);
+		window.prompt('Copy to clipboard: Ctrl+C, Enter', url);
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.save = function(code) {
-
-		var data = _html_to_text(code);
+	this.save = function(data) {
 
 		var converter = $('#modal_command_converter').val();
 
@@ -206,7 +190,7 @@ function AMICommandApp() {
 			fileName = 'result.txt';
 		}
 
-		var blob = new Blob([data], {type: fileMime});
+		var blob = new Blob([amiWebApp.htmlToText(data)], {type: fileMime});
 
 		saveAs(blob, fileName);
 	};

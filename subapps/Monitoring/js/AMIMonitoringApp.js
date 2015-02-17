@@ -278,7 +278,7 @@ function AMIMonitoringApp() {
 
 			var rows = amiWebApp.jspath('..row', data);
 
-			$.arrayFor(rows, function(index, row) {
+			$.foreach(rows, function(index, row) {
 
 				var  numIdle  = parseInt(amiWebApp.jspath('..field{.@name=== "numIdle" }.$', data)[0]);
 				var numActive = parseInt(amiWebApp.jspath('..field{.@name==="numActive"}.$', data)[0]);
