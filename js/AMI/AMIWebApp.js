@@ -492,8 +492,10 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.success = function(message, fadeOut) {
+
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
+
 		$(document).scrollTop(0);
 
 		if(fadeOut !== false) {
@@ -504,8 +506,10 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.info = function(message, fadeOut) {
+
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
+
 		$(document).scrollTop(0);
 
 		if(fadeOut !== false) {
@@ -516,8 +520,10 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.warning = function(message, fadeOut) {
+
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
+
 		$(document).scrollTop(0);
 
 		if(fadeOut !== false) {
@@ -528,8 +534,10 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.error = function(message, fadeOut) {
+
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
+
 		$(document).scrollTop(0);
 
 		if(fadeOut !== false) {
