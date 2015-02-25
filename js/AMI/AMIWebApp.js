@@ -491,38 +491,50 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.success = function(message) {
+	this.success = function(message, fadeOut) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
-		$('#ami_status_content .alert').fadeOut(60000);
 		$(document).scrollTop(0);
+
+		if(fadeOut !== false) {
+			$('#ami_status_content .alert').fadeOut(60000);
+		}
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.info = function(message) {
+	this.info = function(message, fadeOut) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
-		$('#ami_status_content .alert').fadeOut(60000);
 		$(document).scrollTop(0);
+
+		if(fadeOut !== false) {
+			$('#ami_status_content .alert').fadeOut(60000);
+		}
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.warning = function(message) {
+	this.warning = function(message, fadeOut) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
-		$('#ami_status_content .alert').fadeOut(60000);
 		$(document).scrollTop(0);
+
+		if(fadeOut !== false) {
+			$('#ami_status_content .alert').fadeOut(60000);
+		}
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.error = function(message) {
+	this.error = function(message, fadeOut) {
 		this.unlock();
 		this.replaceHTML('ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
-		$('#ami_status_content .alert').fadeOut(60000);
 		$(document).scrollTop(0);
+
+		if(fadeOut !== false) {
+			$('#ami_status_content .alert').fadeOut(60000);
+		}
 	};
 
 	/*-----------------------------------------------------------------*/
