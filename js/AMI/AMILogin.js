@@ -103,12 +103,9 @@ function AMILogin() {
 							__internal_always(
 								amiWebApp.onReady(userdata),
 								function() {
-									__internal_always(
-										amiLogin._update(data, user),
-										function() {
-											amiWebApp.unlock();
-										}
-									);
+									amiLogin._update(data, user).always(function() {
+										amiWebApp.unlock();
+									});
 								}
 							);
 
@@ -118,12 +115,9 @@ function AMILogin() {
 							__internal_always(
 								amiWebApp.onReady(userdata),
 								function() {
-									__internal_always(
-										amiLogin._update(data, amiLogin.guest),
-										function() {
-											amiWebApp.unlock();
-										}
-									);
+									amiLogin._update(data, amiLogin.guest).always(function() {
+										amiWebApp.unlock();
+									});
 								}
 							);
 						});
@@ -133,7 +127,6 @@ function AMILogin() {
 				});
 			});
 		} else {
-
 			__internal_always(
 				amiWebApp.onReady(userdata),
 				function() {
@@ -191,9 +184,13 @@ function AMILogin() {
 
 	this.logout = function() {
 
+		amiWebApp.lock();
+
 		return amiCommand.logout().always(function(data) {
 
-			amiLogin._update(data, amiLogin.guest);
+			amiLogin._update(data, amiLogin.guest).always(function() {
+				amiWebApp.unlock();
+			});
 		});
 	};
 
@@ -210,6 +207,8 @@ function AMILogin() {
 			return;
 		}
 
+		amiWebApp.lock();
+
 		amiCommand.passLogin(user, pass).done(function(data, user) {
 
 			if(user === amiLogin.guest) {
@@ -218,18 +217,24 @@ function AMILogin() {
 				$('#modal_login').modal('hide');
 			}
 
-			amiLogin._update(data, user);
+			amiLogin._update(data, user).always(function() {
+				amiWebApp.unlock();
+			});
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 
-			amiLogin._update(data, amiLogin.guest);
+			amiLogin._update(data, amiLogin.guest).always(function() {
+				amiWebApp.unlock();
+			});
 		});
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.form_certLogin = function() {
+
+		amiWebApp.lock();
 
 		amiCommand.certLogin().done(function(data, user) {
 
@@ -239,12 +244,16 @@ function AMILogin() {
 				$('#modal_login').modal('hide');
 			}
 
-			amiLogin._update(data, user);
+			amiLogin._update(data, user).always(function() {
+				amiWebApp.unlock();
+			});
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 
-			amiLogin._update(data, amiLogin.guest);
+			amiLogin._update(data, amiLogin.guest).always(function() {
+				amiWebApp.unlock();
+			});
 		});
 	};
 
@@ -261,13 +270,17 @@ function AMILogin() {
 			return;
 		}
 
+		amiWebApp.lock();
+
 		amiCommand.attachCert(user, pass).done(function() {
 			amiLogin._showSuccessMessage1('Done with success.');
-			amiLogin._clean();
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+
+		}).always(function() {
 			amiLogin._clean();
+			amiWebApp.unlock();
 		});
 	};
 
@@ -284,13 +297,17 @@ function AMILogin() {
 			return;
 		}
 
+		amiWebApp.lock();
+
 		amiCommand.detachCert(user, pass).done(function() {
 			amiLogin._showSuccessMessage1('Done with success.');
-			amiLogin._clean();
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+
+		}).always(function() {
 			amiLogin._clean();
+			amiWebApp.unlock();
 		});
 	};
 
@@ -317,13 +334,17 @@ function AMILogin() {
 			return;
 		}
 
+		amiWebApp.lock();
+
 		amiCommand.addUser(firstName, lastName, email, user, pass1).done(function(data) {
 			amiLogin._showSuccessMessage1('Done with success.');
-			amiLogin._clean();
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+
+		}).always(function() {
 			amiLogin._clean();
+			amiWebApp.unlock();
 		});
 	};
 
@@ -341,13 +362,17 @@ function AMILogin() {
 			return;
 		}
 
+		amiWebApp.lock();
+
 		amiCommand.changeInfo(firstName, lastName, email).done(function(data) {
 			amiLogin._showSuccessMessage2('Done with success.');
-			amiLogin._clean();
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage2(amiWebApp.jspath('..error.$', data)[0]);
+
+		}).always(function() {
 			amiLogin._clean();
+			amiWebApp.unlock();
 		});
 	};
 
@@ -371,13 +396,17 @@ function AMILogin() {
 			return;
 		}
 
+		amiWebApp.lock();
+
 		amiCommand.changePass(old_pass, new_pass1).done(function(data) {
 			amiLogin._showSuccessMessage3('Done with success.');
-			amiLogin._clean();
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage3(amiWebApp.jspath('..error.$', data)[0]);
+
+		}).always(function() {
 			amiLogin._clean();
+			amiWebApp.unlock();
 		});
 	};
 
@@ -393,13 +422,17 @@ function AMILogin() {
 			return;
 		}
 
+		amiWebApp.lock();
+
 		amiCommand.resetPass(user).done(function(data) {
 			amiLogin._showSuccessMessage1('Done with success.');
-			amiLogin._clean();
 
 		}).fail(function(data) {
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+
+		}).always(function() {
 			amiLogin._clean();
+			amiWebApp.unlock();
 		});
 	};
 
@@ -605,10 +638,10 @@ function AMILogin() {
 
 			/*-------------------------------------------------*/
 
-			var icon;
+			var color = '';
+			var message = '';
 
 			if(valid !== 'false') {
-				var wrn_msg = '';
 
 				if(cert_enabled !== 'false' && client_dn_in_ami && issuer_dn_in_ami) {
 
@@ -616,28 +649,27 @@ function AMILogin() {
 					   ||
 					   !issuer_dn_in_session
 					 ) {
-						wrn_msg = 'You should provide a certificate to use this AMI web application.';
+						message = 'You should provide a certificate to use this AMI web application.';
 					} else {
 
 						if(client_dn_in_ami !== client_dn_in_session
 						   ||
 						   issuer_dn_in_ami !== issuer_dn_in_session
 						 ) {
-							wrn_msg = 'The certificate in your session is not the one registered in AMI.';
+							message = 'The certificate in your session is not the one registered in AMI.';
 						}
 					}
 				}
-
-				icon = '';
 
 				$('#modal_login_account_status_form1_status').html(
 					'<span style="color: #006400;">valid</span>'
 				);
 
-				amiLogin._showInfoMessage4(wrn_msg);
+				amiLogin._showInfoMessage4(message);
+
+				color = 'orange';
 
 			} else {
-				var err_msg = '';
 
 				if(voms_enabled !== 'false') {
 
@@ -645,27 +677,37 @@ function AMILogin() {
 					   ||
 					   !issuer_dn_in_ami
 					 ) {
-						err_msg = 'Register a valid GRID certificate.';
+						message = 'Register a valid GRID certificate.';
 					}
 					else {
-						err_msg = 'Check your VOMS roles.';
+						message = 'Check your VOMS roles.';
 					}
 				} else {
-					err_msg = 'Contact the AMI team.';
+					message = 'Contact the AMI team.';
 				}
-
-				icon = '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: red;">'
-				       +
-				       '<span class="fa fa-exclamation-triangle"></span>'
-				       +
-				       '</a>'
-				;
 
 				$('#modal_login_account_status_form1_status').html(
 					'<span style="color: #8B0000;">invalid</span>'
 				);
 
-				amiLogin._showErrorMessage4(err_msg);
+				amiLogin._showErrorMessage4(message);
+
+				color = 'red';
+			}
+
+			/*-------------------------------------------------*/
+
+			var icon;
+
+			if(message !== '') {
+				icon = '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
+				       +
+				       '<span class="fa fa-exclamation-triangle"></span>'
+				       +
+				       '</a>'
+				;
+			} else {
+				icon = '';
 			}
 
 			/*-------------------------------------------------*/

@@ -1,15 +1,14 @@
 #ami_command_list {
-	width: 100%;
-	height: 250px;
-	overflow: scroll;
 	padding-right: 18px;
+	width: 100%;
 }
 
-#ami_command_list .clearfix {
+#ami_command_list td {
 	background-color: rgb(255, 255, 255);
+	cursor: pointer;
 }
 
-#ami_command_list .clearfix:hover {
+#ami_command_list td:first-child:hover {
 	background-color: rgb(245, 245, 245);
 }
 

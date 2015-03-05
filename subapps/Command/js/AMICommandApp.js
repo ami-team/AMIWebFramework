@@ -72,24 +72,34 @@ function AMICommandApp() {
 
 				$.foreach(rows, function(index, row) {
 
-					var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0];
-					var shortHelp = amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0] || 'TO DO';
-					var prototype = amiWebApp.jspath('..field{.@name==="prototype"}.$', row)[0] || 'TO DO';
+					var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0] || '';
+					var help = amiWebApp.jspath('..field{.@name==="help"}.$', row)[0] || amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0] || '';
+					var usage = amiWebApp.jspath('..field{.@name==="usage"}.$', row)[0] || '';
 
 					if(command.indexOf('AMI') === 0)
 					{
 						command = command.substring(3);
 					}
 
-					shortHelp = shortHelp.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
+					var proto;
 
-					shortHelp = shortHelp !== 'TO DO' ? amiWebApp.textToHtml(shortHelp) : '?????';
-					prototype = prototype !== 'TO DO' ? amiWebApp.textToHtml(prototype) : command;
+					if(usage === '') {
+						proto = command;
+						help += '<br /><br />Usage:<br />' + command;
+					} else {
+						proto = command + ' ' + usage;
+						help += '<br /><br />Usage:<br />' + command + ' ' + usage;
+					}
+
+					help = help.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
+
+					help = amiWebApp.textToHtml(help);
+					proto = amiWebApp.textToHtml(proto);
 
 					dict.push({
 						COMMAND: command,
-						SHORTHELP: shortHelp,
-						PROTOTYPE: prototype,
+						HELP: help,
+						PROTO: proto,
 					});
 				});
 

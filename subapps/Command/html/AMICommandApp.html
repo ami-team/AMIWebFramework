@@ -6,8 +6,8 @@
       <div class="panel-heading">
         <h3 class="panel-title">Common commands</h3>
       </div>
-      <div class="panel-body">
-        <div id="ami_command_list"></div>
+      <div class="panel-body" style="height: 280px; overflow-y: scroll;">
+        <table id="ami_command_list"></table>
       </div>
     </div>
 
@@ -21,12 +21,12 @@
         <div class="modal-body">
           <div class="form-group">
             <label for="modal_command_command" class="control-label">Command</label>
-            <textarea name="command" id="modal_command_command" rows="5" class="form-control">GetUserInfo -amiLogin=jodier</textarea>
+            <textarea name="command" rows="5" class="form-control" id="modal_command_command">GetUserInfo -amiLogin=jodier</textarea>
           </div>
 
           <div class="form-group">
             <label for="modal_command_converter" class="control-label">Output format</label>
-            <select name="converter" id="modal_command_converter" class="form-control">
+            <select class="form-control" id="modal_command_converter">
               <option value="">XML</option>
               <option value="AMIXmlToJson.xsl">JSON</option>
               <option value="AMIXmlToText.xsl" selected="selected">TEXT</option>
@@ -36,7 +36,7 @@
         </div>
 
         <div class="modal-footer">
-          <button class="btn btn-default" onclick="amiCommandApp.formExecute();" >Submit</button>
+          <button class="btn btn-default" onclick="amiCommandApp.formExecute();">Submit</button>
         </div>
 
       </div>
