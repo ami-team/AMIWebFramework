@@ -191,6 +191,10 @@ function AMICommand() {
 				},
 				error: function(jqXHR, textStatus) {
 
+					if(textStatus === 'error') {
+						textStatus = 'broken connection';
+					}
+
 					var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
 					if(context) {
@@ -224,6 +228,10 @@ function AMICommand() {
 					}
 				},
 				error: function(jqXHR, textStatus) {
+
+					if(textStatus === 'error') {
+						textStatus = 'broken connection';
+					}
 
 					if(context) {
 						deferred.rejectWith(context, [textStatus, urlWithParameters]);
