@@ -1,0 +1,18 @@
+#ami_search_modeler_interface_list {
+	padding-right: 18px;
+	width: 100%;
+}
+
+#ami_search_modeler_interface_list td {
+	background-color: rgb(255, 255, 255);
+	cursor: pointer;
+}
+
+#ami_search_modeler_interface_list td:first-child:hover {
+	background-color: rgb(245, 245, 245);
+}
+
+#ami_search_modeler_interface_list .popover {
+	max-width: 760px;
+	width: 760px;
+}

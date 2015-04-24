@@ -52,7 +52,9 @@ function AMIConfigurationApp() {
 
 	this.onLogin = function() {
 
-		amiCommand.execute('ShowConfig', {context: this}).done(function(data) {
+		$('#ami_configuration_form4 .ami-custom').empty();
+
+		amiCommand.execute('GetConfig', {context: this}).done(function(data) {
 
 			var fields = amiWebApp.jspath('..rowset{.@type==="config"}.row.field', data);
 
@@ -80,7 +82,7 @@ function AMIConfigurationApp() {
 				}
 			});
 
-			amiWebApp.prependHTML('ami_configuration_form4 .ami-callout', this.fragmentParameter, {dict: dict});
+			amiWebApp.appendHTML('ami_configuration_form4 .custom', this.fragmentParameter, {dict: dict});
 
 			$('#ami_configuration_left_div').show();
 			$('#ami_configuration_right_div').show();
@@ -106,31 +108,82 @@ function AMIConfigurationApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.reset = function() {
+		/*---------------------------------------------------------*/
 
-		if(confirm('Do you want to cancel modifications?')) {
-
-			$('#ami_configuration_form4 .ami-callout').empty();
-
-			this.onLogin();
+		if(confirm('Please confirm...') == false) {
+			return;
 		}
+
+		/*---------------------------------------------------------*/
+
+		this.onLogin();
+
+		/*---------------------------------------------------------*/
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._apply = function() {
+
+		var params = $('#ami_configuration_right_div').serializeArray();
+
+		$.each(params, function(index, value) {
+
+
+			console.debug(value);
+		});
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this._reboot = function() {
+
+
+
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.apply = function() {
+		/*---------------------------------------------------------*/
 
-		if(confirm('Do you want to apply modifications?')) {
-
+		if(confirm('Please confirm...') == false) {
+			return;
 		}
+
+		/*---------------------------------------------------------*/
+
+		this._apply();
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.applyAndRestart = function() {
+		/*---------------------------------------------------------*/
 
-		if(confirm('Do you want to apply modifications?')) {
-
+		if(confirm('Please confirm...') == false) {
+			return;
 		}
+
+		/*---------------------------------------------------------*/
+
+		this._apply().done(function() {
+		});
+
+		/*---------------------------------------------------------*/
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.testEmail = function() {
+
+		amiCommand.execute('TestEmail -from="ami@in2p3.fr" -to="' + $('#ami_configuration_forms_test_email').val() + '"').done(function(data) {
+			amiWebApp.success(amiWebApp.jspath('..info.$', data)[0]);
+		}).fail(function(data) {
+			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+		});
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -153,7 +206,7 @@ function AMIConfigurationApp() {
 					VALUE: '',
 				};
 
-				amiWebApp.prependHTML('ami_configuration_form4 .ami-callout', this.fragmentParameter, {dict: dict});
+				amiWebApp.prependHTML('ami_configuration_form4 .custom', this.fragmentParameter, {dict: dict});
 
 			} else {
 				amiWebApp.error('Duplicate field.');
@@ -164,13 +217,19 @@ function AMIConfigurationApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.delParameter = function(name) {
+		/*---------------------------------------------------------*/
 
-		if(confirm('Do you want to delete parameter `' + name + '`?')) {
-
-			var input = $('input[id="ami_configuration_forms_' + name + '"]');
-
-			input.parent().parent().remove();
+		if(confirm('Please confirm...') == false) {
+			return;
 		}
+
+		/*---------------------------------------------------------*/
+
+		var input = $('input[id="ami_configuration_forms_' + name + '"]');
+
+		input.parent().parent().remove();
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/

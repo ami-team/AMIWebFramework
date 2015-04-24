@@ -336,7 +336,7 @@ function AMILogin() {
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(firstName, lastName, email, user, pass1).done(function(data) {
+		amiCommand.addUser(user, pass1, firstName, lastName, email).done(function(data) {
 			amiLogin._showSuccessMessage1('Done with success.');
 
 		}).fail(function(data) {

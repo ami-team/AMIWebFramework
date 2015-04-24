@@ -410,7 +410,7 @@ function AMICommand() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.addUser = function(firstName, lastName, email, user, pass, settings) {
+	this.addUser = function(user, pass, firstName, lastName, email, settings) {
 
 		var context = undefined;
 
@@ -420,7 +420,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		return this.execute('AddUser -firstName="' + firstName + '"-lastName="' + lastName + '" -email="' + email + '" -amiLogin="' + user + '" -amiPassword="' + pass + '"', {context: context});
+		return this.execute('AddUser -amiLogin="' + user + '" -amiPassword="' + pass + '" -firstName="' + firstName + '"-lastName="' + lastName + '" -email="' + email + '"', {context: context});
 
 		/*---------------------------------------------------------*/
 	};
