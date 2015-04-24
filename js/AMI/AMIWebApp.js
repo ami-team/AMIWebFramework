@@ -601,6 +601,7 @@ function AMIWebApp() {
 
 	this.loadSheets([
 		'css/bootstrap.min.css',
+		'css/bootstrap.vertical-tabs.min.css'
 		'css/font-awesome.min.css',
 		'css/AMI/AMIWebApp.min.css',
 	]).fail(function(data) {
