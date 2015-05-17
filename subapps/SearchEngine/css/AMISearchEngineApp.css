@@ -1,0 +1,14 @@
+.input-group {
+	width: 100%;
+}
+
+.ami-search-engine-glass {
+	background: url('../../../images/glass.png') no-repeat;
+	margin: 50px auto 50px auto;
+	padding: 70px 00px 70px 175px;
+	width: 600px;
+}
+
+#ami_search_engine_tab_search {
+	display: none;
+}

@@ -151,6 +151,7 @@ function AMIMonitoringApp() {
 		var url = amiCommand.endpoint.replace('FrontEnd', 'SLS').trim();
 
 		data = {
+			Mode: 'soft',
 			Service: '%',
 			Converter: 'AMIXmlToJson.xsl',
 		};
@@ -318,8 +319,8 @@ function AMIMonitoringApp() {
 
 			$.foreach(rows, function(index, row) {
 
-				var  numIdle  = parseInt(amiWebApp.jspath('..field{.@name=== "numIdle" }.$', data)[0]);
-				var numActive = parseInt(amiWebApp.jspath('..field{.@name==="numActive"}.$', data)[0]);
+				var  numIdle  = parseInt(amiWebApp.jspath('..field{.@name=== "numIdle" }.$', data)[0] || "0");
+				var numActive = parseInt(amiWebApp.jspath('..field{.@name==="numActive"}.$', data)[0] || "0");
 
 				if(this._connectionPoolCharts.length <= index) {
 
@@ -400,12 +401,17 @@ function AMIMonitoringApp() {
 
 	this._usersUpdater = function() {
 
-		amiCommand.execute('Echo', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(`id`) FROM `router_user` WHERE `valid`=1) AS `valid`, (SELECT COUNT(`id`) FROM `router_user` WHERE `valid`=0) AS `invalid`"', {context: this}).done(function(data) {
+
+			var  valid  = parseInt(amiWebApp.jspath('..field{.@name=== "valid" }.$', data)[0] || "0");
+			var invalid = parseInt(amiWebApp.jspath('..field{.@name==="invalid"}.$', data)[0] || "0");
+
+			var total = valid + invalid;
 
 			var dict = {
-				NUMBER_OF_USERS: 2,
-				NUMBER_OF_VALID_USERS: 2,
-				NUMBER_OF_INVALID_USERS: 0,
+				NUMBER_OF_USERS: total,
+				NUMBER_OF_VALID_USERS: valid,
+				NUMBER_OF_INVALID_USERS: invalid,
 			};
 
 			amiWebApp.replaceHTML('ami_monitoring_users_content', this.usersFragment, {dict: dict}).done(function() {

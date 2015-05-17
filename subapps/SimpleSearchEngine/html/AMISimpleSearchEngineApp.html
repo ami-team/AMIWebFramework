@@ -1,0 +1,46 @@
+<div class="row">
+
+  <div class="col-md-2">
+
+<!-- TODO -->
+
+  </div>
+
+  <div class="col-md-10">
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#ami_simple_search_engine_tab_search" aria-controls="ami_simple_search_engine_tab_search" data-toggle="tab">Search</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="ami_simple_search_engine_tab_search">
+
+        <div class="ami-simple-search-engine-glass" id="ami_simple_search_engine_glass">
+
+          <div class="form-group form-group-sm" style="margin-bottom: 1px;">
+            <select class="form-control ami-select" id="ami_simple_search_engine_interface_list" onchange="amiSimpleSearchEngineApp.setInterface(this.value);"></select>
+          </div>
+
+        </div>
+
+        <div id="ami_simple_search_engine_center" style="margin: 25px auto 50px auto; width: 66%;">
+
+          <div class="text-center"><img src="images/glass.png" alt="" height="95" wigth="95" /></div>
+
+          <div class="input-group">
+            <input type="text" class="form-control" id="ami_simple_search_engine_s" placeholder="Use % for wilecarding" />
+            <span class="input-group-btn">
+              <button onclick="amiSimpleSearchEngineApp.search($('#ami_simple_search_engine_s').val());" class="btn btn-primary">Search</button>
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

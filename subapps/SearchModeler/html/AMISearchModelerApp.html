@@ -32,24 +32,29 @@
 
           <div class="form-group">
             <label for="ami_search_modeler_interface_catalog" class="control-label">Default catalog<span class="text-danger">*</span></label>
-            <select type="text" class="form-control ami-select" id="ami_search_modeler_interface_catalog" onchange="amiSearchModelerApp.getEntities(this.value);"></select>
+            <select type="text" class="form-control ami-select" id="ami_search_modeler_interface_catalog" onchange="amiSearchModelerApp.getEntities($('#ami_search_modeler_interface_catalog').val());"></select>
           </div>
 
           <div class="form-group">
             <label for="ami_search_modeler_interface_entities" class="control-label">Default entity<span class="text-danger">*</span></label>
-            <select type="text" class="form-control ami-select" id="ami_search_modeler_interface_entities"></select>
+            <select type="text" class="form-control ami-select" id="ami_search_modeler_interface_entities" onchange="amiSearchModelerApp.getFields($('#ami_search_modeler_interface_catalog').val(), $('#ami_search_modeler_interface_entities').val());"></select>
+          </div>
+
+          <div class="form-group">
+            <label for="ami_search_modeler_interface_fields" class="control-label">Default field<span class="text-danger">*</span></label>
+            <select type="text" class="form-control ami-select" id="ami_search_modeler_interface_fields"></select>
           </div>
 
         </div>
 
       </div>
 
-      <form class="form-group" id="ami_search_modeler_interface_paths">
+      <form class="form-group" id="ami_search_modeler_paths">
         <label class="control-label">
-          Criteria (entity, field, rank)
-          <span onclick="amiSearchModelerApp.addInput();" style="color: #337AB7;">
+          Criteria (entity, field, alias, type, rank)
+          <a href="javascript:amiSearchModelerApp.addInput();">
             <i class="fa fa-plus-circle"></i> Add
-          </span>
+          </a>
         </label>
       </form>
 
@@ -65,5 +70,3 @@
   </div>
 
 </div>
-
-<div id="ami_search_modeler_content"></div>
