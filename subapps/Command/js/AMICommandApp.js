@@ -187,7 +187,7 @@ function AMICommandApp() {
 		var fileName;
 
 		/****/ if(converter === '') {
-			fileMime = 'text/xml';
+			fileMime = 'application/xml';
 			fileName = 'result.xml';
 		} else if(converter === 'AMIXmlToJson.xsl') {
 			fileMime = 'application/json';
