@@ -31,18 +31,13 @@
           </div>
 
           <div class="form-group">
-            <label for="ami_search_modeler_interface_catalog" class="control-label">Default catalog<span class="text-danger">*</span></label>
+            <label for="ami_search_modeler_interface_catalog" class="control-label">Catalog<span class="text-danger">*</span></label>
             <select type="text" class="form-control ami-select" id="ami_search_modeler_interface_catalog" onchange="amiSearchModelerApp.getEntities($('#ami_search_modeler_interface_catalog').val());"></select>
           </div>
 
           <div class="form-group">
-            <label for="ami_search_modeler_interface_entities" class="control-label">Default entity<span class="text-danger">*</span></label>
-            <select type="text" class="form-control ami-select" id="ami_search_modeler_interface_entities" onchange="amiSearchModelerApp.getFields($('#ami_search_modeler_interface_catalog').val(), $('#ami_search_modeler_interface_entities').val());"></select>
-          </div>
-
-          <div class="form-group">
-            <label for="ami_search_modeler_interface_fields" class="control-label">Default field<span class="text-danger">*</span></label>
-            <select type="text" class="form-control ami-select" id="ami_search_modeler_interface_fields"></select>
+            <label for="ami_search_modeler_interface_entities" class="control-label">Entity<span class="text-danger">*</span></label>
+            <select type="text" class="form-control ami-select" id="ami_search_modeler_interface_entities"></select>
           </div>
 
         </div>

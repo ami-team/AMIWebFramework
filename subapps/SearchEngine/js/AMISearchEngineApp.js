@@ -195,6 +195,7 @@ function AMISearchEngineApp() {
 					}
 
 					dict.push({
+						CHECKED: (type === '3') ? 'checked="checked"' : '',
 						ENTITY: entity,
 						FIELD: field,
 						ALIAS: alias,
@@ -207,6 +208,24 @@ function AMISearchEngineApp() {
 					$('#ami_search_engine_glass').removeClass('ami-search-engine-glass');
 
 					amiWebApp.unlock();
+
+					$.foreach(dict, function(index, row) {
+
+						if(row['TYPE'] === '3') {
+
+							this.criteriaDict[row['ALIAS']] = {
+								/* CRITERIA */
+								entity: row['ENTITY'],
+								field: row['FIELD'],
+								type: row['TYPE'],
+
+								/* SQL */
+								selected: {},
+								filter: '`' + row['ENTITY'] + '`.`' + row['FIELD'] + '`!=0',
+								limit: 10,
+							};
+						}
+					}, this);
 
 					this.refresh();
 				});
@@ -263,10 +282,13 @@ function AMISearchEngineApp() {
 			amiWebApp.appendHTML('ami_search_engine_right', this.fragmentCriteriaNumber, {dict: dict, context: this}).done(function() {
 				this.fillNumberBox(alias);
 			});
-		} else if(type === 3) {
+		} else if(type === 3
+		          ||
+			  type === 4
+		 ) {
 			var criteria = this.criteriaDict[alias];
 
-			criteria['filter'] = '`' + criteria['entity'] + '`.`' + criteria['field'] + '`=1';
+			criteria['filter'] = '`' + criteria['entity'] + '`.`' + criteria['field'] + '`!=0';
 
 			this.refresh();
 		}
@@ -309,7 +331,7 @@ function AMISearchEngineApp() {
 		/* REFLESH MESSAGE                                         */
 		/*---------------------------------------------------------*/
 
-		var command = 'BrowseQuery -catalog="' + this.catalog + '" -sql="SELECT `' + this.entity + '`.* FROM `' + this.entity + '` WHERE ' + this.buildFilter() + '"';
+		var command = 'BrowseQuery -catalog="' + this.catalog + '" -glite="SELECT `' + this.entity + '`.* WHERE ' + this.buildFilter() + '"';
 
 		/*---------------------------------------------------------*/
 
@@ -362,7 +384,7 @@ function AMISearchEngineApp() {
 		/* BUILD SQL QUERY                                         */
 		/*---------------------------------------------------------*/
 
-		var mql = 'SELECT DISTINCT(`' + criteria['field'] + '`) FROM `' + criteria['entity'] + '`';
+		var mql = 'SELECT DISTINCT(`' + criteria['entity'] + '`.`' + criteria['field'] + '`)';
 
 		if(applyFilter !== false) {
 			mql += ' WHERE ' + this.buildFilter(/***/);
@@ -378,7 +400,7 @@ function AMISearchEngineApp() {
 		/* FILL BOX                                                */
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -sql="' + mql + '"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="' + mql + '"', {context: this}).done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
 
@@ -420,7 +442,7 @@ function AMISearchEngineApp() {
 
 		var filter = this.buildFilter();
 
-		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -sql="SELECT MIN(`' + criteria['field'] + '`) AS `min`, MAX(`' + criteria['field'] + '`) AS `max` FROM `' + criteria['entity'] + '` WHERE ' + filter + '"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT MIN(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `min`, MAX(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `max` WHERE ' + filter + '"', {context: this}).done(function(data) {
 
 			var min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '';
 			var max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '';

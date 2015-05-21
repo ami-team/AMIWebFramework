@@ -3,7 +3,7 @@
   <table class="form-control" style="padding-top: 4px;">
     <tr>
       <td style="width: 23%;">
-        <select name="entity_%%INPUT_CNT%%" style="border: none; height: 24px; width: 98%;" id="ami_search_modeler_entity_%%INPUT_CNT%%" onchange="amiSearchModelerApp.getFields($('#ami_search_modeler_catalog').val(), $('#ami_search_modeler_entity_%%INPUT_CNT%%').val(), null, '#ami_search_modeler_field_%%INPUT_CNT%%');">
+        <select name="entity_%%INPUT_CNT%%" style="border: none; height: 24px; width: 98%;" id="ami_search_modeler_entity_%%INPUT_CNT%%" onchange="amiSearchModelerApp.getFields($('#ami_search_modeler_interface_catalog').val(), $('#ami_search_modeler_entity_%%INPUT_CNT%%').val(), null, '#ami_search_modeler_field_%%INPUT_CNT%%');">
         </select>
       </td>
       <td style="width: 23%;">
@@ -18,6 +18,8 @@
           <option value="0">text (few results)</option>
           <option value="1">text (many results)</option>
           <option value="2">number</option>
+          <option value="3">boolean (checked)</option>
+          <option value="4">boolean (unchecked)</option>
         </select>
       </td>
       <td style="width: 8%;">

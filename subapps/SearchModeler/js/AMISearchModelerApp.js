@@ -81,7 +81,7 @@ function AMISearchModelerApp() {
 
 	this.getInterfaceList = function() {
 
-		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `id`, `interface`, `catalog`, `entity`, `field` FROM `router_search_interface`"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `id`, `interface`, `catalog`, `entity` FROM `router_search_interface`"', {context: this}).done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
 
@@ -93,14 +93,12 @@ function AMISearchModelerApp() {
 				var interface = amiWebApp.jspath('..field{.@name==="interface"}.$', row)[0] || '';
 				var catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', row)[0] || '';
 				var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', row)[0] || '';
-				var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
 
 				dict.push({
 					ID: id,
 					INTERFACE: interface,
 					CATALOG: catalog,
 					ENTITY: entity,
-					FIELD: field,
 				});
 			});
 
@@ -227,7 +225,7 @@ function AMISearchModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.select = function(id, interface, catalog, entity, field) {
+	this.select = function(id, interface, catalog, entity) {
 
 		amiWebApp.lock();
 
@@ -236,8 +234,8 @@ function AMISearchModelerApp() {
 		$('#ami_search_modeler_paths .input-group').empty();
 
 		this.getCatalogs(catalog);
+
 		this.getEntities(catalog, entity);
-		this.getFields(catalog, entity, field);
 
 		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `entity`, `field`, `alias`, `type`, `rank` FROM `router_search_criteria` WHERE `interfaceFK`=' + id + ' ORDER BY `rank`"', {context: this}).done(function(data) {
 
@@ -360,7 +358,6 @@ function AMISearchModelerApp() {
 		var interfaceName = $('#ami_search_modeler_interface_name').val();
 		var interfaceCatalog = $('#ami_search_modeler_interface_catalog').val();
 		var interfaceEntities = $('#ami_search_modeler_interface_entities').val();
-		var interfaceFields = $('#ami_search_modeler_interface_fields').val();
 
 		/*---------------------------------------------------------*/
 
@@ -369,8 +366,6 @@ function AMISearchModelerApp() {
 		   !interfaceCatalog
 		   ||
 		   !interfaceEntities
-		   ||
-		   !interfaceFields
 		 ) {
 			return;
 		}
@@ -385,7 +380,7 @@ function AMISearchModelerApp() {
 
 		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="," -keyFields="interface" -keyValues="' + interfaceName + '"', {context: this}).always(function() {
 
-			amiCommand.execute('AddElement -catalog="self" -entity="router_search_interface" -separator="," -fields="interface,catalog,entity,field" -values="' + interfaceName + ',' + interfaceCatalog + ',' + interfaceEntities + ',' + interfaceFields + '"', {context: this}).done(function() {
+			amiCommand.execute('AddElement -catalog="self" -entity="router_search_interface" -separator="," -fields="interface,catalog,entity" -values="' + interfaceName + ',' + interfaceCatalog + ',' + interfaceEntities + '"', {context: this}).done(function() {
 				/*-----------------------------------------*/
 
 				var paths = {};

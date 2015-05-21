@@ -145,15 +145,14 @@ function AMISimpleSearchEngineApp() {
 
 		$('#ami_simple_search_engine_center').show();
 
-		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `catalog`, `entity`, `field` FROM `router_search_interface` WHERE `interface`=\'' + interface + '\'"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `catalog`, `entity` FROM `router_search_interface` WHERE `interface`=\'' + interface + '\'"', {context: this}).done(function(data) {
 
 			this.catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', data)[0] || '';
 			this.entity = amiWebApp.jspath('..field{.@name==="entity"}.$', data)[0] || '';
-			this.field = amiWebApp.jspath('..field{.@name==="field"}.$', data)[0] || '';
 
-				$('#ami_simple_search_engine_glass').removeClass('ami-simple-search-engine-glass');
+			$('#ami_simple_search_engine_glass').removeClass('ami-simple-search-engine-glass');
 
-				amiWebApp.unlock();
+			amiWebApp.unlock();
 
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
