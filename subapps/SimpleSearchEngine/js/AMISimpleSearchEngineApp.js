@@ -143,17 +143,42 @@ function AMISimpleSearchEngineApp() {
 
 		amiWebApp.lock();
 
+		this.criteriaArray = [];
+
 		$('#ami_simple_search_engine_center').show();
 
-		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `catalog`, `entity` FROM `router_search_interface` WHERE `interface`=\'' + interface + '\'"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `id`, `catalog`, `entity` FROM `router_search_interface` WHERE `interface`=\'' + interface + '\'"', {context: this}).done(function(data) {
 
+			this.id = amiWebApp.jspath('..field{.@name==="id"}.$', data)[0] || '';
 			this.catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', data)[0] || '';
 			this.entity = amiWebApp.jspath('..field{.@name==="entity"}.$', data)[0] || '';
 
-			$('#ami_simple_search_engine_glass').removeClass('ami-simple-search-engine-glass');
+			amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `entity`, `field`, `type` FROM `router_search_criteria` WHERE `interfaceFK`=' + this.id + ' ORDER BY `rank`"', {context: this}).done(function(data) {
 
-			amiWebApp.unlock();
+				var rows = amiWebApp.jspath('..row', data);
 
+				$.foreach(rows, function(index, row) {
+
+					var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', row)[0] || '';
+					var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
+					var type = amiWebApp.jspath('..field{.@name==="type"}.$', row)[0] || '';
+
+					if(type === '0'
+					   ||
+					   type === '1'
+					 ) {
+						this.criteriaArray.push('`' + entity + '`.`' + field + '`');
+					}
+
+				}, this);
+
+				$('#ami_simple_search_engine_glass').removeClass('ami-simple-search-engine-glass');
+
+				amiWebApp.unlock();
+
+			}).fail(function(data) {
+				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+			});
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
@@ -163,13 +188,26 @@ function AMISimpleSearchEngineApp() {
 
 	this.search = function(s) {
 
-		var command;
+		var where = '';
 
 		if(s.indexOf('%') < 0) {
-			command = 'BrowseQuery -catalog="' + this.catalog + '" -sql="SELECT `' + this.entity + '`.* FROM `' + this.entity + '` WHERE `' + this.field + '`=\'' + s.replace(/\'/g, '\'\'') + '\'"';
+
+			$.foreach(this.criteriaArray, function(index, criteria) {
+				where += ' OR (' + criteria + '=\'' + s.replace(/\'/g, '\'\'') + '\')';
+			});
+
 		} else {
-			command = 'BrowseQuery -catalog="' + this.catalog + '" -sql="SELECT `' + this.entity + '`.* FROM `' + this.entity + '` WHERE `' + this.field + '` LIKE \'' + s.replace(/\'/g, '\'\'') + '\'"';
+
+			$.foreach(this.criteriaArray, function(index, criteria) {
+				where += ' OR (' + criteria + ' LIKE \'' + s.replace(/\'/g, '\'\'') + '\')';
+			});
 		}
+
+		if(where !== '') {
+			where = where.substring(4);
+		}
+
+		var command = 'BrowseQuery -catalog="' + this.catalog + '" -glite="SELECT `' + this.entity + '`.* WHERE `' + where + '\'"';
 
 		alert(command);
 	};
