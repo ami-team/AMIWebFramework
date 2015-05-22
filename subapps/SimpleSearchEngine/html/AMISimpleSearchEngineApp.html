@@ -1,59 +1,47 @@
-<div class="row">
+<ul class="nav nav-tabs">
+  <li class="active">
+    <a href="#ami_simple_search_engine_tab_search" aria-controls="ami_simple_search_engine_tab_search" data-toggle="tab">Search</a>
+  </li>
+</ul>
 
-  <div class="col-md-2">
+<div class="tab-content">
 
-<!-- TODO -->
+  <div class="tab-pane active" id="ami_simple_search_engine_tab_search">
 
-  </div>
+    <div class="ami-simple-search-engine-glass" id="ami_simple_search_engine_glass">
 
-  <div class="col-md-10">
+      <div class="form-group form-group-sm" style="margin-bottom: 1px;">
+        <select class="form-control ami-select" id="ami_simple_search_engine_interface_list" onchange="amiSimpleSearchEngineApp.setInterface(this.value);"></select>
+      </div>
 
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#ami_simple_search_engine_tab_search" aria-controls="ami_simple_search_engine_tab_search" data-toggle="tab">Search</a></li>
-    </ul>
+    </div>
 
-    <div class="tab-content">
+    <div class="row">
 
-      <div class="tab-pane active" id="ami_simple_search_engine_tab_search">
+      <div class="col-md-2" id="ami_simple_search_engine_left"></div>
 
-        <div class="ami-simple-search-engine-glass" id="ami_simple_search_engine_glass">
+      <div class="col-md-8" id="ami_simple_search_engine_center">
 
-          <div class="form-group form-group-sm" style="margin-bottom: 1px;">
-            <select class="form-control ami-select" id="ami_simple_search_engine_interface_list" onchange="amiSimpleSearchEngineApp.setInterface(this.value);"></select>
-          </div>
+        <br />
+        <br />
 
+        <div class="text-center"><img src="images/glass-simple.png" alt="" height="95" wigth="95" /></div>
+
+        <div class="input-group">
+          <input type="text" class="form-control" id="ami_simple_search_engine_s" placeholder="Use % for wilecarding" />
+          <span class="input-group-btn">
+            <button onclick="amiSimpleSearchEngineApp.search($('#ami_simple_search_engine_s').val());" class="btn btn-primary">Search</button>
+          </span>
         </div>
 
-        <div class="row">
-
-          <div class="col-md-2" id="ami_simple_search_engine_left"></div>
-
-          <div class="col-md-8" id="ami_simple_search_engine_center">
-
-            <br />
-            <br />
-
-            <div class="text-center"><img src="images/glass-simple.png" alt="" height="95" wigth="95" /></div>
-
-            <div class="input-group">
-              <input type="text" class="form-control" id="ami_simple_search_engine_s" placeholder="Use % for wilecarding" />
-              <span class="input-group-btn">
-                <button onclick="amiSimpleSearchEngineApp.search($('#ami_simple_search_engine_s').val());" class="btn btn-primary">Search</button>
-              </span>
-            </div>
-
-            <br />
-            <br />
-            <br />
-            <br />
-
-          </div>
-
-          <div class="col-md-2" id="ami_simple_search_engine_right"></div>
-
-        </div>
+        <br />
+        <br />
+        <br />
+        <br />
 
       </div>
+
+      <div class="col-md-2" id="ami_simple_search_engine_right"></div>
 
     </div>
 

@@ -1,7 +1,7 @@
 /*!
  * AMILogin class
  *
- * Copyright (c) 2014 The AMI Team
+ * Copyright (c) 2014-2015 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
  */
@@ -98,6 +98,7 @@ function AMILogin() {
 						/*-------------------------*/
 
 						amiCommand.certLogin().done(function(data, user) {
+
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
 							__internal_always(
@@ -110,6 +111,7 @@ function AMILogin() {
 							);
 
 						}).fail(function(data) {
+
 							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
 							__internal_always(
@@ -201,7 +203,10 @@ function AMILogin() {
 		var user = $('#modal_login_form1_user').val();
 		var pass = $('#modal_login_form1_pass').val();
 
-		if(user === '' || pass === '') {
+		if(user === ''
+		   ||
+		   pass === ''
+		 ) {
 			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
@@ -264,7 +269,10 @@ function AMILogin() {
 		var user = $('#modal_login_form1_user').val();
 		var pass = $('#modal_login_form1_pass').val();
 
-		if(user === '' || pass === '') {
+		if(user === ''
+		   ||
+		   pass === ''
+		 ) {
 			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
@@ -291,7 +299,10 @@ function AMILogin() {
 		var user = $('#modal_login_form1_user').val();
 		var pass = $('#modal_login_form1_pass').val();
 
-		if(user === '' || pass === '') {
+		if(user === ''
+		   ||
+		   pass === ''
+		 ) {
 			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
@@ -322,7 +333,18 @@ function AMILogin() {
 		var pass1     = $('#modal_login_form2_pass1'     ).val();
 		var pass2     = $('#modal_login_form2_pass2'     ).val();
 
-		if(firstName === '' || lastName === '' || email === '' || user === '' || pass1 === '' || pass2 === '') {
+		if(firstName === ''
+		   ||
+		   lastName === ''
+		   ||
+		   email === ''
+		   ||
+		   user === ''
+		   ||
+		   pass1 === ''
+		   ||
+		   pass2 === ''
+		 ) {
 			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
@@ -356,7 +378,12 @@ function AMILogin() {
 		var lastName  = $('#modal_login_change_info_form_last_name' ).val();
 		var email     = $('#modal_login_change_info_form_email'     ).val();
 
-		if(firstName === '' || lastName === '' || email === '') {
+		if(firstName === ''
+		   ||
+		   lastName === ''
+		   ||
+		   email === ''
+		 ) {
 			amiLogin._showErrorMessage2('Please, fill all fields with a red star.');
 
 			return;
@@ -384,7 +411,12 @@ function AMILogin() {
 		var new_pass1 = $('#modal_login_change_pass_form_new_pass1').val();
 		var new_pass2 = $('#modal_login_change_pass_form_new_pass2').val();
 
-		if(old_pass === '' || new_pass1 === '' || new_pass2 === '') {
+		if(old_pass === ''
+		   ||
+		   new_pass1 === ''
+		   ||
+		   new_pass2 === ''
+		 ) {
 			amiLogin._showErrorMessage3('Please, fill all fields with a red star.');
 
 			return;
@@ -494,6 +526,7 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this._clean = function(message) {
+
 		$('#modal_login_form1_pass').val('');
 
 		$('#modal_login_form2_pass1').val('');

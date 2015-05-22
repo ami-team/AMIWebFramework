@@ -1,31 +1,9 @@
 /*!
  * AMICommand class
  *
- * Copyright (c) 2014 The AMI Team
+ * Copyright (c) 2014-2015 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
- * In "$CATALINA_HOME/lib", copy:
- ** java-property-utils-x.x.x.jar
- ** cors-filter-x.x.x.jar
- *
- * In "$CATALINA_HOME/conf/web.xml", write:
- **  <filter>
- **    <filter-name>CORS</filter-name>
- **    <filter-class>com.thetransactioncompany.cors.CORSFilter</filter-class>
- **    <init-param>
- **      <param-name>cors.allowed.methods</param-name>
- **      <param-value>GET,POST</param-value>
- **    </init-param>
- **    <init-param>
- **      <param-name>cors.support.credentials</param-name>
- **      <param-value>true</param-value>
- **    </init-param>
- **  </filter>
- **
- **  <filter-mapping>
- **    <filter-name>CORS</filter-name>
- **    <url-pattern>/*</url-pattern>
- **  </filter-mapping>
  */
 
 /*-------------------------------------------------------------------------*/
@@ -276,6 +254,7 @@ function AMICommand() {
 			} else {
 				result.resolve(data, user);
 			}
+
 		}).fail(function(data) {
 
 			if(context) {
@@ -317,6 +296,7 @@ function AMICommand() {
 			} else {
 				result.resolve(data, user);
 			}
+
 		}).fail(function(data) {
 
 			if(context) {
@@ -358,6 +338,7 @@ function AMICommand() {
 			} else {
 				result.resolve(data, user);
 			}
+
 		}).fail(function(data) {
 
 			if(context) {
