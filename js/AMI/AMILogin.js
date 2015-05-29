@@ -10,7 +10,7 @@
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
-function __internal_always(deferred, func) {
+function _ami_internal_always(deferred, func) {
 
 	if(deferred && deferred.always) {
 		deferred.always(function() {
@@ -97,27 +97,14 @@ function AMILogin() {
 
 						/*-------------------------*/
 
-						amiCommand.certLogin().done(function(data, user) {
+						amiCommand.certLogin().always(function(data, user, guest) {
 
-							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
+							amiLogin.guest = guest;
 
-							__internal_always(
+							_ami_internal_always(
 								amiWebApp.onReady(userdata),
 								function() {
 									amiLogin._update(data, user).always(function() {
-										amiWebApp.unlock();
-									});
-								}
-							);
-
-						}).fail(function(data) {
-
-							amiLogin.guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
-
-							__internal_always(
-								amiWebApp.onReady(userdata),
-								function() {
-									amiLogin._update(data, amiLogin.guest).always(function() {
 										amiWebApp.unlock();
 									});
 								}
@@ -129,10 +116,10 @@ function AMILogin() {
 				});
 			});
 		} else {
-			__internal_always(
+			_ami_internal_always(
 				amiWebApp.onReady(userdata),
 				function() {
-					__internal_always(
+					_ami_internal_always(
 						amiWebApp.onLogin(),
 						function() {
 							amiWebApp.unlock();
@@ -327,11 +314,11 @@ function AMILogin() {
 	this.form_addUser = function() {
 
 		var firstName = $('#modal_login_form2_first_name').val();
-		var lastName  = $('#modal_login_form2_last_name' ).val();
-		var email     = $('#modal_login_form2_email'     ).val();
-		var user      = $('#modal_login_form2_user'      ).val();
-		var pass1     = $('#modal_login_form2_pass1'     ).val();
-		var pass2     = $('#modal_login_form2_pass2'     ).val();
+		var lastName = $('#modal_login_form2_last_name').val();
+		var email = $('#modal_login_form2_email').val();
+		var user = $('#modal_login_form2_user').val();
+		var pass1 = $('#modal_login_form2_pass1').val();
+		var pass2 = $('#modal_login_form2_pass2').val();
 
 		if(firstName === ''
 		   ||
@@ -375,8 +362,8 @@ function AMILogin() {
 	this.form_changeInfo = function() {
 
 		var firstName = $('#modal_login_change_info_form_first_name').val();
-		var lastName  = $('#modal_login_change_info_form_last_name' ).val();
-		var email     = $('#modal_login_change_info_form_email'     ).val();
+		var lastName = $('#modal_login_change_info_form_last_name').val();
+		var email = $('#modal_login_change_info_form_email').val();
 
 		if(firstName === ''
 		   ||
@@ -407,7 +394,7 @@ function AMILogin() {
 
 	this.form_changePass = function() {
 
-		var old_pass  = $('#modal_login_change_pass_form_old_pass' ).val();
+		var old_pass = $('#modal_login_change_pass_form_old_pass').val();
 		var new_pass1 = $('#modal_login_change_pass_form_new_pass1').val();
 		var new_pass2 = $('#modal_login_change_pass_form_new_pass2').val();
 
@@ -762,7 +749,7 @@ function AMILogin() {
 
 			/*-------------------------------------------------*/
 
-			__internal_always(
+			_ami_internal_always(
 				amiWebApp.onLogin(),
 				function() {
 					amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict}),
@@ -773,7 +760,7 @@ function AMILogin() {
 
 		} else {
 
-			__internal_always(
+			_ami_internal_always(
 				amiWebApp.onLogout(),
 				function() {
 					result.resolve();

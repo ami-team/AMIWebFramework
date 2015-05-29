@@ -213,6 +213,8 @@ function AMISearchEngineApp() {
 
 						if(row['TYPE'] === '3') {
 
+							var F3 = '`' + row['ENTITY'] + '`.`' + row['FIELD'] + '`!=0';
+
 							this.criteriaDict[row['ALIAS']] = {
 								/* CRITERIA */
 								entity: row['ENTITY'],
@@ -221,7 +223,7 @@ function AMISearchEngineApp() {
 
 								/* SQL */
 								selected: {},
-								filter: '`' + row['ENTITY'] + '`.`' + row['FIELD'] + '`!=0',
+								filter: F3,
 								limit: 10,
 							};
 						}
@@ -404,7 +406,7 @@ function AMISearchEngineApp() {
 
 			var rows = amiWebApp.jspath('..row', data);
 
-			var s = (criteria['filter'] !== '') ? '<option value="-1">&laquo; any &raquo;</option>' : '';
+			var s = (criteria['filter'] !== '') ? '<option value="$any$">&laquo; any &raquo;</option>' : '';
 
 			$.foreach(rows, function(index, row) {
 
@@ -522,7 +524,7 @@ function AMISearchEngineApp() {
 		/* BUILD WILDCARD                                          */
 		/*---------------------------------------------------------*/
 
-		var parts = $('#ami_search_engine_box_' + alias + '_wildcard').val().split('%');
+		var parts = $('#ami_search_engine_box_' + alias + '_wildcard').val().toLowerCase().split('%');
 
 		var nbOfParts = parts.length;
 
@@ -542,7 +544,7 @@ function AMISearchEngineApp() {
 
 			var value = this.value;
 
-			if(_wildcard(parts, nbOfParts, value)) {
+			if(_wildcard(parts, nbOfParts, value.toLowerCase())) {
 
 				s += ' OR `' + entity + '`.`' + field + '`=\'' + value.replace(/\'/g, '\'\'') + '\'';
 
@@ -604,15 +606,12 @@ function AMISearchEngineApp() {
 		var s = '';
 		var v = {};
 
-		if($('#ami_search_engine_box_' + alias + '_value option[value="-1"]').prop('selected')) {
+		if($('#ami_search_engine_box_' + alias + '_value option[value="$any$"]:selected').length == 0) {
 
-			$('#ami_search_engine_box_' + alias + '_value option').prop('selected', false);
-
-		} else {
 			var entity = criteria['entity'];
 			var field = criteria['field'];
 
-			$('#ami_search_engine_box_' + alias + '_value > option:selected').each(function() {
+			$('#ami_search_engine_box_' + alias + '_value > option[value!=""]:selected').each(function() {
 
 				var value = this.value;
 
@@ -692,5 +691,7 @@ function AMISearchEngineApp() {
 /*-------------------------------------------------------------------------*/
 
 amiSearchEngineApp = new AMISearchEngineApp();
+
+amiWebApp.registerSubApp(amiSearchEngineApp, 'amisearchengine', {});
 
 /*-------------------------------------------------------------------------*/

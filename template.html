@@ -19,6 +19,8 @@
     <script type="text/javascript" src="subapps/Command/js/AMICommandApp.js"></script>
     <script type="text/javascript" src="subapps/Monitoring/js/AMIMonitoringApp.js"></script>
     <script type="text/javascript" src="subapps/SearchModeler/js/AMISearchModelerApp.js"></script>
+    <script type="text/javascript" src="subapps/SearchEngine/js/AMISearchEngineApp.js"></script>
+    <script type="text/javascript" src="subapps/SimpleSearchEngine/js/AMISimpleSearchEngineApp.js"></script>
 
     <script type="text/javascript">
 
@@ -36,12 +38,22 @@
 		//amiWebApp.loadSubApp(amiConfigurationApp);
 		//amiWebApp.loadSubApp(amiCommandApp);
 		//amiWebApp.loadSubApp(amiMonitoringApp);
-		amiWebApp.loadSubApp(amiSearchModelerApp);
+		//amiWebApp.loadSubApp(amiSearchModelerApp);
+		amiWebApp.loadSubApp(amiSearchEngineApp);
 	};
 
 	amiWebApp.onToolbarUpdateNeeded = function() {
 
 		var menu =
+			'<li class="dropdown">' +
+			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
+			'    Search <span class="caret"></span>' +
+			'  </a>' +
+			'  <ul class="dropdown-menu">' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiSearchEngineApp);">Search Engine</a></li>' +
+			'    <li><a href="javascript:amiWebApp.loadSubApp(amiSimpleSearchEngineApp);">Simple Search Engine</a></li>' +
+			'  </ul>' +
+			'</li>' +
 			'<li class="dropdown">' +
 			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
 			'    Tools <span class="caret"></span>' +
@@ -58,13 +70,13 @@
 				'</li>' +
 				'<li class="dropdown">' +
 				'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
-				'    Admin <span class="caret"></span>' +
+				'    <i class="fa fa-key"></i> Admin <span class="caret"></span>' +
 				'  </a>' +
 				'  <ul class="dropdown-menu">' +
 				'    <li><a href="javascript:amiWebApp.loadSubApp(amiConfigurationApp);">Configuration</a></li>' +
 				'    <li><a href="javascript:amiWebApp.loadSubApp(amiMonitoringApp);">Monitoring</a></li>' +
 				'    <li class="divider"></li>' +
-				'    <li><a href="javascript:amiWebApp.loadSubApp(amiDBModelerApp);">DB Modeler</a></li>' +
+				'    <li><a href="javascript:amiWebApp.loadSubApp(amiDBModelerApp);">Catalog Modeler</a></li>' +
 				'    <li><a href="javascript:amiWebApp.loadSubApp(amiSearchModelerApp);">Search Modeler</a></li>' +
 				'  </ul>' +
 				'</li>'
@@ -84,7 +96,10 @@
   <body>
 
     <script type="text/javascript">
-	amiWebApp.start();
+	amiWebApp.start({
+		home_url: 'http://localhost/template.html',
+		template_filename: 'html/AMI/AMIWebApp_default.html'
+	});
     </script>
 
   </body>

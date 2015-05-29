@@ -10,7 +10,7 @@
 /* BASE64                                                                  */
 /*-------------------------------------------------------------------------*/
 
-var _internal_base64KeyStr =
+var _ami_internal_base64KeyStr =
 	'ABCDEFGHIJKLMNOP' +
 	'QRSTUVWXYZabcdef' +
 	'ghijklmnopqrstuv' +
@@ -30,10 +30,10 @@ function amiBase64Decode(input) {
 	input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '');
 
 	do {
-		enc1 = _internal_base64KeyStr.indexOf(input.charAt(i++));
-		enc2 = _internal_base64KeyStr.indexOf(input.charAt(i++));
-		enc3 = _internal_base64KeyStr.indexOf(input.charAt(i++));
-		enc4 = _internal_base64KeyStr.indexOf(input.charAt(i++));
+		enc1 = _ami_internal_base64KeyStr.indexOf(input.charAt(i++));
+		enc2 = _ami_internal_base64KeyStr.indexOf(input.charAt(i++));
+		enc3 = _ami_internal_base64KeyStr.indexOf(input.charAt(i++));
+		enc4 = _ami_internal_base64KeyStr.indexOf(input.charAt(i++));
 
 		chr1 = ((enc1 & 255) << 2) | (enc2 >> 4);
 		chr2 = ((enc2 &  15) << 4) | (enc3 >> 2);
@@ -248,19 +248,22 @@ function AMICommand() {
 		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {extraParam: 'NoCert'}).done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', data)[0];
+			var guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
 			if(context) {
-				result.resolveWith(context, [data, user]);
+				result.resolveWith(context, [data, user, guest]);
 			} else {
-				result.resolve(data, user);
+				result.resolve(data, user, guest);
 			}
 
 		}).fail(function(data) {
 
+			var guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
+
 			if(context) {
-				result.rejectWith(context, [data]);
+				result.rejectWith(context, [data, guest, guest]);
 			} else {
-				result.reject(data);
+				result.reject(data, guest, guest);
 			}
 		});
 
@@ -290,19 +293,22 @@ function AMICommand() {
 		this.execute('GetSessionInfo').done(function(data) {
 
 			var user = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', data)[0];
+			var guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
 
 			if(context) {
-				result.resolveWith(context, [data, user]);
+				result.resolveWith(context, [data, user, guest]);
 			} else {
-				result.resolve(data, user);
+				result.resolve(data, user, guest);
 			}
 
 		}).fail(function(data) {
 
+			var guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
+
 			if(context) {
-				result.rejectWith(context, [data]);
+				result.rejectWith(context, [data, guest, guest]);
 			} else {
-				result.reject(data);
+				result.reject(data, guest, guest);
 			}
 		});
 

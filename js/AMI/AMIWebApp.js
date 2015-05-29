@@ -10,12 +10,12 @@
 /* INTERNAL VARIABLES                                                      */
 /*-------------------------------------------------------------------------*/
 
-var _internal_nonce = jQuery.now();
+var _ami_internal_nonce = jQuery.now();
 
 /*-------------------------------------------------------------------------*/
 
-var _internal_scripts = [];
-var _internal_sheets = [];
+var _ami_internal_scripts = [];
+var _ami_internal_sheets = [];
 
 /*-------------------------------------------------------------------------*/
 /* CLASS AMIWebApp                                                         */
@@ -67,7 +67,7 @@ function AMIWebApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
-	/* DYNAMIC JAVASCRIPT LOADING                                      */
+	/* DYNAMIC SCRIPT LOADING                                          */
 	/*-----------------------------------------------------------------*/
 
 	this.loadScripts = function(scripts, settings) {
@@ -92,9 +92,9 @@ function AMIWebApp() {
 
 		for(var i = 0; i < scripts.length; i++) {
 
-			if($.inArray(scripts[i], _internal_scripts) < 0) {
-				_internal_scripts.push(scripts[i]);
-				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _internal_nonce++ + '"></script>';
+			if($.inArray(scripts[i], _ami_internal_scripts) < 0) {
+				_ami_internal_scripts.push(scripts[i]);
+				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _ami_internal_nonce++ + '"></script>';
 			}
 		}
 
@@ -113,7 +113,7 @@ function AMIWebApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
-	/* DYNAMIC CSS LOADING                                             */
+	/* DYNAMIC SHEET LOADING                                           */
 	/*-----------------------------------------------------------------*/
 
 	this.loadSheets = function(sheets, settings) {
@@ -138,9 +138,9 @@ function AMIWebApp() {
 
 		for(var i = 0; i < sheets.length; i++) {
 
-			if($.inArray(sheets[i], _internal_sheets) < 0) {
-				_internal_sheets.push(sheets[i]);
-				html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _internal_nonce++ + '"></link>';
+			if($.inArray(sheets[i], _ami_internal_sheets) < 0) {
+				_ami_internal_sheets.push(sheets[i]);
+				html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _ami_internal_nonce++ + '"></link>';
 			}
 		}
 
@@ -382,7 +382,7 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._currentSubApp = new function() {
+	this._currentSubAppInstance = new function() {
 
 		this.onReady = function() {};
 		this.onExit = function() {};
@@ -393,21 +393,21 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onReady = function(userdata) {
-		return this._currentSubApp.onReady(userdata);
+		return this._currentSubAppInstance.onReady(userdata);
 	};
 
 	this.onExit = function() {
-		return this._currentSubApp.onExit();
+		return this._currentSubAppInstance.onExit();
 	};
 
 	this.onLogin = function() {
-		var result = this._currentSubApp.onLogin();
+		var result = this._currentSubAppInstance.onLogin();
 		this.onToolbarUpdateNeeded();
 		return result;
 	};
 
 	this.onLogout = function() {
-		var result = this._currentSubApp.onLogout();
+		var result = this._currentSubAppInstance.onLogout();
 		this.onToolbarUpdateNeeded();
 		return result;
 	};
@@ -458,6 +458,7 @@ function AMIWebApp() {
 		/*---------------------------------------------------------*/
 
 		$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data1) {
+
 			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data2) {
 
 				var content = amiWebApp.formatHTML(data1, {dict: dict}) + data2;
@@ -552,39 +553,51 @@ function AMIWebApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
-	/* SUB APPLICATION LOADER                                          */
+	/* SUB APPLICATIONS                                                */
 	/*-----------------------------------------------------------------*/
 
-	this.loadSubApp = function(subApp, userdata) {
+	this._subAppDict = {};
+
+	/*-----------------------------------------------------------------*/
+
+	this.registerSubApp = function(subAppName, subAppInstance, subAppMethods) {
+
+		this._subAppDict[subAppName] = {
+			instance: subAppInstance,
+			methods: subAppMethods,
+		};
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.runSubApp = function(subAppInstance, userdata) {
 		/*---------------------------------------------------------*/
 
-		if(!subApp.onReady) {
+		if(!subAppInstance.onReady) {
 			alert('error: `<sub application>.onReady()` must be implemented !');
 			return;
 		}
 
-		if(!subApp.onExit) {
+		if(!subAppInstance.onExit) {
 			alert('error: `<sub application>.onExit()` must be implemented !');
 			return;
 		}
 
-		if(!subApp.onLogin) {
+		if(!subAppInstance.onLogin) {
 			alert('error: `<sub application>.onLogin()` must be implemented !');
 			return;
 		}
 
-		if(!subApp.onLogout) {
+		if(!subAppInstance.onLogout) {
 			alert('error: `<sub application>.onLogout()` must be implemented !');
 			return;
 		}
 
 		/*---------------------------------------------------------*/
 
-		this._currentSubApp.onExit();
+		this._currentSubAppInstance.onExit();
 
-		/*---------------------------------------------------------*/
-
-		this._currentSubApp = subApp;
+		this._currentSubAppInstance = subAppInstance;
 
 		amiLogin.start(userdata);
 

@@ -33,13 +33,18 @@ function AMIMonitoringApp() {
 			'tools/common/js/highcharts.min.js',
 			'tools/common/js/highcharts-more.min.js',
 			'tools/common/js/modules/solid-gauge.js',
+			'tools/common/js/modules/map.js',
+			'tools/common/js/world.js',
 		]);
 
 		Highcharts.setOptions({
+
 			credits: {
 				enabled: false,
 			},
 		});
+
+		this.world = Highcharts.geojson(Highcharts.maps['custom/world']);
 
 		$('#ami_jumbotron_title').html('Monitoring');
 		$('#ami_jumbotron_content').html('');
@@ -319,8 +324,8 @@ function AMIMonitoringApp() {
 
 			$.foreach(rows, function(index, row) {
 
-				var  numIdle  = parseInt(amiWebApp.jspath('..field{.@name=== "numIdle" }.$', data)[0] || "0");
-				var numActive = parseInt(amiWebApp.jspath('..field{.@name==="numActive"}.$', data)[0] || "0");
+				var  numIdle  = parseInt(amiWebApp.jspath('..field{.@name=== "numIdle" }.$', data)[0] || '0');
+				var numActive = parseInt(amiWebApp.jspath('..field{.@name==="numActive"}.$', data)[0] || '0');
 
 				if(this._connectionPoolCharts.length <= index) {
 
@@ -403,8 +408,8 @@ function AMIMonitoringApp() {
 
 		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(`id`) FROM `router_user` WHERE `valid`=1) AS `valid`, (SELECT COUNT(`id`) FROM `router_user` WHERE `valid`=0) AS `invalid`"', {context: this}).done(function(data) {
 
-			var  valid  = parseInt(amiWebApp.jspath('..field{.@name=== "valid" }.$', data)[0] || "0");
-			var invalid = parseInt(amiWebApp.jspath('..field{.@name==="invalid"}.$', data)[0] || "0");
+			var  valid  = parseInt(amiWebApp.jspath('..field{.@name=== "valid" }.$', data)[0] || '0');
+			var invalid = parseInt(amiWebApp.jspath('..field{.@name==="invalid"}.$', data)[0] || '0');
 
 			var total = valid + invalid;
 
@@ -414,60 +419,54 @@ function AMIMonitoringApp() {
 				NUMBER_OF_INVALID_USERS: invalid,
 			};
 
-			amiWebApp.replaceHTML('ami_monitoring_users_content', this.usersFragment, {dict: dict}).done(function() {
+			amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `country` AS `code`, COUNT(`country`) AS `z` FROM `router_user` GROUP BY `country`"', {context: this}).done(function(data) {
 
-				$('#ami_monitoring_user_plot1').highcharts({
+				var rows = amiWebApp.jspath('..row', data);
 
-					title: {
-						text: 'Countries',
-					},
-					subtitle: {
-						text: null,
-					},
-					series: [{
-						type: 'pie',
-						data: [
-							['Unknown', 100.0],
-						]
-					}],
-					plotOptions: {
-						pie: {
-							dataLabels: {
-								enabled: true,
-								format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-								style: {
-									color: 'black',
-								},
-							},
-						},
-					},
+				var users = [];
+
+				$.foreach(rows, function(index, row) {
+
+					var code = amiWebApp.jspath('..field{.@name==="country"}.$', row)[0];
+					var z = amiWebApp.jspath('..field{.@name==="z"}.$', row)[0];
+
+					users.push({
+						code: code,
+						z: z,
+					});
 				});
 
-				$('#ami_monitoring_user_plot2').highcharts({
+				amiWebApp.replaceHTML('ami_monitoring_users_content', this.usersFragment, {dict: dict, context: this}).done(function() {
 
-					title: {
-						text: 'Agents',
-					},
-					subtitle: {
-						text: null,
-					},
-					series: [{
-						type: 'pie',
-						data: [
-							['Unknown', 100.0],
-						]
-					}],
-					plotOptions: {
-						pie: {
-							dataLabels: {
-								enabled: true,
-								format: '<b>{point.name}</b>: {point.percentage:.1f} %',
-								style: {
-									color: 'black',
-								},
-							},
+					var c = new Highcharts.Map({
+			
+						chart: {
+							renderTo: 'ami_monitoring_user_plot1',
 						},
-					},
+						title: {
+							text: null,
+						},
+						legend: {
+							enabled: false,
+						},
+						series: [{
+							color: '#E0E0E0',
+							mapData: this.world,
+							enableMouseTracking: false
+						}, {
+							type: 'mapbubble',
+	       						data: users,
+							mapData: this.world,
+							joinBy: ['iso-a2', 'code'],
+							minSize: 4,
+							maxSize: '12%',
+							tooltip: {
+		    						pointFormat: '{point.code}: {point.z}'
+							},
+	    					}],
+					});
+
+					c.redraw();
 				});
 			});
 		});
@@ -481,5 +480,7 @@ function AMIMonitoringApp() {
 /*-------------------------------------------------------------------------*/
 
 amiMonitoringApp = new AMIMonitoringApp();
+
+amiWebApp.registerSubApp(amiMonitoringApp, 'amimonitoring', {});
 
 /*-------------------------------------------------------------------------*/

@@ -453,4 +453,6 @@ function AMISearchModelerApp() {
 
 amiSearchModelerApp = new AMISearchModelerApp();
 
+amiWebApp.registerSubApp(amiSearchModelerApp, 'amisearchmodeler', {});
+
 /*-------------------------------------------------------------------------*/
