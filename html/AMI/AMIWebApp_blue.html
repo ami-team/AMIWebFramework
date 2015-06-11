@@ -1,0 +1,92 @@
+<style>
+
+body {
+	background: white url('images/background.jpg') fixed;
+}
+
+#ami_main_container {
+	background-color: white;
+	border-radius: 5px;
+	box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+	margin: 12px auto 48px auto;
+	padding: 00px;
+	width: 94%;
+}
+
+#ami_main_content {
+	padding-bottom: 10px;
+}
+
+#ami_top_menu, #ami_top_menu .container {
+	background: white url("images/stripe1.png");
+	border: none;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	box-shadow: none;
+	margin: 00px;
+}
+
+
+#ami_bottom_menu, #ami_bottom_menu .container {
+	background: white url("images/stripe2.png");
+	border: none;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	box-shadow: none;
+	margin: 00px;
+}
+
+</style>
+
+<div class="container" id="ami_main_container">
+
+  <nav class="navbar navbar-default" id="ami_top_menu">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle" data-toggle="collapse" data-target="#ami_navbar_top_collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a href="%%HOME_URL%%">
+          <img src="%%LOGO_URL%%" alt="Logo" />
+        </a>
+      </div>
+      <div class="collapse navbar-collapse" id="ami_navbar_top_collapse">
+        <ul id="ami_menu_content" class="nav navbar-nav navbar-left"></ul>
+        <ul id="ami_login_content" class="nav navbar-nav navbar-right"></ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <ul class="breadcrumb" id="ami_breadcrumb_content">&nbsp;</ul>
+
+    <div id="ami_status_content"></div>
+    <div id="ami_main_content"></div>
+    <div id="ami_modal_content"></div>
+
+  </div>
+
+  <nav class="navbar navbar-default" id="ami_bottom_menu">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle" data-toggle="collapse" data-target="#ami_navbar_bottom_collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse" id="ami_navbar_bottom_collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="mailto:%%CONTACT_EMAIL%%"><i class="fa fa-envelope-o"></i> Contact</a></li>
+          <li><a href="http://www.cern.ch/ami/" target="_blank">About</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+</div>

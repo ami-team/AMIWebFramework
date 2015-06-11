@@ -337,7 +337,7 @@ function AMISearchEngineApp() {
 
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -sql="SELECT COUNT(*) AS `nb` FROM `' + this.entity + '` WHERE ' + this.buildFilter() + '"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT COUNT(*) AS `nb` WHERE ' + this.buildFilter() + '"', {context: this}).done(function(data) {
 
 			var nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || '';
 
@@ -692,6 +692,6 @@ function AMISearchEngineApp() {
 
 amiSearchEngineApp = new AMISearchEngineApp();
 
-amiWebApp.registerSubApp(amiSearchEngineApp, 'amisearchengine', {});
+amiWebApp.registerSubApp(amiSearchEngineApp, 'amiSearchEngine', {});
 
 /*-------------------------------------------------------------------------*/

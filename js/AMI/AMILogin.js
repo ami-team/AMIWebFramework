@@ -112,10 +112,18 @@ function AMILogin() {
 						});
 
 						/*-------------------------*/
+					}).fail(function(data) {
+						amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 					});
+				}).fail(function(data) {
+					amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 				});
+			}).fail(function(data) {
+				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 			});
+
 		} else {
+
 			_ami_internal_always(
 				amiWebApp.onReady(userdata),
 				function() {

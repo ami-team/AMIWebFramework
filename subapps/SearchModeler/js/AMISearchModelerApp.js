@@ -108,6 +108,13 @@ function AMISearchModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
+	/* Mettre le dst en premier !!! et ne pas mettre de valeurs par défaut !!!
+	 *
+	 */
+
+	/*-----------------------------------------------------------------*/
+
+
 	this.getCatalogs = function(defaultCatalog, dst) {
 
 		amiWebApp.lock();

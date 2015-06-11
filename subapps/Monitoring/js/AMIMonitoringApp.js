@@ -427,7 +427,7 @@ function AMIMonitoringApp() {
 
 				$.foreach(rows, function(index, row) {
 
-					var code = amiWebApp.jspath('..field{.@name==="country"}.$', row)[0];
+					var code = amiWebApp.jspath('..field{.@name==="code"}.$', row)[0];
 					var z = amiWebApp.jspath('..field{.@name==="z"}.$', row)[0];
 
 					users.push({
