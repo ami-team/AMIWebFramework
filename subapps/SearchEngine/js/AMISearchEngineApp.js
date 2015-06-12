@@ -23,7 +23,7 @@ function AMISearchEngineApp() {
 
 		$('#ami_jumbotron_title').html('SearchEngine');
 		$('#ami_jumbotron_content').html('Search Engine');
-		$('#ami_breadcrumb_content').html('<li><a href="">Search</a></li><li><a href="">Search Engine</a></li>');
+		$('#ami_breadcrumb_content').html('<li><a>Search</a></li><li><a href="' + amiWebApp.webappURL + '?webapp=amisearchengine">Search Engine</a></li>');
 
 		amiWebApp.loadHTML('subapps/SearchEngine/html/AMISearchEngineApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/criteria.html', {context: this}).done(function(data2) {
