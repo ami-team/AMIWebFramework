@@ -55,15 +55,7 @@ function AMIDocumentApp() {
 
 	this.load = function(page) {
 
-		var src = window.location.pathname;
-
-		var idx = src.lastIndexOf('/');
-
-		if(idx >= 0) {
-			src = src.substring(0, idx);
-		}
-
-		var url = src + '/docs/' + page;
+		var url = amiWebApp.originURL + '/docs/' + page;
 
 		$.ajax({
 			url: url,
@@ -74,7 +66,7 @@ function AMIDocumentApp() {
 
 			$('#ami_jumbotron_title').html('');
 			$('#ami_jumbotron_content').html('');
-			$('#ami_breadcrumb_content').html('<li><a href="">Documents</a></li><li><a href="">' + page + '</a></li>');
+			$('#ami_breadcrumb_content').html('<li><a>Documents</a></li><li><a href="' + amiWebApp.webappURL + '?subapp=document&userdata=' + page + '">' + page + '</a></li>');
 
 			$('#ami_document_content').html(data);
 

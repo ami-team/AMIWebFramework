@@ -40,7 +40,7 @@ function AMILogin() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.start = function(userdata) {
+	this.runSubApp = function(userdata) {
 
 		amiWebApp.lock();
 

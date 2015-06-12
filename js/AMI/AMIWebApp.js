@@ -332,6 +332,9 @@ function AMIWebApp() {
 
 	this.formatHTML = function(html, settings) {
 
+		html = html.replace('%%ORIGIN_URL%%', this.originURL);
+		html = html.replace('%%WEBAPP_URL%%', this.webappURL);
+
 		if(settings && 'dict' in settings) {
 
 			var dict = settings['dict'];
@@ -481,12 +484,14 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.lock = function() {
+
 		$('#ami_locker').css('display', 'block');
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.unlock = function() {
+
 		$('#ami_locker').css('display', 'none');
 	};
 
@@ -499,7 +504,7 @@ function AMIWebApp() {
 
 		$(document).scrollTop(0);
 
-		if(fadeOut !== false) {
+		if(fadeOut) {
 			$('#ami_status_content .alert').fadeOut(60000);
 		}
 	};
@@ -513,7 +518,7 @@ function AMIWebApp() {
 
 		$(document).scrollTop(0);
 
-		if(fadeOut !== false) {
+		if(fadeOut) {
 			$('#ami_status_content .alert').fadeOut(60000);
 		}
 	};
@@ -527,7 +532,7 @@ function AMIWebApp() {
 
 		$(document).scrollTop(0);
 
-		if(fadeOut !== false) {
+		if(fadeOut) {
 			$('#ami_status_content .alert').fadeOut(60000);
 		}
 	};
@@ -541,7 +546,7 @@ function AMIWebApp() {
 
 		$(document).scrollTop(0);
 
-		if(fadeOut !== false) {
+		if(fadeOut) {
 			$('#ami_status_content .alert').fadeOut(60000);
 		}
 	};
@@ -549,6 +554,7 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.flush = function() {
+
 		$('#ami_status_content').empty();
 	};
 
@@ -599,7 +605,7 @@ function AMIWebApp() {
 
 		this._currentSubAppInstance = subAppInstance;
 
-		amiLogin.start(userdata);
+		amiLogin.runSubApp(userdata);
 
 		/*---------------------------------------------------------*/
 	};
@@ -700,19 +706,46 @@ function AMIWebApp() {
 	this.jspath = JSPath.apply;
 
 	/*-------------------------------*/
-	/* ARGUMENTS                     */
+	/* BASE URL                      */
+	/*-------------------------------*/
+
+	this.originURL = window.location.origin
+	;
+
+	this.webappURL = window.location.origin
+	                 +
+	                 window.location.pathname
+	;
+
+	/*-------------------------------*/
+
+	while(this.originURL.charAt(this.originURL.length - 1) === '/') {
+
+		this.originURL = this.originURL.substring(0, this.originURL.length - 1);
+	}
+
+	while(this.webappURL.charAt(this.webappURL.length - 1) === '/') {
+
+		this.webappURL = this.webappURL.substring(0, this.webappURL.length - 1);
+	}
+
+	/*-------------------------------*/
+	/* ARGS                          */
 	/*-------------------------------*/
 
 	this.args = {};
 
-	var urlParams = window.location.search.substring(1).split('&');
+	if(window.location.search.length !== '') {
 
- 	for(var i = 0; i < urlParams.length; i++) {
+		var urlParams = window.location.search.substring(1).split('&');
 
- 		var pair = urlParams[i].split('=');
+ 		for(var i = 0; i < urlParams.length; i++) {
 
- 		this.args[pair[0]] = pair[1];
- 	}
+ 			var pair = urlParams[i].split('=');
+
+ 			this.args[pair[0]] = pair[1];
+ 		}
+	}
 
 	/*-----------------------------------------------------------------*/
 }
