@@ -21,7 +21,7 @@ function AMIDocumentApp() {
 
 		amiWebApp.loadHTML('subapps/Document/html/AMIDocumentApp.html', {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('ami_main_content', data, {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data, {context: this}).done(function() {
 
 				$('.jumbotron').hide();
 
@@ -33,6 +33,7 @@ function AMIDocumentApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onExit = function() {
+
 		$('.jumbotron').show();
 	};
 
@@ -66,9 +67,9 @@ function AMIDocumentApp() {
 
 			$('#ami_jumbotron_title').html('');
 			$('#ami_jumbotron_content').html('');
-			$('#ami_breadcrumb_content').html('<li><a href="' + amiWebApp.webappURL + '?subapp=document">Documents</a></li><li><a href="' + amiWebApp.webappURL + '?subapp=document&userdata=' + page + '">' + amiWebApp.textToHtml(page) + '</a></li>');
+			$('#ami_breadcrumb_content').html('<li><a href="' + amiWebApp.webappURL + '?subapp=amidocument">Documents</a></li><li><a href="' + amiWebApp.webappURL + '?subapp=amidocument&userdata=' + page + '">' + amiWebApp.textToHtml(page) + '</a></li>');
 
-			$('#ami_document_content').html(data);
+			amiWebApp.replaceHTML('#ami_document_content', data);
 
 		}).fail(function() {
 

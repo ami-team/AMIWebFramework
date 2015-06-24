@@ -1,0 +1,129 @@
+/*-------------------------------------------------------------------------*/
+/* FONTS                                                                   */
+/*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*/
+/* GENERAL                                                                 */
+/*-------------------------------------------------------------------------*/
+
+* {
+	font-family: "Baskerville","Playfair Display","Times New Roman","serif";
+	font-style: normal;
+	font-size: 18px;
+	font-weight: 300;
+}
+
+/*-------------------------------------------------------------------------*/
+
+h1, h2, h3, h4, h5, h6 {
+	font-style: italic;
+}
+
+/*-------------------------------------------------------------------------*/
+/* BOOTSTRAP THEME                                                         */
+/*-------------------------------------------------------------------------*/
+
+.container {
+	margin: 10px auto 10px auto;
+	width: 90%;
+}
+
+/*-------------------------------------------------------------------------*/
+/* ODIER_EU                                                                */
+/*-------------------------------------------------------------------------*/
+
+.site-menu {
+	margin-top: 18px;
+}
+
+.site-menu > li > a {
+	color: rgb(153,153,153);
+	font-family: "Quicksand","Helvetica","Arial","sans-serif";
+	font-size: 14px;
+	line-height: 1.1;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.site-menu > li > a:focus, .site-menu > li > a:hover {
+	color: rgb(0,0,0);
+	background: transparent;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.site-title {
+	color: #000;
+	font-size: 48px;
+	font-style: italic;
+	font-weight: normal;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.site-content {
+	margin: 10px auto 10px auto;
+	width: 800px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.site-sidebar {
+	margin-top: 16px;
+	margin-bottom: 32px;
+}
+
+.site-sidebar * {
+	font-weight: 100;
+}
+
+.site-sidebar-button {
+	text-align: center;
+}
+
+.site-sidebar-button .fa {
+	color: rgb(153,153,153);
+	cursor: pointer;
+}
+
+.site-sidebar-button .fa:hover {
+	color: rgb(000,000,000);
+	cursor: pointer;
+}
+
+.site-sidebar-content {
+	display: none;
+	margin-top: 16px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.site-info {
+	color: rgb(153,153,153);
+	font-family: "Quicksand","Helvetica","Arial","sans-serif";
+	font-size: 12px;
+	text-transform: uppercase;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.widget li a {
+	font-size: 14px;
+}
+
+.widget-title {
+	font-size: 24px;
+}
+
+#s {
+	border: 1px solid #EEE;
+	border-radius: 14px;
+	padding: 2px 10px;
+	width: 200px;
+}
+
+#searchsubmit, .widget_search .screen-reader-text {
+	display: none;
+}
+
+/*-------------------------------------------------------------------------*/

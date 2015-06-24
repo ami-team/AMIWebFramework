@@ -111,6 +111,11 @@ code {
 	-webkit-border-radius: 0 0 6px 6px;
 }
 
+.nav-tabs > li .close {
+	margin: 0 0 0 10px;
+	font-size: 18px;
+}
+
 .tab-content {
 	margin-top: 10px;
 }

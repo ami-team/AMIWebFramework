@@ -53,7 +53,7 @@ function AMILogin() {
 					amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
 						/*-------------------------*/
 
-						amiWebApp.appendHTML('ami_modal_content', data1);
+						amiWebApp.appendHTML('#ami_modal_content', data1);
 
 						amiLogin.fragmentLoginButton = data2;
 						amiLogin.fragmentLogoutButton = data3;
@@ -61,15 +61,15 @@ function AMILogin() {
 						/*-------------------------*/
 
 						amiWebApp.loadHTML('html/AMI/Modal/login_change_info.html').done(function(data) {
-							amiWebApp.appendHTML('ami_modal_content', data);
+							amiWebApp.appendHTML('#ami_modal_content', data);
 						});
 
 						amiWebApp.loadHTML('html/AMI/Modal/login_change_pass.html').done(function(data) {
-							amiWebApp.appendHTML('ami_modal_content', data);
+							amiWebApp.appendHTML('#ami_modal_content', data);
 						});
 
 						amiWebApp.loadHTML('html/AMI/Modal/login_account_status.html').done(function(data) {
-							amiWebApp.appendHTML('ami_modal_content', data);
+							amiWebApp.appendHTML('#ami_modal_content', data);
 						});
 
 						/*-------------------------*/
@@ -239,7 +239,19 @@ function AMILogin() {
 		amiCommand.certLogin().done(function(data, user) {
 
 			if(user === amiLogin.guest) {
-				amiLogin._showErrorMessage1('You have to provide your certificate registered in AMI.');
+
+				var client_dn_in_session = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', data)[0];
+				var issuer_dn_in_session = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', data)[0];
+
+				if(client_dn_in_session !== '') {
+					client_dn_in_session = '<br />Presented client DN: ' + client_dn_in_session;
+				}
+
+				if(issuer_dn_in_session !== '') {
+					issuer_dn_in_session = '<br />Presented issuer DN: ' + issuer_dn_in_session;
+				}
+
+				amiLogin._showErrorMessage1('You have to provide your certificate registered in AMI.' + client_dn_in_session + issuer_dn_in_session);
 			} else {
 				$('#modal_login').modal('hide');
 			}
@@ -535,37 +547,37 @@ function AMILogin() {
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage1 = function(message) {
-		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-		$('#modal_login_message .alert').fadeOut(30000);
+		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		$('#modal_login_message .alert').fadeOut(45000);
 	};
 
 	this._showErrorMessage1 = function(message) {
-		amiWebApp.replaceHTML('modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-		$('#modal_login_message .alert').fadeOut(30000);
+		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		$('#modal_login_message .alert').fadeOut(45000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage2 = function(message) {
-		amiWebApp.replaceHTML('modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-		$('#modal_login_change_info_message .alert').fadeOut(30000);
+		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		$('#modal_login_change_info_message .alert').fadeOut(45000);
 	};
 
 	this._showErrorMessage2 = function(message) {
-		amiWebApp.replaceHTML('modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-		$('#modal_login_change_info_message .alert').fadeOut(30000);
+		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		$('#modal_login_change_info_message .alert').fadeOut(45000);
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this._showSuccessMessage3 = function(message) {
-		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-		$('#modal_login_change_pass_message .alert').fadeOut(30000);
+		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		$('#modal_login_change_pass_message .alert').fadeOut(45000);
 	};
 
 	this._showErrorMessage3 = function(message) {
-		amiWebApp.replaceHTML('modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-		$('#modal_login_change_pass_message .alert').fadeOut(30000);
+		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		$('#modal_login_change_pass_message .alert').fadeOut(45000);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -576,7 +588,7 @@ function AMILogin() {
 			message = '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message;
 		}
 
-		amiWebApp.replaceHTML('modal_login_account_status_message', message);
+		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
 	};
 
 	this._showErrorMessage4 = function(message) {
@@ -585,7 +597,7 @@ function AMILogin() {
 			message = '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message;
 		}
 
-		amiWebApp.replaceHTML('modal_login_account_status_message', message);
+		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -760,7 +772,7 @@ function AMILogin() {
 			_ami_internal_always(
 				amiWebApp.onLogin(),
 				function() {
-					amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict}),
+					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict}),
 					amiLogin.is_connected = true;
 					result.resolve();
 				}
@@ -773,7 +785,7 @@ function AMILogin() {
 				function() {
 					result.resolve();
 					amiLogin.is_connected = false;
-					amiWebApp.replaceHTML('ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
+					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
 				}
 			);
 		}

@@ -19,7 +19,7 @@ function AMIConfigurationApp() {
 
 		$('#ami_jumbotron_title').html('Configuration');
 		$('#ami_jumbotron_content').html('Server configuration');
-		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webappURL + '?webapp=amiconfiguration">Configuration</a></li>');
+		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webappURL + '?subapp=amiconfiguration">Configuration</a></li>');
 
 		amiWebApp.loadHTML('subapps/Configuration/html/AMIConfigurationApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/Configuration/html/Fragment/parameter.html', {context: this}).done(function(data2) {

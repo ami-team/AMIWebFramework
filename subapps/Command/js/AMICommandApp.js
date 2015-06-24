@@ -27,13 +27,13 @@ function AMICommandApp() {
 
 		$('#ami_jumbotron_title').html('Command Line');
 		$('#ami_jumbotron_content').html('Execute AMI commands');
-		$('#ami_breadcrumb_content').html('<li><a>Tools</a></li><li><a href="' + amiWebApp.webappURL + '?webapp=amicommand">Command Line</a></li>');
+		$('#ami_breadcrumb_content').html('<li><a>Tools</a></li><li><a href="' + amiWebApp.webappURL + '?subapp=amicommand">Command Line</a></li>');
 
 		amiWebApp.loadHTML('subapps/Command/html/AMICommandApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/Command/html/Fragment/command.html', {context: this}).done(function(data2) {
 				amiWebApp.loadHTML('subapps/Command/html/Fragment/result.html', {context: this}).done(function(data3) {
 
-					amiWebApp.replaceHTML('ami_main_content', data1, {context: this}).done(function() {
+					amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
 
 						this.fragmentCommand = data2;
 						this.fragmentResult = data3;
@@ -103,7 +103,7 @@ function AMICommandApp() {
 					});
 				});
 
-				amiWebApp.replaceHTML('ami_command_list', this.fragmentCommand, {dict: dict});
+				amiWebApp.replaceHTML('#ami_command_list', this.fragmentCommand, {dict: dict});
 
 			}).fail(function(data) {
 				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
@@ -139,7 +139,7 @@ function AMICommandApp() {
 			DATA: data,
 		};
 
-		amiWebApp.prependHTML('ami_command_content', this.fragmentResult, {dict: dict});
+		amiWebApp.prependHTML('#ami_command_content', this.fragmentResult, {dict: dict});
 	};
 
 	/*-----------------------------------------------------------------*/

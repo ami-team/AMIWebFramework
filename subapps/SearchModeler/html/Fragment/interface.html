@@ -1,11 +1,17 @@
-<tr>
-  <td onclick="amiSearchModelerApp.select('%%ID%%', '%%INTERFACE%%', '%%CATALOG%%', '%%ENTITY%%');">
+<div>
+
+  <div style="display: table-cell; width: 100%;" onclick="amiSearchModelerApp.select('%%ID%%', '%%INTERFACE%%', '%%CATALOG%%', '%%ENTITY%%');">
     %%INTERFACE%%
-  </td>
-  <td style="width: 25px; text-align: center;">
-    <a href="javascript:amiWebApp.runSubApp(amiSearchEngineApp, '%%INTERFACE%%');"><i class="fa fa-arrow-circle-o-right text-primary"></i></a>
-  </td>
-  <td style="width: 25px; text-align: center;">
-    <a href="javascript:amiWebApp.runSubApp(amiSimpleSearchEngineApp, '%%INTERFACE%%');"><i class="fa fa-arrow-circle-o-right text-warning"></i></a>
-  </td>
-</tr>
+  </div>
+
+  <div class="btn-group btn-group-xs" style="display: table-cell; width: 000%;">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+      Goto <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu pull-right">
+      <li><a href="%%WEBAPP_URL%%?subapp=amiSearchEngine&userdata=%%INTERFACE%%" target="_blank">Search Engine</a>
+      <li><a href="%%WEBAPP_URL%%?subapp=amiSimpleSearchEngine&userdata=%%INTERFACE%%" target="_blank">Simple Search Engine</a>
+    </ul>
+  </div>
+
+</div>

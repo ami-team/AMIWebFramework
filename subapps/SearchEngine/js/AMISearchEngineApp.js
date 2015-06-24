@@ -23,60 +23,70 @@ function AMISearchEngineApp() {
 
 		$('#ami_jumbotron_title').html('SearchEngine');
 		$('#ami_jumbotron_content').html('Search Engine');
-		$('#ami_breadcrumb_content').html('<li><a>Search</a></li><li><a href="' + amiWebApp.webappURL + '?webapp=amisearchengine">Search Engine</a></li>');
+		$('#ami_breadcrumb_content').html('<li><a>Search</a></li><li><a href="' + amiWebApp.webappURL + '?subapp=amisearchengine">Search Engine</a></li>');
 
 		amiWebApp.loadHTML('subapps/SearchEngine/html/AMISearchEngineApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/criteria.html', {context: this}).done(function(data2) {
 				amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/criteria_string_few.html', {context: this}).done(function(data3) {
 					amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/criteria_string_many.html', {context: this}).done(function(data4) {
 						amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/criteria_number.html', {context: this}).done(function(data5) {
+							amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/result_tab.html', {context: this}).done(function(data6) {
+								amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/result_content.html', {context: this}).done(function(data7) {
 
-							amiWebApp.replaceHTML('ami_main_content', data1, {context: this}).done(function() {
+									amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
 
-								this.fragmentCriteria = data2;
-								this.fragmentCriteriaStringFew = data3;
-								this.fragmentCriteriaStringMany = data4;
-								this.fragmentCriteriaNumber = data5;
+										this.fragmentCriteria = data2;
+										this.fragmentCriteriaStringFew = data3;
+										this.fragmentCriteriaStringMany = data4;
+										this.fragmentCriteriaNumber = data5;
+										this.fragmentResultTab = data6;
+										this.fragmentResultContent = data7;
 
-								/*---------*/
-								/* FILTER  */
-								/*---------*/
+										/*---------*/
+										/* FILTER  */
+										/*---------*/
 
-								if(userdata) {
-									this.interfaceFilter = '';
+										if(userdata) {
+											this.interfaceFilter = '';
 
-									/**/
+											/**/
 
-									var interfaces = userdata.split(',');
+											var interfaces = userdata.split(',');
 
-									for(var i = 0; i < interfaces.length; i++) {
+											for(var i = 0; i < interfaces.length; i++) {
 
-										var interface = interfaces[i].trim();
+												var interface = interfaces[i].trim();
 
-										if(interface !== '') {
+												if(interface !== '') {
 
-											if(interface.indexOf('%') < 0) {
-												this.interfaceFilter += ' OR `interface`=\'' + interface +  '\'';
-											} else {
-												this.interfaceFilter += ' OR `interface` LIKE \'' + interface +  '\'';
+													if(interface.indexOf('%') < 0) {
+														this.interfaceFilter += ' OR `interface`=\'' + interface +  '\'';
+													} else {
+														this.interfaceFilter += ' OR `interface` LIKE \'' + interface +  '\'';
+													}
+												}
 											}
+
+											/**/
+
+											this.interfaceFilter = (this.interfaceFilter !== '') ? this.interfaceFilter.substring(4)
+											                                                     : '1=1'
+											;
+										} else {
+											this.interfaceFilter = '1=1';
 										}
-									}
 
-									/**/
+										/*---------*/
 
-									this.interfaceFilter = (this.interfaceFilter !== '') ? this.interfaceFilter.substring(4)
-									                                                     : '1=1'
-									;
-								} else {
-									this.interfaceFilter = '1=1';
-								}
+										result.resolve();
+									});
 
-								/*---------*/
-
-								result.resolve();
+								}).fail(function() {
+									result.reject();
+								});
+							}).fail(function() {
+								result.reject();
 							});
-
 						}).fail(function() {
 							result.reject();
 						});
@@ -134,7 +144,7 @@ function AMISearchEngineApp() {
 		/* SHOW SERCH INTERFACE                                    */
 		/*---------------------------------------------------------*/
 
-		$('#ami_search_engine_tab_search').show();
+		$('#ami_search_engine_tab_content').show();
 
 		/*---------------------------------------------------------*/
 	};
@@ -146,7 +156,7 @@ function AMISearchEngineApp() {
 		/* HIDE SERCH INTERFACE                                    */
 		/*---------------------------------------------------------*/
 
-		$('#ami_search_engine_tab_search').hide();
+		$('#ami_search_engine_tab_content').hide();
 
 		/*---------------------------------------------------------*/
 	};
@@ -203,7 +213,7 @@ function AMISearchEngineApp() {
 					});
 				});
 
-				amiWebApp.replaceHTML('ami_search_engine_left', this.fragmentCriteria, {dict: dict, context: this}).done(function() {
+				amiWebApp.replaceHTML('#ami_search_engine_left', this.fragmentCriteria, {dict: dict, context: this}).done(function() {
 
 					$('#ami_search_engine_glass').removeClass('ami-search-engine-glass');
 
@@ -273,15 +283,15 @@ function AMISearchEngineApp() {
 		};
 
 		/****/ if(type === 0) {
-			amiWebApp.appendHTML('ami_search_engine_right', this.fragmentCriteriaStringFew, {dict: dict, context: this}).done(function() {
+			amiWebApp.appendHTML('#ami_search_engine_right', this.fragmentCriteriaStringFew, {dict: dict, context: this}).done(function() {
 				this.fillStringBox(alias, false, false);
 			});
 		} else if(type === 1) {
-			amiWebApp.appendHTML('ami_search_engine_right', this.fragmentCriteriaStringMany, {dict: dict, context: this}).done(function() {
+			amiWebApp.appendHTML('#ami_search_engine_right', this.fragmentCriteriaStringMany, {dict: dict, context: this}).done(function() {
 				this.fillStringBox(alias, true, true);
 			});
 		} else if(type === 2) {
-			amiWebApp.appendHTML('ami_search_engine_right', this.fragmentCriteriaNumber, {dict: dict, context: this}).done(function() {
+			amiWebApp.appendHTML('#ami_search_engine_right', this.fragmentCriteriaNumber, {dict: dict, context: this}).done(function() {
 				this.fillNumberBox(alias);
 			});
 		} else if(type === 3
@@ -330,18 +340,21 @@ function AMISearchEngineApp() {
 		}
 
 		/*---------------------------------------------------------*/
-		/* REFLESH MESSAGE                                         */
+		/* REFRESH MESSAGE                                         */
 		/*---------------------------------------------------------*/
 
-		var command = 'BrowseQuery -catalog="' + this.catalog + '" -glite="SELECT `' + this.entity + '`.* WHERE ' + this.buildFilter() + '"';
+		var command = 'BrowseQuery -catalog="' + this.catalog + '" -glite="SELECT `' + this.entity + '`.* WHERE ' + this.buildFilter().replace('\"', '\\\"') + '"';
 
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT COUNT(*) AS `nb` WHERE ' + this.buildFilter() + '"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT COUNT(`' + this.entity + '`.*) AS `nb` WHERE ' + this.buildFilter().replace('\"', '\\\"') + '"', {context: this}).done(function(data) {
 
 			var nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || '';
 
-			$('#ami_search_engine_message').html('<div style="background-color: #F5F5F5; border-radius: 8px; padding: 4px;"><button class="btn btn-success btn-sm" onclick="alert(\'' + amiWebApp.textToHtml(amiWebApp.textToString(command)) + '\');">View selection</button> Number of selected items:' + nb + '</div>');
+			$('#ami_search_engine_message').html('<div style="background-color: #F5F5F5; border-radius: 8px; padding: 4px;"><button class="btn btn-success btn-sm" onclick="alert(\'' + amiWebApp.textToHtml(amiWebApp.textToString(command)) + '\');">View selection</button> Number of selected items: ' + nb + '</div>');
+
+		}).fail(function(data) {
+			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
 
 		/*---------------------------------------------------------*/
@@ -386,7 +399,7 @@ function AMISearchEngineApp() {
 		/* BUILD SQL QUERY                                         */
 		/*---------------------------------------------------------*/
 
-		var mql = 'SELECT DISTINCT(`' + criteria['entity'] + '`.`' + criteria['field'] + '`)';
+		var mql = 'SELECT DISTINCT `' + criteria['entity'] + '`.`' + criteria['field'] + '`';
 
 		if(applyFilter !== false) {
 			mql += ' WHERE ' + this.buildFilter(/***/);
@@ -395,14 +408,14 @@ function AMISearchEngineApp() {
 		}
 
 		if(applyLimit !== false) {
-			mql += ' LIMIT ' + criteria['limit'];
+			mql += ' LIMIT ' + criteria['limit'] + ' OFFSET 0';
 		}
 
 		/*---------------------------------------------------------*/
 		/* FILL BOX                                                */
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="' + mql + '"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="' + mql.replace('\"', '\\\"') + '"', {context: this}).done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
 
@@ -410,7 +423,7 @@ function AMISearchEngineApp() {
 
 			$.foreach(rows, function(index, row) {
 
-				var value = amiWebApp.jspath('..field.$', row)[0] || '';
+				var value = amiWebApp.textToHtml(amiWebApp.jspath('..field.$', row)[0] || '');
 
 				if(value in criteria['selected']) {
 					s += '<option value="' + value + '" selected="selected">' + value + '</option>';
@@ -444,7 +457,7 @@ function AMISearchEngineApp() {
 
 		var filter = this.buildFilter();
 
-		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT MIN(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `min`, MAX(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `max` WHERE ' + filter + '"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT MIN(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `min`, MAX(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `max` WHERE ' + filter.replace('\"', '\\\"') + '"', {context: this}).done(function(data) {
 
 			var min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '';
 			var max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '';

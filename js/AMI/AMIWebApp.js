@@ -198,13 +198,16 @@ function AMIWebApp() {
 			}
 		}
 
+		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
+		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
+
 		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		var target = $('#' + targetID);
+		var target = $(targetID);
 
 		target.html(html).promise().done(function() {
 
@@ -246,13 +249,16 @@ function AMIWebApp() {
 			}
 		}
 
+		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
+		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
+
 		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		var target = $('#' + targetID);
+		var target = $(targetID);
 
 		target.prepend(html).promise().done(function() {
 
@@ -294,13 +300,16 @@ function AMIWebApp() {
 			}
 		}
 
+		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
+		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
+
 		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		var target = $('#' + targetID);
+		var target = $(targetID);
 
 		target.append(html).promise().done(function() {
 
@@ -332,9 +341,6 @@ function AMIWebApp() {
 
 	this.formatHTML = function(html, settings) {
 
-		html = html.replace('%%ORIGIN_URL%%', this.originURL);
-		html = html.replace('%%WEBAPP_URL%%', this.webappURL);
-
 		if(settings && 'dict' in settings) {
 
 			var dict = settings['dict'];
@@ -351,6 +357,7 @@ function AMIWebApp() {
 				var result = '';
 
 				$.each(dict, function(indx, DICT) {
+
 					var frag = html;
 
 					$.each(DICT, function(key, val) {
@@ -374,13 +381,13 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onStart = function() {
-		alert('error: `<app>.onReady()` must be implemented !');
+		alert('error: `<app>.onStart()` must be implemented !');
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.onToolbarUpdateNeeded = function() {
-		alert('error: `<app>.onToolBarUpdateNeeded()` must be implemented !');
+		alert('error: `<app>.onToolbarUpdateNeeded()` must be implemented !');
  	};
 
 	/*-----------------------------------------------------------------*/
@@ -500,7 +507,7 @@ function AMIWebApp() {
 	this.success = function(message, fadeOut) {
 
 		this.unlock();
-		this.replaceHTML('ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
+		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
 
 		$(document).scrollTop(0);
 
@@ -514,7 +521,7 @@ function AMIWebApp() {
 	this.info = function(message, fadeOut) {
 
 		this.unlock();
-		this.replaceHTML('ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
+		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
 
 		$(document).scrollTop(0);
 
@@ -528,7 +535,7 @@ function AMIWebApp() {
 	this.warning = function(message, fadeOut) {
 
 		this.unlock();
-		this.replaceHTML('ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
+		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
 
 		$(document).scrollTop(0);
 
@@ -542,7 +549,7 @@ function AMIWebApp() {
 	this.error = function(message, fadeOut) {
 
 		this.unlock();
-		this.replaceHTML('ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
+		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
 
 		$(document).scrollTop(0);
 
@@ -706,27 +713,29 @@ function AMIWebApp() {
 	this.jspath = JSPath.apply;
 
 	/*-------------------------------*/
-	/* BASE URL                      */
+	/* URLs                          */
 	/*-------------------------------*/
 
-	this.originURL = window.location.origin
-	;
+	var url = document.location.href;
 
-	this.webappURL = window.location.origin
-	                 +
-	                 window.location.pathname
-	;
+	var index1 = url.lastIndexOf('/');
+	var index2 = url./**/indexOf('?');
 
-	/*-------------------------------*/
+	this.originURL = url.substring(0, index1);
 
-	while(this.originURL.charAt(this.originURL.length - 1) === '/') {
+	if(index2 < 0) {
+		this.webappURL = url;
 
-		this.originURL = this.originURL.substring(0, this.originURL.length - 1);
-	}
+		while(this.webappURL.charAt(this.webappURL.length - 1) === '/') {
+			this.webappURL = this.webappURL.substring(0, this.webappURL.length - 1);
+		}
+	} else {
 
-	while(this.webappURL.charAt(this.webappURL.length - 1) === '/') {
-
-		this.webappURL = this.webappURL.substring(0, this.webappURL.length - 1);
+		if(index2 - index1 === 1) {
+			this.webappURL = url.substring(0, index1);
+		} else {
+			this.webappURL = url.substring(0, index2);
+		}
 	}
 
 	/*-------------------------------*/

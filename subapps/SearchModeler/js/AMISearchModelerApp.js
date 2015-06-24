@@ -23,13 +23,13 @@ function AMISearchModelerApp() {
 
 		$('#ami_jumbotron_title').html('SearchModeler');
 		$('#ami_jumbotron_content').html('Search Modeler');
-		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webappURL + '?webapp=amisearchmodeler">Search Modeler</a></li>');
+		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webappURL + '?subapp=amisearchmodeler">Search Modeler</a></li>');
 
 		amiWebApp.loadHTML('subapps/SearchModeler/html/AMISearchModelerApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/SearchModeler/html/Fragment/interface.html', {context: this}).done(function(data2) {
 				amiWebApp.loadHTML('subapps/SearchModeler/html/Fragment/input.html', {context: this}).done(function(data3) {
 
-					amiWebApp.replaceHTML('ami_main_content', data1, {context: this}).done(function() {
+					amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
 
 						this.fragmentInterface = data2;
 						this.fragmentInput = data3;
@@ -102,7 +102,7 @@ function AMISearchModelerApp() {
 				});
 			});
 
-			amiWebApp.replaceHTML('ami_search_modeler_interface_list', this.fragmentInterface, {dict: dict});
+			amiWebApp.replaceHTML('#ami_search_modeler_interface_list', this.fragmentInterface, {dict: dict});
 		});
 	};
 
@@ -125,7 +125,7 @@ function AMISearchModelerApp() {
 
 			var rows = amiWebApp.jspath('..row', data);
 
-			var s = '<option value="">--select--</option>';
+			var s = '<option value="" style="display: none;">--select--</option>';
 
 			$.foreach(rows, function(index, row) {
 
@@ -163,7 +163,7 @@ function AMISearchModelerApp() {
 
 			var rows = amiWebApp.jspath('..row', data);
 
-			var s = '<option value="">--select--</option>';
+			var s = '<option value="" style="display: none;">--select--</option>';
 
 			$.foreach(rows, function(index, row) {
 
@@ -204,7 +204,7 @@ function AMISearchModelerApp() {
 
 			var rows = amiWebApp.jspath('..row', data);
 
-			var s = '<option value="">--select--</option>';
+			var s = '<option value="" style="display: none;">--select--</option>';
 
 			$.foreach(rows, function(index, row) {
 
@@ -262,7 +262,7 @@ function AMISearchModelerApp() {
 					INPUT_CNT: INPUT_CNT
 				};
 
-				amiWebApp.appendHTML('ami_search_modeler_paths', this.fragmentInput, {context: this, dict: dict}).done(function() {
+				amiWebApp.appendHTML('#ami_search_modeler_paths', this.fragmentInput, {context: this, dict: dict}).done(function() {
 
 					this.getEntities(catalog, entity, '#ami_search_modeler_entity_' + INPUT_CNT);
 					this.getFields(catalog, entity, field, '#ami_search_modeler_field_' + INPUT_CNT);
@@ -299,7 +299,7 @@ function AMISearchModelerApp() {
 				INPUT_CNT: INPUT_CNT
 			};
 
-			amiWebApp.appendHTML('ami_search_modeler_paths', this.fragmentInput, {context: this, dict: dict}).done(function() {
+			amiWebApp.appendHTML('#ami_search_modeler_paths', this.fragmentInput, {context: this, dict: dict}).done(function() {
 
 				this.getEntities(catalog, null, '#ami_search_modeler_entity_' + INPUT_CNT);
 			});
