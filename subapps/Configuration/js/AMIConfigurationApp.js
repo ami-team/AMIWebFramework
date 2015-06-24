@@ -24,7 +24,7 @@ function AMIConfigurationApp() {
 		amiWebApp.loadHTML('subapps/Configuration/html/AMIConfigurationApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/Configuration/html/Fragment/parameter.html', {context: this}).done(function(data2) {
 
-				amiWebApp.replaceHTML('ami_main_content', data1, {context: this}).done(function() {
+				amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
 
 					this.fragmentParameter = data2;
 
@@ -82,7 +82,7 @@ function AMIConfigurationApp() {
 				}
 			});
 
-			amiWebApp.appendHTML('ami_configuration_form4 .custom', this.fragmentParameter, {dict: dict});
+			amiWebApp.appendHTML('#ami_configuration_form4 .custom', this.fragmentParameter, {dict: dict});
 
 			$('#ami_configuration_left_div').show();
 			$('#ami_configuration_right_div').show();
@@ -206,7 +206,7 @@ function AMIConfigurationApp() {
 					VALUE: '',
 				};
 
-				amiWebApp.prependHTML('ami_configuration_form4 .custom', this.fragmentParameter, {dict: dict});
+				amiWebApp.prependHTML('#ami_configuration_form4 .custom', this.fragmentParameter, {dict: dict});
 
 			} else {
 				amiWebApp.error('Duplicate field.');

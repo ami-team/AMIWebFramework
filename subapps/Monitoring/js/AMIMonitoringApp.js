@@ -56,7 +56,7 @@ function AMIMonitoringApp() {
 					amiWebApp.loadHTML('subapps/Monitoring/html/Fragment/users.html', {context: this}).done(function(data4) {
 						amiWebApp.loadHTML('subapps/Monitoring/html/Fragment/logs.html', {context: this}).done(function(data5) {
 
-							amiWebApp.replaceHTML('ami_main_content', data1, {context: this}).done(function() {
+							amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
 
 								this.serverFragment = data2;
 								this.connectionPoolFragment = data3;
@@ -184,7 +184,7 @@ function AMIMonitoringApp() {
 						NUMBER_OF_NODES: numericvalues.length,
 					};
 
-					amiWebApp.replaceHTML('ami_monitoring_server_content', this.serverFragment, {context: this, dict: dict}).done(function() {
+					amiWebApp.replaceHTML('#ami_monitoring_server_content', this.serverFragment, {context: this, dict: dict}).done(function() {
 						/*-------------------------*/
 						/*                         */
 						/*-------------------------*/
@@ -354,7 +354,7 @@ function AMIMonitoringApp() {
 						MAX_WAIT: maxWait,
 					};
 
-					amiWebApp.appendHTML('ami_monitoring_connection_pool_content', this.connectionPoolFragment, {context: this, dict: dict}).done(function() {
+					amiWebApp.appendHTML('#ami_monitoring_connection_pool_content', this.connectionPoolFragment, {context: this, dict: dict}).done(function() {
 
 						this._connectionPoolCharts.push(new Highcharts.Chart({
 
@@ -436,7 +436,7 @@ function AMIMonitoringApp() {
 					});
 				});
 
-				amiWebApp.replaceHTML('ami_monitoring_users_content', this.usersFragment, {dict: dict, context: this}).done(function() {
+				amiWebApp.replaceHTML('#ami_monitoring_users_content', this.usersFragment, {dict: dict, context: this}).done(function() {
 
 					var c = new Highcharts.Map({
 			
