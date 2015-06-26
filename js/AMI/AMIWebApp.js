@@ -23,12 +23,9 @@ var _ami_internal_sheets = [];
 
 /*-------------------------------------------------------------------------*/
 
-function amiRegisterSubApp(subAppName, subAppInstance, subAppMethods) {
+function amiRegisterSubApp(subAppName, subAppInstance) {
 
-	_ami_internal_subAppDict[subAppName.toLowerCase()] = {
-		instance: subAppInstance,
-		methods: subAppMethods,
-	};
+	_ami_internal_subAppDict[subAppName.toLowerCase()] = subAppInstance;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -493,10 +490,10 @@ function AMIWebApp() {
 				});
 
 			}).fail(function() {
-				$('#ami_main_content').html('Network lag, could not load `' + locker_filename + '`, please try reloading the page...');
+				alert('Network lag, could not load `' + locker_filename + '`, please try reloading the page...');
 			});
 		}).fail(function() {
-			$('#ami_main_content').html('Network lag, could not load `' + template_filename + '`, please try reloading the page...');
+			alert('Network lag, could not load `' + template_filename + '`, please try reloading the page...');
 		});
 
 		/*---------------------------------------------------------*/
@@ -628,16 +625,14 @@ function AMIWebApp() {
 		var subapp = amiWebApp.args['subapp'] || home;
 		var userdata = amiWebApp.args['userdata'] || null;
 
-		subapp = subapp.toLowerCase();
+		if(subapp) {
 
-		if(subapp in _ami_internal_subAppDict) {
+			subapp = subapp.toLowerCase();
 
-			var instance = _ami_internal_subAppDict[subapp]['instance'];
-			var methods = _ami_internal_subAppDict[subapp]['methods'];
+			if(subapp in _ami_internal_subAppDict) {
 
-			this.runSubApp(instance, userdata);
-
-			/* TODO */
+				this.runSubApp(_ami_internal_subAppDict[subapp], userdata);
+			}
 		}
 	};
 
@@ -734,7 +729,7 @@ function AMIWebApp() {
 		/*-------------------------------*/
 	} catch(e) {
 
-		$('#ami_main_content').html('Network lag, ' + e + ', please try reloading the page...');
+		alert('Network lag, ' + e + ', please try reloading the page...');
 
 		return;
 	}
