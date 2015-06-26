@@ -221,6 +221,6 @@ function AMISimpleSearchEngineApp() {
 
 amiSimpleSearchEngineApp = new AMISimpleSearchEngineApp();
 
-amiWebApp.registerSubApp(amiSimpleSearchEngineApp, 'amisimplesearchengine', {});
+amiRegisterSubApp('amisimplesearchengine', amiSimpleSearchEngineApp, {});
 
 /*-------------------------------------------------------------------------*/

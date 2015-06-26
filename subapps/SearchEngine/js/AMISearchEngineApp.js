@@ -343,11 +343,11 @@ function AMISearchEngineApp() {
 		/* REFRESH MESSAGE                                         */
 		/*---------------------------------------------------------*/
 
-		var command = 'BrowseQuery -catalog="' + this.catalog + '" -glite="SELECT `' + this.entity + '`.* WHERE ' + this.buildFilter().replace('\"', '\\\"') + '"';
+		var command = 'BrowseQuery -catalog="' + this.catalog + '" -glite="SELECT `' + this.entity + '`.* WHERE ' + this.buildFilter().replace(/\"/g, '\\\"') + '"';
 
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT COUNT(`' + this.entity + '`.*) AS `nb` WHERE ' + this.buildFilter().replace('\"', '\\\"') + '"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT COUNT(`' + this.entity + '`.*) AS `nb` WHERE ' + this.buildFilter().replace(/\"/g, '\\\"') + '"', {context: this}).done(function(data) {
 
 			var nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || '';
 
@@ -415,7 +415,7 @@ function AMISearchEngineApp() {
 		/* FILL BOX                                                */
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="' + mql.replace('\"', '\\\"') + '"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="' + mql.replace(/\"/g, '\\\"') + '"', {context: this}).done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
 
@@ -457,7 +457,7 @@ function AMISearchEngineApp() {
 
 		var filter = this.buildFilter();
 
-		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT MIN(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `min`, MAX(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `max` WHERE ' + filter.replace('\"', '\\\"') + '"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT MIN(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `min`, MAX(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `max` WHERE ' + filter.replace(/\"/g, '\\\"') + '"', {context: this}).done(function(data) {
 
 			var min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '';
 			var max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '';
@@ -705,6 +705,6 @@ function AMISearchEngineApp() {
 
 amiSearchEngineApp = new AMISearchEngineApp();
 
-amiWebApp.registerSubApp(amiSearchEngineApp, 'amiSearchEngine', {});
+amiRegisterSubApp('amiSearchEngine', amiSearchEngineApp, {});
 
 /*-------------------------------------------------------------------------*/

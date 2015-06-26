@@ -214,6 +214,6 @@ function AMICommandApp() {
 
 amiCommandApp = new AMICommandApp();
 
-amiWebApp.registerSubApp(amiCommandApp, 'amicommand', {});
+amiRegisterSubApp('amicommand', amiCommandApp, {});
 
 /*-------------------------------------------------------------------------*/

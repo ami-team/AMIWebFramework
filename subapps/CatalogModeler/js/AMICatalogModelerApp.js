@@ -126,6 +126,6 @@ function AMICatalogModelerApp() {
 
 amiCatalogModelerApp = new AMICatalogModelerApp();
 
-amiWebApp.registerSubApp(amiDocumentApp, 'amicatalogmodeler', {});
+amiRegisterSubApp('amicatalogmodeler', amiCatalogModelerApp, {});
 
 /*-------------------------------------------------------------------------*/

@@ -14,8 +14,22 @@ var _ami_internal_nonce = jQuery.now();
 
 /*-------------------------------------------------------------------------*/
 
+var _ami_internal_subAppDict = {};
+
+/*-------------------------------------------------------------------------*/
+
 var _ami_internal_scripts = [];
 var _ami_internal_sheets = [];
+
+/*-------------------------------------------------------------------------*/
+
+function amiRegisterSubApp(subAppName, subAppInstance, subAppMethods) {
+
+	_ami_internal_subAppDict[subAppName.toLowerCase()] = {
+		instance: subAppInstance,
+		methods: subAppMethods,
+	};
+}
 
 /*-------------------------------------------------------------------------*/
 /* CLASS AMIWebApp                                                         */
@@ -188,6 +202,9 @@ function AMIWebApp() {
 
 	this.replaceHTML = function(targetID, html, settings) {
 
+		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
+		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
+
 		var context = undefined;
 
 		if(settings) {
@@ -197,9 +214,6 @@ function AMIWebApp() {
 				context = settings['context'];
 			}
 		}
-
-		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
-		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
 
 		/*---------------------------------------------------------*/
 
@@ -239,6 +253,9 @@ function AMIWebApp() {
 
 	this.prependHTML = function(targetID, html, settings) {
 
+		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
+		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
+
 		var context = undefined;
 
 		if(settings) {
@@ -248,9 +265,6 @@ function AMIWebApp() {
 				context = settings['context'];
 			}
 		}
-
-		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
-		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
 
 		/*---------------------------------------------------------*/
 
@@ -290,6 +304,9 @@ function AMIWebApp() {
 
 	this.appendHTML = function(targetID, html, settings) {
 
+		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
+		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
+
 		var context = undefined;
 
 		if(settings) {
@@ -299,9 +316,6 @@ function AMIWebApp() {
 				context = settings['context'];
 			}
 		}
-
-		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
-		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
 
 		/*---------------------------------------------------------*/
 
@@ -479,10 +493,10 @@ function AMIWebApp() {
 				});
 
 			}).fail(function() {
-				throw 'could not load `' + locker_filename + '`';
+				$('#ami_main_content').html('Network lag, could not load `' + locker_filename + '`, please try reloading the page...');
 			});
 		}).fail(function() {
-			throw 'could not load `' + template_filename + '`';
+			$('#ami_main_content').html('Network lag, could not load `' + template_filename + '`, please try reloading the page...');
 		});
 
 		/*---------------------------------------------------------*/
@@ -566,24 +580,12 @@ function AMIWebApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
-	/* SUB APPLICATIONS                                                */
-	/*-----------------------------------------------------------------*/
-
-	this._subAppDict = {};
-
-	/*-----------------------------------------------------------------*/
-
-	this.registerSubApp = function(subAppName, subAppInstance, subAppMethods) {
-
-		this._subAppDict[subAppName] = {
-			instance: subAppInstance,
-			methods: subAppMethods,
-		};
-	};
-
+	/* SUB-APPLICATIONS                                                */
 	/*-----------------------------------------------------------------*/
 
 	this.runSubApp = function(subAppInstance, userdata) {
+		/*---------------------------------------------------------*/
+		/* CHECK SUB-APPLICATION                                   */
 		/*---------------------------------------------------------*/
 
 		if(!subAppInstance.onReady) {
@@ -607,6 +609,8 @@ function AMIWebApp() {
 		}
 
 		/*---------------------------------------------------------*/
+		/* SWITCH SUB-APPLICATION                                  */
+		/*---------------------------------------------------------*/
 
 		this._currentSubAppInstance.onExit();
 
@@ -618,93 +622,116 @@ function AMIWebApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
+
+	this.autoRunSubApp = function() {
+
+		var subapp = amiWebApp.args['subapp'] || 'amidocument';
+		var userdata = amiWebApp.args['userdata'] || ((((null))));
+
+		subapp = subapp.toLowerCase();
+
+		if(subapp in _ami_internal_subAppDict) {
+			this.runSubApp(_ami_internal_subAppDict[subapp]['instance'], userdata);
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
 	/* CONSTRUCTOR                                                     */
 	/*-----------------------------------------------------------------*/
 
-	/*-------------------------------*/
-	/* DEFAULT SHEETS                */
-	/*-------------------------------*/
+	try {
+		/*-------------------------------*/
+		/* DEFAULT SHEETS                */
+		/*-------------------------------*/
 
-	this.loadSheets([
-		'css/bootstrap.min.css',
-		'css/bootstrap.vertical-tabs.min.css',
-		'css/font-awesome.min.css',
-		'css/AMI/AMIWebApp.min.css',
-	]).fail(function(data) {
-		throw data;
-	});
+		this.loadSheets([
+			'css/bootstrap.min.css',
+			'css/bootstrap.vertical-tabs.min.css',
+			'css/font-awesome.min.css',
+			'css/AMI/AMIWebApp.min.css',
+		]).fail(function(data) {
+			throw data;
+		});
 
-	/*-------------------------------*/
-	/* DEFAULT SCRIPTS               */
-	/*-------------------------------*/
+		/*-------------------------------*/
+		/* DEFAULT SCRIPTS               */
+		/*-------------------------------*/
 
-	this.loadScripts([
-		'js/jspath.min.js',
-		'js/bootstrap.min.js',
-		'js/AMI/AMICommand.min.js',
-		'js/AMI/AMILogin.min.js',
-		'js/AMI/AMITokenizer.min.js',
-	]).fail(function(data) {
-		throw data;
-	});
+		this.loadScripts([
+			'js/jspath.min.js',
+			'js/bootstrap.min.js',
+			'js/AMI/AMICommand.min.js',
+			'js/AMI/AMILogin.min.js',
+			'js/AMI/AMITokenizer.min.js',
+		]).fail(function(data) {
+			throw data;
+		});
 
-	/*-------------------------------*/
-	/* DEFAULT FRAGMENTS             */
-	/*-------------------------------*/
+		/*-------------------------------*/
+		/* DEFAULT FRAGMENTS             */
+		/*-------------------------------*/
 
-	$.ajax({
-		url: 'html/AMI/Fragment/alert_success.html',
-		cache: false,
-		dataType: 'html',
-		context: this,
-		async: false,
-	}).done(function(data) {
-		this.fragmentSuccess = data;
-	}).fail(function() {
-		throw 'could not load `html/AMI/Fragment/success.html`';
-	});
+		$.ajax({
+			url: 'html/AMI/Fragment/alert_success.html',
+			cache: false,
+			dataType: 'html',
+			context: this,
+			async: false,
+		}).done(function(data) {
+			this.fragmentSuccess = data;
+		}).fail(function() {
+			throw 'could not load `html/AMI/Fragment/success.html`';
+		});
 
-	/*-------------------------------*/
+		/*-------------------------------*/
 
-	$.ajax({
-		url: 'html/AMI/Fragment/alert_info.html',
-		cache: false,
-		dataType: 'html',
-		context: this,
-		async: false,
-	}).done(function(data) {
-		this.fragmentInfo = data;
-	}).fail(function() {
-		throw 'could not load `html/AMI/Fragment/info.html`';
-	});
+		$.ajax({
+			url: 'html/AMI/Fragment/alert_info.html',
+			cache: false,
+			dataType: 'html',
+			context: this,
+			async: false,
+		}).done(function(data) {
+			this.fragmentInfo = data;
+		}).fail(function() {
+			throw 'could not load `html/AMI/Fragment/info.html`';
+		});
 
-	/*-------------------------------*/
+		/*-------------------------------*/
 
-	$.ajax({
-		url: 'html/AMI/Fragment/alert_warning.html',
-		cache: false,
-		dataType: 'html',
-		context: this,
-		async: false,
-	}).done(function(data) {
-		this.fragmentWarning = data;
-	}).fail(function() {
-		throw 'could not load `html/AMI/Fragment/warning.html`';
-	});
+		$.ajax({
+			url: 'html/AMI/Fragment/alert_warning.html',
+			cache: false,
+			dataType: 'html',
+			context: this,
+			async: false,
+		}).done(function(data) {
+			this.fragmentWarning = data;
+		}).fail(function() {
+			throw 'could not load `html/AMI/Fragment/warning.html`';
+		});
 
-	/*-------------------------------*/
+		/*-------------------------------*/
 
-	$.ajax({
-		url: 'html/AMI/Fragment/alert_error.html',
-		cache: false,
-		dataType: 'html',
-		context: this,
-		async: false,
-	}).done(function(data) {
-		this.fragmentError = data;
-	}).fail(function() {
-		throw 'could not load `html/AMI/Fragment/error.html`';
-	});
+		$.ajax({
+			url: 'html/AMI/Fragment/alert_error.html',
+			cache: false,
+			dataType: 'html',
+			context: this,
+			async: false,
+		}).done(function(data) {
+			this.fragmentError = data;
+		}).fail(function() {
+			throw 'could not load `html/AMI/Fragment/error.html`';
+		});
+
+		/*-------------------------------*/
+	} catch(e) {
+
+		$('#ami_main_content').html('Network lag, ' + e + ', please try reloading the page...');
+
+		return;
+	}
 
 	/*-------------------------------*/
 	/* ALIAS FOR `JSPath.apply`      */
@@ -713,7 +740,7 @@ function AMIWebApp() {
 	this.jspath = JSPath.apply;
 
 	/*-------------------------------*/
-	/* URLs                          */
+	/* URLS                          */
 	/*-------------------------------*/
 
 	var url = document.location.href;
@@ -755,6 +782,18 @@ function AMIWebApp() {
  			this.args[pair[0]] = pair[1];
  		}
 	}
+
+	/*-------------------------------*/
+	/* UNAVAILABLE                   */
+	/*-------------------------------*/
+
+	setTimeout(function() {
+
+		if($('#ami_main_content').html() === '') {
+			$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
+		}
+
+	}, 4000);
 
 	/*-----------------------------------------------------------------*/
 }

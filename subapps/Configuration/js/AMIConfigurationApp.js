@@ -241,6 +241,6 @@ function AMIConfigurationApp() {
 
 amiConfigurationApp = new AMIConfigurationApp();
 
-amiWebApp.registerSubApp(amiConfigurationApp, 'amiconfiguration', {});
+amiRegisterSubApp('amiconfiguration', amiConfigurationApp, {});
 
 /*-------------------------------------------------------------------------*/

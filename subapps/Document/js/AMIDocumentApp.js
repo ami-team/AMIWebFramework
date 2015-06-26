@@ -89,6 +89,6 @@ function AMIDocumentApp() {
 
 amiDocumentApp = new AMIDocumentApp();
 
-amiWebApp.registerSubApp(amiDocumentApp, 'amidocument', {});
+amiRegisterSubApp('amidocument', amiDocumentApp, {});
 
 /*-------------------------------------------------------------------------*/

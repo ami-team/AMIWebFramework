@@ -481,6 +481,6 @@ function AMIMonitoringApp() {
 
 amiMonitoringApp = new AMIMonitoringApp();
 
-amiWebApp.registerSubApp(amiMonitoringApp, 'amimonitoring', {});
+amiRegisterSubApp('amimonitoring', amiMonitoringApp, {});
 
 /*-------------------------------------------------------------------------*/
