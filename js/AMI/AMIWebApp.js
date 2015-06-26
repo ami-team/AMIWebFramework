@@ -200,7 +200,7 @@ function AMIWebApp() {
 	this.replaceHTML = function(targetID, html, settings) {
 
 		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
-		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
+		html = html.replace(/%%WEBAPP_URL%%/g, this.webAppURL);
 
 		var context = undefined;
 
@@ -251,7 +251,7 @@ function AMIWebApp() {
 	this.prependHTML = function(targetID, html, settings) {
 
 		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
-		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
+		html = html.replace(/%%WEBAPP_URL%%/g, this.webAppURL);
 
 		var context = undefined;
 
@@ -302,7 +302,7 @@ function AMIWebApp() {
 	this.appendHTML = function(targetID, html, settings) {
 
 		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
-		html = html.replace(/%%WEBAPP_URL%%/g, this.webappURL);
+		html = html.replace(/%%WEBAPP_URL%%/g, this.webAppURL);
 
 		var context = undefined;
 
@@ -752,17 +752,17 @@ function AMIWebApp() {
 	this.originURL = url.substring(0, index1);
 
 	if(index2 < 0) {
-		this.webappURL = url;
+		this.webAppURL = url;
 
-		while(this.webappURL.charAt(this.webappURL.length - 1) === '/') {
-			this.webappURL = this.webappURL.substring(0, this.webappURL.length - 1);
+		while(this.webAppURL.charAt(this.webAppURL.length - 1) === '/') {
+			this.webAppURL = this.webAppURL.substring(0, this.webAppURL.length - 1);
 		}
 	} else {
 
 		if(index2 - index1 === 1) {
-			this.webappURL = url.substring(0, index1);
+			this.webAppURL = url.substring(0, index1);
 		} else {
-			this.webappURL = url.substring(0, index2);
+			this.webAppURL = url.substring(0, index2);
 		}
 	}
 

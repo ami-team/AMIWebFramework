@@ -23,7 +23,7 @@ function AMISearchModelerApp() {
 
 		$('#ami_jumbotron_title').html('SearchModeler');
 		$('#ami_jumbotron_content').html('Search Modeler');
-		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webappURL + '?subapp=amisearchmodeler">Search Modeler</a></li>');
+		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amisearchmodeler">Search Modeler</a></li>');
 
 		amiWebApp.loadHTML('subapps/SearchModeler/html/AMISearchModelerApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/SearchModeler/html/Fragment/interface.html', {context: this}).done(function(data2) {

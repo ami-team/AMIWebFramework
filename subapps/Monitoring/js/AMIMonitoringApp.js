@@ -48,7 +48,7 @@ function AMIMonitoringApp() {
 
 		$('#ami_jumbotron_title').html('Monitoring');
 		$('#ami_jumbotron_content').html('');
-		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webappURL + '?subapp=amimonitoring">Monitoring</a></li>');
+		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amimonitoring">Monitoring</a></li>');
 
 		amiWebApp.loadHTML('subapps/Monitoring/html/AMIMonitoringApp.html', {context: this}).done(function(data1) {
 			amiWebApp.loadHTML('subapps/Monitoring/html/Fragment/server.html', {context: this}).done(function(data2) {
