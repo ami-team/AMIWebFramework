@@ -623,15 +623,21 @@ function AMIWebApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.autoRunSubApp = function() {
+	this.autoRunSubApp = function(home) {
 
-		var subapp = amiWebApp.args['subapp'] || 'amidocument';
-		var userdata = amiWebApp.args['userdata'] || ((((null))));
+		var subapp = amiWebApp.args['subapp'] || home;
+		var userdata = amiWebApp.args['userdata'] || null;
 
 		subapp = subapp.toLowerCase();
 
 		if(subapp in _ami_internal_subAppDict) {
-			this.runSubApp(_ami_internal_subAppDict[subapp]['instance'], userdata);
+
+			var instance = _ami_internal_subAppDict[subapp]['instance'];
+			var methods = _ami_internal_subAppDict[subapp]['methods'];
+
+			this.runSubApp(instance, userdata);
+
+			/* TODO */
 		}
 	};
 

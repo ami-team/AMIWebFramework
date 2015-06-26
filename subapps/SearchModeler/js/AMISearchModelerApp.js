@@ -460,6 +460,6 @@ function AMISearchModelerApp() {
 
 amiSearchModelerApp = new AMISearchModelerApp();
 
-amiRegisterSubApp('amisearchmodeler', amiSearchModelerApp, {});
+amiRegisterSubApp('amiSearchModeler', amiSearchModelerApp, {});
 
 /*-------------------------------------------------------------------------*/
