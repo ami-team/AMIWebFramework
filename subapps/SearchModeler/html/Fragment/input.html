@@ -29,9 +29,12 @@
   </table>
 
   <span class="input-group-btn">
-    <button class="btn btn-default" onclick="$(this).parent().parent().remove();">
+    <a class="btn btn-default" href="javascript:amiSearchModelerApp.editFlags();">
+      <i class="fa fa-flag"></i>
+    </a>
+    <a class="btn btn-default" href="javascript:if(confirm('Please confirm...')) { $(this).parent().parent().remove(); }">
       <i class="fa fa-minus-circle"></i>
-    </button>
+    </a>
   </span>
 
 </div>
