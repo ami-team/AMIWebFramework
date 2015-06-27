@@ -31,7 +31,7 @@ function AMISearchModelerApp() {
 
 					amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
 
-						amiWebApp.loadHTML('subapps/SearchModeler/html/Modal/flags.html').done(function(data) {
+						amiWebApp.loadHTML('subapps/SearchModeler/html/Modal/options.html').done(function(data) {
 							amiWebApp.appendHTML('#ami_modal_content', data);
 						});
 
@@ -314,7 +314,7 @@ function AMISearchModelerApp() {
 
 	this.editFlags = function() {
 
-		$('#modal_ami_search_modeler_flags').modal('show');
+		$('#modal_ami_search_modeler_options').modal('show');
 	};
 
 	/*-----------------------------------------------------------------*/
