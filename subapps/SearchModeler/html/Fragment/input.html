@@ -28,8 +28,14 @@
     </tr>
   </table>
 
+  <input type="hidden" name="order_%%INPUT_CNT%%" value="" />
+  <input type="hidden" name="count_%%INPUT_CNT%%" value="false" />
+  <input type="hidden" name="inclusive_%%INPUT_CNT%%" value="false" />
+  <input type="hidden" name="simple_search_%%INPUT_CNT%%" value="false" />
+  <input type="hidden" name="default_value_%%INPUT_CNT%%" value="" />
+
   <span class="input-group-btn">
-    <a class="btn btn-default" href="javascript:amiSearchModelerApp.editFlags();">
+    <a class="btn btn-default" href="javascript:amiSearchModelerApp.editFlags('%%INPUT_CNT%%');">
       <i class="fa fa-flag"></i>
     </a>
     <a class="btn btn-default" href="javascript:if(confirm('Please confirm...')) { $(this).parent().parent().remove(); }">
