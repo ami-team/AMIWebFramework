@@ -805,7 +805,7 @@ function AMIWebApp() {
 
 	this.args = {};
 
-	if(window.location.search.length !== '') {
+	if(window.location.search) {
 
 		var urlParams = window.location.search.substring(1).split('&');
 
