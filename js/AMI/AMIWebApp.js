@@ -118,9 +118,9 @@ function AMIWebApp() {
 			}
 		});
 
-		return result.promise();
-
 		/*---------------------------------------------------------*/
+
+		return result.promise();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -164,16 +164,54 @@ function AMIWebApp() {
 			}
 		});
 
-		return result.promise();
-
 		/*---------------------------------------------------------*/
+
+		return result.promise();
 	};
 
 	/*-----------------------------------------------------------------*/
 	/* DYNAMIC HTML LOADING                                            */
 	/*-----------------------------------------------------------------*/
 
-	this.loadHTML = function(url, settings) {
+	this._loadHTMLs = function(deferred, array, urls, context) {
+
+		if(urls.length > 0) {
+
+			var url = urls.shift();
+
+			$.ajax({
+				url: url,
+				cache: false,
+				dataType: 'html',
+				context: this,
+
+			}).done(function(data) {
+
+				array.push(data);
+
+				this._loadHTMLs(deferred, array, urls, context);
+
+			}).fail(function() {
+
+				if(context) {
+					deferred.rejectWith(context, ['could not load `' + url + '`']);
+				} else {
+					deferred.reject('could not load `' + url + '`');
+				}
+			});
+		} else {
+
+			if(context) {
+				deferred.resolveWith(context, [array]);
+			} else {
+				deferred.resolve(array);
+			}
+		}
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.loadHTMLs = function(urls, settings) {
 
 		var context = undefined;
 
@@ -183,14 +221,15 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		return $.ajax({
-			url: url,
-			cache: false,
-			dataType: 'html',
-			context: context,
-		});
+		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
+
+		this._loadHTMLs(result, [], urls, context);
+
+		/*---------------------------------------------------------*/
+
+		return result.promise();
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -240,8 +279,6 @@ function AMIWebApp() {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
-
-		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -291,8 +328,6 @@ function AMIWebApp() {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
-
-		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -342,8 +377,6 @@ function AMIWebApp() {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
-
-		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -518,7 +551,7 @@ function AMIWebApp() {
 	this.success = function(message, fadeOut) {
 
 		this.unlock();
-		this.prependHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
+		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
 
 		$(document).scrollTop(0);
 
@@ -532,7 +565,7 @@ function AMIWebApp() {
 	this.info = function(message, fadeOut) {
 
 		this.unlock();
-		this.prependHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
+		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
 
 		$(document).scrollTop(0);
 
@@ -546,7 +579,7 @@ function AMIWebApp() {
 	this.warning = function(message, fadeOut) {
 
 		this.unlock();
-		this.prependHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
+		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
 
 		$(document).scrollTop(0);
 
@@ -560,7 +593,7 @@ function AMIWebApp() {
 	this.error = function(message, fadeOut) {
 
 		this.unlock();
-		this.prependHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
+		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
 
 		$(document).scrollTop(0);
 

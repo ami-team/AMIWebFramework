@@ -15,13 +15,15 @@ function AMIDocumentApp() {
 
 	this.onReady = function(userdata) {
 
-		if(!userdata) {
-			userdata = 'home.html';
-		}
+		amiWebApp.loadHTMLs([
+			'subapps/Document/html/AMIDocumentApp.html',
+		], {context: this}).done(function(data) {
 
-		amiWebApp.loadHTML('subapps/Document/html/AMIDocumentApp.html', {context: this}).done(function(data) {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-			amiWebApp.replaceHTML('#ami_main_content', data, {context: this}).done(function() {
+				if(!userdata) {
+					userdata = 'home.html';
+				}
 
 				$('.jumbotron').hide();
 

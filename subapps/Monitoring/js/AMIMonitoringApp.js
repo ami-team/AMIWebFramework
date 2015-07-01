@@ -50,33 +50,24 @@ function AMIMonitoringApp() {
 		$('#ami_jumbotron_content').html('');
 		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amimonitoring">Monitoring</a></li>');
 
-		amiWebApp.loadHTML('subapps/Monitoring/html/AMIMonitoringApp.html', {context: this}).done(function(data1) {
-			amiWebApp.loadHTML('subapps/Monitoring/html/Fragment/server.html', {context: this}).done(function(data2) {
-				amiWebApp.loadHTML('subapps/Monitoring/html/Fragment/connectionPool.html', {context: this}).done(function(data3) {
-					amiWebApp.loadHTML('subapps/Monitoring/html/Fragment/users.html', {context: this}).done(function(data4) {
-						amiWebApp.loadHTML('subapps/Monitoring/html/Fragment/logs.html', {context: this}).done(function(data5) {
+		amiWebApp.loadHTMLs([
+			'subapps/Monitoring/html/AMIMonitoringApp.html',
+			'subapps/Monitoring/html/Fragment/server.html',
+			'subapps/Monitoring/html/Fragment/connectionPool.html',
+			'subapps/Monitoring/html/Fragment/users.html',
+			'subapps/Monitoring/html/Fragment/logs.html',
+		], {context: this}).done(function(data) {
 
-							amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-								this.serverFragment = data2;
-								this.connectionPoolFragment = data3;
-								this.usersFragment = data4;
-								this.logsFragment = data5;
+				this.serverFragment = data[1];
+				this.connectionPoolFragment = data[2];
+				this.usersFragment = data[3];
+				this.logsFragment = data[4];
 
-								result.resolve();
-							});
-						}).fail(function() {
-							result.reject();
-						});
-					}).fail(function() {
-						result.reject();
-					});
-				}).fail(function() {
-					result.reject();
-				});
-			}).fail(function() {
-				result.reject();
+				result.resolve();
 			});
+
 		}).fail(function() {
 			result.reject();
 		});

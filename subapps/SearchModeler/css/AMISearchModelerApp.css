@@ -21,3 +21,20 @@
 	max-width: 760px;
 	width: 760px;
 }
+
+#ami_search_modeler_paths select,
+#ami_search_modeler_paths input {
+	background-color: rgb(250, 250, 250);
+	border: none;
+	border-radius: 6px;
+	height: 26px;
+	width: 98%;
+}
+
+@-moz-document url-prefix() {
+	#ami_search_modeler_paths select {
+		-moz-appearance: none;
+		text-indent: 0.01px;
+		text-overflow: '';
+	}
+}

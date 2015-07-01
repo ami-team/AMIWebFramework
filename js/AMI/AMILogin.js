@@ -48,76 +48,64 @@ function AMILogin() {
 
 			amiLogin.already_started = true;
 
-			amiWebApp.loadHTML('html/AMI/Modal/login.html').done(function(data1) {
-				amiWebApp.loadHTML('html/AMI/Fragment/login_button.html').done(function(data2) {
-					amiWebApp.loadHTML('html/AMI/Fragment/logout_button.html').done(function(data3) {
-						/*-------------------------*/
+			amiWebApp.loadHTMLs([
+				'html/AMI/Fragment/login_button.html',
+				'html/AMI/Fragment/logout_button.html',
+				'html/AMI/Modal/login.html',
+				'html/AMI/Modal/login_change_info.html',
+				'html/AMI/Modal/login_change_pass.html',
+				'html/AMI/Modal/login_account_status.html',
+			], {context: this}).done(function(data) {
+				/*-----------------------------------------*/
 
-						amiWebApp.appendHTML('#ami_modal_content', data1);
+				amiLogin.fragmentLoginButton = data[0];
+				amiLogin.fragmentLogoutButton = data[1];
 
-						amiLogin.fragmentLoginButton = data2;
-						amiLogin.fragmentLogoutButton = data3;
+				amiWebApp.appendHTML('#ami_modal_content', data[2]);
+				amiWebApp.appendHTML('#ami_modal_content', data[3]);
+				amiWebApp.appendHTML('#ami_modal_content', data[4]);
+				amiWebApp.appendHTML('#ami_modal_content', data[5]);
 
-						/*-------------------------*/
+				/*-----------------------------------------*/
 
-						amiWebApp.loadHTML('html/AMI/Modal/login_change_info.html').done(function(data) {
-							amiWebApp.appendHTML('#ami_modal_content', data);
-						});
+				document.getElementById('modal_login_form1_user').addEventListener('keypress', function(e) {
 
-						amiWebApp.loadHTML('html/AMI/Modal/login_change_pass.html').done(function(data) {
-							amiWebApp.appendHTML('#ami_modal_content', data);
-						});
-
-						amiWebApp.loadHTML('html/AMI/Modal/login_account_status.html').done(function(data) {
-							amiWebApp.appendHTML('#ami_modal_content', data);
-						});
-
-						/*-------------------------*/
-
-						document.getElementById('modal_login_form1_user').addEventListener('keypress', function(e) {
-
-							if(e.keyCode == 13) {
-								amiLogin.form_passLogin();
-							}
-						});
-
-						document.getElementById('modal_login_form1_pass').addEventListener('keypress', function(e) {
-
-							if(e.keyCode == 13) {
-								amiLogin.form_passLogin();
-							}
-						});
-
-						document.getElementById('modal_login_form3_user').addEventListener('keypress', function(e) {
-
-							if(e.keyCode == 13) {
-								amiLogin.form_resetPass();
-							}
-						});
-
-						/*-------------------------*/
-
-						amiCommand.certLogin().always(function(data, user, guest) {
-
-							amiLogin.guest = guest;
-
-							_ami_internal_always(
-								amiWebApp.onReady(userdata),
-								function() {
-									amiLogin._update(data, user).always(function() {
-										amiWebApp.unlock();
-									});
-								}
-							);
-						});
-
-						/*-------------------------*/
-					}).fail(function(data) {
-						amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
-					});
-				}).fail(function(data) {
-					amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+					if(e.keyCode == 13) {
+						amiLogin.form_passLogin();
+					}
 				});
+
+				document.getElementById('modal_login_form1_pass').addEventListener('keypress', function(e) {
+
+					if(e.keyCode == 13) {
+						amiLogin.form_passLogin();
+					}
+				});
+
+				document.getElementById('modal_login_form3_user').addEventListener('keypress', function(e) {
+
+					if(e.keyCode == 13) {
+						amiLogin.form_resetPass();
+					}
+				});
+
+				/*-----------------------------------------*/
+
+				amiCommand.certLogin().always(function(data, user, guest) {
+
+					amiLogin.guest = guest;
+
+					_ami_internal_always(
+						amiWebApp.onReady(userdata),
+						function() {
+							amiLogin._update(data, user).always(function() {
+								amiWebApp.unlock();
+							});
+						}
+					);
+				});
+
+				/*-----------------------------------------*/
 			}).fail(function(data) {
 				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 			});

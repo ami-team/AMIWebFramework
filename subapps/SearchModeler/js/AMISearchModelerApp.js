@@ -25,28 +25,23 @@ function AMISearchModelerApp() {
 		$('#ami_jumbotron_content').html('Search Modeler');
 		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amisearchmodeler">Search Modeler</a></li>');
 
-		amiWebApp.loadHTML('subapps/SearchModeler/html/AMISearchModelerApp.html', {context: this}).done(function(data1) {
-			amiWebApp.loadHTML('subapps/SearchModeler/html/Fragment/interface.html', {context: this}).done(function(data2) {
-				amiWebApp.loadHTML('subapps/SearchModeler/html/Fragment/input.html', {context: this}).done(function(data3) {
+		amiWebApp.loadHTMLs([
+			'subapps/SearchModeler/html/AMISearchModelerApp.html',
+			'subapps/SearchModeler/html/Modal/options.html',
+			'subapps/SearchModeler/html/Fragment/interface.html',
+			'subapps/SearchModeler/html/Fragment/input.html',
+		], {context: this}).done(function(data) {
 
-					amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-						amiWebApp.loadHTML('subapps/SearchModeler/html/Modal/options.html').done(function(data) {
-							amiWebApp.appendHTML('#ami_modal_content', data);
-						});
+				amiWebApp.appendHTML('#ami_modal_content', data[1]);
 
-						this.fragmentInterface = data2;
-						this.fragmentInput = data3;
+				this.fragmentInterface = data[2];
+				this.fragmentInput = data[3];
 
-						result.resolve();
-					});
-
-				}).fail(function() {
-					result.reject();
-				});
-			}).fail(function() {
-				result.reject();
+				result.resolve();
 			});
+
 		}).fail(function() {
 			result.reject();
 		});
@@ -63,11 +58,11 @@ function AMISearchModelerApp() {
 
 	this.onLogin = function() {
 
-		if($('#ami_search_modeler_interface_list').html().trim() === '') {
+		if(!$('#ami_search_modeler_interface_list').html().trim()) {
 
-			this.getInterfaceList();
+			this.getInterfaceList('#ami_search_modeler_interface_list');
 
-			this.getCatalogs();
+			this.getCatalogs('#ami_search_modeler_interface_catalog');
 		}
 	};
 
@@ -83,7 +78,7 @@ function AMISearchModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.getInterfaceList = function() {
+	this.getInterfaceList = function(dst) {
 
 		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `id`, `interface`, `catalog`, `entity` FROM `router_search_interface`"', {context: this}).done(function(data) {
 
@@ -106,24 +101,17 @@ function AMISearchModelerApp() {
 				});
 			});
 
-			amiWebApp.replaceHTML('#ami_search_modeler_interface_list', this.fragmentInterface, {dict: dict});
+			amiWebApp.replaceHTML(dst, this.fragmentInterface, {dict: dict});
 		});
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	/* Mettre le dst en premier !!! et ne pas mettre de valeurs par défaut !!!
-	 *
-	 */
-
-	/*-----------------------------------------------------------------*/
-
-
-	this.getCatalogs = function(defaultCatalog, dst) {
+	this.getCatalogs = function(dst, defaultCatalog) {
 
 		amiWebApp.lock();
 
-		$(dst || '#ami_search_modeler_interface_catalog').empty();
+		$(dst).empty();
 
 		amiCommand.execute('ListCatalogs').done(function(data) {
 
@@ -142,7 +130,7 @@ function AMISearchModelerApp() {
 				}
 			});
 
-			$(dst || '#ami_search_modeler_interface_catalog').html(s).promise().done(function() {
+			$(dst).html(s).promise().done(function() {
 				amiWebApp.unlock();
 			});
 
@@ -153,7 +141,7 @@ function AMISearchModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.getEntities = function(catalog, defaultEntity, dst) {
+	this.getEntities = function(dst, catalog, defaultEntity) {
 
 		if(!catalog) {
 			return;
@@ -161,7 +149,7 @@ function AMISearchModelerApp() {
 
 		amiWebApp.lock();
 
-		$(dst || '#ami_search_modeler_interface_entities').empty();
+		$(dst).empty();
 
 		amiCommand.execute('ListEntities -catalog="' + catalog + '"').done(function(data) {
 
@@ -180,7 +168,7 @@ function AMISearchModelerApp() {
 				}
 			});
 
-			$(dst || '#ami_search_modeler_interface_entities').html(s).promise().done(function() {
+			$(dst).html(s).promise().done(function() {
 				amiWebApp.unlock();
 			});
 
@@ -191,7 +179,7 @@ function AMISearchModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.getFields = function(catalog, entity, defaultField, dst) {
+	this.getFields = function(dst, catalog, entity, defaultField) {
 
 		if(!catalog
 		   ||
@@ -202,7 +190,7 @@ function AMISearchModelerApp() {
 
 		amiWebApp.lock();
 
-		$(dst || '#ami_search_modeler_interface_fields').empty();
+		$(dst).empty();
 
 		amiCommand.execute('ListFields -catalog="' + catalog + '" -entity="' + entity + '"').done(function(data) {
 
@@ -221,7 +209,7 @@ function AMISearchModelerApp() {
 				}
 			});
 
-			$(dst || '#ami_search_modeler_interface_fields').html(s).promise().done(function() {
+			$(dst).html(s).promise().done(function() {
 				amiWebApp.unlock();
 			});
 
@@ -232,7 +220,7 @@ function AMISearchModelerApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this._id = 0;
+	this._inputCnt = 0;
 
 	/*-----------------------------------------------------------------*/
 
@@ -240,49 +228,69 @@ function AMISearchModelerApp() {
 
 		amiWebApp.lock();
 
-		$('#ami_search_modeler_interface_name').val(interface);
+		$('#ami_search_modeler_interface_name').val(
+							interface
+		);
 
-		$('#ami_search_modeler_paths .input-group').empty();
+		$('#ami_search_modeler_paths > .input-group').empty();
 
-		this.getCatalogs(catalog);
+		this.getCatalogs('#ami_search_modeler_interface_catalog', catalog);
 
-		this.getEntities(catalog, entity);
+		this.getEntities('#ami_search_modeler_interface_entities', catalog, entity);
 
-		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `entity`, `field`, `alias`, `type`, `rank` FROM `router_search_criteria` WHERE `interfaceFK`=' + id + ' ORDER BY `rank`"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `entity`, `field`, `alias`, `type`, `rank`, `mask`, `defaultValue` FROM `router_search_criteria` WHERE `interfaceFK`=' + id + ' ORDER BY `rank`"', {context: this}).done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
 
+			var dict = [];
+
 			$.foreach(rows, function(index, row) {
+
+				var inputCnt = this._inputCnt++;
 
 				var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', row)[0] || '';
 				var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
 				var alias = amiWebApp.jspath('..field{.@name==="alias"}.$', row)[0] || '';
 				var type = amiWebApp.jspath('..field{.@name==="type"}.$', row)[0] || '';
 				var rank = amiWebApp.jspath('..field{.@name==="rank"}.$', row)[0] || '';
+				var mask = amiWebApp.jspath('..field{.@name==="mask"}.$', row)[0] || '0';
+				var defaultValue = amiWebApp.jspath('..field{.@name==="defaultValue"}.$', row)[0] || '';
 
-				INPUT_CNT = this._id++;
+				if(!alias) {
+					alias = field;
+				}
 
-				var dict = {
-					INPUT_CNT: INPUT_CNT
-				};
-
-				amiWebApp.appendHTML('#ami_search_modeler_paths', this.fragmentInput, {context: this, dict: dict}).done(function() {
-
-					this.getEntities(catalog, entity, '#ami_search_modeler_entity_' + INPUT_CNT);
-					this.getFields(catalog, entity, field, '#ami_search_modeler_field_' + INPUT_CNT);
-
-					if(!alias) {
-						alias = field;
-					}
-
-					$('#ami_search_modeler_alias_' + INPUT_CNT).val(alias);
-					$('#ami_search_modeler_type_' + INPUT_CNT).val(type);
-					$('#ami_search_modeler_rank_' + INPUT_CNT).val(rank);
+				dict.push({
+					INPUT_CNT: inputCnt,
+					ENTITY: entity,
+					FIELD: field,
+					ALIAS: alias,
+					TYPE: type,
+					RANK: rank,
+					MASK: mask,
+					DEFAULT_VALUE: defaultValue,
 				});
 
 			}, this);
 
-			amiWebApp.unlock();
+			amiWebApp.appendHTML('#ami_search_modeler_paths', this.fragmentInput, {context: this, dict: dict}).done(function() {
+
+				$.foreach(dict, function(index, x) {
+
+					var inputCnt = x['INPUT_CNT'];
+					var entity = x['ENTITY'];
+					var field = x['FIELD'];
+					var type = x['TYPE'];
+
+					this.getEntities('#ami_search_modeler_entity_' + inputCnt, catalog, entity);
+					this.getFields('#ami_search_modeler_field_' + inputCnt, catalog, entity, field);
+
+					$('#ami_search_modeler_type_' + inputCnt).val(type);
+
+				}, this);
+
+				amiWebApp.unlock();
+			});
 
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
@@ -297,24 +305,114 @@ function AMISearchModelerApp() {
 
 		if(catalog) {
 
-			INPUT_CNT = this._id++;
+			var inputCnt = this._inputCnt++;
 
 			var dict = {
-				INPUT_CNT: INPUT_CNT
+				INPUT_CNT: inputCnt,
+				ALIAS: '',
+				RANK: 0,
+				MASK: 0,
+				DEFAULT_VALUE: '',
 			};
 
 			amiWebApp.appendHTML('#ami_search_modeler_paths', this.fragmentInput, {context: this, dict: dict}).done(function() {
 
-				this.getEntities(catalog, null, '#ami_search_modeler_entity_' + INPUT_CNT);
+				this.getEntities('#ami_search_modeler_entity_' + inputCnt, catalog);
 			});
 		}
 	};
 
 	/*-----------------------------------------------------------------*/
 
-	this.editFlags = function() {
+	this.editOptions = function(inputCnt) {
+
+		this.currentInputCnt = inputCnt;
+
+		/*---------------------------------------------------------*/
+
+		var mask = $('#ami_search_modeler_mask_' + inputCnt).val();
+
+		var defaultValue = $('#ami_search_modeler_defaultValue_' + inputCnt).val();
+
+		/*---------------------------------------------------------*/
+
+		mask = parseInt(mask);
+
+		$('#modal_ami_search_modeler_options_form_mode1').prop('checked', (mask & (1 | 2 | 4)) === 0);
+		$('#modal_ami_search_modeler_options_form_mode2').prop('checked', (mask & 1) !== 0);
+		$('#modal_ami_search_modeler_options_form_mode3').prop('checked', (mask & 2) !== 0);
+		$('#modal_ami_search_modeler_options_form_mode4').prop('checked', (mask & 4) !== 0);
+
+		$('#modal_ami_search_modeler_options_form_order1').prop('checked', (mask & (8 | 16)) === 0);
+		$('#modal_ami_search_modeler_options_form_order2').prop('checked', (mask & 8) !== 0);
+		$('#modal_ami_search_modeler_options_form_order3').prop('checked', (mask & 16) !== 0);
+
+		$('#modal_ami_search_modeler_options_form_sum').prop('checked', (mask & 32) !== 0);
+		$('#modal_ami_search_modeler_options_form_count').prop('checked', (mask & 64) !== 0);
+		$('#modal_ami_search_modeler_options_form_inclusive').prop('checked', (mask & 128) !== 0);
+		$('#modal_ami_search_modeler_options_form_simple_search').prop('checked', (mask & 256) !== 0);
+
+		/*---------------------------------------------------------*/
+
+		$('#modal_ami_search_modeler_options_form_defaultValue').val(defaultValue);
+
+		/*---------------------------------------------------------*/
 
 		$('#modal_ami_search_modeler_options').modal('show');
+
+		/*---------------------------------------------------------*/
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.setOptions = function() {
+
+		var inputCnt = this.currentInputCnt;
+
+		/*---------------------------------------------------------*/
+
+		var mode2 = $('#modal_ami_search_modeler_options_form_mode2').prop('checked');
+		var mode3 = $('#modal_ami_search_modeler_options_form_mode3').prop('checked');
+
+		var order2 = $('#modal_ami_search_modeler_options_form_order2').prop('checked');
+		var order3 = $('#modal_ami_search_modeler_options_form_order3').prop('checked');
+
+		var sum = $('#modal_ami_search_modeler_options_form_sum').prop('checked');
+		var count = $('#modal_ami_search_modeler_options_form_count').prop('checked');
+		var inclusive = $('#modal_ami_search_modeler_options_form_inclusive').prop('checked');
+		var simpleSearch = $('#modal_ami_search_modeler_options_form_simple_search').prop('checked');
+
+		/*---------------------------------------------------------*/
+
+		var mask = 0x00;
+
+		if(mode2) mask |= 1;
+		if(mode3) mask |= 2;
+		if(mode3) mask |= 4;
+
+		if(order2) mask |= 8;
+		if(order3) mask |= 16;
+
+		if(sum) mask |= 32;
+		if(count) mask |= 64;
+		if(inclusive) mask |= 128;
+		if(simpleSearch) mask |= 256;
+
+		/*---------------------------------------------------------*/
+
+		var defaultValue = $('#modal_ami_search_modeler_options_form_defaultValue').val();
+
+		/*---------------------------------------------------------*/
+
+		$('#ami_search_modeler_mask_' + inputCnt).val(mask);
+
+		$('#ami_search_modeler_defaultValue_' + inputCnt).val(defaultValue);
+
+		/*---------------------------------------------------------*/
+
+		$('#modal_ami_search_modeler_options').modal('hide');
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -332,7 +430,7 @@ function AMISearchModelerApp() {
 		$('#ami_search_modeler_interface_catalog').val('');
 		$('#ami_search_modeler_interface_entities').val('');
 
-		$('#ami_search_modeler_paths .input-group').empty();
+		$('#ami_search_modeler_paths > .input-group').empty();
 
 		/*---------------------------------------------------------*/
 	};
@@ -356,13 +454,15 @@ function AMISearchModelerApp() {
 			return;
 		}
 
+		amiWebApp.lock();
+
 		/*---------------------------------------------------------*/
 
 		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="," -keyFields="interface" -keyValues="' + interfaceName + '"', {context: this}).always(function() {
 
-			amiWebApp.success('done with success');
+			this.getInterfaceList('#ami_search_modeler_interface_list');
 
-			this.getInterfaceList();
+			amiWebApp.success('done with success');
 		});
 
 		/*---------------------------------------------------------*/
@@ -394,6 +494,34 @@ function AMISearchModelerApp() {
 			return;
 		}
 
+		amiWebApp.lock();
+
+		/*---------------------------------------------------------*/
+
+		var paths = {};
+
+		var params = $('#ami_search_modeler_paths').serializeArray();
+
+		$.each(params, function(index, value) {
+
+			var _path = null;
+			var _name = value['name'].trim();
+			var _value = value['value'].trim();
+
+			var idx = _name.lastIndexOf('_');
+
+			if(idx > 0) {
+				_path = _name.substring(idx + 1);
+				_name = _name.substring(0, idx);
+
+				if(!(_path in paths)) {
+					paths[_path] = {};
+				}
+
+				paths[_path][_name] = _value;
+			}
+		});
+
 		/*---------------------------------------------------------*/
 
 		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="," -keyFields="interface" -keyValues="' + interfaceName + '"', {context: this}).always(function() {
@@ -401,29 +529,9 @@ function AMISearchModelerApp() {
 			amiCommand.execute('AddElement -catalog="self" -entity="router_search_interface" -separator="," -fields="interface,catalog,entity" -values="' + interfaceName + ',' + interfaceCatalog + ',' + interfaceEntities + '"', {context: this}).done(function() {
 				/*-----------------------------------------*/
 
-				var paths = {};
+				this.getInterfaceList('#ami_search_modeler_interface_list');
 
-				var params = $('#ami_search_modeler_paths').serializeArray();
-
-				$.each(params, function(index, value) {
-
-					var _path = null;
-					var _name = value['name'].trim();
-					var _value = value['value'].trim();
-
-					var idx = _name.indexOf('_');
-
-					if(idx > 0) {
-						_path = _name.substring(idx + 1);
-						_name = _name.substring(0, idx);
-
-						if(!(_path in paths)) {
-							paths[_path] = {};
-						}
-
-						paths[_path][_name] = _value;
-					}
-				});
+				amiWebApp.success('Done with success.');
 
 				/*-----------------------------------------*/
 
@@ -447,13 +555,6 @@ function AMISearchModelerApp() {
 				}
 
 				/*-----------------------------------------*/
-
-				amiWebApp.success('Done with success.');
-
-				this.getInterfaceList();
-
-				/*-----------------------------------------*/
-
 			}).fail(function(data) {
 				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 			});

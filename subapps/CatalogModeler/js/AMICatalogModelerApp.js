@@ -33,9 +33,11 @@ function AMICatalogModelerApp() {
 		$('#ami_jumbotron_content').html('DB Modeler');
 		$('#ami_breadcrumb_content').html('<li><a>Tools</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=catalogmodeler">Catalog Modeler</a></li>');
 
-		amiWebApp.loadHTML('subapps/CatalogModeler/html/AMICatalogModelerApp.html', {context: this}).done(function(data) {
+		amiWebApp.loadHTMLs([
+			'subapps/CatalogModeler/html/AMICatalogModelerApp.html',
+		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data, {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 				/*-----------------------------------------*/
 
 				/* TODO */

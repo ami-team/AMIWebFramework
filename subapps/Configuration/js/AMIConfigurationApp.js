@@ -21,21 +21,22 @@ function AMIConfigurationApp() {
 		$('#ami_jumbotron_content').html('Server configuration');
 		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amiconfiguration">Configuration</a></li>');
 
-		amiWebApp.loadHTML('subapps/Configuration/html/AMIConfigurationApp.html', {context: this}).done(function(data1) {
-			amiWebApp.loadHTML('subapps/Configuration/html/Fragment/parameter.html', {context: this}).done(function(data2) {
 
-				amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
+		amiWebApp.loadHTMLs([
+			'subapps/Configuration/html/AMIConfigurationApp.html',
+			'subapps/Configuration/html/Fragment/parameter.html',
+		], {context: this}).done(function(data) {
 
-					this.fragmentParameter = data2;
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-					$('#ami_configuration_left_div').hide();
-					$('#ami_configuration_right_div').hide();
+				this.fragmentParameter = data[1];
 
-					result.resolve();
-				});
-			}).fail(function() {
-				result.reject();
+				$('#ami_configuration_left_div').hide();
+				$('#ami_configuration_right_div').hide();
+
+				result.resolve();
 			});
+
 		}).fail(function() {
 			result.reject();
 		});

@@ -25,9 +25,11 @@ function AMISimpleSearchEngineApp() {
 		$('#ami_jumbotron_content').html('Simple Search Engine');
 		$('#ami_breadcrumb_content').html('<li><a>Search</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amisimplesearchengine">Simple Search Engine</a></li>');
 
-		amiWebApp.loadHTML('subapps/SimpleSearchEngine/html/AMISimpleSearchEngineApp.html', {context: this}).done(function(data) {
-
-			amiWebApp.replaceHTML('#ami_main_content', data, {context: this}).done(function() {
+		amiWebApp.loadHTMLs([
+			'subapps/SimpleSearchEngine/html/AMISimpleSearchEngineApp.html',
+		], {context: this}).done(function(data) {
+	
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 				/*-----------------------------------------*/
 				/* FILTER                                  */
 				/*-----------------------------------------*/
@@ -55,8 +57,8 @@ function AMISimpleSearchEngineApp() {
 
 					/**/
 
-					this.interfaceFilter = (this.interfaceFilter !== '') ? this.interfaceFilter.substring(4)
-					                                                     : '1=1'
+					this.interfaceFilter = (this.interfaceFilter) ? this.interfaceFilter.substring(4)
+					                                              : '1=1'
 					;
 				} else {
 					this.interfaceFilter = '1=1';

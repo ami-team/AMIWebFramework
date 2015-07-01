@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:css/AMISearchModelerApp.css">
+   </FileRef>
+   <FileRef
+      location = "container:html/Fragment/input.html">
+   </FileRef>
+   <FileRef
+      location = "container:html/Fragment/interface.html">
+   </FileRef>
+   <FileRef
+      location = "group:html/Modal/options.html">
+   </FileRef>
+   <FileRef
+      location = "group:html/AMISearchModelerApp.html">
+   </FileRef>
+   <FileRef
+      location = "group:js/AMISearchModelerApp.js">
+   </FileRef>
+</Workspace>

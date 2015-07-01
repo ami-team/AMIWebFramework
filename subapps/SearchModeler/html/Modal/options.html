@@ -23,13 +23,20 @@
             <div class="radio">
               <label>
                 <input type="radio" name="modal_ami_search_modeler_options_form_mode" id="modal_ami_search_modeler_options_form_mode2" xxxxxxx="xxxxxxx" />
-                Visible, default value
+                Hidden
               </label>
             </div>
 
             <div class="radio">
               <label>
                 <input type="radio" name="modal_ami_search_modeler_options_form_mode" id="modal_ami_search_modeler_options_form_mode3" xxxxxxx="xxxxxxx" />
+                Visible, default value
+              </label>
+            </div>
+
+            <div class="radio">
+              <label>
+                <input type="radio" name="modal_ami_search_modeler_options_form_mode" id="modal_ami_search_modeler_options_form_mode4" xxxxxxx="xxxxxxx" />
                 Hidden, default value
               </label>
             </div>
@@ -38,7 +45,7 @@
 
             <div class="form-group">
               <label for="modal_ami_search_modeler_options_form_default_value">Default value</label>
-              <input type="text" class="form-control" id="modal_ami_search_modeler_options_form_default_value" placeholder="Default value" />
+              <input type="text" class="form-control" id="modal_ami_search_modeler_options_form_defaultValue" placeholder="Default value" />
             </div>
 
           </div>
@@ -48,21 +55,28 @@
             <div class="radio">
               <label>
                 <input type="radio" name="modal_ami_search_modeler_options_form_order" id="modal_ami_search_modeler_options_form_order1" checked="checked" />
-                &Oslash;
+                Order <i class="fa fa-circle-o"></i>
               </label>
             </div>
 
             <div class="radio">
               <label>
                 <input type="radio" name="modal_ami_search_modeler_options_form_order" id="modal_ami_search_modeler_options_form_order2" xxxxxxx="xxxxxxx" />
-                Order <i class="fa fa-chevron-circle-up"></i>
+                Order <i class="fa fa-arrow-circle-o-up"></i>
               </label>
             </div>
 
             <div class="radio">
               <label>
                 <input type="radio" name="modal_ami_search_modeler_options_form_order" id="modal_ami_search_modeler_options_form_order3" xxxxxxx="xxxxxxx" />
-                Order <i class="fa fa-chevron-circle-down"></i>
+                Order <i class="fa fa-arrow-circle-o-down"></i>
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="modal_ami_search_modeler_options_form_sum" />
+                Sum
               </label>
             </div>
 
@@ -95,7 +109,7 @@
 
       <div class="modal-footer">
         <button class="btn btn-default" data-dismiss="modal">Close</button>
-        <button class="btn btn-primary" onclick="alert('todo');">Apply</button>
+        <button class="btn btn-primary" onclick="amiSearchModelerApp.setOptions();">Ok.</button>
       </div>
 
     </div>

@@ -29,23 +29,20 @@ function AMICommandApp() {
 		$('#ami_jumbotron_content').html('Execute AMI commands');
 		$('#ami_breadcrumb_content').html('<li><a>Tools</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amicommand">Command Line</a></li>');
 
-		amiWebApp.loadHTML('subapps/Command/html/AMICommandApp.html', {context: this}).done(function(data1) {
-			amiWebApp.loadHTML('subapps/Command/html/Fragment/command.html', {context: this}).done(function(data2) {
-				amiWebApp.loadHTML('subapps/Command/html/Fragment/result.html', {context: this}).done(function(data3) {
+		amiWebApp.loadHTMLs([
+			'subapps/Command/html/AMICommandApp.html',
+			'subapps/Command/html/Fragment/command.html',
+			'subapps/Command/html/Fragment/result.html',
+		], {context: this}).done(function(data) {
 
-					amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-						this.fragmentCommand = data2;
-						this.fragmentResult = data3;
+				this.fragmentCommand = data[1];
+				this.fragmentResult = data[2];
 
-						result.resolve();
-					});
-				}).fail(function() {
-					result.reject();
-				});
-			}).fail(function() {
-				result.reject();
+				result.resolve();
 			});
+
 		}).fail(function() {
 			result.reject();
 		});
@@ -62,7 +59,7 @@ function AMICommandApp() {
 
 	this.onLogin = function() {
 
-		if($('#ami_command_list').html().trim() === '') {
+		if(!$('#ami_command_list').html().trim()) {
 
 			amiCommand.execute('ListCommands', {context: this}).done(function(data) {
 

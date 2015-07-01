@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:css/AMISearchEngineApp.css">
+   </FileRef>
+   <FileRef
+      location = "container:html/Fragment/criteria.html">
+   </FileRef>
+   <FileRef
+      location = "container:html/Fragment/criteria_string_few.html">
+   </FileRef>
+   <FileRef
+      location = "container:html/Fragment/criteria_string_many.html">
+   </FileRef>
+   <FileRef
+      location = "container:html/Fragment/result_content.html">
+   </FileRef>
+   <FileRef
+      location = "container:html/Fragment/criteria_number.html">
+   </FileRef>
+   <FileRef
+      location = "group:html/Fragment/criteria_date.html">
+   </FileRef>
+   <FileRef
+      location = "container:html/Fragment/result_tab.html">
+   </FileRef>
+   <FileRef
+      location = "group:html/AMISearchEngineApp.html">
+   </FileRef>
+   <FileRef
+      location = "group:js/AMISearchEngineApp.js">
+   </FileRef>
+</Workspace>

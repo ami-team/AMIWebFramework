@@ -25,80 +25,66 @@ function AMISearchEngineApp() {
 		$('#ami_jumbotron_content').html('Search Engine');
 		$('#ami_breadcrumb_content').html('<li><a>Search</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amisearchengine">Search Engine</a></li>');
 
-		amiWebApp.loadHTML('subapps/SearchEngine/html/AMISearchEngineApp.html', {context: this}).done(function(data1) {
-			amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/criteria.html', {context: this}).done(function(data2) {
-				amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/criteria_string_few.html', {context: this}).done(function(data3) {
-					amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/criteria_string_many.html', {context: this}).done(function(data4) {
-						amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/criteria_number.html', {context: this}).done(function(data5) {
-							amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/result_tab.html', {context: this}).done(function(data6) {
-								amiWebApp.loadHTML('subapps/SearchEngine/html/Fragment/result_content.html', {context: this}).done(function(data7) {
+		amiWebApp.loadHTMLs([
+			'subapps/SearchEngine/html/AMISearchEngineApp.html',
+			'subapps/SearchEngine/html/Fragment/criteria.html',
+			'subapps/SearchEngine/html/Fragment/criteria_string_few.html',
+			'subapps/SearchEngine/html/Fragment/criteria_string_many.html',
+			'subapps/SearchEngine/html/Fragment/criteria_number.html',
+			'subapps/SearchEngine/html/Fragment/criteria_date.html',
+			'subapps/SearchEngine/html/Fragment/result_tab.html',
+			'subapps/SearchEngine/html/Fragment/result_content.html',
+		], {context: this}).done(function(data) {
 
-									amiWebApp.replaceHTML('#ami_main_content', data1, {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-										this.fragmentCriteria = data2;
-										this.fragmentCriteriaStringFew = data3;
-										this.fragmentCriteriaStringMany = data4;
-										this.fragmentCriteriaNumber = data5;
-										this.fragmentResultTab = data6;
-										this.fragmentResultContent = data7;
+				this.fragmentCriteria = data[1];
+				this.fragmentCriteriaStringFew = data[2];
+				this.fragmentCriteriaStringMany = data[3];
+				this.fragmentCriteriaNumber = data[4];
+				this.fragmentCriteriaDate = data[5];
+				this.fragmentResultTab = data[6];
+				this.fragmentResultContent = data[7];
 
-										/*---------*/
-										/* FILTER  */
-										/*---------*/
+				/*-----------------------------------------*/
+				/* FILTER                                  */
+				/*-----------------------------------------*/
 
-										if(userdata) {
-											this.interfaceFilter = '';
+				if(userdata) {
+					this.interfaceFilter = '';
 
-											/**/
+					/**/
 
-											var interfaces = userdata.split(',');
+					var interfaces = userdata.split(',');
 
-											for(var i = 0; i < interfaces.length; i++) {
+					for(var i = 0; i < interfaces.length; i++) {
 
-												var interface = interfaces[i].trim();
+						var interface = interfaces[i].trim();
 
-												if(interface !== '') {
+						if(interface !== '') {
 
-													if(interface.indexOf('%') < 0) {
-														this.interfaceFilter += ' OR `interface`=\'' + interface +  '\'';
-													} else {
-														this.interfaceFilter += ' OR `interface` LIKE \'' + interface +  '\'';
-													}
-												}
-											}
+							if(interface.indexOf('%') < 0) {
+								this.interfaceFilter += ' OR `interface`=\'' + interface +  '\'';
+							} else {
+								this.interfaceFilter += ' OR `interface` LIKE \'' + interface +  '\'';
+							}
+						}
+					}
 
-											/**/
+					/**/
 
-											this.interfaceFilter = (this.interfaceFilter !== '') ? this.interfaceFilter.substring(4)
-											                                                     : '1=1'
-											;
-										} else {
-											this.interfaceFilter = '1=1';
-										}
+					this.interfaceFilter = (this.interfaceFilter) ? this.interfaceFilter.substring(4)
+					                                              : '1=1'
+					;
+				} else {
+					this.interfaceFilter = '1=1';
+				}
 
-										/*---------*/
+				/*-----------------------------------------*/
 
-										result.resolve();
-									});
-
-								}).fail(function() {
-									result.reject();
-								});
-							}).fail(function() {
-								result.reject();
-							});
-						}).fail(function() {
-							result.reject();
-						});
-					}).fail(function() {
-						result.reject();
-					});
-				}).fail(function() {
-					result.reject();
-				});
-			}).fail(function() {
-				result.reject();
+				result.resolve();
 			});
+
 		}).fail(function() {
 			result.reject();
 		});
@@ -118,7 +104,7 @@ function AMISearchEngineApp() {
 		/* GET INTERFACES                                          */
 		/*---------------------------------------------------------*/
 
-		if($('#ami_search_engine_interface_list').html().trim() === '') {
+		if(!$('#ami_search_engine_interface_list').html().trim()) {
 
 			amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `interface` FROM `router_search_interface` WHERE ' + this.interfaceFilter + '"', {context: this}).done(function(data) {
 
@@ -187,7 +173,7 @@ function AMISearchEngineApp() {
 			this.catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', data)[0] || '';
 			this.entity = amiWebApp.jspath('..field{.@name==="entity"}.$', data)[0] || '';
 
-			amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `entity`, `field`, `alias`, `type` FROM `router_search_criteria` WHERE `interfaceFK`=' + this.id + ' ORDER BY `rank`"', {context: this}).done(function(data) {
+			amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `entity`, `field`, `alias`, `type`, `mask`, `defaultValue` FROM `router_search_criteria` WHERE `interfaceFK`=' + this.id + ' ORDER BY `rank`"', {context: this}).done(function(data) {
 
 				var rows = amiWebApp.jspath('..row', data);
 
@@ -199,17 +185,21 @@ function AMISearchEngineApp() {
 					var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
 					var alias = amiWebApp.jspath('..field{.@name==="alias"}.$', row)[0] || '';
 					var type = amiWebApp.jspath('..field{.@name==="type"}.$', row)[0] || '';
+					var mask = amiWebApp.jspath('..field{.@name==="mask"}.$', row)[0] || '0';
+					var defaultValue = amiWebApp.jspath('..field{.@name==="defaultValue"}.$', row)[0] || '';
 
 					if(!alias) {
 						alias = field;
 					}
 
 					dict.push({
-						CHECKED: (type === '3') ? 'checked="checked"' : '',
+						CHECKED: (type === '4' && (mask & 1) !== 0 && (parseInt(defaultValue) === 1) || defaultValue.toLowerCase().trim() === 'yes' || defaultValue.toLowerCase().trim() === 'true') ? 'checked="checked"' : '',
 						ENTITY: entity,
 						FIELD: field,
 						ALIAS: alias,
 						TYPE: type,
+						MASK: mask,
+ 						DEFAULT_VALUE: defaultValue,
 					});
 				});
 
@@ -221,7 +211,7 @@ function AMISearchEngineApp() {
 
 					$.foreach(dict, function(index, row) {
 
-						if(row['TYPE'] === '3') {
+						if(row['CHECKED']) {
 
 							var F3 = '`' + row['ENTITY'] + '`.`' + row['FIELD'] + '`!=0';
 
@@ -230,6 +220,7 @@ function AMISearchEngineApp() {
 								entity: row['ENTITY'],
 								field: row['FIELD'],
 								type: row['TYPE'],
+								mask: row['MASK'],
 
 								/* SQL */
 								selected: {},
@@ -264,13 +255,14 @@ function AMISearchEngineApp() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.createBox = function(visible, entity, field, alias, type) {
+	this.createBox = function(visible, entity, field, alias, type, mask) {
 
 		this.criteriaDict[alias] = {
 			/* CRITERIA */
 			entity: entity,
 			field: field,
 			type: type,
+			mask: mask,
 
 			/* SQL */
 			selected: {},
@@ -294,10 +286,11 @@ function AMISearchEngineApp() {
 			amiWebApp.appendHTML('#ami_search_engine_right', this.fragmentCriteriaNumber, {dict: dict, context: this}).done(function() {
 				this.fillNumberBox(alias);
 			});
-		} else if(type === 3
-		          ||
-			  type === 4
-		 ) {
+		} else if(type === 3) {
+			amiWebApp.appendHTML('#ami_search_engine_right', this.fragmentCriteriaDate, {dict: dict, context: this}).done(function() {
+				this.fillDateBox(alias);
+			});
+		} else if(type === 4) {
 			var criteria = this.criteriaDict[alias];
 
 			criteria['filter'] = '`' + criteria['entity'] + '`.`' + criteria['field'] + '`!=0';
@@ -336,6 +329,8 @@ function AMISearchEngineApp() {
 				this.fillStringBox(alias, true, true);
 			} else if(type === 2) {
 				this.fillNumberBox(alias);
+			} else if(type === 3) {
+				this.fillDateBox(alias);
 			}
 		}
 
@@ -446,6 +441,37 @@ function AMISearchEngineApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.fillNumberBox = function(alias) {
+
+		amiWebApp.lock();
+
+		var criteria = this.criteriaDict[alias];
+
+		/*---------------------------------------------------------*/
+		/* FILL BOX                                                */
+		/*---------------------------------------------------------*/
+
+		var filter = this.buildFilter();
+
+		amiCommand.execute('SearchQuery -catalog="' + this.catalog + '" -glite="SELECT MIN(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `min`, MAX(`' + criteria['entity'] + '`.`' + criteria['field'] + '`) AS `max` WHERE ' + filter.replace(/\"/g, '\\\"') + '"', {context: this}).done(function(data) {
+
+			var min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '';
+			var max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '';
+
+			$('#ami_search_engine_box_' + alias + '_min').val(min);
+			$('#ami_search_engine_box_' + alias + '_max').val(max);
+
+			amiWebApp.unlock();
+
+		}).fail(function(data) {
+			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+		});
+
+		/*---------------------------------------------------------*/
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.fillDateBox = function(alias) {
 
 		amiWebApp.lock();
 
