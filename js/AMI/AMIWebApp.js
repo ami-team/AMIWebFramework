@@ -104,7 +104,9 @@ function AMIWebApp() {
 		for(var i = 0; i < scripts.length; i++) {
 
 			if($.inArray(scripts[i], _ami_internal_scripts) < 0) {
+
 				_ami_internal_scripts.push(scripts[i]);
+
 				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _ami_internal_nonce++ + '"></script>';
 			}
 		}
@@ -150,7 +152,9 @@ function AMIWebApp() {
 		for(var i = 0; i < sheets.length; i++) {
 
 			if($.inArray(sheets[i], _ami_internal_sheets) < 0) {
+
 				_ami_internal_sheets.push(sheets[i]);
+
 				html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _ami_internal_nonce++ + '"></link>';
 			}
 		}
@@ -425,13 +429,13 @@ function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 
 	this.onStart = function() {
-		alert('error: `<app>.onStart()` must be implemented !');
+		alert('error: `<app>.onStart()` must be implemented!');
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	this.onToolbarUpdateNeeded = function() {
-		alert('error: `<app>.onToolbarUpdateNeeded()` must be implemented !');
+		alert('error: `<app>.onToolbarUpdateNeeded()` must be implemented!');
  	};
 
 	/*-----------------------------------------------------------------*/
@@ -550,8 +554,8 @@ function AMIWebApp() {
 
 	this.success = function(message, fadeOut) {
 
-		this.unlock();
 		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
+		this.unlock();
 
 		$(document).scrollTop(0);
 
@@ -564,8 +568,8 @@ function AMIWebApp() {
 
 	this.info = function(message, fadeOut) {
 
-		this.unlock();
 		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
+		this.unlock();
 
 		$(document).scrollTop(0);
 
@@ -578,8 +582,8 @@ function AMIWebApp() {
 
 	this.warning = function(message, fadeOut) {
 
-		this.unlock();
 		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
+		this.unlock();
 
 		$(document).scrollTop(0);
 
@@ -592,8 +596,8 @@ function AMIWebApp() {
 
 	this.error = function(message, fadeOut) {
 
-		this.unlock();
 		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
+		this.unlock();
 
 		$(document).scrollTop(0);
 
@@ -619,22 +623,22 @@ function AMIWebApp() {
 		/*---------------------------------------------------------*/
 
 		if(!subAppInstance.onReady) {
-			alert('error: `<sub application>.onReady()` must be implemented !');
+			alert('error: `<sub application>.onReady()` must be implemented!');
 			return;
 		}
 
 		if(!subAppInstance.onExit) {
-			alert('error: `<sub application>.onExit()` must be implemented !');
+			alert('error: `<sub application>.onExit()` must be implemented!');
 			return;
 		}
 
 		if(!subAppInstance.onLogin) {
-			alert('error: `<sub application>.onLogin()` must be implemented !');
+			alert('error: `<sub application>.onLogin()` must be implemented!');
 			return;
 		}
 
 		if(!subAppInstance.onLogout) {
-			alert('error: `<sub application>.onLogout()` must be implemented !');
+			alert('error: `<sub application>.onLogout()` must be implemented!');
 			return;
 		}
 
@@ -659,7 +663,6 @@ function AMIWebApp() {
 		var userdata = amiWebApp.args['userdata'] || null;
 
 		if(subapp) {
-
 			subapp = subapp.toLowerCase();
 
 			if(subapp in _ami_internal_subAppDict) {
@@ -823,7 +826,7 @@ function AMIWebApp() {
 
 	setTimeout(function() {
 
-		if($('#ami_main_content').html() === '') {
+		if(!$('#ami_main_content').html()) {
 			$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
 		}
 
