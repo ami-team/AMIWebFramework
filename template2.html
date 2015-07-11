@@ -27,6 +27,7 @@
 	amiWebApp.onStart = function() {
 
 		if(amiWebApp.isLocal()) {
+//			amiCommand.endpoint = 'http://localhost:8080/AMI/FrontEnd';
 			amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';
 		} else {
 			amiCommand.endpoint = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';

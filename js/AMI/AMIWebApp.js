@@ -830,7 +830,7 @@ function AMIWebApp() {
 			$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
 		}
 
-	}, 4000);
+	}, 8000);
 
 	/*-----------------------------------------------------------------*/
 }
