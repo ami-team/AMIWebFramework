@@ -700,6 +700,8 @@ function AMIWebApp() {
 			'js/AMI/AMICommand.min.js',
 			'js/AMI/AMILogin.min.js',
 			'js/AMI/AMITokenizer.min.js',
+			'js/AMI/AMITwigBoolParser.min.js',
+			'js/AMI/AMITwig.min.js',
 		]).fail(function(data) {
 			throw data;
 		});
