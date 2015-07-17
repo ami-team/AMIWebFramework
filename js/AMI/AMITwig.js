@@ -7,31 +7,15 @@
  */
 
 /*-------------------------------------------------------------------------*/
-
-function __all(iterable, x) {
-
-	for(var i = 0; i < iterable.length; i++) {
-
-		if(iterable[i] === x) {
-			return false;
-		}
-	}
-
-	return true;
-}
-
-/*-------------------------------------------------------------------------*/
 /* CLASS AMITwig                                                           */
 /*-------------------------------------------------------------------------*/
 
 function AMITwig() {
 	/*-----------------------------------------------------------------*/
 
-	this.DIRECTIVE_RE = new RegExp('\{\%[ \t]*([a-zA-Z]+)(.*?)\%\}', 'm');
+	this.STATEMENT_RE = /\{\%\s*([a-zA-Z_]\w*)(.*?)\%\}/m;
 
-	this.VARIABLE_RE = new RegExp('\%\%[ \t]*([a-zA-Z_][a-zA-Z0-9_]*)(?:\.([a-zA-Z_][a-zA-Z0-9_]*))?[ \t]*\%\%', 'g');
-
-	this.IDENT_RE = new RegExp('[a-zA-Z_][a-zA-Z0-9_]*', '');
+	this.VARIABLE_RE  = /\%\%\s*([a-zA-Z_]\w*)(?:\.([a-zA-Z_]\w*))?\s*\%\%/g;
 
 	/*-----------------------------------------------------------------*/
 
@@ -39,17 +23,35 @@ function AMITwig() {
 	this.STACK_IF_LOCK = 1;
 	this.STACK_IF_UNLOCK = 2;
 	this.STACK_FOR = 3;
-	this.STACK_0 = 4;
+	this.STACK_FILTER = 4;
+	this.STACK_0 = 5;
 
 	/*-----------------------------------------------------------------*/
 
-	this._haveToBeEaten = {};
+	this.haveToBeShown = function(stateStack, lastIndex) {
+		/*---------------------------------------------------------*/
 
-	this._haveToBeEaten[this.STACK_IF_NO] = false;
-	this._haveToBeEaten[this.STACK_IF_LOCK] = false;
-	this._haveToBeEaten[this.STACK_IF_UNLOCK] = true;
-	this._haveToBeEaten[this.STACK_FOR] = true;
-	this._haveToBeEaten[this.STACK_0] = true;
+		if(stateStack[lastIndex] === this.STACK_IF_NO
+		   ||
+		   stateStack[lastIndex] === this.STACK_IF_LOCK
+		 ) {
+			return false;
+		}
+
+		/*---------------------------------------------------------*/
+
+		for(var i = 0; i < lastIndex; i++) {
+
+			if(stateStack[i] === this.STACK_IF_NO) {
+
+				return false;
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		return true;
+	};
 
 	/*-----------------------------------------------------------------*/
 
@@ -75,7 +77,7 @@ function AMITwig() {
 			/*                                                 */
 			/*-------------------------------------------------*/
 
-			var m = s.match(this.DIRECTIVE_RE);
+			var m = s.match(this.STATEMENT_RE);
 
 			/*-------------------------------------------------*/
 			/*                                                 */
@@ -89,7 +91,7 @@ function AMITwig() {
 
 			if(m === null) {
 				/*-----------------------------------------*/
-				/*                                         */
+				/* GET LINE NUMBER                         */
 				/*-----------------------------------------*/
 
 				for(var i = 0; i < s.length; i++) {
@@ -100,10 +102,10 @@ function AMITwig() {
 				}
 
 				/*-----------------------------------------*/
-				/*                                         */
+				/* GENERATE HTML                           */
 				/*-----------------------------------------*/
 
-				if(this._haveToBeEaten[stateStack[lastIndex]] && __all(stateStack, this.STACK_IF_NO)) {
+				if(this.haveToBeShown(stateStack, lastIndex)) {
 
 					result += s.replace(this.VARIABLE_RE, function(match, name, field) {
 
@@ -116,7 +118,7 @@ function AMITwig() {
 				}
 
 				/*-----------------------------------------*/
-				/*                                         */
+				/* CHECK FOR NON-CLOSED BLOCKS             */
 				/*-----------------------------------------*/
 
 				var msg = [];
@@ -125,17 +127,21 @@ function AMITwig() {
 
 					var x = stateStack[i];
 
-					/*****/ if(x !== this.STACK_IF_NO
-					           &&
-					           x !== this.STACK_IF_LOCK
-					           &&
-					           x !== this.STACK_IF_UNLOCK
+					/*****/ if(x === this.STACK_IF_NO
+					           ||
+					           x === this.STACK_IF_LOCK
+					           ||
+					           x === this.STACK_IF_UNLOCK
 					 ) {
 					 	msg.push('missing `endif`');
 
-					 } else if(x !== this.STACK_FOR) {
+					 } else if(x === this.STACK_FOR) {
 
 					 	msg.push('missing `endfor`');
+
+					 } else if(x === this.STACK_FILTER) {
+
+					 	msg.push('missing `endfilter`');
 					 }
 				}
 
@@ -149,14 +155,14 @@ function AMITwig() {
 			}
 
 			/*-------------------------------------------------*/
-			/* GET STATEMENT NAME AND EXPRESSION               */
+			/* GET NAME AND EXPRESSION                         */
 			/*-------------------------------------------------*/
 
 			var name = m[1];
 			var expr = m[2];
 
 			/*-------------------------------------------------*/
-			/* GET STATEMENT POSITION AND LINE NUMBER          */
+			/* GET POSITION AND LINE NUMBER                    */
 			/*-------------------------------------------------*/
 
 			var column_nr = m.index;
@@ -178,17 +184,17 @@ function AMITwig() {
 			var tokens = amiTokenizer.tokenize(
 				m[2],
 				[' ', '\t', '\n'],
-				['and', 'in', 'is', 'not', 'or', '(', ')', '..', '==', '!=', '<', '>', '<=', '>='],
+				['==', '!=', '<', '>', '<=', '>=', '+', '-', '(', ')', '..', '.'],
 				['\'', '\"'],
 				'\\',
 				line
-			)
+			);
 
 			/*-------------------------------------------------*/
-			/* TEXT                                            */
+			/* GENERATE HTML                                   */
 			/*-------------------------------------------------*/
 
-			if(this._haveToBeEaten[stateStack[lastIndex]] && __all(stateStack, this.STACK_IF_NO)) {
+			if(this.haveToBeShown(stateStack, lastIndex)) {
 
 				var NAME = varStack[varStack.length - 1];
 				var VALUE = iterStack[iterStack.length - 1];
@@ -207,12 +213,12 @@ function AMITwig() {
 			}
 
 			/*-------------------------------------------------*/
-			/* IF STATEMENT                                    */
+			/* IF KEYWORD                                      */
 			/*-------------------------------------------------*/
 
 			/***/ if(name === 'if') {
 
-				console.log('EXPR: ' + expr);
+				new AMITwigExprParser().parse(tokens, line);
 
 				if(false) {
 
@@ -227,14 +233,12 @@ function AMITwig() {
 			}
 
 			/*-------------------------------------------------*/
-			/* ELSEIF STATEMENT                                */
+			/* ELSEIF KEYWORD                                  */
 			/*-------------------------------------------------*/
 
 			else if(name === 'elseif') {
 
 				/****/ if(stateStack[lastIndex] === this.STACK_IF_NO) {
-
-					console.log('EXPR: ' + expr);
 
 					if(false) {
 						stateStack[lastIndex] = this.STACK_IF_NO;
@@ -249,7 +253,7 @@ function AMITwig() {
 			}
 
 			/*-------------------------------------------------*/
-			/* ELSE STATEMENT                                  */
+			/* ELSE KEYWORD                                    */
 			/*-------------------------------------------------*/
 
 			else if(name === 'else') {
@@ -265,7 +269,7 @@ function AMITwig() {
 			}
 
 			/*-------------------------------------------------*/
-			/* ENDIF STATEMENT                                 */
+			/* ENDIF KEYWORD                                   */
 			/*-------------------------------------------------*/
 
 			else if(name === 'endif') {
@@ -287,22 +291,21 @@ function AMITwig() {
 			}
 
 			/*-------------------------------------------------*/
-			/* FOR STATEMENT                                   */
+			/* FOR KEYWORD                                     */
 			/*-------------------------------------------------*/
 
 			else if(name === 'for') {
 
-				var theArray = [];
+				var _iter = [/******/];
+				var _var = tokens[0];
 
-				var theVar = tokens[0];
-
-				/****/ if(tokens.length === 3 && tokens[1] === 'in' && tokens[0].match(this.IDENT_RE) && tokens[2].match(this.IDENT_RE)) {
+				/****/ if(tokens.length === 3 && tokens[1] === 'in' && _isIdent(tokens[0]) && _isIdent(tokens[2])) {
 
 					if(tokens[2] in dict) {
-						theArray = dict[tokens[2]];
+						_iter = dict[tokens[2]];
 					}
 
-				} else if(tokens.length === 5 && tokens[1] === 'in' && tokens[0].match(this.IDENT_RE) && tokens[3] === '..') {
+				} else if(tokens.length === 5 && tokens[1] === 'in' && _isIdent(tokens[0]) && tokens[3] === '..') {
 
 					var n1 = parseInt(tokens[2]);
 					var n2 = parseInt(tokens[4]);
@@ -312,7 +315,7 @@ function AMITwig() {
 					          !isNaN(n2)
 					 ) {
 						for(var j = n1; j <= n2; j++) {
-							theArray.push(j);
+							_iter.push(j);
 						}
 			
 					} else if(tokens[2].length === 3 && tokens[2][0] === '\'' && tokens[2][2] === '\''
@@ -320,7 +323,7 @@ function AMITwig() {
 						  tokens[4].length === 3 && tokens[4][0] === '\'' && tokens[4][2] === '\''
 					 ) {
 						for(var j = tokens[2].charCodeAt(1); j <= tokens[4].charCodeAt(1); j++) {
-							theArray.push(String.fromCharCode(j));
+							_iter.push(String.fromCharCode(j));
 						}
 
 					} else {
@@ -332,12 +335,12 @@ function AMITwig() {
 				}
 
 				stateStack.push(this.STACK_FOR);
-				iterStack.push(theArray);
-				varStack.push(theVar);
+				iterStack.push(_iter);
+				varStack.push(_var);
 			}
 
 			/*-------------------------------------------------*/
-			/* ENDFOR STATEMENT                                */
+			/* ENDFOR KEYWORD                                  */
 			/*-------------------------------------------------*/
 
 			else if(name === 'endfor') {
@@ -354,11 +357,39 @@ function AMITwig() {
 			}
 
 			/*-------------------------------------------------*/
-			/* UNKNOWN STATEMENT                               */
+			/* FILTER KEYWORD                                  */
+			/*-------------------------------------------------*/
+
+			else if(name === 'filter') {
+
+				stateStack.push(this.STACK_FILTER);
+				iterStack.push([null]);
+				varStack.push(null);
+			}
+
+			/*-------------------------------------------------*/
+			/* ENDFILTER KEYWORD                               */
+			/*-------------------------------------------------*/
+
+			else if(name === 'endfilter') {
+
+				var last = stateStack[lastIndex];
+
+				if(last !== this.STACK_FILTER) {
+					this.error(line, 'missing `filter`');
+				}
+
+				stateStack.pop();
+				iterStack.pop();
+				varStack.pop();
+			}
+
+			/*-------------------------------------------------*/
+			/* UNKNOWN KEYWORD                                 */
 			/*-------------------------------------------------*/
 
 			else {
-				this.error(line, 'unknown statement `' + name + '`');
+				this.error(line, 'unknown keyword `' + name + '`');
 			}
 
 			/*-------------------------------------------------*/
@@ -373,11 +404,5 @@ function AMITwig() {
 /*-------------------------------------------------------------------------*/
 
 amiTwig = new AMITwig();
-
-console.log(amiTwig.render('<html>\n<body>{% if test > 1 %} %%test.kk%% %%test%% {%endif%}{% for x in l %} %%x%% {% endfor %}</body></html>', {test: {kk: 'yuyuyu'}, l: [1, 2, 3]}));
-console.log(amiTwig.render('<html>\n<body>{% if test > 1 %} %%test%% {%endif%}{% for x in l %} hello {% endfor %}</body></html>', {test: 2, l: [1, 2, 3]}));
-console.log(amiTwig.render('<html>\n<body>{% if test > 1 %} %%test%% {%endif%}{% for x in 0..8 %} %%x%% {% endfor %}</body></html>', {test: 2, l: [1, 2, 3]}));
-console.log(amiTwig.render('<html>\n<body>{% if test > 1 %} %%test%% {%endif%}{% for x in \'A\'..\'Z\' %} %%x%% {% endfor %}</body></html>\n', {test: 2, l: [1, 2, 3]}));
-//console.log(amiTwig.render('<html>\n<body>{% if test > 1 %} %%test%% {%endif%}{% for x in \'\\\'\'..\'Z\' %} %%x%% {% endfor %}</body></html>', {test: 2, l: [1, 2, 3]}));
 
 /*-------------------------------------------------------------------------*/

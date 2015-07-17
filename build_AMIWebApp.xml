@@ -45,9 +45,9 @@
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/AMITwigBoolParser.js" />
+			<arg value="js/AMI/AMITwigExprParser.js" />
 			<arg value="-o" />
-			<arg value="js/AMI/AMITwigBoolParser.min.js" />
+			<arg value="js/AMI/AMITwigExprParser.min.js" />
 		</java>
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
@@ -66,7 +66,7 @@
 		<copy file="js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
 		<copy file="js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
 		<copy file="js/AMI/AMITokenizer.js" tofile="js/AMI/AMITokenizer.min.js" overwrite="true" force="true" />
-		<copy file="js/AMI/AMITwigBoolParser.js" tofile="js/AMI/AMITwigBoolParser.min.js" overwrite="true" force="true" />
+		<copy file="js/AMI/AMITwigExprParser.js" tofile="js/AMI/AMITwigExprParser.min.js" overwrite="true" force="true" />
 		<copy file="js/AMI/AMITwig.js" tofile="js/AMI/AMITwig.min.js" overwrite="true" force="true" />
 
 	</target>
@@ -78,7 +78,7 @@
 		<delete file="js/AMI/AMICommand.min.js" />
 		<delete file="js/AMI/AMILogin.min.js" />
 		<delete file="js/AMI/AMITokenizer.min.js" />
-		<delete file="js/AMI/AMITwigBoolParser.min.js" />
+		<delete file="js/AMI/AMITwigExprParser.min.js" />
 		<delete file="js/AMI/AMITwig.min.js" />
 
 	</target>

@@ -83,7 +83,7 @@ function AMIWebApp() {
 
 	this.loadScripts = function(scripts, settings) {
 
-		var context = undefined;
+		var context = null;
 
 		if(settings && 'context' in settings) {
 			context = settings['context'];
@@ -131,7 +131,7 @@ function AMIWebApp() {
 
 	this.loadSheets = function(sheets, settings) {
 
-		var context = undefined;
+		var context = null;
 
 		if(settings && 'context' in settings) {
 			context = settings['context'];
@@ -217,7 +217,7 @@ function AMIWebApp() {
 
 	this.loadHTMLs = function(urls, settings) {
 
-		var context = undefined;
+		var context = null;
 
 		if(settings && 'context' in settings) {
 			context = settings['context'];
@@ -237,15 +237,22 @@ function AMIWebApp() {
 	};
 
 	/*-----------------------------------------------------------------*/
+	/* REGEXPs                                                         */
+	/*-----------------------------------------------------------------*/
+
+	this.originRegExp = /%%\s*ORIGIN_URL\s*%%/g;
+	this.webappRegExp = /%%\s*WEBAPP_URL\s*%%/g;
+
+	/*-----------------------------------------------------------------*/
 	/* REPLACE HTML CONTENT                                            */
 	/*-----------------------------------------------------------------*/
 
 	this.replaceHTML = function(targetID, html, settings) {
 
-		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
-		html = html.replace(/%%WEBAPP_URL%%/g, this.webAppURL);
+		html = html.replace(this.originRegExp, this.originURL);
+		html = html.replace(this.webappRegExp, this.webAppURL);
 
-		var context = undefined;
+		var context = null;
 
 		if(settings) {
 			html = this.formatHTML(html, settings);
@@ -291,10 +298,10 @@ function AMIWebApp() {
 
 	this.prependHTML = function(targetID, html, settings) {
 
-		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
-		html = html.replace(/%%WEBAPP_URL%%/g, this.webAppURL);
+		html = html.replace(this.originRegExp, this.originURL);
+		html = html.replace(this.webappRegExp, this.webAppURL);
 
-		var context = undefined;
+		var context = null;
 
 		if(settings) {
 			html = this.formatHTML(html, settings);
@@ -340,10 +347,10 @@ function AMIWebApp() {
 
 	this.appendHTML = function(targetID, html, settings) {
 
-		html = html.replace(/%%ORIGIN_URL%%/g, this.originURL);
-		html = html.replace(/%%WEBAPP_URL%%/g, this.webAppURL);
+		html = html.replace(this.originRegExp, this.originURL);
+		html = html.replace(this.webappRegExp, this.webAppURL);
 
-		var context = undefined;
+		var context = null;
 
 		if(settings) {
 			html = this.formatHTML(html, settings);
@@ -394,32 +401,24 @@ function AMIWebApp() {
 			var dict = settings['dict'];
 
 			if(dict) {
+				var result = '';
+
 				/*-----------------------------------------*/
 
-				if(!(dict instanceof Array)) {
-					dict = [dict];
+				if(dict instanceof Array) {
+
+					$.each(dict, function(indx, DICT) {
+
+						result += amiTwig.render(html, DICT);
+					});
+
+				} else {
+					result += amiTwig.render(html, dict);
 				}
 
 				/*-----------------------------------------*/
 
-				var result = '';
-
-				$.each(dict, function(indx, DICT) {
-
-					var frag = html;
-
-					$.each(DICT, function(key, val) {
-						frag = frag.replace(
-							new RegExp('\%\%' + key + '\%\%', 'g'), val
-						);
-					});
-
-					result += frag;
-				});
-
 				return result;
-
-				/*-----------------------------------------*/
 			}
 		}
 
@@ -700,7 +699,7 @@ function AMIWebApp() {
 			'js/AMI/AMICommand.min.js',
 			'js/AMI/AMILogin.min.js',
 			'js/AMI/AMITokenizer.min.js',
-			'js/AMI/AMITwigBoolParser.min.js',
+			'js/AMI/AMITwigExprParser.min.js',
 			'js/AMI/AMITwig.min.js',
 		]).fail(function(data) {
 			throw data;

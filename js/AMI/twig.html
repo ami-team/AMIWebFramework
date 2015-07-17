@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Twig</title>
+
+    <script type="text/javascript" src="../jquery.min.js"></script>
+    <script type="text/javascript" src="AMITokenizer.js"></script>
+    <script type="text/javascript" src="AMITwigExprParser.js"></script>
+    <script type="text/javascript" src="AMITwig.js"></script>
+
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="js/html5shiv.min.js"></script>
+      <script type="text/javascript" src="js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+
+    <script type="text/javascript">
+	console.log(amiTwig.render('<html>\n<body>{% if 2 > 1 or y.z == 0 %} %%test.kk%% %%test%% {%endif%}{% for x in l %} %%x%% {% endfor %}</body></html>', {test: {kk: 'yuyuyu'}, l: [1, 2, 3]}));
+	console.log(amiTwig.render('<html>\n<body>{% if test > 1 %} %%test%% {%endif%}{% for x in l %} hello {% endfor %}</body></html>', {test: 2, l: [1, 2, 3]}));
+	console.log(amiTwig.render('<html>\n<body>{% if test > 1 %} %%test%% {%endif%}{% for x in 0..8 %} %%x%% {% endfor %}</body></html>', {test: 2, l: [1, 2, 3]}));
+	console.log(amiTwig.render('<html>\n<body>{% if test > 1 %} %%test%% {%endif%}{% for x in \'A\'..\'Z\' %} %%x%% {% endfor %}</body></html>\n', {test: 2, l: [1, 2, 3]}));
+	//console.log(amiTwig.render('<html>\n<body>{% if test > 1 %} %%test%% {%endif%}{% for x in \'\\\'\'..\'Z\' %} %%x%% {% endfor %}</body></html>', {test: 2, l: [1, 2, 3]}));
+    </script>
+
+  </body>
+</html>
