@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>TWIG Expression Compiler</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css" />
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" ></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+    <script type="text/javascript" src="viz.js"></script>
+    <script type="text/javascript" src="AMITokenizer.js"></script>
+    <script type="text/javascript" src="AMITwigExprCompiler.js"></script>
+    <script type="text/javascript" src="AMITwigExprInterpreter.js"></script>
+
+    <!--[if lt IE 9]>
+      <script type="text/javascript" src="html5shiv.min.js"></script>
+      <script type="text/javascript" src="respond.min.js"></script>
+    <![endif]-->
+
+    <script type="text/javascript">
+
+	function viewExpr() {
+
+		try {
+			var tokens = amiTokenizer.tokenize(
+				$('#expr').val(),
+				[' ', '\t', '\n'],
+				['==', '!=', '=', '<=', '>=', '<', '>', '+', '-', '(', ')', '..', '.'],
+				['\'', '\"'],
+				'\\',
+				0
+			);
+
+			var expr = new AMITwigExprCompiler();
+
+			expr.parse(tokens, 0);
+
+			$('#tree').html(Viz(expr.rootElement.dump(), 'svg', undefined));
+
+		} catch(e) {
+			$('#code').empty();
+			$('#tree').empty();
+
+			$('#message').html('<div class="alert alert-danger alert-dismissible" role="alert"><button class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Error!</strong> ' + e + '</div');
+		}
+	}
+
+	function clearExpr() {
+
+		$('#code').empty();
+		$('#tree').empty();
+	}
+
+	$(function() {
+
+		document.getElementById('expr').addEventListener('keypress', function(e) {
+
+			if(e.keyCode == 13) {
+				viewExpr();
+			}
+		});
+	});
+
+    </script>
+
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div id="message"></div>
+
+      <h1>TWIG expression</h1>
+
+      <div class="input-group">
+        <input type="text" class="form-control" id="expr" placeholder="Expression...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" onclick="viewExpr();">View</button>
+        </span>
+      </div>
+
+      <div class="text-right"><a href="javascript:clearExpr();">clear</a></div>
+
+      <div class="text-center" id="code"></div>
+      <div class="text-center" id="tree"></div>
+
+    <div>
+
+  </body>
+</html>

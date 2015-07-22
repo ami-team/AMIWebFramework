@@ -681,9 +681,12 @@ function AMIWebApp() {
 		/*-------------------------------*/
 
 		this.loadSheets([
+			/* Third-party */
 			'css/bootstrap.min.css',
+			'css/bootstrap-editable.min.css',
 			'css/bootstrap.vertical-tabs.min.css',
 			'css/font-awesome.min.css',
+			/* AMI */
 			'css/AMI/AMIWebApp.min.css',
 		]).fail(function(data) {
 			throw data;
@@ -694,12 +697,16 @@ function AMIWebApp() {
 		/*-------------------------------*/
 
 		this.loadScripts([
+			/* Third-party */
 			'js/jspath.min.js',
 			'js/bootstrap.min.js',
+			'js/bootstrap-editable.min.js',
+			/* AMI */
 			'js/AMI/AMICommand.min.js',
 			'js/AMI/AMILogin.min.js',
 			'js/AMI/AMITokenizer.min.js',
-			'js/AMI/AMITwigExprParser.min.js',
+			'js/AMI/AMITwigExprCompiler.min.js',
+			'js/AMI/AMITwigExprInterpreter.min.js',
 			'js/AMI/AMITwig.min.js',
 		]).fail(function(data) {
 			throw data;

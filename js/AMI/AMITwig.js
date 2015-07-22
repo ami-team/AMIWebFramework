@@ -13,9 +13,9 @@
 function AMITwig() {
 	/*-----------------------------------------------------------------*/
 
-	this.STATEMENT_RE = /\{\%\s*([a-zA-Z_]\w*)(.*?)\%\}/m;
+	this.STATEMENT_RE = /\{\%\s*([a-zA-Z_][a-zA-Z0-9_]*)(.*?)\%\}/m;
 
-	this.VARIABLE_RE  = /\%\%\s*([a-zA-Z_]\w*)(?:\.([a-zA-Z_]\w*))?\s*\%\%/g;
+	this.VARIABLE_RE  = /\%\%\s*([a-zA-Z_][a-zA-Z0-9_]*)(?:\.([a-zA-Z_][a-zA-Z0-9_]*))?\s*\%\%/g;
 
 	/*-----------------------------------------------------------------*/
 
@@ -184,7 +184,7 @@ function AMITwig() {
 			var tokens = amiTokenizer.tokenize(
 				m[2],
 				[' ', '\t', '\n'],
-				['==', '!=', '<', '>', '<=', '>=', '+', '-', '(', ')', '..', '.'],
+				['==', '!=', '=', '<=', '>=', '<', '>', '+', '-', '(', ')', '..', '.'],
 				['\'', '\"'],
 				'\\',
 				line
@@ -218,7 +218,7 @@ function AMITwig() {
 
 			/***/ if(name === 'if') {
 
-				new AMITwigExprParser().parse(tokens, line);
+				new AMITwigExprCompiler().parse(tokens, line);
 
 				if(false) {
 
@@ -299,13 +299,13 @@ function AMITwig() {
 				var _iter = [/******/];
 				var _var = tokens[0];
 
-				/****/ if(tokens.length === 3 && tokens[1] === 'in' && _isIdent(tokens[0]) && _isIdent(tokens[2])) {
+				/****/ if(tokens.length === 3 && tokens[1] === 'in' && _isSId(tokens[0]) && _isSId(tokens[2])) {
 
 					if(tokens[2] in dict) {
 						_iter = dict[tokens[2]];
 					}
 
-				} else if(tokens.length === 5 && tokens[1] === 'in' && _isIdent(tokens[0]) && tokens[3] === '..') {
+				} else if(tokens.length === 5 && tokens[1] === 'in' && _isSId(tokens[0]) && tokens[3] === '..') {
 
 					var n1 = parseInt(tokens[2]);
 					var n2 = parseInt(tokens[4]);
