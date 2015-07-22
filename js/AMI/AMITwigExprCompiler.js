@@ -63,7 +63,9 @@ function AMITwigExprTokenizer(tokens, line) {
 		'<': TWIG_EXPR_NODE_TYPE_GT,
 		'>': TWIG_EXPR_NODE_TYPE_LT,
 		'is': TWIG_EXPR_NODE_TYPE_IS,
+		'null': TWIG_EXPR_NODE_TYPE_NULL,
 		'defined': TWIG_EXPR_NODE_TYPE_DEFINED,
+		'iterable': TWIG_EXPR_NODE_TYPE_ITERABLE,
 		'empty': TWIG_EXPR_NODE_TYPE_EMPTY,
 		'even': TWIG_EXPR_NODE_TYPE_EVEN,
 		'odd': TWIG_EXPR_NODE_TYPE_ODD,
@@ -247,10 +249,10 @@ function AMITwigExprCompiler() {
 		var left = this.parseAddSub();
 
 		/*---------------------------------------------------------*/
-		/* Comp : AddSub (('<' | '>' | ...) AddSub)?               */
+		/* Comp : AddSub (('==' | '!=' | ...) AddSub)?             */
 		/*---------------------------------------------------------*/
 
-		/**/ if(this.tokenizer.checkType(TWIG_EXPR_NODE_TYPE_CMP_OPERATOR)) {
+		/**/ if(this.tokenizer.checkType(TWIG_EXPR_NODE_TYPE_EQ_NE_GTE_LTE_GT_LT)) {
 
 			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
@@ -370,7 +372,7 @@ function AMITwigExprCompiler() {
 		/* AddSub : MulDiv (('+' | '-') MulDiv)*                   */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType([TWIG_EXPR_NODE_TYPE_PLUS, TWIG_EXPR_NODE_TYPE_MINUS])) {
+		if(this.tokenizer.checkType(TWIG_EXPR_NODE_TYPE_PLUS_MINUS)) {
 
 			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
@@ -398,7 +400,7 @@ function AMITwigExprCompiler() {
 		/* MulDiv : NotPlusMinus (('*' | '/' | '%') NotPlusMinus)* */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType([TWIG_EXPR_NODE_TYPE_MUL, TWIG_EXPR_NODE_TYPE_DIV, TWIG_EXPR_NODE_TYPE_MOD])) {
+		if(this.tokenizer.checkType(TWIG_EXPR_NODE_TYPE_MUL_DIV_MOD)) {
 
 			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
@@ -423,7 +425,7 @@ function AMITwigExprCompiler() {
 		/* NotPlusMinus : ('!' | '-' | '+')? X                     */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType([TWIG_EXPR_NODE_TYPE_NOT, TWIG_EXPR_NODE_TYPE_PLUS, TWIG_EXPR_NODE_TYPE_MINUS])) {
+		if(this.tokenizer.checkType(TWIG_EXPR_NODE_TYPE_NOT_PLUS_MINUS)) {
 
 			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
@@ -619,46 +621,53 @@ TWIG_EXPR_NODE_TYPE_GT = 106;
 TWIG_EXPR_NODE_TYPE_LT = 107;
 
 TWIG_EXPR_NODE_TYPE_IS = 108;
-TWIG_EXPR_NODE_TYPE_DEFINED = 109;
-TWIG_EXPR_NODE_TYPE_EMPTY = 110;
-TWIG_EXPR_NODE_TYPE_EVEN = 111;
-TWIG_EXPR_NODE_TYPE_ODD = 112;
-TWIG_EXPR_NODE_TYPE_STARTS = 113;
-TWIG_EXPR_NODE_TYPE_ENDS = 114;
-TWIG_EXPR_NODE_TYPE_WITH = 115;
-TWIG_EXPR_NODE_TYPE_MATCHES = 116;
-TWIG_EXPR_NODE_TYPE_IN = 117;
-TWIG_EXPR_NODE_TYPE_RANGE = 118;
+TWIG_EXPR_NODE_TYPE_NULL = 109;
+TWIG_EXPR_NODE_TYPE_DEFINED = 110;
+TWIG_EXPR_NODE_TYPE_ITERABLE = 111;
+TWIG_EXPR_NODE_TYPE_EMPTY = 112;
+TWIG_EXPR_NODE_TYPE_EVEN = 113;
+TWIG_EXPR_NODE_TYPE_ODD = 114;
 
-TWIG_EXPR_NODE_TYPE_PLUS = 119;
-TWIG_EXPR_NODE_TYPE_MINUS = 120;
+TWIG_EXPR_NODE_TYPE_STARTS = 115;
+TWIG_EXPR_NODE_TYPE_ENDS = 116;
+TWIG_EXPR_NODE_TYPE_WITH = 117;
 
-TWIG_EXPR_NODE_TYPE_MUL = 121;
-TWIG_EXPR_NODE_TYPE_DIV = 122;
-TWIG_EXPR_NODE_TYPE_MOD = 123;
+TWIG_EXPR_NODE_TYPE_MATCHES = 118;
 
-TWIG_EXPR_NODE_TYPE_NOT = 124;
+TWIG_EXPR_NODE_TYPE_IN = 119;
+TWIG_EXPR_NODE_TYPE_RANGE = 120;
 
-TWIG_EXPR_NODE_TYPE_SID = 125;
-TWIG_EXPR_NODE_TYPE_DOT = 126;
+TWIG_EXPR_NODE_TYPE_PLUS = 121;
+TWIG_EXPR_NODE_TYPE_MINUS = 122;
 
-TWIG_EXPR_NODE_TYPE_BOOL = 127;
-TWIG_EXPR_NODE_TYPE_NUM = 128;
-TWIG_EXPR_NODE_TYPE_STR = 129;
+TWIG_EXPR_NODE_TYPE_MUL = 123;
+TWIG_EXPR_NODE_TYPE_DIV = 124;
+TWIG_EXPR_NODE_TYPE_MOD = 125;
+
+TWIG_EXPR_NODE_TYPE_NOT = 126;
+
+TWIG_EXPR_NODE_TYPE_SID = 127;
+TWIG_EXPR_NODE_TYPE_DOT = 128;
+
+TWIG_EXPR_NODE_TYPE_BOOL = 129;
+TWIG_EXPR_NODE_TYPE_NUM = 130;
+TWIG_EXPR_NODE_TYPE_STR = 131;
 
 /*-------------------------------------------------------------------------*/
 
-TWIG_EXPR_NODE_TYPE_CMP_OPERATOR = [
+TWIG_EXPR_NODE_TYPE_EQ_NE_GTE_LTE_GT_LT = [
 	TWIG_EXPR_NODE_TYPE_EQ,
 	TWIG_EXPR_NODE_TYPE_NE,
-	TWIG_EXPR_NODE_TYPE_GT,
-	TWIG_EXPR_NODE_TYPE_LT,
 	TWIG_EXPR_NODE_TYPE_GTE,
 	TWIG_EXPR_NODE_TYPE_LTE,
+	TWIG_EXPR_NODE_TYPE_GT,
+	TWIG_EXPR_NODE_TYPE_LT,
 ];
 
 TWIG_EXPR_NODE_TYPE_IS_XXX = [
+	TWIG_EXPR_NODE_TYPE_NULL,
 	TWIG_EXPR_NODE_TYPE_DEFINED,
+	TWIG_EXPR_NODE_TYPE_ITERABLE,
 	TWIG_EXPR_NODE_TYPE_EMPTY,
 	TWIG_EXPR_NODE_TYPE_EVEN,
 	TWIG_EXPR_NODE_TYPE_ODD
@@ -667,6 +676,23 @@ TWIG_EXPR_NODE_TYPE_IS_XXX = [
 TWIG_EXPR_NODE_TYPE_XXX_WITH = [
 	TWIG_EXPR_NODE_TYPE_STARTS,
 	TWIG_EXPR_NODE_TYPE_ENDS,
+];
+
+TWIG_EXPR_NODE_TYPE_PLUS_MINUS = [
+	TWIG_EXPR_NODE_TYPE_PLUS,
+	TWIG_EXPR_NODE_TYPE_MINUS,
+];
+
+TWIG_EXPR_NODE_TYPE_MUL_DIV_MOD = [
+	TWIG_EXPR_NODE_TYPE_MUL,
+	TWIG_EXPR_NODE_TYPE_DIV,
+	TWIG_EXPR_NODE_TYPE_MOD,
+];
+
+TWIG_EXPR_NODE_TYPE_NOT_PLUS_MINUS = [
+	TWIG_EXPR_NODE_TYPE_NOT,
+	TWIG_EXPR_NODE_TYPE_PLUS,
+	TWIG_EXPR_NODE_TYPE_MINUS,
 ];
 
 TWIG_EXPR_NODE_TYPE_TERMINAL = [
