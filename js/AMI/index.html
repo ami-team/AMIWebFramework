@@ -27,6 +27,7 @@
     <![endif]-->
 
     <script type="text/javascript">
+	/*-----------------------------------------------------------------*/
 
 	function viewExpr() {
 
@@ -34,7 +35,7 @@
 			var tokens = amiTokenizer.tokenize(
 				$('#expr').val(),
 				[' ', '\t', '\n'],
-				['==', '!=', '=', '<=', '>=', '<', '>', '+', '-', '(', ')', '..', '.'],
+				['b-or', 'b-xor', 'b-and', '===', '==', '!==', '!=', '=', '<=', '>=', '<', '>', '+', '-', '**', '*', '//', '/', '..', '.', '|', '(', ')'],
 				['\'', '\"'],
 				'\\',
 				0
@@ -44,7 +45,13 @@
 
 			expr.parse(tokens, 0);
 
-			$('#tree').html(Viz(expr.rootElement.dump(), 'svg', undefined));
+			var code = ((((((((((((((((((((((''))))))))))))))))))))));
+			var tree = Viz(expr.rootElement.dump(), 'svg', undefined);
+
+			$('#code').html(code);
+			$('#tree').html(tree);
+
+			$('#message').empty();
 
 		} catch(e) {
 			$('#code').empty();
@@ -54,22 +61,29 @@
 		}
 	}
 
+	/*-----------------------------------------------------------------*/
+
 	function clearExpr() {
 
 		$('#code').empty();
 		$('#tree').empty();
+
+		$('#message').empty();
 	}
+
+	/*-----------------------------------------------------------------*/
 
 	$(function() {
 
 		document.getElementById('expr').addEventListener('keypress', function(e) {
 
-			if(e.keyCode == 13) {
+			if(e.keyCode === 13) {
 				viewExpr();
 			}
 		});
 	});
 
+	/*-----------------------------------------------------------------*/
     </script>
 
   </head>
