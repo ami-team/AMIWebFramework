@@ -32,6 +32,11 @@ function amiRegisterSubApp(subAppName, subAppInstance) {
 /* CLASS AMIWebApp                                                         */
 /*-------------------------------------------------------------------------*/
 
+/**
+ * Represents an AMI web application.
+ * @constructor
+ */
+
 function AMIWebApp() {
 	/*-----------------------------------------------------------------*/
 	/* TOOLS                                                           */
@@ -95,11 +100,13 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		var html = '';
-
 		if(!(scripts instanceof Array)) {
 			scripts = [scripts];
 		}
+
+		/*---------------------------------------------------------*/
+
+		var html = '';
 
 		for(var i = 0; i < scripts.length; i++) {
 
@@ -110,6 +117,8 @@ function AMIWebApp() {
 				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _ami_internal_nonce++ + '"></script>';
 			}
 		}
+
+		/*---------------------------------------------------------*/
 
 		$('head').append(html).promise().done(function() {
 
@@ -143,11 +152,13 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		var html = '';
-
 		if(!(sheets instanceof Array)) {
 			sheets = [sheets];
 		}
+
+		/*---------------------------------------------------------*/
+
+		var html = '';
 
 		for(var i = 0; i < sheets.length; i++) {
 
@@ -158,6 +169,8 @@ function AMIWebApp() {
 				html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _ami_internal_nonce++ + '"></link>';
 			}
 		}
+
+		/*---------------------------------------------------------*/
 
 		$('head').append(html).promise().done(function() {
 
@@ -254,17 +267,17 @@ function AMIWebApp() {
 
 		var context = null;
 
-		if(settings) {
-			html = this.formatHTML(html, settings);
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		html = this.formatHTML(html, settings);
 
 		/*---------------------------------------------------------*/
 
@@ -303,17 +316,17 @@ function AMIWebApp() {
 
 		var context = null;
 
-		if(settings) {
-			html = this.formatHTML(html, settings);
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		html = this.formatHTML(html, settings);
 
 		/*---------------------------------------------------------*/
 
@@ -352,17 +365,17 @@ function AMIWebApp() {
 
 		var context = null;
 
-		if(settings) {
-			html = this.formatHTML(html, settings);
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
+		if(settings && 'context' in settings) {
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		html = this.formatHTML(html, settings);
 
 		/*---------------------------------------------------------*/
 

@@ -24,14 +24,14 @@ function _isNum(s) {
 
 function _isStr(s) {
 
-	var length = s.length - 1;
+	var length = s.length;
 
 	return length >= 2
 	       &&
 	       (
-	           (s[0] === '\'' && s[s.length - 1] === '\'')
+	           (s[0] === '\'' && s[length - 1] === '\'')
 	           ||
-	           (s[0] === '\"' && s[s.length - 1] === '\"')
+	           (s[0] === '\"' && s[length - 1] === '\"')
 	       )
 	;
 }
@@ -576,7 +576,7 @@ function AMITwigExprCompiler() {
 			return node;
 		}
 
-		if((node = this.parseQId()) !== null) {
+		if((node = this.parseQIdFun()) !== null) {
 			return node;
 		}
 
@@ -622,10 +622,10 @@ function AMITwigExprCompiler() {
 
 	/*-----------------------------------------------------------------*/
 
-	this.parseQId = function() {
+	this.parseQIdFun = function() {
 		/*---------------------------------------------------------*/
-		/* QId : SID('.' SID)*                                     */
-		/*     | SID('.' SID)* '(' ')'                             */
+		/* QIdFun : SID('.' SID)*                                  */
+		/*        | SID('.' SID)* '(' ')'                          */
 		/*---------------------------------------------------------*/
 
 		var qid = '';
@@ -697,10 +697,10 @@ function AMITwigExprCompiler() {
 
 	this.parseRange = function(e) {
 		/*---------------------------------------------------------*/
-		/* Range : QId                                             */
+		/* Range : QIdFun                                          */
 		/*---------------------------------------------------------*/
 
-		var node = this.parseQId();
+		var node = this.parseQIdFun();
 
 		if(node != null) {
 			return node;
