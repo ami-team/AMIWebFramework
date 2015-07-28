@@ -27,6 +27,7 @@
 	amiWebApp.onStart = function() {
 
 		if(amiWebApp.isLocal()) {
+//			amiCommand.endpoint = 'http://localhost:8080/AMI/FrontEnd';
 			amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';
 		} else {
 			amiCommand.endpoint = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
@@ -43,8 +44,8 @@
 			'    Search <span class="caret"></span>' +
 			'  </a>' +
 			'  <ul class="dropdown-menu">' +
-			'    <li><a href="javascript:amiWebApp.runSubApp(amiSearchEngineApp);">Search Engine</a></li>' +
-			'    <li><a href="javascript:amiWebApp.runSubApp(amiSimpleSearchEngineApp);">Simple Search Engine</a></li>' +
+			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiSearchEngine">Search Engine</a></li>' +
+			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiSimpleSearchEngine">Simple Search Engine</a></li>' +
 			'  </ul>' +
 			'</li>' +
 			'<li class="dropdown">' +
@@ -52,7 +53,7 @@
 			'    Tools <span class="caret"></span>' +
 			'  </a>' +
 			'  <ul class="dropdown-menu">' +
-			'    <li><a href="javascript:amiWebApp.runSubApp(amiCommandApp);">Command Line</a></li>' +
+			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiCommand">Command Line</a></li>' +
 			'  </ul>' +
 			'</li>'
 		;
@@ -66,11 +67,13 @@
 				'    <i class="fa fa-key"></i> Admin <span class="caret"></span>' +
 				'  </a>' +
 				'  <ul class="dropdown-menu">' +
-				'    <li><a href="javascript:amiWebApp.runSubApp(amiConfigurationApp);">Configuration</a></li>' +
-				'    <li><a href="javascript:amiWebApp.runSubApp(amiMonitoringApp);">Monitoring</a></li>' +
+				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiConfiguration">Configuration</a></li>' +
+				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiMonitoring">Monitoring</a></li>' +
 				'    <li class="divider"></li>' +
-				'    <li><a href="javascript:amiWebApp.runSubApp(amiCatalogModelerApp);">Catalog Modeler</a></li>' +
-				'    <li><a href="javascript:amiWebApp.runSubApp(amiSearchModelerApp);">Search Modeler</a></li>' +
+				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiCatalogModeler">Catalog Modeler</a></li>' +
+				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiSearchModeler">Search Modeler</a></li>' +
+				'    <li class="divider"></li>' +
+				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiDocument&userdata=api">AMI Web framework API</a></li>' +
 				'  </ul>' +
 				'</li>'
 			;
