@@ -9,6 +9,3 @@ js/AMI/AMITokenizer.min.js
 js/AMI/AMITwigExprCompiler.min.js
 js/AMI/AMITwigExprInterpreter.min.js
 js/AMI/AMITwig.min.js
-
-docs/api/
-node_modules/

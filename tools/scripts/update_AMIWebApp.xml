@@ -53,9 +53,9 @@
 			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
 		</copy>
 
-    <copy todir="docs">
-      <fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
-    </copy>
+		<copy todir="docs">
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
+		</copy>
 
 		<!-- **************************************************** -->
 		<!-- MAKE DIRECTORIES                                     -->
