@@ -903,7 +903,6 @@ try {
 	amiWebApp.loadSheets([
 		/* Third-party */
 		'css/bootstrap.min.css',
-		'css/bootstrap-editable.min.css',
 		'css/bootstrap.vertical-tabs.min.css',
 		'css/font-awesome.min.css',
 		/* AMI */
@@ -920,7 +919,6 @@ try {
 		/* Third-party */
 		'js/jspath.min.js',
 		'js/bootstrap.min.js',
-		'js/bootstrap-editable.min.js',
 		/* AMI */
 		'js/AMI/AMICommand.min.js',
 		'js/AMI/AMILogin.min.js',
