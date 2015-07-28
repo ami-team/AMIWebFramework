@@ -757,7 +757,7 @@ var amiWebApp = {
 
 			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data2) {
 
-				var content = amiWebApp.formatHTML(data1, {dict: dict}) + data2;
+				var content = amiWebApp.formatHTML(data1, dict) + data2;
 
 				$('body').append(content).promise().done(function() {
 

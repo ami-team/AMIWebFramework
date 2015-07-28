@@ -2,6 +2,8 @@
 
 <project name="AMIWebApp" default="compile_prod">
 
+	<property environment="env" />
+
 	<path id="execute-classpath">
 		<fileset dir="." />
 	</path>
@@ -89,6 +91,18 @@
 		<delete file="js/AMI/AMITwigExprCompiler.min.js" />
 		<delete file="js/AMI/AMITwigExprInterpreter.min.js" />
 		<delete file="js/AMI/AMITwig.min.js" />
+
+	</target>
+
+	<target name="doc" description="Generate doc.">
+
+		<!-- npm install -g jsdoc -->
+
+		<exec executable="bash">
+			<env key="PATH" value="/usr/local/bin:${env.PATH}" />
+			<arg value="-c" />
+			<arg value="jsdoc --template tools/AMI-template --destination docs/api js/AMI/AMIWebApp.js js/AMI/AMICommand.js" />
+		</exec>
 
 	</target>
 
