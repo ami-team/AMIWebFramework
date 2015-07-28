@@ -24,11 +24,16 @@
 		</exec>
 
 		<!-- **************************************************** -->
-		<!-- COPY *.min.css, *.min.js, *.html                     -->
+		<!-- COPY FILES                                           -->
 		<!-- **************************************************** -->
 
 		<copy todir="css">
 			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*.min.css" />
+		</copy>
+
+		<copy todir="docs">
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.css" />
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
 		</copy>
 
 		<copy todir="fonts">
@@ -39,9 +44,13 @@
 			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff2" />
 		</copy>
 
+		<copy todir="html">
+			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
+		</copy>
+
 		<copy todir="images">
-			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.jpg" />
 			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.gif" />
+			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.jpg" />
 			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.png" />
 		</copy>
 
@@ -49,12 +58,12 @@
 			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*.min.js" />
 		</copy>
 
-		<copy todir="html">
-			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
+		<copy todir="libraries">
+			<fileset dir="${AMIWebAppTmpDir}/libraries" includes="**/*" />
 		</copy>
 
-		<copy todir="docs">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
+		<copy todir="subapps">
+			<fileset dir="${AMIWebAppTmpDir}/subapps" includes="**/*" />
 		</copy>
 
 		<!-- **************************************************** -->
@@ -63,7 +72,6 @@
 
 		<mkdir dir="css/AMI" />
 		<mkdir dir="js/AMI" />
-		<mkdir dir="html/AMI" />
 
 		<!-- **************************************************** -->
 		<!-- GENERATE MINIMIZED FILES                             -->
@@ -151,11 +159,16 @@
 		</exec>
 
 		<!-- **************************************************** -->
-		<!-- COPY *.min.css, *.min.js, *.html                     -->
+		<!-- COPY FILES                                           -->
 		<!-- **************************************************** -->
 
 		<copy todir="css">
 			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*.min.css" />
+		</copy>
+
+		<copy todir="docs">
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.css" />
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
 		</copy>
 
 		<copy todir="fonts">
@@ -166,9 +179,13 @@
 			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff2" />
 		</copy>
 
+		<copy todir="html">
+			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
+		</copy>
+
 		<copy todir="images">
-			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.jpg" />
 			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.gif" />
+			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.jpg" />
 			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.png" />
 		</copy>
 
@@ -176,12 +193,12 @@
 			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*.min.js" />
 		</copy>
 
-		<copy todir="html">
-			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
+		<copy todir="libraries">
+			<fileset dir="${AMIWebAppTmpDir}/libraries" includes="**/*" />
 		</copy>
 
-		<copy todir="docs">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
+		<copy todir="subapps">
+			<fileset dir="${AMIWebAppTmpDir}/subapps" includes="**/*" />
 		</copy>
 
 		<!-- **************************************************** -->
@@ -190,7 +207,6 @@
 
 		<mkdir dir="css/AMI" />
 		<mkdir dir="js/AMI" />
-		<mkdir dir="html/AMI" />
 
 		<!-- **************************************************** -->
 		<!-- GENERATE MINIMIZED FILES                             -->
