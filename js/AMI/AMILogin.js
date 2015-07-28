@@ -207,6 +207,7 @@ var amiLogin = {
 			});
 
 		}).fail(function(data, user, guest) {
+
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 
 			amiLogin._update(data, user, guest).always(function() {
@@ -246,6 +247,7 @@ var amiLogin = {
 			});
 
 		}).fail(function(data, user, guest) {
+
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 
 			amiLogin._update(data, user, guest).always(function() {

@@ -1043,7 +1043,7 @@ while(amiWebApp.webAppURL[amiWebApp.webAppURL.length - 1] === '/') {
 /*-------------------------------*/
 
 /**
-  * The dictionary of URL arguments
+  * URL arguments
   */
 
 amiWebApp.args = {};
