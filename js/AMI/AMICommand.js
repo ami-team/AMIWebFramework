@@ -1,5 +1,5 @@
 /*!
- * AMICommand class
+ * amiCommand
  *
  * Copyright (c) 2014-2015 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -7,7 +7,7 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* BASE64                                                                  */
+/* INTERNAL VARIABLES                                                      */
 /*-------------------------------------------------------------------------*/
 
 var _ami_internal_base64KeyStr =
@@ -19,63 +19,93 @@ var _ami_internal_base64KeyStr =
 ;
 
 /*-------------------------------------------------------------------------*/
+/* INTERNAL FUNCTIONS                                                      */
+/*-------------------------------------------------------------------------*/
 
-function amiBase64Decode(input) {
+function _ami_internal_textToString(s) {
 
-	var i = 0;
-	var output = '';
-	var chr1, chr2, chr3 = '';
-	var enc1, enc2, enc3, enc4 = '';
+	return s.replace(/[\\'"]/g, function(x) {
 
-	input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '');
-
-	do {
-		enc1 = _ami_internal_base64KeyStr.indexOf(input.charAt(i++));
-		enc2 = _ami_internal_base64KeyStr.indexOf(input.charAt(i++));
-		enc3 = _ami_internal_base64KeyStr.indexOf(input.charAt(i++));
-		enc4 = _ami_internal_base64KeyStr.indexOf(input.charAt(i++));
-
-		chr1 = ((enc1 & 255) << 2) | (enc2 >> 4);
-		chr2 = ((enc2 &  15) << 4) | (enc3 >> 2);
-		chr3 = ((enc3 &   3) << 6) | (enc4 >> 0);
-
-		output = output + String.fromCharCode(chr1);
-
-		if(enc3 != 64) {
-			output = output + String.fromCharCode(chr2);
-		}
-
-		if(enc4 != 64) {
-			output = output + String.fromCharCode(chr3);
-		}
-
-		chr1 = chr2 = chr3 = '';
-		enc1 = enc2 = enc3 = enc4 = '';
-
-	} while(i < input.length);
-
-	return unescape(output);
+		return '\\' + x;
+	});
 }
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMICommand                                                        */
+/* amiCommand                                                              */
 /*-------------------------------------------------------------------------*/
 
-function AMICommand() {
+/**
+ * The AMI command subsystem
+ * @namespace amiCommand
+ */
+
+var amiCommand = {
 	/*-----------------------------------------------------------------*/
 
-	this.endpoint = 'http://xx.yy';
-	this.converter = 'AMIXmlToJson.xsl';
+	/**
+	  * Decode a base64 string
+	  * @param {string} s the base64 string
+	  * @returns The decoded string
+	  */
+
+	amiBase64Decode: function(s) {
+
+		var i = 0;
+		var result = '';
+		var chr1, chr2, chr3 = '';
+		var enc1, enc2, enc3, enc4 = '';
+
+		s = s.replace(/[^A-Za-z0-9\+\/\=]/g, '');
+
+		do {
+			enc1 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
+			enc2 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
+			enc3 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
+			enc4 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
+
+			chr1 = ((enc1 & 255) << 2) | (enc2 >> 4);
+			chr2 = ((enc2 &  15) << 4) | (enc3 >> 2);
+			chr3 = ((enc3 &   3) << 6) | (enc4 >> 0);
+
+			result = result + String.fromCharCode(chr1);
+
+			if(enc3 != 64) {
+				result = result + String.fromCharCode(chr2);
+			}
+
+			if(enc4 != 64) {
+				result = result + String.fromCharCode(chr3);
+			}
+
+			chr1 = chr2 = chr3 = '';
+			enc1 = enc2 = enc3 = enc4 = '';
+
+		} while(i < s.length);
+
+		return unescape(result);
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.execute = function(command, settings) {
+	endpoint: 'http://xxyy.zz',
+	converter: 'AMIXmlToJson.xsl',
 
-		var context = undefined;
-		var endpoint = this.endpoint;
-		var converter = this.converter;
-		var extraParam = undefined;
-		var extraValue = undefined;
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Execute an AMI command
+	  * @param {string} command the command
+	  * @param {object} [settings] dictionary of settings (context, endpoint, converter, extraParam, extraValue)
+	  * @returns A JQuery deferred object
+	  */
+
+	execute: function(command, settings) {
+
+		var context = null;
+		var endpoint = amiCommand.endpoint;
+		var converter = amiCommand.converter;
+		var extraParam = null;
+		var extraValue = null;
 
 		if(settings) {
 
@@ -108,7 +138,7 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		data = {
+		var data = {
 			Command: COMMAND,
 			Converter: CONVERTER,
 		}
@@ -149,7 +179,7 @@ function AMICommand() {
 				},
 				success: function(data) {
 
-					var error = amiWebApp.jspath('.AMIMessage.error', data);
+					var error = JSPath.apply('.AMIMessage.error', data);
 
 					if(error.length === 0) {
 
@@ -227,13 +257,21 @@ function AMICommand() {
 		return deferred.promise();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.passLogin = function(user, pass, settings) {
+	/**
+	  * Login by login/password
+	  * @param {string} user the user
+	  * @param {string} pass the password
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
 
-		var context = undefined;
+	passLogin: function(user, pass, settings) {
+
+		var context = null;
 
 		if(settings && 'context' in settings) {
 			context = settings['context'];
@@ -245,10 +283,10 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		this.execute('GetSessionInfo -AMIUser="' + user + '" -AMIPass="' + pass + '"', {extraParam: 'NoCert'}).done(function(data) {
+		amiCommand.execute('GetSessionInfo -AMIUser="' + _ami_internal_textToString(user) + '" -AMIPass="' + _ami_internal_textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
 
-			var user = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', data)[0];
-			var guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
+			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0];
+			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0];
 
 			if(context) {
 				result.resolveWith(context, [data, user, guest]);
@@ -258,12 +296,10 @@ function AMICommand() {
 
 		}).fail(function(data) {
 
-			var guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
-
 			if(context) {
-				result.rejectWith(context, [data, guest, guest]);
+				result.rejectWith(context, [data, 'guest', 'guest']);
 			} else {
-				result.reject(data, guest, guest);
+				result.reject(data, 'guest', 'guest');
 			}
 		});
 
@@ -272,13 +308,19 @@ function AMICommand() {
 		return result;
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.certLogin = function(settings) {
+	/**
+	  * Login by certificate
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
 
-		var context = undefined;
+	certLogin: function(settings) {
+
+		var context = null;
 
 		if(settings && 'context' in settings) {
 			context = settings['context'];
@@ -290,10 +332,10 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		this.execute('GetSessionInfo').done(function(data) {
+		amiCommand.execute('GetSessionInfo').done(function(data) {
 
-			var user = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', data)[0];
-			var guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
+			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0];
+			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0];
 
 			if(context) {
 				result.resolveWith(context, [data, user, guest]);
@@ -303,12 +345,10 @@ function AMICommand() {
 
 		}).fail(function(data) {
 
-			var guest = amiWebApp.jspath('..field{.@name==="guestUser"}.$', data)[0];
-
 			if(context) {
-				result.rejectWith(context, [data, guest, guest]);
+				result.rejectWith(context, [data, 'guest', 'guest']);
 			} else {
-				result.reject(data, guest, guest);
+				result.reject(data, 'guest', 'guest');
 			}
 		});
 
@@ -317,13 +357,19 @@ function AMICommand() {
 		return result;
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.logout = function(settings) {
+	/**
+	  * Logout
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
 
-		var context = undefined;
+	logout: function(settings) {
+
+		var context = null;
 
 		if(settings && 'context' in settings) {
 			context = settings['context'];
@@ -335,22 +381,23 @@ function AMICommand() {
 
 		/*---------------------------------------------------------*/
 
-		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""').done(function(data) {
+		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).done(function(data) {
 
-			var user = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', data)[0];
+			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0];
+			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0];
 
 			if(context) {
-				result.resolveWith(context, [data, user]);
+				result.resolveWith(context, [data, user, guest]);
 			} else {
-				result.resolve(data, user);
+				result.resolve(data, user, guest);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data]);
+				result.rejectWith(context, [data, 'guest', 'guest']);
 			} else {
-				result.reject(data);
+				result.reject(data, 'guest', 'guest');
 			}
 		});
 
@@ -359,113 +406,104 @@ function AMICommand() {
 		return result;
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.attachCert = function(user, pass, settings) {
+	/**
+	  * Attach a certificate
+	  * @param {string} user the user
+	  * @param {string} pass the password
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
 
-		var context = undefined;
+	attachCert: function(user, pass, settings) {
 
-		if(settings && 'context' in settings) {
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		return this.execute('GetSessionInfo -attachCert -amiLogin="' + user + '" -amiPassword="' + pass + '"', {context: context});
-
-		/*---------------------------------------------------------*/
-	};
+		return amiCommand.execute('GetSessionInfo -attachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.detachCert = function(user, pass, settings) {
+	/**
+	  * Detach a certificate
+	  * @param {string} user the user
+	  * @param {string} pass the password
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
 
-		var context = undefined;
+	detachCert: function(user, pass, settings) {
 
-		if(settings && 'context' in settings) {
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		return this.execute('GetSessionInfo -detachCert -amiLogin="' + user + '" -amiPassword="' + pass + '"', {context: context});
-
-		/*---------------------------------------------------------*/
-	};
+		return amiCommand.execute('GetSessionInfo -detachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.addUser = function(user, pass, firstName, lastName, email, settings) {
+	/**
+	  * Add a new user
+	  * @param {string} user the user
+	  * @param {string} pass the password
+	  * @param {string} firstName the first name
+	  * @param {string} lastName the last name
+	  * @param {string} email the email
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
 
-		var context = undefined;
+	addUser: function(user, pass, firstName, lastName, email, settings) {
 
-		if(settings && 'context' in settings) {
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		return this.execute('AddUser -amiLogin="' + user + '" -amiPassword="' + pass + '" -firstName="' + firstName + '"-lastName="' + lastName + '" -email="' + email + '"', {context: context});
-
-		/*---------------------------------------------------------*/
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.changeInfo = function(firstName, lastName, email, settings) {
-
-		var context = undefined;
-
-		if(settings && 'context' in settings) {
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		return this.execute('SetUserInfo -firstName="' + firstName + '" -lastName="' + lastName + '" -email="' + email + '"', {context: context});
-
-		/*---------------------------------------------------------*/
-	};
+		return amiCommand.execute('AddUser -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '" -firstName="' + _ami_internal_textToString(firstName) + '"-lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.changePass = function(old_pass, new_pass, settings) {
+	/**
+	  * Change the account information
+	  * @param {string} firstName the first name
+	  * @param {string} lastName the last name
+	  * @param {string} email the email
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
 
-		var context = undefined;
+	changeInfo: function(firstName, lastName, email, settings) {
 
-		if(settings && 'context' in settings) {
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		return this.execute('ChangePassword -amiPasswordOld="' + old_pass + '" -amiPasswordNew="' + new_pass + '"', {context: context});
-
-		/*---------------------------------------------------------*/
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.resetPass = function(user, settings) {
-
-		var context = undefined;
-
-		if(settings && 'context' in settings) {
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		return this.execute('ResetPassword -amiLogin="' + user + '"', {context: context});
-
-		/*---------------------------------------------------------*/
-	};
+		return amiCommand.execute('SetUserInfo -firstName="' + _ami_internal_textToString(firstName) + '" -lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.checkAuthorization = function(clazz, arguments, settings) {
+	/**
+	  * Change the account information
+	  * @param {string} old_pass the old password
+	  * @param {string} new_pass the new password
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
+
+	changePass: function(old_pass, new_pass, settings) {
+
+		return amiCommand.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(old_pass) + '" -amiPasswordNew="' + _ami_internal_textToString(new_pass) + '"', settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Reset the account password
+	  * @param {string} user the user
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
+
+	resetPass: function(user, settings) {
+
+		return amiCommand.execute('ResetPassword -amiLogin="' + _ami_internal_textToString(user) + '"', settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	checkAuthorization: function(clazz, arguments, settings) {
 
 		var command = 'CheckAuthorization -roleValidatorClass="' + clazz + '"';
 
@@ -474,15 +512,9 @@ function AMICommand() {
 		}
 
 		return amiCommand.execute(command, settings);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-}
-
-/*-------------------------------------------------------------------------*/
-/* GLOBAL INSTANCE                                                         */
-/*-------------------------------------------------------------------------*/
-
-amiCommand = new AMICommand();
+};
 
 /*-------------------------------------------------------------------------*/

@@ -1,5 +1,5 @@
 /*!
- * AMITwigExprCompiler class
+ * AMITwigExprCompiler
  *
  * Copyright (c) 2014-2015 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -7,22 +7,24 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMITwigExprTokenizer                                              */
+/* INTERNAL VARIABLES                                                      */
 /*-------------------------------------------------------------------------*/
 
-var _ami_internal_num_regex = /^[0-9]+$/;
-var _ami_internal_sid_regex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+var _ami_internal_numRegex = /^[0-9]+$/;
+var _ami_internal_sidRegex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
 
 /*-------------------------------------------------------------------------*/
+/* INTERNAL FUNCTIONS                                                      */
+/*-------------------------------------------------------------------------*/
 
-function _isNum(s) {
+function _ami_internal_isNum(s) {
 
-	return s.match(_ami_internal_num_regex) !== null;
+	return s.match(_ami_internal_numRegex) !== null;
 }
 
 /*-------------------------------------------------------------------------*/
 
-function _isStr(s) {
+function _ami_internal_isStr(s) {
 
 	var length = s.length;
 
@@ -38,11 +40,13 @@ function _isStr(s) {
 
 /*-------------------------------------------------------------------------*/
 
-function _isSId(s) {
+function _ami_internal_isSId(s) {
 
-	return s.match(_ami_internal_sid_regex) !== null;
+	return s.match(_ami_internal_sidRegex) !== null;
 }
 
+/*-------------------------------------------------------------------------*/
+/* AMITwigExprTokenizer                                                    */
 /*-------------------------------------------------------------------------*/
 
 function AMITwigExprTokenizer(tokens, line) {
@@ -115,11 +119,11 @@ function AMITwigExprTokenizer(tokens, line) {
 
 		if(type) {
 			this.types.push(type);
-		} else if(_isNum(token)) {
+		} else if(_ami_internal_isNum(token)) {
 			this.types.push(TWIG_EXPR_NODE_TYPE_NUM);
-		} else if(_isStr(token)) {
+		} else if(_ami_internal_isStr(token)) {
 			this.types.push(TWIG_EXPR_NODE_TYPE_STR);
-		} else if(_isSId(token)) {
+		} else if(_ami_internal_isSId(token)) {
 			this.types.push(TWIG_EXPR_NODE_TYPE_SID);
 		} else {
 			throw 'error, line `' + line + '`, unknown token `' + token + '`';
@@ -172,7 +176,7 @@ function AMITwigExprTokenizer(tokens, line) {
 };
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMITwigExprCompiler                                               */
+/* AMITwigExprCompiler                                                     */
 /*-------------------------------------------------------------------------*/
 
 function AMITwigExprCompiler() {
@@ -186,6 +190,8 @@ function AMITwigExprCompiler() {
 		/*---------------------------------------------------------*/
 
 		this.rootElement = this.parseLogicalOr();
+
+		/*---------------------------------------------------------*/
 
 		if(!this.tokenizer.isEmpty()) {
 			throw 'error, line `' + this.line + '`, unexpected token `' + this.tokenizer.peekToken() + '`';
@@ -744,7 +750,7 @@ function AMITwigExprCompiler() {
 }
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMITwigExprNode                                                   */
+/* AMITwigExprNode                                                         */
 /*-------------------------------------------------------------------------*/
 
 TWIG_EXPR_NODE_TYPE_LOGICAL_OR = 100;
@@ -888,11 +894,5 @@ function AMITwigExprNode(nodeType, nodeValue) {
 
 	/*-----------------------------------------------------------------*/
 }
-
-/*-------------------------------------------------------------------------*/
-/* GLOBAL INSTANCE                                                         */
-/*-------------------------------------------------------------------------*/
-
-amiTwigExprParser = new AMITwigExprCompiler();
 
 /*-------------------------------------------------------------------------*/

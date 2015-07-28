@@ -8,6 +8,34 @@
 }
 
 /*-------------------------------------------------------------------------*/
+
+@font-face {
+    font-family: "Open Sans";
+    font-weight: normal;
+    font-style: normal;
+    src: url("../../fonts/OpenSans-Regular-webfont.eot");
+    src:
+        local("Open Sans"),
+        local("OpenSans"),
+        url("../../fonts/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"),
+        url("../../fonts/OpenSans-Regular-webfont.woff") format("woff"),
+        url("../../fonts/OpenSans-Regular-webfont.svg#open_sansregular") format("svg");
+}
+
+@font-face {
+    font-family: "Open Sans Light";
+    font-weight: normal;
+    font-style: normal;
+    src: url("../../fonts/OpenSans-Light-webfont.eot");
+    src:
+        local("Open Sans Light"),
+        local("OpenSans Light"),
+        url("../../fonts/OpenSans-Light-webfont.eot?#iefix") format("embedded-opentype"),
+        url("../../fonts/OpenSans-Light-webfont.woff") format("woff"),
+        url("../../fonts/OpenSans-Light-webfont.svg#open_sanslight") format("svg");
+}
+
+/*-------------------------------------------------------------------------*/
 /* GENERAL                                                                 */
 /*-------------------------------------------------------------------------*/
 
@@ -34,6 +62,8 @@ code {
 	padding-right: 35px;
 	width: 100%;
 }
+
+/*-------------------------------------------------------------------------*/
 
 .navbar {
 	margin-bottom: 5px;
@@ -76,6 +106,8 @@ code {
 	text-decoration: none;
 }
 
+/*-------------------------------------------------------------------------*/
+
 .jumbotron {
 	background-color: rgb(255, 255, 255);
 	background-image: url("../../images/stripe1.png");
@@ -98,6 +130,27 @@ code {
 	margin-bottom: 16px;
 }
 
+/*-------------------------------------------------------------------------*/
+
+.nav-tabs > li .close {
+	margin: 0 0 0 10px;
+	font-size: 18px;
+}
+
+.tab-content {
+	margin-top: 10px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.popover-content pre {
+	background-color: rgba(255, 203, 0, 0.1);
+	white-space: pre-wrap;
+	word-break: keep-all;
+}
+
+/*-------------------------------------------------------------------------*/
+
 .modal-body {
 	padding-bottom: 10px;
 }
@@ -109,21 +162,6 @@ code {
 	border-radius: 0 0 6px 6px;
 	-moz-border-radius: 0 0 6px 6px;
 	-webkit-border-radius: 0 0 6px 6px;
-}
-
-.nav-tabs > li .close {
-	margin: 0 0 0 10px;
-	font-size: 18px;
-}
-
-.tab-content {
-	margin-top: 10px;
-}
-
-.popover-content pre {
-	background-color: rgba(255, 203, 0, 0.1);
-	white-space: pre-wrap;
-	word-break: keep-all;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -142,6 +180,8 @@ code {
 	margin: 20px 00px;
 	padding: 20px;
 }
+
+/*-------------------------------------------------------------------------*/
 
 .ami-guilloche {
 	margin: 0px;
@@ -164,6 +204,8 @@ code {
 	font-family: "janda";
 }
 
+/*-------------------------------------------------------------------------*/
+
 .ami-code {
 	border-left: 6px solid rgb(85, 138, 187);
 	counter-reset: listing;
@@ -177,6 +219,8 @@ code {
 	content: counter(listing) ". ";
 	color: gray;
 }
+
+/*-------------------------------------------------------------------------*/
 
 #ami_locker {
 	top: 0;
@@ -222,7 +266,7 @@ code {
 		background-color: transparent;
 		-moz-appearance: none;
 		text-indent: 0.01px;
-		text-overflow: '';
+		text-overflow: "";
 	}
 }
 

@@ -1,5 +1,5 @@
 /*!
- * AMIWebApp class
+ * amiWebApp
  *
  * Copyright (c) 2014-2015 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -22,6 +22,14 @@ var _ami_internal_scripts = [];
 var _ami_internal_sheets = [];
 
 /*-------------------------------------------------------------------------*/
+/* GLOBAL FUNCTIONS                                                        */
+/*-------------------------------------------------------------------------*/
+
+/**
+  * Register a sub-application
+  * @param {string} subAppName the sub-application name
+  * @param {string} subAppInstance the sub-application instance
+  */
 
 function amiRegisterSubApp(subAppName, subAppInstance) {
 
@@ -29,20 +37,25 @@ function amiRegisterSubApp(subAppName, subAppInstance) {
 }
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMIWebApp                                                         */
+/* amiWebApp                                                               */
 /*-------------------------------------------------------------------------*/
 
 /**
- * Represents an AMI web application.
- * @constructor
+ * The AMI webapp subsystem
+ * @namespace amiWebApp
  */
 
-function AMIWebApp() {
+var amiWebApp = {
 	/*-----------------------------------------------------------------*/
 	/* TOOLS                                                           */
 	/*-----------------------------------------------------------------*/
 
-	this.isLocal = function() {
+	/**
+	  * Check whether the WebApp is executed locally (file://, localhost or 127.0.0.1) or not
+	  * @returns True or False
+	  */
+
+	isLocal: function() {
 
 		return document.location.protocol === (('file:'))
 		       ||
@@ -50,43 +63,86 @@ function AMIWebApp() {
 		       ||
 		       document.location.hostname === '127.0.0.1'
 		;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.textToHtml = function(s) {
+	/**
+	  * Escapes the given string from text to HTML
+	  * @param {string} s the unescaped string
+	  * @returns The escaped string
+	  */
+
+	textToHtml: function(s) {
 		return s.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-	};
+	},
 
-	this.htmlToText = function(s) {
+	/**
+	  * Unescapes the given string from HTML to text
+	  * @param {string} s the escaped string
+	  * @returns The unescaped string
+	  */
+
+	htmlToText: function(s) {
 		return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"');
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.textToString = function(s) {
+	/**
+	  * Escapes the given string from text to JavaScript string
+	  * @param {string} s the unescaped string
+	  * @returns The escaped string
+	  */
+
+	textToString: function(s) {
 		return s.replace(/\\/g, '\\\\').replace(/"/g, '\\\"').replace(/'/g, '\\\'');
-	};
+	},
 
-	this.stringToText = function(s) {
+	/**
+	  * Unescapes the given string from JavaScript string to text
+	  * @param {string} s the escaped string
+	  * @returns The unescaped string
+	  */
+
+	stringToText: function(s) {
 		return s.replace(/\\'/g, '\'').replace(/\\"/g, '\"').replace(/\\\\/g, '\\');
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.htmlToString = function(s) {
-		return s.replace(/\\/g, '\\\\').replace(/&quot;/g, '\\\&quot;').replace(/'/g, '\\\'');
-	};
+	/**
+	  * Escapes the given string from HTML to JavaScript string
+	  * @param {string} s the unescaped string
+	  * @returns The escaped string
+	  */
 
-	this.stringToHtml = function(s) {
-		return s.replace(/\\'/g, '\'').replace(/\\&quot;/g, '\&quot;').replace(/\\\\/g, '\\');
-	};
+	htmlToString: function(s) {
+		return s.replace(/\\/g, '\\\\').replace(/&quot;/g, '\\&quot;').replace(/'/g, '\\\'');
+	},
+
+	/**
+	  * Unescapes the given string from JavaScript string to HTML
+	  * @param {string} s the escaped string
+	  * @returns The unescaped string
+	  */
+
+	stringToHtml: function(s) {
+		return s.replace(/\\'/g, '\'').replace(/\\&quot;/g, '&quot;').replace(/\\\\/g, '\\');
+	},
 
 	/*-----------------------------------------------------------------*/
 	/* DYNAMIC SCRIPT LOADING                                          */
 	/*-----------------------------------------------------------------*/
 
-	this.loadScripts = function(scripts, settings) {
+	/**
+	  * Loads JavaScript scripts asynchronously
+	  * @param {string|array} scripts the list of scripts
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
+
+	loadScripts: function(scripts, settings) {
 
 		var context = null;
 
@@ -132,13 +188,20 @@ function AMIWebApp() {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 	/* DYNAMIC SHEET LOADING                                           */
 	/*-----------------------------------------------------------------*/
 
-	this.loadSheets = function(sheets, settings) {
+	/**
+	  * Loads CSS sheets asynchronously
+	  * @param {string|array} sheets the list of sheets
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
+
+	loadSheets: function(sheets, settings) {
 
 		var context = null;
 
@@ -184,13 +247,13 @@ function AMIWebApp() {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 	/* DYNAMIC HTML LOADING                                            */
 	/*-----------------------------------------------------------------*/
 
-	this._loadHTMLs = function(deferred, array, urls, context) {
+	_loadHTMLs: function(deferred, array, urls, context) {
 
 		if(urls.length > 0) {
 
@@ -200,13 +263,12 @@ function AMIWebApp() {
 				url: url,
 				cache: false,
 				dataType: 'html',
-				context: this,
 
 			}).done(function(data) {
 
 				array.push(data);
 
-				this._loadHTMLs(deferred, array, urls, context);
+				amiWebApp._loadHTMLs(deferred, array, urls, context);
 
 			}).fail(function() {
 
@@ -224,11 +286,18 @@ function AMIWebApp() {
 				deferred.resolve(array);
 			}
 		}
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.loadHTMLs = function(urls, settings) {
+	/**
+	  * Loads HTML fragments asynchronously
+	  * @param {string|array} fragments the list of fragments
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
+
+	loadHTMLs: function(fragments, settings) {
 
 		var context = null;
 
@@ -242,33 +311,53 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		this._loadHTMLs(result, [], urls, context);
+		if(!(fragments instanceof Array)) {
+			fragments = [fragments];
+		}
+
+		/*---------------------------------------------------------*/
+
+		amiWebApp._loadHTMLs(result, [], fragments, context);
 
 		/*---------------------------------------------------------*/
 
 		return result.promise();
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-	/* REGEXPs                                                         */
+	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
-	this.originRegExp = /%%\s*ORIGIN_URL\s*%%/g;
-	this.webappRegExp = /%%\s*WEBAPP_URL\s*%%/g;
+	originRegExp: /%%\s*ORIGIN_URL\s*%%/g,
+	webappRegExp: /%%\s*WEBAPP_URL\s*%%/g,
 
 	/*-----------------------------------------------------------------*/
-	/* REPLACE HTML CONTENT                                            */
-	/*-----------------------------------------------------------------*/
 
-	this.replaceHTML = function(targetID, html, settings) {
+	/**
+	  * Replace the HTML content of the given target
+	  * @param {string} path the target path
+	  * @param {string} html the HTML fragment
+	  * @param {object} [settings] dictionary of settings (context, dict)
+	  * @returns A JQuery deferred object
+	  */
 
-		html = html.replace(this.originRegExp, this.originURL);
-		html = html.replace(this.webappRegExp, this.webAppURL);
+	replaceHTML: function(selector, html, settings) {
+
+		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
+		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
 
 		var context = null;
+		var dict = null;
 
-		if(settings && 'context' in settings) {
-			context = settings['context'];
+		if(settings) {
+		
+			if('context' in settings) {
+				context = settings['context'];
+			}
+
+			if('dict' in settings) {
+				dict = settings['dict'];
+			}
 		}
 
 		/*---------------------------------------------------------*/
@@ -277,11 +366,11 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		html = this.formatHTML(html, settings);
+		html = amiWebApp.formatHTML(html, dict);
 
 		/*---------------------------------------------------------*/
 
-		var target = $(targetID);
+		var target = $(selector);
 
 		target.html(html).promise().done(function() {
 
@@ -303,21 +392,35 @@ function AMIWebApp() {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-	/* APPEND HTML CONTENT                                             */
-	/*-----------------------------------------------------------------*/
 
-	this.prependHTML = function(targetID, html, settings) {
+	/**
+	  * Prepends a HTML fragment to the given target content
+	  * @param {string} path the target path
+	  * @param {string} html the HTML fragment
+	  * @param {object} [settings] dictionary of settings (context, dict)
+	  * @returns A JQuery deferred object
+	  */
 
-		html = html.replace(this.originRegExp, this.originURL);
-		html = html.replace(this.webappRegExp, this.webAppURL);
+	prependHTML: function(selector, html, settings) {
+
+		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
+		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
 
 		var context = null;
+		var dict = null;
 
-		if(settings && 'context' in settings) {
-			context = settings['context'];
+		if(settings) {
+		
+			if('context' in settings) {
+				context = settings['context'];
+			}
+
+			if('dict' in settings) {
+				dict = settings['dict'];
+			}
 		}
 
 		/*---------------------------------------------------------*/
@@ -326,11 +429,11 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		html = this.formatHTML(html, settings);
+		html = amiWebApp.formatHTML(html, dict);
 
 		/*---------------------------------------------------------*/
 
-		var target = $(targetID);
+		var target = $(selector);
 
 		target.prepend(html).promise().done(function() {
 
@@ -352,21 +455,35 @@ function AMIWebApp() {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-	/* APPEND HTML CONTENT                                             */
-	/*-----------------------------------------------------------------*/
 
-	this.appendHTML = function(targetID, html, settings) {
+	/**
+	  * Appends a HTML fragment to the given target content
+	  * @param {string} path the target path
+	  * @param {string} html the HTML fragment
+	  * @param {object} [settings] dictionary of settings (context, dict)
+	  * @returns A JQuery deferred object
+	  */
 
-		html = html.replace(this.originRegExp, this.originURL);
-		html = html.replace(this.webappRegExp, this.webAppURL);
+	appendHTML: function(selector, html, settings) {
+
+		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
+		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
 
 		var context = null;
+		var dict = null;
 
-		if(settings && 'context' in settings) {
-			context = settings['context'];
+		if(settings) {
+		
+			if('context' in settings) {
+				context = settings['context'];
+			}
+
+			if('dict' in settings) {
+				dict = settings['dict'];
+			}
 		}
 
 		/*---------------------------------------------------------*/
@@ -375,11 +492,11 @@ function AMIWebApp() {
 
 		/*---------------------------------------------------------*/
 
-		html = this.formatHTML(html, settings);
+		html = amiWebApp.formatHTML(html, dict);
 
 		/*---------------------------------------------------------*/
 
-		var target = $(targetID);
+		var target = $(selector);
 
 		target.append(html).promise().done(function() {
 
@@ -401,92 +518,201 @@ function AMIWebApp() {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-	/* FORMAT HTML                                                     */
-	/*-----------------------------------------------------------------*/
 
-	this.formatHTML = function(html, settings) {
+	/**
+	  * Format the given HTML fragment using TWIG, see: {@link http://twig.sensiolabs.org/documentation}
+	  * @param {string} html the HTML fragment
+	  * @param {object} [dict] the dictionary
+	  * @returns The formated HTML fragment
+	  */
 
-		if(settings && 'dict' in settings) {
+	formatHTML: function(html, dict) {
 
-			var dict = settings['dict'];
+		if(dict instanceof Array) {
 
-			if(dict) {
-				var result = '';
+			var result = '';
 
-				/*-----------------------------------------*/
+			$.each(dict, function(indx, DICT) {
 
-				if(dict instanceof Array) {
+				result += amiTwig.render(html, DICT);
+			});
 
-					$.each(dict, function(indx, DICT) {
+			return result;
 
-						result += amiTwig.render(html, DICT);
-					});
-
-				} else {
-					result += amiTwig.render(html, dict);
-				}
-
-				/*-----------------------------------------*/
-
-				return result;
-			}
+		} else {
+			return amiTwig.render(html, dict);
 		}
+	},
 
-		return html;
-	};
+	/*-----------------------------------------------------------------*/
+	/* JSPATH                                                          */
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Finds data within the given JSON, see: {@link https://github.com/dfilatov/jspath}
+	  * @param {string} path the path
+	  * @param {json} json the JSON
+	  * @param {object} [substs] substitutions
+	  * @returns The resulting array
+	  */
+
+	jspath: function(path, json, substs) {
+
+		return JSPath.apply(path, json, substs);
+	},
+
+	/*-----------------------------------------------------------------*/
+	/* LOCK                                                            */
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Locks the web application
+	  */
+
+	lock: function() {
+
+		$('#ami_locker').css('display', 'block');
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onStart = function() {
-		alert('error: `<app>.onStart()` must be implemented!');
-	};
+	/**
+	  * Unlocks the web application
+	  */
+
+	unlock: function() {
+
+		$('#ami_locker').css('display', 'none');
+	},
+
+	/*-----------------------------------------------------------------*/
+	/* MESSAGES                                                        */
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Show a 'success' message
+	  * @param {string} message the message
+	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
+	  */
+
+	success: function(message, fadeOut) {
+
+		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		amiWebApp.unlock();
+
+		$(document).scrollTop(0);
+
+		if(fadeOut) {
+			$('#ami_status_content .alert').fadeOut(60000);
+		}
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onToolbarUpdateNeeded = function() {
-		alert('error: `<app>.onToolbarUpdateNeeded()` must be implemented!');
- 	};
+	/**
+	  * Show an 'info' message
+	  * @param {string} message the message
+	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
+	  */
+
+	info: function(message, fadeOut) {
+
+		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentInfo, {dict: {MESSAGE: message}});
+		amiWebApp.unlock();
+
+		$(document).scrollTop(0);
+
+		if(fadeOut) {
+			$('#ami_status_content .alert').fadeOut(60000);
+		}
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._currentSubAppInstance = new function() {
+	/**
+	  * Show a 'warning' message
+	  * @param {string} message the message
+	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
+	  */
 
-		this.onReady = function() {};
-		this.onExit = function() {};
-		this.onLogin = function() {};
-		this.onLogout = function() {};
-	};
+	warning: function(message, fadeOut) {
+
+		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentWarning, {dict: {MESSAGE: message}});
+		amiWebApp.unlock();
+
+		$(document).scrollTop(0);
+
+		if(fadeOut) {
+			$('#ami_status_content .alert').fadeOut(60000);
+		}
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Show an 'error' message
+	  * @param {string} message the message
+	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
+	  */
+
+	error: function(message, fadeOut) {
+
+		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		amiWebApp.unlock();
+
+		$(document).scrollTop(0);
+
+		if(fadeOut) {
+			$('#ami_status_content .alert').fadeOut(60000);
+		}
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onReady = function(userdata) {
-		return this._currentSubAppInstance.onReady(userdata);
-	};
+	/**
+	  * Flush messages
+	  */
 
-	this.onExit = function() {
-		return this._currentSubAppInstance.onExit();
-	};
+	flush: function() {
 
-	this.onLogin = function() {
-		var result = this._currentSubAppInstance.onLogin();
-		this.onToolbarUpdateNeeded();
-		return result;
-	};
-
-	this.onLogout = function() {
-		var result = this._currentSubAppInstance.onLogout();
-		this.onToolbarUpdateNeeded();
-		return result;
-	};
+		$('#ami_status_content').empty();
+	},
 
 	/*-----------------------------------------------------------------*/
-	/* APPLICATION ENTRY POINT                                         */
+	/* WEB APPLICATION                                                 */
 	/*-----------------------------------------------------------------*/
 
-	this.start = function(settings) {
+	/**
+	  * This method must be overloaded and is called when the web application starts
+	  * @event amiWebApp#onStart
+	  */
+
+	onStart: function() {
+		alert('error: `amiWebApp.onStart()` must be overloaded!');
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * This method must be overloaded and is called when the toolbar needs to be updated
+	  * @event amiWebApp#onToolbarUpdateNeeded
+	  */
+
+	onToolbarUpdateNeeded: function() {
+		alert('error: `amiWebApp.onToolbarUpdateNeeded()` must be overloaded!');
+ 	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Starts the web application
+	  * @param {object} [settings] dictionary of settings (logo_url, home_url, contact_email, template_filename, locker_filename)
+	  */
+
+	start: function(settings) {
 
 		var logo_url = 'images/logo.png';
 		var home_url = 'http://ami.in2p3.fr';
@@ -546,90 +772,63 @@ function AMIWebApp() {
 		});
 
 		/*---------------------------------------------------------*/
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.lock = function() {
-
-		$('#ami_locker').css('display', 'block');
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.unlock = function() {
-
-		$('#ami_locker').css('display', 'none');
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.success = function(message, fadeOut) {
-
-		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
-		this.unlock();
-
-		$(document).scrollTop(0);
-
-		if(fadeOut) {
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.info = function(message, fadeOut) {
-
-		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
-		this.unlock();
-
-		$(document).scrollTop(0);
-
-		if(fadeOut) {
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.warning = function(message, fadeOut) {
-
-		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
-		this.unlock();
-
-		$(document).scrollTop(0);
-
-		if(fadeOut) {
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.error = function(message, fadeOut) {
-
-		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
-		this.unlock();
-
-		$(document).scrollTop(0);
-
-		if(fadeOut) {
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.flush = function() {
-
-		$('#ami_status_content').empty();
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 	/* SUB-APPLICATIONS                                                */
 	/*-----------------------------------------------------------------*/
 
-	this.runSubApp = function(subAppInstance, userdata) {
+	_currentSubAppInstance: new function() {
+
+		this.onReady = function() {};
+		this.onExit = function() {};
+		this.onLogin = function() {};
+		this.onLogout = function() {};
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	onReady: function(userdata) {
+		return amiWebApp._currentSubAppInstance.onReady(userdata);
+	},
+
+	onExit: function() {
+		return amiWebApp._currentSubAppInstance.onExit();
+	},
+
+	onLogin: function() {
+		var result = amiWebApp._currentSubAppInstance.onLogin();
+		amiWebApp.onToolbarUpdateNeeded();
+		return result;
+	},
+
+	onLogout: function() {
+		var result = amiWebApp._currentSubAppInstance.onLogout();
+		amiWebApp.onToolbarUpdateNeeded();
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Get the current sub-application instance
+	  * @return The current sub-application instance
+	  */
+
+	getCurrentSubAppInstance: function() {
+
+		return amiWebApp._currentSubAppInstance;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Set the current sub-application instance
+	  * @param {class} subAppInstance the application instance
+	  * @param {variant} [userdata] userdata
+	  */
+
+	setCurrentSubAppInstance: function(subAppInstance, userdata) {
 		/*---------------------------------------------------------*/
 		/* CHECK SUB-APPLICATION                                   */
 		/*---------------------------------------------------------*/
@@ -658,18 +857,23 @@ function AMIWebApp() {
 		/* SWITCH SUB-APPLICATION                                  */
 		/*---------------------------------------------------------*/
 
-		this._currentSubAppInstance.onExit();
+		amiWebApp._currentSubAppInstance.onExit();
 
-		this._currentSubAppInstance = subAppInstance;
+		amiWebApp._currentSubAppInstance = subAppInstance;
 
 		amiLogin.runSubApp(userdata);
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.autoRunSubApp = function(home) {
+	/**
+	  * Runs the sub-application according to the URL (parameters 'subapp' and 'userdata')
+	  * @param {string} home the name of the home sub-application
+	  */
+
+	autoRunSubApp: function(home) {
 
 		var subapp = amiWebApp.args['subapp'] || home;
 		var userdata = amiWebApp.args['userdata'] || null;
@@ -679,170 +883,111 @@ function AMIWebApp() {
 
 			if(subapp in _ami_internal_subAppDict) {
 
-				this.runSubApp(_ami_internal_subAppDict[subapp], userdata);
+				amiWebApp.setCurrentSubAppInstance(_ami_internal_subAppDict[subapp], userdata);
 			}
 		}
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-	/* CONSTRUCTOR                                                     */
-	/*-----------------------------------------------------------------*/
+};
 
-	try {
-		/*-------------------------------*/
-		/* DEFAULT SHEETS                */
-		/*-------------------------------*/
+/*-------------------------------------------------------------------------*/
+/* CONSTRUCTOR                                                             */
+/*-------------------------------------------------------------------------*/
 
-		this.loadSheets([
-			/* Third-party */
-			'css/bootstrap.min.css',
-			'css/bootstrap-editable.min.css',
-			'css/bootstrap.vertical-tabs.min.css',
-			'css/font-awesome.min.css',
-			/* AMI */
-			'css/AMI/AMIWebApp.min.css',
-		]).fail(function(data) {
-			throw data;
-		});
-
-		/*-------------------------------*/
-		/* DEFAULT SCRIPTS               */
-		/*-------------------------------*/
-
-		this.loadScripts([
-			/* Third-party */
-			'js/jspath.min.js',
-			'js/bootstrap.min.js',
-			'js/bootstrap-editable.min.js',
-			/* AMI */
-			'js/AMI/AMICommand.min.js',
-			'js/AMI/AMILogin.min.js',
-			'js/AMI/AMITokenizer.min.js',
-			'js/AMI/AMITwigExprCompiler.min.js',
-			'js/AMI/AMITwigExprInterpreter.min.js',
-			'js/AMI/AMITwig.min.js',
-		]).fail(function(data) {
-			throw data;
-		});
-
-		/*-------------------------------*/
-		/* DEFAULT FRAGMENTS             */
-		/*-------------------------------*/
-
-		$.ajax({
-			url: 'html/AMI/Fragment/alert_success.html',
-			cache: false,
-			dataType: 'html',
-			context: this,
-			async: false,
-		}).done(function(data) {
-			this.fragmentSuccess = data;
-		}).fail(function() {
-			throw 'could not load `html/AMI/Fragment/success.html`';
-		});
-
-		/*-------------------------------*/
-
-		$.ajax({
-			url: 'html/AMI/Fragment/alert_info.html',
-			cache: false,
-			dataType: 'html',
-			context: this,
-			async: false,
-		}).done(function(data) {
-			this.fragmentInfo = data;
-		}).fail(function() {
-			throw 'could not load `html/AMI/Fragment/info.html`';
-		});
-
-		/*-------------------------------*/
-
-		$.ajax({
-			url: 'html/AMI/Fragment/alert_warning.html',
-			cache: false,
-			dataType: 'html',
-			context: this,
-			async: false,
-		}).done(function(data) {
-			this.fragmentWarning = data;
-		}).fail(function() {
-			throw 'could not load `html/AMI/Fragment/warning.html`';
-		});
-
-		/*-------------------------------*/
-
-		$.ajax({
-			url: 'html/AMI/Fragment/alert_error.html',
-			cache: false,
-			dataType: 'html',
-			context: this,
-			async: false,
-		}).done(function(data) {
-			this.fragmentError = data;
-		}).fail(function() {
-			throw 'could not load `html/AMI/Fragment/error.html`';
-		});
-
-		/*-------------------------------*/
-	} catch(e) {
-
-		alert('Network lag, ' + e + ', please try reloading the page...');
-
-		return;
-	}
-
+try {
 	/*-------------------------------*/
-	/* ALIAS FOR `JSPath.apply`      */
+	/* DEFAULT SHEETS                */
 	/*-------------------------------*/
 
-	this.jspath = JSPath.apply;
+	amiWebApp.loadSheets([
+		/* Third-party */
+		'css/bootstrap.min.css',
+		'css/bootstrap-editable.min.css',
+		'css/bootstrap.vertical-tabs.min.css',
+		'css/font-awesome.min.css',
+		/* AMI */
+		'css/AMI/AMIWebApp.min.css',
+	]).fail(function(data) {
+		throw data;
+	});
 
 	/*-------------------------------*/
-	/* URLS                          */
+	/* DEFAULT SCRIPTS               */
 	/*-------------------------------*/
 
-	var url = document.location.href;
-
-	var index1 = url.lastIndexOf('/');
-	var index2 = url./**/indexOf('?');
-
-	this.originURL = url.substring(0, index1);
-
-	if(index2 < 0) {
-		this.webAppURL = url;
-
-		while(this.webAppURL.charAt(this.webAppURL.length - 1) === '/') {
-			this.webAppURL = this.webAppURL.substring(0, this.webAppURL.length - 1);
-		}
-	} else {
-
-		if(index2 - index1 === 1) {
-			this.webAppURL = url.substring(0, index1);
-		} else {
-			this.webAppURL = url.substring(0, index2);
-		}
-	}
+	amiWebApp.loadScripts([
+		/* Third-party */
+		'js/jspath.min.js',
+		'js/bootstrap.min.js',
+		'js/bootstrap-editable.min.js',
+		/* AMI */
+		'js/AMI/AMICommand.min.js',
+		'js/AMI/AMILogin.min.js',
+		'js/AMI/AMITokenizer.min.js',
+		'js/AMI/AMITwigExprCompiler.min.js',
+		'js/AMI/AMITwigExprInterpreter.min.js',
+		'js/AMI/AMITwig.min.js',
+	]).fail(function(data) {
+		throw data;
+	});
 
 	/*-------------------------------*/
-	/* ARGS                          */
+	/* DEFAULT FRAGMENTS             */
 	/*-------------------------------*/
 
-	this.args = {};
-
-	if(window.location.search) {
-
-		var urlParams = window.location.search.substring(1).split('&');
-
- 		for(var i = 0; i < urlParams.length; i++) {
-
- 			var pair = urlParams[i].split('=');
-
- 			this.args[pair[0]] = pair[1];
- 		}
-	}
+	$.ajax({
+		url: 'html/AMI/Fragment/alert_success.html',
+		cache: false,
+		dataType: 'html',
+		async: false,
+	}).done(function(data) {
+		amiWebApp.fragmentSuccess = data;
+	}).fail(function() {
+		throw 'could not load `html/AMI/Fragment/success.html`';
+	});
 
 	/*-------------------------------*/
-	/* UNAVAILABLE                   */
+
+	$.ajax({
+		url: 'html/AMI/Fragment/alert_info.html',
+		cache: false,
+		dataType: 'html',
+		async: false,
+	}).done(function(data) {
+		amiWebApp.fragmentInfo = data;
+	}).fail(function() {
+		throw 'could not load `html/AMI/Fragment/info.html`';
+	});
+
+	/*-------------------------------*/
+
+	$.ajax({
+		url: 'html/AMI/Fragment/alert_warning.html',
+		cache: false,
+		dataType: 'html',
+		async: false,
+	}).done(function(data) {
+		amiWebApp.fragmentWarning = data;
+	}).fail(function() {
+		throw 'could not load `html/AMI/Fragment/warning.html`';
+	});
+
+	/*-------------------------------*/
+
+	$.ajax({
+		url: 'html/AMI/Fragment/alert_error.html',
+		cache: false,
+		dataType: 'html',
+		async: false,
+	}).done(function(data) {
+		amiWebApp.fragmentError = data;
+	}).fail(function() {
+		throw 'could not load `html/AMI/Fragment/error.html`';
+	});
+
+	/*-------------------------------*/
+	/* AVAILABILITY                  */
 	/*-------------------------------*/
 
 	setTimeout(function() {
@@ -853,14 +998,69 @@ function AMIWebApp() {
 
 	}, 8000);
 
-	/*-----------------------------------------------------------------*/
+	/*-------------------------------*/
+} catch(e) {
+
+	console.error(e);
+
+	alert('Service temporarily unavailable, please try reloading the page...');
 }
 
-/*-------------------------------------------------------------------------*/
-/* GLOBAL INSTANCE                                                         */
-/*-------------------------------------------------------------------------*/
+/*-------------------------------*/
+/* URLs                          */
+/*-------------------------------*/
 
-amiWebApp = new AMIWebApp();
+var url = document.location.href;
+
+var index1 = url./**/indexOf('?');
+if(index1 >= 0) url = url.substring(0, index1);
+var index2 = url.lastIndexOf('/');
+
+/*-------------------------------*/
+
+/**
+  * Origin URL
+  */
+
+amiWebApp.originURL = url.substring(0, index2);
+
+while(amiWebApp.originURL[amiWebApp.originURL.length - 1] === '/') {
+	amiWebApp.originURL = amiWebApp.originURL.substring(0, amiWebApp.originURL.length - 1);
+}
+
+/*-------------------------------*/
+
+/**
+  * WebApp URL
+  */
+
+amiWebApp.webAppURL = url;
+
+while(amiWebApp.webAppURL[amiWebApp.webAppURL.length - 1] === '/') {
+	amiWebApp.webAppURL = amiWebApp.webAppURL.substring(0, amiWebApp.webAppURL.length - 1);
+}
+
+/*-------------------------------*/
+/* ARGs                          */
+/*-------------------------------*/
+
+/**
+  * The dictionary of URL arguments
+  */
+
+amiWebApp.args = {};
+
+if(window.location.search) {
+
+	var urlParams = window.location.search.substring(1).split('&');
+
+	for(var i = 0; i < urlParams.length; i++) {
+
+		var pair = urlParams[i].split('=');
+
+		amiWebApp.args[pair[0]] = pair[1];
+	}
+}
 
 /*-------------------------------------------------------------------------*/
 /* JQUERY EXTENSION                                                        */
@@ -878,6 +1078,7 @@ amiWebApp = new AMIWebApp();
 	};
 
 	/*-----------------------------------------------------------------*/
-} (jQuery));
+
+}(jQuery));
 
 /*-------------------------------------------------------------------------*/

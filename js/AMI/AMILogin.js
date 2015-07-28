@@ -1,5 +1,5 @@
 /*!
- * AMILogin class
+ * amiLogin
  *
  * Copyright (c) 2014-2015 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -22,31 +22,28 @@ function _ami_internal_always(deferred, func) {
 }
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMILogin                                                          */
+/* amiLogin                                                                */
 /*-------------------------------------------------------------------------*/
 
-function AMILogin() {
+var amiLogin = {
 	/*-----------------------------------------------------------------*/
 
-	this.user = 'guest';
-	this.guest = 'guest';
+	user: 'guest',
+	guest: 'guest',
 
-	this.is_connected = false;
-	this.already_started = false;
-
-	/*-----------------------------------------------------------------*/
-
-	this.roles = {};
+	isConnected: false,
 
 	/*-----------------------------------------------------------------*/
 
-	this.runSubApp = function(userdata) {
+	roles: {},
+
+	/*-----------------------------------------------------------------*/
+
+	runSubApp: function(userdata) {
 
 		amiWebApp.lock();
 
-		if(!this.already_started) {
-
-			amiLogin.already_started = true;
+		if($('#modal_login').length === 0) {
 
 			amiWebApp.loadHTMLs([
 				'html/AMI/Fragment/login_button.html',
@@ -55,7 +52,7 @@ function AMILogin() {
 				'html/AMI/Modal/login_change_info.html',
 				'html/AMI/Modal/login_change_pass.html',
 				'html/AMI/Modal/login_account_status.html',
-			], {context: this}).done(function(data) {
+			]).done(function(data) {
 				/*-----------------------------------------*/
 
 				amiLogin.fragmentLoginButton = data[0];
@@ -70,21 +67,21 @@ function AMILogin() {
 
 				document.getElementById('modal_login_form1_user').addEventListener('keypress', function(e) {
 
-					if(e.keyCode == 13) {
+					if(e.keyCode === 13) {
 						amiLogin.form_passLogin();
 					}
 				});
 
 				document.getElementById('modal_login_form1_pass').addEventListener('keypress', function(e) {
 
-					if(e.keyCode == 13) {
+					if(e.keyCode === 13) {
 						amiLogin.form_passLogin();
 					}
 				});
 
 				document.getElementById('modal_login_form3_user').addEventListener('keypress', function(e) {
 
-					if(e.keyCode == 13) {
+					if(e.keyCode === 13) {
 						amiLogin.form_resetPass();
 					}
 				});
@@ -93,12 +90,10 @@ function AMILogin() {
 
 				amiCommand.certLogin().always(function(data, user, guest) {
 
-					amiLogin.guest = guest;
-
 					_ami_internal_always(
 						amiWebApp.onReady(userdata),
 						function() {
-							amiLogin._update(data, user).always(function() {
+							amiLogin._update(data, user, guest).always(function() {
 								amiWebApp.unlock();
 							});
 						}
@@ -107,7 +102,7 @@ function AMILogin() {
 
 				/*-----------------------------------------*/
 			}).fail(function(data) {
-				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+				amiWebApp.error(data);
 			});
 
 		} else {
@@ -124,64 +119,66 @@ function AMILogin() {
 				}
 			);
 		}
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.login = function() {
+	login: function() {
 
 		amiLogin._clean();
 
 		$('#modal_login_message').empty();
 
 		$('#modal_login').modal('show');
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.changeInfo = function() {
+	changeInfo: function() {
 
 		amiLogin._clean();
 
 		$('#modal_login_change_info_message').empty();
 
 		$('#modal_login_change_info').modal('show');
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.changePass = function() {
+	changePass: function() {
 
 		amiLogin._clean();
 
 		$('#modal_login_change_pass_message').empty();
 
 		$('#modal_login_change_pass').modal('show');
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.accountStatus = function() {
+	accountStatus: function() {
+
 		$('#modal_login_account_status').modal('show');
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.logout = function() {
+	logout: function() {
 
 		amiWebApp.lock();
 
-		return amiCommand.logout().always(function(data) {
+		return amiCommand.logout().always(function(data, user, guest) {
 
-			amiLogin._update(data, amiLogin.guest).always(function() {
+			amiLogin._update(data, user, guest).always(function() {
+
 				amiWebApp.unlock();
 			});
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.form_passLogin = function() {
+	form_passLogin: function() {
 
 		var user = $('#modal_login_form1_user').val();
 		var pass = $('#modal_login_form1_pass').val();
@@ -197,45 +194,45 @@ function AMILogin() {
 
 		amiWebApp.lock();
 
-		amiCommand.passLogin(user, pass).done(function(data, user) {
+		amiCommand.passLogin(user, pass).done(function(data, user, guest) {
 
-			if(user === amiLogin.guest) {
-				amiLogin._showErrorMessage1('You could not sign in as `' + amiLogin.guest + '`.');
+			if(user === guest) {
+				amiLogin._showErrorMessage1('Invalid identifiers.');
 			} else {
 				$('#modal_login').modal('hide');
 			}
 
-			amiLogin._update(data, user).always(function() {
+			amiLogin._update(data, user, guest).always(function() {
 				amiWebApp.unlock();
 			});
 
-		}).fail(function(data) {
+		}).fail(function(data, user, guest) {
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 
-			amiLogin._update(data, amiLogin.guest).always(function() {
+			amiLogin._update(data, user, guest).always(function() {
 				amiWebApp.unlock();
 			});
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.form_certLogin = function() {
+	form_certLogin: function() {
 
 		amiWebApp.lock();
 
-		amiCommand.certLogin().done(function(data, user) {
+		amiCommand.certLogin().done(function(data, user, guest) {
 
-			if(user === amiLogin.guest) {
+			if(user === guest) {
 
 				var client_dn_in_session = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', data)[0];
 				var issuer_dn_in_session = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', data)[0];
 
-				if(client_dn_in_session !== '') {
+				if(client_dn_in_session) {
 					client_dn_in_session = '<br />Presented client DN: ' + client_dn_in_session;
 				}
 
-				if(issuer_dn_in_session !== '') {
+				if(issuer_dn_in_session) {
 					issuer_dn_in_session = '<br />Presented issuer DN: ' + issuer_dn_in_session;
 				}
 
@@ -244,22 +241,22 @@ function AMILogin() {
 				$('#modal_login').modal('hide');
 			}
 
-			amiLogin._update(data, user).always(function() {
+			amiLogin._update(data, user, guest).always(function() {
 				amiWebApp.unlock();
 			});
 
-		}).fail(function(data) {
+		}).fail(function(data, user, guest) {
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 
-			amiLogin._update(data, amiLogin.guest).always(function() {
+			amiLogin._update(data, user, guest).always(function() {
 				amiWebApp.unlock();
 			});
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.form_attachCert = function() {
+	form_attachCert: function() {
 
 		var user = $('#modal_login_form1_user').val();
 		var pass = $('#modal_login_form1_pass').val();
@@ -285,11 +282,11 @@ function AMILogin() {
 			amiLogin._clean();
 			amiWebApp.unlock();
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.form_detachCert = function() {
+	form_detachCert: function() {
 
 		var user = $('#modal_login_form1_user').val();
 		var pass = $('#modal_login_form1_pass').val();
@@ -315,11 +312,11 @@ function AMILogin() {
 			amiLogin._clean();
 			amiWebApp.unlock();
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.form_addUser = function() {
+	form_addUser: function() {
 
 		var firstName = $('#modal_login_form2_first_name').val();
 		var lastName = $('#modal_login_form2_last_name').val();
@@ -363,11 +360,11 @@ function AMILogin() {
 			amiLogin._clean();
 			amiWebApp.unlock();
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.form_changeInfo = function() {
+	form_changeInfo: function() {
 
 		var firstName = $('#modal_login_change_info_form_first_name').val();
 		var lastName = $('#modal_login_change_info_form_last_name').val();
@@ -396,11 +393,11 @@ function AMILogin() {
 			amiLogin._clean();
 			amiWebApp.unlock();
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.form_changePass = function() {
+	form_changePass: function() {
 
 		var old_pass = $('#modal_login_change_pass_form_old_pass').val();
 		var new_pass1 = $('#modal_login_change_pass_form_new_pass1').val();
@@ -435,11 +432,11 @@ function AMILogin() {
 			amiLogin._clean();
 			amiWebApp.unlock();
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.form_resetPass = function() {
+	form_resetPass: function() {
 
 		var user = $('#modal_login_form3_user').val();
 
@@ -461,18 +458,18 @@ function AMILogin() {
 			amiLogin._clean();
 			amiWebApp.unlock();
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.hasRole = function(roleName) {
+	hasRole: function(roleName) {
 
 		return roleName in amiLogin.roles;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.hasRoleForEntity = function(roleName, project, process, entity) {
+	hasRoleForEntity: function(roleName, project, process, entity) {
 
 		if(roleName in amiLogin.roles) {
 
@@ -492,11 +489,11 @@ function AMILogin() {
 		}
 
 		return false;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.hasRoleForRow = function(roleName, project, process, entity, row) {
+	hasRoleForRow: function(roleName, project, process, entity, row) {
 
 		if(roleName in amiLogin.roles) {
 
@@ -516,11 +513,11 @@ function AMILogin() {
 		}
 
 		return false;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._clean = function(message) {
+	_clean: function(message) {
 
 		$('#modal_login_form1_pass').val('');
 
@@ -530,67 +527,67 @@ function AMILogin() {
 		$('#modal_login_change_pass_form_old_pass' ).val('');
 		$('#modal_login_change_pass_form_new_pass1').val('');
 		$('#modal_login_change_pass_form_new_pass2').val('');
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._showSuccessMessage1 = function(message) {
+	_showSuccessMessage1: function(message) {
 		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 		$('#modal_login_message .alert').fadeOut(45000);
-	};
+	},
 
-	this._showErrorMessage1 = function(message) {
+	_showErrorMessage1: function(message) {
 		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 		$('#modal_login_message .alert').fadeOut(45000);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._showSuccessMessage2 = function(message) {
+	_showSuccessMessage2: function(message) {
 		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 		$('#modal_login_change_info_message .alert').fadeOut(45000);
-	};
+	},
 
-	this._showErrorMessage2 = function(message) {
+	_showErrorMessage2: function(message) {
 		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 		$('#modal_login_change_info_message .alert').fadeOut(45000);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._showSuccessMessage3 = function(message) {
+	_showSuccessMessage3: function(message) {
 		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 		$('#modal_login_change_pass_message .alert').fadeOut(45000);
-	};
+	},
 
-	this._showErrorMessage3 = function(message) {
+	_showErrorMessage3: function(message) {
 		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 		$('#modal_login_change_pass_message .alert').fadeOut(45000);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._showInfoMessage4 = function(message) {
+	_showInfoMessage4: function(message) {
 
-		if(message !== '') {
+		if(message) {
 			message = '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message;
 		}
 
 		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
-	};
+	},
 
-	this._showErrorMessage4 = function(message) {
+	_showErrorMessage4: function(message) {
 
-		if(message !== '') {
+		if(message) {
 			message = '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message;
 		}
 
 		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._update = function(data, user) {
+	_update: function(data, user, guest) {
 		/*---------------------------------------------------------*/
 
 		amiLogin._clean();
@@ -598,6 +595,7 @@ function AMILogin() {
 		/*---------------------------------------------------------*/
 
 		amiLogin.user = user;
+		amiLogin.guest = guest;
 
 		/*---------------------------------------------------------*/
 
@@ -634,7 +632,7 @@ function AMILogin() {
 
 		/*---------------------------------------------------------*/
 
-		if(user !== amiLogin.guest) {
+		if(user !== guest) {
 			/*-------------------------------------------------*/
 
 			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', user_rows)[0];
@@ -727,7 +725,7 @@ function AMILogin() {
 
 			var icon;
 
-			if(message !== '') {
+			if(message) {
 				icon = '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
 				       +
 				       '<span class="fa fa-exclamation-triangle"></span>'
@@ -760,8 +758,8 @@ function AMILogin() {
 			_ami_internal_always(
 				amiWebApp.onLogin(),
 				function() {
-					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict}),
-					amiLogin.is_connected = true;
+					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
+					amiLogin.isConnected = true;
 					result.resolve();
 				}
 			);
@@ -772,7 +770,7 @@ function AMILogin() {
 				amiWebApp.onLogout(),
 				function() {
 					result.resolve();
-					amiLogin.is_connected = false;
+					amiLogin.isConnected = false;
 					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
 				}
 			);
@@ -783,15 +781,9 @@ function AMILogin() {
 		return result;
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-}
-
-/*-------------------------------------------------------------------------*/
-/* GLOBAL INSTANCE                                                         */
-/*-------------------------------------------------------------------------*/
-
-amiLogin = new AMILogin();
+};
 
 /*-------------------------------------------------------------------------*/

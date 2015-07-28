@@ -7,28 +7,28 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMITwig                                                           */
+/* AMITwig                                                                 */
 /*-------------------------------------------------------------------------*/
 
-function AMITwig() {
+amiTwig = {
 	/*-----------------------------------------------------------------*/
 
-	this.STATEMENT_RE = /\{\%\s*([a-zA-Z_][a-zA-Z0-9_]*)(.*?)\%\}/m;
+	STATEMENT_RE: /\{\%\s*([a-zA-Z_][a-zA-Z0-9_]*)(.*?)\%\}/m,
 
-	this.VARIABLE_RE  = /\%\%\s*([a-zA-Z_][a-zA-Z0-9_]*)(?:\.([a-zA-Z_][a-zA-Z0-9_]*))?\s*\%\%/g;
-
-	/*-----------------------------------------------------------------*/
-
-	this.STACK_IF_NO = 0;
-	this.STACK_IF_LOCK = 1;
-	this.STACK_IF_UNLOCK = 2;
-	this.STACK_FOR = 3;
-	this.STACK_FILTER = 4;
-	this.STACK_0 = 5;
+	VARIABLE_RE: /\%\%\s*([a-zA-Z_][a-zA-Z0-9_]*)(?:\.([a-zA-Z_][a-zA-Z0-9_]*))?\s*\%\%/g,
 
 	/*-----------------------------------------------------------------*/
 
-	this.haveToBeShown = function(stateStack, lastIndex) {
+	STACK_IF_NO: 0,
+	STACK_IF_LOCK: 1,
+	STACK_IF_UNLOCK: 2,
+	STACK_FOR: 3,
+	STACK_FILTER: 4,
+	STACK_0: 5,
+
+	/*-----------------------------------------------------------------*/
+
+	haveToBeShown: function(stateStack, lastIndex) {
 		/*---------------------------------------------------------*/
 
 		if(stateStack[lastIndex] === this.STACK_IF_NO
@@ -51,18 +51,20 @@ function AMITwig() {
 		/*---------------------------------------------------------*/
 
 		return true;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.error = function(line, s) {
+	error: function(line, s) {
 
 		throw 'error, line `' + line + '`, ' + s;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.render = function(s, dict) {
+	render: function(s, dict) {
+
+		dict = dict || {};
 
 		var result = '';
 
@@ -218,7 +220,7 @@ function AMITwig() {
 
 			/***/ if(name === 'if') {
 
-				new AMITwigExprCompiler().parse(tokens, line);
+				amiTwigExprCompiler.parse(tokens, line);
 
 				if(false) {
 
@@ -299,13 +301,13 @@ function AMITwig() {
 				var _iter = [/******/];
 				var _var = tokens[0];
 
-				/****/ if(tokens.length === 3 && tokens[1] === 'in' && _isSId(tokens[0]) && _isSId(tokens[2])) {
+				/****/ if(tokens.length === 3 && tokens[1] === 'in' && _ami_internal_ami_internal_isSId(tokens[0]) && _ami_internal_isSId(tokens[2])) {
 
 					if(tokens[2] in dict) {
 						_iter = dict[tokens[2]];
 					}
 
-				} else if(tokens.length === 5 && tokens[1] === 'in' && _isSId(tokens[0]) && tokens[3] === '..') {
+				} else if(tokens.length === 5 && tokens[1] === 'in' && _ami_internal_isSId(tokens[0]) && tokens[3] === '..') {
 
 					var n1 = parseInt(tokens[2]);
 					var n2 = parseInt(tokens[4]);
@@ -394,15 +396,9 @@ function AMITwig() {
 
 			/*-------------------------------------------------*/
 		}
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 }
-
-/*-------------------------------------------------------------------------*/
-/* GLOBAL INSTANCE                                                         */
-/*-------------------------------------------------------------------------*/
-
-amiTwig = new AMITwig();
 
 /*-------------------------------------------------------------------------*/
