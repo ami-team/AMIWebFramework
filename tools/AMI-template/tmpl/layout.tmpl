@@ -1,0 +1,26 @@
+<link rel="stylesheet" type="text/css" href="docs/api/css/AMI-template.css"></link>
+<?js
+function __patch_menu(s) {
+
+	return s.replace(/<h3/g, '<h4').replace(/<h2/g, '<h4').replace(/href\="/g, 'href="?subapp=amiDocument&userdata=api/');
+}
+?>
+<div class="row">
+
+  <nav class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">AMI Web framework API</h3>
+      </div>
+      <div class="panel-body jsdoc-menu">
+        <?js= __patch_menu(this.nav) ?>
+      </div>
+    </div>
+  </nav>
+
+  <div class="col-md-9 jsdoc-content">
+    <h1><?js= title ?></h1>
+    <?js= content ?>
+  </div>
+
+</div>

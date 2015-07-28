@@ -132,65 +132,6 @@ var amiWebApp = {
 	},
 
 	/*-----------------------------------------------------------------*/
-	/* DYNAMIC SCRIPT LOADING                                          */
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Loads JavaScript scripts asynchronously
-	  * @param {string|array} scripts the list of scripts
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
-	  */
-
-	loadScripts: function(scripts, settings) {
-
-		var context = null;
-
-		if(settings && 'context' in settings) {
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		if(!(scripts instanceof Array)) {
-			scripts = [scripts];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var html = '';
-
-		for(var i = 0; i < scripts.length; i++) {
-
-			if($.inArray(scripts[i], _ami_internal_scripts) < 0) {
-
-				_ami_internal_scripts.push(scripts[i]);
-
-				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _ami_internal_nonce++ + '"></script>';
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		$('head').append(html).promise().done(function() {
-
-			if(context) {
-				result.resolveWith(context);
-			} else {
-				result.resolve();
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
-	},
-
-	/*-----------------------------------------------------------------*/
 	/* DYNAMIC SHEET LOADING                                           */
 	/*-----------------------------------------------------------------*/
 
@@ -230,6 +171,65 @@ var amiWebApp = {
 				_ami_internal_sheets.push(sheets[i]);
 
 				html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _ami_internal_nonce++ + '"></link>';
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		$('head').append(html).promise().done(function() {
+
+			if(context) {
+				result.resolveWith(context);
+			} else {
+				result.resolve();
+			}
+		});
+
+		/*---------------------------------------------------------*/
+
+		return result.promise();
+	},
+
+	/*-----------------------------------------------------------------*/
+	/* DYNAMIC SCRIPT LOADING                                          */
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads JavaScript scripts asynchronously
+	  * @param {string|array} scripts the list of scripts
+	  * @param {object} [settings] dictionary of settings (context)
+	  * @returns A JQuery deferred object
+	  */
+
+	loadScripts: function(scripts, settings) {
+
+		var context = null;
+
+		if(settings && 'context' in settings) {
+			context = settings['context'];
+		}
+
+		/*---------------------------------------------------------*/
+
+		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		if(!(scripts instanceof Array)) {
+			scripts = [scripts];
+		}
+
+		/*---------------------------------------------------------*/
+
+		var html = '';
+
+		for(var i = 0; i < scripts.length; i++) {
+
+			if($.inArray(scripts[i], _ami_internal_scripts) < 0) {
+
+				_ami_internal_scripts.push(scripts[i]);
+
+				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _ami_internal_nonce++ + '"></script>';
 			}
 		}
 
