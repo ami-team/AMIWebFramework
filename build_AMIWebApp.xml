@@ -10,13 +10,6 @@
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
-			<arg value="css/bootstrap-editable.css" />
-			<arg value="-o" />
-			<arg value="css/bootstrap-editable.min.css" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
 			<arg value="css/AMI/AMIWebApp.css" />
 			<arg value="-o" />
 			<arg value="css/AMI/AMIWebApp.min.css" />
