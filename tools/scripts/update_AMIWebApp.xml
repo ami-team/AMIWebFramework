@@ -104,6 +104,27 @@
 			<arg value="js/AMI/AMITokenizer.min.js" />
 		</java>
 
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="${AMIWebAppTmpDir}/js/AMI/AMITwigExprCompiler.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMITwigExprCompiler.min.js" />
+		</java>
+
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="${AMIWebAppTmpDir}/js/AMI/AMITwigExprInterpreter.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMITwigExprInterpreter.min.js" />
+		</java>
+
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
+			<arg value="${AMIWebAppTmpDir}/js/AMI/AMITwig.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMITwig.min.js" />
+		</java>
+
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
 		<!-- **************************************************** -->
@@ -180,6 +201,9 @@
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMITokenizer.js" tofile="js/AMI/AMITokenizer.min.js" overwrite="true" force="true" />
+		<copy file="${AMIWebAppTmpDir}/js/AMI/AMITwigExprCompiler.js" tofile="js/AMI/AMITwigExprCompiler.min.js" overwrite="true" force="true" />
+		<copy file="${AMIWebAppTmpDir}/js/AMI/AMITwigExprInterpreter.js" tofile="js/AMI/AMITwigExprInterpreter.min.js" overwrite="true" force="true" />
+		<copy file="${AMIWebAppTmpDir}/js/AMI/AMITwig.js" tofile="js/AMI/AMITwig.min.js" overwrite="true" force="true" />
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
@@ -192,4 +216,3 @@
 	</target>
 
 </project>
-
