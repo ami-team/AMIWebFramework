@@ -1045,19 +1045,6 @@ var index2 = url.lastIndexOf('/');
 /*-------------------------------*/
 
 /**
-  * Origin URL
-  */
-
-amiWebApp.originURL = url.substring(0, index2);
-
-while(amiWebApp.originURL[amiWebApp.originURL.length - 1] === '/')
-{
-	amiWebApp.originURL = amiWebApp.originURL.substring(0, amiWebApp.originURL.length - 1);
-}
-
-/*-------------------------------*/
-
-/**
   * WebApp URL
   */
 
@@ -1066,6 +1053,19 @@ amiWebApp.webAppURL = url;
 while(amiWebApp.webAppURL[amiWebApp.webAppURL.length - 1] === '/')
 {
 	amiWebApp.webAppURL = amiWebApp.webAppURL.substring(0, amiWebApp.webAppURL.length - 1);
+}
+
+/*-------------------------------*/
+
+/**
+  * Origin URL
+  */
+
+amiWebApp.originURL = url.substring(0, index2);
+
+while(amiWebApp.originURL[amiWebApp.originURL.length - 1] === '/')
+{
+	amiWebApp.originURL = amiWebApp.originURL.substring(0, amiWebApp.originURL.length - 1);
 }
 
 /*-------------------------------*/
