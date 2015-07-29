@@ -74,10 +74,7 @@ var amiLogin = {
 
 			amiCommand.certLogin().always(function(data, user, guest) {
 
-				amiLogin._update(data, user, guest).always(function() {
-
-					result.resolve();
-				});
+				amiLogin._update(data, user, guest);
 			});
 
 			/*-------------------------------------------------*/
