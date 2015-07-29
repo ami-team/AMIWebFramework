@@ -32,21 +32,10 @@
 	function viewExpr() {
 
 		try {
-			var tokens = amiTokenizer.tokenize(
-				$('#expr').val(),
-				[' ', '\t', '\n'],
-				['b-or', 'b-xor', 'b-and', '===', '==', '!==', '!=', '=', '<=', '>=', '<', '>', '+', '-', '**', '*', '//', '/', '..', '.', '|', '(', ')'],
-				['\'', '\"'],
-				'\\',
-				0
-			);
+			var rootNode = new AMITwigExprCompiler().parse($('#expr').val(), 0).rootNode;
 
-			var expr = new AMITwigExprCompiler();
-
-			expr.parse(tokens, 0);
-
-			var code = ((((((((((((((((((((((''))))))))))))))))))))));
-			var tree = Viz(expr.rootElement.dump(), 'svg', undefined);
+			var code = amiTwigExprInterpreter.getJS(rootNode);
+			var tree = Viz(rootNode.dump(), 'svg', undefined);
 
 			$('#code').html(code);
 			$('#tree').html(tree);

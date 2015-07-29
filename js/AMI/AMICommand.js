@@ -22,8 +22,8 @@ var _ami_internal_base64KeyStr =
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
-function _ami_internal_textToString(s) {
-
+function _ami_internal_textToString(s)
+{
 	return s.replace(/[\\'"]/g, function(x) {
 
 		return '\\' + x;
@@ -44,12 +44,12 @@ var amiCommand = {
 
 	/**
 	  * Decode a base64 string
-	  * @param {string} s the base64 string
+	  * @param {string} s the encoded string
 	  * @returns The decoded string
 	  */
 
-	amiBase64Decode: function(s) {
-
+	amiBase64Decode: function(s)
+	{
 		var i = 0;
 		var result = '';
 		var chr1, chr2, chr3 = '';
@@ -99,16 +99,16 @@ var amiCommand = {
 	  * @returns A JQuery deferred object
 	  */
 
-	execute: function(command, settings) {
-
+	execute: function(command, settings)
+	{
 		var context = null;
 		var endpoint = amiCommand.endpoint;
 		var converter = amiCommand.converter;
 		var extraParam = null;
 		var extraValue = null;
 
-		if(settings) {
-
+		if(settings)
+		{
 			if('context' in settings) {
 				context = settings['context'];
 			}
@@ -141,17 +141,11 @@ var amiCommand = {
 		var data = {
 			Command: COMMAND,
 			Converter: CONVERTER,
-		}
+		};
 
-		/*---------------------------------------------------------*/
-
-		if(extraParam) {
-
-			if(extraValue) {
-				data[extraParam] = extraValue;
-			} else {
-				data[extraParam] = (((null)));
-			}
+		if(extraParam)
+		{
+			data[extraParam] = extraValue ? extraValue : null;
 		}
 
 		/*---------------------------------------------------------*/
@@ -160,11 +154,12 @@ var amiCommand = {
 
 		/*---------------------------------------------------------*/
 
-		var deferred = $.Deferred();
+		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		if(CONVERTER === 'AMIXmlToJson.xsl') {
+		if(CONVERTER === 'AMIXmlToJson.xsl')
+		{
 			/*-------------------------------------------------*/
 			/* JSON FORMAT                                     */
 			/*-------------------------------------------------*/
@@ -181,34 +176,36 @@ var amiCommand = {
 
 					var error = JSPath.apply('.AMIMessage.error', data);
 
-					if(error.length === 0) {
-
+					if(error.length === 0)
+					{
 						if(context) {
-							deferred.resolveWith(context, [data, urlWithParameters]);
+							result.resolveWith(context, [data, urlWithParameters]);
 						} else {
-							deferred.resolve(data, urlWithParameters);
+							result.resolve(data, urlWithParameters);
 						}
-					} else {
-
+					}
+					else
+					{
 						if(context) {
-							deferred.rejectWith(context, [data, urlWithParameters]);
+							result.rejectWith(context, [data, urlWithParameters]);
 						} else {
-							deferred.reject(data, urlWithParameters);
+							result.reject(data, urlWithParameters);
 						}
 					}
 				},
 				error: function(jqXHR, textStatus) {
 
-					if(textStatus === 'error') {
-						textStatus = 'broken connection';
+					if(textStatus === 'error')
+					{
+						textStatus = 'service temporarily unavailable';
 					}
 
 					var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
 					if(context) {
-						deferred.rejectWith(context, [data, urlWithParameters]);
+						result.rejectWith(context, [data, urlWithParameters]);
 					} else {
-						deferred.reject(data, urlWithParameters);
+						result.reject(data, urlWithParameters);
 					}
 				},
 			});
@@ -230,21 +227,22 @@ var amiCommand = {
 				success: function(data) {
 
 					if(context) {
-						deferred.resolveWith(context, [data, urlWithParameters]);
+						result.resolveWith(context, [data, urlWithParameters]);
 					} else {
-						deferred.resolve(data, urlWithParameters);
+						result.resolve(data, urlWithParameters);
 					}
 				},
 				error: function(jqXHR, textStatus) {
 
-					if(textStatus === 'error') {
-						textStatus = 'broken connection';
+					if(textStatus === 'error')
+					{
+						textStatus = 'service temporarily unavailable';
 					}
 
 					if(context) {
-						deferred.rejectWith(context, [textStatus, urlWithParameters]);
+						result.rejectWith(context, [textStatus, urlWithParameters]);
 					} else {
-						deferred.reject(textStatus, urlWithParameters);
+						result.reject(textStatus, urlWithParameters);
 					}
 				},
 			});
@@ -254,9 +252,7 @@ var amiCommand = {
 
 		/*---------------------------------------------------------*/
 
-		return deferred.promise();
-
-		/*---------------------------------------------------------*/
+		return result.promise();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -269,11 +265,12 @@ var amiCommand = {
 	  * @returns A JQuery deferred object
 	  */
 
-	passLogin: function(user, pass, settings) {
-
+	passLogin: function(user, pass, settings)
+	{
 		var context = null;
 
-		if(settings && 'context' in settings) {
+		if(settings && 'context' in settings)
+		{
 			context = settings['context'];
 		}
 
@@ -306,8 +303,6 @@ var amiCommand = {
 		/*---------------------------------------------------------*/
 
 		return result;
-
-		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -318,11 +313,12 @@ var amiCommand = {
 	  * @returns A JQuery deferred object
 	  */
 
-	certLogin: function(settings) {
-
+	certLogin: function(settings)
+	{
 		var context = null;
 
-		if(settings && 'context' in settings) {
+		if(settings && 'context' in settings)
+		{
 			context = settings['context'];
 		}
 
@@ -355,8 +351,6 @@ var amiCommand = {
 		/*---------------------------------------------------------*/
 
 		return result;
-
-		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -367,11 +361,12 @@ var amiCommand = {
 	  * @returns A JQuery deferred object
 	  */
 
-	logout: function(settings) {
-
+	logout: function(settings)
+	{
 		var context = null;
 
-		if(settings && 'context' in settings) {
+		if(settings && 'context' in settings)
+		{
 			context = settings['context'];
 		}
 
@@ -418,8 +413,8 @@ var amiCommand = {
 	  * @returns A JQuery deferred object
 	  */
 
-	attachCert: function(user, pass, settings) {
-
+	attachCert: function(user, pass, settings)
+	{
 		return amiCommand.execute('GetSessionInfo -attachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
 	},
 
@@ -433,8 +428,8 @@ var amiCommand = {
 	  * @returns A JQuery deferred object
 	  */
 
-	detachCert: function(user, pass, settings) {
-
+	detachCert: function(user, pass, settings)
+	{
 		return amiCommand.execute('GetSessionInfo -detachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
 	},
 
@@ -451,8 +446,8 @@ var amiCommand = {
 	  * @returns A JQuery deferred object
 	  */
 
-	addUser: function(user, pass, firstName, lastName, email, settings) {
-
+	addUser: function(user, pass, firstName, lastName, email, settings)
+	{
 		return amiCommand.execute('AddUser -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '" -firstName="' + _ami_internal_textToString(firstName) + '"-lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
 	},
 
@@ -467,23 +462,23 @@ var amiCommand = {
 	  * @returns A JQuery deferred object
 	  */
 
-	changeInfo: function(firstName, lastName, email, settings) {
-
+	changeInfo: function(firstName, lastName, email, settings)
+	{
 		return amiCommand.execute('SetUserInfo -firstName="' + _ami_internal_textToString(firstName) + '" -lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Change the account information
+	  * Change the account password
 	  * @param {string} old_pass the old password
 	  * @param {string} new_pass the new password
 	  * @param {object} [settings] dictionary of settings (context)
 	  * @returns A JQuery deferred object
 	  */
 
-	changePass: function(old_pass, new_pass, settings) {
-
+	changePass: function(old_pass, new_pass, settings)
+	{
 		return amiCommand.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(old_pass) + '" -amiPasswordNew="' + _ami_internal_textToString(new_pass) + '"', settings);
 	},
 
@@ -496,22 +491,9 @@ var amiCommand = {
 	  * @returns A JQuery deferred object
 	  */
 
-	resetPass: function(user, settings) {
-
+	resetPass: function(user, settings)
+	{
 		return amiCommand.execute('ResetPassword -amiLogin="' + _ami_internal_textToString(user) + '"', settings);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	checkAuthorization: function(clazz, arguments, settings) {
-
-		var command = 'CheckAuthorization -roleValidatorClass="' + clazz + '"';
-
-		for(var argument in arguments) {
-			command += '-' + argument + '="' + arguments[argument] + '"';
-		}
-
-		return amiCommand.execute(command, settings);
 	},
 
 	/*-----------------------------------------------------------------*/

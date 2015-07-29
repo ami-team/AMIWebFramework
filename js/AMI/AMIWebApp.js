@@ -31,8 +31,8 @@ var _ami_internal_sheets = [];
   * @param {string} subAppInstance the sub-application instance
   */
 
-function amiRegisterSubApp(subAppName, subAppInstance) {
-
+function amiRegisterSubApp(subAppName, subAppInstance)
+{
 	_ami_internal_subAppDict[subAppName.toLowerCase()] = subAppInstance;
 }
 
@@ -55,8 +55,8 @@ var amiWebApp = {
 	  * @returns True or False
 	  */
 
-	isLocal: function() {
-
+	isLocal: function()
+	{
 		return document.location.protocol === (('file:'))
 		       ||
 		       document.location.hostname === 'localhost'
@@ -73,7 +73,8 @@ var amiWebApp = {
 	  * @returns The escaped string
 	  */
 
-	textToHtml: function(s) {
+	textToHtml: function(s)
+	{
 		return s.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	},
 
@@ -83,7 +84,8 @@ var amiWebApp = {
 	  * @returns The unescaped string
 	  */
 
-	htmlToText: function(s) {
+	htmlToText: function(s)
+	{
 		return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"');
 	},
 
@@ -95,7 +97,8 @@ var amiWebApp = {
 	  * @returns The escaped string
 	  */
 
-	textToString: function(s) {
+	textToString: function(s)
+	{
 		return s.replace(/\\/g, '\\\\').replace(/"/g, '\\\"').replace(/'/g, '\\\'');
 	},
 
@@ -105,7 +108,8 @@ var amiWebApp = {
 	  * @returns The unescaped string
 	  */
 
-	stringToText: function(s) {
+	stringToText: function(s)
+	{
 		return s.replace(/\\'/g, '\'').replace(/\\"/g, '\"').replace(/\\\\/g, '\\');
 	},
 
@@ -117,7 +121,8 @@ var amiWebApp = {
 	  * @returns The escaped string
 	  */
 
-	htmlToString: function(s) {
+	htmlToString: function(s)
+	{
 		return s.replace(/\\/g, '\\\\').replace(/&quot;/g, '\\&quot;').replace(/'/g, '\\\'');
 	},
 
@@ -127,7 +132,8 @@ var amiWebApp = {
 	  * @returns The unescaped string
 	  */
 
-	stringToHtml: function(s) {
+	stringToHtml: function(s)
+	{
 		return s.replace(/\\'/g, '\'').replace(/\\&quot;/g, '&quot;').replace(/\\\\/g, '\\');
 	},
 
@@ -137,26 +143,24 @@ var amiWebApp = {
 
 	/**
 	  * Loads CSS sheets asynchronously
-	  * @param {string|array} sheets the list of sheets
+	  * @param {array|string} sheets the array of sheets
 	  * @param {object} [settings] dictionary of settings (context)
 	  * @returns A JQuery deferred object
 	  */
 
-	loadSheets: function(sheets, settings) {
-
+	loadSheets: function(sheets, settings)
+	{
 		var context = null;
 
-		if(settings && 'context' in settings) {
+		if(settings && 'context' in settings)
+		{
 			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		if(!(sheets instanceof Array)) {
+		if(!(sheets instanceof Array))
+		{
 			sheets = [sheets];
 		}
 
@@ -164,15 +168,19 @@ var amiWebApp = {
 
 		var html = '';
 
-		for(var i = 0; i < sheets.length; i++) {
-
-			if($.inArray(sheets[i], _ami_internal_sheets) < 0) {
-
+		for(var i = 0; i < sheets.length; i++)
+		{
+			if($.inArray(sheets[i], _ami_internal_sheets) < 0)
+			{
 				_ami_internal_sheets.push(sheets[i]);
 
 				html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _ami_internal_nonce++ + '"></link>';
 			}
 		}
+
+		/*---------------------------------------------------------*/
+
+		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -196,26 +204,24 @@ var amiWebApp = {
 
 	/**
 	  * Loads JavaScript scripts asynchronously
-	  * @param {string|array} scripts the list of scripts
+	  * @param {array|string} scripts the array of scripts
 	  * @param {object} [settings] dictionary of settings (context)
 	  * @returns A JQuery deferred object
 	  */
 
-	loadScripts: function(scripts, settings) {
-
+	loadScripts: function(scripts, settings)
+	{
 		var context = null;
 
-		if(settings && 'context' in settings) {
+		if(settings && 'context' in settings)
+		{
 			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		if(!(scripts instanceof Array)) {
+		if(!(scripts instanceof Array))
+		{
 			scripts = [scripts];
 		}
 
@@ -223,15 +229,19 @@ var amiWebApp = {
 
 		var html = '';
 
-		for(var i = 0; i < scripts.length; i++) {
-
-			if($.inArray(scripts[i], _ami_internal_scripts) < 0) {
-
+		for(var i = 0; i < scripts.length; i++)
+		{
+			if($.inArray(scripts[i], _ami_internal_scripts) < 0)
+			{
 				_ami_internal_scripts.push(scripts[i]);
 
 				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _ami_internal_nonce++ + '"></script>';
 			}
 		}
+
+		/*---------------------------------------------------------*/
+
+		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -253,22 +263,21 @@ var amiWebApp = {
 	/* DYNAMIC HTML LOADING                                            */
 	/*-----------------------------------------------------------------*/
 
-	_loadHTMLs: function(deferred, array, urls, context) {
-
-		if(urls.length > 0) {
-
-			var url = urls.shift();
+	_loadHTMLs: function(deferred, array, fragments, context)
+	{
+		if(fragments.length > 0)
+		{
+			var url = fragments.shift();
 
 			$.ajax({
 				url: url,
 				cache: false,
 				dataType: 'html',
-
 			}).done(function(data) {
 
 				array.push(data);
 
-				amiWebApp._loadHTMLs(deferred, array, urls, context);
+				amiWebApp._loadHTMLs(deferred, array, fragments, context);
 
 			}).fail(function() {
 
@@ -278,8 +287,9 @@ var amiWebApp = {
 					deferred.reject('could not load `' + url + '`');
 				}
 			});
-		} else {
-
+		}
+		else
+		{
 			if(context) {
 				deferred.resolveWith(context, [array]);
 			} else {
@@ -292,7 +302,7 @@ var amiWebApp = {
 
 	/**
 	  * Loads HTML fragments asynchronously
-	  * @param {string|array} fragments the list of fragments
+	  * @param {array|string} fragments the array of fragments
 	  * @param {object} [settings] dictionary of settings (context)
 	  * @returns A JQuery deferred object
 	  */
@@ -301,19 +311,21 @@ var amiWebApp = {
 
 		var context = null;
 
-		if(settings && 'context' in settings) {
+		if(settings && 'context' in settings)
+		{
 			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
+		if(!(fragments instanceof Array))
+		{
+			fragments = [fragments];
+		}
 
 		/*---------------------------------------------------------*/
 
-		if(!(fragments instanceof Array)) {
-			fragments = [fragments];
-		}
+		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -341,16 +353,16 @@ var amiWebApp = {
 	  * @returns A JQuery deferred object
 	  */
 
-	replaceHTML: function(selector, html, settings) {
-
+	replaceHTML: function(selector, html, settings)
+	{
 		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
 		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
 
 		var context = null;
 		var dict = null;
 
-		if(settings) {
-		
+		if(settings)
+		{
 			if('context' in settings) {
 				context = settings['context'];
 			}
@@ -362,11 +374,11 @@ var amiWebApp = {
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
+		html = amiWebApp.formatHTML(html, dict);
 
 		/*---------------------------------------------------------*/
 
-		html = amiWebApp.formatHTML(html, dict);
+		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -404,16 +416,16 @@ var amiWebApp = {
 	  * @returns A JQuery deferred object
 	  */
 
-	prependHTML: function(selector, html, settings) {
-
+	prependHTML: function(selector, html, settings)
+	{
 		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
 		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
 
 		var context = null;
 		var dict = null;
 
-		if(settings) {
-		
+		if(settings)
+		{
 			if('context' in settings) {
 				context = settings['context'];
 			}
@@ -425,11 +437,11 @@ var amiWebApp = {
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
+		html = amiWebApp.formatHTML(html, dict);
 
 		/*---------------------------------------------------------*/
 
-		html = amiWebApp.formatHTML(html, dict);
+		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -467,16 +479,16 @@ var amiWebApp = {
 	  * @returns A JQuery deferred object
 	  */
 
-	appendHTML: function(selector, html, settings) {
-
+	appendHTML: function(selector, html, settings)
+	{
 		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
 		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
 
 		var context = null;
 		var dict = null;
 
-		if(settings) {
-		
+		if(settings)
+		{
 			if('context' in settings) {
 				context = settings['context'];
 			}
@@ -488,11 +500,11 @@ var amiWebApp = {
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
+		html = amiWebApp.formatHTML(html, dict);
 
 		/*---------------------------------------------------------*/
 
-		html = amiWebApp.formatHTML(html, dict);
+		var result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -529,10 +541,10 @@ var amiWebApp = {
 	  * @returns The formated HTML fragment
 	  */
 
-	formatHTML: function(html, dict) {
-
-		if(dict instanceof Array) {
-
+	formatHTML: function(html, dict)
+	{
+		if(dict instanceof Array)
+		{
 			var result = '';
 
 			$.each(dict, function(indx, DICT) {
@@ -541,8 +553,9 @@ var amiWebApp = {
 			});
 
 			return result;
-
-		} else {
+		}
+		else
+		{
 			return amiTwig.render(html, dict);
 		}
 	},
@@ -555,13 +568,12 @@ var amiWebApp = {
 	  * Finds data within the given JSON, see: {@link https://github.com/dfilatov/jspath}
 	  * @param {string} path the path
 	  * @param {json} json the JSON
-	  * @param {object} [substs] substitutions
 	  * @returns The resulting array
 	  */
 
-	jspath: function(path, json, substs) {
-
-		return JSPath.apply(path, json, substs);
+	jspath: function(path, json)
+	{
+		return JSPath.apply(path, json);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -572,8 +584,8 @@ var amiWebApp = {
 	  * Locks the web application
 	  */
 
-	lock: function() {
-
+	lock: function()
+	{
 		$('#ami_locker').css('display', 'block');
 	},
 
@@ -583,8 +595,8 @@ var amiWebApp = {
 	  * Unlocks the web application
 	  */
 
-	unlock: function() {
-
+	unlock: function()
+	{
 		$('#ami_locker').css('display', 'none');
 	},
 
@@ -598,14 +610,15 @@ var amiWebApp = {
 	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
 	  */
 
-	success: function(message, fadeOut) {
-
+	success: function(message, fadeOut)
+	{
 		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 		amiWebApp.unlock();
 
 		$(document).scrollTop(0);
 
-		if(fadeOut) {
+		if(fadeOut)
+		{
 			$('#ami_status_content .alert').fadeOut(60000);
 		}
 	},
@@ -618,14 +631,15 @@ var amiWebApp = {
 	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
 	  */
 
-	info: function(message, fadeOut) {
-
+	info: function(message, fadeOut)
+	{
 		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentInfo, {dict: {MESSAGE: message}});
 		amiWebApp.unlock();
 
 		$(document).scrollTop(0);
 
-		if(fadeOut) {
+		if(fadeOut)
+		{
 			$('#ami_status_content .alert').fadeOut(60000);
 		}
 	},
@@ -638,14 +652,15 @@ var amiWebApp = {
 	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
 	  */
 
-	warning: function(message, fadeOut) {
-
+	warning: function(message, fadeOut)
+	{
 		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentWarning, {dict: {MESSAGE: message}});
 		amiWebApp.unlock();
 
 		$(document).scrollTop(0);
 
-		if(fadeOut) {
+		if(fadeOut)
+		{
 			$('#ami_status_content .alert').fadeOut(60000);
 		}
 	},
@@ -658,14 +673,15 @@ var amiWebApp = {
 	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
 	  */
 
-	error: function(message, fadeOut) {
-
+	error: function(message, fadeOut)
+	{
 		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 		amiWebApp.unlock();
 
 		$(document).scrollTop(0);
 
-		if(fadeOut) {
+		if(fadeOut)
+		{
 			$('#ami_status_content .alert').fadeOut(60000);
 		}
 	},
@@ -676,8 +692,8 @@ var amiWebApp = {
 	  * Flush messages
 	  */
 
-	flush: function() {
-
+	flush: function()
+	{
 		$('#ami_status_content').empty();
 	},
 
@@ -690,7 +706,8 @@ var amiWebApp = {
 	  * @event amiWebApp#onStart
 	  */
 
-	onStart: function() {
+	onStart: function()
+	{
 		alert('error: `amiWebApp.onStart()` must be overloaded!');
 	},
 
@@ -701,7 +718,8 @@ var amiWebApp = {
 	  * @event amiWebApp#onToolbarUpdateNeeded
 	  */
 
-	onToolbarUpdateNeeded: function() {
+	onToolbarUpdateNeeded: function()
+	{
 		alert('error: `amiWebApp.onToolbarUpdateNeeded()` must be overloaded!');
  	},
 
@@ -712,16 +730,16 @@ var amiWebApp = {
 	  * @param {object} [settings] dictionary of settings (logo_url, home_url, contact_email, template_filename, locker_filename)
 	  */
 
-	start: function(settings) {
-
+	start: function(settings)
+	{
 		var logo_url = 'images/logo.png';
 		var home_url = 'http://ami.in2p3.fr';
 		var contact_email = 'ami@lpsc.in2p3.fr';
 		var template_filename = 'html/AMI/AMIWebApp_default.html';
 		var locker_filename = 'html/AMI/Fragment/locker.html';
 
-		if(settings) {
-
+		if(settings)
+		{
 			if('logo_url' in settings) {
 				logo_url = settings['logo_url'];
 			}
@@ -788,21 +806,25 @@ var amiWebApp = {
 
 	/*-----------------------------------------------------------------*/
 
-	onReady: function(userdata) {
+	onReady: function(userdata)
+	{
 		return amiWebApp._currentSubAppInstance.onReady(userdata);
 	},
 
-	onExit: function() {
+	onExit: function()
+	{
 		return amiWebApp._currentSubAppInstance.onExit();
 	},
 
-	onLogin: function() {
+	onLogin: function()
+	{
 		var result = amiWebApp._currentSubAppInstance.onLogin();
 		amiWebApp.onToolbarUpdateNeeded();
 		return result;
 	},
 
-	onLogout: function() {
+	onLogout: function()
+	{
 		var result = amiWebApp._currentSubAppInstance.onLogout();
 		amiWebApp.onToolbarUpdateNeeded();
 		return result;
@@ -815,8 +837,8 @@ var amiWebApp = {
 	  * @return The current sub-application instance
 	  */
 
-	getCurrentSubAppInstance: function() {
-
+	getCurrentSubAppInstance: function()
+	{
 		return amiWebApp._currentSubAppInstance;
 	},
 
@@ -828,7 +850,8 @@ var amiWebApp = {
 	  * @param {variant} [userdata] userdata
 	  */
 
-	setCurrentSubAppInstance: function(subAppInstance, userdata) {
+	setCurrentSubAppInstance: function(subAppInstance, userdata)
+	{
 		/*---------------------------------------------------------*/
 		/* CHECK SUB-APPLICATION                                   */
 		/*---------------------------------------------------------*/
@@ -869,20 +892,21 @@ var amiWebApp = {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Runs the sub-application according to the URL (parameters 'subapp' and 'userdata')
+	  * Runs a sub-application according to the URL (parameters 'subapp' and 'userdata')
 	  * @param {string} home the name of the home sub-application
 	  */
 
-	autoRunSubApp: function(home) {
-
+	autoRunSubApp: function(home)
+	{
 		var subapp = amiWebApp.args['subapp'] || home;
 		var userdata = amiWebApp.args['userdata'] || null;
 
-		if(subapp) {
+		if(subapp)
+		{
 			subapp = subapp.toLowerCase();
 
-			if(subapp in _ami_internal_subAppDict) {
-
+			if(subapp in _ami_internal_subAppDict)
+			{
 				amiWebApp.setCurrentSubAppInstance(_ami_internal_subAppDict[subapp], userdata);
 			}
 		}
@@ -895,7 +919,8 @@ var amiWebApp = {
 /* CONSTRUCTOR                                                             */
 /*-------------------------------------------------------------------------*/
 
-try {
+try
+{
 	/*-------------------------------*/
 	/* DEFAULT SHEETS                */
 	/*-------------------------------*/
@@ -934,54 +959,18 @@ try {
 	/* DEFAULT FRAGMENTS             */
 	/*-------------------------------*/
 
-	$.ajax({
-		url: 'html/AMI/Fragment/alert_success.html',
-		cache: false,
-		dataType: 'html',
-		async: false,
-	}).done(function(data) {
-		amiWebApp.fragmentSuccess = data;
-	}).fail(function() {
-		throw 'could not load `html/AMI/Fragment/success.html`';
-	});
-
-	/*-------------------------------*/
-
-	$.ajax({
-		url: 'html/AMI/Fragment/alert_info.html',
-		cache: false,
-		dataType: 'html',
-		async: false,
-	}).done(function(data) {
-		amiWebApp.fragmentInfo = data;
-	}).fail(function() {
-		throw 'could not load `html/AMI/Fragment/info.html`';
-	});
-
-	/*-------------------------------*/
-
-	$.ajax({
-		url: 'html/AMI/Fragment/alert_warning.html',
-		cache: false,
-		dataType: 'html',
-		async: false,
-	}).done(function(data) {
-		amiWebApp.fragmentWarning = data;
-	}).fail(function() {
-		throw 'could not load `html/AMI/Fragment/warning.html`';
-	});
-
-	/*-------------------------------*/
-
-	$.ajax({
-		url: 'html/AMI/Fragment/alert_error.html',
-		cache: false,
-		dataType: 'html',
-		async: false,
-	}).done(function(data) {
-		amiWebApp.fragmentError = data;
-	}).fail(function() {
-		throw 'could not load `html/AMI/Fragment/error.html`';
+	amiWebApp.loadHTMLs([
+		'html/AMI/Fragment/alert_success.html',
+		'html/AMI/Fragment/alert_info.html',
+		'html/AMI/Fragment/alert_warning.html',
+		'html/AMI/Fragment/alert_error.html',
+	]).done(function(data) {
+		amiWebApp.fragmentSuccess = data[0];
+		amiWebApp.fragmentInfo = data[1];
+		amiWebApp.fragmentWarning = data[2];
+		amiWebApp.fragmentError = data[3];
+	}).fail(function(data) {
+		throw data;
 	});
 
 	/*-------------------------------*/
@@ -990,15 +979,17 @@ try {
 
 	setTimeout(function() {
 
-		if(!$('#ami_main_content').html()) {
+		if($('#ami_main_content').is(':empty'))
+		{
 			$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
 		}
 
 	}, 8000);
 
 	/*-------------------------------*/
-} catch(e) {
-
+}
+catch(e)
+{
 	console.error(e);
 
 	alert('Service temporarily unavailable, please try reloading the page...');
@@ -1022,7 +1013,8 @@ var index2 = url.lastIndexOf('/');
 
 amiWebApp.originURL = url.substring(0, index2);
 
-while(amiWebApp.originURL[amiWebApp.originURL.length - 1] === '/') {
+while(amiWebApp.originURL[amiWebApp.originURL.length - 1] === '/')
+{
 	amiWebApp.originURL = amiWebApp.originURL.substring(0, amiWebApp.originURL.length - 1);
 }
 
@@ -1034,7 +1026,8 @@ while(amiWebApp.originURL[amiWebApp.originURL.length - 1] === '/') {
 
 amiWebApp.webAppURL = url;
 
-while(amiWebApp.webAppURL[amiWebApp.webAppURL.length - 1] === '/') {
+while(amiWebApp.webAppURL[amiWebApp.webAppURL.length - 1] === '/')
+{
 	amiWebApp.webAppURL = amiWebApp.webAppURL.substring(0, amiWebApp.webAppURL.length - 1);
 }
 
@@ -1048,12 +1041,12 @@ while(amiWebApp.webAppURL[amiWebApp.webAppURL.length - 1] === '/') {
 
 amiWebApp.args = {};
 
-if(window.location.search) {
-
+if(window.location.search)
+{
 	var urlParams = window.location.search.substring(1).split('&');
 
-	for(var i = 0; i < urlParams.length; i++) {
-
+	for(var i = 0; i < urlParams.length; i++)
+	{
 		var pair = urlParams[i].split('=');
 
 		amiWebApp.args[pair[0]] = pair[1];
@@ -1067,8 +1060,8 @@ if(window.location.search) {
 (function($) {
 	/*-----------------------------------------------------------------*/
 
-	$.foreach = function(elements, func, context) {
-
+	$.foreach = function(elements, func, context)
+	{
 		$.each(elements, function(index, element) {
 
 			func.apply(context || element, [index, element]);
