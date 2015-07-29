@@ -1,4 +1,28 @@
-/*!
+<link rel="stylesheet" type="text/css" href="docs/api/css/AMI-template.css"></link>
+
+<div class="row">
+
+  <nav class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">AMI Web framework API</h3>
+      </div>
+      <div class="panel-body jsdoc-menu">
+        <h4><a href="?subapp=amiDocument&userdata=api/index.html">Home</a></h2><h4>Events</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Global</h3><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="col-md-9 jsdoc-content">
+    <h1>Source: AMILogin.js</h1>
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="ami-code">/*!
  * amiLogin
  *
  * Copyright (c) 2014-2015 The AMI Team
@@ -19,6 +43,7 @@ var amiLogin = {
 	/*-----------------------------------------------------------------*/
 
 	user: 'guest',
+
 	guest: 'guest',
 
 	/*-----------------------------------------------------------------*/
@@ -90,8 +115,8 @@ var amiLogin = {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * The the current user
-	  * @returns The current user
+	  * The the current user login
+	  * @returns The current user login
 	  */
 
 	getUser: function()
@@ -201,13 +226,13 @@ var amiLogin = {
 
 				if(client_dn_in_session || issuer_dn_in_session)
 				{
-					extra = '<textarea style="height: 85px; width: 100%;">'
+					extra = '&lt;textarea style="height: 85px; width: 100%;">'
 					        +
 					        'Presented client DN: ' + amiWebApp.textToHtml(client_dn_in_session)
 					        + '\n' +
 					        'Presented issuer DN: ' + amiWebApp.textToHtml(client_dn_in_session)
 					        +
-					        '</textarea>'
+					        '&lt;/textarea>'
 					;
 				}
 				else
@@ -251,13 +276,13 @@ var amiLogin = {
 
 				if(client_dn_in_session || issuer_dn_in_session)
 				{
-					extra = '<textarea style="height: 85px; width: 100%;">'
+					extra = '&lt;textarea style="height: 85px; width: 100%;">'
 					        +
 					        'Presented client DN: ' + amiWebApp.textToHtml(client_dn_in_session)
 					        + '\n' +
 					        'Presented issuer DN: ' + amiWebApp.textToHtml(client_dn_in_session)
 					        +
-					        '</textarea>'
+					        '&lt;/textarea>'
 					;
 				}
 				else
@@ -505,9 +530,9 @@ var amiLogin = {
 			for(var role in amiLogin.roles[roleName])
 			{
 				if(role['catalog'] === catalog
-				   &&
+				   &amp;&amp;
 				   role['entity'] === entity
-				   &&
+				   &amp;&amp;
 				   role['row'] === '0'
 				 ) {
 					return true;
@@ -527,9 +552,9 @@ var amiLogin = {
 			for(var role in amiLogin.roles[roleName])
 			{
 				if(role['catalog'] === catalog
-				   &&
+				   &amp;&amp;
 				   role['entity'] === entity
-				   &&
+				   &amp;&amp;
 				   role['row'] === row
 				 ) {
 					return true;
@@ -619,7 +644,7 @@ var amiLogin = {
 	{
 		if(message)
 		{
-			message = '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message;
+			message = '&lt;span class="fa fa-exclamation-triangle" style="color: orange;">&lt;/span> ' + message;
 		}
 
 		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
@@ -631,7 +656,7 @@ var amiLogin = {
 	{
 		if(message)
 		{
-			message = '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message;
+			message = '&lt;span class="fa fa-exclamation-triangle" style="color: red;">&lt;/span> ' + message;
 		}
 
 		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
@@ -659,7 +684,7 @@ var amiLogin = {
 
 		amiLogin.roles = {};
 
-		for(var i = 0; i < role_rows.length; i++)
+		for(var i = 0; i &lt; role_rows.length; i++)
 		{
 			var name = amiWebApp.jspath('..field{.@name==="name"}.$', role_rows[i])[0];
 			var catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', role_rows[i])[0];
@@ -725,7 +750,7 @@ var amiLogin = {
 				/* VALID USER                              */
 				/*-----------------------------------------*/
 
-				if(cert_enabled !== 'false' && client_dn_in_ami && issuer_dn_in_ami)
+				if(cert_enabled !== 'false' &amp;&amp; client_dn_in_ami &amp;&amp; issuer_dn_in_ami)
 				{
 					if(!client_dn_in_session
 					   ||
@@ -745,7 +770,7 @@ var amiLogin = {
 				}
 
 				$('#modal_login_account_status_form1_status').html(
-					'<span style="color: #006400;">valid</span>'
+					'&lt;span style="color: #006400;">valid&lt;/span>'
 				);
 
 				amiLogin._showInfoMessage4(message);
@@ -779,7 +804,7 @@ var amiLogin = {
 				}
 
 				$('#modal_login_account_status_form1_status').html(
-					'<span style="color: #8B0000;">invalid</span>'
+					'&lt;span style="color: #8B0000;">invalid&lt;/span>'
 				);
 
 				amiLogin._showErrorMessage4(message);
@@ -791,11 +816,11 @@ var amiLogin = {
 
 			/*-------------------------------------------------*/
 
-			var icon = message ? '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
+			var icon = message ? '&lt;a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
 			                     +
-			                     '<span class="fa fa-exclamation-triangle"></span>'
+			                     '&lt;span class="fa fa-exclamation-triangle">&lt;/span>'
 			                     +
-			                     '</a>'
+			                     '&lt;/a>'
 			                   : ''
 			;
 
@@ -848,3 +873,13 @@ var amiLogin = {
 };
 
 /*-------------------------------------------------------------------------*/
+</pre>
+        </article>
+    </section>
+
+
+
+
+  </div>
+
+</div>

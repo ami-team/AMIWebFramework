@@ -22,6 +22,24 @@ var _ami_internal_scripts = [];
 var _ami_internal_sheets = [];
 
 /*-------------------------------------------------------------------------*/
+/* INTERNAL FUNCTIONS                                                      */
+/*-------------------------------------------------------------------------*/
+
+function _ami_internal_always(deferred, func)
+{
+	if(deferred && deferred.always)
+	{
+		deferred.always(function() {
+			func();
+		});
+	}
+	else
+	{
+		func();
+	}
+}
+
+/*-------------------------------------------------------------------------*/
 /* GLOBAL FUNCTIONS                                                        */
 /*-------------------------------------------------------------------------*/
 
@@ -775,11 +793,11 @@ var amiWebApp = {
 
 			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data2) {
 
-				var content = amiWebApp.formatHTML(data1, dict) + data2;
-
-				$('body').append(content).promise().done(function() {
+				$('body').append(amiWebApp.formatHTML(data1, dict) + data2).promise().done(function() {
 
 					amiWebApp.onStart();
+
+					amiLogin.init();
 				});
 
 			}).fail(function() {
@@ -880,11 +898,30 @@ var amiWebApp = {
 		/* SWITCH SUB-APPLICATION                                  */
 		/*---------------------------------------------------------*/
 
-		amiWebApp._currentSubAppInstance.onExit();
+		if(amiWebApp._currentSubAppInstance.onExit() === false)
+		{
+			return;
+		}
+
+		/*---------------------------------------------------------*/
 
 		amiWebApp._currentSubAppInstance = subAppInstance;
 
-		amiLogin.runSubApp(userdata);
+		/*---------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		_ami_internal_always(
+			amiWebApp.onReady(userdata),
+			function() {
+				_ami_internal_always(
+					amiWebApp.onLogin(),
+					function() {
+						amiWebApp.unlock();
+					}
+				);
+			}
+		);
 
 		/*---------------------------------------------------------*/
 	},

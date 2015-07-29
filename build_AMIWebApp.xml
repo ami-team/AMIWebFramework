@@ -99,7 +99,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="jsdoc --template tools/AMI-template --destination docs/api js/AMI/AMIWebApp.js js/AMI/AMICommand.js js/AMI/AMITokenizer.js" />
+			<arg value="jsdoc --template tools/AMI-template --destination docs/api js/AMI/AMIWebApp.js js/AMI/AMICommand.js js/AMI/AMILogin.js js/AMI/AMITokenizer.js" />
 		</exec>
 
 	</target>

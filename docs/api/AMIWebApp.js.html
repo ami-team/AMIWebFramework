@@ -8,7 +8,7 @@
         <h3 class="panel-title">AMI Web framework API</h3>
       </div>
       <div class="panel-body jsdoc-menu">
-        <h4><a href="?subapp=amiDocument&userdata=api/index.html">Home</a></h2><h4>Events</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Global</h3><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
+        <h4><a href="?subapp=amiDocument&userdata=api/index.html">Home</a></h2><h4>Events</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Global</h3><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
       </div>
     </div>
   </nav>
@@ -44,6 +44,24 @@ var _ami_internal_subAppDict = {};
 
 var _ami_internal_scripts = [];
 var _ami_internal_sheets = [];
+
+/*-------------------------------------------------------------------------*/
+/* INTERNAL FUNCTIONS                                                      */
+/*-------------------------------------------------------------------------*/
+
+function _ami_internal_always(deferred, func)
+{
+	if(deferred &amp;&amp; deferred.always)
+	{
+		deferred.always(function() {
+			func();
+		});
+	}
+	else
+	{
+		func();
+	}
+}
 
 /*-------------------------------------------------------------------------*/
 /* GLOBAL FUNCTIONS                                                        */
@@ -799,11 +817,11 @@ var amiWebApp = {
 
 			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data2) {
 
-				var content = amiWebApp.formatHTML(data1, dict) + data2;
-
-				$('body').append(content).promise().done(function() {
+				$('body').append(amiWebApp.formatHTML(data1, dict) + data2).promise().done(function() {
 
 					amiWebApp.onStart();
+
+					amiLogin.init();
 				});
 
 			}).fail(function() {
@@ -904,11 +922,30 @@ var amiWebApp = {
 		/* SWITCH SUB-APPLICATION                                  */
 		/*---------------------------------------------------------*/
 
-		amiWebApp._currentSubAppInstance.onExit();
+		if(amiWebApp._currentSubAppInstance.onExit() === false)
+		{
+			return;
+		}
+
+		/*---------------------------------------------------------*/
 
 		amiWebApp._currentSubAppInstance = subAppInstance;
 
-		amiLogin.runSubApp(userdata);
+		/*---------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		_ami_internal_always(
+			amiWebApp.onReady(userdata),
+			function() {
+				_ami_internal_always(
+					amiWebApp.onLogin(),
+					function() {
+						amiWebApp.unlock();
+					}
+				);
+			}
+		);
 
 		/*---------------------------------------------------------*/
 	},

@@ -26,10 +26,12 @@
 
 	amiWebApp.onStart = function() {
 
-		if(amiWebApp.isLocal()) {
-//			amiCommand.endpoint = 'http://localhost:8080/AMI/FrontEnd';
+		if(amiWebApp.isLocal())
+		{
 			amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';
-		} else {
+		}
+		else
+		{
 			amiCommand.endpoint = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 		}
 
@@ -58,8 +60,8 @@
 			'</li>'
 		;
 
-		if(true||amiLogin.hasRole('AMI_administrator_role')) {
-
+		if(true||amiLogin.hasRole('AMI_administrator_role'))
+		{
 			menu +=
 				'</li>' +
 				'<li class="dropdown">' +
@@ -73,7 +75,7 @@
 				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiCatalogModeler">Catalog Modeler</a></li>' +
 				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiSearchModeler">Search Modeler</a></li>' +
 				'    <li class="divider"></li>' +
-				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiDocument&userdata=api">AMI Web framework API</a></li>' +
+				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiDocument&userdata=api/index.html">AMI Web framework API</a></li>' +
 				'  </ul>' +
 				'</li>'
 			;
