@@ -187,22 +187,19 @@ var amiLogin = {
 
 		amiWebApp.lock();
 
-		amiCommand.passLogin(user, pass).done(function(data, user, guest) {
+		amiCommand.passLogin(user, pass).done(function(data, user, guest, clientDNInSession, issuerDNInSession) {
 
 			if(user === guest)
 			{
-				var client_dn_in_session = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', data)[0];
-				var issuer_dn_in_session = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', data)[0];
-
 				var extra;
 
-				if(client_dn_in_session || issuer_dn_in_session)
+				if(clientDNInSession || issuerDNInSession)
 				{
 					extra = '<textarea style="height: 85px; width: 100%;">'
 					        +
-					        'Presented client DN: ' + amiWebApp.textToHtml(client_dn_in_session)
+					        'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
 					        + '\n' +
-					        'Presented issuer DN: ' + amiWebApp.textToHtml(client_dn_in_session)
+					        'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
 					        +
 					        '</textarea>'
 					;
@@ -237,22 +234,19 @@ var amiLogin = {
 	{
 		amiWebApp.lock();
 
-		amiCommand.certLogin().done(function(data, user, guest) {
+		amiCommand.certLogin().done(function(data, user, guest, clientDNInSession, issuerDNInSession) {
 
 			if(user === guest)
 			{
-				var client_dn_in_session = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', data)[0];
-				var issuer_dn_in_session = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', data)[0];
-
 				var extra;
 
-				if(client_dn_in_session || issuer_dn_in_session)
+				if(clientDNInSession || issuerDNInSession)
 				{
 					extra = '<textarea style="height: 85px; width: 100%;">'
 					        +
-					        'Presented client DN: ' + amiWebApp.textToHtml(client_dn_in_session)
+					        'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
 					        + '\n' +
-					        'Presented issuer DN: ' + amiWebApp.textToHtml(client_dn_in_session)
+					        'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
 					        +
 					        '</textarea>'
 					;
@@ -421,18 +415,18 @@ var amiLogin = {
 
 	form_changePass: function()
 	{
-		var old_pass = $('#modal_login_change_pass_form_old_pass').val();
-		var new_pass1 = $('#modal_login_change_pass_form_new_pass1').val();
-		var new_pass2 = $('#modal_login_change_pass_form_new_pass2').val();
+		var oldPass = $('#modal_login_change_pass_form_old_pass').val();
+		var newPass1 = $('#modal_login_change_pass_form_new_pass1').val();
+		var newPass2 = $('#modal_login_change_pass_form_new_pass2').val();
 
-		if(!old_pass || !new_pass1 || !new_pass2)
+		if(!oldPass || !newPass1 || !newPass2)
 		{
 			amiLogin._showErrorMessage3('Please, fill all fields with a red star.');
 
 			return;
 		}
 
-		if(new_pass1 !== new_pass2)
+		if(newPass1 !== newPass2)
 		{
 			amiLogin._showErrorMessage3('Password1 and Password2 have to be identical.');
 
@@ -441,7 +435,7 @@ var amiLogin = {
 
 		amiWebApp.lock();
 
-		amiCommand.changePass(old_pass, new_pass1).done(function(data) {
+		amiCommand.changePass(oldPass, newPass1).done(function(data) {
 
 			amiLogin._showSuccessMessage3('Done with success.');
 
@@ -649,30 +643,33 @@ var amiLogin = {
 
 		/*---------------------------------------------------------*/
 
-		var user_rows = amiWebApp.jspath('..rowset{.@type==="user"}..row', data);
-		var role_rows = amiWebApp.jspath('..rowset{.@type==="role"}..row', data);
+		var userRows = amiWebApp.jspath('..rowset{.@type==="user"}..row', data);
+		var roleRows = amiWebApp.jspath('..rowset{.@type==="role"}..row', data);
 
 		/*---------------------------------------------------------*/
 
 		amiLogin.roles = {};
 
-		for(var i = 0; i < role_rows.length; i++)
+		if(roleRows)
 		{
-			var name = amiWebApp.jspath('..field{.@name==="name"}.$', role_rows[i])[0];
-			var catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', role_rows[i])[0];
-			var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', role_rows[i])[0];
-			var row = amiWebApp.jspath('..field{.@name==="row"}.$', role_rows[i])[0];
-
-			if(!(name in amiLogin.roles))
+			for(var i = 0; i < roleRows.length; i++)
 			{
-				amiLogin.roles[name] = [];
-			}
+				var name = amiWebApp.jspath('..field{.@name==="name"}.$', roleRows[i])[0];
+				var catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', roleRows[i])[0];
+				var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', roleRows[i])[0];
+				var row = amiWebApp.jspath('..field{.@name==="row"}.$', roleRows[i])[0];
 
-			amiLogin.roles[name].push({
-				catalog: catalog,
-				entity: entity,
-				row: row,
-			});
+				if(!(name in amiLogin.roles))
+				{
+					amiLogin.roles[name] = [];
+				}
+
+				amiLogin.roles[name].push({
+					catalog: catalog,
+					entity: entity,
+					row: row,
+				});
+			}
 		}
 
 		/*---------------------------------------------------------*/
@@ -685,31 +682,45 @@ var amiLogin = {
 		{
 			/*-------------------------------------------------*/
 
-			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', user_rows)[0];
-			var cert_enabled = amiWebApp.jspath('..field{.@name==="certEnabled"}.$', user_rows)[0];
-			var voms_enabled = amiWebApp.jspath('..field{.@name==="vomsEnabled"}.$', user_rows)[0];
+			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', userRows)[0] || 'false';
+			var certEnabled = amiWebApp.jspath('..field{.@name==="certEnabled"}.$', userRows)[0] || 'false';
+			var vomsEnabled = amiWebApp.jspath('..field{.@name==="vomsEnabled"}.$', userRows)[0] || 'false';
 
 			/*-------------------------------------------------*/
 
-			var first_name = amiWebApp.jspath('..field{.@name==="firstName"}.$', user_rows)[0];
-			var last_name = amiWebApp.jspath('..field{.@name==="lastName"}.$', user_rows)[0];
-			var email = amiWebApp.jspath('..field{.@name==="email"}.$', user_rows)[0];
+			var firstName = amiWebApp.jspath('..field{.@name==="firstName"}.$', userRows)[0] || '';
+			var lastName = amiWebApp.jspath('..field{.@name==="lastName"}.$', userRows)[0] || '';
+			var email = amiWebApp.jspath('..field{.@name==="email"}.$', userRows)[0] || '';
 
 			/*-------------------------------------------------*/
 
-			var client_dn_in_ami = amiWebApp.jspath('..field{.@name==="clientDNInAMI"}.$', user_rows)[0];
-			var client_dn_in_session = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', user_rows)[0];
-			var issuer_dn_in_ami = amiWebApp.jspath('..field{.@name==="issuerDNInAMI"}.$', user_rows)[0];
-			var issuer_dn_in_session = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', user_rows)[0];
+			var clientDNInAMI = amiWebApp.jspath('..field{.@name==="clientDNInAMI"}.$', userRows)[0] || '';
+			var issuerDNInAMI = amiWebApp.jspath('..field{.@name==="issuerDNInAMI"}.$', userRows)[0] || '';
+			var clientDNInSession = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', userRows)[0] || '';
+			var issuerDNInSession = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', userRows)[0] || '';
 
 			/*-------------------------------------------------*/
 
-			$('#modal_login_account_status_form2_first_name').val(first_name);
-			$('#modal_login_account_status_form2_last_name').val(last_name);
+			$('#modal_login_change_info_form_first_name').val(firstName);
+			$('#modal_login_change_info_form_last_name').val(lastName);
+			$('#modal_login_change_info_form_email').val(email);
+
+			/*-------------------------------------------------*/
+
+			$('#modal_login_change_info_form_email').prop('disabled', vomsEnabled !== 'false');
+
+			/*-------------------------------------------------*/
+
+			$('#modal_login_account_status_form2_first_name').val(firstName);
+			$('#modal_login_account_status_form2_last_name').val(lastName);
 			$('#modal_login_account_status_form2_email').val(email);
 
-			$('#modal_login_account_status_form2_client_dn_in_ami').val(client_dn_in_ami);
-			$('#modal_login_account_status_form2_client_dn_in_session').val(client_dn_in_session);
+			/*-------------------------------------------------*/
+
+			$('#modal_login_account_status_form2_client_dn_in_ami').val(clientDNInAMI);
+			$('#modal_login_account_status_form2_issuer_dn_in_ami').val(issuerDNInAMI);
+			$('#modal_login_account_status_form2_client_dn_in_session').val(clientDNInSession);
+			$('#modal_login_account_status_form2_issuer_dn_in_session').val(issuerDNInSession);
 
 			/*-------------------------------------------------*/
 
@@ -722,19 +733,19 @@ var amiLogin = {
 				/* VALID USER                              */
 				/*-----------------------------------------*/
 
-				if(cert_enabled !== 'false' && client_dn_in_ami && issuer_dn_in_ami)
+				if(certEnabled !== 'false' && clientDNInAMI && issuerDNInAMI)
 				{
-					if(!client_dn_in_session
+					if(!clientDNInSession
 					   ||
-					   !issuer_dn_in_session
+					   !issuerDNInSession
 					 ) {
 						message = 'You should provide a certificate to use this AMI web application.';
 					}
 					else
 					{
-						if(client_dn_in_ami !== client_dn_in_session
+						if(clientDNInAMI !== clientDNInSession
 						   ||
-						   issuer_dn_in_ami !== issuer_dn_in_session
+						   issuerDNInAMI !== issuerDNInSession
 						 ) {
 							message = 'The certificate in your session is not the one registered in AMI.';
 						}
@@ -757,11 +768,11 @@ var amiLogin = {
 				/* INVALID USER                            */
 				/*-----------------------------------------*/
 
-				if(voms_enabled !== 'false')
+				if(vomsEnabled !== 'false')
 				{
-					if(!client_dn_in_ami
+					if(!clientDNInAMI
 					   ||
-					   !issuer_dn_in_ami
+					   !issuerDNInAMI
 					 ) {
 						message = 'Register a valid GRID certificate.';
 					}
@@ -795,16 +806,6 @@ var amiLogin = {
 			                     '</a>'
 			                   : ''
 			;
-
-			/*-------------------------------------------------*/
-
-			$('#modal_login_change_info_form_first_name').val(first_name);
-			$('#modal_login_change_info_form_last_name').val(last_name);
-			$('#modal_login_change_info_form_email').val(email);
-
-			/*-------------------------------------------------*/
-
-			$('#modal_login_change_info_form_email').prop('disabled', voms_enabled !== 'false');
 
 			/*-------------------------------------------------*/
 

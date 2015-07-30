@@ -282,21 +282,23 @@ var amiCommand = {
 
 		amiCommand.execute('GetSessionInfo -AMIUser="' + _ami_internal_textToString(user) + '" -AMIPass="' + _ami_internal_textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
 
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0];
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0];
+			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
+			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
+			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
+			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
 
 			if(context) {
-				result.resolveWith(context, [data, user, guest]);
+				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
 			} else {
-				result.resolve(data, user, guest);
+				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest']);
+				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
 			} else {
-				result.reject(data, 'guest', 'guest');
+				result.reject(data, 'guest', 'guest', '', '');
 			}
 		});
 
@@ -330,21 +332,23 @@ var amiCommand = {
 
 		amiCommand.execute('GetSessionInfo').done(function(data) {
 
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0];
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0];
+			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
+			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
+			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
+			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
 
 			if(context) {
-				result.resolveWith(context, [data, user, guest]);
+				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
 			} else {
-				result.resolve(data, user, guest);
+				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest']);
+				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
 			} else {
-				result.reject(data, 'guest', 'guest');
+				result.reject(data, 'guest', 'guest', '', '');
 			}
 		});
 
@@ -378,21 +382,23 @@ var amiCommand = {
 
 		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).done(function(data) {
 
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0];
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0];
+			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
+			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
+			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
+			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
 
 			if(context) {
-				result.resolveWith(context, [data, user, guest]);
+				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
 			} else {
-				result.resolve(data, user, guest);
+				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest']);
+				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
 			} else {
-				result.reject(data, 'guest', 'guest');
+				result.reject(data, 'guest', 'guest', '', '');
 			}
 		});
 
