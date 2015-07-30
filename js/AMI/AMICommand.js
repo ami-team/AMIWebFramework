@@ -477,15 +477,15 @@ var amiCommand = {
 
 	/**
 	  * Change the account password
-	  * @param {string} old_pass the old password
-	  * @param {string} new_pass the new password
+	  * @param {string} oldPass the old password
+	  * @param {string} newPass the new password
 	  * @param {object} [settings] dictionary of settings (context)
 	  * @returns A JQuery deferred object
 	  */
 
-	changePass: function(old_pass, new_pass, settings)
+	changePass: function(oldPass, newPass, settings)
 	{
-		return amiCommand.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(old_pass) + '" -amiPasswordNew="' + _ami_internal_textToString(new_pass) + '"', settings);
+		return amiCommand.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(oldPass) + '" -amiPasswordNew="' + _ami_internal_textToString(newPass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
