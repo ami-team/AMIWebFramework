@@ -44,8 +44,8 @@ var amiCommand = {
 
 	/**
 	  * Decode a base64 string
-	  * @param {string} s the encoded string
-	  * @returns The decoded string
+	  * @param {String} s the encoded string
+	  * @returns {String} The decoded string
 	  */
 
 	amiBase64Decode: function(s)
@@ -94,9 +94,9 @@ var amiCommand = {
 
 	/**
 	  * Execute an AMI command
-	  * @param {string} command the command
-	  * @param {object} [settings] dictionary of settings (context, endpoint, converter, extraParam, extraValue)
-	  * @returns A JQuery deferred object
+	  * @param {String} command the command
+	  * @param {Object} [settings] dictionary of settings (context, endpoint, converter, extraParam, extraValue)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	execute: function(command, settings)
@@ -259,10 +259,10 @@ var amiCommand = {
 
 	/**
 	  * Login by login/password
-	  * @param {string} user the user
-	  * @param {string} pass the password
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} user the user
+	  * @param {String} pass the password
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	passLogin: function(user, pass, settings)
@@ -311,8 +311,8 @@ var amiCommand = {
 
 	/**
 	  * Login by certificate
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	certLogin: function(settings)
@@ -361,8 +361,8 @@ var amiCommand = {
 
 	/**
 	  * Logout
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	logout: function(settings)
@@ -413,10 +413,10 @@ var amiCommand = {
 
 	/**
 	  * Attach a certificate
-	  * @param {string} user the user
-	  * @param {string} pass the password
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} user the user
+	  * @param {String} pass the password
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	attachCert: function(user, pass, settings)
@@ -428,10 +428,10 @@ var amiCommand = {
 
 	/**
 	  * Detach a certificate
-	  * @param {string} user the user
-	  * @param {string} pass the password
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} user the user
+	  * @param {String} pass the password
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	detachCert: function(user, pass, settings)
@@ -443,13 +443,13 @@ var amiCommand = {
 
 	/**
 	  * Add a new user
-	  * @param {string} user the user
-	  * @param {string} pass the password
-	  * @param {string} firstName the first name
-	  * @param {string} lastName the last name
-	  * @param {string} email the email
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} user the user
+	  * @param {String} pass the password
+	  * @param {String} firstName the first name
+	  * @param {String} lastName the last name
+	  * @param {String} email the email
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	addUser: function(user, pass, firstName, lastName, email, settings)
@@ -461,11 +461,11 @@ var amiCommand = {
 
 	/**
 	  * Change the account information
-	  * @param {string} firstName the first name
-	  * @param {string} lastName the last name
-	  * @param {string} email the email
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} firstName the first name
+	  * @param {String} lastName the last name
+	  * @param {String} email the email
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	changeInfo: function(firstName, lastName, email, settings)
@@ -477,10 +477,10 @@ var amiCommand = {
 
 	/**
 	  * Change the account password
-	  * @param {string} oldPass the old password
-	  * @param {string} newPass the new password
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} oldPass the old password
+	  * @param {String} newPass the new password
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	changePass: function(oldPass, newPass, settings)
@@ -492,9 +492,9 @@ var amiCommand = {
 
 	/**
 	  * Reset the account password
-	  * @param {string} user the user
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} user the user
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	resetPass: function(user, settings)

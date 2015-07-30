@@ -32,10 +32,11 @@
 	function viewExpr() {
 
 		try {
-			var rootNode = new AMITwigExprCompiler().parse($('#expr').val(), 0).rootNode;
+			var expr = new AMITwigExprCompiler().parse($('#expr').val(), 0);
 
-			var code = amiTwigExprInterpreter.getJS(rootNode);
-			var tree = Viz(rootNode.dump(), 'svg', undefined);
+			var code = amiTwigExprInterpreter.getJS(expr);
+
+			var tree = Viz(expr.dump(), 'svg', undefined);
 
 			$('#code').html(code);
 			$('#tree').html(tree);

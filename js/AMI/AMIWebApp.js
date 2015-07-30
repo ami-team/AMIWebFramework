@@ -45,8 +45,8 @@ function _ami_internal_always(deferred, func)
 
 /**
   * Register a sub-application
-  * @param {string} subAppName the sub-application name
-  * @param {string} subAppInstance the sub-application instance
+  * @param {String} subAppName the sub-application name
+  * @param {?} subAppInstance the sub-application instance
   */
 
 function amiRegisterSubApp(subAppName, subAppInstance)
@@ -70,7 +70,7 @@ var amiWebApp = {
 
 	/**
 	  * Check whether the WebApp is executed locally (file://, localhost or 127.0.0.1) or not
-	  * @returns True or False
+	  * @returns {Boolean} True or False
 	  */
 
 	isLocal: function()
@@ -87,8 +87,8 @@ var amiWebApp = {
 
 	/**
 	  * Escapes the given string from text to HTML
-	  * @param {string} s the unescaped string
-	  * @returns The escaped string
+	  * @param {String} s the unescaped string
+	  * @returns {String} The escaped string
 	  */
 
 	textToHtml: function(s)
@@ -98,8 +98,8 @@ var amiWebApp = {
 
 	/**
 	  * Unescapes the given string from HTML to text
-	  * @param {string} s the escaped string
-	  * @returns The unescaped string
+	  * @param {String} s the escaped string
+	  * @returns {String} The unescaped string
 	  */
 
 	htmlToText: function(s)
@@ -111,8 +111,8 @@ var amiWebApp = {
 
 	/**
 	  * Escapes the given string from text to JavaScript string
-	  * @param {string} s the unescaped string
-	  * @returns The escaped string
+	  * @param {String} s the unescaped string
+	  * @returns {String} The escaped string
 	  */
 
 	textToString: function(s)
@@ -122,8 +122,8 @@ var amiWebApp = {
 
 	/**
 	  * Unescapes the given string from JavaScript string to text
-	  * @param {string} s the escaped string
-	  * @returns The unescaped string
+	  * @param {String} s the escaped string
+	  * @returns {String} The unescaped string
 	  */
 
 	stringToText: function(s)
@@ -135,8 +135,8 @@ var amiWebApp = {
 
 	/**
 	  * Escapes the given string from HTML to JavaScript string
-	  * @param {string} s the unescaped string
-	  * @returns The escaped string
+	  * @param {String} s the unescaped string
+	  * @returns {String} The escaped string
 	  */
 
 	htmlToString: function(s)
@@ -146,8 +146,8 @@ var amiWebApp = {
 
 	/**
 	  * Unescapes the given string from JavaScript string to HTML
-	  * @param {string} s the escaped string
-	  * @returns The unescaped string
+	  * @param {String} s the escaped string
+	  * @returns {String} The unescaped string
 	  */
 
 	stringToHtml: function(s)
@@ -161,9 +161,9 @@ var amiWebApp = {
 
 	/**
 	  * Loads CSS sheets asynchronously
-	  * @param {array|string} sheets the array of sheets
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {(Array|String)} sheets the array of sheets
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	loadSheets: function(sheets, settings)
@@ -188,7 +188,7 @@ var amiWebApp = {
 
 		for(var i = 0; i < sheets.length; i++)
 		{
-			if($.inArray(sheets[i], _ami_internal_sheets) < 0)
+			if(_ami_internal_sheets.indexOf(sheets[i]) < 0)
 			{
 				_ami_internal_sheets.push(sheets[i]);
 
@@ -222,9 +222,9 @@ var amiWebApp = {
 
 	/**
 	  * Loads JavaScript scripts asynchronously
-	  * @param {array|string} scripts the array of scripts
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {(Array|String)} scripts the array of scripts
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	loadScripts: function(scripts, settings)
@@ -249,7 +249,7 @@ var amiWebApp = {
 
 		for(var i = 0; i < scripts.length; i++)
 		{
-			if($.inArray(scripts[i], _ami_internal_scripts) < 0)
+			if(_ami_internal_scripts.indexOf(scripts[i]) < 0)
 			{
 				_ami_internal_scripts.push(scripts[i]);
 
@@ -320,9 +320,9 @@ var amiWebApp = {
 
 	/**
 	  * Loads HTML fragments asynchronously
-	  * @param {array|string} fragments the array of fragments
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {(Array|String)} fragments the array of fragments
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	loadHTMLs: function(fragments, settings) {
@@ -358,23 +358,23 @@ var amiWebApp = {
 	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
-	originRegExp: /%%\s*ORIGIN_URL\s*%%/g,
 	webappRegExp: /%%\s*WEBAPP_URL\s*%%/g,
+	originRegExp: /%%\s*ORIGIN_URL\s*%%/g,
 
 	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Replace the HTML content of the given target
-	  * @param {string} path the target path
-	  * @param {string} html the HTML fragment
-	  * @param {object} [settings] dictionary of settings (context, dict)
-	  * @returns A JQuery deferred object
+	  * @param {String} path the target path
+	  * @param {String} html the HTML fragment
+	  * @param {Object} [settings] dictionary of settings (context, dict)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	replaceHTML: function(selector, html, settings)
 	{
-		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
 		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
+		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
 
 		var context = null;
 		var dict = null;
@@ -428,16 +428,16 @@ var amiWebApp = {
 
 	/**
 	  * Prepends a HTML fragment to the given target content
-	  * @param {string} path the target path
-	  * @param {string} html the HTML fragment
-	  * @param {object} [settings] dictionary of settings (context, dict)
-	  * @returns A JQuery deferred object
+	  * @param {String} path the target path
+	  * @param {String} html the HTML fragment
+	  * @param {Object} [settings] dictionary of settings (context, dict)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	prependHTML: function(selector, html, settings)
 	{
-		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
 		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
+		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
 
 		var context = null;
 		var dict = null;
@@ -491,16 +491,16 @@ var amiWebApp = {
 
 	/**
 	  * Appends a HTML fragment to the given target content
-	  * @param {string} path the target path
-	  * @param {string} html the HTML fragment
-	  * @param {object} [settings] dictionary of settings (context, dict)
-	  * @returns A JQuery deferred object
+	  * @param {String} path the target path
+	  * @param {String} html the HTML fragment
+	  * @param {Object} [settings] dictionary of settings (context, dict)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	appendHTML: function(selector, html, settings)
 	{
-		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
 		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
+		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
 
 		var context = null;
 		var dict = null;
@@ -554,9 +554,9 @@ var amiWebApp = {
 
 	/**
 	  * Format the given HTML fragment using TWIG, see: {@link http://twig.sensiolabs.org/documentation}
-	  * @param {string} html the HTML fragment
-	  * @param {object} [dict] the dictionary
-	  * @returns The formated HTML fragment
+	  * @param {String} html the HTML fragment
+	  * @param {Object} [dict] the dictionary
+	  * @returns {String} The formated HTML fragment
 	  */
 
 	formatHTML: function(html, dict)
@@ -584,9 +584,9 @@ var amiWebApp = {
 
 	/**
 	  * Finds data within the given JSON, see: {@link https://github.com/dfilatov/jspath}
-	  * @param {string} path the path
-	  * @param {json} json the JSON
-	  * @returns The resulting array
+	  * @param {String} path the path
+	  * @param {Object} json the JSON
+	  * @returns {Array} The resulting array
 	  */
 
 	jspath: function(path, json)
@@ -624,8 +624,8 @@ var amiWebApp = {
 
 	/**
 	  * Show a 'success' message
-	  * @param {string} message the message
-	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
+	  * @param {String} message the message
+	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  */
 
 	success: function(message, fadeOut)
@@ -645,8 +645,8 @@ var amiWebApp = {
 
 	/**
 	  * Show an 'info' message
-	  * @param {string} message the message
-	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
+	  * @param {String} message the message
+	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  */
 
 	info: function(message, fadeOut)
@@ -666,8 +666,8 @@ var amiWebApp = {
 
 	/**
 	  * Show a 'warning' message
-	  * @param {string} message the message
-	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
+	  * @param {String} message the message
+	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  */
 
 	warning: function(message, fadeOut)
@@ -687,8 +687,8 @@ var amiWebApp = {
 
 	/**
 	  * Show an 'error' message
-	  * @param {string} message the message
-	  * @param {bool} [fadeOut=false] if 'true', the message disappears after 60s
+	  * @param {String} message the message
+	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  */
 
 	error: function(message, fadeOut)
@@ -745,7 +745,7 @@ var amiWebApp = {
 
 	/**
 	  * Starts the web application
-	  * @param {object} [settings] dictionary of settings (logo_url, home_url, contact_email, template_filename, locker_filename)
+	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, template_filename, locker_filename)
 	  */
 
 	start: function(settings)
@@ -852,7 +852,7 @@ var amiWebApp = {
 
 	/**
 	  * Get the current sub-application instance
-	  * @return The current sub-application instance
+	  * @return {?} The current sub-application instance
 	  */
 
 	getCurrentSubAppInstance: function()
@@ -864,8 +864,8 @@ var amiWebApp = {
 
 	/**
 	  * Set the current sub-application instance
-	  * @param {class} subAppInstance the application instance
-	  * @param {variant} [userdata] userdata
+	  * @param {?} subAppInstance the application instance
+	  * @param {?} [userdata] userdata
 	  */
 
 	setCurrentSubAppInstance: function(subAppInstance, userdata)
@@ -930,7 +930,7 @@ var amiWebApp = {
 
 	/**
 	  * Runs a sub-application according to the URL (parameters 'subapp' and 'userdata')
-	  * @param {string} home the name of the home sub-application
+	  * @param {String} home the name of the home sub-application
 	  */
 
 	autoRunSubApp: function(home)
@@ -1045,7 +1045,8 @@ var index2 = url.lastIndexOf('/');
 /*-------------------------------*/
 
 /**
-  * WebApp URL
+  * {String} WebApp URL
+  * @type {String}
   */
 
 amiWebApp.webAppURL = url;
@@ -1059,6 +1060,7 @@ while(amiWebApp.webAppURL[amiWebApp.webAppURL.length - 1] === '/')
 
 /**
   * Origin URL
+  * @type {String}
   */
 
 amiWebApp.originURL = url.substring(0, index2);
@@ -1074,6 +1076,7 @@ while(amiWebApp.originURL[amiWebApp.originURL.length - 1] === '/')
 
 /**
   * URL arguments
+  * @type {Array<String>}
   */
 
 amiWebApp.args = {};

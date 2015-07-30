@@ -20,13 +20,13 @@ var amiTokenizer = {
 
 	/**
 	  * Tokenize a string
-	  * @param {string} s the string
-	  * @param {int} line the line
-	  * @param {array} spaces the list of characters for spaces
-	  * @param {array} kwords the list of kerwords
-	  * @param {array} quotes the list of characters for string declaration
-	  * @param {string} [escape='\\'] the escape character
-	  * @returns The list of tokens
+	  * @param {String} s the string
+	  * @param {Number} line the line
+	  * @param {Array} spaces the array of characters for spaces
+	  * @param {Array} kwords the array of kerwords
+	  * @param {Array} quotes the array of characters for string declaration
+	  * @param {String} [escape='\\'] the escape character
+	  * @returns {Array<String>} The array of tokens
 	  */
 
 	tokenize: function(s, line, spaces, kwords, quotes, escape)

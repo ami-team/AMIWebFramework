@@ -8,7 +8,7 @@
         <h3 class="panel-title">AMI Web framework API</h3>
       </div>
       <div class="panel-body jsdoc-menu">
-        <h4><a href="?subapp=amiDocument&userdata=api/index.html">Home</a></h2><h4>Events</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Global</h3><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
+        <h4><a href="?subapp=amiDocument&userdata=api/index.html">Home</a></h2><h4>Classes</h3><ul><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprCompiler.html">AMITwigExprCompiler</a></li><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprTokenizer.html">AMITwigExprTokenizer</a></li></ul><h4>Events</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTwigExprInterpreter.html">amiTwigExprInterpreter</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Global</h3><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
       </div>
     </div>
   </nav>
@@ -108,7 +108,7 @@
 
     
 
-    <h4 id=".tokenize"><span class="type-signature">(static) </span><span class="text-info">tokenize</span><span class="signature">(s, line, spaces, kwords, quotes, escape<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".tokenize"><span class="type-signature">(static) </span><span class="text-info">tokenize</span><span class="signature">(s, line, spaces, kwords, quotes, escape<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span></h4>
 
     
 
@@ -161,7 +161,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -196,7 +196,7 @@
             <td class="type">
             
                 
-<span class="param-type">int</span>
+<span class="param-type">Number</span>
 
 
             
@@ -231,7 +231,7 @@
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">Array</span>
 
 
             
@@ -253,7 +253,7 @@
                 </td>
             
 
-            <td class="description last">the list of characters for spaces</td>
+            <td class="description last">the array of characters for spaces</td>
         </tr>
 
     
@@ -266,7 +266,7 @@
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">Array</span>
 
 
             
@@ -288,7 +288,7 @@
                 </td>
             
 
-            <td class="description last">the list of kerwords</td>
+            <td class="description last">the array of kerwords</td>
         </tr>
 
     
@@ -301,7 +301,7 @@
             <td class="type">
             
                 
-<span class="param-type">array</span>
+<span class="param-type">Array</span>
 
 
             
@@ -323,7 +323,7 @@
                 </td>
             
 
-            <td class="description last">the list of characters for string declaration</td>
+            <td class="description last">the array of characters for string declaration</td>
         </tr>
 
     
@@ -336,7 +336,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -430,10 +430,22 @@
 
         
 <div class="param-desc">
-    The list of tokens
+    The array of tokens
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Array.&lt;String></span>
+
+
+    </dd>
+</dl>
 
     
 

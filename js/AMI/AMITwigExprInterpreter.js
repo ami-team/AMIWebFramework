@@ -7,8 +7,85 @@
  */
 
 /*-------------------------------------------------------------------------*/
+/* INTERNAL FUNCTIONS                                                      */
+/*-------------------------------------------------------------------------*/
+
+function _ami_internal_isIterable(x)
+{
+	return (x instanceof Array)
+	       ||
+	       (x instanceof Object)
+	       ||
+	       (x instanceof String)
+	       ||
+	       (typeof(x) === 'string')
+	;
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _ami_internal_isInObject(x, y)
+{
+	if((y instanceof Array)
+	   ||
+	   (y instanceof String)
+	   ||
+	   (typeof(y) === 'string')
+	 ) {
+		return y.indexOf(x) >= 0;
+
+	} else {
+		return x in y;
+	}
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _ami_internal_isInNumRange(x, x1, x2)
+{
+	return (x >= x1)
+	       &&
+	       (x <= x2)
+	;
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _ami_internal_isInCharRange(x, x1, x2)
+{
+	return (x.charCodeAt(0) >= x1.charCodeAt(0))
+	       &&
+	       (x.charCodeAt(0) <= x2.charCodeAt(0))
+	;
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _ami_internal_startsWith(s1, s2)
+{
+	var base = 0x0000000000000000000;
+
+	return s1.indexOf(s2, base) === base;
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _ami_internal_endsWith(s1, s2)
+{
+	var base = s1.length - s2.length;
+
+	return s1.indexOf(s2, base) === base;
+}
+
+/*-------------------------------------------------------------------------*/
 /* amiTwigExprInterpreter                                                  */
 /*-------------------------------------------------------------------------*/
+
+/**
+ * The AMI TWIG expression interpreter
+ * @see An online <a href="http://cern.ch/ami/twig/" target="_blank">demo</a>.
+ * @namespace amiTwigExprInterpreter
+ */
 
 var amiTwigExprInterpreter = {
 	/*-----------------------------------------------------------------*/
@@ -25,7 +102,7 @@ var amiTwigExprInterpreter = {
 
 	/*-----------------------------------------------------------------*/
 
-	getJS: function(node)
+	_getJS: function(node)
 	{
 		/*---------------------------------------------------------*/
 		/* TERMINALS                                               */
@@ -48,7 +125,7 @@ var amiTwigExprInterpreter = {
 		 ) {
 			var operator = (node.nodeType !== TWIG_TOKEN_TYPE_NOT) ? node.nodeValue : '!';
 
-			return operator + '(' + this.getJS(node.nodeLeft) + ')';
+			return operator + '(' + this._getJS(node.nodeLeft) + ')';
 		}
 
 		/*---------------------------------------------------------*/
@@ -70,27 +147,27 @@ var amiTwigExprInterpreter = {
 
 				case TWIG_TOKEN_TYPE_IS:
 
-					left = this.getJS(node.nodeLeft);
+					left = this._getJS(node.nodeLeft);
 
 					switch(node.nodeRight.nodeType)
 					{
 						case TWIG_TOKEN_TYPE_DEFINED:
-							return '((' + left + ') !== undefined)';
+							return '((' + left + ')!==undefined)';
 
 						case TWIG_TOKEN_TYPE_NULL:
-							return '((' + left + ') === null)';
+							return '((' + left + ')===null)';
 
 						case TWIG_TOKEN_TYPE_EMPTY:
-							return '((' + left + ') === \'\')';
+							return '((' + left + ')===\'\')';
 
 						case TWIG_TOKEN_TYPE_ITERABLE:
-							return '__isIterable(' + left + ')';
+							return '_ami_internal_isIterable(' + left + ')';
 
 						case TWIG_TOKEN_TYPE_EVEN:
-							return '((' + left + ') & 1 === 0)';
+							return '((' + left + ')&1 === 0)';
 
 						case TWIG_TOKEN_TYPE_ODD:
-							return '((' + left + ') & 1 === 1)';
+							return '((' + left + ')&1 === 1)';
 					}
 
 					throw 'internal error';
@@ -98,69 +175,74 @@ var amiTwigExprInterpreter = {
 				/*-----------------------------------------*/
 
 				case TWIG_TOKEN_TYPE_IN:
+					/*---------------------------------*/
 
-					if(node.nodeRight.nodeType === TWIG_TOKEN_TYPE_RANGE)
+					if(node.nodeRight.nodeType !== TWIG_TOKEN_TYPE_RANGE)
 					{
-						if(node.nodeRight.nodeLeft.nodeType === TWIG_TOKEN_TYPE_NUM
-						   &&
-						   node.nodeRight.nodeRight.nodeType === TWIG_TOKEN_TYPE_NUM
-						 ) {
-						 	var x = this.getJS(node.nodeLeft);
+						left = this._getJS(node.nodeLeft);
+						right = this._getJS(node.nodeRight);
 
-							left = node.nodeRight.nodeLeft.nodeValue;
-							right = node.nodeRight.nodeRight.nodeValue;
-
-							return '__isInNumRange(' + x + ',' + left + ',' + right + ')';
-						}
-
-						if(node.nodeRight.nodeLeft.nodeType === TWIG_TOKEN_TYPE_STR
-						   &&
-						   node.nodeRight.nodeRight.nodeType === TWIG_TOKEN_TYPE_STR
-						 ) {
-						 	var x = this.getJS(node.nodeLeft);
-
-							left = node.nodeRight.nodeLeft.nodeValue;
-							right = node.nodeRight.nodeRight.nodeValue;
-
-							return '__isInCharRange(' + x + ',' + left + ',' + right + ')';
-						}
-
-						throw 'internal error';
+						return '_ami_internal_isInObject(' + left + ',' + right + ')';
 					}
-					else
-					{
-						left = this.getJS(node.nodeLeft);
-						right = this.getJS(node.nodeRight);
 
-						return '(' + left + ' in ' + right + ')';
+					/*---------------------------------*/
+
+					if(node.nodeRight.nodeLeft.nodeType === TWIG_TOKEN_TYPE_NUM
+					   &&
+					   node.nodeRight.nodeRight.nodeType === TWIG_TOKEN_TYPE_NUM
+					 ) {
+					 	var x = this._getJS(node.nodeLeft);
+
+						left = node.nodeRight.nodeLeft.nodeValue;
+						right = node.nodeRight.nodeRight.nodeValue;
+
+						return '_ami_internal_isInNumRange(' + x + ',' + left + ',' + right + ')';
 					}
+
+					/*---------------------------------*/
+
+					if(node.nodeRight.nodeLeft.nodeType === TWIG_TOKEN_TYPE_STR
+					   &&
+					   node.nodeRight.nodeRight.nodeType === TWIG_TOKEN_TYPE_STR
+					 ) {
+					 	var x = this._getJS(node.nodeLeft);
+
+						left = node.nodeRight.nodeLeft.nodeValue;
+						right = node.nodeRight.nodeRight.nodeValue;
+
+						return '_ami_internal_isInCharRange(' + x + ',' + left + ',' + right + ')';
+					}
+
+					/*---------------------------------*/
+
+					throw 'internal error';
 
 				/*-----------------------------------------*/
 
 				case TWIG_TOKEN_TYPE_STARTS:
 
-					left = this.getJS(node.nodeLeft);
-					right = this.getJS(node.nodeRight);
+					left = this._getJS(node.nodeLeft);
+					right = this._getJS(node.nodeRight);
 
-					return left + '.startsWith(' + right + ')';
+					return '_ami_internal_startsWith(' + left + ',' + right + ')';
 
 				/*-----------------------------------------*/
 
 				case TWIG_TOKEN_TYPE_ENDS:
 
-					left = this.getJS(node.nodeLeft);
-					right = this.getJS(node.nodeRight);
+					left = this._getJS(node.nodeLeft);
+					right = this._getJS(node.nodeRight);
 
-					return left + '.endsWith(' + right + ')';
+					return '_ami_internal_endsWith(' + left + ',' + right + ')';
 
 				/*-----------------------------------------*/
 
 				case TWIG_TOKEN_TYPE_MATCHES:
 
-					left = this.getJS(node.nodeLeft);
-					right = this.getJS(node.nodeRight);
+					left = this._getJS(node.nodeLeft);
+					right = this._getJS(node.nodeRight);
 
-					return '(' + left + '.match(' + this._unstring(right) + ') !== null)';
+					return '(' + left + '.match(' + this._unstring(right) + ')!==null)';
 
 				/*-----------------------------------------*/
 
@@ -201,42 +283,42 @@ var amiTwigExprInterpreter = {
 				/*-----------------------------------------*/
 			}
 
-			left = this.getJS(node.nodeLeft);
-			right = this.getJS(node.nodeRight);
+			left = this._getJS(node.nodeLeft);
+			right = this._getJS(node.nodeRight);
 
-			return '(' + left + ' ' + operator + ' ' + right + ')';
+			return '(' + left + operator + right + ')';
 		}
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	eval: function(node, _)
+	/**
+	  * Convert a compiled TWIG expression to JavaScript
+	  * @param {String} expr the compiled expression
+	  * @returns {String} The JavaScript result
+	  */
+
+	getJS: function(expr)
 	{
-		function __isIterable(x)
-		{
-			return (x instanceof Array)
-			       ||
-			       (x instanceof Object)
-			;
-		}
+		return this._getJS(expr.rootNode);
+	},
 
-		function __isInNumRange(x, x1, x2)
-		{
-			return (x >= x1)
-			       &&
-			       (x <= x2)
-			;
-		}
+	/*-----------------------------------------------------------------*/
 
-		function __isInCharRange(x, x1, x2)
-		{
-			return (x.charCodeAt(0) >= x1.charCodeAt(0))
-			       &&
-			       (x.charCodeAt(0) <= x2.charCodeAt(0))
-			;
-		}
+	/**
+	  * Evaluate the compiled TWIG expression
+	  * @param {String} expr the compiled expression
+	  * @param {Object} [dict] the dictionary of definitions
+	  * @returns {?} The evaluated result
+	  */
 
-		return eval(this.getJS(node));
+	eval: function(expr, _)
+	{
+		if(!_) _ = {};
+
+		return eval(this._getJS(expr.rootNode));
 	},
 
 	/*-----------------------------------------------------------------*/

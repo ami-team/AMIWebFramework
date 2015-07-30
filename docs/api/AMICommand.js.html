@@ -8,7 +8,7 @@
         <h3 class="panel-title">AMI Web framework API</h3>
       </div>
       <div class="panel-body jsdoc-menu">
-        <h4><a href="?subapp=amiDocument&userdata=api/index.html">Home</a></h2><h4>Events</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Global</h3><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
+        <h4><a href="?subapp=amiDocument&userdata=api/index.html">Home</a></h2><h4>Classes</h3><ul><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprCompiler.html">AMITwigExprCompiler</a></li><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprTokenizer.html">AMITwigExprTokenizer</a></li></ul><h4>Events</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTwigExprInterpreter.html">amiTwigExprInterpreter</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Global</h3><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
       </div>
     </div>
   </nav>
@@ -68,8 +68,8 @@ var amiCommand = {
 
 	/**
 	  * Decode a base64 string
-	  * @param {string} s the encoded string
-	  * @returns The decoded string
+	  * @param {String} s the encoded string
+	  * @returns {String} The decoded string
 	  */
 
 	amiBase64Decode: function(s)
@@ -118,9 +118,9 @@ var amiCommand = {
 
 	/**
 	  * Execute an AMI command
-	  * @param {string} command the command
-	  * @param {object} [settings] dictionary of settings (context, endpoint, converter, extraParam, extraValue)
-	  * @returns A JQuery deferred object
+	  * @param {String} command the command
+	  * @param {Object} [settings] dictionary of settings (context, endpoint, converter, extraParam, extraValue)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	execute: function(command, settings)
@@ -283,10 +283,10 @@ var amiCommand = {
 
 	/**
 	  * Login by login/password
-	  * @param {string} user the user
-	  * @param {string} pass the password
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} user the user
+	  * @param {String} pass the password
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	passLogin: function(user, pass, settings)
@@ -306,21 +306,23 @@ var amiCommand = {
 
 		amiCommand.execute('GetSessionInfo -AMIUser="' + _ami_internal_textToString(user) + '" -AMIPass="' + _ami_internal_textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
 
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0];
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0];
+			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
+			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
+			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
+			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
 
 			if(context) {
-				result.resolveWith(context, [data, user, guest]);
+				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
 			} else {
-				result.resolve(data, user, guest);
+				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest']);
+				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
 			} else {
-				result.reject(data, 'guest', 'guest');
+				result.reject(data, 'guest', 'guest', '', '');
 			}
 		});
 
@@ -333,8 +335,8 @@ var amiCommand = {
 
 	/**
 	  * Login by certificate
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	certLogin: function(settings)
@@ -354,21 +356,23 @@ var amiCommand = {
 
 		amiCommand.execute('GetSessionInfo').done(function(data) {
 
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0];
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0];
+			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
+			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
+			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
+			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
 
 			if(context) {
-				result.resolveWith(context, [data, user, guest]);
+				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
 			} else {
-				result.resolve(data, user, guest);
+				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest']);
+				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
 			} else {
-				result.reject(data, 'guest', 'guest');
+				result.reject(data, 'guest', 'guest', '', '');
 			}
 		});
 
@@ -381,8 +385,8 @@ var amiCommand = {
 
 	/**
 	  * Logout
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	logout: function(settings)
@@ -402,21 +406,23 @@ var amiCommand = {
 
 		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).done(function(data) {
 
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0];
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0];
+			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
+			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
+			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
+			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
 
 			if(context) {
-				result.resolveWith(context, [data, user, guest]);
+				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
 			} else {
-				result.resolve(data, user, guest);
+				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest']);
+				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
 			} else {
-				result.reject(data, 'guest', 'guest');
+				result.reject(data, 'guest', 'guest', '', '');
 			}
 		});
 
@@ -431,10 +437,10 @@ var amiCommand = {
 
 	/**
 	  * Attach a certificate
-	  * @param {string} user the user
-	  * @param {string} pass the password
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} user the user
+	  * @param {String} pass the password
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	attachCert: function(user, pass, settings)
@@ -446,10 +452,10 @@ var amiCommand = {
 
 	/**
 	  * Detach a certificate
-	  * @param {string} user the user
-	  * @param {string} pass the password
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} user the user
+	  * @param {String} pass the password
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	detachCert: function(user, pass, settings)
@@ -461,13 +467,13 @@ var amiCommand = {
 
 	/**
 	  * Add a new user
-	  * @param {string} user the user
-	  * @param {string} pass the password
-	  * @param {string} firstName the first name
-	  * @param {string} lastName the last name
-	  * @param {string} email the email
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} user the user
+	  * @param {String} pass the password
+	  * @param {String} firstName the first name
+	  * @param {String} lastName the last name
+	  * @param {String} email the email
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	addUser: function(user, pass, firstName, lastName, email, settings)
@@ -479,11 +485,11 @@ var amiCommand = {
 
 	/**
 	  * Change the account information
-	  * @param {string} firstName the first name
-	  * @param {string} lastName the last name
-	  * @param {string} email the email
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} firstName the first name
+	  * @param {String} lastName the last name
+	  * @param {String} email the email
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	changeInfo: function(firstName, lastName, email, settings)
@@ -495,24 +501,24 @@ var amiCommand = {
 
 	/**
 	  * Change the account password
-	  * @param {string} old_pass the old password
-	  * @param {string} new_pass the new password
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} oldPass the old password
+	  * @param {String} newPass the new password
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	changePass: function(old_pass, new_pass, settings)
+	changePass: function(oldPass, newPass, settings)
 	{
-		return amiCommand.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(old_pass) + '" -amiPasswordNew="' + _ami_internal_textToString(new_pass) + '"', settings);
+		return amiCommand.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(oldPass) + '" -amiPasswordNew="' + _ami_internal_textToString(newPass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Reset the account password
-	  * @param {string} user the user
-	  * @param {object} [settings] dictionary of settings (context)
-	  * @returns A JQuery deferred object
+	  * @param {String} user the user
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	resetPass: function(user, settings)

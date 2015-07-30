@@ -149,6 +149,12 @@ TWIG_TOKEN_TYPE_TERMINAL = [
 
 /*-------------------------------------------------------------------------*/
 
+/**
+ * The AMI TWIG expression tokenizer
+ * @see An online <a href="http://cern.ch/ami/twig/" target="_blank">demo</a>.
+ * @class AMITwigExprTokenizer
+ */
+
 function AMITwigExprTokenizer(code, line)
 {
 	/*-----------------------------------------------------------------*/
@@ -280,6 +286,12 @@ function AMITwigExprTokenizer(code, line)
 /* AMITwigExprCompiler                                                     */
 /*-------------------------------------------------------------------------*/
 
+/**
+ * The AMI TWIG expression compiler
+ * @see An online <a href="http://cern.ch/ami/twig/" target="_blank">demo</a>.
+ * @class AMITwigExprCompiler
+ */
+
 function AMITwigExprCompiler()
 {
 	/*-----------------------------------------------------------------*/
@@ -305,6 +317,13 @@ function AMITwigExprCompiler()
 		/*---------------------------------------------------------*/
 
 		return this;
+	};
+
+	/*-----------------------------------------------------------------*/
+
+	this.dump = function()
+	{
+		return this.rootNode.dump();
 	};
 
 	/*-----------------------------------------------------------------*/

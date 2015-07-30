@@ -8,7 +8,7 @@
         <h3 class="panel-title">AMI Web framework API</h3>
       </div>
       <div class="panel-body jsdoc-menu">
-        <h4><a href="?subapp=amiDocument&userdata=api/index.html">Home</a></h2><h4>Events</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Global</h3><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
+        <h4><a href="?subapp=amiDocument&userdata=api/index.html">Home</a></h2><h4>Classes</h3><ul><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprCompiler.html">AMITwigExprCompiler</a></li><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprTokenizer.html">AMITwigExprTokenizer</a></li></ul><h4>Events</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h3><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTwigExprInterpreter.html">amiTwigExprInterpreter</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Global</h3><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
       </div>
     </div>
   </nav>
@@ -108,7 +108,7 @@
 
     
 
-    <h4 id=".addUser"><span class="type-signature">(static) </span><span class="text-info">addUser</span><span class="signature">(user, pass, firstName, lastName, email, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".addUser"><span class="type-signature">(static) </span><span class="text-info">addUser</span><span class="signature">(user, pass, firstName, lastName, email, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {$.Deferred}</span></h4>
 
     
 
@@ -159,7 +159,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -190,7 +190,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -221,7 +221,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -252,7 +252,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -283,7 +283,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -314,7 +314,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -375,7 +375,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line449">line 449</a>
+        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line455">line 455</a>
     </li></ul></dd>
     
 
@@ -407,6 +407,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">$.Deferred</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -418,7 +430,7 @@
 
     
 
-    <h4 id=".amiBase64Decode"><span class="type-signature">(static) </span><span class="text-info">amiBase64Decode</span><span class="signature">(s)</span><span class="type-signature"></span></h4>
+    <h4 id=".amiBase64Decode"><span class="type-signature">(static) </span><span class="text-info">amiBase64Decode</span><span class="signature">(s)</span><span class="type-signature"> &rarr; {String}</span></h4>
 
     
 
@@ -467,7 +479,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -550,6 +562,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">String</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -561,7 +585,7 @@
 
     
 
-    <h4 id=".attachCert"><span class="type-signature">(static) </span><span class="text-info">attachCert</span><span class="signature">(user, pass, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".attachCert"><span class="type-signature">(static) </span><span class="text-info">attachCert</span><span class="signature">(user, pass, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {$.Deferred}</span></h4>
 
     
 
@@ -612,7 +636,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -643,7 +667,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -674,7 +698,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -735,7 +759,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line416">line 416</a>
+        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line422">line 422</a>
     </li></ul></dd>
     
 
@@ -767,6 +791,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">$.Deferred</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -778,7 +814,7 @@
 
     
 
-    <h4 id=".certLogin"><span class="type-signature">(static) </span><span class="text-info">certLogin</span><span class="signature">(settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".certLogin"><span class="type-signature">(static) </span><span class="text-info">certLogin</span><span class="signature">(settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {$.Deferred}</span></h4>
 
     
 
@@ -829,7 +865,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -890,7 +926,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line316">line 316</a>
+        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line318">line 318</a>
     </li></ul></dd>
     
 
@@ -922,6 +958,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">$.Deferred</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -933,7 +981,7 @@
 
     
 
-    <h4 id=".changeInfo"><span class="type-signature">(static) </span><span class="text-info">changeInfo</span><span class="signature">(firstName, lastName, email, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".changeInfo"><span class="type-signature">(static) </span><span class="text-info">changeInfo</span><span class="signature">(firstName, lastName, email, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {$.Deferred}</span></h4>
 
     
 
@@ -984,7 +1032,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -1015,7 +1063,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -1046,7 +1094,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -1077,7 +1125,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -1138,7 +1186,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line465">line 465</a>
+        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line471">line 471</a>
     </li></ul></dd>
     
 
@@ -1170,6 +1218,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">$.Deferred</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -1181,7 +1241,7 @@
 
     
 
-    <h4 id=".changePass"><span class="type-signature">(static) </span><span class="text-info">changePass</span><span class="signature">(old_pass, new_pass, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".changePass"><span class="type-signature">(static) </span><span class="text-info">changePass</span><span class="signature">(oldPass, newPass, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {$.Deferred}</span></h4>
 
     
 
@@ -1226,13 +1286,13 @@
 
         <tr>
             
-                <td class="name"><kbd>old_pass</kbd></td>
+                <td class="name"><kbd>oldPass</kbd></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -1257,13 +1317,13 @@
 
         <tr>
             
-                <td class="name"><kbd>new_pass</kbd></td>
+                <td class="name"><kbd>newPass</kbd></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -1294,7 +1354,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -1355,7 +1415,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line480">line 480</a>
+        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line486">line 486</a>
     </li></ul></dd>
     
 
@@ -1387,6 +1447,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">$.Deferred</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -1398,7 +1470,7 @@
 
     
 
-    <h4 id=".detachCert"><span class="type-signature">(static) </span><span class="text-info">detachCert</span><span class="signature">(user, pass, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".detachCert"><span class="type-signature">(static) </span><span class="text-info">detachCert</span><span class="signature">(user, pass, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {$.Deferred}</span></h4>
 
     
 
@@ -1449,7 +1521,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -1480,7 +1552,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -1511,7 +1583,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -1572,7 +1644,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line431">line 431</a>
+        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line437">line 437</a>
     </li></ul></dd>
     
 
@@ -1604,6 +1676,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">$.Deferred</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -1615,7 +1699,7 @@
 
     
 
-    <h4 id=".execute"><span class="type-signature">(static) </span><span class="text-info">execute</span><span class="signature">(command, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".execute"><span class="type-signature">(static) </span><span class="text-info">execute</span><span class="signature">(command, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {$.Deferred}</span></h4>
 
     
 
@@ -1666,7 +1750,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -1697,7 +1781,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -1790,6 +1874,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">$.Deferred</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -1801,7 +1897,7 @@
 
     
 
-    <h4 id=".logout"><span class="type-signature">(static) </span><span class="text-info">logout</span><span class="signature">(settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".logout"><span class="type-signature">(static) </span><span class="text-info">logout</span><span class="signature">(settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {$.Deferred}</span></h4>
 
     
 
@@ -1852,7 +1948,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -1913,7 +2009,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line364">line 364</a>
+        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line368">line 368</a>
     </li></ul></dd>
     
 
@@ -1945,6 +2041,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">$.Deferred</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -1956,7 +2064,7 @@
 
     
 
-    <h4 id=".passLogin"><span class="type-signature">(static) </span><span class="text-info">passLogin</span><span class="signature">(user, pass, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".passLogin"><span class="type-signature">(static) </span><span class="text-info">passLogin</span><span class="signature">(user, pass, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {$.Deferred}</span></h4>
 
     
 
@@ -2007,7 +2115,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -2038,7 +2146,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -2069,7 +2177,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -2162,6 +2270,18 @@
 
 
 
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">$.Deferred</span>
+
+
+    </dd>
+</dl>
+
     
 
 
@@ -2173,7 +2293,7 @@
 
     
 
-    <h4 id=".resetPass"><span class="type-signature">(static) </span><span class="text-info">resetPass</span><span class="signature">(user, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 id=".resetPass"><span class="type-signature">(static) </span><span class="text-info">resetPass</span><span class="signature">(user, settings<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {$.Deferred}</span></h4>
 
     
 
@@ -2224,7 +2344,7 @@
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">String</span>
 
 
             
@@ -2255,7 +2375,7 @@
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Object</span>
 
 
             
@@ -2316,7 +2436,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line494">line 494</a>
+        <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html">AMICommand.js</a>, <a href="?subapp=amiDocument&userdata=api/AMICommand.js.html#line500">line 500</a>
     </li></ul></dd>
     
 
@@ -2347,6 +2467,18 @@
 </div>
 
 
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">$.Deferred</span>
+
+
+    </dd>
+</dl>
 
     
 

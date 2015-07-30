@@ -88,7 +88,7 @@ var amiLogin = {
 
 	/**
 	  * The the current user
-	  * @returns The current user
+	  * @returns {String} The current user
 	  */
 
 	getUser: function()
