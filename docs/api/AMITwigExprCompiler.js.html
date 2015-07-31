@@ -1,4 +1,28 @@
-/*!
+<link rel="stylesheet" type="text/css" href="docs/api/css/AMI-template.css"></link>
+
+<div class="row">
+
+  <nav class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">AMI Web framework API</h3>
+      </div>
+      <div class="panel-body jsdoc-menu">
+        <h4><a href="index.html">Home</a></h4><h4>Classes</h4><ul><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprCompiler.html">AMITwigExprCompiler</a></li></ul><h4>Events</h4><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h4><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTwigExprInterpreter.html">amiTwigExprInterpreter</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Interfaces</h4><ul><li><a href="?subapp=amiDocument&userdata=api/AMISubApp.html">AMISubApp</a></li></ul><h4>Global</h4><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="col-md-9 jsdoc-content">
+    <h1>Source: AMITwigExprCompiler.js</h1>
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="ami-code">/*!
  * AMI Web Framework
  *
  * Copyright (c) 2014-2015 The AMI Team
@@ -29,11 +53,11 @@ function _ami_internal_isStr(s)
 	var length = s.length;
 
 	return length >= 2
-	       &&
+	       &amp;&amp;
 	       (
-	           (s[0] === '\'' && s[length - 1] === '\'')
+	           (s[0] === '\'' &amp;&amp; s[length - 1] === '\'')
 	           ||
-	           (s[0] === '\"' && s[length - 1] === '\"')
+	           (s[0] === '\"' &amp;&amp; s[length - 1] === '\"')
 	       )
 	;
 }
@@ -64,9 +88,9 @@ $AMINamespace('amiTwigTokens', {
 			'==': this.LOOSE_EQ,
 			'!==': this.STRICT_NE,
 			'!=': this.LOOSE_NE,
-			'<=': this.GTE,
+			'&lt;=': this.GTE,
 			'>=': this.LTE,
-			'<': this.GT,
+			'&lt;': this.GT,
 			'>': this.LT,
 			'is': this.IS,
 			'defined': this.DEFINED,
@@ -212,7 +236,7 @@ $AMIClass('AMITwigExprTokenizer', {
 			code,
 			line,
 			[' ', '\t', '\n'],
-			['b-or', 'b-xor', 'b-and', '===', '==', '!==', '!=', '=', '<=', '>=', '<', '>', '+', '-', '**', '*', '//', '/', '..', '.', '(', ')'],
+			['b-or', 'b-xor', 'b-and', '===', '==', '!==', '!=', '=', '&lt;=', '>=', '&lt;', '>', '+', '-', '**', '*', '//', '/', '..', '.', '(', ')'],
 			['\'', '\"'],
 			'\\'
 		);
@@ -226,7 +250,7 @@ $AMIClass('AMITwigExprTokenizer', {
 		var token;
 		var type;
 
-		for(var indx = 0; indx < this.tokens.length; indx++)
+		for(var indx = 0; indx &lt; this.tokens.length; indx++)
 		{
 			token = this.tokens[indx];
 			type = amiTwigTokens.types[token];
@@ -279,7 +303,7 @@ $AMIClass('AMITwigExprTokenizer', {
 
 	checkType: function(type)
 	{
-		if(this.i < this.tokens.length)
+		if(this.i &lt; this.tokens.length)
 		{
 			var TYPE = this.types[this.i];
 
@@ -298,7 +322,7 @@ $AMIClass('AMITwigExprTokenizer', {
 
 /**
  * The AMI TWIG expression compiler
- * @see An online <a href="http://cern.ch/ami/twig/" target="_blank">demo</a>.
+ * @see An online &lt;a href="http://cern.ch/ami/twig/" target="_blank">demo&lt;/a>.
  * @class AMITwigExprCompiler
  * @param {String} code the code
  * @param {Number} line the line
@@ -962,3 +986,13 @@ $AMIClass('AMITwigExprNode', {
 });
 
 /*-------------------------------------------------------------------------*/
+</pre>
+        </article>
+    </section>
+
+
+
+
+  </div>
+
+</div>

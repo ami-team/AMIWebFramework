@@ -1,20 +1,26 @@
 /*global env: true */
 'use strict';
 
-var doop = require('jsdoc/util/doop');
-var fs = require('jsdoc/fs');
-var helper = require('jsdoc/util/templateHelper');
-var logger = require('jsdoc/util/logger');
-var path = require('jsdoc/path');
-var taffy = require('taffydb').taffy;
-var template = require('jsdoc/template');
 var util = require('util');
+var taffy = require('taffydb').taffy;
+
+var fs = require('jsdoc/fs');
+var path = require('jsdoc/path');
+var template = require('jsdoc/template');
+
+var doop = require('jsdoc/util/doop');
+var logger = require('jsdoc/util/logger');
+var helper = require('jsdoc/util/templateHelper');
 
 var htmlsafe = helper.htmlsafe;
-var linkto = helper.linkto;
-var resolveAuthorLinks = helper.resolveAuthorLinks;
 var scopeToPunc = helper.scopeToPunc;
 var hasOwnProp = Object.prototype.hasOwnProperty;
+var resolveAuthorLinks = helper.resolveAuthorLinks;
+
+function linkto(longname, linkText, cssClass, fragmentId) {
+
+	return helper.linkto(longname, linkText, cssClass, fragmentId).replace(/href\="/g, 'href="?subapp=amiDocument&userdata=api/');
+}
 
 var data;
 var view;
@@ -288,30 +294,6 @@ function attachModuleSymbols(doclets, modules) {
     });
 }
 
-function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
-    var nav = '';
-
-    if (items.length) {
-        var itemsNav = '';
-
-        items.forEach(function(item) {
-            if ( !hasOwnProp.call(item, 'longname') ) {
-                itemsNav += '<li>' + linktoFn('', item.name) + '</li>';
-            }
-            else if ( !hasOwnProp.call(itemsSeen, item.longname) ) {
-                itemsNav += '<li>' + linktoFn(item.longname, item.name.replace(/^module:/, '')) + '</li>';
-                itemsSeen[item.longname] = true;
-            }
-        });
-
-        if (itemsNav !== '') {
-            nav += '<h3>' + itemHeading + '</h3><ul>' + itemsNav + '</ul>';
-        }
-    }
-
-    return nav;
-}
-
 function linktoTutorial(longName, name) {
     return tutoriallink(name);
 }
@@ -335,7 +317,7 @@ function linktoExternal(longName, name) {
  * @return {string} The HTML for the navigation sidebar.
  */
 function buildNav(members) {
-    var nav = '<h2><a href="index.html">Home</a></h2>';
+    var nav = '<h4><a href="index.html">Home</a></h4>';
     var seen = {};
     var seenTutorials = {};
 
@@ -360,10 +342,34 @@ function buildNav(members) {
 
         if (!globalNav) {
             // turn the heading into a link so you can actually get to the global page
-            nav += '<h3>' + linkto('global', 'Global') + '</h3>';
+            nav += '<h4>' + linkto('global', 'Global') + '</h4>';
         }
         else {
-            nav += '<h3>Global</h3><ul>' + globalNav + '</ul>';
+            nav += '<h4>Global</h4><ul>' + globalNav + '</ul>';
+        }
+    }
+
+    return nav;
+}
+
+function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
+    var nav = '';
+
+    if (items.length) {
+        var itemsNav = '';
+
+        items.forEach(function(item) {
+            if ( !hasOwnProp.call(item, 'longname') ) {
+                itemsNav += '<li>' + linktoFn('', item.name) + '</li>';
+            }
+            else if ( !hasOwnProp.call(itemsSeen, item.longname) ) {
+                itemsNav += '<li>' + linktoFn(item.longname, item.name.replace(/^module:/, '')) + '</li>';
+                itemsSeen[item.longname] = true;
+            }
+        });
+
+        if (itemsNav !== '') {
+            nav += '<h4>' + itemHeading + '</h4><ul>' + itemsNav + '</ul>';
         }
     }
 

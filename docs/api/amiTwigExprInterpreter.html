@@ -14,7 +14,7 @@
   </nav>
 
   <div class="col-md-9 jsdoc-content">
-    <h1>Namespace: amiTokenizer</h1>
+    <h1>Namespace: amiTwigExprInterpreter</h1>
     
 
 
@@ -25,7 +25,7 @@
 <header>
     
         <h2>
-        amiTokenizer
+        amiTwigExprInterpreter
         </h2>
         
     
@@ -35,7 +35,7 @@
     <div class="container-overview">
     
         
-            <div class="description">The AMI tokenizer</div>
+            <div class="description">The AMI TWIG expression interpreter</div>
         
 
         
@@ -70,12 +70,19 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="?subapp=amiDocument&userdata=api/AMITokenizer.js.html">AMITokenizer.js</a>, <a href="?subapp=amiDocument&userdata=api/AMITokenizer.js.html#line13">line 13</a>
+        <a href="?subapp=amiDocument&userdata=api/AMITwigExprInterpreter.js.html">AMITwigExprInterpreter.js</a>, <a href="?subapp=amiDocument&userdata=api/AMITwigExprInterpreter.js.html#line84">line 84</a>
     </li></ul></dd>
     
 
     
 
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li>An online <a href="?subapp=amiDocument&userdata=api/http://cern.ch/ami/twig/" target="_blank">demo</a>.</li>
+        </ul>
+    </dd>
     
 
     
@@ -108,14 +115,14 @@
 
     
 
-    <h4 id="tokenize"><span class="type-signature"></span><span class="text-info">tokenize</span><span class="signature">(s, line, spaces, kwords, quotes, escape<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Array.&lt;String>}</span></h4>
+    <h4 id="eval"><span class="type-signature"></span><span class="text-info">eval</span><span class="signature">(expr, dict<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {?}</span></h4>
 
     
 
 
 
 <div class="description">
-    Tokenize a string
+    Evaluate the compiled TWIG expression
 </div>
 
 
@@ -143,8 +150,6 @@
         
 
         
-        <th>Default</th>
-        
 
         <th>Description</th>
     </tr>
@@ -155,7 +160,7 @@
 
         <tr>
             
-                <td class="name"><kbd>s</kbd></td>
+                <td class="name"><kbd>expr</kbd></td>
             
 
             <td class="type">
@@ -178,165 +183,21 @@
             
 
             
-                <td class="default">
-                
-                </td>
-            
 
-            <td class="description last">the string</td>
+            <td class="description last">the compiled expression</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><kbd>line</kbd></td>
+                <td class="name"><kbd>dict</kbd></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">Number</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">the line</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><kbd>spaces</kbd></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">the array of characters for spaces</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><kbd>kwords</kbd></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">the array of kerwords</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><kbd>quotes</kbd></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Array</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-                <td class="default">
-                
-                </td>
-            
-
-            <td class="description last">the array of characters for string declaration</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><kbd>escape</kbd></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
+<span class="param-type">Object</span>
 
 
             
@@ -355,14 +216,8 @@
             
 
             
-                <td class="default">
-                
-                    '\\'
-                
-                </td>
-            
 
-            <td class="description last">the escape character</td>
+            <td class="description last">the dictionary of definitions</td>
         </tr>
 
     
@@ -403,7 +258,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="?subapp=amiDocument&userdata=api/AMITokenizer.js.html">AMITokenizer.js</a>, <a href="?subapp=amiDocument&userdata=api/AMITokenizer.js.html#line33">line 33</a>
+        <a href="?subapp=amiDocument&userdata=api/AMITwigExprInterpreter.js.html">AMITwigExprInterpreter.js</a>, <a href="?subapp=amiDocument&userdata=api/AMITwigExprInterpreter.js.html#line317">line 317</a>
     </li></ul></dd>
     
 
@@ -428,7 +283,7 @@
 
 
 <div>
-  The array of tokens
+  The evaluated result
 </div>
 
 
@@ -439,7 +294,7 @@
   </dt>
   <dd>
     
-<span class="param-type">Array.&lt;String></span>
+<span class="param-type">?</span>
 
 
   </dd>
@@ -448,11 +303,141 @@
 
 
 
-<h5>Throws:</h5>
+
+
+        
+            
+
+    <hr />
+
+    
+
+    <h4 id="getJS"><span class="type-signature"></span><span class="text-info">getJS</span><span class="signature">(expr)</span><span class="type-signature"> &rarr; {String}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Convert a compiled TWIG expression to JavaScript
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="table table-condensed table-bordered table-striped" style="width: auto;">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th>Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><kbd>expr</kbd></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">the compiled expression</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="?subapp=amiDocument&userdata=api/AMITwigExprInterpreter.js.html">AMITwigExprInterpreter.js</a>, <a href="?subapp=amiDocument&userdata=api/AMITwigExprInterpreter.js.html#line303">line 303</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
 
 
 <div>
-  The error description
+  The JavaScript result
 </div>
 
 
@@ -468,6 +453,8 @@
 
   </dd>
 </dl>
+
+
 
 
 

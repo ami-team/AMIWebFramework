@@ -17,6 +17,7 @@
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
     <script type="text/javascript" src="viz.js"></script>
+    <script type="text/javascript" src="AMIObjects.js"></script>
     <script type="text/javascript" src="AMITokenizer.js"></script>
     <script type="text/javascript" src="AMITwigExprCompiler.js"></script>
     <script type="text/javascript" src="AMITwigExprInterpreter.js"></script>
@@ -32,7 +33,7 @@
 	function viewExpr() {
 
 		try {
-			var expr = new AMITwigExprCompiler().parse($('#expr').val(), 0);
+			var expr = new AMITwigExprCompiler($('#expr').val(), 0);
 
 			var code = amiTwigExprInterpreter.getJS(expr);
 

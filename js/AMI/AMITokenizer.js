@@ -1,5 +1,5 @@
 /*!
- * amiTokenizer
+ * AMI Web Framework
  *
  * Copyright (c) 2014-2015 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -15,7 +15,7 @@
  * @namespace amiTokenizer
  */
 
-var amiTokenizer = {
+$AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -27,6 +27,7 @@ var amiTokenizer = {
 	  * @param {Array} quotes the array of characters for string declaration
 	  * @param {String} [escape='\\'] the escape character
 	  * @returns {Array<String>} The array of tokens
+	  * @throws {String} The error description
 	  */
 
 	tokenize: function(s, line, spaces, kwords, quotes, escape)
@@ -201,6 +202,6 @@ var amiTokenizer = {
 	},
 
 	/*-----------------------------------------------------------------*/
-};
+});
 
 /*-------------------------------------------------------------------------*/

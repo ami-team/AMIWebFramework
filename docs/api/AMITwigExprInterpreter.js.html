@@ -1,4 +1,28 @@
-/*!
+<link rel="stylesheet" type="text/css" href="docs/api/css/AMI-template.css"></link>
+
+<div class="row">
+
+  <nav class="col-md-3">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">AMI Web framework API</h3>
+      </div>
+      <div class="panel-body jsdoc-menu">
+        <h4><a href="index.html">Home</a></h4><h4>Classes</h4><ul><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprCompiler.html">AMITwigExprCompiler</a></li></ul><h4>Events</h4><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h4><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTwigExprInterpreter.html">amiTwigExprInterpreter</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Interfaces</h4><ul><li><a href="?subapp=amiDocument&userdata=api/AMISubApp.html">AMISubApp</a></li></ul><h4>Global</h4><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="col-md-9 jsdoc-content">
+    <h1>Source: AMITwigExprInterpreter.js</h1>
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="ami-code">/*!
  * AMI Web Framework
  *
  * Copyright (c) 2014-2015 The AMI Team
@@ -44,8 +68,8 @@ function _ami_internal_isInObject(x, y)
 function _ami_internal_isInNumRange(x, x1, x2)
 {
 	return (x >= x1)
-	       &&
-	       (x <= x2)
+	       &amp;&amp;
+	       (x &lt;= x2)
 	;
 }
 
@@ -54,8 +78,8 @@ function _ami_internal_isInNumRange(x, x1, x2)
 function _ami_internal_isInCharRange(x, x1, x2)
 {
 	return (x.charCodeAt(0) >= x1.charCodeAt(0))
-	       &&
-	       (x.charCodeAt(0) <= x2.charCodeAt(0))
+	       &amp;&amp;
+	       (x.charCodeAt(0) &lt;= x2.charCodeAt(0))
 	;
 }
 
@@ -83,7 +107,7 @@ function _ami_internal_endsWith(s1, s2)
 
 /**
  * The AMI TWIG expression interpreter
- * @see An online <a href="http://cern.ch/ami/twig/" target="_blank">demo</a>.
+ * @see An online &lt;a href="http://cern.ch/ami/twig/" target="_blank">demo&lt;/a>.
  * @namespace amiTwigExprInterpreter
  */
 
@@ -109,7 +133,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 		/*---------------------------------------------------------*/
 
 		if(node.nodeLeft === null
-		   &&
+		   &amp;&amp;
 		   node.nodeRight === null
 		 ) {
 			return node.nodeValue;
@@ -120,7 +144,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 		/*---------------------------------------------------------*/
 
 		if(node.nodeLeft !== null
-		   &&
+		   &amp;&amp;
 		   node.nodeRight === null
 		 ) {
 			var operator = (node.nodeType !== amiTwigTokens.NOT) ? node.nodeValue : '!';
@@ -133,7 +157,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 		/*---------------------------------------------------------*/
 
 		if(node.nodeLeft !== null
-		   &&
+		   &amp;&amp;
 		   node.nodeRight !== null
 		 ) {
 			var left
@@ -164,10 +188,10 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 							return '_ami_internal_isIterable(' + left + ')';
 
 						case amiTwigTokens.EVEN:
-							return '((' + left + ')&1 === 0)';
+							return '((' + left + ')&amp;1 === 0)';
 
 						case amiTwigTokens.ODD:
-							return '((' + left + ')&1 === 1)';
+							return '((' + left + ')&amp;1 === 1)';
 					}
 
 					throw 'internal error';
@@ -188,7 +212,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 					/*---------------------------------*/
 
 					if(node.nodeRight.nodeLeft.nodeType === amiTwigTokens.NUM
-					   &&
+					   &amp;&amp;
 					   node.nodeRight.nodeRight.nodeType === amiTwigTokens.NUM
 					 ) {
 					 	var x = this._getJS(node.nodeLeft);
@@ -202,7 +226,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 					/*---------------------------------*/
 
 					if(node.nodeRight.nodeLeft.nodeType === amiTwigTokens.STR
-					   &&
+					   &amp;&amp;
 					   node.nodeRight.nodeRight.nodeType === amiTwigTokens.STR
 					 ) {
 					 	var x = this._getJS(node.nodeLeft);
@@ -253,7 +277,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 				/*-----------------------------------------*/
 
 				case amiTwigTokens.LOGICAL_AND:
-					operator = '&&';
+					operator = '&amp;&amp;';
 					break;
 
 				/*-----------------------------------------*/
@@ -271,7 +295,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 				/*-----------------------------------------*/
 
 				case amiTwigTokens.BITWISE_AND:
-					operator = '&';
+					operator = '&amp;';
 					break;
 
 				/*-----------------------------------------*/
@@ -325,3 +349,13 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 });
 
 /*-------------------------------------------------------------------------*/
+</pre>
+        </article>
+    </section>
+
+
+
+
+  </div>
+
+</div>

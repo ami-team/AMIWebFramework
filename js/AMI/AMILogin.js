@@ -1,5 +1,5 @@
 /*!
- * amiLogin
+ * AMI Web Framework
  *
  * Copyright (c) 2014-2015 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -15,7 +15,7 @@
  * @namespace amiLogin
  */
 
-var amiLogin = {
+$AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	user: 'guest',
@@ -27,7 +27,7 @@ var amiLogin = {
 
 	/*-----------------------------------------------------------------*/
 
-	init: function()
+	_init: function()
 	{
 		amiWebApp.loadHTMLs([
 			'html/AMI/Fragment/login_button.html',
@@ -93,7 +93,19 @@ var amiLogin = {
 
 	getUser: function()
 	{
-		return amiLogin.user;
+		return this.user;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * The the current guest
+	  * @returns {String} The current guest
+	  */
+
+	getGuest: function()
+	{
+		return this.guest;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -104,8 +116,8 @@ var amiLogin = {
 
 	login: function()
 	{
-		amiLogin._flush();
-		amiLogin._clean();
+		this._flush();
+		this._clean();
 
 		$('#modal_login').modal('show');
 	},
@@ -118,8 +130,8 @@ var amiLogin = {
 
 	changeInfo: function()
 	{
-		amiLogin._flush();
-		amiLogin._clean();
+		this._flush();
+		this._clean();
 
 		$('#modal_login_change_info').modal('show');
 	},
@@ -132,8 +144,8 @@ var amiLogin = {
 
 	changePass: function()
 	{
-		amiLogin._flush();
-		amiLogin._clean();
+		this._flush();
+		this._clean();
 
 		$('#modal_login_change_pass').modal('show');
 	},
@@ -146,8 +158,8 @@ var amiLogin = {
 
 	accountStatus: function()
 	{
-		amiLogin._flush();
-		amiLogin._clean();
+		this._flush();
+		this._clean();
 
 		$('#modal_login_account_status').modal('show');
 	},
@@ -169,6 +181,18 @@ var amiLogin = {
 				amiWebApp.unlock();
 			});
 		});
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Check if the user has the geven role
+	  * @returns {Boolean} True or False
+	  */
+
+	hasRole: function(roleName)
+	{
+		return roleName in amiLogin.roles;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -482,82 +506,6 @@ var amiLogin = {
 
 	/*-----------------------------------------------------------------*/
 
-	hasRole: function(roleName)
-	{
-		return roleName in amiLogin.roles;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	hasRoleForEntity: function(roleName, catalog, entity)
-	{
-		if(roleName in amiLogin.roles)
-		{
-			for(var role in amiLogin.roles[roleName])
-			{
-				if(role['catalog'] === catalog
-				   &&
-				   role['entity'] === entity
-				   &&
-				   role['row'] === '0'
-				 ) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	hasRoleForRow: function(roleName, catalog, entity, row)
-	{
-		if(roleName in amiLogin.roles)
-		{
-			for(var role in amiLogin.roles[roleName])
-			{
-				if(role['catalog'] === catalog
-				   &&
-				   role['entity'] === entity
-				   &&
-				   role['row'] === row
-				 ) {
-					return true;
-				}
-			}
-		}
-
-		return false;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_flush: function()
-	{
-		$('#modal_login_message').empty();
-
-		$('#modal_login_change_info_message').empty();
-
-		$('#modal_login_change_pass_message').empty();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_clean: function()
-	{
-		$('#modal_login_form1_pass').val('');
-
-		$('#modal_login_form2_pass1').val('');
-		$('#modal_login_form2_pass2').val('');
-
-		$('#modal_login_change_pass_form_old_pass' ).val('');
-		$('#modal_login_change_pass_form_new_pass1').val('');
-		$('#modal_login_change_pass_form_new_pass2').val('');
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	_showSuccessMessage1: function(message)
 	{
 		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
@@ -626,6 +574,31 @@ var amiLogin = {
 		}
 
 		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_flush: function()
+	{
+		$('#modal_login_message').empty();
+
+		$('#modal_login_change_info_message').empty();
+
+		$('#modal_login_change_pass_message').empty();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_clean: function()
+	{
+		$('#modal_login_form1_pass').val('');
+
+		$('#modal_login_form2_pass1').val('');
+		$('#modal_login_form2_pass2').val('');
+
+		$('#modal_login_change_pass_form_old_pass' ).val('');
+		$('#modal_login_change_pass_form_new_pass1').val('');
+		$('#modal_login_change_pass_form_new_pass2').val('');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -841,6 +814,6 @@ var amiLogin = {
 	},
 
 	/*-----------------------------------------------------------------*/
-};
+});
 
 /*-------------------------------------------------------------------------*/

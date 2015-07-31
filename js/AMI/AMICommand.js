@@ -1,5 +1,5 @@
 /*!
- * amiCommand
+ * AMI Web Framework
  *
  * Copyright (c) 2014-2015 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -39,12 +39,12 @@ function _ami_internal_textToString(s)
  * @namespace amiCommand
  */
 
-var amiCommand = {
+$AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Decode a base64 string
-	  * @param {String} s the encoded string
+	  * @param {String} string the encoded string
 	  * @returns {String} The decoded string
 	  */
 
@@ -102,8 +102,8 @@ var amiCommand = {
 	execute: function(command, settings)
 	{
 		var context = null;
-		var endpoint = amiCommand.endpoint;
-		var converter = amiCommand.converter;
+		var endpoint = this.endpoint;
+		var converter = this.converter;
 		var extraParam = null;
 		var extraValue = null;
 
@@ -280,7 +280,7 @@ var amiCommand = {
 
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('GetSessionInfo -AMIUser="' + _ami_internal_textToString(user) + '" -AMIPass="' + _ami_internal_textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="' + _ami_internal_textToString(user) + '" -AMIPass="' + _ami_internal_textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
 
 			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
 			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
@@ -330,7 +330,7 @@ var amiCommand = {
 
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('GetSessionInfo').done(function(data) {
+		this.execute('GetSessionInfo').done(function(data) {
 
 			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
 			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
@@ -380,7 +380,7 @@ var amiCommand = {
 
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).done(function(data) {
 
 			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
 			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
@@ -421,7 +421,7 @@ var amiCommand = {
 
 	attachCert: function(user, pass, settings)
 	{
-		return amiCommand.execute('GetSessionInfo -attachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
+		return this.execute('GetSessionInfo -attachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -436,7 +436,7 @@ var amiCommand = {
 
 	detachCert: function(user, pass, settings)
 	{
-		return amiCommand.execute('GetSessionInfo -detachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
+		return this.execute('GetSessionInfo -detachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -454,7 +454,7 @@ var amiCommand = {
 
 	addUser: function(user, pass, firstName, lastName, email, settings)
 	{
-		return amiCommand.execute('AddUser -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '" -firstName="' + _ami_internal_textToString(firstName) + '"-lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
+		return this.execute('AddUser -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '" -firstName="' + _ami_internal_textToString(firstName) + '"-lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -470,7 +470,7 @@ var amiCommand = {
 
 	changeInfo: function(firstName, lastName, email, settings)
 	{
-		return amiCommand.execute('SetUserInfo -firstName="' + _ami_internal_textToString(firstName) + '" -lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
+		return this.execute('SetUserInfo -firstName="' + _ami_internal_textToString(firstName) + '" -lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -485,7 +485,7 @@ var amiCommand = {
 
 	changePass: function(oldPass, newPass, settings)
 	{
-		return amiCommand.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(oldPass) + '" -amiPasswordNew="' + _ami_internal_textToString(newPass) + '"', settings);
+		return this.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(oldPass) + '" -amiPasswordNew="' + _ami_internal_textToString(newPass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -499,10 +499,10 @@ var amiCommand = {
 
 	resetPass: function(user, settings)
 	{
-		return amiCommand.execute('ResetPassword -amiLogin="' + _ami_internal_textToString(user) + '"', settings);
+		return this.execute('ResetPassword -amiLogin="' + _ami_internal_textToString(user) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
-};
+});
 
 /*-------------------------------------------------------------------------*/

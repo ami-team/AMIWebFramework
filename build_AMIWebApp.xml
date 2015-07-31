@@ -24,6 +24,13 @@
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
+			<arg value="js/AMI/AMIObjects.js" />
+			<arg value="-o" />
+			<arg value="js/AMI/AMIObjects.min.js" />
+		</java>
+
+		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
+			<classpath refid="execute-classpath" />
 			<arg value="js/AMI/AMICommand.js" />
 			<arg value="-o" />
 			<arg value="js/AMI/AMICommand.min.js" />
@@ -70,6 +77,7 @@
 
 		<copy file="css/AMI/AMIWebApp.css" tofile="css/AMI/AMIWebApp.min.css" overwrite="true" force="true" />
 		<copy file="js/AMI/AMIWebApp.js" tofile="js/AMI/AMIWebApp.min.js" overwrite="true" force="true" />
+		<copy file="js/AMI/AMIObjects.js" tofile="js/AMI/AMIObjects.min.js" overwrite="true" force="true" />
 		<copy file="js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
 		<copy file="js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
 		<copy file="js/AMI/AMITokenizer.js" tofile="js/AMI/AMITokenizer.min.js" overwrite="true" force="true" />

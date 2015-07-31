@@ -1,5 +1,5 @@
 /*!
- * amiWebApp
+ * AMI Web Framework
  *
  * Copyright (c) 2014-2015 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -65,6 +65,153 @@ function amiRegisterSubApp(subAppName, subAppInstance)
 
 var amiWebApp = {
 	/*-----------------------------------------------------------------*/
+	/* CONSTRUCTOR                                                     */
+	/*-----------------------------------------------------------------*/
+
+	init: function()
+	{
+		try
+		{
+			/*-------------------------------------------------*/
+			/* DEFAULT SHEETS                                  */
+			/*-------------------------------------------------*/
+
+			this.loadSheets([
+				/* Third-party */
+				'css/bootstrap.min.css',
+				'css/bootstrap.vertical-tabs.min.css',
+				'css/font-awesome.min.css',
+				/* AMI */
+				'css/AMI/AMIWebApp.min.css',
+			]).fail(function(data) {
+				throw data;
+			});
+
+			/*-------------------------------------------------*/
+			/* DEFAULT SCRIPTS                                 */
+			/*-------------------------------------------------*/
+
+			this.loadScripts([
+				/* Third-party */
+				'js/jspath.min.js',
+				'js/bootstrap.min.js',
+				/* AMI */
+				'js/AMI/AMIObjects.min.js',
+				'js/AMI/AMICommand.min.js',
+				'js/AMI/AMILogin.min.js',
+				'js/AMI/AMITokenizer.min.js',
+				'js/AMI/AMITwigExprCompiler.min.js',
+				'js/AMI/AMITwigExprInterpreter.min.js',
+				'js/AMI/AMITwig.min.js',
+			]).fail(function(data) {
+				throw data;
+			});
+
+			/*-------------------------------------------------*/
+			/* DEFAULT FRAGMENTS                               */
+			/*-------------------------------------------------*/
+
+			this.loadHTMLs([
+				'html/AMI/Fragment/alert_success.html',
+				'html/AMI/Fragment/alert_info.html',
+				'html/AMI/Fragment/alert_warning.html',
+				'html/AMI/Fragment/alert_error.html',
+			]).done(function(data) {
+				this.fragmentSuccess = data[0];
+				this.fragmentInfo = data[1];
+				this.fragmentWarning = data[2];
+				this.fragmentError = data[3];
+			}).fail(function(data) {
+				throw data;
+			});
+
+			/*-------------------------------------------------*/
+			/* AVAILABILITY                                    */
+			/*-------------------------------------------------*/
+
+			setTimeout(function() {
+
+				if($('#ami_main_content').is(':empty'))
+				{
+					$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
+				}
+
+			}, 8000);
+
+			/*-------------------------------------------------*/
+		}
+		catch(e)
+		{
+			alert('Service temporarily unavailable, please try reloading the page...');
+
+			console.error(e);
+		}
+
+		/*---------------------------------------------------------*/
+		/* URLs                                                    */
+		/*---------------------------------------------------------*/
+
+		var url = document.location.href;
+
+		var index1 = url./**/indexOf('?');
+		if(index1 >= 0) url = url.substring(0, index1);
+		var index2 = url.lastIndexOf('/');
+
+		/*---------------------------------------------------------*/
+
+		/**
+		  * {String} WebApp URL
+		  * @type {String}
+		  */
+
+		this.webAppURL = url;
+
+		while(this.webAppURL[this.webAppURL.length - 1] === '/')
+		{
+			this.webAppURL = this.webAppURL.substring(0, this.webAppURL.length - 1);
+		}
+
+		/*---------------------------------------------------------*/
+
+		/**
+		  * Origin URL
+		  * @type {String}
+		  */
+
+		this.originURL = url.substring(0, index2);
+
+		while(this.originURL[this.originURL.length - 1] === '/')
+		{
+			this.originURL = this.originURL.substring(0, this.originURL.length - 1);
+		}
+
+		/*---------------------------------------------------------*/
+		/* ARGs                                                    */
+		/*---------------------------------------------------------*/
+
+		/**
+		  * URL arguments
+		  * @type {Array<String>}
+		  */
+
+		this.args = {};
+
+		if(window.location.search)
+		{
+			var urlParams = window.location.search.substring(1).split('&');
+
+			for(var i = 0; i < urlParams.length; i++)
+			{
+				var pair = urlParams[i].split('=');
+
+				this.args[pair[0]] = decodeURIComponent(pair[1]);
+			}
+		}
+
+		/*---------------------------------------------------------*/
+	},
+
+	/*-----------------------------------------------------------------*/
 	/* TOOLS                                                           */
 	/*-----------------------------------------------------------------*/
 
@@ -87,7 +234,7 @@ var amiWebApp = {
 
 	/**
 	  * Escapes the given string from text to HTML
-	  * @param {String} s the unescaped string
+	  * @param {String} string the unescaped string
 	  * @returns {String} The escaped string
 	  */
 
@@ -98,7 +245,7 @@ var amiWebApp = {
 
 	/**
 	  * Unescapes the given string from HTML to text
-	  * @param {String} s the escaped string
+	  * @param {String} string the escaped string
 	  * @returns {String} The unescaped string
 	  */
 
@@ -111,7 +258,7 @@ var amiWebApp = {
 
 	/**
 	  * Escapes the given string from text to JavaScript string
-	  * @param {String} s the unescaped string
+	  * @param {String} string the unescaped string
 	  * @returns {String} The escaped string
 	  */
 
@@ -122,7 +269,7 @@ var amiWebApp = {
 
 	/**
 	  * Unescapes the given string from JavaScript string to text
-	  * @param {String} s the escaped string
+	  * @param {String} string the escaped string
 	  * @returns {String} The unescaped string
 	  */
 
@@ -135,7 +282,7 @@ var amiWebApp = {
 
 	/**
 	  * Escapes the given string from HTML to JavaScript string
-	  * @param {String} s the unescaped string
+	  * @param {String} string the unescaped string
 	  * @returns {String} The escaped string
 	  */
 
@@ -146,7 +293,7 @@ var amiWebApp = {
 
 	/**
 	  * Unescapes the given string from JavaScript string to HTML
-	  * @param {String} s the escaped string
+	  * @param {String} string the escaped string
 	  * @returns {String} The unescaped string
 	  */
 
@@ -291,11 +438,12 @@ var amiWebApp = {
 				url: url,
 				cache: false,
 				dataType: 'html',
+				context: this,
 			}).done(function(data) {
 
 				array.push(data);
 
-				amiWebApp._loadHTMLs(deferred, array, fragments, context);
+				this._loadHTMLs(deferred, array, fragments, context);
 
 			}).fail(function() {
 
@@ -347,7 +495,7 @@ var amiWebApp = {
 
 		/*---------------------------------------------------------*/
 
-		amiWebApp._loadHTMLs(result, [], fragments, context);
+		this._loadHTMLs(result, [], fragments, context);
 
 		/*---------------------------------------------------------*/
 
@@ -373,8 +521,8 @@ var amiWebApp = {
 
 	replaceHTML: function(selector, html, settings)
 	{
-		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
-		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
+		html = html.replace(this.webappRegExp, this.webAppURL);
+		html = html.replace(this.originRegExp, this.originURL);
 
 		var context = null;
 		var dict = null;
@@ -392,7 +540,7 @@ var amiWebApp = {
 
 		/*---------------------------------------------------------*/
 
-		html = amiWebApp.formatHTML(html, dict);
+		html = this.formatHTML(html, dict);
 
 		/*---------------------------------------------------------*/
 
@@ -436,8 +584,8 @@ var amiWebApp = {
 
 	prependHTML: function(selector, html, settings)
 	{
-		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
-		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
+		html = html.replace(this.webappRegExp, this.webAppURL);
+		html = html.replace(this.originRegExp, this.originURL);
 
 		var context = null;
 		var dict = null;
@@ -455,7 +603,7 @@ var amiWebApp = {
 
 		/*---------------------------------------------------------*/
 
-		html = amiWebApp.formatHTML(html, dict);
+		html = this.formatHTML(html, dict);
 
 		/*---------------------------------------------------------*/
 
@@ -499,8 +647,8 @@ var amiWebApp = {
 
 	appendHTML: function(selector, html, settings)
 	{
-		html = html.replace(amiWebApp.webappRegExp, amiWebApp.webAppURL);
-		html = html.replace(amiWebApp.originRegExp, amiWebApp.originURL);
+		html = html.replace(this.webappRegExp, this.webAppURL);
+		html = html.replace(this.originRegExp, this.originURL);
 
 		var context = null;
 		var dict = null;
@@ -518,7 +666,7 @@ var amiWebApp = {
 
 		/*---------------------------------------------------------*/
 
-		html = amiWebApp.formatHTML(html, dict);
+		html = this.formatHTML(html, dict);
 
 		/*---------------------------------------------------------*/
 
@@ -565,10 +713,10 @@ var amiWebApp = {
 		{
 			var result = '';
 
-			$.each(dict, function(indx, DICT) {
-
-				result += amiTwig.render(html, DICT);
-			});
+			for(var i = 0; i < dict.length; i++)
+			{
+				result += amiTwig.render(html, dict[i]);
+			}
 
 			return result;
 		}
@@ -630,8 +778,8 @@ var amiWebApp = {
 
 	success: function(message, fadeOut)
 	{
-		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-		amiWebApp.unlock();
+		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
+		this.unlock();
 
 		$(document).scrollTop(0);
 
@@ -651,8 +799,8 @@ var amiWebApp = {
 
 	info: function(message, fadeOut)
 	{
-		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentInfo, {dict: {MESSAGE: message}});
-		amiWebApp.unlock();
+		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
+		this.unlock();
 
 		$(document).scrollTop(0);
 
@@ -672,8 +820,8 @@ var amiWebApp = {
 
 	warning: function(message, fadeOut)
 	{
-		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentWarning, {dict: {MESSAGE: message}});
-		amiWebApp.unlock();
+		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
+		this.unlock();
 
 		$(document).scrollTop(0);
 
@@ -693,8 +841,8 @@ var amiWebApp = {
 
 	error: function(message, fadeOut)
 	{
-		amiWebApp.replaceHTML('#ami_status_content', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-		amiWebApp.unlock();
+		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
+		this.unlock();
 
 		$(document).scrollTop(0);
 
@@ -726,7 +874,7 @@ var amiWebApp = {
 
 	onStart: function()
 	{
-		alert('error: `amiWebApp.onStart()` must be overloaded!');
+		alert('error: `this.onStart()` must be overloaded!');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -738,7 +886,7 @@ var amiWebApp = {
 
 	onToolbarUpdateNeeded: function()
 	{
-		alert('error: `amiWebApp.onToolbarUpdateNeeded()` must be overloaded!');
+		alert('error: `this.onToolbarUpdateNeeded()` must be overloaded!');
  	},
 
 	/*-----------------------------------------------------------------*/
@@ -797,7 +945,7 @@ var amiWebApp = {
 
 					amiWebApp.onStart();
 
-					amiLogin.init();
+					amiLogin._init();
 				});
 
 			}).fail(function() {
@@ -814,37 +962,29 @@ var amiWebApp = {
 	/* SUB-APPLICATIONS                                                */
 	/*-----------------------------------------------------------------*/
 
-	_currentSubAppInstance: new function() {
+	onReady: function(userdata)
+	{
+		return this._currentSubAppInstance.onReady(userdata);
+	},
 
-		this.onReady = function() {};
-		this.onExit = function() {};
-		this.onLogin = function() {};
-		this.onLogout = function() {};
+	onExit: function(userdata)
+	{
+		return this._currentSubAppInstance.onExit(userdata);
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	onReady: function(userdata)
-	{
-		return amiWebApp._currentSubAppInstance.onReady(userdata);
-	},
-
-	onExit: function()
-	{
-		return amiWebApp._currentSubAppInstance.onExit();
-	},
-
 	onLogin: function()
 	{
-		var result = amiWebApp._currentSubAppInstance.onLogin();
-		amiWebApp.onToolbarUpdateNeeded();
+		var result = this._currentSubAppInstance.onLogin();
+		this.onToolbarUpdateNeeded();
 		return result;
 	},
 
 	onLogout: function()
 	{
-		var result = amiWebApp._currentSubAppInstance.onLogout();
-		amiWebApp.onToolbarUpdateNeeded();
+		var result = this._currentSubAppInstance.onLogout();
+		this.onToolbarUpdateNeeded();
 		return result;
 	},
 
@@ -857,7 +997,7 @@ var amiWebApp = {
 
 	getCurrentSubAppInstance: function()
 	{
-		return amiWebApp._currentSubAppInstance;
+		return this._currentSubAppInstance;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -875,22 +1015,22 @@ var amiWebApp = {
 		/*---------------------------------------------------------*/
 
 		if(!subAppInstance.onReady) {
-			alert('error: `<sub application>.onReady()` must be implemented!');
+			alert('error: `<subapp>.onReady()` must be implemented!');
 			return;
 		}
 
 		if(!subAppInstance.onExit) {
-			alert('error: `<sub application>.onExit()` must be implemented!');
+			alert('error: `<subapp>.onExit()` must be implemented!');
 			return;
 		}
 
 		if(!subAppInstance.onLogin) {
-			alert('error: `<sub application>.onLogin()` must be implemented!');
+			alert('error: `<subapp>.onLogin()` must be implemented!');
 			return;
 		}
 
 		if(!subAppInstance.onLogout) {
-			alert('error: `<sub application>.onLogout()` must be implemented!');
+			alert('error: `<subapp>.onLogout()` must be implemented!');
 			return;
 		}
 
@@ -898,14 +1038,14 @@ var amiWebApp = {
 		/* SWITCH SUB-APPLICATION                                  */
 		/*---------------------------------------------------------*/
 
-		if(amiWebApp._currentSubAppInstance.onExit() === false)
+		if(this._currentSubAppInstance && this._currentSubAppInstance.onExit() === false)
 		{
 			return;
 		}
 
 		/*---------------------------------------------------------*/
 
-		amiWebApp._currentSubAppInstance = subAppInstance;
+		this._currentSubAppInstance = subAppInstance;
 
 		/*---------------------------------------------------------*/
 
@@ -935,8 +1075,8 @@ var amiWebApp = {
 
 	autoRunSubApp: function(home)
 	{
-		var subapp = amiWebApp.args['subapp'] || home;
-		var userdata = amiWebApp.args['userdata'] || null;
+		var subapp = this.args['subapp'] || home;
+		var userdata = this.args['userdata'] || null;
 
 		if(subapp)
 		{
@@ -944,7 +1084,7 @@ var amiWebApp = {
 
 			if(subapp in _ami_internal_subAppDict)
 			{
-				amiWebApp.setCurrentSubAppInstance(_ami_internal_subAppDict[subapp], userdata);
+				this.setCurrentSubAppInstance(_ami_internal_subAppDict[subapp], userdata);
 			}
 		}
 	},
@@ -956,160 +1096,88 @@ var amiWebApp = {
 /* CONSTRUCTOR                                                             */
 /*-------------------------------------------------------------------------*/
 
-try
-{
-	/*-------------------------------*/
-	/* DEFAULT SHEETS                */
-	/*-------------------------------*/
+amiWebApp.init();
 
-	amiWebApp.loadSheets([
-		/* Third-party */
-		'css/bootstrap.min.css',
-		'css/bootstrap.vertical-tabs.min.css',
-		'css/font-awesome.min.css',
-		/* AMI */
-		'css/AMI/AMIWebApp.min.css',
-	]).fail(function(data) {
-		throw data;
-	});
-
-	/*-------------------------------*/
-	/* DEFAULT SCRIPTS               */
-	/*-------------------------------*/
-
-	amiWebApp.loadScripts([
-		/* Third-party */
-		'js/jspath.min.js',
-		'js/bootstrap.min.js',
-		/* AMI */
-		'js/AMI/AMICommand.min.js',
-		'js/AMI/AMILogin.min.js',
-		'js/AMI/AMITokenizer.min.js',
-		'js/AMI/AMITwigExprCompiler.min.js',
-		'js/AMI/AMITwigExprInterpreter.min.js',
-		'js/AMI/AMITwig.min.js',
-	]).fail(function(data) {
-		throw data;
-	});
-
-	/*-------------------------------*/
-	/* DEFAULT FRAGMENTS             */
-	/*-------------------------------*/
-
-	amiWebApp.loadHTMLs([
-		'html/AMI/Fragment/alert_success.html',
-		'html/AMI/Fragment/alert_info.html',
-		'html/AMI/Fragment/alert_warning.html',
-		'html/AMI/Fragment/alert_error.html',
-	]).done(function(data) {
-		amiWebApp.fragmentSuccess = data[0];
-		amiWebApp.fragmentInfo = data[1];
-		amiWebApp.fragmentWarning = data[2];
-		amiWebApp.fragmentError = data[3];
-	}).fail(function(data) {
-		throw data;
-	});
-
-	/*-------------------------------*/
-	/* AVAILABILITY                  */
-	/*-------------------------------*/
-
-	setTimeout(function() {
-
-		if($('#ami_main_content').is(':empty'))
-		{
-			$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
-		}
-
-	}, 8000);
-
-	/*-------------------------------*/
-}
-catch(e)
-{
-	console.error(e);
-
-	alert('Service temporarily unavailable, please try reloading the page...');
-}
-
-/*-------------------------------*/
-/* URLs                          */
-/*-------------------------------*/
-
-var url = document.location.href;
-
-var index1 = url./**/indexOf('?');
-if(index1 >= 0) url = url.substring(0, index1);
-var index2 = url.lastIndexOf('/');
-
-/*-------------------------------*/
+/*-------------------------------------------------------------------------*/
+/* AMISubApp                                                               */
+/*-------------------------------------------------------------------------*/
 
 /**
-  * {String} WebApp URL
-  * @type {String}
-  */
+ * The AMI sub-application interface
+ * @interface AMISubApp
+ */
 
-amiWebApp.webAppURL = url;
+$AMIInterface('AMISubApp', /** @lends AMISubApp# */ {
+	/*-----------------------------------------------------------------*/
 
-while(amiWebApp.webAppURL[amiWebApp.webAppURL.length - 1] === '/')
-{
-	amiWebApp.webAppURL = amiWebApp.webAppURL.substring(0, amiWebApp.webAppURL.length - 1);
-}
+	/**
+	  * Called when the sub-application is ready to run
+	  * @param {?} userdata userdata
+	  */
 
-/*-------------------------------*/
+	onReady: function(userdata) {},
 
-/**
-  * Origin URL
-  * @type {String}
-  */
+	/*-----------------------------------------------------------------*/
 
-amiWebApp.originURL = url.substring(0, index2);
+	/**
+	  * Called when the sub-application is about to exit
+	  */
 
-while(amiWebApp.originURL[amiWebApp.originURL.length - 1] === '/')
-{
-	amiWebApp.originURL = amiWebApp.originURL.substring(0, amiWebApp.originURL.length - 1);
-}
+	onExit: function() {},
 
-/*-------------------------------*/
-/* ARGs                          */
-/*-------------------------------*/
+	/*-----------------------------------------------------------------*/
 
-/**
-  * URL arguments
-  * @type {Array<String>}
-  */
+	/**
+	  * Called when log in
+	  */
 
-amiWebApp.args = {};
+	onLogin: function() {},
 
-if(window.location.search)
-{
-	var urlParams = window.location.search.substring(1).split('&');
+	/*-----------------------------------------------------------------*/
 
-	for(var i = 0; i < urlParams.length; i++)
-	{
-		var pair = urlParams[i].split('=');
+	/**
+	  * Called when log out
+	  */
 
-		amiWebApp.args[pair[0]] = pair[1];
-	}
-}
+	onLogout: function() {},
+
+	/*-----------------------------------------------------------------*/
+});
+
+/*-------------------------------------------------------------------------*/
+
+$AMIClass('HH', {
+	$implements: [AMISubApp],
+	onReady: function() {},
+	onExit: function() {},
+	onLogin: function() {},
+	onLogout: function() {},
+});
+
+amiWebApp._currentSubAppInstance = new HH();
 
 /*-------------------------------------------------------------------------*/
 /* JQUERY EXTENSION                                                        */
 /*-------------------------------------------------------------------------*/
 
-(function($) {
-	/*-----------------------------------------------------------------*/
-
-	$.foreach = function(elements, func, context)
+jQuery.foreach = function(elements, callback, context)
+{
+	if(context)
 	{
-		$.each(elements, function(index, element) {
+		jQuery.each(elements, function(index, element) {
 
-			func.apply(context || element, [index, element]);
+			callback.apply(context, [index, element]);
 		});
-	};
+	}
+	else
+	{
+		jQuery.each(elements, function(index, element) {
 
-	/*-----------------------------------------------------------------*/
+			callback.apply(element, [index, element]);
+		});
+	}
 
-}(jQuery));
+	return elements;
+};
 
 /*-------------------------------------------------------------------------*/
