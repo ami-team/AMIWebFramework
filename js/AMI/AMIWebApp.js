@@ -70,82 +70,77 @@ var amiWebApp = {
 
 	init: function()
 	{
-		try
-		{
-			/*-------------------------------------------------*/
-			/* DEFAULT SHEETS                                  */
-			/*-------------------------------------------------*/
+		/*---------------------------------------------------------*/
+		/* DEFAULT SHEETS                                          */
+		/*---------------------------------------------------------*/
 
-			this.loadSheets([
-				/* Third-party */
-				'css/bootstrap.min.css',
-				'css/bootstrap.vertical-tabs.min.css',
-				'css/font-awesome.min.css',
-				/* AMI */
-				'css/AMI/AMIWebApp.min.css',
-			]).fail(function(data) {
-				throw data;
-			});
-
-			/*-------------------------------------------------*/
-			/* DEFAULT SCRIPTS                                 */
-			/*-------------------------------------------------*/
-
-			this.loadScripts([
-				/* Third-party */
-				'js/jspath.min.js',
-				'js/bootstrap.min.js',
-				/* AMI */
-				'js/AMI/AMIObjects.min.js',
-				'js/AMI/AMICommand.min.js',
-				'js/AMI/AMILogin.min.js',
-				'js/AMI/AMITokenizer.min.js',
-				'js/AMI/AMITwigExprCompiler.min.js',
-				'js/AMI/AMITwigExprInterpreter.min.js',
-				'js/AMI/AMITwig.min.js',
-			]).fail(function(data) {
-				throw data;
-			});
-
-			/*-------------------------------------------------*/
-			/* DEFAULT FRAGMENTS                               */
-			/*-------------------------------------------------*/
-
-			this.loadHTMLs([
-				'html/AMI/Fragment/alert_success.html',
-				'html/AMI/Fragment/alert_info.html',
-				'html/AMI/Fragment/alert_warning.html',
-				'html/AMI/Fragment/alert_error.html',
-			]).done(function(data) {
-				this.fragmentSuccess = data[0];
-				this.fragmentInfo = data[1];
-				this.fragmentWarning = data[2];
-				this.fragmentError = data[3];
-			}).fail(function(data) {
-				throw data;
-			});
-
-			/*-------------------------------------------------*/
-			/* AVAILABILITY                                    */
-			/*-------------------------------------------------*/
-
-			setTimeout(function() {
-
-				if($('#ami_main_content').is(':empty'))
-				{
-					$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
-				}
-
-			}, 8000);
-
-			/*-------------------------------------------------*/
-		}
-		catch(e)
-		{
+		this.loadSheets([
+			/* Third-party */
+			'css/bootstrap.min.css',
+			'css/bootstrap.vertical-tabs.min.css',
+			'css/font-awesome.min.css',
+			/* AMI */
+			'css/AMI/AMIWebApp.min.css',
+		]).fail(function(data) {
 			alert('Service temporarily unavailable, please try reloading the page...');
 
-			console.error(e);
-		}
+			console.error(data);
+		});
+
+		/*---------------------------------------------------------*/
+		/* DEFAULT SCRIPTS                                         */
+		/*---------------------------------------------------------*/
+
+		this.loadScripts([
+			/* Third-party */
+			'js/jspath.min.js',
+			'js/bootstrap.min.js',
+			/* AMI */
+			'js/AMI/AMIObjects.min.js',
+			'js/AMI/AMICommand.min.js',
+			'js/AMI/AMILogin.min.js',
+			'js/AMI/AMITokenizer.min.js',
+			'js/AMI/AMITwigExprCompiler.min.js',
+			'js/AMI/AMITwigExprInterpreter.min.js',
+			'js/AMI/AMITwig.min.js',
+		]).fail(function(data) {
+			alert('Service temporarily unavailable, please try reloading the page...');
+
+			console.error(data);
+		});
+
+		/*---------------------------------------------------------*/
+		/* DEFAULT FRAGMENTS                                       */
+		/*---------------------------------------------------------*/
+
+		this.loadHTMLs([
+			'html/AMI/Fragment/alert_success.html',
+			'html/AMI/Fragment/alert_info.html',
+			'html/AMI/Fragment/alert_warning.html',
+			'html/AMI/Fragment/alert_error.html',
+		]).done(function(data) {
+			this.fragmentSuccess = data[0];
+			this.fragmentInfo = data[1];
+			this.fragmentWarning = data[2];
+			this.fragmentError = data[3];
+		}).fail(function(data) {
+			alert('Service temporarily unavailable, please try reloading the page...');
+
+			console.error(data);
+		});
+
+		/*---------------------------------------------------------*/
+		/* AVAILABILITY                                            */
+		/*---------------------------------------------------------*/
+
+		setTimeout(function() {
+
+			if($('#ami_main_content').is(':empty'))
+			{
+				$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
+			}
+
+		}, 8000);
 
 		/*---------------------------------------------------------*/
 		/* URLs                                                    */
@@ -949,10 +944,14 @@ var amiWebApp = {
 				});
 
 			}).fail(function() {
-				alert('Network lag, could not load `' + locker_filename + '`, please try reloading the page...');
+				alert('Service temporarily unavailable, please try reloading the page...');
+
+				console.error('could not load `' + locker_filename + '`');
 			});
 		}).fail(function() {
-			alert('Network lag, could not load `' + template_filename + '`, please try reloading the page...');
+			alert('Service temporarily unavailable, please try reloading the page...');
+
+			console.error('could not load `' + template_filename + '`');
 		});
 
 		/*---------------------------------------------------------*/
