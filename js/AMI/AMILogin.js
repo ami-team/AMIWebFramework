@@ -80,7 +80,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/*-------------------------------------------------*/
 		}).fail(function(data) {
 
-			alert(data);
+			alert('Service temporarily unavailable, please try reloading the page...');
+
+			console.error(data);
 		});
 	},
 
@@ -625,7 +627,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		if(roleRows)
 		{
-			for(var i = 0; i < roleRows.length; i++)
+			for(var i in roleRows)
 			{
 				var name = amiWebApp.jspath('..field{.@name==="name"}.$', roleRows[i])[0];
 				var catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', roleRows[i])[0];

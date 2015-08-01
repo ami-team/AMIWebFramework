@@ -30,6 +30,7 @@ function _ami_internal_always(deferred, func)
 	if(deferred && deferred.always)
 	{
 		deferred.always(function() {
+
 			func();
 		});
 	}
@@ -82,6 +83,7 @@ var amiWebApp = {
 			/* AMI */
 			'css/AMI/AMIWebApp.min.css',
 		]).fail(function(data) {
+
 			alert('Service temporarily unavailable, please try reloading the page...');
 
 			console.error(data);
@@ -104,6 +106,7 @@ var amiWebApp = {
 			'js/AMI/AMITwigExprInterpreter.min.js',
 			'js/AMI/AMITwig.min.js',
 		]).fail(function(data) {
+
 			alert('Service temporarily unavailable, please try reloading the page...');
 
 			console.error(data);
@@ -118,12 +121,13 @@ var amiWebApp = {
 			'html/AMI/Fragment/alert_info.html',
 			'html/AMI/Fragment/alert_warning.html',
 			'html/AMI/Fragment/alert_error.html',
-		]).done(function(data) {
+		], {context: this}).done(function(data) {
 			this.fragmentSuccess = data[0];
 			this.fragmentInfo = data[1];
 			this.fragmentWarning = data[2];
 			this.fragmentError = data[3];
 		}).fail(function(data) {
+
 			alert('Service temporarily unavailable, please try reloading the page...');
 
 			console.error(data);
@@ -193,11 +197,11 @@ var amiWebApp = {
 
 		if(window.location.search)
 		{
-			var urlParams = window.location.search.substring(1).split('&');
+			var prarams = window.location.search.substring(1).split('&');
 
-			for(var i = 0; i < urlParams.length; i++)
+			for(var i in prarams)
 			{
-				var pair = urlParams[i].split('=');
+				var pair = prarams[i].split('=');
 
 				this.args[pair[0]] = decodeURIComponent(pair[1]);
 			}
@@ -328,7 +332,7 @@ var amiWebApp = {
 
 		var html = '';
 
-		for(var i = 0; i < sheets.length; i++)
+		for(var i in sheets)
 		{
 			if(_ami_internal_sheets.indexOf(sheets[i]) < 0)
 			{
@@ -389,7 +393,7 @@ var amiWebApp = {
 
 		var html = '';
 
-		for(var i = 0; i < scripts.length; i++)
+		for(var i in scripts)
 		{
 			if(_ami_internal_scripts.indexOf(scripts[i]) < 0)
 			{
@@ -708,7 +712,7 @@ var amiWebApp = {
 		{
 			var result = '';
 
-			for(var i = 0; i < dict.length; i++)
+			for(var i in dict)
 			{
 				result += amiTwig.render(html, dict[i]);
 			}
@@ -944,11 +948,13 @@ var amiWebApp = {
 				});
 
 			}).fail(function() {
+
 				alert('Service temporarily unavailable, please try reloading the page...');
 
 				console.error('could not load `' + locker_filename + '`');
 			});
 		}).fail(function() {
+
 			alert('Service temporarily unavailable, please try reloading the page...');
 
 			console.error('could not load `' + template_filename + '`');
@@ -1037,7 +1043,7 @@ var amiWebApp = {
 		/* SWITCH SUB-APPLICATION                                  */
 		/*---------------------------------------------------------*/
 
-		if(this._currentSubAppInstance && this._currentSubAppInstance.onExit() === false)
+		if(this._currentSubAppInstance.onExit() === false)
 		{
 			return;
 		}
@@ -1145,7 +1151,7 @@ $AMIInterface('AMISubApp', /** @lends AMISubApp# */ {
 
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('HH', {
+$AMIClass('_SubApp', {
 	$implements: [AMISubApp],
 	onReady: function() {},
 	onExit: function() {},
@@ -1153,7 +1159,7 @@ $AMIClass('HH', {
 	onLogout: function() {},
 });
 
-amiWebApp._currentSubAppInstance = new HH();
+amiWebApp._currentSubAppInstance = new _SubApp();
 
 /*-------------------------------------------------------------------------*/
 /* JQUERY EXTENSION                                                        */

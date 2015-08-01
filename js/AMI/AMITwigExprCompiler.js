@@ -226,9 +226,9 @@ $AMIClass('AMITwigExprTokenizer', {
 		var token;
 		var type;
 
-		for(var indx = 0; indx < this.tokens.length; indx++)
+		for(var index in this.tokens)
 		{
-			token = this.tokens[indx];
+			token = this.tokens[index];
 			type = amiTwigTokens.types[token];
 
 			if(type) {

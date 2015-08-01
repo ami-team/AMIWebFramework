@@ -95,17 +95,21 @@ function $AMIClass($name, newClassPrototype)
 
 	var $class = function()
 	{
-/*		for(var interface of this.$interfaces)
+		for(var key1 in this.$interfaces)
 		{
-			for(var member in interface.$members)
+			var interfaze = this.$interfaces[key1];
+
+			for(var key2 in interfaze.$members)
 			{
-				if(!this[member])
+				var member = interfaze.$members[key2];
+
+				if(typeof(this[key2]) !== typeof(member))
 				{
-					throw 'unimplemented member `' + member + '` for class `' + this.$name + '` with interface `' + interface.$name + '`';
+					alert('class `' + this.$name + '` with must implement `' + key2 + '.' + interfaze.$name + '`');
 				}
 			}
 		}
-*/
+
 		this.$init.apply(this, arguments);
 	};
 
