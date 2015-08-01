@@ -317,18 +317,11 @@ function linktoExternal(longName, name) {
  * @return {string} The HTML for the navigation sidebar.
  */
 function buildNav(members) {
-    var nav = '<h4><a href="index.html">Home</a></h4>';
+
     var seen = {};
     var seenTutorials = {};
 
-    nav += buildMemberNav(members.modules, 'Modules', {}, linkto);
-    nav += buildMemberNav(members.externals, 'Externals', seen, linktoExternal);
-    nav += buildMemberNav(members.classes, 'Classes', seen, linkto);
-    nav += buildMemberNav(members.events, 'Events', seen, linkto);
-    nav += buildMemberNav(members.namespaces, 'Namespaces', seen, linkto);
-    nav += buildMemberNav(members.mixins, 'Mixins', seen, linkto);
-    nav += buildMemberNav(members.tutorials, 'Tutorials', seenTutorials, linktoTutorial);
-    nav += buildMemberNav(members.interfaces, 'Interfaces', seen, linkto);
+    var nav = '<h5><a href="?subapp=amiDocument&userdata=api/index.html"><i class="fa fa-home"></i> Home</a></h5>';
 
     if (members.globals.length) {
         var globalNav = '';
@@ -342,12 +335,21 @@ function buildNav(members) {
 
         if (!globalNav) {
             // turn the heading into a link so you can actually get to the global page
-            nav += '<h4>' + linkto('global', 'Global') + '</h4>';
+            nav += '<h5>' + linkto('global', 'Global') + '</h5>';
         }
         else {
-            nav += '<h4>Global</h4><ul>' + globalNav + '</ul>';
+            nav += '<h5><a href="#ami_doc_memu_Global" data-toggle="collapse"><i class="fa fa-book"></i> Global</a></h5><ul class="collapse" id="ami_doc_memu_Global">' + globalNav + '</ul>';
         }
     }
+
+    nav += buildMemberNav(members.modules, 'Modules', {}, linkto);
+    nav += buildMemberNav(members.externals, 'Externals', seen, linktoExternal);
+    nav += buildMemberNav(members.namespaces, 'Namespaces', seen, linkto);
+    nav += buildMemberNav(members.interfaces, 'Interfaces', seen, linkto);
+    nav += buildMemberNav(members.classes, 'Classes', seen, linkto);
+    nav += buildMemberNav(members.events, 'Events', seen, linkto);
+    nav += buildMemberNav(members.mixins, 'Mixins', seen, linkto);
+    nav += buildMemberNav(members.tutorials, 'Tutorials', seenTutorials, linktoTutorial);
 
     return nav;
 }
@@ -369,7 +371,7 @@ function buildMemberNav(items, itemHeading, itemsSeen, linktoFn) {
         });
 
         if (itemsNav !== '') {
-            nav += '<h4>' + itemHeading + '</h4><ul>' + itemsNav + '</ul>';
+            nav += '<h5><a href="#ami_doc_memu_' + itemHeading + '" data-toggle="collapse"><i class="fa fa-book"></i> ' + itemHeading + '</a></h5><ul class="collapse" id="ami_doc_memu_' + itemHeading + '">' + itemsNav + '</ul>';
         }
     }
 

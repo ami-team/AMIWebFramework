@@ -8,7 +8,7 @@
         <h3 class="panel-title">AMI Web framework API</h3>
       </div>
       <div class="panel-body jsdoc-menu">
-        <h4><a href="index.html">Home</a></h4><h4>Classes</h4><ul><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprCompiler.html">AMITwigExprCompiler</a></li></ul><h4>Events</h4><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h4><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTwigExprInterpreter.html">amiTwigExprInterpreter</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Interfaces</h4><ul><li><a href="?subapp=amiDocument&userdata=api/AMISubApp.html">AMISubApp</a></li></ul><h4>Global</h4><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
+        <h5><a href="?subapp=amiDocument&userdata=api/index.html"><i class="fa fa-home"></i> Home</a></h5><h5><a href="#ami_doc_memu_Global" data-toggle="collapse"><i class="fa fa-book"></i> Global</a></h5><ul class="collapse" id="ami_doc_memu_Global"><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul><h5><a href="#ami_doc_memu_Namespaces" data-toggle="collapse"><i class="fa fa-book"></i> Namespaces</a></h5><ul class="collapse" id="ami_doc_memu_Namespaces"><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTwigExprInterpreter.html">amiTwigExprInterpreter</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h5><a href="#ami_doc_memu_Interfaces" data-toggle="collapse"><i class="fa fa-book"></i> Interfaces</a></h5><ul class="collapse" id="ami_doc_memu_Interfaces"><li><a href="?subapp=amiDocument&userdata=api/AMISubApp.html">AMISubApp</a></li></ul><h5><a href="#ami_doc_memu_Classes" data-toggle="collapse"><i class="fa fa-book"></i> Classes</a></h5><ul class="collapse" id="ami_doc_memu_Classes"><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprCompiler.html">AMITwigExprCompiler</a></li></ul><h5><a href="#ami_doc_memu_Events" data-toggle="collapse"><i class="fa fa-book"></i> Events</a></h5><ul class="collapse" id="ami_doc_memu_Events"><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul>
       </div>
     </div>
   </nav>
@@ -22,835 +22,835 @@
     
 <section>
   <article>
-    <pre class="ami-code"><code><i class="line-number"></i>/*!
-<i class="line-number"></i> * AMI Web Framework
-<i class="line-number"></i> *
-<i class="line-number"></i> * Copyright (c) 2014-2015 The AMI Team
-<i class="line-number"></i> * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
-<i class="line-number"></i> *
-<i class="line-number"></i> */
-<i class="line-number"></i>
-<i class="line-number"></i>/*-------------------------------------------------------------------------*/
-<i class="line-number"></i>/* amiLogin                                                                */
-<i class="line-number"></i>/*-------------------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>/**
-<i class="line-number"></i> * The AMI authentication subsystem
-<i class="line-number"></i> * @namespace amiLogin
-<i class="line-number"></i> */
-<i class="line-number"></i>
-<i class="line-number"></i>$AMINamespace('amiLogin', /** @lends amiLogin */ {
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	user: 'guest',
-<i class="line-number"></i>	guest: 'guest',
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	roles: {},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_init: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		var result = $.Deferred();
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.loadHTMLs([
-<i class="line-number"></i>			'html/AMI/Fragment/login_button.html',
-<i class="line-number"></i>			'html/AMI/Fragment/logout_button.html',
-<i class="line-number"></i>			'html/AMI/Modal/login.html',
-<i class="line-number"></i>			'html/AMI/Modal/login_change_info.html',
-<i class="line-number"></i>			'html/AMI/Modal/login_change_pass.html',
-<i class="line-number"></i>			'html/AMI/Modal/login_account_status.html',
-<i class="line-number"></i>		]).done(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin.fragmentLoginButton = data[0];
-<i class="line-number"></i>			amiLogin.fragmentLogoutButton = data[1];
-<i class="line-number"></i>
-<i class="line-number"></i>			amiWebApp.appendHTML('#ami_modal_content', data[2]);
-<i class="line-number"></i>			amiWebApp.appendHTML('#ami_modal_content', data[3]);
-<i class="line-number"></i>			amiWebApp.appendHTML('#ami_modal_content', data[4]);
-<i class="line-number"></i>			amiWebApp.appendHTML('#ami_modal_content', data[5]);
-<i class="line-number"></i>
-<i class="line-number"></i>			amiCommand.certLogin().always(function(data, user, guest) {
-<i class="line-number"></i>				/*-----------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>				document.getElementById('modal_login_form1_user').addEventListener('keypress', function(e) {
-<i class="line-number"></i>
-<i class="line-number"></i>					if(e.keyCode === 13) {
-<i class="line-number"></i>						amiLogin.form_passLogin();
-<i class="line-number"></i>					}
-<i class="line-number"></i>				});
-<i class="line-number"></i>
-<i class="line-number"></i>				document.getElementById('modal_login_form1_pass').addEventListener('keypress', function(e) {
-<i class="line-number"></i>
-<i class="line-number"></i>					if(e.keyCode === 13) {
-<i class="line-number"></i>						amiLogin.form_passLogin();
-<i class="line-number"></i>					}
-<i class="line-number"></i>				});
-<i class="line-number"></i>
-<i class="line-number"></i>				document.getElementById('modal_login_form3_user').addEventListener('keypress', function(e) {
-<i class="line-number"></i>
-<i class="line-number"></i>					if(e.keyCode === 13) {
-<i class="line-number"></i>						amiLogin.form_resetPass();
-<i class="line-number"></i>					}
-<i class="line-number"></i>				});
-<i class="line-number"></i>
-<i class="line-number"></i>				/*-----------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>				amiLogin._update(data, user, guest).done(function() {
-<i class="line-number"></i>
-<i class="line-number"></i>					result.resolve();
-<i class="line-number"></i>				});
-<i class="line-number"></i>
-<i class="line-number"></i>				/*-----------------------------------------*/
-<i class="line-number"></i>			});
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>		}).fail(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			alert('Service temporarily unavailable, please try reloading the page...');
-<i class="line-number"></i>
-<i class="line-number"></i>			console.error(data);
-<i class="line-number"></i>		});
-<i class="line-number"></i>
-<i class="line-number"></i>		return result.promise();
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	/**
-<i class="line-number"></i>	  * The the current user
-<i class="line-number"></i>	  * @returns {String} The current user
-<i class="line-number"></i>	  */
-<i class="line-number"></i>
-<i class="line-number"></i>	getUser: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		return this.user;
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	/**
-<i class="line-number"></i>	  * The the current guest
-<i class="line-number"></i>	  * @returns {String} The current guest
-<i class="line-number"></i>	  */
-<i class="line-number"></i>
-<i class="line-number"></i>	getGuest: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		return this.guest;
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	/**
-<i class="line-number"></i>	  * Open the 'Login' modal form
-<i class="line-number"></i>	  */
-<i class="line-number"></i>
-<i class="line-number"></i>	login: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		this._flush();
-<i class="line-number"></i>		this._clean();
-<i class="line-number"></i>
-<i class="line-number"></i>		$('#modal_login').modal('show');
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	/**
-<i class="line-number"></i>	  * Open the 'Change Info' modal form
-<i class="line-number"></i>	  */
-<i class="line-number"></i>
-<i class="line-number"></i>	changeInfo: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		this._flush();
-<i class="line-number"></i>		this._clean();
-<i class="line-number"></i>
-<i class="line-number"></i>		$('#modal_login_change_info').modal('show');
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	/**
-<i class="line-number"></i>	  * Open the 'Change Password' modal form
-<i class="line-number"></i>	  */
-<i class="line-number"></i>
-<i class="line-number"></i>	changePass: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		this._flush();
-<i class="line-number"></i>		this._clean();
-<i class="line-number"></i>
-<i class="line-number"></i>		$('#modal_login_change_pass').modal('show');
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	/**
-<i class="line-number"></i>	  * Open the 'Account Status' modal form
-<i class="line-number"></i>	  */
-<i class="line-number"></i>
-<i class="line-number"></i>	accountStatus: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		this._flush();
-<i class="line-number"></i>		this._clean();
-<i class="line-number"></i>
-<i class="line-number"></i>		$('#modal_login_account_status').modal('show');
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	/**
-<i class="line-number"></i>	  * Log out
-<i class="line-number"></i>	  */
-<i class="line-number"></i>
-<i class="line-number"></i>	logout: function() {
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.lock();
-<i class="line-number"></i>
-<i class="line-number"></i>		return amiCommand.logout().always(function(data, user, guest) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._update(data, user, guest).always(function() {
-<i class="line-number"></i>
-<i class="line-number"></i>				amiWebApp.unlock();
-<i class="line-number"></i>			});
-<i class="line-number"></i>		});
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	/**
-<i class="line-number"></i>	  * Check if the user has the geven role
-<i class="line-number"></i>	  * @returns {Boolean} True or False
-<i class="line-number"></i>	  */
-<i class="line-number"></i>
-<i class="line-number"></i>	hasRole: function(roleName)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		return roleName in amiLogin.roles;
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	form_passLogin: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		var user = $('#modal_login_form1_user').val();
-<i class="line-number"></i>		var pass = $('#modal_login_form1_pass').val();
-<i class="line-number"></i>
-<i class="line-number"></i>		if(!user || !pass)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
-<i class="line-number"></i>
-<i class="line-number"></i>			return;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.lock();
-<i class="line-number"></i>
-<i class="line-number"></i>		amiCommand.passLogin(user, pass).done(function(data, user, guest, clientDNInSession, issuerDNInSession) {
-<i class="line-number"></i>
-<i class="line-number"></i>			if(user === guest)
-<i class="line-number"></i>			{
-<i class="line-number"></i>				var extra;
-<i class="line-number"></i>
-<i class="line-number"></i>				if(clientDNInSession || issuerDNInSession)
-<i class="line-number"></i>				{
-<i class="line-number"></i>					extra = '&lt;textarea style="height: 85px; width: 100%;">'
-<i class="line-number"></i>					        +
-<i class="line-number"></i>					        'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
-<i class="line-number"></i>					        + '\n' +
-<i class="line-number"></i>					        'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
-<i class="line-number"></i>					        +
-<i class="line-number"></i>					        '&lt;/textarea>'
-<i class="line-number"></i>					;
-<i class="line-number"></i>				}
-<i class="line-number"></i>				else
-<i class="line-number"></i>				{
-<i class="line-number"></i>					extra = '';
-<i class="line-number"></i>				}
-<i class="line-number"></i>
-<i class="line-number"></i>				amiLogin._showErrorMessage1('Invalid identifiers.' + extra);
-<i class="line-number"></i>			}
-<i class="line-number"></i>			else
-<i class="line-number"></i>			{
-<i class="line-number"></i>				$('#modal_login').modal('hide');
-<i class="line-number"></i>			}
-<i class="line-number"></i>
-<i class="line-number"></i>		}).fail(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-<i class="line-number"></i>
-<i class="line-number"></i>		}).always(function(data, user, guest) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._update(data, user, guest).always(function() {
-<i class="line-number"></i>				amiWebApp.unlock();
-<i class="line-number"></i>			});
-<i class="line-number"></i>		});
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	form_certLogin: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		amiWebApp.lock();
-<i class="line-number"></i>
-<i class="line-number"></i>		amiCommand.certLogin().done(function(data, user, guest, clientDNInSession, issuerDNInSession) {
-<i class="line-number"></i>
-<i class="line-number"></i>			if(user === guest)
-<i class="line-number"></i>			{
-<i class="line-number"></i>				var extra;
-<i class="line-number"></i>
-<i class="line-number"></i>				if(clientDNInSession || issuerDNInSession)
-<i class="line-number"></i>				{
-<i class="line-number"></i>					extra = '&lt;textarea style="height: 85px; width: 100%;">'
-<i class="line-number"></i>					        +
-<i class="line-number"></i>					        'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
-<i class="line-number"></i>					        + '\n' +
-<i class="line-number"></i>					        'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
-<i class="line-number"></i>					        +
-<i class="line-number"></i>					        '&lt;/textarea>'
-<i class="line-number"></i>					;
-<i class="line-number"></i>				}
-<i class="line-number"></i>				else
-<i class="line-number"></i>				{
-<i class="line-number"></i>					extra = '';
-<i class="line-number"></i>				}
-<i class="line-number"></i>
-<i class="line-number"></i>				amiLogin._showErrorMessage1('You have to provide your certificate registered in AMI.' + extra);
-<i class="line-number"></i>			}
-<i class="line-number"></i>			else
-<i class="line-number"></i>			{
-<i class="line-number"></i>				$('#modal_login').modal('hide');
-<i class="line-number"></i>			}
-<i class="line-number"></i>
-<i class="line-number"></i>		}).fail(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-<i class="line-number"></i>
-<i class="line-number"></i>		}).always(function(data, user, guest) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._update(data, user, guest).always(function() {
-<i class="line-number"></i>				amiWebApp.unlock();
-<i class="line-number"></i>			});
-<i class="line-number"></i>		});
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	form_attachCert: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		var user = $('#modal_login_form1_user').val();
-<i class="line-number"></i>		var pass = $('#modal_login_form1_pass').val();
-<i class="line-number"></i>
-<i class="line-number"></i>		if(!user || !pass)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
-<i class="line-number"></i>
-<i class="line-number"></i>			return;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.lock();
-<i class="line-number"></i>
-<i class="line-number"></i>		amiCommand.attachCert(user, pass).done(function() {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showSuccessMessage1('Done with success.');
-<i class="line-number"></i>
-<i class="line-number"></i>		}).fail(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-<i class="line-number"></i>
-<i class="line-number"></i>		}).always(function() {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._clean();
-<i class="line-number"></i>			amiWebApp.unlock();
-<i class="line-number"></i>		});
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	form_detachCert: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		var user = $('#modal_login_form1_user').val();
-<i class="line-number"></i>		var pass = $('#modal_login_form1_pass').val();
-<i class="line-number"></i>
-<i class="line-number"></i>		if(!user || !pass)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
-<i class="line-number"></i>
-<i class="line-number"></i>			return;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.lock();
-<i class="line-number"></i>
-<i class="line-number"></i>		amiCommand.detachCert(user, pass).done(function() {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showSuccessMessage1('Done with success.');
-<i class="line-number"></i>
-<i class="line-number"></i>		}).fail(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-<i class="line-number"></i>
-<i class="line-number"></i>		}).always(function() {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._clean();
-<i class="line-number"></i>			amiWebApp.unlock();
-<i class="line-number"></i>		});
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	form_addUser: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		var firstName = $('#modal_login_form2_first_name').val();
-<i class="line-number"></i>		var lastName = $('#modal_login_form2_last_name').val();
-<i class="line-number"></i>		var email = $('#modal_login_form2_email').val();
-<i class="line-number"></i>		var user = $('#modal_login_form2_user').val();
-<i class="line-number"></i>		var pass1 = $('#modal_login_form2_pass1').val();
-<i class="line-number"></i>		var pass2 = $('#modal_login_form2_pass2').val();
-<i class="line-number"></i>
-<i class="line-number"></i>		if(!firstName || !lastName || !email || !user || !pass1 || !pass2)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
-<i class="line-number"></i>
-<i class="line-number"></i>			return;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		if(pass1 !== pass2)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			amiLogin._showErrorMessage1('Password1 and Password2 have to be identical.');
-<i class="line-number"></i>
-<i class="line-number"></i>			return;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.lock();
-<i class="line-number"></i>
-<i class="line-number"></i>		amiCommand.addUser(user, pass1, firstName, lastName, email).done(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showSuccessMessage1('Done with success.');
-<i class="line-number"></i>
-<i class="line-number"></i>		}).fail(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-<i class="line-number"></i>
-<i class="line-number"></i>		}).always(function() {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._clean();
-<i class="line-number"></i>			amiWebApp.unlock();
-<i class="line-number"></i>		});
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	form_changeInfo: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		var firstName = $('#modal_login_change_info_form_first_name').val();
-<i class="line-number"></i>		var lastName = $('#modal_login_change_info_form_last_name').val();
-<i class="line-number"></i>		var email = $('#modal_login_change_info_form_email').val();
-<i class="line-number"></i>
-<i class="line-number"></i>		if(!firstName || !lastName || !email)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			amiLogin._showErrorMessage2('Please, fill all fields with a red star.');
-<i class="line-number"></i>
-<i class="line-number"></i>			return;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.lock();
-<i class="line-number"></i>
-<i class="line-number"></i>		amiCommand.changeInfo(firstName, lastName, email).done(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showSuccessMessage2('Done with success.');
-<i class="line-number"></i>
-<i class="line-number"></i>		}).fail(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showErrorMessage2(amiWebApp.jspath('..error.$', data)[0]);
-<i class="line-number"></i>
-<i class="line-number"></i>		}).always(function() {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._clean();
-<i class="line-number"></i>			amiWebApp.unlock();
-<i class="line-number"></i>		});
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	form_changePass: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		var oldPass = $('#modal_login_change_pass_form_old_pass').val();
-<i class="line-number"></i>		var newPass1 = $('#modal_login_change_pass_form_new_pass1').val();
-<i class="line-number"></i>		var newPass2 = $('#modal_login_change_pass_form_new_pass2').val();
-<i class="line-number"></i>
-<i class="line-number"></i>		if(!oldPass || !newPass1 || !newPass2)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			amiLogin._showErrorMessage3('Please, fill all fields with a red star.');
-<i class="line-number"></i>
-<i class="line-number"></i>			return;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		if(newPass1 !== newPass2)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			amiLogin._showErrorMessage3('Password1 and Password2 have to be identical.');
-<i class="line-number"></i>
-<i class="line-number"></i>			return;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.lock();
-<i class="line-number"></i>
-<i class="line-number"></i>		amiCommand.changePass(oldPass, newPass1).done(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showSuccessMessage3('Done with success.');
-<i class="line-number"></i>
-<i class="line-number"></i>		}).fail(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showErrorMessage3(amiWebApp.jspath('..error.$', data)[0]);
-<i class="line-number"></i>
-<i class="line-number"></i>		}).always(function() {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._clean();
-<i class="line-number"></i>			amiWebApp.unlock();
-<i class="line-number"></i>		});
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	form_resetPass: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		var user = $('#modal_login_form3_user').val();
-<i class="line-number"></i>
-<i class="line-number"></i>		if(!user)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
-<i class="line-number"></i>
-<i class="line-number"></i>			return;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.lock();
-<i class="line-number"></i>
-<i class="line-number"></i>		amiCommand.resetPass(user).done(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showSuccessMessage1('Done with success.');
-<i class="line-number"></i>
-<i class="line-number"></i>		}).fail(function(data) {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-<i class="line-number"></i>
-<i class="line-number"></i>		}).always(function() {
-<i class="line-number"></i>
-<i class="line-number"></i>			amiLogin._clean();
-<i class="line-number"></i>			amiWebApp.unlock();
-<i class="line-number"></i>		});
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_showSuccessMessage1: function(message)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-<i class="line-number"></i>		$('#modal_login_message .alert').fadeOut(45000);
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_showErrorMessage1: function(message)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-<i class="line-number"></i>		$('#modal_login_message .alert').fadeOut(45000);
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_showSuccessMessage2: function(message)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-<i class="line-number"></i>		$('#modal_login_change_info_message .alert').fadeOut(45000);
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_showErrorMessage2: function(message)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-<i class="line-number"></i>		$('#modal_login_change_info_message .alert').fadeOut(45000);
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_showSuccessMessage3: function(message)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-<i class="line-number"></i>		$('#modal_login_change_pass_message .alert').fadeOut(45000);
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_showErrorMessage3: function(message)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-<i class="line-number"></i>		$('#modal_login_change_pass_message .alert').fadeOut(45000);
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_showInfoMessage4: function(message)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		if(message)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			message = '&lt;span class="fa fa-exclamation-triangle" style="color: orange;">&lt;/span> ' + message;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_showErrorMessage4: function(message)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		if(message)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			message = '&lt;span class="fa fa-exclamation-triangle" style="color: red;">&lt;/span> ' + message;
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_flush: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		$('#modal_login_message').empty();
-<i class="line-number"></i>
-<i class="line-number"></i>		$('#modal_login_change_info_message').empty();
-<i class="line-number"></i>
-<i class="line-number"></i>		$('#modal_login_change_pass_message').empty();
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_clean: function()
-<i class="line-number"></i>	{
-<i class="line-number"></i>		$('#modal_login_form1_pass').val('');
-<i class="line-number"></i>
-<i class="line-number"></i>		$('#modal_login_form2_pass1').val('');
-<i class="line-number"></i>		$('#modal_login_form2_pass2').val('');
-<i class="line-number"></i>
-<i class="line-number"></i>		$('#modal_login_change_pass_form_old_pass' ).val('');
-<i class="line-number"></i>		$('#modal_login_change_pass_form_new_pass1').val('');
-<i class="line-number"></i>		$('#modal_login_change_pass_form_new_pass2').val('');
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_update: function(data, user, guest)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		/*---------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>		amiLogin._clean();
-<i class="line-number"></i>
-<i class="line-number"></i>		/*---------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>		amiLogin.user = user;
-<i class="line-number"></i>		amiLogin.guest = guest;
-<i class="line-number"></i>
-<i class="line-number"></i>		/*---------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>		var userRows = amiWebApp.jspath('..rowset{.@type==="user"}..row', data);
-<i class="line-number"></i>		var roleRows = amiWebApp.jspath('..rowset{.@type==="role"}..row', data);
-<i class="line-number"></i>
-<i class="line-number"></i>		/*---------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>		amiLogin.roles = {};
-<i class="line-number"></i>
-<i class="line-number"></i>		if(roleRows)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			for(var i in roleRows)
-<i class="line-number"></i>			{
-<i class="line-number"></i>				var name = amiWebApp.jspath('..field{.@name==="name"}.$', roleRows[i])[0];
-<i class="line-number"></i>				var catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', roleRows[i])[0];
-<i class="line-number"></i>				var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', roleRows[i])[0];
-<i class="line-number"></i>				var row = amiWebApp.jspath('..field{.@name==="row"}.$', roleRows[i])[0];
-<i class="line-number"></i>
-<i class="line-number"></i>				if(!(name in amiLogin.roles))
-<i class="line-number"></i>				{
-<i class="line-number"></i>					amiLogin.roles[name] = [];
-<i class="line-number"></i>				}
-<i class="line-number"></i>
-<i class="line-number"></i>				amiLogin.roles[name].push({
-<i class="line-number"></i>					catalog: catalog,
-<i class="line-number"></i>					entity: entity,
-<i class="line-number"></i>					row: row,
-<i class="line-number"></i>				});
-<i class="line-number"></i>			}
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		/*---------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>		var result = $.Deferred();
-<i class="line-number"></i>
-<i class="line-number"></i>		/*---------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>		if(user !== guest)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', userRows)[0] || 'false';
-<i class="line-number"></i>			var certEnabled = amiWebApp.jspath('..field{.@name==="certEnabled"}.$', userRows)[0] || 'false';
-<i class="line-number"></i>			var vomsEnabled = amiWebApp.jspath('..field{.@name==="vomsEnabled"}.$', userRows)[0] || 'false';
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			var firstName = amiWebApp.jspath('..field{.@name==="firstName"}.$', userRows)[0] || '';
-<i class="line-number"></i>			var lastName = amiWebApp.jspath('..field{.@name==="lastName"}.$', userRows)[0] || '';
-<i class="line-number"></i>			var email = amiWebApp.jspath('..field{.@name==="email"}.$', userRows)[0] || '';
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			var clientDNInAMI = amiWebApp.jspath('..field{.@name==="clientDNInAMI"}.$', userRows)[0] || '';
-<i class="line-number"></i>			var issuerDNInAMI = amiWebApp.jspath('..field{.@name==="issuerDNInAMI"}.$', userRows)[0] || '';
-<i class="line-number"></i>			var clientDNInSession = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', userRows)[0] || '';
-<i class="line-number"></i>			var issuerDNInSession = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', userRows)[0] || '';
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			$('#modal_login_change_info_form_first_name').val(firstName);
-<i class="line-number"></i>			$('#modal_login_change_info_form_last_name').val(lastName);
-<i class="line-number"></i>			$('#modal_login_change_info_form_email').val(email);
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			$('#modal_login_change_info_form_email').prop('disabled', vomsEnabled !== 'false');
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			$('#modal_login_account_status_form2_first_name').val(firstName);
-<i class="line-number"></i>			$('#modal_login_account_status_form2_last_name').val(lastName);
-<i class="line-number"></i>			$('#modal_login_account_status_form2_email').val(email);
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			$('#modal_login_account_status_form2_client_dn_in_ami').val(clientDNInAMI);
-<i class="line-number"></i>			$('#modal_login_account_status_form2_issuer_dn_in_ami').val(issuerDNInAMI);
-<i class="line-number"></i>			$('#modal_login_account_status_form2_client_dn_in_session').val(clientDNInSession);
-<i class="line-number"></i>			$('#modal_login_account_status_form2_issuer_dn_in_session').val(issuerDNInSession);
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			var color = '';
-<i class="line-number"></i>			var message = '';
-<i class="line-number"></i>
-<i class="line-number"></i>			if(valid !== 'false')
-<i class="line-number"></i>			{
-<i class="line-number"></i>				/*-----------------------------------------*/
-<i class="line-number"></i>				/* VALID USER                              */
-<i class="line-number"></i>				/*-----------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>				if(certEnabled !== 'false' &amp;&amp; clientDNInAMI &amp;&amp; issuerDNInAMI)
-<i class="line-number"></i>				{
-<i class="line-number"></i>					if(!clientDNInSession
-<i class="line-number"></i>					   ||
-<i class="line-number"></i>					   !issuerDNInSession
-<i class="line-number"></i>					 ) {
-<i class="line-number"></i>						message = 'You should provide a certificate to use this AMI web application.';
-<i class="line-number"></i>					}
-<i class="line-number"></i>					else
-<i class="line-number"></i>					{
-<i class="line-number"></i>						if(clientDNInAMI !== clientDNInSession
-<i class="line-number"></i>						   ||
-<i class="line-number"></i>						   issuerDNInAMI !== issuerDNInSession
-<i class="line-number"></i>						 ) {
-<i class="line-number"></i>							message = 'The certificate in your session is not the one registered in AMI.';
-<i class="line-number"></i>						}
-<i class="line-number"></i>					}
-<i class="line-number"></i>				}
-<i class="line-number"></i>
-<i class="line-number"></i>				$('#modal_login_account_status_form1_status').html(
-<i class="line-number"></i>					'&lt;span style="color: #006400;">valid&lt;/span>'
-<i class="line-number"></i>				);
-<i class="line-number"></i>
-<i class="line-number"></i>				amiLogin._showInfoMessage4(message);
-<i class="line-number"></i>
-<i class="line-number"></i>				color = 'orange';
-<i class="line-number"></i>
-<i class="line-number"></i>				/*-----------------------------------------*/
-<i class="line-number"></i>			}
-<i class="line-number"></i>			else
-<i class="line-number"></i>			{
-<i class="line-number"></i>				/*-----------------------------------------*/
-<i class="line-number"></i>				/* INVALID USER                            */
-<i class="line-number"></i>				/*-----------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>				if(vomsEnabled !== 'false')
-<i class="line-number"></i>				{
-<i class="line-number"></i>					if(!clientDNInAMI
-<i class="line-number"></i>					   ||
-<i class="line-number"></i>					   !issuerDNInAMI
-<i class="line-number"></i>					 ) {
-<i class="line-number"></i>						message = 'Register a valid GRID certificate.';
-<i class="line-number"></i>					}
-<i class="line-number"></i>					else
-<i class="line-number"></i>					{
-<i class="line-number"></i>						message = 'Check your VOMS roles.';
-<i class="line-number"></i>					}
-<i class="line-number"></i>				}
-<i class="line-number"></i>				else
-<i class="line-number"></i>				{
-<i class="line-number"></i>					message = 'Contact the AMI team.';
-<i class="line-number"></i>				}
-<i class="line-number"></i>
-<i class="line-number"></i>				$('#modal_login_account_status_form1_status').html(
-<i class="line-number"></i>					'&lt;span style="color: #8B0000;">invalid&lt;/span>'
-<i class="line-number"></i>				);
-<i class="line-number"></i>
-<i class="line-number"></i>				amiLogin._showErrorMessage4(message);
-<i class="line-number"></i>
-<i class="line-number"></i>				color = 'red';
-<i class="line-number"></i>
-<i class="line-number"></i>				/*-----------------------------------------*/
-<i class="line-number"></i>			}
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			var icon = message ? '&lt;a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
-<i class="line-number"></i>			                     +
-<i class="line-number"></i>			                     '&lt;span class="fa fa-exclamation-triangle">&lt;/span>'
-<i class="line-number"></i>			                     +
-<i class="line-number"></i>			                     '&lt;/a>'
-<i class="line-number"></i>			                   : ''
-<i class="line-number"></i>			;
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			var dict = {
-<i class="line-number"></i>				USER: user,
-<i class="line-number"></i>				ICON: icon,
-<i class="line-number"></i>			};
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			_ami_internal_always(
-<i class="line-number"></i>				amiWebApp.onLogin(),
-<i class="line-number"></i>				function() {
-<i class="line-number"></i>					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
-<i class="line-number"></i>					result.resolve();
-<i class="line-number"></i>				}
-<i class="line-number"></i>			);
-<i class="line-number"></i>		}
-<i class="line-number"></i>		else
-<i class="line-number"></i>		{
-<i class="line-number"></i>			_ami_internal_always(
-<i class="line-number"></i>				amiWebApp.onLogout(),
-<i class="line-number"></i>				function() {
-<i class="line-number"></i>					result.resolve();
-<i class="line-number"></i>					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
-<i class="line-number"></i>				}
-<i class="line-number"></i>			);
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		/*---------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>		return result.promise();
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>});
-<i class="line-number"></i>
-<i class="line-number"></i>/*-------------------------------------------------------------------------*/
-<i class="line-number"></i></code></pre>
+    <pre class="ami-code"><code><i class="line-number" id="line1"></i>/*!
+<i class="line-number" id="line2"></i> * AMI Web Framework
+<i class="line-number" id="line3"></i> *
+<i class="line-number" id="line4"></i> * Copyright (c) 2014-2015 The AMI Team
+<i class="line-number" id="line5"></i> * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+<i class="line-number" id="line6"></i> *
+<i class="line-number" id="line7"></i> */
+<i class="line-number" id="line8"></i>
+<i class="line-number" id="line9"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number" id="line10"></i>/* amiLogin                                                                */
+<i class="line-number" id="line11"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number" id="line12"></i>
+<i class="line-number" id="line13"></i>/**
+<i class="line-number" id="line14"></i> * The AMI authentication subsystem
+<i class="line-number" id="line15"></i> * @namespace amiLogin
+<i class="line-number" id="line16"></i> */
+<i class="line-number" id="line17"></i>
+<i class="line-number" id="line18"></i>$AMINamespace('amiLogin', /** @lends amiLogin */ {
+<i class="line-number" id="line19"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line20"></i>
+<i class="line-number" id="line21"></i>	user: 'guest',
+<i class="line-number" id="line22"></i>	guest: 'guest',
+<i class="line-number" id="line23"></i>
+<i class="line-number" id="line24"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line25"></i>
+<i class="line-number" id="line26"></i>	roles: {},
+<i class="line-number" id="line27"></i>
+<i class="line-number" id="line28"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line29"></i>
+<i class="line-number" id="line30"></i>	_init: function()
+<i class="line-number" id="line31"></i>	{
+<i class="line-number" id="line32"></i>		var result = $.Deferred();
+<i class="line-number" id="line33"></i>
+<i class="line-number" id="line34"></i>		amiWebApp.loadHTMLs([
+<i class="line-number" id="line35"></i>			'html/AMI/Fragment/login_button.html',
+<i class="line-number" id="line36"></i>			'html/AMI/Fragment/logout_button.html',
+<i class="line-number" id="line37"></i>			'html/AMI/Modal/login.html',
+<i class="line-number" id="line38"></i>			'html/AMI/Modal/login_change_info.html',
+<i class="line-number" id="line39"></i>			'html/AMI/Modal/login_change_pass.html',
+<i class="line-number" id="line40"></i>			'html/AMI/Modal/login_account_status.html',
+<i class="line-number" id="line41"></i>		]).done(function(data) {
+<i class="line-number" id="line42"></i>
+<i class="line-number" id="line43"></i>			amiLogin.fragmentLoginButton = data[0];
+<i class="line-number" id="line44"></i>			amiLogin.fragmentLogoutButton = data[1];
+<i class="line-number" id="line45"></i>
+<i class="line-number" id="line46"></i>			amiWebApp.appendHTML('#ami_modal_content', data[2]);
+<i class="line-number" id="line47"></i>			amiWebApp.appendHTML('#ami_modal_content', data[3]);
+<i class="line-number" id="line48"></i>			amiWebApp.appendHTML('#ami_modal_content', data[4]);
+<i class="line-number" id="line49"></i>			amiWebApp.appendHTML('#ami_modal_content', data[5]);
+<i class="line-number" id="line50"></i>
+<i class="line-number" id="line51"></i>			amiCommand.certLogin().always(function(data, user, guest) {
+<i class="line-number" id="line52"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line53"></i>
+<i class="line-number" id="line54"></i>				document.getElementById('modal_login_form1_user').addEventListener('keypress', function(e) {
+<i class="line-number" id="line55"></i>
+<i class="line-number" id="line56"></i>					if(e.keyCode === 13) {
+<i class="line-number" id="line57"></i>						amiLogin.form_passLogin();
+<i class="line-number" id="line58"></i>					}
+<i class="line-number" id="line59"></i>				});
+<i class="line-number" id="line60"></i>
+<i class="line-number" id="line61"></i>				document.getElementById('modal_login_form1_pass').addEventListener('keypress', function(e) {
+<i class="line-number" id="line62"></i>
+<i class="line-number" id="line63"></i>					if(e.keyCode === 13) {
+<i class="line-number" id="line64"></i>						amiLogin.form_passLogin();
+<i class="line-number" id="line65"></i>					}
+<i class="line-number" id="line66"></i>				});
+<i class="line-number" id="line67"></i>
+<i class="line-number" id="line68"></i>				document.getElementById('modal_login_form3_user').addEventListener('keypress', function(e) {
+<i class="line-number" id="line69"></i>
+<i class="line-number" id="line70"></i>					if(e.keyCode === 13) {
+<i class="line-number" id="line71"></i>						amiLogin.form_resetPass();
+<i class="line-number" id="line72"></i>					}
+<i class="line-number" id="line73"></i>				});
+<i class="line-number" id="line74"></i>
+<i class="line-number" id="line75"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line76"></i>
+<i class="line-number" id="line77"></i>				amiLogin._update(data, user, guest).done(function() {
+<i class="line-number" id="line78"></i>
+<i class="line-number" id="line79"></i>					result.resolve();
+<i class="line-number" id="line80"></i>				});
+<i class="line-number" id="line81"></i>
+<i class="line-number" id="line82"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line83"></i>			});
+<i class="line-number" id="line84"></i>
+<i class="line-number" id="line85"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line86"></i>		}).fail(function(data) {
+<i class="line-number" id="line87"></i>
+<i class="line-number" id="line88"></i>			alert('Service temporarily unavailable, please try reloading the page...');
+<i class="line-number" id="line89"></i>
+<i class="line-number" id="line90"></i>			console.error(data);
+<i class="line-number" id="line91"></i>		});
+<i class="line-number" id="line92"></i>
+<i class="line-number" id="line93"></i>		return result.promise();
+<i class="line-number" id="line94"></i>	},
+<i class="line-number" id="line95"></i>
+<i class="line-number" id="line96"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line97"></i>
+<i class="line-number" id="line98"></i>	/**
+<i class="line-number" id="line99"></i>	  * The the current user
+<i class="line-number" id="line100"></i>	  * @returns {String} The current user
+<i class="line-number" id="line101"></i>	  */
+<i class="line-number" id="line102"></i>
+<i class="line-number" id="line103"></i>	getUser: function()
+<i class="line-number" id="line104"></i>	{
+<i class="line-number" id="line105"></i>		return this.user;
+<i class="line-number" id="line106"></i>	},
+<i class="line-number" id="line107"></i>
+<i class="line-number" id="line108"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line109"></i>
+<i class="line-number" id="line110"></i>	/**
+<i class="line-number" id="line111"></i>	  * The the current guest
+<i class="line-number" id="line112"></i>	  * @returns {String} The current guest
+<i class="line-number" id="line113"></i>	  */
+<i class="line-number" id="line114"></i>
+<i class="line-number" id="line115"></i>	getGuest: function()
+<i class="line-number" id="line116"></i>	{
+<i class="line-number" id="line117"></i>		return this.guest;
+<i class="line-number" id="line118"></i>	},
+<i class="line-number" id="line119"></i>
+<i class="line-number" id="line120"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line121"></i>
+<i class="line-number" id="line122"></i>	/**
+<i class="line-number" id="line123"></i>	  * Open the 'Login' modal form
+<i class="line-number" id="line124"></i>	  */
+<i class="line-number" id="line125"></i>
+<i class="line-number" id="line126"></i>	login: function()
+<i class="line-number" id="line127"></i>	{
+<i class="line-number" id="line128"></i>		this._flush();
+<i class="line-number" id="line129"></i>		this._clean();
+<i class="line-number" id="line130"></i>
+<i class="line-number" id="line131"></i>		$('#modal_login').modal('show');
+<i class="line-number" id="line132"></i>	},
+<i class="line-number" id="line133"></i>
+<i class="line-number" id="line134"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line135"></i>
+<i class="line-number" id="line136"></i>	/**
+<i class="line-number" id="line137"></i>	  * Open the 'Change Info' modal form
+<i class="line-number" id="line138"></i>	  */
+<i class="line-number" id="line139"></i>
+<i class="line-number" id="line140"></i>	changeInfo: function()
+<i class="line-number" id="line141"></i>	{
+<i class="line-number" id="line142"></i>		this._flush();
+<i class="line-number" id="line143"></i>		this._clean();
+<i class="line-number" id="line144"></i>
+<i class="line-number" id="line145"></i>		$('#modal_login_change_info').modal('show');
+<i class="line-number" id="line146"></i>	},
+<i class="line-number" id="line147"></i>
+<i class="line-number" id="line148"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line149"></i>
+<i class="line-number" id="line150"></i>	/**
+<i class="line-number" id="line151"></i>	  * Open the 'Change Password' modal form
+<i class="line-number" id="line152"></i>	  */
+<i class="line-number" id="line153"></i>
+<i class="line-number" id="line154"></i>	changePass: function()
+<i class="line-number" id="line155"></i>	{
+<i class="line-number" id="line156"></i>		this._flush();
+<i class="line-number" id="line157"></i>		this._clean();
+<i class="line-number" id="line158"></i>
+<i class="line-number" id="line159"></i>		$('#modal_login_change_pass').modal('show');
+<i class="line-number" id="line160"></i>	},
+<i class="line-number" id="line161"></i>
+<i class="line-number" id="line162"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line163"></i>
+<i class="line-number" id="line164"></i>	/**
+<i class="line-number" id="line165"></i>	  * Open the 'Account Status' modal form
+<i class="line-number" id="line166"></i>	  */
+<i class="line-number" id="line167"></i>
+<i class="line-number" id="line168"></i>	accountStatus: function()
+<i class="line-number" id="line169"></i>	{
+<i class="line-number" id="line170"></i>		this._flush();
+<i class="line-number" id="line171"></i>		this._clean();
+<i class="line-number" id="line172"></i>
+<i class="line-number" id="line173"></i>		$('#modal_login_account_status').modal('show');
+<i class="line-number" id="line174"></i>	},
+<i class="line-number" id="line175"></i>
+<i class="line-number" id="line176"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line177"></i>
+<i class="line-number" id="line178"></i>	/**
+<i class="line-number" id="line179"></i>	  * Log out
+<i class="line-number" id="line180"></i>	  */
+<i class="line-number" id="line181"></i>
+<i class="line-number" id="line182"></i>	logout: function() {
+<i class="line-number" id="line183"></i>
+<i class="line-number" id="line184"></i>		amiWebApp.lock();
+<i class="line-number" id="line185"></i>
+<i class="line-number" id="line186"></i>		return amiCommand.logout().always(function(data, user, guest) {
+<i class="line-number" id="line187"></i>
+<i class="line-number" id="line188"></i>			amiLogin._update(data, user, guest).always(function() {
+<i class="line-number" id="line189"></i>
+<i class="line-number" id="line190"></i>				amiWebApp.unlock();
+<i class="line-number" id="line191"></i>			});
+<i class="line-number" id="line192"></i>		});
+<i class="line-number" id="line193"></i>	},
+<i class="line-number" id="line194"></i>
+<i class="line-number" id="line195"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line196"></i>
+<i class="line-number" id="line197"></i>	/**
+<i class="line-number" id="line198"></i>	  * Check if the user has the geven role
+<i class="line-number" id="line199"></i>	  * @returns {Boolean} True or False
+<i class="line-number" id="line200"></i>	  */
+<i class="line-number" id="line201"></i>
+<i class="line-number" id="line202"></i>	hasRole: function(roleName)
+<i class="line-number" id="line203"></i>	{
+<i class="line-number" id="line204"></i>		return roleName in amiLogin.roles;
+<i class="line-number" id="line205"></i>	},
+<i class="line-number" id="line206"></i>
+<i class="line-number" id="line207"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line208"></i>
+<i class="line-number" id="line209"></i>	form_passLogin: function()
+<i class="line-number" id="line210"></i>	{
+<i class="line-number" id="line211"></i>		var user = $('#modal_login_form1_user').val();
+<i class="line-number" id="line212"></i>		var pass = $('#modal_login_form1_pass').val();
+<i class="line-number" id="line213"></i>
+<i class="line-number" id="line214"></i>		if(!user || !pass)
+<i class="line-number" id="line215"></i>		{
+<i class="line-number" id="line216"></i>			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
+<i class="line-number" id="line217"></i>
+<i class="line-number" id="line218"></i>			return;
+<i class="line-number" id="line219"></i>		}
+<i class="line-number" id="line220"></i>
+<i class="line-number" id="line221"></i>		amiWebApp.lock();
+<i class="line-number" id="line222"></i>
+<i class="line-number" id="line223"></i>		amiCommand.passLogin(user, pass).done(function(data, user, guest, clientDNInSession, issuerDNInSession) {
+<i class="line-number" id="line224"></i>
+<i class="line-number" id="line225"></i>			if(user === guest)
+<i class="line-number" id="line226"></i>			{
+<i class="line-number" id="line227"></i>				var extra;
+<i class="line-number" id="line228"></i>
+<i class="line-number" id="line229"></i>				if(clientDNInSession || issuerDNInSession)
+<i class="line-number" id="line230"></i>				{
+<i class="line-number" id="line231"></i>					extra = '&lt;textarea style="height: 85px; width: 100%;">'
+<i class="line-number" id="line232"></i>					        +
+<i class="line-number" id="line233"></i>					        'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
+<i class="line-number" id="line234"></i>					        + '\n' +
+<i class="line-number" id="line235"></i>					        'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
+<i class="line-number" id="line236"></i>					        +
+<i class="line-number" id="line237"></i>					        '&lt;/textarea>'
+<i class="line-number" id="line238"></i>					;
+<i class="line-number" id="line239"></i>				}
+<i class="line-number" id="line240"></i>				else
+<i class="line-number" id="line241"></i>				{
+<i class="line-number" id="line242"></i>					extra = '';
+<i class="line-number" id="line243"></i>				}
+<i class="line-number" id="line244"></i>
+<i class="line-number" id="line245"></i>				amiLogin._showErrorMessage1('Invalid identifiers.' + extra);
+<i class="line-number" id="line246"></i>			}
+<i class="line-number" id="line247"></i>			else
+<i class="line-number" id="line248"></i>			{
+<i class="line-number" id="line249"></i>				$('#modal_login').modal('hide');
+<i class="line-number" id="line250"></i>			}
+<i class="line-number" id="line251"></i>
+<i class="line-number" id="line252"></i>		}).fail(function(data) {
+<i class="line-number" id="line253"></i>
+<i class="line-number" id="line254"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+<i class="line-number" id="line255"></i>
+<i class="line-number" id="line256"></i>		}).always(function(data, user, guest) {
+<i class="line-number" id="line257"></i>
+<i class="line-number" id="line258"></i>			amiLogin._update(data, user, guest).always(function() {
+<i class="line-number" id="line259"></i>				amiWebApp.unlock();
+<i class="line-number" id="line260"></i>			});
+<i class="line-number" id="line261"></i>		});
+<i class="line-number" id="line262"></i>	},
+<i class="line-number" id="line263"></i>
+<i class="line-number" id="line264"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line265"></i>
+<i class="line-number" id="line266"></i>	form_certLogin: function()
+<i class="line-number" id="line267"></i>	{
+<i class="line-number" id="line268"></i>		amiWebApp.lock();
+<i class="line-number" id="line269"></i>
+<i class="line-number" id="line270"></i>		amiCommand.certLogin().done(function(data, user, guest, clientDNInSession, issuerDNInSession) {
+<i class="line-number" id="line271"></i>
+<i class="line-number" id="line272"></i>			if(user === guest)
+<i class="line-number" id="line273"></i>			{
+<i class="line-number" id="line274"></i>				var extra;
+<i class="line-number" id="line275"></i>
+<i class="line-number" id="line276"></i>				if(clientDNInSession || issuerDNInSession)
+<i class="line-number" id="line277"></i>				{
+<i class="line-number" id="line278"></i>					extra = '&lt;textarea style="height: 85px; width: 100%;">'
+<i class="line-number" id="line279"></i>					        +
+<i class="line-number" id="line280"></i>					        'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
+<i class="line-number" id="line281"></i>					        + '\n' +
+<i class="line-number" id="line282"></i>					        'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
+<i class="line-number" id="line283"></i>					        +
+<i class="line-number" id="line284"></i>					        '&lt;/textarea>'
+<i class="line-number" id="line285"></i>					;
+<i class="line-number" id="line286"></i>				}
+<i class="line-number" id="line287"></i>				else
+<i class="line-number" id="line288"></i>				{
+<i class="line-number" id="line289"></i>					extra = '';
+<i class="line-number" id="line290"></i>				}
+<i class="line-number" id="line291"></i>
+<i class="line-number" id="line292"></i>				amiLogin._showErrorMessage1('You have to provide your certificate registered in AMI.' + extra);
+<i class="line-number" id="line293"></i>			}
+<i class="line-number" id="line294"></i>			else
+<i class="line-number" id="line295"></i>			{
+<i class="line-number" id="line296"></i>				$('#modal_login').modal('hide');
+<i class="line-number" id="line297"></i>			}
+<i class="line-number" id="line298"></i>
+<i class="line-number" id="line299"></i>		}).fail(function(data) {
+<i class="line-number" id="line300"></i>
+<i class="line-number" id="line301"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+<i class="line-number" id="line302"></i>
+<i class="line-number" id="line303"></i>		}).always(function(data, user, guest) {
+<i class="line-number" id="line304"></i>
+<i class="line-number" id="line305"></i>			amiLogin._update(data, user, guest).always(function() {
+<i class="line-number" id="line306"></i>				amiWebApp.unlock();
+<i class="line-number" id="line307"></i>			});
+<i class="line-number" id="line308"></i>		});
+<i class="line-number" id="line309"></i>	},
+<i class="line-number" id="line310"></i>
+<i class="line-number" id="line311"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line312"></i>
+<i class="line-number" id="line313"></i>	form_attachCert: function()
+<i class="line-number" id="line314"></i>	{
+<i class="line-number" id="line315"></i>		var user = $('#modal_login_form1_user').val();
+<i class="line-number" id="line316"></i>		var pass = $('#modal_login_form1_pass').val();
+<i class="line-number" id="line317"></i>
+<i class="line-number" id="line318"></i>		if(!user || !pass)
+<i class="line-number" id="line319"></i>		{
+<i class="line-number" id="line320"></i>			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
+<i class="line-number" id="line321"></i>
+<i class="line-number" id="line322"></i>			return;
+<i class="line-number" id="line323"></i>		}
+<i class="line-number" id="line324"></i>
+<i class="line-number" id="line325"></i>		amiWebApp.lock();
+<i class="line-number" id="line326"></i>
+<i class="line-number" id="line327"></i>		amiCommand.attachCert(user, pass).done(function() {
+<i class="line-number" id="line328"></i>
+<i class="line-number" id="line329"></i>			amiLogin._showSuccessMessage1('Done with success.');
+<i class="line-number" id="line330"></i>
+<i class="line-number" id="line331"></i>		}).fail(function(data) {
+<i class="line-number" id="line332"></i>
+<i class="line-number" id="line333"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+<i class="line-number" id="line334"></i>
+<i class="line-number" id="line335"></i>		}).always(function() {
+<i class="line-number" id="line336"></i>
+<i class="line-number" id="line337"></i>			amiLogin._clean();
+<i class="line-number" id="line338"></i>			amiWebApp.unlock();
+<i class="line-number" id="line339"></i>		});
+<i class="line-number" id="line340"></i>	},
+<i class="line-number" id="line341"></i>
+<i class="line-number" id="line342"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line343"></i>
+<i class="line-number" id="line344"></i>	form_detachCert: function()
+<i class="line-number" id="line345"></i>	{
+<i class="line-number" id="line346"></i>		var user = $('#modal_login_form1_user').val();
+<i class="line-number" id="line347"></i>		var pass = $('#modal_login_form1_pass').val();
+<i class="line-number" id="line348"></i>
+<i class="line-number" id="line349"></i>		if(!user || !pass)
+<i class="line-number" id="line350"></i>		{
+<i class="line-number" id="line351"></i>			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
+<i class="line-number" id="line352"></i>
+<i class="line-number" id="line353"></i>			return;
+<i class="line-number" id="line354"></i>		}
+<i class="line-number" id="line355"></i>
+<i class="line-number" id="line356"></i>		amiWebApp.lock();
+<i class="line-number" id="line357"></i>
+<i class="line-number" id="line358"></i>		amiCommand.detachCert(user, pass).done(function() {
+<i class="line-number" id="line359"></i>
+<i class="line-number" id="line360"></i>			amiLogin._showSuccessMessage1('Done with success.');
+<i class="line-number" id="line361"></i>
+<i class="line-number" id="line362"></i>		}).fail(function(data) {
+<i class="line-number" id="line363"></i>
+<i class="line-number" id="line364"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+<i class="line-number" id="line365"></i>
+<i class="line-number" id="line366"></i>		}).always(function() {
+<i class="line-number" id="line367"></i>
+<i class="line-number" id="line368"></i>			amiLogin._clean();
+<i class="line-number" id="line369"></i>			amiWebApp.unlock();
+<i class="line-number" id="line370"></i>		});
+<i class="line-number" id="line371"></i>	},
+<i class="line-number" id="line372"></i>
+<i class="line-number" id="line373"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line374"></i>
+<i class="line-number" id="line375"></i>	form_addUser: function()
+<i class="line-number" id="line376"></i>	{
+<i class="line-number" id="line377"></i>		var firstName = $('#modal_login_form2_first_name').val();
+<i class="line-number" id="line378"></i>		var lastName = $('#modal_login_form2_last_name').val();
+<i class="line-number" id="line379"></i>		var email = $('#modal_login_form2_email').val();
+<i class="line-number" id="line380"></i>		var user = $('#modal_login_form2_user').val();
+<i class="line-number" id="line381"></i>		var pass1 = $('#modal_login_form2_pass1').val();
+<i class="line-number" id="line382"></i>		var pass2 = $('#modal_login_form2_pass2').val();
+<i class="line-number" id="line383"></i>
+<i class="line-number" id="line384"></i>		if(!firstName || !lastName || !email || !user || !pass1 || !pass2)
+<i class="line-number" id="line385"></i>		{
+<i class="line-number" id="line386"></i>			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
+<i class="line-number" id="line387"></i>
+<i class="line-number" id="line388"></i>			return;
+<i class="line-number" id="line389"></i>		}
+<i class="line-number" id="line390"></i>
+<i class="line-number" id="line391"></i>		if(pass1 !== pass2)
+<i class="line-number" id="line392"></i>		{
+<i class="line-number" id="line393"></i>			amiLogin._showErrorMessage1('Password1 and Password2 have to be identical.');
+<i class="line-number" id="line394"></i>
+<i class="line-number" id="line395"></i>			return;
+<i class="line-number" id="line396"></i>		}
+<i class="line-number" id="line397"></i>
+<i class="line-number" id="line398"></i>		amiWebApp.lock();
+<i class="line-number" id="line399"></i>
+<i class="line-number" id="line400"></i>		amiCommand.addUser(user, pass1, firstName, lastName, email).done(function(data) {
+<i class="line-number" id="line401"></i>
+<i class="line-number" id="line402"></i>			amiLogin._showSuccessMessage1('Done with success.');
+<i class="line-number" id="line403"></i>
+<i class="line-number" id="line404"></i>		}).fail(function(data) {
+<i class="line-number" id="line405"></i>
+<i class="line-number" id="line406"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+<i class="line-number" id="line407"></i>
+<i class="line-number" id="line408"></i>		}).always(function() {
+<i class="line-number" id="line409"></i>
+<i class="line-number" id="line410"></i>			amiLogin._clean();
+<i class="line-number" id="line411"></i>			amiWebApp.unlock();
+<i class="line-number" id="line412"></i>		});
+<i class="line-number" id="line413"></i>	},
+<i class="line-number" id="line414"></i>
+<i class="line-number" id="line415"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line416"></i>
+<i class="line-number" id="line417"></i>	form_changeInfo: function()
+<i class="line-number" id="line418"></i>	{
+<i class="line-number" id="line419"></i>		var firstName = $('#modal_login_change_info_form_first_name').val();
+<i class="line-number" id="line420"></i>		var lastName = $('#modal_login_change_info_form_last_name').val();
+<i class="line-number" id="line421"></i>		var email = $('#modal_login_change_info_form_email').val();
+<i class="line-number" id="line422"></i>
+<i class="line-number" id="line423"></i>		if(!firstName || !lastName || !email)
+<i class="line-number" id="line424"></i>		{
+<i class="line-number" id="line425"></i>			amiLogin._showErrorMessage2('Please, fill all fields with a red star.');
+<i class="line-number" id="line426"></i>
+<i class="line-number" id="line427"></i>			return;
+<i class="line-number" id="line428"></i>		}
+<i class="line-number" id="line429"></i>
+<i class="line-number" id="line430"></i>		amiWebApp.lock();
+<i class="line-number" id="line431"></i>
+<i class="line-number" id="line432"></i>		amiCommand.changeInfo(firstName, lastName, email).done(function(data) {
+<i class="line-number" id="line433"></i>
+<i class="line-number" id="line434"></i>			amiLogin._showSuccessMessage2('Done with success.');
+<i class="line-number" id="line435"></i>
+<i class="line-number" id="line436"></i>		}).fail(function(data) {
+<i class="line-number" id="line437"></i>
+<i class="line-number" id="line438"></i>			amiLogin._showErrorMessage2(amiWebApp.jspath('..error.$', data)[0]);
+<i class="line-number" id="line439"></i>
+<i class="line-number" id="line440"></i>		}).always(function() {
+<i class="line-number" id="line441"></i>
+<i class="line-number" id="line442"></i>			amiLogin._clean();
+<i class="line-number" id="line443"></i>			amiWebApp.unlock();
+<i class="line-number" id="line444"></i>		});
+<i class="line-number" id="line445"></i>	},
+<i class="line-number" id="line446"></i>
+<i class="line-number" id="line447"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line448"></i>
+<i class="line-number" id="line449"></i>	form_changePass: function()
+<i class="line-number" id="line450"></i>	{
+<i class="line-number" id="line451"></i>		var oldPass = $('#modal_login_change_pass_form_old_pass').val();
+<i class="line-number" id="line452"></i>		var newPass1 = $('#modal_login_change_pass_form_new_pass1').val();
+<i class="line-number" id="line453"></i>		var newPass2 = $('#modal_login_change_pass_form_new_pass2').val();
+<i class="line-number" id="line454"></i>
+<i class="line-number" id="line455"></i>		if(!oldPass || !newPass1 || !newPass2)
+<i class="line-number" id="line456"></i>		{
+<i class="line-number" id="line457"></i>			amiLogin._showErrorMessage3('Please, fill all fields with a red star.');
+<i class="line-number" id="line458"></i>
+<i class="line-number" id="line459"></i>			return;
+<i class="line-number" id="line460"></i>		}
+<i class="line-number" id="line461"></i>
+<i class="line-number" id="line462"></i>		if(newPass1 !== newPass2)
+<i class="line-number" id="line463"></i>		{
+<i class="line-number" id="line464"></i>			amiLogin._showErrorMessage3('Password1 and Password2 have to be identical.');
+<i class="line-number" id="line465"></i>
+<i class="line-number" id="line466"></i>			return;
+<i class="line-number" id="line467"></i>		}
+<i class="line-number" id="line468"></i>
+<i class="line-number" id="line469"></i>		amiWebApp.lock();
+<i class="line-number" id="line470"></i>
+<i class="line-number" id="line471"></i>		amiCommand.changePass(oldPass, newPass1).done(function(data) {
+<i class="line-number" id="line472"></i>
+<i class="line-number" id="line473"></i>			amiLogin._showSuccessMessage3('Done with success.');
+<i class="line-number" id="line474"></i>
+<i class="line-number" id="line475"></i>		}).fail(function(data) {
+<i class="line-number" id="line476"></i>
+<i class="line-number" id="line477"></i>			amiLogin._showErrorMessage3(amiWebApp.jspath('..error.$', data)[0]);
+<i class="line-number" id="line478"></i>
+<i class="line-number" id="line479"></i>		}).always(function() {
+<i class="line-number" id="line480"></i>
+<i class="line-number" id="line481"></i>			amiLogin._clean();
+<i class="line-number" id="line482"></i>			amiWebApp.unlock();
+<i class="line-number" id="line483"></i>		});
+<i class="line-number" id="line484"></i>	},
+<i class="line-number" id="line485"></i>
+<i class="line-number" id="line486"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line487"></i>
+<i class="line-number" id="line488"></i>	form_resetPass: function()
+<i class="line-number" id="line489"></i>	{
+<i class="line-number" id="line490"></i>		var user = $('#modal_login_form3_user').val();
+<i class="line-number" id="line491"></i>
+<i class="line-number" id="line492"></i>		if(!user)
+<i class="line-number" id="line493"></i>		{
+<i class="line-number" id="line494"></i>			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
+<i class="line-number" id="line495"></i>
+<i class="line-number" id="line496"></i>			return;
+<i class="line-number" id="line497"></i>		}
+<i class="line-number" id="line498"></i>
+<i class="line-number" id="line499"></i>		amiWebApp.lock();
+<i class="line-number" id="line500"></i>
+<i class="line-number" id="line501"></i>		amiCommand.resetPass(user).done(function(data) {
+<i class="line-number" id="line502"></i>
+<i class="line-number" id="line503"></i>			amiLogin._showSuccessMessage1('Done with success.');
+<i class="line-number" id="line504"></i>
+<i class="line-number" id="line505"></i>		}).fail(function(data) {
+<i class="line-number" id="line506"></i>
+<i class="line-number" id="line507"></i>			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+<i class="line-number" id="line508"></i>
+<i class="line-number" id="line509"></i>		}).always(function() {
+<i class="line-number" id="line510"></i>
+<i class="line-number" id="line511"></i>			amiLogin._clean();
+<i class="line-number" id="line512"></i>			amiWebApp.unlock();
+<i class="line-number" id="line513"></i>		});
+<i class="line-number" id="line514"></i>	},
+<i class="line-number" id="line515"></i>
+<i class="line-number" id="line516"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line517"></i>
+<i class="line-number" id="line518"></i>	_showSuccessMessage1: function(message)
+<i class="line-number" id="line519"></i>	{
+<i class="line-number" id="line520"></i>		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+<i class="line-number" id="line521"></i>		$('#modal_login_message .alert').fadeOut(45000);
+<i class="line-number" id="line522"></i>	},
+<i class="line-number" id="line523"></i>
+<i class="line-number" id="line524"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line525"></i>
+<i class="line-number" id="line526"></i>	_showErrorMessage1: function(message)
+<i class="line-number" id="line527"></i>	{
+<i class="line-number" id="line528"></i>		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+<i class="line-number" id="line529"></i>		$('#modal_login_message .alert').fadeOut(45000);
+<i class="line-number" id="line530"></i>	},
+<i class="line-number" id="line531"></i>
+<i class="line-number" id="line532"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line533"></i>
+<i class="line-number" id="line534"></i>	_showSuccessMessage2: function(message)
+<i class="line-number" id="line535"></i>	{
+<i class="line-number" id="line536"></i>		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+<i class="line-number" id="line537"></i>		$('#modal_login_change_info_message .alert').fadeOut(45000);
+<i class="line-number" id="line538"></i>	},
+<i class="line-number" id="line539"></i>
+<i class="line-number" id="line540"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line541"></i>
+<i class="line-number" id="line542"></i>	_showErrorMessage2: function(message)
+<i class="line-number" id="line543"></i>	{
+<i class="line-number" id="line544"></i>		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+<i class="line-number" id="line545"></i>		$('#modal_login_change_info_message .alert').fadeOut(45000);
+<i class="line-number" id="line546"></i>	},
+<i class="line-number" id="line547"></i>
+<i class="line-number" id="line548"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line549"></i>
+<i class="line-number" id="line550"></i>	_showSuccessMessage3: function(message)
+<i class="line-number" id="line551"></i>	{
+<i class="line-number" id="line552"></i>		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+<i class="line-number" id="line553"></i>		$('#modal_login_change_pass_message .alert').fadeOut(45000);
+<i class="line-number" id="line554"></i>	},
+<i class="line-number" id="line555"></i>
+<i class="line-number" id="line556"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line557"></i>
+<i class="line-number" id="line558"></i>	_showErrorMessage3: function(message)
+<i class="line-number" id="line559"></i>	{
+<i class="line-number" id="line560"></i>		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+<i class="line-number" id="line561"></i>		$('#modal_login_change_pass_message .alert').fadeOut(45000);
+<i class="line-number" id="line562"></i>	},
+<i class="line-number" id="line563"></i>
+<i class="line-number" id="line564"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line565"></i>
+<i class="line-number" id="line566"></i>	_showInfoMessage4: function(message)
+<i class="line-number" id="line567"></i>	{
+<i class="line-number" id="line568"></i>		if(message)
+<i class="line-number" id="line569"></i>		{
+<i class="line-number" id="line570"></i>			message = '&lt;span class="fa fa-exclamation-triangle" style="color: orange;">&lt;/span> ' + message;
+<i class="line-number" id="line571"></i>		}
+<i class="line-number" id="line572"></i>
+<i class="line-number" id="line573"></i>		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
+<i class="line-number" id="line574"></i>	},
+<i class="line-number" id="line575"></i>
+<i class="line-number" id="line576"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line577"></i>
+<i class="line-number" id="line578"></i>	_showErrorMessage4: function(message)
+<i class="line-number" id="line579"></i>	{
+<i class="line-number" id="line580"></i>		if(message)
+<i class="line-number" id="line581"></i>		{
+<i class="line-number" id="line582"></i>			message = '&lt;span class="fa fa-exclamation-triangle" style="color: red;">&lt;/span> ' + message;
+<i class="line-number" id="line583"></i>		}
+<i class="line-number" id="line584"></i>
+<i class="line-number" id="line585"></i>		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
+<i class="line-number" id="line586"></i>	},
+<i class="line-number" id="line587"></i>
+<i class="line-number" id="line588"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line589"></i>
+<i class="line-number" id="line590"></i>	_flush: function()
+<i class="line-number" id="line591"></i>	{
+<i class="line-number" id="line592"></i>		$('#modal_login_message').empty();
+<i class="line-number" id="line593"></i>
+<i class="line-number" id="line594"></i>		$('#modal_login_change_info_message').empty();
+<i class="line-number" id="line595"></i>
+<i class="line-number" id="line596"></i>		$('#modal_login_change_pass_message').empty();
+<i class="line-number" id="line597"></i>	},
+<i class="line-number" id="line598"></i>
+<i class="line-number" id="line599"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line600"></i>
+<i class="line-number" id="line601"></i>	_clean: function()
+<i class="line-number" id="line602"></i>	{
+<i class="line-number" id="line603"></i>		$('#modal_login_form1_pass').val('');
+<i class="line-number" id="line604"></i>
+<i class="line-number" id="line605"></i>		$('#modal_login_form2_pass1').val('');
+<i class="line-number" id="line606"></i>		$('#modal_login_form2_pass2').val('');
+<i class="line-number" id="line607"></i>
+<i class="line-number" id="line608"></i>		$('#modal_login_change_pass_form_old_pass' ).val('');
+<i class="line-number" id="line609"></i>		$('#modal_login_change_pass_form_new_pass1').val('');
+<i class="line-number" id="line610"></i>		$('#modal_login_change_pass_form_new_pass2').val('');
+<i class="line-number" id="line611"></i>	},
+<i class="line-number" id="line612"></i>
+<i class="line-number" id="line613"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line614"></i>
+<i class="line-number" id="line615"></i>	_update: function(data, user, guest)
+<i class="line-number" id="line616"></i>	{
+<i class="line-number" id="line617"></i>		/*---------------------------------------------------------*/
+<i class="line-number" id="line618"></i>
+<i class="line-number" id="line619"></i>		amiLogin._clean();
+<i class="line-number" id="line620"></i>
+<i class="line-number" id="line621"></i>		/*---------------------------------------------------------*/
+<i class="line-number" id="line622"></i>
+<i class="line-number" id="line623"></i>		amiLogin.user = user;
+<i class="line-number" id="line624"></i>		amiLogin.guest = guest;
+<i class="line-number" id="line625"></i>
+<i class="line-number" id="line626"></i>		/*---------------------------------------------------------*/
+<i class="line-number" id="line627"></i>
+<i class="line-number" id="line628"></i>		var userRows = amiWebApp.jspath('..rowset{.@type==="user"}..row', data);
+<i class="line-number" id="line629"></i>		var roleRows = amiWebApp.jspath('..rowset{.@type==="role"}..row', data);
+<i class="line-number" id="line630"></i>
+<i class="line-number" id="line631"></i>		/*---------------------------------------------------------*/
+<i class="line-number" id="line632"></i>
+<i class="line-number" id="line633"></i>		amiLogin.roles = {};
+<i class="line-number" id="line634"></i>
+<i class="line-number" id="line635"></i>		if(roleRows)
+<i class="line-number" id="line636"></i>		{
+<i class="line-number" id="line637"></i>			for(var i in roleRows)
+<i class="line-number" id="line638"></i>			{
+<i class="line-number" id="line639"></i>				var name = amiWebApp.jspath('..field{.@name==="name"}.$', roleRows[i])[0];
+<i class="line-number" id="line640"></i>				var catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', roleRows[i])[0];
+<i class="line-number" id="line641"></i>				var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', roleRows[i])[0];
+<i class="line-number" id="line642"></i>				var row = amiWebApp.jspath('..field{.@name==="row"}.$', roleRows[i])[0];
+<i class="line-number" id="line643"></i>
+<i class="line-number" id="line644"></i>				if(!(name in amiLogin.roles))
+<i class="line-number" id="line645"></i>				{
+<i class="line-number" id="line646"></i>					amiLogin.roles[name] = [];
+<i class="line-number" id="line647"></i>				}
+<i class="line-number" id="line648"></i>
+<i class="line-number" id="line649"></i>				amiLogin.roles[name].push({
+<i class="line-number" id="line650"></i>					catalog: catalog,
+<i class="line-number" id="line651"></i>					entity: entity,
+<i class="line-number" id="line652"></i>					row: row,
+<i class="line-number" id="line653"></i>				});
+<i class="line-number" id="line654"></i>			}
+<i class="line-number" id="line655"></i>		}
+<i class="line-number" id="line656"></i>
+<i class="line-number" id="line657"></i>		/*---------------------------------------------------------*/
+<i class="line-number" id="line658"></i>
+<i class="line-number" id="line659"></i>		var result = $.Deferred();
+<i class="line-number" id="line660"></i>
+<i class="line-number" id="line661"></i>		/*---------------------------------------------------------*/
+<i class="line-number" id="line662"></i>
+<i class="line-number" id="line663"></i>		if(user !== guest)
+<i class="line-number" id="line664"></i>		{
+<i class="line-number" id="line665"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line666"></i>
+<i class="line-number" id="line667"></i>			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', userRows)[0] || 'false';
+<i class="line-number" id="line668"></i>			var certEnabled = amiWebApp.jspath('..field{.@name==="certEnabled"}.$', userRows)[0] || 'false';
+<i class="line-number" id="line669"></i>			var vomsEnabled = amiWebApp.jspath('..field{.@name==="vomsEnabled"}.$', userRows)[0] || 'false';
+<i class="line-number" id="line670"></i>
+<i class="line-number" id="line671"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line672"></i>
+<i class="line-number" id="line673"></i>			var firstName = amiWebApp.jspath('..field{.@name==="firstName"}.$', userRows)[0] || '';
+<i class="line-number" id="line674"></i>			var lastName = amiWebApp.jspath('..field{.@name==="lastName"}.$', userRows)[0] || '';
+<i class="line-number" id="line675"></i>			var email = amiWebApp.jspath('..field{.@name==="email"}.$', userRows)[0] || '';
+<i class="line-number" id="line676"></i>
+<i class="line-number" id="line677"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line678"></i>
+<i class="line-number" id="line679"></i>			var clientDNInAMI = amiWebApp.jspath('..field{.@name==="clientDNInAMI"}.$', userRows)[0] || '';
+<i class="line-number" id="line680"></i>			var issuerDNInAMI = amiWebApp.jspath('..field{.@name==="issuerDNInAMI"}.$', userRows)[0] || '';
+<i class="line-number" id="line681"></i>			var clientDNInSession = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', userRows)[0] || '';
+<i class="line-number" id="line682"></i>			var issuerDNInSession = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', userRows)[0] || '';
+<i class="line-number" id="line683"></i>
+<i class="line-number" id="line684"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line685"></i>
+<i class="line-number" id="line686"></i>			$('#modal_login_change_info_form_first_name').val(firstName);
+<i class="line-number" id="line687"></i>			$('#modal_login_change_info_form_last_name').val(lastName);
+<i class="line-number" id="line688"></i>			$('#modal_login_change_info_form_email').val(email);
+<i class="line-number" id="line689"></i>
+<i class="line-number" id="line690"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line691"></i>
+<i class="line-number" id="line692"></i>			$('#modal_login_change_info_form_email').prop('disabled', vomsEnabled !== 'false');
+<i class="line-number" id="line693"></i>
+<i class="line-number" id="line694"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line695"></i>
+<i class="line-number" id="line696"></i>			$('#modal_login_account_status_form2_first_name').val(firstName);
+<i class="line-number" id="line697"></i>			$('#modal_login_account_status_form2_last_name').val(lastName);
+<i class="line-number" id="line698"></i>			$('#modal_login_account_status_form2_email').val(email);
+<i class="line-number" id="line699"></i>
+<i class="line-number" id="line700"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line701"></i>
+<i class="line-number" id="line702"></i>			$('#modal_login_account_status_form2_client_dn_in_ami').val(clientDNInAMI);
+<i class="line-number" id="line703"></i>			$('#modal_login_account_status_form2_issuer_dn_in_ami').val(issuerDNInAMI);
+<i class="line-number" id="line704"></i>			$('#modal_login_account_status_form2_client_dn_in_session').val(clientDNInSession);
+<i class="line-number" id="line705"></i>			$('#modal_login_account_status_form2_issuer_dn_in_session').val(issuerDNInSession);
+<i class="line-number" id="line706"></i>
+<i class="line-number" id="line707"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line708"></i>
+<i class="line-number" id="line709"></i>			var color = '';
+<i class="line-number" id="line710"></i>			var message = '';
+<i class="line-number" id="line711"></i>
+<i class="line-number" id="line712"></i>			if(valid !== 'false')
+<i class="line-number" id="line713"></i>			{
+<i class="line-number" id="line714"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line715"></i>				/* VALID USER                              */
+<i class="line-number" id="line716"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line717"></i>
+<i class="line-number" id="line718"></i>				if(certEnabled !== 'false' &amp;&amp; clientDNInAMI &amp;&amp; issuerDNInAMI)
+<i class="line-number" id="line719"></i>				{
+<i class="line-number" id="line720"></i>					if(!clientDNInSession
+<i class="line-number" id="line721"></i>					   ||
+<i class="line-number" id="line722"></i>					   !issuerDNInSession
+<i class="line-number" id="line723"></i>					 ) {
+<i class="line-number" id="line724"></i>						message = 'You should provide a certificate to use this AMI web application.';
+<i class="line-number" id="line725"></i>					}
+<i class="line-number" id="line726"></i>					else
+<i class="line-number" id="line727"></i>					{
+<i class="line-number" id="line728"></i>						if(clientDNInAMI !== clientDNInSession
+<i class="line-number" id="line729"></i>						   ||
+<i class="line-number" id="line730"></i>						   issuerDNInAMI !== issuerDNInSession
+<i class="line-number" id="line731"></i>						 ) {
+<i class="line-number" id="line732"></i>							message = 'The certificate in your session is not the one registered in AMI.';
+<i class="line-number" id="line733"></i>						}
+<i class="line-number" id="line734"></i>					}
+<i class="line-number" id="line735"></i>				}
+<i class="line-number" id="line736"></i>
+<i class="line-number" id="line737"></i>				$('#modal_login_account_status_form1_status').html(
+<i class="line-number" id="line738"></i>					'&lt;span style="color: #006400;">valid&lt;/span>'
+<i class="line-number" id="line739"></i>				);
+<i class="line-number" id="line740"></i>
+<i class="line-number" id="line741"></i>				amiLogin._showInfoMessage4(message);
+<i class="line-number" id="line742"></i>
+<i class="line-number" id="line743"></i>				color = 'orange';
+<i class="line-number" id="line744"></i>
+<i class="line-number" id="line745"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line746"></i>			}
+<i class="line-number" id="line747"></i>			else
+<i class="line-number" id="line748"></i>			{
+<i class="line-number" id="line749"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line750"></i>				/* INVALID USER                            */
+<i class="line-number" id="line751"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line752"></i>
+<i class="line-number" id="line753"></i>				if(vomsEnabled !== 'false')
+<i class="line-number" id="line754"></i>				{
+<i class="line-number" id="line755"></i>					if(!clientDNInAMI
+<i class="line-number" id="line756"></i>					   ||
+<i class="line-number" id="line757"></i>					   !issuerDNInAMI
+<i class="line-number" id="line758"></i>					 ) {
+<i class="line-number" id="line759"></i>						message = 'Register a valid GRID certificate.';
+<i class="line-number" id="line760"></i>					}
+<i class="line-number" id="line761"></i>					else
+<i class="line-number" id="line762"></i>					{
+<i class="line-number" id="line763"></i>						message = 'Check your VOMS roles.';
+<i class="line-number" id="line764"></i>					}
+<i class="line-number" id="line765"></i>				}
+<i class="line-number" id="line766"></i>				else
+<i class="line-number" id="line767"></i>				{
+<i class="line-number" id="line768"></i>					message = 'Contact the AMI team.';
+<i class="line-number" id="line769"></i>				}
+<i class="line-number" id="line770"></i>
+<i class="line-number" id="line771"></i>				$('#modal_login_account_status_form1_status').html(
+<i class="line-number" id="line772"></i>					'&lt;span style="color: #8B0000;">invalid&lt;/span>'
+<i class="line-number" id="line773"></i>				);
+<i class="line-number" id="line774"></i>
+<i class="line-number" id="line775"></i>				amiLogin._showErrorMessage4(message);
+<i class="line-number" id="line776"></i>
+<i class="line-number" id="line777"></i>				color = 'red';
+<i class="line-number" id="line778"></i>
+<i class="line-number" id="line779"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line780"></i>			}
+<i class="line-number" id="line781"></i>
+<i class="line-number" id="line782"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line783"></i>
+<i class="line-number" id="line784"></i>			var icon = message ? '&lt;a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
+<i class="line-number" id="line785"></i>			                     +
+<i class="line-number" id="line786"></i>			                     '&lt;span class="fa fa-exclamation-triangle">&lt;/span>'
+<i class="line-number" id="line787"></i>			                     +
+<i class="line-number" id="line788"></i>			                     '&lt;/a>'
+<i class="line-number" id="line789"></i>			                   : ''
+<i class="line-number" id="line790"></i>			;
+<i class="line-number" id="line791"></i>
+<i class="line-number" id="line792"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line793"></i>
+<i class="line-number" id="line794"></i>			var dict = {
+<i class="line-number" id="line795"></i>				USER: user,
+<i class="line-number" id="line796"></i>				ICON: icon,
+<i class="line-number" id="line797"></i>			};
+<i class="line-number" id="line798"></i>
+<i class="line-number" id="line799"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line800"></i>
+<i class="line-number" id="line801"></i>			_ami_internal_always(
+<i class="line-number" id="line802"></i>				amiWebApp.onLogin(),
+<i class="line-number" id="line803"></i>				function() {
+<i class="line-number" id="line804"></i>					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
+<i class="line-number" id="line805"></i>					result.resolve();
+<i class="line-number" id="line806"></i>				}
+<i class="line-number" id="line807"></i>			);
+<i class="line-number" id="line808"></i>		}
+<i class="line-number" id="line809"></i>		else
+<i class="line-number" id="line810"></i>		{
+<i class="line-number" id="line811"></i>			_ami_internal_always(
+<i class="line-number" id="line812"></i>				amiWebApp.onLogout(),
+<i class="line-number" id="line813"></i>				function() {
+<i class="line-number" id="line814"></i>					result.resolve();
+<i class="line-number" id="line815"></i>					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
+<i class="line-number" id="line816"></i>				}
+<i class="line-number" id="line817"></i>			);
+<i class="line-number" id="line818"></i>		}
+<i class="line-number" id="line819"></i>
+<i class="line-number" id="line820"></i>		/*---------------------------------------------------------*/
+<i class="line-number" id="line821"></i>
+<i class="line-number" id="line822"></i>		return result.promise();
+<i class="line-number" id="line823"></i>	},
+<i class="line-number" id="line824"></i>
+<i class="line-number" id="line825"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line826"></i>});
+<i class="line-number" id="line827"></i>
+<i class="line-number" id="line828"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number" id="line829"></i></code></pre>
   </article>
 </section>
 

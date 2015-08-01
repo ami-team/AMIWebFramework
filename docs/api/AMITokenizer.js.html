@@ -8,7 +8,7 @@
         <h3 class="panel-title">AMI Web framework API</h3>
       </div>
       <div class="panel-body jsdoc-menu">
-        <h4><a href="index.html">Home</a></h4><h4>Classes</h4><ul><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprCompiler.html">AMITwigExprCompiler</a></li></ul><h4>Events</h4><ul><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul><h4>Namespaces</h4><ul><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTwigExprInterpreter.html">amiTwigExprInterpreter</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h4>Interfaces</h4><ul><li><a href="?subapp=amiDocument&userdata=api/AMISubApp.html">AMISubApp</a></li></ul><h4>Global</h4><ul><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul>
+        <h5><a href="?subapp=amiDocument&userdata=api/index.html"><i class="fa fa-home"></i> Home</a></h5><h5><a href="#ami_doc_memu_Global" data-toggle="collapse"><i class="fa fa-book"></i> Global</a></h5><ul class="collapse" id="ami_doc_memu_Global"><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul><h5><a href="#ami_doc_memu_Namespaces" data-toggle="collapse"><i class="fa fa-book"></i> Namespaces</a></h5><ul class="collapse" id="ami_doc_memu_Namespaces"><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTwigExprInterpreter.html">amiTwigExprInterpreter</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h5><a href="#ami_doc_memu_Interfaces" data-toggle="collapse"><i class="fa fa-book"></i> Interfaces</a></h5><ul class="collapse" id="ami_doc_memu_Interfaces"><li><a href="?subapp=amiDocument&userdata=api/AMISubApp.html">AMISubApp</a></li></ul><h5><a href="#ami_doc_memu_Classes" data-toggle="collapse"><i class="fa fa-book"></i> Classes</a></h5><ul class="collapse" id="ami_doc_memu_Classes"><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprCompiler.html">AMITwigExprCompiler</a></li></ul><h5><a href="#ami_doc_memu_Events" data-toggle="collapse"><i class="fa fa-book"></i> Events</a></h5><ul class="collapse" id="ami_doc_memu_Events"><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul>
       </div>
     </div>
   </nav>
@@ -22,214 +22,214 @@
     
 <section>
   <article>
-    <pre class="ami-code"><code><i class="line-number"></i>/*!
-<i class="line-number"></i> * AMI Web Framework
-<i class="line-number"></i> *
-<i class="line-number"></i> * Copyright (c) 2014-2015 The AMI Team
-<i class="line-number"></i> * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
-<i class="line-number"></i> *
-<i class="line-number"></i> */
-<i class="line-number"></i>
-<i class="line-number"></i>/*-------------------------------------------------------------------------*/
-<i class="line-number"></i>/* amiTokenizer                                                            */
-<i class="line-number"></i>/*-------------------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>/**
-<i class="line-number"></i> * The AMI tokenizer
-<i class="line-number"></i> * @namespace amiTokenizer
-<i class="line-number"></i> */
-<i class="line-number"></i>
-<i class="line-number"></i>$AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	/**
-<i class="line-number"></i>	  * Tokenize a string
-<i class="line-number"></i>	  * @param {String} code the code
-<i class="line-number"></i>	  * @param {Number} line the line
-<i class="line-number"></i>	  * @param {Array} spaces the array of characters for spaces
-<i class="line-number"></i>	  * @param {Array} kwords the array of kerwords
-<i class="line-number"></i>	  * @param {Array} quotes the array of characters for string declaration
-<i class="line-number"></i>	  * @param {String} [escape='\\'] the escape character
-<i class="line-number"></i>	  * @returns {Array&lt;String>} The array of tokens
-<i class="line-number"></i>	  * @throws {String} The error description
-<i class="line-number"></i>	  */
-<i class="line-number"></i>
-<i class="line-number"></i>	tokenize: function(code, line, spaces, kwords, quotes, escape)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		if(!spaces) spaces = [];
-<i class="line-number"></i>		if(!kwords) kwords = [];
-<i class="line-number"></i>		if(!quotes) quotes = [];
-<i class="line-number"></i>		if(!escape) escape = '\\';
-<i class="line-number"></i>
-<i class="line-number"></i>		var result_tokens = [];
-<i class="line-number"></i>		var result_lines = [];
-<i class="line-number"></i>
-<i class="line-number"></i>		var i = 0x000000000;
-<i class="line-number"></i>		var l = code.length;
-<i class="line-number"></i>
-<i class="line-number"></i>		var word = '';
-<i class="line-number"></i>		var found;
-<i class="line-number"></i>
-<i class="line-number"></i>		while(i &lt; l)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>			/* COUNT LINES                                     */
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			if(code[i] === '\n')
-<i class="line-number"></i>			{
-<i class="line-number"></i>				line++;
-<i class="line-number"></i>			}
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>			/* EAT SPACES                                      */
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			if(spaces.indexOf(code[i]) >= 0)
-<i class="line-number"></i>			{
-<i class="line-number"></i>				if(word)
-<i class="line-number"></i>				{
-<i class="line-number"></i>					result_tokens.push(word);
-<i class="line-number"></i>					result_lines.push(line);
-<i class="line-number"></i>					word = '';
-<i class="line-number"></i>				}
-<i class="line-number"></i>
-<i class="line-number"></i>				i++;
-<i class="line-number"></i>
-<i class="line-number"></i>				continue;
-<i class="line-number"></i>			}
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>			/* EAT KWORDS                                      */
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			found = false;
-<i class="line-number"></i>
-<i class="line-number"></i>			for(var idx in kwords)
-<i class="line-number"></i>			{
-<i class="line-number"></i>				kword = kwords[idx];
-<i class="line-number"></i>
-<i class="line-number"></i>				if(code.substring(i).indexOf(kword) === 0)
-<i class="line-number"></i>				{
-<i class="line-number"></i>					if(word)
-<i class="line-number"></i>					{
-<i class="line-number"></i>						result_tokens.push(word);
-<i class="line-number"></i>						result_lines.push(line);
-<i class="line-number"></i>						word = '';
-<i class="line-number"></i>					}
-<i class="line-number"></i>
-<i class="line-number"></i>					var j = i + kword.length;
-<i class="line-number"></i>
-<i class="line-number"></i>					result_tokens.push(code.substring(i, j));
-<i class="line-number"></i>					result_lines.push(line);
-<i class="line-number"></i>
-<i class="line-number"></i>					i = j;
-<i class="line-number"></i>
-<i class="line-number"></i>					found = true;
-<i class="line-number"></i>					break;
-<i class="line-number"></i>				}
-<i class="line-number"></i>			}
-<i class="line-number"></i>
-<i class="line-number"></i>			if(found)
-<i class="line-number"></i>			{
-<i class="line-number"></i>				continue;
-<i class="line-number"></i>			}
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>			/* EAT STRINGS                                     */
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			found = false;
-<i class="line-number"></i>
-<i class="line-number"></i>			for(var idx in quotes)
-<i class="line-number"></i>			{
-<i class="line-number"></i>				quote = quotes[idx];
-<i class="line-number"></i>
-<i class="line-number"></i>				if(code.substring(i).indexOf(quote) === 0)
-<i class="line-number"></i>				{
-<i class="line-number"></i>					if(word)
-<i class="line-number"></i>					{
-<i class="line-number"></i>						result_tokens.push(word);
-<i class="line-number"></i>						result_lines.push(line);
-<i class="line-number"></i>						word = '';
-<i class="line-number"></i>					}
-<i class="line-number"></i>
-<i class="line-number"></i>					var j = i + this._shift(code.substring(i), quote, escape, line);
-<i class="line-number"></i>
-<i class="line-number"></i>					result_tokens.push(code.substring(i, j));
-<i class="line-number"></i>					result_lines.push(line);
-<i class="line-number"></i>
-<i class="line-number"></i>					i = j;
-<i class="line-number"></i>
-<i class="line-number"></i>					found = true;
-<i class="line-number"></i>					break;
-<i class="line-number"></i>				}
-<i class="line-number"></i>			}
-<i class="line-number"></i>
-<i class="line-number"></i>			if(found)
-<i class="line-number"></i>			{
-<i class="line-number"></i>				continue;
-<i class="line-number"></i>			}
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>			/* EAT REMAINING CHARACTERES                       */
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>			word += code[i++];
-<i class="line-number"></i>
-<i class="line-number"></i>			/*-------------------------------------------------*/
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		if(word)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			result_tokens.push(word);
-<i class="line-number"></i>			result_lines.push(line);
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		return result_tokens;
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>
-<i class="line-number"></i>	_shift: function(code, quote, escape, line)
-<i class="line-number"></i>	{
-<i class="line-number"></i>		var l = code.length;
-<i class="line-number"></i>		var m = quote.length;
-<i class="line-number"></i>		var n = escape.length;
-<i class="line-number"></i>
-<i class="line-number"></i>		var i = m;
-<i class="line-number"></i>		var cnt = 0;
-<i class="line-number"></i>
-<i class="line-number"></i>		while(i &lt; l)
-<i class="line-number"></i>		{
-<i class="line-number"></i>			/**/ if(code.substring(i).indexOf(quote) === 0)
-<i class="line-number"></i>			{
-<i class="line-number"></i>				i += m;
-<i class="line-number"></i>				if((cnt &amp; 1) == 0) return i;
-<i class="line-number"></i>				cnt = 0;
-<i class="line-number"></i>			}
-<i class="line-number"></i>			else if(code.substring(i).indexOf(escape) === 0)
-<i class="line-number"></i>			{
-<i class="line-number"></i>				i += n;
-<i class="line-number"></i>//				if(0x0000001 == 0) return i;
-<i class="line-number"></i>				cnt += 1;
-<i class="line-number"></i>			}
-<i class="line-number"></i>			else
-<i class="line-number"></i>			{
-<i class="line-number"></i>				i += 1;
-<i class="line-number"></i>//				if(0x0000001 == 0) return i;
-<i class="line-number"></i>				cnt = 0;
-<i class="line-number"></i>			}
-<i class="line-number"></i>		}
-<i class="line-number"></i>
-<i class="line-number"></i>		throw 'syntax error, line `' + line + '`, missing token `' + quote + '`';
-<i class="line-number"></i>	},
-<i class="line-number"></i>
-<i class="line-number"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number"></i>});
-<i class="line-number"></i>
-<i class="line-number"></i>/*-------------------------------------------------------------------------*/
-<i class="line-number"></i></code></pre>
+    <pre class="ami-code"><code><i class="line-number" id="line1"></i>/*!
+<i class="line-number" id="line2"></i> * AMI Web Framework
+<i class="line-number" id="line3"></i> *
+<i class="line-number" id="line4"></i> * Copyright (c) 2014-2015 The AMI Team
+<i class="line-number" id="line5"></i> * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+<i class="line-number" id="line6"></i> *
+<i class="line-number" id="line7"></i> */
+<i class="line-number" id="line8"></i>
+<i class="line-number" id="line9"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number" id="line10"></i>/* amiTokenizer                                                            */
+<i class="line-number" id="line11"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number" id="line12"></i>
+<i class="line-number" id="line13"></i>/**
+<i class="line-number" id="line14"></i> * The AMI tokenizer
+<i class="line-number" id="line15"></i> * @namespace amiTokenizer
+<i class="line-number" id="line16"></i> */
+<i class="line-number" id="line17"></i>
+<i class="line-number" id="line18"></i>$AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
+<i class="line-number" id="line19"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line20"></i>
+<i class="line-number" id="line21"></i>	/**
+<i class="line-number" id="line22"></i>	  * Tokenize a string
+<i class="line-number" id="line23"></i>	  * @param {String} code the code
+<i class="line-number" id="line24"></i>	  * @param {Number} line the line
+<i class="line-number" id="line25"></i>	  * @param {Array} spaces the array of characters for spaces
+<i class="line-number" id="line26"></i>	  * @param {Array} kwords the array of kerwords
+<i class="line-number" id="line27"></i>	  * @param {Array} quotes the array of characters for string declaration
+<i class="line-number" id="line28"></i>	  * @param {String} [escape='\\'] the escape character
+<i class="line-number" id="line29"></i>	  * @returns {Array&lt;String>} The array of tokens
+<i class="line-number" id="line30"></i>	  * @throws {String} The error description
+<i class="line-number" id="line31"></i>	  */
+<i class="line-number" id="line32"></i>
+<i class="line-number" id="line33"></i>	tokenize: function(code, line, spaces, kwords, quotes, escape)
+<i class="line-number" id="line34"></i>	{
+<i class="line-number" id="line35"></i>		if(!spaces) spaces = [];
+<i class="line-number" id="line36"></i>		if(!kwords) kwords = [];
+<i class="line-number" id="line37"></i>		if(!quotes) quotes = [];
+<i class="line-number" id="line38"></i>		if(!escape) escape = '\\';
+<i class="line-number" id="line39"></i>
+<i class="line-number" id="line40"></i>		var result_tokens = [];
+<i class="line-number" id="line41"></i>		var result_lines = [];
+<i class="line-number" id="line42"></i>
+<i class="line-number" id="line43"></i>		var i = 0x000000000;
+<i class="line-number" id="line44"></i>		var l = code.length;
+<i class="line-number" id="line45"></i>
+<i class="line-number" id="line46"></i>		var word = '';
+<i class="line-number" id="line47"></i>		var found;
+<i class="line-number" id="line48"></i>
+<i class="line-number" id="line49"></i>		while(i &lt; l)
+<i class="line-number" id="line50"></i>		{
+<i class="line-number" id="line51"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line52"></i>			/* COUNT LINES                                     */
+<i class="line-number" id="line53"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line54"></i>
+<i class="line-number" id="line55"></i>			if(code[i] === '\n')
+<i class="line-number" id="line56"></i>			{
+<i class="line-number" id="line57"></i>				line++;
+<i class="line-number" id="line58"></i>			}
+<i class="line-number" id="line59"></i>
+<i class="line-number" id="line60"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line61"></i>			/* EAT SPACES                                      */
+<i class="line-number" id="line62"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line63"></i>
+<i class="line-number" id="line64"></i>			if(spaces.indexOf(code[i]) >= 0)
+<i class="line-number" id="line65"></i>			{
+<i class="line-number" id="line66"></i>				if(word)
+<i class="line-number" id="line67"></i>				{
+<i class="line-number" id="line68"></i>					result_tokens.push(word);
+<i class="line-number" id="line69"></i>					result_lines.push(line);
+<i class="line-number" id="line70"></i>					word = '';
+<i class="line-number" id="line71"></i>				}
+<i class="line-number" id="line72"></i>
+<i class="line-number" id="line73"></i>				i++;
+<i class="line-number" id="line74"></i>
+<i class="line-number" id="line75"></i>				continue;
+<i class="line-number" id="line76"></i>			}
+<i class="line-number" id="line77"></i>
+<i class="line-number" id="line78"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line79"></i>			/* EAT KWORDS                                      */
+<i class="line-number" id="line80"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line81"></i>
+<i class="line-number" id="line82"></i>			found = false;
+<i class="line-number" id="line83"></i>
+<i class="line-number" id="line84"></i>			for(var idx in kwords)
+<i class="line-number" id="line85"></i>			{
+<i class="line-number" id="line86"></i>				kword = kwords[idx];
+<i class="line-number" id="line87"></i>
+<i class="line-number" id="line88"></i>				if(code.substring(i).indexOf(kword) === 0)
+<i class="line-number" id="line89"></i>				{
+<i class="line-number" id="line90"></i>					if(word)
+<i class="line-number" id="line91"></i>					{
+<i class="line-number" id="line92"></i>						result_tokens.push(word);
+<i class="line-number" id="line93"></i>						result_lines.push(line);
+<i class="line-number" id="line94"></i>						word = '';
+<i class="line-number" id="line95"></i>					}
+<i class="line-number" id="line96"></i>
+<i class="line-number" id="line97"></i>					var j = i + kword.length;
+<i class="line-number" id="line98"></i>
+<i class="line-number" id="line99"></i>					result_tokens.push(code.substring(i, j));
+<i class="line-number" id="line100"></i>					result_lines.push(line);
+<i class="line-number" id="line101"></i>
+<i class="line-number" id="line102"></i>					i = j;
+<i class="line-number" id="line103"></i>
+<i class="line-number" id="line104"></i>					found = true;
+<i class="line-number" id="line105"></i>					break;
+<i class="line-number" id="line106"></i>				}
+<i class="line-number" id="line107"></i>			}
+<i class="line-number" id="line108"></i>
+<i class="line-number" id="line109"></i>			if(found)
+<i class="line-number" id="line110"></i>			{
+<i class="line-number" id="line111"></i>				continue;
+<i class="line-number" id="line112"></i>			}
+<i class="line-number" id="line113"></i>
+<i class="line-number" id="line114"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line115"></i>			/* EAT STRINGS                                     */
+<i class="line-number" id="line116"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line117"></i>
+<i class="line-number" id="line118"></i>			found = false;
+<i class="line-number" id="line119"></i>
+<i class="line-number" id="line120"></i>			for(var idx in quotes)
+<i class="line-number" id="line121"></i>			{
+<i class="line-number" id="line122"></i>				quote = quotes[idx];
+<i class="line-number" id="line123"></i>
+<i class="line-number" id="line124"></i>				if(code.substring(i).indexOf(quote) === 0)
+<i class="line-number" id="line125"></i>				{
+<i class="line-number" id="line126"></i>					if(word)
+<i class="line-number" id="line127"></i>					{
+<i class="line-number" id="line128"></i>						result_tokens.push(word);
+<i class="line-number" id="line129"></i>						result_lines.push(line);
+<i class="line-number" id="line130"></i>						word = '';
+<i class="line-number" id="line131"></i>					}
+<i class="line-number" id="line132"></i>
+<i class="line-number" id="line133"></i>					var j = i + this._shift(code.substring(i), quote, escape, line);
+<i class="line-number" id="line134"></i>
+<i class="line-number" id="line135"></i>					result_tokens.push(code.substring(i, j));
+<i class="line-number" id="line136"></i>					result_lines.push(line);
+<i class="line-number" id="line137"></i>
+<i class="line-number" id="line138"></i>					i = j;
+<i class="line-number" id="line139"></i>
+<i class="line-number" id="line140"></i>					found = true;
+<i class="line-number" id="line141"></i>					break;
+<i class="line-number" id="line142"></i>				}
+<i class="line-number" id="line143"></i>			}
+<i class="line-number" id="line144"></i>
+<i class="line-number" id="line145"></i>			if(found)
+<i class="line-number" id="line146"></i>			{
+<i class="line-number" id="line147"></i>				continue;
+<i class="line-number" id="line148"></i>			}
+<i class="line-number" id="line149"></i>
+<i class="line-number" id="line150"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line151"></i>			/* EAT REMAINING CHARACTERES                       */
+<i class="line-number" id="line152"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line153"></i>
+<i class="line-number" id="line154"></i>			word += code[i++];
+<i class="line-number" id="line155"></i>
+<i class="line-number" id="line156"></i>			/*-------------------------------------------------*/
+<i class="line-number" id="line157"></i>		}
+<i class="line-number" id="line158"></i>
+<i class="line-number" id="line159"></i>		if(word)
+<i class="line-number" id="line160"></i>		{
+<i class="line-number" id="line161"></i>			result_tokens.push(word);
+<i class="line-number" id="line162"></i>			result_lines.push(line);
+<i class="line-number" id="line163"></i>		}
+<i class="line-number" id="line164"></i>
+<i class="line-number" id="line165"></i>		return result_tokens;
+<i class="line-number" id="line166"></i>	},
+<i class="line-number" id="line167"></i>
+<i class="line-number" id="line168"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line169"></i>
+<i class="line-number" id="line170"></i>	_shift: function(code, quote, escape, line)
+<i class="line-number" id="line171"></i>	{
+<i class="line-number" id="line172"></i>		var l = code.length;
+<i class="line-number" id="line173"></i>		var m = quote.length;
+<i class="line-number" id="line174"></i>		var n = escape.length;
+<i class="line-number" id="line175"></i>
+<i class="line-number" id="line176"></i>		var i = m;
+<i class="line-number" id="line177"></i>		var cnt = 0;
+<i class="line-number" id="line178"></i>
+<i class="line-number" id="line179"></i>		while(i &lt; l)
+<i class="line-number" id="line180"></i>		{
+<i class="line-number" id="line181"></i>			/**/ if(code.substring(i).indexOf(quote) === 0)
+<i class="line-number" id="line182"></i>			{
+<i class="line-number" id="line183"></i>				i += m;
+<i class="line-number" id="line184"></i>				if((cnt &amp; 1) == 0) return i;
+<i class="line-number" id="line185"></i>				cnt = 0;
+<i class="line-number" id="line186"></i>			}
+<i class="line-number" id="line187"></i>			else if(code.substring(i).indexOf(escape) === 0)
+<i class="line-number" id="line188"></i>			{
+<i class="line-number" id="line189"></i>				i += n;
+<i class="line-number" id="line190"></i>//				if(0x0000001 == 0) return i;
+<i class="line-number" id="line191"></i>				cnt += 1;
+<i class="line-number" id="line192"></i>			}
+<i class="line-number" id="line193"></i>			else
+<i class="line-number" id="line194"></i>			{
+<i class="line-number" id="line195"></i>				i += 1;
+<i class="line-number" id="line196"></i>//				if(0x0000001 == 0) return i;
+<i class="line-number" id="line197"></i>				cnt = 0;
+<i class="line-number" id="line198"></i>			}
+<i class="line-number" id="line199"></i>		}
+<i class="line-number" id="line200"></i>
+<i class="line-number" id="line201"></i>		throw 'syntax error, line `' + line + '`, missing token `' + quote + '`';
+<i class="line-number" id="line202"></i>	},
+<i class="line-number" id="line203"></i>
+<i class="line-number" id="line204"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line205"></i>});
+<i class="line-number" id="line206"></i>
+<i class="line-number" id="line207"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number" id="line208"></i></code></pre>
   </article>
 </section>
 
