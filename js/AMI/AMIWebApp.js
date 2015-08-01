@@ -942,9 +942,10 @@ var amiWebApp = {
 
 				$('body').append(amiWebApp.formatHTML(data1, dict) + data2).promise().done(function() {
 
-					amiWebApp.onStart();
+					amiLogin._init().done(function() {
 
-					amiLogin._init();
+						amiWebApp.onStart();
+					});
 				});
 
 			}).fail(function() {

@@ -29,6 +29,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_init: function()
 	{
+		var result = $.Deferred();
+
 		amiWebApp.loadHTMLs([
 			'html/AMI/Fragment/login_button.html',
 			'html/AMI/Fragment/logout_button.html',
@@ -72,7 +74,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				/*-----------------------------------------*/
 
-				amiLogin._update(data, user, guest);
+				amiLogin._update(data, user, guest).done(function() {
+
+					result.resolve();
+				});
 
 				/*-----------------------------------------*/
 			});
@@ -84,6 +89,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			console.error(data);
 		});
+
+		return result.promise();
 	},
 
 	/*-----------------------------------------------------------------*/

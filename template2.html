@@ -26,15 +26,6 @@
 
 	amiWebApp.onStart = function() {
 
-		if(amiWebApp.isLocal())
-		{
-			amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';
-		}
-		else
-		{
-			amiCommand.endpoint = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
-		}
-
 		amiWebApp.autoRunSubApp('amiDocument');
 	};
 
@@ -94,6 +85,15 @@
   <body>
 
     <script type="text/javascript">
+
+	if(amiWebApp.isLocal())
+	{
+		amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';
+	}
+	else
+	{
+		amiCommand.endpoint = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
+	}
 
 	amiWebApp.start({
 		home_url: 'http://localhost/template2.html',

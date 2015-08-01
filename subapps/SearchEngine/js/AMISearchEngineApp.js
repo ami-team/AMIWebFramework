@@ -10,10 +10,10 @@
 /* CLASS AMISearchEngineApp                                                */
 /*-------------------------------------------------------------------------*/
 
-function AMISearchEngineApp() {
+$AMIClass('AMISearchEngineApp', {
 	/*-----------------------------------------------------------------*/
 
-	this.onReady = function(userdata) {
+	onReady: function(userdata) {
 
 		var result = $.Deferred();
 
@@ -90,16 +90,16 @@ function AMISearchEngineApp() {
 		});
 
 		return result;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onExit = function() {
-	};
+	onExit: function() {
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogin = function() {
+	onLogin: function() {
 		/*---------------------------------------------------------*/
 		/* GET INTERFACES                                          */
 		/*---------------------------------------------------------*/
@@ -133,11 +133,11 @@ function AMISearchEngineApp() {
 		$('#ami_search_engine_tab_content').show();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogout = function() {
+	onLogout: function() {
 		/*---------------------------------------------------------*/
 		/* HIDE SERCH INTERFACE                                    */
 		/*---------------------------------------------------------*/
@@ -145,16 +145,16 @@ function AMISearchEngineApp() {
 		$('#ami_search_engine_tab_content').hide();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onSessionExpired = function() {
-	};
+	onSessionExpired: function() {
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.setInterface = function(interface) {
+	setInterface: function(interface) {
 
 		if(!interface) {
 			return;
@@ -240,22 +240,22 @@ function AMISearchEngineApp() {
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.criteriaClick = function(visible, entity, field, alias, type) {
+	criteriaClick: function(visible, entity, field, alias, type) {
 
 		if(visible === true) {
 			this.createBox(visible, entity, field, alias, type);
 		} else {
 			this.deleteBox(alias);
 		}
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.createBox = function(visible, entity, field, alias, type, mask) {
+	createBox: function(visible, entity, field, alias, type, mask) {
 
 		this.criteriaDict[alias] = {
 			/* CRITERIA */
@@ -297,11 +297,11 @@ function AMISearchEngineApp() {
 
 			this.refresh();
 		}
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.deleteBox = function(alias) {
+	deleteBox: function(alias) {
 
 		$('#ami_search_engine_checkbox_' + alias).prop('checked', false);
 
@@ -310,11 +310,11 @@ function AMISearchEngineApp() {
 		delete this.criteriaDict[alias];
 
 		this.refresh();
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.refresh = function() {
+	refresh: function() {
 		/*---------------------------------------------------------*/
 		/* REFRESH BOXES                                           */
 		/*---------------------------------------------------------*/
@@ -353,11 +353,11 @@ function AMISearchEngineApp() {
 		});
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.buildFilter = function(ignore) {
+	buildFilter: function(ignore) {
 
 		var result = '';
 
@@ -380,11 +380,11 @@ function AMISearchEngineApp() {
 		}
 
 		return result;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.fillStringBox = function(alias, applyFilter, applyLimit) {
+	fillStringBox: function(alias, applyFilter, applyLimit) {
 
 		amiWebApp.lock();
 
@@ -436,11 +436,11 @@ function AMISearchEngineApp() {
 		});
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.fillNumberBox = function(alias) {
+	fillNumberBox: function(alias) {
 
 		amiWebApp.lock();
 
@@ -467,11 +467,11 @@ function AMISearchEngineApp() {
 		});
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.fillDateBox = function(alias) {
+	fillDateBox: function(alias) {
 
 		amiWebApp.lock();
 
@@ -498,11 +498,11 @@ function AMISearchEngineApp() {
 		});
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.viewLess = function(alias) {
+	viewLess: function(alias) {
 
 		var criteria = this.criteriaDict[alias];
 
@@ -517,11 +517,11 @@ function AMISearchEngineApp() {
 		$('#ami_search_engine_box_' + alias + '_limit').text(criteria['limit']);
 
 		this.fillStringBox(alias, true, true);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.viewMore = function(alias) {
+	viewMore: function(alias) {
 
 		var criteria = this.criteriaDict[alias];
 
@@ -536,11 +536,11 @@ function AMISearchEngineApp() {
 		$('#ami_search_engine_box_' + alias + '_limit').text(criteria['limit']);
 
 		this.fillStringBox(alias, true, true);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	function _wildcard(parts, nbOfParts, s) {
+	_wildcard: function(parts, nbOfParts, s) {
 
 		for(var i = 0; i < nbOfParts; i++) {
 
@@ -554,11 +554,11 @@ function AMISearchEngineApp() {
 		}
 
 		return true;
-	}
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.applyFilter0 = function(alias) {
+	applyFilter0: function(alias) {
 		/*---------------------------------------------------------*/
 		/* BUILD WILDCARD                                          */
 		/*---------------------------------------------------------*/
@@ -583,7 +583,7 @@ function AMISearchEngineApp() {
 
 			var value = this.value;
 
-			if(_wildcard(parts, nbOfParts, value.toLowerCase())) {
+			if(this._wildcard(parts, nbOfParts, value.toLowerCase())) {
 
 				s += ' OR `' + entity + '`.`' + field + '`=\'' + value.replace(/\'/g, '\'\'') + '\'';
 
@@ -605,11 +605,11 @@ function AMISearchEngineApp() {
 		this.refresh();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.applyFilter1 = function(alias) {
+	applyFilter1: function(alias) {
 		/*---------------------------------------------------------*/
 		/* APPLY WILDCARD                                          */
 		/*---------------------------------------------------------*/
@@ -631,11 +631,11 @@ function AMISearchEngineApp() {
 		this.refresh();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.select = function(alias) {
+	select: function(alias) {
 		/*---------------------------------------------------------*/
 		/* SELECT                                                  */
 		/*---------------------------------------------------------*/
@@ -674,11 +674,11 @@ function AMISearchEngineApp() {
 		this.refresh();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.setRange = function(alias) {
+	setRange: function(alias) {
 		/*---------------------------------------------------------*/
 		/* SET RANGE                                               */
 		/*---------------------------------------------------------*/
@@ -700,11 +700,11 @@ function AMISearchEngineApp() {
 		this.refresh();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.resetRange = function(alias) {
+	resetRange: function(alias) {
 		/*---------------------------------------------------------*/
 		/* RESET RANGE                                             */
 		/*---------------------------------------------------------*/
@@ -720,10 +720,10 @@ function AMISearchEngineApp() {
 		this.refresh();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-};
+});
 
 /*-------------------------------------------------------------------------*/
 /* GLOBAL INSTANCE                                                         */
