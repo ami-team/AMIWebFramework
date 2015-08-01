@@ -20,7 +20,7 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 
 	/**
 	  * Tokenize a string
-	  * @param {String} s the string
+	  * @param {String} code the code
 	  * @param {Number} line the line
 	  * @param {Array} spaces the array of characters for spaces
 	  * @param {Array} kwords the array of kerwords
@@ -30,7 +30,7 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 	  * @throws {String} The error description
 	  */
 
-	tokenize: function(s, line, spaces, kwords, quotes, escape)
+	tokenize: function(code, line, spaces, kwords, quotes, escape)
 	{
 		if(!spaces) spaces = [];
 		if(!kwords) kwords = [];
@@ -40,8 +40,8 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 		var result_tokens = [];
 		var result_lines = [];
 
-		var i = 0x000000;
-		var l = s.length;
+		var i = 0x000000000;
+		var l = code.length;
 
 		var word = '';
 		var found;
@@ -52,7 +52,7 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 			/* COUNT LINES                                     */
 			/*-------------------------------------------------*/
 
-			if(s[i] === '\n')
+			if(code[i] === '\n')
 			{
 				line++;
 			}
@@ -61,7 +61,7 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 			/* EAT SPACES                                      */
 			/*-------------------------------------------------*/
 
-			if(spaces.indexOf(s[i]) >= 0)
+			if(spaces.indexOf(code[i]) >= 0)
 			{
 				if(word)
 				{
@@ -85,7 +85,7 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 			{
 				kword = kwords[idx];
 
-				if(s.substring(i).indexOf(kword) === 0)
+				if(code.substring(i).indexOf(kword) === 0)
 				{
 					if(word)
 					{
@@ -96,7 +96,7 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 
 					var j = i + kword.length;
 
-					result_tokens.push(s.substring(i, j));
+					result_tokens.push(code.substring(i, j));
 					result_lines.push(line);
 
 					i = j;
@@ -121,7 +121,7 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 			{
 				quote = quotes[idx];
 
-				if(s.substring(i).indexOf(quote) === 0)
+				if(code.substring(i).indexOf(quote) === 0)
 				{
 					if(word)
 					{
@@ -130,9 +130,9 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 						word = '';
 					}
 
-					var j = i + this._shift(s.substring(i), quote, escape, line);
+					var j = i + this._shift(code.substring(i), quote, escape, line);
 
-					result_tokens.push(s.substring(i, j));
+					result_tokens.push(code.substring(i, j));
 					result_lines.push(line);
 
 					i = j;
@@ -151,7 +151,7 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 			/* EAT REMAINING CHARACTERES                       */
 			/*-------------------------------------------------*/
 
-			word += s[i++];
+			word += code[i++];
 
 			/*-------------------------------------------------*/
 		}
@@ -167,9 +167,9 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 
 	/*-----------------------------------------------------------------*/
 
-	_shift: function(s, quote, escape, line)
+	_shift: function(code, quote, escape, line)
 	{
-		var l = s.length;
+		var l = code.length;
 		var m = quote.length;
 		var n = escape.length;
 
@@ -178,13 +178,13 @@ $AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
 
 		while(i < l)
 		{
-			/**/ if(s.substring(i).indexOf(quote) === 0)
+			/**/ if(code.substring(i).indexOf(quote) === 0)
 			{
 				i += m;
 				if((cnt & 1) == 0) return i;
 				cnt = 0;
 			}
-			else if(s.substring(i).indexOf(escape) === 0)
+			else if(code.substring(i).indexOf(escape) === 0)
 			{
 				i += n;
 //				if(0x0000001 == 0) return i;
