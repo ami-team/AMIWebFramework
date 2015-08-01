@@ -105,7 +105,7 @@ function $AMIClass($name, newClassPrototype)
 
 				if(typeof(this[key2]) !== typeof(member))
 				{
-					alert('class `' + this.$name + '` with must implement `' + key2 + '.' + interfaze.$name + '`');
+					alert('class `' + this.$name + '` with must implement `' + interfaze.$name + '.' + key2 + '`');
 				}
 			}
 		}

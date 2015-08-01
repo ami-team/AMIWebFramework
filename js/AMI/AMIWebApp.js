@@ -1151,8 +1151,10 @@ $AMIInterface('AMISubApp', /** @lends AMISubApp# */ {
 });
 
 /*-------------------------------------------------------------------------*/
+/* AMIFooApp                                                               */
+/*-------------------------------------------------------------------------*/
 
-$AMIClass('_SubApp', {
+$AMIClass('AMIFooApp', {
 	$implements: [AMISubApp],
 	onReady: function() {},
 	onExit: function() {},
@@ -1160,7 +1162,7 @@ $AMIClass('_SubApp', {
 	onLogout: function() {},
 });
 
-amiWebApp._currentSubAppInstance = new _SubApp();
+amiWebApp._currentSubAppInstance = new AMIFooApp();
 
 /*-------------------------------------------------------------------------*/
 /* JQUERY EXTENSION                                                        */
