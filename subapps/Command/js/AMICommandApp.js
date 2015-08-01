@@ -1,5 +1,5 @@
 /*!
- * AMICommandApp class
+ * AMI Web Framework
  *
  * Copyright (c) 2014 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -7,16 +7,18 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMICommandApp                                                     */
+/* AMICommandApp                                                           */
 /*-------------------------------------------------------------------------*/
 
-function AMICommandApp() {
+$AMIClass('AMICommandApp', {
 	/*-----------------------------------------------------------------*/
 
-	this.onReady = function(userdata) {
+	$implements: [AMISubApp],
 
-		var result = $.Deferred();
+	/*-----------------------------------------------------------------*/
 
+	onReady: function(userdata)
+	{
 		amiWebApp.loadSheets([
 			'subapps/Command/css/AMICommandApp.css',
 		]);
@@ -28,6 +30,8 @@ function AMICommandApp() {
 		$('#ami_jumbotron_title').html('Command Line');
 		$('#ami_jumbotron_content').html('Execute AMI commands');
 		$('#ami_breadcrumb_content').html('<li><a>Tools</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amicommand">Command Line</a></li>');
+
+		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
 			'subapps/Command/html/AMICommandApp.html',
@@ -48,88 +52,87 @@ function AMICommandApp() {
 		});
 
 		return result;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onExit = function() {
-	};
+	onExit: function()
+	{
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogin = function() {
+	onLogin: function()
+	{
+		if($('#ami_command_list').html().trim())
+		{
+			return;
+		}
 
-		if(!$('#ami_command_list').html().trim()) {
+		amiCommand.execute('ListCommands', {context: this}).done(function(data)
+		{
+			var rows = amiWebApp.jspath('..row', data);
 
-			amiCommand.execute('ListCommands', {context: this}).done(function(data) {
+			var dict = [];
 
-				var rows = amiWebApp.jspath('..row', data);
+			$.foreach(rows, function(index, row) {
 
-				var dict = [];
+				var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0] || '';
+				var help = amiWebApp.jspath('..field{.@name==="help"}.$', row)[0] || amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0] || '';
+				var usage = amiWebApp.jspath('..field{.@name==="usage"}.$', row)[0] || '';
 
-				$.foreach(rows, function(index, row) {
+				if(command.indexOf('AMI') === 0)
+				{
+					command = command.substring(3);
+				}
 
-					var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0] || '';
-					var help = amiWebApp.jspath('..field{.@name==="help"}.$', row)[0] || amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0] || '';
-					var usage = amiWebApp.jspath('..field{.@name==="usage"}.$', row)[0] || '';
+				var proto;
 
-					if(command.indexOf('AMI') === 0)
-					{
-						command = command.substring(3);
-					}
+				if(usage === '') {
+					proto = command;
+					help += '<br /><br />Usage:<br />' + command;
+				} else {
+					proto = command + ' ' + usage;
+					help += '<br /><br />Usage:<br />' + command + ' ' + usage;
+				}
 
-					var proto;
+				help = help.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
 
-					if(usage === '') {
-						proto = command;
-						help += '<br /><br />Usage:<br />' + command;
-					} else {
-						proto = command + ' ' + usage;
-						help += '<br /><br />Usage:<br />' + command + ' ' + usage;
-					}
+				help = amiWebApp.textToHtml(help);
+				proto = amiWebApp.textToHtml(proto);
 
-					help = help.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
-
-					help = amiWebApp.textToHtml(help);
-					proto = amiWebApp.textToHtml(proto);
-
-					dict.push({
-						COMMAND: command,
-						HELP: help,
-						PROTO: proto,
-					});
+				dict.push({
+					COMMAND: command,
+					HELP: help,
+					PROTO: proto,
 				});
-
-				amiWebApp.replaceHTML('#ami_command_list', this.fragmentCommand, {dict: dict});
-
-			}).fail(function(data) {
-				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 			});
-		}
-	};
+
+			amiWebApp.replaceHTML('#ami_command_list', this.fragmentCommand, {dict: dict});
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+		});
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogout = function() {
-	};
+	onLogout: function()
+	{
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onSessionExpired = function() {
-	};
+	onSessionExpired: function()
+	{
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._insertResult = function(code, url) {
-
-		var data = '';
-
-		var lines = code.split('\n');
-
-		for(var i = 0; i < lines.length; i++) {
-
-			data += '<code>' + lines[i] + '</code>\n';
-		}
+	_insertResult: function(code, url)
+	{
+		var data = '<i class="line-number"></i>' + code.replace(/\n/g, '\n<i class="line-number"></i>');
 
 		var dict = {
 			URL: url,
@@ -137,53 +140,48 @@ function AMICommandApp() {
 		};
 
 		amiWebApp.prependHTML('#ami_command_content', this.fragmentResult, {dict: dict});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.formExecute = function() {
-
+	execute: function()
+	{
 		amiWebApp.lock();
 
 		var command = $('#modal_command_command').val();
 		var converter = $('#modal_command_converter').val();
 
-		amiCommand.execute(command, {context: this, converter: converter}).done(function(data, url) {
-
-			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : amiWebApp.textToHtml(data), url);
-			amiWebApp.unlock();
-
-		}).fail(function(data, url) {
+		amiCommand.execute(command, {context: this, converter: converter}).always(function(data, url) {
 
 			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : amiWebApp.textToHtml(data), url);
 			amiWebApp.unlock();
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.select = function(command) {
-
+	select: function(command)
+	{
 		$('#modal_command_command').val(command);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.copy = function(url) {
-
+	copy: function(url)
+	{
 		window.prompt('Copy to clipboard: Ctrl+C, Enter', url);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.save = function(data) {
-
+	save: function(data)
+	{
 		var converter = $('#modal_command_converter').val();
 
 		var fileMime;
 		var fileName;
 
-		/****/ if(converter === '') {
+		/****/ if(converter === ((((((((''))))))))) {
 			fileMime = 'application/xml';
 			fileName = 'result.xml';
 		} else if(converter === 'AMIXmlToJson.xsl') {
@@ -200,10 +198,10 @@ function AMICommandApp() {
 		var blob = new Blob([amiWebApp.htmlToText(data)], {type: fileMime});
 
 		saveAs(blob, fileName);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-};
+});
 
 /*-------------------------------------------------------------------------*/
 /* GLOBAL INSTANCE                                                         */

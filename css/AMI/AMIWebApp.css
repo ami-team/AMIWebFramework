@@ -211,13 +211,16 @@ code {
 	counter-reset: listing;
 }
 
-.ami-code code {
+.ami-code code .line-number {
 	counter-increment: listing;
+	display: inline-block;
+	width: 26px;
 }
 
-.ami-code code:before {
-	content: counter(listing) ". ";
+.ami-code code .line-number:before {
 	color: gray;
+	content: counter(listing) ". ";
+	font: 700 65%/1.5 sans-serif;
 }
 
 /*-------------------------------------------------------------------------*/

@@ -20,519 +20,519 @@
 
 
     
-    <section>
-        <article>
-            <pre class="ami-code">/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-2015 The AMI Team
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- *
- */
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL VARIABLES                                                      */
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_base64KeyStr =
-	'ABCDEFGHIJKLMNOP' +
-	'QRSTUVWXYZabcdef' +
-	'ghijklmnopqrstuv' +
-	'wxyz0123456789+/' +
-	'='
-;
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_textToString(s)
-{
-	return s.replace(/[\\'"]/g, function(x) {
-
-		return '\\' + x;
-	});
-}
-
-/*-------------------------------------------------------------------------*/
-/* amiCommand                                                              */
-/*-------------------------------------------------------------------------*/
-
-/**
- * The AMI command subsystem
- * @namespace amiCommand
- */
-
-$AMINamespace('amiCommand', /** @lends amiCommand */ {
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Decode a base64 string
-	  * @param {String} string the encoded string
-	  * @returns {String} The decoded string
-	  */
-
-	amiBase64Decode: function(s)
-	{
-		var i = 0;
-		var result = '';
-		var chr1, chr2, chr3 = '';
-		var enc1, enc2, enc3, enc4 = '';
-
-		s = s.replace(/[^A-Za-z0-9\+\/\=]/g, '');
-
-		do {
-			enc1 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
-			enc2 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
-			enc3 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
-			enc4 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
-
-			chr1 = ((enc1 &amp; 255) &lt;&lt; 2) | (enc2 >> 4);
-			chr2 = ((enc2 &amp;  15) &lt;&lt; 4) | (enc3 >> 2);
-			chr3 = ((enc3 &amp;   3) &lt;&lt; 6) | (enc4 >> 0);
-
-			result = result + String.fromCharCode(chr1);
-
-			if(enc3 != 64) {
-				result = result + String.fromCharCode(chr2);
-			}
-
-			if(enc4 != 64) {
-				result = result + String.fromCharCode(chr3);
-			}
-
-			chr1 = chr2 = chr3 = '';
-			enc1 = enc2 = enc3 = enc4 = '';
-
-		} while(i &lt; s.length);
-
-		return unescape(result);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	endpoint: 'http://xxyy.zz',
-	converter: 'AMIXmlToJson.xsl',
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Execute an AMI command
-	  * @param {String} command the command
-	  * @param {Object} [settings] dictionary of settings (context, endpoint, converter, extraParam, extraValue)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	execute: function(command, settings)
-	{
-		var context = null;
-		var endpoint = this.endpoint;
-		var converter = this.converter;
-		var extraParam = null;
-		var extraValue = null;
-
-		if(settings)
-		{
-			if('context' in settings) {
-				context = settings['context'];
-			}
-
-			if('endpoint' in settings) {
-				endpoint = settings['endpoint'];
-			}
-
-			if('converter' in settings) {
-				converter = settings['converter'];
-			}
-
-			if('extraParam' in settings) {
-				extraParam = settings['extraParam'];
-			}
-
-			if('extraValue' in settings) {
-				extraValue = settings['extraValue'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		var URL = endpoint.trim();
-		var COMMAND = command.trim();
-		var CONVERTER = converter.trim();
-
-		/*---------------------------------------------------------*/
-
-		var data = {
-			Command: COMMAND,
-			Converter: CONVERTER,
-		};
-
-		if(extraParam)
-		{
-			data[extraParam] = extraValue ? extraValue : null;
-		}
-
-		/*---------------------------------------------------------*/
-
-		var urlWithParameters = URL + '?' + $.param(data);
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		if(CONVERTER === 'AMIXmlToJson.xsl')
-		{
-			/*-------------------------------------------------*/
-			/* JSON FORMAT                                     */
-			/*-------------------------------------------------*/
-
-			$.ajax({
-				url: URL,
-				data: data,
-				type: 'POST',
-				dataType: 'json',
-				xhrFields: {
-					withCredentials: true
-				},
-				success: function(data) {
-
-					var error = JSPath.apply('.AMIMessage.error', data);
-
-					if(error.length === 0)
-					{
-						if(context) {
-							result.resolveWith(context, [data, urlWithParameters]);
-						} else {
-							result.resolve(data, urlWithParameters);
-						}
-					}
-					else
-					{
-						if(context) {
-							result.rejectWith(context, [data, urlWithParameters]);
-						} else {
-							result.reject(data, urlWithParameters);
-						}
-					}
-				},
-				error: function(jqXHR, textStatus) {
-
-					if(textStatus === 'error')
-					{
-						textStatus = 'service temporarily unavailable';
-					}
-
-					var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
-
-					if(context) {
-						result.rejectWith(context, [data, urlWithParameters]);
-					} else {
-						result.reject(data, urlWithParameters);
-					}
-				},
-			});
-
-			/*-------------------------------------------------*/
-		} else {
-			/*-------------------------------------------------*/
-			/* OTHER FORMATS                                   */
-			/*-------------------------------------------------*/
-
-			$.ajax({
-				url: URL,
-				data: data,
-				type: 'POST',
-				dataType: 'text',
-				xhrFields: {
-					withCredentials: true
-				},
-				success: function(data) {
-
-					if(context) {
-						result.resolveWith(context, [data, urlWithParameters]);
-					} else {
-						result.resolve(data, urlWithParameters);
-					}
-				},
-				error: function(jqXHR, textStatus) {
-
-					if(textStatus === 'error')
-					{
-						textStatus = 'service temporarily unavailable';
-					}
-
-					if(context) {
-						result.rejectWith(context, [textStatus, urlWithParameters]);
-					} else {
-						result.reject(textStatus, urlWithParameters);
-					}
-				},
-			});
-
-			/*-------------------------------------------------*/
-		}
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Login by login/password
-	  * @param {String} user the user
-	  * @param {String} pass the password
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	passLogin: function(user, pass, settings)
-	{
-		var context = null;
-
-		if(settings &amp;&amp; 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		this.execute('GetSessionInfo -AMIUser="' + _ami_internal_textToString(user) + '" -AMIPass="' + _ami_internal_textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
-
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
-			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
-			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
-
-			if(context) {
-				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
-			} else {
-				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
-			}
-
-		}).fail(function(data) {
-
-			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
-			} else {
-				result.reject(data, 'guest', 'guest', '', '');
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Login by certificate
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	certLogin: function(settings)
-	{
-		var context = null;
-
-		if(settings &amp;&amp; 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		this.execute('GetSessionInfo').done(function(data) {
-
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
-			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
-			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
-
-			if(context) {
-				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
-			} else {
-				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
-			}
-
-		}).fail(function(data) {
-
-			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
-			} else {
-				result.reject(data, 'guest', 'guest', '', '');
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Logout
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	logout: function(settings)
-	{
-		var context = null;
-
-		if(settings &amp;&amp; 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).done(function(data) {
-
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
-			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
-			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
-
-			if(context) {
-				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
-			} else {
-				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
-			}
-
-		}).fail(function(data) {
-
-			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
-			} else {
-				result.reject(data, 'guest', 'guest', '', '');
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result;
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Attach a certificate
-	  * @param {String} user the user
-	  * @param {String} pass the password
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	attachCert: function(user, pass, settings)
-	{
-		return this.execute('GetSessionInfo -attachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Detach a certificate
-	  * @param {String} user the user
-	  * @param {String} pass the password
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	detachCert: function(user, pass, settings)
-	{
-		return this.execute('GetSessionInfo -detachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Add a new user
-	  * @param {String} user the user
-	  * @param {String} pass the password
-	  * @param {String} firstName the first name
-	  * @param {String} lastName the last name
-	  * @param {String} email the email
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	addUser: function(user, pass, firstName, lastName, email, settings)
-	{
-		return this.execute('AddUser -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '" -firstName="' + _ami_internal_textToString(firstName) + '"-lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Change the account information
-	  * @param {String} firstName the first name
-	  * @param {String} lastName the last name
-	  * @param {String} email the email
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	changeInfo: function(firstName, lastName, email, settings)
-	{
-		return this.execute('SetUserInfo -firstName="' + _ami_internal_textToString(firstName) + '" -lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Change the account password
-	  * @param {String} oldPass the old password
-	  * @param {String} newPass the new password
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	changePass: function(oldPass, newPass, settings)
-	{
-		return this.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(oldPass) + '" -amiPasswordNew="' + _ami_internal_textToString(newPass) + '"', settings);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Reset the account password
-	  * @param {String} user the user
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	resetPass: function(user, settings)
-	{
-		return this.execute('ResetPassword -amiLogin="' + _ami_internal_textToString(user) + '"', settings);
-	},
-
-	/*-----------------------------------------------------------------*/
-});
-
-/*-------------------------------------------------------------------------*/
-</pre>
-        </article>
-    </section>
+<section>
+  <article>
+    <pre class="ami-code"><code><i class="line-number"></i>/*!
+<i class="line-number"></i> * AMI Web Framework
+<i class="line-number"></i> *
+<i class="line-number"></i> * Copyright (c) 2014-2015 The AMI Team
+<i class="line-number"></i> * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+<i class="line-number"></i> *
+<i class="line-number"></i> */
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* INTERNAL VARIABLES                                                      */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>var _ami_internal_base64KeyStr =
+<i class="line-number"></i>	'ABCDEFGHIJKLMNOP' +
+<i class="line-number"></i>	'QRSTUVWXYZabcdef' +
+<i class="line-number"></i>	'ghijklmnopqrstuv' +
+<i class="line-number"></i>	'wxyz0123456789+/' +
+<i class="line-number"></i>	'='
+<i class="line-number"></i>;
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* INTERNAL FUNCTIONS                                                      */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_textToString(s)
+<i class="line-number"></i>{
+<i class="line-number"></i>	return s.replace(/[\\'"]/g, function(x) {
+<i class="line-number"></i>
+<i class="line-number"></i>		return '\\' + x;
+<i class="line-number"></i>	});
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* amiCommand                                                              */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>/**
+<i class="line-number"></i> * The AMI command subsystem
+<i class="line-number"></i> * @namespace amiCommand
+<i class="line-number"></i> */
+<i class="line-number"></i>
+<i class="line-number"></i>$AMINamespace('amiCommand', /** @lends amiCommand */ {
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Decode a base64 string
+<i class="line-number"></i>	  * @param {String} string the encoded string
+<i class="line-number"></i>	  * @returns {String} The decoded string
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	amiBase64Decode: function(s)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var i = 0;
+<i class="line-number"></i>		var result = '';
+<i class="line-number"></i>		var chr1, chr2, chr3 = '';
+<i class="line-number"></i>		var enc1, enc2, enc3, enc4 = '';
+<i class="line-number"></i>
+<i class="line-number"></i>		s = s.replace(/[^A-Za-z0-9\+\/\=]/g, '');
+<i class="line-number"></i>
+<i class="line-number"></i>		do {
+<i class="line-number"></i>			enc1 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
+<i class="line-number"></i>			enc2 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
+<i class="line-number"></i>			enc3 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
+<i class="line-number"></i>			enc4 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
+<i class="line-number"></i>
+<i class="line-number"></i>			chr1 = ((enc1 &amp; 255) &lt;&lt; 2) | (enc2 >> 4);
+<i class="line-number"></i>			chr2 = ((enc2 &amp;  15) &lt;&lt; 4) | (enc3 >> 2);
+<i class="line-number"></i>			chr3 = ((enc3 &amp;   3) &lt;&lt; 6) | (enc4 >> 0);
+<i class="line-number"></i>
+<i class="line-number"></i>			result = result + String.fromCharCode(chr1);
+<i class="line-number"></i>
+<i class="line-number"></i>			if(enc3 != 64) {
+<i class="line-number"></i>				result = result + String.fromCharCode(chr2);
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if(enc4 != 64) {
+<i class="line-number"></i>				result = result + String.fromCharCode(chr3);
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			chr1 = chr2 = chr3 = '';
+<i class="line-number"></i>			enc1 = enc2 = enc3 = enc4 = '';
+<i class="line-number"></i>
+<i class="line-number"></i>		} while(i &lt; s.length);
+<i class="line-number"></i>
+<i class="line-number"></i>		return unescape(result);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	endpoint: 'http://xxyy.zz',
+<i class="line-number"></i>	converter: 'AMIXmlToJson.xsl',
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Execute an AMI command
+<i class="line-number"></i>	  * @param {String} command the command
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context, endpoint, converter, extraParam, extraValue)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	execute: function(command, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var context = null;
+<i class="line-number"></i>		var endpoint = this.endpoint;
+<i class="line-number"></i>		var converter = this.converter;
+<i class="line-number"></i>		var extraParam = null;
+<i class="line-number"></i>		var extraValue = null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			if('context' in settings) {
+<i class="line-number"></i>				context = settings['context'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('endpoint' in settings) {
+<i class="line-number"></i>				endpoint = settings['endpoint'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('converter' in settings) {
+<i class="line-number"></i>				converter = settings['converter'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('extraParam' in settings) {
+<i class="line-number"></i>				extraParam = settings['extraParam'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('extraValue' in settings) {
+<i class="line-number"></i>				extraValue = settings['extraValue'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var URL = endpoint.trim();
+<i class="line-number"></i>		var COMMAND = command.trim();
+<i class="line-number"></i>		var CONVERTER = converter.trim();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var data = {
+<i class="line-number"></i>			Command: COMMAND,
+<i class="line-number"></i>			Converter: CONVERTER,
+<i class="line-number"></i>		};
+<i class="line-number"></i>
+<i class="line-number"></i>		if(extraParam)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			data[extraParam] = extraValue ? extraValue : null;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var urlWithParameters = URL + '?' + $.param(data);
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var result = $.Deferred();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(CONVERTER === 'AMIXmlToJson.xsl')
+<i class="line-number"></i>		{
+<i class="line-number"></i>			/*-------------------------------------------------*/
+<i class="line-number"></i>			/* JSON FORMAT                                     */
+<i class="line-number"></i>			/*-------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>			$.ajax({
+<i class="line-number"></i>				url: URL,
+<i class="line-number"></i>				data: data,
+<i class="line-number"></i>				type: 'POST',
+<i class="line-number"></i>				dataType: 'json',
+<i class="line-number"></i>				xhrFields: {
+<i class="line-number"></i>					withCredentials: true
+<i class="line-number"></i>				},
+<i class="line-number"></i>				success: function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>					var error = JSPath.apply('.AMIMessage.error', data);
+<i class="line-number"></i>
+<i class="line-number"></i>					if(error.length === 0)
+<i class="line-number"></i>					{
+<i class="line-number"></i>						if(context) {
+<i class="line-number"></i>							result.resolveWith(context, [data, urlWithParameters]);
+<i class="line-number"></i>						} else {
+<i class="line-number"></i>							result.resolve(data, urlWithParameters);
+<i class="line-number"></i>						}
+<i class="line-number"></i>					}
+<i class="line-number"></i>					else
+<i class="line-number"></i>					{
+<i class="line-number"></i>						if(context) {
+<i class="line-number"></i>							result.rejectWith(context, [data, urlWithParameters]);
+<i class="line-number"></i>						} else {
+<i class="line-number"></i>							result.reject(data, urlWithParameters);
+<i class="line-number"></i>						}
+<i class="line-number"></i>					}
+<i class="line-number"></i>				},
+<i class="line-number"></i>				error: function(jqXHR, textStatus) {
+<i class="line-number"></i>
+<i class="line-number"></i>					if(textStatus === 'error')
+<i class="line-number"></i>					{
+<i class="line-number"></i>						textStatus = 'service temporarily unavailable';
+<i class="line-number"></i>					}
+<i class="line-number"></i>
+<i class="line-number"></i>					var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
+<i class="line-number"></i>
+<i class="line-number"></i>					if(context) {
+<i class="line-number"></i>						result.rejectWith(context, [data, urlWithParameters]);
+<i class="line-number"></i>					} else {
+<i class="line-number"></i>						result.reject(data, urlWithParameters);
+<i class="line-number"></i>					}
+<i class="line-number"></i>				},
+<i class="line-number"></i>			});
+<i class="line-number"></i>
+<i class="line-number"></i>			/*-------------------------------------------------*/
+<i class="line-number"></i>		} else {
+<i class="line-number"></i>			/*-------------------------------------------------*/
+<i class="line-number"></i>			/* OTHER FORMATS                                   */
+<i class="line-number"></i>			/*-------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>			$.ajax({
+<i class="line-number"></i>				url: URL,
+<i class="line-number"></i>				data: data,
+<i class="line-number"></i>				type: 'POST',
+<i class="line-number"></i>				dataType: 'text',
+<i class="line-number"></i>				xhrFields: {
+<i class="line-number"></i>					withCredentials: true
+<i class="line-number"></i>				},
+<i class="line-number"></i>				success: function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>					if(context) {
+<i class="line-number"></i>						result.resolveWith(context, [data, urlWithParameters]);
+<i class="line-number"></i>					} else {
+<i class="line-number"></i>						result.resolve(data, urlWithParameters);
+<i class="line-number"></i>					}
+<i class="line-number"></i>				},
+<i class="line-number"></i>				error: function(jqXHR, textStatus) {
+<i class="line-number"></i>
+<i class="line-number"></i>					if(textStatus === 'error')
+<i class="line-number"></i>					{
+<i class="line-number"></i>						textStatus = 'service temporarily unavailable';
+<i class="line-number"></i>					}
+<i class="line-number"></i>
+<i class="line-number"></i>					if(context) {
+<i class="line-number"></i>						result.rejectWith(context, [textStatus, urlWithParameters]);
+<i class="line-number"></i>					} else {
+<i class="line-number"></i>						result.reject(textStatus, urlWithParameters);
+<i class="line-number"></i>					}
+<i class="line-number"></i>				},
+<i class="line-number"></i>			});
+<i class="line-number"></i>
+<i class="line-number"></i>			/*-------------------------------------------------*/
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return result.promise();
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Login by login/password
+<i class="line-number"></i>	  * @param {String} user the user
+<i class="line-number"></i>	  * @param {String} pass the password
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	passLogin: function(user, pass, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var context = null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings &amp;&amp; 'context' in settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			context = settings['context'];
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var result = $.Deferred();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this.execute('GetSessionInfo -AMIUser="' + _ami_internal_textToString(user) + '" -AMIPass="' + _ami_internal_textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
+<i class="line-number"></i>			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
+<i class="line-number"></i>			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
+<i class="line-number"></i>			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>		}).fail(function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.reject(data, 'guest', 'guest', '', '');
+<i class="line-number"></i>			}
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return result;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Login by certificate
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	certLogin: function(settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var context = null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings &amp;&amp; 'context' in settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			context = settings['context'];
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var result = $.Deferred();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this.execute('GetSessionInfo').done(function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
+<i class="line-number"></i>			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
+<i class="line-number"></i>			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
+<i class="line-number"></i>			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>		}).fail(function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.reject(data, 'guest', 'guest', '', '');
+<i class="line-number"></i>			}
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return result;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Logout
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	logout: function(settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var context = null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings &amp;&amp; 'context' in settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			context = settings['context'];
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var result = $.Deferred();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).done(function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
+<i class="line-number"></i>			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
+<i class="line-number"></i>			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
+<i class="line-number"></i>			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>		}).fail(function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.reject(data, 'guest', 'guest', '', '');
+<i class="line-number"></i>			}
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return result;
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Attach a certificate
+<i class="line-number"></i>	  * @param {String} user the user
+<i class="line-number"></i>	  * @param {String} pass the password
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	attachCert: function(user, pass, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this.execute('GetSessionInfo -attachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Detach a certificate
+<i class="line-number"></i>	  * @param {String} user the user
+<i class="line-number"></i>	  * @param {String} pass the password
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	detachCert: function(user, pass, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this.execute('GetSessionInfo -detachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Add a new user
+<i class="line-number"></i>	  * @param {String} user the user
+<i class="line-number"></i>	  * @param {String} pass the password
+<i class="line-number"></i>	  * @param {String} firstName the first name
+<i class="line-number"></i>	  * @param {String} lastName the last name
+<i class="line-number"></i>	  * @param {String} email the email
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	addUser: function(user, pass, firstName, lastName, email, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this.execute('AddUser -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '" -firstName="' + _ami_internal_textToString(firstName) + '"-lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Change the account information
+<i class="line-number"></i>	  * @param {String} firstName the first name
+<i class="line-number"></i>	  * @param {String} lastName the last name
+<i class="line-number"></i>	  * @param {String} email the email
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	changeInfo: function(firstName, lastName, email, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this.execute('SetUserInfo -firstName="' + _ami_internal_textToString(firstName) + '" -lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Change the account password
+<i class="line-number"></i>	  * @param {String} oldPass the old password
+<i class="line-number"></i>	  * @param {String} newPass the new password
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	changePass: function(oldPass, newPass, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(oldPass) + '" -amiPasswordNew="' + _ami_internal_textToString(newPass) + '"', settings);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Reset the account password
+<i class="line-number"></i>	  * @param {String} user the user
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	resetPass: function(user, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this.execute('ResetPassword -amiLogin="' + _ami_internal_textToString(user) + '"', settings);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>});
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i></code></pre>
+  </article>
+</section>
 
 
 

@@ -20,1202 +20,1202 @@
 
 
     
-    <section>
-        <article>
-            <pre class="ami-code">/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-2015 The AMI Team
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- *
- */
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL VARIABLES                                                      */
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_nonce = jQuery.now();
-
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_subAppDict = {};
-
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_scripts = [];
-var _ami_internal_sheets = [];
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_always(deferred, func)
-{
-	if(deferred &amp;&amp; deferred.always)
-	{
-		deferred.always(function() {
-
-			func();
-		});
-	}
-	else
-	{
-		func();
-	}
-}
-
-/*-------------------------------------------------------------------------*/
-/* GLOBAL FUNCTIONS                                                        */
-/*-------------------------------------------------------------------------*/
-
-/**
-  * Register a sub-application
-  * @param {String} subAppName the sub-application name
-  * @param {?} subAppInstance the sub-application instance
-  */
-
-function amiRegisterSubApp(subAppName, subAppInstance)
-{
-	_ami_internal_subAppDict[subAppName.toLowerCase()] = subAppInstance;
-}
-
-/*-------------------------------------------------------------------------*/
-/* amiWebApp                                                               */
-/*-------------------------------------------------------------------------*/
-
-/**
- * The AMI webapp subsystem
- * @namespace amiWebApp
- */
-
-var amiWebApp = {
-	/*-----------------------------------------------------------------*/
-	/* CONSTRUCTOR                                                     */
-	/*-----------------------------------------------------------------*/
-
-	init: function()
-	{
-		/*---------------------------------------------------------*/
-		/* DEFAULT SHEETS                                          */
-		/*---------------------------------------------------------*/
-
-		this.loadSheets([
-			/* Third-party */
-			'css/bootstrap.min.css',
-			'css/bootstrap.vertical-tabs.min.css',
-			'css/font-awesome.min.css',
-			/* AMI */
-			'css/AMI/AMIWebApp.min.css',
-		]).fail(function(data) {
-
-			alert('Service temporarily unavailable, please try reloading the page...');
-
-			console.error(data);
-		});
-
-		/*---------------------------------------------------------*/
-		/* DEFAULT SCRIPTS                                         */
-		/*---------------------------------------------------------*/
-
-		this.loadScripts([
-			/* Third-party */
-			'js/jspath.min.js',
-			'js/bootstrap.min.js',
-			/* AMI */
-			'js/AMI/AMIObjects.min.js',
-			'js/AMI/AMICommand.min.js',
-			'js/AMI/AMILogin.min.js',
-			'js/AMI/AMITokenizer.min.js',
-			'js/AMI/AMITwigExprCompiler.min.js',
-			'js/AMI/AMITwigExprInterpreter.min.js',
-			'js/AMI/AMITwig.min.js',
-		]).fail(function(data) {
-
-			alert('Service temporarily unavailable, please try reloading the page...');
-
-			console.error(data);
-		});
-
-		/*---------------------------------------------------------*/
-		/* DEFAULT FRAGMENTS                                       */
-		/*---------------------------------------------------------*/
-
-		this.loadHTMLs([
-			'html/AMI/Fragment/alert_success.html',
-			'html/AMI/Fragment/alert_info.html',
-			'html/AMI/Fragment/alert_warning.html',
-			'html/AMI/Fragment/alert_error.html',
-		], {context: this}).done(function(data) {
-			this.fragmentSuccess = data[0];
-			this.fragmentInfo = data[1];
-			this.fragmentWarning = data[2];
-			this.fragmentError = data[3];
-		}).fail(function(data) {
-
-			alert('Service temporarily unavailable, please try reloading the page...');
-
-			console.error(data);
-		});
-
-		/*---------------------------------------------------------*/
-		/* AVAILABILITY                                            */
-		/*---------------------------------------------------------*/
-
-		setTimeout(function() {
-
-			if($('#ami_main_content').is(':empty'))
-			{
-				$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
-			}
-
-		}, 8000);
-
-		/*---------------------------------------------------------*/
-		/* URLs                                                    */
-		/*---------------------------------------------------------*/
-
-		var url = document.location.href;
-
-		var index1 = url./**/indexOf('?');
-		if(index1 >= 0) url = url.substring(0, index1);
-		var index2 = url.lastIndexOf('/');
-
-		/*---------------------------------------------------------*/
-
-		/**
-		  * {String} WebApp URL
-		  * @type {String}
-		  */
-
-		this.webAppURL = url;
-
-		while(this.webAppURL[this.webAppURL.length - 1] === '/')
-		{
-			this.webAppURL = this.webAppURL.substring(0, this.webAppURL.length - 1);
-		}
-
-		/*---------------------------------------------------------*/
-
-		/**
-		  * Origin URL
-		  * @type {String}
-		  */
-
-		this.originURL = url.substring(0, index2);
-
-		while(this.originURL[this.originURL.length - 1] === '/')
-		{
-			this.originURL = this.originURL.substring(0, this.originURL.length - 1);
-		}
-
-		/*---------------------------------------------------------*/
-		/* ARGs                                                    */
-		/*---------------------------------------------------------*/
-
-		/**
-		  * URL arguments
-		  * @type {Array&lt;String>}
-		  */
-
-		this.args = {};
-
-		if(window.location.search)
-		{
-			var prarams = window.location.search.substring(1).split('&amp;');
-
-			for(var i in prarams)
-			{
-				var pair = prarams[i].split('=');
-
-				this.args[pair[0]] = decodeURIComponent(pair[1]);
-			}
-		}
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-	/* TOOLS                                                           */
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Check whether the WebApp is executed locally (file://, localhost or 127.0.0.1) or not
-	  * @returns {Boolean} True or False
-	  */
-
-	isLocal: function()
-	{
-		return document.location.protocol === (('file:'))
-		       ||
-		       document.location.hostname === 'localhost'
-		       ||
-		       document.location.hostname === '127.0.0.1'
-		;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Escapes the given string from text to HTML
-	  * @param {String} string the unescaped string
-	  * @returns {String} The escaped string
-	  */
-
-	textToHtml: function(s)
-	{
-		return s.replace(/"/g, '&amp;quot;').replace(/&lt;/g, '&amp;lt;').replace(/>/g, '&amp;gt;');
-	},
-
-	/**
-	  * Unescapes the given string from HTML to text
-	  * @param {String} string the escaped string
-	  * @returns {String} The unescaped string
-	  */
-
-	htmlToText: function(s)
-	{
-		return s.replace(/&amp;gt;/g, '>').replace(/&amp;lt;/g, '&lt;').replace(/&amp;quot;/g, '"');
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Escapes the given string from text to JavaScript string
-	  * @param {String} string the unescaped string
-	  * @returns {String} The escaped string
-	  */
-
-	textToString: function(s)
-	{
-		return s.replace(/\\/g, '\\\\').replace(/"/g, '\\\"').replace(/'/g, '\\\'');
-	},
-
-	/**
-	  * Unescapes the given string from JavaScript string to text
-	  * @param {String} string the escaped string
-	  * @returns {String} The unescaped string
-	  */
-
-	stringToText: function(s)
-	{
-		return s.replace(/\\'/g, '\'').replace(/\\"/g, '\"').replace(/\\\\/g, '\\');
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Escapes the given string from HTML to JavaScript string
-	  * @param {String} string the unescaped string
-	  * @returns {String} The escaped string
-	  */
-
-	htmlToString: function(s)
-	{
-		return s.replace(/\\/g, '\\\\').replace(/&amp;quot;/g, '\\&amp;quot;').replace(/'/g, '\\\'');
-	},
-
-	/**
-	  * Unescapes the given string from JavaScript string to HTML
-	  * @param {String} string the escaped string
-	  * @returns {String} The unescaped string
-	  */
-
-	stringToHtml: function(s)
-	{
-		return s.replace(/\\'/g, '\'').replace(/\\&amp;quot;/g, '&amp;quot;').replace(/\\\\/g, '\\');
-	},
-
-	/*-----------------------------------------------------------------*/
-	/* DYNAMIC SHEET LOADING                                           */
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Loads CSS sheets asynchronously
-	  * @param {(Array|String)} sheets the array of sheets
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	loadSheets: function(sheets, settings)
-	{
-		var context = null;
-
-		if(settings &amp;&amp; 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		if(!(sheets instanceof Array))
-		{
-			sheets = [sheets];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var html = '';
-
-		for(var i in sheets)
-		{
-			if(_ami_internal_sheets.indexOf(sheets[i]) &lt; 0)
-			{
-				_ami_internal_sheets.push(sheets[i]);
-
-				html += '&lt;link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _ami_internal_nonce++ + '">&lt;/link>';
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		$('head').append(html).promise().done(function() {
-
-			if(context) {
-				result.resolveWith(context);
-			} else {
-				result.resolve();
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
-	},
-
-	/*-----------------------------------------------------------------*/
-	/* DYNAMIC SCRIPT LOADING                                          */
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Loads JavaScript scripts asynchronously
-	  * @param {(Array|String)} scripts the array of scripts
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	loadScripts: function(scripts, settings)
-	{
-		var context = null;
-
-		if(settings &amp;&amp; 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		if(!(scripts instanceof Array))
-		{
-			scripts = [scripts];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var html = '';
-
-		for(var i in scripts)
-		{
-			if(_ami_internal_scripts.indexOf(scripts[i]) &lt; 0)
-			{
-				_ami_internal_scripts.push(scripts[i]);
-
-				html += '&lt;script type="text/javascript" src="' + scripts[i] + '?_=' + _ami_internal_nonce++ + '">&lt;/script>';
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		$('head').append(html).promise().done(function() {
-
-			if(context) {
-				result.resolveWith(context);
-			} else {
-				result.resolve();
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
-	},
-
-	/*-----------------------------------------------------------------*/
-	/* DYNAMIC HTML LOADING                                            */
-	/*-----------------------------------------------------------------*/
-
-	_loadHTMLs: function(deferred, array, fragments, context)
-	{
-		if(fragments.length > 0)
-		{
-			var url = fragments.shift();
-
-			$.ajax({
-				url: url,
-				cache: false,
-				dataType: 'html',
-				context: this,
-			}).done(function(data) {
-
-				array.push(data);
-
-				this._loadHTMLs(deferred, array, fragments, context);
-
-			}).fail(function() {
-
-				if(context) {
-					deferred.rejectWith(context, ['could not load `' + url + '`']);
-				} else {
-					deferred.reject('could not load `' + url + '`');
-				}
-			});
-		}
-		else
-		{
-			if(context) {
-				deferred.resolveWith(context, [array]);
-			} else {
-				deferred.resolve(array);
-			}
-		}
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Loads HTML fragments asynchronously
-	  * @param {(Array|String)} fragments the array of fragments
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	loadHTMLs: function(fragments, settings) {
-
-		var context = null;
-
-		if(settings &amp;&amp; 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		if(!(fragments instanceof Array))
-		{
-			fragments = [fragments];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		this._loadHTMLs(result, [], fragments, context);
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
-	},
-
-	/*-----------------------------------------------------------------*/
-	/* HTML CONTENT                                                    */
-	/*-----------------------------------------------------------------*/
-
-	webappRegExp: /%%\s*WEBAPP_URL\s*%%/g,
-	originRegExp: /%%\s*ORIGIN_URL\s*%%/g,
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Replace the HTML content of the given target
-	  * @param {String} path the target path
-	  * @param {String} html the HTML fragment
-	  * @param {Object} [settings] dictionary of settings (context, dict)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	replaceHTML: function(selector, html, settings)
-	{
-		html = html.replace(this.webappRegExp, this.webAppURL);
-		html = html.replace(this.originRegExp, this.originURL);
-
-		var context = null;
-		var dict = null;
-
-		if(settings)
-		{
-			if('context' in settings) {
-				context = settings['context'];
-			}
-
-			if('dict' in settings) {
-				dict = settings['dict'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		html = this.formatHTML(html, dict);
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		var target = $(selector);
-
-		target.html(html).promise().done(function() {
-
-			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
-			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
-
-			target.find('.ami-select').each(function() {
-				$(this).wrap('&lt;div class="ami-select-wrapper">&lt;/div>');
-			});
-
-			if(context) {
-				result.resolveWith(context);
-			} else {
-				result.resolve();
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Prepends a HTML fragment to the given target content
-	  * @param {String} path the target path
-	  * @param {String} html the HTML fragment
-	  * @param {Object} [settings] dictionary of settings (context, dict)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	prependHTML: function(selector, html, settings)
-	{
-		html = html.replace(this.webappRegExp, this.webAppURL);
-		html = html.replace(this.originRegExp, this.originURL);
-
-		var context = null;
-		var dict = null;
-
-		if(settings)
-		{
-			if('context' in settings) {
-				context = settings['context'];
-			}
-
-			if('dict' in settings) {
-				dict = settings['dict'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		html = this.formatHTML(html, dict);
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		var target = $(selector);
-
-		target.prepend(html).promise().done(function() {
-
-			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
-			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
-
-			target.find('.ami-select').each(function() {
-				$(this).wrap('&lt;div class="ami-select-wrapper">&lt;/div>');
-			});
-
-			if(context) {
-				result.resolveWith(context);
-			} else {
-				result.resolve();
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Appends a HTML fragment to the given target content
-	  * @param {String} path the target path
-	  * @param {String} html the HTML fragment
-	  * @param {Object} [settings] dictionary of settings (context, dict)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	appendHTML: function(selector, html, settings)
-	{
-		html = html.replace(this.webappRegExp, this.webAppURL);
-		html = html.replace(this.originRegExp, this.originURL);
-
-		var context = null;
-		var dict = null;
-
-		if(settings)
-		{
-			if('context' in settings) {
-				context = settings['context'];
-			}
-
-			if('dict' in settings) {
-				dict = settings['dict'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		html = this.formatHTML(html, dict);
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		var target = $(selector);
-
-		target.append(html).promise().done(function() {
-
-			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
-			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
-
-			target.find('.ami-select').each(function() {
-				$(this).wrap('&lt;div class="ami-select-wrapper">&lt;/div>');
-			});
-
-			if(context) {
-				result.resolveWith(context);
-			} else {
-				result.resolve();
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Format the given HTML fragment using TWIG, see: {@link http://twig.sensiolabs.org/documentation}
-	  * @param {String} html the HTML fragment
-	  * @param {Object} [dict] the dictionary
-	  * @returns {String} The formated HTML fragment
-	  */
-
-	formatHTML: function(html, dict)
-	{
-		if(dict instanceof Array)
-		{
-			var result = '';
-
-			for(var i in dict)
-			{
-				result += amiTwig.render(html, dict[i]);
-			}
-
-			return result;
-		}
-		else
-		{
-			return amiTwig.render(html, dict);
-		}
-	},
-
-	/*-----------------------------------------------------------------*/
-	/* JSPATH                                                          */
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Finds data within the given JSON, see: {@link https://github.com/dfilatov/jspath}
-	  * @param {String} path the path
-	  * @param {Object} json the JSON
-	  * @returns {Array} The resulting array
-	  */
-
-	jspath: function(path, json)
-	{
-		return JSPath.apply(path, json);
-	},
-
-	/*-----------------------------------------------------------------*/
-	/* LOCK                                                            */
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Locks the web application
-	  */
-
-	lock: function()
-	{
-		$('#ami_locker').css('display', 'block');
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Unlocks the web application
-	  */
-
-	unlock: function()
-	{
-		$('#ami_locker').css('display', 'none');
-	},
-
-	/*-----------------------------------------------------------------*/
-	/* MESSAGES                                                        */
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Show a 'success' message
-	  * @param {String} message the message
-	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	  */
-
-	success: function(message, fadeOut)
-	{
-		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
-		this.unlock();
-
-		$(document).scrollTop(0);
-
-		if(fadeOut)
-		{
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Show an 'info' message
-	  * @param {String} message the message
-	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	  */
-
-	info: function(message, fadeOut)
-	{
-		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
-		this.unlock();
-
-		$(document).scrollTop(0);
-
-		if(fadeOut)
-		{
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Show a 'warning' message
-	  * @param {String} message the message
-	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	  */
-
-	warning: function(message, fadeOut)
-	{
-		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
-		this.unlock();
-
-		$(document).scrollTop(0);
-
-		if(fadeOut)
-		{
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Show an 'error' message
-	  * @param {String} message the message
-	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	  */
-
-	error: function(message, fadeOut)
-	{
-		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
-		this.unlock();
-
-		$(document).scrollTop(0);
-
-		if(fadeOut)
-		{
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Flush messages
-	  */
-
-	flush: function()
-	{
-		$('#ami_status_content').empty();
-	},
-
-	/*-----------------------------------------------------------------*/
-	/* WEB APPLICATION                                                 */
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * This method must be overloaded and is called when the web application starts
-	  * @event amiWebApp#onStart
-	  */
-
-	onStart: function()
-	{
-		alert('error: `this.onStart()` must be overloaded!');
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * This method must be overloaded and is called when the toolbar needs to be updated
-	  * @event amiWebApp#onToolbarUpdateNeeded
-	  */
-
-	onToolbarUpdateNeeded: function()
-	{
-		alert('error: `this.onToolbarUpdateNeeded()` must be overloaded!');
- 	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Starts the web application
-	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, template_filename, locker_filename)
-	  */
-
-	start: function(settings)
-	{
-		var logo_url = 'images/logo.png';
-		var home_url = 'http://ami.in2p3.fr';
-		var contact_email = 'ami@lpsc.in2p3.fr';
-		var template_filename = 'html/AMI/AMIWebApp_default.html';
-		var locker_filename = 'html/AMI/Fragment/locker.html';
-
-		if(settings)
-		{
-			if('logo_url' in settings) {
-				logo_url = settings['logo_url'];
-			}
-
-			if('home_url' in settings) {
-				home_url = settings['home_url'];
-			}
-
-			if('contact_email' in settings) {
-				contact_email = settings['contact_email'];
-			}
-
-			if('template_filename' in settings) {
-				template_filename = settings['template_filename'];
-			}
-
-			if('locker_filename' in settings) {
-				locker_filename = settings['locker_filename'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		var dict = {
-			LOGO_URL: logo_url,
-			HOME_URL: home_url,
-			CONTACT_EMAIL: contact_email,
-		};
-
-		/*---------------------------------------------------------*/
-
-		$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data1) {
-
-			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data2) {
-
-				$('body').append(amiWebApp.formatHTML(data1, dict) + data2).promise().done(function() {
-
-					amiLogin._init().done(function() {
-
-						amiWebApp.onStart();
-					});
-				});
-
-			}).fail(function() {
-
-				alert('Service temporarily unavailable, please try reloading the page...');
-
-				console.error('could not load `' + locker_filename + '`');
-			});
-		}).fail(function() {
-
-			alert('Service temporarily unavailable, please try reloading the page...');
-
-			console.error('could not load `' + template_filename + '`');
-		});
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-	/* SUB-APPLICATIONS                                                */
-	/*-----------------------------------------------------------------*/
-
-	onReady: function(userdata)
-	{
-		return this._currentSubAppInstance.onReady(userdata);
-	},
-
-	onExit: function(userdata)
-	{
-		return this._currentSubAppInstance.onExit(userdata);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	onLogin: function()
-	{
-		var result = this._currentSubAppInstance.onLogin();
-		this.onToolbarUpdateNeeded();
-		return result;
-	},
-
-	onLogout: function()
-	{
-		var result = this._currentSubAppInstance.onLogout();
-		this.onToolbarUpdateNeeded();
-		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Get the current sub-application instance
-	  * @return {?} The current sub-application instance
-	  */
-
-	getCurrentSubAppInstance: function()
-	{
-		return this._currentSubAppInstance;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Set the current sub-application instance
-	  * @param {?} subAppInstance the application instance
-	  * @param {?} [userdata] userdata
-	  */
-
-	setCurrentSubAppInstance: function(subAppInstance, userdata)
-	{
-		/*---------------------------------------------------------*/
-		/* CHECK SUB-APPLICATION                                   */
-		/*---------------------------------------------------------*/
-
-		if(!subAppInstance.onReady) {
-			alert('error: `&lt;subapp>.onReady()` must be implemented!');
-			return;
-		}
-
-		if(!subAppInstance.onExit) {
-			alert('error: `&lt;subapp>.onExit()` must be implemented!');
-			return;
-		}
-
-		if(!subAppInstance.onLogin) {
-			alert('error: `&lt;subapp>.onLogin()` must be implemented!');
-			return;
-		}
-
-		if(!subAppInstance.onLogout) {
-			alert('error: `&lt;subapp>.onLogout()` must be implemented!');
-			return;
-		}
-
-		/*---------------------------------------------------------*/
-		/* SWITCH SUB-APPLICATION                                  */
-		/*---------------------------------------------------------*/
-
-		if(this._currentSubAppInstance.onExit() === false)
-		{
-			return;
-		}
-
-		/*---------------------------------------------------------*/
-
-		this._currentSubAppInstance = subAppInstance;
-
-		/*---------------------------------------------------------*/
-
-		amiWebApp.lock();
-
-		_ami_internal_always(
-			amiWebApp.onReady(userdata),
-			function() {
-				_ami_internal_always(
-					amiWebApp.onLogin(),
-					function() {
-						amiWebApp.unlock();
-					}
-				);
-			}
-		);
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Runs a sub-application according to the URL (parameters 'subapp' and 'userdata')
-	  * @param {String} home the name of the home sub-application
-	  */
-
-	autoRunSubApp: function(home)
-	{
-		var subapp = this.args['subapp'] || home;
-		var userdata = this.args['userdata'] || null;
-
-		if(subapp)
-		{
-			subapp = subapp.toLowerCase();
-
-			if(subapp in _ami_internal_subAppDict)
-			{
-				this.setCurrentSubAppInstance(_ami_internal_subAppDict[subapp], userdata);
-			}
-		}
-	},
-
-	/*-----------------------------------------------------------------*/
-};
-
-/*-------------------------------------------------------------------------*/
-/* CONSTRUCTOR                                                             */
-/*-------------------------------------------------------------------------*/
-
-amiWebApp.init();
-
-/*-------------------------------------------------------------------------*/
-/* AMISubApp                                                               */
-/*-------------------------------------------------------------------------*/
-
-/**
- * The AMI sub-application interface
- * @interface AMISubApp
- */
-
-$AMIInterface('AMISubApp', /** @lends AMISubApp# */ {
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Called when the sub-application is ready to run
-	  * @param {?} userdata userdata
-	  */
-
-	onReady: function(userdata) {},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Called when the sub-application is about to exit
-	  */
-
-	onExit: function() {},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Called when log in
-	  */
-
-	onLogin: function() {},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Called when log out
-	  */
-
-	onLogout: function() {},
-
-	/*-----------------------------------------------------------------*/
-});
-
-/*-------------------------------------------------------------------------*/
-/* AMIFooApp                                                               */
-/*-------------------------------------------------------------------------*/
-
-$AMIClass('AMIFooApp', {
-	$implements: [AMISubApp],
-	onReady: function() {},
-	onExit: function() {},
-	onLogin: function() {},
-	onLogout: function() {},
-});
-
-amiWebApp._currentSubAppInstance = new AMIFooApp();
-
-/*-------------------------------------------------------------------------*/
-/* JQUERY EXTENSION                                                        */
-/*-------------------------------------------------------------------------*/
-
-jQuery.foreach = function(elements, callback, context)
-{
-	if(context)
-	{
-		jQuery.each(elements, function(index, element) {
-
-			callback.apply(context, [index, element]);
-		});
-	}
-	else
-	{
-		jQuery.each(elements, function(index, element) {
-
-			callback.apply(element, [index, element]);
-		});
-	}
-
-	return elements;
-};
-
-/*-------------------------------------------------------------------------*/
-</pre>
-        </article>
-    </section>
+<section>
+  <article>
+    <pre class="ami-code"><code><i class="line-number"></i>/*!
+<i class="line-number"></i> * AMI Web Framework
+<i class="line-number"></i> *
+<i class="line-number"></i> * Copyright (c) 2014-2015 The AMI Team
+<i class="line-number"></i> * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+<i class="line-number"></i> *
+<i class="line-number"></i> */
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* INTERNAL VARIABLES                                                      */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>var _ami_internal_nonce = jQuery.now();
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>var _ami_internal_subAppDict = {};
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>var _ami_internal_scripts = [];
+<i class="line-number"></i>var _ami_internal_sheets = [];
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* INTERNAL FUNCTIONS                                                      */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_always(deferred, func)
+<i class="line-number"></i>{
+<i class="line-number"></i>	if(deferred &amp;&amp; deferred.always)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		deferred.always(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>			func();
+<i class="line-number"></i>		});
+<i class="line-number"></i>	}
+<i class="line-number"></i>	else
+<i class="line-number"></i>	{
+<i class="line-number"></i>		func();
+<i class="line-number"></i>	}
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* GLOBAL FUNCTIONS                                                        */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>/**
+<i class="line-number"></i>  * Register a sub-application
+<i class="line-number"></i>  * @param {String} subAppName the sub-application name
+<i class="line-number"></i>  * @param {?} subAppInstance the sub-application instance
+<i class="line-number"></i>  */
+<i class="line-number"></i>
+<i class="line-number"></i>function amiRegisterSubApp(subAppName, subAppInstance)
+<i class="line-number"></i>{
+<i class="line-number"></i>	_ami_internal_subAppDict[subAppName.toLowerCase()] = subAppInstance;
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* amiWebApp                                                               */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>/**
+<i class="line-number"></i> * The AMI webapp subsystem
+<i class="line-number"></i> * @namespace amiWebApp
+<i class="line-number"></i> */
+<i class="line-number"></i>
+<i class="line-number"></i>var amiWebApp = {
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* CONSTRUCTOR                                                     */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	init: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* DEFAULT SHEETS                                          */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this.loadSheets([
+<i class="line-number"></i>			/* Third-party */
+<i class="line-number"></i>			'css/bootstrap.min.css',
+<i class="line-number"></i>			'css/bootstrap.vertical-tabs.min.css',
+<i class="line-number"></i>			'css/font-awesome.min.css',
+<i class="line-number"></i>			/* AMI */
+<i class="line-number"></i>			'css/AMI/AMIWebApp.min.css',
+<i class="line-number"></i>		]).fail(function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>			alert('Service temporarily unavailable, please try reloading the page...');
+<i class="line-number"></i>
+<i class="line-number"></i>			console.error(data);
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* DEFAULT SCRIPTS                                         */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this.loadScripts([
+<i class="line-number"></i>			/* Third-party */
+<i class="line-number"></i>			'js/jspath.min.js',
+<i class="line-number"></i>			'js/bootstrap.min.js',
+<i class="line-number"></i>			/* AMI */
+<i class="line-number"></i>			'js/AMI/AMIObjects.min.js',
+<i class="line-number"></i>			'js/AMI/AMICommand.min.js',
+<i class="line-number"></i>			'js/AMI/AMILogin.min.js',
+<i class="line-number"></i>			'js/AMI/AMITokenizer.min.js',
+<i class="line-number"></i>			'js/AMI/AMITwigExprCompiler.min.js',
+<i class="line-number"></i>			'js/AMI/AMITwigExprInterpreter.min.js',
+<i class="line-number"></i>			'js/AMI/AMITwig.min.js',
+<i class="line-number"></i>		]).fail(function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>			alert('Service temporarily unavailable, please try reloading the page...');
+<i class="line-number"></i>
+<i class="line-number"></i>			console.error(data);
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* DEFAULT FRAGMENTS                                       */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this.loadHTMLs([
+<i class="line-number"></i>			'html/AMI/Fragment/alert_success.html',
+<i class="line-number"></i>			'html/AMI/Fragment/alert_info.html',
+<i class="line-number"></i>			'html/AMI/Fragment/alert_warning.html',
+<i class="line-number"></i>			'html/AMI/Fragment/alert_error.html',
+<i class="line-number"></i>		], {context: this}).done(function(data) {
+<i class="line-number"></i>			this.fragmentSuccess = data[0];
+<i class="line-number"></i>			this.fragmentInfo = data[1];
+<i class="line-number"></i>			this.fragmentWarning = data[2];
+<i class="line-number"></i>			this.fragmentError = data[3];
+<i class="line-number"></i>		}).fail(function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>			alert('Service temporarily unavailable, please try reloading the page...');
+<i class="line-number"></i>
+<i class="line-number"></i>			console.error(data);
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* AVAILABILITY                                            */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		setTimeout(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>			if($('#ami_main_content').is(':empty'))
+<i class="line-number"></i>			{
+<i class="line-number"></i>				$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>		}, 8000);
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* URLs                                                    */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var url = document.location.href;
+<i class="line-number"></i>
+<i class="line-number"></i>		var index1 = url./**/indexOf('?');
+<i class="line-number"></i>		if(index1 >= 0) url = url.substring(0, index1);
+<i class="line-number"></i>		var index2 = url.lastIndexOf('/');
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		/**
+<i class="line-number"></i>		  * {String} WebApp URL
+<i class="line-number"></i>		  * @type {String}
+<i class="line-number"></i>		  */
+<i class="line-number"></i>
+<i class="line-number"></i>		this.webAppURL = url;
+<i class="line-number"></i>
+<i class="line-number"></i>		while(this.webAppURL[this.webAppURL.length - 1] === '/')
+<i class="line-number"></i>		{
+<i class="line-number"></i>			this.webAppURL = this.webAppURL.substring(0, this.webAppURL.length - 1);
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		/**
+<i class="line-number"></i>		  * Origin URL
+<i class="line-number"></i>		  * @type {String}
+<i class="line-number"></i>		  */
+<i class="line-number"></i>
+<i class="line-number"></i>		this.originURL = url.substring(0, index2);
+<i class="line-number"></i>
+<i class="line-number"></i>		while(this.originURL[this.originURL.length - 1] === '/')
+<i class="line-number"></i>		{
+<i class="line-number"></i>			this.originURL = this.originURL.substring(0, this.originURL.length - 1);
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* ARGs                                                    */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		/**
+<i class="line-number"></i>		  * URL arguments
+<i class="line-number"></i>		  * @type {Array&lt;String>}
+<i class="line-number"></i>		  */
+<i class="line-number"></i>
+<i class="line-number"></i>		this.args = {};
+<i class="line-number"></i>
+<i class="line-number"></i>		if(window.location.search)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var prarams = window.location.search.substring(1).split('&amp;');
+<i class="line-number"></i>
+<i class="line-number"></i>			for(var i in prarams)
+<i class="line-number"></i>			{
+<i class="line-number"></i>				var pair = prarams[i].split('=');
+<i class="line-number"></i>
+<i class="line-number"></i>				this.args[pair[0]] = decodeURIComponent(pair[1]);
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* TOOLS                                                           */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Check whether the WebApp is executed locally (file://, localhost or 127.0.0.1) or not
+<i class="line-number"></i>	  * @returns {Boolean} True or False
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	isLocal: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return document.location.protocol === (('file:'))
+<i class="line-number"></i>		       ||
+<i class="line-number"></i>		       document.location.hostname === 'localhost'
+<i class="line-number"></i>		       ||
+<i class="line-number"></i>		       document.location.hostname === '127.0.0.1'
+<i class="line-number"></i>		;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Escapes the given string from text to HTML
+<i class="line-number"></i>	  * @param {String} string the unescaped string
+<i class="line-number"></i>	  * @returns {String} The escaped string
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	textToHtml: function(s)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return s.replace(/"/g, '&amp;quot;').replace(/&lt;/g, '&amp;lt;').replace(/>/g, '&amp;gt;');
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Unescapes the given string from HTML to text
+<i class="line-number"></i>	  * @param {String} string the escaped string
+<i class="line-number"></i>	  * @returns {String} The unescaped string
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	htmlToText: function(s)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return s.replace(/&amp;gt;/g, '>').replace(/&amp;lt;/g, '&lt;').replace(/&amp;quot;/g, '"');
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Escapes the given string from text to JavaScript string
+<i class="line-number"></i>	  * @param {String} string the unescaped string
+<i class="line-number"></i>	  * @returns {String} The escaped string
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	textToString: function(s)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return s.replace(/\\/g, '\\\\').replace(/"/g, '\\\"').replace(/'/g, '\\\'');
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Unescapes the given string from JavaScript string to text
+<i class="line-number"></i>	  * @param {String} string the escaped string
+<i class="line-number"></i>	  * @returns {String} The unescaped string
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	stringToText: function(s)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return s.replace(/\\'/g, '\'').replace(/\\"/g, '\"').replace(/\\\\/g, '\\');
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Escapes the given string from HTML to JavaScript string
+<i class="line-number"></i>	  * @param {String} string the unescaped string
+<i class="line-number"></i>	  * @returns {String} The escaped string
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	htmlToString: function(s)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return s.replace(/\\/g, '\\\\').replace(/&amp;quot;/g, '\\&amp;quot;').replace(/'/g, '\\\'');
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Unescapes the given string from JavaScript string to HTML
+<i class="line-number"></i>	  * @param {String} string the escaped string
+<i class="line-number"></i>	  * @returns {String} The unescaped string
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	stringToHtml: function(s)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return s.replace(/\\'/g, '\'').replace(/\\&amp;quot;/g, '&amp;quot;').replace(/\\\\/g, '\\');
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* DYNAMIC SHEET LOADING                                           */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Loads CSS sheets asynchronously
+<i class="line-number"></i>	  * @param {(Array|String)} sheets the array of sheets
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	loadSheets: function(sheets, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var context = null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings &amp;&amp; 'context' in settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			context = settings['context'];
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(!(sheets instanceof Array))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			sheets = [sheets];
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var html = '';
+<i class="line-number"></i>
+<i class="line-number"></i>		for(var i in sheets)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			if(_ami_internal_sheets.indexOf(sheets[i]) &lt; 0)
+<i class="line-number"></i>			{
+<i class="line-number"></i>				_ami_internal_sheets.push(sheets[i]);
+<i class="line-number"></i>
+<i class="line-number"></i>				html += '&lt;link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _ami_internal_nonce++ + '">&lt;/link>';
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var result = $.Deferred();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		$('head').append(html).promise().done(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.resolveWith(context);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.resolve();
+<i class="line-number"></i>			}
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return result.promise();
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* DYNAMIC SCRIPT LOADING                                          */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Loads JavaScript scripts asynchronously
+<i class="line-number"></i>	  * @param {(Array|String)} scripts the array of scripts
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	loadScripts: function(scripts, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var context = null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings &amp;&amp; 'context' in settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			context = settings['context'];
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(!(scripts instanceof Array))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			scripts = [scripts];
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var html = '';
+<i class="line-number"></i>
+<i class="line-number"></i>		for(var i in scripts)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			if(_ami_internal_scripts.indexOf(scripts[i]) &lt; 0)
+<i class="line-number"></i>			{
+<i class="line-number"></i>				_ami_internal_scripts.push(scripts[i]);
+<i class="line-number"></i>
+<i class="line-number"></i>				html += '&lt;script type="text/javascript" src="' + scripts[i] + '?_=' + _ami_internal_nonce++ + '">&lt;/script>';
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var result = $.Deferred();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		$('head').append(html).promise().done(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.resolveWith(context);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.resolve();
+<i class="line-number"></i>			}
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return result.promise();
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* DYNAMIC HTML LOADING                                            */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	_loadHTMLs: function(deferred, array, fragments, context)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		if(fragments.length > 0)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var url = fragments.shift();
+<i class="line-number"></i>
+<i class="line-number"></i>			$.ajax({
+<i class="line-number"></i>				url: url,
+<i class="line-number"></i>				cache: false,
+<i class="line-number"></i>				dataType: 'html',
+<i class="line-number"></i>				context: this,
+<i class="line-number"></i>			}).done(function(data) {
+<i class="line-number"></i>
+<i class="line-number"></i>				array.push(data);
+<i class="line-number"></i>
+<i class="line-number"></i>				this._loadHTMLs(deferred, array, fragments, context);
+<i class="line-number"></i>
+<i class="line-number"></i>			}).fail(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>				if(context) {
+<i class="line-number"></i>					deferred.rejectWith(context, ['could not load `' + url + '`']);
+<i class="line-number"></i>				} else {
+<i class="line-number"></i>					deferred.reject('could not load `' + url + '`');
+<i class="line-number"></i>				}
+<i class="line-number"></i>			});
+<i class="line-number"></i>		}
+<i class="line-number"></i>		else
+<i class="line-number"></i>		{
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				deferred.resolveWith(context, [array]);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				deferred.resolve(array);
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Loads HTML fragments asynchronously
+<i class="line-number"></i>	  * @param {(Array|String)} fragments the array of fragments
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	loadHTMLs: function(fragments, settings) {
+<i class="line-number"></i>
+<i class="line-number"></i>		var context = null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings &amp;&amp; 'context' in settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			context = settings['context'];
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(!(fragments instanceof Array))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			fragments = [fragments];
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var result = $.Deferred();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this._loadHTMLs(result, [], fragments, context);
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return result.promise();
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* HTML CONTENT                                                    */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	webappRegExp: /%%\s*WEBAPP_URL\s*%%/g,
+<i class="line-number"></i>	originRegExp: /%%\s*ORIGIN_URL\s*%%/g,
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Replace the HTML content of the given target
+<i class="line-number"></i>	  * @param {String} path the target path
+<i class="line-number"></i>	  * @param {String} html the HTML fragment
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context, dict)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	replaceHTML: function(selector, html, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		html = html.replace(this.webappRegExp, this.webAppURL);
+<i class="line-number"></i>		html = html.replace(this.originRegExp, this.originURL);
+<i class="line-number"></i>
+<i class="line-number"></i>		var context = null;
+<i class="line-number"></i>		var dict = null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			if('context' in settings) {
+<i class="line-number"></i>				context = settings['context'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('dict' in settings) {
+<i class="line-number"></i>				dict = settings['dict'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		html = this.formatHTML(html, dict);
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var result = $.Deferred();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var target = $(selector);
+<i class="line-number"></i>
+<i class="line-number"></i>		target.html(html).promise().done(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
+<i class="line-number"></i>			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+<i class="line-number"></i>			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+<i class="line-number"></i>
+<i class="line-number"></i>			target.find('.ami-select').each(function() {
+<i class="line-number"></i>				$(this).wrap('&lt;div class="ami-select-wrapper">&lt;/div>');
+<i class="line-number"></i>			});
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.resolveWith(context);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.resolve();
+<i class="line-number"></i>			}
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return result.promise();
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Prepends a HTML fragment to the given target content
+<i class="line-number"></i>	  * @param {String} path the target path
+<i class="line-number"></i>	  * @param {String} html the HTML fragment
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context, dict)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	prependHTML: function(selector, html, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		html = html.replace(this.webappRegExp, this.webAppURL);
+<i class="line-number"></i>		html = html.replace(this.originRegExp, this.originURL);
+<i class="line-number"></i>
+<i class="line-number"></i>		var context = null;
+<i class="line-number"></i>		var dict = null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			if('context' in settings) {
+<i class="line-number"></i>				context = settings['context'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('dict' in settings) {
+<i class="line-number"></i>				dict = settings['dict'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		html = this.formatHTML(html, dict);
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var result = $.Deferred();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var target = $(selector);
+<i class="line-number"></i>
+<i class="line-number"></i>		target.prepend(html).promise().done(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
+<i class="line-number"></i>			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+<i class="line-number"></i>			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+<i class="line-number"></i>
+<i class="line-number"></i>			target.find('.ami-select').each(function() {
+<i class="line-number"></i>				$(this).wrap('&lt;div class="ami-select-wrapper">&lt;/div>');
+<i class="line-number"></i>			});
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.resolveWith(context);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.resolve();
+<i class="line-number"></i>			}
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return result.promise();
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Appends a HTML fragment to the given target content
+<i class="line-number"></i>	  * @param {String} path the target path
+<i class="line-number"></i>	  * @param {String} html the HTML fragment
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (context, dict)
+<i class="line-number"></i>	  * @returns {$.Deferred} A JQuery deferred object
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	appendHTML: function(selector, html, settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		html = html.replace(this.webappRegExp, this.webAppURL);
+<i class="line-number"></i>		html = html.replace(this.originRegExp, this.originURL);
+<i class="line-number"></i>
+<i class="line-number"></i>		var context = null;
+<i class="line-number"></i>		var dict = null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			if('context' in settings) {
+<i class="line-number"></i>				context = settings['context'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('dict' in settings) {
+<i class="line-number"></i>				dict = settings['dict'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		html = this.formatHTML(html, dict);
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var result = $.Deferred();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var target = $(selector);
+<i class="line-number"></i>
+<i class="line-number"></i>		target.append(html).promise().done(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
+<i class="line-number"></i>			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
+<i class="line-number"></i>			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+<i class="line-number"></i>
+<i class="line-number"></i>			target.find('.ami-select').each(function() {
+<i class="line-number"></i>				$(this).wrap('&lt;div class="ami-select-wrapper">&lt;/div>');
+<i class="line-number"></i>			});
+<i class="line-number"></i>
+<i class="line-number"></i>			if(context) {
+<i class="line-number"></i>				result.resolveWith(context);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				result.resolve();
+<i class="line-number"></i>			}
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return result.promise();
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Format the given HTML fragment using TWIG, see: {@link http://twig.sensiolabs.org/documentation}
+<i class="line-number"></i>	  * @param {String} html the HTML fragment
+<i class="line-number"></i>	  * @param {Object} [dict] the dictionary
+<i class="line-number"></i>	  * @returns {String} The formated HTML fragment
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	formatHTML: function(html, dict)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		if(dict instanceof Array)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var result = '';
+<i class="line-number"></i>
+<i class="line-number"></i>			for(var i in dict)
+<i class="line-number"></i>			{
+<i class="line-number"></i>				result += amiTwig.render(html, dict[i]);
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			return result;
+<i class="line-number"></i>		}
+<i class="line-number"></i>		else
+<i class="line-number"></i>		{
+<i class="line-number"></i>			return amiTwig.render(html, dict);
+<i class="line-number"></i>		}
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* JSPATH                                                          */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Finds data within the given JSON, see: {@link https://github.com/dfilatov/jspath}
+<i class="line-number"></i>	  * @param {String} path the path
+<i class="line-number"></i>	  * @param {Object} json the JSON
+<i class="line-number"></i>	  * @returns {Array} The resulting array
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	jspath: function(path, json)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return JSPath.apply(path, json);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* LOCK                                                            */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Locks the web application
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	lock: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		$('#ami_locker').css('display', 'block');
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Unlocks the web application
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	unlock: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		$('#ami_locker').css('display', 'none');
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* MESSAGES                                                        */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Show a 'success' message
+<i class="line-number"></i>	  * @param {String} message the message
+<i class="line-number"></i>	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	success: function(message, fadeOut)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
+<i class="line-number"></i>		this.unlock();
+<i class="line-number"></i>
+<i class="line-number"></i>		$(document).scrollTop(0);
+<i class="line-number"></i>
+<i class="line-number"></i>		if(fadeOut)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			$('#ami_status_content .alert').fadeOut(60000);
+<i class="line-number"></i>		}
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Show an 'info' message
+<i class="line-number"></i>	  * @param {String} message the message
+<i class="line-number"></i>	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	info: function(message, fadeOut)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
+<i class="line-number"></i>		this.unlock();
+<i class="line-number"></i>
+<i class="line-number"></i>		$(document).scrollTop(0);
+<i class="line-number"></i>
+<i class="line-number"></i>		if(fadeOut)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			$('#ami_status_content .alert').fadeOut(60000);
+<i class="line-number"></i>		}
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Show a 'warning' message
+<i class="line-number"></i>	  * @param {String} message the message
+<i class="line-number"></i>	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	warning: function(message, fadeOut)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
+<i class="line-number"></i>		this.unlock();
+<i class="line-number"></i>
+<i class="line-number"></i>		$(document).scrollTop(0);
+<i class="line-number"></i>
+<i class="line-number"></i>		if(fadeOut)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			$('#ami_status_content .alert').fadeOut(60000);
+<i class="line-number"></i>		}
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Show an 'error' message
+<i class="line-number"></i>	  * @param {String} message the message
+<i class="line-number"></i>	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	error: function(message, fadeOut)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
+<i class="line-number"></i>		this.unlock();
+<i class="line-number"></i>
+<i class="line-number"></i>		$(document).scrollTop(0);
+<i class="line-number"></i>
+<i class="line-number"></i>		if(fadeOut)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			$('#ami_status_content .alert').fadeOut(60000);
+<i class="line-number"></i>		}
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Flush messages
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	flush: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		$('#ami_status_content').empty();
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* WEB APPLICATION                                                 */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * This method must be overloaded and is called when the web application starts
+<i class="line-number"></i>	  * @event amiWebApp#onStart
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	onStart: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		alert('error: `this.onStart()` must be overloaded!');
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * This method must be overloaded and is called when the toolbar needs to be updated
+<i class="line-number"></i>	  * @event amiWebApp#onToolbarUpdateNeeded
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	onToolbarUpdateNeeded: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		alert('error: `this.onToolbarUpdateNeeded()` must be overloaded!');
+<i class="line-number"></i> 	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Starts the web application
+<i class="line-number"></i>	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, template_filename, locker_filename)
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	start: function(settings)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var logo_url = 'images/logo.png';
+<i class="line-number"></i>		var home_url = 'http://ami.in2p3.fr';
+<i class="line-number"></i>		var contact_email = 'ami@lpsc.in2p3.fr';
+<i class="line-number"></i>		var template_filename = 'html/AMI/AMIWebApp_default.html';
+<i class="line-number"></i>		var locker_filename = 'html/AMI/Fragment/locker.html';
+<i class="line-number"></i>
+<i class="line-number"></i>		if(settings)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			if('logo_url' in settings) {
+<i class="line-number"></i>				logo_url = settings['logo_url'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('home_url' in settings) {
+<i class="line-number"></i>				home_url = settings['home_url'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('contact_email' in settings) {
+<i class="line-number"></i>				contact_email = settings['contact_email'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('template_filename' in settings) {
+<i class="line-number"></i>				template_filename = settings['template_filename'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if('locker_filename' in settings) {
+<i class="line-number"></i>				locker_filename = settings['locker_filename'];
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var dict = {
+<i class="line-number"></i>			LOGO_URL: logo_url,
+<i class="line-number"></i>			HOME_URL: home_url,
+<i class="line-number"></i>			CONTACT_EMAIL: contact_email,
+<i class="line-number"></i>		};
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data1) {
+<i class="line-number"></i>
+<i class="line-number"></i>			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data2) {
+<i class="line-number"></i>
+<i class="line-number"></i>				$('body').append(amiWebApp.formatHTML(data1, dict) + data2).promise().done(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>					amiLogin._init().done(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>						amiWebApp.onStart();
+<i class="line-number"></i>					});
+<i class="line-number"></i>				});
+<i class="line-number"></i>
+<i class="line-number"></i>			}).fail(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>				alert('Service temporarily unavailable, please try reloading the page...');
+<i class="line-number"></i>
+<i class="line-number"></i>				console.error('could not load `' + locker_filename + '`');
+<i class="line-number"></i>			});
+<i class="line-number"></i>		}).fail(function() {
+<i class="line-number"></i>
+<i class="line-number"></i>			alert('Service temporarily unavailable, please try reloading the page...');
+<i class="line-number"></i>
+<i class="line-number"></i>			console.error('could not load `' + template_filename + '`');
+<i class="line-number"></i>		});
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>	/* SUB-APPLICATIONS                                                */
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	onReady: function(userdata)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this._currentSubAppInstance.onReady(userdata);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	onExit: function(userdata)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this._currentSubAppInstance.onExit(userdata);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	onLogin: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var result = this._currentSubAppInstance.onLogin();
+<i class="line-number"></i>		this.onToolbarUpdateNeeded();
+<i class="line-number"></i>		return result;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	onLogout: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var result = this._currentSubAppInstance.onLogout();
+<i class="line-number"></i>		this.onToolbarUpdateNeeded();
+<i class="line-number"></i>		return result;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Get the current sub-application instance
+<i class="line-number"></i>	  * @return {?} The current sub-application instance
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	getCurrentSubAppInstance: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this._currentSubAppInstance;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Set the current sub-application instance
+<i class="line-number"></i>	  * @param {?} subAppInstance the application instance
+<i class="line-number"></i>	  * @param {?} [userdata] userdata
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	setCurrentSubAppInstance: function(subAppInstance, userdata)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* CHECK SUB-APPLICATION                                   */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(!subAppInstance.onReady) {
+<i class="line-number"></i>			alert('error: `&lt;subapp>.onReady()` must be implemented!');
+<i class="line-number"></i>			return;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		if(!subAppInstance.onExit) {
+<i class="line-number"></i>			alert('error: `&lt;subapp>.onExit()` must be implemented!');
+<i class="line-number"></i>			return;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		if(!subAppInstance.onLogin) {
+<i class="line-number"></i>			alert('error: `&lt;subapp>.onLogin()` must be implemented!');
+<i class="line-number"></i>			return;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		if(!subAppInstance.onLogout) {
+<i class="line-number"></i>			alert('error: `&lt;subapp>.onLogout()` must be implemented!');
+<i class="line-number"></i>			return;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* SWITCH SUB-APPLICATION                                  */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this._currentSubAppInstance.onExit() === false)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			return;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this._currentSubAppInstance = subAppInstance;
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		amiWebApp.lock();
+<i class="line-number"></i>
+<i class="line-number"></i>		_ami_internal_always(
+<i class="line-number"></i>			amiWebApp.onReady(userdata),
+<i class="line-number"></i>			function() {
+<i class="line-number"></i>				_ami_internal_always(
+<i class="line-number"></i>					amiWebApp.onLogin(),
+<i class="line-number"></i>					function() {
+<i class="line-number"></i>						amiWebApp.unlock();
+<i class="line-number"></i>					}
+<i class="line-number"></i>				);
+<i class="line-number"></i>			}
+<i class="line-number"></i>		);
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Runs a sub-application according to the URL (parameters 'subapp' and 'userdata')
+<i class="line-number"></i>	  * @param {String} home the name of the home sub-application
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	autoRunSubApp: function(home)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var subapp = this.args['subapp'] || home;
+<i class="line-number"></i>		var userdata = this.args['userdata'] || null;
+<i class="line-number"></i>
+<i class="line-number"></i>		if(subapp)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			subapp = subapp.toLowerCase();
+<i class="line-number"></i>
+<i class="line-number"></i>			if(subapp in _ami_internal_subAppDict)
+<i class="line-number"></i>			{
+<i class="line-number"></i>				this.setCurrentSubAppInstance(_ami_internal_subAppDict[subapp], userdata);
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>};
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* CONSTRUCTOR                                                             */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>amiWebApp.init();
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* AMISubApp                                                               */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>/**
+<i class="line-number"></i> * The AMI sub-application interface
+<i class="line-number"></i> * @interface AMISubApp
+<i class="line-number"></i> */
+<i class="line-number"></i>
+<i class="line-number"></i>$AMIInterface('AMISubApp', /** @lends AMISubApp# */ {
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Called when the sub-application is ready to run
+<i class="line-number"></i>	  * @param {?} userdata userdata
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	onReady: function(userdata) {},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Called when the sub-application is about to exit
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	onExit: function() {},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Called when log in
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	onLogin: function() {},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Called when log out
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	onLogout: function() {},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>});
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* AMIFooApp                                                               */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>$AMIClass('AMIFooApp', {
+<i class="line-number"></i>	$implements: [AMISubApp],
+<i class="line-number"></i>	onReady: function() {},
+<i class="line-number"></i>	onExit: function() {},
+<i class="line-number"></i>	onLogin: function() {},
+<i class="line-number"></i>	onLogout: function() {},
+<i class="line-number"></i>});
+<i class="line-number"></i>
+<i class="line-number"></i>amiWebApp._currentSubAppInstance = new AMIFooApp();
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* JQUERY EXTENSION                                                        */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>jQuery.foreach = function(elements, callback, context)
+<i class="line-number"></i>{
+<i class="line-number"></i>	if(context)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		jQuery.each(elements, function(index, element) {
+<i class="line-number"></i>
+<i class="line-number"></i>			callback.apply(context, [index, element]);
+<i class="line-number"></i>		});
+<i class="line-number"></i>	}
+<i class="line-number"></i>	else
+<i class="line-number"></i>	{
+<i class="line-number"></i>		jQuery.each(elements, function(index, element) {
+<i class="line-number"></i>
+<i class="line-number"></i>			callback.apply(element, [index, element]);
+<i class="line-number"></i>		});
+<i class="line-number"></i>	}
+<i class="line-number"></i>
+<i class="line-number"></i>	return elements;
+<i class="line-number"></i>};
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i></code></pre>
+  </article>
+</section>
 
 
 

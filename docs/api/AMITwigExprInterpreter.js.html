@@ -20,338 +20,338 @@
 
 
     
-    <section>
-        <article>
-            <pre class="ami-code">/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-2015 The AMI Team
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- *
- */
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isIterable(x)
-{
-	return (x instanceof Array)
-	       ||
-	       (x instanceof Object)
-	       ||
-	       (x instanceof String)
-	       ||
-	       (typeof(x) === 'string')
-	;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isInObject(x, y)
-{
-	if((y instanceof Array)
-	   ||
-	   (y instanceof String)
-	   ||
-	   (typeof(y) === 'string')
-	 ) {
-		return y.indexOf(x) >= 0;
-
-	} else {
-		return x in y;
-	}
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isInNumRange(x, x1, x2)
-{
-	return (x >= x1)
-	       &amp;&amp;
-	       (x &lt;= x2)
-	;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isInCharRange(x, x1, x2)
-{
-	return (x.charCodeAt(0) >= x1.charCodeAt(0))
-	       &amp;&amp;
-	       (x.charCodeAt(0) &lt;= x2.charCodeAt(0))
-	;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_startsWith(s1, s2)
-{
-	var base = 0x0000000000000000000;
-
-	return s1.indexOf(s2, base) === base;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_endsWith(s1, s2)
-{
-	var base = s1.length - s2.length;
-
-	return s1.indexOf(s2, base) === base;
-}
-
-/*-------------------------------------------------------------------------*/
-/* amiTwigExprInterpreter                                                  */
-/*-------------------------------------------------------------------------*/
-
-/**
- * The AMI TWIG expression interpreter
- * @see An online &lt;a href="http://cern.ch/ami/twig/" target="_blank">demo&lt;/a>.
- * @namespace amiTwigExprInterpreter
- */
-
-$AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
-	/*-----------------------------------------------------------------*/
-
-	_unstring: function(s)
-	{
-		if(_ami_internal_isStr(s))
-		{
-			return s.substring(1, s.length - 1);
-		}
-
-		return s;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_getJS: function(node)
-	{
-		/*---------------------------------------------------------*/
-		/* TERMINALS                                               */
-		/*---------------------------------------------------------*/
-
-		if(node.nodeLeft === null
-		   &amp;&amp;
-		   node.nodeRight === null
-		 ) {
-			return node.nodeValue;
-		}
-
-		/*---------------------------------------------------------*/
-		/* UNIARY OPERATORS                                        */
-		/*---------------------------------------------------------*/
-
-		if(node.nodeLeft !== null
-		   &amp;&amp;
-		   node.nodeRight === null
-		 ) {
-			var operator = (node.nodeType !== amiTwigTokens.NOT) ? node.nodeValue : '!';
-
-			return operator + '(' + this._getJS(node.nodeLeft) + ')';
-		}
-
-		/*---------------------------------------------------------*/
-		/* BINARY OPERATORS                                        */
-		/*---------------------------------------------------------*/
-
-		if(node.nodeLeft !== null
-		   &amp;&amp;
-		   node.nodeRight !== null
-		 ) {
-			var left
-			var right;
-
-			var operator;
-
-			switch(node.nodeType)
-			{
-				/*-----------------------------------------*/
-
-				case amiTwigTokens.IS:
-
-					left = this._getJS(node.nodeLeft);
-
-					switch(node.nodeRight.nodeType)
-					{
-						case amiTwigTokens.DEFINED:
-							return '((' + left + ')!==undefined)';
-
-						case amiTwigTokens.NULL:
-							return '((' + left + ')===null)';
-
-						case amiTwigTokens.EMPTY:
-							return '((' + left + ')===\'\')';
-
-						case amiTwigTokens.ITERABLE:
-							return '_ami_internal_isIterable(' + left + ')';
-
-						case amiTwigTokens.EVEN:
-							return '((' + left + ')&amp;1 === 0)';
-
-						case amiTwigTokens.ODD:
-							return '((' + left + ')&amp;1 === 1)';
-					}
-
-					throw 'internal error';
-
-				/*-----------------------------------------*/
-
-				case amiTwigTokens.IN:
-					/*---------------------------------*/
-
-					if(node.nodeRight.nodeType !== amiTwigTokens.RANGE)
-					{
-						left = this._getJS(node.nodeLeft);
-						right = this._getJS(node.nodeRight);
-
-						return '_ami_internal_isInObject(' + left + ',' + right + ')';
-					}
-
-					/*---------------------------------*/
-
-					if(node.nodeRight.nodeLeft.nodeType === amiTwigTokens.NUM
-					   &amp;&amp;
-					   node.nodeRight.nodeRight.nodeType === amiTwigTokens.NUM
-					 ) {
-					 	var x = this._getJS(node.nodeLeft);
-
-						left = node.nodeRight.nodeLeft.nodeValue;
-						right = node.nodeRight.nodeRight.nodeValue;
-
-						return '_ami_internal_isInNumRange(' + x + ',' + left + ',' + right + ')';
-					}
-
-					/*---------------------------------*/
-
-					if(node.nodeRight.nodeLeft.nodeType === amiTwigTokens.STR
-					   &amp;&amp;
-					   node.nodeRight.nodeRight.nodeType === amiTwigTokens.STR
-					 ) {
-					 	var x = this._getJS(node.nodeLeft);
-
-						left = node.nodeRight.nodeLeft.nodeValue;
-						right = node.nodeRight.nodeRight.nodeValue;
-
-						return '_ami_internal_isInCharRange(' + x + ',' + left + ',' + right + ')';
-					}
-
-					/*---------------------------------*/
-
-					throw 'internal error';
-
-				/*-----------------------------------------*/
-
-				case amiTwigTokens.STARTS:
-
-					left = this._getJS(node.nodeLeft);
-					right = this._getJS(node.nodeRight);
-
-					return '_ami_internal_startsWith(' + left + ',' + right + ')';
-
-				/*-----------------------------------------*/
-
-				case amiTwigTokens.ENDS:
-
-					left = this._getJS(node.nodeLeft);
-					right = this._getJS(node.nodeRight);
-
-					return '_ami_internal_endsWith(' + left + ',' + right + ')';
-
-				/*-----------------------------------------*/
-
-				case amiTwigTokens.MATCHES:
-
-					left = this._getJS(node.nodeLeft);
-					right = this._getJS(node.nodeRight);
-
-					return '(' + left + '.match(' + this._unstring(right) + ')!==null)';
-
-				/*-----------------------------------------*/
-
-				case amiTwigTokens.LOGICAL_OR:
-					operator = '||';
-					break;
-
-				/*-----------------------------------------*/
-
-				case amiTwigTokens.LOGICAL_AND:
-					operator = '&amp;&amp;';
-					break;
-
-				/*-----------------------------------------*/
-
-				case amiTwigTokens.BITWISE_OR:
-					operator = '|';
-					break;
-
-				/*-----------------------------------------*/
-
-				case amiTwigTokens.BITWISE_XOR:
-					operator = '^';
-					break;
-
-				/*-----------------------------------------*/
-
-				case amiTwigTokens.BITWISE_AND:
-					operator = '&amp;';
-					break;
-
-				/*-----------------------------------------*/
-
-				default:
-					operator = node.nodeValue;
-					break;
-
-				/*-----------------------------------------*/
-			}
-
-			left = this._getJS(node.nodeLeft);
-			right = this._getJS(node.nodeRight);
-
-			return '(' + left + operator + right + ')';
-		}
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Convert a compiled TWIG expression to JavaScript
-	  * @param {String} expr the compiled expression
-	  * @returns {String} The JavaScript result
-	  */
-
-	getJS: function(expr)
-	{
-		return this._getJS(expr.rootNode);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Evaluate the compiled TWIG expression
-	  * @param {String} expr the compiled expression
-	  * @param {Object} [dict] the dictionary of definitions
-	  * @returns {?} The evaluated result
-	  */
-
-	eval: function(expr, _)
-	{
-		if(!_) _ = {};
-
-		return eval(this._getJS(expr.rootNode));
-	},
-
-	/*-----------------------------------------------------------------*/
-});
-
-/*-------------------------------------------------------------------------*/
-</pre>
-        </article>
-    </section>
+<section>
+  <article>
+    <pre class="ami-code"><code><i class="line-number"></i>/*!
+<i class="line-number"></i> * AMI Web Framework
+<i class="line-number"></i> *
+<i class="line-number"></i> * Copyright (c) 2014-2015 The AMI Team
+<i class="line-number"></i> * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+<i class="line-number"></i> *
+<i class="line-number"></i> */
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* INTERNAL FUNCTIONS                                                      */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_isIterable(x)
+<i class="line-number"></i>{
+<i class="line-number"></i>	return (x instanceof Array)
+<i class="line-number"></i>	       ||
+<i class="line-number"></i>	       (x instanceof Object)
+<i class="line-number"></i>	       ||
+<i class="line-number"></i>	       (x instanceof String)
+<i class="line-number"></i>	       ||
+<i class="line-number"></i>	       (typeof(x) === 'string')
+<i class="line-number"></i>	;
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_isInObject(x, y)
+<i class="line-number"></i>{
+<i class="line-number"></i>	if((y instanceof Array)
+<i class="line-number"></i>	   ||
+<i class="line-number"></i>	   (y instanceof String)
+<i class="line-number"></i>	   ||
+<i class="line-number"></i>	   (typeof(y) === 'string')
+<i class="line-number"></i>	 ) {
+<i class="line-number"></i>		return y.indexOf(x) >= 0;
+<i class="line-number"></i>
+<i class="line-number"></i>	} else {
+<i class="line-number"></i>		return x in y;
+<i class="line-number"></i>	}
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_isInNumRange(x, x1, x2)
+<i class="line-number"></i>{
+<i class="line-number"></i>	return (x >= x1)
+<i class="line-number"></i>	       &amp;&amp;
+<i class="line-number"></i>	       (x &lt;= x2)
+<i class="line-number"></i>	;
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_isInCharRange(x, x1, x2)
+<i class="line-number"></i>{
+<i class="line-number"></i>	return (x.charCodeAt(0) >= x1.charCodeAt(0))
+<i class="line-number"></i>	       &amp;&amp;
+<i class="line-number"></i>	       (x.charCodeAt(0) &lt;= x2.charCodeAt(0))
+<i class="line-number"></i>	;
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_startsWith(s1, s2)
+<i class="line-number"></i>{
+<i class="line-number"></i>	var base = 0x0000000000000000000;
+<i class="line-number"></i>
+<i class="line-number"></i>	return s1.indexOf(s2, base) === base;
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_endsWith(s1, s2)
+<i class="line-number"></i>{
+<i class="line-number"></i>	var base = s1.length - s2.length;
+<i class="line-number"></i>
+<i class="line-number"></i>	return s1.indexOf(s2, base) === base;
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* amiTwigExprInterpreter                                                  */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>/**
+<i class="line-number"></i> * The AMI TWIG expression interpreter
+<i class="line-number"></i> * @see An online &lt;a href="http://cern.ch/ami/twig/" target="_blank">demo&lt;/a>.
+<i class="line-number"></i> * @namespace amiTwigExprInterpreter
+<i class="line-number"></i> */
+<i class="line-number"></i>
+<i class="line-number"></i>$AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	_unstring: function(s)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		if(_ami_internal_isStr(s))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			return s.substring(1, s.length - 1);
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		return s;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	_getJS: function(node)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* TERMINALS                                               */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(node.nodeLeft === null
+<i class="line-number"></i>		   &amp;&amp;
+<i class="line-number"></i>		   node.nodeRight === null
+<i class="line-number"></i>		 ) {
+<i class="line-number"></i>			return node.nodeValue;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* UNIARY OPERATORS                                        */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(node.nodeLeft !== null
+<i class="line-number"></i>		   &amp;&amp;
+<i class="line-number"></i>		   node.nodeRight === null
+<i class="line-number"></i>		 ) {
+<i class="line-number"></i>			var operator = (node.nodeType !== amiTwigTokens.NOT) ? node.nodeValue : '!';
+<i class="line-number"></i>
+<i class="line-number"></i>			return operator + '(' + this._getJS(node.nodeLeft) + ')';
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* BINARY OPERATORS                                        */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(node.nodeLeft !== null
+<i class="line-number"></i>		   &amp;&amp;
+<i class="line-number"></i>		   node.nodeRight !== null
+<i class="line-number"></i>		 ) {
+<i class="line-number"></i>			var left
+<i class="line-number"></i>			var right;
+<i class="line-number"></i>
+<i class="line-number"></i>			var operator;
+<i class="line-number"></i>
+<i class="line-number"></i>			switch(node.nodeType)
+<i class="line-number"></i>			{
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				case amiTwigTokens.IS:
+<i class="line-number"></i>
+<i class="line-number"></i>					left = this._getJS(node.nodeLeft);
+<i class="line-number"></i>
+<i class="line-number"></i>					switch(node.nodeRight.nodeType)
+<i class="line-number"></i>					{
+<i class="line-number"></i>						case amiTwigTokens.DEFINED:
+<i class="line-number"></i>							return '((' + left + ')!==undefined)';
+<i class="line-number"></i>
+<i class="line-number"></i>						case amiTwigTokens.NULL:
+<i class="line-number"></i>							return '((' + left + ')===null)';
+<i class="line-number"></i>
+<i class="line-number"></i>						case amiTwigTokens.EMPTY:
+<i class="line-number"></i>							return '((' + left + ')===\'\')';
+<i class="line-number"></i>
+<i class="line-number"></i>						case amiTwigTokens.ITERABLE:
+<i class="line-number"></i>							return '_ami_internal_isIterable(' + left + ')';
+<i class="line-number"></i>
+<i class="line-number"></i>						case amiTwigTokens.EVEN:
+<i class="line-number"></i>							return '((' + left + ')&amp;1 === 0)';
+<i class="line-number"></i>
+<i class="line-number"></i>						case amiTwigTokens.ODD:
+<i class="line-number"></i>							return '((' + left + ')&amp;1 === 1)';
+<i class="line-number"></i>					}
+<i class="line-number"></i>
+<i class="line-number"></i>					throw 'internal error';
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				case amiTwigTokens.IN:
+<i class="line-number"></i>					/*---------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>					if(node.nodeRight.nodeType !== amiTwigTokens.RANGE)
+<i class="line-number"></i>					{
+<i class="line-number"></i>						left = this._getJS(node.nodeLeft);
+<i class="line-number"></i>						right = this._getJS(node.nodeRight);
+<i class="line-number"></i>
+<i class="line-number"></i>						return '_ami_internal_isInObject(' + left + ',' + right + ')';
+<i class="line-number"></i>					}
+<i class="line-number"></i>
+<i class="line-number"></i>					/*---------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>					if(node.nodeRight.nodeLeft.nodeType === amiTwigTokens.NUM
+<i class="line-number"></i>					   &amp;&amp;
+<i class="line-number"></i>					   node.nodeRight.nodeRight.nodeType === amiTwigTokens.NUM
+<i class="line-number"></i>					 ) {
+<i class="line-number"></i>					 	var x = this._getJS(node.nodeLeft);
+<i class="line-number"></i>
+<i class="line-number"></i>						left = node.nodeRight.nodeLeft.nodeValue;
+<i class="line-number"></i>						right = node.nodeRight.nodeRight.nodeValue;
+<i class="line-number"></i>
+<i class="line-number"></i>						return '_ami_internal_isInNumRange(' + x + ',' + left + ',' + right + ')';
+<i class="line-number"></i>					}
+<i class="line-number"></i>
+<i class="line-number"></i>					/*---------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>					if(node.nodeRight.nodeLeft.nodeType === amiTwigTokens.STR
+<i class="line-number"></i>					   &amp;&amp;
+<i class="line-number"></i>					   node.nodeRight.nodeRight.nodeType === amiTwigTokens.STR
+<i class="line-number"></i>					 ) {
+<i class="line-number"></i>					 	var x = this._getJS(node.nodeLeft);
+<i class="line-number"></i>
+<i class="line-number"></i>						left = node.nodeRight.nodeLeft.nodeValue;
+<i class="line-number"></i>						right = node.nodeRight.nodeRight.nodeValue;
+<i class="line-number"></i>
+<i class="line-number"></i>						return '_ami_internal_isInCharRange(' + x + ',' + left + ',' + right + ')';
+<i class="line-number"></i>					}
+<i class="line-number"></i>
+<i class="line-number"></i>					/*---------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>					throw 'internal error';
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				case amiTwigTokens.STARTS:
+<i class="line-number"></i>
+<i class="line-number"></i>					left = this._getJS(node.nodeLeft);
+<i class="line-number"></i>					right = this._getJS(node.nodeRight);
+<i class="line-number"></i>
+<i class="line-number"></i>					return '_ami_internal_startsWith(' + left + ',' + right + ')';
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				case amiTwigTokens.ENDS:
+<i class="line-number"></i>
+<i class="line-number"></i>					left = this._getJS(node.nodeLeft);
+<i class="line-number"></i>					right = this._getJS(node.nodeRight);
+<i class="line-number"></i>
+<i class="line-number"></i>					return '_ami_internal_endsWith(' + left + ',' + right + ')';
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				case amiTwigTokens.MATCHES:
+<i class="line-number"></i>
+<i class="line-number"></i>					left = this._getJS(node.nodeLeft);
+<i class="line-number"></i>					right = this._getJS(node.nodeRight);
+<i class="line-number"></i>
+<i class="line-number"></i>					return '(' + left + '.match(' + this._unstring(right) + ')!==null)';
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				case amiTwigTokens.LOGICAL_OR:
+<i class="line-number"></i>					operator = '||';
+<i class="line-number"></i>					break;
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				case amiTwigTokens.LOGICAL_AND:
+<i class="line-number"></i>					operator = '&amp;&amp;';
+<i class="line-number"></i>					break;
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				case amiTwigTokens.BITWISE_OR:
+<i class="line-number"></i>					operator = '|';
+<i class="line-number"></i>					break;
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				case amiTwigTokens.BITWISE_XOR:
+<i class="line-number"></i>					operator = '^';
+<i class="line-number"></i>					break;
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				case amiTwigTokens.BITWISE_AND:
+<i class="line-number"></i>					operator = '&amp;';
+<i class="line-number"></i>					break;
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>				default:
+<i class="line-number"></i>					operator = node.nodeValue;
+<i class="line-number"></i>					break;
+<i class="line-number"></i>
+<i class="line-number"></i>				/*-----------------------------------------*/
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			left = this._getJS(node.nodeLeft);
+<i class="line-number"></i>			right = this._getJS(node.nodeRight);
+<i class="line-number"></i>
+<i class="line-number"></i>			return '(' + left + operator + right + ')';
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Convert a compiled TWIG expression to JavaScript
+<i class="line-number"></i>	  * @param {String} expr the compiled expression
+<i class="line-number"></i>	  * @returns {String} The JavaScript result
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	getJS: function(expr)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this._getJS(expr.rootNode);
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Evaluate the compiled TWIG expression
+<i class="line-number"></i>	  * @param {String} expr the compiled expression
+<i class="line-number"></i>	  * @param {Object} [dict] the dictionary of definitions
+<i class="line-number"></i>	  * @returns {?} The evaluated result
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	eval: function(expr, _)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		if(!_) _ = {};
+<i class="line-number"></i>
+<i class="line-number"></i>		return eval(this._getJS(expr.rootNode));
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>});
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i></code></pre>
+  </article>
+</section>
 
 
 

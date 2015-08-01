@@ -20,975 +20,975 @@
 
 
     
-    <section>
-        <article>
-            <pre class="ami-code">/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-2015 The AMI Team
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- *
- */
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL VARIABLES                                                      */
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_numRegex = /^[0-9]+$/;
-var _ami_internal_sidRegex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isNum(s)
-{
-	return s.match(_ami_internal_numRegex) !== null;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isStr(s)
-{
-	var length = s.length;
-
-	return length >= 2
-	       &amp;&amp;
-	       (
-	           (s[0] === '\'' &amp;&amp; s[length - 1] === '\'')
-	           ||
-	           (s[0] === '\"' &amp;&amp; s[length - 1] === '\"')
-	       )
-	;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isSId(s)
-{
-	return s.match(_ami_internal_sidRegex) !== null;
-}
-
-/*-------------------------------------------------------------------------*/
-/* amiTwigTokens                                                           */
-/*-------------------------------------------------------------------------*/
-
-$AMINamespace('amiTwigTokens', {
-	/*-----------------------------------------------------------------*/
-
-	$init: function()
-	{
-		this.types = {
-			'or': this.LOGICAL_OR,
-			'and': this.LOGICAL_AND,
-			'b-or': this.BITWISE_OR,
-			'b-xor': this.BITWISE_XOR,
-			'b-and': this.BITWISE_AND,
-			'===': this.STRICT_EQ,
-			'==': this.LOOSE_EQ,
-			'!==': this.STRICT_NE,
-			'!=': this.LOOSE_NE,
-			'&lt;=': this.GTE,
-			'>=': this.LTE,
-			'&lt;': this.GT,
-			'>': this.LT,
-			'is': this.IS,
-			'defined': this.DEFINED,
-			'null': this.NULL,
-			'empty': this.EMPTY,
-			'iterable': this.ITERABLE,
-			'even': this.EVEN,
-			'odd': this.ODD,
-			'starts': this.STARTS,
-			'ends': this.ENDS,
-			'with': this.WITH,
-			'matches': this.MATCHES,
-			'in': this.IN,
-			'..': this.RANGE,
-			'+': this.PLUS,
-			'-': this.MINUS,
-			'**': this.POWER,
-			'*': this.MUL,
-			'//': this.DIV,
-			'/': this.DIV,
-			'%': this.MOD,
-			'not': this.NOT,
-			'.': this.DOT,
-
-			'(': this.LP,
-			')': this.RP,
-		};
-
-		this.EQ_NE_GTE_LTE_GT_LT = [
-			this.STRICT_EQ,
-			this.LOOSE_EQ,
-			this.STRICT_NE,
-			this.LOOSE_NE,
-			this.GTE,
-			this.LTE,
-			this.GT,
-			this.LT,
-		];
-
-		this.IS_XXX = [
-			this.DEFINED,
-			this.NULL,
-			this.EMPTY,
-			this.ITERABLE,
-			this.EVEN,
-			this.ODD
-		];
-
-		this.XXX_WITH = [
-			this.STARTS,
-			this.ENDS,
-		];
-
-		this.PLUS_MINUS = [
-			this.PLUS,
-			this.MINUS,
-		];
-
-		this.MUL_DIV_MOD = [
-			this.MUL,
-			this.FLOORDIV,
-			this.DIV,
-			this.MOD,
-		];
-
-		this.NOT_PLUS_MINUS = [
-			this.NOT,
-			this.PLUS,
-			this.MINUS,
-		];
-
-		this.TERMINAL = [
-			this.NUM,
-			this.STR,
-		];
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	LOGICAL_OR: 100,
-	LOGICAL_AND: 101,
-	BITWISE_OR: 102,
-	BITWISE_XOR: 103,
-	BITWISE_AND: 104,
-	STRICT_EQ: 105,
-	LOOSE_EQ: 106,
-	STRICT_NE: 107,
-	LOOSE_NE: 108,
-	GTE: 109,
-	LTE: 110,
-	GT: 111,
-	LT: 112,
-	IS: 113,
-	DEFINED: 114,
-	NULL: 115,
-	EMPTY: 116,
-	ITERABLE: 117,
-	EVEN: 118,
-	ODD: 119,
-	STARTS: 120,
-	ENDS: 121,
-	WITH: 122,
-	MATCHES: 123,
-	IN: 124,
-	RANGE: 125,
-	PLUS: 126,
-	MINUS: 127,
-	POWER: 128,
-	MUL: 129,
-	FLOORDIV: 130,
-	DIV: 131,
-	MOD: 132,
-	NOT: 133,
-	DOT: 134,
-	
-	/*-----------------------------------------------------------------*/
-
-	LP: 200,
-	RP: 201,
-
-	/*-----------------------------------------------------------------*/
-
-	SID: 300,
-	FUN: 301,
-	NUM: 302,
-	STR: 303,
-
-	/*-----------------------------------------------------------------*/
-});
-
-/*-------------------------------------------------------------------------*/
-/* AMITwigExprTokenizer                                                    */
-/*-------------------------------------------------------------------------*/
-
-$AMIClass('AMITwigExprTokenizer', {
-	/*-----------------------------------------------------------------*/
-
-	$init: function(code, line)
-	{
-		/*---------------------------------------------------------*/
-
-		this.tokens = amiTokenizer.tokenize(
-			code,
-			line,
-			[' ', '\t', '\n'],
-			['b-or', 'b-xor', 'b-and', '===', '==', '!==', '!=', '=', '&lt;=', '>=', '&lt;', '>', '+', '-', '**', '*', '//', '/', '..', '.', '(', ')'],
-			['\'', '\"'],
-			'\\'
-		);
-
-		this.types = [];
-
-		this.i = 0;
-
-		/*---------------------------------------------------------*/
-
-		var token;
-		var type;
-
-		for(var index in this.tokens)
-		{
-			token = this.tokens[index];
-			type = amiTwigTokens.types[token];
-
-			if(type) {
-				this.types.push(type);
-			} else if(_ami_internal_isNum(token)) {
-				this.types.push(amiTwigTokens.NUM);
-			} else if(_ami_internal_isStr(token)) {
-				this.types.push(amiTwigTokens.STR);
-			} else if(_ami_internal_isSId(token)) {
-				this.types.push(amiTwigTokens.SID);
-			} else {
-				throw 'syntax error, line `' + line + '`, unknown token `' + token + '`';
-			}
-		}
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	next: function()
-	{
-		this.i++;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	isEmpty: function()
-	{
-		return this.i >= this.tokens.length;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	peekToken: function()
-	{
-		return this.tokens[this.i];
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	peekType: function()
-	{
-		return this.types[this.i];
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	checkType: function(type)
-	{
-		if(this.i &lt; this.tokens.length)
-		{
-			var TYPE = this.types[this.i];
-
-			return (type instanceof Array) ? (type.indexOf(TYPE) >= 0) : (type === TYPE);
-		}
-		
-		return false;
-	},
-
-	/*-----------------------------------------------------------------*/
-});
-
-/*-------------------------------------------------------------------------*/
-/* AMITwigExprCompiler                                                     */
-/*-------------------------------------------------------------------------*/
-
-/**
- * The AMI TWIG expression compiler
- * @see An online &lt;a href="http://cern.ch/ami/twig/" target="_blank">demo&lt;/a>.
- * @class AMITwigExprCompiler
- * @param {String} code the code
- * @param {Number} line the line
- * @throws {String} The error description
- */
-
-$AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
-	/*-----------------------------------------------------------------*/
-
-	$init: function(code, line)
-	{
-		/*---------------------------------------------------------*/
-
-		this.tokenizer = new AMITwigExprTokenizer(
-			this.code = code,
-			this.line = line
-		);
-
-		/*---------------------------------------------------------*/
-
-		this.rootNode = this.parseLogicalOr();
-
-		if(!this.tokenizer.isEmpty())
-		{
-			throw 'syntax error, line `' + this.line + '`, unexpected token `' + this.tokenizer.peekToken() + '`';
-		}
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Dump the abstract abstract syntax tree to a dot diagram
-	  * @returns {String} The dot diagram
-	  */
-
-	dump: function()
-	{
-		return this.rootNode.dump();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseLogicalOr: function()
-	{
-		var left = this.parseLogicalAnd();
-
-		/*---------------------------------------------------------*/
-		/* LogicalOr : LogicalAnd ('or' LogicalAnd)*               */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.LOGICAL_OR))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parseLogicalOr();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return left;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseLogicalAnd: function()
-	{
-		var left = this.parseBitwiseOr();
-
-		/*---------------------------------------------------------*/
-		/* LogicalAnd : BitwiseOr ('and' BitwiseOr)*               */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.LOGICAL_AND))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parseLogicalAnd();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return left;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseBitwiseOr: function()
-	{
-		var left = this.parseBitwiseXor();
-
-		/*---------------------------------------------------------*/
-		/* BitwiseOr : BitwiseXor ('b-or' BitwiseXor)*             */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.BITWISE_OR))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parseBitwiseOr();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return left;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseBitwiseXor: function()
-	{
-		var left = this.parseBitwiseAnd();
-
-		/*---------------------------------------------------------*/
-		/* BitwiseXor : BitwiseAnd ('b-xor' BitwiseAnd)*           */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.BITWISE_XOR))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parseBitwiseXor();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return left;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseBitwiseAnd: function()
-	{
-		var left = this.parseComp();
-
-		/*---------------------------------------------------------*/
-		/* BitwiseAnd : Comp ('b-and' Comp)*                       */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.BITWISE_AND))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parseBitwiseAnd();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return left;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseComp: function()
-	{
-		var left = this.parseAddSub();
-
-		/*---------------------------------------------------------*/
-		/* Comp : AddSub (('===' | '==' | ...) AddSub)?            */
-		/*---------------------------------------------------------*/
-
-		/**/ if(this.tokenizer.checkType(amiTwigTokens.EQ_NE_GTE_LTE_GT_LT))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parseAddSub();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-		/* Comp : AddSub ('is' 'not'? ('defined' | 'empty' | ...))?*/
-		/*---------------------------------------------------------*/
-
-		else if(this.tokenizer.checkType(amiTwigTokens.IS))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			/* swap */
-			var swap = node;
-			/* swap */
-
-			if(this.tokenizer.checkType(amiTwigTokens.NOT))
-			{
-				node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-				this.tokenizer.next();
-
-				node.nodeLeft = swap;
-				node.nodeRight = null;
-			}
-
-			if(this.tokenizer.checkType(amiTwigTokens.IS_XXX))
-			{
-				var right = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-				this.tokenizer.next();
-
-				swap.nodeLeft = left;
-				swap.nodeRight = right;
-			}
-			else
-			{
-				throw 'syntax error, line `' + this.line + '`, `defined`, `null`, `iterable`, `empty`, `even` or `odd` expected';
-			}
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-		/* Comp : AddSub (('starts' | 'ends') `with` AddSub)?      */
-		/*---------------------------------------------------------*/
-
-		else if(this.tokenizer.checkType(amiTwigTokens.XXX_WITH))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken() + 'with');
-			this.tokenizer.next();
-
-			if(this.tokenizer.checkType(amiTwigTokens.WITH))
-			{
-				this.tokenizer.next();
-			}
-			else
-			{
-				throw 'syntax error, line `' + this.line + '`, `with` expected';
-			}
-
-			var right = this.parseAddSub();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-		/* Comp : AddSub ('matches' AddSub)?                       */
-		/*---------------------------------------------------------*/
-
-		else if(this.tokenizer.checkType(amiTwigTokens.MATCHES))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parseAddSub();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-		/* Comp : AddSub ('in' Range)?                             */
-		/*---------------------------------------------------------*/
-
-		else if(this.tokenizer.checkType(amiTwigTokens.IN))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parseRange();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return left;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseAddSub: function()
-	{
-		var left = this.parseMulDiv();
-
-		/*---------------------------------------------------------*/
-		/* AddSub : MulDiv (('+' | '-') MulDiv)*                   */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.PLUS_MINUS))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parseAddSub();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return left;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseMulDiv: function()
-	{
-		var left = this.parsePower();
-
-		/*---------------------------------------------------------*/
-		/* MulDiv : Power (('*' | '//' | '/' | '%') Power)*        */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.MUL_DIV_MOD))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parseMulDiv();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return left;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parsePower: function()
-	{
-		var left = this.parseNotPlusMinus();
-
-		/*---------------------------------------------------------*/
-		/* Power : NotPlusMinus ('**' NotPlusMinus)*               */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.POWER))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var right = this.parsePower();
-
-			node.nodeLeft = left;
-			node.nodeRight = right;
-
-			left = node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return left;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseNotPlusMinus: function()
-	{
-		/*---------------------------------------------------------*/
-		/* NotPlusMinus : ('!' | '-' | '+')? X                     */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.NOT_PLUS_MINUS))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			var left = this.parseX();
-
-			node.nodeLeft = left;
-			node.nodeRight = null;
-
-			return node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return this.parseX();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseX: function()
-	{
-		/*---------------------------------------------------------*/
-		/* X : Group | QId | Terminal                              */
-		/*---------------------------------------------------------*/
-
-		var node;
-
-		if((node = this.parseGroup())) {
-			return node;
-		}
-
-		if((node = this.parseQIdFun())) {
-			return node;
-		}
-
-		if((node = this.parseTerminal())) {
-			return node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		throw 'syntax error, line `' + this.line + '`, syntax error or tuncated expression';
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseGroup: function()
-	{
-		/*---------------------------------------------------------*/
-		/* Group : '(' LogicalOr ')'                               */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.LP))
-		{
-			this.tokenizer.next();
-
-			var node = this.parseLogicalOr();
-
-			if(this.tokenizer.checkType(amiTwigTokens.RP))
-			{
-				this.tokenizer.next();
-
-				return node;
-			}
-			else
-			{
-				throw 'syntax error, line `' + this.line + '`, `)` expected';
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		return null;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseQIdFun: function()
-	{
-		/*---------------------------------------------------------*/
-		/* QIdFun : SID('.' SID)*                                  */
-		/*        | SID('.' SID)* '(' ')'                          */
-		/*---------------------------------------------------------*/
-
-		var qid = '_.';
-
-		if(this.tokenizer.checkType(amiTwigTokens.SID))
-		{
-			qid += this.tokenizer.peekToken();
-			this.tokenizer.next();
-
-			while(this.tokenizer.checkType(amiTwigTokens.DOT))
-			{
-				qid += this.tokenizer.peekToken();
-				this.tokenizer.next();
-
-				if(this.tokenizer.checkType(amiTwigTokens.SID))
-				{
-					qid += this.tokenizer.peekToken();
-					this.tokenizer.next();
-				}
-				else
-				{
-					throw 'syntax error, line `' + this.line + '`, id expected';
-				}
-			}
-
-			if(this.tokenizer.checkType(amiTwigTokens.LP))
-			{
-				this.tokenizer.next();
-
-				if(this.tokenizer.checkType(amiTwigTokens.RP))
-				{
-					this.tokenizer.next();
-				}
-				else
-				{
-					throw 'syntax error, line `' + this.line + '`, `)` expected';
-				}
-
-				return new AMITwigExprNode(amiTwigTokens.FUN, qid);
-			}
-			else
-			{
-				return new AMITwigExprNode(amiTwigTokens.SID, qid);
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		return null;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseTerminal: function()
-	{
-		/*---------------------------------------------------------*/
-		/* Terminal : NUM | STR                                    */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.TERMINAL))
-		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			return node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return null;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseRange: function(e)
-	{
-		/*---------------------------------------------------------*/
-		/* Range : QIdFun                                          */
-		/*---------------------------------------------------------*/
-
-		var node = this.parseQIdFun();
-
-		if(node != null)
-		{
-			return node;
-		}
-
-		/*---------------------------------------------------------*/
-		/* Range : Terminal '..' Terminal                          */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(amiTwigTokens.TERMINAL))
-		{
-			var left = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			if(this.tokenizer.checkType(amiTwigTokens.RANGE))
-			{
-				var node = new AMITwigExprNode(((amiTwigTokens.RANGE)), this.tokenizer.peekToken());
-				this.tokenizer.next();
-
-				if(this.tokenizer.checkType(amiTwigTokens.TERMINAL))
-				{
-					var right = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
-					this.tokenizer.next();
-
-					node.nodeLeft = left;
-					node.nodeRight = right;
-
-					return node;
-				}
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		throw 'syntax error, line `' + this.line + '`, invalid range';
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-});
-
-/*-------------------------------------------------------------------------*/
-/* AMITwigExprNode                                                         */
-/*-------------------------------------------------------------------------*/
-
-$AMIClass('AMITwigExprNode', {
-	/*-----------------------------------------------------------------*/
-
-	$init: function(nodeType, nodeValue)
-	{
-		this.nodeType = nodeType
-		this.nodeValue = nodeValue
-		this.nodeLeft = null;
-		this.nodeRight = null;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_dump: function(nodes, edges, pCnt)
-	{
-		var cnt = pCnt[0];
-
-		nodes.push('\tnode' + cnt + ' [label="' + this.nodeValue.replace('"', '\\"') + '"];');
-
-		if(this.nodeLeft)
-		{
-			var CNT = ++pCnt[0];
-			edges.push('\tnode' + cnt + ' -> node' + CNT + ';');
-			this.nodeLeft._dump(nodes, edges, pCnt);
-		}
-
-		if(this.nodeRight)
-		{
-			var CNT = ++pCnt[0];
-			edges.push('\tnode' + cnt + ' -> node' + CNT + ';');
-			this.nodeRight._dump(nodes, edges, pCnt);
-		}
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	dump: function()
-	{
-		var nodes = [];
-		var edges = [];
-
-		this._dump(nodes, edges, [0]);
-
-		return 'digraph ast {\n\trankdir=TB;\n' + nodes.join('\n') + '\n' + edges.join('\n') + '\n}';
-	},
-
-	/*-----------------------------------------------------------------*/
-});
-
-/*-------------------------------------------------------------------------*/
-</pre>
-        </article>
-    </section>
+<section>
+  <article>
+    <pre class="ami-code"><code><i class="line-number"></i>/*!
+<i class="line-number"></i> * AMI Web Framework
+<i class="line-number"></i> *
+<i class="line-number"></i> * Copyright (c) 2014-2015 The AMI Team
+<i class="line-number"></i> * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+<i class="line-number"></i> *
+<i class="line-number"></i> */
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* INTERNAL VARIABLES                                                      */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>var _ami_internal_numRegex = /^[0-9]+$/;
+<i class="line-number"></i>var _ami_internal_sidRegex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* INTERNAL FUNCTIONS                                                      */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_isNum(s)
+<i class="line-number"></i>{
+<i class="line-number"></i>	return s.match(_ami_internal_numRegex) !== null;
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_isStr(s)
+<i class="line-number"></i>{
+<i class="line-number"></i>	var length = s.length;
+<i class="line-number"></i>
+<i class="line-number"></i>	return length >= 2
+<i class="line-number"></i>	       &amp;&amp;
+<i class="line-number"></i>	       (
+<i class="line-number"></i>	           (s[0] === '\'' &amp;&amp; s[length - 1] === '\'')
+<i class="line-number"></i>	           ||
+<i class="line-number"></i>	           (s[0] === '\"' &amp;&amp; s[length - 1] === '\"')
+<i class="line-number"></i>	       )
+<i class="line-number"></i>	;
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>function _ami_internal_isSId(s)
+<i class="line-number"></i>{
+<i class="line-number"></i>	return s.match(_ami_internal_sidRegex) !== null;
+<i class="line-number"></i>}
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* amiTwigTokens                                                           */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>$AMINamespace('amiTwigTokens', {
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	$init: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		this.types = {
+<i class="line-number"></i>			'or': this.LOGICAL_OR,
+<i class="line-number"></i>			'and': this.LOGICAL_AND,
+<i class="line-number"></i>			'b-or': this.BITWISE_OR,
+<i class="line-number"></i>			'b-xor': this.BITWISE_XOR,
+<i class="line-number"></i>			'b-and': this.BITWISE_AND,
+<i class="line-number"></i>			'===': this.STRICT_EQ,
+<i class="line-number"></i>			'==': this.LOOSE_EQ,
+<i class="line-number"></i>			'!==': this.STRICT_NE,
+<i class="line-number"></i>			'!=': this.LOOSE_NE,
+<i class="line-number"></i>			'&lt;=': this.GTE,
+<i class="line-number"></i>			'>=': this.LTE,
+<i class="line-number"></i>			'&lt;': this.GT,
+<i class="line-number"></i>			'>': this.LT,
+<i class="line-number"></i>			'is': this.IS,
+<i class="line-number"></i>			'defined': this.DEFINED,
+<i class="line-number"></i>			'null': this.NULL,
+<i class="line-number"></i>			'empty': this.EMPTY,
+<i class="line-number"></i>			'iterable': this.ITERABLE,
+<i class="line-number"></i>			'even': this.EVEN,
+<i class="line-number"></i>			'odd': this.ODD,
+<i class="line-number"></i>			'starts': this.STARTS,
+<i class="line-number"></i>			'ends': this.ENDS,
+<i class="line-number"></i>			'with': this.WITH,
+<i class="line-number"></i>			'matches': this.MATCHES,
+<i class="line-number"></i>			'in': this.IN,
+<i class="line-number"></i>			'..': this.RANGE,
+<i class="line-number"></i>			'+': this.PLUS,
+<i class="line-number"></i>			'-': this.MINUS,
+<i class="line-number"></i>			'**': this.POWER,
+<i class="line-number"></i>			'*': this.MUL,
+<i class="line-number"></i>			'//': this.DIV,
+<i class="line-number"></i>			'/': this.DIV,
+<i class="line-number"></i>			'%': this.MOD,
+<i class="line-number"></i>			'not': this.NOT,
+<i class="line-number"></i>			'.': this.DOT,
+<i class="line-number"></i>
+<i class="line-number"></i>			'(': this.LP,
+<i class="line-number"></i>			')': this.RP,
+<i class="line-number"></i>		};
+<i class="line-number"></i>
+<i class="line-number"></i>		this.EQ_NE_GTE_LTE_GT_LT = [
+<i class="line-number"></i>			this.STRICT_EQ,
+<i class="line-number"></i>			this.LOOSE_EQ,
+<i class="line-number"></i>			this.STRICT_NE,
+<i class="line-number"></i>			this.LOOSE_NE,
+<i class="line-number"></i>			this.GTE,
+<i class="line-number"></i>			this.LTE,
+<i class="line-number"></i>			this.GT,
+<i class="line-number"></i>			this.LT,
+<i class="line-number"></i>		];
+<i class="line-number"></i>
+<i class="line-number"></i>		this.IS_XXX = [
+<i class="line-number"></i>			this.DEFINED,
+<i class="line-number"></i>			this.NULL,
+<i class="line-number"></i>			this.EMPTY,
+<i class="line-number"></i>			this.ITERABLE,
+<i class="line-number"></i>			this.EVEN,
+<i class="line-number"></i>			this.ODD
+<i class="line-number"></i>		];
+<i class="line-number"></i>
+<i class="line-number"></i>		this.XXX_WITH = [
+<i class="line-number"></i>			this.STARTS,
+<i class="line-number"></i>			this.ENDS,
+<i class="line-number"></i>		];
+<i class="line-number"></i>
+<i class="line-number"></i>		this.PLUS_MINUS = [
+<i class="line-number"></i>			this.PLUS,
+<i class="line-number"></i>			this.MINUS,
+<i class="line-number"></i>		];
+<i class="line-number"></i>
+<i class="line-number"></i>		this.MUL_DIV_MOD = [
+<i class="line-number"></i>			this.MUL,
+<i class="line-number"></i>			this.FLOORDIV,
+<i class="line-number"></i>			this.DIV,
+<i class="line-number"></i>			this.MOD,
+<i class="line-number"></i>		];
+<i class="line-number"></i>
+<i class="line-number"></i>		this.NOT_PLUS_MINUS = [
+<i class="line-number"></i>			this.NOT,
+<i class="line-number"></i>			this.PLUS,
+<i class="line-number"></i>			this.MINUS,
+<i class="line-number"></i>		];
+<i class="line-number"></i>
+<i class="line-number"></i>		this.TERMINAL = [
+<i class="line-number"></i>			this.NUM,
+<i class="line-number"></i>			this.STR,
+<i class="line-number"></i>		];
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	LOGICAL_OR: 100,
+<i class="line-number"></i>	LOGICAL_AND: 101,
+<i class="line-number"></i>	BITWISE_OR: 102,
+<i class="line-number"></i>	BITWISE_XOR: 103,
+<i class="line-number"></i>	BITWISE_AND: 104,
+<i class="line-number"></i>	STRICT_EQ: 105,
+<i class="line-number"></i>	LOOSE_EQ: 106,
+<i class="line-number"></i>	STRICT_NE: 107,
+<i class="line-number"></i>	LOOSE_NE: 108,
+<i class="line-number"></i>	GTE: 109,
+<i class="line-number"></i>	LTE: 110,
+<i class="line-number"></i>	GT: 111,
+<i class="line-number"></i>	LT: 112,
+<i class="line-number"></i>	IS: 113,
+<i class="line-number"></i>	DEFINED: 114,
+<i class="line-number"></i>	NULL: 115,
+<i class="line-number"></i>	EMPTY: 116,
+<i class="line-number"></i>	ITERABLE: 117,
+<i class="line-number"></i>	EVEN: 118,
+<i class="line-number"></i>	ODD: 119,
+<i class="line-number"></i>	STARTS: 120,
+<i class="line-number"></i>	ENDS: 121,
+<i class="line-number"></i>	WITH: 122,
+<i class="line-number"></i>	MATCHES: 123,
+<i class="line-number"></i>	IN: 124,
+<i class="line-number"></i>	RANGE: 125,
+<i class="line-number"></i>	PLUS: 126,
+<i class="line-number"></i>	MINUS: 127,
+<i class="line-number"></i>	POWER: 128,
+<i class="line-number"></i>	MUL: 129,
+<i class="line-number"></i>	FLOORDIV: 130,
+<i class="line-number"></i>	DIV: 131,
+<i class="line-number"></i>	MOD: 132,
+<i class="line-number"></i>	NOT: 133,
+<i class="line-number"></i>	DOT: 134,
+<i class="line-number"></i>	
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	LP: 200,
+<i class="line-number"></i>	RP: 201,
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	SID: 300,
+<i class="line-number"></i>	FUN: 301,
+<i class="line-number"></i>	NUM: 302,
+<i class="line-number"></i>	STR: 303,
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>});
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* AMITwigExprTokenizer                                                    */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>$AMIClass('AMITwigExprTokenizer', {
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	$init: function(code, line)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this.tokens = amiTokenizer.tokenize(
+<i class="line-number"></i>			code,
+<i class="line-number"></i>			line,
+<i class="line-number"></i>			[' ', '\t', '\n'],
+<i class="line-number"></i>			['b-or', 'b-xor', 'b-and', '===', '==', '!==', '!=', '=', '&lt;=', '>=', '&lt;', '>', '+', '-', '**', '*', '//', '/', '..', '.', '(', ')'],
+<i class="line-number"></i>			['\'', '\"'],
+<i class="line-number"></i>			'\\'
+<i class="line-number"></i>		);
+<i class="line-number"></i>
+<i class="line-number"></i>		this.types = [];
+<i class="line-number"></i>
+<i class="line-number"></i>		this.i = 0;
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var token;
+<i class="line-number"></i>		var type;
+<i class="line-number"></i>
+<i class="line-number"></i>		for(var index in this.tokens)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			token = this.tokens[index];
+<i class="line-number"></i>			type = amiTwigTokens.types[token];
+<i class="line-number"></i>
+<i class="line-number"></i>			if(type) {
+<i class="line-number"></i>				this.types.push(type);
+<i class="line-number"></i>			} else if(_ami_internal_isNum(token)) {
+<i class="line-number"></i>				this.types.push(amiTwigTokens.NUM);
+<i class="line-number"></i>			} else if(_ami_internal_isStr(token)) {
+<i class="line-number"></i>				this.types.push(amiTwigTokens.STR);
+<i class="line-number"></i>			} else if(_ami_internal_isSId(token)) {
+<i class="line-number"></i>				this.types.push(amiTwigTokens.SID);
+<i class="line-number"></i>			} else {
+<i class="line-number"></i>				throw 'syntax error, line `' + line + '`, unknown token `' + token + '`';
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	next: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		this.i++;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	isEmpty: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this.i >= this.tokens.length;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	peekToken: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this.tokens[this.i];
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	peekType: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this.types[this.i];
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	checkType: function(type)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		if(this.i &lt; this.tokens.length)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var TYPE = this.types[this.i];
+<i class="line-number"></i>
+<i class="line-number"></i>			return (type instanceof Array) ? (type.indexOf(TYPE) >= 0) : (type === TYPE);
+<i class="line-number"></i>		}
+<i class="line-number"></i>		
+<i class="line-number"></i>		return false;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>});
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* AMITwigExprCompiler                                                     */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>/**
+<i class="line-number"></i> * The AMI TWIG expression compiler
+<i class="line-number"></i> * @see An online &lt;a href="http://cern.ch/ami/twig/" target="_blank">demo&lt;/a>.
+<i class="line-number"></i> * @class AMITwigExprCompiler
+<i class="line-number"></i> * @param {String} code the code
+<i class="line-number"></i> * @param {Number} line the line
+<i class="line-number"></i> * @throws {String} The error description
+<i class="line-number"></i> */
+<i class="line-number"></i>
+<i class="line-number"></i>$AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	$init: function(code, line)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this.tokenizer = new AMITwigExprTokenizer(
+<i class="line-number"></i>			this.code = code,
+<i class="line-number"></i>			this.line = line
+<i class="line-number"></i>		);
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		this.rootNode = this.parseLogicalOr();
+<i class="line-number"></i>
+<i class="line-number"></i>		if(!this.tokenizer.isEmpty())
+<i class="line-number"></i>		{
+<i class="line-number"></i>			throw 'syntax error, line `' + this.line + '`, unexpected token `' + this.tokenizer.peekToken() + '`';
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	/**
+<i class="line-number"></i>	  * Dump the abstract abstract syntax tree to a dot diagram
+<i class="line-number"></i>	  * @returns {String} The dot diagram
+<i class="line-number"></i>	  */
+<i class="line-number"></i>
+<i class="line-number"></i>	dump: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		return this.rootNode.dump();
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseLogicalOr: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var left = this.parseLogicalAnd();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* LogicalOr : LogicalAnd ('or' LogicalAnd)*               */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.LOGICAL_OR))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseLogicalOr();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return left;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseLogicalAnd: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var left = this.parseBitwiseOr();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* LogicalAnd : BitwiseOr ('and' BitwiseOr)*               */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.LOGICAL_AND))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseLogicalAnd();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return left;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseBitwiseOr: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var left = this.parseBitwiseXor();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* BitwiseOr : BitwiseXor ('b-or' BitwiseXor)*             */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.BITWISE_OR))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseBitwiseOr();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return left;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseBitwiseXor: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var left = this.parseBitwiseAnd();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* BitwiseXor : BitwiseAnd ('b-xor' BitwiseAnd)*           */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.BITWISE_XOR))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseBitwiseXor();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return left;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseBitwiseAnd: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var left = this.parseComp();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* BitwiseAnd : Comp ('b-and' Comp)*                       */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.BITWISE_AND))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseBitwiseAnd();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return left;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseComp: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var left = this.parseAddSub();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* Comp : AddSub (('===' | '==' | ...) AddSub)?            */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		/**/ if(this.tokenizer.checkType(amiTwigTokens.EQ_NE_GTE_LTE_GT_LT))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseAddSub();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* Comp : AddSub ('is' 'not'? ('defined' | 'empty' | ...))?*/
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		else if(this.tokenizer.checkType(amiTwigTokens.IS))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			/* swap */
+<i class="line-number"></i>			var swap = node;
+<i class="line-number"></i>			/* swap */
+<i class="line-number"></i>
+<i class="line-number"></i>			if(this.tokenizer.checkType(amiTwigTokens.NOT))
+<i class="line-number"></i>			{
+<i class="line-number"></i>				node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>				this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>				node.nodeLeft = swap;
+<i class="line-number"></i>				node.nodeRight = null;
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if(this.tokenizer.checkType(amiTwigTokens.IS_XXX))
+<i class="line-number"></i>			{
+<i class="line-number"></i>				var right = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>				this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>				swap.nodeLeft = left;
+<i class="line-number"></i>				swap.nodeRight = right;
+<i class="line-number"></i>			}
+<i class="line-number"></i>			else
+<i class="line-number"></i>			{
+<i class="line-number"></i>				throw 'syntax error, line `' + this.line + '`, `defined`, `null`, `iterable`, `empty`, `even` or `odd` expected';
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* Comp : AddSub (('starts' | 'ends') `with` AddSub)?      */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		else if(this.tokenizer.checkType(amiTwigTokens.XXX_WITH))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken() + 'with');
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			if(this.tokenizer.checkType(amiTwigTokens.WITH))
+<i class="line-number"></i>			{
+<i class="line-number"></i>				this.tokenizer.next();
+<i class="line-number"></i>			}
+<i class="line-number"></i>			else
+<i class="line-number"></i>			{
+<i class="line-number"></i>				throw 'syntax error, line `' + this.line + '`, `with` expected';
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseAddSub();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* Comp : AddSub ('matches' AddSub)?                       */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		else if(this.tokenizer.checkType(amiTwigTokens.MATCHES))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseAddSub();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* Comp : AddSub ('in' Range)?                             */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		else if(this.tokenizer.checkType(amiTwigTokens.IN))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseRange();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return left;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseAddSub: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var left = this.parseMulDiv();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* AddSub : MulDiv (('+' | '-') MulDiv)*                   */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.PLUS_MINUS))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseAddSub();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return left;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseMulDiv: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var left = this.parsePower();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* MulDiv : Power (('*' | '//' | '/' | '%') Power)*        */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.MUL_DIV_MOD))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parseMulDiv();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return left;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parsePower: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var left = this.parseNotPlusMinus();
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* Power : NotPlusMinus ('**' NotPlusMinus)*               */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.POWER))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var right = this.parsePower();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>			left = node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return left;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseNotPlusMinus: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* NotPlusMinus : ('!' | '-' | '+')? X                     */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.NOT_PLUS_MINUS))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var left = this.parseX();
+<i class="line-number"></i>
+<i class="line-number"></i>			node.nodeLeft = left;
+<i class="line-number"></i>			node.nodeRight = null;
+<i class="line-number"></i>
+<i class="line-number"></i>			return node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return this.parseX();
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseX: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* X : Group | QId | Terminal                              */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var node;
+<i class="line-number"></i>
+<i class="line-number"></i>		if((node = this.parseGroup())) {
+<i class="line-number"></i>			return node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		if((node = this.parseQIdFun())) {
+<i class="line-number"></i>			return node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		if((node = this.parseTerminal())) {
+<i class="line-number"></i>			return node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		throw 'syntax error, line `' + this.line + '`, syntax error or tuncated expression';
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseGroup: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* Group : '(' LogicalOr ')'                               */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.LP))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			var node = this.parseLogicalOr();
+<i class="line-number"></i>
+<i class="line-number"></i>			if(this.tokenizer.checkType(amiTwigTokens.RP))
+<i class="line-number"></i>			{
+<i class="line-number"></i>				this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>				return node;
+<i class="line-number"></i>			}
+<i class="line-number"></i>			else
+<i class="line-number"></i>			{
+<i class="line-number"></i>				throw 'syntax error, line `' + this.line + '`, `)` expected';
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return null;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseQIdFun: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* QIdFun : SID('.' SID)*                                  */
+<i class="line-number"></i>		/*        | SID('.' SID)* '(' ')'                          */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var qid = '_.';
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.SID))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			qid += this.tokenizer.peekToken();
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			while(this.tokenizer.checkType(amiTwigTokens.DOT))
+<i class="line-number"></i>			{
+<i class="line-number"></i>				qid += this.tokenizer.peekToken();
+<i class="line-number"></i>				this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>				if(this.tokenizer.checkType(amiTwigTokens.SID))
+<i class="line-number"></i>				{
+<i class="line-number"></i>					qid += this.tokenizer.peekToken();
+<i class="line-number"></i>					this.tokenizer.next();
+<i class="line-number"></i>				}
+<i class="line-number"></i>				else
+<i class="line-number"></i>				{
+<i class="line-number"></i>					throw 'syntax error, line `' + this.line + '`, id expected';
+<i class="line-number"></i>				}
+<i class="line-number"></i>			}
+<i class="line-number"></i>
+<i class="line-number"></i>			if(this.tokenizer.checkType(amiTwigTokens.LP))
+<i class="line-number"></i>			{
+<i class="line-number"></i>				this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>				if(this.tokenizer.checkType(amiTwigTokens.RP))
+<i class="line-number"></i>				{
+<i class="line-number"></i>					this.tokenizer.next();
+<i class="line-number"></i>				}
+<i class="line-number"></i>				else
+<i class="line-number"></i>				{
+<i class="line-number"></i>					throw 'syntax error, line `' + this.line + '`, `)` expected';
+<i class="line-number"></i>				}
+<i class="line-number"></i>
+<i class="line-number"></i>				return new AMITwigExprNode(amiTwigTokens.FUN, qid);
+<i class="line-number"></i>			}
+<i class="line-number"></i>			else
+<i class="line-number"></i>			{
+<i class="line-number"></i>				return new AMITwigExprNode(amiTwigTokens.SID, qid);
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return null;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseTerminal: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* Terminal : NUM | STR                                    */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.TERMINAL))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			return node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		return null;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	parseRange: function(e)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* Range : QIdFun                                          */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		var node = this.parseQIdFun();
+<i class="line-number"></i>
+<i class="line-number"></i>		if(node != null)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			return node;
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>		/* Range : Terminal '..' Terminal                          */
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.tokenizer.checkType(amiTwigTokens.TERMINAL))
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var left = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>			this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>			if(this.tokenizer.checkType(amiTwigTokens.RANGE))
+<i class="line-number"></i>			{
+<i class="line-number"></i>				var node = new AMITwigExprNode(((amiTwigTokens.RANGE)), this.tokenizer.peekToken());
+<i class="line-number"></i>				this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>				if(this.tokenizer.checkType(amiTwigTokens.TERMINAL))
+<i class="line-number"></i>				{
+<i class="line-number"></i>					var right = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+<i class="line-number"></i>					this.tokenizer.next();
+<i class="line-number"></i>
+<i class="line-number"></i>					node.nodeLeft = left;
+<i class="line-number"></i>					node.nodeRight = right;
+<i class="line-number"></i>
+<i class="line-number"></i>					return node;
+<i class="line-number"></i>				}
+<i class="line-number"></i>			}
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>		throw 'syntax error, line `' + this.line + '`, invalid range';
+<i class="line-number"></i>
+<i class="line-number"></i>		/*---------------------------------------------------------*/
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>});
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>/* AMITwigExprNode                                                         */
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>$AMIClass('AMITwigExprNode', {
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	$init: function(nodeType, nodeValue)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		this.nodeType = nodeType
+<i class="line-number"></i>		this.nodeValue = nodeValue
+<i class="line-number"></i>		this.nodeLeft = null;
+<i class="line-number"></i>		this.nodeRight = null;
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	_dump: function(nodes, edges, pCnt)
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var cnt = pCnt[0];
+<i class="line-number"></i>
+<i class="line-number"></i>		nodes.push('\tnode' + cnt + ' [label="' + this.nodeValue.replace('"', '\\"') + '"];');
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.nodeLeft)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var CNT = ++pCnt[0];
+<i class="line-number"></i>			edges.push('\tnode' + cnt + ' -> node' + CNT + ';');
+<i class="line-number"></i>			this.nodeLeft._dump(nodes, edges, pCnt);
+<i class="line-number"></i>		}
+<i class="line-number"></i>
+<i class="line-number"></i>		if(this.nodeRight)
+<i class="line-number"></i>		{
+<i class="line-number"></i>			var CNT = ++pCnt[0];
+<i class="line-number"></i>			edges.push('\tnode' + cnt + ' -> node' + CNT + ';');
+<i class="line-number"></i>			this.nodeRight._dump(nodes, edges, pCnt);
+<i class="line-number"></i>		}
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>
+<i class="line-number"></i>	dump: function()
+<i class="line-number"></i>	{
+<i class="line-number"></i>		var nodes = [];
+<i class="line-number"></i>		var edges = [];
+<i class="line-number"></i>
+<i class="line-number"></i>		this._dump(nodes, edges, [0]);
+<i class="line-number"></i>
+<i class="line-number"></i>		return 'digraph ast {\n\trankdir=TB;\n' + nodes.join('\n') + '\n' + edges.join('\n') + '\n}';
+<i class="line-number"></i>	},
+<i class="line-number"></i>
+<i class="line-number"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number"></i>});
+<i class="line-number"></i>
+<i class="line-number"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number"></i></code></pre>
+  </article>
+</section>
 
 
 
