@@ -7,30 +7,74 @@
  */
 
 /*-------------------------------------------------------------------------*/
+/* HELPERS                                                                 */
+/*-------------------------------------------------------------------------*/
+
+function __$createNamespace($name, x)
+{
+	var parent = window, parts = $name.split('.');
+
+	for(var i = 0; i < parts.length - 1; i++)
+	{
+		if(parent[parts[i]])
+		{
+			parent = parent[parts[i]];
+		}
+		else
+		{
+			parent = parent[parts[i]] = {};
+		}
+	}
+
+	parent[parts[i]] = x;
+}
+
+/*-------------------------------------------------------------------------*/
+
+function __$addToNamespace($name, x)
+{
+	var parent = window, parts = $name.split('.');
+
+	for(var i = 0; i < parts.length - 1; i++)
+	{
+		if(parent[parts[i]])
+		{
+			parent = parent[parts[i]];
+		}
+		else
+		{
+			throw '`' + $name + '` not declared';
+		}
+	}
+
+	parent[parts[i]] = x;
+}
+
+/*-------------------------------------------------------------------------*/
 /* NAMESPACE                                                               */
 /*-------------------------------------------------------------------------*/
 
-function $AMINamespace($name, newNamespacePrototype)
+function $AMINamespace($name, $this)
 {
-	if(!newNamespacePrototype)
+	if(!$this)
 	{
-		newNamespacePrototype = {};
+		$this = {};
 	}
 
 	/*-----------------------------------------------------------------*/
 
-	newNamespacePrototype.$name = $name;
+	$this.$name = $name;
 
 	/*-----------------------------------------------------------------*/
 
-	if(newNamespacePrototype.$init)
+	if($this.$init)
 	{
-		newNamespacePrototype.$init();
+		$this.$init();
 	}
 
 	/*-----------------------------------------------------------------*/
 
-	window[$name] = newNamespacePrototype;
+	__$createNamespace($name, $this);
 
 	/*-----------------------------------------------------------------*/
 }
@@ -39,11 +83,11 @@ function $AMINamespace($name, newNamespacePrototype)
 /* INTERFACE                                                               */
 /*-------------------------------------------------------------------------*/
 
-function $AMIInterface($name, newClassPrototype)
+function $AMIInterface($name, $this)
 {
-	if(!newClassPrototype)
+	if(!$this)
 	{
-		newClassPrototype = {};
+		$this = {};
 	}
 
 	/*-----------------------------------------------------------------*/
@@ -55,27 +99,34 @@ function $AMIInterface($name, newClassPrototype)
 
 	/*-----------------------------------------------------------------*/
 
-	if(newClassPrototype.$extends)
+	if($this.$extends)
 	{
 		throw '`$extends` not allowed for interface';
 	}
 
 	/*-----------------------------------------------------------------*/
 
-	if(newClassPrototype.$implements)
+	if($this.$implements)
 	{
 		throw '`$implements` not allowed for interface';
 	}
 
 	/*-----------------------------------------------------------------*/
 
-	$class.$name = $name;
-	$class.$class = $class;
-	$class.$members = newClassPrototype;
+	if($this.$init)
+	{
+		throw '`$init` not allowed for interface';
+	}
 
 	/*-----------------------------------------------------------------*/
 
-	window[$name] = $class;
+	$class.$name = $name;
+	$class.$class = $class;
+	$class.$members = $this;
+
+	/*-----------------------------------------------------------------*/
+
+	__$addToNamespace($name, $class);
 
 	/*-----------------------------------------------------------------*/
 }
@@ -84,96 +135,88 @@ function $AMIInterface($name, newClassPrototype)
 /* CLASS                                                                   */
 /*-------------------------------------------------------------------------*/
 
-function $AMIClass($name, newClassPrototype)
+function $AMIClass($name, $this)
 {
-	if(!newClassPrototype)
+	if(!$this)
 	{
-		newClassPrototype = {};
+		$this = {};
 	}
 
 	/*-----------------------------------------------------------------*/
 
 	var $class = function()
 	{
+		/*---------------------------------------------------------*/
+
 		for(var key1 in this.$interfaces)
 		{
-			var interfaze = this.$interfaces[key1];
+			var $interface = this.$interfaces[key1];
 
-			for(var key2 in interfaze.$members)
+			for(var key2 in $interface.$members)
 			{
-				var member = interfaze.$members[key2];
+				var $member = $interface.$members[key2];
 
-				if(typeof(this[key2]) !== typeof(member))
+				if(typeof(this[key2]) !== typeof($member))
 				{
-					alert('class `' + this.$name + '` with must implement `' + interfaze.$name + '.' + key2 + '`');
+					alert('class `' + this.$name + '` with must implement `' + $interface.$name + '.' + key2 + '`');
 				}
 			}
 		}
 
-		this.$init.apply(this, arguments);
+		/*---------------------------------------------------------*/
+
+		if(this.$init)
+		{
+			this.$init.apply(this, arguments);
+		}
+
+		/*---------------------------------------------------------*/
 	};
 
 	/*-----------------------------------------------------------------*/
 
 	var $super;
 
-	var oldClassPrototype;
-
-	if(newClassPrototype.$extends)
-	{
-		$super = newClassPrototype.$extends;
-
-		oldClassPrototype = newClassPrototype.$extends.prototype;
+	if($this.$extends) {
+		$super = $this.$extends.prototype;
 	}
-	else
-	{
-		$super = null;
-
-		oldClassPrototype = [];
+	else {
+		$super = {};
 	}
 
 	/*-----------------------------------------------------------------*/
 
 	var $interfaces;
 
-	if(newClassPrototype.$implements)
-	{
-		$interfaces = newClassPrototype.$implements;
+	if($this.$implements) {
+		$interfaces = $this.$implements;
 	}
-	else
-	{
+	else {
 		$interfaces = [];
 	}
 
 	/*-----------------------------------------------------------------*/
 
-	for(var member in oldClassPrototype)
+	for(var $member in $super)
 	{
-		$class.prototype[member] = oldClassPrototype[member];
+		$class.prototype[$member] = $super[$member];
 	}
 
-	for(var member in newClassPrototype)
+	for(var $member in $this)
 	{
-		$class.prototype[member] = newClassPrototype[member];
+		$class.prototype[$member] = $this[$member];
 	}
 
 	/*-----------------------------------------------------------------*/
 
 	$class.prototype.$name = $name;
-	$class.prototype.$class = $class;
 	$class.prototype.$super = $super;
+	$class.prototype.$class = $class;
 	$class.prototype.$interfaces = $interfaces;
 
 	/*-----------------------------------------------------------------*/
 
-	if(!$class.prototype.$init)
-	{
-		$class.prototype.$init = function() {};
-	}
-
-	/*-----------------------------------------------------------------*/
-
-	window[$name] = $class;
+	__$addToNamespace($name, $class);
 
 	/*-----------------------------------------------------------------*/
 }
