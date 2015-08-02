@@ -19,6 +19,7 @@
         local("OpenSans"),
         url("../../fonts/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"),
         url("../../fonts/OpenSans-Regular-webfont.woff") format("woff"),
+        url("../../fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
         url("../../fonts/OpenSans-Regular-webfont.svg#open_sansregular") format("svg");
 }
 
@@ -32,6 +33,7 @@
         local("OpenSans Light"),
         url("../../fonts/OpenSans-Light-webfont.eot?#iefix") format("embedded-opentype"),
         url("../../fonts/OpenSans-Light-webfont.woff") format("woff"),
+        url("../../fonts/OpenSans-Light-webfont.woff") format("woff2"),
         url("../../fonts/OpenSans-Light-webfont.svg#open_sanslight") format("svg");
 }
 
