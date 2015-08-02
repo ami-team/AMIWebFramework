@@ -107,6 +107,18 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
+			<arg value="jsdoc --template docs/js -d console js/AMI/AMIWebApp.js js/AMI/AMICommand.js js/AMI/AMILogin.js js/AMI/AMITokenizer.js js/AMI/AMITwigExprCompiler.js js/AMI/AMITwigExprInterpreter.js > docs/api.json" />
+		</exec>
+
+	</target>
+
+	<target name="oldDoc" description="Generate doc.">
+
+		<!-- npm install -g jsdoc -->
+
+		<exec executable="bash">
+			<env key="PATH" value="/usr/local/bin:/usr/bin" />
+			<arg value="-c" />
 			<arg value="jsdoc --template tools/AMI-template --destination docs/api js/AMI/AMIWebApp.js js/AMI/AMICommand.js js/AMI/AMILogin.js js/AMI/AMITokenizer.js js/AMI/AMITwigExprCompiler.js js/AMI/AMITwigExprInterpreter.js" />
 		</exec>
 

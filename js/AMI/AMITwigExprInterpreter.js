@@ -246,6 +246,24 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 
 				/*-----------------------------------------*/
 
+				case amiTwigTokens.POWER:
+
+					left = this._getJS(node.nodeLeft);
+					right = this._getJS(node.nodeRight);
+
+					return 'Math.pow(' + left + ',' + right + ')';
+
+				/*-----------------------------------------*/
+
+				case amiTwigTokens.FLOORDIV:
+
+					left = this._getJS(node.nodeLeft);
+					right = this._getJS(node.nodeRight);
+
+					return 'Math.floor(' + left + '/' + right + ')';
+
+				/*-----------------------------------------*/
+
 				case amiTwigTokens.LOGICAL_OR:
 					operator = '||';
 					break;

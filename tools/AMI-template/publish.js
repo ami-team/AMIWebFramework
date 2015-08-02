@@ -19,7 +19,14 @@ var resolveAuthorLinks = helper.resolveAuthorLinks;
 
 function linkto(longname, linkText, cssClass, fragmentId) {
 
-	return helper.linkto(longname, linkText, cssClass, fragmentId).replace(/href\="/g, 'href="?subapp=amiDocument&userdata=api/');
+	if(longname.indexOf('://') > 0)
+	{
+		return helper.linkto(longname, linkText, cssClass, fragmentId);
+	}
+	else
+	{
+		return helper.linkto(longname, linkText, cssClass, fragmentId).replace(/href\="/g, 'href="?subapp=amiDocument&userdata=api/');
+	}
 }
 
 var data;

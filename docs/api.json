@@ -1,0 +1,1283 @@
+{
+    "functions": [
+        {
+            "name": "amiRegisterSubApp",
+            "desc": "Register a sub-application",
+            "parameters": [
+                {
+                    "name": "subAppName",
+                    "type": "String",
+                    "desc": "the sub-application name",
+                    "default": "",
+                    "optional": "",
+                    "nullable": ""
+                },
+                {
+                    "name": "subAppInstance",
+                    "type": "?",
+                    "desc": "the sub-application instance",
+                    "default": "",
+                    "optional": "",
+                    "nullable": ""
+                }
+            ]
+        }
+    ],
+    "namespaces": [
+        {
+            "name": "amiWebApp",
+            "desc": "The AMI webapp subsystem",
+            "variables": [
+                {
+                    "name": "webAppURL",
+                    "type": "String",
+                    "desc": "WebApp URL"
+                },
+                {
+                    "name": "originURL",
+                    "type": "String",
+                    "desc": "Origin URL"
+                },
+                {
+                    "name": "args",
+                    "type": "Array.<String>",
+                    "desc": "URL arguments"
+                }
+            ],
+            "functions": [
+                {
+                    "name": "isLocal",
+                    "desc": "Check whether the WebApp is executed locally (file://, localhost or 127.0.0.1) or not",
+                    "parameters": [],
+                    "returns": [
+                        {
+                            "type": "Boolean",
+                            "desc": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "textToHtml",
+                    "desc": "Escapes the given string from text to HTML",
+                    "parameters": [
+                        {
+                            "name": "string",
+                            "type": "String",
+                            "desc": "the unescaped string",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The escaped string"
+                        }
+                    ]
+                },
+                {
+                    "name": "htmlToText",
+                    "desc": "Unescapes the given string from HTML to text",
+                    "parameters": [
+                        {
+                            "name": "string",
+                            "type": "String",
+                            "desc": "the escaped string",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The unescaped string"
+                        }
+                    ]
+                },
+                {
+                    "name": "textToString",
+                    "desc": "Escapes the given string from text to JavaScript string",
+                    "parameters": [
+                        {
+                            "name": "string",
+                            "type": "String",
+                            "desc": "the unescaped string",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The escaped string"
+                        }
+                    ]
+                },
+                {
+                    "name": "stringToText",
+                    "desc": "Unescapes the given string from JavaScript string to text",
+                    "parameters": [
+                        {
+                            "name": "string",
+                            "type": "String",
+                            "desc": "the escaped string",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The unescaped string"
+                        }
+                    ]
+                },
+                {
+                    "name": "htmlToString",
+                    "desc": "Escapes the given string from HTML to JavaScript string",
+                    "parameters": [
+                        {
+                            "name": "string",
+                            "type": "String",
+                            "desc": "the unescaped string",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The escaped string"
+                        }
+                    ]
+                },
+                {
+                    "name": "stringToHtml",
+                    "desc": "Unescapes the given string from JavaScript string to HTML",
+                    "parameters": [
+                        {
+                            "name": "string",
+                            "type": "String",
+                            "desc": "the escaped string",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The unescaped string"
+                        }
+                    ]
+                },
+                {
+                    "name": "loadSheets",
+                    "desc": "Loads CSS sheets asynchronously",
+                    "parameters": [
+                        {
+                            "name": "sheets",
+                            "type": [
+                                "Array",
+                                "String"
+                            ],
+                            "desc": "the array of sheets",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "loadScripts",
+                    "desc": "Loads JavaScript scripts asynchronously",
+                    "parameters": [
+                        {
+                            "name": "scripts",
+                            "type": [
+                                "Array",
+                                "String"
+                            ],
+                            "desc": "the array of scripts",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "loadHTMLs",
+                    "desc": "Loads HTML fragments asynchronously",
+                    "parameters": [
+                        {
+                            "name": "fragments",
+                            "type": [
+                                "Array",
+                                "String"
+                            ],
+                            "desc": "the array of fragments",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "replaceHTML",
+                    "desc": "Replace the HTML content of the given target",
+                    "parameters": [
+                        {
+                            "name": "path",
+                            "type": "String",
+                            "desc": "the target path",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "html",
+                            "type": "String",
+                            "desc": "the HTML fragment",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context, dict)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "prependHTML",
+                    "desc": "Prepends a HTML fragment to the given target content",
+                    "parameters": [
+                        {
+                            "name": "path",
+                            "type": "String",
+                            "desc": "the target path",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "html",
+                            "type": "String",
+                            "desc": "the HTML fragment",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context, dict)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "appendHTML",
+                    "desc": "Appends a HTML fragment to the given target content",
+                    "parameters": [
+                        {
+                            "name": "path",
+                            "type": "String",
+                            "desc": "the target path",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "html",
+                            "type": "String",
+                            "desc": "the HTML fragment",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context, dict)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "formatHTML",
+                    "desc": "Format the given HTML fragment using TWIG, see: {@link http://twig.sensiolabs.org/documentation}",
+                    "parameters": [
+                        {
+                            "name": "html",
+                            "type": "String",
+                            "desc": "the HTML fragment",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "dict",
+                            "type": "Object",
+                            "desc": "the dictionary",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The formated HTML fragment"
+                        }
+                    ]
+                },
+                {
+                    "name": "jspath",
+                    "desc": "Finds data within the given JSON, see: {@link https://github.com/dfilatov/jspath}",
+                    "parameters": [
+                        {
+                            "name": "path",
+                            "type": "String",
+                            "desc": "the path",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "json",
+                            "type": "Object",
+                            "desc": "the JSON",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "Array",
+                            "desc": "The resulting array"
+                        }
+                    ]
+                },
+                {
+                    "name": "lock",
+                    "desc": "Locks the web application",
+                    "parameters": []
+                },
+                {
+                    "name": "unlock",
+                    "desc": "Unlocks the web application",
+                    "parameters": []
+                },
+                {
+                    "name": "success",
+                    "desc": "Show a 'success' message",
+                    "parameters": [
+                        {
+                            "name": "message",
+                            "type": "String",
+                            "desc": "the message",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "fadeOut",
+                            "type": "Boolean",
+                            "desc": "if True, the message disappears after 60s",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "info",
+                    "desc": "Show an 'info' message",
+                    "parameters": [
+                        {
+                            "name": "message",
+                            "type": "String",
+                            "desc": "the message",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "fadeOut",
+                            "type": "Boolean",
+                            "desc": "if True, the message disappears after 60s",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "warning",
+                    "desc": "Show a 'warning' message",
+                    "parameters": [
+                        {
+                            "name": "message",
+                            "type": "String",
+                            "desc": "the message",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "fadeOut",
+                            "type": "Boolean",
+                            "desc": "if True, the message disappears after 60s",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "error",
+                    "desc": "Show an 'error' message",
+                    "parameters": [
+                        {
+                            "name": "message",
+                            "type": "String",
+                            "desc": "the message",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "fadeOut",
+                            "type": "Boolean",
+                            "desc": "if True, the message disappears after 60s",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "flush",
+                    "desc": "Flush messages",
+                    "parameters": []
+                },
+                {
+                    "name": "start",
+                    "desc": "Starts the web application",
+                    "parameters": [
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (logo_url, home_url, contact_email, template_filename, locker_filename)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "getCurrentSubAppInstance",
+                    "desc": "Get the current sub-application instance",
+                    "parameters": [],
+                    "returns": [
+                        {
+                            "type": "AMISubApp",
+                            "desc": "The current sub-application instance"
+                        }
+                    ]
+                },
+                {
+                    "name": "setCurrentSubAppInstance",
+                    "desc": "Set the current sub-application instance",
+                    "parameters": [
+                        {
+                            "name": "subAppInstance",
+                            "type": "AMISubApp",
+                            "desc": "the application instance",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "userdata",
+                            "type": "?",
+                            "desc": "userdata",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "autoRunSubApp",
+                    "desc": "Runs a sub-application according to the URL (parameters 'subapp' and 'userdata')",
+                    "parameters": [
+                        {
+                            "name": "home",
+                            "type": "String",
+                            "desc": "the name of the home sub-application",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ]
+                }
+            ],
+            "events": [
+                {
+                    "name": "onStart",
+                    "desc": "This method must be overloaded and is called when the web application starts",
+                    "parameters": []
+                },
+                {
+                    "name": "onToolbarUpdateNeeded",
+                    "desc": "This method must be overloaded and is called when the toolbar needs to be updated",
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "name": "amiCommand",
+            "desc": "The AMI command subsystem",
+            "functions": [
+                {
+                    "name": "base64Decode",
+                    "desc": "Decode a base64 string",
+                    "parameters": [
+                        {
+                            "name": "string",
+                            "type": "String",
+                            "desc": "the encoded string",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The decoded string"
+                        }
+                    ]
+                },
+                {
+                    "name": "execute",
+                    "desc": "Execute an AMI command",
+                    "parameters": [
+                        {
+                            "name": "command",
+                            "type": "String",
+                            "desc": "the command",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context, endpoint, converter, extraParam, extraValue)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "passLogin",
+                    "desc": "Login by login/password",
+                    "parameters": [
+                        {
+                            "name": "user",
+                            "type": "String",
+                            "desc": "the user",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "pass",
+                            "type": "String",
+                            "desc": "the password",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "certLogin",
+                    "desc": "Login by certificate",
+                    "parameters": [
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "logout",
+                    "desc": "Logout",
+                    "parameters": [
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "attachCert",
+                    "desc": "Attach a certificate",
+                    "parameters": [
+                        {
+                            "name": "user",
+                            "type": "String",
+                            "desc": "the user",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "pass",
+                            "type": "String",
+                            "desc": "the password",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "detachCert",
+                    "desc": "Detach a certificate",
+                    "parameters": [
+                        {
+                            "name": "user",
+                            "type": "String",
+                            "desc": "the user",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "pass",
+                            "type": "String",
+                            "desc": "the password",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "addUser",
+                    "desc": "Add a new user",
+                    "parameters": [
+                        {
+                            "name": "user",
+                            "type": "String",
+                            "desc": "the user",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "pass",
+                            "type": "String",
+                            "desc": "the password",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "firstName",
+                            "type": "String",
+                            "desc": "the first name",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "lastName",
+                            "type": "String",
+                            "desc": "the last name",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "email",
+                            "type": "String",
+                            "desc": "the email",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "changeInfo",
+                    "desc": "Change the account information",
+                    "parameters": [
+                        {
+                            "name": "firstName",
+                            "type": "String",
+                            "desc": "the first name",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "lastName",
+                            "type": "String",
+                            "desc": "the last name",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "email",
+                            "type": "String",
+                            "desc": "the email",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "changePass",
+                    "desc": "Change the account password",
+                    "parameters": [
+                        {
+                            "name": "oldPass",
+                            "type": "String",
+                            "desc": "the old password",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "newPass",
+                            "type": "String",
+                            "desc": "the new password",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                },
+                {
+                    "name": "resetPass",
+                    "desc": "Reset the account password",
+                    "parameters": [
+                        {
+                            "name": "user",
+                            "type": "String",
+                            "desc": "the user",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "settings",
+                            "type": "Object",
+                            "desc": "dictionary of settings (context)",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "$.Deferred",
+                            "desc": "A JQuery deferred object"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "amiLogin",
+            "desc": "The AMI authentication subsystem",
+            "functions": [
+                {
+                    "name": "getUser",
+                    "desc": "The the current user",
+                    "parameters": [],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The current user"
+                        }
+                    ]
+                },
+                {
+                    "name": "getGuest",
+                    "desc": "The the guest user",
+                    "parameters": [],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The guest user"
+                        }
+                    ]
+                },
+                {
+                    "name": "isAuthenticated",
+                    "desc": "Check whether the user is authenticated",
+                    "parameters": [],
+                    "returns": [
+                        {
+                            "type": "Boolean",
+                            "desc": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "login",
+                    "desc": "Open the 'Login' modal form",
+                    "parameters": []
+                },
+                {
+                    "name": "changeInfo",
+                    "desc": "Open the 'Change Info' modal form",
+                    "parameters": []
+                },
+                {
+                    "name": "changePass",
+                    "desc": "Open the 'Change Password' modal form",
+                    "parameters": []
+                },
+                {
+                    "name": "accountStatus",
+                    "desc": "Open the 'Account Status' modal form",
+                    "parameters": []
+                },
+                {
+                    "name": "logout",
+                    "desc": "Log out",
+                    "parameters": []
+                },
+                {
+                    "name": "hasRole",
+                    "desc": "Check if the user has the geven role",
+                    "parameters": [],
+                    "returns": [
+                        {
+                            "type": "Boolean",
+                            "desc": ""
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "amiTokenizer",
+            "desc": "The AMI tokenizer",
+            "functions": [
+                {
+                    "name": "tokenize",
+                    "desc": "Tokenize a string",
+                    "parameters": [
+                        {
+                            "name": "code",
+                            "type": "String",
+                            "desc": "the code",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "line",
+                            "type": "Number",
+                            "desc": "the line",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "spaces",
+                            "type": "Array",
+                            "desc": "the array of characters for spaces",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "kwords",
+                            "type": "Array",
+                            "desc": "the array of kerwords",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "quotes",
+                            "type": "Array",
+                            "desc": "the array of characters for string declaration",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "escape",
+                            "type": "String",
+                            "desc": "the escape character",
+                            "default": "'\\\\'",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "exceptions": [
+                        {
+                            "type": "String",
+                            "desc": "The error description"
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "Array.<String>",
+                            "desc": "The array of tokens"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "amiTwigExprInterpreter",
+            "desc": "The AMI TWIG expression interpreter",
+            "see": [
+                "An online <a href=\"http://cern.ch/ami/twig/\" target=\"_blank\">demo</a>."
+            ],
+            "functions": [
+                {
+                    "name": "getJS",
+                    "desc": "Convert a compiled TWIG expression to JavaScript",
+                    "parameters": [
+                        {
+                            "name": "expr",
+                            "type": "String",
+                            "desc": "the compiled expression",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The JavaScript result"
+                        }
+                    ]
+                },
+                {
+                    "name": "eval",
+                    "desc": "Evaluate the compiled TWIG expression",
+                    "parameters": [
+                        {
+                            "name": "expr",
+                            "type": "String",
+                            "desc": "the compiled expression",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        },
+                        {
+                            "name": "dict",
+                            "type": "Object",
+                            "desc": "the dictionary of definitions",
+                            "default": "",
+                            "optional": true,
+                            "nullable": ""
+                        }
+                    ],
+                    "returns": [
+                        {
+                            "type": "?",
+                            "desc": "The evaluated result"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "interfaces": [
+        {
+            "name": "AMISubApp",
+            "desc": "The AMI sub-application interface",
+            "implements": [],
+            "inherits": [],
+            "functions": [
+                {
+                    "name": "onReady",
+                    "desc": "Called when the sub-application is ready to run",
+                    "parameters": [
+                        {
+                            "name": "userdata",
+                            "type": "?",
+                            "desc": "userdata",
+                            "default": "",
+                            "optional": "",
+                            "nullable": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "onExit",
+                    "desc": "Called when the sub-application is about to exit",
+                    "parameters": []
+                },
+                {
+                    "name": "onLogin",
+                    "desc": "Called when log in",
+                    "parameters": []
+                },
+                {
+                    "name": "onLogout",
+                    "desc": "Called when log out",
+                    "parameters": []
+                }
+            ]
+        }
+    ],
+    "classes": [
+        {
+            "name": "AMITwigExprCompiler",
+            "desc": "The AMI TWIG expression compiler",
+            "implements": [
+                "IColor"
+            ],
+            "inherits": [
+                "Color"
+            ],
+            "see": [
+                "An online <a href=\"http://cern.ch/ami/twig/\" target=\"_blank\">demo</a>."
+            ],
+            "konstructor": {
+                "name": "AMITwigExprCompiler",
+                "parameters": [
+                    {
+                        "name": "code",
+                        "type": "String",
+                        "desc": "the code",
+                        "default": "",
+                        "optional": "",
+                        "nullable": ""
+                    },
+                    {
+                        "name": "line",
+                        "type": "Number",
+                        "desc": "the line",
+                        "default": "",
+                        "optional": "",
+                        "nullable": ""
+                    }
+                ],
+                "exceptions": [
+                    {
+                        "type": "String",
+                        "desc": "The error description"
+                    }
+                ]
+            },
+            "functions": [
+                {
+                    "name": "dump",
+                    "desc": "Dump the abstract abstract syntax tree to a dot diagram",
+                    "parameters": [],
+                    "returns": [
+                        {
+                            "type": "String",
+                            "desc": "The dot diagram"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

@@ -108,13 +108,25 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * The the current guest
-	  * @returns {String} The current guest
+	  * The the guest user
+	  * @returns {String} The guest user
 	  */
 
 	getGuest: function()
 	{
 		return this.guest;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Check whether the user is authenticated
+	  * @returns {Boolean}
+	  */
+
+	isAuthenticated: function()
+	{
+		return this.user !== this.guest;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -196,7 +208,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/**
 	  * Check if the user has the geven role
-	  * @returns {Boolean} True or False
+	  * @returns {Boolean}
 	  */
 
 	hasRole: function(roleName)

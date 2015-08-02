@@ -159,8 +159,9 @@ var amiWebApp = {
 		/*---------------------------------------------------------*/
 
 		/**
-		  * {String} WebApp URL
+		  * WebApp URL
 		  * @type {String}
+		  * @memberof amiWebApp
 		  */
 
 		this.webAppURL = url;
@@ -175,6 +176,7 @@ var amiWebApp = {
 		/**
 		  * Origin URL
 		  * @type {String}
+		  * @memberof amiWebApp
 		  */
 
 		this.originURL = url.substring(0, index2);
@@ -191,6 +193,7 @@ var amiWebApp = {
 		/**
 		  * URL arguments
 		  * @type {Array<String>}
+		  * @memberof amiWebApp
 		  */
 
 		this.args = {};
@@ -216,7 +219,7 @@ var amiWebApp = {
 
 	/**
 	  * Check whether the WebApp is executed locally (file://, localhost or 127.0.0.1) or not
-	  * @returns {Boolean} True or False
+	  * @returns {Boolean}
 	  */
 
 	isLocal: function()
@@ -338,7 +341,7 @@ var amiWebApp = {
 			{
 				_ami_internal_sheets.push(sheets[i]);
 
-				html += '<link rel="stylesheet" type="text/css" href="' + sheets[i] + '?_=' + _ami_internal_nonce++ + '"></link>';
+				html += '<link rel="stylesheet" href="' + sheets[i] + '?_=' + _ami_internal_nonce++ + '"></link>';
 			}
 		}
 
@@ -998,7 +1001,7 @@ var amiWebApp = {
 
 	/**
 	  * Get the current sub-application instance
-	  * @return {?} The current sub-application instance
+	  * @return {AMISubApp} The current sub-application instance
 	  */
 
 	getCurrentSubAppInstance: function()
@@ -1010,7 +1013,7 @@ var amiWebApp = {
 
 	/**
 	  * Set the current sub-application instance
-	  * @param {?} subAppInstance the application instance
+	  * @param {AMISubApp} subAppInstance the application instance
 	  * @param {?} [userdata] userdata
 	  */
 

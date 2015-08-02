@@ -48,7 +48,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	  * @returns {String} The decoded string
 	  */
 
-	amiBase64Decode: function(s)
+	base64Decode: function(s)
 	{
 		var i = 0;
 		var result = '';

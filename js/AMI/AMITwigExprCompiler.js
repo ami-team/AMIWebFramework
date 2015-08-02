@@ -85,7 +85,7 @@ $AMINamespace('amiTwigTokens', {
 			'-': this.MINUS,
 			'**': this.POWER,
 			'*': this.MUL,
-			'//': this.DIV,
+			'//': this.FLOORDIV,
 			'/': this.DIV,
 			'%': this.MOD,
 			'not': this.NOT,
@@ -249,9 +249,9 @@ $AMIClass('AMITwigExprTokenizer', {
 
 	/*-----------------------------------------------------------------*/
 
-	next: function()
+	next: function(n)
 	{
-		this.i++;
+		this.i += (n || 1);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -300,6 +300,8 @@ $AMIClass('AMITwigExprTokenizer', {
  * The AMI TWIG expression compiler
  * @see An online <a href="http://cern.ch/ami/twig/" target="_blank">demo</a>.
  * @class AMITwigExprCompiler
+ * @extends {Color}
+ * @implements {IColor}
  * @param {String} code the code
  * @param {Number} line the line
  * @throws {String} The error description
@@ -513,9 +515,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
-			/* swap */
+			/* swap 'is' and 'not' */
 			var swap = node;
-			/* swap */
+			/* swap 'is' and 'not' */
 
 			if(this.tokenizer.checkType(amiTwigTokens.NOT))
 			{
@@ -549,16 +551,7 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		else if(this.tokenizer.checkType(amiTwigTokens.XXX_WITH))
 		{
 			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken() + 'with');
-			this.tokenizer.next();
-
-			if(this.tokenizer.checkType(amiTwigTokens.WITH))
-			{
-				this.tokenizer.next();
-			}
-			else
-			{
-				throw 'syntax error, line `' + this.line + '`, `with` expected';
-			}
+			this.tokenizer.next(2);
 
 			var right = this.parseAddSub();
 

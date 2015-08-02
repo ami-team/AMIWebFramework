@@ -1,0 +1,62 @@
+/*-------------------------------------------------------------------------*/
+
+#jsdoc_content * {
+	font-family: "Open Sans", "sans-serif";
+}
+
+#jsdoc_content h1,
+#jsdoc_content h2,
+#jsdoc_content h3,
+#jsdoc_content h4 {
+	font-family: "Open Sans Light", "sans-serif";
+}
+
+#jsdoc_content h1 {
+	font-size: 48px;
+	font-weight: 200;
+	letter-spacing: -2px;
+	margin: 12px 24px 20px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#jsdoc_content .details {
+	border-left: 2px solid #DDD;
+	clear: both;
+	margin-top: 10px;
+}
+
+#jsdoc_content .details dt {
+	float: left;
+	padding-left: 10px;
+	width: 120px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#jsdoc_content .signature-name,
+#jsdoc_content .signature-params,
+#jsdoc_content .signature-params-attrs,
+#jsdoc_content .signature-attrs {
+	font-size: 18px;
+}
+
+#jsdoc_content .signature-name {
+	color: rgb(049, 112, 143);
+}
+
+#jsdoc_content .signature-params {
+	color: #000;
+}
+
+#jsdoc_content .signature-params-attrs {
+	color: #AAA;
+	font-size: 60%;
+	font-style: italic;
+}
+
+#jsdoc_content .signature-attrs {
+	color: #AAA;
+}
+
+/*-------------------------------------------------------------------------*/

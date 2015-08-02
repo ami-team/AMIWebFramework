@@ -3,6 +3,7 @@
 <div class="row">
 
   <nav class="col-md-3">
+
     <div class="panel panel-default">
       <div class="panel-heading">
         <h3 class="panel-title">AMI Web framework API</h3>
@@ -11,9 +12,11 @@
         <h5><a href="?subapp=amiDocument&userdata=api/index.html"><i class="fa fa-home"></i> Home</a></h5><h5><a href="#ami_doc_memu_Global" data-toggle="collapse"><i class="fa fa-book"></i> Global</a></h5><ul class="collapse" id="ami_doc_memu_Global"><li><a href="?subapp=amiDocument&userdata=api/global.html#amiRegisterSubApp">amiRegisterSubApp</a></li></ul><h5><a href="#ami_doc_memu_Namespaces" data-toggle="collapse"><i class="fa fa-book"></i> Namespaces</a></h5><ul class="collapse" id="ami_doc_memu_Namespaces"><li><a href="?subapp=amiDocument&userdata=api/amiCommand.html">amiCommand</a></li><li><a href="?subapp=amiDocument&userdata=api/amiLogin.html">amiLogin</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTokenizer.html">amiTokenizer</a></li><li><a href="?subapp=amiDocument&userdata=api/amiTwigExprInterpreter.html">amiTwigExprInterpreter</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html">amiWebApp</a></li></ul><h5><a href="#ami_doc_memu_Interfaces" data-toggle="collapse"><i class="fa fa-book"></i> Interfaces</a></h5><ul class="collapse" id="ami_doc_memu_Interfaces"><li><a href="?subapp=amiDocument&userdata=api/AMISubApp.html">AMISubApp</a></li></ul><h5><a href="#ami_doc_memu_Classes" data-toggle="collapse"><i class="fa fa-book"></i> Classes</a></h5><ul class="collapse" id="ami_doc_memu_Classes"><li><a href="?subapp=amiDocument&userdata=api/AMITwigExprCompiler.html">AMITwigExprCompiler</a></li></ul><h5><a href="#ami_doc_memu_Events" data-toggle="collapse"><i class="fa fa-book"></i> Events</a></h5><ul class="collapse" id="ami_doc_memu_Events"><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onStart">onStart</a></li><li><a href="?subapp=amiDocument&userdata=api/amiWebApp.html#event:onToolbarUpdateNeeded">onToolbarUpdateNeeded</a></li></ul>
       </div>
     </div>
+
   </nav>
 
   <div class="col-md-9 jsdoc-content">
+
     <h1>Source: AMITwigExprInterpreter.js</h1>
     
 
@@ -270,88 +273,107 @@
 <i class="line-number" id="line246"></i>
 <i class="line-number" id="line247"></i>				/*-----------------------------------------*/
 <i class="line-number" id="line248"></i>
-<i class="line-number" id="line249"></i>				case amiTwigTokens.LOGICAL_OR:
-<i class="line-number" id="line250"></i>					operator = '||';
-<i class="line-number" id="line251"></i>					break;
-<i class="line-number" id="line252"></i>
-<i class="line-number" id="line253"></i>				/*-----------------------------------------*/
-<i class="line-number" id="line254"></i>
-<i class="line-number" id="line255"></i>				case amiTwigTokens.LOGICAL_AND:
-<i class="line-number" id="line256"></i>					operator = '&amp;&amp;';
-<i class="line-number" id="line257"></i>					break;
-<i class="line-number" id="line258"></i>
-<i class="line-number" id="line259"></i>				/*-----------------------------------------*/
-<i class="line-number" id="line260"></i>
-<i class="line-number" id="line261"></i>				case amiTwigTokens.BITWISE_OR:
-<i class="line-number" id="line262"></i>					operator = '|';
-<i class="line-number" id="line263"></i>					break;
+<i class="line-number" id="line249"></i>				case amiTwigTokens.POWER:
+<i class="line-number" id="line250"></i>
+<i class="line-number" id="line251"></i>					left = this._getJS(node.nodeLeft);
+<i class="line-number" id="line252"></i>					right = this._getJS(node.nodeRight);
+<i class="line-number" id="line253"></i>
+<i class="line-number" id="line254"></i>					return 'Math.pow(' + left + ',' + right + ')';
+<i class="line-number" id="line255"></i>
+<i class="line-number" id="line256"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line257"></i>
+<i class="line-number" id="line258"></i>				case amiTwigTokens.FLOORDIV:
+<i class="line-number" id="line259"></i>
+<i class="line-number" id="line260"></i>					left = this._getJS(node.nodeLeft);
+<i class="line-number" id="line261"></i>					right = this._getJS(node.nodeRight);
+<i class="line-number" id="line262"></i>
+<i class="line-number" id="line263"></i>					return 'Math.floor(' + left + '/' + right + ')';
 <i class="line-number" id="line264"></i>
 <i class="line-number" id="line265"></i>				/*-----------------------------------------*/
 <i class="line-number" id="line266"></i>
-<i class="line-number" id="line267"></i>				case amiTwigTokens.BITWISE_XOR:
-<i class="line-number" id="line268"></i>					operator = '^';
+<i class="line-number" id="line267"></i>				case amiTwigTokens.LOGICAL_OR:
+<i class="line-number" id="line268"></i>					operator = '||';
 <i class="line-number" id="line269"></i>					break;
 <i class="line-number" id="line270"></i>
 <i class="line-number" id="line271"></i>				/*-----------------------------------------*/
 <i class="line-number" id="line272"></i>
-<i class="line-number" id="line273"></i>				case amiTwigTokens.BITWISE_AND:
-<i class="line-number" id="line274"></i>					operator = '&amp;';
+<i class="line-number" id="line273"></i>				case amiTwigTokens.LOGICAL_AND:
+<i class="line-number" id="line274"></i>					operator = '&amp;&amp;';
 <i class="line-number" id="line275"></i>					break;
 <i class="line-number" id="line276"></i>
 <i class="line-number" id="line277"></i>				/*-----------------------------------------*/
 <i class="line-number" id="line278"></i>
-<i class="line-number" id="line279"></i>				default:
-<i class="line-number" id="line280"></i>					operator = node.nodeValue;
+<i class="line-number" id="line279"></i>				case amiTwigTokens.BITWISE_OR:
+<i class="line-number" id="line280"></i>					operator = '|';
 <i class="line-number" id="line281"></i>					break;
 <i class="line-number" id="line282"></i>
 <i class="line-number" id="line283"></i>				/*-----------------------------------------*/
-<i class="line-number" id="line284"></i>			}
-<i class="line-number" id="line285"></i>
-<i class="line-number" id="line286"></i>			left = this._getJS(node.nodeLeft);
-<i class="line-number" id="line287"></i>			right = this._getJS(node.nodeRight);
+<i class="line-number" id="line284"></i>
+<i class="line-number" id="line285"></i>				case amiTwigTokens.BITWISE_XOR:
+<i class="line-number" id="line286"></i>					operator = '^';
+<i class="line-number" id="line287"></i>					break;
 <i class="line-number" id="line288"></i>
-<i class="line-number" id="line289"></i>			return '(' + left + operator + right + ')';
-<i class="line-number" id="line290"></i>		}
-<i class="line-number" id="line291"></i>
-<i class="line-number" id="line292"></i>		/*---------------------------------------------------------*/
-<i class="line-number" id="line293"></i>	},
+<i class="line-number" id="line289"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line290"></i>
+<i class="line-number" id="line291"></i>				case amiTwigTokens.BITWISE_AND:
+<i class="line-number" id="line292"></i>					operator = '&amp;';
+<i class="line-number" id="line293"></i>					break;
 <i class="line-number" id="line294"></i>
-<i class="line-number" id="line295"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line295"></i>				/*-----------------------------------------*/
 <i class="line-number" id="line296"></i>
-<i class="line-number" id="line297"></i>	/**
-<i class="line-number" id="line298"></i>	  * Convert a compiled TWIG expression to JavaScript
-<i class="line-number" id="line299"></i>	  * @param {String} expr the compiled expression
-<i class="line-number" id="line300"></i>	  * @returns {String} The JavaScript result
-<i class="line-number" id="line301"></i>	  */
-<i class="line-number" id="line302"></i>
-<i class="line-number" id="line303"></i>	getJS: function(expr)
-<i class="line-number" id="line304"></i>	{
-<i class="line-number" id="line305"></i>		return this._getJS(expr.rootNode);
-<i class="line-number" id="line306"></i>	},
-<i class="line-number" id="line307"></i>
-<i class="line-number" id="line308"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line297"></i>				default:
+<i class="line-number" id="line298"></i>					operator = node.nodeValue;
+<i class="line-number" id="line299"></i>					break;
+<i class="line-number" id="line300"></i>
+<i class="line-number" id="line301"></i>				/*-----------------------------------------*/
+<i class="line-number" id="line302"></i>			}
+<i class="line-number" id="line303"></i>
+<i class="line-number" id="line304"></i>			left = this._getJS(node.nodeLeft);
+<i class="line-number" id="line305"></i>			right = this._getJS(node.nodeRight);
+<i class="line-number" id="line306"></i>
+<i class="line-number" id="line307"></i>			return '(' + left + operator + right + ')';
+<i class="line-number" id="line308"></i>		}
 <i class="line-number" id="line309"></i>
-<i class="line-number" id="line310"></i>	/**
-<i class="line-number" id="line311"></i>	  * Evaluate the compiled TWIG expression
-<i class="line-number" id="line312"></i>	  * @param {String} expr the compiled expression
-<i class="line-number" id="line313"></i>	  * @param {Object} [dict] the dictionary of definitions
-<i class="line-number" id="line314"></i>	  * @returns {?} The evaluated result
-<i class="line-number" id="line315"></i>	  */
-<i class="line-number" id="line316"></i>
-<i class="line-number" id="line317"></i>	eval: function(expr, _)
-<i class="line-number" id="line318"></i>	{
-<i class="line-number" id="line319"></i>		if(!_) _ = {};
+<i class="line-number" id="line310"></i>		/*---------------------------------------------------------*/
+<i class="line-number" id="line311"></i>	},
+<i class="line-number" id="line312"></i>
+<i class="line-number" id="line313"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line314"></i>
+<i class="line-number" id="line315"></i>	/**
+<i class="line-number" id="line316"></i>	  * Convert a compiled TWIG expression to JavaScript
+<i class="line-number" id="line317"></i>	  * @param {String} expr the compiled expression
+<i class="line-number" id="line318"></i>	  * @returns {String} The JavaScript result
+<i class="line-number" id="line319"></i>	  */
 <i class="line-number" id="line320"></i>
-<i class="line-number" id="line321"></i>		return eval(this._getJS(expr.rootNode));
-<i class="line-number" id="line322"></i>	},
-<i class="line-number" id="line323"></i>
-<i class="line-number" id="line324"></i>	/*-----------------------------------------------------------------*/
-<i class="line-number" id="line325"></i>});
-<i class="line-number" id="line326"></i>
-<i class="line-number" id="line327"></i>/*-------------------------------------------------------------------------*/
-<i class="line-number" id="line328"></i></code></pre>
+<i class="line-number" id="line321"></i>	getJS: function(expr)
+<i class="line-number" id="line322"></i>	{
+<i class="line-number" id="line323"></i>		return this._getJS(expr.rootNode);
+<i class="line-number" id="line324"></i>	},
+<i class="line-number" id="line325"></i>
+<i class="line-number" id="line326"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line327"></i>
+<i class="line-number" id="line328"></i>	/**
+<i class="line-number" id="line329"></i>	  * Evaluate the compiled TWIG expression
+<i class="line-number" id="line330"></i>	  * @param {String} expr the compiled expression
+<i class="line-number" id="line331"></i>	  * @param {Object} [dict] the dictionary of definitions
+<i class="line-number" id="line332"></i>	  * @returns {?} The evaluated result
+<i class="line-number" id="line333"></i>	  */
+<i class="line-number" id="line334"></i>
+<i class="line-number" id="line335"></i>	eval: function(expr, _)
+<i class="line-number" id="line336"></i>	{
+<i class="line-number" id="line337"></i>		if(!_) _ = {};
+<i class="line-number" id="line338"></i>
+<i class="line-number" id="line339"></i>		return eval(this._getJS(expr.rootNode));
+<i class="line-number" id="line340"></i>	},
+<i class="line-number" id="line341"></i>
+<i class="line-number" id="line342"></i>	/*-----------------------------------------------------------------*/
+<i class="line-number" id="line343"></i>});
+<i class="line-number" id="line344"></i>
+<i class="line-number" id="line345"></i>/*-------------------------------------------------------------------------*/
+<i class="line-number" id="line346"></i></code></pre>
   </article>
 </section>
+
 
 
 
