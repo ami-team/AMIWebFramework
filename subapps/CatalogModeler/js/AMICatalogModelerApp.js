@@ -20,12 +20,12 @@ function AMICatalogModelerApp() {
 		]);
 
 		amiWebApp.loadScripts([
-			'tools/common/js/lodash.min.js',
-			'tools/common/js/backbone-min.js',
-			'tools/common/js/joint.min.js',
-			'tools/common/js/vectorizer.min.js',
-			'tools/common/js/geometry.min.js',
-			'tools/common/js/filesaver.min.js',
+			'js/3rd-party/filesaver.min.js',
+			'js/3rd-party/jointjs/lodash.min.js',
+			'js/3rd-party/jointjs/backbone-min.js',
+			'js/3rd-party/jointjs/joint.min.js',
+			'js/3rd-party/jointjs/vectorizer.min.js',
+			'js/3rd-party/jointjs/geometry.min.js',
 			'subapps/CatalogModeler/js/joint.shapes.sql.min.js',
 		]);
 
