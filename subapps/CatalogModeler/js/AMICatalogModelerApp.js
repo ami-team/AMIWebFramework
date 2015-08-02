@@ -16,6 +16,7 @@ function AMICatalogModelerApp() {
 	this.onReady = function() {
 
 		amiWebApp.loadSheets([
+			'css/3rd-party/jointjs/joint.min.css',
 			'subapps/CatalogModeler/css/AMICatalogModelerApp.css',
 		]);
 
