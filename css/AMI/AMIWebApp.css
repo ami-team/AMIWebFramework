@@ -1,5 +1,5 @@
 /*-------------------------------------------------------------------------*/
-/* FONTS                                                                   */
+/* FONTS																   */
 /*-------------------------------------------------------------------------*/
 
 @font-face {
@@ -10,35 +10,35 @@
 /*-------------------------------------------------------------------------*/
 
 @font-face {
-    font-family: "Open Sans";
-    font-weight: normal;
-    font-style: normal;
-    src: url("../../fonts/OpenSans-Regular-webfont.eot");
-    src:
-        local("Open Sans"),
-        local("OpenSans"),
-        url("../../fonts/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"),
-        url("../../fonts/OpenSans-Regular-webfont.woff") format("woff"),
-        url("../../fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
-        url("../../fonts/OpenSans-Regular-webfont.svg#open_sansregular") format("svg");
+	font-family: "Open Sans";
+	font-weight: normal;
+	font-style: normal;
+	src: url("../../fonts/OpenSans-Regular-webfont.eot");
+	src: local("Open Sans"), local("OpenSans"),
+		url("../../fonts/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"),
+		url("../../fonts/OpenSans-Regular-webfont.woff") format("woff"),
+		url("../../fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+		url("../../fonts/OpenSans-Regular-webfont.svg#open_sansregular") format("svg"),
+		url("../../fonts/OpenSans-Regular-webfont.ttf")
+	;
 }
 
 @font-face {
-    font-family: "Open Sans Light";
-    font-weight: normal;
-    font-style: normal;
-    src: url("../../fonts/OpenSans-Light-webfont.eot");
-    src:
-        local("Open Sans Light"),
-        local("OpenSans Light"),
-        url("../../fonts/OpenSans-Light-webfont.eot?#iefix") format("embedded-opentype"),
-        url("../../fonts/OpenSans-Light-webfont.woff") format("woff"),
-        url("../../fonts/OpenSans-Light-webfont.woff") format("woff2"),
-        url("../../fonts/OpenSans-Light-webfont.svg#open_sanslight") format("svg");
+	font-family: "Open Sans Light";
+	font-weight: normal;
+	font-style: normal;
+	src: url("../../fonts/OpenSans-Light-webfont.eot");
+	src: local("Open Sans Light"), local("OpenSans Light"),
+		url("../../fonts/OpenSans-Light-webfont.eot?#iefix") format("embedded-opentype"),
+		url("../../fonts/OpenSans-Light-webfont.woff") format("woff"),
+		url("../../fonts/OpenSans-Light-webfont.woff") format("woff2"),
+		url("../../fonts/OpenSans-Light-webfont.svg#open_sanslight") format("svg"),
+		url("../../fonts/OpenSans-Light-webfont.ttf")
+	;
 }
 
 /*-------------------------------------------------------------------------*/
-/* GENERAL                                                                 */
+/* GENERAL																 */
 /*-------------------------------------------------------------------------*/
 
 th,
@@ -56,7 +56,7 @@ code {
 }
 
 /*-------------------------------------------------------------------------*/
-/* BOOTSTRAP THEME                                                         */
+/* BOOTSTRAP THEME														 */
 /*-------------------------------------------------------------------------*/
 
 .container {
@@ -157,7 +157,7 @@ code {
 }
 
 /*-------------------------------------------------------------------------*/
-/* AMI COMPONENTS                                                          */
+/* AMI COMPONENTS														  */
 /*-------------------------------------------------------------------------*/
 
 .ami-callout {
@@ -240,7 +240,7 @@ code {
 }
 
 /*-------------------------------------------------------------------------*/
-/* AMI SELECT                                                              */
+/* AMI SELECT															  */
 /*-------------------------------------------------------------------------*/
 
 .ami-select-wrapper {
@@ -266,7 +266,7 @@ code {
 }
 
 /*-------------------------------------------------------------------------*/
-/* AMI BURST                                                               */
+/* AMI BURST															   */
 /*-------------------------------------------------------------------------*/
 
 @-webkit-keyframes burst {
