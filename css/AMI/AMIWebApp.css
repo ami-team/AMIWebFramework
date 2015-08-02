@@ -71,10 +71,6 @@ code {
 	margin-bottom: 5px;
 }
 
-.navbar-header {
-	line-height: 45px;
-}
-
 .navbar-default {
 	background: url("../../images/stripe1.png");
 }
@@ -84,14 +80,8 @@ code {
 	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075);
 }
 
-.navbar-static-bottom {
-	border-radius: 0px;
-	margin: 8px 0px 22px 0px;
-}
-
-.navbar-default .navbar-nav > .active > a {
-	background-image: none;
-	box-shadow: none;
+.navbar-header {
+	line-height: 45px;
 }
 
 .navbar-default .navbar-nav > .open > a,
