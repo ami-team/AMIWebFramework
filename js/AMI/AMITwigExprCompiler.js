@@ -300,8 +300,6 @@ $AMIClass('AMITwigExprTokenizer', {
  * The AMI TWIG expression compiler
  * @see An online <a href="http://cern.ch/ami/twig/" target="_blank">demo</a>.
  * @class AMITwigExprCompiler
- * @extends {Color}
- * @implements {IColor}
  * @param {String} code the code
  * @param {Number} line the line
  * @throws {String} The error description

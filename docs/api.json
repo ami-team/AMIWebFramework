@@ -1229,12 +1229,8 @@
         {
             "name": "AMITwigExprCompiler",
             "desc": "The AMI TWIG expression compiler",
-            "implements": [
-                "IColor"
-            ],
-            "inherits": [
-                "Color"
-            ],
+            "implements": [],
+            "inherits": [],
             "see": [
                 "An online <a href=\"http://cern.ch/ami/twig/\" target=\"_blank\">demo</a>."
             ],
