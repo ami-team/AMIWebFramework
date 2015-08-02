@@ -34,40 +34,56 @@ var jsDoc = {
 
 	makeMenu: function()
 	{
-		var s = '<h5><a href=""><i class="fa fa-home"></i> Home</a></h5>';
+		var s = '<h5><a href=""><i class="fa fa-home"></i> Home</a></h5><hr />';
 
-		s += this.makeSubMenu('Global', '.functions', true);
-		s += this.makeSubMenu('Namespace', '.namespaces', false);
-		s += this.makeSubMenu('Interface', '.interfaces', false);
-		s += this.makeSubMenu('Class', '.classes', false);
+		s += this.makeSubMenu('Global', 'global');
+		s += this.makeSubMenu('Namespace', 'namespaces');
+		s += this.makeSubMenu('Interface', 'interfaces');
+		s += this.makeSubMenu('Class', 'classes');
 
 		$('#jsdoc_menu').html(s);
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	makeSubMenu: function(category, path, sep)
+	makeSubMenu: function(title, cat)
 	{
 		var result = '';
 
 		/*---------------------------------------------------------*/
 
-		var items = JSPath.apply(path, this.json);
+		var items;
 
-		if(items.length > 0)
+		if(cat === 'global')
 		{
-			if(sep)
-			{
-				result += '<hr />';
+			items = [];
+
+			if(this.json['variables']) {
+				items = items.concat(this.json['variables']);
 			}
 
-			result += '<h5><a href="#jsdoc_menu_' + category.toLowerCase() + '" data-toggle="collapse"><i class="fa fa-book"></i> ' + category + '</a></h5>';
+			if(this.json['functions']) {
+				items = items.concat(this.json['functions']);
+			}
+		}
+		else
+		{
+			items = this.json[cat];
+		}
 
-			result += '<ul class="collapse" id="jsdoc_menu_' + category.toLowerCase() + '">';
+		/*---------------------------------------------------------*/
+
+		if(items && items.length > 0)
+		{
+			var id = 'jsdoc_menu_' + title.toLowerCase();
+
+			result += '<h5><a href="#' + id + '" data-toggle="collapse"><i class="fa fa-book"></i> ' + title + '</a></h5>';
+
+			result += '<ul class="collapse" id="' +  id + '">';
 
 			for(i in items)
 			{
-				result += '<li><a href="javascript:jsDoc.makeContent(\'' + category + '\', \'' + path + '{.name===&quot;' + items[i].name + '&quot;}\');">' + items[i].name + '</a></li>';
+				result += '<li><a href="javascript:jsDoc.makeContent(\'' + title + '\',\'' + cat + '\',\'' + items[i].name + '\');">' + items[i].name + '</a></li>';
 			}
 
 			result += '</ul>';
@@ -80,18 +96,35 @@ var jsDoc = {
 
 	/*-----------------------------------------------------------------*/
 
-	makeContent: function(category, path)
+	makeContent: function(title, cat, name)
 	{
 		var s = '';
 
 		/*---------------------------------------------------------*/
 
-		var item = JSPath.apply(path, this.json)[0];
+		var item;
+
+		if(cat === 'global')
+		{
+			item = {
+				name: 'variables and functions',
+				variables: this.json['variables'],
+				functions: this.json['functions'],
+			};
+		}
+		else
+		{
+			item = this.json[cat].filter(function(item) {
+
+				return item.name === name;
+
+			})[0];
+		}
 
 		/*---------------------------------------------------------*/
 
 		s += '<div class="well">';
-		s += '<h1>' + category + ': ' + item.name + '</h1>';
+		s += '<h1>' + title + ': ' + item.name + '</h1>';
 		s += '<div>' + this.makeDesc(item.desc) + '</div>';
 		s += this.makeDetails(item);
 		s += '</div>';
@@ -152,11 +185,28 @@ var jsDoc = {
 
 		result += '<hr />';
 
+		result += this.makeVariableSignature(variable);
+
+		result += '<div>' + this.makeDesc(variable.desc) + '</div>';
+
+		result += this.makeDetails(variable);
+
+		/*---------------------------------------------------------*/
+
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	makeVariableSignature: function(variable)
+	{
+		var result = '';
+
+		/*---------------------------------------------------------*/
+
 		result += '<span class="signature-name">' + variable.name + '</span>';
 
 		result += '<span class="signature-attrs">: {' + this.makeType(variable.type) + '}</span>';
-
-		result += '<div>' + this.makeDesc(variable.desc) + '</div>';
 
 		/*---------------------------------------------------------*/
 
@@ -204,11 +254,11 @@ var jsDoc = {
 
 		var L = [];
 
-		for(var i in method.parameters)
+		for(var i in method.params)
 		{
-			var s = method.parameters[i].name;
+			var s = method.params[i].name;
 
-			if(method.parameters[i].optional === true)
+			if(method.params[i].optional === true)
 			{
 				s += '<span class="signature-params-attrs">opt</span>'
 			}
@@ -220,9 +270,16 @@ var jsDoc = {
 
 		/*---------------------------------------------------------*/
 
-		if(method.returns && method.returns.type)
+		if(method.returns)
 		{
-			result += '<span class="signature-attrs"> → {' + this.makeType(method.returns.type) + '}</span>';
+			var L = [];
+
+			for(var i in method.returns)
+			{
+				L.push(this.makeType(method.returns[i].type));
+			}
+
+			result += '<span class="signature-attrs">: {' + L.join(' or ') + '}</span>';
 		}
 
 		/*---------------------------------------------------------*/
@@ -238,7 +295,7 @@ var jsDoc = {
 
 		/*---------------------------------------------------------*/
 
-		if(method.parameters.length > 0)
+		if(method.params.length > 0)
 		{
 			/*-------------------------------------------------*/
 
@@ -246,9 +303,9 @@ var jsDoc = {
 
 			var cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0, cnt6 = 0;
 
-			for(var i in method.parameters)
+			for(var i in method.params)
 			{
-				var parameter = method.parameters[i];
+				var parameter = method.params[i];
 
 				L1.push(parameter.name);
 		        	L2.push(this.makeType(parameter.type));
@@ -279,7 +336,7 @@ var jsDoc = {
 
 			/*-------------------------------------------------*/
 
-			result += '<h5>Parameters:</h5>';
+			result += '<h5><strong>Parameters:</strong></h5>';
 
 			result += '<table class="table table-condensed table-bordered table-striped" style="width: auto;">';
 
@@ -310,7 +367,7 @@ var jsDoc = {
 
 			result += '<tbody>';
 
-			for(var i in method.parameters)
+			for(var i in method.params)
 			{
 				result += '<tr>';
 
@@ -356,16 +413,13 @@ var jsDoc = {
 
 		/*---------------------------------------------------------*/
 
-		if(method.exceptions)
+		for(var i in method.exceptions)
 		{
-			for(var i in method.exceptions)
-			{
-				result += '<h5>Throws:</h5>';
+			result += '<h5><strong>Throws:</strong></h5>';
 
-				result += '<div>' + this.makeDesc(method.exceptions[i].desc) + '</div>';
+			result += '<div>' + this.makeDesc(method.exceptions[i].desc) + '</div>';
 
-				result += '<div>Type: ' + this.makeType(method.exceptions[i].type) + '</div>';
-			}
+			result += '<div>Type: ' + this.makeType(method.exceptions[i].type) + '</div>';
 		}
 
 		/*---------------------------------------------------------*/
@@ -381,16 +435,13 @@ var jsDoc = {
 
 		/*---------------------------------------------------------*/
 
-		if(method.returns)
+		for(var i in method.returns)
 		{
-			for(var i in method.returns)
-			{
-				result += '<h5>Returns:</h5>';
+			result += '<h5><strong>Returns:</strong></h5>';
 
-				result += '<div>' + this.makeDesc(method.returns[i].desc) + '</div>';
+			result += '<div>' + this.makeDesc(method.returns[i].desc) + '</div>';
 
-				result += '<div>Type: ' + this.makeType(method.returns[i].type) + '</div>';
-			}
+			result += '<div>Type: ' + this.makeType(method.returns[i].type) + '</div>';
 		}
 
 		/*---------------------------------------------------------*/
@@ -424,7 +475,7 @@ var jsDoc = {
 
 		if(x.version)
 		{
-			version += '<dt>Version:</dt><dd>' + x.version + '</dd>';
+			version = '<dt>Version:</dt><dd>' + x.version + '</dd>';
 		}
 
 		if(x.author)
@@ -445,7 +496,7 @@ var jsDoc = {
 
 		/*---------------------------------------------------------*/
 
-		if(see)
+		if(author || version || see)
 		{
 			result += '<dl class="details">';
 			result += version;

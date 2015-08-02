@@ -31,7 +31,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 {
 	childNodes.filter(function(element) {
 
-		return (element.memberof === parentLongName);
+		return element.memberof === parentLongName;
 
 	}).forEach(function(element, index) {
 
@@ -153,7 +153,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 
 				thisClass.konstructor = {
 					'name': element.name,
-					'parameters': [],
+					'params': [],
 				};
 
 				/*-----------------------------------------*/
@@ -162,7 +162,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 
 				for(var i in element.params)
 				{
-					thisClass.konstructor.parameters.push({
+					thisClass.konstructor.params.push({
 						'name': element.params[i].name,
 						'type': typeHelper(element.params[i].type),
 						'desc': element.params[i].description || '',
@@ -273,7 +273,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 			var thisFunction = {
 				'name': element.name,
 				'desc': element.description || '',
-				'parameters': [],
+				'params': [],
 			};
 
 			if(element.kind === 'function')
@@ -321,7 +321,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 
 			for(var i in element.params)
 			{
-				thisFunction.parameters.push({
+				thisFunction.params.push({
 					'name': element.params[i].name,
 					'type': typeHelper(element.params[i].type),
 					'desc': element.params[i].description || '',
@@ -400,15 +400,7 @@ exports.publish = function(data, opts) {
 
 	if(opts.destination === 'console')
 	{
-		var json;
-
-		if(true) {
-			json = JSON.stringify(root, null, 4);
-		} else {
-			json = JSON.stringify(root);
-		}
-
-		console.log(json);
+		console.log(JSON.stringify(root, null, 0));
 	}
 	else
 	{
