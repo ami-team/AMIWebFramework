@@ -24,7 +24,7 @@ $AMIClass('AMICommandApp', {
 		]);
 
 		amiWebApp.loadScripts([
-			'tools/common/js/filesaver.min.js',
+			'js/3rd-party/filesaver.min.js',
 		]);
 
 		$('#ami_jumbotron_title').html('Command Line');
