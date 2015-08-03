@@ -974,6 +974,16 @@ var amiWebApp = {
 	/* SUB-APPLICATIONS                                                */
 	/*-----------------------------------------------------------------*/
 
+	_currentSubAppInstance: new function() {
+
+		this.onReady = function() {};
+		this.onExit = function() {};
+		this.onLogin = function() {};
+		this.onLogout = function() {};
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	onReady: function(userdata)
 	{
 		return this._currentSubAppInstance.onReady(userdata);
@@ -1050,10 +1060,7 @@ var amiWebApp = {
 		/* SWITCH SUB-APPLICATION                                  */
 		/*---------------------------------------------------------*/
 
-		if(this._currentSubAppInstance.onExit() === false)
-		{
-			return;
-		}
+		this._currentSubAppInstance.onExit();
 
 		/*---------------------------------------------------------*/
 
@@ -1116,10 +1123,10 @@ amiWebApp.init();
 
 /**
  * The AMI sub-application interface
- * @interface AMISubApp
+ * @interface ami/ISubApp
  */
 
-$AMIInterface('AMISubApp', /** @lends AMISubApp# */ {
+$AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -1155,20 +1162,6 @@ $AMIInterface('AMISubApp', /** @lends AMISubApp# */ {
 
 	/*-----------------------------------------------------------------*/
 });
-
-/*-------------------------------------------------------------------------*/
-/* AMIFooApp                                                               */
-/*-------------------------------------------------------------------------*/
-
-$AMIClass('AMIFooApp', {
-	$implements: [AMISubApp],
-	onReady: function() {},
-	onExit: function() {},
-	onLogin: function() {},
-	onLogout: function() {},
-});
-
-amiWebApp._currentSubAppInstance = new AMIFooApp();
 
 /*-------------------------------------------------------------------------*/
 /* JQUERY EXTENSION                                                        */
