@@ -7,19 +7,20 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* INTERNAL VARIABLES                                                      */
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_numRegex = /^[0-9]+$/;
-var _ami_internal_sidRegex = /^[a-zA-Z_][a-zA-Z0-9_]*$/;
-
-/*-------------------------------------------------------------------------*/
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
 function _ami_internal_isNum(s)
 {
-	return s.match(_ami_internal_numRegex) !== null;
+	for(var i in s)
+	{
+		if(ami.tokenizer.isDigit(s[i]) === false)
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -42,7 +43,20 @@ function _ami_internal_isStr(s)
 
 function _ami_internal_isSId(s)
 {
-	return s.match(_ami_internal_sidRegex) !== null;
+	if(ami.tokenizer.isAlpha(s[0]) === false && s[0] !== '_')
+	{
+		return false;
+	}
+
+	for(var i in s)
+	{
+		if(ami.tokenizer.isAlNum(s[i]) === false && s[i] !== '_')
+		{
+			return false;
+		}
+	}
+
+	return true;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -251,7 +265,7 @@ $AMIClass('ami.twig.expr.Tokenizer', {
 
 	next: function(n)
 	{
-		this.i += (n || 1);
+		this.i += n || 1;
 	},
 
 	/*-----------------------------------------------------------------*/
