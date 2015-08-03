@@ -197,8 +197,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		return amiCommand.logout().always(function(data, user, guest) {
 
-			amiLogin._update(data, user, guest).always(function() {
+			amiLogin._update(data, user, guest).done(function() {
 
+				amiLogin._clean();
 				amiWebApp.unlock();
 			});
 		});
@@ -230,94 +231,100 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			return;
 		}
 
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		amiCommand.passLogin(user, pass).done(function(data, user, guest, clientDNInSession, issuerDNInSession) {
 
-			if(user === guest)
-			{
-				var extra;
+			amiLogin._update(data, user, guest).done(function() {
 
-				if(clientDNInSession || issuerDNInSession)
+				if(user !== guest)
 				{
-					extra = '<textarea style="height: 85px; width: 100%;">'
-					        +
-					        'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
-					        + '\n' +
-					        'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
-					        +
-					        '</textarea>'
-					;
+					$('#modal_login').modal('hide');
+
+					amiLogin._clean();
+					amiWebApp.unlock();
 				}
 				else
 				{
-					extra = '';
+					var error = 'Invalid identifiers.';
+
+					if(clientDNInSession || issuerDNInSession)
+					{
+						error += '<textarea style="height: 85px; width: 100%;">'
+						         +
+						         'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
+						         + '\n' +
+						         'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
+						         +
+						         '</textarea>'
+						;
+					}
+
+					amiLogin._showErrorMessage1(error);
 				}
+			});
 
-				amiLogin._showErrorMessage1('Invalid identifiers.' + extra);
-			}
-			else
-			{
-				$('#modal_login').modal('hide');
-			}
+		}).fail(function(data, user, guest) {
 
-		}).fail(function(data) {
+			amiLogin._update(data, user, guest).done(function() {
 
-			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-
-		}).always(function(data, user, guest) {
-
-			amiLogin._update(data, user, guest).always(function() {
-				amiWebApp.unlock();
+				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 			});
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	form_certLogin: function()
 	{
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		amiCommand.certLogin().done(function(data, user, guest, clientDNInSession, issuerDNInSession) {
 
-			if(user === guest)
-			{
-				var extra;
+			amiLogin._update(data, user, guest).done(function() {
 
-				if(clientDNInSession || issuerDNInSession)
+				if(user !== guest)
 				{
-					extra = '<textarea style="height: 85px; width: 100%;">'
-					        +
-					        'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
-					        + '\n' +
-					        'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
-					        +
-					        '</textarea>'
-					;
+					$('#modal_login').modal('hide');
+
+					amiLogin._clean();
+					amiWebApp.unlock();
 				}
 				else
 				{
-					extra = '';
+					var error = 'You have to provide your certificate registered in AMI.';
+
+					if(clientDNInSession || issuerDNInSession)
+					{
+						error += '<textarea style="height: 85px; width: 100%;">'
+						         +
+						         'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
+						         + '\n' +
+						         'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
+						         +
+						         '</textarea>'
+						;
+					}
+
+					amiLogin._showErrorMessage1(error);
 				}
+			});
 
-				amiLogin._showErrorMessage1('You have to provide your certificate registered in AMI.' + extra);
-			}
-			else
-			{
-				$('#modal_login').modal('hide');
-			}
+		}).fail(function(data, user, guest) {
 
-		}).fail(function(data) {
+			amiLogin._update(data, user, guest).done(function() {
 
-			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-
-		}).always(function(data, user, guest) {
-
-			amiLogin._update(data, user, guest).always(function() {
-				amiWebApp.unlock();
+				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 			});
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -334,6 +341,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			return;
 		}
 
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		amiCommand.attachCert(user, pass).done(function() {
@@ -343,12 +352,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		}).fail(function(data) {
 
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-
-		}).always(function() {
-
-			amiLogin._clean();
-			amiWebApp.unlock();
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -365,6 +371,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			return;
 		}
 
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		amiCommand.detachCert(user, pass).done(function() {
@@ -374,26 +382,23 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		}).fail(function(data) {
 
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-
-		}).always(function() {
-
-			amiLogin._clean();
-			amiWebApp.unlock();
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	form_addUser: function()
 	{
-		var firstName = $('#modal_login_form2_first_name').val();
-		var lastName = $('#modal_login_form2_last_name').val();
-		var email = $('#modal_login_form2_email').val();
 		var user = $('#modal_login_form2_user').val();
 		var pass1 = $('#modal_login_form2_pass1').val();
 		var pass2 = $('#modal_login_form2_pass2').val();
+		var firstName = $('#modal_login_form2_first_name').val();
+		var lastName = $('#modal_login_form2_last_name').val();
+		var email = $('#modal_login_form2_email').val();
 
-		if(!firstName || !lastName || !email || !user || !pass1 || !pass2)
+		if(!user || !pass1 || !pass2 || !firstName || !lastName || !email)
 		{
 			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
 
@@ -407,6 +412,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			return;
 		}
 
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		amiCommand.addUser(user, pass1, firstName, lastName, email).done(function(data) {
@@ -416,12 +423,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		}).fail(function(data) {
 
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-
-		}).always(function() {
-
-			amiLogin._clean();
-			amiWebApp.unlock();
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -439,6 +443,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			return;
 		}
 
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		amiCommand.changeInfo(firstName, lastName, email).done(function(data) {
@@ -448,12 +454,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		}).fail(function(data) {
 
 			amiLogin._showErrorMessage2(amiWebApp.jspath('..error.$', data)[0]);
-
-		}).always(function() {
-
-			amiLogin._clean();
-			amiWebApp.unlock();
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -478,6 +481,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			return;
 		}
 
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		amiCommand.changePass(oldPass, newPass1).done(function(data) {
@@ -487,12 +492,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		}).fail(function(data) {
 
 			amiLogin._showErrorMessage3(amiWebApp.jspath('..error.$', data)[0]);
-
-		}).always(function() {
-
-			amiLogin._clean();
-			amiWebApp.unlock();
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -508,6 +510,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			return;
 		}
 
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		amiCommand.resetPass(user).done(function(data) {
@@ -517,12 +521,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		}).fail(function(data) {
 
 			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
-
-		}).always(function() {
-
-			amiLogin._clean();
-			amiWebApp.unlock();
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -530,7 +531,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	_showSuccessMessage1: function(message)
 	{
 		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+
 		$('#modal_login_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -538,7 +543,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	_showErrorMessage1: function(message)
 	{
 		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+
 		$('#modal_login_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -546,7 +555,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	_showSuccessMessage2: function(message)
 	{
 		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+
 		$('#modal_login_change_info_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -554,7 +567,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	_showErrorMessage2: function(message)
 	{
 		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+
 		$('#modal_login_change_info_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -562,7 +579,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	_showSuccessMessage3: function(message)
 	{
 		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+
 		$('#modal_login_change_pass_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -570,31 +591,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	_showErrorMessage3: function(message)
 	{
 		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+
 		$('#modal_login_change_pass_message .alert').fadeOut(45000);
-	},
 
-	/*-----------------------------------------------------------------*/
-
-	_showInfoMessage4: function(message)
-	{
-		if(message)
-		{
-			message = '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message;
-		}
-
-		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_showErrorMessage4: function(message)
-	{
-		if(message)
-		{
-			message = '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message;
-		}
-
-		amiWebApp.replaceHTML('#modal_login_account_status_message', message);
+		amiLogin._clean();
+		amiWebApp.unlock();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -626,10 +627,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_update: function(data, user, guest)
 	{
-		/*---------------------------------------------------------*/
-
-		amiLogin._clean();
-
 		/*---------------------------------------------------------*/
 
 		amiLogin.user = user;
@@ -746,11 +743,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					}
 				}
 
+				$('#modal_login_account_status_message').html(
+					message ? '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message : ''
+				);
+
 				$('#modal_login_account_status_form1_status').html(
 					'<span style="color: #006400;">valid</span>'
 				);
-
-				amiLogin._showInfoMessage4(message);
 
 				color = 'orange';
 
@@ -780,11 +779,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					message = 'Contact the AMI team.';
 				}
 
+				$('#modal_login_account_status_message').html(
+					message ? '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message : ''
+				);
+
 				$('#modal_login_account_status_form1_status').html(
 					'<span style="color: #8B0000;">invalid</span>'
 				);
-
-				amiLogin._showErrorMessage4(message);
 
 				color = 'red';
 
