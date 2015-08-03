@@ -7,18 +7,6 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* INTERNAL VARIABLES                                                      */
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_base64KeyStr =
-	'ABCDEFGHIJKLMNOP' +
-	'QRSTUVWXYZabcdef' +
-	'ghijklmnopqrstuv' +
-	'wxyz0123456789+/' +
-	'='
-;
-
-/*-------------------------------------------------------------------------*/
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
@@ -43,51 +31,17 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Decode a base64 string
-	  * @param {String} string the encoded string
-	  * @returns {String} The decoded string
+	  * Default endpoint
+	  * @type {String}
 	  */
 
-	base64Decode: function(s)
-	{
-		var i = 0;
-		var result = '';
-		var chr1, chr2, chr3 = '';
-		var enc1, enc2, enc3, enc4 = '';
-
-		s = s.replace(/[^A-Za-z0-9\+\/\=]/g, '');
-
-		do {
-			enc1 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
-			enc2 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
-			enc3 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
-			enc4 = _ami_internal_base64KeyStr.indexOf(s.charAt(i++));
-
-			chr1 = ((enc1 & 255) << 2) | (enc2 >> 4);
-			chr2 = ((enc2 &  15) << 4) | (enc3 >> 2);
-			chr3 = ((enc3 &   3) << 6) | (enc4 >> 0);
-
-			result = result + String.fromCharCode(chr1);
-
-			if(enc3 != 64) {
-				result = result + String.fromCharCode(chr2);
-			}
-
-			if(enc4 != 64) {
-				result = result + String.fromCharCode(chr3);
-			}
-
-			chr1 = chr2 = chr3 = '';
-			enc1 = enc2 = enc3 = enc4 = '';
-
-		} while(i < s.length);
-
-		return unescape(result);
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	endpoint: 'http://xxyy.zz',
+
+	/**
+	  * Default converter
+	  * @type {String}
+	  */
+
 	converter: 'AMIXmlToJson.xsl',
 
 	/*-----------------------------------------------------------------*/
@@ -282,23 +236,26 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		this.execute('GetSessionInfo -AMIUser="' + _ami_internal_textToString(user) + '" -AMIPass="' + _ami_internal_textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
 
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
-			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
-			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
+			var userInfo = {};
+			var roleInfo = {};
+
+			JSPath.apply('..field', data).forEach(function(item) {
+
+				userInfo[item['@name']] = item['$'];
+			});
 
 			if(context) {
-				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
+				result.resolveWith(context, [data, userInfo, roleInfo]);
 			} else {
-				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
+				result.resolve(data, userInfo, roleInfo);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
+				result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}]);
 			} else {
-				result.reject(data, 'guest', 'guest', '', '');
+				result.reject(data, {AMIUser: 'guest', guestUser: 'guest'}, {});
 			}
 		});
 
@@ -332,23 +289,26 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		this.execute('GetSessionInfo').done(function(data) {
 
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
-			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
-			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
+			var userInfo = {};
+			var roleInfo = {};
+
+			JSPath.apply('..field', data).forEach(function(item) {
+
+				userInfo[item['@name']] = item['$'];
+			});
 
 			if(context) {
-				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
+				result.resolveWith(context, [data, userInfo, roleInfo]);
 			} else {
-				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
+				result.resolve(data, userInfo, roleInfo);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
+				result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}]);
 			} else {
-				result.reject(data, 'guest', 'guest', '', '');
+				result.reject(data, {AMIUser: 'guest', guestUser: 'guest'}, {});
 			}
 		});
 
@@ -382,23 +342,26 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).done(function(data) {
 
-			var user = JSPath.apply('..field{.@name==="AMIUser"}.$', data)[0] || 'guest';
-			var guest = JSPath.apply('..field{.@name==="guestUser"}.$', data)[0] || 'guest';
-			var clientDNInSession = JSPath.apply('..field{.@name==="clientDNInSession"}.$', data)[0] || '';
-			var issuerDNInSession = JSPath.apply('..field{.@name==="issuerDNInSession"}.$', data)[0] || '';
+			var userInfo = {};
+			var roleInfo = {};
+
+			JSPath.apply('..field', data).forEach(function(item) {
+
+				userInfo[item['@name']] = item['$'];
+			});
 
 			if(context) {
-				result.resolveWith(context, [data, user, guest, clientDNInSession, issuerDNInSession]);
+				result.resolveWith(context, [data, userInfo, roleInfo]);
 			} else {
-				result.resolve(data, user, guest, clientDNInSession, issuerDNInSession);
+				result.resolve(data, userInfo, roleInfo);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data, 'guest', 'guest', '', '']);
+				result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}]);
 			} else {
-				result.reject(data, 'guest', 'guest', '', '');
+				result.reject(data, {AMIUser: 'guest', guestUser: 'guest'}, {});
 			}
 		});
 

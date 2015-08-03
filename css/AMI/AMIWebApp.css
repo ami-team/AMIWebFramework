@@ -212,7 +212,7 @@ code {
 .ami-code code .line-number:before {
 	color: gray;
 	content: counter(listing) ". ";
-	font: 400 80%/1.5 sans-serif;
+	font: 800 65%/1.5 sans-serif;
 }
 
 /*-------------------------------------------------------------------------*/

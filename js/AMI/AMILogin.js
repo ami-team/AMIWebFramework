@@ -48,7 +48,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			amiWebApp.appendHTML('#ami_modal_content', data[4]);
 			amiWebApp.appendHTML('#ami_modal_content', data[5]);
 
-			amiCommand.certLogin().always(function(data, user, guest) {
+			amiCommand.certLogin().always(function(data, userInfo, roleInfo) {
 				/*-----------------------------------------*/
 
 				document.getElementById('modal_login_form1_user').addEventListener('keypress', function(e) {
@@ -74,7 +74,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				/*-----------------------------------------*/
 
-				amiLogin._update(data, user, guest).done(function() {
+				amiLogin._update(userInfo, roleInfo).done(function() {
 
 					result.resolve();
 				});
@@ -102,7 +102,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	getUser: function()
 	{
-		return this.user;
+		return this.AMIUser;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -114,7 +114,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	getGuest: function()
 	{
-		return this.guest;
+		return this.guestUser;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -126,7 +126,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	isAuthenticated: function()
 	{
-		return this.user !== this.guest;
+		return this.AMIUser !== this.guestUser;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -195,9 +195,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		return amiCommand.logout().always(function(data, user, guest) {
+		return amiCommand.logout().always(function(data, userInfo, roleInfo) {
 
-			amiLogin._update(data, user, guest).done(function() {
+			amiLogin._update(userInfo, roleInfo).done(function() {
 
 				amiLogin._clean();
 				amiWebApp.unlock();
@@ -235,11 +235,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.passLogin(user, pass).done(function(data, user, guest, clientDNInSession, issuerDNInSession) {
+		amiCommand.passLogin(user, pass).done(function(data, userInfo, roleInfo) {
 
-			amiLogin._update(data, user, guest).done(function() {
+			amiLogin._update(userInfo, roleInfo).done(function() {
 
-				if(user !== guest)
+				if(userInfo.AMIUser !== userInfo.guestUser)
 				{
 					$('#modal_login').modal('hide');
 
@@ -250,13 +250,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				{
 					var error = 'Invalid identifiers.';
 
-					if(clientDNInSession || issuerDNInSession)
+					if(userInfo.clientDNInSession || userInfo.issuerDNInSession)
 					{
 						error += '<textarea style="height: 85px; width: 100%;">'
 						         +
-						         'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
+						         'Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession)
 						         + '\n' +
-						         'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
+						         'Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession)
 						         +
 						         '</textarea>'
 						;
@@ -266,9 +266,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				}
 			});
 
-		}).fail(function(data, user, guest) {
+		}).fail(function(data, userInfo, roleInfo) {
 
-			amiLogin._update(data, user, guest).done(function() {
+			amiLogin._update(userInfo, roleInfo).done(function() {
 
 				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 			});
@@ -285,11 +285,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.certLogin().done(function(data, user, guest, clientDNInSession, issuerDNInSession) {
+		amiCommand.certLogin().done(function(data, userInfo, roleInfo) {
 
-			amiLogin._update(data, user, guest).done(function() {
+			amiLogin._update(userInfo, roleInfo).done(function() {
 
-				if(user !== guest)
+				if(userInfo.AMIUser !== userInfo.guestUser)
 				{
 					$('#modal_login').modal('hide');
 
@@ -300,13 +300,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				{
 					var error = 'You have to provide your certificate registered in AMI.';
 
-					if(clientDNInSession || issuerDNInSession)
+					if(userInfo.clientDNInSession || userInfo.issuerDNInSession)
 					{
 						error += '<textarea style="height: 85px; width: 100%;">'
 						         +
-						         'Client DN in session: ' + amiWebApp.textToHtml(clientDNInSession)
+						         'Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession)
 						         + '\n' +
-						         'Issuer DN in session: ' + amiWebApp.textToHtml(issuerDNInSession)
+						         'Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession)
 						         +
 						         '</textarea>'
 						;
@@ -316,9 +316,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				}
 			});
 
-		}).fail(function(data, user, guest) {
+		}).fail(function(data, userInfo, roleInfo) {
 
-			amiLogin._update(data, user, guest).done(function() {
+			amiLogin._update(userInfo, roleInfo).done(function() {
 
 				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
 			});
@@ -625,43 +625,14 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*-----------------------------------------------------------------*/
 
-	_update: function(data, user, guest)
+	_update: function(userInfo, roleInfo)
 	{
 		/*---------------------------------------------------------*/
 
-		amiLogin.user = user;
-		amiLogin.guest = guest;
+		var user = amiLogin.user = userInfo.AMIUser;
+		var guest = amiLogin.guest = userInfo.guestUser;
 
-		/*---------------------------------------------------------*/
-
-		var userRows = amiWebApp.jspath('..rowset{.@type==="user"}..row', data);
-		var roleRows = amiWebApp.jspath('..rowset{.@type==="role"}..row', data);
-
-		/*---------------------------------------------------------*/
-
-		amiLogin.roles = {};
-
-		if(roleRows)
-		{
-			for(var i in roleRows)
-			{
-				var name = amiWebApp.jspath('..field{.@name==="name"}.$', roleRows[i])[0];
-				var catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', roleRows[i])[0];
-				var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', roleRows[i])[0];
-				var row = amiWebApp.jspath('..field{.@name==="row"}.$', roleRows[i])[0];
-
-				if(!(name in amiLogin.roles))
-				{
-					amiLogin.roles[name] = [];
-				}
-
-				amiLogin.roles[name].push({
-					catalog: catalog,
-					entity: entity,
-					row: row,
-				});
-			}
-		}
+		amiLogin.roleInfo = roleInfo;
 
 		/*---------------------------------------------------------*/
 
@@ -672,24 +643,28 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		if(user !== guest)
 		{
 			/*-------------------------------------------------*/
+			/*                                                 */
+			/*-------------------------------------------------*/
 
-			var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', userRows)[0] || 'false';
-			var certEnabled = amiWebApp.jspath('..field{.@name==="certEnabled"}.$', userRows)[0] || 'false';
-			var vomsEnabled = amiWebApp.jspath('..field{.@name==="vomsEnabled"}.$', userRows)[0] || 'false';
+			var valid = userInfo.valid || 'false';
+			var certEnabled = userInfo.certEnabled || 'false';
+			var vomsEnabled = userInfo.vomsEnabled || 'false';
 
 			/*-------------------------------------------------*/
 
-			var firstName = amiWebApp.jspath('..field{.@name==="firstName"}.$', userRows)[0] || '';
-			var lastName = amiWebApp.jspath('..field{.@name==="lastName"}.$', userRows)[0] || '';
-			var email = amiWebApp.jspath('..field{.@name==="email"}.$', userRows)[0] || '';
+			var firstName = userInfo.firstName || '';
+			var lastName = userInfo.lastName || '';
+			var email = userInfo.email || '';
 
 			/*-------------------------------------------------*/
 
-			var clientDNInAMI = amiWebApp.jspath('..field{.@name==="clientDNInAMI"}.$', userRows)[0] || '';
-			var issuerDNInAMI = amiWebApp.jspath('..field{.@name==="issuerDNInAMI"}.$', userRows)[0] || '';
-			var clientDNInSession = amiWebApp.jspath('..field{.@name==="clientDNInSession"}.$', userRows)[0] || '';
-			var issuerDNInSession = amiWebApp.jspath('..field{.@name==="issuerDNInSession"}.$', userRows)[0] || '';
+			var clientDNInAMI = userInfo.clientDNInAMI || '';
+			var issuerDNInAMI = userInfo.issuerDNInAMI || '';
+			var clientDNInSession = userInfo.clientDNInSession || '';
+			var issuerDNInSession = userInfo.issuerDNInSession || '';
 
+			/*-------------------------------------------------*/
+			/*                                                 */
 			/*-------------------------------------------------*/
 
 			$('#modal_login_change_info_form_first_name').val(firstName);
@@ -713,6 +688,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			$('#modal_login_account_status_form2_client_dn_in_session').val(clientDNInSession);
 			$('#modal_login_account_status_form2_issuer_dn_in_session').val(issuerDNInSession);
 
+			/*-------------------------------------------------*/
+			/*                                                 */
 			/*-------------------------------------------------*/
 
 			var color = '';
@@ -793,6 +770,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			}
 
 			/*-------------------------------------------------*/
+			/*                                                 */
+			/*-------------------------------------------------*/
 
 			var icon = message ? '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
 			                     +
@@ -802,6 +781,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			                   : ''
 			;
 
+			/*-------------------------------------------------*/
+			/*                                                 */
 			/*-------------------------------------------------*/
 
 			var dict = {
