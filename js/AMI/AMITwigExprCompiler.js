@@ -46,10 +46,10 @@ function _ami_internal_isSId(s)
 }
 
 /*-------------------------------------------------------------------------*/
-/* amiTwigTokens                                                           */
+/* ami.twig.expr.tokens                                                    */
 /*-------------------------------------------------------------------------*/
 
-$AMINamespace('amiTwigTokens', {
+$AMINamespace('ami.twig.expr.tokens', {
 	/*-----------------------------------------------------------------*/
 
 	$init: function()
@@ -198,17 +198,17 @@ $AMINamespace('amiTwigTokens', {
 });
 
 /*-------------------------------------------------------------------------*/
-/* AMITwigExprTokenizer                                                    */
+/* ami.twig.expr.Tokenizer                                                 */
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('AMITwigExprTokenizer', {
+$AMIClass('ami.twig.expr.Tokenizer', {
 	/*-----------------------------------------------------------------*/
 
 	$init: function(code, line)
 	{
 		/*---------------------------------------------------------*/
 
-		this.tokens = amiTokenizer.tokenize(
+		this.tokens = ami.tokenizer.tokenize(
 			code,
 			line,
 			[' ', '\t', '\n'],
@@ -229,16 +229,16 @@ $AMIClass('AMITwigExprTokenizer', {
 		for(var index in this.tokens)
 		{
 			token = this.tokens[index];
-			type = amiTwigTokens.types[token];
+			type = ami.twig.expr.tokens.types[token];
 
 			if(type) {
 				this.types.push(type);
 			} else if(_ami_internal_isNum(token)) {
-				this.types.push(amiTwigTokens.NUM);
+				this.types.push(ami.twig.expr.tokens.NUM);
 			} else if(_ami_internal_isStr(token)) {
-				this.types.push(amiTwigTokens.STR);
+				this.types.push(ami.twig.expr.tokens.STR);
 			} else if(_ami_internal_isSId(token)) {
-				this.types.push(amiTwigTokens.SID);
+				this.types.push(ami.twig.expr.tokens.SID);
 			} else {
 				throw 'syntax error, line `' + line + '`, unknown token `' + token + '`';
 			}
@@ -293,26 +293,26 @@ $AMIClass('AMITwigExprTokenizer', {
 });
 
 /*-------------------------------------------------------------------------*/
-/* AMITwigExprCompiler                                                     */
+/* ami.twig.expr.Compiler                                                  */
 /*-------------------------------------------------------------------------*/
 
 /**
  * The AMI TWIG expression compiler
  * @see An online <a href="http://cern.ch/ami/twig/" target="_blank">demo</a>.
- * @class AMITwigExprCompiler
+ * @class ami/twig/expr/Compiler
  * @param {String} code the code
  * @param {Number} line the line
  * @throws {String} The error description
  */
 
-$AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
+$AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 	/*-----------------------------------------------------------------*/
 
 	$init: function(code, line)
 	{
 		/*---------------------------------------------------------*/
 
-		this.tokenizer = new AMITwigExprTokenizer(
+		this.tokenizer = new ami.twig.expr.Tokenizer(
 			this.code = code,
 			this.line = line
 		);
@@ -351,9 +351,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* LogicalOr : LogicalAnd ('or' LogicalAnd)*               */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.LOGICAL_OR))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.LOGICAL_OR))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parseLogicalOr();
@@ -379,9 +379,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* LogicalAnd : BitwiseOr ('and' BitwiseOr)*               */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.LOGICAL_AND))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.LOGICAL_AND))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parseLogicalAnd();
@@ -407,9 +407,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* BitwiseOr : BitwiseXor ('b-or' BitwiseXor)*             */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.BITWISE_OR))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.BITWISE_OR))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parseBitwiseOr();
@@ -435,9 +435,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* BitwiseXor : BitwiseAnd ('b-xor' BitwiseAnd)*           */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.BITWISE_XOR))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.BITWISE_XOR))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parseBitwiseXor();
@@ -463,9 +463,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* BitwiseAnd : Comp ('b-and' Comp)*                       */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.BITWISE_AND))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.BITWISE_AND))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parseBitwiseAnd();
@@ -491,9 +491,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* Comp : AddSub (('===' | '==' | ...) AddSub)?            */
 		/*---------------------------------------------------------*/
 
-		/**/ if(this.tokenizer.checkType(amiTwigTokens.EQ_NE_GTE_LTE_GT_LT))
+		/**/ if(this.tokenizer.checkType(ami.twig.expr.tokens.EQ_NE_GTE_LTE_GT_LT))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parseAddSub();
@@ -508,27 +508,27 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* Comp : AddSub ('is' 'not'? ('defined' | 'empty' | ...))?*/
 		/*---------------------------------------------------------*/
 
-		else if(this.tokenizer.checkType(amiTwigTokens.IS))
+		else if(this.tokenizer.checkType(ami.twig.expr.tokens.IS))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			/* swap 'is' and 'not' */
 			var swap = node;
 			/* swap 'is' and 'not' */
 
-			if(this.tokenizer.checkType(amiTwigTokens.NOT))
+			if(this.tokenizer.checkType(ami.twig.expr.tokens.NOT))
 			{
-				node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+				node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 				this.tokenizer.next();
 
 				node.nodeLeft = swap;
 				node.nodeRight = null;
 			}
 
-			if(this.tokenizer.checkType(amiTwigTokens.IS_XXX))
+			if(this.tokenizer.checkType(ami.twig.expr.tokens.IS_XXX))
 			{
-				var right = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+				var right = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 				this.tokenizer.next();
 
 				swap.nodeLeft = left;
@@ -546,9 +546,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* Comp : AddSub (('starts' | 'ends') `with` AddSub)?      */
 		/*---------------------------------------------------------*/
 
-		else if(this.tokenizer.checkType(amiTwigTokens.XXX_WITH))
+		else if(this.tokenizer.checkType(ami.twig.expr.tokens.XXX_WITH))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken() + 'with');
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken() + 'with');
 			this.tokenizer.next(2);
 
 			var right = this.parseAddSub();
@@ -563,9 +563,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* Comp : AddSub ('matches' AddSub)?                       */
 		/*---------------------------------------------------------*/
 
-		else if(this.tokenizer.checkType(amiTwigTokens.MATCHES))
+		else if(this.tokenizer.checkType(ami.twig.expr.tokens.MATCHES))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parseAddSub();
@@ -580,9 +580,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* Comp : AddSub ('in' Range)?                             */
 		/*---------------------------------------------------------*/
 
-		else if(this.tokenizer.checkType(amiTwigTokens.IN))
+		else if(this.tokenizer.checkType(ami.twig.expr.tokens.IN))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parseRange();
@@ -608,9 +608,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* AddSub : MulDiv (('+' | '-') MulDiv)*                   */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.PLUS_MINUS))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.PLUS_MINUS))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parseAddSub();
@@ -636,9 +636,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* MulDiv : Power (('*' | '//' | '/' | '%') Power)*        */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.MUL_DIV_MOD))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.MUL_DIV_MOD))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parseMulDiv();
@@ -664,9 +664,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* Power : NotPlusMinus ('**' NotPlusMinus)*               */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.POWER))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.POWER))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var right = this.parsePower();
@@ -687,12 +687,12 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 	parseNotPlusMinus: function()
 	{
 		/*---------------------------------------------------------*/
-		/* NotPlusMinus : ('!' | '-' | '+')? X                     */
+		/* NotPlusMinus : ('not' | '-' | '+')? X                   */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.NOT_PLUS_MINUS))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.NOT_PLUS_MINUS))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			var left = this.parseX();
@@ -745,13 +745,13 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* Group : '(' LogicalOr ')'                               */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.LP))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.LP))
 		{
 			this.tokenizer.next();
 
 			var node = this.parseLogicalOr();
 
-			if(this.tokenizer.checkType(amiTwigTokens.RP))
+			if(this.tokenizer.checkType(ami.twig.expr.tokens.RP))
 			{
 				this.tokenizer.next();
 
@@ -779,17 +779,17 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 
 		var qid = '_.';
 
-		if(this.tokenizer.checkType(amiTwigTokens.SID))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.SID))
 		{
 			qid += this.tokenizer.peekToken();
 			this.tokenizer.next();
 
-			while(this.tokenizer.checkType(amiTwigTokens.DOT))
+			while(this.tokenizer.checkType(ami.twig.expr.tokens.DOT))
 			{
 				qid += this.tokenizer.peekToken();
 				this.tokenizer.next();
 
-				if(this.tokenizer.checkType(amiTwigTokens.SID))
+				if(this.tokenizer.checkType(ami.twig.expr.tokens.SID))
 				{
 					qid += this.tokenizer.peekToken();
 					this.tokenizer.next();
@@ -800,11 +800,11 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 				}
 			}
 
-			if(this.tokenizer.checkType(amiTwigTokens.LP))
+			if(this.tokenizer.checkType(ami.twig.expr.tokens.LP))
 			{
 				this.tokenizer.next();
 
-				if(this.tokenizer.checkType(amiTwigTokens.RP))
+				if(this.tokenizer.checkType(ami.twig.expr.tokens.RP))
 				{
 					this.tokenizer.next();
 				}
@@ -813,11 +813,11 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 					throw 'syntax error, line `' + this.line + '`, `)` expected';
 				}
 
-				return new AMITwigExprNode(amiTwigTokens.FUN, qid);
+				return new ami.twig.expr.Node(ami.twig.expr.tokens.FUN, qid);
 			}
 			else
 			{
-				return new AMITwigExprNode(amiTwigTokens.SID, qid);
+				return new ami.twig.expr.Node(ami.twig.expr.tokens.SID, qid);
 			}
 		}
 
@@ -834,9 +834,9 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* Terminal : NUM | STR                                    */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.TERMINAL))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.TERMINAL))
 		{
-			var node = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
 			return node;
@@ -866,19 +866,19 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 		/* Range : Terminal '..' Terminal                          */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(amiTwigTokens.TERMINAL))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.TERMINAL))
 		{
-			var left = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+			var left = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
-			if(this.tokenizer.checkType(amiTwigTokens.RANGE))
+			if(this.tokenizer.checkType(ami.twig.expr.tokens.RANGE))
 			{
-				var node = new AMITwigExprNode(((amiTwigTokens.RANGE)), this.tokenizer.peekToken());
+				var node = new ami.twig.expr.Node(((ami.twig.expr.tokens.RANGE)), this.tokenizer.peekToken());
 				this.tokenizer.next();
 
-				if(this.tokenizer.checkType(amiTwigTokens.TERMINAL))
+				if(this.tokenizer.checkType(ami.twig.expr.tokens.TERMINAL))
 				{
-					var right = new AMITwigExprNode(this.tokenizer.peekType(), this.tokenizer.peekToken());
+					var right = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 					this.tokenizer.next();
 
 					node.nodeLeft = left;
@@ -900,10 +900,10 @@ $AMIClass('AMITwigExprCompiler', /** @lends AMITwigExprCompiler# */ {
 });
 
 /*-------------------------------------------------------------------------*/
-/* AMITwigExprNode                                                         */
+/* ami.twig.expr.Node                                                      */
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('AMITwigExprNode', {
+$AMIClass('ami.twig.expr.Node', {
 	/*-----------------------------------------------------------------*/
 
 	$init: function(nodeType, nodeValue)

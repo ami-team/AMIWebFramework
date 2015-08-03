@@ -26,17 +26,12 @@ function _ami_internal_isIterable(x)
 
 function _ami_internal_isInObject(x, y)
 {
-	if((y instanceof Array)
-	   ||
-	   (y instanceof String)
-	   ||
-	   (typeof(y) === 'string')
-	 ) {
-		return y.indexOf(x) >= 0;
-
-	} else {
-		return x in y;
-	}
+	return (y instanceof Array)
+	       ||
+	       (y instanceof String)
+	       ||
+	       (typeof(y) === 'string') ? y.indexOf(x) >= 0 : x in y
+	;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -78,16 +73,16 @@ function _ami_internal_endsWith(s1, s2)
 }
 
 /*-------------------------------------------------------------------------*/
-/* amiTwigExprInterpreter                                                  */
+/* ami.twig.expr.interpreter                                               */
 /*-------------------------------------------------------------------------*/
 
 /**
  * The AMI TWIG expression interpreter
  * @see An online <a href="http://cern.ch/ami/twig/" target="_blank">demo</a>.
- * @namespace amiTwigExprInterpreter
+ * @namespace ami/twig/expr/interpreter
  */
 
-$AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
+$AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter# */ {
 	/*-----------------------------------------------------------------*/
 
 	_unstring: function(s)
@@ -123,7 +118,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 		   &&
 		   node.nodeRight === null
 		 ) {
-			var operator = (node.nodeType !== amiTwigTokens.NOT) ? node.nodeValue : '!';
+			var operator = (node.nodeType !== ami.twig.expr.tokens.NOT) ? node.nodeValue : '!';
 
 			return operator + '(' + this._getJS(node.nodeLeft) + ')';
 		}
@@ -145,28 +140,28 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 			{
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.IS:
+				case ami.twig.expr.tokens.IS:
 
 					left = this._getJS(node.nodeLeft);
 
 					switch(node.nodeRight.nodeType)
 					{
-						case amiTwigTokens.DEFINED:
+						case ami.twig.expr.tokens.DEFINED:
 							return '((' + left + ')!==undefined)';
 
-						case amiTwigTokens.NULL:
+						case ami.twig.expr.tokens.NULL:
 							return '((' + left + ')===null)';
 
-						case amiTwigTokens.EMPTY:
+						case ami.twig.expr.tokens.EMPTY:
 							return '((' + left + ')===\'\')';
 
-						case amiTwigTokens.ITERABLE:
+						case ami.twig.expr.tokens.ITERABLE:
 							return '_ami_internal_isIterable(' + left + ')';
 
-						case amiTwigTokens.EVEN:
+						case ami.twig.expr.tokens.EVEN:
 							return '((' + left + ')&1 === 0)';
 
-						case amiTwigTokens.ODD:
+						case ami.twig.expr.tokens.ODD:
 							return '((' + left + ')&1 === 1)';
 					}
 
@@ -174,10 +169,10 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.IN:
+				case ami.twig.expr.tokens.IN:
 					/*---------------------------------*/
 
-					if(node.nodeRight.nodeType !== amiTwigTokens.RANGE)
+					if(node.nodeRight.nodeType !== ami.twig.expr.tokens.RANGE)
 					{
 						left = this._getJS(node.nodeLeft);
 						right = this._getJS(node.nodeRight);
@@ -187,9 +182,9 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 
 					/*---------------------------------*/
 
-					if(node.nodeRight.nodeLeft.nodeType === amiTwigTokens.NUM
+					if(node.nodeRight.nodeLeft.nodeType === ami.twig.expr.tokens.NUM
 					   &&
-					   node.nodeRight.nodeRight.nodeType === amiTwigTokens.NUM
+					   node.nodeRight.nodeRight.nodeType === ami.twig.expr.tokens.NUM
 					 ) {
 					 	var x = this._getJS(node.nodeLeft);
 
@@ -201,9 +196,9 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 
 					/*---------------------------------*/
 
-					if(node.nodeRight.nodeLeft.nodeType === amiTwigTokens.STR
+					if(node.nodeRight.nodeLeft.nodeType === ami.twig.expr.tokens.STR
 					   &&
-					   node.nodeRight.nodeRight.nodeType === amiTwigTokens.STR
+					   node.nodeRight.nodeRight.nodeType === ami.twig.expr.tokens.STR
 					 ) {
 					 	var x = this._getJS(node.nodeLeft);
 
@@ -219,7 +214,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.STARTS:
+				case ami.twig.expr.tokens.STARTS:
 
 					left = this._getJS(node.nodeLeft);
 					right = this._getJS(node.nodeRight);
@@ -228,7 +223,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.ENDS:
+				case ami.twig.expr.tokens.ENDS:
 
 					left = this._getJS(node.nodeLeft);
 					right = this._getJS(node.nodeRight);
@@ -237,7 +232,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.MATCHES:
+				case ami.twig.expr.tokens.MATCHES:
 
 					left = this._getJS(node.nodeLeft);
 					right = this._getJS(node.nodeRight);
@@ -246,7 +241,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.POWER:
+				case ami.twig.expr.tokens.POWER:
 
 					left = this._getJS(node.nodeLeft);
 					right = this._getJS(node.nodeRight);
@@ -255,7 +250,7 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.FLOORDIV:
+				case ami.twig.expr.tokens.FLOORDIV:
 
 					left = this._getJS(node.nodeLeft);
 					right = this._getJS(node.nodeRight);
@@ -264,31 +259,31 @@ $AMINamespace('amiTwigExprInterpreter', /** @lends amiTwigExprInterpreter# */ {
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.LOGICAL_OR:
+				case ami.twig.expr.tokens.LOGICAL_OR:
 					operator = '||';
 					break;
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.LOGICAL_AND:
+				case ami.twig.expr.tokens.LOGICAL_AND:
 					operator = '&&';
 					break;
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.BITWISE_OR:
+				case ami.twig.expr.tokens.BITWISE_OR:
 					operator = '|';
 					break;
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.BITWISE_XOR:
+				case ami.twig.expr.tokens.BITWISE_XOR:
 					operator = '^';
 					break;
 
 				/*-----------------------------------------*/
 
-				case amiTwigTokens.BITWISE_AND:
+				case ami.twig.expr.tokens.BITWISE_AND:
 					operator = '&';
 					break;
 

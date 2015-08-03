@@ -161,6 +161,7 @@ var amiWebApp = {
 		/**
 		  * WebApp URL
 		  * @type {String}
+		  * @member webAppURL
 		  * @memberof amiWebApp
 		  */
 
@@ -176,6 +177,7 @@ var amiWebApp = {
 		/**
 		  * Origin URL
 		  * @type {String}
+		  * @member originURL
 		  * @memberof amiWebApp
 		  */
 
@@ -193,6 +195,7 @@ var amiWebApp = {
 		/**
 		  * URL arguments
 		  * @type {Array<String>}
+		  * @member args
 		  * @memberof amiWebApp
 		  */
 

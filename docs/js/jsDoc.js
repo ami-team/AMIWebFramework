@@ -279,7 +279,7 @@ var jsDoc = {
 				L.push(this.makeType(method.returns[i].type));
 			}
 
-			result += '<span class="signature-attrs">: {' + L.join(' or ') + '}</span>';
+			result += '<span class="signature-attrs"> &rarr; {' + L.join(' or ') + '}</span>';
 		}
 
 		/*---------------------------------------------------------*/

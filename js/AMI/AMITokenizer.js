@@ -12,10 +12,10 @@
 
 /**
  * The AMI tokenizer
- * @namespace amiTokenizer
+ * @namespace ami/tokenizer
  */
 
-$AMINamespace('amiTokenizer', /** @lends amiTokenizer# */ {
+$AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**

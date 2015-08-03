@@ -15,7 +15,7 @@
 
 function nameHelper(name)
 {
-	return name.replace(/^this\s*\.\s*/, '');
+	return name.replace(/\//g, '.');
 }
 
 /*-------------------------------------------------------------------------*/
@@ -49,7 +49,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 			/*-------------------------------------------------*/
 
 			var thisNamespace = {
-				'name': element.name,
+				'name': nameHelper(element.name),
 				'desc': element.description || '',
 			};
 
@@ -99,7 +99,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 			/*-------------------------------------------------*/
 
 			var thisClass = {
-				'name': element.name,
+				'name': nameHelper(element.name),
 				'desc': element.description || '',
 				'implements': element.implements || [],
 				'inherits': element.augments || [],
@@ -152,7 +152,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 				/*-----------------------------------------*/
 
 				thisClass.konstructor = {
-					'name': element.name,
+					'name': nameHelper(element.name),
 					'params': [],
 				};
 
@@ -271,7 +271,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 			/*-------------------------------------------------*/
 
 			var thisFunction = {
-				'name': element.name,
+				'name': nameHelper(element.name),
 				'desc': element.description || '',
 				'params': [],
 			};
@@ -322,7 +322,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 			for(var i in element.params)
 			{
 				thisFunction.params.push({
-					'name': element.params[i].name,
+					'name': nameHelper(element.params[i].name),
 					'type': typeHelper(element.params[i].type),
 					'desc': element.params[i].description || '',
 					'default': element.params[i].defaultvalue || '',
