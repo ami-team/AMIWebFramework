@@ -12,7 +12,7 @@
 
 function __$createNamespace($name, x)
 {
-	var parent = window, parts = $name.split('.');
+	var parent = window, parts = $name.split(/\s*\.\s*/g);
 
 	for(var i = 0; i < parts.length - 1; i++)
 	{
@@ -33,7 +33,7 @@ function __$createNamespace($name, x)
 
 function __$addToNamespace($name, x)
 {
-	var parent = window, parts = $name.split('.');
+	var parent = window, parts = $name.split(/\s*\.\s*/g);
 
 	for(var i = 0; i < parts.length - 1; i++)
 	{
