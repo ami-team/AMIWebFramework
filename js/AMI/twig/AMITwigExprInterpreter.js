@@ -192,7 +192,7 @@ $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter#
 					left = this._getJS(node.nodeLeft);
 					right = this._getJS(node.nodeRight);
 
-					return '(' + left + '.match(' + this._unstring(right) + ')!==null)';
+					return 'ami.twig.stdlib.match(' + left + ',' + right + ')';
 
 				/*-----------------------------------------*/
 
