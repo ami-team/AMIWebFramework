@@ -799,9 +799,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					result.resolve();
 				}
 			);
+
+			/*-------------------------------------------------*/
 		}
 		else
 		{
+			/*-------------------------------------------------*/
+
 			_ami_internal_always(
 				amiWebApp.onLogout(),
 				function() {
@@ -809,6 +813,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
 				}
 			);
+
+			/*-------------------------------------------------*/
 		}
 
 		/*---------------------------------------------------------*/
