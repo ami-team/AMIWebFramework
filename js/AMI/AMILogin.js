@@ -643,7 +643,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		if(user !== guest)
 		{
 			/*-------------------------------------------------*/
-			/*                                                 */
+			/* GET INFO                                        */
 			/*-------------------------------------------------*/
 
 			var valid = userInfo.valid || 'false';
@@ -664,7 +664,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			var issuerDNInSession = userInfo.issuerDNInSession || '';
 
 			/*-------------------------------------------------*/
-			/*                                                 */
+			/* SET INFO                                        */
 			/*-------------------------------------------------*/
 
 			$('#modal_login_change_info_form_first_name').val(firstName);
@@ -689,7 +689,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			$('#modal_login_account_status_form2_issuer_dn_in_session').val(issuerDNInSession);
 
 			/*-------------------------------------------------*/
-			/*                                                 */
+			/* CHECK USER STATUS                               */
 			/*-------------------------------------------------*/
 
 			var color = '';
@@ -770,7 +770,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			}
 
 			/*-------------------------------------------------*/
-			/*                                                 */
+			/* UPDATE NOTIFICATION BAR                         */
 			/*-------------------------------------------------*/
 
 			var icon = message ? '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
@@ -782,7 +782,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			;
 
 			/*-------------------------------------------------*/
-			/*                                                 */
+			/* UPDATE MENU BAR                                 */
 			/*-------------------------------------------------*/
 
 			var dict = {
