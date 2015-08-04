@@ -27,16 +27,7 @@ function _ami_internal_isNum(s)
 
 function _ami_internal_isStr(s)
 {
-	var length = s.length;
-
-	return length >= 2
-	       &&
-	       (
-	           (s[0] === '\'' && s[length - 1] === '\'')
-	           ||
-	           (s[0] === '\"' && s[length - 1] === '\"')
-	       )
-	;
+	return s[0] === '\'' || s[0] === '\"';
 }
 
 /*-------------------------------------------------------------------------*/
@@ -104,9 +95,12 @@ $AMINamespace('ami.twig.expr.tokens', {
 			'%': this.MOD,
 			'not': this.NOT,
 			'.': this.DOT,
+			',': this.COMMA,
 
 			'(': this.LP,
 			')': this.RP,
+			'[': this.LB,
+			']': this.RB,
 		};
 
 		this.EQ_NE_GTE_LTE_GT_LT = [
@@ -195,18 +189,23 @@ $AMINamespace('ami.twig.expr.tokens', {
 	MOD: 132,
 	NOT: 133,
 	DOT: 134,
+	COMMA: 135,
 	
 	/*-----------------------------------------------------------------*/
 
 	LP: 200,
 	RP: 201,
+	LB: 202,
+	RB: 203,
 
 	/*-----------------------------------------------------------------*/
 
 	SID: 300,
+
 	FUN: 301,
-	NUM: 302,
-	STR: 303,
+	VAR: 302,
+	NUM: 303,
+	STR: 304,
 
 	/*-----------------------------------------------------------------*/
 });
@@ -226,7 +225,7 @@ $AMIClass('ami.twig.expr.Tokenizer', {
 			code,
 			line,
 			[' ', '\t', '\n'],
-			['b-or', 'b-xor', 'b-and', '===', '==', '!==', '!=', '=', '<=', '>=', '<', '>', '+', '-', '**', '*', '//', '/', '..', '.', '(', ')'],
+			['b-or', 'b-xor', 'b-and', '===', '==', '!==', '!=', '=', '<=', '>=', '<', '>', '+', '-', '**', '*', '//', '/', '..', '.', ',', '(', ')', '[', ']'],
 			['\'', '\"'],
 			'\\'
 		);
@@ -727,7 +726,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 	parseX: function()
 	{
 		/*---------------------------------------------------------*/
-		/* X : Group | QId | Terminal                              */
+		/* X : Group | FunVar | Terminal                           */
 		/*---------------------------------------------------------*/
 
 		var node;
@@ -736,7 +735,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 			return node;
 		}
 
-		if((node = this.parseQIdFun())) {
+		if((node = this.parseFunVar())) {
 			return node;
 		}
 
@@ -784,11 +783,12 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 
 	/*-----------------------------------------------------------------*/
 
-	parseQIdFun: function()
+	parseFunVar: function()
 	{
 		/*---------------------------------------------------------*/
-		/* QIdFun : SID('.' SID)*                                  */
-		/*        | SID('.' SID)* '(' ')'                          */
+		/* FunVar : SID ('.' SID)* '(' Params ')'                    */
+		/*        | SID ('.' SID)* '[' Params ']'                    */
+		/*        | SID ('.' SID)*                                   */
 		/*---------------------------------------------------------*/
 
 		var qid = '_.';
@@ -814,9 +814,11 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 				}
 			}
 
-			if(this.tokenizer.checkType(ami.twig.expr.tokens.LP))
+			/**/ if(this.tokenizer.checkType(ami.twig.expr.tokens.LP))
 			{
 				this.tokenizer.next();
+
+				var L = this.parseParams();
 
 				if(this.tokenizer.checkType(ami.twig.expr.tokens.RP))
 				{
@@ -827,7 +829,28 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 					throw 'syntax error, line `' + this.line + '`, `)` expected';
 				}
 
-				return new ami.twig.expr.Node(ami.twig.expr.tokens.FUN, qid);
+				var result = new ami.twig.expr.Node(ami.twig.expr.tokens.VAR, qid);
+				result.list = L;
+				return result;
+			}
+			else if(this.tokenizer.checkType(ami.twig.expr.tokens.LB))
+			{
+				this.tokenizer.next();
+
+				var L = this.parseParams();
+
+				if(this.tokenizer.checkType(ami.twig.expr.tokens.RB))
+				{
+					this.tokenizer.next();
+				}
+				else
+				{
+					throw 'syntax error, line `' + this.line + '`, `]` expected';
+				}
+
+				var result = new ami.twig.expr.Node(ami.twig.expr.tokens.VAR, qid);
+				result.list = L;
+				return result;
 			}
 			else
 			{
@@ -838,6 +861,29 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 		/*---------------------------------------------------------*/
 
 		return null;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	parseParams: function()
+	{
+		var result = [];
+
+		while(this.tokenizer.checkType(ami.twig.expr.tokens.RP) === false)
+		{
+			result.push(this.parseLogicalOr());
+
+			if(this.tokenizer.checkType(ami.twig.expr.tokens.COMMA) === true)
+			{
+				this.tokenizer.next();
+			}
+			else
+			{
+				return result;
+			}
+		}
+
+		return result;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -863,13 +909,13 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 
 	/*-----------------------------------------------------------------*/
 
-	parseRange: function(e)
+	parseRange: function()
 	{
 		/*---------------------------------------------------------*/
-		/* Range : QIdFun                                          */
+		/* Range : FunVar                                          */
 		/*---------------------------------------------------------*/
 
-		var node = this.parseQIdFun();
+		var node = this.parseFunVar();
 
 		if(node != null)
 		{
@@ -926,6 +972,7 @@ $AMIClass('ami.twig.expr.Node', {
 		this.nodeValue = nodeValue
 		this.nodeLeft = null;
 		this.nodeRight = null;
+		this.list = [];
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -948,6 +995,13 @@ $AMIClass('ami.twig.expr.Node', {
 			var CNT = ++pCnt[0];
 			edges.push('\tnode' + cnt + ' -> node' + CNT + ';');
 			this.nodeRight._dump(nodes, edges, pCnt);
+		}
+
+		for(var i in this.list)
+		{
+			var CNT = ++pCnt[0];
+			edges.push('\tnode' + cnt + ' -> node' + CNT + ';');
+			this.list[i]._dump(nodes, edges, pCnt);
 		}
 	},
 

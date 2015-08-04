@@ -7,72 +7,6 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isIterable(x)
-{
-	return (x instanceof Array)
-	       ||
-	       (x instanceof Object)
-	       ||
-	       (x instanceof String)
-	       ||
-	       (typeof(x) === 'string')
-	;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isInObject(x, y)
-{
-	return (y instanceof Array)
-	       ||
-	       (y instanceof String)
-	       ||
-	       (typeof(y) === 'string') ? y.indexOf(x) >= 0 : x in y
-	;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isInNumRange(x, x1, x2)
-{
-	return (x >= x1)
-	       &&
-	       (x <= x2)
-	;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isInCharRange(x, x1, x2)
-{
-	return (x.charCodeAt(0) >= x1.charCodeAt(0))
-	       &&
-	       (x.charCodeAt(0) <= x2.charCodeAt(0))
-	;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_startsWith(s1, s2)
-{
-	var base = 0x0000000000000000000;
-
-	return s1.indexOf(s2, base) === base;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_endsWith(s1, s2)
-{
-	var base = s1.length - s2.length;
-
-	return s1.indexOf(s2, base) === base;
-}
-
-/*-------------------------------------------------------------------------*/
 /* ami.twig.expr.interpreter                                               */
 /*-------------------------------------------------------------------------*/
 
@@ -100,13 +34,34 @@ $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter#
 	_getJS: function(node)
 	{
 		/*---------------------------------------------------------*/
-		/* TERMINALS                                               */
+		/* FUNCTIONS, VARIABLES, TERMINALS                         */
 		/*---------------------------------------------------------*/
 
 		if(node.nodeLeft === null
 		   &&
 		   node.nodeRight === null
 		 ) {
+			if(node.list.length > 0)
+			{
+				var L = [];
+
+				for(var i in node.list)
+				{
+					L.push(this._getJS(node.list[i]));
+				}
+
+				/**/ if(node.nodeType === ami.twig.expr.tokens.FUN)
+				{
+					return 'ami.twig.stdlib.' + node.nodeValue + '(' + L.join(',') + ')';
+				}
+				else if(node.nodeType === ami.twig.expr.tokens.VAR)
+				{
+					return /*----------------*/ node.nodeValue + '[' + L.join(',') + ']';
+				}
+
+				throw 'internal error';
+			}
+
 			return node.nodeValue;
 		}
 
@@ -156,7 +111,7 @@ $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter#
 							return '((' + left + ')===\'\')';
 
 						case ami.twig.expr.tokens.ITERABLE:
-							return '_ami_internal_isIterable(' + left + ')';
+							return 'ami.twig.stdlib.isIterable(' + left + ')';
 
 						case ami.twig.expr.tokens.EVEN:
 							return '((' + left + ')&1 === 0)';
@@ -177,7 +132,7 @@ $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter#
 						left = this._getJS(node.nodeLeft);
 						right = this._getJS(node.nodeRight);
 
-						return '_ami_internal_isInObject(' + left + ',' + right + ')';
+						return 'ami.twig.stdlib.isInObject(' + left + ',' + right + ')';
 					}
 
 					/*---------------------------------*/
@@ -191,7 +146,7 @@ $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter#
 						left = node.nodeRight.nodeLeft.nodeValue;
 						right = node.nodeRight.nodeRight.nodeValue;
 
-						return '_ami_internal_isInNumRange(' + x + ',' + left + ',' + right + ')';
+						return 'ami.twig.stdlib.isInNumRange(' + x + ',' + left + ',' + right + ')';
 					}
 
 					/*---------------------------------*/
@@ -205,7 +160,7 @@ $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter#
 						left = node.nodeRight.nodeLeft.nodeValue;
 						right = node.nodeRight.nodeRight.nodeValue;
 
-						return '_ami_internal_isInCharRange(' + x + ',' + left + ',' + right + ')';
+						return 'ami.twig.stdlib.isInCharRange(' + x + ',' + left + ',' + right + ')';
 					}
 
 					/*---------------------------------*/
@@ -219,7 +174,7 @@ $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter#
 					left = this._getJS(node.nodeLeft);
 					right = this._getJS(node.nodeRight);
 
-					return '_ami_internal_startsWith(' + left + ',' + right + ')';
+					return 'ami.twig.stdlib.startsWith(' + left + ',' + right + ')';
 
 				/*-----------------------------------------*/
 
@@ -228,7 +183,7 @@ $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter#
 					left = this._getJS(node.nodeLeft);
 					right = this._getJS(node.nodeRight);
 
-					return '_ami_internal_endsWith(' + left + ',' + right + ')';
+					return 'ami.twig.stdlib.endsWith(' + left + ',' + right + ')';
 
 				/*-----------------------------------------*/
 

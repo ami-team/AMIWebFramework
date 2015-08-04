@@ -269,7 +269,7 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Check whether the given character is a numeric character or not
+	  * Check whether the given character is a numeric character
 	  * @param {String} c the character
 	  * @returns {Boolean}
 	  */
@@ -282,7 +282,7 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Check whether the given character is an alphabetic character or not
+	  * Check whether the given character is an alphabetic character
 	  * @param {String} c the character
 	  * @returns {Boolean}
 	  */
@@ -295,7 +295,7 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Check whether the given character is an alphanumeric character or not
+	  * Check whether the given character is an alphanumeric character
 	  * @param {String} c the character
 	  * @returns {Boolean}
 	  */

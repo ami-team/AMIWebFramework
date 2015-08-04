@@ -102,9 +102,11 @@ var amiWebApp = {
 			'js/AMI/AMICommand.min.js',
 			'js/AMI/AMILogin.min.js',
 			'js/AMI/AMITokenizer.min.js',
-			'js/AMI/AMITwigExprCompiler.min.js',
-			'js/AMI/AMITwigExprInterpreter.min.js',
-			'js/AMI/AMITwig.min.js',
+			/* TWIG */
+			'js/AMI/twig/AMITwigExprCompiler.min.js',
+			'js/AMI/twig/AMITwigExprInterpreter.min.js',
+			'js/AMI/twig/AMITwigStdLib.min.js',
+			'js/AMI/twig/AMITwig.min.js',
 		]).fail(function(data) {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
@@ -221,7 +223,7 @@ var amiWebApp = {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Check whether the WebApp is executed locally (file://, localhost or 127.0.0.1) or not
+	  * Check whether the WebApp is executed locally (file://, localhost or 127.0.0.1)
 	  * @returns {Boolean}
 	  */
 
