@@ -12,9 +12,9 @@
 
 function _ami_internal_isNum(s)
 {
-	for(var i in s)
+	for(var i = 0, l = s.length; i < l; i++)
 	{
-		if(ami.tokenizer.isDigit(s[i]) === false)
+		if(ami.tokenizer.isDigit(s.charAt(i)) === false)
 		{
 			return false;
 		}
@@ -27,21 +27,21 @@ function _ami_internal_isNum(s)
 
 function _ami_internal_isStr(s)
 {
-	return s[0] === '\'' || s[0] === '\"';
+	return s.charAt(0) === '\'' || s.charAt(0) === '\"';
 }
 
 /*-------------------------------------------------------------------------*/
 
 function _ami_internal_isSId(s)
 {
-	if(ami.tokenizer.isAlpha(s[0]) === false && s[0] !== '_')
+	if(ami.tokenizer.isAlpha(s.charAt(0)) === false && s.charAt(0) !== '_')
 	{
 		return false;
 	}
 
-	for(var i in s)
+	for(var i = 1, l = s.length; i < l; i++)
 	{
-		if(ami.tokenizer.isAlNum(s[i]) === false && s[i] !== '_')
+		if(ami.tokenizer.isAlNum(s.charAt(i)) === false && s.charAt(i) !== '_')
 		{
 			return false;
 		}
@@ -144,6 +144,11 @@ $AMINamespace('ami.twig.expr.tokens', {
 			this.NOT,
 			this.PLUS,
 			this.MINUS,
+		];
+
+		this.RX = [
+			this.RP,
+			this.RB
 		];
 
 		this.TERMINAL = [
@@ -549,7 +554,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 			}
 			else
 			{
-				throw 'syntax error, line `' + this.line + '`, `defined`, `null`, `iterable`, `empty`, `even` or `odd` expected';
+				throw 'syntax error, line `' + this.line + '`, `defined`, `null`, `empty`, `iterable`, `even` or `odd` expected';
 			}
 
 			left = node;
@@ -869,7 +874,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 	{
 		var result = [];
 
-		while(this.tokenizer.checkType(ami.twig.expr.tokens.RP) === false)
+		while(this.tokenizer.checkType(ami.twig.expr.tokens.RX) === false)
 		{
 			result.push(this.parseLogicalOr());
 
@@ -917,7 +922,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 
 		var node = this.parseFunVar();
 
-		if(node != null)
+		if(node !== null)
 		{
 			return node;
 		}
@@ -968,8 +973,8 @@ $AMIClass('ami.twig.expr.Node', {
 
 	$init: function(nodeType, nodeValue)
 	{
-		this.nodeType = nodeType
-		this.nodeValue = nodeValue
+		this.nodeType = nodeType;
+		this.nodeValue = nodeValue;
 		this.nodeLeft = null;
 		this.nodeRight = null;
 		this.list = [];

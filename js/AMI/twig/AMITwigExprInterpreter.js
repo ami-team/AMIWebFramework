@@ -19,18 +19,6 @@
 $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter# */ {
 	/*-----------------------------------------------------------------*/
 
-	_unstring: function(s)
-	{
-		if(_ami_internal_isStr(s))
-		{
-			return s.substring(1, s.length - 1);
-		}
-
-		return s;
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	_getJS: function(node)
 	{
 		/*---------------------------------------------------------*/
@@ -86,7 +74,7 @@ $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter#
 		   &&
 		   node.nodeRight !== null
 		 ) {
-			var left
+			var left;
 			var right;
 
 			var operator;
@@ -108,7 +96,7 @@ $AMINamespace('ami.twig.expr.interpreter', /** @lends ami/twig/expr/interpreter#
 							return '((' + left + ')===null)';
 
 						case ami.twig.expr.tokens.EMPTY:
-							return '((' + left + ')===\'\')';
+							return 'ami.twig.stdlib.isEmpty(' + left + ')';
 
 						case ami.twig.expr.tokens.ITERABLE:
 							return 'ami.twig.stdlib.isIterable(' + left + ')';

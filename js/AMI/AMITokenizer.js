@@ -117,7 +117,7 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 			/* COUNT LINES                                     */
 			/*-------------------------------------------------*/
 
-			if(code[i] === '\n')
+			if(code.charAt(i) === '\n')
 			{
 				line++;
 			}
@@ -126,7 +126,7 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 			/* EAT SPACES                                      */
 			/*-------------------------------------------------*/
 
-			if(spaces.indexOf(code[i]) >= 0)
+			if(spaces.indexOf(code.charAt(i)) >= 0)
 			{
 				if(word)
 				{
@@ -148,7 +148,7 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 
 			for(var idx in kwords)
 			{
-				kword = kwords[idx];
+				var kword = kwords[idx];
 
 				if(code.substring(i).indexOf(kword) === 0)
 				{
@@ -184,7 +184,7 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 
 			for(var idx in quotes)
 			{
-				quote = quotes[idx];
+				var quote = quotes[idx];
 
 				if(code.substring(i).indexOf(quote) === 0)
 				{
@@ -216,7 +216,7 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 			/* EAT REMAINING CHARACTERES                       */
 			/*-------------------------------------------------*/
 
-			word += code[i++];
+			word += code.charAt(i++);
 
 			/*-------------------------------------------------*/
 		}
@@ -246,19 +246,19 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 			/**/ if(code.substring(i).indexOf(quote) === 0)
 			{
 				i += m;
-				if((cnt & 1) == 0) return i;
+				if((cnt & 1) === 0) return i;
 				cnt = 0;
 			}
 			else if(code.substring(i).indexOf(escape) === 0)
 			{
 				i += n;
-//				if(0x0000001 == 0) return i;
+//				if(0x0000001 === 0) return i;
 				cnt += 1;
 			}
 			else
 			{
 				i += 1;
-//				if(0x0000001 == 0) return i;
+//				if(0x0000001 === 0) return i;
 				cnt = 0;
 			}
 		}

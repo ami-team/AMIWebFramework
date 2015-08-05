@@ -12,7 +12,14 @@
 
 $AMINamespace('ami.twig.stdlib', {
 	/*-----------------------------------------------------------------*/
-	/* ITERABLES                                                       */
+	/* VARIABLES                                                       */
+	/*-----------------------------------------------------------------*/
+
+	isEmpty: function(x)
+	{
+		return x === null || x === false || x === '' || x === [] || x === {};
+	},
+
 	/*-----------------------------------------------------------------*/
 
 	isIterable: function(x)
@@ -21,22 +28,29 @@ $AMINamespace('ami.twig.stdlib', {
 		       ||
 		       (x instanceof Object)
 		       ||
-		       (x instanceof String)
-		       ||
 		       (typeof(x) === 'string')
 		;
 	},
 
 	/*-----------------------------------------------------------------*/
+	/* ITERABLES                                                       */
+	/*-----------------------------------------------------------------*/
 
 	isInObject: function(x, y)
 	{
-		return (y instanceof Array)
-		       ||
-		       (y instanceof String)
-		       ||
-		       (typeof(y) === 'string') ? y.indexOf(x) >= 0 : x in y
-		;
+		if(y instanceof Array
+		   ||
+		   typeof(y) === 'string'
+		 ) {
+		 	return y.indexOf(x) >= 0;
+		}
+		
+		if(x instanceof Object)
+		{
+			return x in y;
+		}
+
+		return false;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -83,7 +97,19 @@ $AMINamespace('ami.twig.stdlib', {
 
 	match: function(s, regex)
 	{
-		return s.match(regex) !== null;
+		var len = regex.length;
+		var idx = regex.lastIndexOf('/');
+
+		if(len < 2
+		   ||
+		   idx < 0
+		   ||
+		   regex.charAt(0) !== '/'
+		 ) {
+			throw 'invalid regular expression `' + regex + '`';
+		}
+
+		return s.match(new RegExp(regex.substring(0x1, idx + 0), regex.substring(idx + 1, len))) !== null;
 	},
 
 	/*-----------------------------------------------------------------*/

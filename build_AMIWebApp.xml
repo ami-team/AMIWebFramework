@@ -117,7 +117,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMICommand.js js/AMI/AMILogin.js js/AMI/AMITokenizer.js js/AMI/AMITwigExprCompiler.js js/AMI/AMITwigExprInterpreter.js > js/AMI/api.min.json" />
+			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMICommand.js js/AMI/AMILogin.js js/AMI/AMITokenizer.js js/AMI/twig/AMITwigExprCompiler.js js/AMI/twig/AMITwigExprInterpreter.js > js/AMI/api.min.json" />
 		</exec>
 
 	</target>
