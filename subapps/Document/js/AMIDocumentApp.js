@@ -1,5 +1,5 @@
 /*!
- * AMIDocumentApp class
+ * AMI Web Framework
  *
  * Copyright (c) 2014 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -7,13 +7,17 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMIDocumentApp                                                     */
+/* AMIDocumentApp                                                          */
 /*-------------------------------------------------------------------------*/
 
-function AMIDocumentApp() {
+$AMIClass('AMIDocumentApp', {
 	/*-----------------------------------------------------------------*/
 
-	this.onReady = function(userdata) {
+	$implements: [ami.ISubApp],
+
+	/*-----------------------------------------------------------------*/
+
+	onReady: function(userdata) {
 
 		amiWebApp.loadHTMLs([
 			'subapps/Document/html/AMIDocumentApp.html',
@@ -30,33 +34,33 @@ function AMIDocumentApp() {
 				this.load(userdata);
 			});
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onExit = function() {
+	onExit: function() {
 
 		$('.jumbotron').show();
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogin = function() {
-	};
+	onLogin: function() {
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogout = function() {
-	};
+	onLogout: function() {
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onSessionExpired = function() {
-	};
+	onSessionExpired: function() {
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.load = function(page) {
+	load: function(page) {
 
 		var url = amiWebApp.originURL + '/docs/' + page;
 
@@ -79,11 +83,10 @@ function AMIDocumentApp() {
 				this.load('404.html');
 			}
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-
-};
+});
 
 /*-------------------------------------------------------------------------*/
 /* GLOBAL INSTANCE                                                         */
