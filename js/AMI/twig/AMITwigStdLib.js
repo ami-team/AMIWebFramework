@@ -57,9 +57,9 @@ $AMINamespace('ami.twig.stdlib', {
 
 	isInNumRange: function(x, x1, x2)
 	{
-		return (x >= x1)
+		return ((((((((x))))))) >= (((((((x1))))))))
 		       &&
-		       (x <= x2)
+		       ((((((((x))))))) <= (((((((x2))))))))
 		;
 	},
 
@@ -109,7 +109,7 @@ $AMINamespace('ami.twig.stdlib', {
 			throw 'invalid regular expression `' + regex + '`';
 		}
 
-		return s.match(new RegExp(regex.substring(0x1, idx + 0), regex.substring(idx + 1, len))) !== null;
+		return new RegExp(regex.substring(0x1, idx + 0), regex.substring(idx + 1, len)).test(s);
 	},
 
 	/*-----------------------------------------------------------------*/

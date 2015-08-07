@@ -13,6 +13,10 @@
 
 /*-------------------------------------------------------------------------*/
 
+var highlight = require('./highlight.js').highlight;
+
+/*-------------------------------------------------------------------------*/
+
 function nameHelper(name)
 {
 	return name.replace(/\//g, '.');
@@ -375,7 +379,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 
 				for(var i in element.examples)
 				{
-					thisFunction.examples.push(element.examples[i]);
+					thisFunction.examples.push(highlight.highlight(element.examples[i], 'js'));
 				}
 			}
 
@@ -400,7 +404,7 @@ exports.publish = function(data, opts) {
 
 	if(opts.destination === 'console')
 	{
-		console.log(JSON.stringify(root, null, 0));
+		console.log(JSON.stringify(root, null, 4));
 	}
 	else
 	{

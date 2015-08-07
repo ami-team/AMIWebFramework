@@ -4,6 +4,11 @@
 	font-family: "Open Sans", "sans-serif";
 }
 
+#jsdoc_content pre,
+#jsdoc_content code {
+	font-family: "Ubuntu Mono", "Menlo", "Monaco", "monospace";
+}
+
 #jsdoc_content h1,
 #jsdoc_content h2,
 #jsdoc_content h3,
@@ -58,6 +63,29 @@
 
 #jsdoc_content .signature-attrs {
 	color: #AAA;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#jsdoc_content .code-keyword {
+	color: rgb(0, 25, 58);
+	font-weight : bold;
+}
+
+#jsdoc_content .code-comment {
+	color: rgb(115, 129, 145);
+}
+
+#jsdoc_content .code-number {
+	color: rgb(49, 163, 84);
+}
+
+#jsdoc_content .code-regexp {
+	color: rgb(76, 129, 201);
+}
+
+#jsdoc_content .code-string {
+	color: rgb(0, 72, 171);
 }
 
 /*-------------------------------------------------------------------------*/

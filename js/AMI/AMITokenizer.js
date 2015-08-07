@@ -7,71 +7,6 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* INTERNAL VARIABLES                                                      */
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_digit_array = [
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-];
-
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_alpha_array = [
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-	0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-];
-
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_alnum_array = [
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
-	0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-	0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-];
-
-/*-------------------------------------------------------------------------*/
 /* amiTokenizer                                                            */
 /*-------------------------------------------------------------------------*/
 
@@ -87,37 +22,57 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 	  * Tokenize a string
 	  * @param {String} code the code
 	  * @param {Number} line the line
-	  * @param {Array} spaces the array of characters for spaces
-	  * @param {Array} kwords the array of kerwords
-	  * @param {Array} quotes the array of characters for string declaration
-	  * @param {String} [escape='\\'] the escape character
-	  * @returns {Array<String>} The array of tokens
+	  * @param {Array<String>} spaces the array of spaces
+	  * @param {Array<String>|Array<RegExp>} tokenDefs the array of token defs
+	  * @param {Array<Number>}               tokenTypes the array of token types
+	  * @param {Boolean} [error=false] throw an exception on invalid tokens
 	  * @throws {String} The error description
+	  * @return {Object} The resulting object
+	  * @example
+	  * var PLUS = 0;
+	  * var EQUAL = 1;
+	  * var NUMBER = 2;
+	  *
+	  * var result = ami.tokenizer.tokenize(
+	  * 	'1+2=3',
+	  *	1,
+	  *	[' ', '\t'],
+	  *	['+', '-', '=', /[0-9]+/],
+	  *	[PLUS, MINUS, EQUAL, NUMBER],
+	  *	true
+	  * );
+	  *
+	  * console.debug(result.tokens); // ['1', '+', '2', '=', '3']
+	  * console.debug(result.types); // [ 2 ,  0 ,  2 ,  1 ,  2 ]
+	  * console.debug(result.lines); // [ 1 ,  1 ,  1 ,  1 ,  1 ]
 	  */
 
-	tokenize: function(code, line, spaces, kwords, quotes, escape)
+	tokenize: function(code, line, spaces, tokenDefs, tokenTypes, error)
 	{
-		if(!spaces) spaces = [];
-		if(!kwords) kwords = [];
-		if(!quotes) quotes = [];
-		if(!escape) escape = '\\';
+		if(tokenDefs.length !== tokenTypes.length)
+		{
+			throw '`tokenDefs.length != tokenTypes.length`';
+		}
 
 		var result_tokens = [];
+		var result_types = [];
 		var result_lines = [];
 
 		var i = 0x000000000;
 		var l = code.length;
 
-		var word = '';
+		var word = '', c;
 		var found;
 
 		while(i < l)
 		{
+			c = code.charAt(0);
+
 			/*-------------------------------------------------*/
 			/* COUNT LINES                                     */
 			/*-------------------------------------------------*/
 
-			if(code.charAt(i) === '\n')
+			if(c === '\n')
 			{
 				line++;
 			}
@@ -126,83 +81,62 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 			/* EAT SPACES                                      */
 			/*-------------------------------------------------*/
 
-			if(spaces.indexOf(code.charAt(i)) >= 0)
+			if(spaces.indexOf(c) >= 0)
 			{
 				if(word)
 				{
+					if(error)
+					{
+						throw 'invalid token `' + word + '`';
+					}
+
 					result_tokens.push(word);
+					result_types.push((-1));
 					result_lines.push(line);
 					word = '';
 				}
 
-				i++;
+				code = code.substring(1);
+				i += 1;
 
 				continue;
 			}
 
 			/*-------------------------------------------------*/
-			/* EAT KWORDS                                      */
+			/* EAT REGEXES                                     */
 			/*-------------------------------------------------*/
 
 			found = false;
 
-			for(var idx in kwords)
+			for(var idx in tokenDefs)
 			{
-				var kword = kwords[idx];
+				var token = this._match(code, tokenDefs[idx]);
 
-				if(code.substring(i).indexOf(kword) === 0)
+				if(token)
 				{
 					if(word)
 					{
+						if(error)
+						{
+							throw 'invalid token `' + word + '`';
+						}
+
 						result_tokens.push(word);
+						result_types.push((-1));
 						result_lines.push(line);
 						word = '';
 					}
 
-					var j = i + kword.length;
+					var type = tokenTypes[idx];
 
-					result_tokens.push(code.substring(i, j));
+					result_tokens.push(token);
+					result_types.push(type);
 					result_lines.push(line);
 
-					i = j;
-
+					code = code.substring(token.length);
+					i += token.length;
 					found = true;
-					break;
-				}
-			}
 
-			if(found)
-			{
-				continue;
-			}
-
-			/*-------------------------------------------------*/
-			/* EAT STRINGS                                     */
-			/*-------------------------------------------------*/
-
-			found = false;
-
-			for(var idx in quotes)
-			{
-				var quote = quotes[idx];
-
-				if(code.substring(i).indexOf(quote) === 0)
-				{
-					if(word)
-					{
-						result_tokens.push(word);
-						result_lines.push(line);
-						word = '';
-					}
-
-					var j = i + this._shift(code.substring(i), quote, escape, line);
-
-					result_tokens.push(code.substring(i, j));
-					result_lines.push(line);
-
-					i = j;
-
-					found = true;
 					break;
 				}
 			}
@@ -216,94 +150,89 @@ $AMINamespace('ami.tokenizer', /** @lends ami/tokenizer# */ {
 			/* EAT REMAINING CHARACTERES                       */
 			/*-------------------------------------------------*/
 
-			word += code.charAt(i++);
+			word += c;
+
+			code = code.substring(1);
+			i += 1;
 
 			/*-------------------------------------------------*/
 		}
 
 		if(word)
 		{
+			if(error)
+			{
+				throw 'invalid token `' + word + '`';
+			}
+
 			result_tokens.push(word);
+			result_types.push((-1));
 			result_lines.push(line);
+			word = '';
 		}
 
-		return result_tokens;
+		return {
+			tokens: result_tokens,
+			types: result_types,
+			lines: result_lines,
+		};
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	_shift: function(code, quote, escape, line)
+	_match: function(s, stringOrRegExp)
 	{
-		var l = code.length;
-		var m = quote.length;
-		var n = escape.length;
-
-		var i = m;
-		var cnt = 0;
-
-		while(i < l)
+		if(stringOrRegExp instanceof RegExp)
 		{
-			/**/ if(code.substring(i).indexOf(quote) === 0)
-			{
-				i += m;
-				if((cnt & 1) === 0) return i;
-				cnt = 0;
-			}
-			else if(code.substring(i).indexOf(escape) === 0)
-			{
-				i += n;
-//				if(0x0000001 === 0) return i;
-				cnt += 1;
-			}
-			else
-			{
-				i += 1;
-//				if(0x0000001 === 0) return i;
-				cnt = 0;
-			}
+			var m = s.match(stringOrRegExp);
+
+			return m !== null && this._checkNextChar(s, (((((m[0])))))) ? (((((m[0]))))) : null;
 		}
+		else
+		{
+			var m = s.indexOf(stringOrRegExp);
 
-		throw 'syntax error, line `' + line + '`, missing token `' + quote + '`';
+			return m === 0x00 && this._checkNextChar(s, stringOrRegExp) ? stringOrRegExp : null;
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	/**
-	  * Check whether the given character is a numeric character
-	  * @param {String} c the character
-	  * @returns {Boolean}
-	  */
-
-	isDigit: function(c)
+	_checkNextChar: function(s, token)
 	{
-		return _ami_internal_digit_array[c.charCodeAt(0)] === 1;
+		var length = token.length;
+
+		var charCode2 = s.charCodeAt(length - 0);
+		var charCode1 = s.charCodeAt(length - 1);
+
+		return isNaN(charCode2)
+		       ||
+		       this._alnum[charCode2] === 0
+		       ||
+		       this._alnum[charCode1] === 0
+		;
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	/**
-	  * Check whether the given character is an alphabetic character
-	  * @param {String} c the character
-	  * @returns {Boolean}
-	  */
-
-	isAlpha: function(c)
-	{
-		return _ami_internal_alpha_array[c.charCodeAt(0)] === 1;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Check whether the given character is an alphanumeric character
-	  * @param {String} c the character
-	  * @returns {Boolean}
-	  */
-
-	isAlNum: function(c)
-	{
-		return _ami_internal_alnum_array[c.charCodeAt(0)] === 1;
-	},
+	_alnum: [
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+		0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+		0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+		1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	],
 
 	/*-----------------------------------------------------------------*/
 });

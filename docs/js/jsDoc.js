@@ -16,7 +16,7 @@ var jsDoc = {
 
 	/*-----------------------------------------------------------------*/
 
-	make: function(url)
+	makeDoc: function(url)
 	{
 		$.ajax({url: url, cache: false, dataType: 'json'}).done(function(data) {
 
@@ -125,7 +125,7 @@ var jsDoc = {
 
 		s += '<div class="well">';
 		s += '<h1>' + title + ': ' + item.name + '</h1>';
-		s += '<div>' + this.makeDesc(item.desc) + '</div>';
+		s += '<div>' + this.makeDesc(item) + '</div>';
 		s += this.makeDetails(item);
 		s += '</div>';
 
@@ -187,7 +187,7 @@ var jsDoc = {
 
 		result += this.makeVariableSignature(variable);
 
-		result += '<div>' + this.makeDesc(variable.desc) + '</div>';
+		result += '<div>' + this.makeDesc(variable) + '</div>';
 
 		result += this.makeDetails(variable);
 
@@ -206,7 +206,7 @@ var jsDoc = {
 
 		result += '<span class="signature-name">' + variable.name + '</span>';
 
-		result += '<span class="signature-attrs">: {' + this.makeType(variable.type) + '}</span>';
+		result += '<span class="signature-attrs">: {' + this.makeType(variable) + '}</span>';
 
 		/*---------------------------------------------------------*/
 
@@ -225,7 +225,7 @@ var jsDoc = {
 
 		result += this.makeFunctionSignature(method);
 
-		result += '<div>' + this.makeDesc(method.desc) + '</div>';
+		result += '<div>' + this.makeDesc(method) + '</div>';
 
 		result += this.makeFunctionParameters(method);
 
@@ -234,6 +234,8 @@ var jsDoc = {
 		result += this.makeFunctionExceptions(method);
 
 		result += this.makeFunctionReturn(method);
+
+		result += this.makeExamples(method);
 
 		/*---------------------------------------------------------*/
 
@@ -276,7 +278,7 @@ var jsDoc = {
 
 			for(var i in method.returns)
 			{
-				L.push(this.makeType(method.returns[i].type));
+				L.push(this.makeType(method.returns[i]));
 			}
 
 			result += '<span class="signature-attrs"> &rarr; {' + L.join(' or ') + '}</span>';
@@ -308,8 +310,8 @@ var jsDoc = {
 				var parameter = method.params[i];
 
 				L1.push(parameter.name);
-		        	L2.push(this.makeType(parameter.type));
-		        	L3.push(this.makeDesc(parameter.desc));
+		        	L2.push(this.makeType(parameter));
+		        	L3.push(this.makeDesc(parameter));
 		        	L4.push(parameter.default);
 		        	L5.push(parameter.optional);
 		        	L6.push(parameter.nullable);
@@ -417,9 +419,9 @@ var jsDoc = {
 		{
 			result += '<h5><strong>Throws:</strong></h5>';
 
-			result += '<div>' + this.makeDesc(method.exceptions[i].desc) + '</div>';
+			result += '<div>' + this.makeDesc(method.exceptions[i]) + '</div>';
 
-			result += '<div>Type: ' + this.makeType(method.exceptions[i].type) + '</div>';
+			result += '<div>Type: ' + this.makeType(method.exceptions[i]) + '</div>';
 		}
 
 		/*---------------------------------------------------------*/
@@ -439,9 +441,55 @@ var jsDoc = {
 		{
 			result += '<h5><strong>Returns:</strong></h5>';
 
-			result += '<div>' + this.makeDesc(method.returns[i].desc) + '</div>';
+			result += '<div>' + this.makeDesc(method.returns[i]) + '</div>';
 
-			result += '<div>Type: ' + this.makeType(method.returns[i].type) + '</div>';
+			result += '<div>Type: ' + this.makeType(method.returns[i]) + '</div>';
+		}
+
+		/*---------------------------------------------------------*/
+
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	makeDesc: function(x)
+	{
+		var result = '';
+
+		/*---------------------------------------------------------*/
+
+		if(x.desc)
+		{
+			result += x.desc.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(this.linkRe, function(x, y) {
+
+				return '<a href="' + y + '">' + y + '</a>';
+			});
+		}
+
+		/*---------------------------------------------------------*/
+
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	makeType: function(x)
+	{
+		var result = '';
+
+		/*---------------------------------------------------------*/
+
+		if(x.type)
+		{
+			if(x.type instanceof Array)
+			{
+				result += x.type.join(' or ').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			}
+			else
+			{
+				result += x.type.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			}
 		}
 
 		/*---------------------------------------------------------*/
@@ -475,7 +523,7 @@ var jsDoc = {
 
 		if(x.version)
 		{
-			version = '<dt>Version:</dt><dd>' + x.version + '</dd>';
+			version += '<dt>Version:</dt><dd>' + x.version + '</dd>';
 		}
 
 		if(x.author)
@@ -512,37 +560,22 @@ var jsDoc = {
 
 	/*-----------------------------------------------------------------*/
 
-	makeDesc: function(desc)
+	makeExamples: function(x)
 	{
 		var result = '';
 
 		/*---------------------------------------------------------*/
 
-		if(desc)
+		for(var i in x.examples)
 		{
-			result += desc.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(this.linkRe, function(x, y) {
+			result += '<h5><strong>Example:</strong></h5>';
 
-				return '<a href="' + y + '">' + y + '</a>';
-			});
+			result += '<pre class="ami-code"><code>' + x.examples[i] + '</code></pre>';
 		}
 
 		/*---------------------------------------------------------*/
 
 		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	makeType: function(type)
-	{
-		if(type instanceof Array)
-		{
-			return type.join(' or ').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		}
-		else
-		{
-			return type.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-		}
 	},
 
 	/*-----------------------------------------------------------------*/
