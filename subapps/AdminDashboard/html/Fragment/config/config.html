@@ -1,0 +1,266 @@
+<form class="tabbable" id="ami_config_right_div">
+
+  <ul class="nav nav-tabs">
+    <li class="active"><a href="#ami_config_form1" data-toggle="tab">General</a></li>
+    <li class="xxxxxx"><a href="#ami_config_form2" data-toggle="tab">Connections</a></li>
+    <li class="xxxxxx"><a href="#ami_config_form3" data-toggle="tab">Logs</a></li>
+    <li class="xxxxxx"><a href="#ami_config_form4" data-toggle="tab">Other</a></li>
+  </ul>
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="ami_config_form1">
+
+      <h2>Server</h2>
+
+      <div class="ami-callout">
+
+        <div class="form-group">
+          <label for="ami_config_forms_host" class="control-label">host</label>
+          <input type="text" class="form-control" id="ami_config_forms_host" disabled="disabled" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_agent" class="control-label">agent</label>
+          <input type="text" class="form-control" id="ami_config_forms_agent" disabled="disabled" />
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ami_config_forms_admin_user" class="control-label">admin_user</label>
+              <input type="text" class="form-control" id="ami_config_forms_admin_user" disabled="disabled" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ami_config_forms_admin_pass" class="control-label">admin_pass</label>
+              <input type="password" class="form-control" id="ami_config_forms_admin_pass" disabled="disabled" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ami_config_forms_guest_user" class="control-label">guest_user</label>
+              <input type="text" class="form-control" id="ami_config_forms_guest_user" disabled="disabled" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ami_config_forms_guest_pass" class="control-label">guest_pass</label>
+              <input type="password" class="form-control" id="ami_config_forms_guest_pass" disabled="disabled" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_encryption_key" class="control-label">encryption_key</label>
+          <input type="password" class="form-control" id="ami_config_forms_encryption_key" disabled="disabled" />
+        </div>
+
+      </div>
+
+      <h2>Router database</h2>
+
+      <div class="ami-callout">
+
+        <div class="form-group">
+          <label for="ami_config_forms_jdbc_url" class="control-label">jdbc_url</label>
+          <input type="text" class="form-control" id="ami_config_forms_jdbc_url" disabled="disabled" />
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ami_config_forms_router_user" class="control-label">router_user</label>
+              <input type="text" class="form-control" id="ami_config_forms_router_user" disabled="disabled" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ami_config_forms_router_pass" class="control-label">router_pass</label>
+              <input type="password" class="form-control" id="ami_config_forms_router_pass" disabled="disabled" />
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="tab-pane" id="ami_config_form2">
+
+      <h2>Connection pool</h2>
+
+      <div class="ami-callout">
+
+        <div class="form-group">
+          <label for="ami_config_forms_initial_size" class="control-label">initial_size</label>
+          <input type="number" min="0" value="10" name="initial_size" class="form-control" id="ami_config_initial_size" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_max_active" class="control-label">max_active</label>
+          <input type="number" min="0" value="100" name="max_active"class="form-control" id="ami_config_max_active" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_min_idle" class="control-label">min_idle</label>
+          <input type="number" min="0" value="10" name="min_idle" class="form-control" id="ami_config_min_idle" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_max_idle" class="control-label">max_idle</label>
+          <input type="number" min="0" value="100" name="max_idle" class="form-control" id="ami_config_max_idle" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_time_between_eviction_runs_millis" class="control-label">time_between_eviction_runs_millis</label>
+          <input type="number" min="0" value="5000" name="time_between_eviction_runs_millis" class="form-control" id="ami_config_time_between_eviction_runs_millis" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_min_evictable_idle_time_millis" class="control-label">min_evictable_idle_time_millis</label>
+          <input type="number" min="0" value="30000" name="min_evictable_idle_time_millis" class="form-control" id="ami_config_min_evictable_idle_time_millis" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_validation_interval" class="control-label">validation_interval</label>
+          <input type="number" min="0" value="30000" name="validation_interval" class="form-control" id="ami_config_validation_interval" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_max_wait" class="control-label">max_wait</label>
+          <input type="number" min="0" value="10000" name="max_wait" class="form-control" id="ami_config_max_wait" />
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="tab-pane" id="ami_config_form3">
+
+      <h2>Emails</h2>
+
+      <div class="ami-callout">
+
+        <div class="form-group">
+          <label for="ami_config_forms_email_host" class="control-label">email_host</label>
+          <input type="text" name="email_host" class="form-control" id="ami_config_forms_email_host" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_email_port" class="control-label">email_port</label>
+          <input type="number" min="0" name="email_port" class="form-control" id="ami_config_forms_email_port" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_email_port" class="control-label">email_mode</label>
+          <select name="email_mode" class="form-control ami-select" id="ami_config_forms_email_mode">
+            <option value="0">NONE</value>
+            <option value="1">SSL/TLS</value>
+            <option value="2">STARTTLS</value>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ami_config_forms_email_user" class="control-label">email_user</label>
+              <input type="text" name="email_user" class="form-control" id="ami_config_forms_email_user" />
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="ami_config_forms_email_pass" class="control-label">email_pass</label>
+              <input type="password" name="email_pass" class="form-control" id="ami_config_forms_email_pass" />
+            </div>
+          </div>
+        </div>
+
+        <hr />
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="input-group">
+              <input type="text" class="form-control" id="ami_config_forms_test_email" placeholder="Test email" />
+              <span class="input-group-btn">
+                <button class="btn btn-default" onclick="amiConfigurationApp.testEmail();">
+                  <i class="fa fa-check"></i>
+                </button>
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+          </div>
+        </div>
+
+      </div>
+
+      <h2>Logs</h2>
+
+      <div class="ami-callout">
+
+        <div class="form-group">
+          <label for="ami_config_forms_log_level" class="control-label">log_level</label>
+          <select type="text" name="log_level" class="form-control ami-select" id="ami_config_forms_log_level">
+            <option value="0">DEBUG</option>
+            <option value="1">INFO</option>
+            <option value="2">WARN</option>
+            <option value="3">ERROR</option>
+            <option value="4">CRITICAL</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_log_from" class="control-label">log_from (email)</label>
+          <input type="text" name="log_from" class="form-control" id="ami_config_forms_log_from" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_log_to" class="control-label">log_to (comma separated emails)</label>
+          <input type="text" name="log_to" class="form-control" id="ami_config_forms_log_to" />
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_log_cc" class="control-label">log_cc (comma separated emails)</label>
+          <input type="text" name="log_cc" class="form-control" id="ami_config_forms_log_cc" />
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="tab-pane" id="ami_config_form4">
+
+      <h2>Misc.</h2>
+
+      <div class="ami-callout">
+
+        <div class="form-group">
+          <label for="ami_config_forms_use_voms" class="control-label">use_voms (or similar)</label>
+          <select type="text" name="use_voms" class="form-control ami-select" id="ami_config_forms_use_voms">
+            <option value="true">true</option>
+            <option value="false">false</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="ami_config_forms_max_number_of_rows" class="control-label">max_number_of_rows</label>
+          <input type="number" min="1" value="10000" name="max_number_of_rows" class="form-control" id="ami_config_forms_max_number_of_rows" />
+        </div>
+
+      </div>
+
+      <h2>Custom <a href="javascript:amiAdminDashboardApp.app.addParameter();"><i class="fa fa-plus-circle"></i></a></h2>
+
+      <div class="ami-callout custom">
+      </div>
+
+    </div>
+
+  </div>
+
+</form>

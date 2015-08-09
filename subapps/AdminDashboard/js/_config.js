@@ -1,5 +1,5 @@
 /*!
- * AMIConfigurationApp class
+ * AMI Web Framework
  *
  * Copyright (c) 2014 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -7,53 +7,55 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* CLASS AMIConfigurationApp                                               */
+/* AMIAdminDashboardConfig                                                 */
 /*-------------------------------------------------------------------------*/
 
-function AMIConfigurationApp() {
+$AMIClass('AMIAdminDashboardConfig', {
 	/*-----------------------------------------------------------------*/
 
-	this.onReady = function(userdata) {
-
+	_init: function()
+	{
 		var result = $.Deferred();
 
-		$('#ami_jumbotron_title').html('Configuration');
-		$('#ami_jumbotron_content').html('Server configuration');
-		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amiconfiguration">Configuration</a></li>');
-
-
 		amiWebApp.loadHTMLs([
-			'subapps/Configuration/html/AMIConfigurationApp.html',
-			'subapps/Configuration/html/Fragment/parameter.html',
+			'subapps/AdminDashboard/html/fragment/config/config.html',
+			'subapps/AdminDashboard/html/fragment/config/extra_menu.html',
+			'subapps/AdminDashboard/html/fragment/config/parameter.html',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
+			this.fragmentConfig = data[0];
+			this.fragmentExtraMenu = data[1];
+			this.fragmentParameter = data[2];
 
-				this.fragmentParameter = data[1];
-
-				$('#ami_configuration_left_div').hide();
-				$('#ami_configuration_right_div').hide();
-
-				result.resolve();
-			});
+			result.resolve();
 
 		}).fail(function() {
 			result.reject();
 		});
 
 		return result;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onExit = function() {
-	};
+	open: function()
+	{
+		amiWebApp.replaceHTML('#ami_admin_dashboard_content', this.fragmentConfig);
+		amiWebApp.replaceHTML('#ami_admin_dashboard_extra_menu', this.fragmentExtraMenu);
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogin = function() {
+	onLogin: function()
+	{
+		this._load();
+	},
 
-		$('#ami_configuration_form4 .ami-custom').empty();
+	/*-----------------------------------------------------------------*/
+
+	_load: function() {
+
+		$('#ami_config_form4 .ami-custom').empty();
 
 		amiCommand.execute('GetConfig', {context: this}).done(function(data) {
 
@@ -66,11 +68,11 @@ function AMIConfigurationApp() {
 				var name = field['@name'] || '';
 				var value = field[(('$'))] || '';
 
-				var input = $('#ami_configuration_forms_' + name);
+				var input = $('#ami_config_forms_' + name);
 
 				if(input.length === 0) {
 
-					var id = 'ami_configuration_forms_' + name;
+					var id = 'ami_config_forms_' + name;
 
 					dict.push({
 						ID: id,
@@ -83,32 +85,23 @@ function AMIConfigurationApp() {
 				}
 			});
 
-			amiWebApp.appendHTML('#ami_configuration_form4 .custom', this.fragmentParameter, {dict: dict});
-
-			$('#ami_configuration_left_div').show();
-			$('#ami_configuration_right_div').show();
+			amiWebApp.appendHTML('#ami_config_form4 .custom', this.fragmentParameter, {dict: dict});
 
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogout = function() {
-	
-		$('#ami_configuration_left_div').hide();
-		$('#ami_configuration_right_div').hide();
-	};
+	_save: function()
+	{
+
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onSessionExpired = function() {
-	};
-
-	/*-----------------------------------------------------------------*/
-
-	this.reset = function() {
+	reset: function() {
 		/*---------------------------------------------------------*/
 
 		if(confirm('Please confirm...') == false) {
@@ -117,35 +110,35 @@ function AMIConfigurationApp() {
 
 		/*---------------------------------------------------------*/
 
-		this.onLogin();
+		this._load();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._apply = function() {
+	_apply: function() {
 
 		var params = $('#ami_configuration_right_div').serializeArray();
 
 		$.each(params, function(index, value) {
 
-
 			console.debug(value);
 		});
-	};
+
+		/* TODO */
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._reboot = function() {
+	_restart: function() {
 
-
-
-	};
+		/* TODO */
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.apply = function() {
+	apply: function() {
 		/*---------------------------------------------------------*/
 
 		if(confirm('Please confirm...') == false) {
@@ -154,14 +147,14 @@ function AMIConfigurationApp() {
 
 		/*---------------------------------------------------------*/
 
-		this._apply();
+		/* TODO */
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.applyAndRestart = function() {
+	applyAndRestart: function() {
 		/*---------------------------------------------------------*/
 
 		if(confirm('Please confirm...') == false) {
@@ -170,36 +163,37 @@ function AMIConfigurationApp() {
 
 		/*---------------------------------------------------------*/
 
-		this._apply().done(function() {
-		});
+		/* TODO */
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.testEmail = function() {
+	testEmail: function() {
 
-		amiCommand.execute('TestEmail -from="ami@in2p3.fr" -to="' + $('#ami_configuration_forms_test_email').val() + '"').done(function(data) {
+		amiCommand.execute('TestEmail -from="ami@in2p3.fr" -to="' + $('#ami_config_forms_test_email').val() + '"').done(function(data) {
+
 			amiWebApp.success(amiWebApp.jspath('..info.$', data)[0]);
 		}).fail(function(data) {
+
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.addParameter = function() {
+	addParameter: function() {
 
 		var name = prompt('Parameter name:') || '';
 
 		name = name.trim();
 
-		if(name !== '') {
+		if(name) {
 
-			if($('input[id="ami_configuration_forms_' + name + '"]').length === 0) {
+			if($('input[id="ami_config_forms_' + name + '"]').length === 0) {
 
-				var id = 'ami_configuration_forms_' + name;
+				var id = 'ami_config_forms_' + name;
 
 				var dict = {
 					ID: id,
@@ -207,17 +201,17 @@ function AMIConfigurationApp() {
 					VALUE: '',
 				};
 
-				amiWebApp.prependHTML('#ami_configuration_form4 .custom', this.fragmentParameter, {dict: dict});
+				amiWebApp.prependHTML('#ami_config_form4 .custom', this.fragmentParameter, {dict: dict});
 
 			} else {
 				amiWebApp.error('Duplicate field.');
 			}
 		}
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.delParameter = function(name) {
+	delParameter: function(name) {
 		/*---------------------------------------------------------*/
 
 		if(confirm('Please confirm...') == false) {
@@ -226,22 +220,12 @@ function AMIConfigurationApp() {
 
 		/*---------------------------------------------------------*/
 
-		var input = $('input[id="ami_configuration_forms_' + name + '"]');
-
-		input.parent().parent().remove();
+		$('input[id="ami_config_forms_' + name + '"]').parent().parent().remove();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
-};
-
-/*-------------------------------------------------------------------------*/
-/* GLOBAL INSTANCE                                                         */
-/*-------------------------------------------------------------------------*/
-
-amiConfigurationApp = new AMIConfigurationApp();
-
-amiRegisterSubApp('amiConfiguration', amiConfigurationApp, {});
+});
 
 /*-------------------------------------------------------------------------*/
