@@ -30,7 +30,6 @@ $AMIClass('AMIAdminDashboardApp', {
 		]);
 
 		$('#ami_jumbotron_title').html('Admin Dashboard');
-		$('#ami_jumbotron_content').html('');
 		$('#ami_breadcrumb_content').html('<li><a>Tools</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amicommand">Admin Dashboard</a></li>');
 
 		var result = $.Deferred();
@@ -66,7 +65,6 @@ $AMIClass('AMIAdminDashboardApp', {
 				}
 
 				app._init().done(function() {
-					app.open();
 					result.resolve();
 				}).fail(function() {
 					result.reject();
@@ -84,25 +82,36 @@ $AMIClass('AMIAdminDashboardApp', {
 
 	onExit: function()
 	{
+		if(this.app.onExit) {
+			this.app.onExit();
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	onLogin: function()
 	{
-		this.app.onLogin();
+		if(this.app.onLogin) {
+			this.app.onLogin();
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	onLogout: function()
 	{
+		if(this.app.onLogout) {
+			this.app.onLogout();
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	onSessionExpired: function()
 	{
+		if(this.app.onSessionExpired) {
+			this.app.onSessionExpired();
+		}
 	},
 
 	/*-----------------------------------------------------------------*/

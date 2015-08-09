@@ -13,10 +13,6 @@
 
 /*-------------------------------------------------------------------------*/
 
-var highlight = require('./highlight.js').highlight;
-
-/*-------------------------------------------------------------------------*/
-
 function nameHelper(name)
 {
 	return name.replace(/\//g, '.');
@@ -379,7 +375,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 
 				for(var i in element.examples)
 				{
-					thisFunction.examples.push(highlight.highlight(element.examples[i], 'js'));
+					thisFunction.examples.push(element.examples[i]);
 				}
 			}
 

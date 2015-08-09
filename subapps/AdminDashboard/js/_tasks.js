@@ -15,28 +15,24 @@ $AMIClass('AMIAdminDashboardTasks', {
 
 	_init: function()
 	{
+		$('#ami_jumbotron_content').html('Tasks');
+
 		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
 			'subapps/AdminDashboard/html/fragment/tasks/tasks.html',
 		], {context: this}).done(function(data) {
 
-			this.fragmentTasks = data[0];
+			amiWebApp.replaceHTML('#ami_admin_dashboard_content', data[0]).done(function() {
 
-			result.resolve();
+				result.resolve();
+			});
 
 		}).fail(function() {
 			result.reject();
 		});
 
 		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	open: function()
-	{
-		amiWebApp.replaceHTML('#ami_admin_dashboard_content', this.fragmentTasks);
 	},
 
 	/*-----------------------------------------------------------------*/

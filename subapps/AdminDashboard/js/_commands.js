@@ -15,15 +15,18 @@ $AMIClass('AMIAdminDashboardCommands', {
 
 	_init: function()
 	{
+		$('#ami_jumbotron_content').html('Commands');
+
 		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
 			'subapps/AdminDashboard/html/fragment/commands/commands.html',
 		], {context: this}).done(function(data) {
 
-			this.fragmentCommands = data[0];
+			amiWebApp.replaceHTML('#ami_admin_dashboard_content', data[0]).done(function() {
 
-			result.resolve();
+				result.resolve();
+			});
 
 		}).fail(function() {
 			result.reject();
@@ -36,7 +39,7 @@ $AMIClass('AMIAdminDashboardCommands', {
 
 	open: function()
 	{
-		amiWebApp.replaceHTML('#ami_admin_dashboard_content', this.fragmentCommands);
+		;
 	},
 
 	/*-----------------------------------------------------------------*/

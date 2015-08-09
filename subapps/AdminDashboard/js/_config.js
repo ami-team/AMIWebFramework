@@ -15,6 +15,8 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	_init: function()
 	{
+		$('#ami_jumbotron_content').html('Config');
+
 		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
@@ -23,25 +25,20 @@ $AMIClass('AMIAdminDashboardConfig', {
 			'subapps/AdminDashboard/html/fragment/config/parameter.html',
 		], {context: this}).done(function(data) {
 
-			this.fragmentConfig = data[0];
-			this.fragmentExtraMenu = data[1];
-			this.fragmentParameter = data[2];
+			amiWebApp.replaceHTML('#ami_admin_dashboard_content', data[0]).done(function() {
+				amiWebApp.replaceHTML('#ami_admin_dashboard_extra_menu', data[1]).done(function() {
 
-			result.resolve();
+					this.fragmentParameter = data[2];
+
+					result.resolve();
+				});
+			});
 
 		}).fail(function() {
 			result.reject();
 		});
 
 		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	open: function()
-	{
-		amiWebApp.replaceHTML('#ami_admin_dashboard_content', this.fragmentConfig);
-		amiWebApp.replaceHTML('#ami_admin_dashboard_extra_menu', this.fragmentExtraMenu);
 	},
 
 	/*-----------------------------------------------------------------*/

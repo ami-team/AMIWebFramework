@@ -15,28 +15,24 @@ $AMIClass('AMIAdminDashboardUsers', {
 
 	_init: function()
 	{
+		$('#ami_jumbotron_content').html('Users');
+
 		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
 			'subapps/AdminDashboard/html/fragment/users/users.html',
 		], {context: this}).done(function(data) {
 
-			this.fragmentUsers = data[0];
+			amiWebApp.replaceHTML('#ami_admin_dashboard_content', data[0]).done(function() {
 
-			result.resolve();
+				result.resolve();
+			});
 
 		}).fail(function() {
 			result.reject();
 		});
 
 		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	open: function()
-	{
-		amiWebApp.replaceHTML('#ami_admin_dashboard_content', this.fragmentUsers);
 	},
 
 	/*-----------------------------------------------------------------*/
