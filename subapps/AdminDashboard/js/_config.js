@@ -53,8 +53,8 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	/*-----------------------------------------------------------------*/
 
-	_load: function() {
-
+	_load: function()
+	{
 		$('#ami_config_form4 .ami-custom').empty();
 
 		amiCommand.execute('GetConfig', {context: this}).done(function(data) {
@@ -70,8 +70,8 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 				var input = $('#ami_config_forms_' + name);
 
-				if(input.length === 0) {
-
+				if(input.length === 0)
+				{
 					var id = 'ami_config_forms_' + name;
 
 					dict.push({
@@ -79,8 +79,9 @@ $AMIClass('AMIAdminDashboardConfig', {
 						NAME: name,
 						VALUE: value,
 					});
-
-				} else {
+				}
+				else
+				{
 					input.val(value);
 				}
 			});
@@ -88,6 +89,7 @@ $AMIClass('AMIAdminDashboardConfig', {
 			amiWebApp.appendHTML('#ami_config_form4 .custom', this.fragmentParameter, {dict: dict});
 
 		}).fail(function(data) {
+
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
 	},
@@ -101,10 +103,12 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	/*-----------------------------------------------------------------*/
 
-	reset: function() {
+	reset: function()
+	{
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false) {
+		if(confirm('Please confirm...') == false)
+		{
 			return;
 		}
 
@@ -117,8 +121,8 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	/*-----------------------------------------------------------------*/
 
-	_apply: function() {
-
+	_apply: function()
+	{
 		var params = $('#ami_configuration_right_div').serializeArray();
 
 		$.each(params, function(index, value) {
@@ -131,17 +135,19 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	/*-----------------------------------------------------------------*/
 
-	_restart: function() {
-
+	_restart: function()
+	{
 		/* TODO */
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	apply: function() {
+	apply: function()
+	{
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false) {
+		if(confirm('Please confirm...') == false)
+		{
 			return;
 		}
 
@@ -154,10 +160,12 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	/*-----------------------------------------------------------------*/
 
-	applyAndRestart: function() {
+	applyAndRestart: function()
+	{
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false) {
+		if(confirm('Please confirm...') == false)
+		{
 			return;
 		}
 
@@ -170,11 +178,12 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	/*-----------------------------------------------------------------*/
 
-	testEmail: function() {
-
+	testEmail: function()
+	{
 		amiCommand.execute('TestEmail -from="ami@in2p3.fr" -to="' + $('#ami_config_forms_test_email').val() + '"').done(function(data) {
 
 			amiWebApp.success(amiWebApp.jspath('..info.$', data)[0]);
+
 		}).fail(function(data) {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
@@ -183,16 +192,16 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	/*-----------------------------------------------------------------*/
 
-	addParameter: function() {
-
+	addParameter: function()
+	{
 		var name = prompt('Parameter name:') || '';
 
 		name = name.trim();
 
-		if(name) {
-
-			if($('input[id="ami_config_forms_' + name + '"]').length === 0) {
-
+		if(name)
+		{
+			if($('input[id="ami_config_forms_' + name + '"]').length === 0)
+			{
 				var id = 'ami_config_forms_' + name;
 
 				var dict = {
@@ -202,8 +211,9 @@ $AMIClass('AMIAdminDashboardConfig', {
 				};
 
 				amiWebApp.prependHTML('#ami_config_form4 .custom', this.fragmentParameter, {dict: dict});
-
-			} else {
+			}
+			else
+			{
 				amiWebApp.error('Duplicate field.');
 			}
 		}
@@ -211,10 +221,12 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	/*-----------------------------------------------------------------*/
 
-	delParameter: function(name) {
+	delParameter: function(name)
+	{
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false) {
+		if(confirm('Please confirm...') == false)
+		{
 			return;
 		}
 
