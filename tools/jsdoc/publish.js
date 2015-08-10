@@ -167,8 +167,8 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 						'type': typeHelper(element.params[i].type),
 						'desc': element.params[i].description || '',
 						'default': element.params[i].defaultvalue || '',
-						'optional': typeof element.params[i].optional === 'boolean'? element.params[i].optional : '',
-						'nullable': typeof element.params[i].nullable === 'boolean'? element.params[i].nullable : '',
+						'optional': typeof element.params[i].optional === 'boolean' ? element.params[i].optional : '',
+						'nullable': typeof element.params[i].nullable === 'boolean' ? element.params[i].nullable : '',
 					});
 				}
 
