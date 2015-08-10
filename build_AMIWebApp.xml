@@ -112,7 +112,6 @@
 	<target name="doc" description="Generate doc.">
 
 		<!-- npm install -g jsdoc -->
-		<!-- npm install -g highlight.js -->
 		<!-- http://usejsdoc.org/ -->
 
 		<exec executable="bash">
