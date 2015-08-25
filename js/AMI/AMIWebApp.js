@@ -10,16 +10,7 @@
 /* INTERNAL VARIABLES                                                      */
 /*-------------------------------------------------------------------------*/
 
-var _ami_internal_nonce = jQuery.now();
-
-/*-------------------------------------------------------------------------*/
-
 var _ami_internal_subAppDict = {};
-
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_scripts = [];
-var _ami_internal_sheets = [];
 
 /*-------------------------------------------------------------------------*/
 /* INTERNAL FUNCTIONS                                                      */
@@ -103,10 +94,10 @@ var amiWebApp = {
 			'js/AMI/AMILogin.min.js',
 			'js/AMI/AMITokenizer.min.js',
 			/* TWIG */
+			'js/AMI/twig/AMITwig.min.js',
+			'js/AMI/twig/AMITwigStdLib.min.js',
 			'js/AMI/twig/AMITwigExprCompiler.min.js',
 			'js/AMI/twig/AMITwigExprInterpreter.min.js',
-			'js/AMI/twig/AMITwigStdLib.min.js',
-			'js/AMI/twig/AMITwig.min.js',
 		]).fail(function(data) {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
@@ -124,10 +115,12 @@ var amiWebApp = {
 			'html/AMI/Fragment/alert_warning.html',
 			'html/AMI/Fragment/alert_error.html',
 		], {context: this}).done(function(data) {
+
 			this.fragmentSuccess = data[0];
 			this.fragmentInfo = data[1];
 			this.fragmentWarning = data[2];
 			this.fragmentError = data[3];
+
 		}).fail(function(data) {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
@@ -310,7 +303,16 @@ var amiWebApp = {
 	},
 
 	/*-----------------------------------------------------------------*/
-	/* DYNAMIC SHEET LOADING                                           */
+	/* DYNAMIC RESOURCE LOADING                                        */
+	/*-----------------------------------------------------------------*/
+
+	_nonce: jQuery.now(),
+
+	/*-----------------------------------------------------------------*/
+
+	_scripts: [],
+	_sheets: [],
+
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -342,11 +344,11 @@ var amiWebApp = {
 
 		for(var i in sheets)
 		{
-			if(_ami_internal_sheets.indexOf(sheets[i]) < 0)
+			if(this._sheets.indexOf(sheets[i]) < 0)
 			{
-				_ami_internal_sheets.push(sheets[i]);
+				this._sheets.push(sheets[i]);
 
-				html += '<link rel="stylesheet" href="' + sheets[i] + '?_=' + _ami_internal_nonce++ + '"></link>';
+				html += '<link rel="stylesheet" href="' + sheets[i] + '?_=' + this._nonce++ + '"></link>';
 			}
 		}
 
@@ -370,8 +372,6 @@ var amiWebApp = {
 		return result.promise();
 	},
 
-	/*-----------------------------------------------------------------*/
-	/* DYNAMIC SCRIPT LOADING                                          */
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -403,11 +403,11 @@ var amiWebApp = {
 
 		for(var i in scripts)
 		{
-			if(_ami_internal_scripts.indexOf(scripts[i]) < 0)
+			if(this._scripts.indexOf(scripts[i]) < 0)
 			{
-				_ami_internal_scripts.push(scripts[i]);
+				this._scripts.push(scripts[i]);
 
-				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + _ami_internal_nonce++ + '"></script>';
+				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + this._nonce++ + '"></script>';
 			}
 		}
 
@@ -432,12 +432,10 @@ var amiWebApp = {
 	},
 
 	/*-----------------------------------------------------------------*/
-	/* DYNAMIC HTML LOADING                                            */
-	/*-----------------------------------------------------------------*/
 
 	_loadHTMLs: function(deferred, array, fragments, context)
 	{
-		if(fragments.length > 0)
+		if(fragments)
 		{
 			var url = fragments.shift();
 
@@ -513,8 +511,8 @@ var amiWebApp = {
 	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
-	webappRegExp: /%%\s*WEBAPP_URL\s*%%/g,
-	originRegExp: /%%\s*ORIGIN_URL\s*%%/g,
+	webappRegExp: /\{\{\s*WEBAPP_URL\s*\}\}/g,
+	originRegExp: /\{\{\s*ORIGIN_URL\s*\}\}/g,
 
 	/*-----------------------------------------------------------------*/
 
@@ -722,14 +720,14 @@ var amiWebApp = {
 
 			for(var i in dict)
 			{
-				result += amiTwig.render(html, dict[i]);
+				result += ami.twig.render(html, dict[i]);
 			}
 
 			return result;
 		}
 		else
 		{
-			return amiTwig.render(html, dict);
+			return ami.twig.render(html, dict);
 		}
 	},
 
@@ -1076,7 +1074,7 @@ var amiWebApp = {
 			amiWebApp.onReady(userdata),
 			function() {
 				_ami_internal_always(
-					amiWebApp.onLogin(),
+					amiWebApp.onLogin(/******/),
 					function() {
 						amiWebApp.unlock();
 					}

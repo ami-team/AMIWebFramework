@@ -1,20 +1,43 @@
-<h1>Server Status</h1>
+<h1>Node Status</h1>
 
-<div class="ami-callout" id="ami_monitoring_server_content"></div></div>
+<div class="ami-callout">
+
+  <div class="row">
+    <div class="col-md-4">
+      <div id="ami_monitoring_chart0" style="height: 275px; width: 100%;"></div>
+    </div>
+    <div class="col-md-8">
+      <div id="ami_monitoring_chart1" style="height: 275px; width: 100%;"></div>
+    </div>
+  </div>
+
+</div>
 
 <h1>Connection Pool Status</h1>
 
-<div class="form-group form-group-sm">
-  <label for="ami_moniroring_node" class="control-label">Node:</label>
-  <select class="form-control ami-select" id="ami_moniroring_nodes"></select>
+<div class="ami-callout">
+
+  <div class="form-group form-group-sm">
+    <label for="ami_moniroring_node" class="control-label">Node:</label>
+    <select class="form-control ami-select" id="ami_moniroring_node" onchange="amiAdminDashboardApp.app.selectNode();"></select>
+  </div>
+
+  <div id="ami_monitoring_chart2" style="height: 275px; width: 100%;"></div>
+
 </div>
 
-<div class="ami-callout" id="ami_monitoring_connection_pool_content"></div>
+<h1>User Status</h1>
 
-<h1>Users Status <a href="javascript:amiAdminDashboardApp.app._updateUsers();"><i class="fa fa-refresh"></i></a></h1>
+<div class="ami-callout" style="background: url('/subapps/AdminDashboard/images/map_bg_shadow.png') no-repeat; background-size: 100% 100%; padding: 50px;">
 
-<div class="ami-callout" id="ami_monitoring_user_content"></div>
+  <div id="ami_monitoring_chart3" style="height: 500px; width: 100%;"></div>
+
+</div>
 
 <h1>Logs</h1>
 
-<div class="ami-callout" id="ami_monitoring_logs_content"></div>
+<div class="ami-callout">
+
+  TODO
+
+</div>

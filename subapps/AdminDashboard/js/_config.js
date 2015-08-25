@@ -25,8 +25,8 @@ $AMIClass('AMIAdminDashboardConfig', {
 			'subapps/AdminDashboard/html/fragment/config/parameter.html',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_admin_dashboard_content', data[0]).done(function() {
-				amiWebApp.replaceHTML('#ami_admin_dashboard_extra_menu', data[1]).done(function() {
+			amiWebApp.replaceHTML('#ami_admin_dashboard_content', data[0], {context: this}).done(function() {
+				amiWebApp.replaceHTML('#ami_admin_dashboard_extra_menu', data[1], {context: this}).done(function() {
 
 					this.fragmentParameter = data[2];
 
@@ -45,25 +45,28 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	onLogin: function()
 	{
-		this._load();
+		if(!$('#ami_config_forms_jdbc_url').val().trim())
+		{
+			this._load();
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	_load: function()
 	{
-		$('#ami_config_form4 .ami-custom').empty();
-
-		amiCommand.execute('GetConfig', {context: this}).done(function(data) {
+		return amiCommand.execute('GetConfig', {context: this}).done(function(data) {
 
 			var fields = amiWebApp.jspath('..rowset{.@type==="config"}.row.field', data);
 
+			$('#ami_config_form4 .ami-callout:last').empty();
+
 			var dict = [];
 
-			$.foreach(fields, function(index, field) {
-
-				var name = field['@name'] || '';
-				var value = field[(('$'))] || '';
+			for(var i in fields)
+			{
+				var name = fields[i]['@name'] || '';
+				var value = fields[i][(('$'))] || '';
 
 				var input = $('#ami_config_forms_' + name);
 
@@ -81,21 +84,14 @@ $AMIClass('AMIAdminDashboardConfig', {
 				{
 					input.val(value);
 				}
-			});
+			}
 
-			amiWebApp.appendHTML('#ami_config_form4 .custom', this.fragmentParameter, {dict: dict});
+			amiWebApp.replaceHTML('#ami_config_form4 .ami-callout:last', this.fragmentParameter, {dict: dict});
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
 		});
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_save: function()
-	{
-
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -104,37 +100,21 @@ $AMIClass('AMIAdminDashboardConfig', {
 	{
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false)
+		if(!confirm('Please confirm...'))
 		{
 			return;
 		}
 
 		/*---------------------------------------------------------*/
 
-		this._load();
+		amiWebApp.lock();
 
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_apply: function()
-	{
-		var params = $('#ami_configuration_right_div').serializeArray();
-
-		$.each(params, function(index, value) {
-
-			console.debug(value);
+		this._load().done(function() {
+		
+			amiWebApp.unlock();
 		});
 
-		/* TODO */
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_restart: function()
-	{
-		/* TODO */
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -143,32 +123,55 @@ $AMIClass('AMIAdminDashboardConfig', {
 	{
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false)
+		if(!confirm('Please confirm...'))
 		{
 			return;
 		}
 
 		/*---------------------------------------------------------*/
 
-		/* TODO */
+		amiWebApp.lock();
 
 		/*---------------------------------------------------------*/
-	},
 
-	/*-----------------------------------------------------------------*/
+		var names = [], name;
+		var values = [], value;
 
-	applyAndRestart: function()
-	{
-		/*---------------------------------------------------------*/
+		var params = $('#ami_config_right_div').serializeArray();
 
-		if(confirm('Please confirm...') == false)
+		for(var i in params)
 		{
-			return;
+			name = params[i].name;
+			value = params[i].value;
+
+			if(name.indexOf('|') >= 0) {
+				amiWebApp.error('character `|` not allow in parameter names (' + name + ':' + value + ')', true);
+				return
+			}
+
+			if(value.indexOf('|') >= 0) {
+				amiWebApp.error('character `|` not allow in parameter values (' + name + ':' + value + ')', true);
+				return
+			}
+
+			names.push(amiWebApp.textToString(name));
+			values.push(amiWebApp.textToString(value));
 		}
 
 		/*---------------------------------------------------------*/
 
-		/* TODO */
+		var command = 'SetConfig -separator="|" -names="' + names.join('|') + '" -values="' + values.join('|') + '"';
+
+		/*---------------------------------------------------------*/
+
+		amiCommand.execute(command).done(function(data) {
+
+			amiWebApp.success(amiWebApp.jspath('..info.$', data)[0], true);
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
+		});
 
 		/*---------------------------------------------------------*/
 	},
@@ -177,14 +180,26 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	testEmail: function()
 	{
-		amiCommand.execute('TestEmail -from="ami@in2p3.fr" -to="' + $('#ami_config_forms_test_email').val() + '"').done(function(data) {
+		/*---------------------------------------------------------*/
 
-			amiWebApp.success(amiWebApp.jspath('..info.$', data)[0]);
+		amiWebApp.lock();
+
+		/*---------------------------------------------------------*/
+
+		var command = 'TestEmail -from="ami@in2p3.fr" -to="' + $('#ami_config_forms_test_email').val() + '"';
+
+		/*---------------------------------------------------------*/
+
+		amiCommand.execute(command).done(function(data) {
+
+			amiWebApp.success(amiWebApp.jspath('..info.$', data)[0], true);
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -197,22 +212,26 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 		if(name)
 		{
-			if($('input[id="ami_config_forms_' + name + '"]').length === 0)
-			{
-				var id = 'ami_config_forms_' + name;
+			var id = 'ami_config_forms_' + name;
 
+			if($('#' + id).length === 0)
+			{
 				var dict = {
 					ID: id,
 					NAME: name,
-					VALUE: '',
+					VALUE: (('')),
 				};
 
-				amiWebApp.prependHTML('#ami_config_form4 .custom', this.fragmentParameter, {dict: dict});
+				amiWebApp.prependHTML('#ami_config_form4 .ami-callout:last', this.fragmentParameter, {dict: dict});
 			}
 			else
 			{
-				amiWebApp.error('Duplicate field.');
+				amiWebApp.error('duplicated parameter name', true);
 			}
+		}
+		else
+		{
+			amiWebApp.error('empty parameter name', true);
 		}
 	},
 
@@ -222,14 +241,14 @@ $AMIClass('AMIAdminDashboardConfig', {
 	{
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false)
+		if(!confirm('Please confirm...'))
 		{
 			return;
 		}
 
 		/*---------------------------------------------------------*/
 
-		$('input[id="ami_config_forms_' + name + '"]').parent().parent().remove();
+		$('#ami_config_forms_' + name).parent().parent().remove();
 
 		/*---------------------------------------------------------*/
 	},

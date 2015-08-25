@@ -55,22 +55,62 @@ $AMINamespace('ami.twig.stdlib', {
 
 	/*-----------------------------------------------------------------*/
 
-	isInNumRange: function(x, x1, x2)
+	isInRange: function(x, x1, x2)
 	{
-		return ((((((((x))))))) >= (((((((x1))))))))
-		       &&
-		       ((((((((x))))))) <= (((((((x2))))))))
-		;
+
+		/**/ if(typeof(x1) === 'number'
+		        &&
+		        typeof(x2) === 'number'
+		 ) {
+			return ((((((((x))))))) >= (((((((x1))))))))
+			       &&
+			       ((((((((x))))))) <= (((((((x2))))))))
+			;
+		}
+		else if(typeof(x1) === 'string' && x1.length === 1
+		        &&
+		        typeof(x2) === 'string' && x2.length === 1
+		 ) {
+			return (x.charCodeAt(0) >= x1.charCodeAt(0))
+			       &&
+			       (x.charCodeAt(0) <= x2.charCodeAt(0))
+			;
+		}
+
+		return false;
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	isInCharRange: function(x, x1, x2)
+	range: function(x1, x2, step)
 	{
-		return (x.charCodeAt(0) >= x1.charCodeAt(0))
-		       &&
-		       (x.charCodeAt(0) <= x2.charCodeAt(0))
-		;
+		var result = [];
+
+		if(!step)
+		{
+			step = 1;
+		}
+
+		/**/ if(typeof(x1) === 'number'
+		        &&
+		        typeof(x2) === 'number'
+		 ) {
+			for(var i = (((((((x1))))))); i <= (((((((x2))))))); i += step)
+			{
+				result.push(/*---------------*/(i));
+			}
+		}
+		else if(typeof(x1) === 'string' && x1.length === 1
+		        &&
+		        typeof(x2) === 'string' && x2.length === 1
+		 ) {
+			for(var i = x1.charCodeAt(0); i <= x2.charCodeAt(0); i += step)
+			{
+				result.push(String.fromCharCode(i));
+			}
+		}
+
+		return result;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -97,7 +137,7 @@ $AMINamespace('ami.twig.stdlib', {
 
 	match: function(s, regex)
 	{
-		var len = regex.length;
+		var len = regex.     length     ;
 		var idx = regex.lastIndexOf('/');
 
 		if(len < 2
@@ -109,7 +149,11 @@ $AMINamespace('ami.twig.stdlib', {
 			throw 'invalid regular expression `' + regex + '`';
 		}
 
-		return new RegExp(regex.substring(0x1, idx + 0), regex.substring(idx + 1, len)).test(s);
+		return new RegExp(
+			regex.substring(0x1, idx + 0)
+			,
+			regex.substring(idx + 1, len)
+		).test(s);
 	},
 
 	/*-----------------------------------------------------------------*/

@@ -7,50 +7,6 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isNum(s)
-{
-	for(var i = 0, l = s.length; i < l; i++)
-	{
-		if(ami.tokenizer.isDigit(s.charAt(i)) === false)
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isStr(s)
-{
-	return s.charAt(0) === '\'' || s.charAt(0) === '\"';
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_isSId(s)
-{
-	if(ami.tokenizer.isAlpha(s.charAt(0)) === false && s.charAt(0) !== '_')
-	{
-		return false;
-	}
-
-	for(var i = 1, l = s.length; i < l; i++)
-	{
-		if(ami.tokenizer.isAlNum(s.charAt(i)) === false && s.charAt(i) !== '_')
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-/*-------------------------------------------------------------------------*/
 /* ami.twig.expr.tokens                                                    */
 /*-------------------------------------------------------------------------*/
 
@@ -59,39 +15,14 @@ $AMINamespace('ami.twig.expr.tokens', {
 
 	$init: function()
 	{
-		this.EQ_NE_GTE_LTE_GT_LT = [
-			this.STRICT_EQ,
-			this.LOOSE_EQ,
-			this.STRICT_NE,
-			this.LOOSE_NE,
-			this.GTE,
-			this.LTE,
-			this.GT,
-			this.LT,
-		];
-
-		this.IS_XXX = [
-			this.DEFINED,
-			this.NULL,
-			this.EMPTY,
-			this.ITERABLE,
-			this.EVEN,
-			this.ODD
-		];
-
-		this.XXX_WITH = [
-			this.STARTS,
-			this.ENDS,
-		];
-
 		this.PLUS_MINUS = [
 			this.PLUS,
 			this.MINUS,
 		];
 
-		this.MUL_DIV_MOD = [
+		this.MUL_FLDIV_DIV_MOD = [
 			this.MUL,
-			this.FLOORDIV,
+			this.FLDIV,
 			this.DIV,
 			this.MOD,
 		];
@@ -104,12 +35,7 @@ $AMINamespace('ami.twig.expr.tokens', {
 
 		this.RX = [
 			this.RP,
-			this.RB
-		];
-
-		this.TERMINAL = [
-			this.NUM,
-			this.STR,
+			this.RB,
 		];
 	},
 
@@ -122,51 +48,37 @@ $AMINamespace('ami.twig.expr.tokens', {
 	BITWISE_OR: 102,
 	BITWISE_XOR: 103,
 	BITWISE_AND: 104,
-	STRICT_EQ: 105,
-	LOOSE_EQ: 106,
-	STRICT_NE: 107,
-	LOOSE_NE: 108,
-	GTE: 109,
-	LTE: 110,
-	GT: 111,
-	LT: 112,
-	IS: 113,
-	DEFINED: 114,
-	NULL: 115,
-	EMPTY: 116,
-	ITERABLE: 117,
-	EVEN: 118,
-	ODD: 119,
-	STARTS: 120,
-	ENDS: 121,
-	WITH: 122,
-	MATCHES: 123,
-	IN: 124,
-	RANGE: 125,
-	PLUS: 126,
-	MINUS: 127,
-	POWER: 128,
-	MUL: 129,
-	FLOORDIV: 130,
-	DIV: 131,
-	MOD: 132,
-	NOT: 133,
-	DOT: 134,
-	COMMA: 135,
-	LP: 136,
-	RP: 137,
-	LB: 138,
-	RB: 139,
-	NUM: 140,
-	STR: 141,
-	SID: 142,
+	CMP_OP: 105,
+	IS: 106,
+	IS_XXX: 107,
+	XXX_WITH: 108,
+	WITH: 109,
+	MATCHES: 110,
+	IN: 111,
+	RANGE: 112,
+	PLUS: 113,
+	MINUS: 114,
+	POWER: 115,
+	MUL: 116,
+	FLDIV: 117,
+	DIV: 118,
+	MOD: 119,
+	NOT: 120,
+	DOT: 121,
+	COMMA: 122,
+	LP: 123,
+	RP: 124,
+	LB: 125,
+	RB: 126,
+	TERMINAL: 127,
+	SID: 128,
 
 	/*-----------------------------------------------------------------*/
 	/* VIRTUAL TOKENS                                                  */
 	/*-----------------------------------------------------------------*/
 
-	FUN: 303,
-	VAR: 304,
+	FUN: 200,
+	VAR: 201,
 
 	/*-----------------------------------------------------------------*/
 });
@@ -178,53 +90,67 @@ $AMINamespace('ami.twig.expr.tokens', {
 $AMIClass('ami.twig.expr.Tokenizer', {
 	/*-----------------------------------------------------------------*/
 
+	_spaces: [' ', '\t', '\n', '\r'],
+
+	/*-----------------------------------------------------------------*/
+
+	_tokenDefs: [
+		'or', 'and',
+		'b-or', 'b-xor', 'b-and',
+		'is',
+		'defined', 'null', 'empty', 'iterable', 'even', 'odd',
+		'===', '==', '!==', '!=', '<=', '>=', '<', '>',
+		'starts', 'ends',
+		'with',
+		'matches',
+		'in',
+		'+', '-', '**', '*', '//', '/', '%',
+		'not',
+		'..', '.', ',',
+		'(', ')', '[', ']',
+		/^[0-9]+\.[0-9]+/, /^[0-9]+/, /^'(\\'|[^\'])*'/, /^"(\\"|[^\"])*"/,
+		/^[a-zA-Z_$][a-zA-Z0-9_$]*/,
+	],
+
+	/*-----------------------------------------------------------------*/
+
+	_tokenTypes: [
+		ami.twig.expr.tokens.LOGICAL_OR, ami.twig.expr.tokens.LOGICAL_AND,
+		ami.twig.expr.tokens.BITWISE_OR, ami.twig.expr.tokens.BITWISE_XOR, ami.twig.expr.tokens.BITWISE_AND,
+		ami.twig.expr.tokens.IS,
+		ami.twig.expr.tokens.IS_XXX, ami.twig.expr.tokens.IS_XXX, ami.twig.expr.tokens.IS_XXX, ami.twig.expr.tokens.IS_XXX, ami.twig.expr.tokens.IS_XXX, ami.twig.expr.tokens.IS_XXX,
+		ami.twig.expr.tokens.CMP_OP, ami.twig.expr.tokens.CMP_OP, ami.twig.expr.tokens.CMP_OP, ami.twig.expr.tokens.CMP_OP, ami.twig.expr.tokens.CMP_OP, ami.twig.expr.tokens.CMP_OP, ami.twig.expr.tokens.CMP_OP, ami.twig.expr.tokens.CMP_OP,
+		ami.twig.expr.tokens.XXX_WITH, ami.twig.expr.tokens.XXX_WITH,
+		ami.twig.expr.tokens.WITH,
+		ami.twig.expr.tokens.MATCHES,
+		ami.twig.expr.tokens.IN,
+		ami.twig.expr.tokens.PLUS, ami.twig.expr.tokens.MINUS, ami.twig.expr.tokens.POWER, ami.twig.expr.tokens.MUL, ami.twig.expr.tokens.FLDIV, ami.twig.expr.tokens.DIV, ami.twig.expr.tokens.MOD,
+		ami.twig.expr.tokens.NOT,
+		ami.twig.expr.tokens.RANGE, ami.twig.expr.tokens.DOT, ami.twig.expr.tokens.COMMA,
+		ami.twig.expr.tokens.LP, ami.twig.expr.tokens.RP, ami.twig.expr.tokens.LB, ami.twig.expr.tokens.RB,
+		ami.twig.expr.tokens.TERMINAL, ami.twig.expr.tokens.TERMINAL, ami.twig.expr.tokens.TERMINAL, ami.twig.expr.tokens.TERMINAL,
+		ami.twig.expr.tokens.SID,
+	],
+
+	/*-----------------------------------------------------------------*/
+
 	$init: function(code, line)
 	{
 		/*---------------------------------------------------------*/
 
-		var _tokenizer = ami.tokenizer.tokenize(
+		var result = ami.tokenizer.tokenize(
 			code,
 			line,
-			[' ', '\t', '\n', '\r'],
-			[
-				'or', 'and',
-				'b-or', 'b-xor', 'b-and',
-				'is',
-				'defined', 'null', 'empty', 'iterable', 'even', 'odd',
-				'===', '==', '!==', '!=', '=', '<=', '>=', '<', '>',
-				'starts',
-				'ends', 'with',
-				'matches',
-				'in',
-				'+', '-', '**', '*', '//', '/', '%',
-				'not',
-				'..', '.', ',',
-				'(', ')', '[', ']',
-				/^[0-9]+\.[0-9]*/, /^[0-9]+/, /^\.[0-9]+/, /^'(\\'|[^\'])*'/, /^"(\\"|[^\"])*"/, /^[a-zA-Z_$][a-zA-Z0-9_$]*/
-			],
-			[
-				ami.twig.expr.tokens.LOGICAL_OR, ami.twig.expr.tokens.LOGICAL_AND,
-				ami.twig.expr.tokens.BITWISE_OR, ami.twig.expr.tokens.BITWISE_XOR, ami.twig.expr.tokens.BITWISE_AND,
-				ami.twig.expr.tokens.IS,
-				ami.twig.expr.tokens.DEFINED, ami.twig.expr.tokens.NULL, ami.twig.expr.tokens.EMPTY, ami.twig.expr.tokens.ITERABLE, ami.twig.expr.tokens.EVEN, ami.twig.expr.tokens.ODD,
-				ami.twig.expr.tokens.STRICT_EQ, ami.twig.expr.tokens.LOOSE_EQ, ami.twig.expr.tokens.STRICT_NE, ami.twig.expr.tokens.LOOSE_NE, -1, ami.twig.expr.tokens.LTE, ami.twig.expr.tokens.GTE, ami.twig.expr.tokens.LT, ami.twig.expr.tokens.GT,
-				ami.twig.expr.tokens.STARTS,
-				ami.twig.expr.tokens.ENDS, ami.twig.expr.tokens.WITH,
-				ami.twig.expr.tokens.MATCHES,
-				ami.twig.expr.tokens.IN,
-				ami.twig.expr.tokens.PLUS, ami.twig.expr.tokens.MINUS, ami.twig.expr.tokens.POWER, ami.twig.expr.tokens.MUL, ami.twig.expr.tokens.FLOORDIV, ami.twig.expr.tokens.DIV, ami.twig.expr.tokens.MOD,
-				ami.twig.expr.tokens.NOT,
-				ami.twig.expr.tokens.RANGE, ami.twig.expr.tokens.DOT, ami.twig.expr.tokens.COMMA,
-				ami.twig.expr.tokens.LP, ami.twig.expr.tokens.RP, ami.twig.expr.tokens.LB, ami.twig.expr.tokens.RB,
-				ami.twig.expr.tokens.NUM, ami.twig.expr.tokens.NUM, ami.twig.expr.tokens.NUM, ami.twig.expr.tokens.STR, ami.twig.expr.tokens.STR, ami.twig.expr.tokens.SID
-			],
+			this._spaces,
+			this._tokenDefs,
+			this._tokenTypes,
 			true
 		);
 
 		/*---------------------------------------------------------*/
 
-		this.tokens = _tokenizer.tokens;
-		this.types = _tokenizer.types;
+		this.tokens = result.tokens;
+		this.types = result.types;
 
 		this.i = 0;
 
@@ -508,7 +434,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 			}
 			else
 			{
-				throw 'syntax error, line `' + this.line + '`, `defined`, `null`, `empty`, `iterable`, `even` or `odd` expected';
+				throw 'syntax error, line `' + this.line + '`, keyword `defined` or `null` or `empty` or `iterable` or `even` or `odd` expected';
 			}
 
 			left = node;
@@ -518,7 +444,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 		/*      | AddSub ('===' | '==' | ...) AddSub               */
 		/*---------------------------------------------------------*/
 
-		else if(this.tokenizer.checkType(ami.twig.expr.tokens.EQ_NE_GTE_LTE_GT_LT))
+		else if(this.tokenizer.checkType(ami.twig.expr.tokens.CMP_OP))
 		{
 			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
@@ -566,7 +492,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 		}
 
 		/*---------------------------------------------------------*/
-		/*      | AddSub 'in' Range                                */
+		/*      | AddSub 'in' X                                    */
 		/*---------------------------------------------------------*/
 
 		else if(this.tokenizer.checkType(ami.twig.expr.tokens.IN))
@@ -574,7 +500,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
-			var right = this.parseRange();
+			var right = this.parseX();
 
 			node.nodeLeft = left;
 			node.nodeRight = right;
@@ -629,7 +555,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 		/*        | Power                                          */
 		/*---------------------------------------------------------*/
 
-		if(this.tokenizer.checkType(ami.twig.expr.tokens.MUL_DIV_MOD))
+		if(this.tokenizer.checkType(ami.twig.expr.tokens.MUL_FLDIV_DIV_MOD))
 		{
 			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
@@ -681,8 +607,8 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 	parseNotPlusMinus: function()
 	{
 		/*---------------------------------------------------------*/
-		/* NotPlusMinus : ('not' | '-' | '+') X                    */
-		/*              | X                                        */
+		/* NotPlusMinus : ('not' | '-' | '+') Y                    */
+		/*              | Y                                        */
 		/*---------------------------------------------------------*/
 
 		if(this.tokenizer.checkType(ami.twig.expr.tokens.NOT_PLUS_MINUS))
@@ -690,7 +616,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
 			this.tokenizer.next();
 
-			var left = this.parseX();
+			var left = this.parseY();
 
 			node.nodeLeft = left;
 			node.nodeRight = null;
@@ -700,12 +626,37 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 
 		/*---------------------------------------------------------*/
 
-		return this.parseX();
+		return this.parseY();
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	parseX: function()
+	{
+		/*---------------------------------------------------------*/
+		/* X : FunVar | Terminal                                   */
+		/*---------------------------------------------------------*/
+
+		var node;
+
+		if((node = this.parseFunVar())) {
+			return node;
+		}
+
+		if((node = this.parseTerminal())) {
+			return node;
+		}
+
+		/*---------------------------------------------------------*/
+
+		throw 'syntax error, line `' + this.line + '`, syntax error or tuncated expression';
+
+		/*---------------------------------------------------------*/
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	parseY: function()
 	{
 		/*---------------------------------------------------------*/
 		/* X : Group | FunVar | Terminal                           */
@@ -773,7 +724,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 		/*        | SID ('.' SID)*                                 */
 		/*---------------------------------------------------------*/
 
-		var qid = '_.';
+		var qid = '.';
 
 		if(this.tokenizer.checkType(ami.twig.expr.tokens.SID))
 		{
@@ -815,7 +766,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 					throw 'syntax error, line `' + this.line + '`, `)` expected';
 				}
 
-				var result = new ami.twig.expr.Node(ami.twig.expr.tokens.VAR, qid);
+				var result = new ami.twig.expr.Node(ami.twig.expr.tokens.FUN, 'ami.twig.stdlib' + qid);
 				result.list = L;
 				return result;
 			}
@@ -839,14 +790,14 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 					throw 'syntax error, line `' + this.line + '`, `]` expected';
 				}
 
-				var result = new ami.twig.expr.Node(ami.twig.expr.tokens.VAR, qid);
+				var result = new ami.twig.expr.Node(ami.twig.expr.tokens.VAR, ((((((('_'))))))) + qid);
 				result.list = L;
 				return result;
 			}
 
 			/*-------------------------------------------------*/
 
-			return new ami.twig.expr.Node(ami.twig.expr.tokens.VAR, qid);
+			return new ami.twig.expr.Node(ami.twig.expr.tokens.VAR, ((((((('_'))))))) + qid);
 
 			/*-------------------------------------------------*/
 		}
@@ -884,39 +835,7 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 	parseTerminal: function()
 	{
 		/*---------------------------------------------------------*/
-		/* Terminal : NUM | STR                                    */
-		/*---------------------------------------------------------*/
-
-		if(this.tokenizer.checkType(ami.twig.expr.tokens.TERMINAL))
-		{
-			var node = new ami.twig.expr.Node(this.tokenizer.peekType(), this.tokenizer.peekToken());
-			this.tokenizer.next();
-
-			return node;
-		}
-
-		/*---------------------------------------------------------*/
-
-		return null;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	parseRange: function()
-	{
-		/*---------------------------------------------------------*/
-		/* Range : FunVar                                          */
-		/*---------------------------------------------------------*/
-
-		var node = this.parseFunVar();
-
-		if(node !== null)
-		{
-			return node;
-		}
-
-		/*---------------------------------------------------------*/
-		/* Range : Terminal '..' Terminal                          */
+		/* Terminal : TERMINAL | RANGE                             */
 		/*---------------------------------------------------------*/
 
 		if(this.tokenizer.checkType(ami.twig.expr.tokens.TERMINAL))
@@ -940,13 +859,15 @@ $AMIClass('ami.twig.expr.Compiler', /** @lends ami/twig/expr/Compiler# */ {
 					return node;
 				}
 			}
+			else
+			{
+				return left;
+			}
 		}
 
 		/*---------------------------------------------------------*/
 
-		throw 'syntax error, line `' + this.line + '`, invalid range';
-
-		/*---------------------------------------------------------*/
+		return null;
 	},
 
 	/*-----------------------------------------------------------------*/

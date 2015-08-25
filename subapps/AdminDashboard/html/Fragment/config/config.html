@@ -4,7 +4,7 @@
     <li class="active"><a href="#ami_config_form1" data-toggle="tab">General</a></li>
     <li class="xxxxxx"><a href="#ami_config_form2" data-toggle="tab">Connections</a></li>
     <li class="xxxxxx"><a href="#ami_config_form3" data-toggle="tab">Logs</a></li>
-    <li class="xxxxxx"><a href="#ami_config_form4" data-toggle="tab">Other</a></li>
+    <li class="xxxxxx"><a href="#ami_config_form4" data-toggle="tab">Misc.</a></li>
   </ul>
 
   <div class="tab-content">
@@ -17,25 +17,25 @@
 
         <div class="form-group">
           <label for="ami_config_forms_host" class="control-label">host</label>
-          <input type="text" class="form-control" id="ami_config_forms_host" disabled="disabled" />
+          <input type="text" class="form-control" id="ami_config_forms_host" readonly="readonly" />
         </div>
 
         <div class="form-group">
           <label for="ami_config_forms_agent" class="control-label">agent</label>
-          <input type="text" class="form-control" id="ami_config_forms_agent" disabled="disabled" />
+          <input type="text" class="form-control" id="ami_config_forms_agent" readonly="readonly" />
         </div>
 
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label for="ami_config_forms_admin_user" class="control-label">admin_user</label>
-              <input type="text" class="form-control" id="ami_config_forms_admin_user" disabled="disabled" />
+              <input type="text" class="form-control" id="ami_config_forms_admin_user" readonly="readonly" />
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="ami_config_forms_admin_pass" class="control-label">admin_pass</label>
-              <input type="password" class="form-control" id="ami_config_forms_admin_pass" disabled="disabled" />
+              <input type="password" class="form-control" id="ami_config_forms_admin_pass" readonly="readonly" />
             </div>
           </div>
         </div>
@@ -44,20 +44,20 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="ami_config_forms_guest_user" class="control-label">guest_user</label>
-              <input type="text" class="form-control" id="ami_config_forms_guest_user" disabled="disabled" />
+              <input type="text" class="form-control" id="ami_config_forms_guest_user" readonly="readonly" />
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="ami_config_forms_guest_pass" class="control-label">guest_pass</label>
-              <input type="password" class="form-control" id="ami_config_forms_guest_pass" disabled="disabled" />
+              <input type="password" class="form-control" id="ami_config_forms_guest_pass" readonly="readonly" />
             </div>
           </div>
         </div>
 
         <div class="form-group">
           <label for="ami_config_forms_encryption_key" class="control-label">encryption_key</label>
-          <input type="password" class="form-control" id="ami_config_forms_encryption_key" disabled="disabled" />
+          <input type="password" class="form-control" id="ami_config_forms_encryption_key" readonly="readonly" />
         </div>
 
       </div>
@@ -68,20 +68,20 @@
 
         <div class="form-group">
           <label for="ami_config_forms_jdbc_url" class="control-label">jdbc_url</label>
-          <input type="text" class="form-control" id="ami_config_forms_jdbc_url" disabled="disabled" />
+          <input type="text" class="form-control" id="ami_config_forms_jdbc_url" readonly="readonly" />
         </div>
 
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label for="ami_config_forms_router_user" class="control-label">router_user</label>
-              <input type="text" class="form-control" id="ami_config_forms_router_user" disabled="disabled" />
+              <input type="text" class="form-control" id="ami_config_forms_router_user" readonly="readonly" />
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="ami_config_forms_router_pass" class="control-label">router_pass</label>
-              <input type="password" class="form-control" id="ami_config_forms_router_pass" disabled="disabled" />
+              <input type="password" class="form-control" id="ami_config_forms_router_pass" readonly="readonly" />
             </div>
           </div>
         </div>
@@ -98,42 +98,42 @@
 
         <div class="form-group">
           <label for="ami_config_forms_initial_size" class="control-label">initial_size</label>
-          <input type="number" min="0" value="10" name="initial_size" class="form-control" id="ami_config_initial_size" />
+          <input type="number" min="0" value="10" name="initial_size" class="form-control" id="ami_config_forms_initial_size" />
         </div>
 
         <div class="form-group">
           <label for="ami_config_forms_max_active" class="control-label">max_active</label>
-          <input type="number" min="0" value="100" name="max_active"class="form-control" id="ami_config_max_active" />
+          <input type="number" min="0" value="100" name="max_active"class="form-control" id="ami_config_forms_max_active" />
         </div>
 
         <div class="form-group">
           <label for="ami_config_forms_min_idle" class="control-label">min_idle</label>
-          <input type="number" min="0" value="10" name="min_idle" class="form-control" id="ami_config_min_idle" />
+          <input type="number" min="0" value="10" name="min_idle" class="form-control" id="ami_config_forms_min_idle" />
         </div>
 
         <div class="form-group">
           <label for="ami_config_forms_max_idle" class="control-label">max_idle</label>
-          <input type="number" min="0" value="100" name="max_idle" class="form-control" id="ami_config_max_idle" />
+          <input type="number" min="0" value="100" name="max_idle" class="form-control" id="ami_config_forms_max_idle" />
         </div>
 
         <div class="form-group">
           <label for="ami_config_forms_time_between_eviction_runs_millis" class="control-label">time_between_eviction_runs_millis</label>
-          <input type="number" min="0" value="5000" name="time_between_eviction_runs_millis" class="form-control" id="ami_config_time_between_eviction_runs_millis" />
+          <input type="number" min="0" value="5000" name="time_between_eviction_runs_millis" class="form-control" id="ami_config_forms_time_between_eviction_runs_millis" />
         </div>
 
         <div class="form-group">
           <label for="ami_config_forms_min_evictable_idle_time_millis" class="control-label">min_evictable_idle_time_millis</label>
-          <input type="number" min="0" value="30000" name="min_evictable_idle_time_millis" class="form-control" id="ami_config_min_evictable_idle_time_millis" />
+          <input type="number" min="0" value="30000" name="min_evictable_idle_time_millis" class="form-control" id="ami_config_forms_min_evictable_idle_time_millis" />
         </div>
 
         <div class="form-group">
           <label for="ami_config_forms_validation_interval" class="control-label">validation_interval</label>
-          <input type="number" min="0" value="30000" name="validation_interval" class="form-control" id="ami_config_validation_interval" />
+          <input type="number" min="0" value="30000" name="validation_interval" class="form-control" id="ami_config_forms_validation_interval" />
         </div>
 
         <div class="form-group">
           <label for="ami_config_forms_max_wait" class="control-label">max_wait</label>
-          <input type="number" min="0" value="10000" name="max_wait" class="form-control" id="ami_config_max_wait" />
+          <input type="number" min="0" value="10000" name="max_wait" class="form-control" id="ami_config_forms_max_wait" />
         </div>
 
       </div>
@@ -153,11 +153,11 @@
 
         <div class="form-group">
           <label for="ami_config_forms_email_port" class="control-label">email_port</label>
-          <input type="number" min="0" name="email_port" class="form-control" id="ami_config_forms_email_port" />
+          <input type="number" min="0" max="65535" name="email_port" class="form-control" id="ami_config_forms_email_port" />
         </div>
 
         <div class="form-group">
-          <label for="ami_config_forms_email_port" class="control-label">email_mode</label>
+          <label for="ami_config_forms_email_mode" class="control-label">email_mode</label>
           <select name="email_mode" class="form-control ami-select" id="ami_config_forms_email_mode">
             <option value="0">NONE</value>
             <option value="1">SSL/TLS</value>
@@ -185,7 +185,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="input-group">
-              <input type="text" class="form-control" id="ami_config_forms_test_email" placeholder="Test email" />
+              <input type="email" class="form-control" id="ami_config_forms_test_email" placeholder="Test email" />
               <span class="input-group-btn">
                 <button class="btn btn-default" onclick="amiConfigurationApp.testEmail();">
                   <i class="fa fa-check"></i>
@@ -256,8 +256,7 @@
 
       <h2>Custom <a href="javascript:amiAdminDashboardApp.app.addParameter();"><i class="fa fa-plus-circle"></i></a></h2>
 
-      <div class="ami-callout custom">
-      </div>
+      <div class="ami-callout"></div>
 
     </div>
 

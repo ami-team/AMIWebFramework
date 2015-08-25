@@ -7,43 +7,67 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* AMITwig                                                                 */
+/* ami.twig                                                                */
 /*-------------------------------------------------------------------------*/
 
-var amiTwig = {
+$AMINamespace('ami.twig', /** @lends ami/twig# */ {
 	/*-----------------------------------------------------------------*/
 
-	STATEMENT_RE: /\{\%\s*([a-zA-Z_][a-zA-Z0-9_]*)(.*?)\%\}/m,
+	STATEMENT_RE: /\{\%\s*([a-zA-Z]+)\s*(.*?)\s*\%\}/m,
 
-	VARIABLE_RE: /\%\%\s*([a-zA-Z_][a-zA-Z0-9_]*)(?:\.([a-zA-Z_][a-zA-Z0-9_]*))?\s*\%\%/g,
-
-	/*-----------------------------------------------------------------*/
-
-	STACK_IF_NO: 0,
-	STACK_IF_LOCK: 1,
-	STACK_IF_UNLOCK: 2,
-	STACK_FOR: 3,
-	STACK_FILTER: 4,
-	STACK_0: 5,
+	VARIABLE_RE: /\{\{\s*(.*?)\s*\}\}/g,
 
 	/*-----------------------------------------------------------------*/
 
-	haveToBeShown: function(stateStack, lastIndex) {
+	STACK_ITEM_IF_TRY_AGAIN: 0,
+	STACK_ITEM_IF_TRUE_DONE: 1,
+	STACK_ITEM_IF_TRUE_TODO: 2,
+	STACK_ITEM_FOR: 3,
+	STACK_ITEM_FILTER: 4,
+	STACK_ITEM_0: 5,
+
+	/*-----------------------------------------------------------------*/
+
+	_newStackItem: function(type, symb, iter)
+	{
+		if(!symb) {
+			symb = (null);
+		}
+
+		if(!iter) {
+			iter = [null];
+		}
+
+		return {
+			type: type,
+			symb: symb,
+			iter: iter,
+		};
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_hasToBeShown: function(stack)
+	{
 		/*---------------------------------------------------------*/
 
-		if(stateStack[lastIndex] === this.STACK_IF_NO
+		var lastIndex = stack.length - 1;
+
+		/*---------------------------------------------------------*/
+
+		if(stack[lastIndex].type === this.STACK_ITEM_IF_TRY_AGAIN
 		   ||
-		   stateStack[lastIndex] === this.STACK_IF_LOCK
+		   stack[lastIndex].type === this.STACK_ITEM_IF_TRUE_DONE
 		 ) {
 			return false;
 		}
 
 		/*---------------------------------------------------------*/
 
-		for(var i = 0; i < lastIndex; i++) {
-
-			if(stateStack[i] === this.STACK_IF_NO) {
-
+		for(var i = 0; i < lastIndex; i++)
+		{
+			if(stack[i].type === this.STACK_ITEM_IF_TRY_AGAIN)
+			{
 				return false;
 			}
 		}
@@ -55,26 +79,32 @@ var amiTwig = {
 
 	/*-----------------------------------------------------------------*/
 
-	error: function(line, s) {
-
-		throw 'syntax error, line `' + line + '`, ' + s;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	render: function(s, dict) {
-
-		dict = dict || {};
-
+	render: function(s, dict)
+	{
 		var result = '';
 
-		var stateStack = [this.STACK_0];
-		var iterStack = [[   null   ]];
-		var varStack = [    null    ];
+		var stack = [];
 
 		var line = 1;
 
-		for(;; s = s.substr(COLUMN_NR)) {
+		/*---------------------------------------------------------*/
+		/*                                                         */
+		/*---------------------------------------------------------*/
+
+		stack.push(this._newStackItem(this.STACK_ITEM_0));
+
+		/*---------------------------------------------------------*/
+		/*                                                         */
+		/*---------------------------------------------------------*/
+
+		for(;; s = s.substr(COLUMN_NR))
+		{
+			/*-------------------------------------------------*/
+			/*                                                 */
+			/*-------------------------------------------------*/
+
+			var lastStackItem = stack[stack.length - 1];
+
 			/*-------------------------------------------------*/
 			/*                                                 */
 			/*-------------------------------------------------*/
@@ -82,23 +112,17 @@ var amiTwig = {
 			var m = s.match(this.STATEMENT_RE);
 
 			/*-------------------------------------------------*/
-			/*                                                 */
-			/*-------------------------------------------------*/
 
-			var lastIndex = stateStack.length - 1;
-
-			/*-------------------------------------------------*/
-			/*                                                 */
-			/*-------------------------------------------------*/
-
-			if(m === null) {
+			if(m === null)
+			{
 				/*-----------------------------------------*/
 				/* GET LINE NUMBER                         */
 				/*-----------------------------------------*/
 
-				for(var i = 0; i < s.length; i++) {
-
-					if(s.charAt(i) === '\n') {
+				for(var i in s)
+				{
+					if(s[i] === '\n')
+					{
 						line++;
 					}
 				}
@@ -107,15 +131,13 @@ var amiTwig = {
 				/* GENERATE HTML                           */
 				/*-----------------------------------------*/
 
-				if(this.haveToBeShown(stateStack, lastIndex)) {
+				if(this._hasToBeShown(stack))
+				{
+					result += s.replace(this.VARIABLE_RE, function(match, expression) {
 
-					result += s.replace(this.VARIABLE_RE, function(match, name, field) {
+						var EXPRESSION = new ami.twig.expr.Compiler(expression, line);
 
-						if(!field) {
-							return dict[name];
-						} else {
-							return dict[name][field];
-						}
+						return ami.twig.expr.interpreter.eval(EXPRESSION, dict);
 					});
 				}
 
@@ -125,30 +147,31 @@ var amiTwig = {
 
 				var msg = [];
 
-				for(var i = 1; i < stateStack.length; i++) {
+				for(var i = 1; i < stack.length; i++)
+				{
+					var x = stack[i].type;
 
-					var x = stateStack[i];
-
-					/*****/ if(x === this.STACK_IF_NO
-					           ||
-					           x === this.STACK_IF_LOCK
-					           ||
-					           x === this.STACK_IF_UNLOCK
+					/**/ if(x === this.STACK_ITEM_IF_TRY_AGAIN
+					        ||
+					        x === this.STACK_ITEM_IF_TRUE_DONE
+					        ||
+					        x === this.STACK_ITEM_IF_TRUE_TODO
 					 ) {
-					 	msg.push('missing `endif`');
-
-					 } else if(x === this.STACK_FOR) {
-
-					 	msg.push('missing `endfor`');
-
-					 } else if(x === this.STACK_FILTER) {
-
-					 	msg.push('missing `endfilter`');
+					 	msg.push('missing keyword `endif`');
+					 }
+					 else if(x === this.STACK_ITEM_FOR)
+					 {
+					 	msg.push('missing keyword `endfor`');
+					 }
+					 else if(x === this.STACK_ITEM_FILTER)
+					 {
+					 	msg.push('missing keyword `endfilter`');
 					 }
 				}
 
-				if(msg.length > 0) {
-					this.error(line, msg.join(', '));
+				if(msg.length > 0)
+				{
+					throw 'syntax error, line `' + line + '`, ' + msg.join(', ');
 				}
 
 				/*-----------------------------------------*/
@@ -157,59 +180,63 @@ var amiTwig = {
 			}
 
 			/*-------------------------------------------------*/
-			/* GET NAME AND EXPRESSION                         */
-			/*-------------------------------------------------*/
 
-			var name = m[1];
-			var expr = m[2];
+			var match = m[0];
+			var keyword = m[1];
+			var expression = m[2];
 
 			/*-------------------------------------------------*/
 			/* GET POSITION AND LINE NUMBER                    */
 			/*-------------------------------------------------*/
 
-			var column_nr = m.index;
-			var COLUMN_NR = m.index;
+			var column_nr = m.index + 0x0000000000;
+			var COLUMN_NR = m.index + match.length;
 
-			COLUMN_NR += m[0].length;
-
-			for(var i = 0; i < COLUMN_NR; i++) {
-
-				if(s.charAt(i) === '\n') {
+			for(var i in match)
+			{
+				if(match[i] === '\n')
+				{
 					line++;
 				}
 			}
 
 			/*-------------------------------------------------*/
-			/* TOKENIZE                                        */
-			/*-------------------------------------------------*/
-
-			var tokens = amiTokenizer.tokenize(
-				m[2],
-				[' ', '\t', '\n'],
-				['b-or', 'b-xor', 'b-and', '===', '==', '!==', '!=', '=', '<=', '>=', '<', '>', '+', '-', '**', '*', '//', '/', '..', '.', '|', '(', ')'],
-				['\'', '\"'],
-				'\\',
-				line
-			);
-
-			/*-------------------------------------------------*/
 			/* GENERATE HTML                                   */
 			/*-------------------------------------------------*/
 
-			if(this.haveToBeShown(stateStack, lastIndex)) {
+			if(this._hasToBeShown(stack))
+			{
+				var SYMB = lastStackItem.symb;
+				var ITER = lastStackItem.iter;
 
-				var NAME = varStack[varStack.length - 1];
-				var VALUE = iterStack[iterStack.length - 1];
+				if(SYMB)
+				{
+					var DICT = {};
 
-				for(var i = 0; i < VALUE.length; i++) {
+					for(var symb in dict)
+					{
+						DICT[symb] = dict[symb];
+					}
 
-					result += s.substr(0, column_nr).replace(this.VARIABLE_RE, function(match, name, field) {
+					for(var i in ITER)
+					{
+						DICT[SYMB] = ITER[i];
 
-						if(!field) {
-							return (name === NAME) ? VALUE[i] : dict[name];
-						} else {
-							return (name === NAME) ? VALUE[i][field] : dict[name][field];
-						}
+						result += s.substr(0, column_nr).replace(this.VARIABLE_RE, function(match, expression) {
+
+							var EXPRESSION = new ami.twig.expr.Compiler(expression, line);
+
+							return ami.twig.expr.interpreter.eval(EXPRESSION, DICT);
+						});
+					}
+				}
+				else
+				{
+					result += s.substr(0, column_nr).replace(this.VARIABLE_RE, function(match, expression) {
+
+						var EXPRESSION = new ami.twig.expr.Compiler(expression, line);
+
+						return ami.twig.expr.interpreter.eval(EXPRESSION, dict);
 					});
 				}
 			}
@@ -218,39 +245,33 @@ var amiTwig = {
 			/* IF KEYWORD                                      */
 			/*-------------------------------------------------*/
 
-			/***/ if(name === 'if') {
-
-				amiTwigExprCompiler.parse(tokens, line);
-
-				if(false) {
-
-					stateStack.push(this.STACK_IF_NO);
-					iterStack.push([null]);
-					varStack.push(null);
-				} else {
-					stateStack.push(this.STACK_IF_UNLOCK);
-					iterStack.push([null]);
-					varStack.push(null);
-				}
+			/**/ if(keyword === 'if')
+			{
+				stack.push(this._newStackItem(ami.twig.expr.interpreter.eval(new ami.twig.expr.Compiler(expression, line), dict) ? this.STACK_ITEM_IF_TRUE_TODO : this.STACK_ITEM_IF_TRY_AGAIN));
 			}
 
 			/*-------------------------------------------------*/
 			/* ELSEIF KEYWORD                                  */
 			/*-------------------------------------------------*/
 
-			else if(name === 'elseif') {
+			else if(keyword === 'elseif')
+			{
+				if(lastStackItem.type !== this.STACK_ITEM_IF_TRY_AGAIN
+				   &&
+				   lastStackItem.type !== this.STACK_ITEM_IF_TRUE_DONE
+				   &&
+				   lastStackItem.type !== this.STACK_ITEM_IF_TRUE_TODO
+				 ) {
+					throw 'syntax error, line `' + line + '`, missing keyword `if`';
+				}
 
-				/****/ if(stateStack[lastIndex] === this.STACK_IF_NO) {
-
-					if(false) {
-						stateStack[lastIndex] = this.STACK_IF_NO;
-					} else {
-						stateStack[lastIndex] = this.STACK_IF_UNLOCK;
-					}
-
-				} else if(stateStack[lastIndex] === this.STACK_IF_UNLOCK) {
-
-					stateStack[lastIndex] = this.STACK_IF_LOCK;
+				/**/ if(lastStackItem.type === this.STACK_ITEM_IF_TRY_AGAIN)
+				{
+					lastStackItem.type = ami.twig.expr.interpreter.eval(new ami.twig.expr.Compiler(expression, line), dict) ? this.STACK_ITEM_IF_TRUE_TODO : this.STACK_ITEM_IF_TRY_AGAIN;
+				}
+				else if(lastStackItem.type === this.STACK_ITEM_IF_TRUE_TODO)
+				{
+					lastStackItem.type = this.STACK_ITEM_IF_TRUE_DONE;
 				}
 			}
 
@@ -258,15 +279,24 @@ var amiTwig = {
 			/* ELSE KEYWORD                                    */
 			/*-------------------------------------------------*/
 
-			else if(name === 'else') {
+			else if(keyword === 'else')
+			{
+				if(lastStackItem.type !== this.STACK_ITEM_IF_TRY_AGAIN
+				   &&
+				   lastStackItem.type !== this.STACK_ITEM_IF_TRUE_DONE
+				   &&
+				   lastStackItem.type !== this.STACK_ITEM_IF_TRUE_TODO
+				 ) {
+					throw 'syntax error, line `' + line + '`, missing keyword `if`';
+				}
 
-				/****/ if(stateStack[lastIndex] === this.STACK_IF_NO) {
-
-					stateStack[lastIndex] = this.STACK_IF_UNLOCK;
-
-				} else if(stateStack[lastIndex] === this.STACK_IF_UNLOCK) {
-
-					stateStack[lastIndex] = this.STACK_IF_LOCK;
+				/**/ if(lastStackItem.type === this.STACK_ITEM_IF_TRY_AGAIN)
+				{
+					lastStackItem.type = this.STACK_ITEM_IF_TRUE_TODO;
+				}
+				else if(lastStackItem.type === this.STACK_ITEM_IF_TRUE_TODO)
+				{
+					lastStackItem.type = this.STACK_ITEM_IF_TRUE_DONE;
 				}
 			}
 
@@ -274,131 +304,109 @@ var amiTwig = {
 			/* ENDIF KEYWORD                                   */
 			/*-------------------------------------------------*/
 
-			else if(name === 'endif') {
-
-				var last = stateStack[lastIndex];
-
-				if(last !== this.STACK_IF_NO
+			else if(keyword === 'endif')
+			{
+				if(lastStackItem.type !== this.STACK_ITEM_IF_TRY_AGAIN
 				   &&
-				   last !== this.STACK_IF_LOCK
+				   lastStackItem.type !== this.STACK_ITEM_IF_TRUE_DONE
 				   &&
-				   last !== this.STACK_IF_UNLOCK
+				   lastStackItem.type !== this.STACK_ITEM_IF_TRUE_TODO
 				 ) {
-					this.error(line, 'missing `if`');
+					throw 'syntax error, line `' + line + '`, missing keyword `if`';
 				}
 
-				stateStack.pop();
-				iterStack.pop();
-				varStack.pop();
-			}
-
-			/*-------------------------------------------------*/
-			/* FOR KEYWORD                                     */
-			/*-------------------------------------------------*/
-
-			else if(name === 'for') {
-
-				var _iter = [/******/];
-				var _var = tokens[0];
-
-				/****/ if(tokens.length === 3 && tokens[1] === 'in' && _ami_internal_ami_internal_isSId(tokens[0]) && _ami_internal_isSId(tokens[2])) {
-
-					if(tokens[2] in dict) {
-						_iter = dict[tokens[2]];
-					}
-
-				} else if(tokens.length === 5 && tokens[1] === 'in' && _ami_internal_isSId(tokens[0]) && tokens[3] === '..') {
-
-					var n1 = parseInt(tokens[2]);
-					var n2 = parseInt(tokens[4]);
-
-					/****/ if(!isNaN(n1)
-					          &&
-					          !isNaN(n2)
-					 ) {
-						for(var j = n1; j <= n2; j++) {
-							_iter.push(j);
-						}
-			
-					} else if(tokens[2].length === 3 && tokens[2][0] === '\'' && tokens[2][2] === '\''
-					          &&
-						  tokens[4].length === 3 && tokens[4][0] === '\'' && tokens[4][2] === '\''
-					 ) {
-						for(var j = tokens[2].charCodeAt(1); j <= tokens[4].charCodeAt(1); j++) {
-							_iter.push(String.fromCharCode(j));
-						}
-
-					} else {
-						this.error(line, 'syntax error in `range`');
-					}
-
-				} else {
-					this.error(line, 'syntax error in `for`');
-				}
-
-				stateStack.push(this.STACK_FOR);
-				iterStack.push(_iter);
-				varStack.push(_var);
-			}
-
-			/*-------------------------------------------------*/
-			/* ENDFOR KEYWORD                                  */
-			/*-------------------------------------------------*/
-
-			else if(name === 'endfor') {
-
-				var last = stateStack[lastIndex];
-
-				if(last !== this.STACK_FOR) {
-					this.error(line, 'missing `for`');
-				}
-
-				stateStack.pop();
-				iterStack.pop();
-				varStack.pop();
+				stack.pop();
 			}
 
 			/*-------------------------------------------------*/
 			/* FILTER KEYWORD                                  */
 			/*-------------------------------------------------*/
 
-			else if(name === 'filter') {
+			else if(keyword === 'for')
+			{
+				/*-----------------------------------------*/
 
-				stateStack.push(this.STACK_FILTER);
-				iterStack.push([null]);
-				varStack.push(null);
+				var parts = expression.split('in');
+
+				/*-----------------------------------------*/
+
+				var symb = parts[0].trim();
+
+				var iter = ami.twig.expr.interpreter.eval(
+					new ami.twig.expr.Compiler(parts[1].trim(), line), dict
+				);
+
+				/*-----------------------------------------*/
+
+				if(!(iter instanceof Array)
+				   &&
+				   !(iter instanceof Object)
+			           &&
+				   !(typeof(iter) === 'string')
+				 ) {
+					throw 'runtime error, line `' + line + '`, `' + symb + '` must be iterable';
+				}
+
+				/*-----------------------------------------*/
+
+				stack.push(this._newStackItem(this.STACK_ITEM_FOR, symb, iter));
+
+				/*-----------------------------------------*/
+			}
+
+			/*-------------------------------------------------*/
+			/* ENDFOR KEYWORD                                  */
+			/*-------------------------------------------------*/
+
+			else if(keyword === 'endfor')
+			{
+				if(lastStackItem.type !== this.STACK_ITEM_FOR)
+				{
+					throw 'syntax error, line `' + line + '`, missing keyword `for`';
+				}
+
+				stack.pop();
+			}
+
+			/*-------------------------------------------------*/
+			/* FILTER KEYWORD                                  */
+			/*-------------------------------------------------*/
+
+			else if(keyword === 'filter')
+			{
+				stack.push(this._newStackItem(this.STACK_ITEM_FILTER));
 			}
 
 			/*-------------------------------------------------*/
 			/* ENDFILTER KEYWORD                               */
 			/*-------------------------------------------------*/
 
-			else if(name === 'endfilter') {
-
-				var last = stateStack[lastIndex];
-
-				if(last !== this.STACK_FILTER) {
-					this.error(line, 'missing `filter`');
+			else if(keyword === 'endfilter')
+			{
+				if(lastStackItem.type !== this.STACK_ITEM_FILTER)
+				{
+					throw 'syntax error, line `' + line + '`, missing keyword `filter`';
 				}
 
-				stateStack.pop();
-				iterStack.pop();
-				varStack.pop();
+				stack.pop();
 			}
 
 			/*-------------------------------------------------*/
 			/* UNKNOWN KEYWORD                                 */
 			/*-------------------------------------------------*/
 
-			else {
-				this.error(line, 'unknown keyword `' + name + '`');
+			else
+			{
+				throw 'syntax error, line `' + line + '`, unknown keyword `' + keyword + '`';
 			}
 
 			/*-------------------------------------------------*/
 		}
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
-};
+});
 
 /*-------------------------------------------------------------------------*/
