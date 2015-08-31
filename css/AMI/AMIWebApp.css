@@ -156,9 +156,9 @@ code {
 	background-color: #F5F5F5;
 	background-image: url("../../images/stripe2.png");
 
-	border-radius: 0 0 6px 6px;
-	-moz-border-radius: 0 0 6px 6px;
 	-webkit-border-radius: 0 0 6px 6px;
+	-moz-border-radius: 0 0 6px 6px;
+	border-radius: 0 0 6px 6px;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -166,11 +166,8 @@ code {
 /*-------------------------------------------------------------------------*/
 
 .ami-callout {
-	-moz-border-bottom-colors: none;
-	-moz-border-left-colors: none;
-	-moz-border-right-colors: none;
-	-moz-border-top-colors: none;
-	border-color: #558ABB;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
 	border-radius: 6px;
 	border-style: solid;
 	border-width: 1px 1px 1px 5px;
@@ -189,9 +186,9 @@ code {
 
 	border: solid 2px rgb(211, 211, 211);
 
-	border-radius: 4px;
-	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
 
 	background-image: url("../../images/guilloche.gif");
 	background-position: center center;

@@ -43,41 +43,6 @@
 			<arg value="js/AMI/AMILogin.min.js" />
 		</java>
 
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/AMITokenizer.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/AMITokenizer.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/twig/AMITwigExprCompiler.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/twig/AMITwigExprCompiler.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/twig/AMITwigExprInterpreter.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/twig/AMITwigExprInterpreter.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/twig/AMITwigStdLib.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/twig/AMITwigStdLib.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/twig/AMITwig.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/twig/AMITwig.min.js" />
-		</java>
-
 	</target>
 
 	<target name="compile_debug" description="Compile the project (debug mode).">
@@ -87,11 +52,6 @@
 		<copy file="js/AMI/AMIObjects.js" tofile="js/AMI/AMIObjects.min.js" overwrite="true" force="true" />
 		<copy file="js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
 		<copy file="js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
-		<copy file="js/AMI/AMITokenizer.js" tofile="js/AMI/AMITokenizer.min.js" overwrite="true" force="true" />
-		<copy file="js/AMI/twig/AMITwigExprCompiler.js" tofile="js/AMI/twig/AMITwigExprCompiler.min.js" overwrite="true" force="true" />
-		<copy file="js/AMI/twig/AMITwigExprInterpreter.js" tofile="js/AMI/twig/AMITwigExprInterpreter.min.js" overwrite="true" force="true" />
-		<copy file="js/AMI/twig/AMITwigStdLib.js" tofile="js/AMI/twig/AMITwigStdLib.min.js" overwrite="true" force="true" />
-		<copy file="js/AMI/twig/AMITwig.js" tofile="js/AMI/twig/AMITwig.min.js" overwrite="true" force="true" />
 
 	</target>
 
@@ -101,11 +61,6 @@
 		<delete file="js/AMI/AMIWebApp.min.js" />
 		<delete file="js/AMI/AMICommand.min.js" />
 		<delete file="js/AMI/AMILogin.min.js" />
-		<delete file="js/AMI/AMITokenizer.min.js" />
-		<delete file="js/AMI/twig/AMITwigExprCompiler.min.js" />
-		<delete file="js/AMI/twig/AMITwigExprInterpreter.min.js" />
-		<delete file="js/AMI/twig/AMITwigStdLib.min.js" />
-		<delete file="js/AMI/twig/AMITwig.min.js" />
 
 	</target>
 
@@ -117,7 +72,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMICommand.js js/AMI/AMILogin.js js/AMI/AMITokenizer.js js/AMI/twig/AMITwigExprCompiler.js js/AMI/twig/AMITwigExprInterpreter.js > js/AMI/api.min.json" />
+			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMICommand.js js/AMI/AMILogin.js > js/AMI/api.min.json" />
 		</exec>
 
 	</target>

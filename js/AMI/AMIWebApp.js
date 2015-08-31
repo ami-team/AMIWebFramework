@@ -87,17 +87,12 @@ var amiWebApp = {
 		this.loadScripts([
 			/* Third-party */
 			'js/jspath.min.js',
+			'js/ami-twig.min.js',
 			'js/bootstrap.min.js',
 			/* AMI */
 			'js/AMI/AMIObjects.min.js',
 			'js/AMI/AMICommand.min.js',
 			'js/AMI/AMILogin.min.js',
-			'js/AMI/AMITokenizer.min.js',
-			/* TWIG */
-			'js/AMI/twig/AMITwig.min.js',
-			'js/AMI/twig/AMITwigStdLib.min.js',
-			'js/AMI/twig/AMITwigExprCompiler.min.js',
-			'js/AMI/twig/AMITwigExprInterpreter.min.js',
 		]).fail(function(data) {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
@@ -435,7 +430,7 @@ var amiWebApp = {
 
 	_loadHTMLs: function(deferred, array, fragments, context)
 	{
-		if(fragments)
+		if(fragments.length > 0)
 		{
 			var url = fragments.shift();
 
@@ -720,14 +715,14 @@ var amiWebApp = {
 
 			for(var i in dict)
 			{
-				result += ami.twig.render(html, dict[i]);
+				result += ami.twig.engine.render(html, dict[i]);
 			}
 
 			return result;
 		}
 		else
 		{
-			return ami.twig.render(html, dict);
+			return ami.twig.engine.render(html, dict);
 		}
 	},
 
