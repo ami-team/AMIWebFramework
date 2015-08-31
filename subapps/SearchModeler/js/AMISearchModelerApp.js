@@ -10,11 +10,15 @@
 /* CLASS AMISearchModelerApp                                               */
 /*-------------------------------------------------------------------------*/
 
-function AMISearchModelerApp() {
+$AMIClass('AMISearchModelerApp', {
 	/*-----------------------------------------------------------------*/
 
-	this.onReady = function(userdata) {
+	$implements: [ami.ISubApp],
 
+	/*-----------------------------------------------------------------*/
+
+	onReady: function(userdata)
+	{
 		var result = $.Deferred();
 
 		amiWebApp.loadSheets([
@@ -47,39 +51,42 @@ function AMISearchModelerApp() {
 		});
 
 		return result;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onExit = function() {
-	};
+	onExit: function()
+	{
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogin = function() {
-
-		if(!$('#ami_search_modeler_interface_list').html().trim()) {
-
+	onLogin: function()
+	{
+		if(!$('#ami_search_modeler_interface_list').html().trim())
+		{
 			this.getInterfaceList('#ami_search_modeler_interface_list');
 
 			this.getCatalogs('#ami_search_modeler_interface_catalog');
 		}
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogout = function() {
-	};
+	onLogout: function()
+	{
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onSessionExpired = function() {
-	};
+	onSessionExpired: function()
+	{
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.getInterfaceList = function(dst) {
-
+	getInterfaceList: function(dst)
+	{
 		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `id`, `interface`, `catalog`, `entity` FROM `router_search_interface`"', {context: this}).done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
@@ -103,12 +110,12 @@ function AMISearchModelerApp() {
 
 			amiWebApp.replaceHTML(dst, this.fragmentInterface, {dict: dict});
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.getCatalogs = function(dst, defaultCatalog) {
-
+	getCatalogs: function(dst, defaultCatalog)
+	{
 		amiWebApp.lock();
 
 		$(dst).empty();
@@ -125,25 +132,28 @@ function AMISearchModelerApp() {
 
 				if(catalog !== defaultCatalog) {
 					s += '<option value="' + catalog + '">' + catalog + '</option>';
-				} else {
+				}
+				else {
 					s += '<option value="' + catalog + '" selected="selected">' + catalog + '</option>';
 				}
 			});
 
 			$(dst).html(s).promise().done(function() {
+
 				amiWebApp.unlock();
 			});
 
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.getEntities = function(dst, catalog, defaultEntity) {
-
-		if(!catalog) {
+	getEntities: function(dst, catalog, defaultEntity)
+	{
+		if(!catalog)
+		{
 			return;
 		}
 
@@ -163,24 +173,26 @@ function AMISearchModelerApp() {
 
 				if(entity !== defaultEntity) {
 					s += '<option value="' + entity + '">' + entity + '</option>';
-				} else {
+				}
+				else {
 					s += '<option value="' + entity + '" selected="selected">' + entity + '</option>';
 				}
 			});
 
 			$(dst).html(s).promise().done(function() {
+
 				amiWebApp.unlock();
 			});
 
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.getFields = function(dst, catalog, entity, defaultField) {
-
+	getFields: function(dst, catalog, entity, defaultField)
+	{
 		if(!catalog
 		   ||
 		   !entity
@@ -204,27 +216,29 @@ function AMISearchModelerApp() {
 
 				if(field !== defaultField) {
 					s += '<option value="' + field + '">' + field + '</option>';
-				} else {
+				}
+				else {
 					s += '<option value="' + field + '" selected="selected">' + field + '</option>';
 				}
 			});
 
 			$(dst).html(s).promise().done(function() {
+
 				amiWebApp.unlock();
 			});
 
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this._inputCnt = 0;
+	_inputCnt: 0,
 
 	/*-----------------------------------------------------------------*/
 
-	this.select = function(id, interface, catalog, entity) {
+	select: function(id, interface, catalog, entity) {
 
 		amiWebApp.lock();
 
@@ -256,7 +270,8 @@ function AMISearchModelerApp() {
 				var mask = amiWebApp.jspath('..field{.@name==="mask"}.$', row)[0] || '0';
 				var defaultValue = amiWebApp.jspath('..field{.@name==="defaultValue"}.$', row)[0] || '';
 
-				if(!alias) {
+				if(!alias)
+				{
 					alias = field;
 				}
 
@@ -295,16 +310,16 @@ function AMISearchModelerApp() {
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.addInput = function() {
-
+	addInput: function()
+	{
 		var catalog = $('#ami_search_modeler_interface_catalog').val();
 
-		if(catalog) {
-
+		if(catalog)
+		{
 			var inputCnt = this._inputCnt++;
 
 			var dict = {
@@ -320,11 +335,11 @@ function AMISearchModelerApp() {
 				this.getEntities('#ami_search_modeler_entity_' + inputCnt, catalog);
 			});
 		}
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.editOptions = function(inputCnt) {
+	editOptions: function(inputCnt) {
 
 		this.currentInputCnt = inputCnt;
 
@@ -361,11 +376,11 @@ function AMISearchModelerApp() {
 		$('#modal_ami_search_modeler_options').modal('show');
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.setOptions = function() {
+	setOptions: function() {
 
 		var inputCnt = this.currentInputCnt;
 
@@ -413,14 +428,15 @@ function AMISearchModelerApp() {
 		$('#modal_ami_search_modeler_options').modal('hide');
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.reset = function() {
+	reset: function() {
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false) {
+		if(confirm('Please confirm...') == false)
+		{
 			return;
 		}
 
@@ -433,24 +449,24 @@ function AMISearchModelerApp() {
 		$('#ami_search_modeler_paths > .input-group').empty();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.remove = function() {
+	remove: function() {
 		/*---------------------------------------------------------*/
 
 		var interfaceName = $('#ami_search_modeler_interface_name').val();
 
-		/*---------------------------------------------------------*/
-
-		if(!interfaceName) {
+		if(!interfaceName)
+		{
 			return;
 		}
 
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false) {
+		if(confirm('Please confirm...') == false)
+		{
 			return;
 		}
 
@@ -466,18 +482,16 @@ function AMISearchModelerApp() {
 		});
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.apply = function() {
+	apply: function() {
 		/*---------------------------------------------------------*/
 
 		var interfaceName = $('#ami_search_modeler_interface_name').val();
 		var interfaceCatalog = $('#ami_search_modeler_interface_catalog').val();
 		var interfaceEntities = $('#ami_search_modeler_interface_entities').val();
-
-		/*---------------------------------------------------------*/
 
 		if(!interfaceName
 		   ||
@@ -490,7 +504,8 @@ function AMISearchModelerApp() {
 
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false) {
+		if(confirm('Please confirm...') == false)
+		{
 			return;
 		}
 
@@ -510,7 +525,8 @@ function AMISearchModelerApp() {
 
 			var idx = _name.lastIndexOf('_');
 
-			if(idx > 0) {
+			if(idx > 0)
+			{
 				_path = _name.substring(idx + 1);
 				_name = _name.substring(0, idx);
 
@@ -535,8 +551,8 @@ function AMISearchModelerApp() {
 
 				/*-----------------------------------------*/
 
-				for(var path in paths) {
-
+				for(var path in paths)
+				{
 					var fields = '';
 					var values = '';
 
@@ -561,7 +577,7 @@ function AMISearchModelerApp() {
 		});
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 };

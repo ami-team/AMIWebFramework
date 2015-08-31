@@ -10,11 +10,15 @@
 /* CLASS AMISimpleSearchEngineApp                                          */
 /*-------------------------------------------------------------------------*/
 
-function AMISimpleSearchEngineApp() {
+$AMIClass('AMISimpleSearchEngineApp', {
 	/*-----------------------------------------------------------------*/
 
-	this.onReady = function(userdata) {
+	$implements: [ami.ISubApp],
 
+	/*-----------------------------------------------------------------*/
+
+	onReady: function(userdata)
+	{
 		var result = $.Deferred();
 
 		amiWebApp.loadSheets([
@@ -34,22 +38,24 @@ function AMISimpleSearchEngineApp() {
 				/* FILTER                                  */
 				/*-----------------------------------------*/
 
-				if(userdata) {
+				if(userdata)
+				{
 					this.interfaceFilter = '';
 
 					/**/
 
 					var interfaces = userdata.split(',');
 
-					for(var i = 0; i < interfaces.length; i++) {
-
+					for(var i = 0; i < interfaces.length; i++)
+					{
 						var interface = interfaces[i].trim();
 
-						if(interface !== '') {
-
+						if(interface !== '')
+						{
 							if(interface.indexOf('%') < 0) {
 								this.interfaceFilter += ' OR `interface`=\'' + interface +  '\'';
-							} else {
+							}
+							else {
 								this.interfaceFilter += ' OR `interface` LIKE \'' + interface +  '\'';
 							}
 						}
@@ -60,7 +66,9 @@ function AMISimpleSearchEngineApp() {
 					this.interfaceFilter = (this.interfaceFilter) ? this.interfaceFilter.substring(4)
 					                                              : '1=1'
 					;
-				} else {
+				}
+				else
+				{
 					this.interfaceFilter = '1=1';
 				}
 
@@ -73,24 +81,26 @@ function AMISimpleSearchEngineApp() {
 		});
 
 		return result;
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onExit = function() {
-	};
+	onExit: function()
+	{
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogin = function() {
+	onLogin: function()
+	{
 		/*---------------------------------------------------------*/
 		/* GET INTERFACES                                          */
 		/*---------------------------------------------------------*/
 
-		if($('#ami_simple_search_engine_interface_list').html().trim() === '') {
-
-			amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `interface` FROM `router_search_interface` WHERE ' + this.interfaceFilter + '"', {context: this}).done(function(data) {
-
+		if($('#ami_simple_search_engine_interface_list').html().trim() === '')
+		{
+			amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `interface` FROM `router_search_interface` WHERE ' + this.interfaceFilter + '"', {context: this}).done(function(data)
+			{
 				var rows = amiWebApp.jspath('..row', data);
 
 				var s = (this.interfaceFilter === '1=1') ? '<option value="">--select--</option>' : '';
@@ -116,11 +126,12 @@ function AMISimpleSearchEngineApp() {
 		$('#ami_simple_search_engine_tab_search').show();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onLogout = function() {
+	onLogout: function()
+	{
 		/*---------------------------------------------------------*/
 		/* HIDE SERCH INTERFACE                                    */
 		/*---------------------------------------------------------*/
@@ -128,18 +139,20 @@ function AMISimpleSearchEngineApp() {
 		$('#ami_simple_search_engine_tab_search').hide();
 
 		/*---------------------------------------------------------*/
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.onSessionExpired = function() {
-	};
+	onSessionExpired: function()
+	{
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.setInterface = function(interface) {
-
-		if(!interface) {
+	setInterface: function(interface)
+	{
+		if(!interface)
+		{
 			return;
 		}
 
@@ -184,35 +197,37 @@ function AMISimpleSearchEngineApp() {
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 
-	this.search = function(s) {
-
+	search: function(s)
+	{
 		var where = '';
 
-		if(s.indexOf('%') < 0) {
-
+		if(s.indexOf('%') < 0)
+		{
 			$.foreach(this.criteriaArray, function(index, criteria) {
 				where += ' OR (' + criteria + '=\'' + s.replace(/\'/g, '\'\'') + '\')';
 			});
 
-		} else {
-
+		}
+		else
+		{
 			$.foreach(this.criteriaArray, function(index, criteria) {
 				where += ' OR (' + criteria + ' LIKE \'' + s.replace(/\'/g, '\'\'') + '\')';
 			});
 		}
 
-		if(where !== '') {
+		if(where !== '')
+		{
 			where = where.substring(4);
 		}
 
 		var command = 'BrowseQuery -catalog="' + this.catalog + '" -glite="SELECT `' + this.entity + '`.* WHERE `' + where + '\'"';
 
 		alert(command);
-	};
+	},
 
 	/*-----------------------------------------------------------------*/
 };
