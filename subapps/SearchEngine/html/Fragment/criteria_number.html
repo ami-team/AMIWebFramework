@@ -1,7 +1,7 @@
-<div class="panel panel-default pull-left" style="display: inline-table; margin: 5px; min-width: 245px;" id="ami_search_engine_box_%%ALIAS%%">
+<div class="panel panel-default pull-left" id="ami_search_engine_box_{{ALIAS}}" style="display: inline-table; margin: 5px; min-width: 245px;">
   <div class="panel-heading">
-    %%ALIAS%%
-    <button type="button" class="close" onclick="amiSearchEngineApp.deleteBox('%%ALIAS%%');">&nbsp;<i class="fa fa-times-circle"></i></button>
+    {{ALIAS}}
+    <button type="button" class="close" onclick="amiSearchEngineApp.deleteBox('{{ALIAS}}');">&nbsp;<i class="fa fa-times-circle"></i></button>
     <button type="button" class="close" onclick="">&nbsp;<i class="fa fa-question-circle"></i></button>
   </div>
   <div class="panel-body">
@@ -9,18 +9,18 @@
     <table style="width: 100%;">
       <tr class="form-group-sm">
         <td><label for="">Min:</label>&nbsp;</td>
-        <td><input type="number" class="form-control" id="ami_search_engine_box_%%ALIAS%%_min" /></td>
+        <td><input type="number" class="form-control" id="ami_search_engine_box_{{ALIAS}}_min" /></td>
       </tr>
       <tr class="form-group-sm">
         <td><label for="">Max:</label>&nbsp;</td>
-        <td><input type="number" class="form-control" id="ami_search_engine_box_%%ALIAS%%_max" /></td>
+        <td><input type="number" class="form-control" id="ami_search_engine_box_{{ALIAS}}_max" /></td>
       </tr>
     </table>
 
     <div class="text-right">
-      <a href="javascript:amiSearchEngineApp.setRange('%%ALIAS%%');">set</a>
+      <a href="javascript:amiSearchEngineApp.setRange('{{ALIAS}}');">set</a>
       -
-      <a href="javascript:amiSearchEngineApp.resetRange('%%ALIAS%%');">reset</a>
+      <a href="javascript:amiSearchEngineApp.resetRange('{{ALIAS}}');">reset</a>
     </div>
 
   </div>

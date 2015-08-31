@@ -3,16 +3,16 @@
   <table class="form-control" style="padding-top: 4px;">
     <tr>
       <td style="width: 23%;">
-        <select name="entity_%%INPUT_CNT%%" id="ami_search_modeler_entity_%%INPUT_CNT%%" onchange="amiSearchModelerApp.getFields('#ami_search_modeler_field_%%INPUT_CNT%%', $('#ami_search_modeler_interface_catalog').val(), $('#ami_search_modeler_entity_%%INPUT_CNT%%').val());"></select>
+        <select name="entity_{{INPUT_CNT}}" id="ami_search_modeler_entity_{{INPUT_CNT}}" onchange="amiSearchModelerApp.getFields('#ami_search_modeler_field_{{INPUT_CNT}}', $('#ami_search_modeler_interface_catalog').val(), $('#ami_search_modeler_entity_{{INPUT_CNT}}').val());"></select>
       </td>
       <td style="width: 23%;">
-        <select name="field_%%INPUT_CNT%%" id="ami_search_modeler_field_%%INPUT_CNT%%"></select>
+        <select name="field_{{INPUT_CNT}}" id="ami_search_modeler_field_{{INPUT_CNT}}"></select>
       </td>
       <td style="width: 23%;">
-        <input type="text" name="alias_%%INPUT_CNT%%" value="%%ALIAS%%" id="ami_search_modeler_alias_%%INPUT_CNT%%" placeholder="Alias" />
+        <input type="text" name="alias_{{INPUT_CNT}}" value="{{ALIAS}}" id="ami_search_modeler_alias_{{INPUT_CNT}}" placeholder="Alias" />
       </td>
       <td style="width: 23%;">
-        <select name="type_%%INPUT_CNT%%" id="ami_search_modeler_type_%%INPUT_CNT%%">
+        <select name="type_{{INPUT_CNT}}" id="ami_search_modeler_type_{{INPUT_CNT}}">
           <option value="0">text (few results)</option>
           <option value="1">text (many results)</option>
           <option value="2">number</option>
@@ -21,16 +21,16 @@
         </select>
       </td>
       <td style="width: 8%;">
-        <input type="number" name="rank_%%INPUT_CNT%%" min="0" step="1" value="%%RANK%%" id="ami_search_modeler_rank_%%INPUT_CNT%%" />
+        <input type="number" name="rank_{{INPUT_CNT}}" min="0" step="1" value="{{RANK}}" id="ami_search_modeler_rank_{{INPUT_CNT}}" />
       </td>
     </tr>
   </table>
 
-  <input type="hidden" name="mask_%%INPUT_CNT%%"         value="%%MASK%%"          id="ami_search_modeler_mask_%%INPUT_CNT%%"         />
-  <input type="hidden" name="defaultValue_%%INPUT_CNT%%" value="%%DEFAULT_VALUE%%" id="ami_search_modeler_defaultValue_%%INPUT_CNT%%" />
+  <input type="hidden" name="mask_{{INPUT_CNT}}"         value="{{MASK}}"          id="ami_search_modeler_mask_{{INPUT_CNT}}"         />
+  <input type="hidden" name="defaultValue_{{INPUT_CNT}}" value="{{DEFAULT_VALUE}}" id="ami_search_modeler_defaultValue_{{INPUT_CNT}}" />
 
   <span class="input-group-btn">
-    <span class="btn btn-default" onclick="amiSearchModelerApp.editOptions('%%INPUT_CNT%%');">
+    <span class="btn btn-default" onclick="amiSearchModelerApp.editOptions('{{INPUT_CNT}}');">
       <i class="fa fa-flag"></i>
     </span>
     <span class="btn btn-default" onclick="if(confirm('Please confirm...')) { $(this).parent().parent().remove(); }">

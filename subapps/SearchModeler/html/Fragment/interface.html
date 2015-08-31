@@ -1,16 +1,16 @@
 <div>
 
-  <div style="display: table-cell; width: 100%;" onclick="amiSearchModelerApp.select('%%ID%%', '%%INTERFACE%%', '%%CATALOG%%', '%%ENTITY%%');">
-    %%INTERFACE%%
+  <div style="display: table-cell; width: 100%;" onclick="amiSearchModelerApp.select('{{ID}}', '{{INTERFACE}}', '{{CATALOG}}', '{{ENTITY}}');">
+    {{INTERFACE}}
   </div>
 
-  <div class="btn-group btn-group-xs" style="display: table-cell; width: 000%;">
+  <div class="btn-group btn-group-xs" style="display: table-cell; width: 0%;">
     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
       Goto <span class="caret"></span>
     </button>
     <ul class="dropdown-menu pull-right">
-      <li><a href="%%WEBAPP_URL%%?subapp=amiSearchEngine&userdata=%%INTERFACE%%" target="_blank">Search Engine</a>
-      <li><a href="%%WEBAPP_URL%%?subapp=amiSimpleSearchEngine&userdata=%%INTERFACE%%" target="_blank">Simple Search Engine</a>
+      <li><a href="{{WEBAPP_URL}}?subapp=amiSearchEngine&userdata={{INTERFACE}}" target="_blank">Search Engine</a>
+      <li><a href="{{WEBAPP_URL}}?subapp=amiSimpleSearchEngine&userdata={{INTERFACE}}" target="_blank">Simple Search Engine</a>
     </ul>
   </div>
 
