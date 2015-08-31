@@ -153,7 +153,7 @@ code {
 }
 
 .modal-footer {
-	background-color: #F5F5F5;
+	background-color: rgb(245, 245, 245);
 	background-image: url("../../images/stripe2.png");
 
 	-webkit-border-radius: 0 0 6px 6px;
@@ -166,13 +166,14 @@ code {
 /*-------------------------------------------------------------------------*/
 
 .ami-callout {
+	border-color: rgb(238, 238, 238);
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
 	border-style: solid;
 	border-width: 1px 1px 1px 5px;
 	margin: 20px 00px;
-	padding: 20px;
+	padding: 20px 20px;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -212,7 +213,7 @@ code {
 }
 
 .ami-code code .line-number:before {
-	color: gray;
+	color: rgb(128, 128, 128);
 	content: counter(listing) ". ";
 	font: 800 65%/1.5 sans-serif;
 }
@@ -230,7 +231,7 @@ code {
 	overflow: hidden;
 	outline: 0 none;
 
-	z-index: 2050;
+	z-index: 9999;
 }
 
 #ami_locker .progress {
@@ -252,7 +253,7 @@ code {
 }
 
 .ami-select-wrapper select {
-	background-color: white;
+	background-color: #FFFFFF;
 	padding-right: 16px;
 	height: 100%;
 	width: 100%;
@@ -278,6 +279,7 @@ code {
 
 	50% {
 		-webkit-transform: scale(1.8);
+		-ms-transform: scale(1.8);
 		transform: scale(1.8);
 		opacity: 0;
 	}
