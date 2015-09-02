@@ -23,7 +23,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*-----------------------------------------------------------------*/
 
-	roles: {},
+	roleInfo: {},
 
 	/*-----------------------------------------------------------------*/
 
@@ -214,7 +214,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	hasRole: function(roleName)
 	{
-		return roleName in amiLogin.roles;
+		return roleName in amiLogin.roleInfo;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -633,7 +633,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		var guest = amiLogin.guest = userInfo.guestUser;
 
 		amiLogin.roleInfo = roleInfo;
-console.log(JSON.stringify(amiLogin.roleInfo));
+
 		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
