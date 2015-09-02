@@ -239,9 +239,14 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			var userInfo = {};
 			var roleInfo = {};
 
-			JSPath.apply('..field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
 				userInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="role"}.row.field', data).forEach(function(item) {
+
+				roleInfo[item['@name']] = item['$'];
 			});
 
 			if(context) {
@@ -292,9 +297,14 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			var userInfo = {};
 			var roleInfo = {};
 
-			JSPath.apply('..field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
 				userInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="role"}.row.field', data).forEach(function(item) {
+
+				roleInfo[item['@name']] = item['$'];
 			});
 
 			if(context) {
@@ -345,9 +355,14 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			var userInfo = {};
 			var roleInfo = {};
 
-			JSPath.apply('..field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
 				userInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="role"}.row.field', data).forEach(function(item) {
+
+				roleInfo[item['@name']] = item['$'];
 			});
 
 			if(context) {

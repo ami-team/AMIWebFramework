@@ -633,7 +633,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		var guest = amiLogin.guest = userInfo.guestUser;
 
 		amiLogin.roleInfo = roleInfo;
-
+console.log(amiLogin.roleInfo);
 		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
