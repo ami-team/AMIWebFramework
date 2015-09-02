@@ -244,9 +244,22 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="role"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
-				roleInfo[item['@name']] = item['$'];
+				var name = '';
+				var role = {};
+
+				row.field.forEach(function(field) {
+
+					role[field['@name']] = field['$'];
+
+					if(field['@name'] === 'name')
+					{
+						name = field['$'];
+					}
+				});
+
+				roleInfo[name] = role;
 			});
 
 			if(context) {
@@ -302,9 +315,22 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="role"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
-				roleInfo[item['@name']] = item['$'];
+				var name = '';
+				var role = {};
+
+				row.field.forEach(function(field) {
+
+					role[field['@name']] = field['$'];
+
+					if(field['@name'] === 'name')
+					{
+						name = field['$'];
+					}
+				});
+
+				roleInfo[name] = role;
 			});
 
 			if(context) {
@@ -360,9 +386,22 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="role"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
-				roleInfo[item['@name']] = item['$'];
+				var name = '';
+				var role = {};
+
+				row.field.forEach(function(field) {
+
+					role[field['@name']] = field['$'];
+
+					if(field['@name'] === 'name')
+					{
+						name = field['$'];
+					}
+				});
+
+				roleInfo[name] = role;
 			});
 
 			if(context) {
