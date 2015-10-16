@@ -55,10 +55,6 @@
 			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*" />
 		</copy>
 
-		<copy todir="libraries">
-			<fileset dir="${AMIWebAppTmpDir}/libraries" includes="**/*" />
-		</copy>
-
 		<copy todir="subapps">
 			<fileset dir="${AMIWebAppTmpDir}/subapps" includes="**/*" />
 		</copy>
@@ -166,10 +162,6 @@
 
 		<copy todir="js">
 			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*" />
-		</copy>
-
-		<copy todir="libraries">
-			<fileset dir="${AMIWebAppTmpDir}/libraries" includes="**/*" />
 		</copy>
 
 		<copy todir="subapps">
