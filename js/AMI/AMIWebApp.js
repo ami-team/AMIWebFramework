@@ -259,7 +259,7 @@ var amiWebApp = {
 
 	textToString: function(s)
 	{
-		return s.replace(/\\/g, '\\\\').replace(/"/g, '\\\"').replace(/'/g, '\\\'');
+		return s.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/"/g, '\\\"').replace(/'/g, '\\\'');
 	},
 
 	/**
@@ -270,7 +270,7 @@ var amiWebApp = {
 
 	stringToText: function(s)
 	{
-		return s.replace(/\\'/g, '\'').replace(/\\"/g, '\"').replace(/\\\\/g, '\\');
+		return s.replace(/\\'/g, '\'').replace(/\\"/g, '\"').replace(/\\n/g, '\n').replace(/\\\\/g, '\\');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -283,7 +283,7 @@ var amiWebApp = {
 
 	htmlToString: function(s)
 	{
-		return s.replace(/\\/g, '\\\\').replace(/&quot;/g, '\\&quot;').replace(/'/g, '\\\'');
+		return s.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/&quot;/g, '\\&quot;').replace(/'/g, '\\\'');
 	},
 
 	/**
@@ -294,7 +294,7 @@ var amiWebApp = {
 
 	stringToHtml: function(s)
 	{
-		return s.replace(/\\'/g, '\'').replace(/\\&quot;/g, '&quot;').replace(/\\\\/g, '\\');
+		return s.replace(/\\'/g, '\'').replace(/\\&quot;/g, '&quot;').replace(/\\n/g, '\n').replace(/\\\\/g, '\\');
 	},
 
 	/*-----------------------------------------------------------------*/

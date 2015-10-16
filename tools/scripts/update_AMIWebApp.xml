@@ -28,34 +28,27 @@
 		<!-- **************************************************** -->
 
 		<copy todir="css">
-			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*.min.css" />
+			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*" />
 		</copy>
 
 		<copy todir="docs">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.css" />
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
 		</copy>
 
 		<copy todir="fonts">
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.eot" />
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.svg" />
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.ttf" />
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff" />
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff2" />
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
 		</copy>
 
 		<copy todir="html">
-			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
 		</copy>
 
 		<copy todir="images">
-			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.gif" />
-			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.jpg" />
-			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.png" />
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
 		</copy>
 
 		<copy todir="js">
-			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*.min.js" />
+			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*" />
 		</copy>
 
 		<copy todir="libraries">
@@ -112,6 +105,8 @@
 			<arg value="js/AMI/AMIObjects.min.js" />
 		</java>
 
+		<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
+
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
 		<!-- **************************************************** -->
@@ -142,34 +137,27 @@
 		<!-- **************************************************** -->
 
 		<copy todir="css">
-			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*.min.css" />
+			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*" />
 		</copy>
 
 		<copy todir="docs">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.css" />
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*.html" />
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
 		</copy>
 
 		<copy todir="fonts">
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.eot" />
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.svg" />
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.ttf" />
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff" />
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*.woff2" />
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
 		</copy>
 
 		<copy todir="html">
-			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*.html" />
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
 		</copy>
 
 		<copy todir="images">
-			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.gif" />
-			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.jpg" />
-			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*.png" />
+			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
 		</copy>
 
 		<copy todir="js">
-			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*.min.js" />
+			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*" />
 		</copy>
 
 		<copy todir="libraries">
@@ -196,6 +184,8 @@
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
 		<copy file="${AMIWebAppTmpDir}/js/AMI/AMIObjects.js" tofile="js/AMI/AMIObjects.min.js" overwrite="true" force="true" />
+
+		<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
