@@ -557,6 +557,7 @@ var amiWebApp = {
 			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
 			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
 			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
 			target.find('.ami-select').each(function() {
 				$(this).wrap('<div class="ami-select-wrapper"></div>');
@@ -620,6 +621,7 @@ var amiWebApp = {
 			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
 			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
 			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
 			target.find('.ami-select').each(function() {
 				$(this).wrap('<div class="ami-select-wrapper"></div>');
@@ -683,6 +685,7 @@ var amiWebApp = {
 			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
 			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
 			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
 			target.find('.ami-select').each(function() {
 				$(this).wrap('<div class="ami-select-wrapper"></div>');
