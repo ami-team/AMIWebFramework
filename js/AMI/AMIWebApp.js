@@ -69,6 +69,7 @@ var amiWebApp = {
 		this.loadSheets([
 			/* Third-party */
 			'css/bootstrap.min.css',
+			'css/bootstrap-toggle.min.css',
 			'css/bootstrap.vertical-tabs.min.css',
 			'css/font-awesome.min.css',
 			/* AMI */
@@ -89,6 +90,7 @@ var amiWebApp = {
 			'js/jspath.min.js',
 			'js/ami-twig.min.js',
 			'js/bootstrap.min.js',
+			'js/bootstrap-toggle.min.js',
 			/* AMI */
 			'js/AMI/AMIObjects.min.js',
 			'js/AMI/AMICommand.min.js',

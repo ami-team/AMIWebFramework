@@ -40,15 +40,15 @@
 		</copy>
 
 		<copy todir="fonts">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*" />
 		</copy>
 
 		<copy todir="html">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
+			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*" />
 		</copy>
 
 		<copy todir="images">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
+			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*" />
 		</copy>
 
 		<copy todir="js">
@@ -149,15 +149,15 @@
 		</copy>
 
 		<copy todir="fonts">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
+			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*" />
 		</copy>
 
 		<copy todir="html">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
+			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*" />
 		</copy>
 
 		<copy todir="images">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
+			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*" />
 		</copy>
 
 		<copy todir="js">
