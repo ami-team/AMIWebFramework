@@ -13,7 +13,7 @@ body {
 	border-radius: 10px;
 	box-shadow: 00px 05px 15px rgba(19, 0, 0, 0.5);
 	margin: 12px auto 48px auto;
-	padding: 00px;
+	padding: 0;
 	width: 94%;
 }
 
@@ -22,15 +22,13 @@ body {
 #ami_top_menu {
 	background: white url("images/stripe1.png");
 	border-radius: 0;
-	margin: 0;
-	padding: 0;
 }
 /*-------------------------------------------------------------------------*/
 
 #ami_main_center {
 	background-color: white;
-	margin: 00px 00px;
-	padding: 04px 35px;
+	margin: 0;
+	padding: 4px 35px;
 	overflow: auto;
 }
 
@@ -39,11 +37,19 @@ body {
 #ami_bottom_menu {
 	background: white url("images/stripe2.png");
 	border-radius: 0;
-	margin: 0;
-	padding: 0;
 }
 
 /*-------------------------------------------------------------------------*/
+
+#ami_top_menu .navbar-left,
+#ami_top_menu .navbar-right,
+#ami_top_menu .navbar-collapse,
+#ami_bottom_menu .navbar-left,
+#ami_bottom_menu .navbar-right,
+#ami_bottom_menu .navbar-collapse {
+	margin-left: 0;
+	margin-right: 0;
+}
 
 #ami_top_menu .container-fluid,
 #ami_bottom_menu .container-fluid {
@@ -54,7 +60,7 @@ body {
 #ami_top_menu .navbar-header,
 #ami_bottom_menu .navbar-header {
 	line-height: 45px;
-	margin-left: 0px;
+	margin-left: 0;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -75,7 +81,7 @@ body {
     </div>
     <div class="collapse navbar-collapse" id="ami_navbar_top_collapse">
       <ul id="ami_menu_content" class="nav navbar-nav navbar-left"></ul>
-      <ul id="ami_login_content" class="nav navbar-nav navbar-right" style="margin-right: 0px;"></ul>
+      <ul id="ami_login_content" class="nav navbar-nav navbar-right"></ul>
     </div>
   </div>
 </nav>
