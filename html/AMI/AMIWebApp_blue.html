@@ -1,46 +1,78 @@
 <style type="text/css">
+/*-------------------------------------------------------------------------*/
 
 body {
 	background: white url('images/background.jpg') fixed;
 }
 
+/*-------------------------------------------------------------------------*/
+
 #ami_main_container {
-	background-color: white;
-	border-radius: 5px;
-	box-shadow: 0 0 7px rgba(0, 0, 0, 0.2);
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	box-shadow: 00px 05px 15px rgba(19, 0, 0, 0.5);
 	margin: 12px auto 48px auto;
 	padding: 00px;
 	width: 94%;
 }
 
-#ami_main_content {
-	padding-bottom: 10px;
-}
+/*-------------------------------------------------------------------------*/
 
-#ami_top_menu, #ami_top_menu .container {
+#ami_top_menu {
 	background: white url("images/stripe1.png");
 	border: none;
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
 	box-shadow: none;
-	margin: 00px;
+	margin: 0;
+	padding: 0;
+}
+/*-------------------------------------------------------------------------*/
+
+#ami_main_center {
+	background-color: white;
+	margin: 00px 00px;
+	padding: 04px 10px;
 }
 
-#ami_bottom_menu, #ami_bottom_menu .container {
+/*-------------------------------------------------------------------------*/
+
+#ami_bottom_menu {
 	background: white url("images/stripe2.png");
 	border: none;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 	box-shadow: none;
-	margin: 00px;
+	margin: 0;
+	padding: 0;
 }
 
+/*-------------------------------------------------------------------------*/
+
+#ami_top_menu .container-fluid,
+#ami_bottom_menu .container-fluid {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#ami_top_menu .navbar-header,
+#ami_bottom_menu .navbar-header {
+	line-height: 45px;
+	margin-left: 0px;
+}
+
+/*-------------------------------------------------------------------------*/
 </style>
 
 <div class="container" id="ami_main_container">
 
   <nav class="navbar navbar-default" id="ami_top_menu" role="navigation">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-header">
         <button class="navbar-toggle" data-toggle="collapse" data-target="#ami_navbar_top_collapse">
           <span class="sr-only">Toggle navigation</span>
@@ -59,7 +91,7 @@ body {
     </div>
   </nav>
 
-  <div class="container">
+  <div id="ami_main_center">
 
     <ul class="breadcrumb" id="ami_breadcrumb_content">&nbsp;</ul>
 
@@ -70,7 +102,7 @@ body {
   </div>
 
   <nav class="navbar navbar-default" id="ami_bottom_menu" role="navigation">
-    <div class="container">
+    <div class="container-fluid">
       <div class="navbar-header">
         <button class="navbar-toggle" data-toggle="collapse" data-target="#ami_navbar_bottom_collapse">
           <span class="sr-only">Toggle navigation</span>

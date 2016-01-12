@@ -64,57 +64,15 @@ code {
 /* BOOTSTRAP THEME                                                         */
 /*-------------------------------------------------------------------------*/
 
-.container {
-	padding-left: 35px;
-	padding-right: 35px;
-	width: 100%;
-}
-
-/*-------------------------------------------------------------------------*/
-
-.navbar {
-	margin-bottom: 5px;
-}
-
-.navbar-default {
-	background: url("../../images/stripe1.png");
-}
-
-.navbar-static-top,
-.navbar-static-bottom {
-	box-shadow: 0 1px 0 rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075);
-}
-
-.navbar-header {
-	line-height: 45px;
-}
-
-.navbar-default .navbar-nav > .open > a,
-.navbar-default .navbar-nav > .open > a:hover,
-.navbar-default .navbar-nav > .open > a:focus {
-	color: rgb(68, 54, 133);
-	text-decoration: none;
-}
-
-.navbar-default .navbar-nav > .active > a,
-.navbar-default .navbar-nav > .active > a:hover,
-.navbar-default .navbar-nav > .active > a:focus {
-	color: rgb(68, 54, 133);
-	text-decoration: none;
-}
-
-/*-------------------------------------------------------------------------*/
-
 .jumbotron {
-	background-color: rgb(255, 255, 255);
-	background-image: url("../../images/stripe1.png");
+	background-color: white;
 
 	border: 1px solid rgb(238, 238, 238);
+	border-radius: 6px;
 
 	margin-top: 10px;
 	margin-bottom: 10px;
-	padding-top: 10px;
-	padding-bottom: 10px;
+	padding: 00px 10px;
 }
 
 .jumbotron h1,
@@ -125,25 +83,6 @@ code {
 .jumbotron .h3 {
 	margin-top: 16px;
 	margin-bottom: 16px;
-}
-
-/*-------------------------------------------------------------------------*/
-
-.nav-tabs > li .close {
-	margin: 0 0 0 10px;
-	font-size: 18px;
-}
-
-.tab-content {
-	margin-top: 10px;
-}
-
-/*-------------------------------------------------------------------------*/
-
-.popover-content pre {
-	background-color: rgba(255, 203, 0, 0.1);
-	white-space: pre-wrap;
-	word-break: keep-all;
 }
 
 /*-------------------------------------------------------------------------*/

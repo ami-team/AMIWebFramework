@@ -1,5 +1,66 @@
-<nav class="navbar navbar-default navbar-static-top" role="navigation">
-  <div class="container">
+<style type="text/css">
+/*-------------------------------------------------------------------------*/
+
+body {
+	background-color: white;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#ami_main_container {
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	box-shadow: 00px 05px 15px rgba(19, 0, 0, 0.5);
+	margin: 12px auto 48px auto;
+	padding: 00px;
+	width: 94%;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#ami_top_menu {
+	background: white url("images/stripe1.png");
+	border-radius: 0;
+	margin: 0;
+	padding: 0;
+}
+/*-------------------------------------------------------------------------*/
+
+#ami_main_center {
+	background-color: white;
+	margin: 00px 00px;
+	padding: 04px 35px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#ami_bottom_menu {
+	background: white url("images/stripe2.png");
+	border-radius: 0;
+	margin: 0;
+	padding: 0;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#ami_top_menu .container-fluid,
+#ami_bottom_menu .container-fluid {
+	padding-left: 35px;
+	padding-right: 35px;
+}
+
+#ami_top_menu .navbar-header,
+#ami_bottom_menu .navbar-header {
+	line-height: 45px;
+	margin-left: 0px;
+}
+
+/*-------------------------------------------------------------------------*/
+</style>
+
+<nav class="navbar navbar-default navbar-static-top" id="ami_top_menu" role="navigation">
+  <div class="container-fluid">
     <div class="navbar-header">
       <button class="navbar-toggle" data-toggle="collapse" data-target="#ami_navbar_top_collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -18,7 +79,7 @@
   </div>
 </nav>
 
-<div class="container">
+<div id="ami_main_center">
 
   <div class="jumbotron">
     <h2>
@@ -35,8 +96,8 @@
 
 </div>
 
-<nav class="navbar navbar-default navbar-static-bottom" role="navigation">
-  <div class="container">
+<nav class="navbar navbar-default navbar-static-bottom" id="ami_bottom_menu" role="navigation">
+  <div class="container-fluid">
     <div class="navbar-header">
       <button class="navbar-toggle" data-toggle="collapse" data-target="#ami_navbar_bottom_collapse">
         <span class="sr-only">Toggle navigation</span>
