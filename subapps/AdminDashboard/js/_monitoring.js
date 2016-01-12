@@ -1036,6 +1036,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 
 	__handler1: function(deferred, data, nr, ok)
 	{
+/*
 		if(nr < this._nodes.length)
 		{
 			var endpoint = this._nodes[nr].url;
@@ -1059,6 +1060,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 		}
 
 		return deferred;
+*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1071,7 +1073,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			this._chart0.options.data[0].dataPoints[0].y = ok - 00;
 			this._chart0.options.data[0].dataPoints[1].y = nr - ok;
 
-			this._chart0.render();
+			//this._chart0.render();
 
 			/*-------------------------------------------------*/
 
@@ -1080,7 +1082,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 				this._chart1.options.data[i].dataPoints.push({x: this._cnt0, y: data[i]});
 			}
 
-			this._chart1.render();
+			//this._chart1.render();
 
 			/*-------------------------------------------------*/
 
@@ -1104,19 +1106,19 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 
 		/*---------------------------------------------------------*/
 
-		return amiCommand.execute(command, {context: this, endpoint: endpoint}).done(function(data) {
+		amiCommand.execute(command, {context: this, endpoint: endpoint}).done(function(data) {
 			/*-------------------------------------------------*/
 
 			var  numIdle  = parseInt(amiWebApp.jspath('..field{.@name=== "numIdle" }.$', data)[0] || '0');
 			var numActive = parseInt(amiWebApp.jspath('..field{.@name==="numActive"}.$', data)[0] || '0');
 
 			/*-------------------------------------------------*/
-
+/*
 			this._chart2.options.data[0].dataPoints.push({x: this._cnt1, y:  numIdle });
 			this._chart2.options.data[1].dataPoints.push({x: this._cnt1, y: numActive});
 
 			this._chart2.render();
-
+*/
 			/*-------------------------------------------------*/
 
 			this._cnt1 += 8;
@@ -1254,7 +1256,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			/*-------------------------------------------------*/
 
 			this._handler2();
-
+/*
 			setInterval(
 				(function(self) {
 					return function() {
@@ -1262,7 +1264,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 					}
 				})(this)
 			, 8000);
-
+*/
 			/*-------------------------------------------------*/
 		}).fail(function(data) {
 

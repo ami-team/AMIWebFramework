@@ -1,7 +1,7 @@
 /*!
  * AMI Web Framework
  *
- * Copyright (c) 2014-2015 The AMI Team
+ * Copyright (c) 2014-2016 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
  */
@@ -63,23 +63,68 @@ var amiWebApp = {
 	init: function()
 	{
 		/*---------------------------------------------------------*/
-		/* DEFAULT SHEETS                                          */
+
+		this.isEmbedded = false;
+
+		var scripts = document.getElementsByTagName('script');
+  
+		for(var i = 0; i < scripts.length; i++)
+		{
+			var src = scripts[i].src;
+
+			if(src.indexOf('/AMIWebApp.') >= 0)
+			{
+				if(src.indexOf('embedded') >= 0
+				   ||
+				   src.indexOf('EMBEDDED') >= 0
+				 ) {
+					this.isEmbedded = true;
+				}
+
+				break;
+			}
+		}
+
 		/*---------------------------------------------------------*/
 
-		this.loadSheets([
-			/* Third-party */
-			'css/bootstrap.min.css',
-			'css/bootstrap-toggle.min.css',
-			'css/bootstrap.vertical-tabs.min.css',
-			'css/font-awesome.min.css',
-			/* AMI */
-			'css/AMI/AMIWebApp.min.css',
-		]).fail(function(data) {
+		if(this.isEmbedded === false)
+		{
+			/*-------------------------------------------------*/
+			/* AVAILABILITY                                    */
+			/*-------------------------------------------------*/
 
-			alert('Service temporarily unavailable, please try reloading the page...');
+			setTimeout(function() {
 
-			console.error(data);
-		});
+				if($('#ami_main_content').is(':empty'))
+				{
+					$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
+				}
+
+			}, 10000);
+
+			/*-------------------------------------------------*/
+			/* DEFAULT SHEETS                                  */
+			/*-------------------------------------------------*/
+
+			this.loadSheets([
+				/* Third-party */
+				'css/bootstrap.min.css',
+				'css/bootstrap-toggle.min.css',
+				'css/bootstrap.vertical-tabs.min.css',
+				'css/font-awesome.min.css',
+				/* AMI */
+				'css/AMI/AMIWebApp.min.css',
+			]).fail(function(data) {
+
+				alert('Service temporarily unavailable, please try reloading the page...');
+
+				console.error(data);
+			});
+
+
+
+			/*-------------------------------------------------*/
+		}
 
 		/*---------------------------------------------------------*/
 		/* DEFAULT SCRIPTS                                         */
@@ -124,19 +169,6 @@ var amiWebApp = {
 
 			console.error(data);
 		});
-
-		/*---------------------------------------------------------*/
-		/* AVAILABILITY                                            */
-		/*---------------------------------------------------------*/
-
-		setTimeout(function() {
-
-			if($('#ami_main_content').is(':empty'))
-			{
-				$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
-			}
-
-		}, 8000);
 
 		/*---------------------------------------------------------*/
 		/* URLs                                                    */
@@ -237,7 +269,7 @@ var amiWebApp = {
 
 	textToHtml: function(s)
 	{
-		return s.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 	},
 
 	/**
@@ -248,7 +280,7 @@ var amiWebApp = {
 
 	htmlToText: function(s)
 	{
-		return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"');
+		return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -903,71 +935,87 @@ var amiWebApp = {
 
 	start: function(settings)
 	{
-		var logo_url = 'images/logo.png';
-		var home_url = 'http://ami.in2p3.fr';
-		var contact_email = 'ami@lpsc.in2p3.fr';
-		var template_filename = 'html/AMI/AMIWebApp_default.html';
-		var locker_filename = 'html/AMI/Fragment/locker.html';
-
-		if(settings)
+		if(this.isEmbedded === false)
 		{
-			if('logo_url' in settings) {
-				logo_url = settings['logo_url'];
+			/*-------------------------------------------------*/
+
+			var logo_url = 'images/logo.png';
+			var home_url = 'http://ami.in2p3.fr';
+			var contact_email = 'ami@lpsc.in2p3.fr';
+			var template_filename = 'html/AMI/AMIWebApp_default.html';
+			var locker_filename = 'html/AMI/Fragment/locker.html';
+
+			if(settings)
+			{
+				if('logo_url' in settings) {
+					logo_url = settings['logo_url'];
+				}
+
+				if('home_url' in settings) {
+					home_url = settings['home_url'];
+				}
+
+				if('contact_email' in settings) {
+					contact_email = settings['contact_email'];
+				}
+
+				if('template_filename' in settings) {
+					template_filename = settings['template_filename'];
+				}
+
+				if('locker_filename' in settings) {
+					locker_filename = settings['locker_filename'];
+				}
 			}
 
-			if('home_url' in settings) {
-				home_url = settings['home_url'];
-			}
+			/*-------------------------------------------------*/
 
-			if('contact_email' in settings) {
-				contact_email = settings['contact_email'];
-			}
+			var dict = {
+				LOGO_URL: logo_url,
+				HOME_URL: home_url,
+				CONTACT_EMAIL: contact_email,
+			};
 
-			if('template_filename' in settings) {
-				template_filename = settings['template_filename'];
-			}
+			/*-------------------------------------------------*/
 
-			if('locker_filename' in settings) {
-				locker_filename = settings['locker_filename'];
-			}
-		}
+			$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data1) {
 
-		/*---------------------------------------------------------*/
+				$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data2) {
 
-		var dict = {
-			LOGO_URL: logo_url,
-			HOME_URL: home_url,
-			CONTACT_EMAIL: contact_email,
-		};
+					$('body').append(amiWebApp.formatHTML(data1, dict) + data2).promise().done(function() {
 
-		/*---------------------------------------------------------*/
+						amiLogin._init().done(function() {
 
-		$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data1) {
-
-			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data2) {
-
-				$('body').append(amiWebApp.formatHTML(data1, dict) + data2).promise().done(function() {
-
-					amiLogin._init().done(function() {
-
-						amiWebApp.onStart();
+							amiWebApp.onStart();
+						});
 					});
-				});
 
+				}).fail(function() {
+
+					alert('Service temporarily unavailable, please try reloading the page...');
+
+					console.error('could not load `' + locker_filename + '`');
+				});
 			}).fail(function() {
 
 				alert('Service temporarily unavailable, please try reloading the page...');
 
-				console.error('could not load `' + locker_filename + '`');
+				console.error('could not load `' + template_filename + '`');
 			});
-		}).fail(function() {
 
-			alert('Service temporarily unavailable, please try reloading the page...');
+			/*-------------------------------------------------*/
+		}
+		else
+		{
+			/*-------------------------------------------------*/
 
-			console.error('could not load `' + template_filename + '`');
-		});
+			amiLogin._init().done(function() {
 
-		/*---------------------------------------------------------*/
+				amiWebApp.onStart();
+			});
+
+			/*-------------------------------------------------*/
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
