@@ -208,7 +208,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Check if the user has the geven role
+	  * Check if the user has the given role
 	  * @returns {Boolean}
 	  */
 
