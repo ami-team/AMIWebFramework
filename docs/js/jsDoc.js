@@ -409,7 +409,7 @@ var jsDoc = {
 
 	/*-----------------------------------------------------------------*/
 
-	makeFunctionExceptions(method)
+	makeFunctionExceptions: function(method)
 	{
 		var result = '';
 
