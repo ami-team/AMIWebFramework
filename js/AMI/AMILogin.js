@@ -43,10 +43,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			amiLogin.fragmentLoginButton = data[0];
 			amiLogin.fragmentLogoutButton = data[1];
 
-			amiWebApp.appendHTML('#ami_modal_content', data[2]);
-			amiWebApp.appendHTML('#ami_modal_content', data[3]);
-			amiWebApp.appendHTML('#ami_modal_content', data[4]);
-			amiWebApp.appendHTML('#ami_modal_content', data[5]);
+			amiWebApp.appendHTML('body', data[2]);
+			amiWebApp.appendHTML('body', data[3]);
+			amiWebApp.appendHTML('body', data[4]);
+			amiWebApp.appendHTML('body', data[5]);
 
 			amiCommand.certLogin().always(function(data, userInfo, roleInfo) {
 				/*-----------------------------------------*/

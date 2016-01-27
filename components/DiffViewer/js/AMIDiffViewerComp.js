@@ -24,7 +24,7 @@ function AMIDiffViewerComp()
 			'components/DiffViewer/html/Modal/diff_viewer.html'
 		], {context: this}).done(function(data) {
 
-			amiWebApp.appendHTML('#ami_modal_content', data[0]);
+			amiWebApp.appendHTML('body', data[0]);
 
 			this.dmp = new diff_match_patch();
 		});

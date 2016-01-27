@@ -24,7 +24,7 @@ function AMITextViewerComp()
 			'components/TextViewer/html/Modal/text_viewer.html'
 		]).done(function(data) {
 
-			amiWebApp.appendHTML('#ami_modal_content', data[0]);
+			amiWebApp.appendHTML('body', data[0]);
 		});
 	};
 

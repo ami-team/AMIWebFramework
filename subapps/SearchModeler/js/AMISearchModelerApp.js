@@ -38,7 +38,7 @@ $AMIClass('AMISearchModelerApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-				amiWebApp.appendHTML('#ami_modal_content', data[1]);
+				amiWebApp.appendHTML('body', data[1]);
 
 				this.fragmentInterface = data[2];
 				this.fragmentInput = data[3];
