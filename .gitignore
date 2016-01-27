@@ -1,6 +1,8 @@
 .DS_Store
 .DS_Store?
 
+.settings/*
+
 css/AMI/*.min.css
 js/AMI/*.min.js
 js/AMI/twig/*.min.js
