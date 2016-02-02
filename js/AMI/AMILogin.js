@@ -32,12 +32,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
-			'html/AMI/Fragment/login_button.html',
-			'html/AMI/Fragment/logout_button.html',
-			'html/AMI/Modal/login.html',
-			'html/AMI/Modal/login_change_info.html',
-			'html/AMI/Modal/login_change_pass.html',
-			'html/AMI/Modal/login_account_status.html',
+			amiWebApp.baseURL + '/html/AMI/Fragment/login_button.html',
+			amiWebApp.baseURL + '/html/AMI/Fragment/logout_button.html',
+			amiWebApp.baseURL + '/html/AMI/Modal/login.html',
+			amiWebApp.baseURL + '/html/AMI/Modal/login_change_info.html',
+			amiWebApp.baseURL + '/html/AMI/Modal/login_change_pass.html',
+			amiWebApp.baseURL + '/html/AMI/Modal/login_account_status.html',
 		]).done(function(data) {
 
 			amiLogin.fragmentLoginButton = data[0];

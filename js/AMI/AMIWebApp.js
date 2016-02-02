@@ -63,6 +63,10 @@ var amiWebApp = {
 	init: function()
 	{
 		/*---------------------------------------------------------*/
+		/* URLs                                                    */
+		/*---------------------------------------------------------*/
+
+		this.baseURL = null;
 
 		this.isEmbedded = false;
 
@@ -72,8 +76,12 @@ var amiWebApp = {
 		{
 			var src = scripts[i].src;
 
-			if(src.indexOf('/AMIWebApp.') >= 0)
+			var idx = src.indexOf('/js/AMI/AMIWebApp.');
+
+			if(idx >= 0)
 			{
+				this.baseURL = src.substring(0, idx);
+
 				if(src.indexOf('embedded') >= 0
 				   ||
 				   src.indexOf('EMBEDDED') >= 0
@@ -85,91 +93,6 @@ var amiWebApp = {
 			}
 		}
 
-		/*---------------------------------------------------------*/
-
-		if(this.isEmbedded === false)
-		{
-			/*-------------------------------------------------*/
-			/* AVAILABILITY                                    */
-			/*-------------------------------------------------*/
-
-			setTimeout(function() {
-
-				if($('#ami_main_content').is(':empty'))
-				{
-					$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
-				}
-
-			}, 10000);
-
-			/*-------------------------------------------------*/
-			/* DEFAULT SHEETS                                  */
-			/*-------------------------------------------------*/
-
-			this.loadSheets([
-				/* Third-party */
-				'css/bootstrap.min.css',
-				'css/bootstrap-toggle.min.css',
-				'css/bootstrap.vertical-tabs.min.css',
-				'css/font-awesome.min.css',
-				/* AMI */
-				'css/AMI/AMIWebApp.min.css',
-			]).fail(function(data) {
-
-				alert('Service temporarily unavailable, please try reloading the page...');
-
-				console.error(data);
-			});
-
-			/*-------------------------------------------------*/
-		}
-
-		/*---------------------------------------------------------*/
-		/* DEFAULT SCRIPTS                                         */
-		/*---------------------------------------------------------*/
-
-		this.loadScripts([
-			/* Third-party */
-			'js/jspath.min.js',
-			'js/ami-twig.min.js',
-			'js/bootstrap.min.js',
-			'js/bootstrap-toggle.min.js',
-			/* AMI */
-			'js/AMI/AMIObjects.min.js',
-			'js/AMI/AMICommand.min.js',
-			'js/AMI/AMILogin.min.js',
-		]).fail(function(data) {
-
-			alert('Service temporarily unavailable, please try reloading the page...');
-
-			console.error(data);
-		});
-
-		/*---------------------------------------------------------*/
-		/* DEFAULT FRAGMENTS                                       */
-		/*---------------------------------------------------------*/
-
-		this.loadHTMLs([
-			'html/AMI/Fragment/alert_success.html',
-			'html/AMI/Fragment/alert_info.html',
-			'html/AMI/Fragment/alert_warning.html',
-			'html/AMI/Fragment/alert_error.html',
-		], {context: this}).done(function(data) {
-
-			this.fragmentSuccess = data[0];
-			this.fragmentInfo = data[1];
-			this.fragmentWarning = data[2];
-			this.fragmentError = data[3];
-
-		}).fail(function(data) {
-
-			alert('Service temporarily unavailable, please try reloading the page...');
-
-			console.error(data);
-		});
-
-		/*---------------------------------------------------------*/
-		/* URLs                                                    */
 		/*---------------------------------------------------------*/
 
 		var url = document.location.href;
@@ -234,6 +157,89 @@ var amiWebApp = {
 				this.args[pair[0]] = decodeURIComponent(pair[1]);
 			}
 		}
+
+		/*---------------------------------------------------------*/
+
+		if(this.isEmbedded === false)
+		{
+			/*-------------------------------------------------*/
+			/* AVAILABILITY                                    */
+			/*-------------------------------------------------*/
+
+			setTimeout(function() {
+
+				if($('#ami_main_content').is(':empty'))
+				{
+					$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
+				}
+
+			}, 10000);
+
+			/*-------------------------------------------------*/
+			/* DEFAULT SHEETS                                  */
+			/*-------------------------------------------------*/
+
+			this.loadSheets([
+				/* Third-party */
+				this.baseURL + '/css/bootstrap.min.css',
+				this.baseURL + '/css/bootstrap-toggle.min.css',
+				this.baseURL + '/css/bootstrap.vertical-tabs.min.css',
+				this.baseURL + '/css/font-awesome.min.css',
+				/* AMI */
+				this.baseURL + '/css/AMI/AMIWebApp.min.css',
+			]).fail(function(data) {
+
+				alert('Service temporarily unavailable, please try reloading the page...');
+
+				console.error(data);
+			});
+
+			/*-------------------------------------------------*/
+		}
+
+		/*---------------------------------------------------------*/
+		/* DEFAULT SCRIPTS                                         */
+		/*---------------------------------------------------------*/
+
+		this.loadScripts([
+			/* Third-party */
+			this.baseURL + '/js/jspath.min.js',
+			this.baseURL + '/js/ami-twig.min.js',
+			this.baseURL + '/js/bootstrap.min.js',
+			this.baseURL + '/js/bootstrap-toggle.min.js',
+			/* AMI */
+			this.baseURL + '/js/AMI/AMIObjects.min.js',
+			this.baseURL + '/js/AMI/AMICommand.min.js',
+			this.baseURL + '/js/AMI/AMILogin.min.js',
+		]).fail(function(data) {
+
+			alert('Service temporarily unavailable, please try reloading the page...');
+
+			console.error(data);
+		});
+
+		/*---------------------------------------------------------*/
+		/* DEFAULT FRAGMENTS                                       */
+		/*---------------------------------------------------------*/
+
+		this.loadHTMLs([
+			this.baseURL + '/html/AMI/Fragment/alert_success.html',
+			this.baseURL + '/html/AMI/Fragment/alert_info.html',
+			this.baseURL + '/html/AMI/Fragment/alert_warning.html',
+			this.baseURL + '/html/AMI/Fragment/alert_error.html',
+		], {context: this}).done(function(data) {
+
+			this.fragmentSuccess = data[0];
+			this.fragmentInfo = data[1];
+			this.fragmentWarning = data[2];
+			this.fragmentError = data[3];
+
+		}).fail(function(data) {
+
+			alert('Service temporarily unavailable, please try reloading the page...');
+
+			console.error(data);
+		});
 
 		/*---------------------------------------------------------*/
 	},
@@ -538,6 +544,7 @@ var amiWebApp = {
 	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
+	baseRegExp: /\{\{\s*BASE_URL\s*\}\}/g,
 	webappRegExp: /\{\{\s*WEBAPP_URL\s*\}\}/g,
 	originRegExp: /\{\{\s*ORIGIN_URL\s*\}\}/g,
 
@@ -553,6 +560,7 @@ var amiWebApp = {
 
 	replaceHTML: function(selector, html, settings)
 	{
+		html = html.replace(this.baseRegExp, this.baseURL);
 		html = html.replace(this.webappRegExp, this.webAppURL);
 		html = html.replace(this.originRegExp, this.originURL);
 
@@ -617,6 +625,7 @@ var amiWebApp = {
 
 	prependHTML: function(selector, html, settings)
 	{
+		html = html.replace(this.baseRegExp, this.baseURL);
 		html = html.replace(this.webappRegExp, this.webAppURL);
 		html = html.replace(this.originRegExp, this.originURL);
 
@@ -681,6 +690,7 @@ var amiWebApp = {
 
 	appendHTML: function(selector, html, settings)
 	{
+		html = html.replace(this.baseRegExp, this.baseURL);
 		html = html.replace(this.webappRegExp, this.webAppURL);
 		html = html.replace(this.originRegExp, this.originURL);
 
