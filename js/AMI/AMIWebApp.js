@@ -66,13 +66,31 @@ var amiWebApp = {
 		/* URLs                                                    */
 		/*---------------------------------------------------------*/
 
-		this.baseURL = null;
+		/**
+		  * base URL
+		  * @type {String}
+		  * @member baseURL
+		  * @memberof amiWebApp
+		  */
+
+		this.baseURL = '/';
+
+		/**
+		  * embedded mode
+		  * @type {Boolean}
+		  * @member isEmbedded
+		  * @memberof amiWebApp
+		  */
 
 		this.isEmbedded = false;
 
+		/*---------------------------------------------------------*/
+
 		var scripts = document.getElementsByTagName('script');
   
-		for(var i = 0; i < scripts.length; i++)
+  		/*---------------------------------------------------------*/
+
+		for(var i = 0 in scripts)
 		{
 			var src = scripts[i].src;
 
@@ -81,6 +99,11 @@ var amiWebApp = {
 			if(idx >= 0)
 			{
 				this.baseURL = src.substring(0, idx);
+
+				while(this.baseURL[this.baseURL.length - 1] === '/')
+				{
+					this.baseURL = this.baseURL.substring(0, this.baseURL.length - 1);
+				}
 
 				if(src.indexOf('embedded') >= 0
 				   ||
@@ -158,6 +181,8 @@ var amiWebApp = {
 			}
 		}
 
+		/*---------------------------------------------------------*/
+		/* DEFAULT SHEETS                                          */
 		/*---------------------------------------------------------*/
 
 		if(this.isEmbedded === false)
