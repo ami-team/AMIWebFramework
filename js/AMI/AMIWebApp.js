@@ -973,7 +973,7 @@ var amiWebApp = {
 			/*-------------------------------------------------*/
 
 			var logo_url = 'images/logo.png';
-			var home_url = 'http://ami.in2p3.fr';
+			var home_url = 'httpS://ami.in2p3.fr/';
 			var contact_email = 'ami@lpsc.in2p3.fr';
 			var template_filename = 'html/AMI/AMIWebApp_default.html';
 			var locker_filename = 'html/AMI/Fragment/locker.html';
