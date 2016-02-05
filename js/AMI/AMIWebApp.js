@@ -90,7 +90,7 @@ var amiWebApp = {
   
   		/*---------------------------------------------------------*/
 
-		for(var i = 0 in scripts)
+		for(var i in scripts)
 		{
 			var src = scripts[i].src;
 
