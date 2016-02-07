@@ -1,138 +1,138 @@
 <div class="modal fade" id="modal_login">
-  <div class="modal-dialog">
-    <div class="modal-content">
+	<div class="modal-dialog">
+		<div class="modal-content">
 
-      <div class="modal-header">
-        <button class="close" data-dismiss="modal">×</button>
-        <h4 class="modal-title">AMI authentication</h4>
-      </div>
+			<div class="modal-header">
+				<button class="close" data-dismiss="modal">×</button>
+				<h4 class="modal-title">AMI authentication</h4>
+			</div>
 
-      <div class="modal-body">
+			<div class="modal-body">
 
-        <div id="modal_login_message"></div>
+				<div id="modal_login_message"></div>
 
-        <div class="tabbable">
+				<div class="tabbable">
 
-          <ul class="nav nav-tabs">
-            <li class="active"><a href="#modal_login_form1" data-toggle="tab">Sign In</a></li>
-            <li class="xxxxxx"><a href="#modal_login_form2" data-toggle="tab">Need an account ?</a></li>
-            <li class="xxxxxx"><a href="#modal_login_form3" data-toggle="tab">Forgot my password</a></li>
-          </ul>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#modal_login_form1" data-toggle="tab">Sign In</a></li>
+						<li class="xxxxxx"><a href="#modal_login_form2" data-toggle="tab">Need an account?</a></li>
+						<li class="xxxxxx"><a href="#modal_login_form3" data-toggle="tab">Forgot my password</a></li>
+					</ul>
 
-          <div class="tab-content">
+					<div class="tab-content">
 
-            <div class="tab-pane active" id="modal_login_form1">
-              <div class="row">
-                <div class="col-md-2">
-                  <img src="{{ORIGIN_URL}}/images/padlock.png" alt="" height="90" wigth="90" />
-                </div>
-                <div class="col-md-10">
+						<div class="tab-pane active" id="modal_login_form1">
+							<div class="row">
+								<div class="col-md-2">
+									<img src="{{ORIGIN_URL}}/images/padlock.png" alt="" height="90" wigth="90" />
+								</div>
+								<div class="col-md-10">
 
-                  <div class="form-group">
-                    <label for="modal_login_form1_user" class="control-label">Login<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="modal_login_form1_user" placeholder="Type your AMI Login..." />
-                  </div>
+									<div class="form-group">
+										<label for="modal_login_form1_user" class="control-label">Login<span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="modal_login_form1_user" placeholder="Type your AMI Login..." />
+									</div>
 
-                  <div class="form-group">
-                    <label for="modal_login_form1_pass" class="control-label">Password<span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="modal_login_form1_pass" placeholder="Type your AMI Password..." />
-                  </div>
+									<div class="form-group">
+										<label for="modal_login_form1_pass" class="control-label">Password<span class="text-danger">*</span></label>
+										<input type="password" class="form-control" id="modal_login_form1_pass" placeholder="Type your AMI Password..." />
+									</div>
 
-                  <button class="btn btn-primary" onclick="amiLogin.form_passLogin();">Password Login</button>
-                  or
-                  <div class="btn-group">
+									<button class="btn btn-primary" onclick="amiLogin.form_passLogin();">Password Login</button>
+									or
+									<div class="btn-group">
 
-                    <button class="btn btn-primary" onclick="amiLogin.form_certLogin();">Certificate Login</button>
+										<button class="btn btn-primary" onclick="amiLogin.form_certLogin();">Certificate Login</button>
 
-                    <span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-                      <i class="fa fa-wrench"></i>
-                      <i class="fa fa-caret-down"></i>
-                    </span>
+										<span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+											<i class="fa fa-wrench"></i>
+											<i class="fa fa-caret-down"></i>
+										</span>
 
-                    <ul class="dropdown-menu">
-                      <li><a href="javascript:amiLogin.form_attachCert();">Attach Certificate</a></li>
-                      <li><a href="javascript:amiLogin.form_detachCert();">Detach Certificate</a></li>
-                    </ul>
+										<ul class="dropdown-menu">
+											<li><a href="javascript:amiLogin.form_attachCert();">Attach Certificate</a></li>
+											<li><a href="javascript:amiLogin.form_detachCert();">Detach Certificate</a></li>
+										</ul>
 
-                  </div>
-                </div>
-              </div>
-            </div>
+									</div>
+								</div>
+							</div>
+						</div>
 
-            <div class="tab-pane xxxxxx" id="modal_login_form2">
-              <div class="row">
-                <div class="col-md-2">
-                  <img src="{{ORIGIN_URL}}/images/padlock.png" alt="padlock" height="90" wigth="90" />
-                </div>
-                <div class="col-md-5">
+						<div class="tab-pane xxxxxx" id="modal_login_form2">
+							<div class="row">
+								<div class="col-md-2">
+									<img src="{{ORIGIN_URL}}/images/padlock.png" alt="padlock" height="90" wigth="90" />
+								</div>
+								<div class="col-md-5">
 
-                  <div class="form-group">
-                    <label for="modal_login_form2_first_name" class="control-label">First name<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="modal_login_form2_first_name" placeholder="Type your first name..." />
-                  </div>
+									<div class="form-group">
+										<label for="modal_login_form2_first_name" class="control-label">First name<span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="modal_login_form2_first_name" placeholder="Type your first name..." />
+									</div>
 
-                  <div class="form-group">
-                    <label for="modal_login_form2_user" class="control-label">Login<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="modal_login_form2_user" placeholder="Choose a login..." />
-                  </div>
+									<div class="form-group">
+										<label for="modal_login_form2_user" class="control-label">Login<span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="modal_login_form2_user" placeholder="Choose a login..." />
+									</div>
 
-                  <div class="form-group">
-                    <label for="modal_login_form2_pass1" class="control-label">Password<span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="modal_login_form2_pass1" placeholder="Choose a password..." :>
-                  </div>
+									<div class="form-group">
+										<label for="modal_login_form2_pass1" class="control-label">Password<span class="text-danger">*</span></label>
+										<input type="password" class="form-control" id="modal_login_form2_pass1" placeholder="Choose a password..." :>
+									</div>
 
-                  <button class="btn btn-primary" onclick="amiLogin.form_addUser();">Create</button>
+									<button class="btn btn-primary" onclick="amiLogin.form_addUser();">Create</button>
 
-                </div>
-                <div class="col-md-5">
+								</div>
+								<div class="col-md-5">
 
-                  <div class="form-group ">
-                    <label for="modal_login_form2_last_name" class="control-label">Last name<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="modal_login_form2_last_name" placeholder="Type your last name..." :>
-                  </div>
+									<div class="form-group ">
+										<label for="modal_login_form2_last_name" class="control-label">Last name<span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="modal_login_form2_last_name" placeholder="Type your last name..." :>
+									</div>
 
-                  <div class="form-group">
-                    <label for="modal_login_form2_email" class="control-label">Email<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="modal_login_form2_email" placeholder="Type your email..." />
-                  </div>
+									<div class="form-group">
+										<label for="modal_login_form2_email" class="control-label">Email<span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="modal_login_form2_email" placeholder="Type your email..." />
+									</div>
 
-                  <div class="form-group">
-                    <label for="modal_login_form2_pass2" class="control-label">Password<span class="text-danger">*</span></label>
-                    <input type="password" class="form-control" id="modal_login_form2_pass2" placeholder="Type your password again..." />
-                  </div>
+									<div class="form-group">
+										<label for="modal_login_form2_pass2" class="control-label">Password<span class="text-danger">*</span></label>
+										<input type="password" class="form-control" id="modal_login_form2_pass2" placeholder="Type your password again..." />
+									</div>
 
-                </div>
-              </div>
-            </div>
+								</div>
+							</div>
+						</div>
 
-            <div class="tab-pane xxxxxx" id="modal_login_form3">
-              <div class="row">
-                <div class="col-md-2">
-                  <img src="{{ORIGIN_URL}}/images/padlock.png" alt="padlock" height="90" wigth="90" />
-                </div>
-                <div class="col-md-10">
+						<div class="tab-pane xxxxxx" id="modal_login_form3">
+							<div class="row">
+								<div class="col-md-2">
+									<img src="{{ORIGIN_URL}}/images/padlock.png" alt="padlock" height="90" wigth="90" />
+								</div>
+								<div class="col-md-10">
 
-                  <div class="form-group">
-                    <label for="modal_login_form3_user" class="control-label">Login<span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="modal_login_form3_user" placeholder="Type your AMI Login..." />
-                  </div>
+									<div class="form-group">
+										<label for="modal_login_form3_user" class="control-label">Login<span class="text-danger">*</span></label>
+										<input type="text" class="form-control" id="modal_login_form3_user" placeholder="Type your AMI Login..." />
+									</div>
 
-                  <button class="btn btn-primary" onclick="amiLogin.form_resetPass();">Remind</button>
+									<button class="btn btn-primary" onclick="amiLogin.form_resetPass();">Remind</button>
 
-                </div>
-              </div>
-            </div>
+								</div>
+							</div>
+						</div>
 
-          </div>
+					</div>
 
-        </div>
+				</div>
 
-      </div>
+			</div>
 
-      <div class="modal-footer">
-        <button class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
+			<div class="modal-footer">
+				<button class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
 
-    </div>
-  </div>
+		</div>
+	</div>
 </div>
