@@ -67,16 +67,16 @@ var amiWebApp = {
 		/*---------------------------------------------------------*/
 
 		/**
-		  * base URL
+		  * Origin URL
 		  * @type {String}
-		  * @member baseURL
+		  * @member originURL
 		  * @memberof amiWebApp
 		  */
 
-		this.baseURL = '/';
+		this.originURL = '/';
 
 		/**
-		  * embedded mode
+		  * Embedded mode
 		  * @type {Boolean}
 		  * @member isEmbedded
 		  * @memberof amiWebApp
@@ -98,11 +98,11 @@ var amiWebApp = {
 
 			if(idx >= 0)
 			{
-				this.baseURL = src.substring(0, idx);
+				this.originURL = src.substring(0, idx);
 
-				while(this.baseURL[this.baseURL.length - 1] === '/')
+				while(this.originURL[this.originURL.length - 1] === '/')
 				{
-					this.baseURL = this.baseURL.substring(0, this.baseURL.length - 1);
+					this.originURL = this.originURL.substring(0, this.originURL.length - 1);
 				}
 
 				if(src.indexOf('embedded') >= 0
@@ -120,9 +120,7 @@ var amiWebApp = {
 
 		var url = document.location.href;
 
-		var index1 = url./**/indexOf('?');
-		if(index1 >= 0) url = url.substring(0, index1);
-		var index2 = url.lastIndexOf('/');
+		var idx = url.indexOf('?');
 
 		/*---------------------------------------------------------*/
 
@@ -133,27 +131,13 @@ var amiWebApp = {
 		  * @memberof amiWebApp
 		  */
 
-		this.webAppURL = url;
+		this.webAppURL = (idx > 0) ? url.substring(0, idx)
+		                           : url
+		;
 
 		while(this.webAppURL[this.webAppURL.length - 1] === '/')
 		{
 			this.webAppURL = this.webAppURL.substring(0, this.webAppURL.length - 1);
-		}
-
-		/*---------------------------------------------------------*/
-
-		/**
-		  * Origin URL
-		  * @type {String}
-		  * @member originURL
-		  * @memberof amiWebApp
-		  */
-
-		this.originURL = url.substring(0, index2);
-
-		while(this.originURL[this.originURL.length - 1] === '/')
-		{
-			this.originURL = this.originURL.substring(0, this.originURL.length - 1);
 		}
 
 		/*---------------------------------------------------------*/
@@ -187,12 +171,12 @@ var amiWebApp = {
 
 		if(this.isEmbedded === false) this.loadSheets([
 			/* Third-party */
-			this.baseURL + '/css/bootstrap.min.css',
-			this.baseURL + '/css/bootstrap-toggle.min.css',
-			this.baseURL + '/css/bootstrap.vertical-tabs.min.css',
-			this.baseURL + '/css/font-awesome.min.css',
+			this.originURL + '/css/bootstrap.min.css',
+			this.originURL + '/css/bootstrap-toggle.min.css',
+			this.originURL + '/css/bootstrap.vertical-tabs.min.css',
+			this.originURL + '/css/font-awesome.min.css',
 			/* AMI */
-			this.baseURL + '/css/AMI/AMIWebApp.min.css',
+			this.originURL + '/css/AMI/AMIWebApp.min.css',
 		]).fail(function(data) {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
@@ -206,14 +190,14 @@ var amiWebApp = {
 
 		if(0x00000000000000000000001) this.loadScripts([
 			/* Third-party */
-			this.baseURL + '/js/jspath.min.js',
-			this.baseURL + '/js/ami-twig.min.js',
-			this.baseURL + '/js/bootstrap.min.js',
-			this.baseURL + '/js/bootstrap-toggle.min.js',
+			this.originURL + '/js/jspath.min.js',
+			this.originURL + '/js/ami-twig.min.js',
+			this.originURL + '/js/bootstrap.min.js',
+			this.originURL + '/js/bootstrap-toggle.min.js',
 			/* AMI */
-			this.baseURL + '/js/AMI/AMIObjects.min.js',
-			this.baseURL + '/js/AMI/AMICommand.min.js',
-			this.baseURL + '/js/AMI/AMILogin.min.js',
+			this.originURL + '/js/AMI/AMIObjects.min.js',
+			this.originURL + '/js/AMI/AMICommand.min.js',
+			this.originURL + '/js/AMI/AMILogin.min.js',
 		]).fail(function(data) {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
@@ -226,10 +210,10 @@ var amiWebApp = {
 		/*---------------------------------------------------------*/
 
 		if(0x00000000000000000000001)this.loadHTMLs([
-			this.baseURL + '/html/AMI/Fragment/alert_success.html',
-			this.baseURL + '/html/AMI/Fragment/alert_info.html',
-			this.baseURL + '/html/AMI/Fragment/alert_warning.html',
-			this.baseURL + '/html/AMI/Fragment/alert_error.html',
+			this.originURL + '/html/AMI/Fragment/alert_success.html',
+			this.originURL + '/html/AMI/Fragment/alert_info.html',
+			this.originURL + '/html/AMI/Fragment/alert_warning.html',
+			this.originURL + '/html/AMI/Fragment/alert_error.html',
 		], {context: this}).done(function(data) {
 
 			this.fragmentSuccess = data[0];
@@ -547,9 +531,8 @@ var amiWebApp = {
 	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
-	baseRegExp: /\{\{\s*BASE_URL\s*\}\}/g,
-	webappRegExp: /\{\{\s*WEBAPP_URL\s*\}\}/g,
-	originRegExp: /\{\{\s*ORIGIN_URL\s*\}\}/g,
+	originURLRegExp: /\{\{\s*ORIGIN_URL\s*\}\}/g,
+	webappURLRegExp: /\{\{\s*WEBAPP_URL\s*\}\}/g,
 
 	/*-----------------------------------------------------------------*/
 
@@ -563,9 +546,8 @@ var amiWebApp = {
 
 	replaceHTML: function(selector, html, settings)
 	{
-		html = html.replace(this.baseRegExp, this.baseURL);
-		html = html.replace(this.webappRegExp, this.webAppURL);
-		html = html.replace(this.originRegExp, this.originURL);
+		html = html.replace(this.originURLRegExp, this.originURL);
+		html = html.replace(this.webappURLRegExp, this.webAppURL);
 
 		var context = null;
 		var dict = null;
@@ -628,9 +610,8 @@ var amiWebApp = {
 
 	prependHTML: function(selector, html, settings)
 	{
-		html = html.replace(this.baseRegExp, this.baseURL);
-		html = html.replace(this.webappRegExp, this.webAppURL);
-		html = html.replace(this.originRegExp, this.originURL);
+		html = html.replace(this.originURLRegExp, this.originURL);
+		html = html.replace(this.webappURLRegExp, this.webAppURL);
 
 		var context = null;
 		var dict = null;
@@ -693,9 +674,8 @@ var amiWebApp = {
 
 	appendHTML: function(selector, html, settings)
 	{
-		html = html.replace(this.baseRegExp, this.baseURL);
-		html = html.replace(this.webappRegExp, this.webAppURL);
-		html = html.replace(this.originRegExp, this.originURL);
+		html = html.replace(this.originURLRegExp, this.originURL);
+		html = html.replace(this.webappURLRegExp, this.webAppURL);
 
 		var context = null;
 		var dict = null;
@@ -950,11 +930,11 @@ var amiWebApp = {
 		{
 			/*-------------------------------------------------*/
 
-			var logo_url = this.baseURL + '/images/logo.png';
+			var logo_url = this.originURL + '/images/logo.png';
 			var home_url = 'https://ami.in2p3.fr/';
 			var contact_email = 'ami@lpsc.in2p3.fr';
-			var template_filename = this.baseURL + '/html/AMI/AMIWebApp_default.html';
-			var locker_filename = this.baseURL + '/html/AMI/Fragment/locker.html';
+			var template_filename = this.originURL + '/html/AMI/AMIWebApp_default.html';
+			var locker_filename = this.originURL + '/html/AMI/Fragment/locker.html';
 
 			if(settings)
 			{
