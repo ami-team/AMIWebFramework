@@ -1,26 +1,26 @@
 <div>
-  <button class="close" onclick="$(this).parent().remove();" style="margin-left: 10px;">
-    <span class="fa-stack">
-      <i class="fa fa-times-circle-o fa-stack-2x"></i>
-      <strong class="fa-stack-1x" style="color: #444444;"></strong>
-    </span>
-  </button>
+	<button class="close" onclick="$(this).parent().remove();" style="margin-left: 10px;">
+		<span class="fa-stack">
+			<i class="fa fa-times-circle-o fa-stack-2x"></i>
+			<strong class="fa-stack-1x" style="color: #444444;"></strong>
+		</span>
+	</button>
 
-  <button class="close" onclick="amiCommandApp.save($(this).parent().find('code').text());" style="margin-left: 10px;">
-    <span class="fa-stack">
-      <i class="fa fa-download fa-stack-2x"></i>
-      <strong class="fa-stack-1x" style="color: #444444;"></strong>
-    </span>
-  </button>
+	<button class="close" onclick="amiCommandApp.save($(this).parent().find('code').text());" style="margin-left: 10px;">
+		<span class="fa-stack">
+			<i class="fa fa-download fa-stack-2x"></i>
+			<strong class="fa-stack-1x" style="color: #444444;"></strong>
+		</span>
+	</button>
 
-  <button class="close" onclick="amiCommandApp.copy($(this).parent().find('url').text());" style="margin-left: 10px;">
-    <span class="fa-stack">
-      <i class="fa fa-clipboard fa-stack-2x"></i>
-      <strong class="fa-stack-1x" style="color: #444444;">URL</strong>
-    </span>
-  </button>
+	<button class="close" onclick="amiCommandApp.copy($(this).parent().find('url').text());" style="margin-left: 10px;">
+		<span class="fa-stack">
+			<i class="fa fa-clipboard fa-stack-2x"></i>
+			<strong class="fa-stack-1x" style="color: #444444;">URL</strong>
+		</span>
+	</button>
 
-  <pre class="ami-code"><code>{{DATA}}</code></pre>
+	<pre class="ami-code"><code>{{DATA}}</code></pre>
 
-  <url class="hidden">{{URL}}</url>
+	<url class="hidden">{{URL}}</url>
 </div>

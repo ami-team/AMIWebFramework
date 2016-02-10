@@ -25,7 +25,8 @@ $AMIClass('AMIDocumentApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-				if(!userdata) {
+				if(!userdata)
+				{
 					userdata = 'home.html';
 				}
 
@@ -38,30 +39,33 @@ $AMIClass('AMIDocumentApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	onExit: function() {
-
+	onExit: function()
+	{
 		$('.jumbotron').show();
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	onLogin: function() {
+	onLogin: function()
+	{
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	onLogout: function() {
+	onLogout: function()
+	{
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	onSessionExpired: function() {
+	onSessionExpired: function()
+	{
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	load: function(page) {
-
+	load: function(page)
+	{
 		var url = amiWebApp.originURL + '/docs/' + page;
 
 		$.ajax({
@@ -79,7 +83,8 @@ $AMIClass('AMIDocumentApp', {
 
 		}).fail(function() {
 
-			if(page !== '404.html') {
+			if(page !== '404.html')
+			{
 				this.load('404.html');
 			}
 		});

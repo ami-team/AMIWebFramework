@@ -48,6 +48,7 @@ $AMIClass('AMICommandApp', {
 			});
 
 		}).fail(function() {
+
 			result.reject();
 		});
 
@@ -88,7 +89,7 @@ $AMIClass('AMICommandApp', {
 
 				var proto;
 
-				if(usage === '') {
+				if(!usage) {
 					proto = command;
 					help += '<br /><br />Usage:<br />' + command;
 				} else {
@@ -154,6 +155,7 @@ $AMIClass('AMICommandApp', {
 		amiCommand.execute(command, {context: this, converter: converter}).always(function(data, url) {
 
 			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : amiWebApp.textToHtml(data), url);
+
 			amiWebApp.unlock();
 		});
 	},

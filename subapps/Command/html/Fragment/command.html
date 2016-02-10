@@ -1,11 +1,9 @@
 <div>
+	<div onclick="amiCommandApp.select('{{PROTO}}');">
+		{{COMMAND}}
+	</div>
 
-  <div onclick="amiCommandApp.select('{{PROTO}}');">
-    {{COMMAND}}
-  </div>
-
-  <div class="amipo" tabindex="0" data-title="{{COMMAND}}" data-content="&lt;pre&gt;{{HELP}}&lt;/pre&gt;">
-    <i class="fa fa-question-circle"></i>
-  </div>
-
+	<div class="amipo" data-title="{{COMMAND}}" data-content="&lt;pre&gt;{{HELP}}&lt;/pre&gt;">
+		<i class="fa fa-question-circle"></i>
+	</div>
 </div>

@@ -930,11 +930,16 @@ var amiWebApp = {
 		{
 			/*-------------------------------------------------*/
 
-			var logo_url = this.originURL + '/images/logo.png';
-			var home_url = 'https://ami.in2p3.fr/';
+			var logo_url = this.originURL
+					+ '/images/logo.png';
+			var home_url = this.webAppURL;
+
 			var contact_email = 'ami@lpsc.in2p3.fr';
+
 			var template_filename = this.originURL + '/html/AMI/AMIWebApp_default.html';
 			var locker_filename = this.originURL + '/html/AMI/Fragment/locker.html';
+
+			/*-------------------------------------------------*/
 
 			if(settings)
 			{
