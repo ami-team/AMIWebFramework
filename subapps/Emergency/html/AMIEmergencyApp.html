@@ -1,0 +1,32 @@
+<div class="row">
+
+	<div class="col-md-3">
+		<img src="subapps/Emergency/images/emergency.png" alt="Emergency" style="width: 100%;" />
+	</div>
+
+	<div class="col-md-6">
+
+		<div class="modal-dialog" style="margin-top: 00px;">
+			<div class="modal-content">
+
+				<div class="modal-body">
+					<div class="form-group">
+						<label for="modal_command_command" class="control-label">Message (<span class="text-danger">160 characters max</span>)</label>
+						<textarea name="command" rows="8" class="form-control" id="modal_emergency_message"></textarea>
+					</div>
+				</div>
+
+				<div class="modal-footer">
+					<i class="fa fa-exclamation-triangle"></i> For blocking problem only
+					<br />
+					<button class="btn btn-default" onclick="amiEmergencyApp.send();">Send SMS</button>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<div class="col-md-3"></div>
+
+</div>
