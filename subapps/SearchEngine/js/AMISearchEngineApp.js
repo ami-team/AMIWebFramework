@@ -346,7 +346,7 @@ $AMIClass('AMISearchEngineApp', {
 
 			var nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || '';
 
-			$('#ami_search_engine_message').html('<div style="background-color: #F5F5F5; border-radius: 8px; padding: 4px;"><button class="btn btn-success btn-sm" onclick="alert(\'' + amiWebApp.textToHtml(amiWebApp.textToString(command)) + '\');">View selection</button> Number of selected items: ' + nb + '</div>');
+			$('#ami_search_engine_message').html('<div style="background-color: #F5F5F5; border-radius: 8px; padding: 4px;"><button class="btn btn-success btn-sm" onclick="alert(\'' + amiWebApp.textToHtml(amiWebApp.textToString(command)) + '\');">View selection</button> Number of selected items: <span class="text-success">' + nb + '</span></div>');
 
 		}).fail(function(data) {
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
