@@ -50,22 +50,19 @@ h1, h2, h3, h4, h5 {
 	font-family: "Open Sans Light", "sans-serif";
 }
 
-th,
-label {
-	font-weight: 600;
-}
-
 pre {
 	background-image: url("../../images/blueprint-dark.png");
 }
 
-pre,
-code {
-	font-family: "Ubuntu Mono", "Menlo", "Monaco", "monospace";
-}
-
 /*-------------------------------------------------------------------------*/
 /* BOOTSTRAP THEME                                                         */
+/*-------------------------------------------------------------------------*/
+
+.btn {
+	font-size: 14px;
+	line-height: 21px;
+}
+
 /*-------------------------------------------------------------------------*/
 
 .jumbotron {
