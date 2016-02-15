@@ -46,7 +46,7 @@
 /* GENERAL                                                                 */
 /*-------------------------------------------------------------------------*/
 
-h1, h2, h3, h4, h5 {
+h1, h2, h3, h4, h5, h6 {
 	font-family: "Open Sans Light", "sans-serif";
 }
 
@@ -107,6 +107,14 @@ pre {
 
 .nav-tabs {
     margin-bottom: 8px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.panel-heading > h1,
+.panel-heading > h2,
+.panel-heading > h3 {
+	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
 }
 
 /*-------------------------------------------------------------------------*/
