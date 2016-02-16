@@ -59,8 +59,9 @@ pre {
 /* BOOTSTRAP THEME                                                         */
 /*-------------------------------------------------------------------------*/
 
-.btn {
-	font-size: 14px;
+.btn,
+.form-control {
+	font-size: 14.5px;
 	line-height: 21px;
 }
 
