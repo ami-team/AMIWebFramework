@@ -42,7 +42,7 @@
 @import "//fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic";
 
 /*-------------------------------------------------------------------------*/
-/* GENERAL                                                                 */
+/* GENERAL THEME                                                           */
 /*-------------------------------------------------------------------------*/
 
 h1, h2, h3, h4, h5, h6 {
@@ -53,15 +53,6 @@ h1, h2, h3, h4, h5, h6 {
 
 pre {
 	background-image: url("../../images/blueprint-dark.png");
-}
-
-/*-------------------------------------------------------------------------*/
-/* BOOTSTRAP THEME                                                         */
-/*-------------------------------------------------------------------------*/
-
-.btn {
-	font-size: 14px;
-	line-height: 21px;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -104,36 +95,39 @@ pre {
 
 /*-------------------------------------------------------------------------*/
 
-.navbar-nav > li > .dropdown-menu::before {
-	border-bottom: 7px solid rgba(0, 0, 0, 0.2);
-	border-left: 7px solid transparent;
-	border-right: 7px solid transparent;
-	content: "";
-	display: inline-block;
-	left: 9px;
-	position: absolute;
-	top: -7px;
-}
+@media (min-width: 768px) {
 
-.navbar-nav > li > .dropdown-menu::after {
-	border-bottom: 6px solid rgb(255, 255, 255);
-	border-left: 6px solid transparent;
-	border-right: 6px solid transparent;
-	content: "";
-	display: inline-block;
-	left: 10px;
-	position: absolute;
-	top: -6px;
-}
+	.navbar-nav > li > .dropdown-menu::before {
+		border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+		border-left: 7px solid transparent;
+		border-right: 7px solid transparent;
+		content: "";
+		display: inline-block;
+		left: 9px;
+		position: absolute;
+		top: -7px;
+	}
 
-.navbar-nav.navbar-right > li > .dropdown-menu::before {
-	left: auto;
-	right: 12px;
-}
+	.navbar-nav > li > .dropdown-menu::after {
+		border-bottom: 6px solid rgb(255, 255, 255);
+		border-left: 6px solid transparent;
+		border-right: 6px solid transparent;
+		content: "";
+		display: inline-block;
+		left: 10px;
+		position: absolute;
+		top: -6px;
+	}
 
-.navbar-nav.navbar-right > li > .dropdown-menu::after {
-	left: auto;
-	right: 13px;
+	.navbar-nav.navbar-right > li > .dropdown-menu::before {
+		left: auto;
+		right: 12px;
+	}
+
+	.navbar-nav.navbar-right > li > .dropdown-menu::after {
+		left: auto;
+		right: 13px;
+	}
 }
 
 .navbar-nav > li > .dropdown-menu {
@@ -154,7 +148,7 @@ pre {
 }
 
 /*-------------------------------------------------------------------------*/
-/* AMI COMPONENTS                                                          */
+/* AMI THEME                                                               */
 /*-------------------------------------------------------------------------*/
 
 .ami-callout {
