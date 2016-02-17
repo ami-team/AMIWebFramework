@@ -148,7 +148,7 @@ pre {
 /*-------------------------------------------------------------------------*/
 
 .nav-tabs {
-    margin-bottom: 8px;
+	margin-bottom: 8px;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -256,6 +256,7 @@ pre {
 }
 
 @-moz-document url-prefix() {
+
 	.ami-select-wrapper select {
 		background-color: transparent;
 		-moz-appearance: none;
@@ -269,6 +270,7 @@ pre {
 /*-------------------------------------------------------------------------*/
 
 @-webkit-keyframes burst {
+
 	0% {
 		opacity: 0.6;
 	}
@@ -286,6 +288,7 @@ pre {
 }
 
 @keyframes burst {
+
 	0% {
 		opacity: 0.6;
 	}
@@ -306,6 +309,7 @@ pre {
 .faa-burst.animated-hover:hover,
 .faa-parent.animated-hover:hover > .faa-burst {
 	-webkit-animation: burst 3s infinite linear;
+	-moz-animation: burst 3s infinite linear;
 	animation: burst 3s infinite linear;
 }
 
