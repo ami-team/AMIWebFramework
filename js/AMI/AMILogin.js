@@ -659,8 +659,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/*-------------------------------------------------*/
 
 			var clientDNInAMI = userInfo.clientDNInAMI || '';
-			var issuerDNInAMI = userInfo.issuerDNInAMI || '';
 			var clientDNInSession = userInfo.clientDNInSession || '';
+			var issuerDNInAMI = userInfo.issuerDNInAMI || '';
 			var issuerDNInSession = userInfo.issuerDNInSession || '';
 
 			/*-------------------------------------------------*/
@@ -684,8 +684,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/*-------------------------------------------------*/
 
 			$('#modal_login_account_status_form2_client_dn_in_ami').val(clientDNInAMI);
-			$('#modal_login_account_status_form2_issuer_dn_in_ami').val(issuerDNInAMI);
 			$('#modal_login_account_status_form2_client_dn_in_session').val(clientDNInSession);
+			$('#modal_login_account_status_form2_issuer_dn_in_ami').val(issuerDNInAMI);
 			$('#modal_login_account_status_form2_issuer_dn_in_session').val(issuerDNInSession);
 
 			/*-------------------------------------------------*/
