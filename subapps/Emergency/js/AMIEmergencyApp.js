@@ -21,7 +21,7 @@ $AMIClass('AMIEmergencyApp', {
 	{
 		$('#ami_jumbotron_title').html('Emergency');
 		$('#ami_jumbotron_content').html('SMS for blocking problem');
-		$('#ami_breadcrumb_content').html('<li><a>Tools</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amiemergency">Emergency</a></li>');
+		$('#ami_breadcrumb_content').html('<li>Tools</li><li><a href="' + amiWebApp.webAppURL + '?subapp=amiemergency">Emergency</a></li>');
 
 		var result = $.Deferred();
 

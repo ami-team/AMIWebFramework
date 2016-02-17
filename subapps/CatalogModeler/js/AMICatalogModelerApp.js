@@ -32,7 +32,7 @@ function AMICatalogModelerApp() {
 
 		$('#ami_jumbotron_title').html('DB Modeler');
 		$('#ami_jumbotron_content').html('DB Modeler');
-		$('#ami_breadcrumb_content').html('<li><a>Tools</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=catalogmodeler">Catalog Modeler</a></li>');
+		$('#ami_breadcrumb_content').html('<li>Admin</li><li><a href="' + amiWebApp.webAppURL + '?subapp=catalogmodeler">Catalog Modeler</a></li>');
 
 		amiWebApp.loadHTMLs([
 			'subapps/CatalogModeler/html/AMICatalogModelerApp.html',

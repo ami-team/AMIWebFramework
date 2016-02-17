@@ -23,7 +23,7 @@ $AMIClass('AMISearchEngineApp', {
 
 		$('#ami_jumbotron_title').html('SearchEngine');
 		$('#ami_jumbotron_content').html('Search Engine');
-		$('#ami_breadcrumb_content').html('<li><a>Search</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amisearchengine">Search Engine</a></li>');
+		$('#ami_breadcrumb_content').html('<li>Search</li><li><a href="' + amiWebApp.webAppURL + '?subapp=amisearchengine">Search Engine</a></li>');
 
 		amiWebApp.loadHTMLs([
 			'subapps/SearchEngine/html/AMISearchEngineApp.html',

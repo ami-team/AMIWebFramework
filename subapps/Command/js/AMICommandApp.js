@@ -29,7 +29,7 @@ $AMIClass('AMICommandApp', {
 
 		$('#ami_jumbotron_title').html('Command Line');
 		$('#ami_jumbotron_content').html('Execute AMI commands');
-		$('#ami_breadcrumb_content').html('<li><a>Tools</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amicommand">Command Line</a></li>');
+		$('#ami_breadcrumb_content').html('<li>Tools</li><li><a href="' + amiWebApp.webAppURL + '?subapp=amicommand">Command Line</a></li>');
 
 		var result = $.Deferred();
 

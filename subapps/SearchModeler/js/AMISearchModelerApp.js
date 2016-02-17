@@ -27,7 +27,7 @@ $AMIClass('AMISearchModelerApp', {
 
 		$('#ami_jumbotron_title').html('SearchModeler');
 		$('#ami_jumbotron_content').html('Search Modeler');
-		$('#ami_breadcrumb_content').html('<li><a>Admin</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amisearchmodeler">Search Modeler</a></li>');
+		$('#ami_breadcrumb_content').html('<li>Admin</li><li><a href="' + amiWebApp.webAppURL + '?subapp=amisearchmodeler">Search Modeler</a></li>');
 
 		amiWebApp.loadHTMLs([
 			'subapps/SearchModeler/html/AMISearchModelerApp.html',
