@@ -71,6 +71,10 @@ pre {
 	background-image: url("../../images/stripe2.png");
 }
 
+.breadcrumb > li + li::before {
+	content: "/";
+}
+
 /*-------------------------------------------------------------------------*/
 
 .jumbotron {

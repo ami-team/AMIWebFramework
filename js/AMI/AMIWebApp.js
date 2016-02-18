@@ -921,7 +921,7 @@ var amiWebApp = {
 
 	/**
 	  * Starts the web application
-	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, template_filename, locker_filename)
+	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, template_filename, locker_filename, timeout)
 	  */
 
 	start: function(settings)
@@ -938,6 +938,8 @@ var amiWebApp = {
 
 			var template_filename = this.originURL + '/html/AMI/AMIWebApp_default.html';
 			var locker_filename = this.originURL + '/html/AMI/Fragment/locker.html';
+
+			var timeout = 10000;
 
 			/*-------------------------------------------------*/
 
@@ -962,7 +964,15 @@ var amiWebApp = {
 				if('locker_filename' in settings) {
 					locker_filename = settings['locker_filename'];
 				}
+
+				if('timeout' in settings) {
+					timeout = settings['timeout'];
+				}
 			}
+
+			/*-------------------------------------------------*/
+
+			this.timeout = timeout;
 
 			/*-------------------------------------------------*/
 
@@ -1119,7 +1129,7 @@ var amiWebApp = {
 				$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
 			}
 
-		}, 10000);
+		}, this.timeout);
 
 		/*---------------------------------------------------------*/
 
