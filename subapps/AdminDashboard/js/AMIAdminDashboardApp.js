@@ -30,7 +30,7 @@ $AMIClass('AMIAdminDashboardApp', {
 		]);
 
 		$('#ami_jumbotron_title').html('Admin Dashboard');
-		$('#ami_breadcrumb_content').html('<li>Admin</li><li><a href="' + amiWebApp.webAppURL + '?subapp=amicommand">Admin Dashboard</a></li>');
+		$('#ami_breadcrumb_content').html('<li>Admin</li><li><a href="' + amiWebApp.webAppURL + '?subapp=amiAdminDashboard">Admin Dashboard</a></li>');
 
 		var result = $.Deferred();
 
