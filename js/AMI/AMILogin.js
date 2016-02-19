@@ -17,6 +17,8 @@
 
 $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
+	/* PUBLIC MEMBERS                                                  */
+	/*-----------------------------------------------------------------*/
 
 	user: 'guest',
 	guest: 'guest',
@@ -25,6 +27,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	roleInfo: {},
 
+	/*-----------------------------------------------------------------*/
+	/* PRIVATE METHODS                                                 */
 	/*-----------------------------------------------------------------*/
 
 	_init: function()
@@ -96,6 +100,304 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		return result.promise();
 	},
 
+	/*-----------------------------------------------------------------*/
+
+	_showSuccessMessage1: function(message)
+	{
+		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+
+		$('#modal_login_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_showErrorMessage1: function(message)
+	{
+		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+
+		$('#modal_login_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_showSuccessMessage2: function(message)
+	{
+		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+
+		$('#modal_login_change_info_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_showErrorMessage2: function(message)
+	{
+		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+
+		$('#modal_login_change_info_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_showSuccessMessage3: function(message)
+	{
+		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+
+		$('#modal_login_change_pass_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_showErrorMessage3: function(message)
+	{
+		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+
+		$('#modal_login_change_pass_message .alert').fadeOut(45000);
+
+		amiLogin._clean();
+		amiWebApp.unlock();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_flush: function()
+	{
+		$('#modal_login_message').empty();
+
+		$('#modal_login_change_info_message').empty();
+
+		$('#modal_login_change_pass_message').empty();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_clean: function()
+	{
+		$('#modal_login_form1_pass').val('');
+
+		$('#modal_login_form2_pass1').val('');
+		$('#modal_login_form2_pass2').val('');
+
+		$('#modal_login_change_pass_form_old_pass' ).val('');
+		$('#modal_login_change_pass_form_new_pass1').val('');
+		$('#modal_login_change_pass_form_new_pass2').val('');
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_update: function(userInfo, roleInfo)
+	{
+		/*---------------------------------------------------------*/
+
+		var user = amiLogin.user = userInfo.AMIUser;
+		var guest = amiLogin.guest = userInfo.guestUser;
+
+		amiLogin.roleInfo = roleInfo;
+
+		/*---------------------------------------------------------*/
+
+		var result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		if(user !== guest)
+		{
+			/*-------------------------------------------------*/
+			/* GET INFO                                        */
+			/*-------------------------------------------------*/
+
+			var valid = userInfo.valid || 'false';
+			var certEnabled = userInfo.certEnabled || 'false';
+			var vomsEnabled = userInfo.vomsEnabled || 'false';
+
+			/*-------------------------------------------------*/
+
+			var firstName = userInfo.firstName || '';
+			var lastName = userInfo.lastName || '';
+			var email = userInfo.email || '';
+
+			/*-------------------------------------------------*/
+
+			var clientDNInAMI = userInfo.clientDNInAMI || '';
+			var clientDNInSession = userInfo.clientDNInSession || '';
+			var issuerDNInAMI = userInfo.issuerDNInAMI || '';
+			var issuerDNInSession = userInfo.issuerDNInSession || '';
+
+			/*-------------------------------------------------*/
+			/* SET INFO                                        */
+			/*-------------------------------------------------*/
+
+			$('#modal_login_change_info_form_first_name').val(firstName);
+			$('#modal_login_change_info_form_last_name').val(lastName);
+			$('#modal_login_change_info_form_email').val(email);
+
+			/*-------------------------------------------------*/
+
+			$('#modal_login_change_info_form_email').prop('disabled', vomsEnabled !== 'false');
+
+			/*-------------------------------------------------*/
+
+			$('#modal_login_account_status_form2_first_name').val(firstName);
+			$('#modal_login_account_status_form2_last_name').val(lastName);
+			$('#modal_login_account_status_form2_email').val(email);
+
+			/*-------------------------------------------------*/
+
+			$('#modal_login_account_status_form2_client_dn_in_ami').val(clientDNInAMI);
+			$('#modal_login_account_status_form2_client_dn_in_session').val(clientDNInSession);
+			$('#modal_login_account_status_form2_issuer_dn_in_ami').val(issuerDNInAMI);
+			$('#modal_login_account_status_form2_issuer_dn_in_session').val(issuerDNInSession);
+
+			/*-------------------------------------------------*/
+			/* CHECK USER STATUS                               */
+			/*-------------------------------------------------*/
+
+			var color = '';
+			var message = '';
+
+			if(valid !== 'false')
+			{
+				/*-----------------------------------------*/
+				/* VALID USER                              */
+				/*-----------------------------------------*/
+
+				if(certEnabled !== 'false' && clientDNInAMI && issuerDNInAMI)
+				{
+					if(!clientDNInSession
+					   ||
+					   !issuerDNInSession
+					 ) {
+						message = 'You should provide a certificate to use this AMI web application.';
+					}
+					else
+					{
+						if(clientDNInAMI !== clientDNInSession
+						   ||
+						   issuerDNInAMI !== issuerDNInSession
+						 ) {
+							message = 'The certificate in your session is not the one registered in AMI.';
+						}
+					}
+				}
+
+				$('#modal_login_account_status_message').html(
+					message ? '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message : ''
+				);
+
+				$('#modal_login_account_status_form1_status').html(
+					'<span style="color: #006400;">valid</span>'
+				);
+
+				color = 'orange';
+
+				/*-----------------------------------------*/
+			}
+			else
+			{
+				/*-----------------------------------------*/
+				/* INVALID USER                            */
+				/*-----------------------------------------*/
+
+				if(vomsEnabled !== 'false')
+				{
+					if(!clientDNInAMI
+					   ||
+					   !issuerDNInAMI
+					 ) {
+						message = 'Register a valid GRID certificate.';
+					}
+					else
+					{
+						message = 'Check your VOMS roles.';
+					}
+				}
+				else
+				{
+					message = 'Contact the AMI team.';
+				}
+
+				$('#modal_login_account_status_message').html(
+					message ? '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message : ''
+				);
+
+				$('#modal_login_account_status_form1_status').html(
+					'<span style="color: #8B0000;">invalid</span>'
+				);
+
+				color = 'red';
+
+				/*-----------------------------------------*/
+			}
+
+			/*-------------------------------------------------*/
+			/* UPDATE NOTIFICATION BAR                         */
+			/*-------------------------------------------------*/
+
+			var icon = message ? '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
+			                     +
+			                     '<span class="fa fa-exclamation-triangle"></span>'
+			                     +
+			                     '</a>'
+			                   : ''
+			;
+
+			/*-------------------------------------------------*/
+			/* UPDATE MENU BAR                                 */
+			/*-------------------------------------------------*/
+
+			var dict = {
+				USER: user,
+				ICON: icon,
+			};
+
+			/*-------------------------------------------------*/
+
+			_ami_internal_always(
+				amiWebApp.onLogin(),
+				function() {
+					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
+					result.resolve();
+				}
+			);
+
+			/*-------------------------------------------------*/
+		}
+		else
+		{
+			/*-------------------------------------------------*/
+
+			_ami_internal_always(
+				amiWebApp.onLogout(),
+				function() {
+					result.resolve();
+					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
+				}
+			);
+
+			/*-------------------------------------------------*/
+		}
+
+		/*---------------------------------------------------------*/
+
+		return result.promise();
+	},
+
+	/*-----------------------------------------------------------------*/
+	/* PUBLIC METHODS                                                  */
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -527,302 +829,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		});
 
 		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_showSuccessMessage1: function(message)
-	{
-		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-
-		$('#modal_login_message .alert').fadeOut(45000);
-
-		amiLogin._clean();
-		amiWebApp.unlock();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_showErrorMessage1: function(message)
-	{
-		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-
-		$('#modal_login_message .alert').fadeOut(45000);
-
-		amiLogin._clean();
-		amiWebApp.unlock();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_showSuccessMessage2: function(message)
-	{
-		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-
-		$('#modal_login_change_info_message .alert').fadeOut(45000);
-
-		amiLogin._clean();
-		amiWebApp.unlock();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_showErrorMessage2: function(message)
-	{
-		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-
-		$('#modal_login_change_info_message .alert').fadeOut(45000);
-
-		amiLogin._clean();
-		amiWebApp.unlock();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_showSuccessMessage3: function(message)
-	{
-		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-
-		$('#modal_login_change_pass_message .alert').fadeOut(45000);
-
-		amiLogin._clean();
-		amiWebApp.unlock();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_showErrorMessage3: function(message)
-	{
-		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-
-		$('#modal_login_change_pass_message .alert').fadeOut(45000);
-
-		amiLogin._clean();
-		amiWebApp.unlock();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_flush: function()
-	{
-		$('#modal_login_message').empty();
-
-		$('#modal_login_change_info_message').empty();
-
-		$('#modal_login_change_pass_message').empty();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_clean: function()
-	{
-		$('#modal_login_form1_pass').val('');
-
-		$('#modal_login_form2_pass1').val('');
-		$('#modal_login_form2_pass2').val('');
-
-		$('#modal_login_change_pass_form_old_pass' ).val('');
-		$('#modal_login_change_pass_form_new_pass1').val('');
-		$('#modal_login_change_pass_form_new_pass2').val('');
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	_update: function(userInfo, roleInfo)
-	{
-		/*---------------------------------------------------------*/
-
-		var user = amiLogin.user = userInfo.AMIUser;
-		var guest = amiLogin.guest = userInfo.guestUser;
-
-		amiLogin.roleInfo = roleInfo;
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		if(user !== guest)
-		{
-			/*-------------------------------------------------*/
-			/* GET INFO                                        */
-			/*-------------------------------------------------*/
-
-			var valid = userInfo.valid || 'false';
-			var certEnabled = userInfo.certEnabled || 'false';
-			var vomsEnabled = userInfo.vomsEnabled || 'false';
-
-			/*-------------------------------------------------*/
-
-			var firstName = userInfo.firstName || '';
-			var lastName = userInfo.lastName || '';
-			var email = userInfo.email || '';
-
-			/*-------------------------------------------------*/
-
-			var clientDNInAMI = userInfo.clientDNInAMI || '';
-			var clientDNInSession = userInfo.clientDNInSession || '';
-			var issuerDNInAMI = userInfo.issuerDNInAMI || '';
-			var issuerDNInSession = userInfo.issuerDNInSession || '';
-
-			/*-------------------------------------------------*/
-			/* SET INFO                                        */
-			/*-------------------------------------------------*/
-
-			$('#modal_login_change_info_form_first_name').val(firstName);
-			$('#modal_login_change_info_form_last_name').val(lastName);
-			$('#modal_login_change_info_form_email').val(email);
-
-			/*-------------------------------------------------*/
-
-			$('#modal_login_change_info_form_email').prop('disabled', vomsEnabled !== 'false');
-
-			/*-------------------------------------------------*/
-
-			$('#modal_login_account_status_form2_first_name').val(firstName);
-			$('#modal_login_account_status_form2_last_name').val(lastName);
-			$('#modal_login_account_status_form2_email').val(email);
-
-			/*-------------------------------------------------*/
-
-			$('#modal_login_account_status_form2_client_dn_in_ami').val(clientDNInAMI);
-			$('#modal_login_account_status_form2_client_dn_in_session').val(clientDNInSession);
-			$('#modal_login_account_status_form2_issuer_dn_in_ami').val(issuerDNInAMI);
-			$('#modal_login_account_status_form2_issuer_dn_in_session').val(issuerDNInSession);
-
-			/*-------------------------------------------------*/
-			/* CHECK USER STATUS                               */
-			/*-------------------------------------------------*/
-
-			var color = '';
-			var message = '';
-
-			if(valid !== 'false')
-			{
-				/*-----------------------------------------*/
-				/* VALID USER                              */
-				/*-----------------------------------------*/
-
-				if(certEnabled !== 'false' && clientDNInAMI && issuerDNInAMI)
-				{
-					if(!clientDNInSession
-					   ||
-					   !issuerDNInSession
-					 ) {
-						message = 'You should provide a certificate to use this AMI web application.';
-					}
-					else
-					{
-						if(clientDNInAMI !== clientDNInSession
-						   ||
-						   issuerDNInAMI !== issuerDNInSession
-						 ) {
-							message = 'The certificate in your session is not the one registered in AMI.';
-						}
-					}
-				}
-
-				$('#modal_login_account_status_message').html(
-					message ? '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message : ''
-				);
-
-				$('#modal_login_account_status_form1_status').html(
-					'<span style="color: #006400;">valid</span>'
-				);
-
-				color = 'orange';
-
-				/*-----------------------------------------*/
-			}
-			else
-			{
-				/*-----------------------------------------*/
-				/* INVALID USER                            */
-				/*-----------------------------------------*/
-
-				if(vomsEnabled !== 'false')
-				{
-					if(!clientDNInAMI
-					   ||
-					   !issuerDNInAMI
-					 ) {
-						message = 'Register a valid GRID certificate.';
-					}
-					else
-					{
-						message = 'Check your VOMS roles.';
-					}
-				}
-				else
-				{
-					message = 'Contact the AMI team.';
-				}
-
-				$('#modal_login_account_status_message').html(
-					message ? '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message : ''
-				);
-
-				$('#modal_login_account_status_form1_status').html(
-					'<span style="color: #8B0000;">invalid</span>'
-				);
-
-				color = 'red';
-
-				/*-----------------------------------------*/
-			}
-
-			/*-------------------------------------------------*/
-			/* UPDATE NOTIFICATION BAR                         */
-			/*-------------------------------------------------*/
-
-			var icon = message ? '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
-			                     +
-			                     '<span class="fa fa-exclamation-triangle"></span>'
-			                     +
-			                     '</a>'
-			                   : ''
-			;
-
-			/*-------------------------------------------------*/
-			/* UPDATE MENU BAR                                 */
-			/*-------------------------------------------------*/
-
-			var dict = {
-				USER: user,
-				ICON: icon,
-			};
-
-			/*-------------------------------------------------*/
-
-			_ami_internal_always(
-				amiWebApp.onLogin(),
-				function() {
-					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
-					result.resolve();
-				}
-			);
-
-			/*-------------------------------------------------*/
-		}
-		else
-		{
-			/*-------------------------------------------------*/
-
-			_ami_internal_always(
-				amiWebApp.onLogout(),
-				function() {
-					result.resolve();
-					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: null});
-				}
-			);
-
-			/*-------------------------------------------------*/
-		}
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
 	},
 
 	/*-----------------------------------------------------------------*/

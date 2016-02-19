@@ -29,6 +29,8 @@ function _ami_internal_textToString(s)
 
 $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
+	/* PUBLIC MEMBERS                                                  */
+	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Default endpoint
@@ -44,6 +46,8 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	converter: 'AMIXmlToJson.xsl',
 
+	/*-----------------------------------------------------------------*/
+	/* PUBLIC METHODS                                                  */
 	/*-----------------------------------------------------------------*/
 
 	/**
