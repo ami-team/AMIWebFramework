@@ -65,7 +65,7 @@ $AMIClass('AMICommandApp', {
 
 	onLogin: function()
 	{
-		if($('#ami_command_list').html().trim())
+		if($('#ami_command_list').is(':empty') == false)
 		{
 			return;
 		}

@@ -40,31 +40,31 @@ $AMIClass('AMIAdminDashboardApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-				var app;
+				var subsubapp;
 
 				/**/ if(userdata === 'config') {
-					app = this.app = new AMIAdminDashboardConfig();
+					subsubapp = this.subsubapp = new AMIAdminDashboardConfig();
 				}
 				else if(userdata === 'monitoring') {
-					app = this.app = new AMIAdminDashboardMonitoring();
+					subsubapp = this.subsubapp = new AMIAdminDashboardMonitoring();
 				}
 				else if(userdata === 'roles') {
-					app = this.app = new AMIAdminDashboardRoles();
+					subsubapp = this.subsubapp = new AMIAdminDashboardRoles();
 				}
 				else if(userdata === 'commands') {
-					app = this.app = new AMIAdminDashboardCommands();
+					subsubapp = this.subsubapp = new AMIAdminDashboardCommands();
 				}
 				else if(userdata === 'users') {
-					app = this.app = new AMIAdminDashboardUsers();
+					subsubapp = this.subsubapp = new AMIAdminDashboardUsers();
 				}
 				else if(userdata === 'tasks') {
-					app = this.app = new AMIAdminDashboardTasks();
+					subsubapp = this.subsubapp = new AMIAdminDashboardTasks();
 				}
 				else {
-					app = this.app = new AMIAdminDashboardHome();
+					subsubapp = this.subsubapp = new AMIAdminDashboardHome();
 				}
 
-				app._init().done(function() {
+				subsubapp._init().done(function() {
 					result.resolve();
 				}).fail(function() {
 					result.reject();
@@ -82,8 +82,9 @@ $AMIClass('AMIAdminDashboardApp', {
 
 	onExit: function()
 	{
-		if(this.app.onExit) {
-			this.app.onExit();
+		if(this.subsubapp.onExit)
+		{
+			this.subsubapp.onExit();
 		}
 	},
 
@@ -91,8 +92,9 @@ $AMIClass('AMIAdminDashboardApp', {
 
 	onLogin: function()
 	{
-		if(this.app.onLogin) {
-			this.app.onLogin();
+		if(this.subsubapp.onLogin)
+		{
+			this.subsubapp.onLogin();
 		}
 	},
 
@@ -100,8 +102,9 @@ $AMIClass('AMIAdminDashboardApp', {
 
 	onLogout: function()
 	{
-		if(this.app.onLogout) {
-			this.app.onLogout();
+		if(this.subsubapp.onLogout)
+		{
+			this.subsubapp.onLogout();
 		}
 	},
 
@@ -109,8 +112,9 @@ $AMIClass('AMIAdminDashboardApp', {
 
 	onSessionExpired: function()
 	{
-		if(this.app.onSessionExpired) {
-			this.app.onSessionExpired();
+		if(this.subsubapp.onSessionExpired)
+		{
+			this.subsubapp.onSessionExpired();
 		}
 	},
 

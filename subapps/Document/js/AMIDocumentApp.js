@@ -75,9 +75,9 @@ $AMIClass('AMIDocumentApp', {
 			context: this,
 		}).done(function(data) {
 
-			$('#ami_jumbotron_title').html('');
-			$('#ami_jumbotron_content').html('');
-			$('#ami_breadcrumb_content').html('<li><a href="' + amiWebApp.webAppURL + '?subapp=amidocument">Documents</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amidocument&userdata=' + page + '">' + amiWebApp.textToHtml(page) + '</a></li>');
+			$('#ami_jumbotron_title').empty();
+			$('#ami_jumbotron_content').empty();
+			$('#ami_breadcrumb_content').html('<li><a href="' + amiWebApp.webAppURL + '?subapp=amidocument">Documents</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amidocument&userdata=' + page + '">' + page + '</a></li>');
 
 			amiWebApp.replaceHTML('#ami_document_content', data);
 
