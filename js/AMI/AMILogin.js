@@ -53,21 +53,24 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				document.getElementById('modal_login_form1_user').addEventListener('keypress', function(e) {
 
-					if(e.keyCode === 13) {
+					if(e.keyCode === 13)
+					{
 						amiLogin.form_passLogin();
 					}
 				});
 
 				document.getElementById('modal_login_form1_pass').addEventListener('keypress', function(e) {
 
-					if(e.keyCode === 13) {
+					if(e.keyCode === 13)
+					{
 						amiLogin.form_passLogin();
 					}
 				});
 
 				document.getElementById('modal_login_form3_user').addEventListener('keypress', function(e) {
 
-					if(e.keyCode === 13) {
+					if(e.keyCode === 13)
+					{
 						amiLogin.form_resetPass();
 					}
 				});

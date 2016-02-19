@@ -38,7 +38,7 @@ function _ami_internal_always(deferred, func)
 /**
   * Register a sub-application
   * @param {String} subAppName the sub-application name
-  * @param {?} subAppInstance the sub-application instance
+  * @param {ami.ISubApp} subAppInstance the sub-application instance
   */
 
 function amiRegisterSubApp(subAppName, subAppInstance)
@@ -57,6 +57,59 @@ function amiRegisterSubApp(subAppName, subAppInstance)
 
 var amiWebApp = {
 	/*-----------------------------------------------------------------*/
+	/* PRIVATE MEMBERS                                                 */
+	/*-----------------------------------------------------------------*/
+
+	_isEmbedded: false,
+
+	/*-----------------------------------------------------------------*/
+
+	_nonce: jQuery.now(),
+
+	_scripts: [],
+	_sheets: [],
+
+	/*-----------------------------------------------------------------*/
+
+	_originURLRegExp: /\{\{\s*ORIGIN_URL\s*\}\}/g,
+	_webappURLRegExp: /\{\{\s*WEBAPP_URL\s*\}\}/g,
+
+	/*-----------------------------------------------------------------*/
+
+	_currentSubAppInstance: new function() {
+
+		this.onReady = function() {};
+		this.onExit = function() {};
+		this.onLogin = function() {};
+		this.onLogout = function() {};
+	},
+
+	/*-----------------------------------------------------------------*/
+	/* PUBLIC MEMBERS                                                  */
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Origin URL
+	  * @type {String}
+	  */
+
+	originURL: '/',
+
+	/**
+	  * WebApp URL
+	  * @type {String}
+	  */
+
+	webAppURL: '/',
+
+	/**
+	  * URL arguments
+	  * @type {Array<String>}
+	  */
+
+	args: {},
+
+	/*-----------------------------------------------------------------*/
 	/* CONSTRUCTOR                                                     */
 	/*-----------------------------------------------------------------*/
 
@@ -66,35 +119,15 @@ var amiWebApp = {
 		/* URLs                                                    */
 		/*---------------------------------------------------------*/
 
-		/**
-		  * Origin URL
-		  * @type {String}
-		  * @member originURL
-		  * @memberof amiWebApp
-		  */
-
-		this.originURL = '/';
-
-		/**
-		  * Embedded mode
-		  * @type {Boolean}
-		  * @member isEmbedded
-		  * @memberof amiWebApp
-		  */
-
-		this.isEmbedded = false;
-
-		/*---------------------------------------------------------*/
-
 		var scripts = document.getElementsByTagName('script');
   
-  		/*---------------------------------------------------------*/
+ 		/*---------------------------------------------------------*/
 
 		for(var i in scripts)
 		{
-			var src = scripts[i].src;
+			var src = scripts[i].src.trim();
 
-			var idx = src.indexOf('/js/AMI/AMIWebApp.');
+			var idx = src.indexOf('js/AMI/AMIWebApp.');
 
 			if(idx >= 0)
 			{
@@ -105,11 +138,11 @@ var amiWebApp = {
 					this.originURL = this.originURL.substring(0, this.originURL.length - 1);
 				}
 
-				if(src.indexOf('embedded') >= 0
+				if(src.indexOf('embedded', idx) >= 0
 				   ||
-				   src.indexOf('EMBEDDED') >= 0
+				   src.indexOf('EMBEDDED', idx) >= 0
 				 ) {
-					this.isEmbedded = true;
+					this._isEmbedded = true;
 				}
 
 				break;
@@ -124,13 +157,6 @@ var amiWebApp = {
 
 		/*---------------------------------------------------------*/
 
-		/**
-		  * WebApp URL
-		  * @type {String}
-		  * @member webAppURL
-		  * @memberof amiWebApp
-		  */
-
 		this.webAppURL = (idx > 0) ? url.substring(0, idx)
 		                           : url
 		;
@@ -141,17 +167,8 @@ var amiWebApp = {
 		}
 
 		/*---------------------------------------------------------*/
-		/* ARGs                                                    */
+		/* ARGS                                                    */
 		/*---------------------------------------------------------*/
-
-		/**
-		  * URL arguments
-		  * @type {Array<String>}
-		  * @member args
-		  * @memberof amiWebApp
-		  */
-
-		this.args = {};
 
 		if(window.location.search)
 		{
@@ -169,7 +186,7 @@ var amiWebApp = {
 		/* DEFAULT SHEETS                                          */
 		/*---------------------------------------------------------*/
 
-		if(this.isEmbedded === false) this.loadSheets([
+		if(this._isEmbedded === false) this.loadSheets([
 			/* Third-party */
 			this.originURL + '/css/bootstrap.min.css',
 			this.originURL + '/css/bootstrap-toggle.min.css',
@@ -232,7 +249,19 @@ var amiWebApp = {
 	},
 
 	/*-----------------------------------------------------------------*/
-	/* TOOLS                                                           */
+	/* MODE                                                            */
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Check whether the WebApp is executed in embedded mode
+	  * @returns {Boolean}
+	  */
+
+	isEmbedded: function()
+	{
+		return this._isEmbedded;
+	},
+
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -250,6 +279,8 @@ var amiWebApp = {
 		;
 	},
 
+	/*-----------------------------------------------------------------*/
+	/* TOOLS                                                           */
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -324,15 +355,6 @@ var amiWebApp = {
 
 	/*-----------------------------------------------------------------*/
 	/* DYNAMIC RESOURCE LOADING                                        */
-	/*-----------------------------------------------------------------*/
-
-	_nonce: jQuery.now(),
-
-	/*-----------------------------------------------------------------*/
-
-	_scripts: [],
-	_sheets: [],
-
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -531,11 +553,6 @@ var amiWebApp = {
 	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
-	originURLRegExp: /\{\{\s*ORIGIN_URL\s*\}\}/g,
-	webappURLRegExp: /\{\{\s*WEBAPP_URL\s*\}\}/g,
-
-	/*-----------------------------------------------------------------*/
-
 	/**
 	  * Replace the HTML content of the given target
 	  * @param {String} path the target path
@@ -546,8 +563,8 @@ var amiWebApp = {
 
 	replaceHTML: function(selector, html, settings)
 	{
-		html = html.replace(this.originURLRegExp, this.originURL);
-		html = html.replace(this.webappURLRegExp, this.webAppURL);
+		html = html.replace(this._originURLRegExp, this.originURL);
+		html = html.replace(this._webappURLRegExp, this.webAppURL);
 
 		var context = null;
 		var dict = null;
@@ -577,9 +594,9 @@ var amiWebApp = {
 
 		target.html(html).promise().done(function() {
 
-			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
-			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+			target.find('.amitt').tooltip({container: 'body', delay: {show: 500, hide: 100}});
+			target.find('.amipo[tabindex="0"]').popover({container: 'body', html: true, trigger: 'focus'});
+			target.find('.amipo[tabindex!="0"]').popover({container: 'body', html: true, trigger: 'click'});
 			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
 			target.find('.ami-select').each(function() {
@@ -610,8 +627,8 @@ var amiWebApp = {
 
 	prependHTML: function(selector, html, settings)
 	{
-		html = html.replace(this.originURLRegExp, this.originURL);
-		html = html.replace(this.webappURLRegExp, this.webAppURL);
+		html = html.replace(this._originURLRegExp, this.originURL);
+		html = html.replace(this._webappURLRegExp, this.webAppURL);
 
 		var context = null;
 		var dict = null;
@@ -641,9 +658,9 @@ var amiWebApp = {
 
 		target.prepend(html).promise().done(function() {
 
-			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
-			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+			target.find('.amitt').tooltip({container: 'body', delay: {show: 500, hide: 100}});
+			target.find('.amipo[tabindex="0"]').popover({container: 'body', html: true, trigger: 'focus'});
+			target.find('.amipo[tabindex!="0"]').popover({container: 'body', html: true, trigger: 'click'});
 			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
 			target.find('.ami-select').each(function() {
@@ -674,8 +691,8 @@ var amiWebApp = {
 
 	appendHTML: function(selector, html, settings)
 	{
-		html = html.replace(this.originURLRegExp, this.originURL);
-		html = html.replace(this.webappURLRegExp, this.webAppURL);
+		html = html.replace(this._originURLRegExp, this.originURL);
+		html = html.replace(this._webappURLRegExp, this.webAppURL);
 
 		var context = null;
 		var dict = null;
@@ -705,9 +722,9 @@ var amiWebApp = {
 
 		target.append(html).promise().done(function() {
 
-			target.find('.amitt').tooltip({delay: {show: 500, hide: 100}});
-			target.find('.amipo[tabindex="0"]').popover({html: true, trigger: 'focus'});
-			target.find('.amipo[tabindex!="0"]').popover({html: true, trigger: 'click'});
+			target.find('.amitt').tooltip({container: 'body', delay: {show: 500, hide: 100}});
+			target.find('.amipo[tabindex="0"]').popover({container: 'body', html: true, trigger: 'focus'});
+			target.find('.amipo[tabindex!="0"]').popover({container: 'body', html: true, trigger: 'click'});
 			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
 			target.find('.ami-select').each(function() {
@@ -926,7 +943,7 @@ var amiWebApp = {
 
 	start: function(settings)
 	{
-		if(this.isEmbedded === false)
+		if(this._isEmbedded === false)
 		{
 			/*-------------------------------------------------*/
 
@@ -1028,24 +1045,14 @@ var amiWebApp = {
 	/* SUB-APPLICATIONS                                                */
 	/*-----------------------------------------------------------------*/
 
-	_currentSubAppInstance: new function() {
-
-		this.onReady = function() {};
-		this.onExit = function() {};
-		this.onLogin = function() {};
-		this.onLogout = function() {};
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	onReady: function(userdata)
 	{
 		return this._currentSubAppInstance.onReady(userdata);
 	},
 
-	onExit: function(userdata)
+	onExit: function()
 	{
-		return this._currentSubAppInstance.onExit(userdata);
+		return this._currentSubAppInstance.onExit();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1062,18 +1069,6 @@ var amiWebApp = {
 		var result = this._currentSubAppInstance.onLogout();
 		this.onToolbarUpdateNeeded();
 		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Get the current sub-application instance
-	  * @return {AMISubApp} The current sub-application instance
-	  */
-
-	getCurrentSubAppInstance: function()
-	{
-		return this._currentSubAppInstance;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1139,7 +1134,7 @@ var amiWebApp = {
 			amiWebApp.onReady(userdata),
 			function() {
 				_ami_internal_always(
-					amiWebApp.onLogin(/******/),
+					amiWebApp.onLogin(),
 					function() {
 						amiWebApp.unlock();
 					}
@@ -1212,7 +1207,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Called when log in
+	  * Called when logging in
 	  */
 
 	onLogin: function() {},
@@ -1220,7 +1215,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Called when log out
+	  * Called when logging out
 	  */
 
 	onLogout: function() {},

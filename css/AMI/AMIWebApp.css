@@ -105,8 +105,7 @@ pre {
 }
 
 .modal-footer {
-	background-color: rgb(245, 245, 245);
-	background-image: url("../../images/stripe2.png");
+	background: rgb(245, 245, 245) url("../../images/stripe2.png");
 
 	-webkit-border-radius: 0 0 6px 6px;
 	-moz-border-radius: 0 0 6px 6px;
