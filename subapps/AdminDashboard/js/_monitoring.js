@@ -17,10 +17,8 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 	{
 		amiWebApp.loadScripts([
 			'js/3rd-party/canvasjs.min.js',
-			'js/3rd-party/ammap.min.js',
-			'js/3rd-party/worldLow.js',
 		]).done(function() {
-			AmCharts.isReady = true;
+			//AmCharts.isReady = true;
 		});
 
 		$('#ami_jumbotron_content').html('Monitoring');
@@ -1020,15 +1018,6 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 
 	_nodes: [],
 
-	/*-----------------------------------------------------------------*/
-
-	_chart0: null,
-	_chart1: null,
-	_chart2: null,
-	_chart3: null,
-
-	/*-----------------------------------------------------------------*/
-
 	_cnt0: 0,
 	_cnt1: 0,
 
@@ -1036,7 +1025,6 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 
 	__handler1: function(deferred, data, nr, ok)
 	{
-/*
 		if(nr < this._nodes.length)
 		{
 			var endpoint = this._nodes[nr].url;
@@ -1060,7 +1048,6 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 		}
 
 		return deferred;
-*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1073,7 +1060,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			this._chart0.options.data[0].dataPoints[0].y = ok - 00;
 			this._chart0.options.data[0].dataPoints[1].y = nr - ok;
 
-			//this._chart0.render();
+			this._chart0.render();
 
 			/*-------------------------------------------------*/
 
@@ -1082,9 +1069,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 				this._chart1.options.data[i].dataPoints.push({x: this._cnt0, y: data[i]});
 			}
 
-			//this._chart1.render();
-
-			/*-------------------------------------------------*/
+			this._chart1.render();
 
 			this._cnt0 += 8;
 
@@ -1098,28 +1083,22 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 	{
 		/*---------------------------------------------------------*/
 
-		var command = 'GetConnectionPoolStatus';
+		var endpoint = $('#ami_monitoring_node').val();
 
 		/*---------------------------------------------------------*/
 
-		var endpoint = $('#ami_moniroring_node').val();
-
-		/*---------------------------------------------------------*/
-
-		amiCommand.execute(command, {context: this, endpoint: endpoint}).done(function(data) {
+		amiCommand.execute('GetConnectionPoolStatus', {context: this, endpoint: endpoint}).done(function(data) {
 			/*-------------------------------------------------*/
 
 			var  numIdle  = parseInt(amiWebApp.jspath('..field{.@name=== "numIdle" }.$', data)[0] || '0');
 			var numActive = parseInt(amiWebApp.jspath('..field{.@name==="numActive"}.$', data)[0] || '0');
 
 			/*-------------------------------------------------*/
-/*
+
 			this._chart2.options.data[0].dataPoints.push({x: this._cnt1, y:  numIdle });
 			this._chart2.options.data[1].dataPoints.push({x: this._cnt1, y: numActive});
 
 			this._chart2.render();
-*/
-			/*-------------------------------------------------*/
 
 			this._cnt1 += 8;
 
@@ -1140,6 +1119,8 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 		/*---------------------------------------------------------*/
 
 		amiCommand.execute(command, {context: this}).done(function(data) {
+			/*-------------------------------------------------*/
+			/* GET NODES                                       */
 			/*-------------------------------------------------*/
 
 			var rows = amiWebApp.jspath('..row', data);
@@ -1171,8 +1152,10 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 
 			/*-------------------------------------------------*/
 
-			$('#ami_moniroring_node').html(options);
+			$('#ami_monitoring_node').html(options);
 
+			/*-------------------------------------------------*/
+			/* BUILD CHARTS                                    */
 			/*-------------------------------------------------*/
 
 			this._chart0 = new CanvasJS.Chart('ami_monitoring_chart0', {
@@ -1216,18 +1199,6 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 
 			/*-------------------------------------------------*/
 
-			this._handler1();
-
-			setInterval(
-				(function(self) {
-					return function() {
-						self._handler1();
-					}
-				})(this)
-			, 8000);
-
-			/*-------------------------------------------------*/
-
 			this._chart2 = new CanvasJS.Chart('ami_monitoring_chart2', {
 				axisX: {
 					minimum: 0,
@@ -1254,174 +1225,32 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			this._chart2.render();
 
 			/*-------------------------------------------------*/
+			/* EXECUTE HANDLERS                                */
+			/*-------------------------------------------------*/
 
+			this._handler1();
 			this._handler2();
-/*
+
 			setInterval(
 				(function(self) {
 					return function() {
+						self._handler1();
 						self._handler2();
 					}
 				})(this)
 			, 8000);
-*/
+
 			/*-------------------------------------------------*/
 		}).fail(function(data) {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
 		});
-
-		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	_stage2: function()
 	{
-		/*---------------------------------------------------------*/
-
-		var command = 'SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(`id`) FROM `router_user` WHERE `valid`=1) AS `valid`, (SELECT COUNT(`id`) FROM `router_user` WHERE `valid`=0) AS `invalid`"';
-
-		/*---------------------------------------------------------*/
-
-		amiCommand.execute(command, {context: this}).done(function(data) {
-			/*-------------------------------------------------*/
-
-			var  valid  = parseInt(amiWebApp.jspath('..field{.@name=== "valid" }.$', data)[0] || '0');
-			var invalid = parseInt(amiWebApp.jspath('..field{.@name==="invalid"}.$', data)[0] || '0');
-
-			var total = valid + invalid;
-
-			/*-------------------------------------------------*/
-
-			var command = 'SearchQuery -catalog="self" -sql="SELECT `country` AS `code`, COUNT(`country`) AS `z` FROM `router_user` WHERE `valid`=1 GROUP BY `country`"';
-
-			/*-------------------------------------------------*/
-
-			amiCommand.execute(command, {context: this}).done(function(data) {
-				/*-----------------------------------------*/
-
-				var rows = amiWebApp.jspath('..row', data);
-
-				var images = [];
-
-				var min = 0;
-				var max = 0;
-
-				for(var i in rows)
-				{
-					var code = amiWebApp.jspath('..field{.@name==="code"}.$', rows[i])[0];
-					var z = amiWebApp.jspath('..field{.@name==="z"}.$', rows[i])[0];
-
-					images.push({
-						type: 'circle',
-						color: '#17BECF',
-						alpha: 0.75,
-						latitude: this._coords[code].latitude,
-						longitude: this._coords[code].longitude,
-						title: code + ': ' + z + ' users',
-						value: z,
-					});
-
-					if(min > z) {
-						min = z;
-					}
-
-					if(max < z) {
-						max = z;
-					}
-				}
-
-				/*-----------------------------------------*/
-
-				var minBulletSize = 3;
-				var maxBulletSize = 70;
-
-				var minSquare = minBulletSize * minBulletSize * 2 * Math.PI;
-				var maxSquare = maxBulletSize * maxBulletSize * 2 * Math.PI;
-
-				for(var i in rows)
-				{
-					var square = (images[i].value - min) / (max - min) * (maxSquare - minSquare) + minSquare;
-
-					if(square < minSquare)
-					{
-						square = minSquare;
-					}
-
-					var size = Math.sqrt(square / (Math.PI * 2));
-
-					images[i].width = size;
-					images[i].height = size;
-				}
-
-				/*-----------------------------------------*/
-
-				images.push({
-					top: 430,
-					left: 10,
-					label: 'Users: ' + total,
-					labelFontSize: 13,
-				});
-
-				images.push({
-					top: 450,
-					left: 10,
-					label: 'Valid users: ' + valid,
-					labelFontSize: 13,
-				});
-
-				images.push({
-					top: 470,
-					left: 10,
-					label: 'Invalid users: ' + invalid,
-					labelFontSize: 13,
-				});
-
-				/*-----------------------------------------*/
-
-				this._chart3 = AmCharts.makeChart('ami_monitoring_chart3', {
-
-					type: 'map',
-
-					areasSettings: {
-						alpha: 0.75,
-						autoZoom: false,
-						color: '#67B7DC',
-						outlineThickness: 1,
-						rollOverColor: '#17BECF',
-						rollOverOutlineColor: '#FFFFFF',
-					},
-
-					dataProvider: {
-						map: 'worldLow',
-						getAreasFromMap: true,
-						images: images,
-					},
-				});
-
-				/*-----------------------------------------*/
-
-				$(window).on('resize', function() {
-
-					var div = $('#ami_monitoring_chart3');
-
-					div.height(0.67934782608696 * div.width());
-				});
-
-				/*-----------------------------------------*/
-			}).fail(function(data) {
-
-				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
-			});
-
-			/*-------------------------------------------------*/
-		}).fail(function(data) {
-
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
-		});
-
-		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/

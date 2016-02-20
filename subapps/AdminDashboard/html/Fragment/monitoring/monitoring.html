@@ -1,3 +1,11 @@
+<style>
+
+.canvasjs-chart-credit {
+	display: none;
+}
+
+</style>
+
 <h1>Node Status</h1>
 
 <div class="ami-callout">
@@ -18,8 +26,8 @@
 <div class="ami-callout">
 
   <div class="form-group form-group-sm">
-    <label for="ami_moniroring_node" class="control-label">Node:</label>
-    <select class="form-control ami-select" id="ami_moniroring_node" onchange="amiAdminDashboardApp.app.selectNode();"></select>
+    <label for="ami_monitoring_node" class="control-label">Node:</label>
+    <select class="form-control ami-select" id="ami_monitoring_node" onchange="amiAdminDashboardApp.subsubapp.selectNode();"></select>
   </div>
 
   <div id="ami_monitoring_chart2" style="height: 275px; width: 100%;"></div>
@@ -28,7 +36,7 @@
 
 <h1>User Status</h1>
 
-<div class="ami-callout" style="background: url('/subapps/AdminDashboard/images/map_bg_shadow.png') no-repeat; background-size: 100% 100%; padding: 50px;">
+<div class="ami-callout" style="background: url('{{ORIGIN_URL}}/subapps/AdminDashboard/images/map_bg_shadow.png') no-repeat; background-size: 100% 100%; padding: 50px;">
 
   <div id="ami_monitoring_chart3" style="height: 500px; width: 100%;"></div>
 

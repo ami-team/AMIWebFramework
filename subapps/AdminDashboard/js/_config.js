@@ -98,8 +98,6 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	reset: function()
 	{
-		/*---------------------------------------------------------*/
-
 		if(!confirm('Please confirm...'))
 		{
 			return;
@@ -121,8 +119,6 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	apply: function()
 	{
-		/*---------------------------------------------------------*/
-
 		if(!confirm('Please confirm...'))
 		{
 			return;
@@ -239,8 +235,6 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	delParameter: function(name)
 	{
-		/*---------------------------------------------------------*/
-
 		if(!confirm('Please confirm...'))
 		{
 			return;
