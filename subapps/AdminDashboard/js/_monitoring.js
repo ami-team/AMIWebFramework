@@ -124,6 +124,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			});
 
 		}).fail(function() {
+
 			result.reject();
 		});
 

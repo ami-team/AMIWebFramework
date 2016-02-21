@@ -15,7 +15,7 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	_init: function()
 	{
-		$('#ami_jumbotron_content').html('Config');
+		$('#ami_jumbotron_content').html('Configuration');
 
 		var result = $.Deferred();
 
@@ -35,6 +35,7 @@ $AMIClass('AMIAdminDashboardConfig', {
 			});
 
 		}).fail(function() {
+
 			result.reject();
 		});
 
@@ -174,7 +175,7 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	/*-----------------------------------------------------------------*/
 
-	testEmail: function()
+	testEmail: function(email)
 	{
 		/*---------------------------------------------------------*/
 
@@ -182,7 +183,7 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 		/*---------------------------------------------------------*/
 
-		var command = 'TestEmail -from="ami@in2p3.fr" -to="' + $('#ami_config_forms_test_email').val() + '"';
+		var command = 'TestEmail -from="ami@in2p3.fr" -to="' + amiWebApp.textToString(email) + '"';
 
 		/*---------------------------------------------------------*/
 

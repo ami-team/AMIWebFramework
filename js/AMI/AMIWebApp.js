@@ -1224,7 +1224,33 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 });
 
 /*-------------------------------------------------------------------------*/
-/* JQUERY EXTENSION                                                        */
+/* ES6 EXTENSIONS                                                          */
+/*-------------------------------------------------------------------------*/
+
+if(!String.prototype.startsWith)
+{
+	String.prototype.startsWith = function(s1, s2)
+	{
+		var base = 0x0000000000000000000;
+
+		return s1.indexOf(s2, base) === base;
+	};
+}
+
+/*-------------------------------------------------------------------------*/
+
+if(!String.prototype.endsWith)
+{
+	String.prototype.endsWith = function(s1, s2)
+	{
+		var base = s1.length - s2.length;
+
+		return s1.indexOf(s2, base) === base;
+	};
+}
+
+/*-------------------------------------------------------------------------*/
+/* JQUERY EXTENSIONS                                                       */
 /*-------------------------------------------------------------------------*/
 
 jQuery.foreach = function(elements, callback, context)
