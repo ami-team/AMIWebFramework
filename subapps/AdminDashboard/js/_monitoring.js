@@ -7,7 +7,7 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTION                                                       */
+/* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
 function _drawWorld(svg, g, projection, projectionPath, className, featureSet, data, max)
@@ -88,7 +88,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			'js/3rd-party/canvasjs.min.js',
 		]);
 
-		var canvasjs = '<p>Charts built with <a href="http://canvasjs.com/" target="_blank">CanvasJS</a></p>'
+		var canvasjs = '<p>Charts rendered with <a href="http://canvasjs.com/" target="_blank">CanvasJS</a></p>'
 
 		$('#ami_jumbotron_content').html('Monitoring');
 
