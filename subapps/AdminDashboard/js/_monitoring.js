@@ -68,7 +68,7 @@ function _drawWorld(svg, g, projection, projectionPath, className, featureSet, d
 
 	   .on('mouseover', function(d) {
 
-			$('#ami_monitoring_mouseover').html(d.properties.name + ': ' + (data[d.id] || 0) + ' users');
+			$('#ami_monitoring_mouseover').html((data[d.id] || 0) + ' users for ' + d.properties.name);
 		})
 	;
 }
@@ -88,6 +88,8 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			'js/3rd-party/canvasjs.min.js',
 		]);
 
+		var canvasjs = '<p>Charts built with <a href="http://canvasjs.com/" target="_blank">CanvasJS</a></p>'
+
 		$('#ami_jumbotron_content').html('Monitoring');
 
 		var result = $.Deferred();
@@ -97,8 +99,10 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 		]).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_admin_dashboard_content', data[0]).done(function() {
+				amiWebApp.replaceHTML('#ami_admin_dashboard_extra_menu', canvasjs, {context: this}).done(function() {
 
-				result.resolve();
+					result.resolve();
+				});
 			});
 
 		}).fail(function() {
@@ -261,6 +265,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			/*-------------------------------------------------*/
 
 			this._chart0 = new CanvasJS.Chart('ami_monitoring_chart0', {
+				backgroundColor: 'transparent',
 				title: {
 					text: this._nodes.length + ' nodes',
 					horizontalAlign: 'center',
@@ -283,6 +288,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			/*-------------------------------------------------*/
 
 			this._chart1 = new CanvasJS.Chart('ami_monitoring_chart1', {
+				backgroundColor: 'transparent',
 				axisX: {
 					minimum: 0,
 					title: 'Time (s)',
@@ -302,6 +308,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			/*-------------------------------------------------*/
 
 			this._chart2 = new CanvasJS.Chart('ami_monitoring_chart2', {
+				backgroundColor: 'transparent',
 				axisX: {
 					minimum: 0,
 					title: 'Time (s)',
