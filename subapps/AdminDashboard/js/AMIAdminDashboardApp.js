@@ -19,6 +19,10 @@ $AMIClass('AMIAdminDashboardApp', {
 
 	onReady: function(userdata)
 	{
+		amiWebApp.loadSheets([
+			'subapps/AdminDashboard/css/AMIAdminDashboardApp.css',
+		]);
+
 		amiWebApp.loadScripts([
 			'subapps/AdminDashboard/js/_home.js',
 			'subapps/AdminDashboard/js/_config.js',
