@@ -4,6 +4,24 @@
  * Copyright (c) 2014 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
+ * http://www.naturalearthdata.com/downloads/110m-cultural-vectors/110m-admin-0-countries/
+ *
+ ****************************************************************************
+ * INSTALL TOOLS                                                            *
+ ****************************************************************************
+ *
+ * add-apt-repository ppa:ubuntugis/ubuntugis-unstable
+ * apt-get install gdal-bin
+ * npm install -g topojson
+ *
+ ****************************************************************************
+ * GENERATE MAP                                                             *
+ ****************************************************************************
+ *
+ * ogr2ogr -f GeoJSON countries.json ne_110m_admin_0_countries.shp
+ * topojson -o world.json --id-property iso_n2 --properties name=name -- countries.json
+ *
+ ****************************************************************************
  */
 
 /*-------------------------------------------------------------------------*/
