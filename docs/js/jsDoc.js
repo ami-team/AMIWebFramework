@@ -81,7 +81,7 @@ var jsDoc = {
 
 			result += '<ul class="collapse" id="' +  id + '">';
 
-			for(i in items)
+			for(var i in items)
 			{
 				result += '<li><a href="javascript:jsDoc.makeContent(\'' + title + '\',\'' + cat + '\',\'' + items[i].name + '\');">' + items[i].name + '</a></li>';
 			}
