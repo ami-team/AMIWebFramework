@@ -1032,7 +1032,7 @@ var amiWebApp = {
 		{
 			/*-------------------------------------------------*/
 
-			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data) {
+			$.ajax({url: this.originURL + '/html/AMI/Fragment/locker.html', cache: false, dataType: 'html'}).done(function(data) {
 
 				$('body').append(data).promise().done(function() {
 
