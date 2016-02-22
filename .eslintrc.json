@@ -34,7 +34,8 @@
 
 		"no-constant-condition": 1,
 		"no-console": 1,
-		"no-mixed-spaces-and-tabs": 1,
+
+		"no-mixed-spaces-and-tabs": 0,
 		"no-octal": 0,
 
 		"no-unused-vars": [
