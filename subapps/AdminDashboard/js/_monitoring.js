@@ -427,7 +427,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 		/*---------------------------------------------------------*/
 
 		var projection = d3.geo.orthographic()
-		                       .scale((l - 1) / 2)
+		                       .scale(l / 2 - 1)
 				       .translate([l / 2, l / 2])
 				       .clipAngle(90)
 				       .precision(0.1)
