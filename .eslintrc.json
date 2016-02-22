@@ -7,15 +7,23 @@
 
 	"globals": {
 		"_ami_internal_always": 1,
+
 		"$AMINamespace": 1,
 		"$AMIInterface": 1,
+		"$AMIClass": 1,
+
+		"amiRegisterSubApp": 1,
 		"amiCommand": 1,
 		"amiWebApp": 1,
 		"amiLogin": 1,
 		"ami": 1,
 
+		"CanvasJS": 1,
+		"topojson": 1,
 		"JSPath": 1,
 		"jQuery": 1,
+		"saveAs": 1,
+		"d3": 1,
 		"$": 1
 	},
 
@@ -29,6 +37,7 @@
 		"no-constant-condition": 1,
 		"no-console": 1,
 		"no-mixed-spaces-and-tabs": 1,
+		"no-octal": 0,
 		"no-unused-vars": 1,
 
 		"quotes": [2, "single"]

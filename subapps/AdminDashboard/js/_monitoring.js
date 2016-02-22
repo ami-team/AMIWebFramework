@@ -383,11 +383,11 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 		/*                                                         */
 		/*---------------------------------------------------------*/
 
-		var command = 'SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(`id`) FROM `router_user` WHERE `valid`=1) AS `valid`, (SELECT COUNT(`id`) FROM `router_user` WHERE `valid`=0) AS `invalid`"';
+		var command1 = 'SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(`id`) FROM `router_user` WHERE `valid`=1) AS `valid`, (SELECT COUNT(`id`) FROM `router_user` WHERE `valid`=0) AS `invalid`"';
 
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute(command, {context: this}).done(function(data) {
+		amiCommand.execute(command1, {context: this}).done(function(data) {
 			/*-------------------------------------------------*/
 
 			var  valid  = parseInt(amiWebApp.jspath('..field{.@name=== "valid" }.$', data)[0] || '0');
@@ -452,11 +452,11 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 
 		/*---------------------------------------------------------*/
 
-		var command = 'SearchQuery -catalog="self" -sql="SELECT `country` AS `code`, COUNT(`country`) AS `z` FROM `router_user` WHERE `valid`=1 GROUP BY `country`"';
+		var command2 = 'SearchQuery -catalog="self" -sql="SELECT `country` AS `code`, COUNT(`country`) AS `z` FROM `router_user` WHERE `valid`=1 GROUP BY `country`"';
 
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute(command, {context: this}).done(function(data) {
+		amiCommand.execute(command2, {context: this}).done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
 
