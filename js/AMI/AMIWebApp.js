@@ -943,54 +943,56 @@ var amiWebApp = {
 
 	start: function(settings)
 	{
-		if(this._isEmbedded === false)
+		/*---------------------------------------------------------*/
+
+		var logo_url = this.originURL
+				+ '/images/logo.png';
+		var home_url = this.webAppURL;
+
+		var contact_email = 'ami@lpsc.in2p3.fr';
+
+		var template_filename = this.originURL + '/html/AMI/AMIWebApp_default.html';
+		var locker_filename = this.originURL + '/html/AMI/Fragment/locker.html';
+
+		var timeout = 10000;
+
+		/*---------------------------------------------------------*/
+
+		if(settings)
 		{
-			/*-------------------------------------------------*/
-
-			var logo_url = this.originURL
-					+ '/images/logo.png';
-			var home_url = this.webAppURL;
-
-			var contact_email = 'ami@lpsc.in2p3.fr';
-
-			var template_filename = this.originURL + '/html/AMI/AMIWebApp_default.html';
-			var locker_filename = this.originURL + '/html/AMI/Fragment/locker.html';
-
-			var timeout = 10000;
-
-			/*-------------------------------------------------*/
-
-			if(settings)
-			{
-				if('logo_url' in settings) {
-					logo_url = settings['logo_url'];
-				}
-
-				if('home_url' in settings) {
-					home_url = settings['home_url'];
-				}
-
-				if('contact_email' in settings) {
-					contact_email = settings['contact_email'];
-				}
-
-				if('template_filename' in settings) {
-					template_filename = settings['template_filename'];
-				}
-
-				if('locker_filename' in settings) {
-					locker_filename = settings['locker_filename'];
-				}
-
-				if('timeout' in settings) {
-					timeout = settings['timeout'];
-				}
+			if('logo_url' in settings) {
+				logo_url = settings['logo_url'];
 			}
 
-			/*-------------------------------------------------*/
+			if('home_url' in settings) {
+				home_url = settings['home_url'];
+			}
 
-			this.timeout = timeout;
+			if('contact_email' in settings) {
+				contact_email = settings['contact_email'];
+			}
 
+			if('template_filename' in settings) {
+				template_filename = settings['template_filename'];
+			}
+
+			if('locker_filename' in settings) {
+				locker_filename = settings['locker_filename'];
+			}
+
+			if('timeout' in settings) {
+				timeout = settings['timeout'];
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		this.timeout = timeout;
+
+		/*---------------------------------------------------------*/
+
+		if(this._isEmbedded === false)
+		{
 			/*-------------------------------------------------*/
 
 			var dict = {
@@ -1032,7 +1034,7 @@ var amiWebApp = {
 		{
 			/*-------------------------------------------------*/
 
-			$.ajax({url: this.originURL + '/html/AMI/Fragment/locker.html', cache: false, dataType: 'html'}).done(function(data) {
+			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data) {
 
 				$('body').append(data).promise().done(function() {
 
@@ -1045,6 +1047,8 @@ var amiWebApp = {
 
 			/*-------------------------------------------------*/
 		}
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
