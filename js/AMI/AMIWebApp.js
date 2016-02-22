@@ -1032,9 +1032,15 @@ var amiWebApp = {
 		{
 			/*-------------------------------------------------*/
 
-			amiLogin._init().done(function() {
+			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data) {
 
-				amiWebApp.onStart();
+				$('body').append(data).promise().done(function() {
+
+					amiLogin._init().done(function() {
+
+						amiWebApp.onStart();
+					});
+				});
 			});
 
 			/*-------------------------------------------------*/
