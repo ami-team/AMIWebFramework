@@ -155,11 +155,11 @@ var amiWebApp = {
 
 		var url = document.location.href;
 
-		var idx = url.indexOf('?');
+		var IDX = url.indexOf('?');
 
 		/*---------------------------------------------------------*/
 
-		this.webAppURL = (idx > 0) ? url.substring(0, idx)
+		this.webAppURL = (IDX > 0) ? url.substring(0, IDX)
 		                           : url
 		;
 
@@ -176,9 +176,9 @@ var amiWebApp = {
 		{
 			var prarams = window.location.search.substring(1).split('&');
 
-			for(var i in prarams)
+			for(var j in prarams)
 			{
-				var pair = prarams[i].split('=');
+				var pair = prarams[j].split('=');
 
 				this.args[pair[0]] = decodeURIComponent(pair[1]);
 			}
@@ -188,24 +188,27 @@ var amiWebApp = {
 		/* DEFAULT SHEETS                                          */
 		/*---------------------------------------------------------*/
 
-		if(this._isEmbedded === false) this.loadSheets([
-			/* Third-party */
-			this.originURL + '/css/bootstrap.min.css',
-			this.originURL + '/css/bootstrap-toggle.min.css',
-			this.originURL + '/css/bootstrap.vertical-tabs.min.css',
-			this.originURL + '/css/font-awesome.min.css',
-			/* AMI */
-			this.originURL + '/css/AMI/AMIWebApp.min.css',
-		]).fail(function() {
-
-			alert('Service temporarily unavailable, please try reloading the page...');
-		});
+		if(this._isEmbedded === false)
+		{
+			this.loadSheets([
+				/* Third-party */
+				this.originURL + '/css/bootstrap.min.css',
+				this.originURL + '/css/bootstrap-toggle.min.css',
+				this.originURL + '/css/bootstrap.vertical-tabs.min.css',
+				this.originURL + '/css/font-awesome.min.css',
+				/* AMI */
+				this.originURL + '/css/AMI/AMIWebApp.min.css',
+			]).fail(function() {
+	
+				alert('Service temporarily unavailable, please try reloading the page...');
+			});
+		}
 
 		/*---------------------------------------------------------*/
 		/* DEFAULT SCRIPTS                                         */
 		/*---------------------------------------------------------*/
 
-		if(0x00000000000000000000001) this.loadScripts([
+		this.loadScripts([
 			/* Third-party */
 			this.originURL + '/js/jspath.min.js',
 			this.originURL + '/js/ami-twig.min.js',
@@ -224,7 +227,7 @@ var amiWebApp = {
 		/* DEFAULT FRAGMENTS                                       */
 		/*---------------------------------------------------------*/
 
-		if(0x00000000000000000000001) this.loadHTMLs([
+		this.loadHTMLs([
 			/* AMI */
 			this.originURL + '/html/AMI/Fragment/alert_success.html',
 			this.originURL + '/html/AMI/Fragment/alert_info.html',
