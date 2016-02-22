@@ -80,7 +80,7 @@ highlight = {
 
 	highlight: function(code, lang)
 	{
-		var conf = this['lang' + lang.toLowerCase()];
+		var conf = this['lang' + lang.toLowerCase()].trim();
 
 		if(!conf)
 		{

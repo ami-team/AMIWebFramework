@@ -226,7 +226,7 @@ pre {
 .ami-code code .line-number:before {
 	color: rgb(128, 128, 128);
 	content: counter(listing) ". ";
-	font: 800 65%/1.5 sans-serif;
+	font: 800 65% / 1.5 sans-serif;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -292,7 +292,7 @@ pre {
 
 	50% {
 		-webkit-transform: scale(1.8);
-		-ms-transform: scale(1.8);
+		-moz-transform: scale(1.8);
 		transform: scale(1.8);
 		opacity: 0;
 	}
@@ -310,7 +310,7 @@ pre {
 
 	50% {
 		-webkit-transform: scale(1.8);
-		-ms-transform: scale(1.8);
+		-moz-transform: scale(1.8);
 		transform: scale(1.8);
 		opacity: 0;
 	}
