@@ -70,18 +70,23 @@ $AMIClass('AMIEmergencyApp', {
 
 	send: function()
 	{
-		amiWebApp.lock();
-
 		var message = $('#modal_emergency_message').val();
 
-		amiCommand.execute('SendSMS -message="' + amiWebApp.textToString(message) + '"').done(function(data) {
+		message = message.strip();
 
-			amiWebApp.info(amiWebApp.jspath('..info.$', data).join(' '));
-
-		}).fail(function(data) {
-
-			amiWebApp.error(amiWebApp.jspath('..error.$', data).join(' '));
-		});
+		if(message)
+		{
+			amiWebApp.lock();
+	
+			amiCommand.execute('SendSMS -message="' + amiWebApp.textToString(message) + '"').done(function(data) {
+	
+				amiWebApp.info(amiWebApp.jspath('..info.$', data).join(' '));
+	
+			}).fail(function(data) {
+	
+				amiWebApp.error(amiWebApp.jspath('..error.$', data).join(' '));
+			});
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
