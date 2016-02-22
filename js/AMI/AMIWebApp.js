@@ -227,6 +227,7 @@ var amiWebApp = {
 		/*---------------------------------------------------------*/
 
 		if(0x00000000000000000000001)this.loadHTMLs([
+			/* AMI */
 			this.originURL + '/html/AMI/Fragment/alert_success.html',
 			this.originURL + '/html/AMI/Fragment/alert_info.html',
 			this.originURL + '/html/AMI/Fragment/alert_warning.html',
@@ -553,15 +554,7 @@ var amiWebApp = {
 	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
-	/**
-	  * Replace the HTML content of the given target
-	  * @param {String} path the target path
-	  * @param {String} html the HTML fragment
-	  * @param {Object} [settings] dictionary of settings (context, dict)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	replaceHTML: function(selector, html, settings)
+	_xxxHTML: function(mode, selector, html, settings)
 	{
 		html = html.replace(this._originURLRegExp, this.originURL);
 		html = html.replace(this._webappURLRegExp, this.webAppURL);
@@ -592,7 +585,24 @@ var amiWebApp = {
 
 		var target = $(selector);
 
-		target.html(html).promise().done(function() {
+		var promise = ((((null))));
+
+		switch(mode)
+		{
+			case 0:
+				promise = target.html(html).promise();
+				break;
+
+			case 1:
+				promise = target.prepend(html).promise();
+				break;
+
+			case 2:
+				promise = target.append(html).promise();
+				break;
+		}
+
+		promise.done(function() {
 
 			target.find('.amitt').tooltip({container: 'body', delay: {show: 500, hide: 100}});
 			target.find('.amipo[tabindex="0"]').popover({container: 'body', html: true, trigger: 'focus'});
@@ -617,6 +627,23 @@ var amiWebApp = {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
+	},
+
+	/*-----------------------------------------------------------------*/
+	/* HTML CONTENT                                                    */
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Replace the HTML content of the given target
+	  * @param {String} path the target path
+	  * @param {String} html the HTML fragment
+	  * @param {Object} [settings] dictionary of settings (context, dict)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	replaceHTML: function(selector, html, settings)
+	{
+		return this._xxxHTML(0, selector, html, settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -631,60 +658,7 @@ var amiWebApp = {
 
 	prependHTML: function(selector, html, settings)
 	{
-		html = html.replace(this._originURLRegExp, this.originURL);
-		html = html.replace(this._webappURLRegExp, this.webAppURL);
-
-		var context = null;
-		var dict = null;
-
-		if(settings)
-		{
-			if('context' in settings) {
-				context = settings['context'];
-			}
-
-			if('dict' in settings) {
-				dict = settings['dict'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		html = this.formatHTML(html, dict);
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		var target = $(selector);
-
-		target.prepend(html).promise().done(function() {
-
-			target.find('.amitt').tooltip({container: 'body', delay: {show: 500, hide: 100}});
-			target.find('.amipo[tabindex="0"]').popover({container: 'body', html: true, trigger: 'focus'});
-			target.find('.amipo[tabindex!="0"]').popover({container: 'body', html: true, trigger: 'click'});
-			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
-
-			if(navigator.userAgent.toLowerCase().indexOf('firefox') >= 0)
-			{
-				target.find('.ami-select').each(function() {
-
-					$(this).wrap('<div class="ami-select-wrapper"></div>');
-				});
-			}
-
-			if(context) {
-				result.resolveWith(context);
-			} else {
-				result.resolve();
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
+		return this._xxxHTML(1, selector, html, settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -699,60 +673,7 @@ var amiWebApp = {
 
 	appendHTML: function(selector, html, settings)
 	{
-		html = html.replace(this._originURLRegExp, this.originURL);
-		html = html.replace(this._webappURLRegExp, this.webAppURL);
-
-		var context = null;
-		var dict = null;
-
-		if(settings)
-		{
-			if('context' in settings) {
-				context = settings['context'];
-			}
-
-			if('dict' in settings) {
-				dict = settings['dict'];
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		html = this.formatHTML(html, dict);
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		var target = $(selector);
-
-		target.append(html).promise().done(function() {
-
-			target.find('.amitt').tooltip({container: 'body', delay: {show: 500, hide: 100}});
-			target.find('.amipo[tabindex="0"]').popover({container: 'body', html: true, trigger: 'focus'});
-			target.find('.amipo[tabindex!="0"]').popover({container: 'body', html: true, trigger: 'click'});
-			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
-
-			if(navigator.userAgent.toLowerCase().indexOf('firefox') >= 0)
-			{
-				target.find('.ami-select').each(function() {
-
-					$(this).wrap('<div class="ami-select-wrapper"></div>');
-				});
-			}
-
-			if(context) {
-				result.resolveWith(context);
-			} else {
-				result.resolve();
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
+		return this._xxxHTML(2, selector, html, settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -766,6 +687,8 @@ var amiWebApp = {
 
 	formatHTML: function(html, dict)
 	{
+		var result;
+
 		if(dict instanceof Array)
 		{
 			var result = '';
@@ -773,14 +696,14 @@ var amiWebApp = {
 			for(var i in dict)
 			{
 				result += ami.twig.engine.render(html, dict[i]);
-			}
-
-			return result;
+			}	
 		}
 		else
 		{
-			return ami.twig.engine.render(html, dict);
+			result = ami.twig.engine.render(html, dict);
 		}
+
+		return result;
 	},
 
 	/*-----------------------------------------------------------------*/
