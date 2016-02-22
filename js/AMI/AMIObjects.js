@@ -199,18 +199,18 @@ function $AMIClass($name, $this)
 
 	/*-----------------------------------------------------------------*/
 
-	for(var $member in $super)
+	for(var $member1 in $super)
 	{
-		$class.prototype['$super_' + $member] = $super[$member];
+		$class.prototype['$super_' + $member1] = $super[$member1];
 
-		$class.prototype[$member] = $super[$member];
+		$class.prototype[$member1] = $super[$member1];
 	}
 
-	for(var $member in $this)
+	for(var $member2 in $this)
 	{
-		$class.prototype['$added_' + $member] = $this[$member];
+		$class.prototype['$added_' + $member2] = $this[$member2];
 
-		$class.prototype[$member] = $this[$member];
+		$class.prototype[$member2] = $this[$member2];
 	}
 
 	/*-----------------------------------------------------------------*/

@@ -6,12 +6,11 @@
 	"extends": "eslint:recommended",
 
 	"globals": {
-		"_ami_internal_always": 1,
-
 		"$AMINamespace": 1,
 		"$AMIInterface": 1,
 		"$AMIClass": 1,
 
+		"_ami_internal_always": 1,
 		"amiRegisterSubApp": 1,
 		"amiCommand": 1,
 		"amiWebApp": 1,
@@ -28,7 +27,6 @@
 	},
 
 	"rules": {
-
 		"comma-dangle": [
 			2,
 			"only-multiline"
@@ -38,8 +36,15 @@
 		"no-console": 1,
 		"no-mixed-spaces-and-tabs": 1,
 		"no-octal": 0,
-		"no-unused-vars": 1,
 
-		"quotes": [2, "single"]
+		"no-unused-vars": [
+			1,
+			{"vars": "local", "args": "after-used"}
+		],
+
+		"quotes": [
+			2,
+			"single"
+		]
 	}
 }
