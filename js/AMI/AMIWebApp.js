@@ -123,7 +123,7 @@ var amiWebApp = {
 
 		var scripts = document.getElementsByTagName('script');
   
- 		/*---------------------------------------------------------*/
+		/*---------------------------------------------------------*/
 
 		for(var i in scripts)
 		{
@@ -196,11 +196,9 @@ var amiWebApp = {
 			this.originURL + '/css/font-awesome.min.css',
 			/* AMI */
 			this.originURL + '/css/AMI/AMIWebApp.min.css',
-		]).fail(function(data) {
+		]).fail(function() {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
-
-			console.error(data);
 		});
 
 		/*---------------------------------------------------------*/
@@ -217,18 +215,16 @@ var amiWebApp = {
 			this.originURL + '/js/AMI/AMIObjects.min.js',
 			this.originURL + '/js/AMI/AMICommand.min.js',
 			this.originURL + '/js/AMI/AMILogin.min.js',
-		]).fail(function(data) {
+		]).fail(function() {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
-
-			console.error(data);
 		});
 
 		/*---------------------------------------------------------*/
 		/* DEFAULT FRAGMENTS                                       */
 		/*---------------------------------------------------------*/
 
-		if(0x00000000000000000000001)this.loadHTMLs([
+		if(0x00000000000000000000001) this.loadHTMLs([
 			/* AMI */
 			this.originURL + '/html/AMI/Fragment/alert_success.html',
 			this.originURL + '/html/AMI/Fragment/alert_info.html',
@@ -241,11 +237,9 @@ var amiWebApp = {
 			this.fragmentWarning = data[2];
 			this.fragmentError = data[3];
 
-		}).fail(function(data) {
+		}).fail(function() {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
-
-			console.error(data);
 		});
 
 		/*---------------------------------------------------------*/
@@ -693,7 +687,7 @@ var amiWebApp = {
 
 		if(dict instanceof Array)
 		{
-			var result = '';
+			result = '';
 
 			for(var i in dict)
 			{
@@ -869,7 +863,7 @@ var amiWebApp = {
 	onToolbarUpdateNeeded: function()
 	{
 		alert('error: `this.onToolbarUpdateNeeded()` must be overloaded!');
- 	},
+	},
 
 	/*-----------------------------------------------------------------*/
 
@@ -955,14 +949,10 @@ var amiWebApp = {
 				}).fail(function() {
 
 					alert('Service temporarily unavailable, please try reloading the page...');
-
-					console.error('could not load `' + locker_filename + '`');
 				});
 			}).fail(function() {
 
 				alert('Service temporarily unavailable, please try reloading the page...');
-
-				console.error('could not load `' + template_filename + '`');
 			});
 
 			/*-------------------------------------------------*/

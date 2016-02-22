@@ -92,11 +92,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			});
 
 			/*-------------------------------------------------*/
-		}).fail(function(data) {
+		}).fail(function() {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
-
-			console.error(data);
 		});
 
 		return result.promise();
@@ -723,7 +721,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(user, pass1, firstName, lastName, email).done(function(data) {
+		amiCommand.addUser(user, pass1, firstName, lastName, email).done(function() {
 
 			amiLogin._showSuccessMessage1('Done with success.');
 
@@ -754,7 +752,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.changeInfo(firstName, lastName, email).done(function(data) {
+		amiCommand.changeInfo(firstName, lastName, email).done(function() {
 
 			amiLogin._showSuccessMessage2('Done with success.');
 
@@ -792,7 +790,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.changePass(oldPass, newPass1).done(function(data) {
+		amiCommand.changePass(oldPass, newPass1).done(function() {
 
 			amiLogin._showSuccessMessage3('Done with success.');
 
@@ -821,7 +819,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.resetPass(user).done(function(data) {
+		amiCommand.resetPass(user).done(function() {
 
 			amiLogin._showSuccessMessage1('Done with success.');
 

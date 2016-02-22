@@ -1,0 +1,36 @@
+{
+	"env": {
+		"browser": true
+	},
+
+	"extends": "eslint:recommended",
+
+	"globals": {
+		"_ami_internal_always": 1,
+		"$AMINamespace": 1,
+		"$AMIInterface": 1,
+		"amiCommand": 1,
+		"amiWebApp": 1,
+		"amiLogin": 1,
+		"ami": 1,
+
+		"JSPath": 1,
+		"jQuery": 1,
+		"$": 1
+	},
+
+	"rules": {
+
+		"comma-dangle": [
+			2,
+			"only-multiline"
+		],
+
+		"no-constant-condition": 1,
+		"no-console": 1,
+		"no-mixed-spaces-and-tabs": 1,
+		"no-unused-vars": 1,
+
+		"quotes": [2, "single"]
+	}
+}
