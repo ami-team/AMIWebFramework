@@ -599,9 +599,13 @@ var amiWebApp = {
 			target.find('.amipo[tabindex!="0"]').popover({container: 'body', html: true, trigger: 'click'});
 			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
-			target.find('.ami-select').each(function() {
-				$(this).wrap('<div class="ami-select-wrapper"></div>');
-			});
+			if(navigator.userAgent.toLowerCase().indexOf('firefox') >= 0)
+			{
+				target.find('.ami-select').each(function() {
+
+					$(this).wrap('<div class="ami-select-wrapper"></div>');
+				});
+			}
 
 			if(context) {
 				result.resolveWith(context);
@@ -663,9 +667,13 @@ var amiWebApp = {
 			target.find('.amipo[tabindex!="0"]').popover({container: 'body', html: true, trigger: 'click'});
 			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
-			target.find('.ami-select').each(function() {
-				$(this).wrap('<div class="ami-select-wrapper"></div>');
-			});
+			if(navigator.userAgent.toLowerCase().indexOf('firefox') >= 0)
+			{
+				target.find('.ami-select').each(function() {
+
+					$(this).wrap('<div class="ami-select-wrapper"></div>');
+				});
+			}
 
 			if(context) {
 				result.resolveWith(context);
@@ -727,9 +735,13 @@ var amiWebApp = {
 			target.find('.amipo[tabindex!="0"]').popover({container: 'body', html: true, trigger: 'click'});
 			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 
-			target.find('.ami-select').each(function() {
-				$(this).wrap('<div class="ami-select-wrapper"></div>');
-			});
+			if(navigator.userAgent.toLowerCase().indexOf('firefox') >= 0)
+			{
+				target.find('.ami-select').each(function() {
+
+					$(this).wrap('<div class="ami-select-wrapper"></div>');
+				});
+			}
 
 			if(context) {
 				result.resolveWith(context);
@@ -1116,7 +1128,7 @@ var amiWebApp = {
 		}
 
 		/*---------------------------------------------------------*/
-		/* SWITCH SUB-APPLICATION                                  */
+		/* SET CURRENT SUB-APPLICATION                             */
 		/*---------------------------------------------------------*/
 
 		this._currentSubAppInstance.onExit();
@@ -1239,11 +1251,11 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 
 if(!String.prototype.startsWith)
 {
-	String.prototype.startsWith = function(s1, s2)
+	String.prototype.startsWith = function(s)
 	{
-		var base = 0x0000000000000000000;
+		var base = 0x00000000000000000000;
 
-		return s1.indexOf(s2, base) === base;
+		return this.indexOf(s, base) === base;
 	};
 }
 
@@ -1251,11 +1263,11 @@ if(!String.prototype.startsWith)
 
 if(!String.prototype.endsWith)
 {
-	String.prototype.endsWith = function(s1, s2)
+	String.prototype.endsWith = function(s)
 	{
-		var base = s1.length - s2.length;
+		var base = this.length - s.length;
 
-		return s1.indexOf(s2, base) === base;
+		return this.indexOf(s, base) === base;
 	};
 }
 
