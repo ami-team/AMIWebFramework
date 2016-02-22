@@ -654,7 +654,7 @@ $AMIClass('AMISearchEngineApp', {
 
 				var value = this.value;
 
-				s += ' OR `' + criteria['entity'] + '`.`' + criteria['field'] + '`=\'' + value.replace(/\'/g, '\'\'') + '\'';
+				s += ' OR `' + entity + '`.`' + field + '`=\'' + value.replace(/\'/g, '\'\'') + '\'';
 
 				v[value] = true;
 			});

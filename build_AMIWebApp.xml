@@ -64,6 +64,32 @@
 
 	</target>
 
+	<target name="lint_framework" description="Code quality.">
+
+		<!-- npm install -g eslint -->
+		<!-- http://eslint.org/ -->
+
+		<exec executable="bash">
+			<env key="PATH" value="/usr/local/bin:/usr/bin" />
+			<arg value="-c" />
+			<arg value="eslint js/AMI/AMIWebApp.js js/AMI/AMIObjects.js js/AMI/AMICommand.js js/AMI/AMILogin.js" />
+		</exec>
+
+	</target>
+
+	<target name="lint_subapp" description="Code quality.">
+
+		<!-- npm install -g eslint -->
+		<!-- http://eslint.org/ -->
+
+		<exec executable="bash">
+			<env key="PATH" value="/usr/local/bin:/usr/bin" />
+			<arg value="-c" />
+			<arg value="eslint eslint subapps/**/js/*.js" />
+		</exec>
+
+	</target>
+
 	<target name="doc" description="Generate doc.">
 
 		<!-- npm install -g jsdoc -->
