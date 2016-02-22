@@ -107,6 +107,8 @@
 
 		<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
 
+		<copy file="${AMIWebAppTmpDir}/.eslintrc.json" tofile=".eslintrc.json" overwrite="true" force="true" />
+
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
 		<!-- **************************************************** -->
@@ -187,6 +189,8 @@
 
 		<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
 
+		<copy file="${AMIWebAppTmpDir}/.eslintrc.json" tofile=".eslintrc.json" overwrite="true" force="true" />
+
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
 		<!-- **************************************************** -->
@@ -194,6 +198,19 @@
 		<delete dir="${AMIWebAppTmpDir}" />
 
 		<!-- **************************************************** -->
+
+	</target>
+
+	<target name="lint" description="Code quality.">
+
+		<!-- npm install -g eslint -->
+		<!-- http://eslint.org/ -->
+
+		<exec executable="bash">
+			<env key="PATH" value="/usr/local/bin:/usr/bin" />
+			<arg value="-c" />
+			<arg value="eslint eslint subapps/**/js/*.js" />
+		</exec>
 
 	</target>
 

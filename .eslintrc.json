@@ -6,8 +6,8 @@
 	"extends": "eslint:recommended",
 
 	"globals": {
-		"$AMINamespace": 1,
 		"$AMIInterface": 1,
+		"$AMINamespace": 1,
 		"$AMIClass": 1,
 
 		"_ami_internal_always": 1,
@@ -19,8 +19,8 @@
 
 		"CanvasJS": 1,
 		"topojson": 1,
-		"JSPath": 1,
 		"jQuery": 1,
+		"JSPath": 1,
 		"saveAs": 1,
 		"joint": 1,
 		"d3": 1,
