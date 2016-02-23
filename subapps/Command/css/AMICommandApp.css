@@ -16,8 +16,3 @@
 #ami_command_list > div > :first-child {
 	width: 100%;
 }
-
-#ami_command_list .popover {
-	max-width: 760px;
-	width: 760px;
-}
