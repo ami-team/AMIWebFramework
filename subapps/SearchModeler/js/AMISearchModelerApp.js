@@ -17,7 +17,7 @@ $AMIClass('AMISearchModelerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	onReady: function(userdata)
+	onReady: function()
 	{
 		var result = $.Deferred();
 

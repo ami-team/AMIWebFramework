@@ -17,7 +17,7 @@ $AMIClass('AMIEmergencyApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	onReady: function(userdata)
+	onReady: function()
 	{
 		$('#ami_jumbotron_title').html('Emergency');
 		$('#ami_jumbotron_content').html('SMS for blocking problem');

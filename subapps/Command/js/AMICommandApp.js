@@ -17,7 +17,7 @@ $AMIClass('AMICommandApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	onReady: function(userdata)
+	onReady: function()
 	{
 		amiWebApp.loadSheets([
 			'subapps/Command/css/AMICommandApp.css',
