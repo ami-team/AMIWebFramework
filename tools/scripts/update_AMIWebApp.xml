@@ -209,7 +209,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="eslint eslint subapps/**/js/*.js" />
+			<arg value="eslint subapps/**/js/*.js" />
 		</exec>
 
 	</target>

@@ -262,7 +262,7 @@ var jsDoc = {
 
 			if(method.params[i].optional === true)
 			{
-				s += '<span class="signature-params-attrs">opt</span>'
+				s += '<span class="signature-params-attrs">opt</span>';
 			}
 
 			L.push(s);
@@ -274,14 +274,14 @@ var jsDoc = {
 
 		if(method.returns)
 		{
-			var L = [];
+			var M = [];
 
 			for(var i in method.returns)
 			{
-				L.push(this.makeType(method.returns[i]));
+				M.push(this.makeType(method.returns[i]));
 			}
 
-			result += '<span class="signature-attrs"> &rarr; {' + L.join(' or ') + '}</span>';
+			result += '<span class="signature-attrs"> &rarr; {' + M.join(' or ') + '}</span>';
 		}
 
 		/*---------------------------------------------------------*/
@@ -310,11 +310,11 @@ var jsDoc = {
 				var parameter = method.params[i];
 
 				L1.push(parameter.name);
-		        	L2.push(this.makeType(parameter));
-		        	L3.push(this.makeDesc(parameter));
-		        	L4.push(parameter.default);
-		        	L5.push(parameter.optional);
-		        	L6.push(parameter.nullable);
+				L2.push(this.makeType(parameter));
+				L3.push(this.makeDesc(parameter));
+				L4.push(parameter.default);
+				L5.push(parameter.optional);
+				L6.push(parameter.nullable);
 
 				if(parameter.name) {
 					cnt1++;
