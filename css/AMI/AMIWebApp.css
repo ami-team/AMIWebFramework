@@ -59,14 +59,6 @@ pre {
 /* BOOTSTRAP THEME                                                         */
 /*-------------------------------------------------------------------------*/
 
-.btn,
-.form-control {
-	font-size: 14.5px;
-	line-height: 21px;
-}
-
-/*-------------------------------------------------------------------------*/
-
 .breadcrumb {
 	background-image: url("../../images/stripe2.png");
 }
