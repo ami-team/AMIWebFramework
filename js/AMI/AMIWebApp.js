@@ -122,7 +122,7 @@ var amiWebApp = {
 		/*---------------------------------------------------------*/
 
 		var scripts = document.getElementsByTagName('script');
-  
+
 		/*---------------------------------------------------------*/
 
 		for(var i in scripts)
@@ -199,7 +199,7 @@ var amiWebApp = {
 				/* AMI */
 				this.originURL + '/css/AMI/AMIWebApp.min.css',
 			]).fail(function() {
-	
+
 				alert('Service temporarily unavailable, please try reloading the page...');
 			});
 		}
@@ -695,7 +695,7 @@ var amiWebApp = {
 			for(var i in dict)
 			{
 				result += ami.twig.engine.render(html, dict[i]);
-			}	
+			}
 		}
 		else
 		{
