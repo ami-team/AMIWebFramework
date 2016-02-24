@@ -36,7 +36,6 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 	}).forEach(function(element, index) {
 
 		var i;
-		var len;
 
 		/*---------------------------------------------------------*/
 		/* NAMESPACE                                               */
@@ -319,7 +318,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 			/* PARAMETERS                                      */
 			/*-------------------------------------------------*/
 
-			for(var i in element.params)
+			for(i in element.params)
 			{
 				thisFunction.params.push({
 					'name': nameHelper(element.params[i].name),
@@ -339,7 +338,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 			{
 				thisFunction.exceptions = [];
 
-				for(var i in element.exceptions)
+				for(i in element.exceptions)
 				{
 					thisFunction.exceptions.push({
 						'type': typeHelper(element.exceptions[i].type),
