@@ -1,55 +1,10 @@
 {
-	"env": {
-		"browser": true
-	},
+        "extends": "plugin:eslint-plugin-ami/default",
 
-	"extends": "eslint:recommended",
-
-	"globals": {
-		"$AMIInterface": 1,
-		"$AMINamespace": 1,
-		"$AMIClass": 1,
-
-		"_ami_internal_always": 1,
-		"amiRegisterSubApp": 1,
-		"amiCommand": 1,
-		"amiWebApp": 1,
-		"amiLogin": 1,
-		"ami": 1,
-
-		"CanvasJS": 1,
-		"topojson": 1,
-		"jQuery": 1,
-		"JSPath": 1,
-		"saveAs": 1,
-		"joint": 1,
-		"d3": 1,
-		"$": 1,
-		"_": 1
-	},
+        "plugins": [
+                "ami"
+        ],
 
 	"rules": {
-		"comma-dangle": [
-			2,
-			"only-multiline"
-		],
-
-		"no-constant-condition": 1,
-		"no-console": 1,
-
-		"no-mixed-spaces-and-tabs": 0,
-		"no-octal": 0,
-
-		"no-unused-vars": [
-			1,
-			{"vars": "local", "args": "after-used"}
-		],
-
-		"no-ami-class": 1,
-
-		"quotes": [
-			2,
-			"single"
-		]
 	}
 }

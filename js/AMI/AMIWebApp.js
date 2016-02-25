@@ -1134,7 +1134,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 	  * @param {?} userdata userdata
 	  */
 
-	onReady: function(userdata) {},
+	onReady: function(/* userdata */) {},
 
 	/*-----------------------------------------------------------------*/
 

@@ -72,7 +72,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="eslint --rulesdir tools/eslint js/AMI/AMIWebApp.js js/AMI/AMIObjects.js js/AMI/AMICommand.js js/AMI/AMILogin.js" />
+			<arg value="eslint js/AMI/AMIWebApp.js js/AMI/AMIObjects.js js/AMI/AMICommand.js js/AMI/AMILogin.js" />
 		</exec>
 
 	</target>
@@ -85,7 +85,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="eslint --rulesdir tools/eslint subapps/**/js/*.js" />
+			<arg value="eslint subapps/**/js/*.js" />
 		</exec>
 
 	</target>

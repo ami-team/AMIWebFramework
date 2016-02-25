@@ -12,7 +12,7 @@
 /* HELPERS                                                                 */
 /*-------------------------------------------------------------------------*/
 
-function __$createNamespace($name, x)
+function _$createNamespace($name, x)
 {
 	var parent = window, parts = $name.split(/\s*\.\s*/g);
 
@@ -33,7 +33,7 @@ function __$createNamespace($name, x)
 
 /*-------------------------------------------------------------------------*/
 
-function __$addToNamespace($name, x)
+function _$addToNamespace($name, x)
 {
 	var parent = window, parts = $name.split(/\s*\.\s*/g);
 
@@ -76,7 +76,7 @@ function $AMINamespace($name, $this)
 
 	/*-----------------------------------------------------------------*/
 
-	__$createNamespace($name, $this);
+	_$createNamespace($name, $this);
 
 	/*-----------------------------------------------------------------*/
 }
@@ -128,7 +128,7 @@ function $AMIInterface($name, $this)
 
 	/*-----------------------------------------------------------------*/
 
-	__$addToNamespace($name, $class);
+	_$addToNamespace($name, $class);
 
 	/*-----------------------------------------------------------------*/
 }
@@ -221,7 +221,7 @@ function $AMIClass($name, $this)
 
 	/*-----------------------------------------------------------------*/
 
-	__$addToNamespace($name, $class);
+	_$addToNamespace($name, $class);
 
 	/*-----------------------------------------------------------------*/
 }
