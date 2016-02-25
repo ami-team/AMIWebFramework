@@ -185,7 +185,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 		this.__handler1($.Deferred(), [], 0, 0).done(function(data, nr, ok) {
 			/*-------------------------------------------------*/
 
-			this._chart0.options.data[0].dataPoints[0].y = ok - 0;
+			this._chart0.options.data[0].dataPoints[0].y = ok;
 			this._chart0.options.data[0].dataPoints[1].y = nr - ok;
 
 			this._chart0.render();
