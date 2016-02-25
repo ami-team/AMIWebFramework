@@ -22,6 +22,9 @@
  * topojson -o world.json --id-property iso_n2 --properties name=name -- countries.json
  *
  ****************************************************************************
+ *
+ * @global d3, CanvasJS, topojson
+ *
  */
 
 /*-------------------------------------------------------------------------*/
@@ -182,7 +185,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 		this.__handler1($.Deferred(), [], 0, 0).done(function(data, nr, ok) {
 			/*-------------------------------------------------*/
 
-			this._chart0.options.data[0].dataPoints[0].y = ok - 00;
+			this._chart0.options.data[0].dataPoints[0].y = ok - 0;
 			this._chart0.options.data[0].dataPoints[1].y = nr - ok;
 
 			this._chart0.render();

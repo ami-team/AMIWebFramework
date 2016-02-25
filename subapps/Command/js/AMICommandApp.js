@@ -4,6 +4,8 @@
  * Copyright (c) 2014 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
+ * @global saveAs
+ *
  */
 
 /*-------------------------------------------------------------------------*/
@@ -145,12 +147,9 @@ $AMIClass('AMICommandApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	execute: function()
+	execute: function(command, converter)
 	{
 		amiWebApp.lock();
-
-		var command = $('#modal_command_command').val();
-		var converter = $('#modal_command_converter').val();
 
 		amiCommand.execute(command, {context: this, converter: converter}).always(function(data, url) {
 
