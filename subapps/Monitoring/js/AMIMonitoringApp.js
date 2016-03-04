@@ -87,8 +87,11 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 
 	onLogin: function()
 	{
-		this._stage1();
-		this._stage2();
+		if($('#ami_monitoring_chart0').is(':empty') == false)
+		{
+			this._stage1();
+			this._stage2();
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
