@@ -475,22 +475,22 @@ var amiWebApp = {
 
 	/*-----------------------------------------------------------------*/
 
-	_loadHTMLs: function(deferred, array, fragments, context)
+	_loadFiles: function(deferred, array, urls, dataType, context)
 	{
-		if(fragments.length > 0)
+		if(urls.length > 0)
 		{
-			var url = fragments.shift();
+			var url = urls.shift();
 
 			$.ajax({
 				url: url,
 				cache: false,
-				dataType: 'html',
+				dataType: dataType,
 				context: this,
 			}).done(function(data) {
 
 				array.push(data);
 
-				this._loadHTMLs(deferred, array, fragments, context);
+				this._loadFiles(deferred, array, urls, dataType, context);
 
 			}).fail(function() {
 
@@ -513,15 +513,8 @@ var amiWebApp = {
 
 	/*-----------------------------------------------------------------*/
 
-	/**
-	  * Loads HTML fragments asynchronously
-	  * @param {(Array|String)} fragments the array of fragments
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	loadHTMLs: function(fragments, settings) {
-
+	loadFiles: function(files, dataType, settings)
+	{
 		var context = null;
 
 		if(settings && 'context' in settings)
@@ -531,9 +524,9 @@ var amiWebApp = {
 
 		/*---------------------------------------------------------*/
 
-		if(!(fragments instanceof Array))
+		if(!(files instanceof Array))
 		{
-			fragments = [fragments];
+			files = [files];
 		}
 
 		/*---------------------------------------------------------*/
@@ -542,7 +535,7 @@ var amiWebApp = {
 
 		/*---------------------------------------------------------*/
 
-		this._loadHTMLs(result, [], fragments, context);
+		this._loadFiles(result, [], files, dataType, context);
 
 		/*---------------------------------------------------------*/
 
@@ -550,10 +543,66 @@ var amiWebApp = {
 	},
 
 	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads TEXT files asynchronously
+	  * @param {(Array|String)} files the array of files
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	loadTEXTs: function(files, settings)
+	{
+		return this.loadFiles(files, 'text', settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads JSON files asynchronously
+	  * @param {(Array|String)} files the array of files
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	loadJSONs: function(files, settings)
+	{
+		return this.loadFiles(files, 'json', settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads XML files asynchronously
+	  * @param {(Array|String)} files the array of files
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	loadXMLs: function(files, settings)
+	{
+		return this.loadFiles(files, 'xml', settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads HTML files asynchronously
+	  * @param {(Array|String)} files the array of files
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	loadHTMLs: function(files, settings)
+	{
+		return this.loadFiles(files, 'html', settings);
+	},
+
+	/*-----------------------------------------------------------------*/
 	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
-	_xxxHTML: function(mode, selector, html, settings)
+	_xxxHTML: function(selector, html, mode, settings)
 	{
 		html = html.replace(this._originURLRegExp, this.originURL);
 		html = html.replace(this._webappURLRegExp, this.webAppURL);
@@ -642,7 +691,7 @@ var amiWebApp = {
 
 	replaceHTML: function(selector, html, settings)
 	{
-		return this._xxxHTML(0, selector, html, settings);
+		return this._xxxHTML(selector, html, 0, settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -657,7 +706,7 @@ var amiWebApp = {
 
 	prependHTML: function(selector, html, settings)
 	{
-		return this._xxxHTML(1, selector, html, settings);
+		return this._xxxHTML(selector, html, 1, settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -672,7 +721,7 @@ var amiWebApp = {
 
 	appendHTML: function(selector, html, settings)
 	{
-		return this._xxxHTML(2, selector, html, settings);
+		return this._xxxHTML(selector, html, 2, settings);
 	},
 
 	/*-----------------------------------------------------------------*/

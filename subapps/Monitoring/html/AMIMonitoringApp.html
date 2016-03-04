@@ -1,0 +1,66 @@
+<div class="ami-callout">
+
+	<div class="row">
+		<div class="col-md-4">
+			<div id="ami_monitoring_chart0" style="height: 135px;"></div>
+			<div id="ami_monitoring_chart1" style="height: 135px;"></div>
+		</div>
+		<div class="col-md-8">
+			<div id="ami_monitoring_chart2" style="height: 275px;"></div>
+		</div>
+	</div>
+
+	<hr />
+
+	<div class="row">
+		<div class="col-md-8 text-left">
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group form-group-sm">
+						<label for="ami_monitoring_node" class="control-label">Node:</label>
+						<select class="form-control ami-select" id="ami_monitoring_node" onchange="amiMonitoringApp.selectNode();"></select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group form-group-sm">
+						<label for="ami_monitoring_node" class="control-label">Pool:</label>
+						<select class="form-control ami-select" id="ami_monitoring_pool" onchange="amiMonitoringApp.selectPool();"></select>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6">
+					<div id="ami_monitoring_chart3" style="height: 135px;"></div>
+				</div>
+				<div class="col-md-6">
+					<div id="ami_monitoring_chart4" style="height: 135px;"></div>
+				</div>
+			</div>
+
+			<div id="ami_monitoring_chart5" style="height: 275px;"></div>
+
+		</div>
+
+		<div class="col-md-4 text-center">
+
+			<br />
+
+			<div id="ami_monitoring_chart6" style="height: 350px;"></div>
+
+			<br />
+
+			<div class="row">
+				<div class="col-md-6">
+					<i class="fa fa-arrow-circle-right"></i> Valid users: <span id="ami_monitoring_valid_users"></span>
+				</div>
+				<div class="col-md-6">
+					<i class="fa fa-arrow-circle-right"></i> Total users: <span id="ami_monitoring_total_users"></span>
+				</div>
+			</div>
+
+		</div>
+	</div>
+
+</div>

@@ -33,7 +33,6 @@ $AMIClass('AMIAdminDashboardApp', {
 		amiWebApp.loadScripts([
 			'subapps/AdminDashboard/js/_home.js',
 			'subapps/AdminDashboard/js/_config.js',
-			'subapps/AdminDashboard/js/_monitoring.js',
 			'subapps/AdminDashboard/js/_roles.js',
 			'subapps/AdminDashboard/js/_commands.js',
 			'subapps/AdminDashboard/js/_users.js',
@@ -55,9 +54,6 @@ $AMIClass('AMIAdminDashboardApp', {
 
 				/**/ if(userdata === 'config') {
 					subsubapp = this.subsubapp = new AMIAdminDashboardConfig();
-				}
-				else if(userdata === 'monitoring') {
-					subsubapp = this.subsubapp = new AMIAdminDashboardMonitoring();
 				}
 				else if(userdata === 'roles') {
 					subsubapp = this.subsubapp = new AMIAdminDashboardRoles();
@@ -120,16 +116,6 @@ $AMIClass('AMIAdminDashboardApp', {
 	},
 
 	/*-----------------------------------------------------------------*/
-
-	onSessionExpired: function()
-	{
-		if(this.subsubapp.onSessionExpired)
-		{
-			this.subsubapp.onSessionExpired();
-		}
-	},
-
-	/*-----------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/
@@ -138,6 +124,6 @@ $AMIClass('AMIAdminDashboardApp', {
 
 amiAdminDashboardApp = new AMIAdminDashboardApp();
 
-amiRegisterSubApp('amiAdminDashboard', amiAdminDashboardApp, {});
+amiRegisterSubApp('amiAdminDashboard', amiAdminDashboardApp);
 
 /*-------------------------------------------------------------------------*/
