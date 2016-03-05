@@ -87,7 +87,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 
 	onLogin: function()
 	{
-		if($('#ami_monitoring_chart0').is(':empty') == false)
+		if($('#ami_monitoring_chart0').is(':empty'))
 		{
 			this._stage1();
 			this._stage2();
@@ -323,7 +323,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 	_stage1: function()
 	{
 		amiWebApp.loadJSONs([
-			'atlas.json'
+			'nodes.json'
 		], {context: this}).done(function(data) {
 			/*-------------------------------------------------*/
 			/* GET NODES                                       */
@@ -390,6 +390,9 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 					text: nbOfWebNodes + ' web node(s)',
 					horizontalAlign: 'center',
 				},
+				toolTip:{
+					enabled: false,
+				},
 			});
 
 			this._chart0.render();
@@ -411,6 +414,9 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 				title: {
 					text: nbOfTaskNodes + ' task node(s)',
 					horizontalAlign: 'center',
+				},
+				toolTip:{
+					enabled: false,
 				},
 			});
 
