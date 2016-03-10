@@ -334,8 +334,8 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 			var series = [];
 			var options = '';
 
-			var nbOfWebNodes = 0;
-			var nbOfTaskNodes = 0;
+			var numberOfWebNodes = 0;
+			var numberOfTaskNodes = 0;
 
 			for(var i in rows)
 			{
@@ -344,10 +344,10 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 				var url = amiWebApp.jspath('..field{.@name==="url"}.$', rows[i])[0] || '';
 
 				/**/ if(service === 'web') {
-					nbOfWebNodes++;
+					numberOfWebNodes++;
 				}
 				else if(service === 'task') {
-					nbOfTaskNodes++;
+					numberOfTaskNodes++;
 				}
 
 				this._nodes.push({
@@ -387,7 +387,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 					],
 				}],
 				title: {
-					text: nbOfWebNodes + ' web node(s)',
+					text: numberOfWebNodes + ' web node(s)',
 					horizontalAlign: 'center',
 				},
 				toolTip:{
@@ -412,7 +412,7 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 					],
 				}],
 				title: {
-					text: nbOfTaskNodes + ' task node(s)',
+					text: numberOfTaskNodes + ' task node(s)',
 					horizontalAlign: 'center',
 				},
 				toolTip:{
