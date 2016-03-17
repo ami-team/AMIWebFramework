@@ -363,7 +363,10 @@ $AMIClass('AMIAdminDashboardMonitoring', {
 					dataPoints: [],
 				});
 
-				options += '<option value="' + amiWebApp.textToHtml(url) + '">' + amiWebApp.textToHtml(service + '::' + node) + '</option>';
+				if(service !== 'task')
+				{
+					options += '<option value="' + amiWebApp.textToHtml(url) + '">' + amiWebApp.textToHtml(service + '::' + node) + '</option>';
+				}
 			}
 
 			/*-------------------------------------------------*/
