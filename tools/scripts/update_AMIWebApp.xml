@@ -8,6 +8,13 @@
 		<fileset dir="${AMIWebAppTmpDir}" />
 	</path>
 
+	<filelist id="filelist" dir="${AMIWebAppTmpDir}/js/AMI">
+		<file name="AMIObjects.js" />
+		<file name="AMIWebApp.js" />
+		<file name="AMICommand.js" />
+		<file name="AMILogin.js" />
+	</filelist>
+
 	<target name="update_prod" description="Update the framework (prod mode).">
 
 		<!-- **************************************************** -->
@@ -32,7 +39,8 @@
 		</copy>
 
 		<copy todir="css">
-			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*" />
+			<fileset dir="${AMIWebAppTmpDir}/css" includes="*" />
+			<fileset dir="${AMIWebAppTmpDir}/css" includes="3rd-party/**/*" />
 		</copy>
 
 		<copy todir="docs">
@@ -52,13 +60,14 @@
 		</copy>
 
 		<copy todir="js">
-			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*" />
+			<fileset dir="${AMIWebAppTmpDir}/js" includes="*" />
+			<fileset dir="${AMIWebAppTmpDir}/js" includes="3rd-party/**/*" />
 		</copy>
-
+<!--
 		<copy todir="subapps">
 			<fileset dir="${AMIWebAppTmpDir}/subapps" includes="**/*" />
 		</copy>
-
+-->
 		<!-- **************************************************** -->
 		<!-- MAKE DIRECTORIES                                     -->
 		<!-- **************************************************** -->
@@ -70,39 +79,26 @@
 		<!-- GENERATE MINIMIZED FILES                             -->
 		<!-- **************************************************** -->
 
+		<concat destfile="${AMIWebAppTmpDir}/js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+			<header>'use strict' ;${line.separator}${line.separator}</header>
+			<filelist refid="filelist" />
+		</concat>
+
+		<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
+		<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
+
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
-			<arg value="${AMIWebAppTmpDir}/css/AMI/AMIWebApp.css" />
+			<arg value="${AMIWebAppTmpDir}/css/AMI/framework.css" />
 			<arg value="-o" />
-			<arg value="css/AMI/AMIWebApp.min.css" />
+			<arg value="css/AMI/framework.min.css" />
 		</java>
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
-			<arg value="${AMIWebAppTmpDir}/js/AMI/AMIWebApp.js" />
+			<arg value="${AMIWebAppTmpDir}/js/AMI/framework.js" />
 			<arg value="-o" />
-			<arg value="js/AMI/AMIWebApp.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="${AMIWebAppTmpDir}/js/AMI/AMICommand.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/AMICommand.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="${AMIWebAppTmpDir}/js/AMI/AMILogin.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/AMILogin.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="${AMIWebAppTmpDir}/js/AMI/AMIObjects.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/AMIObjects.min.js" />
+			<arg value="js/AMI/framework.min.js" />
 		</java>
 
 		<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
@@ -143,7 +139,8 @@
 		</copy>
 
 		<copy todir="css">
-			<fileset dir="${AMIWebAppTmpDir}/css" includes="**/*" />
+			<fileset dir="${AMIWebAppTmpDir}/css" includes="*" />
+			<fileset dir="${AMIWebAppTmpDir}/css" includes="3rd-party/**/*" />
 		</copy>
 
 		<copy todir="docs">
@@ -163,13 +160,14 @@
 		</copy>
 
 		<copy todir="js">
-			<fileset dir="${AMIWebAppTmpDir}/js" includes="**/*" />
+			<fileset dir="${AMIWebAppTmpDir}/js" includes="*" />
+			<fileset dir="${AMIWebAppTmpDir}/js" includes="3rd-party/**/*" />
 		</copy>
-
+<!--
 		<copy todir="subapps">
 			<fileset dir="${AMIWebAppTmpDir}/subapps" includes="**/*" />
 		</copy>
-
+-->
 		<!-- **************************************************** -->
 		<!-- MAKE DIRECTORIES                                     -->
 		<!-- **************************************************** -->
@@ -181,11 +179,16 @@
 		<!-- GENERATE MINIMIZED FILES                             -->
 		<!-- **************************************************** -->
 
-		<copy file="${AMIWebAppTmpDir}/css/AMI/AMIWebApp.css" tofile="css/AMI/AMIWebApp.min.css" overwrite="true" force="true" />
-		<copy file="${AMIWebAppTmpDir}/js/AMI/AMIWebApp.js" tofile="js/AMI/AMIWebApp.min.js" overwrite="true" force="true" />
-		<copy file="${AMIWebAppTmpDir}/js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
-		<copy file="${AMIWebAppTmpDir}/js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
-		<copy file="${AMIWebAppTmpDir}/js/AMI/AMIObjects.js" tofile="js/AMI/AMIObjects.min.js" overwrite="true" force="true" />
+		<concat destfile="${AMIWebAppTmpDir}/js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+			<header>'use strict' ;${line.separator}${line.separator}</header>
+			<filelist refid="filelist" />
+		</concat>
+
+		<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
+		<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
+
+		<copy file="${AMIWebAppTmpDir}/css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" force="true" />
+		<copy file="${AMIWebAppTmpDir}/js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" force="true" />
 
 		<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
 
@@ -209,7 +212,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="eslint subapps/**/js/*.js" />
+			<arg value="eslint eslint subapps/**/js/*.js" />
 		</exec>
 
 	</target>
