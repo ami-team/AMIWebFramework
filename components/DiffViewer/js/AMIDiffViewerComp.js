@@ -32,31 +32,29 @@ function AMIDiffViewerComp()
 
 	/*-----------------------------------------------------------------*/
 
-	this.show = function(text1, text3)
+	this.show = function(text1, text2)
 	{
 		/*---------------------------------------------------------*/
 
-		var d = this.dmp.diff_main(text1, text3);
+		var d = this.dmp.diff_main(text1, text2);
 
 		this.dmp.diff_cleanupEfficiency(d);
 
-		var text2 = this.dmp.diff_prettyHtml(d);
-
 		/*---------------------------------------------------------*/
 
-		var html1 = '<i class="line-number"></i>' + text1.replace(/\n/g, '\n<i class="line-number"></i>');
+		var html1 = '<i class="line-number"></i>' + amiWebApp.textToHtml(text1).replace(/\n/g, '\n<i class="line-number"></i>');
 
 		$('#diff_viewer_cmp_content_orig').html(html1);
 
 		/*---------------------------------------------------------*/
 
-		var html2 = '<i class="line-number"></i>' + text2.replace(/\n/g, '\n<i class="line-number"></i>');
+		var html2 = '<i class="line-number"></i>' + this.dmp.diff_prettyHtml(d).replace(/\n/g, '\n<i class="line-number"></i>');
 
 		$('#diff_viewer_cmp_content_diff').html(html2);
 
 		/*---------------------------------------------------------*/
 
-		var html3 = '<i class="line-number"></i>' + text3.replace(/\n/g, '\n<i class="line-number"></i>');
+		var html3 = '<i class="line-number"></i>' + amiWebApp.textToHtml(text2).replace(/\n/g, '\n<i class="line-number"></i>');
 
 		$('#diff_viewer_cmp_content_chgd').html(html3);
 

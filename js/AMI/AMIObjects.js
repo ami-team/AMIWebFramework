@@ -1,5 +1,5 @@
 /*!
- * AMI Web Framework
+ * AMI Web Framework - AMIObject
  *
  * Copyright (c) 2014-2016 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -45,7 +45,7 @@ function _$addToNamespace($name, x)
 		}
 		else
 		{
-			throw '`' + $name + '` not declared';
+			throw '`' + $name + '` (`' + parts[i] + '`) not declared';
 		}
 	}
 

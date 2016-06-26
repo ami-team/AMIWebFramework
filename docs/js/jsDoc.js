@@ -309,29 +309,29 @@ var jsDoc = {
 			{
 				var parameter = method.params[i];
 
-				L1.push(parameter.name);
+				L1.push(parameter['name']);
 				L2.push(this.makeType(parameter));
 				L3.push(this.makeDesc(parameter));
-				L4.push(parameter.default);
-				L5.push(parameter.optional);
-				L6.push(parameter.nullable);
+				L4.push(parameter['default']);
+				L5.push(parameter['optional']);
+				L6.push(parameter['nullable']);
 
-				if(parameter.name) {
+				if(parameter['name']) {
 					cnt1++;
 				}
-				if(parameter.type) {
+				if(parameter['type']) {
 					cnt2++;
 				}
-				if(parameter.desc) {
+				if(parameter['desc']) {
 					cnt3++;
 				}
-				if(parameter.default) {
+				if(parameter['default']) {
 					cnt4++;
 				}
-				if(parameter.optional) {
+				if(parameter['optional']) {
 					cnt5++;
 				}
-				if(parameter.nullable) {
+				if(parameter['nullable']) {
 					cnt6++;
 				}
 			}

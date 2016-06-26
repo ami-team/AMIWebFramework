@@ -16,9 +16,9 @@ function AMITextViewerComp()
 
 	this.init = function()
 	{
-		amiWebApp.loadScripts([
-			'components/TextViewer/js/highlight.min.js'
-		]);	
+//		amiWebApp.loadScripts([
+//			'components/TextViewer/js/highlight.min.js'
+//		]);	
 	
 		amiWebApp.loadHTMLs([
 			'components/TextViewer/html/Modal/text_viewer.html'
@@ -32,7 +32,7 @@ function AMITextViewerComp()
 
 	this.show = function(text)
 	{
-		var html = '<i class="line-number"></i>' + text.replace(/\n/g, '\n<i class="line-number"></i>');
+		var html = '<i class="line-number"></i>' + amiWebApp.textToHtml(text).replace(/\n/g, '\n<i class="line-number"></i>');
 
 		$('#text_viewer_cmp_content').html(html);
 

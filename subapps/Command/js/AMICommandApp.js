@@ -101,9 +101,6 @@ $AMIClass('AMICommandApp', {
 
 				help = help.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
 
-				help = amiWebApp.textToHtml(help);
-				proto = amiWebApp.textToHtml(proto);
-
 				dict.push({
 					COMMAND: command,
 					HELP: help,
@@ -133,27 +130,22 @@ $AMIClass('AMICommandApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	_insertResult: function(code, url)
-	{
-		var data = '<i class="line-number"></i>' + code.replace(/\n/g, '\n<i class="line-number"></i>');
-
-		var dict = {
-			URL: url,
-			DATA: data,
-		};
-
-		amiWebApp.prependHTML('#ami_command_content', this.fragmentResult, {dict: dict});
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	execute: function(command, converter)
 	{
 		amiWebApp.lock();
 
 		amiCommand.execute(command, {context: this, converter: converter}).always(function(data, url) {
 
-			this._insertResult(converter === 'AMIXmlToJson.xsl' ? JSON.stringify(data, undefined, 2) : amiWebApp.textToHtml(data), url);
+			data = (converter === 'AMIXmlToJson.xsl') ? JSON.stringify(data, undefined, 2)
+			                                          : data
+			;
+
+			var dict = {
+				DATA: data,
+				URL: url,
+			};
+
+			amiWebApp.prependHTML('#ami_command_content', this.fragmentResult, {dict: dict});
 
 			amiWebApp.unlock();
 		});

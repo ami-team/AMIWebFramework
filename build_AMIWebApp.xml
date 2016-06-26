@@ -6,7 +6,23 @@
 		<fileset dir="." />
 	</path>
 
+	<filelist id="filelist" dir="js/AMI">
+		<file name="AMIObjects.js" />
+		<file name="AMIWebApp.js" />
+		<file name="AMICommand.js" />
+		<file name="AMILogin.js" />
+	</filelist>
+
 	<target name="compile_prod" description="Compile the project (prod mode).">
+
+		<echo file="js/AMI/framework.js">&quot;use strict&quot;;${line.separator}${line.separator}</echo>
+
+		<concat destfile="js/AMI/framework.js" append="true" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+			<filelist refid="filelist" />
+		</concat>
+
+		<replace file="js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
+		<replace file="js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
@@ -17,50 +33,33 @@
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/AMIWebApp.js" />
+			<arg value="js/AMI/framework.js" />
 			<arg value="-o" />
-			<arg value="js/AMI/AMIWebApp.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/AMIObjects.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/AMIObjects.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/AMICommand.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/AMICommand.min.js" />
-		</java>
-
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
-			<arg value="js/AMI/AMILogin.js" />
-			<arg value="-o" />
-			<arg value="js/AMI/AMILogin.min.js" />
+			<arg value="js/AMI/framework.min.js" />
 		</java>
 
 	</target>
 
 	<target name="compile_debug" description="Compile the project (debug mode).">
 
+		<echo file="js/AMI/framework.js">&quot;use strict&quot;;${line.separator}${line.separator}</echo>
+
+		<concat destfile="js/AMI/framework.js" append="true" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+			<filelist refid="filelist" />
+		</concat>
+
+		<replace file="js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
+		<replace file="js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
+
 		<copy file="css/AMI/AMIWebApp.css" tofile="css/AMI/AMIWebApp.min.css" overwrite="true" force="true" />
-		<copy file="js/AMI/AMIWebApp.js" tofile="js/AMI/AMIWebApp.min.js" overwrite="true" force="true" />
-		<copy file="js/AMI/AMIObjects.js" tofile="js/AMI/AMIObjects.min.js" overwrite="true" force="true" />
-		<copy file="js/AMI/AMICommand.js" tofile="js/AMI/AMICommand.min.js" overwrite="true" force="true" />
-		<copy file="js/AMI/AMILogin.js" tofile="js/AMI/AMILogin.min.js" overwrite="true" force="true" />
+		<copy file="js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" force="true" />
 
 	</target>
 
 	<target name="clean" description="Clean the project.">
 
 		<delete file="css/AMI/AMIWebApp.min.css" />
-		<delete file="js/AMI/AMIWebApp.min.js" />
-		<delete file="js/AMI/AMICommand.min.js" />
-		<delete file="js/AMI/AMILogin.min.js" />
+		<delete file="js/AMI/framework.min.js" />
 
 	</target>
 
@@ -72,7 +71,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="eslint js/AMI/AMIWebApp.js js/AMI/AMIObjects.js js/AMI/AMICommand.js js/AMI/AMILogin.js" />
+			<arg value="eslint js/AMI/framework.min.js" />
 		</exec>
 
 	</target>
@@ -98,7 +97,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMICommand.js js/AMI/AMILogin.js > js/AMI/api.min.json" />
+			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMISubApp.js js/AMI/AMICommand.js js/AMI/AMILogin.js > js/AMI/api.min.json" />
 		</exec>
 
 	</target>

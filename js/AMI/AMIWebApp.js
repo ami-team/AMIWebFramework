@@ -1,5 +1,5 @@
 /*!
- * AMI Web Framework
+ * AMI Web Framework - AMIWebApp
  *
  * Copyright (c) 2014-2016 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -7,6 +7,56 @@
  */
 
 'use strict';
+
+/*-------------------------------------------------------------------------*/
+/* ES6 EXTENSIONS                                                          */
+/*-------------------------------------------------------------------------*/
+
+if(!String.prototype.startsWith)
+{
+	String.prototype.startsWith = function(s)
+	{
+		var base = 0x00000000000000000000;
+
+		return this.indexOf(s, base) === base;
+	};
+}
+
+/*-------------------------------------------------------------------------*/
+
+if(!String.prototype.endsWith)
+{
+	String.prototype.endsWith = function(s)
+	{
+		var base = this.length - s.length;
+
+		return this.indexOf(s, base) === base;
+	};
+}
+
+/*-------------------------------------------------------------------------*/
+/* JQUERY EXTENSIONS                                                       */
+/*-------------------------------------------------------------------------*/
+
+jQuery.foreach = function(elements, callback, context)
+{
+	if(context)
+	{
+		jQuery.each(elements, function(index, element) {
+
+			callback.apply(context, [index, element]);
+		});
+	}
+	else
+	{
+		jQuery.each(elements, function(index, element) {
+
+			callback.apply(element, [index, element]);
+		});
+	}
+
+	return elements;
+};
 
 /*-------------------------------------------------------------------------*/
 /* INTERNAL VARIABLES                                                      */
@@ -57,7 +107,7 @@ function amiRegisterSubApp(subAppName, subAppInstance)
  * @namespace amiWebApp
  */
 
-var amiWebApp = {
+$AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 	/* PRIVATE MEMBERS                                                 */
 	/*-----------------------------------------------------------------*/
@@ -115,7 +165,7 @@ var amiWebApp = {
 	/* CONSTRUCTOR                                                     */
 	/*-----------------------------------------------------------------*/
 
-	init: function()
+	$init: function()
 	{
 		/*---------------------------------------------------------*/
 		/* URLs                                                    */
@@ -129,7 +179,7 @@ var amiWebApp = {
 		{
 			var src = scripts[i].src.trim();
 
-			var idx = src.indexOf('js/AMI/AMIWebApp.');
+			var idx = src.indexOf('js/AMI/framework.');
 
 			if(idx >= 0)
 			{
@@ -210,14 +260,10 @@ var amiWebApp = {
 
 		this.loadScripts([
 			/* Third-party */
+			//this.originURL + '/js/ami-twig.min.js',
 			this.originURL + '/js/jspath.min.js',
-			this.originURL + '/js/ami-twig.min.js',
 			this.originURL + '/js/bootstrap.min.js',
 			this.originURL + '/js/bootstrap-toggle.min.js',
-			/* AMI */
-			this.originURL + '/js/AMI/AMIObjects.min.js',
-			this.originURL + '/js/AMI/AMICommand.min.js',
-			this.originURL + '/js/AMI/AMILogin.min.js',
 		]).fail(function() {
 
 			alert('Service temporarily unavailable, please try reloading the page...');
@@ -737,18 +783,29 @@ var amiWebApp = {
 	{
 		var result;
 
-		if(dict instanceof Array)
+		/**/ if(dict instanceof Array)
 		{
 			result = '';
 
 			for(var i in dict)
 			{
-				result += ami.twig.engine.render(html, dict[i]);
+				/**/ if(dict[i] instanceof Object)
+				{
+					result += ami.twig.engine.render(html, dict[i]);
+				}
+				else
+				{
+					result += ami.twig.engine.render(html, {});
+				}
 			}
+		}
+		else if(dict instanceof Object)
+		{
+			result = ami.twig.engine.render(html, dict);
 		}
 		else
 		{
-			result = ami.twig.engine.render(html, dict);
+			result = ami.twig.engine.render(html, {});
 		}
 
 		return result;
@@ -1158,16 +1215,16 @@ var amiWebApp = {
 	},
 
 	/*-----------------------------------------------------------------*/
-};
+});
 
 /*-------------------------------------------------------------------------*/
-/* CONSTRUCTOR                                                             */
+/* ami                                                                     */
 /*-------------------------------------------------------------------------*/
 
-amiWebApp.init();
+$AMINamespace('ami');
 
 /*-------------------------------------------------------------------------*/
-/* AMISubApp                                                               */
+/* ami.ISubApp                                                             */
 /*-------------------------------------------------------------------------*/
 
 /**
@@ -1211,55 +1268,5 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 
 	/*-----------------------------------------------------------------*/
 });
-
-/*-------------------------------------------------------------------------*/
-/* ES6 EXTENSIONS                                                          */
-/*-------------------------------------------------------------------------*/
-
-if(!String.prototype.startsWith)
-{
-	String.prototype.startsWith = function(s)
-	{
-		var base = 0x00000000000000000000;
-
-		return this.indexOf(s, base) === base;
-	};
-}
-
-/*-------------------------------------------------------------------------*/
-
-if(!String.prototype.endsWith)
-{
-	String.prototype.endsWith = function(s)
-	{
-		var base = this.length - s.length;
-
-		return this.indexOf(s, base) === base;
-	};
-}
-
-/*-------------------------------------------------------------------------*/
-/* JQUERY EXTENSIONS                                                       */
-/*-------------------------------------------------------------------------*/
-
-jQuery.foreach = function(elements, callback, context)
-{
-	if(context)
-	{
-		jQuery.each(elements, function(index, element) {
-
-			callback.apply(context, [index, element]);
-		});
-	}
-	else
-	{
-		jQuery.each(elements, function(index, element) {
-
-			callback.apply(element, [index, element]);
-		});
-	}
-
-	return elements;
-};
 
 /*-------------------------------------------------------------------------*/

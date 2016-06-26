@@ -1,5 +1,5 @@
 /*!
- * AMI Web Framework
+ * AMI Web Framework - AMICommand
  *
  * Copyright (c) 2014-2016 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -7,18 +7,6 @@
  */
 
 'use strict';
-
-/*-------------------------------------------------------------------------*/
-/* INTERNAL FUNCTIONS                                                      */
-/*-------------------------------------------------------------------------*/
-
-function _ami_internal_textToString(s)
-{
-	return s.replace(/[\\'"]/g, function(x) {
-
-		return '\\' + x;
-	});
-}
 
 /*-------------------------------------------------------------------------*/
 /* amiCommand                                                              */
@@ -47,6 +35,18 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	  */
 
 	converter: 'AMIXmlToJson.xsl',
+
+	/*-----------------------------------------------------------------*/
+	/* PRIVATE METHODS                                                 */
+	/*-----------------------------------------------------------------*/
+
+	_textToString: function(s)
+	{
+		return s.replace(/[\\'"]/g, function(x) {
+
+			return '\\' + x;
+		});
+	},
 
 	/*-----------------------------------------------------------------*/
 	/* PUBLIC METHODS                                                  */
@@ -240,7 +240,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		this.execute('GetSessionInfo -AMIUser="' + _ami_internal_textToString(user) + '" -AMIPass="' + _ami_internal_textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="' + this._textToString(user) + '" -AMIPass="' + this._textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
 
 			var userInfo = {};
 			var roleInfo = {};
@@ -444,7 +444,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	attachCert: function(user, pass, settings)
 	{
-		return this.execute('GetSessionInfo -attachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
+		return this.execute('GetSessionInfo -attachCert -amiLogin="' + this._textToString(user) + '" -amiPassword="' + this._textToString(pass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -459,7 +459,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	detachCert: function(user, pass, settings)
 	{
-		return this.execute('GetSessionInfo -detachCert -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '"', settings);
+		return this.execute('GetSessionInfo -detachCert -amiLogin="' + this._textToString(user) + '" -amiPassword="' + this._textToString(pass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -477,7 +477,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	addUser: function(user, pass, firstName, lastName, email, settings)
 	{
-		return this.execute('AddUser -amiLogin="' + _ami_internal_textToString(user) + '" -amiPassword="' + _ami_internal_textToString(pass) + '" -firstName="' + _ami_internal_textToString(firstName) + '"-lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
+		return this.execute('AddUser -amiLogin="' + this._textToString(user) + '" -amiPassword="' + this._textToString(pass) + '" -firstName="' + this._textToString(firstName) + '" -lastName="' + this._textToString(lastName) + '" -email="' + this._textToString(email) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -493,7 +493,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	changeInfo: function(firstName, lastName, email, settings)
 	{
-		return this.execute('SetUserInfo -firstName="' + _ami_internal_textToString(firstName) + '" -lastName="' + _ami_internal_textToString(lastName) + '" -email="' + _ami_internal_textToString(email) + '"', settings);
+		return this.execute('SetUserInfo -firstName="' + this._textToString(firstName) + '" -lastName="' + this._textToString(lastName) + '" -email="' + this._textToString(email) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -508,7 +508,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	changePass: function(oldPass, newPass, settings)
 	{
-		return this.execute('ChangePassword -amiPasswordOld="' + _ami_internal_textToString(oldPass) + '" -amiPasswordNew="' + _ami_internal_textToString(newPass) + '"', settings);
+		return this.execute('ChangePassword -amiPasswordOld="' + this._textToString(oldPass) + '" -amiPasswordNew="' + this._textToString(newPass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -522,7 +522,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	resetPass: function(user, settings)
 	{
-		return this.execute('ResetPassword -amiLogin="' + _ami_internal_textToString(user) + '"', settings);
+		return this.execute('ResetPassword -amiLogin="' + this._textToString(user) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
