@@ -15,7 +15,7 @@
 
 	<target name="compile_prod" description="Compile the project (prod mode).">
 
-		<echo file="js/AMI/framework.js">&quot;use strict&quot;;${line.separator}${line.separator}</echo>
+		<echo file="js/AMI/framework.js">${line.separator}&apos;use strict&apos;;${line.separator}${line.separator}</echo>
 
 		<concat destfile="js/AMI/framework.js" append="true" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
 			<filelist refid="filelist" />
@@ -42,7 +42,7 @@
 
 	<target name="compile_debug" description="Compile the project (debug mode).">
 
-		<echo file="js/AMI/framework.js">&quot;use strict&quot;;${line.separator}${line.separator}</echo>
+		<echo file="js/AMI/framework.js">${line.separator}&apos;use strict&apos;;${line.separator}${line.separator}</echo>
 
 		<concat destfile="js/AMI/framework.js" append="true" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
 			<filelist refid="filelist" />
@@ -71,7 +71,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="eslint js/AMI/framework.min.js" />
+			<arg value="eslint js/AMI/framework.js" />
 		</exec>
 
 	</target>

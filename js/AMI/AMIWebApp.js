@@ -9,54 +9,10 @@
 'use strict';
 
 /*-------------------------------------------------------------------------*/
-/* ES6 EXTENSIONS                                                          */
+/* ami                                                                     */
 /*-------------------------------------------------------------------------*/
 
-if(!String.prototype.startsWith)
-{
-	String.prototype.startsWith = function(s)
-	{
-		var base = 0x00000000000000000000;
-
-		return this.indexOf(s, base) === base;
-	};
-}
-
-/*-------------------------------------------------------------------------*/
-
-if(!String.prototype.endsWith)
-{
-	String.prototype.endsWith = function(s)
-	{
-		var base = this.length - s.length;
-
-		return this.indexOf(s, base) === base;
-	};
-}
-
-/*-------------------------------------------------------------------------*/
-/* JQUERY EXTENSIONS                                                       */
-/*-------------------------------------------------------------------------*/
-
-jQuery.foreach = function(elements, callback, context)
-{
-	if(context)
-	{
-		jQuery.each(elements, function(index, element) {
-
-			callback.apply(context, [index, element]);
-		});
-	}
-	else
-	{
-		jQuery.each(elements, function(index, element) {
-
-			callback.apply(element, [index, element]);
-		});
-	}
-
-	return elements;
-};
+$AMINamespace('ami');
 
 /*-------------------------------------------------------------------------*/
 /* INTERNAL VARIABLES                                                      */
@@ -103,7 +59,7 @@ function amiRegisterSubApp(subAppName, subAppInstance)
 /*-------------------------------------------------------------------------*/
 
 /**
- * The AMI webapp subsystem
+ * The AMI authentication subsystem
  * @namespace amiWebApp
  */
 
@@ -260,7 +216,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		this.loadScripts([
 			/* Third-party */
-			//this.originURL + '/js/ami-twig.min.js',
 			this.originURL + '/js/jspath.min.js',
 			this.originURL + '/js/bootstrap.min.js',
 			this.originURL + '/js/bootstrap-toggle.min.js',
@@ -1218,12 +1173,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 });
 
 /*-------------------------------------------------------------------------*/
-/* ami                                                                     */
-/*-------------------------------------------------------------------------*/
-
-$AMINamespace('ami');
-
-/*-------------------------------------------------------------------------*/
 /* ami.ISubApp                                                             */
 /*-------------------------------------------------------------------------*/
 
@@ -1268,5 +1217,55 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 
 	/*-----------------------------------------------------------------*/
 });
+
+/*-------------------------------------------------------------------------*/
+/* ES6 EXTENSIONS                                                          */
+/*-------------------------------------------------------------------------*/
+
+if(!String.prototype.startsWith)
+{
+	String.prototype.startsWith = function(s)
+	{
+		var base = 0x00000000000000000000;
+
+		return this.indexOf(s, base) === base;
+	};
+}
+
+/*-------------------------------------------------------------------------*/
+
+if(!String.prototype.endsWith)
+{
+	String.prototype.endsWith = function(s)
+	{
+		var base = this.length - s.length;
+
+		return this.indexOf(s, base) === base;
+	};
+}
+
+/*-------------------------------------------------------------------------*/
+/* JQUERY EXTENSIONS                                                       */
+/*-------------------------------------------------------------------------*/
+
+jQuery.foreach = function(elements, callback, context)
+{
+	if(context)
+	{
+		jQuery.each(elements, function(index, element) {
+
+			callback.apply(context, [index, element]);
+		});
+	}
+	else
+	{
+		jQuery.each(elements, function(index, element) {
+
+			callback.apply(element, [index, element]);
+		});
+	}
+
+	return elements;
+};
 
 /*-------------------------------------------------------------------------*/
