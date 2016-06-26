@@ -15,9 +15,8 @@
 
 	<target name="compile_prod" description="Compile the project (prod mode).">
 
-		<echo file="js/AMI/framework.js">${line.separator}&apos;use strict&apos;;${line.separator}${line.separator}</echo>
-
-		<concat destfile="js/AMI/framework.js" append="true" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+		<concat destfile="js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+			<header>'use strict' ;${line.separator}${line.separator}</header>
 			<filelist refid="filelist" />
 		</concat>
 
@@ -26,9 +25,9 @@
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
-			<arg value="css/AMI/AMIWebApp.css" />
+			<arg value="css/AMI/framework.css" />
 			<arg value="-o" />
-			<arg value="css/AMI/AMIWebApp.min.css" />
+			<arg value="css/AMI/framework.min.css" />
 		</java>
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
@@ -42,16 +41,15 @@
 
 	<target name="compile_debug" description="Compile the project (debug mode).">
 
-		<echo file="js/AMI/framework.js">${line.separator}&apos;use strict&apos;;${line.separator}${line.separator}</echo>
-
-		<concat destfile="js/AMI/framework.js" append="true" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+		<concat destfile="js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+			<header>'use strict' ;${line.separator}${line.separator}</header>
 			<filelist refid="filelist" />
 		</concat>
 
 		<replace file="js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
 		<replace file="js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
 
-		<copy file="css/AMI/AMIWebApp.css" tofile="css/AMI/AMIWebApp.min.css" overwrite="true" force="true" />
+		<copy file="css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" force="true" />
 		<copy file="js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" force="true" />
 
 	</target>

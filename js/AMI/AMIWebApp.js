@@ -15,6 +15,56 @@
 $AMINamespace('ami');
 
 /*-------------------------------------------------------------------------*/
+/* ES6 EXTENSIONS                                                          */
+/*-------------------------------------------------------------------------*/
+
+if(!String.prototype.startsWith)
+{
+	String.prototype.startsWith = function(s)
+	{
+		var base = 0x00000000000000000000;
+
+		return this.indexOf(s, base) === base;
+	};
+}
+
+/*-------------------------------------------------------------------------*/
+
+if(!String.prototype.endsWith)
+{
+	String.prototype.endsWith = function(s)
+	{
+		var base = this.length - s.length;
+
+		return this.indexOf(s, base) === base;
+	};
+}
+
+/*-------------------------------------------------------------------------*/
+/* JQUERY EXTENSIONS                                                       */
+/*-------------------------------------------------------------------------*/
+
+jQuery.foreach = function(elements, callback, context)
+{
+	if(context)
+	{
+		jQuery.each(elements, function(index, element) {
+
+			callback.apply(context, [index, element]);
+		});
+	}
+	else
+	{
+		jQuery.each(elements, function(index, element) {
+
+			callback.apply(element, [index, element]);
+		});
+	}
+
+	return elements;
+};
+
+/*-------------------------------------------------------------------------*/
 /* INTERNAL VARIABLES                                                      */
 /*-------------------------------------------------------------------------*/
 
@@ -203,7 +253,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/css/bootstrap.vertical-tabs.min.css',
 				this.originURL + '/css/font-awesome.min.css',
 				/* AMI */
-				this.originURL + '/css/AMI/AMIWebApp.min.css',
+				this.originURL + '/css/AMI/framework.min.css',
 			]).fail(function() {
 
 				alert('Service temporarily unavailable, please try reloading the page...');
@@ -217,6 +267,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		this.loadScripts([
 			/* Third-party */
 			this.originURL + '/js/jspath.min.js',
+			this.originURL + '/js/ami-twig.min.js',
 			this.originURL + '/js/bootstrap.min.js',
 			this.originURL + '/js/bootstrap-toggle.min.js',
 		]).fail(function() {
@@ -1217,55 +1268,5 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 
 	/*-----------------------------------------------------------------*/
 });
-
-/*-------------------------------------------------------------------------*/
-/* ES6 EXTENSIONS                                                          */
-/*-------------------------------------------------------------------------*/
-
-if(!String.prototype.startsWith)
-{
-	String.prototype.startsWith = function(s)
-	{
-		var base = 0x00000000000000000000;
-
-		return this.indexOf(s, base) === base;
-	};
-}
-
-/*-------------------------------------------------------------------------*/
-
-if(!String.prototype.endsWith)
-{
-	String.prototype.endsWith = function(s)
-	{
-		var base = this.length - s.length;
-
-		return this.indexOf(s, base) === base;
-	};
-}
-
-/*-------------------------------------------------------------------------*/
-/* JQUERY EXTENSIONS                                                       */
-/*-------------------------------------------------------------------------*/
-
-jQuery.foreach = function(elements, callback, context)
-{
-	if(context)
-	{
-		jQuery.each(elements, function(index, element) {
-
-			callback.apply(context, [index, element]);
-		});
-	}
-	else
-	{
-		jQuery.each(elements, function(index, element) {
-
-			callback.apply(element, [index, element]);
-		});
-	}
-
-	return elements;
-};
 
 /*-------------------------------------------------------------------------*/
