@@ -9,6 +9,7 @@
 	<filelist id="filelist" dir="js/AMI">
 		<file name="AMIObjects.js" />
 		<file name="AMIWebApp.js" />
+		<file name="AMISubApp.js" />
 		<file name="AMICommand.js" />
 		<file name="AMILogin.js" />
 	</filelist>

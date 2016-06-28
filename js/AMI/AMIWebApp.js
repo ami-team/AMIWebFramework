@@ -109,7 +109,7 @@ function amiRegisterSubApp(subAppName, subAppInstance)
 /*-------------------------------------------------------------------------*/
 
 /**
- * The AMI authentication subsystem
+ * The AMI webapp subsystem
  * @namespace amiWebApp
  */
 
@@ -208,6 +208,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		}
 
 		/*---------------------------------------------------------*/
+		/*---------------------------------------------------------*/
 
 		var url = document.location.href;
 
@@ -256,7 +257,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/css/AMI/framework.min.css',
 			]).fail(function() {
 
-				alert('Service temporarily unavailable, please try reloading the page...');
+				alert('Service temporarily unreachable, please try reloading the page...');
 			});
 		}
 
@@ -272,7 +273,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			this.originURL + '/js/bootstrap-toggle.min.js',
 		]).fail(function() {
 
-			alert('Service temporarily unavailable, please try reloading the page...');
+			alert('Service temporarily unreachable, please try reloading the page...');
 		});
 
 		/*---------------------------------------------------------*/
@@ -294,7 +295,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		}).fail(function() {
 
-			alert('Service temporarily unavailable, please try reloading the page...');
+			alert('Service temporarily unreachable, please try reloading the page...');
 		});
 
 		/*---------------------------------------------------------*/
@@ -1063,11 +1064,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				}).fail(function() {
 
-					alert('Service temporarily unavailable, please try reloading the page...');
+					alert('Service temporarily unreachable, please try reloading the page...');
 				});
 			}).fail(function() {
 
-				alert('Service temporarily unavailable, please try reloading the page...');
+				alert('Service temporarily unreachable, please try reloading the page...');
 			});
 
 			/*-------------------------------------------------*/
@@ -1173,7 +1174,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if($('#ami_main_content').is(':empty'))
 			{
-				$('#ami_main_content').html('Service temporarily unavailable, please try reloading the page...');
+				$('#ami_main_content').html('Service temporarily unreachable, please try reloading the page...');
 			}
 
 		}, this.timeout);
@@ -1219,52 +1220,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			}
 		}
 	},
-
-	/*-----------------------------------------------------------------*/
-});
-
-/*-------------------------------------------------------------------------*/
-/* ami.ISubApp                                                             */
-/*-------------------------------------------------------------------------*/
-
-/**
- * The AMI sub-application interface
- * @interface ami/ISubApp
- */
-
-$AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Called when the sub-application is ready to run
-	  * @param {?} userdata userdata
-	  */
-
-	onReady: function(/* userdata */) {},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Called when the sub-application is about to exit
-	  */
-
-	onExit: function() {},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Called when logging in
-	  */
-
-	onLogin: function() {},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Called when logging out
-	  */
-
-	onLogout: function() {},
 
 	/*-----------------------------------------------------------------*/
 });
