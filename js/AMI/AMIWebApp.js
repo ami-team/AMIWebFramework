@@ -229,9 +229,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* ARGS                                                    */
 		/*---------------------------------------------------------*/
 
-		if(window.location.search)
+		var search = window.location.search;
+
+		if(search)
 		{
-			var prarams = window.location.search.substring(1).split('&');
+			var prarams = search.substring(1).split('&');
 
 			for(var j in prarams)
 			{
