@@ -174,7 +174,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	$init: function()
 	{
 		/*---------------------------------------------------------*/
-		/* URLs                                                    */
+		/* ORIGIN_URL                                              */
 		/*---------------------------------------------------------*/
 
 		var scripts = document.getElementsByTagName('script');
@@ -208,16 +208,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		}
 
 		/*---------------------------------------------------------*/
+		/* WEBAPP_URL                                              */
 		/*---------------------------------------------------------*/
 
-		var url = document.location.href;
-
-		var IDX = url.indexOf('?');
+		var href = document.location.href;
 
 		/*---------------------------------------------------------*/
 
-		this.webAppURL = (IDX > 0) ? url.substring(0, IDX)
-		                           : url
+		var IDX = href.indexOf('?');
+
+		this.webAppURL = (IDX > 0) ? href.substring(0, IDX)
+		                           : href
 		;
 
 		while(this.webAppURL[this.webAppURL.length - 1] === '/')
@@ -231,15 +232,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		var search = window.location.search;
 
+		/*---------------------------------------------------------*/
+
 		if(search)
 		{
 			var prarams = search.substring(1).split('&');
 
 			for(var j in prarams)
 			{
-				var pair = prarams[j].split('=');
+				var tuple = prarams[j].split('=');
 
-				this.args[pair[0]] = decodeURIComponent(pair[1]);
+				this.args[decodeURIComponent(tuple[0])] = (tuple.length === 2) ? decodeURIComponent(tuple[1]) : '';
 			}
 		}
 
@@ -530,7 +533,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
-	_loadFiles: function(deferred, array, urls, dataType, context)
+	_loadFiles: function(deferred, result, urls, dataType, context)
 	{
 		if(urls.length > 0)
 		{
@@ -543,9 +546,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				context: this,
 			}).done(function(data) {
 
-				array.push(data);
+				result.push(data);
 
-				this._loadFiles(deferred, array, urls, dataType, context);
+				this._loadFiles(deferred, result, urls, dataType, context);
 
 			}).fail(function() {
 
@@ -559,9 +562,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		else
 		{
 			if(context) {
-				deferred.resolveWith(context, [array]);
+				deferred.resolveWith(context, [result]);
 			} else {
-				deferred.resolve(array);
+				deferred.resolve(result);
 			}
 		}
 	},
