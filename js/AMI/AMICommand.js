@@ -157,7 +157,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 					if(textStatus === 'error')
 					{
-						textStatus = 'service temporarily unavailable';
+						textStatus = 'Service temporarily unreachable.';
 					}
 
 					var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
@@ -196,7 +196,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 					if(textStatus === 'error')
 					{
-						textStatus = 'service temporarily unavailable';
+						textStatus = 'Service temporarily unreachable.';
 					}
 
 					if(context) {

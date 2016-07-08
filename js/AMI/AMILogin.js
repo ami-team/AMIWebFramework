@@ -605,7 +605,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				}
 				else
 				{
-					var error = 'You have to provide your certificate registered in AMI.';
+					var error = 'Certificate not registered in AMI.';
 
 					if(userInfo.clientDNInSession || userInfo.issuerDNInSession)
 					{
@@ -714,7 +714,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		if(pass1 !== pass2)
 		{
-			amiLogin._showErrorMessage1('Password1 and Password2 have to be identical.');
+			amiLogin._showErrorMessage1('Password 1 and password 2 are different.');
 
 			return;
 		}
@@ -783,7 +783,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		if(newPass1 !== newPass2)
 		{
-			amiLogin._showErrorMessage3('Password1 and Password2 have to be identical.');
+			amiLogin._showErrorMessage3('Password 1 and password 2 are different.');
 
 			return;
 		}

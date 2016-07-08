@@ -19,7 +19,7 @@ $AMIClass('AMICommandApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	onReady: function()
+	onReady: function(userdata)
 	{
 		amiWebApp.loadSheets([
 			'subapps/Command/css/AMICommandApp.css',
@@ -41,7 +41,7 @@ $AMIClass('AMICommandApp', {
 			'subapps/Command/html/Fragment/result.html',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
 
 				this.fragmentCommand = data[1];
 				this.fragmentResult = data[2];
