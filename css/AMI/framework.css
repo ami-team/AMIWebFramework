@@ -251,7 +251,7 @@ pre {
 }
 
 #ami_locker .progress {
-	bottom: -20px;
+	bottom: -22px;
 	left: 0;
 	right: 0;
 
@@ -265,12 +265,11 @@ pre {
 .ami-select-wrapper {
 	background: url("../../images/dropdown.png") no-repeat right center white;
 	height: 34px;
-	padding: 0px;
 }
 
 .ami-select-wrapper select {
 	background-color: #FFFFFF;
-	padding-right: 16px;
+	padding: 0 16px 0 12px;
 	height: 100%;
 	width: 100%;
 }
