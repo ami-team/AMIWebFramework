@@ -803,21 +803,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			{
 				/**/ if(dict[i] instanceof Object)
 				{
-					result += ami.twig.engine.render(html, dict[i]);
+					result += amiTwig.engine.render(html, dict[i]);
 				}
 				else
 				{
-					result += ami.twig.engine.render(html, {});
+					result += amiTwig.engine.render(html, {});
 				}
 			}
 		}
 		else if(dict instanceof Object)
 		{
-			result = ami.twig.engine.render(html, dict);
+			result = amiTwig.engine.render(html, dict);
 		}
 		else
 		{
-			result = ami.twig.engine.render(html, {});
+			result = amiTwig.engine.render(html, {});
 		}
 
 		return result;
