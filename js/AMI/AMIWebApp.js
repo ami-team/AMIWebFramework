@@ -276,6 +276,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			this.originURL + '/js/ami-twig.min.js',
 			this.originURL + '/js/bootstrap.min.js',
 			this.originURL + '/js/bootstrap-toggle.min.js',
+			this.originURL + '/js/bootstrap-typeahead.min.js',
 		]).fail(function() {
 
 			alert('Service temporarily unreachable, please try reloading the page...');
