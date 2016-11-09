@@ -144,6 +144,7 @@ $AMIClass('AMISearchModelerApp', {
 			});
 
 		}).fail(function(data) {
+
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
 	},
@@ -185,6 +186,7 @@ $AMIClass('AMISearchModelerApp', {
 			});
 
 		}).fail(function(data) {
+
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
 	},
@@ -228,6 +230,7 @@ $AMIClass('AMISearchModelerApp', {
 			});
 
 		}).fail(function(data) {
+
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
 	},
@@ -238,8 +241,8 @@ $AMIClass('AMISearchModelerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	select: function(id, interface, catalog, entity) {
-
+	select: function(id, interface, catalog, entity)
+	{
 		amiWebApp.lock();
 
 		$('#ami_search_modeler_interface_name').val(
@@ -308,6 +311,7 @@ $AMIClass('AMISearchModelerApp', {
 			});
 
 		}).fail(function(data) {
+
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
 	},
@@ -339,8 +343,8 @@ $AMIClass('AMISearchModelerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	editOptions: function(inputCnt) {
-
+	editOptions: function(inputCnt)
+	{
 		this.currentInputCnt = inputCnt;
 
 		/*---------------------------------------------------------*/
@@ -380,8 +384,8 @@ $AMIClass('AMISearchModelerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	setOptions: function() {
-
+	setOptions: function()
+	{
 		var inputCnt = this.currentInputCnt;
 
 		/*---------------------------------------------------------*/
@@ -432,7 +436,8 @@ $AMIClass('AMISearchModelerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	reset: function() {
+	reset: function()
+	{
 		/*---------------------------------------------------------*/
 
 		if(confirm('Please confirm...') == false)
@@ -453,7 +458,8 @@ $AMIClass('AMISearchModelerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	remove: function() {
+	remove: function()
+	{
 		/*---------------------------------------------------------*/
 
 		var interfaceName = $('#ami_search_modeler_interface_name').val();
@@ -486,7 +492,8 @@ $AMIClass('AMISearchModelerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	apply: function() {
+	apply: function()
+	{
 		/*---------------------------------------------------------*/
 
 		var interfaceName = $('#ami_search_modeler_interface_name').val();
@@ -566,12 +573,15 @@ $AMIClass('AMISearchModelerApp', {
 					values = interfaceName + values;
 
 					amiCommand.execute('AddElement -catalog="self" -entity="router_search_criteria" -separator="," -fields="' + fields + '" -values="' + values + '"').fail(function(data) {
+
 						amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 					});
 				}
 
 				/*-----------------------------------------*/
+
 			}).fail(function(data) {
+
 				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 			});
 		});
