@@ -30,23 +30,21 @@ $AMIClass('AMISearchModelerApp', {
 		$('#ami_breadcrumb_content').html('<li>Admin</li><li><a href="' + amiWebApp.webAppURL + '?subapp=amisearchmodeler">Search Modeler</a></li>');
 
 		amiWebApp.loadHTMLs([
-			'subapps/SearchModeler/html/AMISearchModelerApp.html',
-			'subapps/SearchModeler/html/Modal/options.html',
-			'subapps/SearchModeler/html/Fragment/interface.html',
-			'subapps/SearchModeler/html/Fragment/input.html',
+			'subapps/SearchModeler/twig/AMISearchModelerApp.twig',
+			'subapps/SearchModeler/twig/Fragment/interface.twig',
+			'subapps/SearchModeler/twig/Fragment/input.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-				amiWebApp.appendHTML('body', data[1]);
-
-				this.fragmentInterface = data[2];
-				this.fragmentInput = data[3];
+				this.fragmentInterface = data[1];
+				this.fragmentInput = data[2];
 
 				result.resolve();
 			});
 
 		}).fail(function() {
+
 			result.reject();
 		});
 
@@ -116,6 +114,8 @@ $AMIClass('AMISearchModelerApp', {
 
 	getCatalogs: function(dst, defaultCatalog)
 	{
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		$(dst).empty();
@@ -147,6 +147,8 @@ $AMIClass('AMISearchModelerApp', {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -157,6 +159,8 @@ $AMIClass('AMISearchModelerApp', {
 		{
 			return;
 		}
+
+		/*---------------------------------------------------------*/
 
 		amiWebApp.lock();
 
@@ -189,6 +193,8 @@ $AMIClass('AMISearchModelerApp', {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -201,6 +207,8 @@ $AMIClass('AMISearchModelerApp', {
 		 ) {
 			return;
 		}
+
+		/*---------------------------------------------------------*/
 
 		amiWebApp.lock();
 
@@ -233,6 +241,8 @@ $AMIClass('AMISearchModelerApp', {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -243,6 +253,19 @@ $AMIClass('AMISearchModelerApp', {
 
 	select: function(id, interface, catalog, entity)
 	{
+		if(!id
+		   ||
+		   !interface
+		   ||
+		   !catalog
+		   ||
+		   !entity
+		 ) {
+			return;
+		}
+
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		$('#ami_search_modeler_interface_name').val(
@@ -314,31 +337,37 @@ $AMIClass('AMISearchModelerApp', {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	addInput: function()
+	addInput: function(catalog)
 	{
-		var catalog = $('#ami_search_modeler_interface_catalog').val();
-
-		if(catalog)
+		if(!catalog)
 		{
-			var inputCnt = this._inputCnt++;
-
-			var dict = {
-				INPUT_CNT: inputCnt,
-				ALIAS: '',
-				RANK: 0,
-				MASK: 0,
-				DEFAULT_VALUE: '',
-			};
-
-			amiWebApp.appendHTML('#ami_search_modeler_paths', this.fragmentInput, {context: this, dict: dict}).done(function() {
-
-				this.getEntities('#ami_search_modeler_entity_' + inputCnt, catalog);
-			});
+			return;
 		}
+
+		/*---------------------------------------------------------*/
+
+		var inputCnt = this._inputCnt++;
+
+		var dict = {
+			INPUT_CNT: inputCnt,
+			ALIAS: '',
+			RANK: 0,
+			MASK: 0,
+			DEFAULT_VALUE: '',
+		};
+
+		amiWebApp.appendHTML('#ami_search_modeler_paths', this.fragmentInput, {context: this, dict: dict}).done(function() {
+
+			this.getEntities('#ami_search_modeler_entity_' + inputCnt, catalog);
+		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -368,8 +397,9 @@ $AMIClass('AMISearchModelerApp', {
 
 		$('#modal_ami_search_modeler_options_form_sum').prop('checked', (mask & 32) !== 0);
 		$('#modal_ami_search_modeler_options_form_count').prop('checked', (mask & 64) !== 0);
-		$('#modal_ami_search_modeler_options_form_inclusive').prop('checked', (mask & 128) !== 0);
-		$('#modal_ami_search_modeler_options_form_simple_search').prop('checked', (mask & 256) !== 0);
+		$('#modal_ami_search_modeler_options_form_distinct').prop('checked', (mask & 128) !== 0);
+		$('#modal_ami_search_modeler_options_form_inclusive').prop('checked', (mask & 256) !== 0);
+		$('#modal_ami_search_modeler_options_form_simple_search').prop('checked', (mask & 512) !== 0);
 
 		/*---------------------------------------------------------*/
 
@@ -398,6 +428,7 @@ $AMIClass('AMISearchModelerApp', {
 
 		var sum = $('#modal_ami_search_modeler_options_form_sum').prop('checked');
 		var count = $('#modal_ami_search_modeler_options_form_count').prop('checked');
+		var distinct = $('#modal_ami_search_modeler_options_form_distinct').prop('checked');
 		var inclusive = $('#modal_ami_search_modeler_options_form_inclusive').prop('checked');
 		var simpleSearch = $('#modal_ami_search_modeler_options_form_simple_search').prop('checked');
 
@@ -414,8 +445,9 @@ $AMIClass('AMISearchModelerApp', {
 
 		if(sum) mask |= 32;
 		if(count) mask |= 64;
-		if(inclusive) mask |= 128;
-		if(simpleSearch) mask |= 256;
+		if(distinct) mask |= 128;
+		if(inclusive) mask |= 256;
+		if(simpleSearch) mask |= 512;
 
 		/*---------------------------------------------------------*/
 
@@ -436,10 +468,8 @@ $AMIClass('AMISearchModelerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	reset: function()
+	clear: function()
 	{
-		/*---------------------------------------------------------*/
-
 		if(confirm('Please confirm...') == false)
 		{
 			return;
@@ -458,11 +488,14 @@ $AMIClass('AMISearchModelerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	remove: function()
+	remove: function(interfaceName)
 	{
-		/*---------------------------------------------------------*/
+		if(confirm('Please confirm...') == false)
+		{
+			return;
+		}
 
-		var interfaceName = $('#ami_search_modeler_interface_name').val();
+		/*---------------------------------------------------------*/
 
 		if(!interfaceName)
 		{
@@ -471,14 +504,7 @@ $AMIClass('AMISearchModelerApp', {
 
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false)
-		{
-			return;
-		}
-
 		amiWebApp.lock();
-
-		/*---------------------------------------------------------*/
 
 		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="," -keyFields="interface" -keyValues="' + interfaceName + '"', {context: this}).always(function() {
 
@@ -492,13 +518,14 @@ $AMIClass('AMISearchModelerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	apply: function()
+	modifiy: function(interfaceName, interfaceCatalog, interfaceEntities)
 	{
-		/*---------------------------------------------------------*/
+		if(confirm('Please confirm...') == false)
+		{
+			return;
+		}
 
-		var interfaceName = $('#ami_search_modeler_interface_name').val();
-		var interfaceCatalog = $('#ami_search_modeler_interface_catalog').val();
-		var interfaceEntities = $('#ami_search_modeler_interface_entities').val();
+		/*---------------------------------------------------------*/
 
 		if(!interfaceName
 		   ||
@@ -511,20 +538,11 @@ $AMIClass('AMISearchModelerApp', {
 
 		/*---------------------------------------------------------*/
 
-		if(confirm('Please confirm...') == false)
-		{
-			return;
-		}
+		var paths = {};
 
 		amiWebApp.lock();
 
-		/*---------------------------------------------------------*/
-
-		var paths = {};
-
-		var params = $('#ami_search_modeler_paths').serializeArray();
-
-		$.each(params, function(index, value) {
+		$.each($('#ami_search_modeler_paths').serializeArray(), function(index, value) {
 
 			var _path = null;
 			var _name = value['name'].trim();
@@ -550,6 +568,7 @@ $AMIClass('AMISearchModelerApp', {
 		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="," -keyFields="interface" -keyValues="' + interfaceName + '"', {context: this}).always(function() {
 
 			amiCommand.execute('AddElement -catalog="self" -entity="router_search_interface" -separator="," -fields="interface,catalog,entity" -values="' + interfaceName + ',' + interfaceCatalog + ',' + interfaceEntities + '"', {context: this}).done(function() {
+
 				/*-----------------------------------------*/
 
 				this.getInterfaceList('#ami_search_modeler_interface_list');

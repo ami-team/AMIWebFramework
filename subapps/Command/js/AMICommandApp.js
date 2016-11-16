@@ -36,9 +36,9 @@ $AMIClass('AMICommandApp', {
 		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
-			'subapps/Command/html/AMICommandApp.html',
-			'subapps/Command/html/Fragment/command.html',
-			'subapps/Command/html/Fragment/result.html',
+			'subapps/Command/twig/AMICommandApp.twig',
+			'subapps/Command/twig/Fragment/command.twig',
+			'subapps/Command/twig/Fragment/result.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {

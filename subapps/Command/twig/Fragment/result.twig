@@ -20,7 +20,7 @@
 		</span>
 	</button>
 
-	<pre class="ami-code"><code><i class="line-number"></i>{{DATA|replace({'\n': '\n<i class="line-number"></i>'})}}</code></pre>
+	<pre class="ami-code"><code><i class="line-number"></i>{{DATA|escape|replace({'\n': '\n<i class="line-number"></i>'})}}</code></pre>
 
 	<url class="hidden">{{URL|escape}}</url>
 </div>

@@ -1,3 +1,73 @@
+<div class="row">
+
+	<div class="col-md-3">
+
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Search interface list</h3>
+			</div>
+
+			<div class="panel-body" id="ami_search_modeler_interface_list" style="height: 280px; overflow-y: scroll;"></div>
+
+		</div>
+
+	</div>
+
+	<div class="col-md-9">
+
+		<div class="ami-callout" style="margin-top: 0px;">
+
+			<div class="row">
+
+				<div class="col-md-2 text-center">
+					<img src="images/glass.png" alt="" height="90" wigth="90" />
+				</div>
+
+				<div class="col-md-10">
+
+					<div class="form-group">
+						<label for="ami_search_modeler_interface_name" class="control-label">Name<span class="text-danger">*</span></label>
+						<input type="text" class="form-control" id="ami_search_modeler_interface_name" placeholder="Type the search interface name..." />
+					</div>
+
+					<div class="form-group">
+						<label for="ami_search_modeler_interface_catalog" class="control-label">Catalog<span class="text-danger">*</span></label>
+						<select type="text" class="form-control ami-select" id="ami_search_modeler_interface_catalog" onchange="amiSearchModelerApp.getEntities('#ami_search_modeler_interface_entities', $('#ami_search_modeler_interface_catalog').val());"></select>
+					</div>
+
+					<div class="form-group">
+						<label for="ami_search_modeler_interface_entities" class="control-label">Entity<span class="text-danger">*</span></label>
+						<select type="text" class="form-control ami-select" id="ami_search_modeler_interface_entities"></select>
+					</div>
+
+				</div>
+
+			</div>
+
+			<form class="form-group" id="ami_search_modeler_paths">
+				<label class="control-label">
+					Criteria (entity, field, alias, type, rank)
+					<a href="javascript:amiSearchModelerApp.addInput($('#ami_search_modeler_interface_catalog').val());">
+						<i class="fa fa-plus-circle"></i> Add
+					</a>
+				</label>
+			</form>
+
+			<hr />
+
+			<div class="text-right" style="margin-top: 4px;">
+				<button class="btn btn-default" onclick="amiSearchModelerApp.clear();" style="width: 80px;">Clear</button>
+				-
+				<button class="btn btn-danger" onclick="amiSearchModelerApp.remove($('#ami_search_modeler_interface_name').val());" style="width: 80px;">Remove</button>
+				<button class="btn btn-primary" onclick="amiSearchModelerApp.modifiy($('#ami_search_modeler_interface_name').val(), $('#ami_search_modeler_interface_catalog').val(), $('#ami_search_modeler_interface_entities').val());" style="width: 80px;">Modifiy</button>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
 <div class="modal fade" id="modal_ami_search_modeler_options">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -89,20 +159,27 @@
 
             <div class="checkbox">
               <label>
-                <input type="checkbox" id="modal_ami_search_modeler_options_form_inclusive" />
-                Inclusive
+                <input type="checkbox" id="modal_ami_search_modeler_options_form_distinct" />
+                Distinct
               </label>
             </div>
 
             <div class="checkbox">
               <label>
-                <input type="checkbox" id="modal_ami_search_modeler_options_form_simple_search" />
-                Simple search
+                <input type="checkbox" id="modal_ami_search_modeler_options_form_inclusive" />
+                Inclusive
               </label>
             </div>
 
           </div>
 
+        </div>
+
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="modal_ami_search_modeler_options_form_simple_search" />
+            Simple search
+          </label>
         </div>
 
       </div>
