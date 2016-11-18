@@ -114,6 +114,8 @@ $AMIClass('AMISearchModelerApp', {
 
 	getCatalogs: function(dst, defaultCatalog)
 	{
+		defaultCatalog = defaultCatalog || '';
+
 		/*---------------------------------------------------------*/
 
 		amiWebApp.lock();
@@ -130,7 +132,7 @@ $AMIClass('AMISearchModelerApp', {
 
 				var catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', row)[0] || '';
 
-				if(catalog !== defaultCatalog) {
+				if(catalog.toLowerCase() !== defaultCatalog.toLowerCase()) {
 					s += '<option value="' + catalog + '">' + catalog + '</option>';
 				}
 				else {
@@ -145,7 +147,7 @@ $AMIClass('AMISearchModelerApp', {
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
 		/*---------------------------------------------------------*/
@@ -159,6 +161,8 @@ $AMIClass('AMISearchModelerApp', {
 		{
 			return;
 		}
+
+		defaultEntity = defaultEntity || '';
 
 		/*---------------------------------------------------------*/
 
@@ -176,7 +180,7 @@ $AMIClass('AMISearchModelerApp', {
 
 				var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', row)[0] || '';
 
-				if(entity !== defaultEntity) {
+				if(entity.toLowerCase() !== defaultEntity.toLowerCase()) {
 					s += '<option value="' + entity + '">' + entity + '</option>';
 				}
 				else {
@@ -191,7 +195,7 @@ $AMIClass('AMISearchModelerApp', {
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
 		/*---------------------------------------------------------*/
@@ -207,6 +211,8 @@ $AMIClass('AMISearchModelerApp', {
 		 ) {
 			return;
 		}
+
+		defaultField = defaultField || '';
 
 		/*---------------------------------------------------------*/
 
@@ -224,7 +230,7 @@ $AMIClass('AMISearchModelerApp', {
 
 				var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
 
-				if(field !== defaultField) {
+				if(field.toLowerCase() !== defaultField.toLowerCase()) {
 					s += '<option value="' + field + '">' + field + '</option>';
 				}
 				else {
@@ -239,7 +245,7 @@ $AMIClass('AMISearchModelerApp', {
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
 		/*---------------------------------------------------------*/
@@ -335,7 +341,7 @@ $AMIClass('AMISearchModelerApp', {
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
 		/*---------------------------------------------------------*/
@@ -510,7 +516,7 @@ $AMIClass('AMISearchModelerApp', {
 
 			this.getInterfaceList('#ami_search_modeler_interface_list');
 
-			amiWebApp.success('done with success');
+			amiWebApp.success('Done with success', true);
 		});
 
 		/*---------------------------------------------------------*/
@@ -573,7 +579,7 @@ $AMIClass('AMISearchModelerApp', {
 
 				this.getInterfaceList('#ami_search_modeler_interface_list');
 
-				amiWebApp.success('Done with success.');
+				amiWebApp.success('Done with success', true);
 
 				/*-----------------------------------------*/
 
@@ -593,7 +599,7 @@ $AMIClass('AMISearchModelerApp', {
 
 					amiCommand.execute('AddElement -catalog="self" -entity="router_search_criteria" -separator="," -fields="' + fields + '" -values="' + values + '"').fail(function(data) {
 
-						amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+						amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 					});
 				}
 
@@ -601,7 +607,7 @@ $AMIClass('AMISearchModelerApp', {
 
 			}).fail(function(data) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 			});
 		});
 

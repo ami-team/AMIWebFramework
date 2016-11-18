@@ -876,6 +876,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	success: function(message, fadeOut)
 	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
 		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
 		this.unlock();
 
@@ -897,6 +902,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	info: function(message, fadeOut)
 	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
 		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
 		this.unlock();
 
@@ -918,6 +928,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	warning: function(message, fadeOut)
 	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
 		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
 		this.unlock();
 
@@ -939,6 +954,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	error: function(message, fadeOut)
 	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
 		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
 		this.unlock();
 
