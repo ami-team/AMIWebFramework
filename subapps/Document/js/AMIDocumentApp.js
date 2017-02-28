@@ -20,7 +20,7 @@ $AMIClass('AMIDocumentApp', {
 	onReady: function(userdata) {
 
 		amiWebApp.loadHTMLs([
-			'subapps/Document/html/AMIDocumentApp.html',
+			'subapps/Document/twig/AMIDocumentApp.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
