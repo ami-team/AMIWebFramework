@@ -16,12 +16,8 @@ function AMITextViewerComp()
 
 	this.init = function()
 	{
-//		amiWebApp.loadScripts([
-//			'components/TextViewer/js/highlight.min.js'
-//		]);	
-	
 		amiWebApp.loadHTMLs([
-			'components/TextViewer/html/Modal/text_viewer.html'
+			'components/TextViewer/twig/Modal/text_viewer.twig'
 		]).done(function(data) {
 
 			amiWebApp.appendHTML('body', data[0]);

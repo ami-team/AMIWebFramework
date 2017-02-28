@@ -21,7 +21,7 @@ function AMIDiffViewerComp()
 		]);
 	
 		amiWebApp.loadHTMLs([
-			'components/DiffViewer/html/Modal/diff_viewer.html'
+			'components/DiffViewer/twig/Modal/diff_viewer.twig'
 		], {context: this}).done(function(data) {
 
 			amiWebApp.appendHTML('body', data[0]);
