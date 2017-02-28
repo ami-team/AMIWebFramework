@@ -66,11 +66,11 @@
 			<fileset dir="${AMIWebAppTmpDir}/js" includes="*" />
 			<fileset dir="${AMIWebAppTmpDir}/js" includes="3rd-party/**/*" />
 		</copy>
-<!--
-		<copy todir="subapps">
-			<fileset dir="${AMIWebAppTmpDir}/subapps" includes="**/*" />
+
+		<copy todir="tools">
+			<fileset dir="${AMIWebAppTmpDir}/tools" includes="scripts/*.py" />
 		</copy>
--->
+
 		<!-- **************************************************** -->
 		<!-- MAKE DIRECTORIES                                     -->
 		<!-- **************************************************** -->
@@ -166,11 +166,11 @@
 			<fileset dir="${AMIWebAppTmpDir}/js" includes="*" />
 			<fileset dir="${AMIWebAppTmpDir}/js" includes="3rd-party/**/*" />
 		</copy>
-<!--
-		<copy todir="subapps">
-			<fileset dir="${AMIWebAppTmpDir}/subapps" includes="**/*" />
+
+		<copy todir="tools">
+			<fileset dir="${AMIWebAppTmpDir}/tools" includes="scripts/*.py" />
 		</copy>
--->
+
 		<!-- **************************************************** -->
 		<!-- MAKE DIRECTORIES                                     -->
 		<!-- **************************************************** -->

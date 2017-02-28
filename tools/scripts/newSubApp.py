@@ -23,6 +23,10 @@ def entry_point():
 
 	#####################################################################
 
+	print('Application `%s` will be created in: %s' % (NAME, path))
+
+	#####################################################################
+
 	os.mkdir(path)
 
 	os.mkdir(path + os.sep +  'cs' )
