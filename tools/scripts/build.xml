@@ -165,7 +165,7 @@
 			<mkdir dir="js/AMI" />
 
 			<!-- ******************************************** -->
-			<!-- GENERATE MINIMIZED FILES                     -->
+			<!-- MERGE FILES                                  -->
 			<!-- ******************************************** -->
 
 			<concat destfile="${AMIWebAppTmpDir}/js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
@@ -179,6 +179,8 @@
 
 			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
 
+			<!-- ******************************************** -->
+			<!-- OTHER                                        -->
 			<!-- ******************************************** -->
 
 			<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
