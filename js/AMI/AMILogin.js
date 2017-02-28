@@ -43,18 +43,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			amiWebApp.originURL + '/html/AMI/Fragment/login_button.html',
 			amiWebApp.originURL + '/html/AMI/Fragment/logout_button.html',
 			amiWebApp.originURL + '/html/AMI/Modal/login.html',
-			amiWebApp.originURL + '/html/AMI/Modal/login_change_info.html',
-			amiWebApp.originURL + '/html/AMI/Modal/login_change_pass.html',
-			amiWebApp.originURL + '/html/AMI/Modal/login_account_status.html',
 		]).done(function(data) {
 
 			amiLogin.fragmentLoginButton = data[0];
 			amiLogin.fragmentLogoutButton = data[1];
 
 			amiWebApp.appendHTML('body', data[2]);
-			amiWebApp.appendHTML('body', data[3]);
-			amiWebApp.appendHTML('body', data[4]);
-			amiWebApp.appendHTML('body', data[5]);
 
 			amiCommand.certLogin().always(function(data, userInfo, roleInfo) {
 				/*-----------------------------------------*/
