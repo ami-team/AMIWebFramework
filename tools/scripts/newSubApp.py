@@ -23,10 +23,6 @@ def entry_point():
 
 	#####################################################################
 
-	print('Application `%s` will be created in: %s' % (NAME, path))
-
-	#####################################################################
-
 	os.mkdir(path)
 
 	os.mkdir(path + os.sep +  'cs' )
@@ -116,7 +112,7 @@ $AMIClass('%sApp', {
 amiRegisterSubApp('%s', %sApp, {});
 
 /*-------------------------------------------------------------------------*/
-''' % (datetime.datetime.now().year, NAME, NAME, NAME, NAME, name, name, name)
+''' % (datetime.datetime.now().year, NAME, NAME, NAME, name, NAME, name, name)
 
 	#####################################################################
 
@@ -134,7 +130,7 @@ amiRegisterSubApp('%s', %sApp, {});
 
 	#####################################################################
 
-	print('<script type="text/javascript" src="subapps/%s/js/%sApp.js"></script>' % (NAME, NAME))
+	print('Add this line in `index.html`:<script type="text/javascript" src="subapps/%s/js/%sApp.js"></script>' % (NAME, NAME))
 
 	#####################################################################
 
