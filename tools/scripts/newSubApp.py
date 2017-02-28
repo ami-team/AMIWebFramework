@@ -134,7 +134,7 @@ amiRegisterSubApp('%s', %sApp, {});
 
 	#####################################################################
 
-	print('<script type="text/javascript" src="subapps/Hello/js/%sApp.js"></script>' % NAME)
+	print('<script type="text/javascript" src="subapps/%s/js/%sApp.js"></script>' % (NAME, NAME))
 
 	#####################################################################
 
