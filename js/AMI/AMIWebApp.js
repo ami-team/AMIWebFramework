@@ -1048,8 +1048,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				contact_email = settings['contact_email'];
 			}
 
-			if('about_link' in settings) {
-				about_link = settings['about_link'];
+			if('about_url' in settings) {
+				about_url = settings['about_url'];
 			}
 
 			if('template_filename' in settings) {
