@@ -29,7 +29,7 @@
 		<exec executable="git">
 			<arg value="clone" />
 			<arg value="--quiet" />
-			<arg value="https://github.com/ami-lpsc/AMIWebApp.git" />
+			<arg value="https://github.com/ami-team/AMIWebApp.git" />
 			<arg value="${AMIWebAppTmpDir}" />
 		</exec>
 
