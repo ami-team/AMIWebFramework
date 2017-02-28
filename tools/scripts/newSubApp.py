@@ -12,14 +12,14 @@ import os, sys, datetime
 def entry_point():
 	#####################################################################
 
-	x = raw_input('Enter the sub app name: ')
+	x = raw_input('Enter the sub app name ([a-zA-Z][a-zA-Z0-9]*): ')
 
 	name = x[0].lower() + x[1: ]
 	NAME = x[0].upper() + x[1: ]
 
 	#####################################################################
 
-	path = os.path.realpath(os.path.dirname(__file__) + os.sep + '..' + os.sep + '..' + os.sep + 'subapps' + os.sep + NAME)
+	path = os.path.dirname(os.path.realpath(__file__)) + os.sep + '..' + os.sep + '..' + os.sep + 'subapps' + os.sep + NAME
 
 	#####################################################################
 
