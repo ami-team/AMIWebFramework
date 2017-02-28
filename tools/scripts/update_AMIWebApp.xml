@@ -21,75 +21,15 @@
 	<target name="update_prod" description="Update the framework (prod mode).">
 
 		<!-- **************************************************** -->
-		<!-- CLONE REPOSITORY                                     -->
+		<!-- CLONE AND COPY                                       -->
 		<!-- **************************************************** -->
 
-		<delete dir="${AMIWebAppTmpDir}" />
-
-		<exec executable="git">
-			<arg value="clone" />
-			<arg value="--quiet" />
-			<arg value="https://github.com/ami-team/AMIWebApp.git" />
-			<arg value="${AMIWebAppTmpDir}" />
-		</exec>
-
-		<!-- **************************************************** -->
-		<!-- COPY FILES                                           -->
-		<!-- **************************************************** -->
-
-		<copy todir="components">
-			<fileset dir="${AMIWebAppTmpDir}/components" includes="**/*" />
-		</copy>
-
-		<copy todir="css">
-			<fileset dir="${AMIWebAppTmpDir}/css" includes="*" />
-			<fileset dir="${AMIWebAppTmpDir}/css" includes="3rd-party/**/*" />
-		</copy>
-
-		<copy todir="docs">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
-		</copy>
-
-		<copy todir="fonts">
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*" />
-		</copy>
-
-		<copy todir="html">
-			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*" />
-		</copy>
-
-		<copy todir="images">
-			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*" />
-		</copy>
-
-		<copy todir="js">
-			<fileset dir="${AMIWebAppTmpDir}/js" includes="*" />
-			<fileset dir="${AMIWebAppTmpDir}/js" includes="3rd-party/**/*" />
-		</copy>
-
-		<copy todir="tools">
-			<fileset dir="${AMIWebAppTmpDir}/tools" includes="scripts/*.py" />
-		</copy>
-
-		<!-- **************************************************** -->
-		<!-- MAKE DIRECTORIES                                     -->
-		<!-- **************************************************** -->
-
-		<mkdir dir="css/AMI" />
-		<mkdir dir="js/AMI" />
+		<clone-and-copy />
 
 		<!-- **************************************************** -->
 		<!-- GENERATE MINIMIZED FILES                             -->
 		<!-- **************************************************** -->
-
-		<concat destfile="${AMIWebAppTmpDir}/js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
-			<header>'use strict' ;${line.separator}${line.separator}</header>
-			<filelist refid="filelist" />
-		</concat>
-
-		<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
-		<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
-
+		
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
 			<classpath refid="execute-classpath" />
 			<arg value="${AMIWebAppTmpDir}/css/AMI/framework.css" />
@@ -104,10 +44,6 @@
 			<arg value="js/AMI/framework.min.js" />
 		</java>
 
-		<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
-
-		<copy file="${AMIWebAppTmpDir}/.eslintrc.json" tofile=".eslintrc.json" overwrite="true" force="true" />
-
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
 		<!-- **************************************************** -->
@@ -121,81 +57,18 @@
 	<target name="update_debug" description="Update the framework (debug mode).">
 
 		<!-- **************************************************** -->
-		<!-- CLONE REPOSITORY                                     -->
+		<!-- CLONE AND COPY                                       -->
 		<!-- **************************************************** -->
 
-		<delete dir="${AMIWebAppTmpDir}" />
-
-		<exec executable="git">
-			<arg value="clone" />
-			<arg value="--quiet" />
-			<arg value="https://github.com/ami-lpsc/AMIWebApp.git" />
-			<arg value="${AMIWebAppTmpDir}" />
-		</exec>
-
-		<!-- **************************************************** -->
-		<!-- COPY FILES                                           -->
-		<!-- **************************************************** -->
-
-		<copy todir="components">
-			<fileset dir="${AMIWebAppTmpDir}/components" includes="**/*" />
-		</copy>
-
-		<copy todir="css">
-			<fileset dir="${AMIWebAppTmpDir}/css" includes="*" />
-			<fileset dir="${AMIWebAppTmpDir}/css" includes="3rd-party/**/*" />
-		</copy>
-
-		<copy todir="docs">
-			<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
-		</copy>
-
-		<copy todir="fonts">
-			<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*" />
-		</copy>
-
-		<copy todir="html">
-			<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*" />
-		</copy>
-
-		<copy todir="images">
-			<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*" />
-		</copy>
-
-		<copy todir="js">
-			<fileset dir="${AMIWebAppTmpDir}/js" includes="*" />
-			<fileset dir="${AMIWebAppTmpDir}/js" includes="3rd-party/**/*" />
-		</copy>
-
-		<copy todir="tools">
-			<fileset dir="${AMIWebAppTmpDir}/tools" includes="scripts/*.py" />
-		</copy>
-
-		<!-- **************************************************** -->
-		<!-- MAKE DIRECTORIES                                     -->
-		<!-- **************************************************** -->
-
-		<mkdir dir="css/AMI" />
-		<mkdir dir="js/AMI" />
+		<clone-and-copy />
 
 		<!-- **************************************************** -->
 		<!-- GENERATE MINIMIZED FILES                             -->
 		<!-- **************************************************** -->
 
-		<concat destfile="${AMIWebAppTmpDir}/js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
-			<header>'use strict' ;${line.separator}${line.separator}</header>
-			<filelist refid="filelist" />
-		</concat>
-
-		<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
-		<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
-
 		<copy file="${AMIWebAppTmpDir}/css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" force="true" />
+
 		<copy file="${AMIWebAppTmpDir}/js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" force="true" />
-
-		<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
-
-		<copy file="${AMIWebAppTmpDir}/.eslintrc.json" tofile=".eslintrc.json" overwrite="true" force="true" />
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
@@ -219,5 +92,103 @@
 		</exec>
 
 	</target>
+
+	<macrodef name="clone-and-copy">
+
+		<sequential>
+
+			<!-- **************************************************** -->
+			<!-- CLONE REPOSITORY                                     -->
+			<!-- **************************************************** -->
+
+			<delete dir="${AMIWebAppTmpDir}" />
+
+			<exec executable="git">
+				<arg value="clone" />
+				<arg value="--quiet" />
+				<arg value="https://github.com/ami-team/AMIWebApp.git" />
+				<arg value="${AMIWebAppTmpDir}" />
+			</exec>
+
+			<!-- ******************************************** -->
+			<!-- COPY FILES                                   -->
+			<!-- ******************************************** -->
+
+			<copy todir="css">
+				<fileset dir="${AMIWebAppTmpDir}/css" includes="*" />
+				<fileset dir="${AMIWebAppTmpDir}/css" includes="3rd-party/**/*" />
+			</copy>
+
+			<copy todir="js">
+				<fileset dir="${AMIWebAppTmpDir}/js" includes="*" />
+				<fileset dir="${AMIWebAppTmpDir}/js" includes="3rd-party/**/*" />
+			</copy>
+
+			<!-- ******************************************** -->
+
+			<copy todir="components">
+				<fileset dir="${AMIWebAppTmpDir}/components" includes="**/*" />
+			</copy>
+
+			<copy todir="docs">
+				<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
+			</copy>
+
+			<copy todir="fonts">
+				<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*" />
+			</copy>
+
+			<copy todir="html">
+				<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*" />
+			</copy>
+
+			<copy todir="images">
+				<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*" />
+			</copy>
+
+			<copy todir="tools">
+				<fileset dir="${AMIWebAppTmpDir}/tools" includes="**/*.py" />
+			</copy>
+
+			<!-- ******************************************** -->
+
+			<copy todir="subapps">
+				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Command/**/*" />
+				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Document/**/*" />
+			</copy>
+
+			<!-- ******************************************** -->
+			<!-- MAKE DIRECTORIES                             -->
+			<!-- ******************************************** -->
+
+			<mkdir dir="css/AMI" />
+			<mkdir dir="js/AMI" />
+
+			<!-- ******************************************** -->
+			<!-- GENERATE MINIMIZED FILES                     -->
+			<!-- ******************************************** -->
+
+			<concat destfile="${AMIWebAppTmpDir}/js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+				<header>'use strict' ;${line.separator}${line.separator}</header>
+				<filelist refid="filelist" />
+			</concat>
+
+			<!-- ******************************************** -->
+
+			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
+
+			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
+
+			<!-- ******************************************** -->
+
+			<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
+
+			<copy file="${AMIWebAppTmpDir}/.eslintrc.json" tofile=".eslintrc.json" overwrite="true" force="true" />
+
+			<!-- ******************************************** -->
+
+		</sequential>
+
+	</macrodef>
 
 </project>

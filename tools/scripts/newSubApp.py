@@ -25,8 +25,8 @@ def entry_point():
 
 	os.mkdir(path)
 
-	os.mkdir(path + os.sep +  'cs' )
-	os.mkdir(path + os.sep +  'js' )
+	os.mkdir(path + os.sep + 'csc')
+	os.mkdir(path + os.sep + 'js')
 	os.mkdir(path + os.sep + 'twig')
 
 	#####################################################################
