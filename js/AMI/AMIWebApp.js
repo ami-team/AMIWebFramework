@@ -4,6 +4,8 @@
  * Copyright (c) 2014-2016 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
+ * @global amiTwig
+ *
  */
 
 'use strict';
@@ -850,7 +852,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	lock: function()
 	{
-		$('#ami_locker').css('display', 'block');
+		$('#A5A48129_D1AA_4C2A_A708_44447686270E').css('display', 'block');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -861,7 +863,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	unlock: function()
 	{
-		$('#ami_locker').css('display', 'none');
+		$('#A5A48129_D1AA_4C2A_A708_44447686270E').css('display', 'none');
 	},
 
 	/*-----------------------------------------------------------------*/

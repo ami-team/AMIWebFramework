@@ -85,7 +85,7 @@ $AMIClass('AMISearchModelerApp', {
 
 	getInterfaceList: function(dst)
 	{
-		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `id`, `interface`, `catalog`, `entity` FROM `router_search_interface`"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `id`, `interface`, `catalog`, `entity` FROM `router_search_interface` ORDER BY `interface`"', {context: this}).done(function(data) {
 
 			var rows = amiWebApp.jspath('..row', data);
 

@@ -64,6 +64,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 		var context = null;
 		var endpoint = this.endpoint;
 		var converter = this.converter;
+		var timeout = 0x00;
 		var extraParam = null;
 		var extraValue = null;
 
@@ -79,6 +80,10 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			if('converter' in settings) {
 				converter = settings['converter'];
+			}
+
+			if('timeout' in settings) {
+				timeout = settings['timeout'];
 			}
 
 			if('extraParam' in settings) {
@@ -128,6 +133,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				url: URL,
 				data: data,
 				type: 'POST',
+				timeout: timeout,
 				dataType: 'json',
 				xhrFields: {
 					withCredentials: true
@@ -180,6 +186,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				url: URL,
 				data: data,
 				type: 'POST',
+				timeout: timeout,
 				dataType: 'text',
 				xhrFields: {
 					withCredentials: true

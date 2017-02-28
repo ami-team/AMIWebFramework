@@ -59,7 +59,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			amiCommand.certLogin().always(function(data, userInfo, roleInfo) {
 				/*-----------------------------------------*/
 
-				document.getElementById('modal_login_form1_user').addEventListener('keypress', function(e) {
+				document.getElementById('87D39A00_39D9_453B_8D8C_12B403F9268F').addEventListener('keypress', function(e) {
 
 					if(e.keyCode === 13)
 					{
@@ -67,7 +67,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					}
 				});
 
-				document.getElementById('modal_login_form1_pass').addEventListener('keypress', function(e) {
+				document.getElementById('6E06F758_BF71_4DBA_AF8A_2F137F1ABD1D').addEventListener('keypress', function(e) {
 
 					if(e.keyCode === 13)
 					{
@@ -75,7 +75,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					}
 				});
 
-				document.getElementById('modal_login_form3_user').addEventListener('keypress', function(e) {
+				document.getElementById('13AEF361_DF3E_461F_A989_2BFDA00BCD05').addEventListener('keypress', function(e) {
 
 					if(e.keyCode === 13)
 					{
@@ -106,9 +106,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showSuccessMessage1: function(message)
 	{
-		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('#4A634334_ED84_4565_A2B3_618ADFDF1E9B', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 
-		$('#modal_login_message .alert').fadeOut(45000);
+		$('#4A634334_ED84_4565_A2B3_618ADFDF1E9B .alert').fadeOut(45000);
 
 		amiLogin._clean();
 		amiWebApp.unlock();
@@ -118,9 +118,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showErrorMessage1: function(message)
 	{
-		amiWebApp.replaceHTML('#modal_login_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('#4A634334_ED84_4565_A2B3_618ADFDF1E9B', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 
-		$('#modal_login_message .alert').fadeOut(45000);
+		$('#4A634334_ED84_4565_A2B3_618ADFDF1E9B .alert').fadeOut(45000);
 
 		amiLogin._clean();
 		amiWebApp.unlock();
@@ -130,9 +130,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showSuccessMessage2: function(message)
 	{
-		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('#C76F40DA_0480_4D3F_A74B_65735465EA25', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 
-		$('#modal_login_change_info_message .alert').fadeOut(45000);
+		$('#C76F40DA_0480_4D3F_A74B_65735465EA25 .alert').fadeOut(45000);
 
 		amiLogin._clean();
 		amiWebApp.unlock();
@@ -142,9 +142,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showErrorMessage2: function(message)
 	{
-		amiWebApp.replaceHTML('#modal_login_change_info_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('#C76F40DA_0480_4D3F_A74B_65735465EA25', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 
-		$('#modal_login_change_info_message .alert').fadeOut(45000);
+		$('#C76F40DA_0480_4D3F_A74B_65735465EA25 .alert').fadeOut(45000);
 
 		amiLogin._clean();
 		amiWebApp.unlock();
@@ -154,9 +154,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showSuccessMessage3: function(message)
 	{
-		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 
-		$('#modal_login_change_pass_message .alert').fadeOut(45000);
+		$('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6 .alert').fadeOut(45000);
 
 		amiLogin._clean();
 		amiWebApp.unlock();
@@ -166,9 +166,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showErrorMessage3: function(message)
 	{
-		amiWebApp.replaceHTML('#modal_login_change_pass_message', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
+		amiWebApp.replaceHTML('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 
-		$('#modal_login_change_pass_message .alert').fadeOut(45000);
+		$('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6 .alert').fadeOut(45000);
 
 		amiLogin._clean();
 		amiWebApp.unlock();
@@ -178,25 +178,21 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_flush: function()
 	{
-		$('#modal_login_message').empty();
-
-		$('#modal_login_change_info_message').empty();
-
-		$('#modal_login_change_pass_message').empty();
+		$('#4A634334_ED84_4565_A2B3_618ADFDF1E9B').empty();
+		$('#C76F40DA_0480_4D3F_A74B_65735465EA25').empty();
+		$('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6').empty();
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	_clean: function()
 	{
-		$('#modal_login_form1_pass').val('');
-
-		$('#modal_login_form2_pass1').val('');
-		$('#modal_login_form2_pass2').val('');
-
-		$('#modal_login_change_pass_form_old_pass' ).val('');
-		$('#modal_login_change_pass_form_new_pass1').val('');
-		$('#modal_login_change_pass_form_new_pass2').val('');
+		$('#6E06F758_BF71_4DBA_AF8A_2F137F1ABD1D').val('');
+		$('#56CE3A89_05AC_46F2_811B_D0D8DBAECEB3').val('');
+		$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val('');
+		$('#F238E6EE_44BD_486A_B85D_C927A4D045D3' ).val('');
+		$('#D487FE72_8D95_4048_BEA3_252274862AF4').val('');
+		$('#9A355DC8_88EF_4438_BAB3_BB7BAD798A77').val('');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -243,26 +239,26 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* SET INFO                                        */
 			/*-------------------------------------------------*/
 
-			$('#modal_login_change_info_form_first_name').val(firstName);
-			$('#modal_login_change_info_form_last_name').val(lastName);
-			$('#modal_login_change_info_form_email').val(email);
+			$('#E513F27D_5521_4B08_BF61_52AFB81356F7').val(firstName);
+			$('#113C64A6_3B10_4671_B941_17C2281A43B6').val(lastName);
+			$('#83B6FEE5_2BAF_4F47_BCB3_1F475A1A1117').val(email);
 
 			/*-------------------------------------------------*/
 
-			$('#modal_login_change_info_form_email').prop('disabled', vomsEnabled !== 'false');
+			$('#83B6FEE5_2BAF_4F47_BCB3_1F475A1A1117').prop('disabled', vomsEnabled !== 'false');
 
 			/*-------------------------------------------------*/
 
-			$('#modal_login_account_status_form2_first_name').val(firstName);
-			$('#modal_login_account_status_form2_last_name').val(lastName);
-			$('#modal_login_account_status_form2_email').val(email);
+			$('#215C261E_5DFB_4AC5_85C5_3D3D8C210B82').val(firstName);
+			$('#2DC4C04B_8701_4C50_9D0F_F135D91DA9CE').val(lastName);
+			$('#431ABB43_415D_4564_9F7E_BC8048602120').val(email);
 
 			/*-------------------------------------------------*/
 
-			$('#modal_login_account_status_form2_client_dn_in_ami').val(clientDNInAMI);
-			$('#modal_login_account_status_form2_client_dn_in_session').val(clientDNInSession);
-			$('#modal_login_account_status_form2_issuer_dn_in_ami').val(issuerDNInAMI);
-			$('#modal_login_account_status_form2_issuer_dn_in_session').val(issuerDNInSession);
+			$('#0902CF2E_7A3B_476E_A03B_875FD8928996').val(clientDNInAMI);
+			$('#50CDFAB2_A81D_4772_871A_70F40AEC1C77').val(clientDNInSession);
+			$('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
+			$('#15FA5B80_8528_4FA1_894F_516FD00D1E8D').val(issuerDNInSession);
 
 			/*-------------------------------------------------*/
 			/* CHECK USER STATUS                               */
@@ -296,11 +292,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					}
 				}
 
-				$('#modal_login_account_status_message').html(
+				$('#02C7F515_F604_4CDF_868A_D8FFE57F9C01').html(
 					message ? '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message : ''
 				);
 
-				$('#modal_login_account_status_form1_status').html(
+				$('#07D7B8B9_2A2E_4C1A_9DE8_A7970956798D').html(
 					'<span style="color: #006400;">valid</span>'
 				);
 
@@ -332,11 +328,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					message = 'Contact the AMI team.';
 				}
 
-				$('#modal_login_account_status_message').html(
+				$('#02C7F515_F604_4CDF_868A_D8FFE57F9C01').html(
 					message ? '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message : ''
 				);
 
-				$('#modal_login_account_status_form1_status').html(
+				$('#07D7B8B9_2A2E_4C1A_9DE8_A7970956798D').html(
 					'<span style="color: #8B0000;">invalid</span>'
 				);
 
@@ -528,8 +524,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	form_passLogin: function()
 	{
-		var user = $('#modal_login_form1_user').val();
-		var pass = $('#modal_login_form1_pass').val();
+		var user = $('#87D39A00_39D9_453B_8D8C_12B403F9268F').val();
+		var pass = $('#6E06F758_BF71_4DBA_AF8A_2F137F1ABD1D').val();
 
 		if(!user || !pass)
 		{
@@ -638,8 +634,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	form_attachCert: function()
 	{
-		var user = $('#modal_login_form1_user').val();
-		var pass = $('#modal_login_form1_pass').val();
+		var user = $('#87D39A00_39D9_453B_8D8C_12B403F9268F').val();
+		var pass = $('#6E06F758_BF71_4DBA_AF8A_2F137F1ABD1D').val();
 
 		if(!user || !pass)
 		{
@@ -668,8 +664,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	form_detachCert: function()
 	{
-		var user = $('#modal_login_form1_user').val();
-		var pass = $('#modal_login_form1_pass').val();
+		var user = $('#87D39A00_39D9_453B_8D8C_12B403F9268F').val();
+		var pass = $('#6E06F758_BF71_4DBA_AF8A_2F137F1ABD1D').val();
 
 		if(!user || !pass)
 		{
@@ -698,12 +694,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	form_addUser: function()
 	{
-		var user = $('#modal_login_form2_user').val();
-		var pass1 = $('#modal_login_form2_pass1').val();
-		var pass2 = $('#modal_login_form2_pass2').val();
-		var firstName = $('#modal_login_form2_first_name').val();
-		var lastName = $('#modal_login_form2_last_name').val();
-		var email = $('#modal_login_form2_email').val();
+		var user = $('#A9A08864_6A32_45A4_8898_C167564DB8BB').val();
+		var pass1 = $('#56CE3A89_05AC_46F2_811B_D0D8DBAECEB3').val();
+		var pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
+		var firstName = $('#646E34FE_DFB3_4BE1_A860_168BD595F97E').val();
+		var lastName = $('#39287067_75F8_419D_9B20_409E1B141D38').val();
+		var email = $('#12DA94D6_8B52_4FCC_AEED_937BAAE0BF9C').val();
 
 		if(!user || !pass1 || !pass2 || !firstName || !lastName || !email)
 		{
@@ -739,9 +735,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	form_changeInfo: function()
 	{
-		var firstName = $('#modal_login_change_info_form_first_name').val();
-		var lastName = $('#modal_login_change_info_form_last_name').val();
-		var email = $('#modal_login_change_info_form_email').val();
+		var firstName = $('#E513F27D_5521_4B08_BF61_52AFB81356F7').val();
+		var lastName = $('#113C64A6_3B10_4671_B941_17C2281A43B6').val();
+		var email = $('#83B6FEE5_2BAF_4F47_BCB3_1F475A1A1117').val();
 
 		if(!firstName || !lastName || !email)
 		{
@@ -770,9 +766,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	form_changePass: function()
 	{
-		var oldPass = $('#modal_login_change_pass_form_old_pass').val();
-		var newPass1 = $('#modal_login_change_pass_form_new_pass1').val();
-		var newPass2 = $('#modal_login_change_pass_form_new_pass2').val();
+		var oldPass = $('#F238E6EE_44BD_486A_B85D_C927A4D045D3').val();
+		var newPass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
+		var newPass2 = $('#9A355DC8_88EF_4438_BAB3_BB7BAD798A77').val();
 
 		if(!oldPass || !newPass1 || !newPass2)
 		{
@@ -808,7 +804,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	form_resetPass: function()
 	{
-		var user = $('#modal_login_form3_user').val();
+		var user = $('#13AEF361_DF3E_461F_A989_2BFDA00BCD05').val();
 
 		if(!user)
 		{
