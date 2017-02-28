@@ -26,7 +26,7 @@ var jsDoc = {
 
 		}).fail(function() {
 
-			$('#jsdoc_content').html('<div class="alert alert-danger">Could nor open `' + url + '!`!</div>');
+			$('#jsdoc_content').html('<div class="alert alert-danger">Could not open `' + url + '!`!</div>');
 		});
 	},
 
