@@ -1021,10 +1021,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/*---------------------------------------------------------*/
 
 		var logo_url = this.originURL
-				+ '/images/logo.png';
+					+ '/images/logo.png';
 		var home_url = this.webAppURL;
 
 		var contact_email = 'ami@lpsc.in2p3.fr';
+		var about_url = 'http://www.cern.ch/ami/';
 
 		var template_filename = this.originURL + '/html/AMI/AMIWebApp_default.html';
 		var locker_filename = this.originURL + '/html/AMI/Fragment/locker.html';
@@ -1045,6 +1046,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if('contact_email' in settings) {
 				contact_email = settings['contact_email'];
+			}
+
+			if('about_link' in settings) {
+				about_link = settings['about_link'];
 			}
 
 			if('template_filename' in settings) {
@@ -1074,6 +1079,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				LOGO_URL: logo_url,
 				HOME_URL: home_url,
 				CONTACT_EMAIL: contact_email,
+				ABOUT_URL: about_url,
 			};
 
 			/*-------------------------------------------------*/
