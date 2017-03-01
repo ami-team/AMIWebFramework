@@ -124,6 +124,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
+	_canLeave: true,
+
+	/*-----------------------------------------------------------------*/
+
 	_nonce: jQuery.now(),
 
 	_scripts: [],
@@ -867,6 +871,32 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*-----------------------------------------------------------------*/
+	/*                                                                 */
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Enable the message in a confirmation dialog box to inform that the user is about to leave the current page.
+	  */
+
+	canLeave: function()
+	{
+		this._canLeave = true;
+	},
+
+	/*-----------------------------------------------------------------*/
+	/*                                                                 */
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Disable the message in a confirmation dialog box to inform that the user is about to leave the current page.
+	  */
+
+	cannotLeave: function()
+	{
+		this._canLeave = false;
+	},
+
+	/*-----------------------------------------------------------------*/
 	/* MESSAGES                                                        */
 	/*-----------------------------------------------------------------*/
 
@@ -1025,7 +1055,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		var home_url = this.webAppURL;
 
 		var contact_email = 'ami@lpsc.in2p3.fr';
-		var about_url = 'http://www.cern.ch/ami/';
+		var about_url = 'http://cern.ch/ami/';
 
 		var template_filename = this.originURL + '/html/AMI/AMIWebApp_default.html';
 		var locker_filename = this.originURL + '/html/AMI/Fragment/locker.html';
@@ -1068,6 +1098,23 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/*---------------------------------------------------------*/
 
 		this.timeout = timeout;
+
+		/*---------------------------------------------------------*/
+
+		window.onbeforeunload = function(e) {
+
+			if(amiWebApp._canLeave === false)
+			{
+				var e = e || window.event;
+
+				if(e)
+				{
+					e.returnValue = 'Are you sure you want to leave this page?';
+				}
+
+				return 'Are you sure you want to leave this page?';
+			}
+		};
 
 		/*---------------------------------------------------------*/
 
