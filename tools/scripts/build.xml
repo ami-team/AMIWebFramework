@@ -4,19 +4,11 @@
 
 <project name="???" default="update_prod">
 
+	<!-- ************************************************************ -->
+
 	<property name="AMIWebAppTmpDir" value="${java.io.tmpdir}/__AMIWebApp_repo" />
 
-	<path id="execute-classpath">
-		<fileset dir="${AMIWebAppTmpDir}" />
-	</path>
-
-	<filelist id="filelist" dir="${AMIWebAppTmpDir}/js/AMI">
-		<file name="AMIObjects.js" />
-		<file name="AMIWebApp.js" />
-		<file name="AMISubApp.js" />
-		<file name="AMICommand.js" />
-		<file name="AMILogin.js" />
-	</filelist>
+	<!-- ************************************************************ -->
 
 	<target name="update_prod" description="Update the framework (prod mode).">
 
@@ -29,16 +21,16 @@
 		<!-- **************************************************** -->
 		<!-- GENERATE MINIMIZED FILES                             -->
 		<!-- **************************************************** -->
-		
+
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
+			<classpath location="${AMIWebAppTmpDir}/yuicompressor-2.4.8.jar" />
 			<arg value="${AMIWebAppTmpDir}/css/AMI/framework.css" />
 			<arg value="-o" />
 			<arg value="css/AMI/framework.min.css" />
 		</java>
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
+			<classpath location="${AMIWebAppTmpDir}/yuicompressor-2.4.8.jar" />
 			<arg value="${AMIWebAppTmpDir}/js/AMI/framework.js" />
 			<arg value="-o" />
 			<arg value="js/AMI/framework.min.js" />
@@ -54,6 +46,8 @@
 
 	</target>
 
+	<!-- ************************************************************ -->
+
 	<target name="update_debug" description="Update the framework (debug mode).">
 
 		<!-- **************************************************** -->
@@ -66,9 +60,9 @@
 		<!-- GENERATE MINIMIZED FILES                             -->
 		<!-- **************************************************** -->
 
-		<copy file="${AMIWebAppTmpDir}/css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" force="true" />
+		<copy file="${AMIWebAppTmpDir}/css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" />
 
-		<copy file="${AMIWebAppTmpDir}/js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" force="true" />
+		<copy file="${AMIWebAppTmpDir}/js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" />
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
@@ -79,6 +73,8 @@
 		<!-- **************************************************** -->
 
 	</target>
+
+	<!-- ************************************************************ -->
 
 	<target name="lint" description="Code quality.">
 
@@ -92,6 +88,8 @@
 		</exec>
 
 	</target>
+
+	<!-- ************************************************************ -->
 
 	<macrodef name="clone-and-copy">
 
@@ -114,45 +112,45 @@
 			<!-- COPY FILES                                   -->
 			<!-- ******************************************** -->
 
-			<copy todir="css">
+			<copy todir="css" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/css" includes="*" />
 				<fileset dir="${AMIWebAppTmpDir}/css" includes="3rd-party/**/*" />
 			</copy>
 
-			<copy todir="js">
+			<copy todir="js" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/js" includes="*" />
 				<fileset dir="${AMIWebAppTmpDir}/js" includes="3rd-party/**/*" />
 			</copy>
 
 			<!-- ******************************************** -->
 
-			<copy todir="components">
+			<copy todir="components" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/components" includes="**/*" />
 			</copy>
 
-			<copy todir="docs">
+			<copy todir="docs" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/docs" includes="**/*" />
 			</copy>
 
-			<copy todir="fonts">
+			<copy todir="fonts" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*" />
 			</copy>
 
-			<copy todir="html">
+			<copy todir="html" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*" />
 			</copy>
 
-			<copy todir="images">
+			<copy todir="images" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*" />
 			</copy>
 
-			<copy todir="tools">
+			<copy todir="tools" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/tools" includes="**/*.py" />
 			</copy>
 
 			<!-- ******************************************** -->
 
-			<copy todir="subapps">
+			<copy todir="subapps" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Command/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Document/**/*" />
 			</copy>
@@ -169,8 +167,17 @@
 			<!-- ******************************************** -->
 
 			<concat destfile="${AMIWebAppTmpDir}/js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+
 				<header>'use strict' ;${line.separator}${line.separator}</header>
-				<filelist refid="filelist" />
+
+				<filelist dir="${AMIWebAppTmpDir}/js/AMI">
+					<file name="AMIObjects.js" />
+					<file name="AMIWebApp.js" />
+					<file name="AMISubApp.js" />
+					<file name="AMICommand.js" />
+					<file name="AMILogin.js" />
+				</filelist>
+
 			</concat>
 
 			<!-- ******************************************** -->
@@ -183,14 +190,16 @@
 			<!-- OTHER                                        -->
 			<!-- ******************************************** -->
 
-			<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" force="true" />
+			<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" />
 
-			<copy file="${AMIWebAppTmpDir}/.eslintrc.json" tofile=".eslintrc.json" overwrite="true" force="true" />
+			<copy file="${AMIWebAppTmpDir}/.eslintrc.json" tofile=".eslintrc.json" overwrite="true" />
 
 			<!-- ******************************************** -->
 
 		</sequential>
 
 	</macrodef>
+
+	<!-- ************************************************************ -->
 
 </project>
