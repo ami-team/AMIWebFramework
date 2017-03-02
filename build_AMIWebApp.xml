@@ -4,65 +4,71 @@
 
 <project name="AMIWebApp" default="compile_prod">
 
-	<path id="execute-classpath">
-		<fileset dir="." />
-	</path>
-
-	<filelist id="filelist" dir="js/AMI">
-		<file name="AMIObjects.js" />
-		<file name="AMIWebApp.js" />
-		<file name="AMISubApp.js" />
-		<file name="AMICommand.js" />
-		<file name="AMILogin.js" />
-	</filelist>
+	<!-- ************************************************************ -->
 
 	<target name="compile_prod" description="Compile the project (prod mode).">
 
-		<concat destfile="js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
-			<header>'use strict' ;${line.separator}${line.separator}</header>
-			<filelist refid="filelist" />
-		</concat>
+		<!-- **************************************************** -->
+		<!-- MERGE FILES                                          -->
+		<!-- **************************************************** -->
 
-		<replace file="js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
-		<replace file="js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
+		<merge-files />
+
+		<!-- **************************************************** -->
+		<!-- GENERATE MINIMIZED FILES                             -->
+		<!-- **************************************************** -->
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
+			<classpath location="yuicompressor-2.4.8.jar" />
 			<arg value="css/AMI/framework.css" />
 			<arg value="-o" />
 			<arg value="css/AMI/framework.min.css" />
 		</java>
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath refid="execute-classpath" />
+			<classpath location="yuicompressor-2.4.8.jar" />
 			<arg value="js/AMI/framework.js" />
 			<arg value="-o" />
 			<arg value="js/AMI/framework.min.js" />
 		</java>
 
+		<!-- **************************************************** -->
+
 	</target>
+
+	<!-- ************************************************************ -->
 
 	<target name="compile_debug" description="Compile the project (debug mode).">
 
-		<concat destfile="js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
-			<header>'use strict' ;${line.separator}${line.separator}</header>
-			<filelist refid="filelist" />
-		</concat>
+		<!-- **************************************************** -->
+		<!-- MERGE FILES                                          -->
+		<!-- **************************************************** -->
 
-		<replace file="js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
-		<replace file="js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
+		<merge-files />
 
-		<copy file="css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" force="true" />
-		<copy file="js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" force="true" />
+		<!-- **************************************************** -->
+		<!-- GENERATE MINIMIZED FILES                             -->
+		<!-- **************************************************** -->
+
+		<copy file="css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" />
+
+		<copy file="js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" />
+
+		<!-- **************************************************** -->
 
 	</target>
+
+	<!-- ************************************************************ -->
 
 	<target name="clean" description="Clean the project.">
 
 		<delete file="css/AMI/AMIWebApp.min.css" />
+
 		<delete file="js/AMI/framework.min.js" />
 
 	</target>
+
+	<!-- ************************************************************ -->
 
 	<target name="lint_framework" description="Code quality.">
 
@@ -77,6 +83,8 @@
 
 	</target>
 
+	<!-- ************************************************************ -->
+
 	<target name="lint_subapp" description="Code quality.">
 
 		<!-- npm install -g eslint -->
@@ -90,6 +98,8 @@
 
 	</target>
 
+	<!-- ************************************************************ -->
+
 	<target name="doc" description="Generate doc.">
 
 		<!-- npm install -g jsdoc -->
@@ -102,5 +112,47 @@
 		</exec>
 
 	</target>
+
+	<!-- ************************************************************ -->
+
+	<macrodef name="merge-files">
+
+		<sequential>
+
+			<!-- ******************************************** -->
+
+			<concat destfile="js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+
+				<header>%USE_STRICT%</header>
+
+				<filelist dir="js/AMI">
+					<file name="AMIObjects.js" />
+					<file name="AMIWebApp.js" />
+					<file name="AMISubApp.js" />
+					<file name="AMICommand.js" />
+					<file name="AMILogin.js" />
+				</filelist>
+
+			</concat>
+
+			<!-- ******************************************** -->
+
+			<replace file="js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
+
+			<replace file="js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
+
+			<replace file="js/AMI/framework.js" token="'use strict';" value="" />
+
+			<!-- ******************************************** -->
+
+			<replace file="js/AMI/framework.js" token="%USE_STRICT%" value="'use strict';${line.separator}" />
+
+			<!-- ******************************************** -->
+
+		</sequential>
+
+	</macrodef>
+
+	<!-- ************************************************************ -->
 
 </project>

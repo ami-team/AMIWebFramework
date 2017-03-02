@@ -168,7 +168,7 @@
 
 			<concat destfile="${AMIWebAppTmpDir}/js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
 
-				<header>'use strict' ;${line.separator}${line.separator}</header>
+				<header>%USE_STRICT%</header>
 
 				<filelist dir="${AMIWebAppTmpDir}/js/AMI">
 					<file name="AMIObjects.js" />
@@ -185,6 +185,12 @@
 			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
 
 			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
+
+			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';" value="" />
+
+			<!-- ******************************************** -->
+
+			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="%USE_STRICT%" value="'use strict';${line.separator}" />
 
 			<!-- ******************************************** -->
 			<!-- OTHER                                        -->
