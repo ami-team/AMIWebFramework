@@ -6,12 +6,6 @@
 
 	<!-- ************************************************************ -->
 
-	<tstamp>
-		<format property="current.year" pattern="yyyy" locale="en,UK" />
-	</tstamp>
-
-	<!-- ************************************************************ -->
-
 	<target name="compile_prod" description="Compile the project (prod mode).">
 
 		<!-- **************************************************** -->
@@ -39,14 +33,6 @@
 		</java>
 
 		<!-- **************************************************** -->
-		<!-- UPDATE CURRENT YEAR                                  -->
-		<!-- **************************************************** -->
-
-		<replace dir="." token="![VALUE YEAR]" value="${current.year}">
-			<include name="**/*.js" />
-		</replace>
-
-		<!-- **************************************************** -->
 
 	</target>
 
@@ -67,14 +53,6 @@
 		<copy file="css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" />
 
 		<copy file="js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" />
-
-		<!-- **************************************************** -->
-		<!-- UPDATE CURRENT YEAR                                  -->
-		<!-- **************************************************** -->
-
-		<replace dir="." token="![VALUE YEAR]" value="${current.year}">
-			<include name="**/*.js" />
-		</replace>
 
 		<!-- **************************************************** -->
 
