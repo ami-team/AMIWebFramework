@@ -1105,11 +1105,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(amiWebApp._canLeave === false)
 			{
-				var e = e || window.event;
+				var f = e || window.event;
 
-				if(e)
+				if(f)
 				{
-					e.returnValue = 'Are you sure you want to leave this page?';
+					f.returnValue = 'Are you sure you want to leave this page?';
 				}
 
 				return 'Are you sure you want to leave this page?';
