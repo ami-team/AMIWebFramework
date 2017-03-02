@@ -1,7 +1,7 @@
 /*!
  * AMI Web Framework - AMILogin
  *
- * Copyright (c) 2014-2016 The AMI Team
+ * Copyright (c) 2014-2017 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
  * @global _ami_internal_always

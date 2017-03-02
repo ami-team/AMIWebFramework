@@ -2,7 +2,7 @@
  * AMI Web Framework
  * AMI JSDoc template
  *
- * Copyright (c) 2014-2015 The AMI Team
+ * Copyright (c) 2014-2017 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
  */

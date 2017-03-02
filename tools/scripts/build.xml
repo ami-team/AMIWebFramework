@@ -6,6 +6,12 @@
 
 	<!-- ************************************************************ -->
 
+	<tstamp>
+		<format property="current.year" pattern="yyyy" locale="en,UK" />
+	</tstamp>
+
+	<!-- ************************************************************ -->
+
 	<property name="AMIWebAppTmpDir" value="${java.io.tmpdir}/__AMIWebApp_repo" />
 
 	<!-- ************************************************************ -->
@@ -37,6 +43,14 @@
 		</java>
 
 		<!-- **************************************************** -->
+		<!-- UPDATE CURRENT YEAR                                  -->
+		<!-- **************************************************** -->
+
+		<replace dir="." token="![VALUE YEAR]" value="${current.year}">
+			<include name="**/*.js" />
+		</replace>
+
+		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
 		<!-- **************************************************** -->
 
@@ -63,6 +77,14 @@
 		<copy file="${AMIWebAppTmpDir}/css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" />
 
 		<copy file="${AMIWebAppTmpDir}/js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" />
+
+		<!-- **************************************************** -->
+		<!-- UPDATE CURRENT YEAR                                  -->
+		<!-- **************************************************** -->
+
+		<replace dir="." token="![VALUE YEAR]" value="${current.year}">
+			<include name="**/*.js" />
+		</replace>
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
