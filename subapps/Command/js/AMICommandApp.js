@@ -112,7 +112,7 @@ $AMIClass('AMICommandApp', {
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0]);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data));
 		});
 	},
 
