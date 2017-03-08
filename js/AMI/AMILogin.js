@@ -598,7 +598,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			amiLogin._update(userInfo, roleInfo).done(function() {
 
-				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 			});
 		});
 
@@ -648,7 +648,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			amiLogin._update(userInfo, roleInfo).done(function() {
 
-				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 			});
 		});
 
@@ -679,7 +679,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		}).fail(function(data) {
 
-			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -709,7 +709,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		}).fail(function(data) {
 
-			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -750,7 +750,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		}).fail(function(data) {
 
-			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -781,7 +781,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		}).fail(function(data) {
 
-			amiLogin._showErrorMessage2(amiWebApp.jspath('..error.$', data)[0]);
+			amiLogin._showErrorMessage2(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -819,7 +819,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		}).fail(function(data) {
 
-			amiLogin._showErrorMessage3(amiWebApp.jspath('..error.$', data)[0]);
+			amiLogin._showErrorMessage3(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -848,7 +848,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		}).fail(function(data) {
 
-			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data)[0]);
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
