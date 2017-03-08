@@ -100,6 +100,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showSuccessMessage1: function(message)
 	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
 		amiWebApp.replaceHTML('#4A634334_ED84_4565_A2B3_618ADFDF1E9B', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 
 		$('#4A634334_ED84_4565_A2B3_618ADFDF1E9B .alert').fadeOut(45000);
@@ -112,6 +117,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showErrorMessage1: function(message)
 	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
 		amiWebApp.replaceHTML('#4A634334_ED84_4565_A2B3_618ADFDF1E9B', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 
 		$('#4A634334_ED84_4565_A2B3_618ADFDF1E9B .alert').fadeOut(45000);
@@ -124,6 +134,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showSuccessMessage2: function(message)
 	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
 		amiWebApp.replaceHTML('#C76F40DA_0480_4D3F_A74B_65735465EA25', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 
 		$('#C76F40DA_0480_4D3F_A74B_65735465EA25 .alert').fadeOut(45000);
@@ -136,6 +151,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showErrorMessage2: function(message)
 	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
 		amiWebApp.replaceHTML('#C76F40DA_0480_4D3F_A74B_65735465EA25', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 
 		$('#C76F40DA_0480_4D3F_A74B_65735465EA25 .alert').fadeOut(45000);
@@ -148,6 +168,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showSuccessMessage3: function(message)
 	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
 		amiWebApp.replaceHTML('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
 
 		$('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6 .alert').fadeOut(45000);
@@ -160,6 +185,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showErrorMessage3: function(message)
 	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
 		amiWebApp.replaceHTML('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
 
 		$('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6 .alert').fadeOut(45000);
