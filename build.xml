@@ -19,14 +19,14 @@
 		<!-- **************************************************** -->
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath location="yuicompressor-2.4.8.jar" />
+			<classpath location="tools/yuicompressor-2.4.8.jar" />
 			<arg value="css/AMI/framework.css" />
 			<arg value="-o" />
 			<arg value="css/AMI/framework.min.css" />
 		</java>
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath location="yuicompressor-2.4.8.jar" />
+			<classpath location="tools/yuicompressor-2.4.8.jar" />
 			<arg value="js/AMI/framework.js" />
 			<arg value="-o" />
 			<arg value="js/AMI/framework.min.js" />

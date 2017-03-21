@@ -21,10 +21,6 @@ $AMIClass('AMICommandApp', {
 
 	onReady: function(userdata)
 	{
-		amiWebApp.loadSheets([
-			'subapps/Command/css/AMICommandApp.css',
-		]);
-
 		amiWebApp.loadScripts([
 			'js/3rd-party/filesaver.min.js',
 		]);
@@ -67,7 +63,7 @@ $AMIClass('AMICommandApp', {
 
 	onLogin: function()
 	{
-		if($('#ami_command_list').is(':empty') === false)
+		if($('#6D91550F_B65E_4F0F_BE06_405DD86182EC').is(':empty') === false)
 		{
 			return;
 		}
@@ -108,7 +104,7 @@ $AMIClass('AMICommandApp', {
 				});
 			});
 
-			amiWebApp.replaceHTML('#ami_command_list', this.fragmentCommand, {dict: dict});
+			amiWebApp.replaceHTML('#6D91550F_B65E_4F0F_BE06_405DD86182EC', this.fragmentCommand, {dict: dict});
 
 		}).fail(function(data) {
 
@@ -145,7 +141,7 @@ $AMIClass('AMICommandApp', {
 				URL: url,
 			};
 
-			amiWebApp.prependHTML('#ami_command_content', this.fragmentResult, {dict: dict});
+			amiWebApp.prependHTML('#1DDA467C_F3D9_44DF_9A82_751B184BAF9E', this.fragmentResult, {dict: dict});
 
 			amiWebApp.unlock();
 		});
@@ -155,7 +151,7 @@ $AMIClass('AMICommandApp', {
 
 	select: function(command)
 	{
-		$('#modal_command_command').val(command);
+		$('#2B5EBBAE_AB5D_4510_BFF8_019DCB6AB820').val(command);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -169,12 +165,12 @@ $AMIClass('AMICommandApp', {
 
 	save: function(data)
 	{
-		var converter = $('#modal_command_converter').val();
+		var converter = $('#44761229_271E_4F0F_A708_461EF9669F77').val();
 
 		var fileMime;
 		var fileName;
 
-		/****/ if(converter === ((((((((''))))))))) {
+		/****/ if(converter === ((((((((('')))))))))) {
 			fileMime = 'application/xml';
 			fileName = 'result.xml';
 		} else if(converter === 'AMIXmlToJson.xsl') {

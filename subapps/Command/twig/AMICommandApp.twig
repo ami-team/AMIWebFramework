@@ -1,30 +1,25 @@
 <div class="row">
-
 	<div class="col-md-3">
-
 		<div class="panel panel-default">
 			<div class="panel-heading">
 				<h3 class="panel-title">Command list</h3>
 			</div>
-			<div class="panel-body" id="ami_command_list" style="height: 280px; overflow-y: scroll;"></div>
+			<div class="panel-body" style="height: 280px; padding: 6px 16px; overflow-y: scroll;">
+				<table id="6D91550F_B65E_4F0F_BE06_405DD86182EC" style="width: 100%;"></table>
+			</div>
 		</div>
-
 	</div>
-
 	<div class="col-md-6">
-
 		<div class="modal-dialog" style="margin-top: 00px;">
 			<div class="modal-content">
-
 				<div class="modal-body">
 					<div class="form-group">
-						<label for="modal_command_command" class="control-label">Command</label>
-						<textarea name="command" rows="5" class="form-control" id="modal_command_command">{{command|default('GetUserInfo -amiLogin="jodier"')}}</textarea>
+						<label for="2B5EBBAE_AB5D_4510_BFF8_019DCB6AB820" class="control-label">Command</label>
+						<textarea name="command" rows="5" class="form-control" id="2B5EBBAE_AB5D_4510_BFF8_019DCB6AB820">{{command|default('GetUserInfo -amiLogin="jodier"')}}</textarea>
 					</div>
-
 					<div class="form-group">
-						<label for="modal_command_converter" class="control-label">Output format</label>
-						<select class="form-control" id="modal_command_converter">
+						<label for="44761229_271E_4F0F_A708_461EF9669F77" class="control-label">Output format</label>
+						<select class="form-control" id="44761229_271E_4F0F_A708_461EF9669F77">
 							<option value="">XML</option>
 							<option value="AMIXmlToJson.xsl">JSON</option>
 							<option value="AMIXmlToText.xsl" selected="selected">TEXT</option>
@@ -32,19 +27,14 @@
 						</select>
 					</div>
 				</div>
-
 				<div class="modal-footer">
-					<button class="btn btn-default" onclick="amiCommandApp.execute($('#modal_command_command').val(), $('#modal_command_converter').val());">Submit</button>
+					<button type="button" class="btn btn-default" onclick="amiCommandApp.execute($('#2B5EBBAE_AB5D_4510_BFF8_019DCB6AB820').val(), $('#44761229_271E_4F0F_A708_461EF9669F77').val());">Submit</button>
 				</div>
-
 			</div>
 		</div>
-
 	</div>
-
 	<div class="col-md-3">
+		<!-- nothing -->
 	</div>
-
 </div>
-
-<div id="ami_command_content"></div>
+<div id="1DDA467C_F3D9_44DF_9A82_751B184BAF9E"></div>
