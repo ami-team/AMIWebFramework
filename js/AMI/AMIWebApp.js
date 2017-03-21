@@ -292,7 +292,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* DEFAULT FRAGMENTS                                       */
 		/*---------------------------------------------------------*/
 
-		this.loadHTMLs([
+		this.loadTWIGs([
 			/* AMI */
 			this.originURL + '/twig/AMI/Fragment/alert_success.twig',
 			this.originURL + '/twig/AMI/Fragment/alert_info.twig',
@@ -661,6 +661,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	loadHTMLs: function(files, settings)
 	{
 		return this.loadFiles(files, 'html', settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads TWIG files asynchronously
+	  * @param {(Array|String)} files the array of files
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	loadTWIGs: function(files, settings)
+	{
+		return this.loadFiles(files, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
