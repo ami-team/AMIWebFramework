@@ -369,7 +369,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* UPDATE NOTIFICATION BAR                         */
 			/*-------------------------------------------------*/
 
-			var icon = message ? '<a href="javascript:amiLogin.accountStatus();" class="faa-burst animated" style="color: ' + color + ';">'
+			var icon = message ? '<a href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">'
 			                     +
 			                     '<span class="fa fa-exclamation-triangle"></span>'
 			                     +

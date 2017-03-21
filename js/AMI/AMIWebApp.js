@@ -180,6 +180,25 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	$init: function()
 	{
 		/*---------------------------------------------------------*/
+
+		function _eatSlashes(url)
+		{
+			url = url.trim();
+
+			while(url[url.length - 1] === '/')
+			{
+				url = url.substring(0, url.length - 1);
+			}
+
+			return url;
+		}
+
+		/*---------------------------------------------------------*/
+
+		var href = window.location.href.trim();
+		var search = window.location.search.trim();
+
+		/*---------------------------------------------------------*/
 		/* ORIGIN_URL                                              */
 		/*---------------------------------------------------------*/
 
@@ -195,12 +214,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(idx >= 0)
 			{
-				this.originURL = src.substring(0, idx);
+				/*-----------------------------------------*/
 
-				while(this.originURL[this.originURL.length - 1] === '/')
-				{
-					this.originURL = this.originURL.substring(0, this.originURL.length - 1);
-				}
+				this.originURL = _eatSlashes(src.substring(0, idx));
+
+				/*-----------------------------------------*/
 
 				if(src.indexOf('embedded', idx) >= 0
 				   ||
@@ -208,6 +226,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				 ) {
 					this._isEmbedded = true;
 				}
+
+				/*-----------------------------------------*/
 
 				break;
 			}
@@ -217,27 +237,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* WEBAPP_URL                                              */
 		/*---------------------------------------------------------*/
 
-		var href = document.location.href;
-
-		/*---------------------------------------------------------*/
-
 		var IDX = href.indexOf('?');
 
-		this.webAppURL = (IDX > 0) ? href.substring(0, IDX)
-		                           : href
-		;
-
-		while(this.webAppURL[this.webAppURL.length - 1] === '/')
-		{
-			this.webAppURL = this.webAppURL.substring(0, this.webAppURL.length - 1);
-		}
+		this.webAppURL = _eatSlashes(IDX > 0 ? href.substring(0, IDX) : href);
 
 		/*---------------------------------------------------------*/
 		/* ARGS                                                    */
-		/*---------------------------------------------------------*/
-
-		var search = window.location.search;
-
 		/*---------------------------------------------------------*/
 
 		if(search)
@@ -246,9 +251,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			for(var j in prarams)
 			{
-				var tuple = prarams[j].split('=');
+				var parts = prarams[j].split('=');
 
-				this.args[decodeURIComponent(tuple[0])] = (tuple.length === 2) ? decodeURIComponent(tuple[1]) : '';
+				/**/ if(parts.length === 1)
+				{
+					this.args[decodeURIComponent(parts[0])] = ((((((((((((('')))))))))))));
+				}
+				else if(parts.length === 2)
+				{
+					this.args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+				}
 			}
 		}
 
@@ -927,15 +939,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}});
-		this.unlock();
+		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}}).done(function() {
 
-		$(document).scrollTop(0);
+			this.unlock();
 
-		if(fadeOut)
-		{
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
+			$(document).scrollTop(0);
+
+			if(fadeOut)
+			{
+				$('#ami_status_content .alert').fadeOut(60000);
+			}
+		});
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -953,15 +967,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}});
-		this.unlock();
+		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}}).done(function() {
 
-		$(document).scrollTop(0);
+			this.unlock();
 
-		if(fadeOut)
-		{
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
+			$(document).scrollTop(0);
+
+			if(fadeOut)
+			{
+				$('#ami_status_content .alert').fadeOut(60000);
+			}
+		});
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -979,15 +995,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}});
-		this.unlock();
+		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}}).done(function() {
 
-		$(document).scrollTop(0);
+			this.unlock();
 
-		if(fadeOut)
-		{
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
+			$(document).scrollTop(0);
+
+			if(fadeOut)
+			{
+				$('#ami_status_content .alert').fadeOut(60000);
+			}
+		});
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1005,15 +1023,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}});
-		this.unlock();
+		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}}).done(function() {
 
-		$(document).scrollTop(0);
+			this.unlock();
 
-		if(fadeOut)
-		{
-			$('#ami_status_content .alert').fadeOut(60000);
-		}
+			$(document).scrollTop(0);
+
+			if(fadeOut)
+			{
+				$('#ami_status_content .alert').fadeOut(60000);
+			}
+		});
 	},
 
 	/*-----------------------------------------------------------------*/

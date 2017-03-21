@@ -39,7 +39,7 @@
 
 /*-------------------------------------------------------------------------*/
 
-@import "//fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic";
+@import url("https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic,700,700italic");
 
 /*-------------------------------------------------------------------------*/
 /* GENERAL THEME                                                           */
@@ -65,41 +65,12 @@ pre {
 /* BOOTSTRAP THEME                                                         */
 /*-------------------------------------------------------------------------*/
 
-.btn {
-	font-size: 14.5px;
-}
-
-/*-------------------------------------------------------------------------*/
-
 .breadcrumb {
 	background-image: url("../../images/stripe2.png");
 }
 
 .breadcrumb > li + li::before {
 	content: "/";
-}
-
-/*-------------------------------------------------------------------------*/
-
-.jumbotron {
-	background-color: white;
-
-	border: 1px solid rgb(238, 238, 238);
-	border-radius: 6px;
-
-	margin-top: 10px;
-	margin-bottom: 10px;
-	padding: 00px 10px;
-}
-
-.jumbotron h1,
-.jumbotron .h1,
-.jumbotron h2,
-.jumbotron .h2,
-.jumbotron h3,
-.jumbotron .h3 {
-	margin-top: 16px;
-	margin-bottom: 16px;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -111,8 +82,6 @@ pre {
 .modal-footer {
 	background: rgb(245, 245, 245) url("../../images/stripe2.png");
 
-	-webkit-border-radius: 0 0 6px 6px;
-	-moz-border-radius: 0 0 6px 6px;
 	border-radius: 0 0 6px 6px;
 }
 
@@ -182,9 +151,7 @@ pre {
 /*-------------------------------------------------------------------------*/
 
 .ami-callout {
-	background: #FFF;
-	-webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-	-moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+	background: rgb(255, 255, 255);
 	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
 	margin: 20px 00px;
 	padding: 20px 20px;
@@ -208,9 +175,6 @@ pre {
 	width: 100%;
 
 	border: solid 2px rgb(211, 211, 211);
-
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
 	border-radius: 4px;
 
 	background-image: url("../../images/guilloche.gif");
@@ -290,54 +254,6 @@ pre {
 		text-indent: 0.01px;
 		text-overflow: "";
 	}
-}
-
-/*-------------------------------------------------------------------------*/
-/* AMI BURST                                                               */
-/*-------------------------------------------------------------------------*/
-
-@-webkit-keyframes burst {
-
-	0% {
-		opacity: 0.6;
-	}
-
-	50% {
-		-webkit-transform: scale(1.8);
-		-moz-transform: scale(1.8);
-		transform: scale(1.8);
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 0;
-	}
-}
-
-@keyframes burst {
-
-	0% {
-		opacity: 0.6;
-	}
-
-	50% {
-		-webkit-transform: scale(1.8);
-		-moz-transform: scale(1.8);
-		transform: scale(1.8);
-		opacity: 0;
-	}
-
-	100% {
-		opacity: 0;
-	}
-}
-
-.faa-burst.animated,
-.faa-burst.animated-hover:hover,
-.faa-parent.animated-hover:hover > .faa-burst {
-	-webkit-animation: burst 3s infinite linear;
-	-moz-animation: burst 3s infinite linear;
-	animation: burst 3s infinite linear;
 }
 
 /*-------------------------------------------------------------------------*/
