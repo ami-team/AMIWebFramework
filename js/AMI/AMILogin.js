@@ -40,9 +40,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
-			amiWebApp.originURL + '/html/AMI/Fragment/login_button.html',
-			amiWebApp.originURL + '/html/AMI/Fragment/logout_button.html',
-			amiWebApp.originURL + '/html/AMI/Modal/login.html',
+			amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig',
+			amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig',
+			amiWebApp.originURL + '/twig/AMI/Modal/login.twig',
 		]).done(function(data) {
 
 			amiLogin.fragmentLoginButton = data[0];

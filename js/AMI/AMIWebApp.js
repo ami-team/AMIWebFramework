@@ -294,10 +294,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		this.loadHTMLs([
 			/* AMI */
-			this.originURL + '/html/AMI/Fragment/alert_success.html',
-			this.originURL + '/html/AMI/Fragment/alert_info.html',
-			this.originURL + '/html/AMI/Fragment/alert_warning.html',
-			this.originURL + '/html/AMI/Fragment/alert_error.html',
+			this.originURL + '/twig/AMI/Fragment/alert_success.twig',
+			this.originURL + '/twig/AMI/Fragment/alert_info.twig',
+			this.originURL + '/twig/AMI/Fragment/alert_warning.twig',
+			this.originURL + '/twig/AMI/Fragment/alert_error.twig',
 		], {context: this}).done(function(data) {
 
 			this.fragmentSuccess = data[0];
@@ -1057,8 +1057,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		var contact_email = 'ami@lpsc.in2p3.fr';
 		var about_url = 'http://cern.ch/ami/';
 
-		var template_filename = this.originURL + '/html/AMI/AMIWebApp_default.html';
-		var locker_filename = this.originURL + '/html/AMI/Fragment/locker.html';
+		var template_filename = this.originURL + '/twig/AMI/AMIWebApp_default.twig';
+		var locker_filename = this.originURL + '/twig/AMI/Fragment/locker.twig';
 
 		var timeout = 10000;
 
