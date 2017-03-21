@@ -1043,7 +1043,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Starts the web application
-	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, template_filename, locker_filename, timeout)
+	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, timeout)
 	  */
 
 	start: function(settings)
@@ -1057,8 +1057,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		var contact_email = 'ami@lpsc.in2p3.fr';
 		var about_url = 'http://cern.ch/ami/';
 
-		var template_filename = this.originURL + '/twig/AMI/AMIWebApp_default.twig';
-		var locker_filename = this.originURL + '/twig/AMI/Fragment/locker.twig';
+		var theme_url = this.originURL + 'twig/AMI/Theme/blue.twig';
+		var locker_url = this.originURL + '/twig/AMI/Fragment/locker.twig';
 
 		var timeout = 10000;
 
@@ -1082,12 +1082,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				about_url = settings['about_url'];
 			}
 
-			if('template_filename' in settings) {
-				template_filename = settings['template_filename'];
+			if('theme_url' in settings) {
+				theme_url = settings['theme_url'];
 			}
 
-			if('locker_filename' in settings) {
-				locker_filename = settings['locker_filename'];
+			if('locker_url' in settings) {
+				locker_url = settings['locker_url'];
 			}
 
 			if('timeout' in settings) {
@@ -1131,9 +1131,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*-------------------------------------------------*/
 
-			$.ajax({url: template_filename, cache: false, dataType: 'html'}).done(function(data1) {
+			$.ajax({url: theme_url, cache: false, dataType: 'html'}).done(function(data1) {
 
-				$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data2) {
+				$.ajax({url: locker_url, cache: false, dataType: 'html'}).done(function(data2) {
 
 					$('body').append(amiWebApp.formatHTML(data1, dict) + data2).promise().done(function() {
 
@@ -1158,7 +1158,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			/*-------------------------------------------------*/
 
-			$.ajax({url: locker_filename, cache: false, dataType: 'html'}).done(function(data) {
+			$.ajax({url: locker_url, cache: false, dataType: 'html'}).done(function(data) {
 
 				$('body').append(data).promise().done(function() {
 
