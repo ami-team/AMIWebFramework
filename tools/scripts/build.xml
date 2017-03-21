@@ -158,16 +158,16 @@
 				<fileset dir="${AMIWebAppTmpDir}/fonts" includes="**/*" />
 			</copy>
 
-			<copy todir="html" overwrite="true">
-				<fileset dir="${AMIWebAppTmpDir}/html" includes="**/*" />
-			</copy>
-
 			<copy todir="images" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*" />
 			</copy>
 
 			<copy todir="tools" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/tools" includes="**/*.py" />
+			</copy>
+
+			<copy todir="twig" overwrite="true">
+				<fileset dir="${AMIWebAppTmpDir}/twig" includes="**/*" />
 			</copy>
 
 			<!-- ******************************************** -->
