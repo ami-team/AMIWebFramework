@@ -411,7 +411,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		'\\': '\\\\',
 		'\n': '\\n',
 		'"': '\\"',
-		"'": "\\'",
+		'\'': '\\\'',
 	},
 
 	/**
@@ -434,7 +434,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		'\\\\': '\\',
 		'\\n': '\n',
 		'\\"': '"',
-		"\\'": "'",
+		'\\\'': '\'',
 	},
 
 	/**
@@ -458,7 +458,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		'\\': '\\\\',
 		'\n': '\\n',
 		'&quot;': '\\&quot;',
-		"'": "\\'",
+		'\'': '\\\'',
 	},
 
 	/**
@@ -481,7 +481,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		'\\\\': '\\',
 		'\\n': '\n',
 		'\\&quot;': '&quot;',
-		"\\'": "'",
+		'\\\'': '\'',
 	},
 
 	/**
