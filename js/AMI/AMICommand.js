@@ -42,7 +42,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	_textToString: function(s)
 	{
-		return s.replace(/[\\'"]/g, function(x) {
+		return (s || '').replace(/[\\'"]/g, function(x) {
 
 			return '\\' + x;
 		});

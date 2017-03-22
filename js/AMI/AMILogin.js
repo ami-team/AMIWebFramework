@@ -53,28 +53,51 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			amiCommand.certLogin().always(function(data, userInfo, roleInfo) {
 				/*-----------------------------------------*/
 
-				document.getElementById('87D39A00_39D9_453B_8D8C_12B403F9268F').addEventListener('keypress', function(e) {
+				$('#8008BBBC_FF0D_481C_8AF0_3DCF7D6A1676').submit(function(e) {
 
-					if(e.keyCode === 13)
-					{
-						amiLogin.form_passLogin();
-					}
+					amiLogin.form_login(e);
 				});
 
-				document.getElementById('6E06F758_BF71_4DBA_AF8A_2F137F1ABD1D').addEventListener('keypress', function(e) {
+				$('#2D609FA7_9BA6_4B0B_A0F2_094403F81E7D').submit(function(e) {
 
-					if(e.keyCode === 13)
-					{
-						amiLogin.form_passLogin();
-					}
+					amiLogin.form_addUser(e);
 				});
 
-				document.getElementById('13AEF361_DF3E_461F_A989_2BFDA00BCD05').addEventListener('keypress', function(e) {
+				$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit(function(e) {
 
-					if(e.keyCode === 13)
-					{
-						amiLogin.form_resetPass();
-					}
+					amiLogin.form_remindPass(e);
+				});
+
+				$('#46A4D44F_BCE4_4407_AB70_194347BFC12C').submit(function(e) {
+
+					amiLogin.form_changeInfo(e);
+				});
+
+				$('#0CD4F500_5EEA_49AF_8853_225572FDC2E7').submit(function(e) {
+
+					amiLogin.form_changePass(e);
+				});
+
+				/*-----------------------------------------*/
+
+				$('#56CE3A89_05AC_46F2_811B_D0D8DBAECEB3,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(function() {
+
+					var pass1 = $('#56CE3A89_05AC_46F2_811B_D0D8DBAECEB3').val();
+					var pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
+
+					$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(
+						pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
+					);
+				});
+
+				$('#D487FE72_8D95_4048_BEA3_252274862AF4,#9A355DC8_88EF_4438_BAB3_BB7BAD798A77').change(function() {
+
+					var pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
+					var pass2 = $('#9A355DC8_88EF_4438_BAB3_BB7BAD798A77').val();
+
+					$('#9A355DC8_88EF_4438_BAB3_BB7BAD798A77').get(0).setCustomValidity(
+						pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
+					);
 				});
 
 				/*-----------------------------------------*/
@@ -467,7 +490,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		this._flush();
 		this._clean();
 
-		$('#modal_login').modal('show');
+		$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('show');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -481,7 +504,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		this._flush();
 		this._clean();
 
-		$('#modal_login_change_info').modal('show');
+		$('#46A4D44F_BCE4_4407_AB70_194347BFC12C').modal('show');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -495,7 +518,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		this._flush();
 		this._clean();
 
-		$('#modal_login_change_pass').modal('show');
+		$('#0CD4F500_5EEA_49AF_8853_225572FDC2E7').modal('show');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -509,7 +532,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		this._flush();
 		this._clean();
 
-		$('#modal_login_account_status').modal('show');
+		$('#AB1CB183_96EB_4116_8A9E_4409BE058F34').modal('show');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -547,29 +570,56 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*-----------------------------------------------------------------*/
 
-	form_passLogin: function()
+	_serializeForm: function(form)
 	{
-		var user = $('#87D39A00_39D9_453B_8D8C_12B403F9268F').val();
-		var pass = $('#6E06F758_BF71_4DBA_AF8A_2F137F1ABD1D').val();
+		var result = {};
 
-		if(!user || !pass)
+		form.find('input').each(function() {
+
+			var name = this.getAttribute('name');
+
+			if(name)
+			{
+				result[name] = this.value.trim();
+			}
+		});
+
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	form_login: function(e)
+	{
+
+		/*---------------------------------------------------------*/
+
+		var deferred;
+
+		if(e)
 		{
-			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
+			e.preventDefault();
 
-			return;
+			var values = this._serializeForm($(e.target));
+
+			deferred = amiCommand.passLogin(values['user'], values['pass']);
+		}
+		else
+		{
+			deferred = amiCommand.certLogin(/*-*/null/*-*/, /*-*/null/*-*/);
 		}
 
 		/*---------------------------------------------------------*/
 
 		amiWebApp.lock();
 
-		amiCommand.passLogin(user, pass).done(function(data, userInfo, roleInfo) {
+		deferred.done(function(data, userInfo, roleInfo) {
 
 			amiLogin._update(userInfo, roleInfo).done(function() {
 
 				if(userInfo.AMIUser !== userInfo.guestUser)
 				{
-					$('#modal_login').modal('hide');
+					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
 					amiLogin._clean();
 					amiWebApp.unlock();
@@ -607,58 +657,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*-----------------------------------------------------------------*/
 
-	form_certLogin: function()
-	{
-		/*---------------------------------------------------------*/
-
-		amiWebApp.lock();
-
-		amiCommand.certLogin().done(function(data, userInfo, roleInfo) {
-
-			amiLogin._update(userInfo, roleInfo).done(function() {
-
-				if(userInfo.AMIUser !== userInfo.guestUser)
-				{
-					$('#modal_login').modal('hide');
-
-					amiLogin._clean();
-					amiWebApp.unlock();
-				}
-				else
-				{
-					var error = 'Certificate not registered in AMI.';
-
-					if(userInfo.clientDNInSession || userInfo.issuerDNInSession)
-					{
-						error += '<textarea style="height: 85px; width: 100%;">'
-						         +
-						         'Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession)
-						         + '\n' +
-						         'Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession)
-						         +
-						         '</textarea>'
-						;
-					}
-
-					amiLogin._showErrorMessage1(error);
-				}
-			});
-
-		}).fail(function(data, userInfo, roleInfo) {
-
-			amiLogin._update(userInfo, roleInfo).done(function() {
-
-				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
-			});
-		});
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	form_attachCert: function()
 	{
+		/*---------------------------------------------------------*/
+
 		var user = $('#87D39A00_39D9_453B_8D8C_12B403F9268F').val();
 		var pass = $('#6E06F758_BF71_4DBA_AF8A_2F137F1ABD1D').val();
 
@@ -689,6 +691,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	form_detachCert: function()
 	{
+		/*---------------------------------------------------------*/
+
 		var user = $('#87D39A00_39D9_453B_8D8C_12B403F9268F').val();
 		var pass = $('#6E06F758_BF71_4DBA_AF8A_2F137F1ABD1D').val();
 
@@ -717,34 +721,19 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*-----------------------------------------------------------------*/
 
-	form_addUser: function()
+	form_addUser: function(e)
 	{
-		var user = $('#A9A08864_6A32_45A4_8898_C167564DB8BB').val();
-		var pass1 = $('#56CE3A89_05AC_46F2_811B_D0D8DBAECEB3').val();
-		var pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
-		var firstName = $('#646E34FE_DFB3_4BE1_A860_168BD595F97E').val();
-		var lastName = $('#39287067_75F8_419D_9B20_409E1B141D38').val();
-		var email = $('#12DA94D6_8B52_4FCC_AEED_937BAAE0BF9C').val();
+		e.preventDefault();
 
-		if(!user || !pass1 || !pass2 || !firstName || !lastName || !email)
-		{
-			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
+		/*---------------------------------------------------------*/
 
-			return;
-		}
-
-		if(pass1 !== pass2)
-		{
-			amiLogin._showErrorMessage1('Password 1 and password 2 are different.');
-
-			return;
-		}
+		var values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(user, pass1, firstName, lastName, email).done(function() {
+		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email']).done(function() {
 
 			amiLogin._showSuccessMessage1('Done with success.');
 
@@ -758,24 +747,45 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*-----------------------------------------------------------------*/
 
-	form_changeInfo: function()
+	form_remindPass: function(e)
 	{
-		var firstName = $('#E513F27D_5521_4B08_BF61_52AFB81356F7').val();
-		var lastName = $('#113C64A6_3B10_4671_B941_17C2281A43B6').val();
-		var email = $('#83B6FEE5_2BAF_4F47_BCB3_1F475A1A1117').val();
+		e.preventDefault();
 
-		if(!firstName || !lastName || !email)
-		{
-			amiLogin._showErrorMessage2('Please, fill all fields with a red star.');
+		/*---------------------------------------------------------*/
 
-			return;
-		}
+		var values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 
 		amiWebApp.lock();
 
-		amiCommand.changeInfo(firstName, lastName, email).done(function() {
+		amiCommand.resetPass(values['user']).done(function() {
+
+			amiLogin._showSuccessMessage1('Done with success.');
+
+		}).fail(function(data) {
+
+			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+		});
+
+		/*---------------------------------------------------------*/
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	form_changeInfo: function(e)
+	{
+		e.preventDefault();
+
+		/*---------------------------------------------------------*/
+
+		var values = this._serializeForm($(e.target));
+
+		/*---------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).done(function() {
 
 			amiLogin._showSuccessMessage2('Done with success.');
 
@@ -789,66 +799,25 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*-----------------------------------------------------------------*/
 
-	form_changePass: function()
+	form_changePass: function(e)
 	{
-		var oldPass = $('#F238E6EE_44BD_486A_B85D_C927A4D045D3').val();
-		var newPass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
-		var newPass2 = $('#9A355DC8_88EF_4438_BAB3_BB7BAD798A77').val();
+		e.preventDefault();
 
-		if(!oldPass || !newPass1 || !newPass2)
-		{
-			amiLogin._showErrorMessage3('Please, fill all fields with a red star.');
+		/*---------------------------------------------------------*/
 
-			return;
-		}
-
-		if(newPass1 !== newPass2)
-		{
-			amiLogin._showErrorMessage3('Password 1 and password 2 are different.');
-
-			return;
-		}
+		var values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 
 		amiWebApp.lock();
 
-		amiCommand.changePass(oldPass, newPass1).done(function() {
+		amiCommand.changePass(values['old_pass'], values['new_pass']).done(function() {
 
 			amiLogin._showSuccessMessage3('Done with success.');
 
 		}).fail(function(data) {
 
 			amiLogin._showErrorMessage3(amiWebApp.jspath('..error.$', data));
-		});
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	form_resetPass: function()
-	{
-		var user = $('#13AEF361_DF3E_461F_A989_2BFDA00BCD05').val();
-
-		if(!user)
-		{
-			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
-
-			return;
-		}
-
-		/*---------------------------------------------------------*/
-
-		amiWebApp.lock();
-
-		amiCommand.resetPass(user).done(function() {
-
-			amiLogin._showSuccessMessage1('Done with success.');
-
-		}).fail(function(data) {
-
-			amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/

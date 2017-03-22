@@ -360,6 +360,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* TOOLS                                                           */
 	/*-----------------------------------------------------------------*/
 
+	_textToHtmlDict: {
+		'&': '&amp;',
+		'"': '&quot;',
+		'<': '&lt;',
+		'>': '&gt;',
+	},
+
 	/**
 	  * Escapes the given string from text to HTML
 	  * @param {String} string the unescaped string
@@ -368,7 +375,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	textToHtml: function(s)
 	{
-		return s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+		return (s || '').replace(/&|"|<|>/g, function(x) {
+
+			return amiWebApp._textToHtmlDict[x];
+		});
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_htmlToTextDict: {
+		'&amp;': '&',
+		'&quot;': '"',
+		'&lt;': '<',
+		'&gt;': '>',
 	},
 
 	/**
@@ -379,10 +398,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	htmlToText: function(s)
 	{
-		return s.replace(/&gt;/g, '>').replace(/&lt;/g, '<').replace(/&quot;/g, '"').replace(/&amp;/g, '&');
+		return (s || '').replace(/&gt;|&lt;|&quot;|&amp;/g, function(x) {
+
+			return amiWebApp._htmlToTextDict[x];
+		});
 	},
 
 	/*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
+
+	_textToStringDict: {
+		'\\': '\\\\',
+		'\n': '\\n',
+		'"': '\\"',
+		"'": "\\'",
+	},
 
 	/**
 	  * Escapes the given string from text to JavaScript string
@@ -392,7 +422,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	textToString: function(s)
 	{
-		return s.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/"/g, '\\\"').replace(/'/g, '\\\'');
+		return (s || '').replace(/\\|\n|"|'/g, function(x) {
+
+			return amiWebApp._textToStringDict[x];
+		});
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_stringToTextDict: {
+		'\\\\': '\\',
+		'\\n': '\n',
+		'\\"': '"',
+		"\\'": "'",
 	},
 
 	/**
@@ -403,10 +445,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	stringToText: function(s)
 	{
-		return s.replace(/\\'/g, '\'').replace(/\\"/g, '\"').replace(/\\n/g, '\n').replace(/\\\\/g, '\\');
+		return (s || '').replace(/\\'|\\"|\\n|\\\\/g, function(x) {
+
+			return amiWebApp._stringToTextDict[x];
+		});
 	},
 
 	/*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
+
+	_htmlToStringDict: {
+		'\\': '\\\\',
+		'\n': '\\n',
+		'&quot;': '\\&quot;',
+		"'": "\\'",
+	},
 
 	/**
 	  * Escapes the given string from HTML to JavaScript string
@@ -416,7 +469,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	htmlToString: function(s)
 	{
-		return s.replace(/\\/g, '\\\\').replace(/\n/g, '\\n').replace(/&quot;/g, '\\&quot;').replace(/'/g, '\\\'');
+		return (s || '').replace(/\\|\n|&quot;|'/g, function(x) {
+
+			return amiWebApp._htmlToStringDict[x];
+		});
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_stringToHtmlDict: {
+		'\\\\': '\\',
+		'\\n': '\n',
+		'\\&quot;': '&quot;',
+		"\\'": "'",
 	},
 
 	/**
@@ -427,7 +492,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	stringToHtml: function(s)
 	{
-		return s.replace(/\\'/g, '\'').replace(/\\&quot;/g, '&quot;').replace(/\\n/g, '\n').replace(/\\\\/g, '\\');
+		return (s || '').replace(/\\'|\\&quot;|\\n|\\\\/g, function(x) {
+
+			return amiWebApp._stringToHtmlDict[x];
+		});
 	},
 
 	/*-----------------------------------------------------------------*/
