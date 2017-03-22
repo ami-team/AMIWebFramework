@@ -1159,7 +1159,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		var contact_email = 'ami@lpsc.in2p3.fr';
 		var about_url = 'http://cern.ch/ami/';
 
-		var theme_url = this.originURL + 'twig/AMI/Theme/blue.twig';
+		var theme_url = this.originURL + '/twig/AMI/Theme/blue.twig';
 		var locker_url = this.originURL + '/twig/AMI/Fragment/locker.twig';
 
 		var timeout = 10000;

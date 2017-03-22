@@ -13,7 +13,7 @@
 
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3 class="panel-title">AMI Web framework API</h3>
+				<h3 class="panel-title">AWF</h3>
 			</div>
 			<div class="panel-body" id="jsdoc_menu"></div>
 		</div>
@@ -23,12 +23,84 @@
 	<div class="col-md-9" id="jsdoc_content">
 
 		<div class="well">
-			<h1>AMI Web framework API</h1>
+			<h1>AMI Web Framework (AWF)</h1>
 			<h2>Documentation</h2>
 		</div>
 
 		<h2><i class="fa fa-arrow-circle-right"></i> Getting started</h2>
 
+		<h3>Requierments:</h3>
+
+		Make sure that <a href="http://java.com/" target="_blank">Java</a> and <a href="http://ant.apache.org/" target="_blank">Ant</a> are installed:
+
+		<pre><code>java -version</code>
+<code>ant -version</code>
+</pre>
+
+		<h3>Installing:</h3>
+
+		<pre><code>mkdir myapp</code>
+<code>cd myapp</code>
+<code>curl https://rawgit.com/ami-team/AMIWebFramework/master/tools/scripts/build.xml &gt; build.xml</code>
+<code>ant update_prod    # setup AWF in prod. mode</code>
+<code># or:</code>
+<code>ant update_debug   # setup AWF in debug mode</code>
+</pre>
+
+		Basic <code>myapp/index.html</code>:
+
+		<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;</code>
+<code></code>
+<code>&lt;!DOCTYPE html&gt;</code>
+<code></code>
+<code>&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"&gt;</code>
+<code>  &lt;head&gt;</code>
+<code>    &lt;meta charset="utf-8" /&gt;</code>
+<code>    &lt;meta http-equiv="X-UA-Compatible" content="IE=edge" /&gt;</code>
+<code>    &lt;meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /&gt;</code>
+<code></code>
+<code>    &lt;title&gt;Template&lt;/title&gt;</code>
+<code></code>
+<code>    &lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;</code>
+<code>    &lt;script type="text/javascript" src="js/AMI/framework.min.js"&gt;&lt;/script&gt;</code>
+<code></code>
+<code>    &lt;script type="text/javascript"&gt;</code>
+<code></code>
+<code>	amiWebApp.onStart = function() {</code>
+<code></code>
+<code>		amiWebApp.autoRunSubApp('amiDocument');</code>
+<code>	};</code>
+<code></code>
+<code>	amiWebApp.onToolbarUpdateNeeded = function() {</code>
+<code></code>
+<code>		$('#ami_menu_content').html('');</code>
+<code>	};</code>
+<code></code>
+<code>    &lt;/script&gt;</code>
+<code></code>
+<code>    &lt;!--[if lt IE 9]&gt;</code>
+<code>      &lt;script type="text/javascript" src="js/html5shiv.min.js"&gt;&lt;/script&gt;</code>
+<code>      &lt;script type="text/javascript" src="js/respond.min.js"&gt;&lt;/script&gt;</code>
+<code>    &lt;![endif]--&gt;</code>
+<code>  &lt;/head&gt;</code>
+<code>  &lt;body&gt;</code>
+<code></code>
+<code>    &lt;script type="text/javascript"&gt;</code>
+<code></code>
+<code>	amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';</code>
+<code></code>
+<code>	amiWebApp.start({</code>
+<code>		logo_url: 'images/logo-alt.png',</code>
+<code>		theme_url: 'twig/AMI/Theme/blue.twig',</code>
+<code>	});</code>
+<code></code>
+<code>    &lt;/script&gt;</code>
+<code></code>
+<code>  &lt;/body&gt;</code>
+<code>&lt;/html&gt;</code>
+</pre>
+
+		<h2><i class="fa fa-arrow-circle-right"></i> Developing applications</h2>
 
 
 	</div>
