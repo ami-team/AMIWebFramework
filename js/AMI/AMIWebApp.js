@@ -1211,10 +1211,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				if(f)
 				{
-					f.returnValue = 'Are you sure you want to leave this page?';
+					f.returnValue = 'Confirm that you want to leave this page?';
 				}
 
-				return 'Are you sure you want to leave this page?';
+				return 'Confirm that you want to leave this page?';
 			}
 		};
 
