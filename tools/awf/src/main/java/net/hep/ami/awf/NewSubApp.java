@@ -12,9 +12,11 @@ public class NewSubApp
 	{
 		/*-----------------------------------------------------------------*/
 
-		if(x.length() == 0)
+		x = x.trim();
+
+		if(x.matches("[a-zA-Z][a-zA-Z0-9]*") == false)
 		{
-			throw new Exception("");
+			throw new Exception("Invalid sub app name `" + x + "`.");
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -48,7 +50,7 @@ public class NewSubApp
 
 		if(appDir.mkdir() == false)
 		{
-			throw new Exception("");
+			throw new Exception("The project already exists.");
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -133,20 +135,53 @@ public class NewSubApp
 
 	/*---------------------------------------------------------------------*/
 
+	private static void out(String s)
+	{
+		System.out.println(s);
+		System.out.flush();
+	}
+
+	/*---------------------------------------------------------------------*/
+
+	private static void err(String s)
+	{
+		System.err.println(s);
+		System.err.flush();
+	}
+
+	/*---------------------------------------------------------------------*/
+
 	public static void main(String[] args)
 	{
+		String name;
+
+		/*-----------------------------------------------------------------*/
+
+		if(args.length < 2)
+		{
+			NewSubApp.out("Enter the sub app name ([a-zA-Z][a-zA-Z0-9]*):");
+
+			name = new Scanner(System.in).nextLine();
+		}
+		else
+		{
+			name = args[1];
+		}
+
+		/*-----------------------------------------------------------------*/
+
 		try
 		{
-			System.out.print("Enter the sub app name ([a-zA-Z][a-zA-Z0-9]*): ");
-
-			NewSubApp.createNewSubApp(new Scanner(System.in).nextLine());
+			NewSubApp.createNewSubApp(name);
 		}
 		catch(Exception e)
 		{
-			System.err.println(e.getMessage());
+			NewSubApp.err(e.getMessage());
 
 			System.exit(1);
 		}
+
+		/*-----------------------------------------------------------------*/
 
 		System.exit(0);
 	}

@@ -101,7 +101,7 @@
 	<target name="new" description="New sub application.">
 
 		<java classname="net.hep.ami.awf.NewSubApp" failonerror="true" fork="true">
-			<classpath location="${AMIWebAppTmpDir}/tools/awf-0.0.1.jar" />
+			<classpath location="tools/awf.jar" />
 		</java>
 
 	</target>
