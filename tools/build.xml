@@ -2,7 +2,7 @@
 
 <!DOCTYPE project>
 
-<project name="AWF" default="prod">
+<project name="AWF" default="setup-prod">
 
 	<!-- ************************************************************ -->
 
@@ -16,7 +16,7 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="prod" description="Update the framework (prod mode).">
+	<target name="setup-prod" description="Update the framework (prod mode).">
 
 		<!-- **************************************************** -->
 		<!-- CLONE AND COPY                                       -->
@@ -60,7 +60,7 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="debug" description="Update the framework (debug mode).">
+	<target name="setup-debug" description="Update the framework (debug mode).">
 
 		<!-- **************************************************** -->
 		<!-- CLONE AND COPY                                       -->
@@ -96,7 +96,7 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="new_index" description="New index page.">
+	<target name="new-index" description="New index page.">
 
 		<java classname="net.hep.ami.awf.NewIndex" failonerror="true" fork="true">
 			<classpath location="tools/awf.jar" />
@@ -106,7 +106,7 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="new_subapp" description="New sub application.">
+	<target name="new-subapp" description="New sub application.">
 
 		<java classname="net.hep.ami.awf.NewSubApp" failonerror="true" fork="true">
 			<classpath location="tools/awf.jar" />

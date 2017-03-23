@@ -39,90 +39,23 @@
 
 		<h3>Installing:</h3>
 
+		&nbsp;&nbsp;1. Download the installer:
+
 		<pre class="ami-code"><code><i class="line-number"></i>mkdir myapp</code>
 <code><i class="line-number"></i>cd myapp</code>
-<code><i class="line-number"></i>curl https://rawgit.com/ami-team/AMIWebFramework/master/tools/scripts/build.xml &gt; build.xml</code>
-<code><i class="line-number"></i>ant prod    # setup AWF in prod. mode</code>
-<code><i class="line-number"></i># or:</code>
-<code><i class="line-number"></i>ant debug   # setup AWF in debug mode</code>
+<code><i class="line-number"></i>curl https://rawgit.com/ami-team/AMIWebFramework/master/tools/build.xml &gt; build.xml</code>
 </pre>
 
-		Basic <code><i class="line-number"></i>index.html</code> (in <code>myapp</code>):
+		&nbsp;&nbsp;2. Setup AWF in production mode or in debug mode:
 
-		<pre class="ami-code"><code><i class="line-number"></i>&lt;?xml version="1.0" encoding="utf-8"?&gt;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>&lt;!DOCTYPE html&gt;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>&lt;html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"&gt;</code>
-<code><i class="line-number"></i>  &lt;head&gt;</code>
-<code><i class="line-number"></i>    &lt;meta charset="utf-8" /&gt;</code>
-<code><i class="line-number"></i>    &lt;meta http-equiv="X-UA-Compatible" content="IE=edge" /&gt;</code>
-<code><i class="line-number"></i>    &lt;meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" /&gt;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>    &lt;title&gt;Template&lt;/title&gt;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>    &lt;script type="text/javascript" src="js/jquery.min.js"&gt;&lt;/script&gt;</code>
-<code><i class="line-number"></i>    &lt;script type="text/javascript" src="js/AMI/framework.min.js"&gt;&lt;/script&gt;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>    &lt;script type="text/javascript"&gt;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>	amiWebApp.onStart = function() {</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>		amiWebApp.autoRunSubApp('amiDocument');</code>
-<code><i class="line-number"></i>	};</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>	amiWebApp.onToolbarUpdateNeeded = function() {</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>		var menu =</code>
-<code><i class="line-number"></i>			'&lt;li class="dropdown"&gt;' +</code>
-<code><i class="line-number"></i>			'  &lt;a href="#" class="dropdown-toggle" data-toggle="dropdown"&gt;' +</code>
-<code><i class="line-number"></i>			'    Tools &lt;span class="caret"&gt;&lt;/span&gt;' +</code>
-<code><i class="line-number"></i>			'  &lt;/a&gt;' +</code>
-<code><i class="line-number"></i>			'  &lt;ul class="dropdown-menu"&gt;' +</code>
-<code><i class="line-number"></i>			'    &lt;li&gt;&lt;a href="' + amiWebApp.webAppURL + '?subapp=amiCommand"&gt;Command Line&lt;/a&gt;&lt;/li&gt;' +</code>
-<code><i class="line-number"></i>			'  &lt;/ul&gt;' +</code>
-<code><i class="line-number"></i>			'&lt;/li&gt;'</code>
-<code><i class="line-number"></i>		;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>		if(amiLogin.hasRole('AMI_ADMIN'))</code>
-<code><i class="line-number"></i>		{</code>
-<code><i class="line-number"></i>			menu +=</code>
-<code><i class="line-number"></i>				'&lt;li class="dropdown"&gt;' +</code>
-<code><i class="line-number"></i>				'  &lt;a href="#" class="dropdown-toggle" data-toggle="dropdown"&gt;' +</code>
-<code><i class="line-number"></i>				'    &lt;i class="fa fa-key"&gt;&lt;/i&gt; Admin &lt;span class="caret"&gt;&lt;/span&gt;' +</code>
-<code><i class="line-number"></i>				'  &lt;/a&gt;' +</code>
-<code><i class="line-number"></i>				'  &lt;ul class="dropdown-menu"&gt;' +</code>
-<code><i class="line-number"></i>				'    &lt;li&gt;&lt;a href="' + amiWebApp.webAppURL + '?subapp=amiDocument&userdata=api.html"&gt;AMI Web framework API&lt;/a&gt;&lt;/li&gt;' +</code>
-<code><i class="line-number"></i>				'  &lt;/ul&gt;' +</code>
-<code><i class="line-number"></i>				'&lt;/li&gt;'</code>
-<code><i class="line-number"></i>			;</code>
-<code><i class="line-number"></i>		}</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>		$('#ami_menu_content').html(menu);</code>
-<code><i class="line-number"></i>	};</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>    &lt;/script&gt;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>    &lt;!--[if lt IE 9]&gt;</code>
-<code><i class="line-number"></i>      &lt;script type="text/javascript" src="js/html5shiv.min.js"&gt;&lt;/script&gt;</code>
-<code><i class="line-number"></i>      &lt;script type="text/javascript" src="js/respond.min.js"&gt;&lt;/script&gt;</code>
-<code><i class="line-number"></i>    &lt;![endif]--&gt;</code>
-<code><i class="line-number"></i>  &lt;/head&gt;</code>
-<code><i class="line-number"></i>  &lt;body&gt;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>    &lt;script type="text/javascript"&gt;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>	amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>	amiWebApp.start({</code>
-<code><i class="line-number"></i>		logo_url: 'images/logo-alt.png',</code>
-<code><i class="line-number"></i>		theme_url: 'twig/AMI/Theme/blue.twig',</code>
-<code><i class="line-number"></i>	});</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>    &lt;/script&gt;</code>
-<code><i class="line-number"></i></code>
-<code><i class="line-number"></i>  &lt;/body&gt;</code>
-<code><i class="line-number"></i>&lt;/html&gt;</code>
+		<pre class="ami-code"><code><i class="line-number"></i>ant setup-prod    # setup AWF in prod. mode</code>
+<code><i class="line-number"></i># or:</code>
+<code><i class="line-number"></i>ant setup-debug   # setup AWF in debug mode</code>
+</pre>
+
+		&nbsp;&nbsp;3. Create an <code>index.html</code> page. You will have to specify the title of the application and the AMI endpoint URL (e.g. <code>https://localhost:8443/AMI/FrontEnd</code>):
+
+		<pre class="ami-code"><code><i class="line-number"></i>ant new-index</code>
 </pre>
 
 		<h2><i class="fa fa-arrow-circle-right"></i> Developing applications</h2>
