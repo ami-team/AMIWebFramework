@@ -31,23 +31,40 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
+	<dependencies>
+		<!--***************************************************************-->
+
+		<dependency>
+			<groupId>com.yahoo.platform.yui</groupId>
+			<artifactId>yuicompressor</artifactId>
+			<version>2.4.8</version>
+		</dependency>
+
+		<!--***************************************************************-->
+	</dependencies>
+
 	<build>
+
 		<plugins>
+			<!--***********************************************************-->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>net.hep.ami.awf.NewSubApp</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
+			<!--***********************************************************-->
 		</plugins>
+
 	</build>
 
 </project>

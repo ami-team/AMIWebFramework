@@ -157,7 +157,7 @@ public class NewSubApp
 
 		/*-----------------------------------------------------------------*/
 
-		if(args.length < 2)
+		if(args.length != 1)
 		{
 			NewSubApp.out("Enter the sub app name ([a-zA-Z][a-zA-Z0-9]*):");
 
@@ -165,7 +165,7 @@ public class NewSubApp
 		}
 		else
 		{
-			name = args[1];
+			name = args[0];
 		}
 
 		/*-----------------------------------------------------------------*/
