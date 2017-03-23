@@ -66,15 +66,8 @@ public class NewSubApp
 		/*-----------------------------------------------------------------*/
 
 		StringBuilder stringBuilder1 = new StringBuilder();
+
 		NewSubApp.loadResource(stringBuilder1, "/net/hep/ami/awf/app.js");
-
-		StringBuilder stringBuilder2 = new StringBuilder();
-		NewSubApp.loadResource(stringBuilder2, "/net/hep/ami/awf/app.css");
-
-		StringBuilder stringBuilder3 = new StringBuilder();
-		NewSubApp.loadResource(stringBuilder3, "/net/hep/ami/awf/app.twig");
-
-		/*-----------------------------------------------------------------*/
 
 		FileWriter fileWriter1 = new FileWriter(new File(jsDir, NAME + "App.js"), false);
 
@@ -87,6 +80,10 @@ public class NewSubApp
 
 		/*-----------------------------------------------------------------*/
 
+		StringBuilder stringBuilder2 = new StringBuilder();
+
+		NewSubApp.loadResource(stringBuilder2, "/net/hep/ami/awf/app.css");
+
 		FileWriter fileWriter2 = new FileWriter(new File(cssDir, NAME + "App.css"), false);
 
 		try {
@@ -97,6 +94,10 @@ public class NewSubApp
 		}
 
 		/*-----------------------------------------------------------------*/
+
+		StringBuilder stringBuilder3 = new StringBuilder();
+
+		NewSubApp.loadResource(stringBuilder3, "/net/hep/ami/awf/app.twig");
 
 		FileWriter fileWriter3 = new FileWriter(new File(twigDir, NAME + "App.twig"), false);
 

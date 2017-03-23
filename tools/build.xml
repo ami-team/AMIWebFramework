@@ -96,7 +96,17 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="new" description="New sub application.">
+	<target name="new_index" description="New index page.">
+
+		<java classname="net.hep.ami.awf.NewIndex" failonerror="true" fork="true">
+			<classpath location="tools/awf.jar" />
+		</java>
+
+	</target>
+
+	<!-- ************************************************************ -->
+
+	<target name="new_subapp" description="New sub application.">
 
 		<java classname="net.hep.ami.awf.NewSubApp" failonerror="true" fork="true">
 			<classpath location="tools/awf.jar" />
