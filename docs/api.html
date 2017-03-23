@@ -73,7 +73,32 @@
 <code><i class="line-number"></i></code>
 <code><i class="line-number"></i>	amiWebApp.onToolbarUpdateNeeded = function() {</code>
 <code><i class="line-number"></i></code>
-<code><i class="line-number"></i>		$('#ami_menu_content').html('');</code>
+<code><i class="line-number"></i>		var menu =</code>
+<code><i class="line-number"></i>			'&lt;li class="dropdown"&gt;' +</code>
+<code><i class="line-number"></i>			'  &lt;a href="#" class="dropdown-toggle" data-toggle="dropdown"&gt;' +</code>
+<code><i class="line-number"></i>			'    Tools &lt;span class="caret"&gt;&lt;/span&gt;' +</code>
+<code><i class="line-number"></i>			'  &lt;/a&gt;' +</code>
+<code><i class="line-number"></i>			'  &lt;ul class="dropdown-menu"&gt;' +</code>
+<code><i class="line-number"></i>			'    &lt;li&gt;&lt;a href="' + amiWebApp.webAppURL + '?subapp=amiCommand"&gt;Command Line&lt;/a&gt;&lt;/li&gt;' +</code>
+<code><i class="line-number"></i>			'  &lt;/ul&gt;' +</code>
+<code><i class="line-number"></i>			'&lt;/li&gt;'</code>
+<code><i class="line-number"></i>		;</code>
+<code><i class="line-number"></i></code>
+<code><i class="line-number"></i>		if(amiLogin.hasRole('AMI_ADMIN'))</code>
+<code><i class="line-number"></i>		{</code>
+<code><i class="line-number"></i>			menu +=</code>
+<code><i class="line-number"></i>				'&lt;li class="dropdown"&gt;' +</code>
+<code><i class="line-number"></i>				'  &lt;a href="#" class="dropdown-toggle" data-toggle="dropdown"&gt;' +</code>
+<code><i class="line-number"></i>				'    &lt;i class="fa fa-key"&gt;&lt;/i&gt; Admin &lt;span class="caret"&gt;&lt;/span&gt;' +</code>
+<code><i class="line-number"></i>				'  &lt;/a&gt;' +</code>
+<code><i class="line-number"></i>				'  &lt;ul class="dropdown-menu"&gt;' +</code>
+<code><i class="line-number"></i>				'    &lt;li&gt;&lt;a href="' + amiWebApp.webAppURL + '?subapp=amiDocument&userdata=api.html"&gt;AMI Web framework API&lt;/a&gt;&lt;/li&gt;' +</code>
+<code><i class="line-number"></i>				'  &lt;/ul&gt;' +</code>
+<code><i class="line-number"></i>				'&lt;/li&gt;'</code>
+<code><i class="line-number"></i>			;</code>
+<code><i class="line-number"></i>		}</code>
+<code><i class="line-number"></i></code>
+<code><i class="line-number"></i>		$('#ami_menu_content').html(menu);</code>
 <code><i class="line-number"></i>	};</code>
 <code><i class="line-number"></i></code>
 <code><i class="line-number"></i>    &lt;/script&gt;</code>

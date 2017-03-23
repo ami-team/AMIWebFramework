@@ -1,0 +1,53 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.hep.ami</groupId>
+	<artifactId>awf</artifactId>
+	<version>0.0.1</version>
+
+	<name>awf</name>
+	<url>http://www.cern.ch/ami/</url>
+
+	<packaging>jar</packaging>
+
+	<licenses>
+		<license>
+			<name>CeCILL-C, Version 1</name>
+			<url>http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Jerome Odier</name>
+			<email>jerome.odier@lpsc.in2p3.fr</email>
+		</developer>
+	</developers>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+	</properties>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>net.hep.ami.awf.NewSubApp</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+</project>

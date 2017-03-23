@@ -2,7 +2,7 @@
 
 <!DOCTYPE project>
 
-<project name="???" default="update_prod">
+<project name="AWF" default="prod">
 
 	<!-- ************************************************************ -->
 
@@ -16,7 +16,7 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="update_prod" description="Update the framework (prod mode).">
+	<target name="prod" description="Update the framework (prod mode).">
 
 		<!-- **************************************************** -->
 		<!-- CLONE AND COPY                                       -->
@@ -62,7 +62,7 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="update_debug" description="Update the framework (debug mode).">
+	<target name="debug" description="Update the framework (debug mode).">
 
 		<!-- **************************************************** -->
 		<!-- CLONE AND COPY                                       -->
@@ -93,6 +93,16 @@
 		<delete dir="${AMIWebAppTmpDir}" />
 
 		<!-- **************************************************** -->
+
+	</target>
+
+	<!-- ************************************************************ -->
+
+	<target name="new" description="New sub application.">
+
+		<java classname="net.hep.ami.awf.NewSubApp" failonerror="true" fork="true">
+			<classpath location="${AMIWebAppTmpDir}/tools/awf-0.0.1.jar" />
+		</java>
 
 	</target>
 
