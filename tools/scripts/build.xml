@@ -29,14 +29,14 @@
 		<!-- **************************************************** -->
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath location="${AMIWebAppTmpDir}/tools/yuicompressor-2.4.8.jar" />
+			<classpath location="${AMIWebAppTmpDir}/tools/yuicompressor.jar" />
 			<arg value="${AMIWebAppTmpDir}/css/AMI/framework.css" />
 			<arg value="-o" />
 			<arg value="css/AMI/framework.min.css" />
 		</java>
 
 		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath location="${AMIWebAppTmpDir}/tools/yuicompressor-2.4.8.jar" />
+			<classpath location="${AMIWebAppTmpDir}/tools/yuicompressor.jar" />
 			<arg value="${AMIWebAppTmpDir}/js/AMI/framework.js" />
 			<arg value="-o" />
 			<arg value="js/AMI/framework.min.js" />
