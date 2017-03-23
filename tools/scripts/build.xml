@@ -173,7 +173,7 @@
 			</copy>
 
 			<copy todir="tools" overwrite="true">
-				<fileset dir="${AMIWebAppTmpDir}/tools" includes="**/*.py" />
+				<fileset dir="${AMIWebAppTmpDir}/tools" includes="**/*.jar" />
 			</copy>
 
 			<copy todir="twig" overwrite="true">
