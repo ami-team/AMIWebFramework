@@ -17,11 +17,7 @@ public class CssCompressor
 
 		try
 		{
-			/*-------------------------------------------------------------*/
-
 			compressor = new com.yahoo.platform.yui.compressor.CssCompressor(reader);
-
-			/*-------------------------------------------------------------*/
 		}
 		finally
 		{
