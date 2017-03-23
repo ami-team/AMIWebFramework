@@ -18,18 +18,16 @@
 		<!-- GENERATE MINIMIZED FILES                             -->
 		<!-- **************************************************** -->
 
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath location="tools/yuicompressor.jar" />
-			<arg value="css/AMI/framework.css" />
-			<arg value="-o" />
+		<java classname="net.hep.ami.awf.CssCompressor" failonerror="true" fork="true">
+			<classpath location="tools/awf.jar" />
 			<arg value="css/AMI/framework.min.css" />
+			<arg value="css/AMI/framework.css" />
 		</java>
 
-		<java classname="com.yahoo.platform.yui.compressor.YUICompressor" failonerror="true" fork="true">
-			<classpath location="tools/yuicompressor.jar" />
-			<arg value="js/AMI/framework.js" />
-			<arg value="-o" />
+		<java classname="net.hep.ami.awf.JsCompressor" failonerror="true" fork="true">
+			<classpath location="tools/awf.jar" />
 			<arg value="js/AMI/framework.min.js" />
+			<arg value="js/AMI/framework.js" />
 		</java>
 
 		<!-- **************************************************** -->
