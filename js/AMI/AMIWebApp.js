@@ -274,7 +274,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				/* Third-party */
 				this.originURL + '/css/bootstrap.min.css',
 				this.originURL + '/css/bootstrap-toggle.min.css',
-				this.originURL + '/css/bootstrap.vertical-tabs.min.css',
+				this.originURL + '/css/bootstrap-vertical-tabs.min.css',
 				this.originURL + '/css/font-awesome.min.css',
 				/* AMI */
 				this.originURL + '/css/AMI/framework.min.css',
