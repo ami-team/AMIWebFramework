@@ -27,13 +27,13 @@
 			<h2>Documentation</h2>
 		</div>
 
-		The ATLAS Metadata Interface (AMI) is a very generic tool ecosystem for metadata aggregation and cataloguing. This page describes the Web 2.0 AMI framework making it possible to simplify the development of metadata-oriented web interfaces.
+		The ATLAS Metadata Interface (AMI) is a very generic tool ecosystem for metadata aggregation and cataloguing. This page describes AWF, the Web 2.0 framework for simplifying the development of metadata-oriented web applications.
 
 		<h2><i class="fa fa-arrow-circle-right"></i> Getting started</h2>
 
 		<h3>Requierments</h3>
 
-		Make sure that <a href="http://java.com/" target="_blank">Java</a> and <a href="http://ant.apache.org/" target="_blank">Ant</a> are installed:
+		<p>Make sure that <a href="http://java.com/" target="_blank">Java</a> and <a href="http://ant.apache.org/" target="_blank">Ant</a> are installed:</p>
 
 		<pre class="ami-code"><code><i class="line-number"></i>java -version</code>
 <code><i class="line-number"></i>ant -version</code>
@@ -41,7 +41,7 @@
 
 		<h3>Installing</h3>
 
-		&nbsp;&nbsp;1. Setup AWF:
+		<p>&nbsp;&nbsp;1. Setup AWF:</p>
 
 		<pre class="ami-code"><code><i class="line-number"></i>mkdir myapp</code>
 <code><i class="line-number"></i>cd myapp</code>
@@ -51,30 +51,48 @@
 <code><i class="line-number"></i>ant setup-debug   # setup AWF in debug mode</code>
 </pre>
 
-		&nbsp;&nbsp;2. Create an <code>index.html</code> page:
+		<p>&nbsp;&nbsp;2. Create an <code>index.html</code> page:</p>
 
 		<pre class="ami-code"><code><i class="line-number"></i>ant make-index</code>
 </pre>
 		You will have to specify the application's title and the AMI endpoint URL (e.g. <code>https://localhost:8443/AMI/FrontEnd</code>).
 
-		<h2><i class="fa fa-arrow-circle-right"></i> Developing applications</h2>
+		<h2><i class="fa fa-arrow-circle-right"></i> General principles</h2>
 
-		<h3>General principles</h3>
+		<p>AWF can be seen as a sub-application container. Each sub-application is implemented in the directory <code>subapp</code>. They follow the <span class="text-info">Model</span>–<span class="text-success">View</span>–<span class="text-danger">Controller</span> (MVC) design pattern dividing them into three interconnected parts in order to separate internal representations of information from the ways that information is displayed:</p>
+
+		<ul>
+			<li><span class="text-info">The model</span> represents the data (aka. an AMI command result), and does nothing else.</li>
+			<li><span class="text-success">The view</span> displays the model data, and sends user actions to the controller.</li>
+			<li><span class="text-danger">The controller</span> provides data to the view, and interprets user actions.</li>
+		</ul>
 
 		<div class="row">
 			<div class="col-md-3 text-info">
-				<i class="fa fa-server fa-5x"></i><br />AMI Web Server
+				<i class="fa fa-envelope fa-5x"></i><br />AMI Commands
 			</div>
 			<div class="col-md-3 text-success">
-				<i class="fa fa-folder fa-5x"></i><br />subapp/&lt;app&gt;/css
+				<i class="fa fa-folder fa-5x"></i><br />subapp/&lt;mySubapp&gt;/css
 			</div>
 			<div class="col-md-3 text-success">
-				<i class="fa fa-folder fa-5x"></i><br />subapp/&lt;app&gt;/twig
+				<i class="fa fa-folder fa-5x"></i><br />subapp/&lt;mySubapp&gt;/twig
 			</div>
 			<div class="col-md-3 text-danger">
-				<i class="fa fa-folder fa-5x"></i><br />subapp/&lt;app&gt;/js
+				<i class="fa fa-folder fa-5x"></i><br />subapp/&lt;mySubapp&gt;/js
 			</div>
 		</div>
+
+		<br />
+
+		<p>The model, and possibly the view, can be reused without modification.</p>
+
+		<h3>The model</h3>
+
+		<h3>The view</h3>
+
+		<h3>The controller</h3>
+
+		<h2><i class="fa fa-arrow-circle-right"></i> Developing applications</h2>
 
 		<h3>Creating a new application</h3>
 
