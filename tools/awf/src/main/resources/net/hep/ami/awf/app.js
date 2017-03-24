@@ -24,7 +24,7 @@ $AMIClass('{{NAME}}App', {
 			'subapps/{{NAME}}/css/{{NAME}}App.css',
 		]);
 
-		$('#ami_breadcrumb_content').html('<li>My SubApps</li><li><a href="' + amiWebApp.webAppURL + '?subapp={{name}}">Command Line</a></li>');
+		$('#ami_breadcrumb_content').html('<li>My SubApps</li><li><a href="' + amiWebApp.webAppURL + '?subapp={{name}}">{{NAME}}</a></li>');
 
 		var result = $.Deferred();
 
