@@ -27,7 +27,7 @@
 			<h2>Documentation</h2>
 		</div>
 
-		The ATLAS Metadata Interface (AMI) is a very generic tool ecosystem for metadata aggregation and cataloguing. This page describes AWF, the Web 2.0 framework for simplifying the development of metadata-oriented web applications.
+		The ATLAS Metadata Interface (AMI) is a very generic tool ecosystem for metadata aggregation and browsing. This page describes AWF, the Web 2.0 framework for simplifying the development of complex metadata-oriented web applications.
 
 		<h2><i class="fa fa-arrow-circle-right"></i> Getting started</h2>
 
@@ -39,7 +39,7 @@
 <code><i class="line-number"></i>ant -version</code>
 </pre>
 
-		<h3>Installing</h3>
+		<h3>Installing AWF</h3>
 
 		<p>&nbsp;&nbsp;1. Setup AWF:</p>
 
@@ -62,7 +62,7 @@
 		<p>AWF can be seen as a sub-application container. Each sub-application is implemented in the directory <code>subapp</code>. They follow the <span class="text-info">Model</span>–<span class="text-success">View</span>–<span class="text-danger">Controller</span> (MVC) design pattern dividing them into three interconnected parts in order to separate internal representations of information from the ways that information is displayed:</p>
 
 		<ul>
-			<li><span class="text-info">The <i>model</i></span> represents the data (aka. an AMI command result), and does nothing else.</li>
+			<li><span class="text-info">The <i>model</i></span> represents the data (aka. an AMI command JSON result), and nothing else.</li>
 			<li><span class="text-success">The <i>view</i></span> displays the model data, and sends user actions to the controller.</li>
 			<li><span class="text-danger">The <i>controller</i></span> provides data to the view, and interprets user actions.</li>
 		</ul>
