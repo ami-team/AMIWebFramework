@@ -6,7 +6,7 @@
 	<artifactId>awf</artifactId>
 	<version>0.0.1</version>
 
-	<name>awf</name>
+	<name>AMI Web Framework</name>
 	<url>http://www.cern.ch/ami/</url>
 
 	<packaging>jar</packaging>
