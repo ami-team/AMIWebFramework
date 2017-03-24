@@ -66,7 +66,7 @@ $AMIClass('AMIDocumentApp', {
 			context: this,
 		}).done(function(data) {
 
-			$('#ami_breadcrumb_content').html('<li><a href="' + amiWebApp.webAppURL + '?subapp=amidocument">Documents</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amidocument&userdata=' + page + '">' + page + '</a></li>');
+			$('#ami_breadcrumb_content').html('<li><a href="' + amiWebApp.webAppURL + '?subapp=amiDocument">Documents</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amidocument&userdata=' + page + '">' + page + '</a></li>');
 
 			amiWebApp.replaceHTML('#F0B88D44_C581_4474_943F_91AA28095DF7', data);
 
@@ -88,6 +88,6 @@ $AMIClass('AMIDocumentApp', {
 
 amiDocumentApp = new AMIDocumentApp();
 
-amiRegisterSubApp('amiDocument', amiDocumentApp, {});
+amiRegisterSubApp('amiDocument', amiDocumentApp);
 
 /*-------------------------------------------------------------------------*/
