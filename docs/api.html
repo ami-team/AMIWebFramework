@@ -72,13 +72,13 @@
 				<span class="fa-stack" style="font-size: 2.66em;"><i class="fa fa-square-o fa-stack-2x"></i><i class="fa fa-plane fa-stack-1x"></i></span><br />AMI Commands
 			</div>
 			<div class="col-md-3 text-success">
-				<span class="fa-stack" style="font-size: 2.66em;"><i class="fa fa-folder-o fa-stack-2x"></i><i class="fa fa-eye fa-stack-1x"></i></span><br />subapp/&lt;mySubapp&gt;/css
+				<span class="fa-stack" style="font-size: 2.66em;"><i class="fa fa-folder-o fa-stack-2x"></i><i class="fa fa-eye fa-stack-1x"></i></span><br />subapp/&lt;MySubapp&gt;/css
 			</div>
 			<div class="col-md-3 text-success">
-				<span class="fa-stack" style="font-size: 2.66em;"><i class="fa fa-folder-o fa-stack-2x"></i><i class="fa fa-eye fa-stack-1x"></i></span><br />subapp/&lt;mySubapp&gt;/twig
+				<span class="fa-stack" style="font-size: 2.66em;"><i class="fa fa-folder-o fa-stack-2x"></i><i class="fa fa-eye fa-stack-1x"></i></span><br />subapp/&lt;MySubapp&gt;/twig
 			</div>
 			<div class="col-md-3 text-danger">
-				<span class="fa-stack" style="font-size: 2.66em;"><i class="fa fa-folder-o fa-stack-2x"></i><i class="fa fa-cogs fa-stack-1x"></i></span><br />subapp/&lt;mySubapp&gt;/js
+				<span class="fa-stack" style="font-size: 2.66em;"><i class="fa fa-folder-o fa-stack-2x"></i><i class="fa fa-cogs fa-stack-1x"></i></span><br />subapp/&lt;MySubapp&gt;/js
 			</div>
 		</div>
 
@@ -90,7 +90,7 @@
 
 		<h3><i class="fa fa-caret-right"></i> The view</h3>
 
-		The AMI-Twig.js template engine is used by the AWF sub-applications for generating HTML5 interfaces from and AMI command JSON results or from a JavaScript objects. Twig is a modern template engine for the PHP programming language initially developed by <a href="https://sensiolabs.com/" target="_blank">SensioLabs</a>. AMI-Twig.js is a complete rewrite of Twig for the JavaScript programming language. Both Twig and AMI-Twig.js are designed to be fast, secure and flexible.
+		The AMI-Twig.js template engine is used by the AWF sub-applications for generating HTML5 interfaces from an AMI command JSON results or from a JavaScript objects. Twig is a modern template engine for the PHP programming language initially developed by <a href="https://sensiolabs.com/" target="_blank">SensioLabs</a>. AMI-Twig.js is a complete rewrite of Twig for the JavaScript programming language. Both Twig and AMI-Twig.js are designed to be fast, secure and flexible.
 
 		<h4><a href="https://twig.sensiolabs.org/" target="_blank"><i class="fa fa-external-link"></i> Twig</a></h4>
 		<h4><a href="https://www.cern.ch/ami/twig/" target="_blank"><i class="fa fa-external-link"></i> AMI-Twig.js</a></h4>
@@ -99,9 +99,23 @@
 			AMI-Twig.js is a standalone open source product under <a href="http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html" target="_blank">CeCILL-C</a> license. It is mainly maintained by <a href="mailto:odier@lpsc.in2p3.fr">Jérôme Odier</a>.
 		</blockquote>
 
-		The <i>view</i> part of an AMI sub-application consists of a CSS3 file in the directory <code>subapp/&lt;mySubapp&gt;/css</code> and a collection of Twig files in the directory <code>subapp/&lt;mySubapp&gt;/twig</code>.
+		The <i>view</i> part of an AMI sub-application consists of a CSS3 file in the directory <code>subapp/&lt;MySubapp&gt;/css</code> and a collection of Twig files in the directory <code>subapp/&lt;MySubapp&gt;/twig</code>.
 
 		<h3><i class="fa fa-caret-right"></i> The controller</h3>
+
+		<pre class="ami-code"><code><i class="line-number"></i>$AMIClass('MySubapp', {</code>
+<code><i class="line-number"></i>	$implements: [ami.ISubApp],</code>
+<code><i class="line-number"></i></code>
+<code><i class="line-number"></i>	onReady: function() {},</code>
+<code><i class="line-number"></i>	onExit: function() {},</code>
+<code><i class="line-number"></i>	onLogin: function() {},</code>
+<code><i class="line-number"></i>	onLogout: function() {},</code>
+<code><i class="line-number"></i>});</code>
+<code><i class="line-number"></i></code>
+<code><i class="line-number"></i>mySubapp = new MySubapp();</code>
+<code><i class="line-number"></i></code>
+<code><i class="line-number"></i>amiRegisterSubApp('mySubapp', mySubapp);</code>
+</pre>
 
 		<h2><i class="fa fa-arrow-circle-right"></i> Developing applications</h2>
 

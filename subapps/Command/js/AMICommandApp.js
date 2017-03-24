@@ -120,12 +120,6 @@ $AMIClass('AMICommandApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	onSessionExpired: function()
-	{
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	execute: function(command, converter)
 	{
 		amiWebApp.lock();

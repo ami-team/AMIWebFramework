@@ -55,12 +55,6 @@ $AMIClass('AMIDocumentApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	onSessionExpired: function()
-	{
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	load: function(page)
 	{
 		var url = amiWebApp.originURL + '/docs/' + page;
