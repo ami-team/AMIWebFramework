@@ -9,7 +9,7 @@ public class JsCompressor
 {
 	/*---------------------------------------------------------------------*/
 
-	public static void compress(String outFileName, String inFileName) throws Exception
+	public static void compress(final String outFileName, final String inFileName) throws Exception
 	{
 		com.yahoo.platform.yui.compressor.JavaScriptCompressor compressor;
 
@@ -23,37 +23,37 @@ public class JsCompressor
 				/*---------------------------------------------------------*/
 
 				@Override
-				public void warning(String message, String sourceName, int line, String lineSource, int lineOffset)
+				public void warning(String message, String sourceName, int line, String lineSource, int column)
 				{
 					System.err.println("\n[WARNING] in " + inFileName);
 
 					if(line < 0) {
 						System.err.println("  " + message);
 					} else {
-						System.err.println("  " + line + ':' + lineOffset + ':' + message);
+						System.err.println("  " + line + ':' + column + ':' + message);
 					}
 				}
 
 				/*---------------------------------------------------------*/
 
 				@Override
-				public void error(String message, String sourceName, int line, String lineSource, int lineOffset)
+				public void error(String message, String sourceName, int line, String lineSource, int column)
 				{
 					System.err.println("\n[ERROR] in " + inFileName);
 
 					if(line < 0) {
 						System.err.println("  " + message);
 					} else {
-						System.err.println("  " + line + ':' + lineOffset + ':' + message);
+						System.err.println("  " + line + ':' + column + ':' + message);
 					}
 				}
 
 				/*---------------------------------------------------------*/
 
 				@Override
-				public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource, int lineOffset)
+				public EvaluatorException runtimeError(String message, String sourceName, int line, String lineSource, int column)
 				{
-					error(message, sourceName, line, lineSource, lineOffset);
+					error(message, sourceName, line, lineSource, column);
 
 					return new EvaluatorException(message);
 				}

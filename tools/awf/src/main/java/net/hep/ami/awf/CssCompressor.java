@@ -7,7 +7,7 @@ public class CssCompressor
 {
 	/*---------------------------------------------------------------------*/
 
-	public static void compress(String outFileName, String inFileName) throws Exception
+	public static void compress(final String outFileName, final String inFileName) throws Exception
 	{
 		com.yahoo.platform.yui.compressor.CssCompressor compressor;
 

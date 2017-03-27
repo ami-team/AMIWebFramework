@@ -27,7 +27,7 @@
 			<h2>Documentation</h2>
 		</div>
 
-		The ATLAS Metadata Interface (AMI) is a very generic tool ecosystem for metadata aggregation and browsing. This page describes AWF, the Web 2.0 framework for simplifying the development of complex metadata-oriented web applications.
+		<p>The ATLAS Metadata Interface (AMI) is a very generic tool ecosystem for metadata aggregation and browsing. This page describes AWF, the Web 2.0 framework for simplifying the development of complex metadata-oriented web applications.</p>
 
 		<h2><i class="fa fa-arrow-circle-right"></i> Getting started</h2>
 
@@ -62,9 +62,9 @@
 		<p>AWF can be seen as a sub-application container. Each sub-application is implemented in the directory <code>subapp</code>. They follow the <span class="text-info">Model</span>–<span class="text-success">View</span>–<span class="text-danger">Controller</span> (MVC) design pattern dividing them into three interconnected parts in order to separate internal representations of information from the ways that information is displayed:</p>
 
 		<ul>
-			<li><span class="text-info">The <i>model</i></span> represents the data (aka. an AMI command JSON result), and nothing else.</li>
-			<li><span class="text-success">The <i>view</i></span> displays the model data, and sends user actions to the controller.</li>
-			<li><span class="text-danger">The <i>controller</i></span> provides data to the view, and interprets user actions.</li>
+			<li>The <span class="text-info"><i>model</i></span> represents the data (aka. an AMI command JSON result), and nothing else.</li>
+			<li>The <span class="text-success"><i>view</i></span> displays the model data, and sends user actions to the controller.</li>
+			<li>The <span class="text-danger"><i>controller</i></span> provides data to the view, and interprets user actions.</li>
 		</ul>
 
 		<div class="row">
@@ -90,7 +90,7 @@
 
 		<h3><i class="fa fa-caret-right"></i> The view</h3>
 
-		The AMI-Twig.js template engine is used by the AWF sub-applications for generating HTML5 interfaces from an AMI command JSON results or from a JavaScript objects. Twig is a modern template engine for the PHP programming language initially developed by <a href="https://sensiolabs.com/" target="_blank">SensioLabs</a>. AMI-Twig.js is a complete rewrite of Twig for the JavaScript programming language. Both Twig and AMI-Twig.js are designed to be fast, secure and flexible.
+		<p>The AMI-Twig.js template engine is used by the AWF sub-applications for generating HTML5 interfaces from an AMI command JSON results or from a JavaScript objects. Twig is a modern template engine for the PHP programming language initially developed by <a href="https://sensiolabs.com/" target="_blank">SensioLabs</a>. AMI-Twig.js is a complete rewrite of Twig for the JavaScript programming language. Both Twig and AMI-Twig.js are designed to be fast, secure and flexible.</p>
 
 		<h4><a href="https://twig.sensiolabs.org/" target="_blank"><i class="fa fa-external-link"></i> Twig</a></h4>
 		<h4><a href="https://www.cern.ch/ami/twig/" target="_blank"><i class="fa fa-external-link"></i> AMI-Twig.js</a></h4>
@@ -99,11 +99,11 @@
 			AMI-Twig.js is a standalone open source product under <a href="http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html" target="_blank">CeCILL-C</a> license. It is mainly maintained by <a href="mailto:odier@lpsc.in2p3.fr">Jérôme Odier</a>.
 		</blockquote>
 
-		The <i>view</i> part of an AMI sub-application consists of a CSS3 file in the directory <code>subapp/&lt;MySubapp&gt;/css</code> and a collection of Twig files in the directory <code>subapp/&lt;MySubapp&gt;/twig</code>.
+		<p>The <i>view</i> part of an AMI sub-application consists of a CSS3 file in the directory <code>subapp/&lt;MySubapp&gt;/css</code> and a collection of Twig files in the directory <code>subapp/&lt;MySubapp&gt;/twig</code>.</p>
 
 		<h3><i class="fa fa-caret-right"></i> The controller</h3>
 
-		The controller is basically a class inheriting from the interface <code>ami.ISubApp</code>.
+		<p>The controller is basically a class inheriting from the interface <code>ami.ISubApp</code>.</p>
 
 		<pre class="ami-code"><code><i class="line-number"></i>$AMIClass('MySubapp', {</code>
 <code><i class="line-number"></i>	$implements: [ami.ISubApp],</code>
