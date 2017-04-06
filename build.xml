@@ -68,6 +68,26 @@
 
 	<!-- ************************************************************ -->
 
+	<target name="make-index" description="New index page.">
+
+		<java classname="net.hep.ami.awf.NewIndex" failonerror="true" fork="true">
+			<classpath location="tools/awf.jar" />
+		</java>
+
+	</target>
+
+	<!-- ************************************************************ -->
+
+	<target name="make-subapp" description="New sub application.">
+
+		<java classname="net.hep.ami.awf.NewSubApp" failonerror="true" fork="true">
+			<classpath location="tools/awf.jar" />
+		</java>
+
+	</target>
+
+	<!-- ************************************************************ -->
+
 	<target name="lint_framework" description="Code quality.">
 
 		<!-- npm install -g eslint -->
