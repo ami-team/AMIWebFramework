@@ -446,25 +446,25 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * The the current user
+	  * The current user
 	  * @returns {String} The current user
 	  */
 
 	getUser: function()
 	{
-		return this.AMIUser;
+		return this.user;
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * The the guest user
+	  * The guest user
 	  * @returns {String} The guest user
 	  */
 
 	getGuest: function()
 	{
-		return this.guestUser;
+		return this.guest;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -476,7 +476,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	isAuthenticated: function()
 	{
-		return this.AMIUser !== this.guestUser;
+		return this.user !== this.guest;
 	},
 
 	/*-----------------------------------------------------------------*/
