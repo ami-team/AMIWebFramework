@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE model>
+
+<categories>
+	<category type="grid" title="Grids">
+		<item name="12"><![CDATA[
+<div class="row">
+	<div class="col-md-12 column ui-sortable">Hello</div>
+</div>
+]]></item>
+		<item name="6 6" />
+		<item name="4 4 4" />
+		<item name="2 10" />
+		<item name="10 2" />
+		<item name="2 8 2" />
+		<item name="" />
+	</category>
+	<category type="html" title="Base CSS">
+		<item name="foo"><![CDATA[
+]]></item>
+	</category>
+	<category type="html" title="HTML/CSS components">
+		<item name="bar"><![CDATA[
+]]></item>
+	</category>
+	<category type="html" title="JavaScript components ">
+		<item name="foobar"><![CDATA[
+]]></item>
+	</category>
+	<category type="twig" title="TWIG blocks">
+		<item name="kux"><![CDATA[
+]]></item>
+	</category>
+</categories>

@@ -32,7 +32,7 @@ public class NewIndex
 
 		StringBuilder stringBuilder = new StringBuilder();
 
-		NewIndex.loadResource(stringBuilder, "/net/hep/ami/awf/index.html");
+		NewIndex.loadResource(stringBuilder, "/net/hep/ami/awf/index.html.tpl");
 
 		FileWriter fileWriter = new FileWriter(new File(baseDir, "index.html"), false);
 
