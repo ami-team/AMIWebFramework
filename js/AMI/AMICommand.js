@@ -475,18 +475,17 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	  * Add a new user
 	  * @param {String} user the user
 	  * @param {String} pass the password
-	  * @param {String} clientDN the client DN, can be empty
-	  * @param {String} issuerDN the issuer DN, can be empty
 	  * @param {String} firstName the first name
 	  * @param {String} lastName the last name
 	  * @param {String} email the email
+	  * @param {Boolean} attach attach the current certificate
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	addUser: function(user, pass, clientDN, issuerDN, firstName, lastName, email, settings)
+	addUser: function(user, pass, firstName, lastName, email, attach, settings)
 	{
-		return this.execute('AddUser -amiLogin="' + this._textToString(user) + '" -amiPassword="' + this._textToString(pass) + '" -clientDN="' + this._textToString(clientDN) + '" -issuerDN="' + this._textToString(issuerDN) + '" -firstName="' + this._textToString(firstName) + '" -lastName="' + this._textToString(lastName) + '" -email="' + this._textToString(email) + '"', settings);
+		return this.execute('AddUser -amiLogin="' + this._textToString(user) + '" -amiPassword="' + this._textToString(pass) + '" -firstName="' + this._textToString(firstName) + '" -lastName="' + this._textToString(lastName) + '" -email="' + this._textToString(email) + '"' + (attach ? ' -attach' : ''), settings);
 	},
 
 	/*-----------------------------------------------------------------*/

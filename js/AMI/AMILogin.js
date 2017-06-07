@@ -773,7 +773,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(values['login'], values['pass'], values['attach'] === 'on' ? this.clientDN : '', values['attach'] === 'on' ? this.issuerDN : '', values['first_name'], values['last_name'], values['email']).done(function() {
+		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], values['attach'] === 'on').done(function() {
 
 			amiLogin._showSuccessMessage1('Done with success.');
 
