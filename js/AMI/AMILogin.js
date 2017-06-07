@@ -27,6 +27,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	user: 'guest',
 	guest: 'guest',
 
+	clientDN: '',
+	issuerDN: '',
+
 	/*-----------------------------------------------------------------*/
 
 	roleInfo: {},
@@ -248,8 +251,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		/*---------------------------------------------------------*/
 
-		var user = amiLogin.user = userInfo.AMIUser;
-		var guest = amiLogin.guest = userInfo.guestUser;
+		var user = amiLogin.user = userInfo.AMIUser || '';
+		var guest = amiLogin.guest = userInfo.guestUser || '';
+
+		var clientDNInSession = amiLogin.clientDN = userInfo.clientDNInSession || '';
+		var issuerDNInSession = amiLogin.issuerDN = userInfo.issuerDNInSession || '';
+
+		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
 
 		amiLogin.roleInfo = roleInfo;
 
@@ -278,9 +286,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/*-------------------------------------------------*/
 
 			var clientDNInAMI = userInfo.clientDNInAMI || '';
-			var clientDNInSession = userInfo.clientDNInSession || '';
 			var issuerDNInAMI = userInfo.issuerDNInAMI || '';
-			var issuerDNInSession = userInfo.issuerDNInSession || '';
 
 			/*-------------------------------------------------*/
 			/* SET INFO                                        */
@@ -289,10 +295,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			$('#E513F27D_5521_4B08_BF61_52AFB81356F7').val(firstName);
 			$('#113C64A6_3B10_4671_B941_17C2281A43B6').val(lastName);
 			$('#83B6FEE5_2BAF_4F47_BCB3_1F475A1A1117').val(email);
-
-			/*-------------------------------------------------*/
-
-			$('#83B6FEE5_2BAF_4F47_BCB3_1F475A1A1117').prop('disabled', vomsEnabled !== 'false');
 
 			/*-------------------------------------------------*/
 
@@ -306,6 +308,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			$('#50CDFAB2_A81D_4772_871A_70F40AEC1C77').val(clientDNInSession);
 			$('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
 			$('#15FA5B80_8528_4FA1_894F_516FD00D1E8D').val(issuerDNInSession);
+
+			/*-------------------------------------------------*/
+
+			$('#83B6FEE5_2BAF_4F47_BCB3_1F475A1A1117').prop('disabled', vomsEnabled !== 'false');
 
 			/*-------------------------------------------------*/
 			/* CHECK USER STATUS                               */
@@ -470,6 +476,30 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
+	  * The client DN
+	  * @returns {String} The client DN
+	  */
+
+	getClientDN: function()
+	{
+		return this.clientDN;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * The issuer DN
+	  * @returns {String} The issuer DN
+	  */
+
+	getIssuerDN: function()
+	{
+		return this.issuerDN;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
 	  * Check whether the user is authenticated
 	  * @returns {Boolean}
 	  */
@@ -574,13 +604,23 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		var result = {};
 
-		form.find('input').each(function() {
+		form.find('input')
+		    .each(function() {
 
-			var name = this.getAttribute('name');
+			var node = $(this);
 
-			if(name)
+			var name = node.attr('name');
+
+			if(node.attr('type') !== 'checkbox')
 			{
-				result[name] = this.value.trim();
+				if(name)
+				{
+					result[name] = node.val().trim();
+				}
+			}
+			else
+			{
+				result[name] = node.prop('checked') ? 'on' : '';
 			}
 		});
 
@@ -626,7 +666,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				}
 				else
 				{
-					var error = 'Invalid identifiers.';
+					var error = 'Authentication failed.';
 
 					if(userInfo.clientDNInSession || userInfo.issuerDNInSession)
 					{
@@ -733,7 +773,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email']).done(function() {
+		amiCommand.addUser(values['login'], values['pass'], values['attach'] === 'on' ? this.clientDN : '', values['attach'] === 'on' ? this.issuerDN : '', values['first_name'], values['last_name'], values['email']).done(function() {
 
 			amiLogin._showSuccessMessage1('Done with success.');
 
