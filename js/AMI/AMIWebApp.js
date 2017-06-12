@@ -1009,7 +1009,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}}).done(function() {
 
-			this.unlock();
+			amiWebApp.unlock();
 
 			$(document).scrollTop(0);
 
@@ -1037,7 +1037,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}}).done(function() {
 
-			this.unlock();
+			amiWebApp.unlock();
 
 			$(document).scrollTop(0);
 
@@ -1065,7 +1065,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}}).done(function() {
 
-			this.unlock();
+			amiWebApp.unlock();
 
 			$(document).scrollTop(0);
 
@@ -1093,7 +1093,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}}).done(function() {
 
-			this.unlock();
+			amiWebApp.unlock();
 
 			$(document).scrollTop(0);
 

@@ -20,11 +20,6 @@
 					<input type="text" class="form-control" id="ami_config_forms_host" readonly="readonly" />
 				</div>
 
-				<div class="form-group">
-					<label for="ami_config_forms_agent" class="control-label">agent</label>
-					<input type="text" class="form-control" id="ami_config_forms_agent" readonly="readonly" />
-				</div>
-
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -56,6 +51,11 @@
 				</div>
 
 				<div class="form-group">
+					<label for="ami_config_forms_admin_email" class="control-label">admin_email</label>
+					<input type="email" class="form-control" id="ami_config_forms_admin_email" readonly="readonly" />
+				</div>
+
+				<div class="form-group">
 					<label for="ami_config_forms_encryption_key" class="control-label">encryption_key</label>
 					<input type="password" class="form-control" id="ami_config_forms_encryption_key" readonly="readonly" />
 				</div>
@@ -67,8 +67,13 @@
 			<div class="ami-callout">
 
 				<div class="form-group">
-					<label for="ami_config_forms_jdbc_url" class="control-label">jdbc_url</label>
-					<input type="text" class="form-control" id="ami_config_forms_jdbc_url" readonly="readonly" />
+					<label for="ami_config_forms_router" class="control-label">router</label>
+					<input type="text" class="form-control" id="ami_config_forms_router" readonly="readonly" />
+				</div>
+
+				<div class="form-group">
+					<label for="ami_config_forms_router_url" class="control-label">router_url</label>
+					<input type="text" class="form-control" id="ami_config_forms_router_url" readonly="readonly" />
 				</div>
 
 				<div class="row">
@@ -97,43 +102,18 @@
 			<div class="ami-callout">
 
 				<div class="form-group">
-					<label for="ami_config_forms_initial_size" class="control-label">initial_size</label>
-					<input type="number" min="0" value="10" name="initial_size" class="form-control" id="ami_config_forms_initial_size" />
+					<label for="ami_config_forms_pool_size" class="control-label">pool_size</label>
+					<input type="number" min="1" value="10" name="initial_size" class="form-control" id="ami_config_forms_pool_size" />
 				</div>
 
 				<div class="form-group">
-					<label for="ami_config_forms_max_active" class="control-label">max_active</label>
-					<input type="number" min="0" value="100" name="max_active"class="form-control" id="ami_config_forms_max_active" />
+					<label for="ami_config_forms_conn_timeout" class="control-label">conn_timeout [ms]</label>
+					<input type="number" min="250" value="30000" name="conn_timeout" class="form-control" id="ami_config_forms_conn_timeout" />
 				</div>
 
 				<div class="form-group">
-					<label for="ami_config_forms_min_idle" class="control-label">min_idle</label>
-					<input type="number" min="0" value="10" name="min_idle" class="form-control" id="ami_config_forms_min_idle" />
-				</div>
-
-				<div class="form-group">
-					<label for="ami_config_forms_max_idle" class="control-label">max_idle</label>
-					<input type="number" min="0" value="100" name="max_idle" class="form-control" id="ami_config_forms_max_idle" />
-				</div>
-
-				<div class="form-group">
-					<label for="ami_config_forms_time_between_eviction_runs_millis" class="control-label">time_between_eviction_runs_millis</label>
-					<input type="number" min="0" value="5000" name="time_between_eviction_runs_millis" class="form-control" id="ami_config_forms_time_between_eviction_runs_millis" />
-				</div>
-
-				<div class="form-group">
-					<label for="ami_config_forms_min_evictable_idle_time_millis" class="control-label">min_evictable_idle_time_millis</label>
-					<input type="number" min="0" value="30000" name="min_evictable_idle_time_millis" class="form-control" id="ami_config_forms_min_evictable_idle_time_millis" />
-				</div>
-
-				<div class="form-group">
-					<label for="ami_config_forms_validation_interval" class="control-label">validation_interval</label>
-					<input type="number" min="0" value="30000" name="validation_interval" class="form-control" id="ami_config_forms_validation_interval" />
-				</div>
-
-				<div class="form-group">
-					<label for="ami_config_forms_max_wait" class="control-label">max_wait</label>
-					<input type="number" min="0" value="10000" name="max_wait" class="form-control" id="ami_config_forms_max_wait" />
+					<label for="ami_config_forms_idle_timeout" class="control-label">idle_timeout [ms]</label>
+					<input type="number" min="10000" value="600000" name="idle_timeout" class="form-control" id="ami_config_forms_idle_timeout" />
 				</div>
 
 			</div>
@@ -218,11 +198,6 @@
 				</div>
 
 				<div class="form-group">
-					<label for="ami_config_forms_log_from" class="control-label">log_from (email)</label>
-					<input type="text" name="log_from" class="form-control" id="ami_config_forms_log_from" />
-				</div>
-
-				<div class="form-group">
 					<label for="ami_config_forms_log_to" class="control-label">log_to (comma separated emails)</label>
 					<input type="text" name="log_to" class="form-control" id="ami_config_forms_log_to" />
 				</div>
@@ -245,14 +220,14 @@
 				<div class="form-group">
 					<label for="ami_config_forms_use_voms" class="control-label">use_voms (or similar)</label>
 					<select name="use_voms" class="form-control ami-select" id="ami_config_forms_use_voms">
-						<option value="true">true</option>
 						<option value="false">false</option>
+						<option value="true">true</option>
 					</select>
 				</div>
 
 				<div class="form-group">
 					<label for="ami_config_forms_max_number_of_rows" class="control-label">max_number_of_rows</label>
-					<input type="number" min="1" value="10000" name="max_number_of_rows" class="form-control" id="ami_config_forms_max_number_of_rows" />
+					<input type="number" min="1" value="25000" name="max_number_of_rows" class="form-control" id="ami_config_forms_max_number_of_rows" />
 				</div>
 
 			</div>

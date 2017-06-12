@@ -46,7 +46,7 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 	onLogin: function()
 	{
-		if(!$('#ami_config_forms_jdbc_url').val().trim())
+		if(!$('#ami_config_forms_router').val().trim())
 		{
 			this._load();
 		}
@@ -91,7 +91,7 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 	},
 
@@ -163,11 +163,11 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 		amiCommand.execute(command).done(function(data) {
 
-			amiWebApp.success(amiWebApp.jspath('..info.$', data)[0], true);
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
 		/*---------------------------------------------------------*/
@@ -189,11 +189,11 @@ $AMIClass('AMIAdminDashboardConfig', {
 
 		amiCommand.execute(command).done(function(data) {
 
-			amiWebApp.success(amiWebApp.jspath('..info.$', data)[0], true);
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
 		/*---------------------------------------------------------*/
