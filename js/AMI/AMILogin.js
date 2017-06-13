@@ -267,6 +267,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_update: function(userInfo, roleInfo, ssoEndpointURL)
 	{
+		var result = $.Deferred();
+
 		/*---------------------------------------------------------*/
 
 		var user = amiLogin.user = userInfo.AMIUser || '';
@@ -285,9 +287,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
+		var dict = {sso_enabled: !!ssoEndpointURL};
 
 		if(user !== guest)
 		{
@@ -432,17 +432,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* UPDATE MENU BAR                                 */
 			/*-------------------------------------------------*/
 
-			var dict = {
-				USER: user,
-				ICON: icon,
-			};
+			dict['user'] = user;
+			dict['icon'] = icon;
 
 			/*-------------------------------------------------*/
 
 			_ami_internal_always(
 				amiWebApp.onLogin(),
 				function() {
-					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: {sso_enabled: !!amiLogin.ssoEndpointURL}});
+					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
 					result.resolve();
 				}
 			);
@@ -457,7 +455,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				amiWebApp.onLogout(),
 				function() {
 					result.resolve();
-					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: {sso_enabled: !!amiLogin.ssoEndpointURL}});
+					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: dict});
 				}
 			);
 
