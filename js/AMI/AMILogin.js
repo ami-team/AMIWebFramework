@@ -113,15 +113,14 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 					$(window).bind('message', function(e) {
 
-						/**/ if(e.originalEvent.data.op === 'signIn')
+						var user = e.originalEvent.data.user;
+						var pass = e.originalEvent.data.pass;
+
+						if(user && pass)
 						{
+							amiLogin.form_login2(user, pass);
+
 							e.originalEvent.source.close();
-							alert('signIn');
-						}
-						else if(e.originalEvent.data.op === 'signUp')
-						{
-							e.originalEvent.source.close();
-							alert('signUp');
 						}
 					});
 
@@ -665,19 +664,22 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	form_login: function(e)
 	{
+		e.preventDefault();
+
+		var values = this._serializeForm($(e.target));
+
+		return amiCommand.form_login(values['user'], values['pass']);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	form_login2: function(user, pass)
+	{
 		/*---------------------------------------------------------*/
 
-		var deferred;
-
-		if(e)
-		{
-			e.preventDefault();
-
-			var values = this._serializeForm($(e.target));
-
-			deferred = amiCommand.passLogin(values['user'], values['pass']);
-		}
-		else	deferred = amiCommand.certLogin(/************/  /************/);
+		var deferred = (user && pass) ? amiCommand.passLogin(user, pass)
+		                              : amiCommand.certLogin(/*------*/)
+		;
 
 		/*---------------------------------------------------------*/
 

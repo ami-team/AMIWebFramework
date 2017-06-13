@@ -252,6 +252,8 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			var userInfo = {};
 			var roleInfo = {};
 
+			var ssoEndpointURL = JSPath.apply('..rowset{.@type==="sso"}.row.field.$', data)[0] || '';
+
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
 				userInfo[item['@name']] = item['$'];
@@ -276,17 +278,17 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			});
 
 			if(context) {
-				result.resolveWith(context, [data, userInfo, roleInfo]);
+				result.resolveWith(context, [data, userInfo, roleInfo, ssoEndpointURL]);
 			} else {
-				result.resolve(data, userInfo, roleInfo);
+				result.resolve(data, userInfo, roleInfo, ssoEndpointURL);
 			}
 
 		}).fail(function(data) {
 
 			if(context) {
-				result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}]);
+				result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 			} else {
-				result.reject(data, {AMIUser: 'guest', guestUser: 'guest'}, {});
+				result.reject(data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '');
 			}
 		});
 
