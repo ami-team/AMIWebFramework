@@ -1,5 +1,10 @@
 <li>
-	<button type="button" class="btn btn-default navbar-btn" onclick="amiLogin.login()">
+{% if sso_enabled %}
+	<button type="button" class="btn btn-default navbar-btn" onclick="amiLogin.sso()">
+		<i class="fa fa-sign-in"></i> SSO
+	</button>
+{% endif %}
+	<button type="button" class="btn btn-default navbar-btn" onclick="amiLogin.signIn()">
 		<i class="fa fa-sign-in"></i> Sign in
 	</button>
 </li>
