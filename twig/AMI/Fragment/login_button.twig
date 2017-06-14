@@ -1,8 +1,9 @@
 <li>
-{% if sso_enabled %}
+{% if sso_url !== 'N/A' %}
 	<button type="button" class="btn btn-default navbar-btn" onclick="amiLogin.sso()">
-		<i class="fa fa-sign-in"></i> SSO
+		<i class="fa fa-sign-in"></i> {{sso_name}}
 	</button>
+	or
 {% endif %}
 	<button type="button" class="btn btn-default navbar-btn" onclick="amiLogin.signIn()">
 		<i class="fa fa-sign-in"></i> Sign in

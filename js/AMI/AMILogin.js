@@ -33,10 +33,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	roleInfo: {},
-
-	/*-----------------------------------------------------------------*/
-
-	ssoEndpointURL: '',
+	ssoInfo: {},
 
 	/*-----------------------------------------------------------------*/
 	/* PRIVATE METHODS                                                 */
@@ -57,7 +54,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			amiWebApp.appendHTML('body', data[2]);
 
-			amiCommand.certLogin().always(function(data, userInfo, roleInfo, ssoEndpointURL) {
+			amiCommand.certLogin().always(function(data, userInfo, roleInfo, ssoInfo) {
 				/*-----------------------------------------*/
 
 				$('#8008BBBC_FF0D_481C_8AF0_3DCF7D6A1676').submit(function(e) {
@@ -109,7 +106,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				/*-----------------------------------------*/
 
-				amiLogin._update(userInfo, roleInfo, ssoEndpointURL).done(function() {
+				amiLogin._update(userInfo, roleInfo, ssoInfo).done(function() {
 
 					$(window).bind('message', function(e) {
 
@@ -264,7 +261,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*-----------------------------------------------------------------*/
 
-	_update: function(userInfo, roleInfo, ssoEndpointURL)
+	_update: function(userInfo, roleInfo, ssoInfo)
 	{
 		var result = $.Deferred();
 
@@ -282,11 +279,14 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiLogin.roleInfo = roleInfo;
 
-		amiLogin.ssoEndpointURL = ssoEndpointURL;
+		amiLogin.ssoInfo = ssoInfo;
 
 		/*---------------------------------------------------------*/
 
-		var dict = {sso_enabled: !!ssoEndpointURL};
+		var dict = {
+			sso_name: ssoInfo.name || 'SSO',
+			sso_url: ssoInfo.url || 'N/A',
+		};
 
 		if(user !== guest)
 		{
@@ -539,7 +539,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		this._flush();
 		this._clean();
 
-		window.open(this.ssoEndpointURL + '?originURL=' + encodeURIComponent(amiWebApp.originURL), 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+		window.open(this.ssoInfo.url + '?originURL=' + encodeURIComponent(amiWebApp.originURL), 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -608,9 +608,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		return amiCommand.logout().always(function(data, userInfo, roleInfo, ssoEndpointURL) {
+		return amiCommand.logout().always(function(data, userInfo, roleInfo, ssoInfo) {
 
-			amiLogin._update(userInfo, roleInfo, ssoEndpointURL).done(function() {
+			amiLogin._update(userInfo, roleInfo, ssoInfo).done(function() {
 
 				amiLogin._clean();
 				amiWebApp.unlock();
@@ -685,9 +685,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		deferred.done(function(data, userInfo, roleInfo, ssoEndpointURL) {
+		deferred.done(function(data, userInfo, roleInfo, ssoInfo) {
 
-			amiLogin._update(userInfo, roleInfo, ssoEndpointURL).done(function() {
+			amiLogin._update(userInfo, roleInfo, ssoInfo).done(function() {
 
 				if(userInfo.AMIUser !== userInfo.guestUser)
 				{
@@ -716,9 +716,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				}
 			});
 
-		}).fail(function(data, userInfo, roleInfo, ssoEndpointURL) {
+		}).fail(function(data, userInfo, roleInfo, ssoInfo) {
 
-			amiLogin._update(userInfo, roleInfo, ssoEndpointURL).done(function() {
+			amiLogin._update(userInfo, roleInfo, ssoInfo).done(function() {
 
 				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 			});

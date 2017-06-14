@@ -1,14 +1,14 @@
 /*!
  * AMI Web Framework
  *
- * Copyright (c) 2014-{{YEAR}} The AMI Team
+ * Copyright (c) 2014-2017 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
  */
 
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('{{NAME}}App', {
+$AMIClass('RDFViewerApp', {
 	/*-----------------------------------------------------------------*/
 
 	$implements: [ami.ISubApp],
@@ -20,22 +20,27 @@ $AMIClass('{{NAME}}App', {
 		/*---------------------------------------------------------*/
 
 		amiWebApp.loadScripts([
-		]);
-
-		amiWebApp.loadSheets([
-			'subapps/{{NAME}}/css/{{NAME}}App.css',
+			'subapps/RDFViewer/js/ontodia.js',
+			'subapps/RDFViewer/js/react.js',
+			'subapps/RDFViewer/js/react-dom.js',
 		]);
 
 		/*---------------------------------------------------------*/
 
-		$('#ami_breadcrumb_content').html('<li>My SubApps</li><li><a href="' + amiWebApp.webAppURL + '?subapp={{name}}">{{NAME}}</a></li>');
+		amiWebApp.loadSheets([
+			'subapps/RDFViewer/css/RDFViewerApp.css',
+		]);
+
+		/*---------------------------------------------------------*/
+
+		$('#ami_breadcrumb_content').css('display', 'none');
 
 		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
-			'subapps/{{NAME}}/twig/{{NAME}}App.twig',
+			'subapps/RDFViewer/twig/RDFViewerApp.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
@@ -63,6 +68,39 @@ $AMIClass('{{NAME}}App', {
 
 	onLogin: function()
 	{
+		if($('#3FDF89A1_1E7B_471D_A9EC_71C06765C44E').is(':empty') )
+		{
+			const ontodiaProperties = {
+				ref: function(workspace)
+				{
+					if(!workspace)
+					{
+						return;
+					}
+
+        const model = workspace.getModel();
+
+        model.importLayout({
+          dataProvider: new Ontodia.SparqlDataProvider({
+            endpointUrl: 'https://library-ontodia-org.herokuapp.com/sparql',
+            imagePropertyUris: [
+              'http://xmlns.com/foaf/0.1/img',
+            ],
+            queryMethod: Ontodia.SparqlQueryMethod.GET
+          }, Ontodia.OWLStatsSettings),
+        });
+
+					/* TODO */
+				},
+
+				onSaveDiagram: function()
+				{
+					/* TODO */
+				},
+			};
+
+			ReactDOM.render(React.createElement(Ontodia.Workspace, ontodiaProperties), document.getElementById('3FDF89A1_1E7B_471D_A9EC_71C06765C44E'));
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -84,8 +122,8 @@ $AMIClass('{{NAME}}App', {
 /* GLOBAL INSTANCE                                                         */
 /*-------------------------------------------------------------------------*/
 
-{{name}}App = new {{NAME}}App();
+rdfViewerApp = new RDFViewerApp();
 
-amiRegisterSubApp('{{name}}', {{name}}App, {});
+amiRegisterSubApp('rdfViewer', rdfViewerApp, {});
 
 /*-------------------------------------------------------------------------*/
