@@ -1,0 +1,27 @@
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-2017 The AMI Team
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ *
+ */
+
+/*-------------------------------------------------------------------------*/
+
+.ontodia-toolbar {
+
+	background: white url("../../../images/stripe2.png");
+
+	margin-bottom: 4px;
+
+	text-align: center;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.ontodia-toolbar__language-selector {
+
+	display: none;
+}
+
+/*-------------------------------------------------------------------------*/
