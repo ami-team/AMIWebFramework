@@ -3061,16 +3061,18 @@ amiTwig.stdlib = {
 	{
 		/*---------------------------------------------------------*/
 
+		var i;
+
 		var temp = {};
 
 		/*---------------------------------------------------------*/
 
 		if(withContext) {
-			for(var i in amiTwig.engine.dict) temp[i] = amiTwig.engine.dict[i];
+			for(i in amiTwig.engine.dict) temp[i] = amiTwig.engine.dict[i];
 		}
 
 		if(variables) {
-			for(var i in /**/ variables /**/) temp[i] = /**/ variables /**/[i];
+			for(i in /**/ variables /**/) temp[i] = /**/ variables /**/[i];
 		}
 
 		/*---------------------------------------------------------*/
