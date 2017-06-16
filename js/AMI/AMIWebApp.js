@@ -281,7 +281,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/css/AMI/framework.min.css',
 			]).fail(function() {
 
-				alert('Service temporarily unreachable, please try reloading the page...');
+				alert('service temporarily unreachable, please try reloading the page...');
 			});
 		}
 
@@ -297,7 +297,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			this.originURL + '/js/bootstrap-typeahead.min.js',
 		]).fail(function() {
 
-			alert('Service temporarily unreachable, please try reloading the page...');
+			alert('service temporarily unreachable, please try reloading the page...');
 		});
 
 		/*---------------------------------------------------------*/
@@ -319,7 +319,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		}).fail(function() {
 
-			alert('Service temporarily unreachable, please try reloading the page...');
+			alert('service temporarily unreachable, please try reloading the page...');
 		});
 
 		/*---------------------------------------------------------*/
@@ -965,8 +965,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*-----------------------------------------------------------------*/
-	/*                                                                 */
-	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Enable the message in a confirmation dialog box to inform that the user is about to leave the current page.
@@ -977,8 +975,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		this._canLeave = true;
 	},
 
-	/*-----------------------------------------------------------------*/
-	/*                                                                 */
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -1247,11 +1243,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				}).fail(function() {
 
-					alert('Service temporarily unreachable, please try reloading the page...');
+					alert('service temporarily unreachable, please try reloading the page...');
 				});
 			}).fail(function() {
 
-				alert('Service temporarily unreachable, please try reloading the page...');
+				alert('service temporarily unreachable, please try reloading the page...');
 			});
 
 			/*-------------------------------------------------*/
@@ -1357,7 +1353,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if($('#ami_main_content').is(':empty'))
 			{
-				$('#ami_main_content').html('Service temporarily unreachable, please try reloading the page...');
+				$('#ami_main_content').html('service temporarily unreachable, please try reloading the page...');
 			}
 
 		}, this.timeout);
