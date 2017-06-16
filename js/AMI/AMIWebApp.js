@@ -1364,7 +1364,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		amiWebApp.lock();
+		this.lock();
 
 		_ami_internal_always(
 			amiWebApp.onReady(userdata),

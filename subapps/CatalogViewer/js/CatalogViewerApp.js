@@ -460,15 +460,15 @@ $AMIClass('CatalogViewerApp', {
 
 		/*---------------------------------------------------------*/
 
-		if(jQuery.isEmptyObject(json) === false)
+		if(jQuery.isEmptyObject(custom) === false)
 		{
 			/*-------------------------------------------------*/
 
-			var text = JSON.stringify(json);
+			var text = JSON.stringify(custom);
 
 			/*-------------------------------------------------*/
 
-			amiCommand.execute('UpdateElements -catalog="self" -entity="router_catalog" -separator="%" -fields="graph" -values="' + amiWebApp.textToString(text) + '" -keyFields="externalCatalog" -keyValues="' + amiWebApp.textToString(catalog) + '"').done(function(data) {
+			amiCommand.execute('UpdateElements -catalog="self" -entity="router_catalog" -separator="%" -fields="custom" -values="' + amiWebApp.textToString(text) + '" -keyFields="externalCatalog" -keyValues="' + amiWebApp.textToString(catalog) + '"').done(function(data) {
 
 				amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
