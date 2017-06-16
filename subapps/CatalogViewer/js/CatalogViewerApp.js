@@ -376,6 +376,9 @@ $AMIClass('CatalogViewerApp', {
 								},
 								catalog: catalog,
 								table: table,
+								topColor: topColor,
+								bodyColor: bodyColor,
+								strokeColor: strokeColor,
 							}),
 							fields: [],
 						};
