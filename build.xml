@@ -144,9 +144,11 @@
 				<header>%USE_STRICT%</header>
 
 				<filelist dir="js/AMI">
+					<file name="external/ami-twig.js" />
 					<file name="AMIObjects.js" />
 					<file name="AMIWebApp.js" />
 					<file name="AMISubApp.js" />
+					<file name="AMIComponent.js" />
 					<file name="AMICommand.js" />
 					<file name="AMILogin.js" />
 				</filelist>

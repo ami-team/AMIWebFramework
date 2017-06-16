@@ -2,7 +2,10 @@
  * AMI Web Framework - AMIWebApp
  *
  * Copyright (c) 2014-![VALUE YEAR] The AMI Team
+ *
+ * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
  * @global amiTwig
  *
@@ -291,7 +294,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		this.loadScripts([
 			/* Third-party */
 			this.originURL + '/js/jspath.min.js',
-			this.originURL + '/js/ami-twig.min.js',
 			this.originURL + '/js/bootstrap.min.js',
 			this.originURL + '/js/bootstrap-toggle.min.js',
 			this.originURL + '/js/bootstrap-typeahead.min.js',
