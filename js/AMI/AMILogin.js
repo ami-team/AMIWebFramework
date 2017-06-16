@@ -7,8 +7,6 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global _ami_internal_always
- *
  */
 
 'use strict';
@@ -50,10 +48,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Modal/login.twig',
-		]).done(function(data) {
+		], {context: this}).done(function(data) {
 
-			amiLogin.fragmentLoginButton = data[0];
-			amiLogin.fragmentLogoutButton = data[1];
+			this.fragmentLoginButton = data[0];
+			this.fragmentLogoutButton = data[1];
 
 			amiWebApp.appendHTML('body', data[2]);
 
@@ -152,7 +150,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		$('#C0D13C0C_BA64_4A79_BF48_1A35F26D19AC .alert').fadeOut(45000);
 
-		amiLogin._clean();
+		this._clean();
 		amiWebApp.unlock();
 	},
 
@@ -169,7 +167,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		$('#C0D13C0C_BA64_4A79_BF48_1A35F26D19AC .alert').fadeOut(45000);
 
-		amiLogin._clean();
+		this._clean();
 		amiWebApp.unlock();
 	},
 
@@ -186,7 +184,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		$('#C76F40DA_0480_4D3F_A74B_65735465EA25 .alert').fadeOut(45000);
 
-		amiLogin._clean();
+		this._clean();
 		amiWebApp.unlock();
 	},
 
@@ -203,7 +201,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		$('#C76F40DA_0480_4D3F_A74B_65735465EA25 .alert').fadeOut(45000);
 
-		amiLogin._clean();
+		this._clean();
 		amiWebApp.unlock();
 	},
 
@@ -220,7 +218,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		$('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6 .alert').fadeOut(45000);
 
-		amiLogin._clean();
+		this._clean();
 		amiWebApp.unlock();
 	},
 
@@ -237,7 +235,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		$('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6 .alert').fadeOut(45000);
 
-		amiLogin._clean();
+		this._clean();
 		amiWebApp.unlock();
 	},
 
@@ -270,19 +268,19 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		var user = amiLogin.user = userInfo.AMIUser || '';
-		var guest = amiLogin.guest = userInfo.guestUser || '';
+		var user = this.user = userInfo.AMIUser || '';
+		var guest = this.guest = userInfo.guestUser || '';
 
-		var clientDNInSession = amiLogin.clientDN = userInfo.clientDNInSession || '';
-		var issuerDNInSession = amiLogin.issuerDN = userInfo.issuerDNInSession || '';
+		var clientDNInSession = this.clientDN = userInfo.clientDNInSession || '';
+		var issuerDNInSession = this.issuerDN = userInfo.issuerDNInSession || '';
 
 		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
 
 		/*---------------------------------------------------------*/
 
-		amiLogin.roleInfo = roleInfo;
+		this.roleInfo = roleInfo;
 
-		amiLogin.ssoInfo = ssoInfo;
+		this.ssoInfo = ssoInfo;
 
 		/*---------------------------------------------------------*/
 
@@ -443,7 +441,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				amiWebApp.onLogin(),
 				function() {
 					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
-					result.resolve();
+					result.resolveWith(amiLogin);
 				}
 			);
 
@@ -456,7 +454,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			_ami_internal_always(
 				amiWebApp.onLogout(),
 				function() {
-					result.resolve();
+					result.resolveWith(amiLogin);
 					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: dict});
 				}
 			);
@@ -607,15 +605,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	  * Sign out
 	  */
 
-	signOut: function() {
-
+	signOut: function()
+	{
 		amiWebApp.lock();
 
 		return amiCommand.logout().always(function(data, userInfo, roleInfo, ssoInfo) {
 
 			amiLogin._update(userInfo, roleInfo, ssoInfo).done(function() {
 
-				amiLogin._clean();
+				this._clean();
 				amiWebApp.unlock();
 			});
 		});
@@ -631,7 +629,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	hasRole: function(roleName)
 	{
-		return roleName in amiLogin.roleInfo;
+		return roleName in this.roleInfo;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -696,7 +694,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				{
 					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-					amiLogin._clean();
+					this._clean();
 					amiWebApp.unlock();
 				}
 				else
@@ -715,7 +713,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 						;
 					}
 
-					amiLogin._showErrorMessage1(error);
+					this._showErrorMessage1(error);
 				}
 			});
 
@@ -723,7 +721,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			amiLogin._update(userInfo, roleInfo, ssoInfo).done(function() {
 
-				amiLogin._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+				this._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 			});
 		});
 
@@ -741,7 +739,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		if(!user || !pass)
 		{
-			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
+			this._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}
@@ -773,7 +771,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		if(!user || !pass)
 		{
-			amiLogin._showErrorMessage1('Please, fill all fields with a red star.');
+			this._showErrorMessage1('Please, fill all fields with a red star.');
 
 			return;
 		}

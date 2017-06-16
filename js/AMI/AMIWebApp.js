@@ -7,8 +7,6 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global amiTwig
- *
  */
 
 'use strict';
@@ -1009,9 +1007,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {dict: {MESSAGE: message}}).done(function() {
+		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {context: this, dict: {MESSAGE: message}}).done(function() {
 
-			amiWebApp.unlock();
+			this.unlock();
 
 			$(document).scrollTop(0);
 
@@ -1037,9 +1035,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentInfo, {dict: {MESSAGE: message}}).done(function() {
+		this.replaceHTML('#ami_status_content', this.fragmentInfo, {context: this, dict: {MESSAGE: message}}).done(function() {
 
-			amiWebApp.unlock();
+			this.unlock();
 
 			$(document).scrollTop(0);
 
@@ -1065,9 +1063,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentWarning, {dict: {MESSAGE: message}}).done(function() {
+		this.replaceHTML('#ami_status_content', this.fragmentWarning, {context: this, dict: {MESSAGE: message}}).done(function() {
 
-			amiWebApp.unlock();
+			this.unlock();
 
 			$(document).scrollTop(0);
 
@@ -1093,9 +1091,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentError, {dict: {MESSAGE: message}}).done(function() {
+		this.replaceHTML('#ami_status_content', this.fragmentError, {context: this, dict: {MESSAGE: message}}).done(function() {
 
-			amiWebApp.unlock();
+			this.unlock();
 
 			$(document).scrollTop(0);
 

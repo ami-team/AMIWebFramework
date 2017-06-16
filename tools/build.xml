@@ -211,6 +211,7 @@
 				<header>%USE_STRICT%</header>
 
 				<filelist dir="${AMIWebAppTmpDir}/js/AMI">
+					<file name="external/ami-twig.js" />
 					<file name="AMIObjects.js" />
 					<file name="AMIWebApp.js" />
 					<file name="AMISubApp.js" />
