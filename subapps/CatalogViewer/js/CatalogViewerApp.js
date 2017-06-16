@@ -347,15 +347,25 @@ $AMIClass('CatalogViewerApp', {
 					{
 						var x;
 						var y;
+						var topColor;
+						var bodyColor;
+						var strokeColor;
 
 						if(!(table in custom))
 						{
-							x = y = 20 + 10 * cnt++;
+							x = y = 20
+							      + 10 * cnt++;
+							topColor = '#0066CC';
+							bodyColor = '#FFFFFF';
+							strokeColor = '#0057AD';
 						}
 						else
 						{
 							x = custom[table].x;
 							y = custom[table].y;
+							topColor = custom[table].topColor;
+							bodyColor = custom[table].bodyColor;
+							strokeColor = custom[table].strokeColor;
 						}
 
 						tables[table] = {
@@ -450,10 +460,16 @@ $AMIClass('CatalogViewerApp', {
 			if(value.get('type') === 'sql.Table')
 			{
 				var position = value.get('position');
+				var topColor = value.get('topColor');
+				var bodyColor = value.get('bodyColor');
+				var strokeColor = value.get('strokeColor');
 
-				custom[value.get('name')] = {
+				custom[value.get('table')] = {
 					x: position.x,
 					y: position.y,
+					topColor: topColor,
+					bodyColor: bodyColor,
+					strokeColor: strokeColor,
 				};
 			}
 		});
