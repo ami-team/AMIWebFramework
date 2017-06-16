@@ -748,9 +748,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.attachCert(user, pass).done(function() {
+		amiCommand.attachCert(user, pass).done(function(data) {
 
-			amiLogin._showSuccessMessage1('Done with success.');
+			amiLogin._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 
 		}).fail(function(data) {
 
@@ -780,9 +780,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.detachCert(user, pass).done(function() {
+		amiCommand.detachCert(user, pass).done(function(data) {
 
-			amiLogin._showSuccessMessage1('Done with success.');
+			amiLogin._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 
 		}).fail(function(data) {
 
@@ -806,9 +806,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], values['attach'] === 'on').done(function() {
+		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], values['attach'] === 'on').done(function(data) {
 
-			amiLogin._showSuccessMessage1('Done with success.');
+			amiLogin._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 
 		}).fail(function(data) {
 
@@ -832,9 +832,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.resetPass(values['user']).done(function() {
+		amiCommand.resetPass(values['user']).done(function(data) {
 
-			amiLogin._showSuccessMessage1('Done with success.');
+			amiLogin._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 
 		}).fail(function(data) {
 
@@ -858,9 +858,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).done(function() {
+		amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).done(function(data) {
 
-			amiLogin._showSuccessMessage2('Done with success.');
+			amiLogin._showSuccessMessage2(amiWebApp.jspath('..info.$', data));
 
 		}).fail(function(data) {
 
@@ -884,9 +884,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.changePass(values['old_pass'], values['new_pass']).done(function() {
+		amiCommand.changePass(values['old_pass'], values['new_pass']).done(function(data) {
 
-			amiLogin._showSuccessMessage3('Done with success.');
+			amiLogin._showSuccessMessage3(amiWebApp.jspath('..info.$', data));
 
 		}).fail(function(data) {
 
