@@ -126,7 +126,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMISubApp.js js/AMI/AMICommand.js js/AMI/AMILogin.js > js/AMI/api.min.json" />
+			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMISubApp.js js/AMIControl.js js/AMI/AMICommand.js js/AMI/AMILogin.js > js/AMI/api.min.json" />
 		</exec>
 
 	</target>
@@ -148,7 +148,7 @@
 					<file name="AMIObjects.js" />
 					<file name="AMIWebApp.js" />
 					<file name="AMISubApp.js" />
-					<file name="AMIComponent.js" />
+					<file name="AMIControl.js" />
 					<file name="AMICommand.js" />
 					<file name="AMILogin.js" />
 				</filelist>

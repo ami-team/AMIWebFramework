@@ -102,8 +102,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	_isEmbedded: false,
 
-	/*-----------------------------------------------------------------*/
-
 	_canLeave: true,
 
 	/*-----------------------------------------------------------------*/
@@ -113,13 +111,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_scripts: [],
 	_sheets: [],
 
-	_components: {},
+	_controls: {},
 	_subapps: {},
 
 	/*-----------------------------------------------------------------*/
 
-	_currentSubAppInstance: new function() {
-
+	_currentSubAppInstance: new function()
+	{
 		this.onReady = function() {};
 		this.onExit = function() {};
 		this.onLogin = function() {};
@@ -1162,7 +1160,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		/*---------------------------------------------------------*/
 
-		var components_url = this.originURL + '/components/COMPONENTS.json';
+		var controls_url = this.originURL + '/controls/CONTROLS.json';
 
 		var subapps_url = this.originURL + '/subapps/SUBAPPS.json';
 
@@ -1236,7 +1234,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		$.ajax({url: components_url, cache: false, dataType: 'json'}).done(function(data1) {
+		$.ajax({url: controls_url, cache: false, dataType: 'json'}).done(function(data1) {
 
 			$.ajax({url: subapps_url, cache: false, dataType: 'json'}).done(function(data2) {
 
@@ -1244,7 +1242,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				for(name in data1)
 				{
-				 	amiWebApp._components[name.toLowerCase()] = data1[name];
+				 	amiWebApp._controls[name.toLowerCase()] = data1[name];
 				}
 
 				for(name in data2)

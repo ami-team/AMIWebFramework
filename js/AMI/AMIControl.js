@@ -1,5 +1,5 @@
 /*!
- * AMI Web Framework - AMIComponent
+ * AMI Web Framework - AMIControl
  *
  * Copyright (c) 2014-![VALUE YEAR] The AMI Team
  *
@@ -12,15 +12,15 @@
 'use strict';
 
 /*-------------------------------------------------------------------------*/
-/* ami.IComponent                                                          */
+/* ami.IControl                                                            */
 /*-------------------------------------------------------------------------*/
 
 /**
- * The AMI component interface
- * @interface ami/IComponent
+ * The AMI control interface
+ * @interface ami/IControl
  */
 
-$AMIInterface('ami.IComponent', /** @lends ami/IComponent# */ {
+$AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 	/*-----------------------------------------------------------------*/
 
 	/* TODO */
