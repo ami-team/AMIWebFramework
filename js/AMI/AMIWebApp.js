@@ -264,7 +264,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* DEFAULT SHEETS                                          */
 		/*---------------------------------------------------------*/
 
-		if(this._isEmbedded === false)
+		if(!this._isEmbedded)
 		{
 			this.loadSheets([
 				this.originURL + '/css/bootstrap.min.css',
@@ -1233,7 +1233,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		window.onbeforeunload = function(e) {
 
-			if(amiWebApp._canLeave === false)
+			if(!amiWebApp._canLeave)
 			{
 				var f = e || window.event;
 
@@ -1248,7 +1248,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		if(this._isEmbedded === false)
+		if(!this._isEmbedded)
 		{
 			/*-------------------------------------------------*/
 
