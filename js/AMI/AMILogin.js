@@ -141,102 +141,42 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_showSuccessMessage1: function(message)
 	{
-		if(message instanceof Array)
-		{
-			message = message.join('. ');
-		}
-
-		amiWebApp.replaceHTML('#C0D13C0C_BA64_4A79_BF48_1A35F26D19AC', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-
-		$('#C0D13C0C_BA64_4A79_BF48_1A35F26D19AC .alert').fadeOut(45000);
-
+		amiWebApp.success(message, true, '#C0D13C0C_BA64_4A79_BF48_1A35F26D19AC');
 		this._clean();
-		amiWebApp.unlock();
 	},
-
-	/*-----------------------------------------------------------------*/
 
 	_showErrorMessage1: function(message)
 	{
-		if(message instanceof Array)
-		{
-			message = message.join('. ');
-		}
-
-		amiWebApp.replaceHTML('#C0D13C0C_BA64_4A79_BF48_1A35F26D19AC', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-
-		$('#C0D13C0C_BA64_4A79_BF48_1A35F26D19AC .alert').fadeOut(45000);
-
+		amiWebApp.error(message, true, '#C0D13C0C_BA64_4A79_BF48_1A35F26D19AC');
 		this._clean();
-		amiWebApp.unlock();
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	_showSuccessMessage2: function(message)
 	{
-		if(message instanceof Array)
-		{
-			message = message.join('. ');
-		}
-
-		amiWebApp.replaceHTML('#C76F40DA_0480_4D3F_A74B_65735465EA25', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-
-		$('#C76F40DA_0480_4D3F_A74B_65735465EA25 .alert').fadeOut(45000);
-
+		amiWebApp.success(message, true, '#C76F40DA_0480_4D3F_A74B_65735465EA25');
 		this._clean();
-		amiWebApp.unlock();
 	},
-
-	/*-----------------------------------------------------------------*/
 
 	_showErrorMessage2: function(message)
 	{
-		if(message instanceof Array)
-		{
-			message = message.join('. ');
-		}
-
-		amiWebApp.replaceHTML('#C76F40DA_0480_4D3F_A74B_65735465EA25', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-
-		$('#C76F40DA_0480_4D3F_A74B_65735465EA25 .alert').fadeOut(45000);
-
+		amiWebApp.error(message, true, '#C76F40DA_0480_4D3F_A74B_65735465EA25');
 		this._clean();
-		amiWebApp.unlock();
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	_showSuccessMessage3: function(message)
 	{
-		if(message instanceof Array)
-		{
-			message = message.join('. ');
-		}
-
-		amiWebApp.replaceHTML('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6', amiWebApp.fragmentSuccess, {dict: {MESSAGE: message}});
-
-		$('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6 .alert').fadeOut(45000);
-
+		amiWebApp.success(message, true, '#F14D98EC_5751_4C15_B4A1_927BA76AFCA6');
 		this._clean();
-		amiWebApp.unlock();
 	},
-
-	/*-----------------------------------------------------------------*/
 
 	_showErrorMessage3: function(message)
 	{
-		if(message instanceof Array)
-		{
-			message = message.join('. ');
-		}
-
-		amiWebApp.replaceHTML('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6', amiWebApp.fragmentError, {dict: {MESSAGE: message}});
-
-		$('#F14D98EC_5751_4C15_B4A1_927BA76AFCA6 .alert').fadeOut(45000);
-
+		amiWebApp.error(message, true, '#F14D98EC_5751_4C15_B4A1_927BA76AFCA6');
 		this._clean();
-		amiWebApp.unlock();
 	},
 
 	/*-----------------------------------------------------------------*/

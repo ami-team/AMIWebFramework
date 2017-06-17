@@ -136,11 +136,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
-	_originURLRegExp: /\{\{\s*ORIGIN_URL\s*\}\}/g,
-	_webappURLRegExp: /\{\{\s*WEBAPP_URL\s*\}\}/g,
-
-	/*-----------------------------------------------------------------*/
-
 	_currentSubAppInstance: new function() {
 
 		this.onReady = function() {};
@@ -272,12 +267,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		if(this._isEmbedded === false)
 		{
 			this.loadSheets([
-				/* Third-party */
 				this.originURL + '/css/bootstrap.min.css',
 				this.originURL + '/css/bootstrap-toggle.min.css',
 				this.originURL + '/css/bootstrap-vertical-tabs.min.css',
 				this.originURL + '/css/font-awesome.min.css',
-				/* AMI */
 				this.originURL + '/css/AMI/framework.min.css',
 			]).fail(function() {
 
@@ -289,38 +282,18 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* DEFAULT SCRIPTS                                         */
 		/*---------------------------------------------------------*/
 
-		this.loadScripts([
-			/* Third-party */
-			this.originURL + '/js/jspath.min.js',
-			this.originURL + '/js/bootstrap.min.js',
-			this.originURL + '/js/bootstrap-toggle.min.js',
-			this.originURL + '/js/bootstrap-typeahead.min.js',
-		]).fail(function() {
+		if(true)
+		{
+			this.loadScripts([
+				this.originURL + '/js/jspath.min.js',
+				this.originURL + '/js/bootstrap.min.js',
+				this.originURL + '/js/bootstrap-toggle.min.js',
+				this.originURL + '/js/bootstrap-typeahead.min.js',
+			]).fail(function() {
 
-			alert('service temporarily unreachable, please try reloading the page...');
-		});
-
-		/*---------------------------------------------------------*/
-		/* DEFAULT FRAGMENTS                                       */
-		/*---------------------------------------------------------*/
-
-		this.loadTWIGs([
-			/* AMI */
-			this.originURL + '/twig/AMI/Fragment/alert_success.twig',
-			this.originURL + '/twig/AMI/Fragment/alert_info.twig',
-			this.originURL + '/twig/AMI/Fragment/alert_warning.twig',
-			this.originURL + '/twig/AMI/Fragment/alert_error.twig',
-		], {context: this}).done(function(data) {
-
-			this.fragmentSuccess = data[0];
-			this.fragmentInfo = data[1];
-			this.fragmentWarning = data[2];
-			this.fragmentError = data[3];
-
-		}).fail(function() {
-
-			alert('service temporarily unreachable, please try reloading the page...');
-		});
+				alert('service temporarily unreachable, please try reloading the page...');
+			});
+		}
 
 		/*---------------------------------------------------------*/
 	},
@@ -763,9 +736,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	_xxxHTML: function(selector, html, mode, settings)
 	{
-		html = html.replace(this._originURLRegExp, this.originURL);
-		html = html.replace(this._webappURLRegExp, this.webAppURL);
-
 		var context = null;
 		var dict = null;
 
@@ -779,6 +749,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				dict = settings['dict'];
 			}
 		}
+
+		/*---------------------------------------------------------*/
+
+		if(!dict)
+		{
+			dict = {};
+		}
+
+		dict['ORIGIN_URL'] = this.originURL;
+		dict['WEBAPP_URL'] = this.webAppURL;
 
 		/*---------------------------------------------------------*/
 
@@ -991,57 +971,83 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Show a 'success' message
-	  * @param {String} message the message
-	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	  */
-
-	success: function(message, fadeOut)
-	{
-		if(message instanceof Array)
-		{
-			message = message.join('. ');
-		}
-
-		this.replaceHTML('#ami_status_content', this.fragmentSuccess, {context: this, dict: {MESSAGE: message}}).done(function() {
-
-			this.unlock();
-
-			$(document).scrollTop(0);
-
-			if(fadeOut)
-			{
-				$('#ami_status_content .alert').fadeOut(60000);
-			}
-		});
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
 	  * Show an 'info' message
 	  * @param {String} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  */
 
-	info: function(message, fadeOut)
+	info: function(message, fadeOut, target)
 	{
 		if(message instanceof Array)
 		{
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentInfo, {context: this, dict: {MESSAGE: message}}).done(function() {
+		if(!target)
+		{
+			target = '#ami_status_content';
+		}
 
-			this.unlock();
+		/*---------------------------------------------------------*/
+
+		var html = '<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Info!</strong> ' + this.textToHtml(message) + '</div>';
+
+		/*---------------------------------------------------------*/
+
+		$(target).html(html).promise().done(function() {
+
+			amiWebApp.unlock();
 
 			$(document).scrollTop(0);
 
 			if(fadeOut)
 			{
-				$('#ami_status_content .alert').fadeOut(60000);
+				$(target + ' .alert').fadeOut(60000);
 			}
 		});
+
+		/*---------------------------------------------------------*/
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Show a 'success' message
+	  * @param {String} message the message
+	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+	  */
+
+	success: function(message, fadeOut, target)
+	{
+		if(message instanceof Array)
+		{
+			message = message.join('. ');
+		}
+
+		if(!target)
+		{
+			target = '#ami_status_content';
+		}
+
+		/*---------------------------------------------------------*/
+
+		var html = '<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Success!</strong> ' + this.textToHtml(message) + '</div>';
+
+		/*---------------------------------------------------------*/
+
+		$(target).html(html).promise().done(function() {
+
+			amiWebApp.unlock();
+
+			$(document).scrollTop(0);
+
+			if(fadeOut)
+			{
+				$(target + ' .alert').fadeOut(60000);
+			}
+		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1052,24 +1058,37 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  */
 
-	warning: function(message, fadeOut)
+	warning: function(message, fadeOut, target)
 	{
 		if(message instanceof Array)
 		{
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentWarning, {context: this, dict: {MESSAGE: message}}).done(function() {
+		if(!target)
+		{
+			target = '#ami_status_content';
+		}
 
-			this.unlock();
+		/*---------------------------------------------------------*/
+
+		var html = '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Warning!</strong> ' + this.textToHtml(message) + '</div>';
+
+		/*---------------------------------------------------------*/
+
+		$(target).html(html).promise().done(function() {
+
+			amiWebApp.unlock();
 
 			$(document).scrollTop(0);
 
 			if(fadeOut)
 			{
-				$('#ami_status_content .alert').fadeOut(60000);
+				$(target + ' .alert').fadeOut(60000);
 			}
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1080,24 +1099,37 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  */
 
-	error: function(message, fadeOut)
+	error: function(message, fadeOut, target)
 	{
 		if(message instanceof Array)
 		{
 			message = message.join('. ');
 		}
 
-		this.replaceHTML('#ami_status_content', this.fragmentError, {context: this, dict: {MESSAGE: message}}).done(function() {
+		if(!target)
+		{
+			target = '#ami_status_content';
+		}
 
-			this.unlock();
+		/*---------------------------------------------------------*/
+
+		var html = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Error!</strong> ' + this.textToHtml(message) + '</div>';
+
+		/*---------------------------------------------------------*/
+
+		$(target).html(html).promise().done(function() {
+
+			amiWebApp.unlock();
 
 			$(document).scrollTop(0);
 
 			if(fadeOut)
 			{
-				$('#ami_status_content .alert').fadeOut(60000);
+				$(target + ' .alert').fadeOut(60000);
 			}
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
