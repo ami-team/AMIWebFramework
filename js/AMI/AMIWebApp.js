@@ -1240,8 +1240,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			$.ajax({url: subapps_url, cache: false, dataType: 'json'}).done(function(data2) {
 
-				amiWebApp._components = data1;
-				amiWebApp._subapps = data2;
+				var name;
+
+				for(name in data1)
+				{
+				 	amiWebApp._components[name.toLowerCase()] = data1[name];
+				}
+
+				for(name in data2)
+				{
+				 	amiWebApp._subapps[name.toLowerCase()] = data2[name];
+				}
 
 				if(!this._isEmbedded)
 				{
@@ -1426,7 +1435,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		var subapp = this.args['subapp'] || defaultSubApp;
 		var userdata = this.args['userdata'] || defaultUserData;
 
-		var descr = this._subapps[subapp];
+		var descr = this._subapps[subapp.toLowerCase()];
 
 		if(descr)
 		{
