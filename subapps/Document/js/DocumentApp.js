@@ -7,7 +7,7 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* DocumentApp                                                          */
+/* DocumentApp                                                             */
 /*-------------------------------------------------------------------------*/
 
 $AMIClass('DocumentApp', {
@@ -17,17 +17,9 @@ $AMIClass('DocumentApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	onReady: function(userdata) {
-
-		amiWebApp.loadHTMLs([
-			'subapps/Document/twig/DocumentApp.twig',
-		], {context: this}).done(function(data) {
-
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
-
-				this.load(userdata || 'home.html');
-			});
-		});
+	onReady: function(userdata)
+	{
+		this._load(userdata || 'home.html');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -50,7 +42,7 @@ $AMIClass('DocumentApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	load: function(page)
+	_load: function(page)
 	{
 		var url = amiWebApp.originURL + '/docs/' + page;
 
@@ -63,13 +55,13 @@ $AMIClass('DocumentApp', {
 
 			$('#ami_breadcrumb_content').html('<li><a href="' + amiWebApp.webAppURL + '?subapp=amiDocument">Documents</a></li><li><a href="' + amiWebApp.webAppURL + '?subapp=amidocument&userdata=' + page + '">' + page + '</a></li>');
 
-			amiWebApp.replaceHTML('#F0B88D44_C581_4474_943F_91AA28095DF7', data);
+			amiWebApp.replaceHTML('#ami_main_content', data);
 
 		}).fail(function() {
 
 			if(page !== '404.html')
 			{
-				this.load('404.html');
+				this._load('404.html');
 			}
 		});
 	},
