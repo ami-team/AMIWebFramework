@@ -67,8 +67,8 @@ $AMIClass('CatalogViewerApp', {
 				this.paper = new joint.dia.Paper({
 					model: this.graph,
 					el: el,
-					width: 400,
-					height: 400,
+					width: 1,
+					height: 1,
 					gridSize: 5.0,
 				});
 
