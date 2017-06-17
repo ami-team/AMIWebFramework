@@ -4,11 +4,11 @@ import java.io.*;
 
 import java.util.*;
 
-public class NewIndex
+public class NewHomePage
 {
 	/*---------------------------------------------------------------------*/
 
-	public static void createNewIndex(String title, String endpoint) throws Exception
+	public static void createHomePage(String title, String endpoint) throws Exception
 	{
 		/*-----------------------------------------------------------------*/
 
@@ -18,7 +18,7 @@ public class NewIndex
 
 		/*-----------------------------------------------------------------*/
 
-		File baseDir = new File(NewIndex.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+		File baseDir = new File(NewHomePage.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 
 		while((baseDir = baseDir.getParentFile()) != null)
 		{
@@ -32,7 +32,7 @@ public class NewIndex
 
 		StringBuilder stringBuilder = new StringBuilder();
 
-		NewIndex.loadResource(stringBuilder, "/net/hep/ami/awf/index.html.tpl");
+		NewHomePage.loadResource(stringBuilder, "/net/hep/ami/awf/index.html.tpl");
 
 		FileWriter fileWriter = new FileWriter(new File(baseDir, "index.html"), false);
 
@@ -50,7 +50,7 @@ public class NewIndex
 
 	private static void loadResource(StringBuilder stringBuilder, String path) throws Exception
 	{
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(NewIndex.class.getResourceAsStream(path)));
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(NewHomePage.class.getResourceAsStream(path)));
 
 		try
 		{
@@ -96,10 +96,10 @@ public class NewIndex
 
 		if(args.length != 1)
 		{
-			NewIndex.out("Enter the title:");
+			NewHomePage.out("Enter the title:");
 			title = new Scanner(System.in).nextLine();
 
-			NewIndex.out("Enter the endpoint:");
+			NewHomePage.out("Enter the endpoint:");
 			endpoint = new Scanner(System.in).nextLine();
 		}
 		else
@@ -112,11 +112,11 @@ public class NewIndex
 
 		try
 		{
-			NewIndex.createNewIndex(title, endpoint);
+			NewHomePage.createHomePage(title, endpoint);
 		}
 		catch(Exception e)
 		{
-			NewIndex.err(e.getMessage());
+			NewHomePage.err(e.getMessage());
 
 			System.exit(1);
 		}

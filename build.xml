@@ -68,9 +68,9 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="make-index" description="New index page.">
+	<target name="make-home-page" description="New home page.">
 
-		<java classname="net.hep.ami.awf.NewIndex" failonerror="true" fork="true">
+		<java classname="net.hep.ami.awf.NewHomePage" failonerror="true" fork="true">
 			<classpath location="tools/awf.jar" />
 		</java>
 
@@ -78,7 +78,17 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="make-subapp" description="New sub application.">
+	<target name="make-control" description="New control.">
+
+		<java classname="net.hep.ami.awf.NewControl" failonerror="true" fork="true">
+			<classpath location="tools/awf.jar" />
+		</java>
+
+	</target>
+
+	<!-- ************************************************************ -->
+
+	<target name="make-subapp" description="New sub app.">
 
 		<java classname="net.hep.ami.awf.NewSubApp" failonerror="true" fork="true">
 			<classpath location="tools/awf.jar" />
