@@ -68,12 +68,6 @@ jQuery.foreach = function(elements, callback, context)
 };
 
 /*-------------------------------------------------------------------------*/
-/* INTERNAL VARIABLES                                                      */
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_subAppDict = {};
-
-/*-------------------------------------------------------------------------*/
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
@@ -90,21 +84,6 @@ function _ami_internal_always(deferred, func)
 	{
 		func();
 	}
-}
-
-/*-------------------------------------------------------------------------*/
-/* GLOBAL FUNCTIONS                                                        */
-/*-------------------------------------------------------------------------*/
-
-/**
-  * Register a sub-application
-  * @param {String} subAppName the sub-application name
-  * @param {ami.ISubApp} subAppInstance the sub-application instance
-  */
-
-function amiRegisterSubApp(subAppName, subAppInstance)
-{
-	_ami_internal_subAppDict[subAppName.toLowerCase()] = subAppInstance;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -133,6 +112,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	_scripts: [],
 	_sheets: [],
+
+	_components: {},
+	_subapps: {},
 
 	/*-----------------------------------------------------------------*/
 
@@ -1180,6 +1162,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		/*---------------------------------------------------------*/
 
+		var components_url = this.originURL + '/components/COMPONENTS.json';
+
+		var subapps_url = this.originURL + '/subapps/SUBAPPS.json';
+
+		/*---------------------------------------------------------*/
+
 		var logo_url = this.originURL
 					+ '/images/logo.png';
 		var home_url = this.webAppURL;
@@ -1248,59 +1236,75 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		if(!this._isEmbedded)
-		{
-			/*-------------------------------------------------*/
+		$.ajax({url: components_url, cache: false, dataType: 'json'}).done(function(data1) {
 
-			var dict = {
-				LOGO_URL: logo_url,
-				HOME_URL: home_url,
-				CONTACT_EMAIL: contact_email,
-				ABOUT_URL: about_url,
-			};
+			$.ajax({url: subapps_url, cache: false, dataType: 'json'}).done(function(data2) {
 
-			/*-------------------------------------------------*/
+				amiWebApp._components = data1;
+				amiWebApp._subapps = data2;
 
-			$.ajax({url: theme_url, cache: false, dataType: 'html'}).done(function(data1) {
+				if(!this._isEmbedded)
+				{
+					/*---------------------------------*/
 
-				$.ajax({url: locker_url, cache: false, dataType: 'html'}).done(function(data2) {
+					var dict = {
+						LOGO_URL: logo_url,
+						HOME_URL: home_url,
+						CONTACT_EMAIL: contact_email,
+						ABOUT_URL: about_url,
+					};
 
-					$('body').append(amiWebApp.formatHTML(data1, dict) + data2).promise().done(function() {
+					/*---------------------------------*/
 
-						amiLogin._init().done(function() {
+					$.ajax({url: theme_url, cache: false, dataType: 'html'}).done(function(data3) {
 
-							amiWebApp.onStart();
+						$.ajax({url: locker_url, cache: false, dataType: 'html'}).done(function(data4) {
+
+							$('body').append(amiWebApp.formatHTML(data3, dict) + data4).promise().done(function() {
+
+								amiLogin._init().done(function() {
+
+									amiWebApp.onStart();
+								});
+							});
+
+						}).fail(function() {
+
+							alert('service temporarily unreachable, please try reloading the page...');
+						});
+					}).fail(function() {
+
+						alert('service temporarily unreachable, please try reloading the page...');
+					});
+
+					/*---------------------------------*/
+				}
+				else
+				{
+					/*---------------------------------*/
+
+					$.ajax({url: locker_url, cache: false, dataType: 'html'}).done(function(data) {
+
+						$('body').append(data).promise().done(function() {
+
+							amiLogin._init().done(function() {
+
+								amiWebApp.onStart();
+							});
 						});
 					});
 
-				}).fail(function() {
+					/*---------------------------------*/
+				}
 
-					alert('service temporarily unreachable, please try reloading the page...');
-				});
 			}).fail(function() {
 
 				alert('service temporarily unreachable, please try reloading the page...');
 			});
+		}).fail(function() {
 
-			/*-------------------------------------------------*/
-		}
-		else
-		{
-			/*-------------------------------------------------*/
-
-			$.ajax({url: locker_url, cache: false, dataType: 'html'}).done(function(data) {
-
-				$('body').append(data).promise().done(function() {
-
-					amiLogin._init().done(function() {
-
-						amiWebApp.onStart();
-					});
-				});
-			});
-
-			/*-------------------------------------------------*/
-		}
+			alert('service temporarily unreachable, please try reloading the page...');
+		});
 
 		/*---------------------------------------------------------*/
 	},
@@ -1339,11 +1343,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Set the current sub-application instance
-	  * @param {AMISubApp} subAppInstance the application instance
-	  * @param {?} [userdata] userdata
+	  * @param {AMISubApp} subAppInstance the sub-application instance
+	  * @param {?} [userdata] the userdata
 	  */
 
-	setCurrentSubAppInstance: function(subAppInstance, userdata)
+	setCurrentSubAppInstance: function(subAppInstance, userData)
 	{
 		/*---------------------------------------------------------*/
 		/* CHECK SUB-APPLICATION                                   */
@@ -1395,7 +1399,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		this.lock();
 
 		_ami_internal_always(
-			amiWebApp.onReady(userdata),
+			amiWebApp.onReady(userData),
 			function() {
 				_ami_internal_always(
 					amiWebApp.onLogin(),
@@ -1413,22 +1417,31 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Runs a sub-application according to the URL (parameters 'subapp' and 'userdata')
-	  * @param {String} home the name of the home sub-application
+	  * @param {String} [defaultSubApp] the default sub-application name
+	  * @param {?} [defaultUserData] the default userdata
 	  */
 
-	autoRunSubApp: function(home)
+	autoRunSubApp: function(defaultSubApp, defaultUserData)
 	{
-		var subapp = this.args['subapp'] || home;
-		var userdata = this.args['userdata'] || null;
+		var subapp = this.args['subapp'] || defaultSubApp;
+		var userdata = this.args['userdata'] || defaultUserData;
 
-		if(subapp)
+		var descr = this._subapps[subapp];
+
+		if(descr)
 		{
-			subapp = subapp.toLowerCase();
+			this.loadScripts([descr.file], {context: this}).done(function() {
 
-			if(subapp in _ami_internal_subAppDict)
-			{
-				this.setCurrentSubAppInstance(_ami_internal_subAppDict[subapp], userdata);
-			}
+				this.setCurrentSubAppInstance(window[descr.instance], userdata);
+
+			}).fail(function() {
+
+				this.error('could not load sub-application');
+			});
+		}
+		else
+		{
+			this.error('could not load sub-application');
 		}
 	},
 

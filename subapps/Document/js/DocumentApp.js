@@ -7,10 +7,10 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* AMIDocumentApp                                                          */
+/* DocumentApp                                                          */
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('AMIDocumentApp', {
+$AMIClass('DocumentApp', {
 	/*-----------------------------------------------------------------*/
 
 	$implements: [ami.ISubApp],
@@ -20,7 +20,7 @@ $AMIClass('AMIDocumentApp', {
 	onReady: function(userdata) {
 
 		amiWebApp.loadHTMLs([
-			'subapps/Document/twig/AMIDocumentApp.twig',
+			'subapps/Document/twig/DocumentApp.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
@@ -86,8 +86,6 @@ $AMIClass('AMIDocumentApp', {
 /* GLOBAL INSTANCE                                                         */
 /*-------------------------------------------------------------------------*/
 
-amiDocumentApp = new AMIDocumentApp();
-
-amiRegisterSubApp('amiDocument', amiDocumentApp);
+documentApp = new DocumentApp();
 
 /*-------------------------------------------------------------------------*/

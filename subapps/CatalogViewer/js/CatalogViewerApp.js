@@ -549,6 +549,4 @@ $AMIClass('CatalogViewerApp', {
 
 catalogViewerApp = new CatalogViewerApp();
 
-amiRegisterSubApp('catalogViewer', catalogViewerApp, {});
-
 /*-------------------------------------------------------------------------*/

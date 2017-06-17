@@ -13,23 +13,11 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/AMI/framework.min.js"></script>
 
-    <script type="text/javascript" src="subapps/AdminDashboard/js/AMIAdminDashboardApp.js"></script>
-    <script type="text/javascript" src="subapps/Monitoring/js/AMIMonitoringApp.js"></script>
-    <script type="text/javascript" src="subapps/Document/js/AMIDocumentApp.js"></script>
-    <script type="text/javascript" src="subapps/Command/js/AMICommandApp.js"></script>
-    <script type="text/javascript" src="subapps/SearchModeler/js/AMISearchModelerApp.js"></script>
-    <script type="text/javascript" src="subapps/SearchEngine/js/AMISearchEngineApp.js"></script>
-    <script type="text/javascript" src="subapps/SimpleSearchEngine/js/AMISimpleSearchEngineApp.js"></script>
-    <script type="text/javascript" src="subapps/Bootstrap/js/BootstrapApp.js"></script>
-    <script type="text/javascript" src="subapps/Table/js/AMITableApp.js"></script>
-    <script type="text/javascript" src="subapps/RDFViewer/js/RDFViewerApp.js"></script>
-    <script type="text/javascript" src="subapps/CatalogViewer/js/CatalogViewerApp.js"></script>
-
     <script type="text/javascript">
 
 	amiWebApp.onStart = function() {
 
-		amiWebApp.autoRunSubApp('amiDocument');
+		amiWebApp.autoRunSubApp();
 	};
 
 	amiWebApp.onToolbarUpdateNeeded = function() {
@@ -49,7 +37,7 @@
 			'    Tools <span class="caret"></span>' +
 			'  </a>' +
 			'  <ul class="dropdown-menu">' +
-			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiCommand">Command Line</a></li>' +
+			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=command">Command Line</a></li>' +
 			'  </ul>' +
 			'</li>'
 		;
@@ -77,11 +65,6 @@
 	};
 
     </script>
-
-    <!--[if lt IE 9]>
-      <script type="text/javascript" src="js/html5shiv.min.js"></script>
-      <script type="text/javascript" src="js/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body>
 

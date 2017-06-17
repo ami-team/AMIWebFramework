@@ -9,10 +9,10 @@
  */
 
 /*-------------------------------------------------------------------------*/
-/* AMICommandApp                                                           */
+/* CommandApp                                                              */
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('AMICommandApp', {
+$AMIClass('CommandApp', {
 	/*-----------------------------------------------------------------*/
 
 	$implements: [ami.ISubApp],
@@ -30,7 +30,7 @@ $AMIClass('AMICommandApp', {
 		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
-			'subapps/Command/twig/AMICommandApp.twig',
+			'subapps/Command/twig/CommandApp.twig',
 			'subapps/Command/twig/Fragment/command.twig',
 			'subapps/Command/twig/Fragment/result.twig',
 		], {context: this}).done(function(data) {
@@ -188,8 +188,6 @@ $AMIClass('AMICommandApp', {
 /* GLOBAL INSTANCE                                                         */
 /*-------------------------------------------------------------------------*/
 
-amiCommandApp = new AMICommandApp();
-
-amiRegisterSubApp('amiCommand', amiCommandApp);
+commandApp = new CommandApp();
 
 /*-------------------------------------------------------------------------*/
