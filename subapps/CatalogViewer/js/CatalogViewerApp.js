@@ -74,7 +74,7 @@ $AMIClass('CatalogViewerApp', {
 
 				/*-----------------------------------------*/
 
-				if(amiLogin.hasRole('AMI_admin_role'))
+				if(amiLogin.hasRole('AMI_ADMIN'))
 				{
 					el.find('svg').css('background-image', 'url("' + this.getGridBackgroundImage(10, 10) + '")');
 				}
@@ -145,7 +145,7 @@ $AMIClass('CatalogViewerApp', {
 
 				$.foreach(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', data2), function(index, value) {
 
-					if(value !== 'self' || amiLogin.hasRole('AMI_admin_role'))
+					if(value !== 'self' || amiLogin.hasRole('AMI_ADMIN'))
 					{
  						if(value === this.defaultCatalog)
 						{
@@ -443,7 +443,7 @@ $AMIClass('CatalogViewerApp', {
 
 	saveSchema: function(catalog)
 	{
-		if(amiLogin.hasRole('AMI_admin_role') === false)
+		if(amiLogin.hasRole('AMI_ADMIN') === false)
 		{
 			amiWebApp.error('operation not authorized', true);
 

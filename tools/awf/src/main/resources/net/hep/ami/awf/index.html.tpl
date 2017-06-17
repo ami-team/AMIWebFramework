@@ -13,25 +13,22 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/AMI/framework.min.js"></script>
 
-    <script type="text/javascript" src="subapps/Document/js/AMIDocumentApp.js"></script>
-    <script type="text/javascript" src="subapps/Command/js/AMICommandApp.js"></script>
-
     <script type="text/javascript">
 
-	amiWebApp.onStart = function() {
-
-		amiWebApp.autoRunSubApp('amiDocument');
+	amiWebApp.onStart = function()
+	{
+		amiWebApp.autoRunSubApp('document');
 	};
 
-	amiWebApp.onToolbarUpdateNeeded = function() {
-
+	amiWebApp.onToolbarUpdateNeeded = function()
+	{
 		var menu =
 			'<li class="dropdown">' +
 			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
 			'    Tools <span class="caret"></span>' +
 			'  </a>' +
 			'  <ul class="dropdown-menu">' +
-			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiCommand">Command Line</a></li>' +
+			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=command">Command</a></li>' +
 			'  </ul>' +
 			'</li>'
 		;
@@ -44,7 +41,7 @@
 				'    <i class="fa fa-key"></i> Admin <span class="caret"></span>' +
 				'  </a>' +
 				'  <ul class="dropdown-menu">' +
-				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiDocument&userdata=api.html">AMI Web framework API</a></li>' +
+				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=document&userdata=api.html">AMI Web Framework API</a></li>' +
 				'  </ul>' +
 				'</li>'
 			;
@@ -54,11 +51,6 @@
 	};
 
     </script>
-
-    <!--[if lt IE 9]>
-      <script type="text/javascript" src="js/html5shiv.min.js"></script>
-      <script type="text/javascript" src="js/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body>
 
