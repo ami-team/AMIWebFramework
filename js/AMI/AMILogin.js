@@ -131,7 +131,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/*-------------------------------------------------*/
 		}).fail(function() {
 
-			alert('Service temporarily unavailable, please try reloading the page...');
+			alert('service temporarily unavailable, please reload the page...');
 		});
 
 		return result.promise();
