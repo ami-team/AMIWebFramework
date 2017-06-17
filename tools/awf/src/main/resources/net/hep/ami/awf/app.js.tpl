@@ -86,6 +86,4 @@ $AMIClass('{{NAME}}App', {
 
 {{name}}App = new {{NAME}}App();
 
-amiRegisterSubApp('{{name}}', {{name}}App, {});
-
 /*-------------------------------------------------------------------------*/
