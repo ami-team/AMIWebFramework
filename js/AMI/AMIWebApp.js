@@ -1389,7 +1389,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if($('#ami_main_content').is(':empty'))
 			{
-				$('#ami_main_content').html('service temporarily unreachable, please try reloading the page...');
+				$('#ami_main_content').html('could not load sub-application');
 			}
 
 		}, this.timeout);
@@ -1417,7 +1417,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Runs a sub-application according to the URL (parameters 'subapp' and 'userdata')
-	  * @param {String} [defaultSubApp] the default sub-application name
+	  * @param {String} defaultSubApp the default sub-application name
 	  * @param {?} [defaultUserData] the default userdata
 	  */
 
@@ -1432,7 +1432,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			this.loadScripts([descr.file], {context: this}).done(function() {
 
-				this.setCurrentSubAppInstance(window[descr.instance], userdata);
+				this.setCurrentSubAppInstance(descr.instance, userdata);
 
 			}).fail(function() {
 
