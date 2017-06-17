@@ -13,13 +13,11 @@
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/AMI/framework.min.js"></script>
 
-    <script type="text/javascript" src="subapps/Monitoring/js/AMIMonitoringApp.js"></script>
-
     <script type="text/javascript">
 
 	amiWebApp.onStart = function() {
 
-		amiWebApp.autoRunSubApp('amiMonitoring');
+		amiWebApp.autoRunSubApp('monitoring');
 	};
 
 	amiWebApp.onToolbarUpdateNeeded = function() {
@@ -27,11 +25,6 @@
 	};
 
     </script>
-
-    <!--[if lt IE 9]>
-      <script type="text/javascript" src="js/html5shiv.min.js"></script>
-      <script type="text/javascript" src="js/respond.min.js"></script>
-    <![endif]-->
   </head>
   <body>
 
@@ -40,6 +33,7 @@
 	if(amiWebApp.isLocal())
 	{
 		amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';
+//		amiCommand.endpoint = 'https://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 	}
 	else
 	{
