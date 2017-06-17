@@ -1344,7 +1344,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/**
 	  * Set the current sub-application instance
 	  * @param {AMISubApp} subAppInstance the sub-application instance
-	  * @param {?} [userdata] the userdata
+	  * @param {?} [userData] the user data
 	  */
 
 	setCurrentSubAppInstance: function(subAppInstance, userData)
@@ -1418,7 +1418,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/**
 	  * Runs a sub-application according to the URL (parameters 'subapp' and 'userdata')
 	  * @param {String} defaultSubApp the default sub-application name
-	  * @param {?} [defaultUserData] the default userdata
+	  * @param {?} [defaultUserData] the default user data
 	  */
 
 	autoRunSubApp: function(defaultSubApp, defaultUserData)
@@ -1432,7 +1432,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			this.loadScripts([descr.file], {context: this}).done(function() {
 
-				this.setCurrentSubAppInstance(descr.instance, userdata);
+				this.setCurrentSubAppInstance(window[descr.instance], userdata);
 
 			}).fail(function() {
 
