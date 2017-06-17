@@ -25,12 +25,7 @@ $AMIClass('DocumentApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-				if(!userdata)
-				{
-					userdata = 'home.html';
-				}
-
-				this.load(userdata);
+				this.load(userdata || 'home.html');
 			});
 		});
 	},
