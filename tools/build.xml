@@ -164,8 +164,8 @@
 
 			<!-- ******************************************** -->
 
-			<copy todir="components" overwrite="true">
-				<fileset dir="${AMIWebAppTmpDir}/components" includes="**/*" />
+			<copy todir="controls" overwrite="true">
+				<fileset dir="${AMIWebAppTmpDir}/controls" includes="**/*" />
 			</copy>
 
 			<copy todir="docs" overwrite="true">

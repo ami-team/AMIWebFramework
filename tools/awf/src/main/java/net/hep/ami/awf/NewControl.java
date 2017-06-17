@@ -4,11 +4,11 @@ import java.io.*;
 
 import java.util.*;
 
-public class NewSubApp
+public class NewControl
 {
 	/*---------------------------------------------------------------------*/
 
-	public static void createNewSubApp(String x) throws Exception
+	public static void createNewControl(String x) throws Exception
 	{
 		/*-----------------------------------------------------------------*/
 
@@ -16,7 +16,7 @@ public class NewSubApp
 
 		if(x.matches("[a-zA-Z][a-zA-Z0-9]*") == false)
 		{
-			throw new Exception("Invalid sub app name `" + x + "`.");
+			throw new Exception("Invalid control name `" + x + "`.");
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -30,11 +30,11 @@ public class NewSubApp
 
 		/*-----------------------------------------------------------------*/
 
-		File baseDir = new File(NewSubApp.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+		File baseDir = new File(NewControl.class.getProtectionDomain().getCodeSource().getLocation().toURI());
 
 		while((baseDir = baseDir.getParentFile()) != null)
 		{
-			File temp = new File(baseDir, "subapps");
+			File temp = new File(baseDir, "controls");
 
 			if(temp.exists())
 			{
@@ -50,7 +50,7 @@ public class NewSubApp
 
 		if(appDir.mkdir() == false)
 		{
-			throw new Exception("The project already exists.");
+			throw new Exception("The control already exists.");
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -67,9 +67,9 @@ public class NewSubApp
 
 		StringBuilder stringBuilder1 = new StringBuilder();
 
-		NewSubApp.loadResource(stringBuilder1, "/net/hep/ami/awf/app.js.tpl");
+		NewControl.loadResource(stringBuilder1, "/net/hep/ami/awf/ctrl.js.tpl");
 
-		FileWriter fileWriter1 = new FileWriter(new File(jsDir, NAME + "App.js"), false);
+		FileWriter fileWriter1 = new FileWriter(new File(jsDir, NAME + "Ctrl.js"), false);
 
 		try {
 			fileWriter1.write(stringBuilder1.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
@@ -82,9 +82,9 @@ public class NewSubApp
 
 		StringBuilder stringBuilder2 = new StringBuilder();
 
-		NewSubApp.loadResource(stringBuilder2, "/net/hep/ami/awf/app.css.tpl");
+		NewControl.loadResource(stringBuilder2, "/net/hep/ami/awf/ctrl.css.tpl");
 
-		FileWriter fileWriter2 = new FileWriter(new File(cssDir, NAME + "App.css"), false);
+		FileWriter fileWriter2 = new FileWriter(new File(cssDir, NAME + "Ctrl.css"), false);
 
 		try {
 			fileWriter2.write(stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
@@ -97,9 +97,9 @@ public class NewSubApp
 
 		StringBuilder stringBuilder3 = new StringBuilder();
 
-		NewSubApp.loadResource(stringBuilder3, "/net/hep/ami/awf/app.twig.tpl");
+		NewControl.loadResource(stringBuilder3, "/net/hep/ami/awf/ctrl.twig.tpl");
 
-		FileWriter fileWriter3 = new FileWriter(new File(twigDir, NAME + "App.twig"), false);
+		FileWriter fileWriter3 = new FileWriter(new File(twigDir, NAME + "Ctrl.twig"), false);
 
 		try {
 			fileWriter3.write(stringBuilder3.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
@@ -115,7 +115,7 @@ public class NewSubApp
 
 	private static void loadResource(StringBuilder stringBuilder, String path) throws Exception
 	{
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(NewSubApp.class.getResourceAsStream(path)));
+		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(NewControl.class.getResourceAsStream(path)));
 
 		try
 		{
@@ -160,7 +160,7 @@ public class NewSubApp
 
 		if(args.length != 1)
 		{
-			NewSubApp.out("Enter the sub app name ([a-zA-Z][a-zA-Z0-9]*):");
+			NewControl.out("Enter the control name ([a-zA-Z][a-zA-Z0-9]*):");
 
 			name = new Scanner(System.in).nextLine();
 		}
@@ -173,11 +173,11 @@ public class NewSubApp
 
 		try
 		{
-			NewSubApp.createNewSubApp(name);
+			NewControl.createNewControl(name);
 		}
 		catch(Exception e)
 		{
-			NewSubApp.err(e.getMessage());
+			NewControl.err(e.getMessage());
 
 			System.exit(1);
 		}
