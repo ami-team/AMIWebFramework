@@ -67,87 +67,27 @@ public class NewSubApp
 
 		StringBuilder stringBuilder1 = new StringBuilder();
 
-		NewSubApp.loadResource(stringBuilder1, "/net/hep/ami/awf/app.js.tpl");
+		Utilities.loadResource(stringBuilder1, "/net/hep/ami/awf/app.js.tpl");
 
-		FileWriter fileWriter1 = new FileWriter(new File(jsDir, NAME + "App.js"), false);
-
-		try {
-			fileWriter1.write(stringBuilder1.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
-		}
-		finally {
-			fileWriter1.close();
-		}
+		Utilities.writeStringToFile(new File(jsDir, NAME + "App.js"), stringBuilder1.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
 
 		StringBuilder stringBuilder2 = new StringBuilder();
 
-		NewSubApp.loadResource(stringBuilder2, "/net/hep/ami/awf/app.css.tpl");
+		Utilities.loadResource(stringBuilder2, "/net/hep/ami/awf/app.css.tpl");
 
-		FileWriter fileWriter2 = new FileWriter(new File(cssDir, NAME + "App.css"), false);
-
-		try {
-			fileWriter2.write(stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
-		}
-		finally {
-			fileWriter2.close();
-		}
+		Utilities.writeStringToFile(new File(cssDir, NAME + "App.css"), stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
 
 		StringBuilder stringBuilder3 = new StringBuilder();
 
-		NewSubApp.loadResource(stringBuilder3, "/net/hep/ami/awf/app.twig.tpl");
+		Utilities.loadResource(stringBuilder3, "/net/hep/ami/awf/app.twig.tpl");
 
-		FileWriter fileWriter3 = new FileWriter(new File(twigDir, NAME + "App.twig"), false);
-
-		try {
-			fileWriter3.write(stringBuilder3.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
-		}
-		finally {
-			fileWriter3.close();
-		}
+		Utilities.writeStringToFile(new File(twigDir, NAME + "App.twig"), stringBuilder3.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
-	}
-
-	/*---------------------------------------------------------------------*/
-
-	private static void loadResource(StringBuilder stringBuilder, String path) throws Exception
-	{
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(NewSubApp.class.getResourceAsStream(path)));
-
-		try
-		{
-			String line;
-
-			while((line = bufferedReader.readLine()) != null)
-			{
-				stringBuilder.append(line)
-				             .append('\n')
-				;
-			}
-		}
-		finally
-		{
-			bufferedReader.close();
-		}
-	}
-
-	/*---------------------------------------------------------------------*/
-
-	private static void out(String s)
-	{
-		System.out.println(s);
-		System.out.flush();
-	}
-
-	/*---------------------------------------------------------------------*/
-
-	private static void err(String s)
-	{
-		System.err.println(s);
-		System.err.flush();
 	}
 
 	/*---------------------------------------------------------------------*/
@@ -160,7 +100,7 @@ public class NewSubApp
 
 		if(args.length != 1)
 		{
-			NewSubApp.out("Enter the sub app name ([a-zA-Z][a-zA-Z0-9]*):");
+			Utilities.out("Enter the sub app name ([a-zA-Z][a-zA-Z0-9]*):");
 
 			name = new Scanner(System.in).nextLine();
 		}
@@ -177,7 +117,7 @@ public class NewSubApp
 		}
 		catch(Exception e)
 		{
-			NewSubApp.err(e.getMessage());
+			Utilities.err(e.getMessage());
 
 			System.exit(1);
 		}

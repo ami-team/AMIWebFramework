@@ -32,57 +32,11 @@ public class NewHomePage
 
 		StringBuilder stringBuilder = new StringBuilder();
 
-		NewHomePage.loadResource(stringBuilder, "/net/hep/ami/awf/index.html.tpl");
+		Utilities.loadResource(stringBuilder, "/net/hep/ami/awf/index.html.tpl");
 
-		FileWriter fileWriter = new FileWriter(new File(baseDir, "index.html"), false);
-
-		try {
-			fileWriter.write(stringBuilder.toString().replace("{{TITLE}}", title).replace("{{ENDPOINT}}", endpoint));
-		}
-		finally {
-			fileWriter.close();
-		}
+		Utilities.writeStringToFile(new File(baseDir, "index.html"), stringBuilder.toString().replace("{{TITLE}}", title).replace("{{ENDPOINT}}", endpoint));
 
 		/*-----------------------------------------------------------------*/
-	}
-
-	/*---------------------------------------------------------------------*/
-
-	private static void loadResource(StringBuilder stringBuilder, String path) throws Exception
-	{
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(NewHomePage.class.getResourceAsStream(path)));
-
-		try
-		{
-			String line;
-
-			while((line = bufferedReader.readLine()) != null)
-			{
-				stringBuilder.append(line)
-				             .append('\n')
-				;
-			}
-		}
-		finally
-		{
-			bufferedReader.close();
-		}
-	}
-
-	/*---------------------------------------------------------------------*/
-
-	private static void out(String s)
-	{
-		System.out.println(s);
-		System.out.flush();
-	}
-
-	/*---------------------------------------------------------------------*/
-
-	private static void err(String s)
-	{
-		System.err.println(s);
-		System.err.flush();
 	}
 
 	/*---------------------------------------------------------------------*/
@@ -96,10 +50,10 @@ public class NewHomePage
 
 		if(args.length != 1)
 		{
-			NewHomePage.out("Enter the title:");
+			Utilities.out("Enter the title:");
 			title = new Scanner(System.in).nextLine();
 
-			NewHomePage.out("Enter the endpoint:");
+			Utilities.out("Enter the endpoint:");
 			endpoint = new Scanner(System.in).nextLine();
 		}
 		else
@@ -116,7 +70,7 @@ public class NewHomePage
 		}
 		catch(Exception e)
 		{
-			NewHomePage.err(e.getMessage());
+			Utilities.err(e.getMessage());
 
 			System.exit(1);
 		}

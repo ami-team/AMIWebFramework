@@ -67,87 +67,27 @@ public class NewControl
 
 		StringBuilder stringBuilder1 = new StringBuilder();
 
-		NewControl.loadResource(stringBuilder1, "/net/hep/ami/awf/ctrl.js.tpl");
+		Utilities.loadResource(stringBuilder1, "/net/hep/ami/awf/ctrl.js.tpl");
 
-		FileWriter fileWriter1 = new FileWriter(new File(jsDir, NAME + "Ctrl.js"), false);
-
-		try {
-			fileWriter1.write(stringBuilder1.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
-		}
-		finally {
-			fileWriter1.close();
-		}
+		Utilities.writeStringToFile(new File(jsDir, NAME + "Ctrl.js"), stringBuilder1.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
 
 		StringBuilder stringBuilder2 = new StringBuilder();
 
-		NewControl.loadResource(stringBuilder2, "/net/hep/ami/awf/ctrl.css.tpl");
+		Utilities.loadResource(stringBuilder2, "/net/hep/ami/awf/ctrl.css.tpl");
 
-		FileWriter fileWriter2 = new FileWriter(new File(cssDir, NAME + "Ctrl.css"), false);
-
-		try {
-			fileWriter2.write(stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
-		}
-		finally {
-			fileWriter2.close();
-		}
+		Utilities.writeStringToFile(new File(cssDir, NAME + "Ctrl.css"), stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
 
 		StringBuilder stringBuilder3 = new StringBuilder();
 
-		NewControl.loadResource(stringBuilder3, "/net/hep/ami/awf/ctrl.twig.tpl");
+		Utilities.loadResource(stringBuilder3, "/net/hep/ami/awf/ctrl.twig.tpl");
 
-		FileWriter fileWriter3 = new FileWriter(new File(twigDir, NAME + "Ctrl.twig"), false);
-
-		try {
-			fileWriter3.write(stringBuilder3.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
-		}
-		finally {
-			fileWriter3.close();
-		}
+		Utilities.writeStringToFile(new File(twigDir, NAME + "Ctrl.twig"), stringBuilder3.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
-	}
-
-	/*---------------------------------------------------------------------*/
-
-	private static void loadResource(StringBuilder stringBuilder, String path) throws Exception
-	{
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(NewControl.class.getResourceAsStream(path)));
-
-		try
-		{
-			String line;
-
-			while((line = bufferedReader.readLine()) != null)
-			{
-				stringBuilder.append(line)
-				             .append('\n')
-				;
-			}
-		}
-		finally
-		{
-			bufferedReader.close();
-		}
-	}
-
-	/*---------------------------------------------------------------------*/
-
-	private static void out(String s)
-	{
-		System.out.println(s);
-		System.out.flush();
-	}
-
-	/*---------------------------------------------------------------------*/
-
-	private static void err(String s)
-	{
-		System.err.println(s);
-		System.err.flush();
 	}
 
 	/*---------------------------------------------------------------------*/
@@ -160,7 +100,7 @@ public class NewControl
 
 		if(args.length != 1)
 		{
-			NewControl.out("Enter the control name ([a-zA-Z][a-zA-Z0-9]*):");
+			Utilities.out("Enter the control name ([a-zA-Z][a-zA-Z0-9]*):");
 
 			name = new Scanner(System.in).nextLine();
 		}
@@ -177,7 +117,7 @@ public class NewControl
 		}
 		catch(Exception e)
 		{
-			NewControl.err(e.getMessage());
+			Utilities.err(e.getMessage());
 
 			System.exit(1);
 		}
