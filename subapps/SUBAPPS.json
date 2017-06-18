@@ -1,8 +1,4 @@
 {
-	"catalogViewer": {
-		"file": "subapps/CatalogViewer/js/CatalogViewerApp.js",
-		"instance": "catalogViewerApp"
-	},
 	"command": {
 		"file": "subapps/Command/js/CommandApp.js",
 		"instance": "commandApp"
@@ -10,5 +6,9 @@
 	"document": {
 		"file": "subapps/Document/js/DocumentApp.js",
 		"instance": "documentApp"
+	},
+	"schemaViewer": {
+		"file": "subapps/SchemaViewer/js/SchemaViewerApp.js",
+		"instance": "schemaViewerApp"
 	}
 }

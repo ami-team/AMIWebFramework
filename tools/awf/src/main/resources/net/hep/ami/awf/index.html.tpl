@@ -24,12 +24,21 @@
 	{
 		var menu =
 			'<li class="dropdown">' +
-			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
-			'    Tools <span class="caret"></span>' +
-			'  </a>' +
-			'  <ul class="dropdown-menu">' +
-			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=command">Command</a></li>' +
-			'  </ul>' +
+			'	<a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
+			'		Catalogs <span class="caret"></span>' +
+			'	</a>' +
+			'	<ul class="dropdown-menu">' +
+			'		<li class="divider" role="separator"></li>' +
+			'		<li><a href="' + amiWebApp.webAppURL + '?subapp=schemaViewer">Schema Viewer</a></li>' +
+			'	</ul>' +
+			'</li>' +
+			'<li class="dropdown">' +
+			'	<a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
+			'		Tools <span class="caret"></span>' +
+			'	</a>' +
+			'	<ul class="dropdown-menu">' +
+			'		<li><a href="' + amiWebApp.webAppURL + '?subapp=command">Command</a></li>' +
+			'	</ul>' +
 			'</li>'
 		;
 

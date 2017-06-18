@@ -13,7 +13,7 @@
 
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('CatalogViewerApp', {
+$AMIClass('SchemaViewerApp', {
 	/*-----------------------------------------------------------------*/
 
 	$implements: [ami.ISubApp],
@@ -29,12 +29,12 @@ $AMIClass('CatalogViewerApp', {
 			'js/3rd-party/jointjs/lodash.min.js',
 			'js/3rd-party/jointjs/backbone-min.js',
 			'js/3rd-party/jointjs/joint.min.js',
-			'subapps/CatalogViewer/js/joint.shapes.sql.js',
+			'subapps/SchemaViewer/js/joint.shapes.sql.js',
 		]);
 
 		amiWebApp.loadSheets([
 			'css/3rd-party/jointjs/joint.min.css',
-			'subapps/CatalogViewer/css/CatalogViewerApp.css',
+			'subapps/SchemaViewer/css/SchemaViewerApp.css',
 		]);
 
 		/*---------------------------------------------------------*/
@@ -46,7 +46,7 @@ $AMIClass('CatalogViewerApp', {
 		var result = $.Deferred();
 
 		amiWebApp.loadHTMLs([
-			'subapps/CatalogViewer/twig/CatalogViewerApp.twig',
+			'subapps/SchemaViewer/twig/SchemaViewerApp.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
@@ -90,10 +90,10 @@ $AMIClass('CatalogViewerApp', {
 
 				this.paper.on('resize', function(width, height) {
 
-					if(catalogViewerApp.resizeTriggerOn)
+					if(schemaViewerApp.resizeTriggerOn)
 					{
-						$('#E16F14F4_FBB4_43A3_AC79_76BEE3087F77').val(catalogViewerApp.paperWidth = width);
-						$('#DB5F6C24_4775_40D5_AFA4_F1847423A4B5').val(catalogViewerApp.paperHeight = height);
+						$('#E16F14F4_FBB4_43A3_AC79_76BEE3087F77').val(schemaViewerApp.paperWidth = width);
+						$('#DB5F6C24_4775_40D5_AFA4_F1847423A4B5').val(schemaViewerApp.paperHeight = height);
 					}
 				});
 
@@ -283,9 +283,9 @@ $AMIClass('CatalogViewerApp', {
 				{
 					var text = JSON.parse(e.target.result);
 
-					catalogViewerApp.graph.fromJSON(text);
+					schemaViewerApp.graph.fromJSON(text);
 
-					catalogViewerApp.fitToContent();
+					schemaViewerApp.fitToContent();
 				}
 				catch(e)
 				{
@@ -552,6 +552,6 @@ $AMIClass('CatalogViewerApp', {
 /* GLOBAL INSTANCE                                                         */
 /*-------------------------------------------------------------------------*/
 
-catalogViewerApp = new CatalogViewerApp();
+schemaViewerApp = new SchemaViewerApp();
 
 /*-------------------------------------------------------------------------*/
