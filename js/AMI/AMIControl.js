@@ -23,7 +23,12 @@
 $AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 	/*-----------------------------------------------------------------*/
 
-	/* TODO */
+	/**
+	  * Render the control
+	  * @param {String} id the target id
+	  */
+
+	render: function() {},
 
 	/*-----------------------------------------------------------------*/
 });

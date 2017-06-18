@@ -784,7 +784,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Replace the HTML content of the given target
-	  * @param {String} path the target path
+	  * @param {String} selector the target selector
 	  * @param {String} html the HTML fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -799,7 +799,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Prepends a HTML fragment to the given target content
-	  * @param {String} path the target path
+	  * @param {String} selector the target selector
 	  * @param {String} html the HTML fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -814,7 +814,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Appends a HTML fragment to the given target content
-	  * @param {String} path the target path
+	  * @param {String} selector the target selector
 	  * @param {String} html the HTML fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -932,7 +932,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* MESSAGES                                                        */
 	/*-----------------------------------------------------------------*/
 
-	_publishAlert: function(target, html)
+	_publishAlert: function(html, fadeOut, target)
 	{
 		if(!target)
 		{
@@ -958,6 +958,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Show an 'info' message
 	  * @param {String} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+	  * @param {String} [id=null] the target id
 	  */
 
 	info: function(message, fadeOut, target)
@@ -967,7 +968,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this._publishAlert(target, '<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Info!</strong> ' + this.textToHtml(message) + '</div>');
+		this._publishAlert('<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Info!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -976,6 +977,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Show a 'success' message
 	  * @param {String} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+	  * @param {String} [id=null] the target id
 	  */
 
 	success: function(message, fadeOut, target)
@@ -985,7 +987,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this._publishAlert(target, '<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Success!</strong> ' + this.textToHtml(message) + '</div>');
+		this._publishAlert('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Success!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -994,6 +996,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Show a 'warning' message
 	  * @param {String} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+	  * @param {String} [id=null] the target id
 	  */
 
 	warning: function(message, fadeOut, target)
@@ -1003,7 +1006,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this._publishAlert(target, '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Warning!</strong> ' + this.textToHtml(message) + '</div>');
+		this._publishAlert('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Warning!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1012,6 +1015,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Show an 'error' message
 	  * @param {String} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+	  * @param {String} [id=null] the target id
 	  */
 
 	error: function(message, fadeOut, target)
@@ -1021,7 +1025,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this._publishAlert(target, '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Error!</strong> ' + this.textToHtml(message) + '</div>');
+		this._publishAlert('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Error!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
 
 	/*-----------------------------------------------------------------*/
