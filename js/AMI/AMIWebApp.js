@@ -175,39 +175,27 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		var search = window.location.search.trim();
 
 		/*---------------------------------------------------------*/
-		/* ORIGIN_URL                                              */
+		/* IS EMBEDDED                                             */
 		/*---------------------------------------------------------*/
 
 		var scripts = document.getElementsByTagName('script');
 
+		var src = scripts[scripts.length - 1].src.trim();
+
+		if(src.indexOf('embedded', idx) >= 0
+		   ||
+		   src.indexOf('EMBEDDED', idx) >= 0
+		 ) {
+			this._isEmbedded = true;
+		}
+
+		/*---------------------------------------------------------*/
+		/* ORIGIN_URL                                              */
 		/*---------------------------------------------------------*/
 
-		for(var i in scripts)
-		{
-			var src = scripts[i].src.trim();
+		var idx = src.indexOf('js/AMI/framework.');
 
-			var idx = src.indexOf('js/AMI/framework.');
-
-			if(idx >= 0)
-			{
-				/*-----------------------------------------*/
-
-				this.originURL = _eatSlashes(src.substring(0, idx));
-
-				/*-----------------------------------------*/
-
-				if(src.indexOf('embedded', idx) >= 0
-				   ||
-				   src.indexOf('EMBEDDED', idx) >= 0
-				 ) {
-					this._isEmbedded = true;
-				}
-
-				/*-----------------------------------------*/
-
-				break;
-			}
-		}
+		this.originURL = _eatSlashes(idx > 0 ? src.substring(0, idx) : (''));
 
 		/*---------------------------------------------------------*/
 		/* WEBAPP_URL                                              */
@@ -244,36 +232,30 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* DEFAULT SHEETS                                          */
 		/*---------------------------------------------------------*/
 
-		if(!this._isEmbedded)
-		{
-			this.loadSheets([
-				this.originURL + '/css/bootstrap.min.css',
-				this.originURL + '/css/bootstrap-toggle.min.css',
-				this.originURL + '/css/bootstrap-vertical-tabs.min.css',
-				this.originURL + '/css/font-awesome.min.css',
-				this.originURL + '/css/AMI/framework.min.css',
-			]).fail(function() {
+		if(!this._isEmbedded) this.loadSheets([
+			this.originURL + '/css/bootstrap.min.css',
+			this.originURL + '/css/bootstrap-toggle.min.css',
+			this.originURL + '/css/bootstrap-vertical-tabs.min.css',
+			this.originURL + '/css/font-awesome.min.css',
+			this.originURL + '/css/AMI/framework.min.css',
+		]).fail(function() {
 
-				alert('service temporarily unreachable, please reload the page...');
-			});
-		}
+			alert('service temporarily unreachable, please reload the page...');
+		});
 
 		/*---------------------------------------------------------*/
 		/* DEFAULT SCRIPTS                                         */
 		/*---------------------------------------------------------*/
 
-		if(true)
-		{
-			this.loadScripts([
-				this.originURL + '/js/jspath.min.js',
-				this.originURL + '/js/bootstrap.min.js',
-				this.originURL + '/js/bootstrap-toggle.min.js',
-				this.originURL + '/js/bootstrap-typeahead.min.js',
-			]).fail(function() {
+		this.loadScripts([
+			this.originURL + '/js/jspath.min.js',
+			this.originURL + '/js/bootstrap.min.js',
+			this.originURL + '/js/bootstrap-toggle.min.js',
+			this.originURL + '/js/bootstrap-typeahead.min.js',
+		]).fail(function() {
 
-				alert('service temporarily unreachable, please reload the page...');
-			});
-		}
+			alert('service temporarily unreachable, please reload the page...');
+		});
 
 		/*---------------------------------------------------------*/
 	},
@@ -950,6 +932,28 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* MESSAGES                                                        */
 	/*-----------------------------------------------------------------*/
 
+	_publishAlert: function(target, html)
+	{
+		if(!target)
+		{
+			target = '#ami_alert_content';
+		}
+
+		$(target).html(html).promise().done(function() {
+
+			amiWebApp.unlock();
+
+			$(document).scrollTop(0);
+
+			if(fadeOut)
+			{
+				$(target + ' .alert').fadeOut(60000);
+			}
+		});
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	/**
 	  * Show an 'info' message
 	  * @param {String} message the message
@@ -963,30 +967,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		if(!target)
-		{
-			target = '#ami_status_content';
-		}
-
-		/*---------------------------------------------------------*/
-
-		var html = '<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Info!</strong> ' + this.textToHtml(message) + '</div>';
-
-		/*---------------------------------------------------------*/
-
-		$(target).html(html).promise().done(function() {
-
-			amiWebApp.unlock();
-
-			$(document).scrollTop(0);
-
-			if(fadeOut)
-			{
-				$(target + ' .alert').fadeOut(60000);
-			}
-		});
-
-		/*---------------------------------------------------------*/
+		this._publishAlert(target, '<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Info!</strong> ' + this.textToHtml(message) + '</div>');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1004,30 +985,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		if(!target)
-		{
-			target = '#ami_status_content';
-		}
-
-		/*---------------------------------------------------------*/
-
-		var html = '<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Success!</strong> ' + this.textToHtml(message) + '</div>';
-
-		/*---------------------------------------------------------*/
-
-		$(target).html(html).promise().done(function() {
-
-			amiWebApp.unlock();
-
-			$(document).scrollTop(0);
-
-			if(fadeOut)
-			{
-				$(target + ' .alert').fadeOut(60000);
-			}
-		});
-
-		/*---------------------------------------------------------*/
+		this._publishAlert(target, '<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Success!</strong> ' + this.textToHtml(message) + '</div>');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1045,30 +1003,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		if(!target)
-		{
-			target = '#ami_status_content';
-		}
-
-		/*---------------------------------------------------------*/
-
-		var html = '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Warning!</strong> ' + this.textToHtml(message) + '</div>';
-
-		/*---------------------------------------------------------*/
-
-		$(target).html(html).promise().done(function() {
-
-			amiWebApp.unlock();
-
-			$(document).scrollTop(0);
-
-			if(fadeOut)
-			{
-				$(target + ' .alert').fadeOut(60000);
-			}
-		});
-
-		/*---------------------------------------------------------*/
+		this._publishAlert(target, '<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Warning!</strong> ' + this.textToHtml(message) + '</div>');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1086,30 +1021,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		if(!target)
-		{
-			target = '#ami_status_content';
-		}
-
-		/*---------------------------------------------------------*/
-
-		var html = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Error!</strong> ' + this.textToHtml(message) + '</div>';
-
-		/*---------------------------------------------------------*/
-
-		$(target).html(html).promise().done(function() {
-
-			amiWebApp.unlock();
-
-			$(document).scrollTop(0);
-
-			if(fadeOut)
-			{
-				$(target + ' .alert').fadeOut(60000);
-			}
-		});
-
-		/*---------------------------------------------------------*/
+		this._publishAlert(target, '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Error!</strong> ' + this.textToHtml(message) + '</div>');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1120,7 +1032,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	flush: function()
 	{
-		$('#ami_status_content').empty();
+		$('#ami_alert_content').empty();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1240,13 +1152,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				var name;
 
-				for(name in data1)
-				{
+				for(name in data1) {
 				 	amiWebApp._controls[name.toLowerCase()] = data1[name];
 				}
 
-				for(name in data2)
-				{
+				for(name in data2) {
 				 	amiWebApp._subapps[name.toLowerCase()] = data2[name];
 				}
 
@@ -1443,12 +1353,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}).fail(function() {
 
-				this.error('could not load sub-application');
+				this.error('could not load sub-application `' + subapp + '`');
 			});
 		}
 		else
 		{
-			this.error('could not load sub-application');
+			this.error('could not load sub-application `' + subapp + '`');
 		}
 	},
 
