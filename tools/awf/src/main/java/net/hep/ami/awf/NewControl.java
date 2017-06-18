@@ -4,6 +4,10 @@ import java.io.*;
 
 import java.util.*;
 
+import org.json.simple.*;
+import org.json.simple.parser.*;
+
+@SuppressWarnings("unchecked")
 public class NewControl
 {
 	/*---------------------------------------------------------------------*/
@@ -30,21 +34,7 @@ public class NewControl
 
 		/*-----------------------------------------------------------------*/
 
-		File baseDir = new File(NewControl.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-
-		while((baseDir = baseDir.getParentFile()) != null)
-		{
-			File temp = new File(baseDir, "controls");
-
-			if(temp.exists())
-			{
-				baseDir = temp;
-
-				break;
-			}
-		}
-
-		/*-----------------------------------------------------------------*/
+		File baseDir = Utilities.getBaseDir();
 
 		File appDir = new File(baseDir, NAME);
 
@@ -67,25 +57,59 @@ public class NewControl
 
 		StringBuilder stringBuilder1 = new StringBuilder();
 
-		Utilities.loadResource(stringBuilder1, "/net/hep/ami/awf/ctrl.js.tpl");
+		Utilities.read(stringBuilder1, NewControl.class.getResourceAsStream("/net/hep/ami/awf/ctrl.js.tpl"));
 
-		Utilities.writeStringToFile(new File(jsDir, NAME + "Ctrl.js"), stringBuilder1.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
+		Utilities.write(new File(jsDir, NAME + "Ctrl.js"), stringBuilder1.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
 
 		StringBuilder stringBuilder2 = new StringBuilder();
 
-		Utilities.loadResource(stringBuilder2, "/net/hep/ami/awf/ctrl.css.tpl");
+		Utilities.read(stringBuilder2, NewControl.class.getResourceAsStream("/net/hep/ami/awf/ctrl.css.tpl"));
 
-		Utilities.writeStringToFile(new File(cssDir, NAME + "Ctrl.css"), stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
+		Utilities.write(new File(cssDir, NAME + "Ctrl.css"), stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
 
 		StringBuilder stringBuilder3 = new StringBuilder();
 
-		Utilities.loadResource(stringBuilder3, "/net/hep/ami/awf/ctrl.twig.tpl");
+		Utilities.read(stringBuilder3, NewControl.class.getResourceAsStream("/net/hep/ami/awf/ctrl.twig.tpl"));
 
-		Utilities.writeStringToFile(new File(twigDir, NAME + "Ctrl.twig"), stringBuilder3.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
+		Utilities.write(new File(twigDir, NAME + "Ctrl.twig"), stringBuilder3.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
+
+		/*-----------------------------------------------------------------*/
+
+		JSONObject object;
+
+		/*-----------------------------------------------------------------*/
+
+		FileReader fileReader = new FileReader(new File(baseDir, "CONTROLS.json"));
+
+		try {
+			object = (JSONObject) new JSONParser().parse(fileReader);
+		}
+		finally {
+			fileReader.close();
+		}
+
+		/**/
+
+		Map<String, String> map = new LinkedHashMap<String, String>();
+
+		map.put("file", "controls/" + NAME + "/js/" + NAME + "Ctrl.js");
+
+		object.put(name, map);
+
+		/**/
+
+		FileWriter fileWriter = new FileWriter(new File(baseDir, "CONTROLS.json"));
+
+		try {
+			object.writeJSONString(fileWriter);
+		}
+		finally {
+			fileWriter.close();
+		}
 
 		/*-----------------------------------------------------------------*/
 	}

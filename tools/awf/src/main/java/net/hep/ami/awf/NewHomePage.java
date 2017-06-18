@@ -18,23 +18,22 @@ public class NewHomePage
 
 		/*-----------------------------------------------------------------*/
 
-		File baseDir = new File(NewHomePage.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+		File baseDir = Utilities.getBaseDir();
 
-		while((baseDir = baseDir.getParentFile()) != null)
+		File indexFile = new File(baseDir, "index.html");
+
+		if(indexFile.exists() == false)
 		{
-			if(new File(baseDir, "subapps").exists())
-			{
-				break;
-			}
+			throw new Exception("`index.html` already exists.");
 		}
 
 		/*-----------------------------------------------------------------*/
 
 		StringBuilder stringBuilder = new StringBuilder();
 
-		Utilities.loadResource(stringBuilder, "/net/hep/ami/awf/index.html.tpl");
+		Utilities.read(stringBuilder, NewHomePage.class.getResourceAsStream("/net/hep/ami/awf/index.html.tpl"));
 
-		Utilities.writeStringToFile(new File(baseDir, "index.html"), stringBuilder.toString().replace("{{TITLE}}", title).replace("{{ENDPOINT}}", endpoint));
+		Utilities.write(indexFile, stringBuilder.toString().replace("{{TITLE}}", title).replace("{{ENDPOINT}}", endpoint));
 
 		/*-----------------------------------------------------------------*/
 	}

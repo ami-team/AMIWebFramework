@@ -4,6 +4,10 @@ import java.io.*;
 
 import java.util.*;
 
+import org.json.simple.*;
+import org.json.simple.parser.*;
+
+@SuppressWarnings("unchecked")
 public class NewSubApp
 {
 	/*---------------------------------------------------------------------*/
@@ -30,21 +34,7 @@ public class NewSubApp
 
 		/*-----------------------------------------------------------------*/
 
-		File baseDir = new File(NewSubApp.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-
-		while((baseDir = baseDir.getParentFile()) != null)
-		{
-			File temp = new File(baseDir, "subapps");
-
-			if(temp.exists())
-			{
-				baseDir = temp;
-
-				break;
-			}
-		}
-
-		/*-----------------------------------------------------------------*/
+		File baseDir = Utilities.getBaseDir();
 
 		File appDir = new File(baseDir, NAME);
 
@@ -67,25 +57,60 @@ public class NewSubApp
 
 		StringBuilder stringBuilder1 = new StringBuilder();
 
-		Utilities.loadResource(stringBuilder1, "/net/hep/ami/awf/app.js.tpl");
+		Utilities.read(stringBuilder1, NewSubApp.class.getResourceAsStream("/net/hep/ami/awf/app.js.tpl"));
 
-		Utilities.writeStringToFile(new File(jsDir, NAME + "App.js"), stringBuilder1.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
+		Utilities.write(new File(jsDir, NAME + "App.js"), stringBuilder1.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
 
 		StringBuilder stringBuilder2 = new StringBuilder();
 
-		Utilities.loadResource(stringBuilder2, "/net/hep/ami/awf/app.css.tpl");
+		Utilities.read(stringBuilder2, NewSubApp.class.getResourceAsStream("/net/hep/ami/awf/app.css.tpl"));
 
-		Utilities.writeStringToFile(new File(cssDir, NAME + "App.css"), stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
+		Utilities.write(new File(cssDir, NAME + "App.css"), stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
 
 		StringBuilder stringBuilder3 = new StringBuilder();
 
-		Utilities.loadResource(stringBuilder3, "/net/hep/ami/awf/app.twig.tpl");
+		Utilities.read(stringBuilder3, NewSubApp.class.getResourceAsStream("/net/hep/ami/awf/app.twig.tpl"));
 
-		Utilities.writeStringToFile(new File(twigDir, NAME + "App.twig"), stringBuilder3.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
+		Utilities.write(new File(twigDir, NAME + "App.twig"), stringBuilder3.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
+
+		/*-----------------------------------------------------------------*/
+
+		JSONObject object;
+
+		/*-----------------------------------------------------------------*/
+
+		FileReader fileReader = new FileReader(new File(baseDir, "SUBAPPS.json"));
+
+		try {
+			object = (JSONObject) new JSONParser().parse(fileReader);
+		}
+		finally {
+			fileReader.close();
+		}
+
+		/**/
+
+		Map<String, String> map = new LinkedHashMap<String, String>();
+
+		map.put("file", "subapps/" + NAME + "/js/" + NAME + "App.js");
+		map.put("instance", name + "App");
+
+		object.put(name, map);
+
+		/**/
+
+		FileWriter fileWriter = new FileWriter(new File(baseDir, "SUBAPPS.json"));
+
+		try {
+			object.writeJSONString(fileWriter);
+		}
+		finally {
+			fileWriter.close();
+		}
 
 		/*-----------------------------------------------------------------*/
 	}
