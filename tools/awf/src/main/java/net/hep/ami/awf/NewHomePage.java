@@ -22,7 +22,7 @@ public class NewHomePage
 
 		File indexFile = new File(baseDir, "index.html");
 
-		if(indexFile.exists() == false)
+		if(indexFile.exists())
 		{
 			throw new Exception("`index.html` already exists.");
 		}
