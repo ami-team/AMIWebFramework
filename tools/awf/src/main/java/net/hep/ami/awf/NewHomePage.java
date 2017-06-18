@@ -54,6 +54,11 @@ public class NewHomePage
 
 			Utilities.out("Enter the endpoint:");
 			endpoint = new Scanner(System.in).nextLine();
+
+			if(endpoint.isEmpty())
+			{
+				endpoint = "https://localhost:8443/AMI/FrontEnd";
+			}
 		}
 		else
 		{
