@@ -34,7 +34,7 @@ public class NewSubApp
 
 		/*-----------------------------------------------------------------*/
 
-		File baseDir = Utilities.getBaseDir();
+		File baseDir = Utilities.getBaseDir("subapps");
 
 		File appDir = new File(baseDir, NAME);
 

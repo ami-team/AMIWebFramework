@@ -34,7 +34,7 @@ public class NewControl
 
 		/*-----------------------------------------------------------------*/
 
-		File baseDir = Utilities.getBaseDir();
+		File baseDir = Utilities.getBaseDir("controls");
 
 		File appDir = new File(baseDir, NAME);
 
