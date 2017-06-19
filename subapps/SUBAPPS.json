@@ -10,5 +10,9 @@
 	"schemaViewer": {
 		"file": "subapps/SchemaViewer/js/SchemaViewerApp.js",
 		"instance": "schemaViewerApp"
+	},
+	"rdfViewer": {
+		"file": "subapps/RDFViewer/js/RDFViewerApp.js",
+		"instance": "rdfViewerApp"
 	}
 }

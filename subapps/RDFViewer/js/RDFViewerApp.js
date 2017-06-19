@@ -68,7 +68,7 @@ $AMIClass('RDFViewerApp', {
 
 	onLogin: function()
 	{
-		if($('#3FDF89A1_1E7B_471D_A9EC_71C06765C44E').is(':empty') )
+		if($('#FDC9AA34_66E2_493C_A67F_BF858F192F21').is(':empty') )
 		{
 			const ontodiaProperties = {
 				ref: function(workspace)
@@ -99,7 +99,7 @@ $AMIClass('RDFViewerApp', {
 				},
 			};
 
-			ReactDOM.render(React.createElement(Ontodia.Workspace, ontodiaProperties), document.getElementById('3FDF89A1_1E7B_471D_A9EC_71C06765C44E'));
+			ReactDOM.render(React.createElement(Ontodia.Workspace, ontodiaProperties), document.getElementById('FDC9AA34_66E2_493C_A67F_BF858F192F21'));
 		}
 	},
 
@@ -123,7 +123,5 @@ $AMIClass('RDFViewerApp', {
 /*-------------------------------------------------------------------------*/
 
 rdfViewerApp = new RDFViewerApp();
-
-amiRegisterSubApp('rdfViewer', rdfViewerApp, {});
 
 /*-------------------------------------------------------------------------*/
