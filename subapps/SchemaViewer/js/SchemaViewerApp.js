@@ -426,7 +426,13 @@ $AMIClass('SchemaViewerApp', {
 			this.fitToContent();
 
 			/*-------------------------------------------------*/
-			/* ENABLE BUTTONS                                  */
+			/* CHANGE CURRENT URL                              */
+			/*-------------------------------------------------*/
+
+			window.history.pushState('', '', amiWebApp.webAppURL + '?subapp=schemaViewer&userdata=' + encodeURIComponent(catalog));
+
+			/*-------------------------------------------------*/
+			/* ENABLE TOOL BUTTONS                             */
 			/*-------------------------------------------------*/
 
 			$('#EE062E82_8F6E_457D_94EA_E453CB1DD333 button').prop('disabled', false);

@@ -174,36 +174,38 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		var href = window.location.href.trim();
 		var search = window.location.search.trim();
 
-		/*---------------------------------------------------------*/
-		/* IS EMBEDDED                                             */
-		/*---------------------------------------------------------*/
-
 		var scripts = document.getElementsByTagName('script');
 
 		var src = scripts[scripts.length - 1].src.trim();
-
-		if(src.indexOf('embedded', idx) >= 0
-		   ||
-		   src.indexOf('EMBEDDED', idx) >= 0
-		 ) {
-			this._isEmbedded = true;
-		}
 
 		/*---------------------------------------------------------*/
 		/* ORIGIN_URL                                              */
 		/*---------------------------------------------------------*/
 
-		var idx = src.indexOf('js/AMI/framework.');
+		var idx1 = src.indexOf('/js/AMI/framework.');
 
-		this.originURL = _eatSlashes(idx > 0 ? src.substring(0, idx) : (''));
+		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : null);
 
 		/*---------------------------------------------------------*/
 		/* WEBAPP_URL                                              */
 		/*---------------------------------------------------------*/
 
-		var IDX = href.indexOf('?');
+		var idx2 = href.indexOf((((((((('?')))))))));
 
-		this.webAppURL = _eatSlashes(IDX > 0 ? href.substring(0, IDX) : href);
+		this.webAppURL = _eatSlashes(idx2 > 0 ? href.substring(0, idx2) : href);
+
+		/*---------------------------------------------------------*/
+		/* IS EMBEDDED                                             */
+		/*---------------------------------------------------------*/
+
+		if(idx1 > 0 && (
+		     src.indexOf('embedded', idx1) >= 0
+		     ||
+		     src.indexOf('EMBEDDED', idx1) >= 0
+		   )
+		 ) {
+			this._isEmbedded = true;
+		}
 
 		/*---------------------------------------------------------*/
 		/* ARGS                                                    */
