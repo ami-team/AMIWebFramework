@@ -155,6 +155,7 @@
 
 				<filelist dir="js/AMI">
 					<file name="external/ami-twig.js" />
+					<file name="external/jspath.js" />
 					<file name="AMIObjects.js" />
 					<file name="AMIWebApp.js" />
 					<file name="AMIInterface.js" />

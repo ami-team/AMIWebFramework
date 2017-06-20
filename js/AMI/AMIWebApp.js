@@ -267,15 +267,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			alert('service temporarily unreachable, please reload the page...');
 		});
 
-		/**/
-
-		this.loadScripts([
-			this.originURL + '/js/jspath.min.js',
-		]).fail(function() {
-
-			alert('service temporarily unreachable, please reload the page...');
-		});
-
 		/*---------------------------------------------------------*/
 	},
 
@@ -1120,12 +1111,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		/*---------------------------------------------------------*/
 
-		var controls_url = this.originURL + '/controls/CONTROLS.json';
-
-		var subapps_url = this.originURL + '/subapps/SUBAPPS.json';
-
-		/*---------------------------------------------------------*/
-
 		var logo_url = this.originURL
 					+ '/images/logo.png';
 		var home_url = this.webAppURL;
@@ -1191,6 +1176,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				return 'Confirm that you want to leave this page?';
 			}
 		};
+
+		/*---------------------------------------------------------*/
+
+		var controls_url = this.originURL + '/controls/CONTROLS.json';
+
+		var subapps_url = this.originURL + '/subapps/SUBAPPS.json';
 
 		/*---------------------------------------------------------*/
 
