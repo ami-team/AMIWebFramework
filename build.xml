@@ -6,6 +6,12 @@
 
 	<!-- ************************************************************ -->
 
+	<tstamp>
+		<format property="year" pattern="yyyy" />
+	</tstamp>
+
+	<!-- ************************************************************ -->
+
 	<target name="compile_prod" description="Compile the project (prod mode).">
 
 		<!-- **************************************************** -->
@@ -180,6 +186,10 @@
 			<!-- ******************************************** -->
 
 			<replace file="js/AMI/framework.js" token="JSPath = decl;" value="window.JSPath = decl;" />
+
+			<!-- ******************************************** -->
+
+			<replace file="js/AMI/framework.js" token="{{YEAR}}" value="${year}" />
 
 			<!-- ******************************************** -->
 

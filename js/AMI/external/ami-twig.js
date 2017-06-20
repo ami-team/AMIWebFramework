@@ -1,7 +1,7 @@
 /*!
  * AMI TWIG Engine
  *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -32,7 +32,7 @@ if(typeof exports !== 'undefined')
 /*
  * AMI TWIG Engine
  *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -279,7 +279,7 @@ amiTwig.tokenizer = {
 /*
  * AMI TWIG Engine
  *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -1604,7 +1604,7 @@ amiTwig.expr.Node = function(nodeType, nodeValue) {
 /*
  * AMI TWIG Engine
  *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -1714,7 +1714,7 @@ amiTwig.ajax = {
 /*
  * AMI TWIG Engine
  *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -2279,7 +2279,7 @@ amiTwig.engine = {
 /*
  * AMI TWIG Engine
  *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -2336,7 +2336,7 @@ amiTwig.expr.cache = {
 /*
  * AMI TWIG Engine
  *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -3108,7 +3108,7 @@ amiTwig.stdlib.filter_e = amiTwig.stdlib.filter_escape;
 /*
  * AMI TWIG Engine
  *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html

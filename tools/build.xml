@@ -7,7 +7,7 @@
 	<!-- ************************************************************ -->
 
 	<tstamp>
-		<format property="current.year" pattern="yyyy" locale="en,UK" />
+		<format property="year" pattern="yyyy" />
 	</tstamp>
 
 	<!-- ************************************************************ -->
@@ -41,14 +41,6 @@
 		</java>
 
 		<!-- **************************************************** -->
-		<!-- UPDATE CURRENT YEAR                                  -->
-		<!-- **************************************************** -->
-
-		<replace dir="." token="![VALUE YEAR]" value="${current.year}">
-			<include name="**/*.js" />
-		</replace>
-
-		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
 		<!-- **************************************************** -->
 
@@ -75,14 +67,6 @@
 		<copy file="${AMIWebAppTmpDir}/css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" />
 
 		<copy file="${AMIWebAppTmpDir}/js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" />
-
-		<!-- **************************************************** -->
-		<!-- UPDATE CURRENT YEAR                                  -->
-		<!-- **************************************************** -->
-
-		<replace dir="." token="![VALUE YEAR]" value="${current.year}">
-			<include name="**/*.js" />
-		</replace>
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
@@ -248,6 +232,10 @@
 			<!-- ******************************************** -->
 
 			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="JSPath = decl;" value="window.JSPath = decl;" />
+
+			<!-- ******************************************** -->
+
+			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="{{YEAR}}" value="${year}" />
 
 			<!-- ******************************************** -->
 			<!-- OTHER                                        -->
