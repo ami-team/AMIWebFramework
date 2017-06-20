@@ -201,6 +201,7 @@
 			<!-- ******************************************** -->
 
 			<copy todir="subapps" overwrite="true">
+				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="SUBAPPS.json" />
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Command/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Document/**/*" />
 			</copy>
