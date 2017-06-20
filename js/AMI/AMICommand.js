@@ -113,7 +113,9 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		if(extraParam)
 		{
-			data[extraParam] = extraValue ? extraValue : null;
+			data[extraParam] = extraValue ? extraValue
+			                              : (((null)))
+			;
 		}
 
 		/*---------------------------------------------------------*/
