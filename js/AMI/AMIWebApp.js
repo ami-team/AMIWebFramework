@@ -275,7 +275,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			alert('service temporarily unreachable, please reload the page...');
 		});
-//alert(decodeURIComponent("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E"))
+
 		/*---------------------------------------------------------*/
 	},
 
@@ -775,7 +775,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(jQuery().tooltip)
 			{
-				target.find('.amitt').tooltip({
+				target.find('[data-toggle="tooltip"]').tooltip({
 					container: 'body',
 					delay: {
 						show: 500,
@@ -788,13 +788,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(jQuery().popover)
 			{
-				target.find('.amipo[tabindex="0"]').popover({
+				target.find('[data-toggle="popover"][tabindex="0"]').popover({
 					container: 'body',
 					html: true,
 					trigger: 'focus',
 				});
 
-				target.find('.amipo[tabindex!="0"]').popover({
+				target.find('[data-toggle="popover"][tabindex!="0"]').popover({
 					container: 'body',
 					html: true,
 					trigger: 'click',
