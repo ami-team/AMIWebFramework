@@ -244,6 +244,10 @@
 			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="%USE_STRICT%" value="'use strict';${line.separator}" />
 
 			<!-- ******************************************** -->
+
+			<replace file="js/AMI/framework.js" token="JSPath = decl;" value="window.JSPath = decl;" />
+
+			<!-- ******************************************** -->
 			<!-- OTHER                                        -->
 			<!-- ******************************************** -->
 

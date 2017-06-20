@@ -179,6 +179,10 @@
 
 			<!-- ******************************************** -->
 
+			<replace file="js/AMI/framework.js" token="JSPath = decl;" value="window.JSPath = decl;" />
+
+			<!-- ******************************************** -->
+
 		</sequential>
 
 	</macrodef>
