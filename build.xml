@@ -151,7 +151,7 @@
 
 			<concat destfile="js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
 
-				<header>%USE_STRICT%</header>
+				<header>{{USE_STRICT}}</header>
 
 				<filelist dir="js/AMI">
 					<file name="external/ami-twig.js" />
@@ -175,7 +175,7 @@
 
 			<!-- ******************************************** -->
 
-			<replace file="js/AMI/framework.js" token="%USE_STRICT%" value="'use strict';${line.separator}" />
+			<replace file="js/AMI/framework.js" token="{{USE_STRICT}}" value="'use strict';${line.separator}" />
 
 			<!-- ******************************************** -->
 
