@@ -231,13 +231,35 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		}
 
 		/*---------------------------------------------------------*/
-		/* DEFAULT SHEETS                                          */
+		/* DEFAULT SHEETS AND SCRIPTS                              */
 		/*---------------------------------------------------------*/
 
-		if(!this._isEmbedded) this.loadSheets([
-			this.originURL + '/css/bootstrap.min.css',
-			this.originURL + '/css/bootstrap-toggle.min.css',
-			this.originURL + '/css/bootstrap-vertical-tabs.min.css',
+		if(!this._isEmbedded)
+		{
+			this.loadSheets([
+				this.originURL + '/css/bootstrap.min.css',
+				this.originURL + '/css/bootstrap-toggle.min.css',
+				this.originURL + '/css/bootstrap-vertical-tabs.min.css',
+			]).fail(function() {
+
+				alert('service temporarily unreachable, please reload the page...');
+			});
+
+			/**/
+
+			this.loadScripts([
+				this.originURL + '/js/bootstrap.min.js',
+				this.originURL + '/js/bootstrap-toggle.min.js',
+				this.originURL + '/js/bootstrap-typeahead.min.js',
+			]).fail(function() {
+
+				alert('service temporarily unreachable, please reload the page...');
+			});
+		}
+
+		/*---------------------------------------------------------*/
+
+		this.loadSheets([
 			this.originURL + '/css/font-awesome.min.css',
 			this.originURL + '/css/AMI/framework.min.css',
 		]).fail(function() {
@@ -245,20 +267,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			alert('service temporarily unreachable, please reload the page...');
 		});
 
-		/*---------------------------------------------------------*/
-		/* DEFAULT SCRIPTS                                         */
-		/*---------------------------------------------------------*/
+		/**/
 
 		this.loadScripts([
 			this.originURL + '/js/jspath.min.js',
-			this.originURL + '/js/bootstrap.min.js',
-			this.originURL + '/js/bootstrap-toggle.min.js',
-			this.originURL + '/js/bootstrap-typeahead.min.js',
 		]).fail(function() {
 
 			alert('service temporarily unreachable, please reload the page...');
 		});
-
+//alert(decodeURIComponent("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E"))
 		/*---------------------------------------------------------*/
 	},
 
@@ -754,19 +771,44 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		}
 
 		promise.done(function() {
+			/*-------------------------------------------------*/
 
-			target.find('.amitt').tooltip({container: 'body', delay: {show: 500, hide: 100}});
-			target.find('.amipo[tabindex="0"]').popover({container: 'body', html: true, trigger: 'focus'});
-			target.find('.amipo[tabindex!="0"]').popover({container: 'body', html: true, trigger: 'click'});
-			target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
-
-			if(navigator.userAgent.toLowerCase().indexOf('firefox') >= 0)
+			if(jQuery().tooltip)
 			{
-				target.find('.ami-select').each(function() {
-
-					$(this).wrap('<div class="ami-select-wrapper"></div>');
+				target.find('.amitt').tooltip({
+					container: 'body',
+					delay: {
+						show: 500,
+						hide: 100,
+					},
 				});
 			}
+
+			/*-------------------------------------------------*/
+
+			if(jQuery().popover)
+			{
+				target.find('.amipo[tabindex="0"]').popover({
+					container: 'body',
+					html: true,
+					trigger: 'focus',
+				});
+
+				target.find('.amipo[tabindex!="0"]').popover({
+					container: 'body',
+					html: true,
+					trigger: 'click',
+				});
+			}
+
+			/*-------------------------------------------------*/
+
+			if(jQuery().bootstrapToggle)
+			{
+				target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
+			}
+
+			/*-------------------------------------------------*/
 
 			if(context) {
 				result.resolveWith(context);
