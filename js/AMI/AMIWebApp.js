@@ -1255,11 +1255,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}).fail(function() {
 
-				alert('service temporarily unreachable, please reload the page...');
+				alert('could not open `' + subapps_url + '`...');
 			});
 		}).fail(function() {
 
-			alert('service temporarily unreachable, please reload the page...');
+			alert('could not open `' + controls_url + '`...');
 		});
 
 		/*---------------------------------------------------------*/
