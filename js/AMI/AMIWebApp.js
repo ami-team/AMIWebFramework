@@ -706,7 +706,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
-	_xxxHTML: function(selector, html, mode, settings)
+	_xxxHTML: function(selector, twig, mode, settings)
 	{
 		var context = null;
 		var dict = null;
@@ -734,17 +734,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		html = this.formatHTML(html, dict);
+		var html = this.formatHTML(twig, dict);
 
 		/*---------------------------------------------------------*/
+
+		var promise = ((((null))));
 
 		var result = $.Deferred();
 
-		/*---------------------------------------------------------*/
-
 		var target = $(selector);
-
-		var promise = ((((null))));
 
 		switch(mode)
 		{
@@ -818,52 +816,52 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Replace the HTML content of the given target
+	  * Put a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
 	  * @param {String} selector the target selector
-	  * @param {String} html the HTML fragment
+	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	replaceHTML: function(selector, html, settings)
+	replaceHTML: function(selector, twig, settings)
 	{
-		return this._xxxHTML(selector, html, 0, settings);
+		return this._xxxHTML(selector, twig, 0, settings);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Prepends a HTML fragment to the given target content
+	  * Prepends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
 	  * @param {String} selector the target selector
-	  * @param {String} html the HTML fragment
+	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	prependHTML: function(selector, html, settings)
+	prependHTML: function(selector, twig, settings)
 	{
-		return this._xxxHTML(selector, html, 1, settings);
+		return this._xxxHTML(selector, twig, 1, settings);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Appends a HTML fragment to the given target content
+	  * Appends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
 	  * @param {String} selector the target selector
-	  * @param {String} html the HTML fragment
+	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	appendHTML: function(selector, html, settings)
+	appendHTML: function(selector, twig, settings)
 	{
-		return this._xxxHTML(selector, html, 2, settings);
+		return this._xxxHTML(selector, twig, 2, settings);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Format the given HTML fragment using TWIG, see: {@link http://twig.sensiolabs.org/documentation}
+	  * Format the given HTML fragment using TWIG, see {@link http://twig.sensiolabs.org/documentation}
 	  * @param {String} html the HTML fragment
 	  * @param {Object} [dict] the dictionary
 	  * @returns {String} The formated HTML fragment
@@ -906,7 +904,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Finds data within the given JSON, see: {@link https://github.com/dfilatov/jspath}
+	  * Finds data within the given JSON, see {@link https://github.com/dfilatov/jspath}
 	  * @param {String} path the path
 	  * @param {Object} json the JSON
 	  * @returns {Array} The resulting array

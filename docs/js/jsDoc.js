@@ -2,8 +2,13 @@
  * AMI Web Framework
  * AMI JSDoc renderer
  *
- * Copyright (c) 2014-![VALUE YEAR] The AMI Team
+ * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3
+ *
+ * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ * @global highlight
  *
  */
 
@@ -12,7 +17,24 @@
 var jsDoc = {
 	/*-----------------------------------------------------------------*/
 
-	linkRe: /\{@link\s+([^\s\}]+)\s*\}/g,
+	linkRe: /(?:\[\s*([^\s\]]+)\s*\])?{@link\s+([^\s}]+)\s*}/g,
+
+	/*-----------------------------------------------------------------*/
+
+	_textToHtmlDict: {
+		'&': '&amp;',
+		'"': '&quot;',
+		'<': '&lt;',
+		'>': '&gt;',
+	},
+
+	textToHtml: function(s)
+	{
+		return (s || '').replace(/&|"|<|>/g, function(x) {
+
+			return amiWebApp._textToHtmlDict[x];
+		});
+	},
 
 	/*-----------------------------------------------------------------*/
 
@@ -131,6 +153,8 @@ var jsDoc = {
 
 		/*---------------------------------------------------------*/
 
+		var i;
+
 		if(item.konstructor)
 		{
 			s += '<h3>Constructor</h3>';
@@ -142,7 +166,7 @@ var jsDoc = {
 		{
 			s += '<h3>Members</h3>';
 
-			for(var i in item.variables)
+			for(i in item.variables)
 			{
 				s += this.makeVariable(item.variables[i]);
 			}
@@ -152,7 +176,7 @@ var jsDoc = {
 		{
 			s += '<h3>Methods</h3>';
 
-			for(var i in item.functions)
+			for(i in item.functions)
 			{
 				s += this.makeFunction(item.functions[i]);
 			}
@@ -162,7 +186,7 @@ var jsDoc = {
 		{
 			s += '<h3>Events</h3>';
 
-			for(var i in item.events)
+			for(i in item.events)
 			{
 				s += this.makeFunction(item.events[i]);
 			}
@@ -183,7 +207,7 @@ var jsDoc = {
 
 		/*---------------------------------------------------------*/
 
-		result += '<hr />';
+		result += '<hr id="jsdoc_variable_' + variable.name + '" />';
 
 		result += this.makeVariableSignature(variable);
 
@@ -221,7 +245,7 @@ var jsDoc = {
 
 		/*---------------------------------------------------------*/
 
-		result += '<hr />';
+		result += '<hr id="jsdoc_method_' + method.name + '" />';
 
 		result += this.makeFunctionSignature(method);
 
@@ -276,9 +300,9 @@ var jsDoc = {
 		{
 			var M = [];
 
-			for(var i in method.returns)
+			for(var j in method.returns)
 			{
-				M.push(this.makeType(method.returns[i]));
+				M.push(this.makeType(method.returns[j]));
 			}
 
 			result += '<span class="signature-attrs"> &rarr; {' + M.join(' or ') + '}</span>';
@@ -299,13 +323,15 @@ var jsDoc = {
 
 		if(method.params.length > 0)
 		{
+			var i;
+
 			/*-------------------------------------------------*/
 
 			var L1 = [], L2 = [], L3 = [], L4 = [], L5 = [], L6 = [];
 
 			var cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0, cnt6 = 0;
 
-			for(var i in method.params)
+			for(i in method.params)
 			{
 				var parameter = method.params[i];
 
@@ -369,7 +395,7 @@ var jsDoc = {
 
 			result += '<tbody>';
 
-			for(var i in method.params)
+			for(i in method.params)
 			{
 				result += '<tr>';
 
@@ -461,9 +487,9 @@ var jsDoc = {
 
 		if(x.desc)
 		{
-			result += x.desc.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(this.linkRe, function(x, y) {
+			result += this.textToHtml(x.desc).replace(this.linkRe, function(x, y, z) {
 
-				return '<a href="' + y + '">' + y + '</a>';
+				return '<a href="' + z + '">' + (y || z) + '</a>';
 			});
 		}
 
@@ -484,11 +510,11 @@ var jsDoc = {
 		{
 			if(x.type instanceof Array)
 			{
-				result += x.type.join(' or ').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+				result += this.textToHtml(x.type.join(' or '));
 			}
 			else
 			{
-				result += x.type.replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+				result += this.textToHtml(x.type);
 			}
 		}
 
@@ -520,6 +546,7 @@ var jsDoc = {
 		var version = '';
 		var author = '';
 		var see = '';
+		var i;
 
 		if(x.version)
 		{
@@ -528,7 +555,7 @@ var jsDoc = {
 
 		if(x.author)
 		{
-			for(var i in x.author)
+			for(i in x.author)
 			{
 				author += '<dt>Author:</dt><dd>' + x.author[i] + '</dd>';
 			}
@@ -536,7 +563,7 @@ var jsDoc = {
 
 		if(x.see)
 		{
-			for(var i in x.see)
+			for(i in x.see)
 			{
 				see += '<dt>See:</dt><dd>' + x.see[i] + '</dd>';
 			}

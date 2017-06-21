@@ -1,9 +1,14 @@
 /*!
  * AMI Web Framework
- * Code highlighter
+ * AMI code highlighter
  *
- * Copyright (c) 2014-![VALUE YEAR] The AMI Team
+ * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3
+ *
+ * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ * @global highlight
  *
  */
 
@@ -204,15 +209,17 @@ highlight = {
 
 	_match: function(s, stringOrRegExp)
 	{
+		var m;
+
 		if(stringOrRegExp instanceof RegExp)
 		{
-			var m = s.match(stringOrRegExp);
+			m = s.match(stringOrRegExp);
 
 			return m !== null && this._checkNextChar(s, (((((m[0])))))) ? (((((m[0]))))) : null;
 		}
 		else
 		{
-			var m = s.indexOf(stringOrRegExp);
+			m = s.indexOf(stringOrRegExp);
 
 			return m === 0x00 && this._checkNextChar(s, stringOrRegExp) ? stringOrRegExp : null;
 		}
