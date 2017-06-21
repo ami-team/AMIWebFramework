@@ -215,9 +215,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			var prarams = search.substring(1).split('&');
 
-			for(var j in prarams)
+			for(var i in prarams)
 			{
-				var parts = prarams[j].split('=');
+				var parts = prarams[i].split('=');
 
 				/**/ if(parts.length === 1)
 				{
