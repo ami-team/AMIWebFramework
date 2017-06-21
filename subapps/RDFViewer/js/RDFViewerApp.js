@@ -20,9 +20,9 @@ $AMIClass('RDFViewerApp', {
 		/*---------------------------------------------------------*/
 
 		amiWebApp.loadScripts([
-			'subapps/RDFViewer/js/ontodia.js',
-			'subapps/RDFViewer/js/react.js',
-			'subapps/RDFViewer/js/react-dom.js',
+			'js/3rd-party/ontodia/ontodia.js',
+			'js/3rd-party/ontodia/react.js',
+			'js/3rd-party/ontodia/react-dom.js',
 		]);
 
 		/*---------------------------------------------------------*/
