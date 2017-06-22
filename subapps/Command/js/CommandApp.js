@@ -72,10 +72,12 @@ $AMIClass('CommandApp', {
 
 	onLogin: function()
 	{
-		if($('#6D91550F_B65E_4F0F_BE06_405DD86182EC').is(':empty') === false)
+		if($('#D847C44B_D28F_49B3_AF79_7A68B3305ED2').is(':empty') === false)
 		{
 			return;
 		}
+
+		/*---------------------------------------------------------*/
 
 		amiCommand.execute('ListCommands', {context: this}).done(function(data)
 		{
@@ -113,12 +115,14 @@ $AMIClass('CommandApp', {
 				});
 			});
 
-			amiWebApp.replaceHTML('#6D91550F_B65E_4F0F_BE06_405DD86182EC', this.fragmentCommand, {dict: dict});
+			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this.fragmentCommand, {dict: dict});
 
 		}).fail(function(data) {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data));
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -129,8 +133,15 @@ $AMIClass('CommandApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	execute: function(command, converter)
+	execute: function()
 	{
+		/*---------------------------------------------------------*/
+
+		var command = $('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').val();
+		var converter = $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val();
+
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		amiCommand.execute(command, {context: this, converter: converter}).always(function(data, url) {
@@ -140,21 +151,23 @@ $AMIClass('CommandApp', {
 			;
 
 			var dict = {
-				DATA: data,
-				URL: url,
+				data: data,
+				url: url,
 			};
 
-			amiWebApp.prependHTML('#1DDA467C_F3D9_44DF_9A82_751B184BAF9E', this.fragmentResult, {dict: dict});
+			amiWebApp.prependHTML('#AB4BA483_EE27_44D0_BB54_F5BFCFE4DA7E', this.fragmentResult, {dict: dict});
 
 			amiWebApp.unlock();
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	select: function(command)
 	{
-		$('#2B5EBBAE_AB5D_4510_BFF8_019DCB6AB820').val(command);
+		$('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').val(command);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -168,28 +181,41 @@ $AMIClass('CommandApp', {
 
 	save: function(data)
 	{
-		var converter = $('#44761229_271E_4F0F_A708_461EF9669F77').val();
+		/*---------------------------------------------------------*/
+
+		var converter = $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val();
+
+		/*---------------------------------------------------------*/
 
 		var fileMime;
 		var fileName;
 
-		/****/ if(converter === ((((((((('')))))))))) {
+		/**/ if(converter === (((((((('')))))))))
+		{
 			fileMime = 'application/xml';
 			fileName = 'result.xml';
-		} else if(converter === 'AMIXmlToJson.xsl') {
+		}
+		else if(converter === 'AMIXmlToJson.xsl')
+		{
 			fileMime = 'application/json';
 			fileName = 'result.json';
-		} else if(converter === 'AMIXmlToCsv.xsl') {
+		}
+		else if(converter === 'AMIXmlToCsv.xsl')
+		{
 			fileMime = 'text/csv';
 			fileName = 'result.csv';
-		} else {
+		}
+		else
+		{
 			fileMime = 'text/plain';
 			fileName = 'result.txt';
 		}
 
-		var blob = new Blob([amiWebApp.htmlToText(data)], {type: fileMime});
+		/*---------------------------------------------------------*/
 
-		saveAs(blob, fileName);
+		saveAs(new Blob([amiWebApp.htmlToText(data)], {type: fileMime}), fileName);
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/

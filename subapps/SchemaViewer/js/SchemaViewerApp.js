@@ -139,6 +139,8 @@ $AMIClass('SchemaViewerApp', {
 		 	return;
 		}
 
+		/*---------------------------------------------------------*/
+
 		amiCommand.execute('GetSchemas', {context: this}).done(function(data1) {
 
 			this.columns = amiWebApp.jspath('..rowset{.@type==="columns"}.row', data1);
@@ -176,6 +178,8 @@ $AMIClass('SchemaViewerApp', {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data));
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
