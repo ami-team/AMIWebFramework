@@ -724,16 +724,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		if(!dict)
-		{
-			dict = {};
-		}
-
-		dict['ORIGIN_URL'] = this.originURL;
-		dict['WEBAPP_URL'] = this.webAppURL;
-
-		/*---------------------------------------------------------*/
-
 		var html = this.formatHTML(twig, dict);
 
 		/*---------------------------------------------------------*/
@@ -877,23 +867,28 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			for(var i in dict)
 			{
-				/**/ if(dict[i] instanceof Object)
+				if(!(dict[i] instanceof Object))
 				{
-					result += amiTwig.engine.render(html, dict[i]);
+					dict[i] = {};
 				}
-				else
-				{
-					result += amiTwig.engine.render(html, {});
-				}
+
+				dict[i]['ORIGIN_URL'] = this.originURL;
+				dict[i]['WEBAPP_URL'] = this.webAppURL;
+
+				result += amiTwig.engine.render(html, dict[i]);
 			}
-		}
-		else if(dict instanceof Object)
-		{
-			result = amiTwig.engine.render(html, dict);
 		}
 		else
 		{
-			result = amiTwig.engine.render(html, {});
+			if(!(dict instanceof Object))
+			{
+				dict = {};
+			}
+
+			dict['ORIGIN_URL'] = this.originURL;
+			dict['WEBAPP_URL'] = this.webAppURL;
+
+			result += amiTwig.engine.render(html, dict);
 		}
 
 		return result;

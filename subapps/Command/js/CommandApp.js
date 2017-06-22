@@ -1,7 +1,7 @@
 /*!
  * AMI Web Framework
  *
- * Copyright (c) 2014-![VALUE YEAR] The AMI Team
+ * Copyright (c) 2014-ongoing The AMI Team
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -86,7 +86,7 @@ $AMIClass('CommandApp', {
 			$.foreach(rows, function(index, row) {
 
 				var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0] || '';
-				var help = amiWebApp.jspath('..field{.@name==="help"}.$', row)[0] || amiWebApp.jspath('..field{.@name==="shortHelp"}.$', row)[0] || '';
+				var help = amiWebApp.jspath('..field{.@name==="help" || .@name==="shortHelp"}.$', row)[0] || '';
 				var usage = amiWebApp.jspath('..field{.@name==="usage"}.$', row)[0] || '';
 
 				if(command.indexOf('AMI') === 0)
@@ -107,9 +107,9 @@ $AMIClass('CommandApp', {
 				help = help.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
 
 				dict.push({
-					COMMAND: command,
-					HELP: help,
-					PROTO: proto,
+					command: command,
+					help: help,
+					proto: proto,
 				});
 			});
 

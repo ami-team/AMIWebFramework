@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "container:twig/Fragment/command.twig">
+   </FileRef>
+   <FileRef
+      location = "container:twig/Fragment/result.twig">
+   </FileRef>
+   <FileRef
+      location = "group:../../workspace/AMIWebApp/subapps/Command/twig/CommandApp.twig">
+   </FileRef>
+   <FileRef
+      location = "group:../../workspace/AMIWebApp/subapps/Command/js/CommandApp.js">
+   </FileRef>
+</Workspace>
