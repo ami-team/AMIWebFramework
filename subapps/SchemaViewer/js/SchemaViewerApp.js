@@ -1,7 +1,7 @@
 /*!
  * AMI Web Framework
  *
- * Copyright (c) 2014-![VALUE YEAR] The AMI Team
+ * Copyright (c) 2014-XXXX The AMI Team
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -543,7 +543,11 @@ $AMIClass('SchemaViewerApp', {
 
 	printSchema: function()
 	{
+		/*---------------------------------------------------------*/
+
 		var svg = $('#BDA5FA36_3523_4435_8ED1_8BC0315BACAB svg');
+
+		/*---------------------------------------------------------*/
 
 		var w = window.open('', '', 'height=' + svg.height() + ', width=' + svg.width() + ', toolbar=no');
 
@@ -553,6 +557,8 @@ $AMIClass('SchemaViewerApp', {
 
 		w.print();
 		w.close();
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
