@@ -185,10 +185,6 @@
 
 			<!-- ******************************************** -->
 
-			<replace file="js/AMI/framework.js" token="JSPath = decl;" value="window.JSPath = decl;" />
-
-			<!-- ******************************************** -->
-
 			<replace file="js/AMI/framework.js" token="{{YEAR}}" value="${year}" />
 
 			<!-- ******************************************** -->
