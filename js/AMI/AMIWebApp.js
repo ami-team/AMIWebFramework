@@ -888,7 +888,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			dict['ORIGIN_URL'] = this.originURL;
 			dict['WEBAPP_URL'] = this.webAppURL;
 
-			result += amiTwig.engine.render(html, dict);
+			result = amiTwig.engine.render(html, dict);
 		}
 
 		return result;
