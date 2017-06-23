@@ -1338,7 +1338,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if($('#ami_main_content').is(':empty'))
 			{
-				$('#ami_main_content').html('service temporarily unreachable, please reload the page...');
+				amiWebApp.error('service temporarily unreachable, please reload the page...');
 			}
 
 		}, this.timeout);
@@ -1349,9 +1349,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		_ami_internal_always(
 			amiWebApp.onReady(userData),
-			function() {
+			function()
+			{
+				var promise = amiLogin.isAuthenticated() ? amiWebApp.onLogin()
+				                                         : amiWebApp.onLogout()
+				;
+
 				_ami_internal_always(
-					amiWebApp.onLogin(),
+					promise,
 					function() {
 						amiWebApp.unlock();
 					}

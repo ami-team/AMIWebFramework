@@ -70,13 +70,6 @@ $AMIClass('CommandApp', {
 
 	onLogin: function()
 	{
-		if($('#D847C44B_D28F_49B3_AF79_7A68B3305ED2').is(':empty') === false)
-		{
-			return;
-		}
-
-		/*---------------------------------------------------------*/
-
 		amiCommand.execute('ListCommands', {context: this}).done(function(data)
 		{
 			var rows = amiWebApp.jspath('..row', data);
@@ -115,18 +108,25 @@ $AMIClass('CommandApp', {
 
 			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this.fragmentCommand, {dict: dict});
 
+			$('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').prop('disabled', false);
+			$('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').prop('disabled', false);
+			$('#C124A2A9_B5F5_46F0_AFBC_234859F3F6FA').prop('disabled', false);
+
 		}).fail(function(data) {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data));
 		});
-
-		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	onLogout: function()
 	{
+		$('#D847C44B_D28F_49B3_AF79_7A68B3305ED2').empty();
+
+		$('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').prop('disabled', true);
+		$('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').prop('disabled', true);
+		$('#C124A2A9_B5F5_46F0_AFBC_234859F3F6FA').prop('disabled', true);
 	},
 
 	/*-----------------------------------------------------------------*/

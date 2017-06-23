@@ -98,10 +98,6 @@ $AMIClass('SchemaViewerApp', {
 				});
 
 				/*-----------------------------------------*/
-
-				this.paper.setDimensions();
-
-				/*-----------------------------------------*/
 				/* DEFAULT CATALOG                         */
 				/*-----------------------------------------*/
 
@@ -132,15 +128,6 @@ $AMIClass('SchemaViewerApp', {
 
 	onLogin: function()
 	{
-		if(this.columns
-		   ||
-		   this.foreignKeys
-		 ) {
-		 	return;
-		}
-
-		/*---------------------------------------------------------*/
-
 		amiCommand.execute('GetSchemas', {context: this}).done(function(data1) {
 
 			this.columns = amiWebApp.jspath('..rowset{.@type==="columns"}.row', data1);
@@ -165,6 +152,9 @@ $AMIClass('SchemaViewerApp', {
 					}
 				}, this);
 
+				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', false);
+				$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
+
 				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').html(s);
 
 				this.openSchema(this.defaultCatalog);
@@ -178,20 +168,23 @@ $AMIClass('SchemaViewerApp', {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data));
 		});
-
-		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	onLogout: function()
 	{
-	},
+		this.graph.clear();
 
-	/*-----------------------------------------------------------------*/
+		this.paper.setDimensions(1, 1);
 
-	onSessionExpired: function()
-	{
+		$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').empty();
+
+		$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', true);
+		$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', true);
+		$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', true);
+		$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', true);
+		$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', true);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -439,7 +432,14 @@ $AMIClass('SchemaViewerApp', {
 			/* ENABLE TOOL BUTTONS                             */
 			/*-------------------------------------------------*/
 
-			$('#EE062E82_8F6E_457D_94EA_E453CB1DD333 button').prop('disabled', false);
+			$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
+			$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
+
+			if(amiLogin.hasRole('AMI_ADMIN'))
+			{
+				$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', false);
+				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
+			}
 
 			/*-------------------------------------------------*/
 			/* UNLOCK                                          */
@@ -458,13 +458,6 @@ $AMIClass('SchemaViewerApp', {
 
 	saveSchema: function(catalog)
 	{
-		if(amiLogin.hasRole('AMI_ADMIN') === false)
-		{
-			amiWebApp.error('operation not authorized', true);
-
-			return;
-		}
-
 		/*---------------------------------------------------------*/
 
 		amiWebApp.lock();
