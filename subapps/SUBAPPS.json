@@ -1,18 +1,1 @@
-{
-	"command": {
-		"file": "subapps/Command/js/CommandApp.js",
-		"instance": "commandApp"
-	},
-	"document": {
-		"file": "subapps/Document/js/DocumentApp.js",
-		"instance": "documentApp"
-	},
-	"schemaViewer": {
-		"file": "subapps/SchemaViewer/js/SchemaViewerApp.js",
-		"instance": "schemaViewerApp"
-	},
-	"rdfViewer": {
-		"file": "subapps/RDFViewer/js/RDFViewerApp.js",
-		"instance": "rdfViewerApp"
-	}
-}
+{"rdfViewer":{"file":"subapps\/RDFViewer\/js\/RDFViewerApp.js","instance":"rdfViewerApp"},"document":{"file":"subapps\/Document\/js\/DocumentApp.js","instance":"documentApp"},"schemaViewer":{"file":"subapps\/SchemaViewer\/js\/SchemaViewerApp.js","instance":"schemaViewerApp"},"command":{"file":"subapps\/Command\/js\/CommandApp.js","instance":"commandApp"}}
