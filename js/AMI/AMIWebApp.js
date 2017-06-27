@@ -213,11 +213,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(search)
 		{
-			var prarams = search.substring(1).split('&');
+			var params = search.substring(1).split('&');
 
-			for(var i in prarams)
+			for(var i in params)
 			{
-				var parts = prarams[i].split('=');
+				var parts = params[i].split('=');
 
 				/**/ if(parts.length === 1)
 				{
