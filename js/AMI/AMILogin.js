@@ -578,24 +578,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		var result = {};
 
-		form.find('input')
-		    .each(function() {
+		form.serializeArray().forEach(function(item) {
 
-			var node = $(this);
-
-			var name = node.attr('name');
-
-			if(node.attr('type') !== 'checkbox')
-			{
-				if(name)
-				{
-					result[name] = node.val().trim();
-				}
-			}
-			else
-			{
-				result[name] = node.prop('checked') ? 'on' : '';
-			}
+			result[item.name.trim()] = item.value.trim();
 		});
 
 		return result;
@@ -746,7 +731,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], values['attach'] === 'on').done(function(data) {
+		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values).done(function(data) {
 
 			amiLogin._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 

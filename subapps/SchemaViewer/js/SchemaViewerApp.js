@@ -25,6 +25,7 @@ $AMIClass('SchemaViewerApp', {
 		/*---------------------------------------------------------*/
 
 		amiWebApp.loadScripts([
+			'js/3rd-party/jscolor.min.js',
 			'js/3rd-party/filesaver.min.js',
 			'js/3rd-party/jointjs/lodash.min.js',
 			'js/3rd-party/jointjs/backbone-min.js',
