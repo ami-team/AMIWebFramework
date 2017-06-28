@@ -445,7 +445,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
-	_base64: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_=',
+	_base64: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_~',
 
 	/*-----------------------------------------------------------------*/
 
@@ -507,8 +507,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		var result = '';
 		var chr1, chr2, chr3;
 		var enc1, enc2, enc3, enc4;
-
-		s = s.replace(/[^A-Za-z0-9\-_=]/g, '');
 
 		for(var i = 0, l = s.length; i < l;)
 		{
