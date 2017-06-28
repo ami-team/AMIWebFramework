@@ -444,6 +444,102 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*-----------------------------------------------------------------*/
+
+	_base64: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_=',
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Base-64-encodes a string
+	  * @param {String} string the decoded string
+	  * @returns {String} The encoded string
+	  */
+
+	base64Encode: function(s)
+	{
+		var result = '';
+		var chr1, chr2, chr3;
+		var enc1, enc2, enc3, enc4;
+
+		for(var i = 0, l = s.length; i < l;)
+		{
+			chr1 = s.charCodeAt(i++);
+			chr2 = s.charCodeAt(i++);
+			chr3 = s.charCodeAt(i++);
+
+			enc1 = (chr1 & 0xFC) >> 2;
+			enc2 = ((chr1 & 0x03) << 4) | (chr2 >> 4);
+			enc3 = ((chr2 & 0x0F) << 2) | (chr3 >> 6);
+			enc4 = (chr3 & 0x3F) >> 0;
+
+			/**/ if(isNaN(chr2))
+			{
+				enc3 = enc4 = 64;
+			}
+			else if(isNaN(chr3))
+			{
+				enc4 = 64;
+			}
+
+			result += this._keyStr.charAt(enc1)
+			          +
+			          this._keyStr.charAt(enc2)
+			          +
+			          this._keyStr.charAt(enc3)
+			          +
+			          this._keyStr.charAt(enc4)
+			;
+		}
+
+		return result;
+	}
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Base-64-decodes a string
+	  * @param {String} string the encoded string
+	  * @returns {String} The decoded string
+	  */
+
+	base64Decode: function(s)
+	{
+		var result = '';
+		var chr1, chr2, chr3;
+		var enc1, enc2, enc3, enc4;
+
+		s = s.replace(/[^A-Za-z0-9\-_=]/g, '');
+
+		for(var i = 0, l = s.length; i < l;)
+		{
+			enc1 = this._base64.indexOf(s.charAt(i++));
+			enc2 = this._base64.indexOf(s.charAt(i++));
+			enc3 = this._base64.indexOf(s.charAt(i++));
+			enc4 = this._base64.indexOf(s.charAt(i++));
+
+/*			if(enc2 != 64)
+ */			{
+				chr1 = ((enc1 & 0x3F) << 2) | (enc2 >> 4);
+				result += String.fromCharCode(chr1);
+			}
+
+			if(enc3 != 64)
+			{
+				chr2 = ((enc2 & 0x0F) << 4) | (enc3 >> 2);
+				result += String.fromCharCode(chr2);
+			}
+
+			if(enc4 != 64)
+			{
+				chr3 = ((enc3 & 0x03) << 6) | (enc4 >> 0);
+				result += String.fromCharCode(chr3);
+			}
+		}
+
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
 	/* DYNAMIC RESOURCE LOADING                                        */
 	/*-----------------------------------------------------------------*/
 
