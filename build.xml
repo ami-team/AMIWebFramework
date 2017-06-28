@@ -104,7 +104,22 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="lint_framework" description="Code quality.">
+	<target name="make-doc" description="Generate doc.">
+
+		<!-- npm install -g jsdoc -->
+		<!-- http://usejsdoc.org/ -->
+
+		<exec executable="bash">
+			<env key="PATH" value="/usr/local/bin:/usr/bin" />
+			<arg value="-c" />
+			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMIInterface.js js/AMI/AMICommand.js js/AMI/AMILogin.js > js/AMI/api.min.json" />
+		</exec>
+
+	</target>
+
+	<!-- ************************************************************ -->
+
+	<target name="lint-framework" description="Code quality.">
 
 		<!-- npm install -g eslint -->
 		<!-- http://eslint.org/ -->
@@ -119,7 +134,7 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="lint_subapp" description="Code quality.">
+	<target name="lint-subapp" description="Code quality.">
 
 		<!-- npm install -g eslint -->
 		<!-- http://eslint.org/ -->
@@ -128,21 +143,6 @@
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
 			<arg value="eslint subapps/**/js/*.js" />
-		</exec>
-
-	</target>
-
-	<!-- ************************************************************ -->
-
-	<target name="doc" description="Generate doc.">
-
-		<!-- npm install -g jsdoc -->
-		<!-- http://usejsdoc.org/ -->
-
-		<exec executable="bash">
-			<env key="PATH" value="/usr/local/bin:/usr/bin" />
-			<arg value="-c" />
-			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMIInterface.js js/AMI/AMICommand.js js/AMI/AMILogin.js > js/AMI/api.min.json" />
 		</exec>
 
 	</target>
