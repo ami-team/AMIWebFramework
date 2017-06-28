@@ -1286,7 +1286,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				 	amiWebApp._subapps[name.toLowerCase()] = data2[name];
 				}
 
-				if(!this._isEmbedded)
+				if(!amiWebApp._isEmbedded)
 				{
 					/*---------------------------------*/
 
