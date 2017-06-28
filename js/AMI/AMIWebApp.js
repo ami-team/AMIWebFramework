@@ -481,13 +481,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				enc4 = 64;
 			}
 
-			result += this._keyStr.charAt(enc1)
+			result += this._base64.charAt(enc1)
 			          +
-			          this._keyStr.charAt(enc2)
+			          this._base64.charAt(enc2)
 			          +
-			          this._keyStr.charAt(enc3)
+			          this._base64.charAt(enc3)
 			          +
-			          this._keyStr.charAt(enc4)
+			          this._base64.charAt(enc4)
 			;
 		}
 
