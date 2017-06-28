@@ -492,7 +492,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		}
 
 		return result;
-	}
+	},
 
 	/*-----------------------------------------------------------------*/
 
