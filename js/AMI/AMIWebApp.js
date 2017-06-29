@@ -100,9 +100,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* PRIVATE MEMBERS                                                 */
 	/*-----------------------------------------------------------------*/
 
-	_isEmbedded: false,
-
-	_canLeave: true,
+	_embedded: false,
+	_noBootstrap: false,
 
 	/*-----------------------------------------------------------------*/
 
@@ -113,6 +112,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	_controls: {},
 	_subapps: {},
+
+	_canLeave: true,
 
 	/*-----------------------------------------------------------------*/
 
@@ -195,16 +196,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		this.webAppURL = _eatSlashes(idx2 > 0 ? href.substring(0, idx2) : href);
 
 		/*---------------------------------------------------------*/
-		/* IS EMBEDDED                                             */
+		/* FLAGS                                                   */
 		/*---------------------------------------------------------*/
 
-		if(idx1 > 0 && (
-		     src.indexOf('embedded', idx1) >= 0
-		     ||
-		     src.indexOf('EMBEDDED', idx1) >= 0
-		   )
-		 ) {
-			this._isEmbedded = true;
+		if(idx1 > 0)
+		{
+			var flags = src.substring(idx1).toLowerCase();
+
+			this._embedded = flags.indexOf('embedded') >= 0;
+
+			this._noBootstrap = flags.indexOf('nobootstrap') >= 0;
 		}
 
 		/*---------------------------------------------------------*/
@@ -234,8 +235,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* DEFAULT SHEETS AND SCRIPTS                              */
 		/*---------------------------------------------------------*/
 
-		if(!this._isEmbedded)
-		{
+		if(this._noBootstrap === false
+		   &&
+		   (typeof $().modal) !== 'function'
+		 ) {
 			this.loadSheets([
 				this.originURL + '/css/bootstrap.min.css',
 				this.originURL + '/css/bootstrap-toggle.min.css',
@@ -281,7 +284,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	isEmbedded: function()
 	{
-		return this._isEmbedded;
+		return this._embedded;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1173,7 +1176,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	onStart: function()
 	{
-		if(!this._isEmbedded)
+		if(!this._embedded)
 		{
 			alert('error: `this.onStart()` must be overloaded!');
 		}
@@ -1188,7 +1191,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	onToolbarUpdateNeeded: function()
 	{
-		if(!this._isEmbedded)
+		if(!this._embedded)
 		{
 			alert('error: `this.onToolbarUpdateNeeded()` must be overloaded!');
 		}
@@ -1293,7 +1296,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				 	amiWebApp._subapps[name.toLowerCase()] = data2[name];
 				}
 
-				if(!amiWebApp._isEmbedded)
+				if(!amiWebApp._embedded)
 				{
 					/*---------------------------------*/
 
