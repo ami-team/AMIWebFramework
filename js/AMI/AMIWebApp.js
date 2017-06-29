@@ -1173,7 +1173,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	onStart: function()
 	{
-		alert('error: `this.onStart()` must be overloaded!');
+		if(!this._isEmbedded)
+		{
+			alert('error: `this.onStart()` must be overloaded!');
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1185,7 +1188,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	onToolbarUpdateNeeded: function()
 	{
-		alert('error: `this.onToolbarUpdateNeeded()` must be overloaded!');
+		if(!this._isEmbedded)
+		{
+			alert('error: `this.onToolbarUpdateNeeded()` must be overloaded!');
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
