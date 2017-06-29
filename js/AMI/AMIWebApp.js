@@ -1018,7 +1018,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	lock: function()
 	{
-		$('#A5A48129_D1AA_4C2A_A708_44447686270E').css('display', 'block');
+		$('#ami_locker').css('display', 'block');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1029,7 +1029,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	unlock: function()
 	{
-		$('#A5A48129_D1AA_4C2A_A708_44447686270E').css('display', 'none');
+		$('#ami_locker').css('display', 'none');
 	},
 
 	/*-----------------------------------------------------------------*/
