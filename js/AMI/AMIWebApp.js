@@ -668,6 +668,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			$.ajax({
 				url: url,
 				cache: false,
+				crossDomain: true,
 				dataType: dataType,
 				context: this,
 			}).done(function(data) {
@@ -793,7 +794,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	loadTWIGs: function(files, settings)
 	{
-		return this.loadFiles(files, 'text', settings);
+		return this.loadFiles(files, 'html', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1272,9 +1273,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		$.ajax({url: controls_url, cache: false, dataType: 'json'}).done(function(data1) {
+		$.ajax({url: controls_url, cache: false, crossDomain: true, dataType: 'json'}).done(function(data1) {
 
-			$.ajax({url: subapps_url, cache: false, dataType: 'json'}).done(function(data2) {
+			$.ajax({url: subapps_url, cache: false, crossDomain: true, dataType: 'json'}).done(function(data2) {
 
 				var name;
 
@@ -1299,9 +1300,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					/*---------------------------------*/
 
-					$.ajax({url: theme_url, cache: false, dataType: 'html'}).done(function(data3) {
+					$.ajax({url: theme_url, cache: true, crossDomain: true, dataType: 'html'}).done(function(data3) {
 
-						$.ajax({url: locker_url, cache: false, dataType: 'html'}).done(function(data4) {
+						$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'html'}).done(function(data4) {
 
 							$('body').append(amiWebApp.formatHTML(data3, dict) + data4).promise().done(function() {
 
@@ -1326,7 +1327,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				{
 					/*---------------------------------*/
 
-					$.ajax({url: locker_url, cache: false, dataType: 'html'}).done(function(data) {
+					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'html'}).done(function(data) {
 
 						$('body').append(data).promise().done(function() {
 
