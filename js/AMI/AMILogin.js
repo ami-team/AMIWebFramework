@@ -628,13 +628,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 					if(userInfo.clientDNInSession || userInfo.issuerDNInSession)
 					{
-						error += '<textarea style="height: 85px; width: 100%;">'
+						error += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.'
 						         +
-						         'Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession)
-						         + '\n' +
-						         'Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession)
-						         +
-						         '</textarea>'
+						         ' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.'
 						;
 					}
 
