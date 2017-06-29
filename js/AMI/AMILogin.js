@@ -273,7 +273,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------*/
 
-			$('#83B6FEE5_2BAF_4F47_BCB3_1F475A1A1117').prop('disabled', vomsEnabled !== 'false');
+			$('#C587486B_62C0_4B6E_9288_D8F9F89D157B').prop('disabled', vomsEnabled !== 'false');
 
 			/*-------------------------------------------------*/
 			/* CHECK USER STATUS                               */
