@@ -100,6 +100,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* PRIVATE MEMBERS                                                 */
 	/*-----------------------------------------------------------------*/
 
+	_idRegExp: new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g'),
+
+	/*-----------------------------------------------------------------*/
+
 	_embedded: false,
 	_noBootstrap: false,
 
@@ -113,6 +117,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_controls: {},
 	_subapps: {},
 
+	_nextSuffix: 0x00,
 	_canLeave: true,
 
 	/*-----------------------------------------------------------------*/
@@ -807,7 +812,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_xxxHTML: function(selector, twig, mode, settings)
 	{
 		var context = null;
-		var remap = null;
+		var suffix = null;
 		var dict = null;
 
 		if(settings)
@@ -816,8 +821,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				context = settings['context'];
 			}
 
-			if('remap' in settings) {
-				remap = settings['remap'];
+			if('suffix' in settings) {
+				suffix = settings['suffix'];
 			}
 
 			if('dict' in settings) {
@@ -829,11 +834,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		var html = this.formatHTML(twig, dict);
 
-		if(remap)
-		{
-			html = html.replace(/(?:"#?)[_a-zA-Z][_a-zA-Z0-9]*(?:")/g, function(x) {
+		/*---------------------------------------------------------*/
 
-				return remap[x];
+		if(suffix)
+		{
+			html = html.replace(this._idRegExp, function(id) {
+
+				return id + '_' + suffix;
 			});
 		}
 
