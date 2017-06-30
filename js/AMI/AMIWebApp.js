@@ -1453,14 +1453,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		_ami_internal_always(
 			amiWebApp.onReady(userData),
-			function()
-			{
-				var promise = amiLogin.isAuthenticated() ? amiWebApp.onLogin()
-				                                         : amiWebApp.onLogout()
-				;
-
+			function() {
 				_ami_internal_always(
-					promise,
+					amiLogin.isAuthenticated() ? amiWebApp.onLogin()
+				                                   : amiWebApp.onLogout(),
 					function() {
 						amiWebApp.unlock();
 					}
