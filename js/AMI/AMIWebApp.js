@@ -1504,7 +1504,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Loads a control
- 	  * @param {String} the control name
+ 	  * @param {String} control the control name
 	  */
 
 	loadControl: function(control)
