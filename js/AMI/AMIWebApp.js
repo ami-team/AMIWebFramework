@@ -109,7 +109,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
-	_nonce: jQuery.now(),
+	_now: jQuery.now(),
+
+	/*-----------------------------------------------------------------*/
 
 	_scripts: [],
 	_sheets: [],
@@ -117,7 +119,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_controls: {},
 	_subapps: {},
 
-	_nextSuffix: 0x00,
 	_canLeave: true,
 
 	/*-----------------------------------------------------------------*/
@@ -582,7 +583,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			{
 				this._sheets.push(sheets[i]);
 
-				html += '<link rel="stylesheet" href="' + sheets[i] + '?_=' + this._nonce++ + '"></link>';
+				html += '<link rel="stylesheet" href="' + sheets[i] + '?_=' + this._now++ + '"></link>';
 			}
 		}
 
@@ -641,7 +642,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			{
 				this._scripts.push(scripts[i]);
 
-				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + this._nonce++ + '"></script>';
+				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + this._now++ + '"></script>';
 			}
 		}
 
@@ -807,6 +808,18 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 	/* HTML CONTENT                                                    */
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Generate a unique HTML identifier suffix
+	  * @returns {$.Deferred} The unique HTML identifier suffix
+	  */
+
+	getNewSuffix: function()
+	{
+		return this._now++;
+	},
+
 	/*-----------------------------------------------------------------*/
 
 	_xxxHTML: function(selector, twig, mode, settings)

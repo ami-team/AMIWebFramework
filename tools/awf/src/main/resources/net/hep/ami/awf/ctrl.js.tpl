@@ -18,7 +18,7 @@ $AMIClass('{{NAME}}Ctrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	suffix: amiWebApp._nextSuffix++,
+	suffix: amiWebApp.getNewSuffix(),
 
 	/*-----------------------------------------------------------------*/
 
@@ -67,6 +67,12 @@ $AMIClass('{{NAME}}Ctrl', {
 		settings.suffix = this.suffix;
 
 		return amiWebApp.appendHTML(selector, twig, settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	$init: function()
+	{
 	},
 
 	/*-----------------------------------------------------------------*/

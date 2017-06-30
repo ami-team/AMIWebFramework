@@ -29,7 +29,7 @@ $AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 	  * @returns {String} The patched HTML identifier
 	  */
 
-	patchId: function(id) {},
+	patchId: function() {},
 
 	/*-----------------------------------------------------------------*/
 
@@ -41,7 +41,7 @@ $AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	replaceHTML: function(selector, twig, settings) {},
+	replaceHTML: function() {},
 
 	/*-----------------------------------------------------------------*/
 
@@ -53,7 +53,7 @@ $AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	prependHTML: function(selector, twig, settings) {},
+	prependHTML: function() {},
 
 	/*-----------------------------------------------------------------*/
 
@@ -65,7 +65,7 @@ $AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	appendHTML: function(selector, twig, settings) {},
+	appendHTML: function() {},
 
 	/*-----------------------------------------------------------------*/
 });
