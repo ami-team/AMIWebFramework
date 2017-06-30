@@ -1323,11 +1323,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 						}).fail(function() {
 
-							alert('service temporarily unreachable, please reload the page...');
+							alert('could not open `' + locker_url + '`, please reload the page...');
 						});
 					}).fail(function() {
 
-						alert('service temporarily unreachable, please reload the page...');
+						alert('could not open `' + theme_url + '`, please reload the page...');
 					});
 
 					/*---------------------------------*/
@@ -1352,11 +1352,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}).fail(function() {
 
-				alert('could not open `' + subapps_url + '`...');
+				alert('could not open `' + subapps_url + '`, please reload the page...');
 			});
 		}).fail(function() {
 
-			alert('could not open `' + controls_url + '`...');
+			alert('could not open `' + controls_url + '`, please reload the page...');
 		});
 
 		/*---------------------------------------------------------*/
