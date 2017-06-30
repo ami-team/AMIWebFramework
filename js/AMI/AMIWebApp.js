@@ -1503,12 +1503,36 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Runs a sub-application according to the URL (parameters 'subapp' and 'userdata')
-	  * @param {String} defaultSubApp the default sub-application name
-	  * @param {?} [defaultUserData] the default user data
+	  * Loads a control
+ 	  * @param {String} the control name
 	  */
 
-	autoRunSubApp: function(defaultSubApp, defaultUserData)
+	loadControl: function(control)
+	{
+		var descr = this._controls[control.toLowerCase()];
+
+		if(descr)
+		{
+			this.loadScripts([descr.file], {context: this}).fail(function() {
+
+				this.error('could not load control `' + control + '`');
+			});
+		}
+		else
+		{
+			this.error('could not load control `' + control + '`');
+		}
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads a sub-application
+	  * @param {String} defaultSubApp the default sub-application name, if null, 'amiWebApp.args["subapp"]'
+	  * @param {?} [defaultUserData] the default user data, if null, 'amiWebApp.args["userdata"]'
+	  */
+
+	loadSubApp: function(defaultSubApp, defaultUserData)
 	{
 		var subapp = this.args['subapp'] || defaultSubApp;
 		var userdata = this.args['userdata'] || defaultUserData;
