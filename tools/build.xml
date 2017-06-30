@@ -110,6 +110,16 @@
 
 	<!-- ************************************************************ -->
 
+	<target name="make-id" description="New id.">
+
+		<java classname="net.hep.ami.awf.NewId" failonerror="true" fork="true">
+			<classpath location="tools/awf.jar" />
+		</java>
+
+	</target>
+
+	<!-- ************************************************************ -->
+
 	<target name="lint" description="Code quality.">
 
 		<!-- npm install -g eslint -->

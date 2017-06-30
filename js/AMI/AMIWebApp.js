@@ -807,12 +807,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_xxxHTML: function(selector, twig, mode, settings)
 	{
 		var context = null;
+		var remap = null;
 		var dict = null;
 
 		if(settings)
 		{
 			if('context' in settings) {
 				context = settings['context'];
+			}
+
+			if('remap' in settings) {
+				remap = settings['remap'];
 			}
 
 			if('dict' in settings) {
@@ -823,6 +828,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/*---------------------------------------------------------*/
 
 		var html = this.formatHTML(twig, dict);
+
+		if(remap)
+		{
+			html = html.replace(/(?:"#?)[_a-zA-Z][_a-zA-Z0-9]*(?:")/g, function(x) {
+
+				return remap[x];
+			});
+		}
 
 		/*---------------------------------------------------------*/
 
