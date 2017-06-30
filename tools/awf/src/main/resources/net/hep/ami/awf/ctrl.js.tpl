@@ -18,7 +18,56 @@ $AMIClass('{{NAME}}Ctrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	/* TODO */
+	suffix: amiWebApp._nextSuffix++,
+
+	/*-----------------------------------------------------------------*/
+
+	patchId: function(id)
+	{
+		return id + '_' + this.suffix;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	replaceHTML: function(selector, twig, settings)
+	{
+		if(!settings)
+		{
+			settings = {};
+		}
+
+		settings.suffix = this.suffix;
+
+		return amiWebApp.replaceHTML(selector, twig, settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	prependHTML: function(selector, twig, settings)
+	{
+		if(!settings)
+		{
+			settings = {};
+		}
+
+		settings.suffix = this.suffix;
+
+		return amiWebApp.prependHTML(selector, twig, settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	appendHTML: function(selector, twig, settings)
+	{
+		if(!settings)
+		{
+			settings = {};
+		}
+
+		settings.suffix = this.suffix;
+
+		return amiWebApp.appendHTML(selector, twig, settings);
+	},
 
 	/*-----------------------------------------------------------------*/
 });

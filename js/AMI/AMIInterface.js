@@ -24,11 +24,48 @@ $AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Render the control
-	  * @param {String} id the target id
+	  * Patch an HTML identifier
+	  * @param {String} id the unpatched HTML identifier
+	  * @returns {String} The patched HTML identifier
 	  */
 
-	render: function() {},
+	patchId: function(id) {},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Put a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
+	  * @param {String} selector the target selector
+	  * @param {String} twig the TWIG fragment
+	  * @param {Object} [settings] dictionary of settings (context, dict)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	replaceHTML: function(selector, twig, settings) {},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Prepends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
+	  * @param {String} selector the target selector
+	  * @param {String} twig the TWIG fragment
+	  * @param {Object} [settings] dictionary of settings (context, dict)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	prependHTML: function(selector, twig, settings) {},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Appends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
+	  * @param {String} selector the target selector
+	  * @param {String} twig the TWIG fragment
+	  * @param {Object} [settings] dictionary of settings (context, dict)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	appendHTML: function(selector, twig, settings) {},
 
 	/*-----------------------------------------------------------------*/
 });
