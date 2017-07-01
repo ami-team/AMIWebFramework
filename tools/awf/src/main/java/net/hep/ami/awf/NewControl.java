@@ -97,6 +97,7 @@ public class NewControl
 		Map<String, String> map = new LinkedHashMap<String, String>();
 
 		map.put("file", "controls/" + NAME + "/js/" + NAME + "Ctrl.js");
+		map.put("clazz", NAME + "Ctrl");
 
 		object.put(name, map);
 

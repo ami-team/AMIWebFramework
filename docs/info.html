@@ -14,7 +14,8 @@
 			<thead>
 				<tr>
 					<th>Name</th>
-					<th>FileName</th>
+					<th>File</th>
+					<th>Class</th>
 				</tr>
 			</thead>
 			<tbody id="BFB033C8_83F3_F317_4930_E7A695C347E4"></tbody>
@@ -64,11 +65,11 @@
 		      +
 		      '<td>' + amiWebApp._controls[controlName].file + '</td>'
 		      +
+		      '<td>' + amiWebApp._controls[controlName].clazz + '</td>'
+		      +
 		      '</tr>'
 		;
 	}
-
-	$('#BFB033C8_83F3_F317_4930_E7A695C347E4').html(s1);
 
 	/*-----------------------------------------------------------------*/
 
@@ -88,7 +89,13 @@
 		;
 	}
 
-	$('#E2467A54_0C72_D98D_87EB_38FBD9FC90F4').html(s2);
+	/*-----------------------------------------------------------------*/
+
+	if(amiLogin.hasRole('AMI_ADMIN'))
+	{
+		$('#BFB033C8_83F3_F317_4930_E7A695C347E4').html(s1);
+		$('#E2467A54_0C72_D98D_87EB_38FBD9FC90F4').html(s2);
+	}
 
 	/*-----------------------------------------------------------------*/
 </script>
