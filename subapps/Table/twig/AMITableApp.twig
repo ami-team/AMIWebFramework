@@ -1,0 +1,98 @@
+<ul class="nav nav-tabs" id="ami_table_nav_tabs">
+	<li class="active"><a data-toggle="tab" href="#ami_table_result" id="ami_table_resultTab_title"></a></li>
+</ul>
+
+<div class="tab-content" id="ami_table_tab_content">
+
+<div class="tab-pane active panel panel-default" id="ami_table_result" style="min-height: 250px;">
+
+	<div class="panel-heading">
+
+		<nav class="navbar navbar-default" style="margin-bottom: 0px;">
+
+			<div class="container-fluid">
+
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#ami_table_navbar_collapse">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+
+					<span class="navbar-brand" style="text-align: center;">
+						<strong id="ami_table_result_navbar_entity">Entity</strong> <br />
+						<small><small id="ami_table_result_navbar_records">? records</small></small>
+					</span>
+
+				</div>
+
+				<div class="collapse navbar-collapse" id="ami_table_navbar_collapse">
+
+					<div class="navbar-form navbar-left" id="ami_table_navbar_browse">
+
+						<div class="form-group">
+
+							<div class="input-group" style="width: 100px;">
+								<span class="input-group-btn">
+									<button class="btn btn-default" onclick="amiTableApp.prev()">
+										<i class="fa fa-step-backward"></i>
+									</button>
+								</span>
+								<input type="text" class="form-control" id="ami_table_start_index" value="1" />
+							</div>
+
+							<span class="hidden-xs">-</span>
+
+							<div class="input-group" style="width: 100px;">
+								<input type="text" class="form-control" id="ami_table_stop_index" value="15" />
+								<span class="input-group-btn">
+									<button class="btn btn-default" onclick="amiTableApp.next()">
+										<i class="fa fa-step-forward"></i>
+									</button>
+								</span>
+							</div>
+
+						</div>
+
+						<button type="button" class="btn btn-default" onclick="amiTableApp.refresh()"><i class="fa fa-refresh"></i></button>
+
+						<input type="checkbox" id="ami_table_edit_button" data-toggle="toggle" data-on="&lt;i class=&quot;fa fa-pencil-square-o&quot;&gt;&lt;/i&gt; edit mode" data-off="&lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt; view mode" onchange="amiTableApp.editTable();" />
+
+					</div>
+
+					<div class="navbar-form navbar-left">
+
+							<div class="btn-group">
+								<button type="button" class="btn btn-default" onclick="amiTableApp.sortTable('DESC','{{lastModified}}')">lastModified</button>
+								<button type="button" class="btn btn-default" onclick="amiTableApp.sortTable('DESC','{{created}}')">created</button>
+							</div>
+
+					</div>
+
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#" onclick="amiTableApp.bookmark()">Bookmark</a></li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">More... <span class="caret"></span></a>
+							<ul class="dropdown-menu">
+								<li class="disabled"><a href="#">AMI</a></li>
+								<li><a href="#" target="_blank" id="ami_table_more_amicommand">AMI Command</a></li>
+								<li role="separator" class="divider"></li>
+								<li class="disabled"><a href="#">QUERY</a></li>
+								<li><a href="#" id="ami_table_more_condition_clauses">Condition Clauses</a></li>
+								<li><a href="#" id="ami_table_more_sql">SQL</a></li>
+								<li><a href="#" id="ami_table_more_glite">GLite</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</nav>
+	</div>
+
+	<div class="panel-body " id="ami_table_content"></div>
+
+</div>
+
+</div>

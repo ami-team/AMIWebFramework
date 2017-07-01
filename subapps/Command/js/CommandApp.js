@@ -36,7 +36,7 @@ $AMIClass('CommandApp', {
 
 		var result = $.Deferred();
 
-		amiWebApp.loadHTMLs([
+		amiWebApp.loadTWIGs([
 			'subapps/Command/twig/CommandApp.twig',
 			'subapps/Command/twig/Fragment/command.twig',
 			'subapps/Command/twig/Fragment/result.twig',
