@@ -1406,15 +1406,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(descr)
 			{
-				this.loadScripts(descr.file, {context: this}).done(function() {
+				this.loadScripts(descr.file, {context: this}).done(function(loaded) {
 
 					try
 					{
 						var clazz = window[descr.clazz];
 
-						var promise = clazz.prototype.onReady.apply(clazz);
+						var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz)
+						                        : ((((((((((((((((null))))))))))))))))
+						;
 
-						if(!promise.done
+						if(!promise
+						   ||
+						   !promise.done
 						   ||
 						   !promise.fail
 						 ) {
