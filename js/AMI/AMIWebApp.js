@@ -120,6 +120,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_subapps: {},
 
 	_canLeave: true,
+	_timeout: 1000,
 
 	/*-----------------------------------------------------------------*/
 
@@ -1240,7 +1241,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Starts the web application
-	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, timeout)
+	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url)
 	  */
 
 	start: function(settings)
@@ -1256,8 +1257,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		var theme_url = this.originURL + '/twig/AMI/Theme/blue.twig';
 		var locker_url = this.originURL + '/twig/AMI/Fragment/locker.twig';
-
-		var timeout = 10000;
 
 		/*---------------------------------------------------------*/
 
@@ -1286,15 +1285,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			if('locker_url' in settings) {
 				locker_url = settings['locker_url'];
 			}
-
-			if('timeout' in settings) {
-				timeout = settings['timeout'];
-			}
 		}
-
-		/*---------------------------------------------------------*/
-
-		this.timeout = timeout;
 
 		/*---------------------------------------------------------*/
 
@@ -1492,9 +1483,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	onLogin: function()
 	{
-		var result = amiWebApp._currentSubAppInstance.onLogin();
+		var result = this._currentSubAppInstance.onLogin();
 
-		amiWebApp.onToolbarUpdateNeeded();
+		this.onToolbarUpdateNeeded();
 
 		return result;
 	},
@@ -1503,9 +1494,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	onLogout: function()
 	{
-		var result = amiWebApp._currentSubAppInstance.onLogout();
+		var result = this._currentSubAppInstance.onLogout();
 
-		amiWebApp.onToolbarUpdateNeeded();
+		this.onToolbarUpdateNeeded();
 
 		return result;
 	},
@@ -1563,7 +1554,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				amiWebApp.error('service temporarily unreachable, please reload the page...');
 			}
 
-		}, this.timeout);
+		}, this._timeout);
 
 		/*---------------------------------------------------------*/
 
