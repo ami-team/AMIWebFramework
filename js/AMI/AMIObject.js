@@ -204,16 +204,22 @@ function $AMIClass($name, $this)
 
 	for(var $member1 in $super)
 	{
-		$class.prototype['$super_' + $member1] = $super[$member1];
+		if($member1 !== '$init')
+		{
+			$class.prototype['$super_' + $member1] = $super[$member1];
 
-		$class.prototype[$member1] = $super[$member1];
+			$class.prototype[$member1] = $super[$member1];
+		}
 	}
 
 	for(var $member2 in $this)
 	{
-		$class.prototype['$added_' + $member2] = $this[$member2];
+		if($member2 !== '$init')
+		{
+			$class.prototype['$added_' + $member2] = $this[$member2];
 
-		$class.prototype[$member2] = $this[$member2];
+			$class.prototype[$member2] = $this[$member2];
+		}
 	}
 
 	/*-----------------------------------------------------------------*/

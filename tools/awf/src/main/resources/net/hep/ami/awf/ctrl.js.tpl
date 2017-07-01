@@ -73,6 +73,35 @@ $AMIClass('{{NAME}}Ctrl', {
 
 	$static: function()
 	{
+		/*---------------------------------------------------------*/
+
+		amiWebApp.loadScripts([
+		]);
+
+		amiWebApp.loadSheets([
+			'subapps/{{NAME}}/css/{{NAME}}App.css',
+		]);
+
+		/*---------------------------------------------------------*/
+
+		var result = $.Deferred();
+
+		amiWebApp.loadTWIGs([
+			'controls/{{NAME}}/twig/{{NAME}}Ctrl.twig',
+		], {context: this}).done(function(data) {
+
+			/* TODO */
+
+			result.resolve();
+
+		}).fail(function() {
+
+			result.reject();
+		});
+
+		/*---------------------------------------------------------*/
+
+		return result;
 	},
 
 	/*-----------------------------------------------------------------*/

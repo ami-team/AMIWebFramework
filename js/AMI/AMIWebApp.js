@@ -1408,13 +1408,39 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			{
 				this.loadScripts(descr.file, {context: this}).done(function() {
 
-					if(window[descr.clazz])
+					try
 					{
-						result.push(window[descr.clazz]);
+						var clazz = window[descr.clazz];
 
-						this._loadControls(deferred, result, controls, context);
+						var promise = clazz.prototype.onReady.apply(clazz);
+
+						if(!promise.done
+						   ||
+						   !promise.fail
+						 ) {
+							result.push(clazz);
+
+							amiWebApp._loadControls(deferred, result, controls, context);
+						}
+						else
+						{
+							promise.done(function() {
+
+								result.push(clazz);
+
+								amiWebApp._loadControls(deferred, result, controls, context);
+
+							}).fail(function() {
+
+								if(context) {
+									deferred.rejectWith(context, ['could not load control `' + name + '`']);
+								} else {
+									deferred.reject('could not load `' + name + '`');
+								}
+							});
+						}
 					}
-					else
+					catch(e)
 					{
 						if(context) {
 							deferred.rejectWith(context, ['could not load control `' + name + '`']);
