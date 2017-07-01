@@ -249,21 +249,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/css/bootstrap.min.css',
 				this.originURL + '/css/bootstrap-toggle.min.css',
 				this.originURL + '/css/bootstrap-vertical-tabs.min.css',
-			]).fail(function() {
-
-				alert('service temporarily unreachable, please reload the page...');
-			});
-
-			/**/
+			]);
 
 			this.loadScripts([
 				this.originURL + '/js/bootstrap.min.js',
 				this.originURL + '/js/bootstrap-toggle.min.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js',
-			]).fail(function() {
-
-				alert('service temporarily unreachable, please reload the page...');
-			});
+			]);
 		}
 
 		/*---------------------------------------------------------*/
@@ -271,10 +263,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		this.loadSheets([
 			this.originURL + '/css/font-awesome.min.css',
 			this.originURL + '/css/AMI/framework.min.css',
-		]).fail(function() {
-
-			alert('service temporarily unreachable, please reload the page...');
-		});
+		]);
 
 		/*---------------------------------------------------------*/
 	},
@@ -577,13 +566,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		var html = '';
 
+		var loaded = [];
+
 		for(var i in sheets)
 		{
 			if(this._sheets.indexOf(sheets[i]) < 0)
 			{
+				html += '<link rel="stylesheet" href="' + sheets[i] + '?_=' + this._now++ + '"></link>';
+
 				this._sheets.push(sheets[i]);
 
-				html += '<link rel="stylesheet" href="' + sheets[i] + '?_=' + this._now++ + '"></link>';
+				loaded.push(true);
+			}
+			else
+			{
+				loaded.push(false);
 			}
 		}
 
@@ -596,9 +593,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		$('head').append(html).promise().done(function() {
 
 			if(context) {
-				result.resolveWith(context);
+				result.resolveWith(context, [loaded]);
 			} else {
-				result.resolve();
+				result.resolve(loaded);
 			}
 		});
 
@@ -636,13 +633,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		var html = '';
 
+		var loaded = [];
+
 		for(var i in scripts)
 		{
 			if(this._scripts.indexOf(scripts[i]) < 0)
 			{
+				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + this._now++ + '"></script>';
+
 				this._scripts.push(scripts[i]);
 
-				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + this._now++ + '"></script>';
+				loaded.push(true);
+			}
+			else
+			{
+				loaded.push(false);
 			}
 		}
 
@@ -655,9 +660,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		$('head').append(html).promise().done(function() {
 
 			if(context) {
-				result.resolveWith(context);
+				result.resolveWith(context, [loaded]);
 			} else {
-				result.resolve();
+				result.resolve(loaded);
 			}
 		});
 
@@ -703,6 +708,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				deferred.resolve(result);
 			}
 		}
+
+		return deferred;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -725,15 +732,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
+		return this._loadFiles($.Deferred(), [], files, dataType, context).promise();
 
 		/*---------------------------------------------------------*/
-
-		this._loadFiles(result, [], files, dataType, context);
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -847,8 +848,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		var html = this.formatHTML(twig, dict);
 
-		/*---------------------------------------------------------*/
-
 		if(suffix)
 		{
 			html = html.replace(this._idRegExp, function(id) {
@@ -859,11 +858,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		var promise = ((((null))));
+		var target = $(selector);
 
 		var result = $.Deferred();
 
-		var target = $(selector);
+		/*---------------------------------------------------------*/
+
+		var promise;
 
 		switch(mode)
 		{
@@ -878,7 +879,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			case 2:
 				promise = target.append(html).promise();
 				break;
+
+			default:
+				throw 'internal error';
 		}
+
+		/*---------------------------------------------------------*/
 
 		promise.done(function() {
 			/*-------------------------------------------------*/
@@ -1396,32 +1402,111 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*-----------------------------------------------------------------*/
-	/* SUB-APPLICATIONS                                                */
+	/* CONTROLS                                                        */
 	/*-----------------------------------------------------------------*/
 
-	onReady: function(userdata)
+	_loadControls: function(deferred, result, controls, context)
 	{
-		return this._currentSubAppInstance.onReady(userdata);
+		if(controls.length > 0)
+		{
+			var name = controls.shift();
+
+			var descr = this._controls[name.toLowerCase()];
+
+			if(descr)
+			{
+				this.loadScripts(descr.file, {context: this}).done(function() {
+
+					if(window[descr.clazz])
+					{
+						result.push(window[descr.clazz]);
+
+						this._loadControls(deferred, result, controls, context);
+					}
+					else
+					{
+						if(context) {
+							deferred.rejectWith(context, ['could not load control `' + name + '`']);
+						} else {
+							deferred.reject('could not load `' + name + '`');
+						}
+					}
+				});
+			}
+			else
+			{
+				if(context) {
+					deferred.rejectWith(context, ['could not load control `' + name + '`']);
+				} else {
+					deferred.reject('could not load `' + name + '`');
+				}
+			}
+		}
+		else
+		{
+			if(context) {
+				deferred.resolveWith(context, [result]);
+			} else {
+				deferred.resolve(result);
+			}
+		}
+
+		return deferred;
 	},
 
-	onExit: function()
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads controls asynchronously
+	  * @param {(Array|String)} controls the array of control names
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	loadControls: function(controls, settings)
 	{
-		return this._currentSubAppInstance.onExit();
+		var context = null;
+
+		if(settings && 'context' in settings)
+		{
+			context = settings['context'];
+		}
+
+		/*---------------------------------------------------------*/
+
+		if(!(controls instanceof Array))
+		{
+			controls = [controls];
+		}
+
+		/*---------------------------------------------------------*/
+
+		return this._loadControls($.Deferred(), [], controls, context).promise();
+
+		/*---------------------------------------------------------*/
 	},
 
+	/*-----------------------------------------------------------------*/
+	/* SUBAPPS                                                         */
 	/*-----------------------------------------------------------------*/
 
 	onLogin: function()
 	{
-		var result = this._currentSubAppInstance.onLogin();
-		this.onToolbarUpdateNeeded();
+		var result = amiWebApp._currentSubAppInstance.onLogin();
+
+		amiWebApp.onToolbarUpdateNeeded();
+
 		return result;
 	},
 
+	/*-----------------------------------------------------------------*/
+
 	onLogout: function()
 	{
-		var result = this._currentSubAppInstance.onLogout();
-		this.onToolbarUpdateNeeded();
+		var result = amiWebApp._currentSubAppInstance.onLogout();
+
+		amiWebApp.onToolbarUpdateNeeded();
+
 		return result;
 	},
 
@@ -1485,11 +1570,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		this.lock();
 
 		_ami_internal_always(
-			amiWebApp.onReady(userData),
+			this._currentSubAppInstance.onReady(userData),
 			function() {
 				_ami_internal_always(
 					amiLogin.isAuthenticated() ? amiWebApp.onLogin()
-				                                   : amiWebApp.onLogout(),
+					                           : amiWebApp.onLogout()
+					,
 					function() {
 						amiWebApp.unlock();
 					}
@@ -1498,30 +1584,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		);
 
 		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Loads a control
- 	  * @param {String} control the control name
-	  */
-
-	loadControl: function(control)
-	{
-		var descr = this._controls[control.toLowerCase()];
-
-		if(descr)
-		{
-			this.loadScripts([descr.file], {context: this}).fail(function() {
-
-				this.error('could not load control `' + control + '`');
-			});
-		}
-		else
-		{
-			this.error('could not load control `' + control + '`');
-		}
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1544,10 +1606,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			this.loadScripts([descr.file], {context: this}).done(function() {
 
 				this.setCurrentSubAppInstance(window[descr.instance], userdata);
-
-			}).fail(function() {
-
-				this.error('could not load sub-application `' + subapp + '`');
 			});
 		}
 		else
