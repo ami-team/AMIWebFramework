@@ -204,7 +204,7 @@ function $AMIClass($name, $this)
 
 	for(var $member1 in $super)
 	{
-		if($member1 !== '$init')
+		if($member1 !== '$static')
 		{
 			$class.prototype['$super_' + $member1] = $super[$member1];
 
@@ -214,7 +214,7 @@ function $AMIClass($name, $this)
 
 	for(var $member2 in $this)
 	{
-		if($member2 !== '$init')
+		if($member2 !== '$static')
 		{
 			$class.prototype['$added_' + $member2] = $this[$member2];
 

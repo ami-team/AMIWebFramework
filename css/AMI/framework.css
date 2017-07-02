@@ -87,6 +87,10 @@ pre {
 
 /*-------------------------------------------------------------------------*/
 
+.form-control {
+	height: 35.5px;
+}
+
 @-moz-document url-prefix() {
 
 	select.form-control {

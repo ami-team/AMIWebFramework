@@ -1412,8 +1412,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 					{
 						var clazz = window[descr.clazz];
 
-						var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz)
-						                        : ((((((((((((((((null))))))))))))))))
+						var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
+						                        : (((((((((((((((((((((null)))))))))))))))))))))
 						;
 
 						if(!promise

@@ -1,0 +1,44 @@
+#ami_table_navbar_browse .form-group .input-group {
+  display: inline-table;
+}
+
+.table th, .table td {
+  text-align: center;
+  vertical-align: middle;
+  white-space: nowrap;
+  font-size: 13px;
+}
+
+[contenteditable="true"]:focus{
+  background-color: white;
+  padding : 3px;
+  border: solid 0.5px grey;
+  outline: 0;
+  content:none;
+}
+
+[contenteditable=true]:empty:before{
+  content: attr(placeholder);
+}
+
+.ami-representation:hover {
+    background-color: orange;
+    border-radius: 3px;
+	padding: 3px;
+	cursor: pointer;
+}
+
+[contenteditable="true"]:hover{
+	background-color: transparent;
+	cursor: text;
+}
+
+#ami_table_tab_content .navbar-brand {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#ami_table_tab_content .navbar {
+    padding-top: 5px;
+    padding-bottom: 5px;
+} 
