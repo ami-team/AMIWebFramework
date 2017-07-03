@@ -107,17 +107,17 @@ $AMIClass('TableCtrl', {
 
 		this.appendCommandFunc = function(values) {
 
-			return 'AddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" ...';
+			return 'xAddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" ...';
 		};
 
 		this.updateCommandFunc = function(primary, field, value) {
 
-			return 'UpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + this.primary + '" -keyValues="' + primary + '" -field="' + field + '" -value="' + value + '"';
+			return 'xUpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + this.primary + '" -keyValues="' + primary + '" -field="' + field + '" -value="' + value + '"';
 		};
 
 		this.deleteCommandFunc = function(primary) {
 		
-			return 'RemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + this.primary + '" -keyValues="' + primary + '"';
+			return 'xRemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + this.primary + '" -keyValues="' + primary + '"';
 		};
 
 		/**/
@@ -397,7 +397,7 @@ $AMIClass('TableCtrl', {
 
 				tags = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' a[data-action="delete"]');
 
-				for(i = 0; i < tags.length; i++)
+				for(i in tags)
 				{
 					tags[i].onclick = function()
 					{
@@ -444,8 +444,8 @@ $AMIClass('TableCtrl', {
 
 						/**/ if(e.keyCode == 13)
 						{
-/*							this.innerHTML = this.innerHTML;
- */
+						    //	this.innerHTML = this.innerHTML;
+
 							e.preventDefault();
 
 							e.target.blur();
@@ -533,15 +533,22 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	appendRow: function(values)
+	appendRow: function()
 	{
 		var result = confirm('Please confirm!');
 
 		if(result)
 		{
-			alert(this.appendCommandFunc.apply(this, [values]));
+			amiWebApp.lock();
 
-			this.refresh();
+			amiCommand.execute(this.appendCommandFunc.apply(this, arguments), {context: this}).done(function(data) {
+
+				this.refresh();
+
+ 			}).fail(function(data) {
+
+				amiWebApp.error(amiWebApp.jspath('..error.$', data));
+			});
 		}
 
 		return result;
@@ -549,31 +556,45 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	updateRow: function(primary, field, value)
+	updateRow: function()
 	{
 		var result = confirm('Please confirm!');
 
 		if(result)
 		{
-			alert(this.updateCommandFunc.apply(this, [primary, field, value]));
+			amiWebApp.lock();
 
-/*			this.refresh();
- */		}
+			amiCommand.execute(this.updateCommandFunc.apply(this, arguments), {context: this}).done(function(data) {
+
+				this.refresh();
+
+ 			}).fail(function(data) {
+
+				amiWebApp.error(amiWebApp.jspath('..error.$', data));
+			});
+		}
 
 		return result;
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	deleteRow: function(primary)
+	deleteRow: function()
 	{
 		var result = confirm('Please confirm!');
 
 		if(result)
 		{
-			alert(this.deleteCommandFunc.apply(this, [primary]));
+			amiWebApp.lock();
 
-			this.refresh();
+			amiCommand.execute(this.deleteCommandFunc.apply(this, arguments), {context: this}).done(function(data) {
+
+				this.refresh();
+
+ 			}).fail(function(data) {
+
+				amiWebApp.error(amiWebApp.jspath('..error.$', data));
+			});
 		}
 
 		return result;
