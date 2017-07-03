@@ -21,7 +21,6 @@ $AMIClass('TableCtrl', {
 	$init: function()
 	{
 		this.suffix = amiWebApp._now++;
-
 	},
 
 	/*-----------------------------------------------------------------*/
