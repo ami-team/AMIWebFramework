@@ -308,7 +308,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 			cnt++;
 
-			var line = column.name + ': ' + column.type;
+			var line = (column.primary ? '✶' : '') + column.name + ': ' + column.type;
 
 			if(line.length > 26)
 			{

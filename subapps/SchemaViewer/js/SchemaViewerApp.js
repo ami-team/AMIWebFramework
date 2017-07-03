@@ -345,6 +345,7 @@ $AMIClass('SchemaViewerApp', {
 					var table = amiWebApp.jspath('..field{.@name==="table"}.$', value)[0];
 					var name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0];
 					var type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0];
+					var primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0];
 
 					if(!(table in tables))
 					{
@@ -392,6 +393,7 @@ $AMIClass('SchemaViewerApp', {
 						tables[table]['table'].appendField({
 							name: name,
 							type: type,
+							primary: primary === 'true',
 						});
 					}
 				}

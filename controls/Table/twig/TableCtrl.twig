@@ -8,6 +8,16 @@
 #FEF9E8D8_D4AB_B545_B394_C12DD5817D61 {
 	margin-top: -16px;
 }
+
+#FEF9E8D8_D4AB_B545_B394_C12DD5817D61 th,
+#FEF9E8D8_D4AB_B545_B394_C12DD5817D61 td {
+	font-size: 13px;
+	white-space: nowrap;
+}
+
+#FEF9E8D8_D4AB_B545_B394_C12DD5817D61 [contenteditable=true]:empty:before {
+	content: attr(placeholder);
+}
 </style>
 
 <nav class="navbar navbar-default">
@@ -21,7 +31,7 @@
 			</button>
 			<span class="navbar-brand" id="C243F41A_F733_3A8B_AEB6_D46DF56CFE85">
 				<strong>
-					Entity
+					{{entity|default('entity')}}
 				</strong>
 				<br />
 				<small>
@@ -38,11 +48,11 @@
 								<i class="fa fa-step-backward"></i>
 							</button>
 						</span>
-						<input type="text" class="form-control" id="DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB" value="1" />
+						<input type="text" class="form-control" id="DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB" value="{{start}}" />
 					</div>
 					<span class="hidden-xs">-</span>
 					<div class="input-group" style="width: 100px;">
-						<input type="text" class="form-control" id="BF85DC0E_C07E_DE5E_A65B_237FCA3D461C" value="15" />
+						<input type="text" class="form-control" id="BF85DC0E_C07E_DE5E_A65B_237FCA3D461C" value="{{stop}}" />
 						<span class="input-group-btn">
 							<button class="btn btn-default" id="E7FDF4C8_ECD2_3FE0_8C75_541E511239C2">
 								<i class="fa fa-step-forward"></i>
@@ -51,13 +61,21 @@
 					</div>
 				</div>
 				<button type="button" class="btn btn-default" id="D809166F_A40B_2376_C8A5_977AA0C8C408"><i class="fa fa-refresh"></i></button>
-				<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D" data-toggle="toggle" data-on="&lt;i class=&quot;fa fa-pencil-square-o&quot;&gt;&lt;/i&gt; edit mode" data-off="&lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt; view mode" />
+{% if canEdit %}
+				<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D"
+				                       data-toggle="toggle"
+						       data-on="&lt;i class=&quot;fa fa-pencil-square-o&quot;&gt;&lt;/i&gt; edit mode"
+						       data-off="&lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt; view mode"
+				/>
+{% endif %}
 			</div>
+{% if isEmbedded %}
+			<p class="navbar-text navbar-right hidden-xs hidden-sm">
+				Powered by AMI
+			</p>
+{% endif %}
 		</div>
 	</div>
 </nav>
 
-<table class="table table-striped table-bordered" id="FEF9E8D8_D4AB_B545_B394_C12DD5817D61">
-	<tr><td>hello</td><td>hello</td></tr>
-	<tr><td>hello</td><td>hello</td></tr>
-</table>
+<div id="FEF9E8D8_D4AB_B545_B394_C12DD5817D61" style="overflow-x: scroll;"></div>

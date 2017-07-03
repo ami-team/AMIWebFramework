@@ -46,11 +46,9 @@ public class NewControl
 		/*-----------------------------------------------------------------*/
 
 		File jsDir = new File(appDir, "js");
-		File cssDir = new File(appDir, "css");
 		File twigDir = new File(appDir, "twig");
 
 		jsDir.mkdir();
-		cssDir.mkdir();
 		twigDir.mkdir();
 
 		/*-----------------------------------------------------------------*/
@@ -65,17 +63,9 @@ public class NewControl
 
 		StringBuilder stringBuilder2 = new StringBuilder();
 
-		Utilities.read(stringBuilder2, NewControl.class.getResourceAsStream("/net/hep/ami/awf/ctrl.css.tpl"));
+		Utilities.read(stringBuilder2, NewControl.class.getResourceAsStream("/net/hep/ami/awf/ctrl.twig.tpl"));
 
-		Utilities.write(new File(cssDir, NAME + "Ctrl.css"), stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
-
-		/*-----------------------------------------------------------------*/
-
-		StringBuilder stringBuilder3 = new StringBuilder();
-
-		Utilities.read(stringBuilder3, NewControl.class.getResourceAsStream("/net/hep/ami/awf/ctrl.twig.tpl"));
-
-		Utilities.write(new File(twigDir, NAME + "Ctrl.twig"), stringBuilder3.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
+		Utilities.write(new File(twigDir, NAME + "Ctrl.twig"), stringBuilder2.toString().replace("{{name}}", name).replace("{{NAME}}", NAME).replace("{{YEAR}}", YEAR));
 
 		/*-----------------------------------------------------------------*/
 

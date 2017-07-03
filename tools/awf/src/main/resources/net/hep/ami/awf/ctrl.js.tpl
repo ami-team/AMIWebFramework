@@ -1,7 +1,7 @@
 /*!
  * AMI Web Framework
  *
- * Copyright (c) 2014-XXXX The AMI Team
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -18,13 +18,16 @@ $AMIClass('{{NAME}}Ctrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	suffix: amiWebApp.getNewSuffix(),
+	$init: function()
+	{
+		this.suffix = amiWebApp._now++;
+	},
 
 	/*-----------------------------------------------------------------*/
 
 	patchId: function(id)
 	{
-		return id + '_' + this.suffix;
+		return id + '__' + this.suffix;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -73,17 +76,6 @@ $AMIClass('{{NAME}}Ctrl', {
 
 	onReady: function()
 	{
-		/*---------------------------------------------------------*/
-
-		amiWebApp.loadScripts([
-		]);
-
-		amiWebApp.loadSheets([
-			'subapps/{{NAME}}/css/{{NAME}}App.css',
-		]);
-
-		/*---------------------------------------------------------*/
-
 		var result = $.Deferred();
 
 		amiWebApp.loadTWIGs([
@@ -98,8 +90,6 @@ $AMIClass('{{NAME}}Ctrl', {
 
 			result.reject();
 		});
-
-		/*---------------------------------------------------------*/
 
 		return result;
 	},

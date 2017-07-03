@@ -182,6 +182,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		var href = window.location.href.trim();
 		var search = window.location.search.trim();
 
+		/**/
+
 		var scripts = document.getElementsByTagName('script');
 
 		var src = scripts[scripts.length - 1].src.trim();
@@ -190,7 +192,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* ORIGIN_URL                                              */
 		/*---------------------------------------------------------*/
 
-		var idx1 = src.indexOf('/js/AMI/framework.');
+		var idx1 = src.indexOf('js/AMI/framework.');
 
 		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : null);
 
@@ -229,7 +231,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				/**/ if(parts.length === 1)
 				{
-					this.args[decodeURIComponent(parts[0])] = ((((((((((((('')))))))))))));
+					this.args[decodeURIComponent(parts[0])] = /*---------*/''/*---------*/;
 				}
 				else if(parts.length === 2)
 				{
@@ -812,18 +814,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
-	/**
-	  * Generate a unique HTML identifier suffix
-	  * @returns {$.Deferred} The unique HTML identifier suffix
-	  */
-
-	getNewSuffix: function()
-	{
-		return this._now++;
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	_xxxHTML: function(selector, twig, mode, settings)
 	{
 		var context = null;
@@ -853,7 +843,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			html = html.replace(this._idRegExp, function(id) {
 
-				return id + '_' + suffix;
+				return id + '__' + suffix;
 			});
 		}
 
@@ -1355,6 +1345,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 							alert('could not open `' + locker_url + '`, please reload the page...');
 						});
+
 					}).fail(function() {
 
 						alert('could not open `' + theme_url + '`, please reload the page...');
@@ -1384,6 +1375,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				alert('could not open `' + subapps_url + '`, please reload the page...');
 			});
+
 		}).fail(function() {
 
 			alert('could not open `' + controls_url + '`, please reload the page...');
@@ -1413,7 +1405,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 						var clazz = window[descr.clazz];
 
 						var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
-						                        : (((((((((((((((((((((null)))))))))))))))))))))
+						                        : /*-----------------*/null/*-----------------*/
 						;
 
 						if(!promise
