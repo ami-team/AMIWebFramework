@@ -1,13 +1,6 @@
-<style>
-#C243F41A_F733_3A8B_AEB6_D46DF56CFE85 {
-	padding-top: 5px;
-	padding-bottom: 5px;
-	text-align: center;
-}
+<!-- ******************************************************************** -->
 
-#FEF9E8D8_D4AB_B545_B394_C12DD5817D61 {
-	margin-top: -16px;
-}
+<style type="text/css">
 
 #FEF9E8D8_D4AB_B545_B394_C12DD5817D61 th,
 #FEF9E8D8_D4AB_B545_B394_C12DD5817D61 td {
@@ -15,10 +8,18 @@
 	white-space: nowrap;
 }
 
+#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850,
+#FEF9E8D8_D4AB_B545_B394_C12DD5817D61 .edit-mode {
+	display: none;
+}
+
 #FEF9E8D8_D4AB_B545_B394_C12DD5817D61 [contenteditable=true]:empty:before {
 	content: attr(placeholder);
 }
+
 </style>
+
+<!-- ******************************************************************** -->
 
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
@@ -29,44 +30,38 @@
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</button>
-			<span class="navbar-brand" id="C243F41A_F733_3A8B_AEB6_D46DF56CFE85">
-				<strong>
-					{{entity|default('entity')}}
-				</strong>
-				<br />
-				<small>
-					? records
-				</small>
+			<span class="navbar-brand">
+				<span id="C57C824B_166C_4C23_F349_8B0C8E94114A" data-toggle="tooltip" data-placement="right" data-title="hello"><i class="fa fa-info-circle"></i> {{entity|default('entity')}}</span>
 			</span>
 		</div>
 		<div class="collapse navbar-collapse" id="F4B10C5C_47BC_2093_5269_EA03881409FA">
 			<div class="navbar-form navbar-left">
-				<div class="form-group">
-					<div class="input-group" style="width: 100px;">
-						<span class="input-group-btn">
-							<button class="btn btn-default" id="BB126294_FFC2_24B8_8765_CF653EB950F7">
-								<i class="fa fa-step-backward"></i>
-							</button>
-						</span>
-						<input type="text" class="form-control" id="DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB" value="{{start}}" />
-					</div>
-					<span class="hidden-xs">-</span>
-					<div class="input-group" style="width: 100px;">
-						<input type="text" class="form-control" id="BF85DC0E_C07E_DE5E_A65B_237FCA3D461C" value="{{stop}}" />
-						<span class="input-group-btn">
-							<button class="btn btn-default" id="E7FDF4C8_ECD2_3FE0_8C75_541E511239C2">
-								<i class="fa fa-step-forward"></i>
-							</button>
-						</span>
-					</div>
+				<div class="input-group" style="width: 100px;">
+					<span class="input-group-btn">
+						<button class="btn btn-default" id="BB126294_FFC2_24B8_8765_CF653EB950F7">
+							<i class="fa fa-step-backward"></i>
+						</button>
+					</span>
+					<input type="text" class="form-control" id="DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB" value="{{start}}" />
+				</div>
+				<span class="hidden-xs">-</span>
+				<div class="input-group" style="width: 100px;">
+					<input type="text" class="form-control" id="BF85DC0E_C07E_DE5E_A65B_237FCA3D461C" value="{{stop}}" />
+					<span class="input-group-btn">
+						<button class="btn btn-default" id="E7FDF4C8_ECD2_3FE0_8C75_541E511239C2">
+							<i class="fa fa-step-forward"></i>
+						</button>
+					</span>
 				</div>
 				<button type="button" class="btn btn-default" id="D809166F_A40B_2376_C8A5_977AA0C8C408"><i class="fa fa-refresh"></i></button>
 {% if canEdit %}
 				<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D"
 				                       data-toggle="toggle"
-						       data-on="&lt;i class=&quot;fa fa-pencil-square-o&quot;&gt;&lt;/i&gt; edit mode"
+						       data-onstyle="warning"
+						       data-on="&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt; edit mode"
 						       data-off="&lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt; view mode"
 				/>
+				<button type="button" class="btn btn-warning" id="CDE5AD14_1268_8FA7_F5D8_0D690F3FB850"><i class="fa fa-plus"></i></button>
 {% endif %}
 			</div>
 {% if isEmbedded %}
@@ -78,4 +73,28 @@
 	</div>
 </nav>
 
-<div id="FEF9E8D8_D4AB_B545_B394_C12DD5817D61" style="overflow-x: scroll;"></div>
+<!-- ******************************************************************** -->
+
+<div id="FEF9E8D8_D4AB_B545_B394_C12DD5817D61" style="margin-top: -18px; overflow-x: scroll;"></div>
+
+<!-- ******************************************************************** -->
+
+<div class="modal fade" role="dialog" id="A8572167_6898_AD6F_8EAD_9D4E2AEB3550">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">New row</h4>
+			</div>
+			<div class="modal-body">
+				<p>One fine body&hellip;</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Add</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ******************************************************************** -->

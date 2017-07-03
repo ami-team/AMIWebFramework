@@ -103,6 +103,25 @@ $AMIClass('TableCtrl', {
 	{
 		this.command = command;
 
+		/**/
+
+		this.addCommandFunc = function(values) {
+
+			return 'AddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" ...';
+		};
+
+		this.updateCommandFunc = function(primary, field, value) {
+
+			return 'UpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + this.primary + '" -keyValues="' + primary + '" -field="' + field + '" -value="' + value + '"';
+		};
+
+		this.deleteCommandFunc = function(primary) {
+		
+			return 'RemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + this.primary + '" -keyValues="' + primary + '"';
+		};
+
+		/**/
+
 		this.canEdit = false;
 
 		this.catalog = '';
@@ -118,6 +137,14 @@ $AMIClass('TableCtrl', {
 
 		if(settings)
 		{
+			if('addCommandFunc' in settings) {
+				this.addCommandFunc = settings['addCommandFunc'];
+			}
+
+			if('deleteCommandFunc' in settings) {
+				this.deleteCommandFunc = settings['deleteCommandFunc'];
+			}
+
 			if('canEdit' in settings) {
 				this.canEdit = settings['canEdit'];
 			}
@@ -157,7 +184,7 @@ $AMIClass('TableCtrl', {
 
 		var dict = {
 			isEmbedded: amiWebApp.isEmbedded(),
-			canEdit: this.canEdit && this.primary,
+			canEdit: this.canEdit,
 			catalog: this.catalog,
 			entity: this.entity,
 			start: this.start,
@@ -186,6 +213,11 @@ $AMIClass('TableCtrl', {
 			$(this.patchId('#DDC32238_DD25_8354_AC6C_F6E27CA6E18D')).change(function() {
 
 				_this.setMode();
+			});
+
+			$(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(function() {
+
+				_this.addModal();
 			});
 
 			this.refresh();
@@ -319,10 +351,8 @@ $AMIClass('TableCtrl', {
 
 				tags = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' a[data-orderway="DESC"]');
 
-				for(i = 0; i < tags.length; i++)
+				for(i in tags)
 				{
-					/*---------------------------------*/
-
 					tags[i].onclick = function()
 					{
 						_this.orderBy = this.getAttribute('data-row');
@@ -330,18 +360,14 @@ $AMIClass('TableCtrl', {
 
 						_this.refresh();
 					};
-
-					/*---------------------------------*/
 				}
 
 				/*-----------------------------------------*/
 
 				tags = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' a[data-orderway="ASC"]');
 
-				for(i = 0; i < tags.length; i++)
+				for(i in tags)
 				{
-					/*---------------------------------*/
-
 					tags[i].onclick = function()
 					{
 						_this.orderBy = this.getAttribute('data-row');
@@ -349,17 +375,39 @@ $AMIClass('TableCtrl', {
 
 						_this.refresh();
 					};
+				}
 
-					/*---------------------------------*/
+				/*-----------------------------------------*/
+
+				tags = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' a[data-action="clone"]');
+
+				for(i in tags)
+				{
+					tags[i].onclick = function()
+					{
+						_this.cloneModal(this.getAttribute('data-row'));
+					}
+				}
+
+				/*-----------------------------------------*/
+
+				tags = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' a[data-action="delete"]');
+
+				for(i = 0; i < tags.length; i++)
+				{
+					tags[i].onclick = function()
+					{
+						_this.deleteRow(this.getAttribute('data-row'));
+					}
 				}
 
 				/*-----------------------------------------*/
 				/* FIELDS                                  */
 				/*-----------------------------------------*/
 
-				tags = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' .editable');
+				tags = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' .edit-field');
 
-				for(i = 0; i < tags.length; i++)
+				for(i in tags)
 				{
 					/*---------------------------------*/
 
@@ -374,12 +422,13 @@ $AMIClass('TableCtrl', {
 					{
 						if(this.innerHTML != this.data_orig)
 						{
-							if(confirm('Please confirm...'))
-							{
-
-							}
-							else
-							{
+							if(!_this.updateRow(
+								this.getAttribute('data-row')
+								,
+								this.getAttribute('data-col')
+								,
+								this.innerHTML
+							 )) {
 								this.innerHTML = this.data_orig;
 							}
 						}
@@ -415,6 +464,12 @@ $AMIClass('TableCtrl', {
 				}
 
 				/*-----------------------------------------*/
+				/* VIEW MODE                               */
+				/*-----------------------------------------*/
+
+				this.setMode();
+
+				/*-----------------------------------------*/
 
 				amiWebApp.unlock();
 
@@ -433,16 +488,91 @@ $AMIClass('TableCtrl', {
 
 	setMode: function()
 	{
-		var tags = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' .editable');
+		var tags1 = $(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850'));
+		var tags2 = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' .edit-mode');
+		var tags3 = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' .edit-field');
 
 		if($(this.patchId('#DDC32238_DD25_8354_AC6C_F6E27CA6E18D')).prop('checked'))
 		{
-			tags.attr('contenteditable', 'true');
+			tags1.show();
+			tags2.show();
+			tags3.attr('contenteditable', 'true');
 		}
 		else
 		{
-			tags.attr('contenteditable', 'false');
+			tags1.hide();
+			tags2.hide();
+			tags3.attr('contenteditable', 'false');
 		}
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	addModal: function()
+	{
+		this._addOrCloneModal();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	cloneModal: function(primary)
+	{
+		this._addOrCloneModal();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_addOrCloneModal: function()
+	{
+		$(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550')).modal();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	addRow: function(values)
+	{
+		var result = confirm('Please confirm!');
+
+		if(result)
+		{
+			alert(this.addCommandFunc.apply(this, [values]));
+
+			this.refresh();
+		}
+
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	updateRow: function(primary, field, value)
+	{
+		var result = confirm('Please confirm!');
+
+		if(result)
+		{
+			alert(this.updateCommandFunc.apply(this, [primary, field, value]));
+
+/*			this.refresh();
+ */		}
+
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	deleteRow: function(primary)
+	{
+		var result = confirm('Please confirm!');
+
+		if(result)
+		{
+			alert(this.deleteCommandFunc.apply(this, [primary]));
+
+			this.refresh();
+		}
+
+		return result;
 	},
 
 	/*-----------------------------------------------------------------*/

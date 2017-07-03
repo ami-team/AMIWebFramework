@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<title>AMI</title>
+
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+
+		<script type="text/javascript" src="js/AMI/framework.min.js?embedded"></script>
+
+		<script type="text/javascript">
+
+			amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';
+
+			amiWebApp.onStart = function() {
+
+				amiWebApp.loadControls(['table']).done(function(data) {
+
+					var table1 = new data[0];
+					table1.render('#table1', 'SearchQuery -catalog="self" -sql="SELECT id, AMIUser, lastName, firstName, email FROM router_user WHERE valid = 1"', {canEdit: true, catalog: 'self', entity: 'user', primary: 'id'});
+
+					var table2 = new data[0];
+					table2.render('#table2', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: false, catalog: 'self', entity: 'command', primary: 'id'});
+
+					var table3 = new data[0];
+					table3.render('#table3', 'GetSessionInfo', {canEdit: false, entity: 'user info', rowset: 'user'});
+				});
+			};
+
+			amiWebApp.start();
+
+		</script>
+	</head>
+	<body>
+
+		<div class="nav navbar-nav" id="ami_login_content" style="float: none;"></div>
+
+		<div id="ami_alert_content"></div>
+
+		<div id="table1" style="margin: auto; width: 75%;"></div>
+		<div id="table2" style="margin: auto; width: 75%;"></div>
+		<div id="table3" style="margin: auto; width: 75%;"></div>
+
+	</body>
+</html>
