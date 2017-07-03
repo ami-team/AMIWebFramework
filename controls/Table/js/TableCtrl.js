@@ -105,7 +105,7 @@ $AMIClass('TableCtrl', {
 
 		/**/
 
-		this.addCommandFunc = function(values) {
+		this.appendCommandFunc = function(values) {
 
 			return 'AddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" ...';
 		};
@@ -137,8 +137,12 @@ $AMIClass('TableCtrl', {
 
 		if(settings)
 		{
-			if('addCommandFunc' in settings) {
-				this.addCommandFunc = settings['addCommandFunc'];
+			if('appendCommandFunc' in settings) {
+				this.appendCommandFunc = settings['appendCommandFunc'];
+			}
+
+			if('updateCommandFunc' in settings) {
+				this.updateCommandFunc = settings['updateCommandFunc'];
 			}
 
 			if('deleteCommandFunc' in settings) {
@@ -529,13 +533,13 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	addRow: function(values)
+	appendRow: function(values)
 	{
 		var result = confirm('Please confirm!');
 
 		if(result)
 		{
-			alert(this.addCommandFunc.apply(this, [values]));
+			alert(this.appendCommandFunc.apply(this, [values]));
 
 			this.refresh();
 		}
