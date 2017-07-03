@@ -106,7 +106,7 @@ $AMIClass('TableCtrl', {
 
 		this.appendCommandFunc = function(values) {
 
-			return 'xAddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" ...';
+			return 'xAddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" ';
 		};
 
 		this.updateCommandFunc = function(primary, field, value) {
@@ -220,7 +220,12 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(function() {
 
-				_this.addModal();
+				_this.appendModal();
+			});
+
+			$(this.patchId('#DF100F06_DCAF_061E_1698_B301143311F7')).click(function() {
+
+				_this.appendRow();
 			});
 
 			this.refresh();
@@ -511,9 +516,9 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	addModal: function()
+	appendModal: function()
 	{
-		this._addOrCloneModal();
+		this._appendOrCloneModal();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -525,7 +530,7 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	_addOrCloneModal: function()
+	_appendOrCloneModal: function()
 	{
 		$(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550')).modal();
 	},
@@ -540,7 +545,7 @@ $AMIClass('TableCtrl', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute(this.appendCommandFunc.apply(this, arguments), {context: this}).done(function(data) {
+			amiCommand.execute(this.appendCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
 				this.refresh();
 
@@ -563,7 +568,7 @@ $AMIClass('TableCtrl', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute(this.updateCommandFunc.apply(this, arguments), {context: this}).done(function(data) {
+			amiCommand.execute(this.updateCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
 				this.refresh();
 
@@ -586,7 +591,7 @@ $AMIClass('TableCtrl', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute(this.deleteCommandFunc.apply(this, arguments), {context: this}).done(function(data) {
+			amiCommand.execute(this.deleteCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
 				this.refresh();
 
