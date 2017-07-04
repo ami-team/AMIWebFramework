@@ -204,7 +204,7 @@ $AMIClass('TableCtrl', {
 
 				this._display(id);
 
-			}).fail(function(data) {
+			}).fail(function() {
 
 				this.fields = /*------------*/[ ]/*------------*/;
 
@@ -542,7 +542,7 @@ $AMIClass('TableCtrl', {
 
 	setMode: function()
 	{
-		var tags1 = $(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850'));
+		var tags1 = $(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850') /*----------*/);
 		var tags2 = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' .edit-mode');
 		var tags3 = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' .edit-field');
 
@@ -612,7 +612,7 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	_serialize: function()
+	_form: function()
 	{
 		var form = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1')).serializeArray();
 
@@ -642,7 +642,7 @@ $AMIClass('TableCtrl', {
 			amiWebApp.lock();
 			this.hideModal(true);
 
-			amiCommand.execute(this.appendCommandFunc.apply(this, this._serialize()), {context: this}).done(function() {
+			amiCommand.execute(this.appendCommandFunc.apply(this, this._form()), {context: this}).done(function() {
 
 				this.refresh();
 
