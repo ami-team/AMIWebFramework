@@ -109,14 +109,14 @@ $AMIClass('TableCtrl', {
 			return 'xAddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';
 		};
 
-		this.updateCommandFunc = function(primary, field, value) {
+		this.updateCommandFunc = function(primaryValue, field, value) {
 
-			return 'xUpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primary) + '" -keyValues="' + amiWebApp.textToString(primary) + '" -field="' + amiWebApp.textToString(field) + '" -value="' + amiWebApp.textToString(value) + '"';
+			return 'xUpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '" -field="' + amiWebApp.textToString(field) + '" -value="' + amiWebApp.textToString(value) + '"';
 		};
 
-		this.deleteCommandFunc = function(primary) {
+		this.deleteCommandFunc = function(primaryValue) {
 		
-			return 'xRemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primary) + '" -keyValues="' + amiWebApp.textToString(primary) + '"';
+			return 'xRemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
 		};
 
 		/**/
@@ -125,13 +125,16 @@ $AMIClass('TableCtrl', {
 
 		this.catalog = '';
 		this.entity = '';
-		this.primary = '';
-		this.fields = [];
+		this.primaryField = '';
 		this.rowset = '';
 
-		this.start = 1;
-		this.stop = 10;
+		this.defaultFields = [];
+		this.defaultValues = [];
+		this.defaultTypes = [];
+		this.defaultSizes = [];
 
+		this.start = 0x01;
+		this.stop = 0x0A;
 		this.orderBy = '';
 		this.orderWay = '';
 
@@ -149,9 +152,13 @@ $AMIClass('TableCtrl', {
 				this.deleteCommandFunc = settings['deleteCommandFunc'];
 			}
 
+			/**/
+
 			if('canEdit' in settings) {
 				this.canEdit = settings['canEdit'];
 			}
+
+			/**/
 
 			if('catalog' in settings) {
 				this.catalog = settings['catalog'];
@@ -161,17 +168,33 @@ $AMIClass('TableCtrl', {
 				this.entity = settings['entity'];
 			}
 
-			if('primary' in settings) {
-				this.primary = settings['primary'];
-			}
-
-			if('fields' in settings) {
-				this.fields = settings['fields'];
+			if('primaryField' in settings) {
+				this.primaryField = settings['primaryField'];
 			}
 
 			if('rowset' in settings) {
 				this.rowset = settings['rowset'];
 			}
+
+			/**/
+
+			if('defaultFields' in settings) {
+				this.defaultFields = settings['defaultFields'];
+			}
+
+			if('defaultValues' in settings) {
+				this.defaultValues = settings['defaultValues'];
+			}
+
+			if('defaultTypes' in settings) {
+				this.defaultTypes = settings['defaultTypes'];
+			}
+
+			if('defaultSizes' in settings) {
+				this.defaultSizes = settings['defaultSizes'];
+			}
+
+			/**/
 
 			if('start' in settings) {
 				this.start = settings['start'];
@@ -192,21 +215,26 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		if(this.fields.length > 0)
+		if(this.defaultFields.length > 0)
 		{
 			this._display(id);
 		}
 		else
 		{
-			amiCommand.execute('ListFields -catalog="' + this.catalog + '" -entity="' + this.entity + '"', {context: this}).done(function(data) {
+			amiCommand.execute('GetFieldInfo -catalog="' + this.catalog + '" -entity="' + this.entity + '"', {context: this}).done(function(data) {
 
-				this.fields = amiWebApp.jspath('..field.$', data);
+				this.defaultFields = amiWebApp.jspath('..field{.@name==="name"}.$', data) || [];
+				this.defaultValues = amiWebApp.jspath('..field{.@name==="def"}.$', data) || [];
+				this.defaultTypes = amiWebApp.jspath('..field{.@name==="type"}.$', data) || [];
+				this.defaultSizes = amiWebApp.jspath('..field{.@name==="size"}.$', data) || [];
 
 				this._display(id);
 
 			}).fail(function() {
 
-				this.fields = /*------------*/[ ]/*------------*/;
+				this.defaultFields = /*------------*/[ ]/*------------*/;
+				this.defaultValues = /*------------*/[ ]/*------------*/;
+				this.defaultTypes = /*------------*/[ ]/*------------*/;
 
 				this._display(id);
 			});
@@ -219,13 +247,47 @@ $AMIClass('TableCtrl', {
 
 	_display: function(id)
 	{
+		/*---------------------------------------------------------*/
+
+		var l1 = this.defaultFields.length;
+		var l2 = this.defaultValues.length;
+		var l3 = this.defaultTypes.length;
+		var l4 = this.defaultSizes.length;
+		
+		if(l1 !== l2
+		   ||
+		   l1 !== l3
+		   ||
+		   l1 !== l4
+		 ) {
+			amiWebApp.error('options `defaultFields`, `defaultValues`, `defaultTypes`, `defaultSizes` must be arrays of same size');
+
+			return;
+		}
+
+		/*---------------------------------------------------------*/
+
+		this.fieldInfo = [];
+
+		for(var i = 0; i < l1; i++)
+		{
+			this.fieldInfo.push({
+	  			field: this.defaultFields[i],
+	  			value: this.defaultValues[i],
+	  			type: this.defaultTypes[i],
+	  			size: this.defaultSizes[i],
+			});
+		}
+
+		/*---------------------------------------------------------*/
+
 		var dict = {
 			isEmbedded: amiWebApp.isEmbedded(),
 			canEdit: this.canEdit,
 			catalog: this.catalog,
 			entity: this.entity,
-			primary: this.primary,
-			fields: this.fields,
+			primaryField: this.primaryField,
+			fieldInfo: this.fieldInfo,
 			start: this.start,
 			stop: this.stop,
 		};
@@ -257,12 +319,12 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(function() {
 
-				_this.showModal(true);
+				_this.showModal();
 			});
 
 			$(this.patchId('#F5221AF4_E3C8_260F_4556_A1ED96055B2F')).click(function() {
 
-				_this.hideModal(true);
+				_this.hideModal();
 			});
 
 			$(this.patchId('#DF100F06_DCAF_061E_1698_B301143311F7')).click(function() {
@@ -276,6 +338,8 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------*/
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -388,7 +452,7 @@ $AMIClass('TableCtrl', {
 
 			var dict = {
 				rows: rows,
-				primary: this.primary,
+				primaryField: this.primaryField,
 			};
 
 			this.replaceHTML(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.fragmentTable, {context: this, dict: dict}).done(function() {
@@ -562,14 +626,16 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	cloneModal: function(primary)
+	cloneModal: function(primaryValue)
 	{
-		var el1 = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61')
-						+ ' .edit-field[data-row="' + primary + '"]');
-		var el2 = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
-
 		var field;
 		var value;
+
+		var el1 = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61')
+						+ ' .edit-field[data-row="' + primaryValue + '"]');
+		var el2 = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
+
+		this.showModal();
 
 		el1.each(function() {
 
@@ -578,36 +644,45 @@ $AMIClass('TableCtrl', {
 
 			el2.find('input[name="' + field.toLowerCase() + '"]').val(value);
 		});
-
-		this.showModal(false);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	showModal: function(flush)
 	{
-		var el = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
+		var field;
+		var value;
 
-		if(flush)
+		var el1 = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
+		var el2 = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
+
+		for(var i in this.fieldInfo)
 		{
-			el.find('input').val('');
+			field = this.fieldInfo[i].field;
+			value = this.fieldInfo[i].value;
+
+			el2.find('input[name="' + field.toLowerCase() + '"]').val(value);
 		}
 
-		el.modal('show');
+		el1.modal('show');
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	hideModal: function(flush)
 	{
-		var el = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
+		var el1 = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
+		var el2 = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
 
-		if(flush)
+		for(var i in this.fieldInfo)
 		{
-			el.find('input').val('');
+			field = this.fieldInfo[i].field;
+			value = this.fieldInfo[i].value;
+
+			el2.find('input[name="' + field.toLowerCase() + '"]').val(value);
 		}
 
-		el.modal('hide');
+		el1.modal('hide');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -640,7 +715,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-			this.hideModal(true);
+			this.hideModal();
 
 			amiCommand.execute(this.appendCommandFunc.apply(this, this._form()), {context: this}).done(function() {
 
@@ -664,7 +739,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-			this.hideModal(true);
+			this.hideModal();
 
 			amiCommand.execute(this.updateCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
@@ -688,7 +763,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-			this.hideModal(true);
+			this.hideModal();
 
 			amiCommand.execute(this.deleteCommandFunc.apply(this, arguments), {context: this}).done(function() {
 

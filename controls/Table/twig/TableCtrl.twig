@@ -40,7 +40,7 @@
 				<span class="icon-bar"></span>
 			</button>
 			<span class="navbar-brand">
-				<span id="C57C824B_166C_4C23_F349_8B0C8E94114A" data-toggle="tooltip" data-placement="right" data-title="{{entity|default('entity')}}: # ???"><i class="fa fa-info-circle"></i></span>
+				<span id="C57C824B_166C_4C23_F349_8B0C8E94114A" data-toggle="tooltip" data-placement="right" data-title="{{entity|default('entity')}}: # {{count|default('N/A')}}"><i class="fa fa-info-circle"></i></span>
 			</span>
 		</div>
 		<div class="collapse navbar-collapse" id="F4B10C5C_47BC_2093_5269_EA03881409FA">
@@ -95,12 +95,12 @@
 				<h4 class="modal-title"><i class="fa fa-plus"></i> New row</h4>
 			</div>
 			<form class="modal-body form-horizontal" id="B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1">
-				{% for field in fields %}
-				{%   if field !== primary %}
+				{% for info in fieldInfo %}
+				{%   if info.field !== primaryField %}
 				<div class="form-group form-group-sm">
-					<label for="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{field}}" class="col-sm-3 control-label">{{field}}</label>
+					<label for="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" class="col-sm-3 control-label">{{info.field}}</label>
 					<div class="col-sm-9">
-						<input type="text" name="{{field|lower}}" class="form-control" id="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{field}}" />
+						<input type="text" name="{{info.field|lower}}" class="form-control" id="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" placeholder="{{info.type}}({{info.size}})" />
 					</div>
 				</div>
 				{%   endif %}
