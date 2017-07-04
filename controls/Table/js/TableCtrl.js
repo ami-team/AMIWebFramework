@@ -104,19 +104,19 @@ $AMIClass('TableCtrl', {
 
 		/**/
 
-		this.appendCommandFunc = function(values) {
+		this.appendCommandFunc = function(fields, values) {
 
-			return 'xAddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" ';
+			return 'xAddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';
 		};
 
 		this.updateCommandFunc = function(primary, field, value) {
 
-			return 'xUpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + this.primary + '" -keyValues="' + primary + '" -field="' + field + '" -value="' + value + '"';
+			return 'xUpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + amiWebApp.textToString(this.primary) + '" -keyValues="' + amiWebApp.textToString(primary) + '" -field="' + amiWebApp.textToString(field) + '" -value="' + amiWebApp.textToString(value) + '"';
 		};
 
 		this.deleteCommandFunc = function(primary) {
 		
-			return 'xRemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + this.primary + '" -keyValues="' + primary + '"';
+			return 'xRemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + amiWebApp.textToString(this.primary) + '" -keyValues="' + amiWebApp.textToString(primary) + '"';
 		};
 
 		/**/
@@ -126,6 +126,7 @@ $AMIClass('TableCtrl', {
 		this.catalog = '';
 		this.entity = '';
 		this.primary = '';
+		this.fields = [];
 		this.rowset = '';
 
 		this.start = 1;
@@ -164,6 +165,10 @@ $AMIClass('TableCtrl', {
 				this.primary = settings['primary'];
 			}
 
+			if('fields' in settings) {
+				this.fields = settings['fields'];
+			}
+
 			if('rowset' in settings) {
 				this.rowset = settings['rowset'];
 			}
@@ -185,16 +190,48 @@ $AMIClass('TableCtrl', {
 			}
 		}
 
+		/*---------------------------------------------------------*/
+
+		if(this.fields.length > 0)
+		{
+			this._display(id);
+		}
+		else
+		{
+			amiCommand.execute('ListFields -catalog="' + this.catalog + '" -entity="' + this.entity + '"', {context: this}).done(function(data) {
+
+				this.fields = amiWebApp.jspath('..field.$', data);
+
+				this._display(id);
+
+			}).fail(function(data) {
+
+				this.fields = /*------------*/[ ]/*------------*/;
+
+				this._display(id);
+			});
+		}
+
+		/*---------------------------------------------------------*/
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_display: function(id)
+	{
 		var dict = {
 			isEmbedded: amiWebApp.isEmbedded(),
 			canEdit: this.canEdit,
 			catalog: this.catalog,
 			entity: this.entity,
+			primary: this.primary,
+			fields: this.fields,
 			start: this.start,
 			stop: this.stop,
 		};
 
 		this.replaceHTML(id, this.fragmentTableCtrl, {context: this, dict: dict}).done(function() {
+			/*-------------------------------------------------*/
 
 			var _this = this;
 
@@ -220,7 +257,12 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(function() {
 
-				_this.appendModal();
+				_this.showModal();
+			});
+
+			$(this.patchId('#F5221AF4_E3C8_260F_4556_A1ED96055B2F')).click(function() {
+
+				_this.hideModal();
 			});
 
 			$(this.patchId('#DF100F06_DCAF_061E_1698_B301143311F7')).click(function() {
@@ -228,7 +270,11 @@ $AMIClass('TableCtrl', {
 				_this.appendRow();
 			});
 
+			/*-------------------------------------------------*/
+
 			this.refresh();
+
+			/*-------------------------------------------------*/
 		});
 	},
 
@@ -393,7 +439,7 @@ $AMIClass('TableCtrl', {
 				{
 					tags[i].onclick = function()
 					{
-						_this.cloneModal(this.getAttribute('data-row'));
+						_this.showModal(this.getAttribute('data-row'));
 					}
 				}
 
@@ -516,23 +562,43 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	appendModal: function()
+	showModal: function()
 	{
-		this._appendOrCloneModal();
+		var el = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
+
+		el.find('input').val('');
+		el.modal('show');
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	cloneModal: function(primary)
+	hideModal: function()
 	{
-		this._addOrCloneModal();
+		var el = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
+
+		el.find('input').val('');
+		el.modal('hide');
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	_appendOrCloneModal: function()
+	_serialize: function()
 	{
-		$(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550')).modal();
+		var fieldList = [];
+		var valueList = [];
+
+		var form = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1')).serializeArray();
+
+		for(var i in form)
+		{
+			fieldList.push(form[i].name);
+			valueList.push(form[i].value);
+		}
+
+		return [
+			fieldList,
+			valueList,
+		];
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -544,8 +610,9 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
+			this.hideModal();
 
-			amiCommand.execute(this.appendCommandFunc.apply(this, arguments), {context: this}).done(function() {
+			amiCommand.execute(this.appendCommandFunc.apply(this, this._serialize()), {context: this}).done(function() {
 
 				this.refresh();
 
@@ -567,6 +634,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
+			this.hideModal();
 
 			amiCommand.execute(this.updateCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
@@ -590,6 +658,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
+			this.hideModal();
 
 			amiCommand.execute(this.deleteCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
