@@ -111,12 +111,12 @@ $AMIClass('TableCtrl', {
 
 		this.updateCommandFunc = function(primary, field, value) {
 
-			return 'xUpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + amiWebApp.textToString(this.primary) + '" -keyValues="' + amiWebApp.textToString(primary) + '" -field="' + amiWebApp.textToString(field) + '" -value="' + amiWebApp.textToString(value) + '"';
+			return 'xUpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primary) + '" -keyValues="' + amiWebApp.textToString(primary) + '" -field="' + amiWebApp.textToString(field) + '" -value="' + amiWebApp.textToString(value) + '"';
 		};
 
 		this.deleteCommandFunc = function(primary) {
 		
-			return 'xRemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -keyFields="' + amiWebApp.textToString(this.primary) + '" -keyValues="' + amiWebApp.textToString(primary) + '"';
+			return 'xRemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primary) + '" -keyValues="' + amiWebApp.textToString(primary) + '"';
 		};
 
 		/**/
@@ -584,10 +584,10 @@ $AMIClass('TableCtrl', {
 
 	_serialize: function()
 	{
+		var form = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1')).serializeArray();
+
 		var fieldList = [];
 		var valueList = [];
-
-		var form = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1')).serializeArray();
 
 		for(var i in form)
 		{
