@@ -257,12 +257,12 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(function() {
 
-				_this.showModal();
+				_this.showModal(true);
 			});
 
 			$(this.patchId('#F5221AF4_E3C8_260F_4556_A1ED96055B2F')).click(function() {
 
-				_this.hideModal();
+				_this.hideModal(true);
 			});
 
 			$(this.patchId('#DF100F06_DCAF_061E_1698_B301143311F7')).click(function() {
@@ -439,7 +439,7 @@ $AMIClass('TableCtrl', {
 				{
 					tags[i].onclick = function()
 					{
-						_this.showModal(this.getAttribute('data-row'));
+						_this.cloneModal(this.getAttribute('data-row'));
 					}
 				}
 
@@ -562,21 +562,51 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	showModal: function()
+	cloneModal: function(primary)
+	{
+		var el1 = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61')
+						+ ' .edit-field[data-row="' + primary + '"]');
+		var el2 = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
+
+		var field;
+		var value;
+
+		el1.each(function() {
+
+			field = $(this).attr('data-col');
+			value = $(this).text(/*------*/);
+
+			el2.find('input[name="' + field.toLowerCase() + '"]').val(value);
+		});
+
+		this.showModal(false);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	showModal: function(flush)
 	{
 		var el = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
 
-		el.find('input').val('');
+		if(flush)
+		{
+			el.find('input').val('');
+		}
+
 		el.modal('show');
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	hideModal: function()
+	hideModal: function(flush)
 	{
 		var el = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
 
-		el.find('input').val('');
+		if(flush)
+		{
+			el.find('input').val('');
+		}
+
 		el.modal('hide');
 	},
 
@@ -610,7 +640,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-			this.hideModal();
+			this.hideModal(true);
 
 			amiCommand.execute(this.appendCommandFunc.apply(this, this._serialize()), {context: this}).done(function() {
 
@@ -634,7 +664,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-			this.hideModal();
+			this.hideModal(true);
 
 			amiCommand.execute(this.updateCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
@@ -658,7 +688,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-			this.hideModal();
+			this.hideModal(true);
 
 			amiCommand.execute(this.deleteCommandFunc.apply(this, arguments), {context: this}).done(function() {
 

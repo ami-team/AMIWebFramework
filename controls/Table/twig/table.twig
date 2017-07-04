@@ -1,39 +1,39 @@
 <table class="table table-striped table-bordered">
-		{% if rows is not empty %}
-		<tr>
-			{% for field in rows[0].field %}
-			{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' %}
-			{%     if field['@name'] === primary %}
-			<th class="text-center edit-mode">Tools</th>
-			{%     else %}
-			<th class="text-center">
-				<a href="#" data-orderway="DESC" data-row="{{field['@name']}}"><i class="fa fa-chevron-down"></i></a>
-				{{field['@name']}}
-				<a href="#" data-orderway="ASC" data-row="{{field['@name']}}"><i class="fa fa-chevron-up"></i></a>
-			</th>
-			{%     endif %}
-			{%   endif %}
-			{% endfor %}
-		</tr>
-		{%   for row in rows %}
-		<tr>
-			{% for field in row.field %}
-			{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' %}
-			{%     if field['@name'] === primary %}
-			{%       set elementId = field.$ %}
-			<td class="text-center edit-mode">
-				<a href="#" class="text-info" data-action="clone" data-row="{{elementId}}"><i class="fa fa-files-o"></i></a>
-				&nbsp;
-				<a href="#" class="text-danger" data-action="delete" data-row="{{elementId}}"><i class="fa fa-trash"></i></a>
-			</td>
-			{%     else %}
-			<td>
-				<span class="edit-field" data-row="{{elementId}}" data-col="{{field['@name']}}" placeholder="&nbsp;">{{field.$}}</span>
-			</td>
-			{%     endif %}
-			{%   endif %}
-			{% endfor %}
-		</tr>
-		{%   endfor %}
-		{% endif %}
+	{% if rows is not empty %}
+	<tr>
+		{% for field in rows[0].field %}
+		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' %}
+		{%     if field['@name'] === primary %}
+		<th class="text-center edit-mode">Tools</th>
+		{%     else %}
+		<th class="text-center">
+			<a href="#" data-orderway="DESC" data-row="{{field['@name']}}"><i class="fa fa-chevron-down"></i></a>
+			{{field['@name']}}
+			<a href="#" data-orderway="ASC" data-row="{{field['@name']}}"><i class="fa fa-chevron-up"></i></a>
+		</th>
+		{%     endif %}
+		{%   endif %}
+		{% endfor %}
+	</tr>
+	{%   for row in rows %}
+	<tr>
+		{% for field in row.field %}
+		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' %}
+		{%     if field['@name'] === primary %}
+		{%       set elementId = field.$ %}
+		<td class="text-center edit-mode">
+			<a href="#" class="text-info" data-action="clone" data-row="{{elementId}}"><i class="fa fa-files-o"></i></a>
+			&nbsp;
+			<a href="#" class="text-danger" data-action="delete" data-row="{{elementId}}"><i class="fa fa-trash"></i></a>
+		</td>
+		{%     else %}
+		<td>
+			<span class="edit-field" data-row="{{elementId}}" data-col="{{field['@name']}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$}}</span>
+		</td>
+		{%     endif %}
+		{%   endif %}
+		{% endfor %}
+	</tr>
+	{%   endfor %}
+	{% endif %}
 </table>
