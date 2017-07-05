@@ -1,0 +1,25 @@
+<div class="modal fade" role="dialog" id="A8572167_6898_AD6F_8EAD_9D4E2AEB3550">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title"><i class="fa fa-plus"></i> New row</h4>
+			</div>
+			<form class="modal-body form-horizontal" id="B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1">
+				{% for info in fieldInfo %}
+				{%   if info.field !== primaryField %}
+				<div class="form-group form-group-sm">
+					<label for="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" class="col-sm-3 control-label">{{info.field}}</label>
+					<div class="col-sm-9">
+						<input type="text" name="{{info.field|lower}}" class="form-control" id="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" placeholder="{{info.type}}({{info.size}})" />
+					</div>
+				</div>
+				{%   endif %}
+				{% endfor %}
+			</form>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" id="F5221AF4_E3C8_260F_4556_A1ED96055B2F">Close</button>
+				<button type="button" class="btn btn-primary" id="DF100F06_DCAF_061E_1698_B301143311F7">Append</button>
+			</div>
+		</div>
+	</div>
+</div>

@@ -23,36 +23,19 @@
 
 				amiWebApp.loadControls(['table']).done(function(data) {
 
-					var table1 = new data[0];
-					table1.render('#table1', 'SearchQuery -catalog="self" -sql="SELECT id, AMIUser, lastName, firstName, email FROM router_user WHERE valid = 1"', {canEdit: true, catalog: 'self', entity: 'router_user', primaryField: 'id'});
+					//var table1 = new data[0];
+					//table1.render('#table1', 'SearchQuery -catalog="self" -sql="SELECT id, AMIUser, lastName, firstName, email FROM router_user WHERE valid = 1"', {canEdit: true, catalog: 'self', entity: 'router_user', primaryField: 'id'});
 
 					var table2 = new data[0];
 					table2.render('#table2', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
 
 					var table3 = new data[0];
-					table3.render('#table3', 'GetSessionInfo', {canEdit: false, entity: 'user info', rowset: 'user'});
+					//table3.render('#table3', 'GetSessionInfo', {canEdit: false, entity: 'user info', rowset: 'user'});
 				});
 			};
 
 			amiWebApp.start();
 
-			alert(amiWebApp._code('Hello baba!', ['a', 'b'], ['AA', 'BB']));
-			alert(amiWebApp._code('Hello baba!', ['AA', 'BB'], ['a', 'b']));
-
-/*
-			alert(amiWebApp.base64Encode('hello12') + ' ' + btoa('hello12'));
-
-			alert(amiWebApp.base64Encode('hello1') + ' ' + btoa('hello1'));
-
-			alert(amiWebApp.base64Encode('hello') + ' ' + btoa('hello'));
-
-
-			alert(amiWebApp.base64Encode('hello12') + ' ' + amiWebApp.base64Decode(amiWebApp.base64Encode('hello12')));
-
-			alert(amiWebApp.base64Encode('hello1') + ' ' + amiWebApp.base64Decode(amiWebApp.base64Encode('hello1')));
-
-			alert(amiWebApp.base64Encode('hello') + ' ' + amiWebApp.base64Decode(amiWebApp.base64Encode('hello')));
-*/
 		</script>
 	</head>
 	<body>

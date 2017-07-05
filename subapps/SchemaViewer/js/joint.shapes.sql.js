@@ -65,9 +65,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		'<g>',
 		  '<path class="sql-table-top" />',
 		  '<path class="sql-table-body" />',
-		  '<a class="sql-table-tool" xlink:href="" target="_blank">',
-		    '<text class="sql-table-name" />',
-		  '</a>',
+		  '<a xlink:href="" target="_blank"><text class="sql-table-tool">🔍</text></a><text class="sql-table-name" />',
 		'<text class="sql-table-columns" />',
 		'</g>',
 	].join(''),
@@ -89,6 +87,17 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			},
 			'.sql-table-body': {
 				'stroke-width': 2,
+			},
+			'.sql-table-tool': {
+				'ref': '.sql-table-top',
+				'ref-y': 0.55,
+				'ref-x': 0.5,
+				'x-alignment': 'middle',
+				'y-alignment': 'middle',
+				'fill': 'white',
+				'font-family': 'Courier New',
+				'font-weight': 'bold',
+				'font-size': 14,
 			},
 			'.sql-table-name': {
 				'ref': '.sql-table-top',
@@ -275,7 +284,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			name = name.substring(0, 22) + '…';
 		}
 
-		this.attr('.sql-table-name/text', '🔍 ' + name);
+		this.attr('.sql-table-name/text', name);
 
 		this.attr('.sql-table-tool/href', '?subapp=tableViewer&amp;userdata=' + encodeURIComponent(
 			'{'
@@ -308,7 +317,12 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 			cnt++;
 
-			var line = (column.primary ? '✶' : '') + column.name + ': ' + column.type;
+			var line = column.name + ': ' + column.type;
+
+			if(column.primary)
+			{
+				line = '🔑' + line;
+			}
 
 			if(line.length > 26)
 			{
