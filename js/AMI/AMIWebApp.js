@@ -1412,13 +1412,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(descr)
 			{
-				this.loadScripts([
-					this.originURL + '/' + descr.file
-				], {context: this}).done(function(loaded) {
+				this.loadScripts(this.originURL + '/' + descr.file, {context: this}).done(function(loaded) {
 
 					try
 					{
-						var clazz = window[descr.clazz];
+						var clazz = window[
+							descr.clazz
+						];
 
 						var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
 						                        : /*-----------------*/null/*-----------------*/
@@ -1459,6 +1459,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 						} else {
 							deferred.reject('could not load control `' + name + '`');
 						}
+					}
+
+				}).fail(function() {
+
+					if(context) {
+						deferred.rejectWith(context, ['could not load control `' + name + '`']);
+					} else {
+						deferred.reject('could not load control `' + name + '`');
 					}
 				});
 			}
@@ -1542,82 +1550,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Set the current sub-application instance
-	  * @param {AMISubApp} subAppInstance the sub-application instance
-	  * @param {?} [userData] the user data
-	  */
-
-	setCurrentSubAppInstance: function(subAppInstance, userData)
-	{
-		/*---------------------------------------------------------*/
-		/* CHECK SUB-APPLICATION                                   */
-		/*---------------------------------------------------------*/
-
-		if(!subAppInstance.onReady) {
-			amiWebApp.error('`<subapp>.onReady()` must be implemented!');
-			return;
-		}
-
-		if(!subAppInstance.onExit) {
-			amiWebApp.error('`<subapp>.onExit()` must be implemented!');
-			return;
-		}
-
-		if(!subAppInstance.onLogin) {
-			amiWebApp.error('`<subapp>.onLogin()` must be implemented!');
-			return;
-		}
-
-		if(!subAppInstance.onLogout) {
-			amiWebApp.error('`<subapp>.onLogout()` must be implemented!');
-			return;
-		}
-
-		/*---------------------------------------------------------*/
-		/* SET CURRENT SUB-APPLICATION                             */
-		/*---------------------------------------------------------*/
-
-		this._currentSubAppInstance.onExit();
-
-		/*---------------------------------------------------------*/
-
-		this._currentSubAppInstance = subAppInstance;
-
-		/*---------------------------------------------------------*/
-
-		setTimeout(function() {
-
-			if($('#ami_main_content').is(':empty'))
-			{
-				amiWebApp.error('service temporarily unreachable, please reload the page...');
-			}
-
-		}, 2000);
-
-		/*---------------------------------------------------------*/
-
-		this.lock();
-
-		_ami_internal_always(
-			this._currentSubAppInstance.onReady(userData),
-			function() {
-				_ami_internal_always(
-					amiLogin.isAuthenticated() ? amiWebApp.onLogin()
-					                           : amiWebApp.onLogout()
-					,
-					function() {
-						amiWebApp.unlock();
-					}
-				);
-			}
-		);
-
-		/*---------------------------------------------------------*/
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
 	  * Loads a sub-application
 	  * @param {String} defaultSubApp the default sub-application name, if null, 'amiWebApp.args["subapp"]'
 	  * @param {?} [defaultUserData] the default user data, if null, 'amiWebApp.args["userdata"]'
@@ -1632,11 +1564,83 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(descr)
 		{
-			this.loadScripts([
-				this.originURL + '/' + descr.file
-			], {context: this}).done(function() {
+			this.loadScripts(this.originURL + '/' + descr.file, {context: this}).done(function(loaded) {
 
-				this.setCurrentSubAppInstance(window[descr.instance], userdata);
+				try
+				{
+					var instance = window[
+						descr.instance
+					];
+
+					/**/
+
+					this._currentSubAppInstance.onExit();
+
+					/**/
+
+					this._currentSubAppInstance = instance;
+
+					/**/
+
+					setTimeout(function() {
+
+						if($('#ami_main_content').is(':empty'))
+						{
+							amiWebApp.error('service temporarily unreachable, please reload the page...');
+						}
+
+					}, 10000);
+
+					/**/
+
+					this.lock();
+
+					var promise = loaded[0] ? instance.onReady(userdata)
+					                        : /*-------*/null/*-------*/
+					;
+
+					if(!promise
+					   ||
+					   !promise.done
+					   ||
+					   !promise.fail
+					 ) {
+						_ami_internal_always(
+							amiLogin.isAuthenticated() ? amiWebApp.onLogin()
+							                           : amiWebApp.onLogout()
+							,
+							function() {
+								amiWebApp.unlock();
+							}
+						);
+					}
+					else
+					{
+						promise.done(function() {
+
+							_ami_internal_always(
+								amiLogin.isAuthenticated() ? amiWebApp.onLogin()
+								                           : amiWebApp.onLogout()
+								,
+								function() {
+									amiWebApp.unlock();
+								}
+							);
+
+						}).fail(function() {
+
+							this.error('could not load sub-application `' + subapp + '`');
+						});
+					}
+				}
+				catch(e)
+				{
+					this.error('could not load sub-application `' + subapp + '`');
+				}
+
+			}).fail(function() {
+
+				this.error('could not load sub-application `' + subapp + '`');
 			});
 		}
 		else
