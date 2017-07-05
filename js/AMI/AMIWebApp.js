@@ -343,12 +343,39 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* TOOLS                                                           */
 	/*-----------------------------------------------------------------*/
 
-	_textToHtmlDict: {
-		'&': '&amp;',
-		'"': '&quot;',
-		'<': '&lt;',
-		'>': '&gt;',
+	_code: function(s, x, y)
+	{
+		var result = [];
+
+		var l = s.length, i, j;
+
+__l0:		for(i = 0; i < l;)
+		{
+			for(j in x)
+			{
+				if(s.substring(i).indexOf(x[j]) === 0)
+				{
+					result.push(y[j]);
+
+					i+= x[j].length;
+
+					continue __l0;
+				}
+			}
+
+			result.push(s.charAt(i++));
+		}
+
+		return result.join('');
 	},
+
+	/*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
+
+	_textToHtmlX: ['&'    , '"'     , '<'   , '>'   ],
+	_textToHtmlY: ['&amp;', '&quot;', '&lt;', '&gt;'],
+
+	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Escapes the given string from text to HTML
@@ -358,20 +385,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	textToHtml: function(s)
 	{
-		return (s || '').replace(/&|"|<|>/g, function(x) {
-
-			return amiWebApp._textToHtmlDict[x];
-		});
+		return this._code(s, this._textToHtmlX, this._textToHtmlY);
 	},
 
 	/*-----------------------------------------------------------------*/
-
-	_htmlToTextDict: {
-		'&amp;': '&',
-		'&quot;': '"',
-		'&lt;': '<',
-		'&gt;': '>',
-	},
 
 	/**
 	  * Unescapes the given string from HTML to text
@@ -381,21 +398,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	htmlToText: function(s)
 	{
-		return (s || '').replace(/&gt;|&lt;|&quot;|&amp;/g, function(x) {
-
-			return amiWebApp._htmlToTextDict[x];
-		});
+		return this._code(s, this._textToHtmlY, this._textToHtmlX);
 	},
 
 	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
-	_textToStringDict: {
-		'\\': '\\\\',
-		'\n': '\\n',
-		'"': '\\"',
-		'\'': '\\\'',
-	},
+	_textToStringX: ['\\'  , '\n' , '"'  , '\''  ],
+	_textToStringY: ['\\\\', '\\n', '\\"', '\\\''],
+
+	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Escapes the given string from text to JavaScript string
@@ -405,20 +417,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	textToString: function(s)
 	{
-		return (s || '').replace(/\\|\n|"|'/g, function(x) {
-
-			return amiWebApp._textToStringDict[x];
-		});
+		return this._code(s, this._textToStringX, this._textToStringY);
 	},
 
 	/*-----------------------------------------------------------------*/
-
-	_stringToTextDict: {
-		'\\\\': '\\',
-		'\\n': '\n',
-		'\\"': '"',
-		'\\\'': '\'',
-	},
 
 	/**
 	  * Unescapes the given string from JavaScript string to text
@@ -428,21 +430,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	stringToText: function(s)
 	{
-		return (s || '').replace(/\\'|\\"|\\n|\\\\/g, function(x) {
+		return this._code(s, this._textToStringY, this._textToStringX);
 
-			return amiWebApp._stringToTextDict[x];
-		});
 	},
 
 	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
-	_htmlToStringDict: {
-		'\\': '\\\\',
-		'\n': '\\n',
-		'&quot;': '\\&quot;',
-		'\'': '\\\'',
-	},
+	_htmlToStringX: ['\\'  , '\n' , '&quot;'  , '\''  ],
+	_htmlToStringY: ['\\\\', '\\n', '\\&quot;', '\\\''],
+
+	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Escapes the given string from HTML to JavaScript string
@@ -452,20 +450,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	htmlToString: function(s)
 	{
-		return (s || '').replace(/\\|\n|&quot;|'/g, function(x) {
-
-			return amiWebApp._htmlToStringDict[x];
-		});
+		return this._code(s, this._htmlToStringX, this._htmlToStringY);
 	},
 
 	/*-----------------------------------------------------------------*/
-
-	_stringToHtmlDict: {
-		'\\\\': '\\',
-		'\\n': '\n',
-		'\\&quot;': '&quot;',
-		'\\\'': '\'',
-	},
 
 	/**
 	  * Unescapes the given string from JavaScript string to HTML
@@ -475,10 +463,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	stringToHtml: function(s)
 	{
-		return (s || '').replace(/\\'|\\&quot;|\\n|\\\\/g, function(x) {
-
-			return amiWebApp._stringToHtmlDict[x];
-		});
+		return this._code(s, this._htmlToStringY, this._htmlToStringX);
 	},
 
 	/*-----------------------------------------------------------------*/
