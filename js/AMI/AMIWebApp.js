@@ -68,6 +68,44 @@ jQuery.foreach = function(elements, callback, context)
 };
 
 /*-------------------------------------------------------------------------*/
+
+jQuery.getSheet = function(settings)
+{
+	var url = '';
+	var context = null;
+
+	if(settings)
+	{
+		if('url' in settings) {
+			url = settings['url'];
+		}
+
+		if('context' in settings) {
+			context = settings['context'];
+		}
+	}
+
+	/*-----------------------------------------------------------------*/
+
+	var deferred = $.Deferred();
+
+	$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(function() {
+
+		if(context) {
+			deferred.resolveWith(context);
+		} else {
+			deferred.resolve();
+		}
+	});
+
+	/*-----------------------------------------------------------------*/
+
+	return deferred.promise();
+
+	/*-----------------------------------------------------------------*/
+};
+
+/*-------------------------------------------------------------------------*/
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
@@ -109,18 +147,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
-	_now: jQuery.now(),
-
-	/*-----------------------------------------------------------------*/
-
-	_scripts: [],
 	_sheets: [],
+	_scripts: [],
 
 	_controls: {},
 	_subapps: {},
 
 	_canLeave: true,
-	_timeout: 1000,
+
+	/*-----------------------------------------------------------------*/
+
+	_now: jQuery.now(),
 
 	/*-----------------------------------------------------------------*/
 
@@ -445,235 +482,96 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*-----------------------------------------------------------------*/
+	/* BASE64                                                          */
+	/*-----------------------------------------------------------------*/
 
-	_base64: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_~',
+	_base64: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_',
 
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Base-64-encodes a string
+	  * Encodes (RFC 4648) a string
 	  * @param {String} string the decoded string
 	  * @returns {String} The encoded string
 	  */
 
 	base64Encode: function(s)
 	{
-		var result = '';
-		var chr1, chr2, chr3;
-		var enc1, enc2, enc3, enc4;
+		var e = [], w;
 
-		for(var i = 0, l = s.length; i < l;)
+		var l = s.length, m = l % 3;
+
+		var this_base64 = this._base64;
+
+		for(var i = 0; i < l;)
 		{
-			chr1 = s.charCodeAt(i++);
-			chr2 = s.charCodeAt(i++);
-			chr3 = s.charCodeAt(i++);
-
-			enc1 = (chr1 & 0xFC) >> 2;
-			enc2 = ((chr1 & 0x03) << 4) | (chr2 >> 4);
-			enc3 = ((chr2 & 0x0F) << 2) | (chr3 >> 6);
-			enc4 = (chr3 & 0x3F) >> 0;
-
-			/**/ if(isNaN(chr2))
-			{
-				enc3 = enc4 = 64;
-			}
-			else if(isNaN(chr3))
-			{
-				enc4 = 64;
-			}
-
-			result += this._base64.charAt(enc1)
-			          +
-			          this._base64.charAt(enc2)
-			          +
-			          this._base64.charAt(enc3)
-			          +
-			          this._base64.charAt(enc4)
+			w = s.charCodeAt(i++) << 16
+			    |
+			    s.charCodeAt(i++) << 8
+			    |
+			    s.charCodeAt(i++) << 0
 			;
+			
+			e.push(this_base64.charAt((w >> 18) & 0x3F));
+			e.push(this_base64.charAt((w >> 12) & 0x3F));
+			e.push(this_base64.charAt((w >> 6) & 0x3F));
+			e.push(this_base64.charAt((w >> 0) & 0x3F));
 		}
 
-		return result;
+		/**/ if(m === 1) {
+			e.splice(-2, 2);
+		}
+		else if(m === 2) {
+			e.splice(-1, 1);
+		}
+
+		return e.join('');
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Base-64-decodes a string
+	  * Decodes (RFC 4648) a string
 	  * @param {String} string the encoded string
 	  * @returns {String} The decoded string
 	  */
 
 	base64Decode: function(s)
 	{
-		var result = '';
-		var chr1, chr2, chr3;
-		var enc1, enc2, enc3, enc4;
+		var e = [], w;
 
-		for(var i = 0, l = s.length; i < l;)
+		var l = s.length, m = l % 4;
+
+		var this_base64 = this._base64;
+
+		for(var i = 0; i < l;)
 		{
-			enc1 = this._base64.indexOf(s.charAt(i++));
-			enc2 = this._base64.indexOf(s.charAt(i++));
-			enc3 = this._base64.indexOf(s.charAt(i++));
-			enc4 = this._base64.indexOf(s.charAt(i++));
+			w = this_base64.indexOf(s.charAt(i++)) << 18
+			    |
+			    this_base64.indexOf(s.charAt(i++)) << 12
+			    |
+			    this_base64.indexOf(s.charAt(i++)) << 6
+			    |
+			    this_base64.indexOf(s.charAt(i++)) << 0
+			;
 
-/*			if(enc2 != 64)
- */			{
-				chr1 = ((enc1 & 0x3F) << 2) | (enc2 >> 4);
-				result += String.fromCharCode(chr1);
-			}
-
-			if(enc3 != 64)
-			{
-				chr2 = ((enc2 & 0x0F) << 4) | (enc3 >> 2);
-				result += String.fromCharCode(chr2);
-			}
-
-			if(enc4 != 64)
-			{
-				chr3 = ((enc3 & 0x03) << 6) | (enc4 >> 0);
-				result += String.fromCharCode(chr3);
-			}
+			e.push(String.fromCharCode((w >>> 16) & 0xFF));
+			e.push(String.fromCharCode((w >>> 8) & 0xFF));
+			e.push(String.fromCharCode((w >>> 0) & 0xFF));
 		}
 
-		return result;
+		/**/ if(m === 2) {
+			e.splice(-2, 2);
+		}
+		else if(m === 3) {
+			e.splice(-1, 1);
+		}
+
+		return e.join('');
 	},
 
 	/*-----------------------------------------------------------------*/
 	/* DYNAMIC RESOURCE LOADING                                        */
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Loads CSS sheets asynchronously
-	  * @param {(Array|String)} sheets the array of sheets
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	loadSheets: function(sheets, settings)
-	{
-		var context = null;
-
-		if(settings && 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		if(!(sheets instanceof Array))
-		{
-			sheets = [sheets];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var html = '';
-
-		var loaded = [];
-
-		for(var i in sheets)
-		{
-			if(this._sheets.indexOf(sheets[i]) < 0)
-			{
-				html += '<link rel="stylesheet" href="' + sheets[i] + '?_=' + this._now++ + '"></link>';
-
-				this._sheets.push(sheets[i]);
-
-				loaded.push(true);
-			}
-			else
-			{
-				loaded.push(false);
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		$('head').append(html).promise().done(function() {
-
-			if(context) {
-				result.resolveWith(context, [loaded]);
-			} else {
-				result.resolve(loaded);
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Loads JavaScript scripts asynchronously
-	  * @param {(Array|String)} scripts the array of scripts
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	loadScripts: function(scripts, settings)
-	{
-		var context = null;
-
-		if(settings && 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		if(!(scripts instanceof Array))
-		{
-			scripts = [scripts];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var html = '';
-
-		var loaded = [];
-
-		for(var i in scripts)
-		{
-			if(this._scripts.indexOf(scripts[i]) < 0)
-			{
-				html += '<script type="text/javascript" src="' + scripts[i] + '?_=' + this._now++ + '"></script>';
-
-				this._scripts.push(scripts[i]);
-
-				loaded.push(true);
-			}
-			else
-			{
-				loaded.push(false);
-			}
-		}
-
-		/*---------------------------------------------------------*/
-
-		var result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
-		$('head').append(html).promise().done(function() {
-
-			if(context) {
-				result.resolveWith(context, [loaded]);
-			} else {
-				result.resolve(loaded);
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		return result.promise();
-	},
-
 	/*-----------------------------------------------------------------*/
 
 	_loadFiles: function(deferred, result, urls, dataType, context)
@@ -682,26 +580,112 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			var url = urls.shift();
 
-			$.ajax({
-				url: url,
-				cache: false,
-				crossDomain: true,
-				dataType: dataType,
-				context: this,
-			}).done(function(data) {
+			/*-------------------------------------------------*/
+			/* SHEET                                          */
+			/*-------------------------------------------------*/
 
-				result.push(data);
+			/**/ if(dataType === 'sheet')
+			{
+				if(this._sheets.indexOf(url) >= 0)
+				{
+					result.push(false);
 
-				this._loadFiles(deferred, result, urls, dataType, context);
-
-			}).fail(function() {
-
-				if(context) {
-					deferred.rejectWith(context, ['could not load `' + url + '`']);
-				} else {
-					deferred.reject('could not load `' + url + '`');
+					this._loadFiles(deferred, result, urls, dataType, context);
 				}
-			});
+				else
+				{
+					$.getSheet({
+						url: url,
+						async: false,
+						cache: false,
+						crossDomain: true,
+						dataType: dataType,
+						context: this,
+					}).done(function() {
+
+						result.push(true);
+
+						this._loadFiles(deferred, result, urls, dataType, context);
+
+					}).fail(function() {
+
+						if(context) {
+							deferred.rejectWith(context, ['could not load `' + url + '`']);
+						} else {
+							deferred.reject('could not load `' + url + '`');
+						}
+					});
+				}
+			}
+
+			/*-------------------------------------------------*/
+			/* SCRIPT                                          */
+			/*-------------------------------------------------*/
+
+			else if(dataType === 'script')
+			{
+				if(this._scripts.indexOf(url) >= 0)
+				{
+					result.push(false);
+
+					this._loadFiles(deferred, result, urls, dataType, context);
+				}
+				else
+				{
+					$.ajax({
+						url: url,
+						async: false,
+						cache: false,
+						crossDomain: true,
+						dataType: dataType,
+						context: this,
+					}).done(function() {
+
+						result.push(true);
+
+						this._loadFiles(deferred, result, urls, dataType, context);
+
+					}).fail(function() {
+
+						if(context) {
+							deferred.rejectWith(context, ['could not load `' + url + '`']);
+						} else {
+							deferred.reject('could not load `' + url + '`');
+						}
+					});
+				}
+			}
+
+			/*-------------------------------------------------*/
+			/* OTHER                                           */
+			/*-------------------------------------------------*/
+
+			else
+			{
+				$.ajax({
+					url: url,
+					async: true,
+					cache: false,
+					crossDomain: true,
+					dataType: dataType,
+					context: this,
+				}).done(function(data) {
+
+					result.push(data);
+
+					this._loadFiles(deferred, result, urls, dataType, context);
+
+				}).fail(function() {
+
+					if(context) {
+						deferred.rejectWith(context, ['could not load `' + url + '`']);
+					} else {
+						deferred.reject('could not load `' + url + '`');
+					}
+				});
+			}
+
+			/*-------------------------------------------------*/
 		}
 		else
 		{
@@ -717,7 +701,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
-	loadFiles: function(files, dataType, settings)
+	loadFiles: function(urls, dataType, settings)
 	{
 		var context = null;
 
@@ -728,14 +712,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		if(!(files instanceof Array))
+		if(!(urls instanceof Array))
 		{
-			files = [files];
+			urls = [urls];
 		}
 
 		/*---------------------------------------------------------*/
 
-		return this._loadFiles($.Deferred(), [], files, dataType, context).promise();
+		return this._loadFiles($.Deferred(), [], urls, dataType, context).promise();
 
 		/*---------------------------------------------------------*/
 	},
@@ -743,71 +727,99 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Loads TEXT files asynchronously
-	  * @param {(Array|String)} files the array of files
+	  * Loads CSS sheets asynchronously
+	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	loadTEXTs: function(files, settings)
+	loadSheets: function(urls, settings)
 	{
-		return this.loadFiles(files, 'text', settings);
+		return this.loadFiles(urls, 'sheet', settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads JS scripts asynchronously
+	  * @param {(Array|String)} urls the array of urls
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	loadScripts: function(urls, settings)
+	{
+		return this.loadFiles(urls, 'script', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Loads JSON files asynchronously
-	  * @param {(Array|String)} files the array of files
+	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	loadJSONs: function(files, settings)
+	loadJSONs: function(urls, settings)
 	{
-		return this.loadFiles(files, 'json', settings);
+		return this.loadFiles(urls, 'json', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Loads XML files asynchronously
-	  * @param {(Array|String)} files the array of files
+	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	loadXMLs: function(files, settings)
+	loadXMLs: function(urls, settings)
 	{
-		return this.loadFiles(files, 'xml', settings);
+		return this.loadFiles(urls, 'xml', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Loads HTML files asynchronously
-	  * @param {(Array|String)} files the array of files
+	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	loadHTMLs: function(files, settings)
+	loadHTMLs: function(urls, settings)
 	{
-		return this.loadFiles(files, 'html', settings);
+		return this.loadFiles(urls, 'html', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Loads TWIG files asynchronously
-	  * @param {(Array|String)} files the array of files
+	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	loadTWIGs: function(files, settings)
+	loadTWIGs: function(urls, settings)
 	{
-		return this.loadFiles(files, 'html', settings);
+		return this.loadFiles(urls, 'html', settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads TEXT files asynchronously
+	  * @param {(Array|String)} urls the array of urls
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	loadTEXTs: function(urls, settings)
+	{
+		return this.loadFiles(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -927,6 +939,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1398,7 +1412,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(descr)
 			{
-				this.loadScripts(descr.file, {context: this}).done(function(loaded) {
+				this.loadScripts([
+					this.originURL + '/' + descr.file
+				], {context: this}).done(function(loaded) {
 
 					try
 					{
@@ -1431,7 +1447,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 								if(context) {
 									deferred.rejectWith(context, ['could not load control `' + name + '`']);
 								} else {
-									deferred.reject('could not load `' + name + '`');
+									deferred.reject('could not load control `' + name + '`');
 								}
 							});
 						}
@@ -1441,7 +1457,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 						if(context) {
 							deferred.rejectWith(context, ['could not load control `' + name + '`']);
 						} else {
-							deferred.reject('could not load `' + name + '`');
+							deferred.reject('could not load control `' + name + '`');
 						}
 					}
 				});
@@ -1451,7 +1467,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				if(context) {
 					deferred.rejectWith(context, ['could not load control `' + name + '`']);
 				} else {
-					deferred.reject('could not load `' + name + '`');
+					deferred.reject('could not load control `' + name + '`');
 				}
 			}
 		}
@@ -1538,22 +1554,22 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/*---------------------------------------------------------*/
 
 		if(!subAppInstance.onReady) {
-			alert('error: `<subapp>.onReady()` must be implemented!');
+			amiWebApp.error('`<subapp>.onReady()` must be implemented!');
 			return;
 		}
 
 		if(!subAppInstance.onExit) {
-			alert('error: `<subapp>.onExit()` must be implemented!');
+			amiWebApp.error('`<subapp>.onExit()` must be implemented!');
 			return;
 		}
 
 		if(!subAppInstance.onLogin) {
-			alert('error: `<subapp>.onLogin()` must be implemented!');
+			amiWebApp.error('`<subapp>.onLogin()` must be implemented!');
 			return;
 		}
 
 		if(!subAppInstance.onLogout) {
-			alert('error: `<subapp>.onLogout()` must be implemented!');
+			amiWebApp.error('`<subapp>.onLogout()` must be implemented!');
 			return;
 		}
 
@@ -1576,7 +1592,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				amiWebApp.error('service temporarily unreachable, please reload the page...');
 			}
 
-		}, this._timeout);
+		}, 2000);
 
 		/*---------------------------------------------------------*/
 
@@ -1616,7 +1632,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(descr)
 		{
-			this.loadScripts([descr.file], {context: this}).done(function() {
+			this.loadScripts([
+				this.originURL + '/' + descr.file
+			], {context: this}).done(function() {
 
 				this.setCurrentSubAppInstance(window[descr.instance], userdata);
 			});

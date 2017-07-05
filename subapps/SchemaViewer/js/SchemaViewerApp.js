@@ -24,6 +24,12 @@ $AMIClass('SchemaViewerApp', {
 	{
 		/*---------------------------------------------------------*/
 
+		$('#ami_breadcrumb_content').css('display', 'none');
+
+		/*---------------------------------------------------------*/
+
+		var result = $.Deferred();
+
 		amiWebApp.loadScripts([
 			'js/3rd-party/jscolor.min.js',
 			'js/3rd-party/filesaver.min.js',
@@ -31,82 +37,79 @@ $AMIClass('SchemaViewerApp', {
 			'js/3rd-party/jointjs/backbone-min.js',
 			'js/3rd-party/jointjs/joint.min.js',
 			'subapps/SchemaViewer/js/joint.shapes.sql.js',
-		]);
+		], {context: this}).done(function() {
 
-		amiWebApp.loadSheets([
-			'css/3rd-party/jointjs/joint.min.css',
-			'subapps/SchemaViewer/css/SchemaViewerApp.css',
-		]);
+			amiWebApp.loadSheets([
+				'css/3rd-party/jointjs/joint.min.css',
+				'subapps/SchemaViewer/css/SchemaViewerApp.css',
+			]);
 
-		/*---------------------------------------------------------*/
+			amiWebApp.loadHTMLs([
+				'subapps/SchemaViewer/twig/SchemaViewerApp.twig',
+			], {context: this}).done(function(data) {
 
-		$('#ami_breadcrumb_content').css('display', 'none');
+				amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
+					/*---------------------------------*/
+					/* DROP ZONE                       */
+					/*---------------------------------*/
 
-		/*---------------------------------------------------------*/
+					var dropZone = document.getElementById('EFAEDA1C_C8B2_46EA_AC47_A591A0704FE3');
 
-		var result = $.Deferred();
+					dropZone.addEventListener('dragover', this.handleDragOver, false);
+					dropZone.addEventListener('drop'    , this.handleDrop    , false);
 
-		amiWebApp.loadHTMLs([
-			'subapps/SchemaViewer/twig/SchemaViewerApp.twig',
-		], {context: this}).done(function(data) {
+					/*---------------------------------*/
+					/* EDITOR                          */
+					/*---------------------------------*/
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
-				/*-----------------------------------------*/
-				/* DROP ZONE                               */
-				/*-----------------------------------------*/
+					var el = $('#BDA5FA36_3523_4435_8ED1_8BC0315BACAB');
 
-				var dropZone = document.getElementById('EFAEDA1C_C8B2_46EA_AC47_A591A0704FE3');
+					/*---------------------------------*/
 
-				dropZone.addEventListener('dragover', this.handleDragOver, false);
-				dropZone.addEventListener('drop'    , this.handleDrop    , false);
+					this.graph = new joint.dia.Graph;
 
-				/*-----------------------------------------*/
-				/* EDITOR                                  */
-				/*-----------------------------------------*/
+					this.paper = new joint.dia.Paper({
+						model: this.graph,
+						el: el,
+						width: 1,
+						height: 1,
+						gridSize: 5.0,
+					});
 
-				var el = $('#BDA5FA36_3523_4435_8ED1_8BC0315BACAB');
+					/*---------------------------------*/
 
-				/*-----------------------------------------*/
-
-				this.graph = new joint.dia.Graph;
-
-				this.paper = new joint.dia.Paper({
-					model: this.graph,
-					el: el,
-					width: 1,
-					height: 1,
-					gridSize: 5.0,
-				});
-
-				/*-----------------------------------------*/
-
-				if(amiLogin.hasRole('AMI_ADMIN'))
-				{
-					el.find('svg').css('background-image', 'url("' + this.getGridBackgroundImage(10, 10) + '")');
-				}
-
-				/*-----------------------------------------*/
-
-				this.resizeTriggerOn = true;
-
-				this.paper.on('resize', function(width, height) {
-
-					if(schemaViewerApp.resizeTriggerOn)
+					if(amiLogin.hasRole('AMI_ADMIN'))
 					{
-						$('#E16F14F4_FBB4_43A3_AC79_76BEE3087F77').val(schemaViewerApp.paperWidth = width);
-						$('#DB5F6C24_4775_40D5_AFA4_F1847423A4B5').val(schemaViewerApp.paperHeight = height);
+						el.find('svg').css('background-image', 'url("' + this.getGridBackgroundImage(10, 10) + '")');
 					}
+
+					/*---------------------------------*/
+
+					this.resizeTriggerOn = true;
+
+					this.paper.on('resize', function(width, height) {
+
+						if(schemaViewerApp.resizeTriggerOn)
+						{
+							$('#E16F14F4_FBB4_43A3_AC79_76BEE3087F77').val(schemaViewerApp.paperWidth = width);
+							$('#DB5F6C24_4775_40D5_AFA4_F1847423A4B5').val(schemaViewerApp.paperHeight = height);
+						}
+					});
+
+					/*---------------------------------*/
+					/* DEFAULT CATALOG                 */
+					/*---------------------------------*/
+
+					this.defaultCatalog = userdata;
+
+					/*---------------------------------*/
+
+					result.resolve();
 				});
 
-				/*-----------------------------------------*/
-				/* DEFAULT CATALOG                         */
-				/*-----------------------------------------*/
+			}).fail(function() {
 
-				this.defaultCatalog = userdata;
-
-				/*-----------------------------------------*/
-
-				result.resolve();
+				result.reject();
 			});
 
 		}).fail(function() {

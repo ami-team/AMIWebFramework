@@ -11,6 +11,7 @@
 		<title>AMI</title>
 
 		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="jquery-cern.js"></script>
 
 		<script type="text/javascript" src="js/AMI/framework.min.js?embedded"></script>
 
@@ -34,6 +35,19 @@
 			};
 
 			amiWebApp.start();
+
+			alert(amiWebApp.base64Encode('hello12') + ' ' + btoa('hello12'));
+
+			alert(amiWebApp.base64Encode('hello1') + ' ' + btoa('hello1'));
+
+			alert(amiWebApp.base64Encode('hello') + ' ' + btoa('hello'));
+
+
+			alert(amiWebApp.base64Encode('hello12') + ' ' + amiWebApp.base64Decode(amiWebApp.base64Encode('hello12')));
+
+			alert(amiWebApp.base64Encode('hello1') + ' ' + amiWebApp.base64Decode(amiWebApp.base64Encode('hello1')));
+
+			alert(amiWebApp.base64Encode('hello') + ' ' + amiWebApp.base64Decode(amiWebApp.base64Encode('hello')));
 
 		</script>
 	</head>

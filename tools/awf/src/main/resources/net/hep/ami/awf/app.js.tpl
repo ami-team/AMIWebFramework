@@ -22,16 +22,16 @@ $AMIClass('{{NAME}}App', {
 	{
 		/*---------------------------------------------------------*/
 
+		$('#ami_breadcrumb_content').html('<li>My SubApps</li><li><a href="' + amiWebApp.webAppURL + '?subapp={{name}}">{{NAME}}</a></li>');
+
+		/*---------------------------------------------------------*/
+
 		amiWebApp.loadScripts([
 		]);
 
 		amiWebApp.loadSheets([
 			'subapps/{{NAME}}/css/{{NAME}}App.css',
 		]);
-
-		/*---------------------------------------------------------*/
-
-		$('#ami_breadcrumb_content').html('<li>My SubApps</li><li><a href="' + amiWebApp.webAppURL + '?subapp={{name}}">{{NAME}}</a></li>');
 
 		/*---------------------------------------------------------*/
 

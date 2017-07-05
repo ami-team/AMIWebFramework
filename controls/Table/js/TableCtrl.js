@@ -79,8 +79,8 @@ $AMIClass('TableCtrl', {
 		var result = $.Deferred();
 
 		amiWebApp.loadTWIGs([
-			'controls/Table/twig/TableCtrl.twig',
-			'controls/Table/twig/table.twig',
+			amiWebApp.originURL + '/controls/Table/twig/TableCtrl.twig',
+			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 		], {context: this}).done(function(data) {
 
 			this.fragmentTableCtrl = data[0];

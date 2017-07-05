@@ -24,13 +24,13 @@ $AMIClass('CommandApp', {
 	{
 		/*---------------------------------------------------------*/
 
-		amiWebApp.loadScripts([
-			'js/3rd-party/filesaver.min.js',
-		]);
+		$('#ami_breadcrumb_content').html('<li>Tools</li><li><a href="' + amiWebApp.webAppURL + '?subapp=command">Command</a></li>');
 
 		/*---------------------------------------------------------*/
 
-		$('#ami_breadcrumb_content').html('<li>Tools</li><li><a href="' + amiWebApp.webAppURL + '?subapp=command">Command</a></li>');
+		amiWebApp.loadScripts([
+			'js/3rd-party/filesaver.min.js',
+		]);
 
 		/*---------------------------------------------------------*/
 
