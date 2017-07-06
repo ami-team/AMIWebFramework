@@ -7,6 +7,8 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
+ * @global diff_match_patch
+ *
  */
 
 /*-------------------------------------------------------------------------*/
@@ -22,19 +24,19 @@ $AMIClass('DiffBoxCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	patchId: function(id) {},
+	patchId: function() {},
 
 	/*-----------------------------------------------------------------*/
 
-	replaceHTML: function(selector, twig, settings) {},
+	replaceHTML: function() {},
 
 	/*-----------------------------------------------------------------*/
 
-	prependHTML: function(selector, twig, settings) {},
+	prependHTML: function() {},
 
 	/*-----------------------------------------------------------------*/
 
-	appendHTML: function(selector, twig, settings) {},
+	appendHTML: function() {},
 
 	/*-----------------------------------------------------------------*/
 

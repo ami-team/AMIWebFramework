@@ -144,6 +144,21 @@
 
 	<!-- ************************************************************ -->
 
+	<target name="lint-control" description="Code quality.">
+
+		<!-- npm install -g eslint -->
+		<!-- http://eslint.org/ -->
+
+		<exec executable="bash">
+			<env key="PATH" value="/usr/local/bin:/usr/bin" />
+			<arg value="-c" />
+			<arg value="eslint controls/**/js/*.js" />
+		</exec>
+
+	</target>
+
+	<!-- ************************************************************ -->
+
 	<target name="lint-subapp" description="Code quality.">
 
 		<!-- npm install -g eslint -->

@@ -22,19 +22,19 @@ $AMIClass('TextBoxCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	patchId: function(id) {},
+	patchId: function() {},
 
 	/*-----------------------------------------------------------------*/
 
-	replaceHTML: function(selector, twig, settings) {},
+	replaceHTML: function() {},
 
 	/*-----------------------------------------------------------------*/
 
-	prependHTML: function(selector, twig, settings) {},
+	prependHTML: function() {},
 
 	/*-----------------------------------------------------------------*/
 
-	appendHTML: function(selector, twig, settings) {},
+	appendHTML: function() {},
 
 	/*-----------------------------------------------------------------*/
 
