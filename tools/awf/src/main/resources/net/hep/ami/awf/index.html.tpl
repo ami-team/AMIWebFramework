@@ -15,7 +15,7 @@
 
 		<script type="text/javascript">
 
-			amiWebApp.onUpdateNeeded = function(isAuth)
+			amiWebApp.onRefresh = function(isAuth)
 			{
 				var menu =
 					'<li class="dropdown">' +

@@ -978,13 +978,13 @@ __l0:		for(i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Format the given HTML fragment using TWIG, see {@link http://twig.sensiolabs.org/documentation}
-	  * @param {String} html the HTML fragment
+	  * Interpretes the given TWIG fragment, see {@link http://twig.sensiolabs.org/documentation}
+	  * @param {String} html the TWIG fragment
 	  * @param {Object} [dict] the dictionary
-	  * @returns {String} The formated HTML fragment
+	  * @returns {String} The Interpreted TWIG fragment
 	  */
 
-	formatHTML: function(html, dict)
+	formatHTML: function(twig, dict)
 	{
 		var result;
 
@@ -1002,7 +1002,7 @@ __l0:		for(i = 0; i < l;)
 				dict[i]['ORIGIN_URL'] = this.originURL;
 				dict[i]['WEBAPP_URL'] = this.webAppURL;
 
-				result += amiTwig.engine.render(html, dict[i]);
+				result += amiTwig.engine.render(twig, dict[i]);
 			}
 		}
 		else
@@ -1015,7 +1015,7 @@ __l0:		for(i = 0; i < l;)
 			dict['ORIGIN_URL'] = this.originURL;
 			dict['WEBAPP_URL'] = this.webAppURL;
 
-			result = amiTwig.engine.render(html, dict);
+			result = amiTwig.engine.render(twig, dict);
 		}
 
 		return result;
@@ -1089,12 +1089,13 @@ __l0:		for(i = 0; i < l;)
 
 	_publishAlert: function(html, fadeOut, target)
 	{
-		if(!target)
-		{
-			target = '#ami_alert_content';
-		}
+		/*---------------------------------------------------------*/
 
-		$(target).html(html).promise().done(function() {
+		var el = $(target || '#ami_alert_content');
+
+		/*---------------------------------------------------------*/
+
+		el.html(html).promise().done(function() {
 
 			amiWebApp.unlock();
 
@@ -1102,9 +1103,11 @@ __l0:		for(i = 0; i < l;)
 
 			if(fadeOut)
 			{
-				$(target + ' .alert').fadeOut(60000);
+				el.find('.alert').fadeOut(60000);
 			}
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1215,14 +1218,14 @@ __l0:		for(i = 0; i < l;)
 
 	/**
 	  * This method must be overloaded and is called when the toolbar needs to be updated
-	  * @event amiWebApp#onUpdateNeeded
+	  * @event amiWebApp#onRefresh
 	  */
 
-	onUpdateNeeded: function()
+	onRefresh: function()
 	{
 		if(!this._embedded)
 		{
-			alert('error: `this.onUpdateNeeded()` must be overloaded!');
+			alert('error: `this.onRefresh()` must be overloaded!');
 		}
 	},
 
@@ -1423,23 +1426,20 @@ __l0:		for(i = 0; i < l;)
 
 							amiWebApp._loadControls(deferred, result, controls, context);
 						}
-						else
-						{
-							promise.done(function() {
+						else promise.done(function() {
 
-								result.push(clazz);
+							result.push(clazz);
 
-								amiWebApp._loadControls(deferred, result, controls, context);
+							amiWebApp._loadControls(deferred, result, controls, context);
 
-							}).fail(function() {
+						}).fail(function() {
 
-								if(context) {
-									deferred.rejectWith(context, ['could not load control `' + name + '`']);
-								} else {
-									deferred.reject('could not load control `' + name + '`');
-								}
-							});
-						}
+							if(context) {
+								deferred.rejectWith(context, ['could not load control `' + name + '`']);
+							} else {
+								deferred.reject('could not load control `' + name + '`');
+							}
+						});
 					}
 					catch(e)
 					{
@@ -1520,7 +1520,7 @@ __l0:		for(i = 0; i < l;)
 	{
 		var result = this._currentSubAppInstance.onLogin();
 
-		this.onUpdateNeeded(true);
+		this.onRefresh(true);
 
 		return result;
 	},
@@ -1531,7 +1531,7 @@ __l0:		for(i = 0; i < l;)
 	{
 		var result = this._currentSubAppInstance.onLogout();
 
-		this.onUpdateNeeded(false);
+		this.onRefresh(false);
 
 		return result;
 	},
@@ -1603,24 +1603,21 @@ __l0:		for(i = 0; i < l;)
 							}
 						);
 					}
-					else
-					{
-						promise.done(function() {
+					else promise.done(function() {
 
-							_ami_internal_always(
-								amiLogin.isAuthenticated() ? amiWebApp.onLogin()
-								                           : amiWebApp.onLogout()
-								,
-								function() {
-									amiWebApp.unlock();
-								}
-							);
+						_ami_internal_always(
+							amiLogin.isAuthenticated() ? amiWebApp.onLogin()
+							                           : amiWebApp.onLogout()
+							,
+							function() {
+								amiWebApp.unlock();
+							}
+						);
 
-						}).fail(function() {
+					}).fail(function() {
 
-							this.error('could not load sub-application `' + subapp + '`');
-						});
-					}
+						this.error('could not load sub-application `' + subapp + '`');
+					});
 				}
 				catch(e)
 				{

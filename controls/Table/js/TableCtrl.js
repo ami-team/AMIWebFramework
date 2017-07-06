@@ -616,7 +616,7 @@ $AMIClass('TableCtrl', {
 				/*-----------------------------------------*/
 				/* TOOLTIP CONTENT                         */
 				/*-----------------------------------------*/
-
+/*
 				var title = this.entity + (totalResults ? ': #' + totalResults : '');
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
@@ -624,7 +624,7 @@ $AMIClass('TableCtrl', {
 					trigger: 'manual',
 					title: title,
 				}).tooltip('show');
-
+ */
 				/*-----------------------------------------*/
 				/* VIEW MODE                               */
 				/*-----------------------------------------*/
