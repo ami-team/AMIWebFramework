@@ -496,8 +496,6 @@ $AMIClass('TableCtrl', {
 
 			this.replaceHTML(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.fragmentTable, {context: this, dict: dict}).done(function() {
 
-				var i;
-
 				var _this = this;
 
 				var parent = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
@@ -682,7 +680,7 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	showModal: function(flush)
+	showModal: function()
 	{
 		var field;
 		var value;
@@ -703,8 +701,11 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	hideModal: function(flush)
+	hideModal: function()
 	{
+		var field;
+		var value;
+
 		var el1 = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
 		var el2 = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
 
