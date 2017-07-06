@@ -42,7 +42,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_init: function()
 	{
-		amiWebApp.loadHTMLs([
+		return amiWebApp.loadHTMLs([
 			amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Modal/login.twig',
@@ -126,11 +126,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	
 				/*-----------------------------------------*/
 			});
-
-			/*-------------------------------------------------*/
-		}).fail(function() {
-
-			alert('service temporarily unavailable, please reload the page...');
 		});
 	},
 
