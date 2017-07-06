@@ -79,14 +79,12 @@ $AMIClass('TableCtrl', {
 		/*---------------------------------------------------------*/
 
 		amiWebApp.loadControls([
-			'confirmBox',
 			'messageBox',
 			'textBox',
 		], {context: this}).done(function(data) {
 
-			this.confirmBox = new data[0];
-			this.messageBox = new data[1];
-			this.textBox = new data[2];
+			this.messageBox = new data[0];
+			this.textBox = new data[1];
 
 		}).fail(function(data) {
 
@@ -565,12 +563,10 @@ $AMIClass('TableCtrl', {
 
 					if(this.innerHTML != this.data_orig)
 					{
-						var tag = this;
-
-						_this.updateRow(this.getAttribute('data-row'), this.getAttribute('data-col'), this.innerHTML).fail(function() {
-
-							tag.innerHTML = tag.data_orig;
-						});
+						if(!_this.updateRow(this.getAttribute('data-row'), this.getAttribute('data-col'), this.innerHTML))
+						{
+							this.innerHTML = this.data_orig;
+						}
 					}
 				});
 
@@ -744,8 +740,10 @@ $AMIClass('TableCtrl', {
 
 	appendRow: function()
 	{
-		return this.confirmBox.show('Please confirm...', {context: this}).done(function() {
+		var result = confirm('Please confirm!');
 
+		if(result)
+		{
 			amiWebApp.lock();
 			this.hideModal();
 
@@ -757,15 +755,19 @@ $AMIClass('TableCtrl', {
 
 				amiWebApp.error(amiWebApp.jspath('..error.$', data));
 			});
-		});
+		}
+
+		return result;
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	updateRow: function()
 	{
-		return this.confirmBox.show('Please confirm...', {context: this}).done(function() {
+		var result = confirm('Please confirm!');
 
+		if(result)
+		{
 			amiWebApp.lock();
 			this.hideModal();
 
@@ -777,15 +779,19 @@ $AMIClass('TableCtrl', {
 
 				amiWebApp.error(amiWebApp.jspath('..error.$', data));
 			});
-		});
+		}
+
+		return result;
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	deleteRow: function()
 	{
-		return this.confirmBox.show('Please confirm...', {context: this}).done(function() {
+		var result = confirm('Please confirm!');
 
+		if(result)
+		{
 			amiWebApp.lock();
 			this.hideModal();
 
@@ -797,7 +803,9 @@ $AMIClass('TableCtrl', {
 
 				amiWebApp.error(amiWebApp.jspath('..error.$', data));
 			});
-		});
+		}
+
+		return result;
 	},
 
 	/*-----------------------------------------------------------------*/
