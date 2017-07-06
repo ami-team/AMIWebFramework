@@ -358,7 +358,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		var result = [];
 
-		var l = s.length, i, j;
+		var i, j, l = s.length;
 
 __l0:		for(i = 0; i < l;)
 		{
@@ -368,7 +368,7 @@ __l0:		for(i = 0; i < l;)
 				{
 					result.push(y[j]);
 
-					i+= x[j].length;
+					i += x[j].length;
 
 					continue __l0;
 				}
@@ -989,10 +989,10 @@ __l0:		for(i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Interpretes the given TWIG fragment, see {@link http://twig.sensiolabs.org/documentation}
-	  * @param {String} html the TWIG fragment
+	  * Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}
+	  * @param {String} html the TWIG string
 	  * @param {Object} [dict] the dictionary
-	  * @returns {String} The Interpreted TWIG fragment
+	  * @returns {String} The Interpreted TWIG string
 	  */
 
 	formatHTML: function(twig, dict)
