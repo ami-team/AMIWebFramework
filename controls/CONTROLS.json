@@ -1,1 +1,1 @@
-{"table":{"file":"controls\/Table\/js\/TableCtrl.js","clazz":"TableCtrl"}}
+{"textBox":{"file":"controls\/TextBox\/js\/TextBoxCtrl.js","clazz":"TextBoxCtrl"},"fixTWikiStyle":{"file":"controls\/FixTWikiStyle\/js\/FixTWikiStyleCtrl.js","clazz":"FixTWikiStyleCtrl"},"messageBox":{"file":"controls\/MessageBox\/js\/MessageBoxCtrl.js","clazz":"MessageBoxCtrl"},"table":{"file":"controls\/Table\/js\/TableCtrl.js","clazz":"TableCtrl"}}

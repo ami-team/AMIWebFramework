@@ -1,0 +1,48 @@
+<script type="text/javascript" src="{{ORIGIN_URL}}/js/AMI/framework.min.js?embedded"></script>
+
+<script type="text/javascript">
+
+	var myTable;
+
+	amiWebApp.onUpdateNeed = function(isAuth) {
+
+		if(isAuth)
+		{
+			myTable.render('#myTable', '{{command}}', {
+				canEdit: {{canEdit}},
+				catalog: '{{catalog}}',
+				entity: '{{entity}}',
+				primaryField: '{{primaryField}}',
+				start: {{start}},
+				stop: {{stop}},
+				orderBy: '{{orderBy}}',
+				orderWay: '{{orderWay}}',
+			});
+		}
+		else
+		{
+			$('#myTable').empty();
+		}
+	};
+
+	amiWebApp.onStart = function() {
+
+		amiWebApp.loadControls(['table']).done(function(ctrls) {
+
+			myTable = new ctrls[0];
+		});
+	};
+
+	amiWebApp.start({
+		endpoint_url: '{{endpoint}}'
+	});
+
+</script>
+
+<div class="clearfix">
+	<div class="nav navbar-nav" id="ami_login_content"></div>
+</div>
+
+<div id="ami_alert_content"></div>
+
+<div id="myTable"></div>

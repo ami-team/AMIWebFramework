@@ -20,7 +20,7 @@
 				amiWebApp.loadSubApp('document');
 			};
 
-			amiWebApp.onToolbarUpdateNeeded = function()
+			amiWebApp.onUpdateNeeded = function()
 			{
 				var menu =
 					'<li class="dropdown">' +
@@ -66,11 +66,10 @@
 
 		<script type="text/javascript">
 
-			amiCommand.endpoint = '{{ENDPOINT}}';
-
 			amiWebApp.start({
 				logo_url: 'images/logo-alt.png',
 				theme_url: 'twig/AMI/Theme/blue.twig',
+				endpoint_url: '{{ENDPOINT}}',
 			});
 
 		</script>

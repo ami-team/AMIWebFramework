@@ -796,13 +796,13 @@ __l0:		for(i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Loads TEXT files asynchronously
+	  * Loads text files asynchronously
 	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	loadTEXTs: function(urls, settings)
+	loadTexts: function(urls, settings)
 	{
 		return this.loadFiles(urls, 'text', settings);
 	},
@@ -1215,14 +1215,14 @@ __l0:		for(i = 0; i < l;)
 
 	/**
 	  * This method must be overloaded and is called when the toolbar needs to be updated
-	  * @event amiWebApp#onToolbarUpdateNeeded
+	  * @event amiWebApp#onUpdateNeeded
 	  */
 
-	onToolbarUpdateNeeded: function()
+	onUpdateNeeded: function()
 	{
 		if(!this._embedded)
 		{
-			alert('error: `this.onToolbarUpdateNeeded()` must be overloaded!');
+			alert('error: `this.onUpdateNeeded()` must be overloaded!');
 		}
 	},
 
@@ -1246,6 +1246,8 @@ __l0:		for(i = 0; i < l;)
 
 		var theme_url = this.originURL + '/twig/AMI/Theme/blue.twig';
 		var locker_url = this.originURL + '/twig/AMI/Fragment/locker.twig';
+
+		var endpoint_url = this.originURL + '/AMI/FrontEnd';
 
 		/*---------------------------------------------------------*/
 
@@ -1274,7 +1276,15 @@ __l0:		for(i = 0; i < l;)
 			if('locker_url' in settings) {
 				locker_url = settings['locker_url'];
 			}
+
+			if('endpoint_url' in settings) {
+				endpoint_url = settings['endpoint_url'];
+			}
 		}
+
+		/*---------------------------------------------------------*/
+
+		amiCommand.endpoint = endpoint_url;
 
 		/*---------------------------------------------------------*/
 
@@ -1516,7 +1526,7 @@ __l0:		for(i = 0; i < l;)
 	{
 		var result = this._currentSubAppInstance.onLogin();
 
-		this.onToolbarUpdateNeeded();
+		this.onUpdateNeeded(true);
 
 		return result;
 	},
@@ -1527,7 +1537,7 @@ __l0:		for(i = 0; i < l;)
 	{
 		var result = this._currentSubAppInstance.onLogout();
 
-		this.onToolbarUpdateNeeded();
+		this.onUpdateNeeded(false);
 
 		return result;
 	},

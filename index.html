@@ -17,24 +17,28 @@
 
 		<script type="text/javascript">
 
-			amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';
-
 			amiWebApp.onStart = function() {
 
-				amiWebApp.loadControls(['table']).done(function(data) {
+				amiWebApp.loadControls(['table']).done(function(controls) {
 
-					//var table1 = new data[0];
+					//var table1 = new controls[0];
 					//table1.render('#table1', 'SearchQuery -catalog="self" -sql="SELECT id, AMIUser, lastName, firstName, email FROM router_user WHERE valid = 1"', {canEdit: true, catalog: 'self', entity: 'router_user', primaryField: 'id'});
 
-					var table2 = new data[0];
-					table2.render('#table2', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
+					(new controls[0]).render('#table2', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
+					(new controls[0]).render('#table3', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
 
-					var table3 = new data[0];
+					var table3 = new controls[0];
 					//table3.render('#table3', 'GetSessionInfo', {canEdit: false, entity: 'user info', rowset: 'user'});
+
+				}).fail(function(data) {
+
+					alert(data);
 				});
 			};
 
-			amiWebApp.start();
+			amiWebApp.start({
+				endpoint_url: 'https://localhost:8443/AMI/FrontEnd'
+			});
 
 		</script>
 	</head>

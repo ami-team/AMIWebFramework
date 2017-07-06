@@ -1,0 +1,93 @@
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+/*-------------------------------------------------------------------------*/
+
+.navbar-nav > li > a,
+.dropdown-menu > li > a,
+.navbar-nav > li > a:hover,
+.dropdown-menu > li > a:hover {
+	border: none !important;
+	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+	font-size: 15px;
+	text-decoration: none;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.radio,
+.checkbox,
+.form-group {
+	text-align: left;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.row span, .row div, .row p, .row a,
+.table span, .table div, .table p, .table a,
+.modal-dialog span, .modal-dialog div, .modal-dialog p, .modal-dialog a {
+	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+	font-size: 15px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.row a,
+.table a,
+.modal-dialog a {
+	text-decoration: none;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.row h1, .row h2, .row h3, .row h4, .row h5, .row h6,
+.modal-dialog h1, .modal-dialog h2, .modal-dialog h3, .modal-dialog h4, .modal-dialog h5, .modal-dialog h6 {
+	border: none;
+	font-family: "Open Sans Light", "sans-serif";
+	text-align: left;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.navbar-brand {
+	padding: 16px 15px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.btn {
+	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+	font-size: 15px;
+	height: 35.5px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.ami-guilloche * {
+	font-family: "janda" !important;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#ami_login_content {
+	position: absolute;
+	z-index: 100;
+	top: 0.5px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#twikiLogo {
+	position: relative;
+	top: -8px;
+}
+
+/*-------------------------------------------------------------------------*/

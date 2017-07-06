@@ -2,9 +2,10 @@
 
 <style type="text/css">
 
-#FEF9E8D8_D4AB_B545_B394_C12DD5817D61 th,
-#FEF9E8D8_D4AB_B545_B394_C12DD5817D61 td {
-	font-size: 13px;
+#FEF9E8D8_D4AB_B545_B394_C12DD5817D61 table th,
+#FEF9E8D8_D4AB_B545_B394_C12DD5817D61 table td,
+#FEF9E8D8_D4AB_B545_B394_C12DD5817D61 table span {
+	font-size: 14px;
 	white-space: nowrap;
 }
 
@@ -30,6 +31,10 @@
 
 <!-- ******************************************************************** -->
 
+<br />
+
+<!-- ******************************************************************** -->
+
 <nav class="navbar navbar-default">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -40,7 +45,7 @@
 				<span class="icon-bar"></span>
 			</button>
 			<span class="navbar-brand">
-				<span id="C57C824B_166C_4C23_F349_8B0C8E94114A" data-toggle="tooltip" data-placement="right" data-title="{{entity|default('entity')}}: # {{count|default('N/A')}}"><i class="fa fa-info-circle"></i></span>
+				<span id="C57C824B_166C_4C23_F349_8B0C8E94114A"><i class="fa fa-info-circle"></i></span>
 			</span>
 		</div>
 		<div class="collapse navbar-collapse" id="F4B10C5C_47BC_2093_5269_EA03881409FA">
@@ -72,6 +77,15 @@
 				/>
 				<button type="button" class="btn btn-warning" id="CDE5AD14_1268_8FA7_F5D8_0D690F3FB850"><i class="fa fa-plus"></i></button>
 {% endif %}
+			</div>
+			<div class="nav navbar-nav navbar-left">
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">More... <span class="caret"></span></a>
+					<ul class="dropdown-menu">
+						<li><a href="#" id="D49853E2_9319_52C3_5253_A208F9500408">Command</a></li>
+						<li><a href="#" id="C50C3427_FEE5_F115_1FEC_6A6668763EC4">JavaScript</a></li>
+					</ul>
+				</li>
 			</div>
 {% if isEmbedded %}
 			<p class="navbar-text navbar-right hidden-xs hidden-sm">

@@ -76,17 +76,36 @@ $AMIClass('TableCtrl', {
 
 	onReady: function()
 	{
+		/*---------------------------------------------------------*/
+
+		amiWebApp.loadControls([
+			'messageBox',
+			'textBox',
+		], {context: this}).done(function(data) {
+
+			this.messageBox = new data[0];
+			this.textBox = new data[1];
+
+		}).fail(function(data) {
+
+			alert(data);
+		});
+
+		/*---------------------------------------------------------*/
+
 		var result = $.Deferred();
 
 		amiWebApp.loadTWIGs([
 			amiWebApp.originURL + '/controls/Table/twig/TableCtrl.twig',
 			amiWebApp.originURL + '/controls/Table/twig/modal.twig',
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
+			amiWebApp.originURL + '/controls/Table/twig/js.twig',
 		], {context: this}).done(function(data) {
 
 			this.fragmentTableCtrl = data[0];
 			this.fragmentModal = data[1];
 			this.fragmentTable = data[2];
+			this.fragmentJS = data[3];
 
 			result.resolve();
 
@@ -96,13 +115,15 @@ $AMIClass('TableCtrl', {
 		});
 
 		return result;
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	render: function(id, command, settings)
 	{
-		this.command = command;
+		this.command = command.trim();
 
 		/**/
 
@@ -285,6 +306,8 @@ $AMIClass('TableCtrl', {
 
 		var dict = {
 			isEmbedded: amiWebApp.isEmbedded(),
+			endpoint: amiCommand.endpoint,
+			command: this.command,
 			canEdit: this.canEdit,
 			catalog: this.catalog,
 			entity: this.entity,
@@ -292,6 +315,8 @@ $AMIClass('TableCtrl', {
 			fieldInfo: this.fieldInfo,
 			start: this.start,
 			stop: this.stop,
+			orderBy: this.orderBy,
+			orderWay: this.orderWay,
 		};
 
 		this.replaceHTML(id, this.fragmentTableCtrl, {context: this, dict: dict}).done(function() {
@@ -336,6 +361,20 @@ $AMIClass('TableCtrl', {
 
 					_this.appendRow();
 				});
+
+				$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(function() {
+
+					_this.showCommand();
+				});
+
+				$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(function() {
+
+					_this.showJavaScript();
+				});
+
+				/*-----------------------------------------*/
+
+				this.jsCode = amiWebApp.formatHTML(this.fragmentJS, dict);
 
 				/*-----------------------------------------*/
 
@@ -452,8 +491,12 @@ $AMIClass('TableCtrl', {
 
 		amiCommand.execute(command, {context: this}).done(function(data) {
 
-			var rows = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.row', data)
-			                       : amiWebApp.jspath('..row'                                       , data)
+			var rows = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.row', data) || []
+			                       : amiWebApp.jspath('..row'                                       , data) || []
+			;
+
+			var totalResults = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@totalResults', data)[0] || ''
+			                               : amiWebApp.jspath('..@totalResults'                                       , data)[0] || ''
 			;
 
 			var dict = {
@@ -473,7 +516,9 @@ $AMIClass('TableCtrl', {
 				/* TOOLS                                   */
 				/*-----------------------------------------*/
 
-				parent.find('a[data-orderway="DESC"]').click(function() {
+				parent.find('a[data-orderway="DESC"]').click(function(e) {
+
+					e.preventDefault();
 
 					_this.orderBy = this.getAttribute('data-row');
 					_this.orderWay = 'DESC';
@@ -483,24 +528,30 @@ $AMIClass('TableCtrl', {
 
 				/*-----------------------------------------*/
 
-				parent.find('a[data-orderway="ASC"]').click(function() {
+				parent.find('a[data-orderway="ASC"]').click(function(e) {
+
+					e.preventDefault();
 
 					_this.orderBy = this.getAttribute('data-row');
 					_this.orderWay = 'ASC';
 
 					_this.refresh();
 				});
-	
+
 				/*-----------------------------------------*/
 
-				parent.find('a[data-action="clone"]').click(function() {
+				parent.find('a[data-action="clone"]').click(function(e) {
+
+					e.preventDefault();
 
 					_this.cloneModal(this.getAttribute('data-row'));
 				});
 
 				/*-----------------------------------------*/
 
-				parent.find('a[data-action="delete"]').click(function() {
+				parent.find('a[data-action="delete"]').click(function(e) {
+
+					e.preventDefault();
 
 					_this.deleteRow(this.getAttribute('data-row'));
 				});
@@ -561,6 +612,18 @@ $AMIClass('TableCtrl', {
 						return false;
 					}
 				});
+
+				/*-----------------------------------------*/
+				/* TOOLTIP CONTENT                         */
+				/*-----------------------------------------*/
+
+				var title = this.entity + (totalResults ? ': #' + totalResults : '');
+
+				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
+					placement: (('top')),
+					trigger: 'manual',
+					title: title,
+				}).tooltip('show');
 
 				/*-----------------------------------------*/
 				/* VIEW MODE                               */
@@ -757,6 +820,20 @@ $AMIClass('TableCtrl', {
 		}
 
 		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	showCommand: function()
+	{
+		this.messageBox.show(this.command);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	showJavaScript: function()
+	{
+		this.textBox.show(this.jsCode);
 	},
 
 	/*-----------------------------------------------------------------*/

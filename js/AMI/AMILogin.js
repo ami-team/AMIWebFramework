@@ -311,9 +311,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					message ? '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message : ''
 				);
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').html(
-					'<span style="color: #006400;">valid</span>'
-				);
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400');
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').text('valid');
 
 				color = 'orange';
 
@@ -347,9 +346,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					message ? '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message : ''
 				);
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').html(
-					'<span style="color: #8B0000;">invalid</span>'
-				);
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#8B0000');
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').text('invalid');
 
 				color = 'red';
 
@@ -362,7 +360,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			var icon = message ? '<a href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">'
 			                     +
-			                     '<span class="fa fa-exclamation-triangle"></span>'
+			                     '<i class="fa fa-exclamation-triangle"></i>'
 			                     +
 			                     '</a>'
 			                   : ''

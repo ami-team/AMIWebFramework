@@ -52,7 +52,7 @@ blockquote {
 /*-------------------------------------------------------------------------*/
 
 h1, h2, h3, h4, h5, h6 {
-	font-family: "Open Sans Light", "sans-serif";
+	font-family: "Open Sans Light", "sans-serif" !important;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -65,18 +65,22 @@ pre {
 /* BOOTSTRAP THEME                                                         */
 /*-------------------------------------------------------------------------*/
 
-.breadcrumb > li + li::before {
-	content: "/";
-}
-
 .breadcrumb {
 	background-image: url("../../images/stripe2.png");
+}
+
+.breadcrumb > li + li::before {
+	content: "/";
 }
 
 /*-------------------------------------------------------------------------*/
 
 .modal-body {
 	padding-bottom: 10px;
+}
+
+.modal-header button.close {
+	margin-top: 4px;
 }
 
 .modal-footer {
@@ -152,6 +156,10 @@ pre {
 	}
 }
 
+.navbar-brand {
+	padding: 15px 15px;
+}
+
 .navbar-nav > li > .dropdown-menu {
 	border-radius: 4px;
 	margin-top: 2px;
@@ -220,6 +228,7 @@ pre {
 .ami-code {
 	border-left: 6px solid rgb(85, 138, 187);
 	counter-reset: listing;
+	text-align: left;
 }
 
 .ami-code code .line-number {
