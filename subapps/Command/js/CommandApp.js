@@ -50,9 +50,9 @@ $AMIClass('CommandApp', {
 				result.resolve();
 			});
 
-		}).fail(function() {
+		}).fail(function(data) {
 
-			result.reject();
+			result.reject(data);
 		});
 
 		/*---------------------------------------------------------*/

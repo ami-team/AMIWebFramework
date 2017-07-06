@@ -46,9 +46,9 @@ $AMIClass('{{NAME}}App', {
 				result.resolve();
 			});
 
-		}).fail(function() {
+		}).fail(function(data) {
 
-			result.reject();
+			result.reject(data);
 		});
 
 		/*---------------------------------------------------------*/

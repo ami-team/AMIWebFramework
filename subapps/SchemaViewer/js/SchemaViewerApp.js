@@ -107,14 +107,14 @@ $AMIClass('SchemaViewerApp', {
 					result.resolve();
 				});
 
-			}).fail(function() {
+			}).fail(function(data) {
 
-				result.reject();
+				result.reject(data);
 			});
 
-		}).fail(function() {
+		}).fail(function(data) {
 
-			result.reject();
+			result.reject(data);
 		});
 
 		/*---------------------------------------------------------*/
