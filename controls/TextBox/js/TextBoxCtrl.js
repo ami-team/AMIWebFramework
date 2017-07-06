@@ -40,22 +40,12 @@ $AMIClass('TextBoxCtrl', {
 
 	onReady: function()
 	{
-		var result = $.Deferred();
-
-		amiWebApp.loadTWIGs([
+		return amiWebApp.loadTWIGs([
 			amiWebApp.originURL + '/controls/TextBox/twig/TextBoxCtrl.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.appendHTML('body', data[0]);
-
-			result.resolve();
-
-		}).fail(function() {
-
-			result.reject();
 		});
-
-		return result;
 	},
 
 	/*-----------------------------------------------------------------*/

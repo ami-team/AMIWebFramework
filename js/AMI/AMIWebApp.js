@@ -47,24 +47,24 @@ if(!String.prototype.endsWith)
 /* JQUERY EXTENSIONS                                                       */
 /*-------------------------------------------------------------------------*/
 
-jQuery.foreach = function(elements, callback, context)
+jQuery.foreach = function(el, callback, context)
 {
 	if(context)
 	{
-		jQuery.each(elements, function(index, element) {
+		jQuery.each(el, function() {
 
-			callback.apply(context, [index, element]);
+			callback.apply(context, arguments);
 		});
 	}
 	else
 	{
-		jQuery.each(elements, function(index, element) {
+		jQuery.each(el, function() {
 
-			callback.apply(element, [index, element]);
+			callback.apply(el, arguments);
 		});
 	}
 
-	return elements;
+	return el;
 };
 
 /*-------------------------------------------------------------------------*/
@@ -109,18 +109,29 @@ jQuery.getSheet = function(settings)
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
-function _ami_internal_always(deferred, func)
+function _ami_internal_done_fail(deferred, doneFunc, failFunc)
 {
-	if(deferred && deferred.always)
+	if(deferred && deferred.done && deferred.fail)
 	{
-		deferred.always(function() {
-
-			func();
-		});
+		deferred.done(doneFunc).fail(failFunc);
 	}
 	else
 	{
-		func();
+		doneFunc();
+	}
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _ami_internal_always(deferred, alwaysFunc)
+{
+	if(deferred && deferred.always)
+	{
+		deferred.always(alwaysFunc);
+	}
+	else
+	{
+		alwaysFunc();
 	}
 }
 
@@ -1416,23 +1427,13 @@ __l0:		for(i = 0; i < l;)
 						                        : /*-----------------*/null/*-----------------*/
 						;
 
-						if(!promise
-						   ||
-						   !promise.done
-						   ||
-						   !promise.fail
-						 ) {
-							result.push(clazz);
-
-							amiWebApp._loadControls(deferred, result, controls, context);
-						}
-						else promise.done(function() {
+						_ami_internal_done_fail(promise, function() {
 
 							result.push(clazz);
 
 							amiWebApp._loadControls(deferred, result, controls, context);
 
-						}).fail(function() {
+						}, function() {
 
 							if(context) {
 								deferred.rejectWith(context, ['could not load control `' + name + '`']);
@@ -1588,33 +1589,18 @@ __l0:		for(i = 0; i < l;)
 					                        : /*-------*/null/*-------*/
 					;
 
-					if(!promise
-					   ||
-					   !promise.done
-					   ||
-					   !promise.fail
-					 ) {
-						_ami_internal_always(
-							amiLogin.isAuthenticated() ? amiWebApp.onLogin()
-							                           : amiWebApp.onLogout()
-							,
-							function() {
-								amiWebApp.unlock();
-							}
-						);
-					}
-					else promise.done(function() {
+					_ami_internal_done_fail(promise, function() {
 
-						_ami_internal_always(
-							amiLogin.isAuthenticated() ? amiWebApp.onLogin()
-							                           : amiWebApp.onLogout()
-							,
-							function() {
-								amiWebApp.unlock();
-							}
-						);
+						var promise = amiLogin.isAuthenticated() ? amiWebApp.onLogin()
+						                                         : amiWebApp.onLogout()
+						;
 
-					}).fail(function() {
+						_ami_internal_always(promise, function() {
+
+							amiWebApp.unlock();
+						});
+
+					}, function() {
 
 						this.error('could not load sub-application `' + subapp + '`');
 					});

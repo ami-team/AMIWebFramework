@@ -76,22 +76,12 @@ $AMIClass('{{NAME}}Ctrl', {
 
 	onReady: function()
 	{
-		var result = $.Deferred();
-
-		amiWebApp.loadTWIGs([
+		return amiWebApp.loadTWIGs([
 			'controls/{{NAME}}/twig/{{NAME}}Ctrl.twig',
 		], {context: this}).done(function(data) {
 
 			/* TODO */
-
-			result.resolve();
-
-		}).fail(function() {
-
-			result.reject();
 		});
-
-		return result;
 	},
 
 	/*-----------------------------------------------------------------*/
