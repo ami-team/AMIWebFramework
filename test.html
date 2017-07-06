@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<title>AMI</title>
+
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="jquery-cern.js"></script>
+
+		<script type="text/javascript" src="js/AMI/framework.min.js?embedded"></script>
+
+		<script type="text/javascript">
+
+			var myTable1;
+			var myTable2;
+
+			amiWebApp.onUpdateNeeded = function(isAuth) {
+
+				if(isAuth)
+				{
+					myTable1.render('#myTable1', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
+
+					myTable2.render('#myTable2', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
+				}
+				else
+				{
+					$('#myTable1').empty();
+
+					$('#myTable2').empty();
+				}
+			};
+
+			amiWebApp.onReady = function() {
+
+				return amiWebApp.loadControls(['table']).done(function(controls) {
+
+					myTable1 = new controls[0];
+					myTable2 = new controls[0];
+
+				}).fail(function(err) {
+
+					alert(err);
+				});
+			};
+
+			amiWebApp.start({
+				endpoint_url: 'https://localhost:8443/AMI/FrontEnd'
+			});
+
+		</script>
+	</head>
+	<body>
+
+		<div class="nav navbar-nav" id="ami_login_content" style="float: none;"></div>
+
+		<div id="ami_alert_content"></div>
+
+		<div id="myTable1" style="margin: auto; width: 75%;"></div>
+		<div id="myTable2" style="margin: auto; width: 75%;"></div>
+
+	</body>
+</html>

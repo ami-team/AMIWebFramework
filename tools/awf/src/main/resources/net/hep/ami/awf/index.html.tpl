@@ -55,7 +55,7 @@
 				$('#ami_menu_content').html(menu);
 			};
 
-			amiWebApp.onStart = function()
+			amiWebApp.onReady = function()
 			{
 				amiWebApp.loadSubApp('document');
 			};
