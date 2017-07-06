@@ -1200,14 +1200,14 @@ __l0:		for(i = 0; i < l;)
 
 	/**
 	  * This method must be overloaded and is called when the web application starts
-	  * @event amiWebApp#onStart
+	  * @event amiWebApp#onReady
 	  */
 
-	onStart: function()
+	onReady: function()
 	{
 		if(!this._embedded)
 		{
-			alert('error: `this.onStart()` must be overloaded!');
+			alert('error: `this.onReady()` must be overloaded!');
 		}
 	},
 
@@ -1344,10 +1344,7 @@ __l0:		for(i = 0; i < l;)
 
 							$('body').append(amiWebApp.formatHTML(data3, dict) + data4).promise().done(function() {
 
-								amiLogin._init().done(function() {
-
-									amiWebApp.onStart();
-								});
+								amiLogin._init();
 							});
 
 						}).fail(function() {
@@ -1370,10 +1367,7 @@ __l0:		for(i = 0; i < l;)
 
 						$('body').append(data).promise().done(function() {
 
-							amiLogin._init().done(function() {
-
-								amiWebApp.onStart();
-							});
+							amiLogin._init();
 						});
 					});
 

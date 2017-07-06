@@ -31,18 +31,21 @@
 
     <script type="text/javascript">
 
+	var endpoint_url;
+
 	if(amiWebApp.isLocal())
 	{
-		amiCommand.endpoint = 'https://localhost:8443/AMI/FrontEnd';
-//		amiCommand.endpoint = 'https://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
+		endpoint_url = 'https://localhost:8443/AMI/FrontEnd';
+//		endpoint_url = 'https://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 	}
 	else
 	{
-		amiCommand.endpoint = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
+		endpoint_url = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 	}
 
 	amiWebApp.start({
-		template_filename: 'twig/AMI/controlscreen.twig'
+		template_filename: 'twig/AMI/controlscreen.twig',
+		endpoint_url: endpoint_url,
 	});
 
     </script>

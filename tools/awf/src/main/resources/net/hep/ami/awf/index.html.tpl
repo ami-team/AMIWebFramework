@@ -15,12 +15,7 @@
 
 		<script type="text/javascript">
 
-			amiWebApp.onStart = function()
-			{
-				amiWebApp.loadSubApp('document');
-			};
-
-			amiWebApp.onUpdateNeeded = function()
+			amiWebApp.onUpdateNeeded = function(isAuth)
 			{
 				var menu =
 					'<li class="dropdown">' +
@@ -58,6 +53,11 @@
 				}
 
 				$('#ami_menu_content').html(menu);
+			};
+
+			amiWebApp.onStart = function()
+			{
+				amiWebApp.loadSubApp('document');
 			};
 
 		</script>

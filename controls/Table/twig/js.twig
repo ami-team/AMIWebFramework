@@ -4,7 +4,7 @@
 
 	var myTable;
 
-	amiWebApp.onUpdateNeed = function(isAuth) {
+	amiWebApp.onUpdateNeeded = function(isAuth) {
 
 		if(isAuth)
 		{
@@ -25,9 +25,9 @@
 		}
 	};
 
-	amiWebApp.onStart = function() {
+	amiWebApp.onReady = function() {
 
-		amiWebApp.loadControls(['table']).done(function(ctrls) {
+		return amiWebApp.loadControls(['table']).done(function(ctrls) {
 
 			myTable = new ctrls[0];
 		});

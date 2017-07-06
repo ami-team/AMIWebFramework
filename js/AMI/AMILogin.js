@@ -42,8 +42,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_init: function()
 	{
-		var result = $.Deferred();
-
 		amiWebApp.loadHTMLs([
 			amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig',
@@ -107,24 +105,25 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				/*-----------------------------------------*/
 
-				amiLogin._update(userInfo, roleInfo, ssoInfo).done(function() {
+				_ami_internal_always(amiWebApp.onReady(), function() {
 
-					$(window).bind('message', function(e) {
+					amiLogin._update(userInfo, roleInfo, ssoInfo).done(function() {
 
-						var user = e.originalEvent.data.user;
-						var pass = e.originalEvent.data.pass;
+						$(window).bind('message', function(e) {
 
-						if(user && pass)
-						{
-							amiLogin.form_login2(user, pass);
+							var user = e.originalEvent.data.user;
+							var pass = e.originalEvent.data.pass;
 
-							e.originalEvent.source.close();
-						}
+							if(user && pass)
+							{
+								amiLogin.form_login2(user, pass);
+
+								e.originalEvent.source.close();
+							}
+						});
 					});
-
-					result.resolve();
 				});
-
+	
 				/*-----------------------------------------*/
 			});
 
@@ -133,8 +132,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			alert('service temporarily unavailable, please reload the page...');
 		});
-
-		return result.promise();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -375,13 +372,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------*/
 
-			_ami_internal_always(
-				amiWebApp.onLogin(),
-				function() {
-					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
-					result.resolveWith(amiLogin);
-				}
-			);
+			_ami_internal_always(amiWebApp.onLogin(), function() {
+
+				amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLogoutButton, {dict: dict});
+
+				result.resolveWith(amiLogin);
+			});
 
 			/*-------------------------------------------------*/
 		}
@@ -389,13 +385,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		{
 			/*-------------------------------------------------*/
 
-			_ami_internal_always(
-				amiWebApp.onLogout(),
-				function() {
-					result.resolveWith(amiLogin);
-					amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: dict});
-				}
-			);
+			_ami_internal_always(amiWebApp.onLogout(), function() {
+
+				result.resolveWith(amiLogin);
+
+				amiWebApp.replaceHTML('#ami_login_content', amiLogin.fragmentLoginButton, {dict: dict});
+			});
 
 			/*-------------------------------------------------*/
 		}
