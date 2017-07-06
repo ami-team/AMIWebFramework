@@ -1358,7 +1358,10 @@ __l0:		for(i = 0; i < l;)
 
 							$('body').append(amiWebApp.formatHTML(data3, dict) + data4).promise().done(function() {
 
-								amiLogin._init();
+								amiLogin._init().fail(function(data) {
+
+									amiWebApp.error(data);
+								});
 							});
 
 						}).fail(function() {
@@ -1381,7 +1384,10 @@ __l0:		for(i = 0; i < l;)
 
 						$('body').append(data).promise().done(function() {
 
-							amiLogin._init();
+							amiLogin._init().fail(function(data) {
+
+								amiWebApp.error(data);
+							});
 						});
 					});
 

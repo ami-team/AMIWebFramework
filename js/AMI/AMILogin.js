@@ -105,25 +105,30 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				/*-----------------------------------------*/
 
-				_ami_internal_always(amiWebApp.onReady(), function() {
+				$(window).on('message', function(e) {
 
-					amiLogin._update(userInfo, roleInfo, ssoInfo).done(function() {
+					var user = e.originalEvent.data.user;
+					var pass = e.originalEvent.data.pass;
 
-						$(window).bind('message', function(e) {
+					if(user && pass)
+					{
+						amiLogin.form_login2(user, pass);
 
-							var user = e.originalEvent.data.user;
-							var pass = e.originalEvent.data.pass;
-
-							if(user && pass)
-							{
-								amiLogin.form_login2(user, pass);
-
-								e.originalEvent.source.close();
-							}
-						});
-					});
+						e.originalEvent.source.close();
+					}
 				});
-	
+
+				/*-----------------------------------------*/
+
+				_ami_internal_done_fail(amiWebApp.onReady(), function() {
+
+					amiLogin._update(userInfo, roleInfo, ssoInfo);
+
+				}, function(data) {
+
+					amiWebApp.error(data);
+				});
+
 				/*-----------------------------------------*/
 			});
 		});
