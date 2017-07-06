@@ -106,14 +106,35 @@ jQuery.getSheet = function(settings)
 };
 
 /*-------------------------------------------------------------------------*/
+/* BOOTSTRAP EXTENSIONS                                                    */
+/*-------------------------------------------------------------------------*/
+
+var _ami_internal_zIndex = 2000;
+
+/*-------------------------------------------------------------------------*/
+
+$(document).on('show.bs.modal', '.modal', function() {
+ 
+	var el = $(this);
+
+	setTimeout(function() {
+
+		$('body > .modal-backdrop:last').css('z-index', _ami_internal_zIndex++)
+
+		el.css('z-index', _ami_internal_zIndex++);
+
+	}, 10);
+});
+
+/*-------------------------------------------------------------------------*/
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
 function _ami_internal_done_fail(deferred, doneFunc, failFunc)
 {
-	if(deferred && deferred.done && deferred.fail)
+	if(deferred && deferred.then)
 	{
-		deferred.done(doneFunc).fail(failFunc);
+		deferred.then(doneFunc, failFunc);
 	}
 	else
 	{
