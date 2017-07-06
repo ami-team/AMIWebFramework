@@ -119,9 +119,9 @@ $(document).on('show.bs.modal', '.modal', function() {
 
 	setTimeout(function() {
 
-		$('body > .modal-backdrop:last').css('z-index', _ami_internal_zIndex++)
+		$('body > .modal-backdrop:last').css('z-index', _ami_internal_zIndex++);
 
-		el.css('z-index', _ami_internal_zIndex++);
+		/*-----------*/el/*-----------*/.css('z-index', _ami_internal_zIndex++);
 
 	}, 10);
 });
