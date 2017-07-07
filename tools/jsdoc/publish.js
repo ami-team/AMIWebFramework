@@ -100,8 +100,8 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 			var thisClass = {
 				'name': nameHelper(element.name),
 				'desc': element.description || '',
-				'implements': element.implements || [],
-				'inherits': element.augments || [],
+				'implements': element.implements ? element.implements.map(nameHelper) : [],
+				'inherits': element.augments ? element.augments.map(nameHelper) : [],
 			};
 
 			/**/ if(element.kind === 'class')

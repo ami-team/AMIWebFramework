@@ -131,6 +131,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 /**
  * The basic AMI control
  * @class ami/Control
+ * @implements {ami/IControl}
  */
 
 $AMIClass('ami.Control', /** @lends ami/Control# */ {
@@ -211,6 +212,7 @@ $AMIClass('ami.Control', /** @lends ami/Control# */ {
 /**
  * The basic AMI sub-application
  * @class ami/SubApp
+ * @implements {ami/ISubApp}
  */
 
 $AMIClass('ami.SubApp', /** @lends ami/SubApp# */ {
