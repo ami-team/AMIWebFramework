@@ -125,3 +125,112 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 });
 
 /*-------------------------------------------------------------------------*/
+/* ami.Control                                                             */
+/*-------------------------------------------------------------------------*/
+
+/**
+ * The basic AMI control
+ * @class ami/Control
+ */
+
+$AMIClass('ami.Control', /** @lends ami/Control# */ {
+	/*-----------------------------------------------------------------*/
+
+	$implements: [ami.IControl],
+
+	/*-----------------------------------------------------------------*/
+
+	$: function()
+	{
+		ami.Control.instanceCnt = 1;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	$init: function()
+	{
+		this.instanceSuffix = ami.Control.instanceCnt++;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	patchId: function(identifier)
+	{
+		return identifier + '_instance' + this.instanceSuffix;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	replaceHTML: function(selector, twig, settings)
+	{
+		if(!settings)
+		{
+			settings = {};
+		}
+
+		settings.suffix = this.instanceSuffix;
+
+		return amiWebApp.replaceHTML(selector, twig, settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	prependHTML: function(selector, twig, settings)
+	{
+		if(!settings)
+		{
+			settings = {};
+		}
+
+		settings.suffix = this.instanceSuffix;
+
+		return amiWebApp.prependHTML(selector, twig, settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	appendHTML: function(selector, twig, settings)
+	{
+		if(!settings)
+		{
+			settings = {};
+		}
+
+		settings.suffix = this.instanceSuffix;
+
+		return amiWebApp.appendHTML(selector, twig, settings);
+	},
+
+	/*-----------------------------------------------------------------*/
+});
+
+/*-------------------------------------------------------------------------*/
+/* ami.SubApp                                                              */
+/*-------------------------------------------------------------------------*/
+
+/**
+ * The basic AMI sub-application
+ * @class ami/SubApp
+ */
+
+$AMIClass('ami.SubApp', /** @lends ami/SubApp# */ {
+	/*-----------------------------------------------------------------*/
+
+	$implements: [ami.ISubApp],
+
+	/*-----------------------------------------------------------------*/
+
+	onExit: function() {},
+
+	/*-----------------------------------------------------------------*/
+
+	onLogin: function() {},
+
+	/*-----------------------------------------------------------------*/
+
+	onLogout: function() {},
+
+	/*-----------------------------------------------------------------*/
+});
+
+/*-------------------------------------------------------------------------*/

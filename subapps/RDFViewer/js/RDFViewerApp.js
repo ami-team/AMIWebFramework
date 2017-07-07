@@ -11,26 +11,12 @@
 $AMIClass('RDFViewerApp', {
 	/*-----------------------------------------------------------------*/
 
-	$implements: [ami.ISubApp],
+	$extends: ami.SubApp,
 
 	/*-----------------------------------------------------------------*/
 
 	onReady: function(userdata)
 	{
-		/*---------------------------------------------------------*/
-
-		amiWebApp.loadScripts([
-			'js/3rd-party/ontodia/ontodia.js',
-			'js/3rd-party/ontodia/react.js',
-			'js/3rd-party/ontodia/react-dom.js',
-		]);
-
-		/*---------------------------------------------------------*/
-
-		amiWebApp.loadSheets([
-			'subapps/RDFViewer/css/RDFViewerApp.css',
-		]);
-
 		/*---------------------------------------------------------*/
 
 		$('#ami_breadcrumb_content').css('display', 'none');
@@ -39,13 +25,28 @@ $AMIClass('RDFViewerApp', {
 
 		var result = $.Deferred();
 
-		amiWebApp.loadHTMLs([
-			'subapps/RDFViewer/twig/RDFViewerApp.twig',
+		amiWebApp.loadScripts([
+			'js/3rd-party/ontodia/ontodia.js',
+			'js/3rd-party/ontodia/react.js',
+			'js/3rd-party/ontodia/react-dom.js',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
+			amiWebApp.loadSheets([
+				'subapps/RDFViewer/css/RDFViewerApp.css',
+			]);
 
-				result.resolve();
+			amiWebApp.loadHTMLs([
+				'subapps/RDFViewer/twig/RDFViewerApp.twig',
+			], {context: this}).done(function(data) {
+
+				amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
+
+					result.resolve();
+				});
+
+			}).fail(function(data) {
+
+				result.reject(data);
 			});
 
 		}).fail(function(data) {
@@ -56,12 +57,6 @@ $AMIClass('RDFViewerApp', {
 		/*---------------------------------------------------------*/
 
 		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	onExit: function()
-	{
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -106,12 +101,6 @@ $AMIClass('RDFViewerApp', {
 	/*-----------------------------------------------------------------*/
 
 	onLogout: function()
-	{
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	onSessionExpired: function()
 	{
 	},
 

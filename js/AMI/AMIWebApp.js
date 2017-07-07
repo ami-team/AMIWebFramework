@@ -872,7 +872,7 @@ __l0:		for(i = 0; i < l;)
 		{
 			html = html.replace(this._idRegExp, function(id) {
 
-				return id + '__' + suffix;
+				return id + '_instance' + suffix;
 			});
 		}
 

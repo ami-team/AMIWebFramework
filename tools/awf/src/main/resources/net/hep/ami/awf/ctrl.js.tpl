@@ -14,62 +14,13 @@
 $AMIClass('{{NAME}}Ctrl', {
 	/*-----------------------------------------------------------------*/
 
-	$implements: [ami.IControl],
+	$extends: ami.Control,
 
 	/*-----------------------------------------------------------------*/
 
 	$init: function()
 	{
-		this.suffix = amiWebApp._now++;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	patchId: function(id)
-	{
-		return id + '__' + this.suffix;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	replaceHTML: function(selector, twig, settings)
-	{
-		if(!settings)
-		{
-			settings = {};
-		}
-
-		settings.suffix = this.suffix;
-
-		return amiWebApp.replaceHTML(selector, twig, settings);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	prependHTML: function(selector, twig, settings)
-	{
-		if(!settings)
-		{
-			settings = {};
-		}
-
-		settings.suffix = this.suffix;
-
-		return amiWebApp.prependHTML(selector, twig, settings);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	appendHTML: function(selector, twig, settings)
-	{
-		if(!settings)
-		{
-			settings = {};
-		}
-
-		settings.suffix = this.suffix;
-
-		return amiWebApp.appendHTML(selector, twig, settings);
+		this.$super_$init();
 	},
 
 	/*-----------------------------------------------------------------*/

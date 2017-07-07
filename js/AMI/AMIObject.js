@@ -72,14 +72,14 @@ function $AMINamespace($name, $this)
 
 	/*-----------------------------------------------------------------*/
 
+	_$createNamespace($name, $this);
+
+	/*-----------------------------------------------------------------*/
+
 	if($this.$init)
 	{
 		$this.$init();
 	}
-
-	/*-----------------------------------------------------------------*/
-
-	_$createNamespace($name, $this);
 
 	/*-----------------------------------------------------------------*/
 }
@@ -109,14 +109,17 @@ function $AMIInterface($name, $this)
 		throw '`$extends` not allowed for interface';
 	}
 
-	/*-----------------------------------------------------------------*/
-
 	if($this.$implements)
 	{
 		throw '`$implements` not allowed for interface';
 	}
 
 	/*-----------------------------------------------------------------*/
+
+	if($this.$)
+	{
+		throw '`$` not allowed for interface';
+	}
 
 	if($this.$init)
 	{
@@ -204,7 +207,7 @@ function $AMIClass($name, $this)
 
 	for(var $member1 in $super)
 	{
-		if($member1 !== '$static')
+		if($member1 !== '$')
 		{
 			$class.prototype['$super_' + $member1] = $super[$member1];
 
@@ -214,10 +217,10 @@ function $AMIClass($name, $this)
 
 	for(var $member2 in $this)
 	{
-		if($member2 !== '$static')
+		if($member2 !== '$')
 		{
-			$class.prototype['$added_' + $member2] = $this[$member2];
-
+/*			$class.prototype['$added_' + $member2] = $this[$member2];
+ */
 			$class.prototype[$member2] = $this[$member2];
 		}
 	}
@@ -230,14 +233,14 @@ function $AMIClass($name, $this)
 
 	/*-----------------------------------------------------------------*/
 
-	if($this.$static)
-	{
-		$this.$static.apply($class);
-	}
+	_$addToNamespace($name, $class);
 
 	/*-----------------------------------------------------------------*/
 
-	_$addToNamespace($name, $class);
+	if($this.$)
+	{
+		$this.$.apply($class);
+	}
 
 	/*-----------------------------------------------------------------*/
 }
