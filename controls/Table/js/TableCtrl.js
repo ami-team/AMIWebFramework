@@ -20,7 +20,7 @@ $AMIClass('TableCtrl', {
 
 	$init: function()
 	{
-		this.$super_$init();
+		this.$super.$init();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -28,7 +28,7 @@ $AMIClass('TableCtrl', {
 	onReady: function()
 	{
 		/*---------------------------------------------------------*/
-
+/*
 		amiWebApp.loadControls([
 			'messageBox',
 			'textBox',
@@ -41,7 +41,7 @@ $AMIClass('TableCtrl', {
 
 			alert(data);
 		});
-
+*/
 		/*---------------------------------------------------------*/
 
 		return amiWebApp.loadTWIGs([

@@ -173,6 +173,28 @@ function $AMIClass($name, $this)
 
 		/*---------------------------------------------------------*/
 
+		for(var key3 in this.$class._internal_super)
+		{
+			this.$super[key3] = (function(name, context) { return function() {
+
+				return context.$class._internal_super[name].apply(context, arguments);
+
+			}})(key3, this);
+		}
+
+		/*---------------------------------------------------------*/
+
+		for(var key4 in this.$class._internal_added)
+		{
+			this.$added[key3] = (function(name, context) { return function() {
+
+				return context.$class._internal_added[name].apply(context, arguments);
+
+			}})(key4, this);
+		}
+
+		/*---------------------------------------------------------*/
+
 		if(this.$init)
 		{
 			this.$init.apply(this, arguments);
@@ -183,33 +205,25 @@ function $AMIClass($name, $this)
 
 	/*-----------------------------------------------------------------*/
 
-	var $super;
-
-	if($this.$extends) {
-		$super = $this.$extends.prototype;
-	}
-	else {
-		$super = {};
-	}
+	$class._internal_super = {};
+	$class._internal_added = {};
 
 	/*-----------------------------------------------------------------*/
 
-	var $interfaces;
+	var $super = ($this.$extends instanceof Function) ? $this.$extends
+	                                                         .prototype : {};
 
-	if($this.$implements) {
-		$interfaces = $this.$implements;
-	}
-	else {
-		$interfaces = [];
-	}
+	var $interfaces = ($this.$implements instanceof Array) ? $this.$implements : [];
 
 	/*-----------------------------------------------------------------*/
 
 	for(var $member1 in $super)
 	{
-		if($member1 !== '$')
-		{
-			$class.prototype['$super_' + $member1] = $super[$member1];
+		if($member1 === '$init'
+		   ||
+		   $member1.charAt(0) !== '$'
+		 ) {
+			$class._internal_super[$member1] = $super[$member1];
 
 			$class.prototype[$member1] = $super[$member1];
 		}
@@ -217,10 +231,12 @@ function $AMIClass($name, $this)
 
 	for(var $member2 in $this)
 	{
-		if($member2 !== '$')
-		{
-/*			$class.prototype['$added_' + $member2] = $this[$member2];
- */
+		if($member2 === '$init'
+		   ||
+		   $member2.charAt(0) !== '$'
+		 ) {
+ 			$class._internal_added[$member2] = $super[$member2];
+
 			$class.prototype[$member2] = $this[$member2];
 		}
 	}
@@ -229,6 +245,8 @@ function $AMIClass($name, $this)
 
 	$class.prototype.$name = $name;
 	$class.prototype.$class = $class;
+	$class.prototype.$super = {    };
+	$class.prototype.$added = {    };
 	$class.prototype.$interfaces = $interfaces;
 
 	/*-----------------------------------------------------------------*/
