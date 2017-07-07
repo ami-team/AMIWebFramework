@@ -22,7 +22,7 @@ $AMIClass('DiffBoxCtrl', {
 
 	$init: function()
 	{
-		this.$super_$init();
+		this.$super.$init();
 	},
 
 	/*-----------------------------------------------------------------*/

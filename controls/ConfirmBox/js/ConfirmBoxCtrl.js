@@ -20,7 +20,7 @@ $AMIClass('ConfirmBoxCtrl', {
 
 	$init: function()
 	{
-		this.$super_$init();
+		this.$super.$init();
 	},
 
 	/*-----------------------------------------------------------------*/

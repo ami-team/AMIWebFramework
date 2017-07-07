@@ -20,7 +20,7 @@ $AMIClass('FixTWikiStyleCtrl', {
 
 	$init: function()
 	{
-		this.$super_$init();
+		this.$super.$init();
 	},
 
 	/*-----------------------------------------------------------------*/
