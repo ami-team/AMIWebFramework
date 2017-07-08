@@ -244,6 +244,8 @@
 			<concat destfile="${AMIWebAppTmpDir}/css/ami.css" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
 
 				<filelist dir="${AMIWebAppTmpDir}/css/AMI">
+					<file name="general.css" />
+					<file name="bootstrap.css" />
 					<file name="ami.css" />
 				</filelist>
 

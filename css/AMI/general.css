@@ -1,0 +1,64 @@
+/*-------------------------------------------------------------------------*/
+/* FONTS                                                                   */
+/*-------------------------------------------------------------------------*/
+
+@font-face {
+	font-family: "janda";
+	src: url("../fonts/janda.ttf");
+}
+
+/*-------------------------------------------------------------------------*/
+
+@font-face {
+	font-family: "Open Sans";
+	font-weight: normal;
+	font-style: normal;
+	src: url("../fonts/OpenSans-Regular-webfont.eot");
+	src: local("Open Sans"), local("OpenSans"),
+		url("../fonts/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"),
+		url("../fonts/OpenSans-Regular-webfont.woff") format("woff"),
+		url("../fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+		url("../fonts/OpenSans-Regular-webfont.svg#open_sansregular") format("svg"),
+		url("../fonts/OpenSans-Regular-webfont.ttf")
+	;
+}
+
+@font-face {
+	font-family: "Open Sans Light";
+	font-weight: normal;
+	font-style: normal;
+	src: url("../fonts/OpenSans-Light-webfont.eot");
+	src: local("Open Sans Light"), local("OpenSans Light"),
+		url("../fonts/OpenSans-Light-webfont.eot?#iefix") format("embedded-opentype"),
+		url("../fonts/OpenSans-Light-webfont.woff") format("woff"),
+		url("../fonts/OpenSans-Light-webfont.woff") format("woff2"),
+		url("../fonts/OpenSans-Light-webfont.svg#open_sanslight") format("svg"),
+		url("../fonts/OpenSans-Light-webfont.ttf")
+	;
+}
+
+/*-------------------------------------------------------------------------*/
+
+@import url("https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,400italic,700,700italic");
+
+/*-------------------------------------------------------------------------*/
+/* GENERAL                                                                 */
+/*-------------------------------------------------------------------------*/
+
+blockquote {
+ 	font-size: 15.5px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Open Sans Light", "sans-serif" !important;
+}
+
+/*-------------------------------------------------------------------------*/
+
+pre {
+	background-image: url("../images/blueprint-dark.png");
+}
+
+/*-------------------------------------------------------------------------*/
