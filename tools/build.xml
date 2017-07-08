@@ -241,6 +241,16 @@
 			<!-- MERGE FILES                                  -->
 			<!-- ******************************************** -->
 
+			<concat destfile="${AMIWebAppTmpDir}/css/ami.css" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+
+				<filelist dir="${AMIWebAppTmpDir}/css/AMI">
+					<file name="ami.css" />
+				</filelist>
+
+			</concat>
+
+			<!-- ******************************************** -->
+
 			<concat destfile="${AMIWebAppTmpDir}/js/ami.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
 
 				<header>{{USE_STRICT}}</header>

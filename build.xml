@@ -54,7 +54,7 @@
 		<!-- GENERATE MINIMIZED FILES                             -->
 		<!-- **************************************************** -->
 
-		<copy file="css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" />
+		<copy file="css/ami.css" tofile="css/ami.min.css" overwrite="true" />
 
 		<copy file="js/ami.js" tofile="js/ami.min.js" overwrite="true" />
 
@@ -66,8 +66,10 @@
 
 	<target name="clean" description="Clean the project.">
 
-		<delete file="css/AMI/AMIWebApp.min.css" />
+		<delete file="css/ami.css" />
+		<delete file="css/ami.min.css" />
 
+		<delete file="js/ami.js" />
 		<delete file="js/ami.min.js" />
 
 	</target>
@@ -177,6 +179,16 @@
 	<macrodef name="merge-files">
 
 		<sequential>
+
+			<!-- ******************************************** -->
+
+			<concat destfile="css/ami.css" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+
+				<filelist dir="css/AMI">
+					<file name="ami.css" />
+				</filelist>
+
+			</concat>
 
 			<!-- ******************************************** -->
 

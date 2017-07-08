@@ -4,6 +4,7 @@
 .settings
 .classpath
 
+css/ami.css
 css/ami.min.css
 
 js/ami.js
