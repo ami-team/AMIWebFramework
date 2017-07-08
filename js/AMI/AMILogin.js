@@ -308,8 +308,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					message ? '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message : ''
 				);
 
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', 'url("images/account-green.png") center center');
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400');
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').text('valid');
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').text('❧ valid ❧');
 
 				color = 'orange';
 
@@ -343,8 +344,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					message ? '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message : ''
 				);
 
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', 'url("images/account-pink.png") center center');
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#8B0000');
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').text('invalid');
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').text('❧ invalid ❧');
 
 				color = 'red';
 
