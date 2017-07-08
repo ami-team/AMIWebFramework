@@ -4,9 +4,9 @@
 .settings
 .classpath
 
-css/AMI/*.min.css
+css/ami.min.css
 
-js/AMI/framework.js
-js/AMI/framework.min.js
+js/ami.js
+js/ami.min.js
 
 tools/awf/target

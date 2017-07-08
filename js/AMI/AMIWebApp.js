@@ -261,7 +261,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* ORIGIN_URL                                              */
 		/*---------------------------------------------------------*/
 
-		var idx1 = src.indexOf('js/AMI/framework.');
+		var idx1 = src.indexOf('js/ami.');
 
 		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : null);
 
@@ -269,7 +269,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* WEBAPP_URL                                              */
 		/*---------------------------------------------------------*/
 
-		var idx2 = href.indexOf((((((((('?')))))))));
+		var idx2 = href.indexOf(((('?'))));
 
 		this.webAppURL = _eatSlashes(idx2 > 0 ? href.substring(0, idx2) : href);
 
@@ -334,7 +334,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		this.loadSheets([
 			this.originURL + '/css/font-awesome.min.css',
-			this.originURL + '/css/AMI/framework.min.css',
+			this.originURL + '/css/ami.min.css',
 		]);
 
 		/*---------------------------------------------------------*/
