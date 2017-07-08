@@ -30,14 +30,14 @@
 
 		<java classname="net.hep.ami.awf.CssCompressor" failonerror="true" fork="true">
 			<classpath location="${AMIWebAppTmpDir}/tools/awf.jar" />
-			<arg value="css/AMI/framework.min.css" />
-			<arg value="${AMIWebAppTmpDir}/css/AMI/framework.css" />
+			<arg value="css/ami.min.css" />
+			<arg value="${AMIWebAppTmpDir}/css/ami.css" />
 		</java>
 
 		<java classname="net.hep.ami.awf.JsCompressor" failonerror="true" fork="true">
 			<classpath location="${AMIWebAppTmpDir}/tools/awf.jar" />
-			<arg value="js/AMI/framework.min.js" />
-			<arg value="${AMIWebAppTmpDir}/js/AMI/framework.js" />
+			<arg value="js/ami.min.js" />
+			<arg value="${AMIWebAppTmpDir}/js/ami.js" />
 		</java>
 
 		<!-- **************************************************** -->
@@ -64,9 +64,9 @@
 		<!-- GENERATE MINIMIZED FILES                             -->
 		<!-- **************************************************** -->
 
-		<copy file="${AMIWebAppTmpDir}/css/AMI/framework.css" tofile="css/AMI/framework.min.css" overwrite="true" />
+		<copy file="${AMIWebAppTmpDir}/css/ami.css" tofile="css/ami.min.css" overwrite="true" />
 
-		<copy file="${AMIWebAppTmpDir}/js/AMI/framework.js" tofile="js/AMI/framework.min.js" overwrite="true" />
+		<copy file="${AMIWebAppTmpDir}/js/ami.js" tofile="js/ami.min.js" overwrite="true" />
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
@@ -241,7 +241,7 @@
 			<!-- MERGE FILES                                  -->
 			<!-- ******************************************** -->
 
-			<concat destfile="${AMIWebAppTmpDir}/js/AMI/framework.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
+			<concat destfile="${AMIWebAppTmpDir}/js/ami.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
 
 				<header>{{USE_STRICT}}</header>
 
@@ -253,31 +253,30 @@
 					<file name="AMIInterface.js" />
 					<file name="AMICommand.js" />
 					<file name="AMILogin.js" />
+					<file name="AMIDoc.js" />
 				</filelist>
 
 			</concat>
 
 			<!-- ******************************************** -->
 
-			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}${line.separator}" value="" />
+			<replace file="${AMIWebAppTmpDir}/js/ami.js" token="'use strict';${line.separator}${line.separator}" value="" />
 
-			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';${line.separator}" value="" />
+			<replace file="${AMIWebAppTmpDir}/js/ami.js" token="'use strict';${line.separator}" value="" />
 
-			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="'use strict';" value="" />
-
-			<!-- ******************************************** -->
-
-			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="{{USE_STRICT}}" value="'use strict';${line.separator}" />
+			<replace file="${AMIWebAppTmpDir}/js/ami.js" token="'use strict';" value="" />
 
 			<!-- ******************************************** -->
 
-			<replace file="${AMIWebAppTmpDir}/js/AMI/framework.js" token="{{YEAR}}" value="${year}" />
+			<replace file="${AMIWebAppTmpDir}/js/ami.js" token="{{USE_STRICT}}" value="'use strict';${line.separator}" />
+
+			<!-- ******************************************** -->
+
+			<replace file="${AMIWebAppTmpDir}/js/ami.js" token="{{YEAR}}" value="${year}" />
 
 			<!-- ******************************************** -->
 			<!-- OTHER                                        -->
 			<!-- ******************************************** -->
-
-			<copy file="${AMIWebAppTmpDir}/js/AMI/api.min.json" tofile="js/AMI/api.min.json" overwrite="true" />
 
 			<copy file="${AMIWebAppTmpDir}/.eslintrc.json" tofile=".eslintrc.json" overwrite="true" />
 
