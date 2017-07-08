@@ -122,7 +122,7 @@
 		<exec executable="bash">
 			<env key="PATH" value="/usr/local/bin:/usr/bin" />
 			<arg value="-c" />
-			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMIInterface.js js/AMI/AMICommand.js js/AMI/AMILogin.js > js/AMI/api.min.json" />
+			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMIInterface.js js/AMI/AMICommand.js js/AMI/AMILogin.js > js/AMI/AMIDoc.js" />
 		</exec>
 
 	</target>
@@ -192,6 +192,7 @@
 					<file name="AMIInterface.js" />
 					<file name="AMICommand.js" />
 					<file name="AMILogin.js" />
+					<file name="AMIDoc.js" />
 				</filelist>
 
 			</concat>

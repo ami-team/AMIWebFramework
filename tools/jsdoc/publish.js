@@ -402,7 +402,24 @@ exports.publish = function(data, opts) {
 
 	if(opts.destination === 'console')
 	{
-		console.log(JSON.stringify(root, null, 4));
+		console.log('/*!');
+		console.log(' * AMI Web Framework - AMIDoc.js');
+		console.log(' *');
+		console.log(' * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3');
+		console.log(' *');
+		console.log(' * This file must be used under the terms of the CeCILL-C:');
+		console.log(' * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html');
+		console.log(' * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html');
+		console.log(' *');
+		console.log(' */');
+		console.log('');
+		console.log('\'use strict\';');
+		console.log('');
+		console.log('/*-------------------------------------------------------------------------*/');
+		console.log('');
+		console.log('var amiDoc = ' + JSON.stringify(root, null, 4) + ';');
+		console.log('');
+		console.log('/*-------------------------------------------------------------------------*/');
 	}
 	else
 	{

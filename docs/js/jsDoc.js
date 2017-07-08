@@ -38,18 +38,11 @@ var jsDoc = {
 
 	/*-----------------------------------------------------------------*/
 
-	makeDoc: function(url)
+	makeDoc: function(json)
 	{
-		$.ajax({url: url, cache: false, dataType: 'json'}).done(function(data) {
+		jsDoc.json = json;
 
-			jsDoc.json = data;
-
-			jsDoc.makeMenu();
-
-		}).fail(function() {
-
-			$('#jsdoc_content').html('<div class="alert alert-danger">Could not open `' + url + '!`!</div>');
-		});
+		jsDoc.makeMenu();
 	},
 
 	/*-----------------------------------------------------------------*/
