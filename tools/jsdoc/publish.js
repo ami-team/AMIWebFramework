@@ -417,7 +417,11 @@ exports.publish = function(data, opts) {
 		console.log('');
 		console.log('/*-------------------------------------------------------------------------*/');
 		console.log('');
+		console.log('/* eslint-disable */');
+		console.log('');
 		console.log('var amiDoc = ' + JSON.stringify(root, null, 4) + ';');
+		console.log('');
+		console.log('/* eslint-enable */');
 		console.log('');
 		console.log('/*-------------------------------------------------------------------------*/');
 	}
