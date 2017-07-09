@@ -1242,7 +1242,7 @@ __l0:		for(i = 0; i < l;)
 	{
 		if(!this._embedded)
 		{
-			alert('error: `this.onReady()` must be overloaded!');
+			alert('error: `this.onReady()` must be overloaded!'); // eslint-disable-line no-alert
 		}
 	},
 
@@ -1257,7 +1257,7 @@ __l0:		for(i = 0; i < l;)
 	{
 		if(!this._embedded)
 		{
-			alert('error: `this.onRefresh()` must be overloaded!');
+			alert('error: `this.onRefresh()` must be overloaded!'); // eslint-disable-line no-alert
 		}
 	},
 
@@ -1353,11 +1353,11 @@ __l0:		for(i = 0; i < l;)
 				var name;
 
 				for(name in data1) {
-				 	amiWebApp._controls[name.toLowerCase()] = data1[name];
+					amiWebApp._controls[name.toLowerCase()] = data1[name];
 				}
 
 				for(name in data2) {
-				 	amiWebApp._subapps[name.toLowerCase()] = data2[name];
+					amiWebApp._subapps[name.toLowerCase()] = data2[name];
 				}
 
 				if(!amiWebApp._embedded)
@@ -1387,12 +1387,12 @@ __l0:		for(i = 0; i < l;)
 
 						}).fail(function() {
 
-							alert('could not open `' + locker_url + '`, please reload the page...');
+							alert('could not open `' + locker_url + '`, please reload the page...'); // eslint-disable-line no-alert
 						});
 
 					}).fail(function() {
 
-						alert('could not open `' + theme_url + '`, please reload the page...');
+						alert('could not open `' + theme_url + '`, please reload the page...'); // eslint-disable-line no-alert
 					});
 
 					/*---------------------------------*/
@@ -1417,12 +1417,12 @@ __l0:		for(i = 0; i < l;)
 
 			}).fail(function() {
 
-				alert('could not open `' + subapps_url + '`, please reload the page...');
+				alert('could not open `' + subapps_url + '`, please reload the page...'); // eslint-disable-line no-alert
 			});
 
 		}).fail(function() {
 
-			alert('could not open `' + controls_url + '`, please reload the page...');
+			alert('could not open `' + controls_url + '`, please reload the page...'); // eslint-disable-line no-alert
 		});
 
 		/*---------------------------------------------------------*/

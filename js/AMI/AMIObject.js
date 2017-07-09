@@ -166,7 +166,7 @@ function $AMIClass($name, $this)
 
 				if(typeof(this[key2]) !== typeof($member))
 				{
-					alert('class `' + this.$name + '` with must implement `' + $interface.$name + '.' + key2 + '`');
+					alert('class `' + this.$name + '` with must implement `' + $interface.$name + '.' + key2 + '`'); // eslint-disable-line no-alert
 				}
 			}
 		}
@@ -236,7 +236,7 @@ function $AMIClass($name, $this)
 		   ||
 		   $member2.charAt(0) !== '$'
 		 ) {
- 			$class._internal_added[$member2] = $super[$member2];
+			$class._internal_added[$member2] = $super[$member2];
 
 			$class.prototype[$member2] = $this[$member2];
 		}
