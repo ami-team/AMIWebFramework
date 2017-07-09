@@ -417,7 +417,7 @@ __l0:		for(i = 0; i < l;)
 
 	textToHtml: function(s)
 	{
-		return this._replace(s, this._textToHtmlX, this._textToHtmlY);
+		return this._replace(s || '', this._textToHtmlX, this._textToHtmlY);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -430,7 +430,7 @@ __l0:		for(i = 0; i < l;)
 
 	htmlToText: function(s)
 	{
-		return this._replace(s, this._textToHtmlY, this._textToHtmlX);
+		return this._replace(s || '', this._textToHtmlY, this._textToHtmlX);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -449,7 +449,7 @@ __l0:		for(i = 0; i < l;)
 
 	textToString: function(s)
 	{
-		return this._replace(s, this._textToStringX, this._textToStringY);
+		return this._replace(s || '', this._textToStringX, this._textToStringY);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -462,7 +462,7 @@ __l0:		for(i = 0; i < l;)
 
 	stringToText: function(s)
 	{
-		return this._replace(s, this._textToStringY, this._textToStringX);
+		return this._replace(s || '', this._textToStringY, this._textToStringX);
 
 	},
 
@@ -482,7 +482,7 @@ __l0:		for(i = 0; i < l;)
 
 	htmlToString: function(s)
 	{
-		return this._replace(s, this._htmlToStringX, this._htmlToStringY);
+		return this._replace(s || '', this._htmlToStringX, this._htmlToStringY);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -495,7 +495,7 @@ __l0:		for(i = 0; i < l;)
 
 	stringToHtml: function(s)
 	{
-		return this._replace(s, this._htmlToStringY, this._htmlToStringX);
+		return this._replace(s || '', this._htmlToStringY, this._htmlToStringX);
 	},
 
 	/*-----------------------------------------------------------------*/

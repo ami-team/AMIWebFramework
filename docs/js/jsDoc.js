@@ -17,7 +17,7 @@
 var jsDoc = {
 	/*-----------------------------------------------------------------*/
 
-	linkRe: /(?:\[\s*([^\s\]]+)\s*\])?{@link\s+([^\s}]+)\s*}/g,
+	_linkRe: /(?:\[\s*([^\s\]]+)\s*\])?{@link\s+([^\s}]+)\s*}/g,
 
 	/*-----------------------------------------------------------------*/
 
@@ -32,7 +32,7 @@ var jsDoc = {
 	{
 		return (s || '').replace(/&|"|<|>/g, function(x) {
 
-			return amiWebApp._textToHtmlDict[x];
+			return jsDoc._textToHtmlDict[x];
 		});
 	},
 
@@ -480,7 +480,7 @@ var jsDoc = {
 
 		if(x.desc)
 		{
-			result += this.textToHtml(x.desc).replace(this.linkRe, function(x, y, z) {
+			result += this.textToHtml(x.desc).replace(this._linkRe, function(x, y, z) {
 
 				return '<a href="' + z + '">' + (y || z) + '</a>';
 			});

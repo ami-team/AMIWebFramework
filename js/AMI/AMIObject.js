@@ -156,9 +156,9 @@ function $AMIClass($name, $this)
 	{
 		/*---------------------------------------------------------*/
 
-		for(var key1 in this.$interfaces)
+		for(var key1 in this.$implements)
 		{
-			var $interface = this.$interfaces[key1];
+			var $interface = this.$implements[key1];
 
 			for(var key2 in $interface.$members)
 			{
@@ -213,7 +213,8 @@ function $AMIClass($name, $this)
 	var $super = ($this.$extends instanceof Function) ? $this.$extends
 	                                                         .prototype : {};
 
-	var $interfaces = ($this.$implements instanceof Array) ? $this.$implements : [];
+	var $super_implements = ($super.$implements instanceof Array) ? $super.$implements : [];
+	var $this_implements  = ($this.$implements  instanceof Array) ? $this.$implements  : [];
 
 	/*-----------------------------------------------------------------*/
 
@@ -247,7 +248,7 @@ function $AMIClass($name, $this)
 	$class.prototype.$class = $class;
 	$class.prototype.$super = {    };
 	$class.prototype.$added = {    };
-	$class.prototype.$interfaces = $interfaces;
+	$class.prototype.$implements = $super_implements.concat($this_implements);
 
 	/*-----------------------------------------------------------------*/
 
