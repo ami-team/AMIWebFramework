@@ -166,7 +166,7 @@ function $AMIClass($name, $this)
 
 				if(typeof(this[key2]) !== typeof($member))
 				{
-					alert('class `' + this.$name + '` with must implement `' + $interface.$name + '.' + key2 + '`'); // eslint-disable-line no-alert
+					throw 'class `' + this.$name + '` with must implement `' + $interface.$name + '.' + key2 + '`';
 				}
 			}
 		}
