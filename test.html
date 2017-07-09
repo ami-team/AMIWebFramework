@@ -25,13 +25,13 @@
 				{
 					myTable1.render('#myTable1', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
 
-					//myTable2.render('#myTable2', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
+					myTable2.render('#myTable2', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
 				}
 				else
 				{
 					$('#myTable1').empty();
 
-					//$('#myTable2').empty();
+					$('#myTable2').empty();
 				}
 			};
 
@@ -41,7 +41,7 @@
 
 					myTable1 = new controls[0];
 
-					//myTable2 = new controls[0];
+					myTable2 = new controls[0];
 				});
 			};
 
