@@ -164,17 +164,17 @@ function $AMIClass($name, $descr)
 	{
 		/*---------------------------------------------------------*/
 
-		for(var key1 in this.$implements)
+		for(var i in this.$implements)
 		{
-			var $interface = this.$implements[key1];
+			var $interface = this.$implements[i];
 
-			for(var key2 in $interface.$members)
+			for(var j in $interface.$members)
 			{
-				var $member = $interface.$members[key2];
+				var $member = $interface.$members[j];
 
-				if(typeof(this[key2]) !== typeof($member))
+				if(typeof(this[j]) !== typeof($member))
 				{
-					throw 'class `' + this.$name + '` with must implement `' + $interface.$name + '.' + key2 + '`';
+					throw 'class `' + this.$name + '` with must implement `' + $interface.$name + '.' + j + '`';
 				}
 			}
 		}
@@ -183,26 +183,26 @@ function $AMIClass($name, $descr)
 
 		this.$super = {};
 
-		for(var key3 in this.$class._internal_super)
+		for(var k in this.$class._internal_super)
 		{
-			this.$super[key3] = (function(name, context) { return function() {
+			this.$super[k] = (function(name, context) { return function() {
 
 				return context.$class._internal_super[name].apply(context, arguments);
 
-			}})(key3, this);
+			}})(k, this);
 		}
 
 		/*---------------------------------------------------------*/
 
 		this.$added = {};
 
-		for(var key4 in this.$class._internal_added)
+		for(var l in this.$class._internal_added)
 		{
-			this.$added[key3] = (function(name, context) { return function() {
+			this.$added[l] = (function(name, context) { return function() {
 
 				return context.$class._internal_added[name].apply(context, arguments);
 
-			}})(key4, this);
+			}})(l, this);
 		}
 
 		/*---------------------------------------------------------*/
@@ -222,27 +222,27 @@ function $AMIClass($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	for(var $member1 in $super)
+	for(var i in $super)
 	{
-		if($member1 === '$init'
+		if(i === '$init'
 		   ||
-		   $member1.charAt(0) !== '$'
+		   i.charAt(0) !== '$'
 		 ) {
-			$class._internal_super[$member1] = $super[$member1];
+			$class._internal_super[i] = $super[i];
 
-			$class.prototype[$member1] = $super[$member1];
+			$class.prototype[i] = $super[i];
 		}
 	}
 
-	for(var $member2 in $descr)
+	for(var j in $descr)
 	{
-		if($member2 === '$init'
+		if(j === '$init'
 		   ||
-		   $member2.charAt(0) !== '$'
+		   j.charAt(0) !== '$'
 		 ) {
-			$class._internal_added[$member2] = $super[$member2];
+			$class._internal_added[j] = $super[j];
 
-			$class.prototype[$member2] = $descr[$member2];
+			$class.prototype[j] = $descr[j];
 		}
 	}
 
