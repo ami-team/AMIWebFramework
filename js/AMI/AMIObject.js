@@ -59,26 +59,26 @@ function _$addToNamespace($name, x)
 /* NAMESPACES                                                              */
 /*-------------------------------------------------------------------------*/
 
-function $AMINamespace($name, $this)
+function $AMINamespace($name, $descr)
 {
-	if(!$this)
+	if(!$descr)
 	{
-		$this = {};
+		$descr = {};
 	}
 
 	/*-----------------------------------------------------------------*/
 
-	$this.$name = $name;
+	$descr.$name = $name;
 
 	/*-----------------------------------------------------------------*/
 
-	_$createNamespace($name, $this);
+	_$createNamespace($name, $descr);
 
 	/*-----------------------------------------------------------------*/
 
-	if($this.$init)
+	if($descr.$)
 	{
-		$this.$init();
+		$descr.$.apply($descr);
 	}
 
 	/*-----------------------------------------------------------------*/
@@ -88,11 +88,11 @@ function $AMINamespace($name, $this)
 /* INTERFACES                                                              */
 /*-------------------------------------------------------------------------*/
 
-function $AMIInterface($name, $this)
+function $AMIInterface($name, $descr)
 {
-	if(!$this)
+	if(!$descr)
 	{
-		$this = {};
+		$descr = {};
 	}
 
 	/*-----------------------------------------------------------------*/
@@ -104,24 +104,24 @@ function $AMIInterface($name, $this)
 
 	/*-----------------------------------------------------------------*/
 
-	if($this.$extends)
+	if($descr.$extends)
 	{
 		throw '`$extends` not allowed for interface';
 	}
 
-	if($this.$implements)
+	if($descr.$implements)
 	{
 		throw '`$implements` not allowed for interface';
 	}
 
 	/*-----------------------------------------------------------------*/
 
-	if($this.$)
+	if($descr.$)
 	{
 		throw '`$` not allowed for interface';
 	}
 
-	if($this.$init)
+	if($descr.$init)
 	{
 		throw '`$init` not allowed for interface';
 	}
@@ -130,7 +130,7 @@ function $AMIInterface($name, $this)
 
 	$class.$name = $name;
 	$class.$class = $class;
-	$class.$members = $this;
+	$class.$members = $descr;
 
 	/*-----------------------------------------------------------------*/
 
@@ -143,12 +143,20 @@ function $AMIInterface($name, $this)
 /* CLASSES                                                                 */
 /*-------------------------------------------------------------------------*/
 
-function $AMIClass($name, $this)
+function $AMIClass($name, $descr)
 {
-	if(!$this)
+	if(!$descr)
 	{
-		$this = {};
+		$descr = {};
 	}
+
+	/*-----------------------------------------------------------------*/
+
+	var $super = ($descr.$extends instanceof Function) ? $descr.$extends
+	                                                           .prototype : {};
+
+	var $super_implements = ($super.$implements instanceof Array) ? $super.$implements : [];
+	var $descr_implements = ($descr.$implements instanceof Array) ? $descr.$implements : [];
 
 	/*-----------------------------------------------------------------*/
 
@@ -173,6 +181,8 @@ function $AMIClass($name, $this)
 
 		/*---------------------------------------------------------*/
 
+		this.$super = {};
+
 		for(var key3 in this.$class._internal_super)
 		{
 			this.$super[key3] = (function(name, context) { return function() {
@@ -183,6 +193,8 @@ function $AMIClass($name, $this)
 		}
 
 		/*---------------------------------------------------------*/
+
+		this.$added = {};
 
 		for(var key4 in this.$class._internal_added)
 		{
@@ -210,14 +222,6 @@ function $AMIClass($name, $this)
 
 	/*-----------------------------------------------------------------*/
 
-	var $super = ($this.$extends instanceof Function) ? $this.$extends
-	                                                         .prototype : {};
-
-	var $super_implements = ($super.$implements instanceof Array) ? $super.$implements : [];
-	var $this_implements  = ($this.$implements  instanceof Array) ? $this.$implements  : [];
-
-	/*-----------------------------------------------------------------*/
-
 	for(var $member1 in $super)
 	{
 		if($member1 === '$init'
@@ -230,7 +234,7 @@ function $AMIClass($name, $this)
 		}
 	}
 
-	for(var $member2 in $this)
+	for(var $member2 in $descr)
 	{
 		if($member2 === '$init'
 		   ||
@@ -238,7 +242,7 @@ function $AMIClass($name, $this)
 		 ) {
 			$class._internal_added[$member2] = $super[$member2];
 
-			$class.prototype[$member2] = $this[$member2];
+			$class.prototype[$member2] = $descr[$member2];
 		}
 	}
 
@@ -246,9 +250,7 @@ function $AMIClass($name, $this)
 
 	$class.prototype.$name = $name;
 	$class.prototype.$class = $class;
-	$class.prototype.$super = {    };
-	$class.prototype.$added = {    };
-	$class.prototype.$implements = $super_implements.concat($this_implements);
+	$class.prototype.$implements = $super_implements.concat($descr_implements);
 
 	/*-----------------------------------------------------------------*/
 
@@ -256,12 +258,34 @@ function $AMIClass($name, $this)
 
 	/*-----------------------------------------------------------------*/
 
-	if($this.$)
+	if($descr.$)
 	{
-		$this.$.apply($class);
+		$descr.$.apply($class);
 	}
 
 	/*-----------------------------------------------------------------*/
+}
+
+/*-------------------------------------------------------------------------*/
+/* NodeJS EXTENSION                                                        */
+/*-------------------------------------------------------------------------*/
+
+if(typeof exports !== 'undefined')
+{
+	exports.Namespace = $AMINamespace;
+	exports.Interface = $AMIInterface;
+	exports.  Class   =   $AMIClass  ;
+}
+
+/*-------------------------------------------------------------------------*/
+/* JQUERY EXTENSION                                                        */
+/*-------------------------------------------------------------------------*/
+
+if(jQuery)
+{
+	jQuery.Namespace = $AMINamespace;
+	jQuery.Interface = $AMIInterface;
+	jQuery.  Class   =   $AMIClass  ;
 }
 
 /*-------------------------------------------------------------------------*/
