@@ -135,20 +135,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		let href = window.location.href.trim();
-		let search = window.location.search.trim();
+		const href = window.location.href.trim();
+		const search = window.location.search.trim();
 
 		/**/
 
-		let scripts = document.getElementsByTagName('script');
+		const scripts = document.getElementsByTagName('script');
 
-		let src = scripts[scripts.length - 1].src.trim();
+		const src = scripts[scripts.length - 1].src.trim();
 
 		/*---------------------------------------------------------*/
 		/* ORIGIN_URL                                              */
 		/*---------------------------------------------------------*/
 
-		let idx1 = src.indexOf('js/ami.');
+		const idx1 = src.indexOf('js/ami.');
 
 		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : null);
 
@@ -156,7 +156,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* WEBAPP_URL                                              */
 		/*---------------------------------------------------------*/
 
-		let idx2 = href.indexOf(((('?'))));
+		const idx2 = href.indexOf(((('?'))));
 
 		this.webAppURL = _eatSlashes(idx2 > 0 ? href.substring(0, idx2) : href);
 
@@ -166,7 +166,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(idx1 > 0)
 		{
-			let flags = src.substring(idx1).toLowerCase();
+			const flags = src.substring(idx1).toLowerCase();
 
 			this._embedded = flags.indexOf('embedded') >= 0;
 
@@ -179,9 +179,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(search)
 		{
-			for(let param of search.substring(1).split('&'))
+			for(const param of search.substring(1).split('&'))
 			{
-				let parts = param.split('=');
+				const parts = param.split('=');
 
 				/**/ if(parts.length === 1)
 				{
@@ -262,13 +262,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	_replace: function(s, oldStrs, newStrs)
 	{
-		let result = [];
+		const result = [];
 
 		const l = s.length;
 
 __l0:		for(let i = 0; i < l;)
 		{
-			for(let j in oldStrs)
+			for(const j in oldStrs)
 			{
 				if(s.substring(i).startsWith(oldStrs[j]))
 				{
@@ -399,7 +399,9 @@ __l0:		for(let i = 0; i < l;)
 
 	base64Encode: function(s)
 	{
-		let e = [], w;
+		let w;
+
+		const e = [];
 
 		const l = s.length, m = l % 3;
 
@@ -440,7 +442,9 @@ __l0:		for(let i = 0; i < l;)
 
 	base64Decode: function(s)
 	{
-		let e = [], w;
+		let w;
+
+		const e = [];
 
 		const l = s.length, m = l % 4;
 
@@ -485,7 +489,7 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		let url = urls.shift();
+		const url = urls.shift();
 
 		/*---------------------------------------------------------*/
 		/* SHEET                                                   */
@@ -744,9 +748,9 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		let target = $(selector);
+		const target = $(selector);
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -987,7 +991,7 @@ __l0:		for(let i = 0; i < l;)
 	{
 		/*---------------------------------------------------------*/
 
-		let el = $(target || '#ami_alert_content');
+		const el = $(target || '#ami_alert_content');
 
 		/*---------------------------------------------------------*/
 
@@ -1191,7 +1195,7 @@ __l0:		for(let i = 0; i < l;)
 
 			if(!this._canLeave)
 			{
-				let f = e || window.event;
+				const f = e || window.event;
 
 				if(f)
 				{
@@ -1204,9 +1208,9 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		let controls_url = this.originURL + '/controls/CONTROLS.json';
+		const controls_url = this.originURL + '/controls/CONTROLS.json';
 
-		let subapps_url = this.originURL + '/subapps/SUBAPPS.json';
+		const subapps_url = this.originURL + '/subapps/SUBAPPS.json';
 
 		/*---------------------------------------------------------*/
 
@@ -1214,11 +1218,11 @@ __l0:		for(let i = 0; i < l;)
 
 			$.ajax({url: subapps_url, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
 
-				for(let name in data1) {
+				for(const name in data1) {
 					this._controls[name.toLowerCase()] = data1[name];
 				}
 
-				for(let name in data2) {
+				for(const name in data2) {
 					this._subapps[name.toLowerCase()] = data2[name];
 				}
 
@@ -1226,7 +1230,7 @@ __l0:		for(let i = 0; i < l;)
 				{
 					/*---------------------------------*/
 
-					let dict = {
+					const dict = {
 						LOGO_URL: logo_url,
 						HOME_URL: home_url,
 						CONTACT_EMAIL: contact_email,
@@ -1303,9 +1307,9 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		let name = controls.shift();
+		const name = controls.shift();
 
-		let descr = this._controls[name.toLowerCase()];
+		const descr = this._controls[name.toLowerCase()];
 
 		/*---------------------------------------------------------*/
 
@@ -1315,12 +1319,12 @@ __l0:		for(let i = 0; i < l;)
 
 				try
 				{
-					let clazz = window[
+					const clazz = window[
 						descr.clazz
 					];
 
-					let promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
-								: /*-----------------*/null/*-----------------*/
+					const promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
+					                          : /*-----------------*/null/*-----------------*/
 					;
 
 					_ami_internal_done_fail(promise, () => {
@@ -1392,7 +1396,7 @@ __l0:		for(let i = 0; i < l;)
 
 	onLogin: function()
 	{
-		let result = this._currentSubAppInstance.onLogin();
+		const result = this._currentSubAppInstance.onLogin();
 
 		this.onRefresh(true);
 
@@ -1403,7 +1407,7 @@ __l0:		for(let i = 0; i < l;)
 
 	onLogout: function()
 	{
-		let result = this._currentSubAppInstance.onLogout();
+		const result = this._currentSubAppInstance.onLogout();
 
 		this.onRefresh(false);
 
@@ -1420,10 +1424,10 @@ __l0:		for(let i = 0; i < l;)
 
 	loadSubApp: function(defaultSubApp, defaultUserData)
 	{
-		let subapp = this.args['subapp'] || defaultSubApp;
-		let userdata = this.args['userdata'] || defaultUserData;
+		const subapp = this.args['subapp'] || defaultSubApp;
+		const userdata = this.args['userdata'] || defaultUserData;
 
-		let descr = this._subapps[subapp.toLowerCase()];
+		const descr = this._subapps[subapp.toLowerCase()];
 
 		if(descr)
 		{
@@ -1431,7 +1435,7 @@ __l0:		for(let i = 0; i < l;)
 
 				try
 				{
-					let instance = window[
+					const instance = window[
 						descr.instance
 					];
 
@@ -1456,14 +1460,14 @@ __l0:		for(let i = 0; i < l;)
 
 					this.lock();
 
-					let promise = loaded[0] ? instance.onReady(userdata)
-					                        : /*-------*/null/*-------*/
+					const promise = loaded[0] ? instance.onReady(userdata)
+					                          : /*-------*/null/*-------*/
 					;
 
 					_ami_internal_done_fail(promise, () => {
 
-						let promise = amiLogin.isAuthenticated() ? this.onLogin()
-						                                         : this.onLogout()
+						const promise = amiLogin.isAuthenticated() ? this.onLogin()
+						                                           : this.onLogout()
 						;
 
 						_ami_internal_always(promise, () => {

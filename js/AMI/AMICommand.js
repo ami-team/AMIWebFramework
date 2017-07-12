@@ -100,13 +100,13 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		let URL = endpoint.trim();
-		let COMMAND = command.trim();
-		let CONVERTER = converter.trim();
+		const URL = endpoint.trim();
+		const COMMAND = command.trim();
+		const CONVERTER = converter.trim();
 
 		/*---------------------------------------------------------*/
 
-		let data = {
+		const data = {
 			Command: COMMAND,
 			Converter: CONVERTER,
 		};
@@ -120,11 +120,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		let urlWithParameters = URL + '?' + $.param(data);
+		const urlWithParameters = URL + '?' + $.param(data);
 
 		/*---------------------------------------------------------*/
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -145,7 +145,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				},
 				success: function(data) {
 
-					let error = JSPath.apply('.AMIMessage.error', data);
+					const error = JSPath.apply('.AMIMessage.error', data);
 
 					if(error.length === 0)
 					{
@@ -163,7 +163,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 						textStatus = 'service temporarily unreachable';
 					}
 
-					let data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
+					const data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
 					result.rejectWith(context || result, [data, urlWithParameters]);
 				},
@@ -228,15 +228,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
 		this.execute('GetSessionInfo -AMIUser="' + this._textToString(user) + '" -AMIPass="' + this._textToString(pass) + '"', {extraParam: 'NoCert'}).then((data) => {
 
-			let userInfo = {};
-			let roleInfo = {};
-			let ssoInfo = {}
+			const userInfo = {};
+			const roleInfo = {};
+			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
@@ -251,7 +251,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
 				let name = '';
-				let role = {};
+				const role = {};
 
 				row.field.forEach(function(field) {
 
@@ -297,15 +297,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
 		this.execute('GetSessionInfo').then((data) => {
 
-			let userInfo = {};
-			let roleInfo = {};
-			let ssoInfo = {}
+			const userInfo = {};
+			const roleInfo = {};
+			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
@@ -320,7 +320,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
 				let name = '';
-				let role = {};
+				const role = {};
 
 				row.field.forEach(function(field) {
 
@@ -366,15 +366,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
 		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).then((data) => {
 
-			let userInfo = {};
-			let roleInfo = {};
-			let ssoInfo = {}
+			const userInfo = {};
+			const roleInfo = {};
+			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
@@ -389,7 +389,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
 				let name = '';
-				let role = {};
+				const role = {};
 
 				row.field.forEach(function(field) {
 

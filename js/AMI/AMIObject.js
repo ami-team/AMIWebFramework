@@ -17,9 +17,9 @@
 
 function _$createNamespace($name, x)
 {
-	let parent = window, parts = $name.split(/\s*\.\s*/g);
+	let parent = window;
 
-	const l = parts.length - 1;
+	const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
 
 	for(var i = 0; i < l; i++)
 	{
@@ -40,9 +40,9 @@ function _$createNamespace($name, x)
 
 function _$addToNamespace($name, x)
 {
-	let parent = window, parts = $name.split(/\s*\.\s*/g);
+	let parent = window;
 
-	const l = parts.length - 1;
+	const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
 
 	for(var i = 0; i < l; i++)
 	{
@@ -101,7 +101,7 @@ function $AMIInterface($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	let $class = function()
+	const $class = function()
 	{
 		throw 'could nor instantiate interface';
 	};
@@ -156,25 +156,25 @@ function $AMIClass($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	let $super = ($descr.$extends instanceof Function) ? $descr.$extends
-	                                                           .prototype : {};
+	const $super = ($descr.$extends instanceof Function) ? $descr.$extends
+	                                                             .prototype : {};
 
-	let $super_implements = ($super.$implements instanceof Array) ? $super.$implements : [];
-	let $descr_implements = ($descr.$implements instanceof Array) ? $descr.$implements : [];
+	const $super_implements = ($super.$implements instanceof Array) ? $super.$implements : [];
+	const $descr_implements = ($descr.$implements instanceof Array) ? $descr.$implements : [];
 
 	/*-----------------------------------------------------------------*/
 
-	let $class = function()
+	const $class = function()
 	{
 		/*---------------------------------------------------------*/
 
-		for(let i in this.$implements)
+		for(const i in this.$implements)
 		{
-			let $interface = this.$implements[i];
+			const $interface = this.$implements[i];
 
-			for(let j in $interface.$members)
+			for(const j in $interface.$members)
 			{
-				let $member = $interface.$members[j];
+				const $member = $interface.$members[j];
 
 				if(typeof(this[j]) !== typeof($member))
 				{
@@ -187,7 +187,7 @@ function $AMIClass($name, $descr)
 
 		this.$super = {};
 
-		for(let name in this.$class._internal_super)
+		for(const name in this.$class._internal_super)
 		{
 			this.$super[name] = (function(name, that) { return function() {
 
@@ -200,7 +200,7 @@ function $AMIClass($name, $descr)
 
 		this.$added = {};
 
-		for(let name in this.$class._internal_added)
+		for(const name in this.$class._internal_added)
 		{
 			this.$added[name] = (function(name, that) { return function() {
 
@@ -226,7 +226,7 @@ function $AMIClass($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	for(let name in $super)
+	for(const name in $super)
 	{
 		if(name === '$init'
 		   ||
@@ -238,7 +238,7 @@ function $AMIClass($name, $descr)
 		}
 	}
 
-	for(let name in $descr)
+	for(const name in $descr)
 	{
 		if(name === '$init'
 		   ||

@@ -85,8 +85,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
 
-					let pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
-					let pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
+					const pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
+					const pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
 
 					$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(
 						pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
@@ -95,8 +95,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				$('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(() => {
 
-					let pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
-					let pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
+					const pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
+					const pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
 
 					$('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').get(0).setCustomValidity(
 						pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
@@ -107,8 +107,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				$(window).on('message', (e) => {
 
-					let user = e.originalEvent.data.user;
-					let pass = e.originalEvent.data.pass;
+					const user = e.originalEvent.data.user;
+					const pass = e.originalEvent.data.pass;
 
 					if(user && pass)
 					{
@@ -201,15 +201,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_update: function(userInfo, roleInfo, ssoInfo)
 	{
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		let user = this.user = userInfo.AMIUser || '';
-		let guest = this.guest = userInfo.guestUser || '';
+		const user = this.user = userInfo.AMIUser || '';
+		const guest = this.guest = userInfo.guestUser || '';
 
-		let clientDNInSession = this.clientDN = userInfo.clientDNInSession || '';
-		let issuerDNInSession = this.issuerDN = userInfo.issuerDNInSession || '';
+		const clientDNInSession = this.clientDN = userInfo.clientDNInSession || '';
+		const issuerDNInSession = this.issuerDN = userInfo.issuerDNInSession || '';
 
 		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
 
@@ -221,7 +221,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		let dict = {
+		const dict = {
 			sso_name: ssoInfo.name || 'SSO',
 			sso_url: ssoInfo.url || 'N/A',
 		};
@@ -232,20 +232,20 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* GET INFO                                        */
 			/*-------------------------------------------------*/
 
-			let valid = userInfo.valid || 'false';
-			let certEnabled = userInfo.certEnabled || 'false';
-			let vomsEnabled = userInfo.vomsEnabled || 'false';
+			const valid = userInfo.valid || 'false';
+			const certEnabled = userInfo.certEnabled || 'false';
+			const vomsEnabled = userInfo.vomsEnabled || 'false';
 
 			/*-------------------------------------------------*/
 
-			let firstName = userInfo.firstName || '';
-			let lastName = userInfo.lastName || '';
-			let email = userInfo.email || '';
+			const firstName = userInfo.firstName || '';
+			const lastName = userInfo.lastName || '';
+			const email = userInfo.email || '';
 
 			/*-------------------------------------------------*/
 
-			let clientDNInAMI = userInfo.clientDNInAMI || '';
-			let issuerDNInAMI = userInfo.issuerDNInAMI || '';
+			const clientDNInAMI = userInfo.clientDNInAMI || '';
+			const issuerDNInAMI = userInfo.issuerDNInAMI || '';
 
 			/*-------------------------------------------------*/
 			/* SET INFO                                        */
@@ -357,12 +357,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* UPDATE NOTIFICATION BAR                         */
 			/*-------------------------------------------------*/
 
-			let icon = message ? '<a href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">'
-			                     +
-			                     '<i class="fa fa-exclamation-triangle"></i>'
-			                     +
-			                     '</a>'
-			                   : ''
+			const icon = message ? '<a href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">'
+			                       +
+			                       '<i class="fa fa-exclamation-triangle"></i>'
+			                       +
+			                       '</a>'
+			                     : ''
 			;
 
 			/*-------------------------------------------------*/
@@ -571,7 +571,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_serializeForm: function(form)
 	{
-		let result = {};
+		const result = {};
 
 		form.serializeArray().forEach(function(item) {
 
@@ -587,7 +587,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		e.preventDefault();
 
-		let values = this._serializeForm($(e.target));
+		const values = this._serializeForm($(e.target));
 
 		return this.form_login2(values['user'], values['pass']);
 	},
@@ -598,8 +598,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		/*---------------------------------------------------------*/
 
-		let deferred = (user && pass) ? amiCommand.passLogin(user, pass)
-		                              : amiCommand.certLogin(/*------*/)
+		const deferred = (user && pass) ? amiCommand.passLogin(user, pass)
+		                                : amiCommand.certLogin(/*------*/)
 		;
 
 		/*---------------------------------------------------------*/
@@ -650,8 +650,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		/*---------------------------------------------------------*/
 
-		let user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
-		let pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
+		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
 
 		if(!user || !pass)
 		{
@@ -682,8 +682,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		/*---------------------------------------------------------*/
 
-		let user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
-		let pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
+		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
 
 		if(!user || !pass)
 		{
@@ -716,7 +716,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		let values = this._serializeForm($(e.target));
+		const values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 
@@ -742,7 +742,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		let values = this._serializeForm($(e.target));
+		const values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 
@@ -768,7 +768,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		let values = this._serializeForm($(e.target));
+		const values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 
@@ -794,7 +794,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		let values = this._serializeForm($(e.target));
+		const values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 

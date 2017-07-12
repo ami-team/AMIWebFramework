@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 
 						return src.replace(/\'use strict\'\s*;\n*/g, "")
 						          .replace(/\"use strict\"\s*;\n*/g, "")
-							  .replace(/{{YEAR}}/g, year)
+						          .replace(/{{YEAR}}/g, year)
 						;
 					}
 				},

@@ -19,7 +19,7 @@ if(!String.prototype.startsWith)
 {
 	String.prototype.startsWith = function(s)
 	{
-		let base = 0x00000000000000000000;
+		const base = 0x00000000000000000000;
 
 		return this.indexOf(s, base) === base;
 	};
@@ -31,7 +31,7 @@ if(!String.prototype.endsWith)
 {
 	String.prototype.endsWith = function(s)
 	{
-		let base = this.length - s.length;
+		const base = this.length - s.length;
 
 		return this.indexOf(s, base) === base;
 	};
@@ -81,7 +81,7 @@ jQuery.getSheet = function(settings)
 
 	/*-----------------------------------------------------------------*/
 
-	let deferred = $.Deferred();
+	const deferred = $.Deferred();
 
 	/*-----------------------------------------------------------------*/
 
@@ -106,8 +106,8 @@ var _ami_internal_zIndex = 2000;
 /*-------------------------------------------------------------------------*/
 
 $(document).on('show.bs.modal', '.modal', function() {
- 
-	let el = $(this);
+
+	const el = $(this);
 
 	setTimeout(() => {
 

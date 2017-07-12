@@ -4158,10 +4158,10 @@ amiTwig.expr.interpreter = {
 /*-------------------------------------------------------------------------*/
 
 function _$createNamespace($name, x) {
-	var parent = window,
-	    parts = $name.split(/\s*\.\s*/g);
+	var parent = window;
 
-	var l = parts.length - 1;
+	var parts = $name.split(/\s*\.\s*/g),
+	    l = parts.length - 1;
 
 	for (var i = 0; i < l; i++) {
 		if (parent[parts[i]]) {
@@ -4177,10 +4177,10 @@ function _$createNamespace($name, x) {
 /*-------------------------------------------------------------------------*/
 
 function _$addToNamespace($name, x) {
-	var parent = window,
-	    parts = $name.split(/\s*\.\s*/g);
+	var parent = window;
 
-	var l = parts.length - 1;
+	var parts = $name.split(/\s*\.\s*/g),
+	    l = parts.length - 1;
 
 	for (var i = 0; i < l; i++) {
 		if (parent[parts[i]]) {
@@ -4877,8 +4877,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	base64Encode: function base64Encode(s) {
-		var e = [],
-		    w = void 0;
+		var w = void 0;
+
+		var e = [];
 
 		var l = s.length,
 		    m = l % 3;
@@ -4912,8 +4913,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	base64Decode: function base64Decode(s) {
-		var e = [],
-		    w = void 0;
+		var w = void 0;
+
+		var e = [];
 
 		var l = s.length,
 		    m = l % 4;

@@ -4832,9 +4832,9 @@ else {
 
 function _$createNamespace($name, x)
 {
-	let parent = window, parts = $name.split(/\s*\.\s*/g);
+	let parent = window;
 
-	const l = parts.length - 1;
+	const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
 
 	for(var i = 0; i < l; i++)
 	{
@@ -4855,9 +4855,9 @@ function _$createNamespace($name, x)
 
 function _$addToNamespace($name, x)
 {
-	let parent = window, parts = $name.split(/\s*\.\s*/g);
+	let parent = window;
 
-	const l = parts.length - 1;
+	const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
 
 	for(var i = 0; i < l; i++)
 	{
@@ -4916,7 +4916,7 @@ function $AMIInterface($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	let $class = function()
+	const $class = function()
 	{
 		throw 'could nor instantiate interface';
 	};
@@ -4971,25 +4971,25 @@ function $AMIClass($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	let $super = ($descr.$extends instanceof Function) ? $descr.$extends
-	                                                           .prototype : {};
+	const $super = ($descr.$extends instanceof Function) ? $descr.$extends
+	                                                             .prototype : {};
 
-	let $super_implements = ($super.$implements instanceof Array) ? $super.$implements : [];
-	let $descr_implements = ($descr.$implements instanceof Array) ? $descr.$implements : [];
+	const $super_implements = ($super.$implements instanceof Array) ? $super.$implements : [];
+	const $descr_implements = ($descr.$implements instanceof Array) ? $descr.$implements : [];
 
 	/*-----------------------------------------------------------------*/
 
-	let $class = function()
+	const $class = function()
 	{
 		/*---------------------------------------------------------*/
 
-		for(let i in this.$implements)
+		for(const i in this.$implements)
 		{
-			let $interface = this.$implements[i];
+			const $interface = this.$implements[i];
 
-			for(let j in $interface.$members)
+			for(const j in $interface.$members)
 			{
-				let $member = $interface.$members[j];
+				const $member = $interface.$members[j];
 
 				if(typeof(this[j]) !== typeof($member))
 				{
@@ -5002,7 +5002,7 @@ function $AMIClass($name, $descr)
 
 		this.$super = {};
 
-		for(let name in this.$class._internal_super)
+		for(const name in this.$class._internal_super)
 		{
 			this.$super[name] = (function(name, that) { return function() {
 
@@ -5015,7 +5015,7 @@ function $AMIClass($name, $descr)
 
 		this.$added = {};
 
-		for(let name in this.$class._internal_added)
+		for(const name in this.$class._internal_added)
 		{
 			this.$added[name] = (function(name, that) { return function() {
 
@@ -5041,7 +5041,7 @@ function $AMIClass($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	for(let name in $super)
+	for(const name in $super)
 	{
 		if(name === '$init'
 		   ||
@@ -5053,7 +5053,7 @@ function $AMIClass($name, $descr)
 		}
 	}
 
-	for(let name in $descr)
+	for(const name in $descr)
 	{
 		if(name === '$init'
 		   ||
@@ -5128,7 +5128,7 @@ if(!String.prototype.startsWith)
 {
 	String.prototype.startsWith = function(s)
 	{
-		let base = 0x00000000000000000000;
+		const base = 0x00000000000000000000;
 
 		return this.indexOf(s, base) === base;
 	};
@@ -5140,7 +5140,7 @@ if(!String.prototype.endsWith)
 {
 	String.prototype.endsWith = function(s)
 	{
-		let base = this.length - s.length;
+		const base = this.length - s.length;
 
 		return this.indexOf(s, base) === base;
 	};
@@ -5190,7 +5190,7 @@ jQuery.getSheet = function(settings)
 
 	/*-----------------------------------------------------------------*/
 
-	let deferred = $.Deferred();
+	const deferred = $.Deferred();
 
 	/*-----------------------------------------------------------------*/
 
@@ -5215,8 +5215,8 @@ var _ami_internal_zIndex = 2000;
 /*-------------------------------------------------------------------------*/
 
 $(document).on('show.bs.modal', '.modal', function() {
- 
-	let el = $(this);
+
+	const el = $(this);
 
 	setTimeout(() => {
 
@@ -5364,20 +5364,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		let href = window.location.href.trim();
-		let search = window.location.search.trim();
+		const href = window.location.href.trim();
+		const search = window.location.search.trim();
 
 		/**/
 
-		let scripts = document.getElementsByTagName('script');
+		const scripts = document.getElementsByTagName('script');
 
-		let src = scripts[scripts.length - 1].src.trim();
+		const src = scripts[scripts.length - 1].src.trim();
 
 		/*---------------------------------------------------------*/
 		/* ORIGIN_URL                                              */
 		/*---------------------------------------------------------*/
 
-		let idx1 = src.indexOf('js/ami.');
+		const idx1 = src.indexOf('js/ami.');
 
 		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : null);
 
@@ -5385,7 +5385,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* WEBAPP_URL                                              */
 		/*---------------------------------------------------------*/
 
-		let idx2 = href.indexOf(((('?'))));
+		const idx2 = href.indexOf(((('?'))));
 
 		this.webAppURL = _eatSlashes(idx2 > 0 ? href.substring(0, idx2) : href);
 
@@ -5395,7 +5395,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(idx1 > 0)
 		{
-			let flags = src.substring(idx1).toLowerCase();
+			const flags = src.substring(idx1).toLowerCase();
 
 			this._embedded = flags.indexOf('embedded') >= 0;
 
@@ -5408,9 +5408,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(search)
 		{
-			for(let param of search.substring(1).split('&'))
+			for(const param of search.substring(1).split('&'))
 			{
-				let parts = param.split('=');
+				const parts = param.split('=');
 
 				/**/ if(parts.length === 1)
 				{
@@ -5491,13 +5491,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	_replace: function(s, oldStrs, newStrs)
 	{
-		let result = [];
+		const result = [];
 
 		const l = s.length;
 
 __l0:		for(let i = 0; i < l;)
 		{
-			for(let j in oldStrs)
+			for(const j in oldStrs)
 			{
 				if(s.substring(i).startsWith(oldStrs[j]))
 				{
@@ -5628,7 +5628,9 @@ __l0:		for(let i = 0; i < l;)
 
 	base64Encode: function(s)
 	{
-		let e = [], w;
+		let w;
+
+		const e = [];
 
 		const l = s.length, m = l % 3;
 
@@ -5642,7 +5644,7 @@ __l0:		for(let i = 0; i < l;)
 			    |
 			    s.charCodeAt(i++) << 0
 			;
-			
+
 			e.push(this_base64.charAt((w >> 18) & 0x3F));
 			e.push(this_base64.charAt((w >> 12) & 0x3F));
 			e.push(this_base64.charAt((w >> 6) & 0x3F));
@@ -5669,7 +5671,9 @@ __l0:		for(let i = 0; i < l;)
 
 	base64Decode: function(s)
 	{
-		let e = [], w;
+		let w;
+
+		const e = [];
 
 		const l = s.length, m = l % 4;
 
@@ -5714,7 +5718,7 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		let url = urls.shift();
+		const url = urls.shift();
 
 		/*---------------------------------------------------------*/
 		/* SHEET                                                   */
@@ -5973,9 +5977,9 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		let target = $(selector);
+		const target = $(selector);
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -6216,7 +6220,7 @@ __l0:		for(let i = 0; i < l;)
 	{
 		/*---------------------------------------------------------*/
 
-		let el = $(target || '#ami_alert_content');
+		const el = $(target || '#ami_alert_content');
 
 		/*---------------------------------------------------------*/
 
@@ -6420,7 +6424,7 @@ __l0:		for(let i = 0; i < l;)
 
 			if(!this._canLeave)
 			{
-				let f = e || window.event;
+				const f = e || window.event;
 
 				if(f)
 				{
@@ -6433,9 +6437,9 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		let controls_url = this.originURL + '/controls/CONTROLS.json';
+		const controls_url = this.originURL + '/controls/CONTROLS.json';
 
-		let subapps_url = this.originURL + '/subapps/SUBAPPS.json';
+		const subapps_url = this.originURL + '/subapps/SUBAPPS.json';
 
 		/*---------------------------------------------------------*/
 
@@ -6443,11 +6447,11 @@ __l0:		for(let i = 0; i < l;)
 
 			$.ajax({url: subapps_url, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
 
-				for(let name in data1) {
+				for(const name in data1) {
 					this._controls[name.toLowerCase()] = data1[name];
 				}
 
-				for(let name in data2) {
+				for(const name in data2) {
 					this._subapps[name.toLowerCase()] = data2[name];
 				}
 
@@ -6455,7 +6459,7 @@ __l0:		for(let i = 0; i < l;)
 				{
 					/*---------------------------------*/
 
-					let dict = {
+					const dict = {
 						LOGO_URL: logo_url,
 						HOME_URL: home_url,
 						CONTACT_EMAIL: contact_email,
@@ -6532,9 +6536,9 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		let name = controls.shift();
+		const name = controls.shift();
 
-		let descr = this._controls[name.toLowerCase()];
+		const descr = this._controls[name.toLowerCase()];
 
 		/*---------------------------------------------------------*/
 
@@ -6544,12 +6548,12 @@ __l0:		for(let i = 0; i < l;)
 
 				try
 				{
-					let clazz = window[
+					const clazz = window[
 						descr.clazz
 					];
 
-					let promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
-								: /*-----------------*/null/*-----------------*/
+					const promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
+					                          : /*-----------------*/null/*-----------------*/
 					;
 
 					_ami_internal_done_fail(promise, () => {
@@ -6621,7 +6625,7 @@ __l0:		for(let i = 0; i < l;)
 
 	onLogin: function()
 	{
-		let result = this._currentSubAppInstance.onLogin();
+		const result = this._currentSubAppInstance.onLogin();
 
 		this.onRefresh(true);
 
@@ -6632,7 +6636,7 @@ __l0:		for(let i = 0; i < l;)
 
 	onLogout: function()
 	{
-		let result = this._currentSubAppInstance.onLogout();
+		const result = this._currentSubAppInstance.onLogout();
 
 		this.onRefresh(false);
 
@@ -6649,10 +6653,10 @@ __l0:		for(let i = 0; i < l;)
 
 	loadSubApp: function(defaultSubApp, defaultUserData)
 	{
-		let subapp = this.args['subapp'] || defaultSubApp;
-		let userdata = this.args['userdata'] || defaultUserData;
+		const subapp = this.args['subapp'] || defaultSubApp;
+		const userdata = this.args['userdata'] || defaultUserData;
 
-		let descr = this._subapps[subapp.toLowerCase()];
+		const descr = this._subapps[subapp.toLowerCase()];
 
 		if(descr)
 		{
@@ -6660,7 +6664,7 @@ __l0:		for(let i = 0; i < l;)
 
 				try
 				{
-					let instance = window[
+					const instance = window[
 						descr.instance
 					];
 
@@ -6685,14 +6689,14 @@ __l0:		for(let i = 0; i < l;)
 
 					this.lock();
 
-					let promise = loaded[0] ? instance.onReady(userdata)
-					                        : /*-------*/null/*-------*/
+					const promise = loaded[0] ? instance.onReady(userdata)
+					                          : /*-------*/null/*-------*/
 					;
 
 					_ami_internal_done_fail(promise, () => {
 
-						let promise = amiLogin.isAuthenticated() ? this.onLogin()
-						                                         : this.onLogout()
+						const promise = amiLogin.isAuthenticated() ? this.onLogin()
+						                                           : this.onLogout()
 						;
 
 						_ami_internal_always(promise, () => {
@@ -7063,13 +7067,13 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		let URL = endpoint.trim();
-		let COMMAND = command.trim();
-		let CONVERTER = converter.trim();
+		const URL = endpoint.trim();
+		const COMMAND = command.trim();
+		const CONVERTER = converter.trim();
 
 		/*---------------------------------------------------------*/
 
-		let data = {
+		const data = {
 			Command: COMMAND,
 			Converter: CONVERTER,
 		};
@@ -7083,11 +7087,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		let urlWithParameters = URL + '?' + $.param(data);
+		const urlWithParameters = URL + '?' + $.param(data);
 
 		/*---------------------------------------------------------*/
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -7108,7 +7112,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				},
 				success: function(data) {
 
-					let error = JSPath.apply('.AMIMessage.error', data);
+					const error = JSPath.apply('.AMIMessage.error', data);
 
 					if(error.length === 0)
 					{
@@ -7126,7 +7130,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 						textStatus = 'service temporarily unreachable';
 					}
 
-					let data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
+					const data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
 					result.rejectWith(context || result, [data, urlWithParameters]);
 				},
@@ -7191,15 +7195,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
 		this.execute('GetSessionInfo -AMIUser="' + this._textToString(user) + '" -AMIPass="' + this._textToString(pass) + '"', {extraParam: 'NoCert'}).then((data) => {
 
-			let userInfo = {};
-			let roleInfo = {};
-			let ssoInfo = {}
+			const userInfo = {};
+			const roleInfo = {};
+			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
@@ -7214,7 +7218,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
 				let name = '';
-				let role = {};
+				const role = {};
 
 				row.field.forEach(function(field) {
 
@@ -7260,15 +7264,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
 		this.execute('GetSessionInfo').then((data) => {
 
-			let userInfo = {};
-			let roleInfo = {};
-			let ssoInfo = {}
+			const userInfo = {};
+			const roleInfo = {};
+			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
@@ -7283,7 +7287,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
 				let name = '';
-				let role = {};
+				const role = {};
 
 				row.field.forEach(function(field) {
 
@@ -7329,15 +7333,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
 		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).then((data) => {
 
-			let userInfo = {};
-			let roleInfo = {};
-			let ssoInfo = {}
+			const userInfo = {};
+			const roleInfo = {};
+			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
@@ -7352,7 +7356,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
 				let name = '';
-				let role = {};
+				const role = {};
 
 				row.field.forEach(function(field) {
 
@@ -7565,8 +7569,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
 
-					let pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
-					let pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
+					const pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
+					const pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
 
 					$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(
 						pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
@@ -7575,8 +7579,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				$('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(() => {
 
-					let pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
-					let pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
+					const pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
+					const pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
 
 					$('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').get(0).setCustomValidity(
 						pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
@@ -7587,8 +7591,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				$(window).on('message', (e) => {
 
-					let user = e.originalEvent.data.user;
-					let pass = e.originalEvent.data.pass;
+					const user = e.originalEvent.data.user;
+					const pass = e.originalEvent.data.pass;
 
 					if(user && pass)
 					{
@@ -7681,15 +7685,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_update: function(userInfo, roleInfo, ssoInfo)
 	{
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		let user = this.user = userInfo.AMIUser || '';
-		let guest = this.guest = userInfo.guestUser || '';
+		const user = this.user = userInfo.AMIUser || '';
+		const guest = this.guest = userInfo.guestUser || '';
 
-		let clientDNInSession = this.clientDN = userInfo.clientDNInSession || '';
-		let issuerDNInSession = this.issuerDN = userInfo.issuerDNInSession || '';
+		const clientDNInSession = this.clientDN = userInfo.clientDNInSession || '';
+		const issuerDNInSession = this.issuerDN = userInfo.issuerDNInSession || '';
 
 		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
 
@@ -7701,7 +7705,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		let dict = {
+		const dict = {
 			sso_name: ssoInfo.name || 'SSO',
 			sso_url: ssoInfo.url || 'N/A',
 		};
@@ -7712,20 +7716,20 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* GET INFO                                        */
 			/*-------------------------------------------------*/
 
-			let valid = userInfo.valid || 'false';
-			let certEnabled = userInfo.certEnabled || 'false';
-			let vomsEnabled = userInfo.vomsEnabled || 'false';
+			const valid = userInfo.valid || 'false';
+			const certEnabled = userInfo.certEnabled || 'false';
+			const vomsEnabled = userInfo.vomsEnabled || 'false';
 
 			/*-------------------------------------------------*/
 
-			let firstName = userInfo.firstName || '';
-			let lastName = userInfo.lastName || '';
-			let email = userInfo.email || '';
+			const firstName = userInfo.firstName || '';
+			const lastName = userInfo.lastName || '';
+			const email = userInfo.email || '';
 
 			/*-------------------------------------------------*/
 
-			let clientDNInAMI = userInfo.clientDNInAMI || '';
-			let issuerDNInAMI = userInfo.issuerDNInAMI || '';
+			const clientDNInAMI = userInfo.clientDNInAMI || '';
+			const issuerDNInAMI = userInfo.issuerDNInAMI || '';
 
 			/*-------------------------------------------------*/
 			/* SET INFO                                        */
@@ -7837,12 +7841,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* UPDATE NOTIFICATION BAR                         */
 			/*-------------------------------------------------*/
 
-			let icon = message ? '<a href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">'
-			                     +
-			                     '<i class="fa fa-exclamation-triangle"></i>'
-			                     +
-			                     '</a>'
-			                   : ''
+			const icon = message ? '<a href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">'
+			                       +
+			                       '<i class="fa fa-exclamation-triangle"></i>'
+			                       +
+			                       '</a>'
+			                     : ''
 			;
 
 			/*-------------------------------------------------*/
@@ -8051,7 +8055,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_serializeForm: function(form)
 	{
-		let result = {};
+		const result = {};
 
 		form.serializeArray().forEach(function(item) {
 
@@ -8067,7 +8071,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		e.preventDefault();
 
-		let values = this._serializeForm($(e.target));
+		const values = this._serializeForm($(e.target));
 
 		return this.form_login2(values['user'], values['pass']);
 	},
@@ -8078,8 +8082,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		/*---------------------------------------------------------*/
 
-		let deferred = (user && pass) ? amiCommand.passLogin(user, pass)
-		                              : amiCommand.certLogin(/*------*/)
+		const deferred = (user && pass) ? amiCommand.passLogin(user, pass)
+		                                : amiCommand.certLogin(/*------*/)
 		;
 
 		/*---------------------------------------------------------*/
@@ -8130,8 +8134,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		/*---------------------------------------------------------*/
 
-		let user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
-		let pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
+		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
 
 		if(!user || !pass)
 		{
@@ -8162,8 +8166,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		/*---------------------------------------------------------*/
 
-		let user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
-		let pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
+		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
 
 		if(!user || !pass)
 		{
@@ -8196,7 +8200,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		let values = this._serializeForm($(e.target));
+		const values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 
@@ -8222,7 +8226,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		let values = this._serializeForm($(e.target));
+		const values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 
@@ -8248,7 +8252,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		let values = this._serializeForm($(e.target));
+		const values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 
@@ -8274,7 +8278,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*---------------------------------------------------------*/
 
-		let values = this._serializeForm($(e.target));
+		const values = this._serializeForm($(e.target));
 
 		/*---------------------------------------------------------*/
 
