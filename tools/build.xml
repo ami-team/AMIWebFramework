@@ -30,6 +30,7 @@
 
 		<copy file="${AMIWebAppTmpDir}/css/ami.min.css" tofile="css/ami.min.css" overwrite="true" />
 
+		<copy file="${AMIWebAppTmpDir}/js/ami.es6.min.js" tofile="js/ami.es6.min.js" overwrite="true" />
 		<copy file="${AMIWebAppTmpDir}/js/ami.min.js" tofile="js/ami.min.js" overwrite="true" />
 
 		<!-- **************************************************** -->
@@ -58,6 +59,7 @@
 
 		<copy file="${AMIWebAppTmpDir}/css/ami.css" tofile="css/ami.min.css" overwrite="true" />
 
+		<copy file="${AMIWebAppTmpDir}/js/ami.es6.js" tofile="js/ami.es6.min.js" overwrite="true" />
 		<copy file="${AMIWebAppTmpDir}/js/ami.js" tofile="js/ami.min.js" overwrite="true" />
 
 		<!-- **************************************************** -->
@@ -164,12 +166,12 @@
 			<!-- ******************************************** -->
 
 			<copy todir="css" overwrite="true">
-				<fileset dir="${AMIWebAppTmpDir}/css" includes="*" />
+				<fileset dir="${AMIWebAppTmpDir}/css" includes="*" excludes="ami.*" />
 				<fileset dir="${AMIWebAppTmpDir}/css" includes="3rd-party/**/*" />
 			</copy>
 
 			<copy todir="js" overwrite="true">
-				<fileset dir="${AMIWebAppTmpDir}/js" includes="*" />
+				<fileset dir="${AMIWebAppTmpDir}/js" includes="*" excludes="ami.*" />
 				<fileset dir="${AMIWebAppTmpDir}/js" includes="3rd-party/**/*" />
 			</copy>
 

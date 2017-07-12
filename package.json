@@ -2,7 +2,7 @@
   "name": "ami-web-framework",
   "version": "1.0.0",
   "description": "AMI Web Framework",
-  "author": "The AMI Team, Jerome Odier <jerome.odier@cern.ch>",
+  "author": "The AMI Team, Jerome Odier <jerome.odier@lpsc.in2p3.fr>",
   "license": "CECILL-C",
   "repository": {
     "type": "git",
