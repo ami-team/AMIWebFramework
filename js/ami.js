@@ -4616,17 +4616,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/* STATIC CONSTRUCTOR                                              */
 	/*-----------------------------------------------------------------*/
 
-	$: function (_$) {
-		function $() {
-			return _$.apply(this, arguments);
-		}
-
-		$.toString = function () {
-			return _$.toString();
-		};
-
-		return $;
-	}(function () {
+	$: function $() {
 		/*---------------------------------------------------------*/
 
 		function _eatSlashes(url) {
@@ -4719,7 +4709,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		/* DEFAULT SHEETS AND SCRIPTS                              */
 		/*---------------------------------------------------------*/
 
-		if (this._noBootstrap === false && typeof $().modal !== 'function') {
+		if (this._noBootstrap === false && typeof jQuery.fn.modal !== 'function') {
 			this.loadSheets([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-toggle.min.css', this.originURL + '/css/bootstrap-vertical-tabs.min.css']);
 
 			this.loadScripts([this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-toggle.min.js', this.originURL + '/js/bootstrap-typeahead.min.js']);
@@ -4730,7 +4720,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		this.loadSheets([this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css']);
 
 		/*---------------------------------------------------------*/
-	}),
+	},
 
 	/*-----------------------------------------------------------------*/
 	/* MODE                                                            */
@@ -5444,9 +5434,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		el.html(html).promise().done(function () {
 
-			_this2.unlock();
-
 			$(document).scrollTop(0);
+
+			_this2.unlock();
 
 			if (fadeOut) {
 				el.find('.alert').fadeOut(60000);

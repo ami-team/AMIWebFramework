@@ -5429,7 +5429,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(this._noBootstrap === false
 		   &&
-		   (typeof $().modal) !== 'function'
+		   (typeof jQuery.fn.modal) !== 'function'
 		 ) {
 			this.loadSheets([
 				this.originURL + '/css/bootstrap.min.css',
@@ -6222,9 +6222,9 @@ __l0:		for(let i = 0; i < l;)
 
 		el.html(html).promise().done(() => {
 
-			this.unlock();
-
 			$(document).scrollTop(0);
+
+			this.unlock();
 
 			if(fadeOut)
 			{
