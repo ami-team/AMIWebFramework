@@ -28,17 +28,9 @@
 		<!-- GENERATE MINIMIZED FILES                             -->
 		<!-- **************************************************** -->
 
-		<java classname="net.hep.ami.awf.CssCompressor" failonerror="true" fork="true">
-			<classpath location="${AMIWebAppTmpDir}/tools/awf.jar" />
-			<arg value="css/ami.min.css" />
-			<arg value="${AMIWebAppTmpDir}/css/ami.css" />
-		</java>
+		<copy file="${AMIWebAppTmpDir}/css/ami.min.css" tofile="css/ami.min.css" overwrite="true" />
 
-		<java classname="net.hep.ami.awf.JsCompressor" failonerror="true" fork="true">
-			<classpath location="${AMIWebAppTmpDir}/tools/awf.jar" />
-			<arg value="js/ami.min.js" />
-			<arg value="${AMIWebAppTmpDir}/js/ami.js" />
-		</java>
+		<copy file="${AMIWebAppTmpDir}/js/ami.min.js" tofile="js/ami.min.js" overwrite="true" />
 
 		<!-- **************************************************** -->
 		<!-- REMOVE TEMP DIRECTORY                                -->
@@ -236,55 +228,6 @@
 
 			<mkdir dir="css/AMI" />
 			<mkdir dir="js/AMI" />
-
-			<!-- ******************************************** -->
-			<!-- MERGE FILES                                  -->
-			<!-- ******************************************** -->
-
-			<concat destfile="${AMIWebAppTmpDir}/css/ami.css" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
-
-				<filelist dir="${AMIWebAppTmpDir}/css/AMI">
-					<file name="general.css" />
-					<file name="bootstrap.css" />
-					<file name="ami.css" />
-				</filelist>
-
-			</concat>
-
-			<!-- ******************************************** -->
-
-			<concat destfile="${AMIWebAppTmpDir}/js/ami.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
-
-				<header>{{USE_STRICT}}</header>
-
-				<filelist dir="${AMIWebAppTmpDir}/js/AMI">
-					<file name="external/ami-twig.js" />
-					<file name="external/jspath.js" />
-					<file name="AMIObject.js" />
-					<file name="AMIWebApp.js" />
-					<file name="AMIInterface.js" />
-					<file name="AMICommand.js" />
-					<file name="AMILogin.js" />
-					<file name="AMIDoc.js" />
-				</filelist>
-
-			</concat>
-
-			<!-- ******************************************** -->
-
-			<replace file="${AMIWebAppTmpDir}/js/ami.js" token="'use strict';${line.separator}${line.separator}" value="" />
-
-			<replace file="${AMIWebAppTmpDir}/js/ami.js" token="'use strict';${line.separator}" value="" />
-
-			<replace file="${AMIWebAppTmpDir}/js/ami.js" token="'use strict';" value="" />
-
-			<!-- ******************************************** -->
-
-			<replace file="${AMIWebAppTmpDir}/js/ami.js" token="{{USE_STRICT}}" value="'use strict';${line.separator}" />
-
-			<!-- ******************************************** -->
-
-			<replace file="${AMIWebAppTmpDir}/js/ami.js" token="{{YEAR}}" value="${year}" />
 
 			<!-- ******************************************** -->
 			<!-- OTHER                                        -->

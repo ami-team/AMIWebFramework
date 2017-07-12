@@ -4,10 +4,6 @@
 .settings
 .classpath
 
-css/ami.css
-css/ami.min.css
-
-js/ami.js
-js/ami.min.js
+node_modules
 
 tools/awf/target

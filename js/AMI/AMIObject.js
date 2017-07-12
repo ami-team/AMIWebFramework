@@ -17,9 +17,11 @@
 
 function _$createNamespace($name, x)
 {
-	var parent = window, parts = $name.split(/\s*\.\s*/g);
+	let parent = window, parts = $name.split(/\s*\.\s*/g);
 
-	for(var i = 0; i < parts.length - 1; i++)
+	const l = parts.length - 1;
+
+	for(var i = 0; i < l; i++)
 	{
 		if(parent[parts[i]])
 		{
@@ -38,9 +40,11 @@ function _$createNamespace($name, x)
 
 function _$addToNamespace($name, x)
 {
-	var parent = window, parts = $name.split(/\s*\.\s*/g);
+	let parent = window, parts = $name.split(/\s*\.\s*/g);
 
-	for(var i = 0; i < parts.length - 1; i++)
+	const l = parts.length - 1;
+
+	for(var i = 0; i < l; i++)
 	{
 		if(parent[parts[i]])
 		{
@@ -97,7 +101,7 @@ function $AMIInterface($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	var $class = function()
+	let $class = function()
 	{
 		throw 'could nor instantiate interface';
 	};
@@ -152,25 +156,25 @@ function $AMIClass($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	var $super = ($descr.$extends instanceof Function) ? $descr.$extends
+	let $super = ($descr.$extends instanceof Function) ? $descr.$extends
 	                                                           .prototype : {};
 
-	var $super_implements = ($super.$implements instanceof Array) ? $super.$implements : [];
-	var $descr_implements = ($descr.$implements instanceof Array) ? $descr.$implements : [];
+	let $super_implements = ($super.$implements instanceof Array) ? $super.$implements : [];
+	let $descr_implements = ($descr.$implements instanceof Array) ? $descr.$implements : [];
 
 	/*-----------------------------------------------------------------*/
 
-	var $class = function()
+	let $class = function()
 	{
 		/*---------------------------------------------------------*/
 
-		for(var i in this.$implements)
+		for(let i in this.$implements)
 		{
-			var $interface = this.$implements[i];
+			let $interface = this.$implements[i];
 
-			for(var j in $interface.$members)
+			for(let j in $interface.$members)
 			{
-				var $member = $interface.$members[j];
+				let $member = $interface.$members[j];
 
 				if(typeof(this[j]) !== typeof($member))
 				{
@@ -183,26 +187,26 @@ function $AMIClass($name, $descr)
 
 		this.$super = {};
 
-		for(var k in this.$class._internal_super)
+		for(let name in this.$class._internal_super)
 		{
-			this.$super[k] = (function(name, context) { return function() {
+			this.$super[name] = (function(name, that) { return function() {
 
-				return context.$class._internal_super[name].apply(context, arguments);
+				return that.$class._internal_super[name].apply(that, arguments)
 
-			}})(k, this);
+			}})(name, this);
 		}
 
 		/*---------------------------------------------------------*/
 
 		this.$added = {};
 
-		for(var l in this.$class._internal_added)
+		for(let name in this.$class._internal_added)
 		{
-			this.$added[l] = (function(name, context) { return function() {
+			this.$added[name] = (function(name, that) { return function() {
 
-				return context.$class._internal_added[name].apply(context, arguments);
+				return that.$class._internal_added[name].apply(that, arguments);
 
-			}})(l, this);
+			}})(name, this);
 		}
 
 		/*---------------------------------------------------------*/
@@ -222,27 +226,27 @@ function $AMIClass($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	for(var i in $super)
+	for(let name in $super)
 	{
-		if(i === '$init'
+		if(name === '$init'
 		   ||
-		   i.charAt(0) !== '$'
+		   name.charAt(0) !== '$'
 		 ) {
-			$class._internal_super[i] = $super[i];
+			$class._internal_super[name] = $super[name];
 
-			$class.prototype[i] = $super[i];
+			$class.prototype[name] = $super[name];
 		}
 	}
 
-	for(var j in $descr)
+	for(let name in $descr)
 	{
-		if(j === '$init'
+		if(name === '$init'
 		   ||
-		   j.charAt(0) !== '$'
+		   name.charAt(0) !== '$'
 		 ) {
-			$class._internal_added[j] = $super[j];
+			$class._internal_added[name] = $descr[name];
 
-			$class.prototype[j] = $descr[j];
+			$class.prototype[name] = $descr[name];
 		}
 	}
 
@@ -272,9 +276,9 @@ function $AMIClass($name, $descr)
 
 if(typeof exports !== 'undefined')
 {
-	exports.Namespace = $AMINamespace;
-	exports.Interface = $AMIInterface;
-	exports.  Class   =   $AMIClass  ;
+	module.exports.Namespace = $AMINamespace;
+	module.exports.Interface = $AMIInterface;
+	module.exports.  Class   =   $AMIClass  ;
 }
 
 /*-------------------------------------------------------------------------*/

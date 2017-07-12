@@ -315,7 +315,7 @@ $AMIClass('TableCtrl', {
 
 				/*-----------------------------------------*/
 
-				this.jsCode = amiWebApp.formatHTML(this.fragmentJS, dict);
+				this.jsCode = amiWebApp.formatTWIG(this.fragmentJS, dict);
 
 				/*-----------------------------------------*/
 

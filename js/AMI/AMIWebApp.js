@@ -18,115 +18,6 @@
 $AMINamespace('ami');
 
 /*-------------------------------------------------------------------------*/
-/* ES6 EXTENSIONS                                                          */
-/*-------------------------------------------------------------------------*/
-
-if(!String.prototype.startsWith)
-{
-	String.prototype.startsWith = function(s)
-	{
-		var base = 0x00000000000000000000;
-
-		return this.indexOf(s, base) === base;
-	};
-}
-
-/*-------------------------------------------------------------------------*/
-
-if(!String.prototype.endsWith)
-{
-	String.prototype.endsWith = function(s)
-	{
-		var base = this.length - s.length;
-
-		return this.indexOf(s, base) === base;
-	};
-}
-
-/*-------------------------------------------------------------------------*/
-/* JQUERY EXTENSIONS                                                       */
-/*-------------------------------------------------------------------------*/
-
-jQuery.foreach = function(el, callback, context)
-{
-	if(context)
-	{
-		jQuery.each(el, function() {
-
-			callback.apply(context, arguments);
-		});
-	}
-	else
-	{
-		jQuery.each(el, function() {
-
-			callback.apply(el, arguments);
-		});
-	}
-
-	return el;
-};
-
-/*-------------------------------------------------------------------------*/
-
-jQuery.getSheet = function(settings)
-{
-	var url = '';
-	var context = null;
-
-	if(settings)
-	{
-		if('url' in settings) {
-			url = settings['url'];
-		}
-
-		if('context' in settings) {
-			context = settings['context'];
-		}
-	}
-
-	/*-----------------------------------------------------------------*/
-
-	var deferred = $.Deferred();
-
-	$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(function() {
-
-		if(context) {
-			deferred.resolveWith(context);
-		} else {
-			deferred.resolve();
-		}
-	});
-
-	/*-----------------------------------------------------------------*/
-
-	return deferred.promise();
-
-	/*-----------------------------------------------------------------*/
-};
-
-/*-------------------------------------------------------------------------*/
-/* BOOTSTRAP EXTENSIONS                                                    */
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_zIndex = 2000;
-
-/*-------------------------------------------------------------------------*/
-
-$(document).on('show.bs.modal', '.modal', function() {
- 
-	var el = $(this);
-
-	setTimeout(function() {
-
-		$('body > .modal-backdrop:last').css('z-index', _ami_internal_zIndex++);
-
-		/*-----------*/el/*-----------*/.css('z-index', _ami_internal_zIndex++);
-
-	}, 10);
-});
-
-/*-------------------------------------------------------------------------*/
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
@@ -189,10 +80,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
-	_now: jQuery.now(),
-
-	/*-----------------------------------------------------------------*/
-
 	_currentSubAppInstance: new function()
 	{
 		this.onReady = function() {};
@@ -248,20 +135,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		var href = window.location.href.trim();
-		var search = window.location.search.trim();
+		let href = window.location.href.trim();
+		let search = window.location.search.trim();
 
 		/**/
 
-		var scripts = document.getElementsByTagName('script');
+		let scripts = document.getElementsByTagName('script');
 
-		var src = scripts[scripts.length - 1].src.trim();
+		let src = scripts[scripts.length - 1].src.trim();
 
 		/*---------------------------------------------------------*/
 		/* ORIGIN_URL                                              */
 		/*---------------------------------------------------------*/
 
-		var idx1 = src.indexOf('js/ami.');
+		let idx1 = src.indexOf('js/ami.');
 
 		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : null);
 
@@ -269,7 +156,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* WEBAPP_URL                                              */
 		/*---------------------------------------------------------*/
 
-		var idx2 = href.indexOf(((('?'))));
+		let idx2 = href.indexOf(((('?'))));
 
 		this.webAppURL = _eatSlashes(idx2 > 0 ? href.substring(0, idx2) : href);
 
@@ -279,7 +166,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(idx1 > 0)
 		{
-			var flags = src.substring(idx1).toLowerCase();
+			let flags = src.substring(idx1).toLowerCase();
 
 			this._embedded = flags.indexOf('embedded') >= 0;
 
@@ -292,11 +179,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(search)
 		{
-			var params = search.substring(1).split('&');
-
-			for(var i in params)
+			for(let param of search.substring(1).split('&'))
 			{
-				var parts = params[i].split('=');
+				let parts = param.split('=');
 
 				/**/ if(parts.length === 1)
 				{
@@ -375,21 +260,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* TOOLS                                                           */
 	/*-----------------------------------------------------------------*/
 
-	_replace: function(s, x, y)
+	_replace: function(s, oldStrs, newStrs)
 	{
-		var result = [];
+		let result = [];
 
-		var i, j, l = s.length;
+		const l = s.length;
 
-__l0:		for(i = 0; i < l;)
+__l0:		for(let i = 0; i < l;)
 		{
-			for(j in x)
+			for(let j in oldStrs)
 			{
-				if(s.substring(i).indexOf(x[j]) === 0)
+				if(s.substring(i).startsWith(oldStrs[j]))
 				{
-					result.push(y[j]);
+					result.push(newStrs[j]);
 
-					i += x[j].length;
+					i += oldStrs[j].length;
 
 					continue __l0;
 				}
@@ -514,13 +399,13 @@ __l0:		for(i = 0; i < l;)
 
 	base64Encode: function(s)
 	{
-		var e = [], w;
+		let e = [], w;
 
-		var l = s.length, m = l % 3;
+		const l = s.length, m = l % 3;
 
-		var this_base64 = this._base64;
+		const this_base64 = this._base64;
 
-		for(var i = 0; i < l;)
+		for(let i = 0; i < l;)
 		{
 			w = s.charCodeAt(i++) << 16
 			    |
@@ -555,13 +440,13 @@ __l0:		for(i = 0; i < l;)
 
 	base64Decode: function(s)
 	{
-		var e = [], w;
+		let e = [], w;
 
-		var l = s.length, m = l % 4;
+		const l = s.length, m = l % 4;
 
-		var this_base64 = this._base64;
+		const this_base64 = this._base64;
 
-		for(var i = 0; i < l;)
+		for(let i = 0; i < l;)
 		{
 			w = this_base64.indexOf(s.charAt(i++)) << 18
 			    |
@@ -595,7 +480,7 @@ __l0:		for(i = 0; i < l;)
 	{
 		if(urls.length > 0)
 		{
-			var url = urls.shift();
+			let url = urls.shift();
 
 			/*-------------------------------------------------*/
 			/* SHEET                                          */
@@ -617,20 +502,15 @@ __l0:		for(i = 0; i < l;)
 						cache: false,
 						crossDomain: true,
 						dataType: dataType,
-						context: this,
-					}).done(function() {
+					}).then(() => {
 
 						result.push(true);
 
 						this._loadFiles(deferred, result, urls, dataType, context);
 
-					}).fail(function() {
+					}, () => {
 
-						if(context) {
-							deferred.rejectWith(context, ['could not load `' + url + '`']);
-						} else {
-							deferred.reject('could not load `' + url + '`');
-						}
+						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
 					});
 				}
 			}
@@ -655,20 +535,15 @@ __l0:		for(i = 0; i < l;)
 						cache: false,
 						crossDomain: true,
 						dataType: dataType,
-						context: this,
-					}).done(function() {
+					}).then(() => {
 
 						result.push(true);
 
 						this._loadFiles(deferred, result, urls, dataType, context);
 
-					}).fail(function() {
+					}, () => {
 
-						if(context) {
-							deferred.rejectWith(context, ['could not load `' + url + '`']);
-						} else {
-							deferred.reject('could not load `' + url + '`');
-						}
+						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
 					});
 				}
 			}
@@ -685,20 +560,15 @@ __l0:		for(i = 0; i < l;)
 					cache: false,
 					crossDomain: true,
 					dataType: dataType,
-					context: this,
-				}).done(function(data) {
+				}).then((data) => {
 
 					result.push(data);
 
 					this._loadFiles(deferred, result, urls, dataType, context);
 
-				}).fail(function() {
+				}, () => {
 
-					if(context) {
-						deferred.rejectWith(context, ['could not load `' + url + '`']);
-					} else {
-						deferred.reject('could not load `' + url + '`');
-					}
+					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
 				});
 			}
 
@@ -706,11 +576,7 @@ __l0:		for(i = 0; i < l;)
 		}
 		else
 		{
-			if(context) {
-				deferred.resolveWith(context, [result]);
-			} else {
-				deferred.resolve(result);
-			}
+			deferred.resolveWith(context || deferred, [result]);
 		}
 
 		return deferred;
@@ -720,7 +586,7 @@ __l0:		for(i = 0; i < l;)
 
 	loadFiles: function(urls, dataType, settings)
 	{
-		var context = null;
+		let context = null;
 
 		if(settings && 'context' in settings)
 		{
@@ -845,9 +711,9 @@ __l0:		for(i = 0; i < l;)
 
 	_xxxHTML: function(selector, twig, mode, settings)
 	{
-		var context = null;
-		var suffix = null;
-		var dict = null;
+		let context = null;
+		let suffix = null;
+		let dict = null;
 
 		if(settings)
 		{
@@ -866,7 +732,7 @@ __l0:		for(i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		var html = this.formatHTML(twig, dict);
+		let html = this.formatTWIG(twig, dict);
 
 		if(suffix)
 		{
@@ -878,13 +744,13 @@ __l0:		for(i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		var target = $(selector);
+		let target = $(selector);
 
-		var result = $.Deferred();
+		let result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		var promise;
+		let promise;
 
 		switch(mode)
 		{
@@ -906,10 +772,10 @@ __l0:		for(i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		promise.done(function() {
+		promise.done(() => {
 			/*-------------------------------------------------*/
 
-			if(jQuery().tooltip)
+			if(jQuery.fn.tooltip)
 			{
 				target.find('[data-toggle="tooltip"]').tooltip({
 					container: 'body',
@@ -922,7 +788,7 @@ __l0:		for(i = 0; i < l;)
 
 			/*-------------------------------------------------*/
 
-			if(jQuery().popover)
+			if(jQuery.fn.popover)
 			{
 				target.find('[data-toggle="popover"][tabindex="0"]').popover({
 					container: 'body',
@@ -939,18 +805,16 @@ __l0:		for(i = 0; i < l;)
 
 			/*-------------------------------------------------*/
 
-			if(jQuery().bootstrapToggle)
+			if(jQuery.fn.bootstrapToggle)
 			{
 				target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
 			}
 
 			/*-------------------------------------------------*/
 
-			if(context) {
-				result.resolveWith(context);
-			} else {
-				result.resolve();
-			}
+			result.resolveWith(context || result, [html]);
+
+			/*-------------------------------------------------*/
 		});
 
 		/*---------------------------------------------------------*/
@@ -965,7 +829,7 @@ __l0:		for(i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Put a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
+	  * Put a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
@@ -980,7 +844,7 @@ __l0:		for(i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Prepends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
+	  * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
@@ -995,7 +859,7 @@ __l0:		for(i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Appends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
+	  * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
@@ -1016,25 +880,25 @@ __l0:		for(i = 0; i < l;)
 	  * @returns {String} The Interpreted TWIG string
 	  */
 
-	formatHTML: function(twig, dict)
+	formatTWIG: function(twig, dict)
 	{
-		var result;
+		let result;
 
 		/**/ if(dict instanceof Array)
 		{
 			result = '';
 
-			for(var i in dict)
+			for(let tcid of dict)
 			{
-				if(!(dict[i] instanceof Object))
+				if(!(tcid instanceof Object))
 				{
-					dict[i] = {};
+					tcid = {};
 				}
 
-				dict[i]['ORIGIN_URL'] = this.originURL;
-				dict[i]['WEBAPP_URL'] = this.webAppURL;
+				tcid['ORIGIN_URL'] = this.originURL;
+				tcid['WEBAPP_URL'] = this.webAppURL;
 
-				result += amiTwig.engine.render(twig, dict[i]);
+				result += amiTwig.engine.render(twig, tcid);
 			}
 		}
 		else
@@ -1123,13 +987,13 @@ __l0:		for(i = 0; i < l;)
 	{
 		/*---------------------------------------------------------*/
 
-		var el = $(target || '#ami_alert_content');
+		let el = $(target || '#ami_alert_content');
 
 		/*---------------------------------------------------------*/
 
-		el.html(html).promise().done(function() {
+		el.html(html).promise().done(() => {
 
-			amiWebApp.unlock();
+			this.unlock();
 
 			$(document).scrollTop(0);
 
@@ -1272,17 +1136,17 @@ __l0:		for(i = 0; i < l;)
 	{
 		/*---------------------------------------------------------*/
 
-		var logo_url = this.originURL
+		let logo_url = this.originURL
 					+ '/images/logo.png';
-		var home_url = this.webAppURL;
+		let home_url = this.webAppURL;
 
-		var contact_email = 'ami@lpsc.in2p3.fr';
-		var about_url = 'http://cern.ch/ami/';
+		let contact_email = 'ami@lpsc.in2p3.fr';
+		let about_url = 'http://cern.ch/ami/';
 
-		var theme_url = this.originURL + '/twig/AMI/Theme/blue.twig';
-		var locker_url = this.originURL + '/twig/AMI/Fragment/locker.twig';
+		let theme_url = this.originURL + '/twig/AMI/Theme/blue.twig';
+		let locker_url = this.originURL + '/twig/AMI/Fragment/locker.twig';
 
-		var endpoint_url = this.originURL + '/AMI/FrontEnd';
+		let endpoint_url = this.originURL + '/AMI/FrontEnd';
 
 		/*---------------------------------------------------------*/
 
@@ -1323,11 +1187,11 @@ __l0:		for(i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		window.onbeforeunload = function(e) {
+		window.onbeforeunload = (e) => {
 
-			if(!amiWebApp._canLeave)
+			if(!this._canLeave)
 			{
-				var f = e || window.event;
+				let f = e || window.event;
 
 				if(f)
 				{
@@ -1340,31 +1204,29 @@ __l0:		for(i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		var controls_url = this.originURL + '/controls/CONTROLS.json';
+		let controls_url = this.originURL + '/controls/CONTROLS.json';
 
-		var subapps_url = this.originURL + '/subapps/SUBAPPS.json';
+		let subapps_url = this.originURL + '/subapps/SUBAPPS.json';
 
 		/*---------------------------------------------------------*/
 
-		$.ajax({url: controls_url, cache: false, crossDomain: true, dataType: 'json'}).done(function(data1) {
+		$.ajax({url: controls_url, cache: false, crossDomain: true, dataType: 'json'}).then((data1) => {
 
-			$.ajax({url: subapps_url, cache: false, crossDomain: true, dataType: 'json'}).done(function(data2) {
+			$.ajax({url: subapps_url, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
 
-				var name;
-
-				for(name in data1) {
-					amiWebApp._controls[name.toLowerCase()] = data1[name];
+				for(let name in data1) {
+					this._controls[name.toLowerCase()] = data1[name];
 				}
 
-				for(name in data2) {
-					amiWebApp._subapps[name.toLowerCase()] = data2[name];
+				for(let name in data2) {
+					this._subapps[name.toLowerCase()] = data2[name];
 				}
 
-				if(!amiWebApp._embedded)
+				if(!this._embedded)
 				{
 					/*---------------------------------*/
 
-					var dict = {
+					let dict = {
 						LOGO_URL: logo_url,
 						HOME_URL: home_url,
 						CONTACT_EMAIL: contact_email,
@@ -1373,24 +1235,24 @@ __l0:		for(i = 0; i < l;)
 
 					/*---------------------------------*/
 
-					$.ajax({url: theme_url, cache: true, crossDomain: true, dataType: 'html'}).done(function(data3) {
+					$.ajax({url: theme_url, cache: true, crossDomain: true, dataType: 'text'}).then((data3) => {
 
-						$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'html'}).done(function(data4) {
+						$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
 
-							$('body').append(amiWebApp.formatHTML(data3, dict) + data4).promise().done(function() {
+							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-								amiLogin._init().fail(function(data) {
+								amiLogin._init().fail((data) => {
 
-									amiWebApp.error(data);
+									this.error(data);
 								});
 							});
 
-						}).fail(function() {
+						}, () => {
 
 							alert('could not open `' + locker_url + '`, please reload the page...'); // eslint-disable-line no-alert
 						});
 
-					}).fail(function() {
+					}, () => {
 
 						alert('could not open `' + theme_url + '`, please reload the page...'); // eslint-disable-line no-alert
 					});
@@ -1401,13 +1263,13 @@ __l0:		for(i = 0; i < l;)
 				{
 					/*---------------------------------*/
 
-					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'html'}).done(function(data) {
+					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'html'}).done((data) => {
 
-						$('body').append(data).promise().done(function() {
+						$('body').append(data).promise().done(() => {
 
-							amiLogin._init().fail(function(data) {
+							amiLogin._init().fail((data) => {
 
-								amiWebApp.error(data);
+								this.error(data);
 							});
 						});
 					});
@@ -1415,12 +1277,12 @@ __l0:		for(i = 0; i < l;)
 					/*---------------------------------*/
 				}
 
-			}).fail(function() {
+			}, () => {
 
 				alert('could not open `' + subapps_url + '`, please reload the page...'); // eslint-disable-line no-alert
 			});
 
-		}).fail(function() {
+		}, () => {
 
 			alert('could not open `' + controls_url + '`, please reload the page...'); // eslint-disable-line no-alert
 		});
@@ -1436,73 +1298,53 @@ __l0:		for(i = 0; i < l;)
 	{
 		if(controls.length > 0)
 		{
-			var name = controls.shift();
+			let name = controls.shift();
 
-			var descr = this._controls[name.toLowerCase()];
+			let descr = this._controls[name.toLowerCase()];
 
 			if(descr)
 			{
-				this.loadScripts(this.originURL + '/' + descr.file, {context: this}).done(function(loaded) {
+				this.loadScripts(this.originURL + '/' + descr.file).then((loaded) => {
 
 					try
 					{
-						var clazz = window[
+						let clazz = window[
 							descr.clazz
 						];
 
-						var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
+						let promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
 						                        : /*-----------------*/null/*-----------------*/
 						;
 
-						_ami_internal_done_fail(promise, function() {
+						_ami_internal_done_fail(promise, () => {
 
 							result.push(clazz);
 
-							amiWebApp._loadControls(deferred, result, controls, context);
+							this._loadControls(deferred, result, controls, context);
 
-						}, function() {
+						}, () => {
 
-							if(context) {
-								deferred.rejectWith(context, ['could not load control `' + name + '`']);
-							} else {
-								deferred.reject('could not load control `' + name + '`');
-							}
+							deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
 						});
 					}
 					catch(e)
 					{
-						if(context) {
-							deferred.rejectWith(context, ['could not load control `' + name + '`']);
-						} else {
-							deferred.reject('could not load control `' + name + '`');
-						}
+						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
 					}
 
-				}).fail(function() {
+				}, () => {
 
-					if(context) {
-						deferred.rejectWith(context, ['could not load control `' + name + '`']);
-					} else {
-						deferred.reject('could not load control `' + name + '`');
-					}
+					deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
 				});
 			}
 			else
 			{
-				if(context) {
-					deferred.rejectWith(context, ['could not load control `' + name + '`']);
-				} else {
-					deferred.reject('could not load control `' + name + '`');
-				}
+				deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
 			}
 		}
 		else
 		{
-			if(context) {
-				deferred.resolveWith(context, [result]);
-			} else {
-				deferred.resolve(result);
-			}
+			deferred.resolveWith(context || deferred, [result]);
 		}
 
 		return deferred;
@@ -1519,7 +1361,7 @@ __l0:		for(i = 0; i < l;)
 
 	loadControls: function(controls, settings)
 	{
-		var context = null;
+		let context = null;
 
 		if(settings && 'context' in settings)
 		{
@@ -1546,7 +1388,7 @@ __l0:		for(i = 0; i < l;)
 
 	onLogin: function()
 	{
-		var result = this._currentSubAppInstance.onLogin();
+		let result = this._currentSubAppInstance.onLogin();
 
 		this.onRefresh(true);
 
@@ -1557,7 +1399,7 @@ __l0:		for(i = 0; i < l;)
 
 	onLogout: function()
 	{
-		var result = this._currentSubAppInstance.onLogout();
+		let result = this._currentSubAppInstance.onLogout();
 
 		this.onRefresh(false);
 
@@ -1574,18 +1416,18 @@ __l0:		for(i = 0; i < l;)
 
 	loadSubApp: function(defaultSubApp, defaultUserData)
 	{
-		var subapp = this.args['subapp'] || defaultSubApp;
-		var userdata = this.args['userdata'] || defaultUserData;
+		let subapp = this.args['subapp'] || defaultSubApp;
+		let userdata = this.args['userdata'] || defaultUserData;
 
-		var descr = this._subapps[subapp.toLowerCase()];
+		let descr = this._subapps[subapp.toLowerCase()];
 
 		if(descr)
 		{
-			this.loadScripts(this.originURL + '/' + descr.file, {context: this}).done(function(loaded) {
+			this.loadScripts(this.originURL + '/' + descr.file).then((loaded) => {
 
 				try
 				{
-					var instance = window[
+					let instance = window[
 						descr.instance
 					];
 
@@ -1593,17 +1435,15 @@ __l0:		for(i = 0; i < l;)
 
 					this._currentSubAppInstance.onExit();
 
-					/**/
-
 					this._currentSubAppInstance = instance;
 
 					/**/
 
-					setTimeout(function() {
+					setTimeout(() => {
 
 						if($('#ami_main_content').is(':empty'))
 						{
-							amiWebApp.error('service temporarily unreachable, please reload the page...');
+							this.error('service temporarily unreachable, please reload the page...');
 						}
 
 					}, 10000);
@@ -1612,22 +1452,22 @@ __l0:		for(i = 0; i < l;)
 
 					this.lock();
 
-					var promise = loaded[0] ? instance.onReady(userdata)
+					let promise = loaded[0] ? instance.onReady(userdata)
 					                        : /*-------*/null/*-------*/
 					;
 
-					_ami_internal_done_fail(promise, function() {
+					_ami_internal_done_fail(promise, () => {
 
-						var promise = amiLogin.isAuthenticated() ? amiWebApp.onLogin()
-						                                         : amiWebApp.onLogout()
+						let promise = amiLogin.isAuthenticated() ? this.onLogin()
+						                                         : this.onLogout()
 						;
 
-						_ami_internal_always(promise, function() {
+						_ami_internal_always(promise, () => {
 
-							amiWebApp.unlock();
+							this.unlock();
 						});
 
-					}, function() {
+					}, () => {
 
 						this.error('could not load sub-application `' + subapp + '`');
 					});
@@ -1637,7 +1477,7 @@ __l0:		for(i = 0; i < l;)
 					this.error('could not load sub-application `' + subapp + '`');
 				}
 
-			}).fail(function() {
+			}, () => {
 
 				this.error('could not load sub-application `' + subapp + '`');
 			});

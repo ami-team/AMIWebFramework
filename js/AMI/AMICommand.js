@@ -64,12 +64,12 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	execute: function(command, settings)
 	{
-		var context = null;
-		var endpoint = this.endpoint;
-		var converter = this.converter;
-		var timeout = 0x00;
-		var extraParam = null;
-		var extraValue = null;
+		let context = null;
+		let endpoint = this.endpoint;
+		let converter = this.converter;
+		let timeout = 0x00;
+		let extraParam = null;
+		let extraValue = null;
 
 		if(settings)
 		{
@@ -100,13 +100,13 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		var URL = endpoint.trim();
-		var COMMAND = command.trim();
-		var CONVERTER = converter.trim();
+		let URL = endpoint.trim();
+		let COMMAND = command.trim();
+		let CONVERTER = converter.trim();
 
 		/*---------------------------------------------------------*/
 
-		var data = {
+		let data = {
 			Command: COMMAND,
 			Converter: CONVERTER,
 		};
@@ -120,11 +120,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		var urlWithParameters = URL + '?' + $.param(data);
+		let urlWithParameters = URL + '?' + $.param(data);
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
+		let result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -145,23 +145,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				},
 				success: function(data) {
 
-					var error = JSPath.apply('.AMIMessage.error', data);
+					let error = JSPath.apply('.AMIMessage.error', data);
 
 					if(error.length === 0)
 					{
-						if(context) {
-							result.resolveWith(context, [data, urlWithParameters]);
-						} else {
-							result.resolve(data, urlWithParameters);
-						}
+						result.resolveWith(context || result, [data, urlWithParameters]);
 					}
 					else
 					{
-						if(context) {
-							result.rejectWith(context, [data, urlWithParameters]);
-						} else {
-							result.reject(data, urlWithParameters);
-						}
+						result.rejectWith(context || result, [data, urlWithParameters]);
 					}
 				},
 				error: function(jqXHR, textStatus) {
@@ -171,13 +163,9 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 						textStatus = 'service temporarily unreachable';
 					}
 
-					var data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
+					let data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
-					if(context) {
-						result.rejectWith(context, [data, urlWithParameters]);
-					} else {
-						result.reject(data, urlWithParameters);
-					}
+					result.rejectWith(context || result, [data, urlWithParameters]);
 				},
 			});
 
@@ -198,11 +186,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				},
 				success: function(data) {
 
-					if(context) {
-						result.resolveWith(context, [data, urlWithParameters]);
-					} else {
-						result.resolve(data, urlWithParameters);
-					}
+					result.resolveWith(context || result, [data, urlWithParameters]);
 				},
 				error: function(jqXHR, textStatus) {
 
@@ -211,11 +195,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 						textStatus = 'service temporarily unreachable';
 					}
 
-					if(context) {
-						result.rejectWith(context, [textStatus, urlWithParameters]);
-					} else {
-						result.reject(textStatus, urlWithParameters);
-					}
+					result.rejectWith(context || result, [textStatus, urlWithParameters]);
 				},
 			});
 
@@ -239,7 +219,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	passLogin: function(user, pass, settings)
 	{
-		var context = null;
+		let context = null;
 
 		if(settings && 'context' in settings)
 		{
@@ -248,15 +228,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
+		let result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		this.execute('GetSessionInfo -AMIUser="' + this._textToString(user) + '" -AMIPass="' + this._textToString(pass) + '"', {extraParam: 'NoCert'}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="' + this._textToString(user) + '" -AMIPass="' + this._textToString(pass) + '"', {extraParam: 'NoCert'}).then((data) => {
 
-			var userInfo = {};
-			var roleInfo = {};
-			var ssoInfo = {}
+			let userInfo = {};
+			let roleInfo = {};
+			let ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
@@ -270,8 +250,8 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
-				var name = '';
-				var role = {};
+				let name = '';
+				let role = {};
 
 				row.field.forEach(function(field) {
 
@@ -286,19 +266,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			if(context) {
-				result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
-			} else {
-				result.resolve(data, userInfo, roleInfo, ssoInfo);
-			}
+			result.resolveWith(context || result, [data, userInfo, roleInfo, ssoInfo]);
 
-		}).fail(function(data) {
+		}, (data) => {
 
-			if(context) {
-				result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
-			} else {
-				result.reject(data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '');
-			}
+			result.rejectWith(context || result, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
 		/*---------------------------------------------------------*/
@@ -316,7 +288,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	certLogin: function(settings)
 	{
-		var context = null;
+		let context = null;
 
 		if(settings && 'context' in settings)
 		{
@@ -325,15 +297,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
+		let result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		this.execute('GetSessionInfo').done(function(data) {
+		this.execute('GetSessionInfo').then((data) => {
 
-			var userInfo = {};
-			var roleInfo = {};
-			var ssoInfo = {}
+			let userInfo = {};
+			let roleInfo = {};
+			let ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
@@ -347,8 +319,8 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
-				var name = '';
-				var role = {};
+				let name = '';
+				let role = {};
 
 				row.field.forEach(function(field) {
 
@@ -363,19 +335,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			if(context) {
-				result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
-			} else {
-				result.resolve(data, userInfo, roleInfo, ssoInfo);
-			}
+			result.resolveWith(context || result, [data, userInfo, roleInfo, ssoInfo]);
 
-		}).fail(function(data) {
+		}, (data) => {
 
-			if(context) {
-				result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
-			} else {
-				result.reject(data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '');
-			}
+			result.rejectWith(context || result, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
 		/*---------------------------------------------------------*/
@@ -393,7 +357,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	logout: function(settings)
 	{
-		var context = null;
+		let context = null;
 
 		if(settings && 'context' in settings)
 		{
@@ -402,15 +366,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		var result = $.Deferred();
+		let result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
-		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).done(function(data) {
+		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).then((data) => {
 
-			var userInfo = {};
-			var roleInfo = {};
-			var ssoInfo = {}
+			let userInfo = {};
+			let roleInfo = {};
+			let ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
 
@@ -424,8 +388,8 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
 
-				var name = '';
-				var role = {};
+				let name = '';
+				let role = {};
 
 				row.field.forEach(function(field) {
 
@@ -440,19 +404,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			if(context) {
-				result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
-			} else {
-				result.resolve(data, userInfo, roleInfo, ssoInfo);
-			}
+			result.resolveWith(context || result, [data, userInfo, roleInfo, ssoInfo]);
 
-		}).fail(function(data) {
+		}, (data) => {
 
-			if(context) {
-				result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
-			} else {
-				result.reject(data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '');
-			}
+			result.rejectWith(context || result, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
 		/*---------------------------------------------------------*/

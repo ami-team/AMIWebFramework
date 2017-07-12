@@ -439,7 +439,7 @@ var amiDoc = {
                 },
                 {
                     "name": "replaceHTML",
-                    "desc": "Put a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}",
+                    "desc": "Put a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
                     "params": [
                         {
                             "name": "selector",
@@ -475,7 +475,7 @@ var amiDoc = {
                 },
                 {
                     "name": "prependHTML",
-                    "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}",
+                    "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
                     "params": [
                         {
                             "name": "selector",
@@ -511,7 +511,7 @@ var amiDoc = {
                 },
                 {
                     "name": "appendHTML",
-                    "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}",
+                    "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
                     "params": [
                         {
                             "name": "selector",
@@ -546,7 +546,7 @@ var amiDoc = {
                     ]
                 },
                 {
-                    "name": "formatHTML",
+                    "name": "formatTWIG",
                     "desc": "Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}",
                     "params": [
                         {
@@ -1500,137 +1500,7 @@ var amiDoc = {
             "konstructor": {
                 "name": "ami.Control",
                 "params": []
-            },
-            "functions": [
-                {
-                    "name": "patchId",
-                    "desc": "Patch an HTML identifier",
-                    "params": [
-                        {
-                            "name": "id",
-                            "type": "String",
-                            "desc": "the unpatched HTML identifier",
-                            "default": "",
-                            "optional": "",
-                            "nullable": ""
-                        }
-                    ],
-                    "returns": [
-                        {
-                            "type": "String",
-                            "desc": "The patched HTML identifier"
-                        }
-                    ]
-                },
-                {
-                    "name": "replaceHTML",
-                    "desc": "Put a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}",
-                    "params": [
-                        {
-                            "name": "selector",
-                            "type": "String",
-                            "desc": "the target selector",
-                            "default": "",
-                            "optional": "",
-                            "nullable": ""
-                        },
-                        {
-                            "name": "twig",
-                            "type": "String",
-                            "desc": "the TWIG fragment",
-                            "default": "",
-                            "optional": "",
-                            "nullable": ""
-                        },
-                        {
-                            "name": "settings",
-                            "type": "Object",
-                            "desc": "dictionary of settings (context, dict)",
-                            "default": "",
-                            "optional": true,
-                            "nullable": ""
-                        }
-                    ],
-                    "returns": [
-                        {
-                            "type": "$.Deferred",
-                            "desc": "A JQuery deferred object"
-                        }
-                    ]
-                },
-                {
-                    "name": "prependHTML",
-                    "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}",
-                    "params": [
-                        {
-                            "name": "selector",
-                            "type": "String",
-                            "desc": "the target selector",
-                            "default": "",
-                            "optional": "",
-                            "nullable": ""
-                        },
-                        {
-                            "name": "twig",
-                            "type": "String",
-                            "desc": "the TWIG fragment",
-                            "default": "",
-                            "optional": "",
-                            "nullable": ""
-                        },
-                        {
-                            "name": "settings",
-                            "type": "Object",
-                            "desc": "dictionary of settings (context, dict)",
-                            "default": "",
-                            "optional": true,
-                            "nullable": ""
-                        }
-                    ],
-                    "returns": [
-                        {
-                            "type": "$.Deferred",
-                            "desc": "A JQuery deferred object"
-                        }
-                    ]
-                },
-                {
-                    "name": "appendHTML",
-                    "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}",
-                    "params": [
-                        {
-                            "name": "selector",
-                            "type": "String",
-                            "desc": "the target selector",
-                            "default": "",
-                            "optional": "",
-                            "nullable": ""
-                        },
-                        {
-                            "name": "twig",
-                            "type": "String",
-                            "desc": "the TWIG fragment",
-                            "default": "",
-                            "optional": "",
-                            "nullable": ""
-                        },
-                        {
-                            "name": "settings",
-                            "type": "Object",
-                            "desc": "dictionary of settings (context, dict)",
-                            "default": "",
-                            "optional": true,
-                            "nullable": ""
-                        }
-                    ],
-                    "returns": [
-                        {
-                            "type": "$.Deferred",
-                            "desc": "A JQuery deferred object"
-                        }
-                    ]
-                }
-            ]
+            }
         },
         {
             "name": "ami.SubApp",
@@ -1642,24 +1512,7 @@ var amiDoc = {
             "konstructor": {
                 "name": "ami.SubApp",
                 "params": []
-            },
-            "functions": [
-                {
-                    "name": "onExit",
-                    "desc": "Called when the sub-application is about to exit",
-                    "params": []
-                },
-                {
-                    "name": "onLogin",
-                    "desc": "Called when logging in",
-                    "params": []
-                },
-                {
-                    "name": "onLogout",
-                    "desc": "Called when logging out",
-                    "params": []
-                }
-            ]
+            }
         }
     ]
 };

@@ -16,6 +16,15 @@
 
 /*-------------------------------------------------------------------------*/
 
+var filename = 'AMIDoc.js';
+
+/*-------------------------------------------------------------------------*/
+
+var path = require('jsdoc/path');
+var  fs  = require( 'jsdoc/fs' );
+
+/*-------------------------------------------------------------------------*/
+
 function nameHelper(name)
 {
 	return name.replace(/\//g, '.');
@@ -30,7 +39,7 @@ function typeHelper(type)
 
 /*-------------------------------------------------------------------------*/
 
-function graft(parentNode, childNodes, parentLongName, parentName)
+function process(parentNode, childNodes, parentLongName, parentName)
 {
 	childNodes.filter(function(element) {
 
@@ -39,6 +48,11 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 	}).forEach(function(element, index) {
 
 		var i;
+
+		if(element.description && element.description.indexOf('/*-') === 0)
+		{
+			return;
+		}
 
 		/*---------------------------------------------------------*/
 		/* NAMESPACE                                               */
@@ -83,7 +97,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 
 			/*-------------------------------------------------*/
 
-			graft(thisNamespace, childNodes, element.longname, element.name);
+			process(thisNamespace, childNodes, element.longname, element.name);
 
 			/*-------------------------------------------------*/
 		}
@@ -210,7 +224,7 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 
 			/*-------------------------------------------------*/
 
-			graft(thisClass, childNodes, element.longname, element.name);
+			process(thisClass, childNodes, element.longname, element.name);
 
 			/*-------------------------------------------------*/
 	 	}
@@ -386,49 +400,74 @@ function graft(parentNode, childNodes, parentLongName, parentName)
 
 		/*---------------------------------------------------------*/
 	});
+
+	return parentNode;
 }
 
 /*-------------------------------------------------------------------------*/
 
-exports.publish = function(data, opts) {
+exports.publish = function(data, opts)
+{
+	/*-----------------------------------------------------------------*/
+
+	console.log(data().get());
 
 	data({undocumented: true}).remove();
 
 	var docs = data().get();
 
-	var root = {};
+	var root = process({}, docs);
 
-	graft(root, docs);
+	/*-----------------------------------------------------------------*/
+
+	var result = [
+		'/*!',
+		' * AMI Web Framework - ' + filename,
+		' *',
+		' * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3',
+		' *',
+		' * This file must be used under the terms of the CeCILL-C:',
+		' * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html',
+		' * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html',
+		' *',
+		' */',
+		'',
+		'\'use strict\';',
+		'',
+		'/*-------------------------------------------------------------------------*/',
+		'',
+		'/* eslint-disable */',
+		'',
+		'var amiDoc = ' + JSON.stringify(root, null, 4) + ';',
+		'',
+		'/* eslint-enable */',
+		'',
+		'/*-------------------------------------------------------------------------*/',
+
+	].join('\n');
+
+	/*-----------------------------------------------------------------*/
 
 	if(opts.destination === 'console')
 	{
-		console.log('/*!');
-		console.log(' * AMI Web Framework - AMIDoc.js');
-		console.log(' *');
-		console.log(' * Copyright (c) 2014-{{YEAR}} The AMI Team / LPSC / IN2P3');
-		console.log(' *');
-		console.log(' * This file must be used under the terms of the CeCILL-C:');
-		console.log(' * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html');
-		console.log(' * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html');
-		console.log(' *');
-		console.log(' */');
-		console.log('');
-		console.log('\'use strict\';');
-		console.log('');
-		console.log('/*-------------------------------------------------------------------------*/');
-		console.log('');
-		console.log('/* eslint-disable */');
-		console.log('');
-		console.log('var amiDoc = ' + JSON.stringify(root, null, 4) + ';');
-		console.log('');
-		console.log('/* eslint-enable */');
-		console.log('');
-		console.log('/*-------------------------------------------------------------------------*/');
+		console.log(result);
 	}
 	else
 	{
-		console.log('This template only supports output to the console. Use the option "-d console" when you run JSDoc.');
+		/*---------------------------------------------------------*/
+
+		var dirname = path.normalize(opts.destination);
+
+		/*---------------------------------------------------------*/
+
+		fs.mkPath(dirname);
+
+		fs.writeFileSync(path.join(dirname, filename), result, 'utf8');
+
+		/*---------------------------------------------------------*/
 	}
+
+	/*-----------------------------------------------------------------*/
 };
 
 /*-------------------------------------------------------------------------*/
