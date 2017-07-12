@@ -413,7 +413,7 @@ __l0:		for(let i = 0; i < l;)
 			    |
 			    s.charCodeAt(i++) << 0
 			;
-			
+
 			e.push(this_base64.charAt((w >> 18) & 0x3F));
 			e.push(this_base64.charAt((w >> 12) & 0x3F));
 			e.push(this_base64.charAt((w >> 6) & 0x3F));
