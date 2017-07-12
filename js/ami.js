@@ -4944,20 +4944,53 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	_loadFiles: function _loadFiles(deferred, result, urls, dataType, context) {
 		var _this = this;
 
-		if (urls.length > 0) {
-			var url = urls.shift();
+		if (urls.length === 0) {
+			return deferred.resolveWith(context || deferred, [result]);
+		}
 
-			/*-------------------------------------------------*/
-			/* SHEET                                          */
-			/*-------------------------------------------------*/
+		/*---------------------------------------------------------*/
 
-			/**/if (dataType === 'sheet') {
-				if (this._sheets.indexOf(url) >= 0) {
+		var url = urls.shift();
+
+		/*---------------------------------------------------------*/
+		/* SHEET                                                   */
+		/*---------------------------------------------------------*/
+
+		/**/if (dataType === 'sheet') {
+			if (this._sheets.indexOf(url) >= 0) {
+				result.push(false);
+
+				this._loadFiles(deferred, result, urls, dataType, context);
+			} else {
+				$.getSheet({
+					url: url,
+					async: false,
+					cache: false,
+					crossDomain: true,
+					dataType: dataType
+				}).then(function () {
+
+					result.push(true);
+
+					_this._loadFiles(deferred, result, urls, dataType, context);
+				}, function () {
+
+					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+				});
+			}
+		}
+
+		/*---------------------------------------------------------*/
+		/* SCRIPT                                                  */
+		/*---------------------------------------------------------*/
+
+		else if (dataType === 'script') {
+				if (this._scripts.indexOf(url) >= 0) {
 					result.push(false);
 
 					this._loadFiles(deferred, result, urls, dataType, context);
 				} else {
-					$.getSheet({
+					$.ajax({
 						url: url,
 						async: false,
 						cache: false,
@@ -4975,60 +5008,29 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				}
 			}
 
-			/*-------------------------------------------------*/
-			/* SCRIPT                                          */
-			/*-------------------------------------------------*/
+			/*---------------------------------------------------------*/
+			/* OTHER                                                   */
+			/*---------------------------------------------------------*/
 
-			else if (dataType === 'script') {
-					if (this._scripts.indexOf(url) >= 0) {
-						result.push(false);
+			else {
+					$.ajax({
+						url: url,
+						async: true,
+						cache: false,
+						crossDomain: true,
+						dataType: dataType
+					}).then(function (data) {
 
-						this._loadFiles(deferred, result, urls, dataType, context);
-					} else {
-						$.ajax({
-							url: url,
-							async: false,
-							cache: false,
-							crossDomain: true,
-							dataType: dataType
-						}).then(function () {
+						result.push(data);
 
-							result.push(true);
+						_this._loadFiles(deferred, result, urls, dataType, context);
+					}, function () {
 
-							_this._loadFiles(deferred, result, urls, dataType, context);
-						}, function () {
-
-							deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
-						});
-					}
+						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+					});
 				}
 
-				/*-------------------------------------------------*/
-				/* OTHER                                           */
-				/*-------------------------------------------------*/
-
-				else {
-						$.ajax({
-							url: url,
-							async: true,
-							cache: false,
-							crossDomain: true,
-							dataType: dataType
-						}).then(function (data) {
-
-							result.push(data);
-
-							_this._loadFiles(deferred, result, urls, dataType, context);
-						}, function () {
-
-							deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
-						});
-					}
-
-			/*-------------------------------------------------*/
-		} else {
-			deferred.resolveWith(context || deferred, [result]);
-		}
+		/*---------------------------------------------------------*/
 
 		return deferred;
 	},
@@ -5664,9 +5666,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 							$('body').append(_this3.formatTWIG(data3, dict) + data4).promise().done(function () {
 
-								amiLogin._init().fail(function (data) {
+								amiLogin._init().fail(function (data5) {
 
-									_this3.error(data);
+									_this3.error(data5);
 								});
 							});
 						}, function () {
@@ -5682,13 +5684,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				} else {
 					/*---------------------------------*/
 
-					$.ajax({ url: locker_url, cache: true, crossDomain: true, dataType: 'html' }).done(function (data) {
+					$.ajax({ url: locker_url, cache: true, crossDomain: true, dataType: 'html' }).done(function (data3) {
 
-						$('body').append(data).promise().done(function () {
+						$('body').append(data3).promise().done(function () {
 
-							amiLogin._init().fail(function (data) {
+							amiLogin._init().fail(function (data4) {
 
-								_this3.error(data);
+								_this3.error(data4);
 							});
 						});
 					});
@@ -5714,42 +5716,48 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	_loadControls: function _loadControls(deferred, result, controls, context) {
 		var _this4 = this;
 
-		if (controls.length > 0) {
-			var name = controls.shift();
-
-			var descr = this._controls[name.toLowerCase()];
-
-			if (descr) {
-				this.loadScripts(this.originURL + '/' + descr.file).then(function (loaded) {
-
-					try {
-						var clazz = window[descr.clazz];
-
-						var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) : /*-----------------*/null /*-----------------*/
-						;
-
-						_ami_internal_done_fail(promise, function () {
-
-							result.push(clazz);
-
-							_this4._loadControls(deferred, result, controls, context);
-						}, function () {
-
-							deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
-						});
-					} catch (e) {
-						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
-					}
-				}, function () {
-
-					deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
-				});
-			} else {
-				deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
-			}
-		} else {
-			deferred.resolveWith(context || deferred, [result]);
+		if (controls.length === 0) {
+			return deferred.resolveWith(context || deferred, [result]);
 		}
+
+		/*---------------------------------------------------------*/
+
+		var name = controls.shift();
+
+		var descr = this._controls[name.toLowerCase()];
+
+		/*---------------------------------------------------------*/
+
+		if (descr) {
+			this.loadScripts(this.originURL + '/' + descr.file).then(function (loaded) {
+
+				try {
+					var clazz = window[descr.clazz];
+
+					var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) : /*-----------------*/null /*-----------------*/
+					;
+
+					_ami_internal_done_fail(promise, function () {
+
+						result.push(clazz);
+
+						_this4._loadControls(deferred, result, controls, context);
+					}, function () {
+
+						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+					});
+				} catch (e) {
+					deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+				}
+			}, function () {
+
+				deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+			});
+		} else {
+			deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+		}
+
+		/*---------------------------------------------------------*/
 
 		return deferred;
 	},

@@ -5707,91 +5707,38 @@ __l0:		for(let i = 0; i < l;)
 
 	_loadFiles: function(deferred, result, urls, dataType, context)
 	{
-		if(urls.length > 0)
+		if(urls.length === 0)
 		{
-			let url = urls.shift();
+			return deferred.resolveWith(context || deferred, [result]);
+		}
 
-			/*-------------------------------------------------*/
-			/* SHEET                                          */
-			/*-------------------------------------------------*/
+		/*---------------------------------------------------------*/
 
-			/**/ if(dataType === 'sheet')
+		let url = urls.shift();
+
+		/*---------------------------------------------------------*/
+		/* SHEET                                                   */
+		/*---------------------------------------------------------*/
+
+		/**/ if(dataType === 'sheet')
+		{
+			if(this._sheets.indexOf(url) >= 0)
 			{
-				if(this._sheets.indexOf(url) >= 0)
-				{
-					result.push(false);
+				result.push(false);
 
-					this._loadFiles(deferred, result, urls, dataType, context);
-				}
-				else
-				{
-					$.getSheet({
-						url: url,
-						async: false,
-						cache: false,
-						crossDomain: true,
-						dataType: dataType,
-					}).then(() => {
-
-						result.push(true);
-
-						this._loadFiles(deferred, result, urls, dataType, context);
-
-					}, () => {
-
-						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
-					});
-				}
+				this._loadFiles(deferred, result, urls, dataType, context);
 			}
-
-			/*-------------------------------------------------*/
-			/* SCRIPT                                          */
-			/*-------------------------------------------------*/
-
-			else if(dataType === 'script')
-			{
-				if(this._scripts.indexOf(url) >= 0)
-				{
-					result.push(false);
-
-					this._loadFiles(deferred, result, urls, dataType, context);
-				}
-				else
-				{
-					$.ajax({
-						url: url,
-						async: false,
-						cache: false,
-						crossDomain: true,
-						dataType: dataType,
-					}).then(() => {
-
-						result.push(true);
-
-						this._loadFiles(deferred, result, urls, dataType, context);
-
-					}, () => {
-
-						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
-					});
-				}
-			}
-
-			/*-------------------------------------------------*/
-			/* OTHER                                           */
-			/*-------------------------------------------------*/
-
 			else
 			{
-				$.ajax({
+				$.getSheet({
 					url: url,
-					async: true,
+					async: false,
 					cache: false,
 					crossDomain: true,
 					dataType: dataType,
-				}).then((data) => {
+				}).then(() => {
 
-					result.push(data);
+					result.push(true);
 
 					this._loadFiles(deferred, result, urls, dataType, context);
 
@@ -5800,13 +5747,66 @@ __l0:		for(let i = 0; i < l;)
 					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
 				});
 			}
-
-			/*-------------------------------------------------*/
 		}
+
+		/*---------------------------------------------------------*/
+		/* SCRIPT                                                  */
+		/*---------------------------------------------------------*/
+
+		else if(dataType === 'script')
+		{
+			if(this._scripts.indexOf(url) >= 0)
+			{
+				result.push(false);
+
+				this._loadFiles(deferred, result, urls, dataType, context);
+			}
+			else
+			{
+				$.ajax({
+					url: url,
+					async: false,
+					cache: false,
+					crossDomain: true,
+					dataType: dataType,
+				}).then(() => {
+
+					result.push(true);
+
+					this._loadFiles(deferred, result, urls, dataType, context);
+
+				}, () => {
+
+					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+				});
+			}
+		}
+
+		/*---------------------------------------------------------*/
+		/* OTHER                                                   */
+		/*---------------------------------------------------------*/
+
 		else
 		{
-			deferred.resolveWith(context || deferred, [result]);
+			$.ajax({
+				url: url,
+				async: true,
+				cache: false,
+				crossDomain: true,
+				dataType: dataType,
+			}).then((data) => {
+
+				result.push(data);
+
+				this._loadFiles(deferred, result, urls, dataType, context);
+
+			}, () => {
+
+				deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+			});
 		}
+
+		/*---------------------------------------------------------*/
 
 		return deferred;
 	},
@@ -6470,9 +6470,9 @@ __l0:		for(let i = 0; i < l;)
 
 							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-								amiLogin._init().fail((data) => {
+								amiLogin._init().fail((data5) => {
 
-									this.error(data);
+									this.error(data5);
 								});
 							});
 
@@ -6492,13 +6492,13 @@ __l0:		for(let i = 0; i < l;)
 				{
 					/*---------------------------------*/
 
-					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'html'}).done((data) => {
+					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'html'}).done((data3) => {
 
-						$('body').append(data).promise().done(() => {
+						$('body').append(data3).promise().done(() => {
 
-							amiLogin._init().fail((data) => {
+							amiLogin._init().fail((data4) => {
 
-								this.error(data);
+								this.error(data4);
 							});
 						});
 					});
@@ -6525,56 +6525,60 @@ __l0:		for(let i = 0; i < l;)
 
 	_loadControls: function(deferred, result, controls, context)
 	{
-		if(controls.length > 0)
+		if(controls.length === 0)
 		{
-			let name = controls.shift();
+			return deferred.resolveWith(context || deferred, [result]);
+		}
 
-			let descr = this._controls[name.toLowerCase()];
+		/*---------------------------------------------------------*/
 
-			if(descr)
-			{
-				this.loadScripts(this.originURL + '/' + descr.file).then((loaded) => {
+		let name = controls.shift();
 
-					try
-					{
-						let clazz = window[
-							descr.clazz
-						];
+		let descr = this._controls[name.toLowerCase()];
 
-						let promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
-						                        : /*-----------------*/null/*-----------------*/
-						;
+		/*---------------------------------------------------------*/
 
-						_ami_internal_done_fail(promise, () => {
+		if(descr)
+		{
+			this.loadScripts(this.originURL + '/' + descr.file).then((loaded) => {
 
-							result.push(clazz);
+				try
+				{
+					let clazz = window[
+						descr.clazz
+					];
 
-							this._loadControls(deferred, result, controls, context);
+					let promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
+								: /*-----------------*/null/*-----------------*/
+					;
 
-						}, () => {
+					_ami_internal_done_fail(promise, () => {
 
-							deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
-						});
-					}
-					catch(e)
-					{
+						result.push(clazz);
+
+						this._loadControls(deferred, result, controls, context);
+
+					}, () => {
+
 						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
-					}
-
-				}, () => {
-
+					});
+				}
+				catch(e)
+				{
 					deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
-				});
-			}
-			else
-			{
+				}
+
+			}, () => {
+
 				deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
-			}
+			});
 		}
 		else
 		{
-			deferred.resolveWith(context || deferred, [result]);
+			deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
 		}
+
+		/*---------------------------------------------------------*/
 
 		return deferred;
 	},
