@@ -1,6 +1,10 @@
 module.exports = function(grunt) {
 	/*-----------------------------------------------------------------*/
 
+	var year = grunt.template.today("yyyy");
+
+	/*-----------------------------------------------------------------*/
+
 	grunt.initConfig({
 		/*---------------------------------------------------------*/
 
@@ -30,7 +34,15 @@ module.exports = function(grunt) {
 		"concat": {
 			"js": {
 				"options": {
-					"banner": "'use strict';\n\n"
+					"banner": "'use strict';\n\n",
+
+					"process": function(src) {
+
+						return src.replace(/\'use strict\'\s*;\n*/g, "")
+						          .replace(/\"use strict\"\s*;\n*/g, "")
+							  .replace(/{{YEAR}}/g, year)
+						;
+					}
 				},
 				"src": [
 					"js/AMI/external/ami-twig.js",
@@ -57,28 +69,10 @@ module.exports = function(grunt) {
 
 		/*---------------------------------------------------------*/
 
-		"string-replace": {
-			"js": {
-				"options": {
-					"replacements": [
-						{
-							"pattern": /(?!^)\'use strict\'\s*;\n*/g,
-							"replacement": ""
-						},
-						{
-							"pattern": /(?!^)\"use strict\"\s*;\n*/g,
-							"replacement": ""
-						},
-						{
-							"pattern": /{{YEAR}}/g,
-							"replacement": grunt.template.today('yyyy')
-						}
-					]
-				},
-				"files": {
-					"js/ami.es6.js": "js/ami.es6.js"
-				}
-			}
+		"eslint": {
+			"target": [
+				"js/ami.es6.js"
+			]
 		},
 
 		/*---------------------------------------------------------*/
@@ -96,10 +90,24 @@ module.exports = function(grunt) {
 
 		/*---------------------------------------------------------*/
 
+		"cssmin": {
+			"css": {
+				"options": {
+					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + year + " The AMI Team / LPSC / IN2P3\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
+					"compress": true
+				},
+				"files": {
+					"css/ami.min.css": "css/ami.css"
+				}
+			}
+		},
+
+		/*---------------------------------------------------------*/
+
 		"uglify": {
 			"js": {
 				"options": {
-					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-<%= grunt.template.today('yyyy') %> The AMI Team / LPSC / IN2P3\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
+					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + year + " The AMI Team / LPSC / IN2P3\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
 					"compress": true
 				},
 				"files": {
@@ -107,12 +115,6 @@ module.exports = function(grunt) {
 					"js/ami.min.js": "js/ami.js"
 				}
 			}
-		},
-
-		/*---------------------------------------------------------*/
-
-		"eslint": {
-			"target": ["js/ami.es6.js"]
 		}
 
 		/*---------------------------------------------------------*/
@@ -121,18 +123,18 @@ module.exports = function(grunt) {
 	/*-----------------------------------------------------------------*/
 
 	grunt.loadNpmTasks("grunt-contrib-concat");
+	grunt.loadNpmTasks("grunt-contrib-cssmin");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
-	grunt.loadNpmTasks("grunt-string-replace");
 
 	/**/
 
 	grunt.loadNpmTasks("grunt-jsdoc");
-	grunt.loadNpmTasks("grunt-babel");
 	grunt.loadNpmTasks("grunt-eslint");
+	grunt.loadNpmTasks("grunt-babel");
 
 	/*-----------------------------------------------------------------*/
 
-	grunt.registerTask("build", ["jsdoc", "concat", "string-replace", "eslint", "babel", "uglify"]);
+	grunt.registerTask("build", ["jsdoc", "concat", "eslint", "babel", "cssmin", "uglify"]);
 
 	/*-----------------------------------------------------------------*/
 };
