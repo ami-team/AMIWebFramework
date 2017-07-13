@@ -101,7 +101,7 @@ jQuery.getSheet = function(settings)
 /* BOOTSTRAP EXTENSIONS                                                    */
 /*-------------------------------------------------------------------------*/
 
-var _ami_internal_zIndex = 2000;
+var _ami_internal_modalZIndex = 2000;
 
 /*-------------------------------------------------------------------------*/
 
@@ -111,9 +111,9 @@ $(document).on('show.bs.modal', '.modal', function() {
 
 	setTimeout(() => {
 
-		$('body > .modal-backdrop:last').css('z-index', _ami_internal_zIndex++);
+		$('body > .modal-backdrop:last').css('z-index', _ami_internal_modalZIndex++);
 
-		/*-----------*/el/*-----------*/.css('z-index', _ami_internal_zIndex++);
+		/*-----------*/el/*-----------*/.css('z-index', _ami_internal_modalZIndex++);
 
 	}, 10);
 });

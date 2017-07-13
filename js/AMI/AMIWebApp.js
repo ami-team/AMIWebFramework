@@ -264,7 +264,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		const name = Object.prototype.toString.call(x);
 
-		return name.indexOf('[object ') === 0 ? name.substring(8, name.length - 1) : '';
+		return name.startsWith('[object ') ? name.substring(8, name.length - 1) : '';
 	},
 
 	/*-----------------------------------------------------------------*/
