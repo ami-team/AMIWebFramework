@@ -1110,13 +1110,14 @@ __l0:		for(let i = 0; i < l;)
 	/**
 	  * This method must be overloaded and is called when the web application starts
 	  * @event amiWebApp#onReady
+	  * @param {String} userData
 	  */
 
 	onReady: function()
 	{
 		if(!this._embedded)
 		{
-			alert('error: `this.onReady()` must be overloaded!'); // eslint-disable-line no-alert
+			alert('error: `amiWebApp.onReady()` must be overloaded!'); // eslint-disable-line no-alert
 		}
 	},
 
@@ -1125,13 +1126,14 @@ __l0:		for(let i = 0; i < l;)
 	/**
 	  * This method must be overloaded and is called when the toolbar needs to be updated
 	  * @event amiWebApp#onRefresh
+	  * @param {Boolean} isAuth
 	  */
 
 	onRefresh: function()
 	{
 		if(!this._embedded)
 		{
-			alert('error: `this.onRefresh()` must be overloaded!'); // eslint-disable-line no-alert
+			alert('error: `amiWebApp.onRefresh()` must be overloaded!'); // eslint-disable-line no-alert
 		}
 	},
 
@@ -1400,7 +1402,7 @@ __l0:		for(let i = 0; i < l;)
 	/* SUBAPPS                                                         */
 	/*-----------------------------------------------------------------*/
 
-	onLogin: function()
+	triggerLogin: function()
 	{
 		const result = this._currentSubAppInstance.onLogin();
 
@@ -1411,7 +1413,7 @@ __l0:		for(let i = 0; i < l;)
 
 	/*-----------------------------------------------------------------*/
 
-	onLogout: function()
+	triggerLogout: function()
 	{
 		const result = this._currentSubAppInstance.onLogout();
 
@@ -1472,8 +1474,8 @@ __l0:		for(let i = 0; i < l;)
 
 					_ami_internal_done_fail(promise, () => {
 
-						const promise = amiLogin.isAuthenticated() ? this.onLogin()
-						                                           : this.onLogout()
+						const promise = amiLogin.isAuthenticated() ? this.triggerLogin()
+						                                           : this.triggerLogout()
 						;
 
 						_ami_internal_always(promise, () => {

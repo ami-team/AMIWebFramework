@@ -120,7 +120,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				/*-----------------------------------------*/
 
-				_ami_internal_done_fail(amiWebApp.onReady(), () => {
+				_ami_internal_done_fail(amiWebApp.onReady(amiWebApp.args['userdata'] || ''), () => {
 
 					this._update(userInfo, roleInfo, ssoInfo);
 
@@ -374,7 +374,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------*/
 
-			_ami_internal_always(amiWebApp.onLogin(), () => {
+			_ami_internal_always(amiWebApp.triggerLogin(), () => {
 
 				amiWebApp.replaceHTML('#ami_login_content', this.fragmentLogoutButton, {dict: dict});
 
@@ -387,7 +387,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		{
 			/*-------------------------------------------------*/
 
-			_ami_internal_always(amiWebApp.onLogout(), () => {
+			_ami_internal_always(amiWebApp.triggerLogout(), () => {
 
 				result.resolve();
 
