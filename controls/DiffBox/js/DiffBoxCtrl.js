@@ -35,11 +35,12 @@ $AMIClass('DiffBoxCtrl', {
 
 			amiWebApp.loadScripts([
 				amiWebApp.originURL + '/js/3rd-party/diff_match_patch.min.js',
-			]);
+			], {context: this}).done(function() {
 
-			amiWebApp.appendHTML('body', data[0]);
+				this.dmp = new diff_match_patch();
 
-			this.dmp = new diff_match_patch();
+				amiWebApp.appendHTML('body', data[0]);
+			});
 		});
 	},
 
