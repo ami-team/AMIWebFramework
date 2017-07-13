@@ -34,7 +34,7 @@ $AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Put a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
+	  * Put a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
@@ -46,7 +46,7 @@ $AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Prepends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
+	  * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
@@ -58,7 +58,7 @@ $AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Appends a HTML or TWIG fragment to the given target, see method [formatHTML]{@link #jsdoc_method_formatHTML}
+	  * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
