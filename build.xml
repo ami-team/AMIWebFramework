@@ -6,76 +6,6 @@
 
 	<!-- ************************************************************ -->
 
-	<tstamp>
-		<format property="year" pattern="yyyy" />
-	</tstamp>
-
-	<!-- ************************************************************ -->
-
-	<target name="compile_prod" description="Compile the project (prod mode).">
-
-		<!-- **************************************************** -->
-		<!-- MERGE FILES                                          -->
-		<!-- **************************************************** -->
-
-		<merge-files />
-
-		<!-- **************************************************** -->
-		<!-- GENERATE MINIMIZED FILES                             -->
-		<!-- **************************************************** -->
-
-		<java classname="net.hep.ami.awf.CssCompressor" failonerror="true" fork="true">
-			<classpath location="tools/awf.jar" />
-			<arg value="css/ami.min.css" />
-			<arg value="css/ami.css" />
-		</java>
-
-		<java classname="net.hep.ami.awf.JsCompressor" failonerror="true" fork="true">
-			<classpath location="tools/awf.jar" />
-			<arg value="js/ami.min.js" />
-			<arg value="js/ami.js" />
-		</java>
-
-		<!-- **************************************************** -->
-
-	</target>
-
-	<!-- ************************************************************ -->
-
-	<target name="compile_debug" description="Compile the project (debug mode).">
-
-		<!-- **************************************************** -->
-		<!-- MERGE FILES                                          -->
-		<!-- **************************************************** -->
-
-		<merge-files />
-
-		<!-- **************************************************** -->
-		<!-- GENERATE MINIMIZED FILES                             -->
-		<!-- **************************************************** -->
-
-		<copy file="css/ami.css" tofile="css/ami.min.css" overwrite="true" />
-
-		<copy file="js/ami.js" tofile="js/ami.min.js" overwrite="true" />
-
-		<!-- **************************************************** -->
-
-	</target>
-
-	<!-- ************************************************************ -->
-
-	<target name="clean" description="Clean the project.">
-
-		<delete file="css/ami.css" />
-		<delete file="css/ami.min.css" />
-
-		<delete file="js/ami.js" />
-		<delete file="js/ami.min.js" />
-
-	</target>
-
-	<!-- ************************************************************ -->
-
 	<target name="make-home-page" description="New home page.">
 
 		<java classname="net.hep.ami.awf.NewHomePage" failonerror="true" fork="true">
@@ -116,36 +46,6 @@
 
 	<!-- ************************************************************ -->
 
-	<target name="make-doc" description="Generate doc.">
-
-		<!-- npm install -g jsdoc -->
-		<!-- http://usejsdoc.org/ -->
-
-		<exec executable="bash">
-			<env key="PATH" value="/usr/local/bin:/usr/bin" />
-			<arg value="-c" />
-			<arg value="jsdoc --template tools/jsdoc -d console js/AMI/AMIWebApp.js js/AMI/AMIInterface.js js/AMI/AMICommand.js js/AMI/AMILogin.js > js/AMI/AMIDoc.js" />
-		</exec>
-
-	</target>
-
-	<!-- ************************************************************ -->
-
-	<target name="lint-framework" description="Code quality.">
-
-		<!-- npm install -g eslint -->
-		<!-- http://eslint.org/ -->
-
-		<exec executable="bash">
-			<env key="PATH" value="/usr/local/bin:/usr/bin" />
-			<arg value="-c" />
-			<arg value="eslint js/ami.js" />
-		</exec>
-
-	</target>
-
-	<!-- ************************************************************ -->
-
 	<target name="lint-control" description="Code quality.">
 
 		<!-- npm install -g eslint -->
@@ -173,65 +73,6 @@
 		</exec>
 
 	</target>
-
-	<!-- ************************************************************ -->
-
-	<macrodef name="merge-files">
-
-		<sequential>
-
-			<!-- ******************************************** -->
-
-			<concat destfile="css/ami.css" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
-
-				<filelist dir="css/AMI">
-					<file name="general.css" />
-					<file name="bootstrap.css" />
-					<file name="ami.css" />
-				</filelist>
-
-			</concat>
-
-			<!-- ******************************************** -->
-
-			<concat destfile="js/ami.js" fixlastline="true" encoding="UTF-8" outputencoding="UTF-8">
-
-				<header>{{USE_STRICT}}</header>
-
-				<filelist dir="js/AMI">
-					<file name="external/ami-twig.js" />
-					<file name="external/jspath.js" />
-					<file name="AMIObject.js" />
-					<file name="AMIWebApp.js" />
-					<file name="AMIInterface.js" />
-					<file name="AMICommand.js" />
-					<file name="AMILogin.js" />
-					<file name="AMIDoc.js" />
-				</filelist>
-
-			</concat>
-
-			<!-- ******************************************** -->
-
-			<replace file="js/ami.js" token="'use strict';${line.separator}${line.separator}" value="" />
-
-			<replace file="js/ami.js" token="'use strict';${line.separator}" value="" />
-
-			<replace file="js/ami.js" token="'use strict';" value="" />
-
-			<!-- ******************************************** -->
-
-			<replace file="js/ami.js" token="{{USE_STRICT}}" value="'use strict';${line.separator}" />
-
-			<!-- ******************************************** -->
-
-			<replace file="js/ami.js" token="{{YEAR}}" value="${year}" />
-
-			<!-- ******************************************** -->
-
-		</sequential>
-
-	</macrodef>
 
 	<!-- ************************************************************ -->
 

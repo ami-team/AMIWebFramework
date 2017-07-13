@@ -64,25 +64,25 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	execute: function(command, settings)
 	{
-		let context = null;
 		let endpoint = this.endpoint;
 		let converter = this.converter;
+		let context = null;
 		let timeout = 0x00;
 		let extraParam = null;
 		let extraValue = null;
 
 		if(settings)
 		{
-			if('context' in settings) {
-				context = settings['context'];
-			}
-
 			if('endpoint' in settings) {
 				endpoint = settings['endpoint'];
 			}
 
 			if('converter' in settings) {
 				converter = settings['converter'];
+			}
+
+			if('context' in settings) {
+				context = settings['context'];
 			}
 
 			if('timeout' in settings) {
@@ -238,22 +238,22 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			const roleInfo = {};
 			const ssoInfo = {}
 
-			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
 
 				ssoInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
+			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach((row) => {
 
 				let name = '';
 				const role = {};
 
-				row.field.forEach(function(field) {
+				row.field.forEach((field) => {
 
 					role[field['@name']] = field['$'];
 
@@ -307,22 +307,22 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			const roleInfo = {};
 			const ssoInfo = {}
 
-			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
 
 				ssoInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
+			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach((row) => {
 
 				let name = '';
 				const role = {};
 
-				row.field.forEach(function(field) {
+				row.field.forEach((field) => {
 
 					role[field['@name']] = field['$'];
 
@@ -376,22 +376,22 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			const roleInfo = {};
 			const ssoInfo = {}
 
-			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
 
 				ssoInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
+			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach((row) => {
 
 				let name = '';
 				const role = {};
 
-				row.field.forEach(function(field) {
+				row.field.forEach((field) => {
 
 					role[field['@name']] = field['$'];
 

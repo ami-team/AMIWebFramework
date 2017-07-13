@@ -5046,6 +5046,8 @@ function $AMIClass($name, $descr)
 		if(name === '$init'
 		   ||
 		   name.charAt(0) !== '$'
+		   ||
+		   $super.hasOwnProperty(name)
 		 ) {
 			$class._internal_super[name] = $super[name];
 
@@ -5058,6 +5060,8 @@ function $AMIClass($name, $descr)
 		if(name === '$init'
 		   ||
 		   name.charAt(0) !== '$'
+		   ||
+		   $descr.hasOwnProperty(name)
 		 ) {
 			$class._internal_added[name] = $descr[name];
 
@@ -5379,7 +5383,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		const idx1 = src.indexOf('js/ami.');
 
-		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : null);
+		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : '/');
 
 		/*---------------------------------------------------------*/
 		/* WEBAPP_URL                                              */
@@ -5397,9 +5401,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			const flags = src.substring(idx1).toLowerCase();
 
-			this._embedded = flags.indexOf('embedded') >= 0;
+			this._embedded = (flags.indexOf('embedded') >= 0);
 
-			this._noBootstrap = flags.indexOf('nobootstrap') >= 0;
+			this._noBootstrap = (flags.indexOf('nobootstrap') >= 0);
 		}
 
 		/*---------------------------------------------------------*/
@@ -5408,8 +5412,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(search)
 		{
-			for(const param of search.substring(1).split('&'))
-			{
+			search.substring(1).split('&').forEach((param) => {
+
 				const parts = param.split('=');
 
 				/**/ if(parts.length === 1)
@@ -5420,7 +5424,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				{
 					this.args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
 				}
-			}
+			});
 		}
 
 		/*---------------------------------------------------------*/
@@ -5489,6 +5493,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* TOOLS                                                           */
 	/*-----------------------------------------------------------------*/
 
+	typeOf: function(x)
+	{
+		const name = Object.prototype.toString.call(x);
+
+		return name.indexOf('[object ') === 0 ? name.substring(8, name.length - 1) : '';
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	_replace: function(s, oldStrs, newStrs)
 	{
 		const result = [];
@@ -5515,7 +5528,6 @@ __l0:		for(let i = 0; i < l;)
 		return result.join('');
 	},
 
-	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
 	_textToHtmlX: ['&'    , '"'     , '<'   , '>'   ],
@@ -5548,7 +5560,6 @@ __l0:		for(let i = 0; i < l;)
 	},
 
 	/*-----------------------------------------------------------------*/
-	/*-----------------------------------------------------------------*/
 
 	_textToStringX: ['\\'  , '\n' , '"'  , '\''  ],
 	_textToStringY: ['\\\\', '\\n', '\\"', '\\\''],
@@ -5580,7 +5591,6 @@ __l0:		for(let i = 0; i < l;)
 
 	},
 
-	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
 	_htmlToStringX: ['\\'  , '\n' , '&quot;'  , '\''  ],
@@ -5828,7 +5838,7 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		if(!(urls instanceof Array))
+		if(this.typeOf(urls) !== 'Array')
 		{
 			urls = [urls];
 		}
@@ -5921,7 +5931,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadTWIGs: function(urls, settings)
 	{
-		return this.loadFiles(urls, 'html', settings);
+		return this.loadFiles(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -6117,13 +6127,13 @@ __l0:		for(let i = 0; i < l;)
 	{
 		let result;
 
-		/**/ if(dict instanceof Array)
+		if(this.typeOf(dict) === 'Array')
 		{
 			result = '';
 
 			for(let tcid of dict)
 			{
-				if(!(tcid instanceof Object))
+				if(this.typeOf(tcid) !== 'Object')
 				{
 					tcid = {};
 				}
@@ -6136,7 +6146,7 @@ __l0:		for(let i = 0; i < l;)
 		}
 		else
 		{
-			if(!(dict instanceof Object))
+			if(this.typeOf(dict) !== 'Object')
 			{
 				dict = {};
 			}
@@ -6250,7 +6260,7 @@ __l0:		for(let i = 0; i < l;)
 
 	info: function(message, fadeOut, target)
 	{
-		if(message instanceof Array)
+		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
@@ -6269,7 +6279,7 @@ __l0:		for(let i = 0; i < l;)
 
 	success: function(message, fadeOut, target)
 	{
-		if(message instanceof Array)
+		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
@@ -6288,7 +6298,7 @@ __l0:		for(let i = 0; i < l;)
 
 	warning: function(message, fadeOut, target)
 	{
-		if(message instanceof Array)
+		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
@@ -6307,7 +6317,7 @@ __l0:		for(let i = 0; i < l;)
 
 	error: function(message, fadeOut, target)
 	{
-		if(message instanceof Array)
+		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
@@ -6496,7 +6506,7 @@ __l0:		for(let i = 0; i < l;)
 				{
 					/*---------------------------------*/
 
-					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'html'}).done((data3) => {
+					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).done((data3) => {
 
 						$('body').append(data3).promise().done(() => {
 
@@ -6607,7 +6617,7 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		if(!(controls instanceof Array))
+		if(this.typeOf(controls) !== 'Array')
 		{
 			controls = [controls];
 		}
@@ -7031,25 +7041,25 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	execute: function(command, settings)
 	{
-		let context = null;
 		let endpoint = this.endpoint;
 		let converter = this.converter;
+		let context = null;
 		let timeout = 0x00;
 		let extraParam = null;
 		let extraValue = null;
 
 		if(settings)
 		{
-			if('context' in settings) {
-				context = settings['context'];
-			}
-
 			if('endpoint' in settings) {
 				endpoint = settings['endpoint'];
 			}
 
 			if('converter' in settings) {
 				converter = settings['converter'];
+			}
+
+			if('context' in settings) {
+				context = settings['context'];
 			}
 
 			if('timeout' in settings) {
@@ -7205,22 +7215,22 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			const roleInfo = {};
 			const ssoInfo = {}
 
-			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
 
 				ssoInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
+			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach((row) => {
 
 				let name = '';
 				const role = {};
 
-				row.field.forEach(function(field) {
+				row.field.forEach((field) => {
 
 					role[field['@name']] = field['$'];
 
@@ -7274,22 +7284,22 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			const roleInfo = {};
 			const ssoInfo = {}
 
-			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
 
 				ssoInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
+			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach((row) => {
 
 				let name = '';
 				const role = {};
 
-				row.field.forEach(function(field) {
+				row.field.forEach((field) => {
 
 					role[field['@name']] = field['$'];
 
@@ -7343,22 +7353,22 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			const roleInfo = {};
 			const ssoInfo = {}
 
-			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function(item) {
+			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
 
 				ssoInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach(function(row) {
+			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach((row) => {
 
 				let name = '';
 				const role = {};
 
-				row.field.forEach(function(field) {
+				row.field.forEach((field) => {
 
 					role[field['@name']] = field['$'];
 
@@ -8317,11 +8327,75 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 /* eslint-disable */
 
 var amiDoc = {
+    "functions": [
+        {
+            "name": "_$createNamespace",
+            "desc": "/*-------------------------------------------------------------------------",
+            "params": []
+        },
+        {
+            "name": "_$addToNamespace",
+            "desc": "/*-------------------------------------------------------------------------",
+            "params": []
+        },
+        {
+            "name": "$AMINamespace",
+            "desc": "/*-------------------------------------------------------------------------",
+            "params": []
+        },
+        {
+            "name": "$AMIInterface",
+            "desc": "/*-------------------------------------------------------------------------",
+            "params": []
+        },
+        {
+            "name": "$AMIClass",
+            "desc": "/*-------------------------------------------------------------------------",
+            "params": []
+        },
+        {
+            "name": "_ami_internal_done_fail",
+            "desc": "/*-------------------------------------------------------------------------",
+            "params": []
+        },
+        {
+            "name": "_ami_internal_always",
+            "desc": "/*-------------------------------------------------------------------------",
+            "params": []
+        }
+    ],
+    "variables": [
+        {
+            "name": "_ami_internal_zIndex",
+            "type": "",
+            "desc": "/*-------------------------------------------------------------------------"
+        }
+    ],
     "namespaces": [
         {
             "name": "amiWebApp",
             "desc": "The AMI webapp subsystem",
             "variables": [
+                {
+                    "name": "_idRegExp",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                },
+                {
+                    "name": "_embedded",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                },
+                {
+                    "name": "_sheets",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                },
+                {
+                    "name": "_currentSubAppInstance",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                },
                 {
                     "name": "originURL",
                     "type": "String",
@@ -8336,9 +8410,34 @@ var amiDoc = {
                     "name": "args",
                     "type": "Array.<String>",
                     "desc": "URL arguments"
+                },
+                {
+                    "name": "_textToHtmlX",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                },
+                {
+                    "name": "_textToStringX",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                },
+                {
+                    "name": "_htmlToStringX",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                },
+                {
+                    "name": "_base64",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
                 }
             ],
             "functions": [
+                {
+                    "name": "$",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
                 {
                     "name": "isEmbedded",
                     "desc": "Check whether the WebApp is executed in embedded mode",
@@ -8360,6 +8459,16 @@ var amiDoc = {
                             "desc": ""
                         }
                     ]
+                },
+                {
+                    "name": "typeOf",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "_replace",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
                 },
                 {
                     "name": "textToHtml",
@@ -8520,6 +8629,16 @@ var amiDoc = {
                             "desc": "The decoded string"
                         }
                     ]
+                },
+                {
+                    "name": "_loadFiles",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "loadFiles",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
                 },
                 {
                     "name": "loadSheets",
@@ -8739,6 +8858,11 @@ var amiDoc = {
                     ]
                 },
                 {
+                    "name": "_xxxHTML",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
                     "name": "replaceHTML",
                     "desc": "Put a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
                     "params": [
@@ -8923,6 +9047,11 @@ var amiDoc = {
                     "params": []
                 },
                 {
+                    "name": "_publishAlert",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
                     "name": "info",
                     "desc": "Show an 'info' message",
                     "params": [
@@ -9062,6 +9191,11 @@ var amiDoc = {
                     ]
                 },
                 {
+                    "name": "_loadControls",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
                     "name": "loadControls",
                     "desc": "Loads controls asynchronously",
                     "params": [
@@ -9091,6 +9225,16 @@ var amiDoc = {
                             "desc": "A JQuery deferred object"
                         }
                     ]
+                },
+                {
+                    "name": "onLogin",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "onLogout",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
                 },
                 {
                     "name": "loadSubApp",
@@ -9134,6 +9278,11 @@ var amiDoc = {
             "variables": [
                 {
                     "name": "endpoint",
+                    "type": "",
+                    "desc": "/*---------------------------------------------------------"
+                },
+                {
+                    "name": "endpoint",
                     "type": "String",
                     "desc": "Default endpoint"
                 },
@@ -9144,6 +9293,11 @@ var amiDoc = {
                 }
             ],
             "functions": [
+                {
+                    "name": "_textToString",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
                 {
                     "name": "execute",
                     "desc": "Execute an AMI command",
@@ -9501,7 +9655,54 @@ var amiDoc = {
         {
             "name": "amiLogin",
             "desc": "The AMI authentication subsystem",
+            "variables": [
+                {
+                    "name": "user",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                },
+                {
+                    "name": "roleInfo",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                }
+            ],
             "functions": [
+                {
+                    "name": "_init",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "_showSuccessMessage1",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "_showSuccessMessage2",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "_showSuccessMessage3",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "_flush",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "_clean",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "_update",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
                 {
                     "name": "getUser",
                     "desc": "The current user",
@@ -9606,6 +9807,51 @@ var amiDoc = {
                             "desc": ""
                         }
                     ]
+                },
+                {
+                    "name": "_serializeForm",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "form_login",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "form_login2",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "form_attachCert",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "form_detachCert",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "form_addUser",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "form_remindPass",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "form_changeInfo",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "form_changePass",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
                 }
             ]
         }
@@ -9801,7 +10047,46 @@ var amiDoc = {
             "konstructor": {
                 "name": "ami.Control",
                 "params": []
-            }
+            },
+            "variables": [
+                {
+                    "name": "$implements",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                }
+            ],
+            "functions": [
+                {
+                    "name": "$",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "$init",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "patchId",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "replaceHTML",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "prependHTML",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "appendHTML",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                }
+            ]
         },
         {
             "name": "ami.SubApp",
@@ -9813,7 +10098,31 @@ var amiDoc = {
             "konstructor": {
                 "name": "ami.SubApp",
                 "params": []
-            }
+            },
+            "variables": [
+                {
+                    "name": "$implements",
+                    "type": "",
+                    "desc": "/*-----------------------------------------------------------------"
+                }
+            ],
+            "functions": [
+                {
+                    "name": "onExit",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "onLogin",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                },
+                {
+                    "name": "onLogout",
+                    "desc": "/*-----------------------------------------------------------------",
+                    "params": []
+                }
+            ]
         }
     ]
 };

@@ -4343,7 +4343,7 @@ function $AMIClass($name, $descr) {
 	/*-----------------------------------------------------------------*/
 
 	for (var name in $super) {
-		if (name === '$init' || name.charAt(0) !== '$') {
+		if (name === '$init' || name.charAt(0) !== '$' || $super.hasOwnProperty(name)) {
 			$class._internal_super[name] = $super[name];
 
 			$class.prototype[name] = $super[name];
@@ -4351,7 +4351,7 @@ function $AMIClass($name, $descr) {
 	}
 
 	for (var _name2 in $descr) {
-		if (_name2 === '$init' || _name2.charAt(0) !== '$') {
+		if (_name2 === '$init' || _name2.charAt(0) !== '$' || $descr.hasOwnProperty(_name2)) {
 			$class._internal_added[_name2] = $descr[_name2];
 
 			$class.prototype[_name2] = $descr[_name2];
@@ -4617,6 +4617,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*-----------------------------------------------------------------*/
 
 	$: function $() {
+		var _this = this;
+
 		/*---------------------------------------------------------*/
 
 		function _eatSlashes(url) {
@@ -4646,7 +4648,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		var idx1 = src.indexOf('js/ami.');
 
-		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : null);
+		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : '/');
 
 		/*---------------------------------------------------------*/
 		/* WEBAPP_URL                                              */
@@ -4673,36 +4675,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		/*---------------------------------------------------------*/
 
 		if (search) {
-			var _iteratorNormalCompletion = true;
-			var _didIteratorError = false;
-			var _iteratorError = undefined;
+			search.substring(1).split('&').forEach(function (param) {
 
-			try {
-				for (var _iterator = search.substring(1).split('&')[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-					var param = _step.value;
+				var parts = param.split('=');
 
-					var parts = param.split('=');
-
-					/**/if (parts.length === 1) {
-						this.args[decodeURIComponent(parts[0])] = /*---------*/'' /*---------*/;
-					} else if (parts.length === 2) {
-						this.args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
-					}
+				/**/if (parts.length === 1) {
+					_this.args[decodeURIComponent(parts[0])] = /*---------*/'' /*---------*/;
+				} else if (parts.length === 2) {
+					_this.args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
 				}
-			} catch (err) {
-				_didIteratorError = true;
-				_iteratorError = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion && _iterator.return) {
-						_iterator.return();
-					}
-				} finally {
-					if (_didIteratorError) {
-						throw _iteratorError;
-					}
-				}
-			}
+			});
 		}
 
 		/*---------------------------------------------------------*/
@@ -4750,6 +4732,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/* TOOLS                                                           */
 	/*-----------------------------------------------------------------*/
 
+	typeOf: function typeOf(x) {
+		var name = Object.prototype.toString.call(x);
+
+		return name.indexOf('[object ') === 0 ? name.substring(8, name.length - 1) : '';
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	_replace: function _replace(s, oldStrs, newStrs) {
 		var result = [];
 
@@ -4772,7 +4762,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		return result.join('');
 	},
 
-	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
 	_textToHtmlX: ['&', '"', '<', '>'],
@@ -4803,7 +4792,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	},
 
 	/*-----------------------------------------------------------------*/
-	/*-----------------------------------------------------------------*/
 
 	_textToStringX: ['\\', '\n', '"', '\''],
 	_textToStringY: ['\\\\', '\\n', '\\"', '\\\''],
@@ -4832,7 +4820,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		return this._replace(s || '', this._textToStringY, this._textToStringX);
 	},
 
-	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
 	_htmlToStringX: ['\\', '\n', '&quot;', '\''],
@@ -4944,7 +4931,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*-----------------------------------------------------------------*/
 
 	_loadFiles: function _loadFiles(deferred, result, urls, dataType, context) {
-		var _this = this;
+		var _this2 = this;
 
 		if (urls.length === 0) {
 			return deferred.resolveWith(context || deferred, [result]);
@@ -4974,7 +4961,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 					result.push(true);
 
-					_this._loadFiles(deferred, result, urls, dataType, context);
+					_this2._loadFiles(deferred, result, urls, dataType, context);
 				}, function () {
 
 					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
@@ -5002,7 +4989,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						result.push(true);
 
-						_this._loadFiles(deferred, result, urls, dataType, context);
+						_this2._loadFiles(deferred, result, urls, dataType, context);
 					}, function () {
 
 						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
@@ -5025,7 +5012,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						result.push(data);
 
-						_this._loadFiles(deferred, result, urls, dataType, context);
+						_this2._loadFiles(deferred, result, urls, dataType, context);
 					}, function () {
 
 						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
@@ -5048,7 +5035,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*---------------------------------------------------------*/
 
-		if (!(urls instanceof Array)) {
+		if (this.typeOf(urls) !== 'Array') {
 			urls = [urls];
 		}
 
@@ -5134,7 +5121,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	loadTWIGs: function loadTWIGs(urls, settings) {
-		return this.loadFiles(urls, 'html', settings);
+		return this.loadFiles(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -5318,18 +5305,18 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	formatTWIG: function formatTWIG(twig, dict) {
 		var result = void 0;
 
-		/**/if (dict instanceof Array) {
+		if (this.typeOf(dict) === 'Array') {
 			result = '';
 
-			var _iteratorNormalCompletion2 = true;
-			var _didIteratorError2 = false;
-			var _iteratorError2 = undefined;
+			var _iteratorNormalCompletion = true;
+			var _didIteratorError = false;
+			var _iteratorError = undefined;
 
 			try {
-				for (var _iterator2 = dict[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-					var tcid = _step2.value;
+				for (var _iterator = dict[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+					var tcid = _step.value;
 
-					if (!(tcid instanceof Object)) {
+					if (this.typeOf(tcid) !== 'Object') {
 						tcid = {};
 					}
 
@@ -5339,21 +5326,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 					result += amiTwig.engine.render(twig, tcid);
 				}
 			} catch (err) {
-				_didIteratorError2 = true;
-				_iteratorError2 = err;
+				_didIteratorError = true;
+				_iteratorError = err;
 			} finally {
 				try {
-					if (!_iteratorNormalCompletion2 && _iterator2.return) {
-						_iterator2.return();
+					if (!_iteratorNormalCompletion && _iterator.return) {
+						_iterator.return();
 					}
 				} finally {
-					if (_didIteratorError2) {
-						throw _iteratorError2;
+					if (_didIteratorError) {
+						throw _iteratorError;
 					}
 				}
 			}
 		} else {
-			if (!(dict instanceof Object)) {
+			if (this.typeOf(dict) !== 'Object') {
 				dict = {};
 			}
 
@@ -5428,7 +5415,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*-----------------------------------------------------------------*/
 
 	_publishAlert: function _publishAlert(html, fadeOut, target) {
-		var _this2 = this;
+		var _this3 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -5440,7 +5427,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 			$(document).scrollTop(0);
 
-			_this2.unlock();
+			_this3.unlock();
 
 			if (fadeOut) {
 				el.find('.alert').fadeOut(60000);
@@ -5460,7 +5447,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	info: function info(message, fadeOut, target) {
-		if (message instanceof Array) {
+		if (this.typeOf(message) === 'Array') {
 			message = message.join('. ');
 		}
 
@@ -5477,7 +5464,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	success: function success(message, fadeOut, target) {
-		if (message instanceof Array) {
+		if (this.typeOf(message) === 'Array') {
 			message = message.join('. ');
 		}
 
@@ -5494,7 +5481,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	warning: function warning(message, fadeOut, target) {
-		if (message instanceof Array) {
+		if (this.typeOf(message) === 'Array') {
 			message = message.join('. ');
 		}
 
@@ -5511,7 +5498,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	error: function error(message, fadeOut, target) {
-		if (message instanceof Array) {
+		if (this.typeOf(message) === 'Array') {
 			message = message.join('. ');
 		}
 
@@ -5564,7 +5551,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	start: function start(settings) {
-		var _this3 = this;
+		var _this4 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -5619,7 +5606,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		window.onbeforeunload = function (e) {
 
-			if (!_this3._canLeave) {
+			if (!_this4._canLeave) {
 				var f = e || window.event;
 
 				if (f) {
@@ -5643,14 +5630,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 			$.ajax({ url: subapps_url, cache: false, crossDomain: true, dataType: 'json' }).then(function (data2) {
 
 				for (var name in data1) {
-					_this3._controls[name.toLowerCase()] = data1[name];
+					_this4._controls[name.toLowerCase()] = data1[name];
 				}
 
 				for (var _name3 in data2) {
-					_this3._subapps[_name3.toLowerCase()] = data2[_name3];
+					_this4._subapps[_name3.toLowerCase()] = data2[_name3];
 				}
 
-				if (!_this3._embedded) {
+				if (!_this4._embedded) {
 					/*---------------------------------*/
 
 					var dict = {
@@ -5666,11 +5653,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						$.ajax({ url: locker_url, cache: true, crossDomain: true, dataType: 'text' }).then(function (data4) {
 
-							$('body').append(_this3.formatTWIG(data3, dict) + data4).promise().done(function () {
+							$('body').append(_this4.formatTWIG(data3, dict) + data4).promise().done(function () {
 
 								amiLogin._init().fail(function (data5) {
 
-									_this3.error(data5);
+									_this4.error(data5);
 								});
 							});
 						}, function () {
@@ -5686,13 +5673,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				} else {
 					/*---------------------------------*/
 
-					$.ajax({ url: locker_url, cache: true, crossDomain: true, dataType: 'html' }).done(function (data3) {
+					$.ajax({ url: locker_url, cache: true, crossDomain: true, dataType: 'text' }).done(function (data3) {
 
 						$('body').append(data3).promise().done(function () {
 
 							amiLogin._init().fail(function (data4) {
 
-								_this3.error(data4);
+								_this4.error(data4);
 							});
 						});
 					});
@@ -5716,7 +5703,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*-----------------------------------------------------------------*/
 
 	_loadControls: function _loadControls(deferred, result, controls, context) {
-		var _this4 = this;
+		var _this5 = this;
 
 		if (controls.length === 0) {
 			return deferred.resolveWith(context || deferred, [result]);
@@ -5743,7 +5730,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						result.push(clazz);
 
-						_this4._loadControls(deferred, result, controls, context);
+						_this5._loadControls(deferred, result, controls, context);
 					}, function () {
 
 						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
@@ -5782,7 +5769,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*---------------------------------------------------------*/
 
-		if (!(controls instanceof Array)) {
+		if (this.typeOf(controls) !== 'Array') {
 			controls = [controls];
 		}
 
@@ -5824,7 +5811,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	loadSubApp: function loadSubApp(defaultSubApp, defaultUserData) {
-		var _this5 = this;
+		var _this6 = this;
 
 		var subapp = this.args['subapp'] || defaultSubApp;
 		var userdata = this.args['userdata'] || defaultUserData;
@@ -5839,44 +5826,44 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 					/**/
 
-					_this5._currentSubAppInstance.onExit();
+					_this6._currentSubAppInstance.onExit();
 
-					_this5._currentSubAppInstance = instance;
+					_this6._currentSubAppInstance = instance;
 
 					/**/
 
 					setTimeout(function () {
 
 						if ($('#ami_main_content').is(':empty')) {
-							_this5.error('service temporarily unreachable, please reload the page...');
+							_this6.error('service temporarily unreachable, please reload the page...');
 						}
 					}, 10000);
 
 					/**/
 
-					_this5.lock();
+					_this6.lock();
 
 					var promise = loaded[0] ? instance.onReady(userdata) : /*-------*/null /*-------*/
 					;
 
 					_ami_internal_done_fail(promise, function () {
 
-						var promise = amiLogin.isAuthenticated() ? _this5.onLogin() : _this5.onLogout();
+						var promise = amiLogin.isAuthenticated() ? _this6.onLogin() : _this6.onLogout();
 
 						_ami_internal_always(promise, function () {
 
-							_this5.unlock();
+							_this6.unlock();
 						});
 					}, function () {
 
-						_this5.error('could not load sub-application `' + subapp + '`');
+						_this6.error('could not load sub-application `' + subapp + '`');
 					});
 				} catch (e) {
-					_this5.error('could not load sub-application `' + subapp + '`');
+					_this6.error('could not load sub-application `' + subapp + '`');
 				}
 			}, function () {
 
-				_this5.error('could not load sub-application `' + subapp + '`');
+				_this6.error('could not load sub-application `' + subapp + '`');
 			});
 		} else {
 			this.error('could not load sub-application `' + subapp + '`');
@@ -6178,24 +6165,24 @@ $AMINamespace('amiCommand', /** @lends amiCommand */{
    */
 
 	execute: function execute(command, settings) {
-		var context = null;
 		var endpoint = this.endpoint;
 		var converter = this.converter;
+		var context = null;
 		var timeout = 0x00;
 		var extraParam = null;
 		var extraValue = null;
 
 		if (settings) {
-			if ('context' in settings) {
-				context = settings['context'];
-			}
-
 			if ('endpoint' in settings) {
 				endpoint = settings['endpoint'];
 			}
 
 			if ('converter' in settings) {
 				converter = settings['converter'];
+			}
+
+			if ('context' in settings) {
+				context = settings['context'];
 			}
 
 			if ('timeout' in settings) {
@@ -6644,12 +6631,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	_init: function _init() {
-		var _this6 = this;
+		var _this7 = this;
 
 		return amiWebApp.loadHTMLs([amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig', amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig', amiWebApp.originURL + '/twig/AMI/Modal/login.twig']).done(function (data) {
 
-			_this6.fragmentLoginButton = data[0];
-			_this6.fragmentLogoutButton = data[1];
+			_this7.fragmentLoginButton = data[0];
+			_this7.fragmentLogoutButton = data[1];
 
 			amiWebApp.appendHTML('body', data[2]);
 
@@ -6658,27 +6645,27 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 				$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit(function (e) {
 
-					_this6.form_login(e);
+					_this7.form_login(e);
 				});
 
 				$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit(function (e) {
 
-					_this6.form_addUser(e);
+					_this7.form_addUser(e);
 				});
 
 				$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit(function (e) {
 
-					_this6.form_remindPass(e);
+					_this7.form_remindPass(e);
 				});
 
 				$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit(function (e) {
 
-					_this6.form_changeInfo(e);
+					_this7.form_changeInfo(e);
 				});
 
 				$('#E92A1097_983B_4857_875F_07E4659B41B0').submit(function (e) {
 
-					_this6.form_changePass(e);
+					_this7.form_changePass(e);
 				});
 
 				/*-----------------------------------------*/
@@ -6707,7 +6694,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 					var pass = e.originalEvent.data.pass;
 
 					if (user && pass) {
-						_this6.form_login2(user, pass);
+						_this7.form_login2(user, pass);
 
 						e.originalEvent.source.close();
 					}
@@ -6717,7 +6704,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 				_ami_internal_done_fail(amiWebApp.onReady(), function () {
 
-					_this6._update(userInfo, roleInfo, ssoInfo);
+					_this7._update(userInfo, roleInfo, ssoInfo);
 				}, function (data) {
 
 					amiWebApp.error(data);
@@ -6786,7 +6773,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	_update: function _update(userInfo, roleInfo, ssoInfo) {
-		var _this7 = this;
+		var _this8 = this;
 
 		var result = $.Deferred();
 
@@ -6932,7 +6919,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			_ami_internal_always(amiWebApp.onLogin(), function () {
 
-				amiWebApp.replaceHTML('#ami_login_content', _this7.fragmentLogoutButton, { dict: dict });
+				amiWebApp.replaceHTML('#ami_login_content', _this8.fragmentLogoutButton, { dict: dict });
 
 				result.resolve();
 			});
@@ -6945,7 +6932,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 				result.resolve();
 
-				amiWebApp.replaceHTML('#ami_login_content', _this7.fragmentLoginButton, { dict: dict });
+				amiWebApp.replaceHTML('#ami_login_content', _this8.fragmentLoginButton, { dict: dict });
 			});
 
 			/*-------------------------------------------------*/
@@ -7085,15 +7072,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
    */
 
 	signOut: function signOut() {
-		var _this8 = this;
+		var _this9 = this;
 
 		amiWebApp.lock();
 
 		return amiCommand.logout().always(function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this8._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this9._update(userInfo, roleInfo, ssoInfo).done(function () {
 
-				_this8._clean();
+				_this9._clean();
 				amiWebApp.unlock();
 			});
 		});
@@ -7137,7 +7124,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_login2: function form_login2(user, pass) {
-		var _this9 = this;
+		var _this10 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -7149,12 +7136,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		deferred.then(function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this9._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this10._update(userInfo, roleInfo, ssoInfo).done(function () {
 
 				if (userInfo.AMIUser !== userInfo.guestUser) {
 					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-					_this9._clean();
+					_this10._clean();
 					amiWebApp.unlock();
 				} else {
 					var error = 'Authentication failed.';
@@ -7163,14 +7150,14 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 						error += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.' + ' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.';
 					}
 
-					_this9._showErrorMessage1(error);
+					_this10._showErrorMessage1(error);
 				}
 			});
 		}, function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this9._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this10._update(userInfo, roleInfo, ssoInfo).done(function () {
 
-				_this9._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+				_this10._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 			});
 		});
 
@@ -7180,7 +7167,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_attachCert: function form_attachCert() {
-		var _this10 = this;
+		var _this11 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -7199,10 +7186,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.attachCert(user, pass).then(function (data) {
 
-			_this10._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this11._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this10._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this11._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7211,7 +7198,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_detachCert: function form_detachCert() {
-		var _this11 = this;
+		var _this12 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -7230,10 +7217,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.detachCert(user, pass).then(function (data) {
 
-			_this11._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this12._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this11._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this12._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7242,7 +7229,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_addUser: function form_addUser(e) {
-		var _this12 = this;
+		var _this13 = this;
 
 		e.preventDefault();
 
@@ -7256,10 +7243,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values).then(function (data) {
 
-			_this12._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this13._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this12._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this13._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7268,7 +7255,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_remindPass: function form_remindPass(e) {
-		var _this13 = this;
+		var _this14 = this;
 
 		e.preventDefault();
 
@@ -7282,10 +7269,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.resetPass(values['user']).then(function (data) {
 
-			_this13._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this14._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this13._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this14._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7294,7 +7281,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_changeInfo: function form_changeInfo(e) {
-		var _this14 = this;
+		var _this15 = this;
 
 		e.preventDefault();
 
@@ -7308,10 +7295,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).then(function (data) {
 
-			_this14._showSuccessMessage2(amiWebApp.jspath('..info.$', data));
+			_this15._showSuccessMessage2(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this14._showErrorMessage2(amiWebApp.jspath('..error.$', data));
+			_this15._showErrorMessage2(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7320,7 +7307,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_changePass: function form_changePass(e) {
-		var _this15 = this;
+		var _this16 = this;
 
 		e.preventDefault();
 
@@ -7334,10 +7321,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.changePass(values['old_pass'], values['new_pass']).then(function (data) {
 
-			_this15._showSuccessMessage3(amiWebApp.jspath('..info.$', data));
+			_this16._showSuccessMessage3(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this15._showErrorMessage3(amiWebApp.jspath('..error.$', data));
+			_this16._showErrorMessage3(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7364,10 +7351,60 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 /* eslint-disable */
 
 var amiDoc = {
+	"functions": [{
+		"name": "_$createNamespace",
+		"desc": "/*-------------------------------------------------------------------------",
+		"params": []
+	}, {
+		"name": "_$addToNamespace",
+		"desc": "/*-------------------------------------------------------------------------",
+		"params": []
+	}, {
+		"name": "$AMINamespace",
+		"desc": "/*-------------------------------------------------------------------------",
+		"params": []
+	}, {
+		"name": "$AMIInterface",
+		"desc": "/*-------------------------------------------------------------------------",
+		"params": []
+	}, {
+		"name": "$AMIClass",
+		"desc": "/*-------------------------------------------------------------------------",
+		"params": []
+	}, {
+		"name": "_ami_internal_done_fail",
+		"desc": "/*-------------------------------------------------------------------------",
+		"params": []
+	}, {
+		"name": "_ami_internal_always",
+		"desc": "/*-------------------------------------------------------------------------",
+		"params": []
+	}],
+	"variables": [{
+		"name": "_ami_internal_zIndex",
+		"type": "",
+		"desc": "/*-------------------------------------------------------------------------"
+	}],
 	"namespaces": [{
 		"name": "amiWebApp",
 		"desc": "The AMI webapp subsystem",
 		"variables": [{
+			"name": "_idRegExp",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}, {
+			"name": "_embedded",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}, {
+			"name": "_sheets",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}, {
+			"name": "_currentSubAppInstance",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}, {
 			"name": "originURL",
 			"type": "String",
 			"desc": "Origin URL"
@@ -7379,8 +7416,28 @@ var amiDoc = {
 			"name": "args",
 			"type": "Array.<String>",
 			"desc": "URL arguments"
+		}, {
+			"name": "_textToHtmlX",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}, {
+			"name": "_textToStringX",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}, {
+			"name": "_htmlToStringX",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}, {
+			"name": "_base64",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
 		}],
 		"functions": [{
+			"name": "$",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
 			"name": "isEmbedded",
 			"desc": "Check whether the WebApp is executed in embedded mode",
 			"params": [],
@@ -7396,6 +7453,14 @@ var amiDoc = {
 				"type": "Boolean",
 				"desc": ""
 			}]
+		}, {
+			"name": "typeOf",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "_replace",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
 		}, {
 			"name": "textToHtml",
 			"desc": "Escapes the given string from text to HTML",
@@ -7516,6 +7581,14 @@ var amiDoc = {
 				"type": "String",
 				"desc": "The decoded string"
 			}]
+		}, {
+			"name": "_loadFiles",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "loadFiles",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
 		}, {
 			"name": "loadSheets",
 			"desc": "Loads CSS sheets asynchronously",
@@ -7671,6 +7744,10 @@ var amiDoc = {
 				"desc": "A JQuery deferred object"
 			}]
 		}, {
+			"name": "_xxxHTML",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
 			"name": "replaceHTML",
 			"desc": "Put a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
 			"params": [{
@@ -7818,6 +7895,10 @@ var amiDoc = {
 			"desc": "Disable the message in a confirmation dialog box to inform that the user is about to leave the current page.",
 			"params": []
 		}, {
+			"name": "_publishAlert",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
 			"name": "info",
 			"desc": "Show an 'info' message",
 			"params": [{
@@ -7933,6 +8014,10 @@ var amiDoc = {
 				"nullable": ""
 			}]
 		}, {
+			"name": "_loadControls",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
 			"name": "loadControls",
 			"desc": "Loads controls asynchronously",
 			"params": [{
@@ -7954,6 +8039,14 @@ var amiDoc = {
 				"type": "$.Deferred",
 				"desc": "A JQuery deferred object"
 			}]
+		}, {
+			"name": "onLogin",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "onLogout",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
 		}, {
 			"name": "loadSubApp",
 			"desc": "Loads a sub-application",
@@ -7987,6 +8080,10 @@ var amiDoc = {
 		"desc": "The AMI command subsystem",
 		"variables": [{
 			"name": "endpoint",
+			"type": "",
+			"desc": "/*---------------------------------------------------------"
+		}, {
+			"name": "endpoint",
 			"type": "String",
 			"desc": "Default endpoint"
 		}, {
@@ -7995,6 +8092,10 @@ var amiDoc = {
 			"desc": "Default converter"
 		}],
 		"functions": [{
+			"name": "_textToString",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
 			"name": "execute",
 			"desc": "Execute an AMI command",
 			"params": [{
@@ -8281,7 +8382,44 @@ var amiDoc = {
 	}, {
 		"name": "amiLogin",
 		"desc": "The AMI authentication subsystem",
+		"variables": [{
+			"name": "user",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}, {
+			"name": "roleInfo",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}],
 		"functions": [{
+			"name": "_init",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "_showSuccessMessage1",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "_showSuccessMessage2",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "_showSuccessMessage3",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "_flush",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "_clean",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "_update",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
 			"name": "getUser",
 			"desc": "The current user",
 			"params": [],
@@ -8360,6 +8498,42 @@ var amiDoc = {
 				"type": "Boolean",
 				"desc": ""
 			}]
+		}, {
+			"name": "_serializeForm",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "form_login",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "form_login2",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "form_attachCert",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "form_detachCert",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "form_addUser",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "form_remindPass",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "form_changeInfo",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "form_changePass",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
 		}]
 	}],
 	"interfaces": [{
@@ -8512,7 +8686,37 @@ var amiDoc = {
 		"konstructor": {
 			"name": "ami.Control",
 			"params": []
-		}
+		},
+		"variables": [{
+			"name": "$implements",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}],
+		"functions": [{
+			"name": "$",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "$init",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "patchId",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "replaceHTML",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "prependHTML",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "appendHTML",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}]
 	}, {
 		"name": "ami.SubApp",
 		"desc": "The basic AMI sub-application",
@@ -8521,7 +8725,25 @@ var amiDoc = {
 		"konstructor": {
 			"name": "ami.SubApp",
 			"params": []
-		}
+		},
+		"variables": [{
+			"name": "$implements",
+			"type": "",
+			"desc": "/*-----------------------------------------------------------------"
+		}],
+		"functions": [{
+			"name": "onExit",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "onLogin",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}, {
+			"name": "onLogout",
+			"desc": "/*-----------------------------------------------------------------",
+			"params": []
+		}]
 	}]
 };
 

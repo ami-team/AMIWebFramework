@@ -49,11 +49,6 @@ function process(parentNode, childNodes, parentLongName, parentName)
 
 		var i;
 
-		if(element.description && element.description.indexOf('/*-') === 0)
-		{
-			return;
-		}
-
 		/*---------------------------------------------------------*/
 		/* NAMESPACE                                               */
 		/*---------------------------------------------------------*/

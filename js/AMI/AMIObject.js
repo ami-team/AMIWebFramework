@@ -231,6 +231,8 @@ function $AMIClass($name, $descr)
 		if(name === '$init'
 		   ||
 		   name.charAt(0) !== '$'
+		   ||
+		   $super.hasOwnProperty(name)
 		 ) {
 			$class._internal_super[name] = $super[name];
 
@@ -243,6 +245,8 @@ function $AMIClass($name, $descr)
 		if(name === '$init'
 		   ||
 		   name.charAt(0) !== '$'
+		   ||
+		   $descr.hasOwnProperty(name)
 		 ) {
 			$class._internal_added[name] = $descr[name];
 

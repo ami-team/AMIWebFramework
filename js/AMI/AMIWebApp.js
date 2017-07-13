@@ -150,7 +150,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		const idx1 = src.indexOf('js/ami.');
 
-		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : null);
+		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : '/');
 
 		/*---------------------------------------------------------*/
 		/* WEBAPP_URL                                              */
@@ -168,9 +168,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			const flags = src.substring(idx1).toLowerCase();
 
-			this._embedded = flags.indexOf('embedded') >= 0;
+			this._embedded = (flags.indexOf('embedded') >= 0);
 
-			this._noBootstrap = flags.indexOf('nobootstrap') >= 0;
+			this._noBootstrap = (flags.indexOf('nobootstrap') >= 0);
 		}
 
 		/*---------------------------------------------------------*/
@@ -179,8 +179,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(search)
 		{
-			for(const param of search.substring(1).split('&'))
-			{
+			search.substring(1).split('&').forEach((param) => {
+
 				const parts = param.split('=');
 
 				/**/ if(parts.length === 1)
@@ -191,7 +191,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				{
 					this.args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
 				}
-			}
+			});
 		}
 
 		/*---------------------------------------------------------*/
@@ -260,6 +260,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* TOOLS                                                           */
 	/*-----------------------------------------------------------------*/
 
+	typeOf: function(x)
+	{
+		const name = Object.prototype.toString.call(x);
+
+		return name.indexOf('[object ') === 0 ? name.substring(8, name.length - 1) : '';
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	_replace: function(s, oldStrs, newStrs)
 	{
 		const result = [];
@@ -286,7 +295,6 @@ __l0:		for(let i = 0; i < l;)
 		return result.join('');
 	},
 
-	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
 	_textToHtmlX: ['&'    , '"'     , '<'   , '>'   ],
@@ -319,7 +327,6 @@ __l0:		for(let i = 0; i < l;)
 	},
 
 	/*-----------------------------------------------------------------*/
-	/*-----------------------------------------------------------------*/
 
 	_textToStringX: ['\\'  , '\n' , '"'  , '\''  ],
 	_textToStringY: ['\\\\', '\\n', '\\"', '\\\''],
@@ -351,7 +358,6 @@ __l0:		for(let i = 0; i < l;)
 
 	},
 
-	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
 	_htmlToStringX: ['\\'  , '\n' , '&quot;'  , '\''  ],
@@ -599,7 +605,7 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		if(!(urls instanceof Array))
+		if(this.typeOf(urls) !== 'Array')
 		{
 			urls = [urls];
 		}
@@ -692,7 +698,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadTWIGs: function(urls, settings)
 	{
-		return this.loadFiles(urls, 'html', settings);
+		return this.loadFiles(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -888,13 +894,13 @@ __l0:		for(let i = 0; i < l;)
 	{
 		let result;
 
-		/**/ if(dict instanceof Array)
+		if(this.typeOf(dict) === 'Array')
 		{
 			result = '';
 
 			for(let tcid of dict)
 			{
-				if(!(tcid instanceof Object))
+				if(this.typeOf(tcid) !== 'Object')
 				{
 					tcid = {};
 				}
@@ -907,7 +913,7 @@ __l0:		for(let i = 0; i < l;)
 		}
 		else
 		{
-			if(!(dict instanceof Object))
+			if(this.typeOf(dict) !== 'Object')
 			{
 				dict = {};
 			}
@@ -1021,7 +1027,7 @@ __l0:		for(let i = 0; i < l;)
 
 	info: function(message, fadeOut, target)
 	{
-		if(message instanceof Array)
+		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
@@ -1040,7 +1046,7 @@ __l0:		for(let i = 0; i < l;)
 
 	success: function(message, fadeOut, target)
 	{
-		if(message instanceof Array)
+		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
@@ -1059,7 +1065,7 @@ __l0:		for(let i = 0; i < l;)
 
 	warning: function(message, fadeOut, target)
 	{
-		if(message instanceof Array)
+		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
@@ -1078,7 +1084,7 @@ __l0:		for(let i = 0; i < l;)
 
 	error: function(message, fadeOut, target)
 	{
-		if(message instanceof Array)
+		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
@@ -1267,7 +1273,7 @@ __l0:		for(let i = 0; i < l;)
 				{
 					/*---------------------------------*/
 
-					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'html'}).done((data3) => {
+					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).done((data3) => {
 
 						$('body').append(data3).promise().done(() => {
 
@@ -1378,7 +1384,7 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		if(!(controls instanceof Array))
+		if(this.typeOf(controls) !== 'Array')
 		{
 			controls = [controls];
 		}
