@@ -46,11 +46,11 @@ $AMIClass('DiffBoxCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	show: function(text1, text2)
+	show: function(text1, text3)
 	{
 		/*---------------------------------------------------------*/
 
-		var d = this.dmp.diff_main(text1, text2);
+		var d = this.dmp.diff_main(text1, text3);
 
 		this.dmp.diff_cleanupEfficiency(d);
 
@@ -58,19 +58,19 @@ $AMIClass('DiffBoxCtrl', {
 
 		var html1 = '<i class="line-number"></i>' + amiWebApp.textToHtml(text1).replace(/\n/g, '\n<i class="line-number"></i>');
 
-		$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B code:nth-child(1)').html(html1);
+		$('#E94A7FE7_FEBC_AE12_0C13_E625FC2ADFE6').html(html1);
 
 		/*---------------------------------------------------------*/
 
 		var html2 = '<i class="line-number"></i>' + this.dmp.diff_prettyHtml(d).replace(/\n/g, '\n<i class="line-number"></i>');
 
-		$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B code:nth-child(2)').html(html2);
+		$('#AF0BD692_6F09_4527_2684_AAF623658767').html(html2);
 
 		/*---------------------------------------------------------*/
 
-		var html3 = '<i class="line-number"></i>' + amiWebApp.textToHtml(text2).replace(/\n/g, '\n<i class="line-number"></i>');
+		var html3 = '<i class="line-number"></i>' + amiWebApp.textToHtml(text3).replace(/\n/g, '\n<i class="line-number"></i>');
 
-		$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B code:nth-child(3)').html(html3);
+		$('#C604C636_346F_64A8_3EBE_ADCDE2AEB343').html(html3);
 
 		/*---------------------------------------------------------*/
 
