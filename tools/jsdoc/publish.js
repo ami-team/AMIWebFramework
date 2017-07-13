@@ -433,7 +433,7 @@ exports.publish = function(data, opts)
 		'',
 		'/* eslint-disable */',
 		'',
-		'var amiDoc = ' + JSON.stringify(root, null, 4) + ';',
+		'var amiDoc = ' + JSON.stringify(root) + ';',
 		'',
 		'/* eslint-enable */',
 		'',
