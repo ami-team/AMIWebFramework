@@ -37,7 +37,7 @@ $AMIClass('{{NAME}}App', {
 
 		var result = $.Deferred();
 
-		amiWebApp.loadHTMLs([
+		amiWebApp.loadTWIGs([
 			'subapps/{{NAME}}/twig/{{NAME}}App.twig',
 		], {context: this}).done(function(data) {
 
