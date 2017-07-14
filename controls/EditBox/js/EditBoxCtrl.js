@@ -11,7 +11,7 @@
 
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('ConfirmBoxCtrl', {
+$AMIClass('EditBoxCtrl', {
 	/*-----------------------------------------------------------------*/
 
 	$extends: ami.Control,
@@ -28,7 +28,7 @@ $AMIClass('ConfirmBoxCtrl', {
 	onReady: function()
 	{
 		return amiWebApp.loadTWIGs([
-			amiWebApp.originURL + '/controls/ConfirmBox/twig/ConfirmBoxCtrl.twig',
+			amiWebApp.originURL + '/controls/EditBox/twig/EditBoxCtrl.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.appendHTML('body', data[0], {context: this}).done(function() {
@@ -37,20 +37,20 @@ $AMIClass('ConfirmBoxCtrl', {
 
 				/*-----------------------------------------*/
 
-				$('#C6245DA9_A1AB_D28C_B4A3_C6279EEF41DE').click(function() {
+				$('#A642C648_39A9_FF50_0E1C_C1A8E6435C0C').click(function() {
 
-					$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
+					$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('hide');
 
-					_class.deferred.rejectWith(_class.context || _class.context);
+					_class.deferred.rejectWith(_class.context || _class.deferred, [$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val()]);
 				});
 
 				/*-----------------------------------------*/
 
-				$('#E5435D68_FE3D_C90F_FC41_DEFF400CE4AE').click(function() {
+				$('#CB99273A_B731_0289_8D87_D0549A1944FB').click(function() {
 
-					$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
+					$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('hide');
 
-					_class.deferred.resolveWith(_class.context || _class.deferred);
+					_class.deferred.resolveWith(_class.context || _class.deferred, [$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val()]);
 				});
 
 				/*-----------------------------------------*/
@@ -72,9 +72,9 @@ $AMIClass('ConfirmBoxCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		$('#DCDB367E_FB67_A957_68AC_B54038F860DB .modal-body').text(text || '');
+		$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val(text || '');
 
-		$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('show');
+		$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('show');
 
 		this.$class.deferred = deferred;
 		this.$class.context = context;

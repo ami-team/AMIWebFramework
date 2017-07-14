@@ -68,15 +68,15 @@
 			</div>
 			<div class="navbar-form navbar-left">
 				<button type="button" class="btn btn-default" id="D809166F_A40B_2376_C8A5_977AA0C8C408"><i class="fa fa-refresh"></i></button>
-{% if canEdit and primaryField is not empty %}
+				{% if canEdit and primaryField is not empty %}
 				<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D"
 				                       data-toggle="toggle"
-						       data-onstyle="warning"
-						       data-on="&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt; edit mode"
-						       data-off="&lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt; view mode"
+				                       data-onstyle="warning"
+				                       data-on="&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt; edit mode"
+				                       data-off="&lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt; view mode"
 				/>
 				<button type="button" class="btn btn-warning" id="CDE5AD14_1268_8FA7_F5D8_0D690F3FB850"><i class="fa fa-plus"></i></button>
-{% endif %}
+				{% endif %}
 			</div>
 			<div class="nav navbar-nav navbar-left">
 				<li class="dropdown">
@@ -87,11 +87,11 @@
 					</ul>
 				</li>
 			</div>
-{% if isEmbedded %}
+			{% if isEmbedded %}
 			<p class="navbar-text navbar-right hidden-xs hidden-sm">
 				Powered by AMI
 			</p>
-{% endif %}
+			{% endif %}
 		</div>
 	</div>
 </nav>

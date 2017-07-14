@@ -42,95 +42,103 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_init: function()
 	{
+		amiWebApp.lock();
+
 		return amiWebApp.loadHTMLs([
 			amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Modal/login.twig',
 		]).done((data) => {
 
+			/*-------------------------------------------------*/
+
 			this.fragmentLoginButton = data[0];
 			this.fragmentLogoutButton = data[1];
 
 			amiWebApp.appendHTML('body', data[2]);
 
+			/*-------------------------------------------------*/
+
+			$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit((e) => {
+
+				this.form_login(e);
+			});
+
+			$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit((e) => {
+
+				this.form_addUser(e);
+			});
+
+			$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit((e) => {
+
+				this.form_remindPass(e);
+			});
+
+			$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit((e) => {
+
+				this.form_changeInfo(e);
+			});
+
+			$('#E92A1097_983B_4857_875F_07E4659B41B0').submit((e) => {
+
+				this.form_changePass(e);
+			});
+
+			/*-------------------------------------------------*/
+
+			$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
+
+				const pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
+				const pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
+
+				$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(
+					pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
+				);
+			});
+
+			$('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(() => {
+
+				const pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
+				const pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
+
+				$('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').get(0).setCustomValidity(
+					pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
+				);
+			});
+
+			/*-------------------------------------------------*/
+
+			$(window).on('message', (e) => {
+
+				const user = e.originalEvent.data.user;
+				const pass = e.originalEvent.data.pass;
+
+				if(user && pass)
+				{
+					this.form_login2(user, pass);
+
+					e.originalEvent.source.close();
+				}
+			});
+
+			/*-------------------------------------------------*/
+
 			amiCommand.certLogin().always((data, userInfo, roleInfo, ssoInfo) => {
-				/*-----------------------------------------*/
 
-				$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit((e) => {
+				_ami_internal_then(amiWebApp.onReady(amiWebApp.args['userdata'] || ''), () => {
 
-					this.form_login(e);
-				});
+					this._update(userInfo, roleInfo, ssoInfo).always(() => {
 
-				$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit((e) => {
-
-					this.form_addUser(e);
-				});
-
-				$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit((e) => {
-
-					this.form_remindPass(e);
-				});
-
-				$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit((e) => {
-
-					this.form_changeInfo(e);
-				});
-
-				$('#E92A1097_983B_4857_875F_07E4659B41B0').submit((e) => {
-
-					this.form_changePass(e);
-				});
-
-				/*-----------------------------------------*/
-
-				$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
-
-					const pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
-					const pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
-
-					$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(
-						pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
-					);
-				});
-
-				$('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(() => {
-
-					const pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
-					const pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
-
-					$('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').get(0).setCustomValidity(
-						pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
-					);
-				});
-
-				/*-----------------------------------------*/
-
-				$(window).on('message', (e) => {
-
-					const user = e.originalEvent.data.user;
-					const pass = e.originalEvent.data.pass;
-
-					if(user && pass)
-					{
-						this.form_login2(user, pass);
-
-						e.originalEvent.source.close();
-					}
-				});
-
-				/*-----------------------------------------*/
-
-				_ami_internal_done_fail(amiWebApp.onReady(amiWebApp.args['userdata'] || ''), () => {
-
-					this._update(userInfo, roleInfo, ssoInfo);
+						amiWebApp.unlock();
+					});
 
 				}, (data) => {
 
 					amiWebApp.error(data);
 				});
-
-				/*-----------------------------------------*/
 			});
+
+			/*-------------------------------------------------*/
 		});
 	},
 

@@ -21,7 +21,7 @@ $AMINamespace('ami');
 /* INTERNAL FUNCTIONS                                                      */
 /*-------------------------------------------------------------------------*/
 
-function _ami_internal_done_fail(deferred, doneFunc, failFunc)
+function _ami_internal_then(deferred, doneFunc, failFunc)
 {
 	if(deferred && deferred.then)
 	{
@@ -1335,7 +1335,7 @@ __l0:		for(let i = 0; i < l;)
 					                          : /*-----------------*/null/*-----------------*/
 					;
 
-					_ami_internal_done_fail(promise, () => {
+					_ami_internal_then(promise, () => {
 
 						result.push(clazz);
 
@@ -1472,7 +1472,7 @@ __l0:		for(let i = 0; i < l;)
 					                          : /*-------*/null/*-------*/
 					;
 
-					_ami_internal_done_fail(promise, () => {
+					_ami_internal_then(promise, () => {
 
 						const promise = amiLogin.isAuthenticated() ? this.triggerLogin()
 						                                           : this.triggerLogout()
