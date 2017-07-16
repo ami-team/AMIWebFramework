@@ -5852,9 +5852,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						var promise = amiLogin.isAuthenticated() ? _this6.triggerLogin() : _this6.triggerLogout();
 
-						_ami_internal_always(promise, function () {
+						_ami_internal_then(promise, function () {
 
 							_this6.unlock();
+						}, function () {
+
+							_this6.error('could not load sub-application `' + subapp + '`');
 						});
 					}, function () {
 
@@ -6707,9 +6710,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			/*-------------------------------------------------*/
 
+			var xxxxxxxxxxxxxxxx = amiWebApp.args['userdata'] || '';
+
+			/*-------------------------------------------------*/
+
 			amiCommand.certLogin().always(function (data, userInfo, roleInfo, ssoInfo) {
 
-				_ami_internal_then(amiWebApp.onReady(amiWebApp.args['userdata'] || ''), function () {
+				_ami_internal_then(amiWebApp.onReady(xxxxxxxxxxxxxxxx), function () {
 
 					_this7._update(userInfo, roleInfo, ssoInfo).always(function () {
 

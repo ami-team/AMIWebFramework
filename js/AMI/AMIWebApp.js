@@ -1478,9 +1478,13 @@ __l0:		for(let i = 0; i < l;)
 						                                           : this.triggerLogout()
 						;
 
-						_ami_internal_always(promise, () => {
+						_ami_internal_then(promise, () => {
 
 							this.unlock();
+
+						}, () => {
+
+							this.error('could not load sub-application `' + subapp + '`');
 						});
 
 					}, () => {

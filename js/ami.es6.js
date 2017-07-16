@@ -6711,9 +6711,13 @@ __l0:		for(let i = 0; i < l;)
 						                                           : this.triggerLogout()
 						;
 
-						_ami_internal_always(promise, () => {
+						_ami_internal_then(promise, () => {
 
 							this.unlock();
+
+						}, () => {
+
+							this.error('could not load sub-application `' + subapp + '`');
 						});
 
 					}, () => {
@@ -7619,9 +7623,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------*/
 
+			var xxxxxxxxxxxxxxxx = amiWebApp.args['userdata'] || '';
+
+			/*-------------------------------------------------*/
+
 			amiCommand.certLogin().always((data, userInfo, roleInfo, ssoInfo) => {
 
-				_ami_internal_then(amiWebApp.onReady(amiWebApp.args['userdata'] || ''), () => {
+				_ami_internal_then(amiWebApp.onReady(xxxxxxxxxxxxxxxx), () => {
 
 					this._update(userInfo, roleInfo, ssoInfo).always(() => {
 
