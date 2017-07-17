@@ -101,6 +101,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 
 	/**
 	  * Called when the sub-application is about to exit
+	  * @param {?} userdata userdata
 	  */
 
 	onExit: function() {},
@@ -109,6 +110,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 
 	/**
 	  * Called when logging in
+	  * @param {?} userdata userdata
 	  */
 
 	onLogin: function() {},
@@ -117,6 +119,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 
 	/**
 	  * Called when logging out
+	  * @param {?} userdata userdata
 	  */
 
 	onLogout: function() {},

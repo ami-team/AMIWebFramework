@@ -1404,7 +1404,7 @@ __l0:		for(let i = 0; i < l;)
 
 	triggerLogin: function()
 	{
-		const result = this._currentSubAppInstance.onLogin();
+		const result = this._currentSubAppInstance.onLogin(this.args['userdata']);
 
 		this.onRefresh(true);
 
@@ -1415,7 +1415,7 @@ __l0:		for(let i = 0; i < l;)
 
 	triggerLogout: function()
 	{
-		const result = this._currentSubAppInstance.onLogout();
+		const result = this._currentSubAppInstance.onLogout(this.args['userdata']);
 
 		this.onRefresh(false);
 
@@ -1449,7 +1449,7 @@ __l0:		for(let i = 0; i < l;)
 
 					/**/
 
-					this._currentSubAppInstance.onExit();
+					this._currentSubAppInstance.onExit(userdata);
 
 					this._currentSubAppInstance = instance;
 
