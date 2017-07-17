@@ -41,7 +41,7 @@ $AMIClass('ConfirmBoxCtrl', {
 
 					$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
 
-					_class.deferred.rejectWith(_class.context || _class.context);
+					_class.deferred.rejectWith(_class.context || _class.context, [true]);
 				});
 
 				/*-----------------------------------------*/
@@ -50,7 +50,7 @@ $AMIClass('ConfirmBoxCtrl', {
 
 					$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
 
-					_class.deferred.resolveWith(_class.context || _class.deferred);
+					_class.deferred.resolveWith(_class.context || _class.deferred, [false]);
 				});
 
 				/*-----------------------------------------*/
@@ -64,13 +64,22 @@ $AMIClass('ConfirmBoxCtrl', {
 	{
 		var deferred = $.Deferred();
 		var context = /**/null/**/;
+		var title = 'Confirm box';
 
-		if(settings && 'context' in settings)
+		if(settings)
 		{
-			context = settings['context'];
+			if('context' in settings) {
+				context = settings['context'];
+			}
+
+			if('title' in settings) {
+				title = settings['title'];
+			}
 		}
 
 		/*---------------------------------------------------------*/
+
+		$('#DF8EBE84_FA77_2711_8EB5_4B3213739A54').html(title);
 
 		$('#DCDB367E_FB67_A957_68AC_B54038F860DB .modal-body').text(text || '');
 

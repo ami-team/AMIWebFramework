@@ -64,13 +64,22 @@ $AMIClass('EditBoxCtrl', {
 	{
 		var deferred = $.Deferred();
 		var context = /**/null/**/;
+		var title = 'Edit box';
 
-		if(settings && 'context' in settings)
+		if(settings)
 		{
-			context = settings['context'];
+			if('context' in settings) {
+				context = settings['context'];
+			}
+
+			if('title' in settings) {
+				title = settings['title'];
+			}
 		}
 
 		/*---------------------------------------------------------*/
+
+		$('#D042A24A_4F19_BEF9_A843_15391EAD26A1').html(title);
 
 		$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val(text || '');
 

@@ -43,7 +43,7 @@ function process(parentNode, childNodes, parentLongName, parentName)
 {
 	childNodes.filter(function(element) {
 
-		return element.memberof === parentLongName;
+		return element.memberof === parentLongName && (!element.name || !element.name.startsWith('_'));
 
 	}).forEach(function(element, index) {
 
