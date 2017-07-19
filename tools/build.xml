@@ -201,10 +201,10 @@
 
 			<copy todir="controls" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="ConfirmBox/**/*" />
-				<fileset dir="${AMIWebAppTmpDir}/controls" includes="DiffViewer/**/*" />
+				<fileset dir="${AMIWebAppTmpDir}/controls" includes="DiffBox/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="EditBox/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="MessageBox/**/*" />
-				<fileset dir="${AMIWebAppTmpDir}/controls" includes="TextViewer/**/*" />
+				<fileset dir="${AMIWebAppTmpDir}/controls" includes="TextBox/**/*" />
 			</copy>
 
 			<copy todir="controls" overwrite="false">
@@ -219,7 +219,6 @@
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Command/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Document/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Emergency/**/*" />
-				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="SchemaViewer/**/*" />
 			</copy>
 
 			<copy todir="subapps" overwrite="false">

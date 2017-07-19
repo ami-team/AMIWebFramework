@@ -79,11 +79,11 @@ $AMIClass('EmergencyApp', {
 
 			amiCommand.execute('SendSMS -message="' + amiWebApp.textToString(message) + '"').done(function(data) {
 
-				amiWebApp.info(amiWebApp.jspath('..info.$', data));
+				amiWebApp.info(amiWebApp.jspath('..info.$', data), true);
 
 			}).fail(function(data) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data));
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 			});
 		}
 
