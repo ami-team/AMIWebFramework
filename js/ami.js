@@ -5840,15 +5840,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 					/**/
 
-					setTimeout(function () {
-
-						if ($('#ami_main_content').is(':empty')) {
-							_this6.error('service temporarily unreachable, please reload the page...');
-						}
-					}, 10000);
-
-					/**/
-
 					_this6.lock();
 
 					var promise = loaded[0] ? instance.onReady(userdata) : /*-------*/null /*-------*/

@@ -6697,17 +6697,6 @@ __l0:		for(let i = 0; i < l;)
 
 					/**/
 
-					setTimeout(() => {
-
-						if($('#ami_main_content').is(':empty'))
-						{
-							this.error('service temporarily unreachable, please reload the page...');
-						}
-
-					}, 10000);
-
-					/**/
-
 					this.lock();
 
 					const promise = loaded[0] ? instance.onReady(userdata)
