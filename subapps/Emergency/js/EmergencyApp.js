@@ -18,7 +18,7 @@ $AMIClass('EmergencyApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	onReady: function(userdata)
+	onReady: function()
 	{
 		/*---------------------------------------------------------*/
 
@@ -29,7 +29,7 @@ $AMIClass('EmergencyApp', {
 		var result = $.Deferred();
 
 		amiWebApp.loadTWIGs([
-			'subapps/Emergency/html/EmergencyApp.twig',
+			'subapps/Emergency/twig/EmergencyApp.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
@@ -37,9 +37,9 @@ $AMIClass('EmergencyApp', {
 				result.resolve();
 			});
 
-		}).fail(function() {
+		}).fail(function(data) {
 
-			result.reject();
+			result.reject(data);
 		});
 
 		/*---------------------------------------------------------*/
