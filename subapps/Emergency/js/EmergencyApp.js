@@ -1,32 +1,35 @@
 /*!
  * AMI Web Framework
  *
- * Copyright (c) 2014 The AMI Team
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
+ *
+ * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
  */
 
 /*-------------------------------------------------------------------------*/
-/* AMIEmergencyApp                                                         */
-/*-------------------------------------------------------------------------*/
 
-$AMIClass('AMIEmergencyApp', {
+$AMIClass('EmergencyApp', {
 	/*-----------------------------------------------------------------*/
 
-	$implements: [ami.ISubApp],
+	$implements: [ami.SubApp],
 
 	/*-----------------------------------------------------------------*/
 
-	onReady: function()
+	onReady: function(userdata)
 	{
-		$('#ami_jumbotron_title').html('Emergency');
-		$('#ami_jumbotron_content').html('SMS for blocking problem');
-		$('#ami_breadcrumb_content').html('<li>Tools</li><li><a href="' + amiWebApp.webAppURL + '?subapp=amiemergency">Emergency</a></li>');
+		/*---------------------------------------------------------*/
+
+		$('#ami_breadcrumb_content').html('<li>Tools</li><li><a href="' + amiWebApp.webAppURL + '?subapp=emergency">Emergency</a></li>');
+
+		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
 
-		amiWebApp.loadHTMLs([
-			'subapps/Emergency/html/AMIEmergencyApp.html',
+		amiWebApp.loadTWIGs([
+			'subapps/Emergency/html/EmergencyApp.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
@@ -39,54 +42,52 @@ $AMIClass('AMIEmergencyApp', {
 			result.reject();
 		});
 
+		/*---------------------------------------------------------*/
+
 		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	onExit: function()
-	{
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	onLogin: function()
 	{
+		$('#C51A09D0_6E2A_0CFA_83C8_9ABC1E2EAA75').prop('disabled', false);
+		$('#A64EBE51_FD59_AAC3_BC5C_7CCC62F413B9').prop('disabled', false);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	onLogout: function()
 	{
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	onSessionExpired: function()
-	{
+		$('#C51A09D0_6E2A_0CFA_83C8_9ABC1E2EAA75').prop('disabled', true);
+		$('#A64EBE51_FD59_AAC3_BC5C_7CCC62F413B9').prop('disabled', true);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	send: function()
 	{
-		var message = $('#modal_emergency_message').val();
+		/*---------------------------------------------------------*/
 
-		message = message.strip();
+		var message = $('#C51A09D0_6E2A_0CFA_83C8_9ABC1E2EAA75').val().trim();
+
+		/*---------------------------------------------------------*/
 
 		if(message)
 		{
 			amiWebApp.lock();
-	
+
 			amiCommand.execute('SendSMS -message="' + amiWebApp.textToString(message) + '"').done(function(data) {
-	
-				amiWebApp.info(amiWebApp.jspath('..info.$', data).join(' '));
-	
+
+				amiWebApp.info(amiWebApp.jspath('..info.$', data));
+
 			}).fail(function(data) {
-	
-				amiWebApp.error(amiWebApp.jspath('..error.$', data).join(' '));
+
+				amiWebApp.error(amiWebApp.jspath('..error.$', data));
 			});
 		}
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -96,8 +97,6 @@ $AMIClass('AMIEmergencyApp', {
 /* GLOBAL INSTANCE                                                         */
 /*-------------------------------------------------------------------------*/
 
-amiEmergencyApp = new AMIEmergencyApp();
-
-amiRegisterSubApp('amiEmergency', amiEmergencyApp, {});
+var emergencyApp = new EmergencyApp();
 
 /*-------------------------------------------------------------------------*/

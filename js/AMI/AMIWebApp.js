@@ -269,6 +269,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
+	asArray: function(x)
+	{
+		return this.typeOf(x) === 'Array' ? (x)
+		                                  : [x]
+		;
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	_replace: function(s, oldStrs, newStrs)
 	{
 		const result = [];

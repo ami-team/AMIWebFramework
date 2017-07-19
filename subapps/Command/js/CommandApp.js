@@ -100,11 +100,12 @@ $AMIClass('CommandApp', {
 				});
 			});
 
-			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this.fragmentCommand, {dict: dict});
+			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this.fragmentCommand, {dict: dict}).done(function() {
 
-			$('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').prop('disabled', false);
-			$('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').prop('disabled', false);
-			$('#C124A2A9_B5F5_46F0_AFBC_234859F3F6FA').prop('disabled', false);
+				$('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').prop('disabled', false);
+				$('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').prop('disabled', false);
+				$('#C124A2A9_B5F5_46F0_AFBC_234859F3F6FA').prop('disabled', false);
+			});
 
 		}).fail(function(data) {
 
@@ -129,28 +130,32 @@ $AMIClass('CommandApp', {
 	{
 		/*---------------------------------------------------------*/
 
-		var command = $('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').val();
-		var converter = $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val();
+		var command = $('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').val().trim();
+		var converter = $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val().trim();
 
 		/*---------------------------------------------------------*/
 
-		amiWebApp.lock();
+		if(command)
+		{
+			amiWebApp.lock();
 
-		amiCommand.execute(command, {context: this, converter: converter}).always(function(data, url) {
+			amiCommand.execute(command, {context: this, converter: converter}).always(function(data, url) {
 
-			data = (converter === 'AMIXmlToJson.xsl') ? JSON.stringify(data, undefined, 2)
-			                                          : data
-			;
+				data = (converter === 'AMIXmlToJson.xsl') ? JSON.stringify(data, undefined, 2)
+				                                          : data
+				;
 
-			var dict = {
-				data: data,
-				url: url,
-			};
+				var dict = {
+					data: data,
+					url: url,
+				};
 
-			amiWebApp.prependHTML('#AB4BA483_EE27_44D0_BB54_F5BFCFE4DA7E', this.fragmentResult, {dict: dict});
+				amiWebApp.prependHTML('#AB4BA483_EE27_44D0_BB54_F5BFCFE4DA7E', this.fragmentResult, {dict: dict}).done(function() {
 
-			amiWebApp.unlock();
-		});
+					amiWebApp.unlock();
+				});
+			});
+		}
 
 		/*---------------------------------------------------------*/
 	},
@@ -175,7 +180,7 @@ $AMIClass('CommandApp', {
 	{
 		/*---------------------------------------------------------*/
 
-		var converter = $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val();
+		var converter = $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val().trim();
 
 		/*---------------------------------------------------------*/
 
