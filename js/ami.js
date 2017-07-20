@@ -4936,20 +4936,42 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/* DYNAMIC RESOURCE LOADING                                        */
 	/*-----------------------------------------------------------------*/
 
-	_getDataType: function _getDataType(dataType, url) {
-		var result;
+	_getExtension: function _getExtension(url) {
+		var index = url.lastIndexOf('.');
+
+		return index > 0 ? url.substring(index) : '';
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_getDataType: function _getDataType(url, dataType) {
+		var result = void 0;
 
 		if (dataType === 'auto') {
-			/**/if (url.endsWith('.css')) {
-				result = 'sheet';
-			} else if (url.endsWith('.js')) {
-				result = 'script';
-			} else if (url.endsWith('.json')) {
-				result = 'json';
-			} else if (url.endsWith('.xml')) {
-				result = 'xml';
-			} else {
-				result = 'text';
+			switch (this._getExtension(url).toLowerCase()) {
+				case '.css':
+					result = 'sheet';
+					break;
+
+				case '.js':
+					result = 'script';
+					break;
+
+				case '.json':
+					result = 'json';
+					break;
+
+				case '.xml':
+					result = 'xml';
+					break;
+
+				case '.html':
+					result = 'html';
+					break;
+
+				default:
+					result = 'text';
+					break;
 			}
 		} else {
 			result = dataType;
@@ -4969,11 +4991,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*---------------------------------------------------------*/
 
-		var url = urls.shift();
+		var url = urls.shift().trim();
 
 		/*---------------------------------------------------------*/
 
-		switch (this._getDataType(dataType, url)) {
+		switch (this._getDataType(url, dataType)) {
 			/*-------------------------------------------------*/
 			/* SHEET                                           */
 			/*-------------------------------------------------*/

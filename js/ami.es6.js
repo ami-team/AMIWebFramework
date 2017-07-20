@@ -5728,26 +5728,46 @@ __l0:		for(let i = 0; i < l;)
 	/* DYNAMIC RESOURCE LOADING                                        */
 	/*-----------------------------------------------------------------*/
 
-	_getDataType: function(dataType, url)
+	_getExtension: function(url)
 	{
-		var result;
+		const index = url.lastIndexOf('.');
+
+		return index > 0 ? url.substring(index) : '';
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_getDataType: function(url, dataType)
+	{
+		let result;
 
 		if(dataType === 'auto')
 		{
-			/**/ if(url.endsWith('.css')) {
-				result = 'sheet';
-			}
-			else if(url.endsWith('.js')) {
-				result = 'script';
-			}
-			else if(url.endsWith('.json')) {
-				result = 'json';
-			}
-			else if(url.endsWith('.xml')) {
-				result = 'xml';
-			}
-			else {
-				result = 'text';
+			switch(this._getExtension(url).toLowerCase())
+			{
+				case '.css':
+					result = 'sheet';
+					break;
+
+				case '.js':
+					result = 'script';
+					break;
+
+				case '.json':
+					result = 'json';
+					break;
+
+				case '.xml':
+					result = 'xml';
+					break;
+
+				case '.html':
+					result = 'html';
+					break;
+
+				default:
+					result = 'text';
+					break;
 			}
 		}
 		else
@@ -5770,11 +5790,11 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		const url = urls.shift();
+		const url = urls.shift().trim();
 
 		/*---------------------------------------------------------*/
 
-		switch(this._getDataType(dataType, url))
+		switch(this._getDataType(url, dataType))
 		{
 			/*-------------------------------------------------*/
 			/* SHEET                                           */
@@ -5808,7 +5828,7 @@ __l0:		for(let i = 0; i < l;)
 					});
 				}
 
-				break
+				break;
 
 			/*-------------------------------------------------*/
 			/* SCRIPT                                          */
