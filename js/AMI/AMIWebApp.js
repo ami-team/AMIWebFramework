@@ -544,7 +544,7 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 
-	_loadFiles: function(deferred, result, urls, dataType, context)
+	__loadFiles: function(deferred, result, urls, dataType, context)
 	{
 		if(urls.length === 0)
 		{
@@ -573,7 +573,7 @@ __l0:		for(let i = 0; i < l;)
 				{
 					result.push(false);
 
-					this._loadFiles(deferred, result, urls, dataType, context);
+					this.__loadFiles(deferred, result, urls, dataType, context);
 				}
 				else
 				{
@@ -587,7 +587,7 @@ __l0:		for(let i = 0; i < l;)
 
 						result.push(true);
 
-						this._loadFiles(deferred, result, urls, dataType, context);
+						this.__loadFiles(deferred, result, urls, dataType, context);
 
 					}, () => {
 
@@ -607,7 +607,7 @@ __l0:		for(let i = 0; i < l;)
 				{
 					result.push(false);
 
-					this._loadFiles(deferred, result, urls, dataType, context);
+					this.__loadFiles(deferred, result, urls, dataType, context);
 				}
 				else
 				{
@@ -621,7 +621,7 @@ __l0:		for(let i = 0; i < l;)
 
 						result.push(true);
 
-						this._loadFiles(deferred, result, urls, dataType, context);
+						this.__loadFiles(deferred, result, urls, dataType, context);
 
 					}, () => {
 
@@ -647,7 +647,7 @@ __l0:		for(let i = 0; i < l;)
 
 					result.push(data);
 
-					this._loadFiles(deferred, result, urls, dataType, context);
+					this.__loadFiles(deferred, result, urls, dataType, context);
 
 				}, () => {
 
@@ -666,7 +666,7 @@ __l0:		for(let i = 0; i < l;)
 
 	/*-----------------------------------------------------------------*/
 
-	loadFiles: function(urls, dataType, settings)
+	_loadFiles: function(urls, dataType, settings)
 	{
 		let context = null;
 
@@ -684,9 +684,23 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		return this._loadFiles($.Deferred(), [], urls, dataType, context).promise();
+		return this.__loadFiles($.Deferred(), [], urls, dataType, context).promise();
 
 		/*---------------------------------------------------------*/
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Detects types and loads files asynchronously
+	  * @param {(Array|String)} urls the array of urls
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	loadFiles: function(urls, settings)
+	{
+		return this._loadFiles(urls, 'auto', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -700,7 +714,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadSheets: function(urls, settings)
 	{
-		return this.loadFiles(urls, 'sheet', settings);
+		return this._loadFiles(urls, 'sheet', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -714,7 +728,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadScripts: function(urls, settings)
 	{
-		return this.loadFiles(urls, 'script', settings);
+		return this._loadFiles(urls, 'script', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -728,7 +742,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadJSONs: function(urls, settings)
 	{
-		return this.loadFiles(urls, 'json', settings);
+		return this._loadFiles(urls, 'json', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -742,7 +756,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadXMLs: function(urls, settings)
 	{
-		return this.loadFiles(urls, 'xml', settings);
+		return this._loadFiles(urls, 'xml', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -756,7 +770,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadHTMLs: function(urls, settings)
 	{
-		return this.loadFiles(urls, 'text', settings);
+		return this._loadFiles(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -770,7 +784,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadTWIGs: function(urls, settings)
 	{
-		return this.loadFiles(urls, 'text', settings);
+		return this._loadFiles(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -784,7 +798,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadTexts: function(urls, settings)
 	{
-		return this.loadFiles(urls, 'text', settings);
+		return this._loadFiles(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
