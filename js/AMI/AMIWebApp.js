@@ -528,10 +528,6 @@ __l0:		for(let i = 0; i < l;)
 					result = 'xml';
 					break;
 
-				case '.html':
-					result = 'html';
-					break;
-
 				default:
 					result = 'text';
 					break;
@@ -756,7 +752,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadHTMLs: function(urls, settings)
 	{
-		return this.loadFiles(urls, 'html', settings);
+		return this.loadFiles(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -957,7 +953,7 @@ __l0:		for(let i = 0; i < l;)
 
 	/**
 	  * Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}
-	  * @param {String} html the TWIG string
+	  * @param {String} twig the TWIG string
 	  * @param {Object} [dict] the dictionary
 	  * @returns {String} The Interpreted TWIG string
 	  */
