@@ -4991,7 +4991,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*---------------------------------------------------------*/
 
-		switch (this._getDataType(url, dataType)) {
+		var dataTYPE = this._getDataType(url, dataType);
+
+		/*---------------------------------------------------------*/
+
+		switch (dataTYPE) {
 			/*-------------------------------------------------*/
 			/* SHEET                                           */
 			/*-------------------------------------------------*/
@@ -5008,7 +5012,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 						async: false,
 						cache: false,
 						crossDomain: true,
-						dataType: dataType
+						dataType: dataTYPE
 					}).then(function () {
 
 						result.push(true);
@@ -5038,7 +5042,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 						async: false,
 						cache: false,
 						crossDomain: true,
-						dataType: dataType
+						dataType: dataTYPE
 					}).then(function () {
 
 						result.push(true);
@@ -5063,7 +5067,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 					async: true,
 					cache: false,
 					crossDomain: true,
-					dataType: dataType
+					dataType: dataTYPE
 				}).then(function (data) {
 
 					result.push(data);

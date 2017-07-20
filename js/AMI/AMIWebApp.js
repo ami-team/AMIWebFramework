@@ -557,7 +557,11 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		switch(this._getDataType(url, dataType))
+		const dataTYPE = this._getDataType(url, dataType);
+
+		/*---------------------------------------------------------*/
+
+		switch(dataTYPE)
 		{
 			/*-------------------------------------------------*/
 			/* SHEET                                           */
@@ -578,7 +582,7 @@ __l0:		for(let i = 0; i < l;)
 						async: false,
 						cache: false,
 						crossDomain: true,
-						dataType: dataType,
+						dataType: dataTYPE,
 					}).then(() => {
 
 						result.push(true);
@@ -612,7 +616,7 @@ __l0:		for(let i = 0; i < l;)
 						async: false,
 						cache: false,
 						crossDomain: true,
-						dataType: dataType,
+						dataType: dataTYPE,
 					}).then(() => {
 
 						result.push(true);
@@ -638,7 +642,7 @@ __l0:		for(let i = 0; i < l;)
 					async: true,
 					cache: false,
 					crossDomain: true,
-					dataType: dataType,
+					dataType: dataTYPE,
 				}).then((data) => {
 
 					result.push(data);

@@ -28,19 +28,14 @@ $AMIClass('CommandApp', {
 
 		/*---------------------------------------------------------*/
 
-		amiWebApp.loadScripts([
-			'js/3rd-party/filesaver.min.js',
-		]);
-
-		/*---------------------------------------------------------*/
-
 		var result = $.Deferred();
 
-		amiWebApp.loadTWIGs([
+		amiWebApp.loadFiles([
 			'subapps/Command/twig/CommandApp.twig',
 			'subapps/Command/twig/Fragment/command.twig',
 			'subapps/Command/twig/Fragment/result.twig',
-		], {context: this}).done(function(data) {
+			'js/3rd-party/filesaver.min.js',
+		], 'auto', {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
 
@@ -51,7 +46,7 @@ $AMIClass('CommandApp', {
 			});
 
 		}).fail(function(data) {
-
+alert(data);
 			result.reject(data);
 		});
 
