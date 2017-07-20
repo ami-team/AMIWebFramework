@@ -6572,9 +6572,9 @@ __l0:		for(let i = 0; i < l;)
 
 							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-								amiLogin._init().fail((data5) => {
+								amiLogin._init().fail((e) => {
 
-									this.error(data5);
+									this.error(e);
 								});
 							});
 
@@ -6598,9 +6598,9 @@ __l0:		for(let i = 0; i < l;)
 
 						$('body').append(data3).promise().done(() => {
 
-							amiLogin._init().fail((data4) => {
+							amiLogin._init().fail((e) => {
 
-								this.error(data4);
+								this.error(e);
 							});
 						});
 					});
@@ -6660,19 +6660,19 @@ __l0:		for(let i = 0; i < l;)
 
 						this._loadControls(deferred, result, controls, context);
 
-					}, () => {
+					}, (e) => {
 
-						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`: ' + e]);
 					});
 				}
 				catch(e)
 				{
-					deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+					deferred.rejectWith(context || deferred, ['could not load control `' + name + '`: ' + e]);
 				}
 
-			}, () => {
+			}, (e) => {
 
-				deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+				deferred.rejectWith(context || deferred, ['could not load control `' + name + '`: ' + e]);
 			});
 		}
 		else
@@ -6790,24 +6790,24 @@ __l0:		for(let i = 0; i < l;)
 
 							this.unlock();
 
-						}, () => {
+						}, (e) => {
 
-							this.error('could not load sub-application `' + subapp + '`');
+							this.error('could not load sub-application `' + subapp + '`: ' + e);
 						});
 
-					}, () => {
+					}, (e) => {
 
-						this.error('could not load sub-application `' + subapp + '`');
+						this.error('could not load sub-application `' + subapp + '`: ' + e);
 					});
 				}
 				catch(e)
 				{
-					this.error('could not load sub-application `' + subapp + '`');
+					this.error('could not load sub-application `' + subapp + '`: ' + e);
 				}
 
-			}, () => {
+			}, (e) => {
 
-				this.error('could not load sub-application `' + subapp + '`');
+				this.error('could not load sub-application `' + subapp + '`: ' + e);
 			});
 		}
 		else

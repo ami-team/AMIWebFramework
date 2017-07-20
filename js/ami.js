@@ -5734,9 +5734,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 							$('body').append(_this4.formatTWIG(data3, dict) + data4).promise().done(function () {
 
-								amiLogin._init().fail(function (data5) {
+								amiLogin._init().fail(function (e) {
 
-									_this4.error(data5);
+									_this4.error(e);
 								});
 							});
 						}, function () {
@@ -5756,9 +5756,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						$('body').append(data3).promise().done(function () {
 
-							amiLogin._init().fail(function (data4) {
+							amiLogin._init().fail(function (e) {
 
-								_this4.error(data4);
+								_this4.error(e);
 							});
 						});
 					});
@@ -5810,16 +5810,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 						result.push(clazz);
 
 						_this5._loadControls(deferred, result, controls, context);
-					}, function () {
+					}, function (e) {
 
-						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`: ' + e]);
 					});
 				} catch (e) {
-					deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+					deferred.rejectWith(context || deferred, ['could not load control `' + name + '`: ' + e]);
 				}
-			}, function () {
+			}, function (e) {
 
-				deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+				deferred.rejectWith(context || deferred, ['could not load control `' + name + '`: ' + e]);
 			});
 		} else {
 			deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
@@ -5923,20 +5923,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 						_ami_internal_then(promise, function () {
 
 							_this6.unlock();
-						}, function () {
+						}, function (e) {
 
-							_this6.error('could not load sub-application `' + subapp + '`');
+							_this6.error('could not load sub-application `' + subapp + '`: ' + e);
 						});
-					}, function () {
+					}, function (e) {
 
-						_this6.error('could not load sub-application `' + subapp + '`');
+						_this6.error('could not load sub-application `' + subapp + '`: ' + e);
 					});
 				} catch (e) {
-					_this6.error('could not load sub-application `' + subapp + '`');
+					_this6.error('could not load sub-application `' + subapp + '`: ' + e);
 				}
-			}, function () {
+			}, function (e) {
 
-				_this6.error('could not load sub-application `' + subapp + '`');
+				_this6.error('could not load sub-application `' + subapp + '`: ' + e);
 			});
 		} else {
 			this.error('could not load sub-application `' + subapp + '`');
