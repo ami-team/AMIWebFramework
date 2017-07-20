@@ -677,14 +677,7 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		if(this.typeOf(urls) !== 'Array')
-		{
-			urls = [urls];
-		}
-
-		/*---------------------------------------------------------*/
-
-		return this.__loadFiles($.Deferred(), [], urls, dataType, context).promise();
+		return this.__loadFiles($.Deferred(), [], this.asArray(urls), dataType, context).promise();
 
 		/*---------------------------------------------------------*/
 	},
@@ -972,33 +965,18 @@ __l0:		for(let i = 0; i < l;)
 	/**
 	  * Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}
 	  * @param {String} twig the TWIG string
-	  * @param {Object} [dict] the dictionary
+	  * @param {Object|Array} [dict] the dictionary
 	  * @returns {String} The Interpreted TWIG string
 	  */
 
 	formatTWIG: function(twig, dict)
 	{
-		let result;
+		const result = [];
 
-		if(this.typeOf(dict) === 'Array')
-		{
-			result = '';
+		/*---------------------------------------------------------*/
 
-			for(let tcid of dict)
-			{
-				if(this.typeOf(tcid) !== 'Object')
-				{
-					tcid = {};
-				}
+		const render = (twig, dict) => {
 
-				tcid['ORIGIN_URL'] = this.originURL;
-				tcid['WEBAPP_URL'] = this.webAppURL;
-
-				result += amiTwig.engine.render(twig, tcid);
-			}
-		}
-		else
-		{
 			if(this.typeOf(dict) !== 'Object')
 			{
 				dict = {};
@@ -1007,10 +985,26 @@ __l0:		for(let i = 0; i < l;)
 			dict['ORIGIN_URL'] = this.originURL;
 			dict['WEBAPP_URL'] = this.webAppURL;
 
-			result = amiTwig.engine.render(twig, dict);
+			return amiTwig.engine.render(twig, dict);
+		};
+
+		/*---------------------------------------------------------*/
+
+		if(this.typeOf(dict) === 'Array')
+		{
+			for(const DICT of dict)
+			{
+				result.push(render(twig, DICT));
+			}
+		}
+		else
+		{
+			result.push(render(twig, dict));
 		}
 
-		return result;
+		/*---------------------------------------------------------*/
+
+		return result.join('');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1444,7 +1438,7 @@ __l0:		for(let i = 0; i < l;)
 		}
 		else
 		{
-			deferred.rejectWith(context || deferred, ['could not load control `' + name + '`']);
+			deferred.rejectWith(context || deferred, ['could not find control `' + name + '`']);
 		}
 
 		/*---------------------------------------------------------*/
@@ -1472,14 +1466,7 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		if(this.typeOf(controls) !== 'Array')
-		{
-			controls = [controls];
-		}
-
-		/*---------------------------------------------------------*/
-
-		return this._loadControls($.Deferred(), [], controls, context).promise();
+		return this._loadControls($.Deferred(), [], this.asArray(controls), context).promise();
 
 		/*---------------------------------------------------------*/
 	},
@@ -1579,7 +1566,7 @@ __l0:		for(let i = 0; i < l;)
 		}
 		else
 		{
-			this.error('could not load sub-application `' + subapp + '`');
+			this.error('could not find sub-application `' + subapp + '`');
 		}
 	},
 
