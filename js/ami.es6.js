@@ -5214,7 +5214,7 @@ jQuery.getSheet = function(settings)
 /* BOOTSTRAP EXTENSIONS                                                    */
 /*-------------------------------------------------------------------------*/
 
-var _ami_internal_modalZIndex = 10000;
+var _ami_internal_modalZIndex = 1050;
 
 /*-------------------------------------------------------------------------*/
 
@@ -5728,6 +5728,39 @@ __l0:		for(let i = 0; i < l;)
 	/* DYNAMIC RESOURCE LOADING                                        */
 	/*-----------------------------------------------------------------*/
 
+	_getDataType: function(dataType, url)
+	{
+		var result;
+
+		if(dataType === 'auto')
+		{
+			/**/ if(url.endsWith('.css')) {
+				result = 'sheet';
+			}
+			else if(url.endsWith('.js')) {
+				result = 'script';
+			}
+			else if(url.endsWith('.json')) {
+				result = 'json';
+			}
+			else if(url.endsWith('.xml')) {
+				result = 'xml';
+			}
+			else {
+				result = 'text';
+			}
+		}
+		else
+		{
+			result = dataType;
+		}
+
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+
 	_loadFiles: function(deferred, result, urls, dataType, context)
 	{
 		if(urls.length === 0)
@@ -5740,61 +5773,92 @@ __l0:		for(let i = 0; i < l;)
 		const url = urls.shift();
 
 		/*---------------------------------------------------------*/
-		/* SHEET                                                   */
-		/*---------------------------------------------------------*/
 
-		/**/ if(dataType === 'sheet')
+		switch(this._getDataType(dataType, url))
 		{
-			if(this._sheets.indexOf(url) >= 0)
-			{
-				result.push(false);
+			/*-------------------------------------------------*/
+			/* SHEET                                           */
+			/*-------------------------------------------------*/
 
-				this._loadFiles(deferred, result, urls, dataType, context);
-			}
-			else
-			{
-				$.getSheet({
-					url: url,
-					async: false,
-					cache: false,
-					crossDomain: true,
-					dataType: dataType,
-				}).then(() => {
+			case 'sheet':
 
-					result.push(true);
+				if(this._sheets.indexOf(url) >= 0)
+				{
+					result.push(false);
 
 					this._loadFiles(deferred, result, urls, dataType, context);
+				}
+				else
+				{
+					$.getSheet({
+						url: url,
+						async: false,
+						cache: false,
+						crossDomain: true,
+						dataType: dataType,
+					}).then(() => {
 
-				}, () => {
+						result.push(true);
 
-					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
-				});
-			}
-		}
+						this._loadFiles(deferred, result, urls, dataType, context);
 
-		/*---------------------------------------------------------*/
-		/* SCRIPT                                                  */
-		/*---------------------------------------------------------*/
+					}, () => {
 
-		else if(dataType === 'script')
-		{
-			if(this._scripts.indexOf(url) >= 0)
-			{
-				result.push(false);
+						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+					});
+				}
 
-				this._loadFiles(deferred, result, urls, dataType, context);
-			}
-			else
-			{
+				break
+
+			/*-------------------------------------------------*/
+			/* SCRIPT                                          */
+			/*-------------------------------------------------*/
+
+			case 'script':
+
+				if(this._scripts.indexOf(url) >= 0)
+				{
+					result.push(false);
+
+					this._loadFiles(deferred, result, urls, dataType, context);
+				}
+				else
+				{
+					$.ajax({
+						url: url,
+						async: false,
+						cache: false,
+						crossDomain: true,
+						dataType: dataType,
+					}).then(() => {
+
+						result.push(true);
+
+						this._loadFiles(deferred, result, urls, dataType, context);
+
+					}, () => {
+
+						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+					});
+				}
+
+				break;
+
+			/*-------------------------------------------------*/
+			/* OTHER                                           */
+			/*-------------------------------------------------*/
+
+			default:
+
 				$.ajax({
 					url: url,
-					async: false,
+					async: true,
 					cache: false,
 					crossDomain: true,
 					dataType: dataType,
-				}).then(() => {
+				}).then((data) => {
 
-					result.push(true);
+					result.push(data);
 
 					this._loadFiles(deferred, result, urls, dataType, context);
 
@@ -5802,31 +5866,10 @@ __l0:		for(let i = 0; i < l;)
 
 					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
 				});
-			}
-		}
 
-		/*---------------------------------------------------------*/
-		/* OTHER                                                   */
-		/*---------------------------------------------------------*/
+				break;
 
-		else
-		{
-			$.ajax({
-				url: url,
-				async: true,
-				cache: false,
-				crossDomain: true,
-				dataType: dataType,
-			}).then((data) => {
-
-				result.push(data);
-
-				this._loadFiles(deferred, result, urls, dataType, context);
-
-			}, () => {
-
-				deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
-			});
+			/*-------------------------------------------------*/
 		}
 
 		/*---------------------------------------------------------*/

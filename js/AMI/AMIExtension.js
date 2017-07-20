@@ -101,7 +101,7 @@ jQuery.getSheet = function(settings)
 /* BOOTSTRAP EXTENSIONS                                                    */
 /*-------------------------------------------------------------------------*/
 
-var _ami_internal_modalZIndex = 10000;
+var _ami_internal_modalZIndex = 1050;
 
 /*-------------------------------------------------------------------------*/
 

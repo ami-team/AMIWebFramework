@@ -4490,7 +4490,7 @@ jQuery.getSheet = function (settings) {
 /* BOOTSTRAP EXTENSIONS                                                    */
 /*-------------------------------------------------------------------------*/
 
-var _ami_internal_modalZIndex = 10000;
+var _ami_internal_modalZIndex = 1050;
 
 /*-------------------------------------------------------------------------*/
 
@@ -4936,6 +4936,30 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/* DYNAMIC RESOURCE LOADING                                        */
 	/*-----------------------------------------------------------------*/
 
+	_getDataType: function _getDataType(dataType, url) {
+		var result;
+
+		if (dataType === 'auto') {
+			/**/if (url.endsWith('.css')) {
+				result = 'sheet';
+			} else if (url.endsWith('.js')) {
+				result = 'script';
+			} else if (url.endsWith('.json')) {
+				result = 'json';
+			} else if (url.endsWith('.xml')) {
+				result = 'xml';
+			} else {
+				result = 'text';
+			}
+		} else {
+			result = dataType;
+		}
+
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	_loadFiles: function _loadFiles(deferred, result, urls, dataType, context) {
 		var _this2 = this;
 
@@ -4948,38 +4972,44 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		var url = urls.shift();
 
 		/*---------------------------------------------------------*/
-		/* SHEET                                                   */
-		/*---------------------------------------------------------*/
 
-		/**/if (dataType === 'sheet') {
-			if (this._sheets.indexOf(url) >= 0) {
-				result.push(false);
+		switch (this._getDataType(dataType, url)) {
+			/*-------------------------------------------------*/
+			/* SHEET                                           */
+			/*-------------------------------------------------*/
 
-				this._loadFiles(deferred, result, urls, dataType, context);
-			} else {
-				$.getSheet({
-					url: url,
-					async: false,
-					cache: false,
-					crossDomain: true,
-					dataType: dataType
-				}).then(function () {
+			case 'sheet':
 
-					result.push(true);
+				if (this._sheets.indexOf(url) >= 0) {
+					result.push(false);
 
-					_this2._loadFiles(deferred, result, urls, dataType, context);
-				}, function () {
+					this._loadFiles(deferred, result, urls, dataType, context);
+				} else {
+					$.getSheet({
+						url: url,
+						async: false,
+						cache: false,
+						crossDomain: true,
+						dataType: dataType
+					}).then(function () {
 
-					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
-				});
-			}
-		}
+						result.push(true);
 
-		/*---------------------------------------------------------*/
-		/* SCRIPT                                                  */
-		/*---------------------------------------------------------*/
+						_this2._loadFiles(deferred, result, urls, dataType, context);
+					}, function () {
 
-		else if (dataType === 'script') {
+						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+					});
+				}
+
+				break;
+
+			/*-------------------------------------------------*/
+			/* SCRIPT                                          */
+			/*-------------------------------------------------*/
+
+			case 'script':
+
 				if (this._scripts.indexOf(url) >= 0) {
 					result.push(false);
 
@@ -5001,29 +5031,35 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
 					});
 				}
-			}
 
-			/*---------------------------------------------------------*/
-			/* OTHER                                                   */
-			/*---------------------------------------------------------*/
+				break;
 
-			else {
-					$.ajax({
-						url: url,
-						async: true,
-						cache: false,
-						crossDomain: true,
-						dataType: dataType
-					}).then(function (data) {
+			/*-------------------------------------------------*/
+			/* OTHER                                           */
+			/*-------------------------------------------------*/
 
-						result.push(data);
+			default:
 
-						_this2._loadFiles(deferred, result, urls, dataType, context);
-					}, function () {
+				$.ajax({
+					url: url,
+					async: true,
+					cache: false,
+					crossDomain: true,
+					dataType: dataType
+				}).then(function (data) {
 
-						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
-					});
-				}
+					result.push(data);
+
+					_this2._loadFiles(deferred, result, urls, dataType, context);
+				}, function () {
+
+					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+				});
+
+				break;
+
+			/*-------------------------------------------------*/
+		}
 
 		/*---------------------------------------------------------*/
 
