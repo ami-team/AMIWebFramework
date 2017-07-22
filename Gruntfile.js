@@ -45,7 +45,7 @@ module.exports = function(grunt) {
 					}
 				},
 				"src": [
-					"js/AMI/external/ami-twig.js",
+					"js/AMI/external/ami-twig.es6.js",
 					"js/AMI/external/jspath.js",
 					"js/AMI/AMIObject.js",
 					"js/AMI/AMIExtension.js",
