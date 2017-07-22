@@ -5022,9 +5022,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				this._loadControls($.Deferred(), result, [url]).then(function () {
 
 					_this2.__loadXXX(deferred, result, urls, dataType, context);
-				}, function () {
+				}, function (e) {
 
-					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+					deferred.rejectWith(context || deferred, [e]);
 				});
 
 				break;
