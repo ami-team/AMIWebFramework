@@ -579,9 +579,9 @@ __l0:		for(let i = 0; i < l;)
 
 					this.__loadXXX(deferred, result, urls, dataType, context);
 
-				}, () => {
+				}, (e) => {
 
-					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+					deferred.rejectWith(context || deferred, [e]);
 				});
 
 				break;
