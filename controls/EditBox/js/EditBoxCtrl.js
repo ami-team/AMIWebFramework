@@ -27,7 +27,7 @@ $AMIClass('EditBoxCtrl', {
 
 	onReady: function()
 	{
-		return amiWebApp.loadTWIGs([
+		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/EditBox/twig/EditBoxCtrl.twig',
 		], {context: this}).done(function(data) {
 

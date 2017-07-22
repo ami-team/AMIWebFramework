@@ -27,7 +27,7 @@ $AMIClass('TextBoxCtrl', {
 
 	onReady: function()
 	{
-		return amiWebApp.loadTWIGs([
+		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/TextBox/twig/TextBoxCtrl.twig',
 		], {context: this}).done(function(data) {
 

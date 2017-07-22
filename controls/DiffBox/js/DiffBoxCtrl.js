@@ -29,7 +29,7 @@ $AMIClass('DiffBoxCtrl', {
 
 	onReady: function()
 	{
-		return amiWebApp.loadTWIGs([
+		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/DiffBox/twig/DiffBoxCtrl.twig',
 		], {context: this}).done(function(data) {
 

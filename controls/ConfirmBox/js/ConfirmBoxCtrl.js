@@ -27,7 +27,7 @@ $AMIClass('ConfirmBoxCtrl', {
 
 	onReady: function()
 	{
-		return amiWebApp.loadTWIGs([
+		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/ConfirmBox/twig/ConfirmBoxCtrl.twig',
 		], {context: this}).done(function(data) {
 

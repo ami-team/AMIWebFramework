@@ -27,7 +27,7 @@ $AMIClass('MessageBoxCtrl', {
 
 	onReady: function()
 	{
-		return amiWebApp.loadTWIGs([
+		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/MessageBox/twig/MessageBoxCtrl.twig',
 		], {context: this}).done(function(data) {
 

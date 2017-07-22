@@ -27,7 +27,7 @@ $AMIClass('SchemaCtrl', {
 
 	onReady: function()
 	{
-		return amiWebApp.loadTWIGs([
+		return amiWebApp.loadResources([
 			'controls/Schema/twig/SchemaCtrl.twig',
 		], {context: this}).done(function(data) {
 
