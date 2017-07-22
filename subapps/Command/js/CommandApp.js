@@ -30,7 +30,7 @@ $AMIClass('CommandApp', {
 
 		var result = $.Deferred();
 
-		amiWebApp.loadFiles([
+		amiWebApp.loadResources([
 			'subapps/Command/twig/CommandApp.twig',
 			'subapps/Command/twig/Fragment/command.twig',
 			'subapps/Command/twig/Fragment/result.twig',

@@ -29,32 +29,22 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		amiWebApp.loadControls([
-			'messageBox',
-			'textBox',
-		], {context: this}).done(function(data) {
-
-			this.messageBox = new data[0];
-			this.textBox = new data[1];
-
-		}).fail(function(data) {
-
-			amiWebApp.error(data);
-		});
-
-		/*---------------------------------------------------------*/
-
-		return amiWebApp.loadTWIGs([
+		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/Table/twig/TableCtrl.twig',
 			amiWebApp.originURL + '/controls/Table/twig/modal.twig',
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/js.twig',
+			'#messageBox',
+			'#textBox',
 		], {context: this}).done(function(data) {
 
 			this.fragmentTableCtrl = data[0];
 			this.fragmentModal = data[1];
 			this.fragmentTable = data[2];
 			this.fragmentJS = data[3];
+
+			this.messageBox = new data[4];
+			this.textBox = new data[5];
 		});
 
 		/*---------------------------------------------------------*/

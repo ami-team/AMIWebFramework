@@ -63,13 +63,19 @@ jQuery.foreach = function(el, callback, context)
 
 /*-------------------------------------------------------------------------*/
 
-jQuery.getSheet = function(settings)
-{
-	let url = '';
-	let context = null;
+var _ami_internal_jQueryAjax = jQuery.ajax;
 
-	if(settings)
-	{
+/*-------------------------------------------------------------------------*/
+
+jQuery.ajax = function(settings)
+{
+	if(typeof settings === 'object'
+	   &&
+	   settings.dataType === 'sheet'
+	 ) {
+		let url = '';
+		let context = null;
+
 		if('url' in settings) {
 			url = settings['url'];
 		}
@@ -77,24 +83,28 @@ jQuery.getSheet = function(settings)
 		if('context' in settings) {
 			context = settings['context'];
 		}
+
+		/*---------------------------------------------------------*/
+
+		const deferred = $.Deferred();
+
+		$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(() => {
+
+			deferred.resolveWith(context || deferred);
+		});
+
+		return deferred.promise();
+
+		/*---------------------------------------------------------*/
 	}
+	else
+	{
+		/*---------------------------------------------------------*/
 
-	/*-----------------------------------------------------------------*/
+		return _ami_internal_jQueryAjax.apply(this, arguments);
 
-	const deferred = $.Deferred();
-
-	/*-----------------------------------------------------------------*/
-
-	$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(() => {
-
-		deferred.resolveWith(context || deferred);
-	});
-
-	/*-----------------------------------------------------------------*/
-
-	return deferred.promise();
-
-	/*-----------------------------------------------------------------*/
+		/*---------------------------------------------------------*/
+	}
 };
 
 /*-------------------------------------------------------------------------*/

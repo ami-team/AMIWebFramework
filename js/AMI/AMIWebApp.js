@@ -510,27 +510,34 @@ __l0:		for(let i = 0; i < l;)
 
 		if(dataType === 'auto')
 		{
-			switch(this._getExtension(url).toLowerCase())
+			if(url.indexOf('#') !== 0)
 			{
-				case '.css':
-					result = 'sheet';
-					break;
+				switch(this._getExtension(url).toLowerCase())
+				{
+					case '.css':
+						result = 'sheet';
+						break;
 
-				case '.js':
-					result = 'script';
-					break;
+					case '.js':
+						result = 'script';
+						break;
 
-				case '.json':
-					result = 'json';
-					break;
+					case '.json':
+						result = 'json';
+						break;
 
-				case '.xml':
-					result = 'xml';
-					break;
+					case '.xml':
+						result = 'xml';
+						break;
 
-				default:
-					result = 'text';
-					break;
+					default:
+						result = 'text';
+						break;
+				}
+			}
+			else
+			{
+				result = 'control';
 			}
 		}
 		else
@@ -543,8 +550,7 @@ __l0:		for(let i = 0; i < l;)
 
 	/*-----------------------------------------------------------------*/
 
-
-	__loadFiles: function(deferred, result, urls, dataType, context)
+	__loadXXX: function(deferred, result, urls, dataType, context)
 	{
 		if(urls.length === 0)
 		{
@@ -564,6 +570,23 @@ __l0:		for(let i = 0; i < l;)
 		switch(dataTYPE)
 		{
 			/*-------------------------------------------------*/
+			/* CONTROL                                         */
+			/*-------------------------------------------------*/
+
+			case 'control':
+
+				this._loadControls($.Deferred(), result, [url]).then(() => {
+
+					this.__loadXXX(deferred, result, urls, dataType, context);
+
+				}, () => {
+
+					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+				});
+
+				break;
+
+			/*-------------------------------------------------*/
 			/* SHEET                                           */
 			/*-------------------------------------------------*/
 
@@ -573,11 +596,11 @@ __l0:		for(let i = 0; i < l;)
 				{
 					result.push(false);
 
-					this.__loadFiles(deferred, result, urls, dataType, context);
+					this.__loadXXX(deferred, result, urls, dataType, context);
 				}
 				else
 				{
-					$.getSheet({
+					$.ajax({
 						url: url,
 						async: false,
 						cache: false,
@@ -587,7 +610,7 @@ __l0:		for(let i = 0; i < l;)
 
 						result.push(true);
 
-						this.__loadFiles(deferred, result, urls, dataType, context);
+						this.__loadXXX(deferred, result, urls, dataType, context);
 
 					}, () => {
 
@@ -607,7 +630,7 @@ __l0:		for(let i = 0; i < l;)
 				{
 					result.push(false);
 
-					this.__loadFiles(deferred, result, urls, dataType, context);
+					this.__loadXXX(deferred, result, urls, dataType, context);
 				}
 				else
 				{
@@ -621,7 +644,7 @@ __l0:		for(let i = 0; i < l;)
 
 						result.push(true);
 
-						this.__loadFiles(deferred, result, urls, dataType, context);
+						this.__loadXXX(deferred, result, urls, dataType, context);
 
 					}, () => {
 
@@ -647,7 +670,7 @@ __l0:		for(let i = 0; i < l;)
 
 					result.push(data);
 
-					this.__loadFiles(deferred, result, urls, dataType, context);
+					this.__loadXXX(deferred, result, urls, dataType, context);
 
 				}, () => {
 
@@ -666,7 +689,7 @@ __l0:		for(let i = 0; i < l;)
 
 	/*-----------------------------------------------------------------*/
 
-	_loadFiles: function(urls, dataType, settings)
+	_loadXXX: function(urls, dataType, settings)
 	{
 		let context = null;
 
@@ -677,7 +700,7 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		return this.__loadFiles($.Deferred(), [], this.asArray(urls), dataType, context).promise();
+		return this.__loadXXX($.Deferred(), [], this.asArray(urls), dataType, context).promise();
 
 		/*---------------------------------------------------------*/
 	},
@@ -685,15 +708,15 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Detects types and loads files asynchronously
+	  * Loads resources asynchronously by extension
 	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	loadFiles: function(urls, settings)
+	loadResources: function(urls, settings)
 	{
-		return this._loadFiles(urls, 'auto', settings);
+		return this._loadXXX(urls, 'auto', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -707,7 +730,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadSheets: function(urls, settings)
 	{
-		return this._loadFiles(urls, 'sheet', settings);
+		return this._loadXXX(urls, 'sheet', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -721,7 +744,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadScripts: function(urls, settings)
 	{
-		return this._loadFiles(urls, 'script', settings);
+		return this._loadXXX(urls, 'script', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -735,7 +758,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadJSONs: function(urls, settings)
 	{
-		return this._loadFiles(urls, 'json', settings);
+		return this._loadXXX(urls, 'json', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -749,7 +772,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadXMLs: function(urls, settings)
 	{
-		return this._loadFiles(urls, 'xml', settings);
+		return this._loadXXX(urls, 'xml', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -763,7 +786,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadHTMLs: function(urls, settings)
 	{
-		return this._loadFiles(urls, 'text', settings);
+		return this._loadXXX(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -777,7 +800,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadTWIGs: function(urls, settings)
 	{
-		return this._loadFiles(urls, 'text', settings);
+		return this._loadXXX(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -791,7 +814,7 @@ __l0:		for(let i = 0; i < l;)
 
 	loadTexts: function(urls, settings)
 	{
-		return this._loadFiles(urls, 'text', settings);
+		return this._loadXXX(urls, 'text', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1395,7 +1418,12 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		const name = controls.shift();
+		let name = controls.shift();
+
+		if(name.indexOf('#') === 0x00)
+		{
+			name = name.substring(1);
+		}
 
 		const descr = this._controls[name.toLowerCase()];
 
