@@ -5817,7 +5817,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		var name = controls.shift();
 
 		if (name.indexOf('ctrl:') === 0) {
-			name = name.substring(1);
+			name = name.substring(5);
 		}
 
 		var descr = this._controls[name.toLowerCase()];

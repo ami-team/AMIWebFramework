@@ -6665,7 +6665,7 @@ __l0:		for(let i = 0; i < l;)
 
 		if(name.indexOf('ctrl:') === 0)
 		{
-			name = name.substring(1);
+			name = name.substring(5);
 		}
 
 		const descr = this._controls[name.toLowerCase()];
