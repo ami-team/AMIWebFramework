@@ -34,8 +34,8 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/controls/Table/twig/modal.twig',
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/js.twig',
-			'#messageBox',
-			'#textBox',
+			'ctrl:messageBox',
+			'ctrl:textBox',
 		], {context: this}).done(function(data) {
 
 			this.fragmentTableCtrl = data[0];

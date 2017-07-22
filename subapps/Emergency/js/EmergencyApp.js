@@ -28,7 +28,7 @@ $AMIClass('EmergencyApp', {
 
 		var result = $.Deferred();
 
-		amiWebApp.loadTWIGs([
+		amiWebApp.loadResources([
 			'subapps/Emergency/twig/EmergencyApp.twig',
 		], {context: this}).done(function(data) {
 

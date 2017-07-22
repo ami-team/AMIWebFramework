@@ -4954,7 +4954,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		var result = void 0;
 
 		if (dataType === 'auto') {
-			if (url.indexOf('#') !== 0) {
+			if (url.indexOf('ctrl:') !== 0) {
 				switch (this._getExtension(url).toLowerCase()) {
 					case '.css':
 						result = 'sheet';
@@ -5816,7 +5816,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		var name = controls.shift();
 
-		if (name.indexOf('#') === 0x00) {
+		if (name.indexOf('ctrl:') === 0) {
 			name = name.substring(1);
 		}
 

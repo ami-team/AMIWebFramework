@@ -27,7 +27,7 @@ $AMIClass('{{NAME}}Ctrl', {
 
 	onReady: function()
 	{
-		return amiWebApp.loadTWIGs([
+		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/{{NAME}}/twig/{{NAME}}Ctrl.twig',
 		], {context: this}).done(function(data) {
 

@@ -26,19 +26,11 @@ $AMIClass('{{NAME}}App', {
 
 		/*---------------------------------------------------------*/
 
-		amiWebApp.loadScripts([
-		]);
-
-		amiWebApp.loadSheets([
-			'subapps/{{NAME}}/css/{{NAME}}App.css',
-		]);
-
-		/*---------------------------------------------------------*/
-
 		var result = $.Deferred();
 
-		amiWebApp.loadTWIGs([
+		amiWebApp.loadResources([
 			'subapps/{{NAME}}/twig/{{NAME}}App.twig',
+			'subapps/{{NAME}}/css/{{NAME}}App.css',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {

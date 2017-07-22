@@ -5753,7 +5753,7 @@ __l0:		for(let i = 0; i < l;)
 
 		if(dataType === 'auto')
 		{
-			if(url.indexOf('#') !== 0)
+			if(url.indexOf('ctrl:') !== 0)
 			{
 				switch(this._getExtension(url).toLowerCase())
 				{
@@ -6663,7 +6663,7 @@ __l0:		for(let i = 0; i < l;)
 
 		let name = controls.shift();
 
-		if(name.indexOf('#') === 0x00)
+		if(name.indexOf('ctrl:') === 0)
 		{
 			name = name.substring(1);
 		}
