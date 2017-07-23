@@ -5242,7 +5242,6 @@ $(document).on('show.bs.modal', '.modal', function() {
 	setTimeout(() => {
 
 		$('body > .modal-backdrop:last').css('z-index', _ami_internal_modalZIndex++);
-
 		/*-----------*/el/*-----------*/.css('z-index', _ami_internal_modalZIndex++);
 
 	}, 10);

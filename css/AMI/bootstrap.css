@@ -42,9 +42,8 @@
 
 /*-------------------------------------------------------------------------*/
 
-.form-control,
 .input-group-btn > .btn {
-	height: 35.4px;
+	height: 35px;
 }
 
 @-moz-document url-prefix() {
@@ -113,6 +112,12 @@
 .popover {
 	min-width: 675px;
 	max-width: 675px;
+
+	z-index: 2060;
+}
+
+.tooltip {
+	z-index: 2070;
 }
 
 /*-------------------------------------------------------------------------*/
