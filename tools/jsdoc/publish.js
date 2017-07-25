@@ -16,12 +16,12 @@
 
 /*-------------------------------------------------------------------------*/
 
-var filename = 'AMIDoc.js';
+const filename = 'AMIDoc.js';
 
 /*-------------------------------------------------------------------------*/
 
-var path = require('jsdoc/path');
-var  fs  = require( 'jsdoc/fs' );
+const path = require('jsdoc/path');
+const  fs  = require( 'jsdoc/fs' );
 
 /*-------------------------------------------------------------------------*/
 
@@ -32,11 +32,9 @@ function typeHelper(type)
 
 /*-------------------------------------------------------------------------*/
 
-function process(done, parentNode, childNodes, parentLongName)
+function process(done, nodes, parentDescr, parentLongName)
 {
-	childNodes.forEach(function(element, index) {
-
-		var i;
+	nodes.forEach(function(element, index) {
 
 		if(parentLongName)
 		{
@@ -63,17 +61,17 @@ function process(done, parentNode, childNodes, parentLongName)
 			/* THIS                                            */
 			/*-------------------------------------------------*/
 
-			var thisNamespace = {
+			const descr = {
 				'name': element.longname,
 				'desc': element.description || '',
 			};
 
-			if(!parentNode.namespaces)
+			if(!parentDescr.namespaces)
 			{
-				parentNode.namespaces = [];
+				parentDescr.namespaces = [];
 			}
 
-			parentNode.namespaces.push(thisNamespace);
+			parentDescr.namespaces.push(descr);
 
 			/*-------------------------------------------------*/
 			/* DETAILS                                         */
@@ -81,22 +79,22 @@ function process(done, parentNode, childNodes, parentLongName)
 
 			if(element.version)
 			{
-				thisNamespace.see = element.version;
+				descr.see = element.version;
 			}
 
 			if(element.author)
 			{
-				thisNamespace.see = element.author;
+				descr.see = element.author;
 			}
 
 			if(element.see)
 			{
-				thisNamespace.see = element.see;
+				descr.see = element.see;
 			}
 
 			/*-------------------------------------------------*/
 
-			process(done, thisNamespace, childNodes, element.longname);
+			process(done, nodes, descr, element.longname);
 
 			/*-------------------------------------------------*/
 		}
@@ -113,7 +111,7 @@ function process(done, parentNode, childNodes, parentLongName)
 			/* THIS                                            */
 			/*-------------------------------------------------*/
 
-			var thisClass = {
+			const descr = {
 				'name': element.longname,
 				'desc': element.description || '',
 				'implements': element.implements ? element.implements : [],
@@ -122,21 +120,21 @@ function process(done, parentNode, childNodes, parentLongName)
 
 			/**/ if(element.kind === 'class')
 			{
-				if(!parentNode.classes)
+				if(!parentDescr.classes)
 				{
-					parentNode.classes = [];
+					parentDescr.classes = [];
 				}
 
-				parentNode.classes.push(thisClass);
+				parentDescr.classes.push(descr);
 			}
 			else if(element.kind === 'interface')
 			{
-				if(!parentNode.interfaces)
+				if(!parentDescr.interfaces)
 				{
-					parentNode.interfaces = [];
+					parentDescr.interfaces = [];
 				}
 
-				parentNode.interfaces.push(thisClass);
+				parentDescr.interfaces.push(descr);
 			}
 
 			/*-------------------------------------------------*/
@@ -145,17 +143,17 @@ function process(done, parentNode, childNodes, parentLongName)
 
 			if(element.version)
 			{
-				thisClass.see = element.version;
+				descr.see = element.version;
 			}
 
 			if(element.author)
 			{
-				thisClass.see = element.author;
+				descr.see = element.author;
 			}
 
 			if(element.see)
 			{
-				thisClass.see = element.see;
+				descr.see = element.see;
 			}
 
 			/*-------------------------------------------------*/
@@ -166,7 +164,7 @@ function process(done, parentNode, childNodes, parentLongName)
 				/* CONSTRUCTOR                             */
 				/*-----------------------------------------*/
 
-				thisClass.konstructor = {
+				descr.konstructor = {
 					'name': element.name,
 					'params': [],
 				};
@@ -175,9 +173,9 @@ function process(done, parentNode, childNodes, parentLongName)
 				/* PARAMETERS                              */
 				/*-----------------------------------------*/
 
-				for(var i in element.params)
+				for(const i in element.params)
 				{
-					thisClass.konstructor.params.push({
+					descr.konstructor.params.push({
 						'name': element.params[i].name,
 						'type': typeHelper(element.params[i].type),
 						'desc': element.params[i].description || '',
@@ -193,11 +191,11 @@ function process(done, parentNode, childNodes, parentLongName)
 
 				if(element.exceptions)
 				{
-					thisClass.konstructor.exceptions = [];
+					descr.konstructor.exceptions = [];
 
-					for(var i in element.exceptions)
+					for(const i in element.exceptions)
 					{
-						thisClass.konstructor.exceptions.push({
+						descr.konstructor.exceptions.push({
 							'type': typeHelper(element.exceptions[i].type),
 							'desc': element.exceptions[i].description || '',
 						});
@@ -210,11 +208,11 @@ function process(done, parentNode, childNodes, parentLongName)
 
 				if(element.examples)
 				{
-					thisClass.konstructor.examples = [];
+					descr.konstructor.examples = [];
 
-					for(var i in element.examples)
+					for(const i in element.examples)
 					{
-						thisClass.konstructor.examples.push(element.examples[i]);
+						descr.konstructor.examples.push(element.examples[i]);
 					}
 				}
 
@@ -224,9 +222,9 @@ function process(done, parentNode, childNodes, parentLongName)
 
 				if(element.implements)
 				{
-					for(var i in element.implements)
+					for(const i in element.implements)
 					{
-						process(done, thisClass, childNodes, element.implements[i]);
+						process(done, nodes, descr, element.implements[i]);
 					}
 				}
 
@@ -234,9 +232,9 @@ function process(done, parentNode, childNodes, parentLongName)
 
 				if(element.augments)
 				{
-					for(var i in element.augments)
+					for(const i in element.augments)
 					{
-						process(done, thisClass, childNodes, element.augments[i]);
+						process(done, nodes, descr, element.augments[i]);
 					}
 				}
 
@@ -245,7 +243,7 @@ function process(done, parentNode, childNodes, parentLongName)
 
 			/*-------------------------------------------------*/
 
-			process(done, thisClass, childNodes, element.longname);
+			process(done, nodes, descr, element.longname);
 
 			/*-------------------------------------------------*/
 	 	}
@@ -260,18 +258,18 @@ function process(done, parentNode, childNodes, parentLongName)
 			/* THIS                                            */
 			/*-------------------------------------------------*/
 
-			var thisVariable = {
+			const descr = {
 				'name': element.name,
 				'type': typeHelper(element.type),
 				'desc': element.description || '',
 			};
 
-			if(!parentNode.variables)
+			if(!parentDescr.variables)
 			{
-				parentNode.variables = [];
+				parentDescr.variables = [];
 			}
 
-			parentNode.variables.push(thisVariable);
+			parentDescr.variables.push(descr);
 
 			/*-------------------------------------------------*/
 			/* DETAILS                                         */
@@ -279,17 +277,17 @@ function process(done, parentNode, childNodes, parentLongName)
 
 			if(element.version)
 			{
-				thisVariable.see = element.version;
+				descr.see = element.version;
 			}
 
 			if(element.author)
 			{
-				thisVariable.see = element.author;
+				descr.see = element.author;
 			}
 
 			if(element.see)
 			{
-				thisVariable.see = element.see;
+				descr.see = element.see;
 			}
 
 			/*-------------------------------------------------*/
@@ -298,11 +296,11 @@ function process(done, parentNode, childNodes, parentLongName)
 
 			if(element.examples)
 			{
-				thisVariable.examples = [];
+				descr.examples = [];
 
-				for(var i in element.examples)
+				for(const i in element.examples)
 				{
-					thisVariable.examples.push(element.examples[i]);
+					descr.examples.push(element.examples[i]);
 				}
 			}
 
@@ -321,30 +319,29 @@ function process(done, parentNode, childNodes, parentLongName)
 			/* THIS                                            */
 			/*-------------------------------------------------*/
 
-			var thisFunction = {
+			const descr = {
 				'name': element.name,
 				'desc': element.description || '',
 				'params': [],
 			};
 
-			if(element.kind === 'function')
+			/**/ if(element.kind === 'function')
 			{
-				if(!parentNode.functions)
+				if(!parentDescr.functions)
 				{
-					parentNode.functions = [];
+					parentDescr.functions = [];
 				}
 
-				parentNode.functions.push(thisFunction);
+				parentDescr.functions.push(descr);
 			}
-
-			if(element.kind === 'event')
+			else if(element.kind === 'event')
 			{
-				if(!parentNode.events)
+				if(!parentDescr.events)
 				{
-					parentNode.events = [];
+					parentDescr.events = [];
 				}
 
-				parentNode.events.push(thisFunction);
+				parentDescr.events.push(descr);
 			}
 
 			/*-------------------------------------------------*/
@@ -353,26 +350,26 @@ function process(done, parentNode, childNodes, parentLongName)
 
 			if(element.version)
 			{
-				thisFunction.see = element.version;
+				descr.see = element.version;
 			}
 
 			if(element.author)
 			{
-				thisFunction.see = element.author;
+				descr.see = element.author;
 			}
 
 			if(element.see)
 			{
-				thisFunction.see = element.see;
+				descr.see = element.see;
 			}
 
 			/*-------------------------------------------------*/
 			/* PARAMETERS                                      */
 			/*-------------------------------------------------*/
 
-			for(i in element.params)
+			for(const i in element.params)
 			{
-				thisFunction.params.push({
+				descr.params.push({
 					'name': element.params[i].name,
 					'type': typeHelper(element.params[i].type),
 					'desc': element.params[i].description || '',
@@ -388,11 +385,11 @@ function process(done, parentNode, childNodes, parentLongName)
 
 			if(element.exceptions)
 			{
-				thisFunction.exceptions = [];
+				descr.exceptions = [];
 
-				for(i in element.exceptions)
+				for(const i in element.exceptions)
 				{
-					thisFunction.exceptions.push({
+					descr.exceptions.push({
 						'type': typeHelper(element.exceptions[i].type),
 						'desc': element.exceptions[i].description || '',
 					});
@@ -405,11 +402,11 @@ function process(done, parentNode, childNodes, parentLongName)
 
 			if(element.returns)
 			{
-				thisFunction.returns = [];
+				descr.returns = [];
 
-				for(var i in element.returns)
+				for(const i in element.returns)
 				{
-					thisFunction.returns.push({
+					descr.returns.push({
 						'type': typeHelper(element.returns[i].type),
 						'desc': element.returns[i].description || '',
 					});
@@ -422,11 +419,11 @@ function process(done, parentNode, childNodes, parentLongName)
 
 			if(element.examples)
 			{
-				thisFunction.examples = [];
+				descr.examples = [];
 
-				for(var i in element.examples)
+				for(const i in element.examples)
 				{
-					thisFunction.examples.push(element.examples[i]);
+					descr.examples.push(element.examples[i]);
 				}
 			}
 
@@ -436,7 +433,7 @@ function process(done, parentNode, childNodes, parentLongName)
 		/*---------------------------------------------------------*/
 	});
 
-	return parentNode;
+	return parentDescr;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -451,13 +448,13 @@ exports.publish = function(data, opts)
 
 	/*-----------------------------------------------------------------*/
 
-	var docs = data().get();
+	const docs = data().get();
 
-	var root = process({}, {}, docs);
+	const root = process({}, docs, {});
 
 	/*-----------------------------------------------------------------*/
 
-	var result = [
+	const result = [
 		'/*!',
 		' * AMI Web Framework - ' + filename,
 		' *',
@@ -493,7 +490,7 @@ exports.publish = function(data, opts)
 	{
 		/*---------------------------------------------------------*/
 
-		var dirname = path.normalize(opts.destination);
+		const dirname = path.normalize(opts.destination);
 
 		/*---------------------------------------------------------*/
 
