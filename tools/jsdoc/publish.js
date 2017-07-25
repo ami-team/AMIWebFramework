@@ -25,13 +25,6 @@ var  fs  = require( 'jsdoc/fs' );
 
 /*-------------------------------------------------------------------------*/
 
-function nameHelper(name)
-{
-	return name.replace(/\//g, '.');
-}
-
-/*-------------------------------------------------------------------------*/
-
 function typeHelper(type)
 {
 	return type ? (type.names.length === 1 ? type.names[0] : type.names) : '';
@@ -39,15 +32,26 @@ function typeHelper(type)
 
 /*-------------------------------------------------------------------------*/
 
-function process(parentNode, childNodes, parentLongName, parentName)
+function process(done, parentNode, childNodes, parentLongName)
 {
-	childNodes.filter(function(element) {
-
-		return element.memberof === parentLongName && (!element.name || !element.name.startsWith('_'));
-
-	}).forEach(function(element, index) {
+	childNodes.forEach(function(element, index) {
 
 		var i;
+
+		if(parentLongName)
+		{
+			if(parentLongName !== element.memberof)
+			{
+				return;
+			}
+		}
+		else
+		{
+			if(element.memberof && (element.kind !== 'namespace' && element.kind !== 'interface' && element.kind !== 'class'))
+			{
+				return;
+			}
+		}
 
 		/*---------------------------------------------------------*/
 		/* NAMESPACE                                               */
@@ -60,7 +64,7 @@ function process(parentNode, childNodes, parentLongName, parentName)
 			/*-------------------------------------------------*/
 
 			var thisNamespace = {
-				'name': nameHelper(element.name),
+				'name': element.longname,
 				'desc': element.description || '',
 			};
 
@@ -92,7 +96,7 @@ function process(parentNode, childNodes, parentLongName, parentName)
 
 			/*-------------------------------------------------*/
 
-			process(thisNamespace, childNodes, element.longname, element.name);
+			process(done, thisNamespace, childNodes, element.longname);
 
 			/*-------------------------------------------------*/
 		}
@@ -110,10 +114,10 @@ function process(parentNode, childNodes, parentLongName, parentName)
 			/*-------------------------------------------------*/
 
 			var thisClass = {
-				'name': nameHelper(element.name),
+				'name': element.longname,
 				'desc': element.description || '',
-				'implements': element.implements ? element.implements.map(nameHelper) : [],
-				'inherits': element.augments ? element.augments.map(nameHelper) : [],
+				'implements': element.implements ? element.implements : [],
+				'inherits': element.augments ? element.augments : [],
 			};
 
 			/**/ if(element.kind === 'class')
@@ -163,7 +167,7 @@ function process(parentNode, childNodes, parentLongName, parentName)
 				/*-----------------------------------------*/
 
 				thisClass.konstructor = {
-					'name': nameHelper(element.name),
+					'name': element.name,
 					'params': [],
 				};
 
@@ -215,11 +219,33 @@ function process(parentNode, childNodes, parentLongName, parentName)
 				}
 
 				/*-----------------------------------------*/
+				/* INHERITED METHODS                       */
+				/*-----------------------------------------*/
+
+				if(element.implements)
+				{
+					for(var i in element.implements)
+					{
+						process(done, thisClass, childNodes, element.implements[i]);
+					}
+				}
+
+				/*-----------------------------------------*/
+
+				if(element.augments)
+				{
+					for(var i in element.augments)
+					{
+						process(done, thisClass, childNodes, element.augments[i]);
+					}
+				}
+
+				/*-----------------------------------------*/
 			}
 
 			/*-------------------------------------------------*/
 
-			process(thisClass, childNodes, element.longname, element.name);
+			process(done, thisClass, childNodes, element.longname);
 
 			/*-------------------------------------------------*/
 	 	}
@@ -235,7 +261,7 @@ function process(parentNode, childNodes, parentLongName, parentName)
 			/*-------------------------------------------------*/
 
 			var thisVariable = {
-				'name': nameHelper(element.name),
+				'name': element.name,
 				'type': typeHelper(element.type),
 				'desc': element.description || '',
 			};
@@ -267,6 +293,20 @@ function process(parentNode, childNodes, parentLongName, parentName)
 			}
 
 			/*-------------------------------------------------*/
+			/* EXAMPLES                                        */
+			/*-------------------------------------------------*/
+
+			if(element.examples)
+			{
+				thisVariable.examples = [];
+
+				for(var i in element.examples)
+				{
+					thisVariable.examples.push(element.examples[i]);
+				}
+			}
+
+			/*-------------------------------------------------*/
 		}
 
 		/*---------------------------------------------------------*/
@@ -282,7 +322,7 @@ function process(parentNode, childNodes, parentLongName, parentName)
 			/*-------------------------------------------------*/
 
 			var thisFunction = {
-				'name': nameHelper(element.name),
+				'name': element.name,
 				'desc': element.description || '',
 				'params': [],
 			};
@@ -333,7 +373,7 @@ function process(parentNode, childNodes, parentLongName, parentName)
 			for(i in element.params)
 			{
 				thisFunction.params.push({
-					'name': nameHelper(element.params[i].name),
+					'name': element.params[i].name,
 					'type': typeHelper(element.params[i].type),
 					'desc': element.params[i].description || '',
 					'default': element.params[i].defaultvalue || '',
@@ -405,13 +445,15 @@ exports.publish = function(data, opts)
 {
 	/*-----------------------------------------------------------------*/
 
-	console.log(data().get());
+	data({
+		undocumented: true
+	}).remove();
 
-	data({undocumented: true}).remove();
+	/*-----------------------------------------------------------------*/
 
 	var docs = data().get();
 
-	var root = process({}, docs);
+	var root = process({}, {}, docs);
 
 	/*-----------------------------------------------------------------*/
 

@@ -17,10 +17,10 @@
 
 /**
  * The AMI control interface
- * @interface ami/IControl
+ * @interface ami.IControl
  */
 
-$AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
+$AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -84,10 +84,10 @@ $AMIInterface('ami.IControl', /** @lends ami/IControl# */ {
 
 /**
  * The AMI sub-application interface
- * @interface ami/ISubApp
+ * @interface ami.ISubApp
  */
 
-$AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
+$AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -133,11 +133,11 @@ $AMIInterface('ami.ISubApp', /** @lends ami/ISubApp# */ {
 
 /**
  * The basic AMI control
- * @class ami/Control
- * @implements {ami/IControl}
+ * @class ami.Control
+ * @implements {ami.IControl}
  */
 
-$AMIClass('ami.Control', /** @lends ami/Control# */ {
+$AMIClass('ami.Control', /** @lends ami.Control */ {
 	/*-----------------------------------------------------------------*/
 
 	$implements: [ami.IControl],
@@ -214,11 +214,11 @@ $AMIClass('ami.Control', /** @lends ami/Control# */ {
 
 /**
  * The basic AMI sub-application
- * @class ami/SubApp
- * @implements {ami/ISubApp}
+ * @class ami.SubApp
+ * @implements {ami.ISubApp}
  */
 
-$AMIClass('ami.SubApp', /** @lends ami/SubApp# */ {
+$AMIClass('ami.SubApp', /** @lends ami.SubApp */ {
 	/*-----------------------------------------------------------------*/
 
 	$implements: [ami.ISubApp],

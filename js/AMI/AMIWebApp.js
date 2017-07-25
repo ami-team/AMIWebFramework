@@ -288,7 +288,7 @@ __l0:		for(let i = 0; i < l;)
 		{
 			for(const j in oldStrs)
 			{
-				if(s.substring(i).startsWith(oldStrs[j]))
+				if(s.substring(i).indexOf(oldStrs[j]) === 0)
 				{
 					result.push(newStrs[j]);
 
