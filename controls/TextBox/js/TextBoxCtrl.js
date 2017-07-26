@@ -29,6 +29,7 @@ $AMIClass('TextBoxCtrl', {
 	{
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/TextBox/twig/TextBoxCtrl.twig',
+			amiWebApp.originURL + '/js/3rd-party/clipboard.min.js',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.appendHTML('body', data[0]);
