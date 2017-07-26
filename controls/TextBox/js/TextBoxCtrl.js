@@ -32,7 +32,10 @@ $AMIClass('TextBoxCtrl', {
 			amiWebApp.originURL + '/js/3rd-party/clipboard.min.js',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.appendHTML('body', data[0]);
+			amiWebApp.appendHTML('body', data[0]).done(function() {
+
+				new Clipboard('#B8927006_7FCE_87BD_FC8D_C7575D69C362 .btn[data-clipboard-target]');
+			});
 		});
 	},
 

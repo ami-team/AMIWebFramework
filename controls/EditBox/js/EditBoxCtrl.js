@@ -29,6 +29,7 @@ $AMIClass('EditBoxCtrl', {
 	{
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/EditBox/twig/EditBoxCtrl.twig',
+			amiWebApp.originURL + '/js/3rd-party/clipboard.min.js',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.appendHTML('body', data[0], {context: this}).done(function() {
@@ -52,6 +53,10 @@ $AMIClass('EditBoxCtrl', {
 
 					_class.deferred.resolveWith(_class.context || _class.deferred, [$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val()]);
 				});
+
+				/*-----------------------------------------*/
+
+				new Clipboard('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 .btn[data-clipboard-target]');
 
 				/*-----------------------------------------*/
 			});
