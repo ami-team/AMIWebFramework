@@ -29,9 +29,13 @@ $AMIClass('MessageBoxCtrl', {
 	{
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/MessageBox/twig/MessageBoxCtrl.twig',
+			amiWebApp.originURL + '/js/3rd-party/clipboard.min.js',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.appendHTML('body', data[0]);
+			amiWebApp.appendHTML('body', data[0]).done(function() {
+
+				new Clipboard('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .btn[data-clipboard-target]');
+			});
 		});
 	},
 

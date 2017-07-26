@@ -29,6 +29,7 @@ $AMIClass('ConfirmBoxCtrl', {
 	{
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/ConfirmBox/twig/ConfirmBoxCtrl.twig',
+			amiWebApp.originURL + '/js/3rd-party/clipboard.min.js',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.appendHTML('body', data[0], {context: this}).done(function() {
@@ -52,6 +53,10 @@ $AMIClass('ConfirmBoxCtrl', {
 
 					_class.deferred.resolveWith(_class.context || _class.deferred, [false]);
 				});
+
+				/*-----------------------------------------*/
+
+				new Clipboard('#DCDB367E_FB67_A957_68AC_B54038F860DB .btn[data-clipboard-target]');
 
 				/*-----------------------------------------*/
 			});
