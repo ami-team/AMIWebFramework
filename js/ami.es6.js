@@ -5173,17 +5173,14 @@ if(!String.prototype.endsWith)
 /*-------------------------------------------------------------------------*/
 
 var _ami_internal_jQueryEach = jQuery.each;
+var _ami_internal_jQueryAjax = jQuery.ajax;
 
 /*-------------------------------------------------------------------------*/
 
 jQuery.each = function(el, callback, context)
 {
-	return _ami_internal_jQueryEach(el, context ? (idx, val) => callback.call(context, idx, val) : callback);
+	return _ami_internal_jQueryEach(el, context ? (index, value) => callback.call(context, index, value) : callback);
 };
-
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_jQueryAjax = jQuery.ajax;
 
 /*-------------------------------------------------------------------------*/
 
@@ -5208,10 +5205,17 @@ jQuery.ajax = function(settings)
 
 		const deferred = $.Deferred();
 
-		$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(() => {
+		if(url)
+		{
+			$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(() => {
 
-			deferred.resolveWith(context || deferred);
-		});
+				deferred.resolveWith(context || deferred);
+			});
+		}
+		else
+		{
+			deferred.rejectWith(context || deferred);
+		}
 
 		return deferred.promise();
 

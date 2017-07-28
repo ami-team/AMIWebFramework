@@ -4466,18 +4466,15 @@ if (!String.prototype.endsWith) {
 /*-------------------------------------------------------------------------*/
 
 var _ami_internal_jQueryEach = jQuery.each;
+var _ami_internal_jQueryAjax = jQuery.ajax;
 
 /*-------------------------------------------------------------------------*/
 
 jQuery.each = function (el, callback, context) {
-	return _ami_internal_jQueryEach(el, context ? function (idx, val) {
-		return callback.call(context, idx, val);
+	return _ami_internal_jQueryEach(el, context ? function (index, value) {
+		return callback.call(context, index, value);
 	} : callback);
 };
-
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_jQueryAjax = jQuery.ajax;
 
 /*-------------------------------------------------------------------------*/
 
@@ -4498,10 +4495,14 @@ jQuery.ajax = function (settings) {
 
 		var deferred = $.Deferred();
 
-		$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(function () {
+		if (url) {
+			$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(function () {
 
-			deferred.resolveWith(context || deferred);
-		});
+				deferred.resolveWith(context || deferred);
+			});
+		} else {
+			deferred.rejectWith(context || deferred);
+		}
 
 		return deferred.promise();
 
