@@ -65,7 +65,7 @@ $AMIClass('CommandApp', {
 
 			var dict = [];
 
-			$.foreach(rows, function(index, row) {
+			rows.forEach(function(row) {
 
 				var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0] || '';
 				var help = amiWebApp.jspath('..field{.@name==="help" || .@name==="shortHelp"}.$', row)[0] || '';

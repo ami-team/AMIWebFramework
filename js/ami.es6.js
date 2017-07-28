@@ -5172,21 +5172,19 @@ if(!String.prototype.endsWith)
 /* JQUERY EXTENSIONS                                                       */
 /*-------------------------------------------------------------------------*/
 
-jQuery.foreach = function(el, callback, context)
+var _ami_internal_jQueryEach = jQuery.each;
+
+/*-------------------------------------------------------------------------*/
+
+jQuery.each = function(el, callback, context)
 {
 	if(context)
 	{
-		jQuery.each(el, function() {
-
-			callback.apply(context, arguments);
-		});
+		_ami_internal_jQueryEach(el, function() { callback.apply(context, arguments); });
 	}
 	else
 	{
-		jQuery.each(el, function() {
-
-			callback.apply(el, arguments);
-		});
+		_ami_internal_jQueryEach(el, callback);
 	}
 
 	return el;

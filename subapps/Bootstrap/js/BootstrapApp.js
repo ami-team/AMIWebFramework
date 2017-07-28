@@ -40,7 +40,7 @@ $AMIClass('BootstrapApp', {
 
 				var categories = {};
 
-				$.foreach($(data2).find('category'), function(indx, node) {
+				$.each($(data2).find('category'), function(indx, node) {
 
 					var category = {};
 
@@ -51,7 +51,7 @@ $AMIClass('BootstrapApp', {
 					category['title'] = title;
 					category['items'] = [  ];
 
-					$.foreach($(node).find('item'), function(indx, node) {
+					$.each($(node).find('item'), function(indx, node) {
 
 						var item = {};
 

@@ -135,7 +135,7 @@ $AMIClass('SchemaViewerApp', {
 
 				var s = '<option value="" style="display: none;">Choose a catalog</option>';
 
-				$.foreach(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', data2), function(index, value) {
+				$.each(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', data2), function(index, value) {
 
 					if(value !== 'self' || amiLogin.hasRole('AMI_ADMIN'))
 					{
@@ -335,7 +335,7 @@ $AMIClass('SchemaViewerApp', {
 
 			var tables = {};
 
-			$.foreach(this.columns, function(index, value) {
+			$.each(this.columns, function(index, value) {
 
 				if(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] === catalog)
 				{
@@ -400,7 +400,7 @@ $AMIClass('SchemaViewerApp', {
 			/* GET FKEYS                                       */
 			/*-------------------------------------------------*/
 
-			$.foreach(this.foreignKeys, function(index, value) {
+			$.each(this.foreignKeys, function(index, value) {
 
 				if(amiWebApp.jspath('..field{.@name==="fkExternalCatalog"}.$', value)[0] === catalog
 				   &&

@@ -105,7 +105,7 @@ $AMIClass('AMISimpleSearchEngineApp', {
 
 				var s = (this.interfaceFilter === '1=1') ? '<option value="">--select--</option>' : '';
 
-				$.foreach(rows, function(index, row) {
+				$.each(rows, function(index, row) {
 
 					var interface = amiWebApp.jspath('..field{.@name==="interface"}.$', row)[0] || '';
 
@@ -172,7 +172,7 @@ $AMIClass('AMISimpleSearchEngineApp', {
 
 				var rows = amiWebApp.jspath('..row', data);
 
-				$.foreach(rows, function(index, row) {
+				$.each(rows, function(index, row) {
 
 					var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', row)[0] || '';
 					var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
@@ -207,14 +207,14 @@ $AMIClass('AMISimpleSearchEngineApp', {
 
 		if(s.indexOf('%') < 0)
 		{
-			$.foreach(this.criteriaArray, function(index, criteria) {
+			$.each(this.criteriaArray, function(index, criteria) {
 				where += ' OR (' + criteria + '=\'' + s.replace(/\'/g, '\'\'') + '\')';
 			});
 
 		}
 		else
 		{
-			$.foreach(this.criteriaArray, function(index, criteria) {
+			$.each(this.criteriaArray, function(index, criteria) {
 				where += ' OR (' + criteria + ' LIKE \'' + s.replace(/\'/g, '\'\'') + '\')';
 			});
 		}

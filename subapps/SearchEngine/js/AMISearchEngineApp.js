@@ -112,7 +112,7 @@ $AMIClass('AMISearchEngineApp', {
 
 				var s = (this.interfaceFilter === '1=1') ? '<option value="">--select--</option>' : '';
 
-				$.foreach(rows, function(index, row) {
+				$.each(rows, function(index, row) {
 
 					var interface = amiWebApp.jspath('..field{.@name==="interface"}.$', row)[0] || '';
 
@@ -179,7 +179,7 @@ $AMIClass('AMISearchEngineApp', {
 
 				var dict = [];
 
-				$.foreach(rows, function(index, row) {
+				$.each(rows, function(index, row) {
 
 					var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', row)[0] || '';
 					var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
@@ -209,7 +209,7 @@ $AMIClass('AMISearchEngineApp', {
 
 					amiWebApp.unlock();
 
-					$.foreach(dict, function(index, row) {
+					$.each(dict, function(index, row) {
 
 						if(row['CHECKED']) {
 
@@ -416,7 +416,7 @@ $AMIClass('AMISearchEngineApp', {
 
 			var s = (criteria['filter'] !== '') ? '<option value="$any$">&laquo; any &raquo;</option>' : '';
 
-			$.foreach(rows, function(index, row) {
+			$.each(rows, function(index, row) {
 
 				var value = amiWebApp.textToHtml(amiWebApp.jspath('..field.$', row)[0] || '');
 

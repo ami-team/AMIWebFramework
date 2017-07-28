@@ -91,7 +91,7 @@ $AMIClass('AMISearchModelerApp', {
 
 			var dict = [];
 
-			$.foreach(rows, function(index, row) {
+			$.each(rows, function(index, row) {
 
 				var id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
 				var interface = amiWebApp.jspath('..field{.@name==="interface"}.$', row)[0] || '';
@@ -128,7 +128,7 @@ $AMIClass('AMISearchModelerApp', {
 
 			var s = '<option value="" style="display: none;">--select--</option>';
 
-			$.foreach(rows, function(index, row) {
+			$.each(rows, function(index, row) {
 
 				var catalog = amiWebApp.jspath('..field{.@name==="catalog"}.$', row)[0] || '';
 
@@ -176,7 +176,7 @@ $AMIClass('AMISearchModelerApp', {
 
 			var s = '<option value="" style="display: none;">--select--</option>';
 
-			$.foreach(rows, function(index, row) {
+			$.each(rows, function(index, row) {
 
 				var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', row)[0] || '';
 
@@ -226,7 +226,7 @@ $AMIClass('AMISearchModelerApp', {
 
 			var s = '<option value="" style="display: none;">--select--</option>';
 
-			$.foreach(rows, function(index, row) {
+			$.each(rows, function(index, row) {
 
 				var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
 
@@ -290,7 +290,7 @@ $AMIClass('AMISearchModelerApp', {
 
 			var dict = [];
 
-			$.foreach(rows, function(index, row) {
+			$.each(rows, function(index, row) {
 
 				var inputCnt = this._inputCnt++;
 
@@ -322,7 +322,7 @@ $AMIClass('AMISearchModelerApp', {
 
 			amiWebApp.appendHTML('#ami_search_modeler_paths', this.fragmentInput, {context: this, dict: dict}).done(function() {
 
-				$.foreach(dict, function(index, x) {
+				$.each(dict, function(index, x) {
 
 					var inputCnt = x['INPUT_CNT'];
 					var entity = x['ENTITY'];
