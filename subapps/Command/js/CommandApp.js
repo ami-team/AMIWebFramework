@@ -35,12 +35,15 @@ $AMIClass('CommandApp', {
 			'subapps/Command/twig/Fragment/command.twig',
 			'subapps/Command/twig/Fragment/result.twig',
 			'js/3rd-party/filesaver.min.js',
+			'ctrl:textBox',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
 
 				this.fragmentCommand = data[1];
 				this.fragmentResult = data[2];
+
+				this.textBox = new data[4];
 
 				result.resolve();
 			});
@@ -166,7 +169,7 @@ $AMIClass('CommandApp', {
 
 	copy: function(url)
 	{
-		window.prompt('Copy to clipboard: Ctrl+C, Enter', url);
+		this.textBox.show(url);
 	},
 
 	/*-----------------------------------------------------------------*/
