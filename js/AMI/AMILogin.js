@@ -585,7 +585,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		const result = {};
 
-		form.serializeArray().forEach(function(item) {
+		form.serializeArray().forEach((item) => {
 
 			result[item.name.trim()] = item.value.trim();
 		});

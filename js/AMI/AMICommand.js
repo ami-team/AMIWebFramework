@@ -45,7 +45,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	_textToString: function(s)
 	{
-		return (s || '').replace(/[\\'"]/g, function(x) {
+		return (s || '').replace(/[\\'"]/g, (x) => {
 
 			return '\\' + x;
 		});
@@ -143,7 +143,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				xhrFields: {
 					withCredentials: true
 				},
-				success: function(data) {
+				success: (data) => {
 
 					const error = JSPath.apply('.AMIMessage.error', data);
 
@@ -156,7 +156,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 						result.rejectWith(context || result, [data, urlWithParameters]);
 					}
 				},
-				error: function(jqXHR, textStatus) {
+				error: (jqXHR, textStatus) => {
 
 					if(textStatus === 'error')
 					{
@@ -184,11 +184,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				xhrFields: {
 					withCredentials: true
 				},
-				success: function(data) {
+				success: (data) => {
 
 					result.resolveWith(context || result, [data, urlWithParameters]);
 				},
-				error: function(jqXHR, textStatus) {
+				error: (jqXHR, textStatus) => {
 
 					if(textStatus === 'error')
 					{
