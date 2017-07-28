@@ -5178,16 +5178,7 @@ var _ami_internal_jQueryEach = jQuery.each;
 
 jQuery.each = function(el, callback, context)
 {
-	if(context)
-	{
-		_ami_internal_jQueryEach(el, function() { callback.apply(context, arguments); });
-	}
-	else
-	{
-		_ami_internal_jQueryEach(el, callback);
-	}
-
-	return el;
+	return _ami_internal_jQueryEach(el, context ? (idx, val) => callback.call(context, idx, val) : callback);
 };
 
 /*-------------------------------------------------------------------------*/
