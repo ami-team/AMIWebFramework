@@ -1015,10 +1015,10 @@ __l0:		for(let i = 0; i < l;)
 
 		if(this.typeOf(dict) === 'Array')
 		{
-			for(const DICT of dict)
-			{
+			dict.forEach((DICT) => {
+
 				result.push(render(twig, DICT));
-			}
+			});
 		}
 		else
 		{

@@ -1374,34 +1374,13 @@ amiTwig.tmpl.Compiler.prototype = {
 			if (m === null) {
 				/*-----------------------------------------*/
 
-				var _iteratorNormalCompletion = true;
-				var _didIteratorError = false;
-				var _iteratorError = undefined;
-
-				try {
-					for (var _iterator = tmpl[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-						var c = _step.value;
-
-						if (c === '\n') {
-							line++;
-						}
-					}
-
-					/*-----------------------------------------*/
-				} catch (err) {
-					_didIteratorError = true;
-					_iteratorError = err;
-				} finally {
-					try {
-						if (!_iteratorNormalCompletion && _iterator.return) {
-							_iterator.return();
-						}
-					} finally {
-						if (_didIteratorError) {
-							throw _iteratorError;
-						}
+				for (var i = tmpl.length - 1; i >= 0; i--) {
+					if (tmpl[i] === '\n') {
+						line++;
 					}
 				}
+
+				/*-----------------------------------------*/
 
 				curr.blocks[indx].list.push({
 					line: line,
@@ -1415,10 +1394,10 @@ amiTwig.tmpl.Compiler.prototype = {
 
 				var errors = [];
 
-				for (var i = stack1.length - 1; i > 0; i--) {
-					/**/if (stack1[i].keyword === 'if') {
+				for (var _i2 = stack1.length - 1; _i2 > 0; _i2--) {
+					/**/if (stack1[_i2].keyword === 'if') {
 						errors.push('missing keyword `endif`');
-					} else if (stack1[i].keyword === 'for') {
+					} else if (stack1[_i2].keyword === 'for') {
 						errors.push('missing keyword `endfor`');
 					}
 				}
@@ -1446,8 +1425,8 @@ amiTwig.tmpl.Compiler.prototype = {
 
 			/*-------------------------------------------------*/
 
-			for (var _c in VALUE) {
-				if (_c === '\n') {
+			for (var c in VALUE) {
+				if (c === '\n') {
 					line++;
 				}
 			}
@@ -1773,8 +1752,8 @@ amiTwig.engine = {
 
 				list = item.blocks[0].list;
 
-				for (var _i2 in value) {
-					dict[symb] = value[_i2];
+				for (var _i3 in value) {
+					dict[symb] = value[_i3];
 
 					dict.loop.first = k === 0 - 0;
 					dict.loop.last = k === l - 1;
@@ -2179,8 +2158,8 @@ amiTwig.stdlib = {
 				result.push( /*---------------*/i);
 			}
 		} else if (this.isString(x1) && x1.length === 1 && this.isString(x2) && x2.length === 1) {
-			for (var _i3 = x1.charCodeAt(0); _i3 <= x2.charCodeAt(0); _i3 += step) {
-				result.push(String.fromCharCode(_i3));
+			for (var _i4 = x1.charCodeAt(0); _i4 <= x2.charCodeAt(0); _i4 += step) {
+				result.push(String.fromCharCode(_i4));
 			}
 		}
 
@@ -2246,8 +2225,8 @@ amiTwig.stdlib = {
 			if (this.isArray(arguments[0])) {
 				var _L = [];
 
-				for (var _i4 in arguments) {
-					var _item = arguments[_i4];
+				for (var _i5 in arguments) {
+					var _item = arguments[_i5];
 
 					if (!this.isArray(_item)) {
 						return null;
@@ -2266,8 +2245,8 @@ amiTwig.stdlib = {
 			if (this.isObject(arguments[0])) {
 				var D = {};
 
-				for (var _i5 in arguments) {
-					var _item2 = arguments[_i5];
+				for (var _i6 in arguments) {
+					var _item2 = arguments[_i6];
 
 					if (!this.isObject(_item2)) {
 						return null;
@@ -2648,8 +2627,8 @@ amiTwig.stdlib = {
 		}
 
 		if (variables) {
-			for (var _i6 in /*-*/variables /*-*/) {
-				temp[_i6] = /*-*/variables /*-*/[_i6];
+			for (var _i7 in /*-*/variables /*-*/) {
+				temp[_i7] = /*-*/variables /*-*/[_i7];
 			}
 		}
 
@@ -2731,8 +2710,8 @@ amiTwig.expr.interpreter = {
 
 				L = [];
 
-				for (var _i7 in node.dict) {
-					L.push(_i7 + ':' + this._getJS(node.dict[_i7]));
+				for (var _i8 in node.dict) {
+					L.push(_i8 + ':' + this._getJS(node.dict[_i8]));
 				}
 
 				/*-----------------------------------------*/
@@ -2748,8 +2727,8 @@ amiTwig.expr.interpreter = {
 
 				L = [];
 
-				for (var _i8 in node.list) {
-					L.push(this._getJS(node.list[_i8]));
+				for (var _i9 in node.list) {
+					L.push(this._getJS(node.list[_i9]));
 				}
 
 				/*-----------------------------------------*/
@@ -2765,8 +2744,8 @@ amiTwig.expr.interpreter = {
 
 				L = [];
 
-				for (var _i9 in node.list) {
-					L.push('[' + this._getJS(node.list[_i9]) + ']');
+				for (var _i10 in node.list) {
+					L.push('[' + this._getJS(node.list[_i10]) + ']');
 				}
 
 				/*-----------------------------------------*/
@@ -5470,30 +5449,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		/*---------------------------------------------------------*/
 
 		if (this.typeOf(dict) === 'Array') {
-			var _iteratorNormalCompletion2 = true;
-			var _didIteratorError2 = false;
-			var _iteratorError2 = undefined;
+			dict.forEach(function (DICT) {
 
-			try {
-				for (var _iterator2 = dict[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-					var DICT = _step2.value;
-
-					result.push(render(twig, DICT));
-				}
-			} catch (err) {
-				_didIteratorError2 = true;
-				_iteratorError2 = err;
-			} finally {
-				try {
-					if (!_iteratorNormalCompletion2 && _iterator2.return) {
-						_iterator2.return();
-					}
-				} finally {
-					if (_didIteratorError2) {
-						throw _iteratorError2;
-					}
-				}
-			}
+				result.push(render(twig, DICT));
+			});
 		} else {
 			result.push(render(twig, dict));
 		}

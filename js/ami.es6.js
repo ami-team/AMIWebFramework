@@ -1636,9 +1636,9 @@ amiTwig.tmpl.Compiler.prototype = {
 			{
 				/*-----------------------------------------*/
 
-				for(const c of tmpl)
+				for(let i = tmpl.length - 1; i >= 0; i--)
 				{
-					if(c === '\n')
+					if(tmpl[i] === '\n')
 					{
 						line++;
 					}
@@ -5022,11 +5022,11 @@ function $AMIClass($name, $descr)
 
 		for(const name in this.$class._internal_super)
 		{
-			this.$super[name] = ((name, that) => { return function() {
+			this.$super[name] = ((name, that) => function() {
 
 				return that.$class._internal_super[name].apply(that, arguments)
 
-			}})(name, this);
+			})(name, this);
 		}
 
 		/*---------------------------------------------------------*/
@@ -5035,11 +5035,11 @@ function $AMIClass($name, $descr)
 
 		for(const name in this.$class._internal_added)
 		{
-			this.$added[name] = ((name, that) => { return function() {
+			this.$added[name] = ((name, that) => function() {
 
 				return that.$class._internal_added[name].apply(that, arguments);
 
-			}})(name, this);
+			})(name, this);
 		}
 
 		/*---------------------------------------------------------*/
@@ -6273,10 +6273,10 @@ __l0:		for(let i = 0; i < l;)
 
 		if(this.typeOf(dict) === 'Array')
 		{
-			for(const DICT of dict)
-			{
+			dict.forEach((DICT) => {
+
 				result.push(render(twig, DICT));
-			}
+			});
 		}
 		else
 		{

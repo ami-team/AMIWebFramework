@@ -1636,9 +1636,9 @@ amiTwig.tmpl.Compiler.prototype = {
 			{
 				/*-----------------------------------------*/
 
-				for(const c of tmpl)
+				for(let i = tmpl.length - 1; i >= 0; i--)
 				{
-					if(c === '\n')
+					if(tmpl[i] === '\n')
 					{
 						line++;
 					}

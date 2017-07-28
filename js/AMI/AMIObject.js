@@ -189,11 +189,11 @@ function $AMIClass($name, $descr)
 
 		for(const name in this.$class._internal_super)
 		{
-			this.$super[name] = ((name, that) => { return function() {
+			this.$super[name] = ((name, that) => function() {
 
 				return that.$class._internal_super[name].apply(that, arguments)
 
-			}})(name, this);
+			})(name, this);
 		}
 
 		/*---------------------------------------------------------*/
@@ -202,11 +202,11 @@ function $AMIClass($name, $descr)
 
 		for(const name in this.$class._internal_added)
 		{
-			this.$added[name] = ((name, that) => { return function() {
+			this.$added[name] = ((name, that) => function() {
 
 				return that.$class._internal_added[name].apply(that, arguments);
 
-			}})(name, this);
+			})(name, this);
 		}
 
 		/*---------------------------------------------------------*/
