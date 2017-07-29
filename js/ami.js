@@ -5443,13 +5443,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*---------------------------------------------------------*/
 
-		if (this.typeOf(dict) === 'Array') {
-			dict.forEach(function (DICT) {
+		try {
+			if (this.typeOf(dict) === 'Array') {
+				dict.forEach(function (DICT) {
 
-				result.push(render(twig, DICT));
-			});
-		} else {
-			result.push(render(twig, dict));
+					result.push(render(twig, DICT));
+				});
+			} else {
+				result.push(render(twig, dict));
+			}
+		} catch (e) {
+			result.length = 0;
+
+			this.error(e);
 		}
 
 		/*---------------------------------------------------------*/

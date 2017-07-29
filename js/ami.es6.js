@@ -6266,16 +6266,25 @@ __l0:		for(let i = 0; i < l;)
 
 		/*---------------------------------------------------------*/
 
-		if(this.typeOf(dict) === 'Array')
+		try
 		{
-			dict.forEach((DICT) => {
+			if(this.typeOf(dict) === 'Array')
+			{
+				dict.forEach((DICT) => {
 
-				result.push(render(twig, DICT));
-			});
+					result.push(render(twig, DICT));
+				});
+			}
+			else
+			{
+				result.push(render(twig, dict));
+			}
 		}
-		else
+		catch(e)
 		{
-			result.push(render(twig, dict));
+			result.length = 0;
+
+			this.error(e);
 		}
 
 		/*---------------------------------------------------------*/
