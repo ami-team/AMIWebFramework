@@ -492,7 +492,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Open the 'SSO' modal form
+	  * Open the 'SSO' modal window
 	  */
 
 	sso: function()
@@ -506,7 +506,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Open the 'SignIn' modal form
+	  * Open the 'SignIn' modal window
 	  */
 
 	signIn: function()
@@ -520,7 +520,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Open the 'Change Info' modal form
+	  * Open the 'Change Info' modal window
 	  */
 
 	changeInfo: function()
@@ -534,7 +534,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Open the 'Change Password' modal form
+	  * Open the 'Change Password' modal window
 	  */
 
 	changePass: function()
@@ -548,7 +548,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Open the 'Account Status' modal form
+	  * Open the 'Account Status' modal window
 	  */
 
 	accountStatus: function()
