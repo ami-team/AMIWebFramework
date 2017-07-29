@@ -479,6 +479,19 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
+	  * Check if the user has the given role
+	  * @param {String} role the role
+	  * @returns {Boolean}
+	  */
+
+	hasRole: function(roleName)
+	{
+		return roleName in this.roleInfo;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
 	  * Open the 'SSO' modal form
 	  */
 
@@ -568,19 +581,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*-----------------------------------------------------------------*/
 
-	/**
-	  * Check if the user has the given role
-	  * @param {String} role the role
-	  * @returns {Boolean}
-	  */
-
-	hasRole: function(roleName)
-	{
-		return roleName in this.roleInfo;
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	_serializeForm: function(form)
 	{
 		const result = {};
@@ -610,15 +610,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		/*---------------------------------------------------------*/
 
-		const deferred = (user && pass) ? amiCommand.passLogin(user, pass)
-		                                : amiCommand.certLogin(/*------*/)
+		const promise = (user && pass) ? amiCommand.passLogin(user, pass)
+		                               : amiCommand.certLogin(/*------*/)
 		;
 
 		/*---------------------------------------------------------*/
 
 		amiWebApp.lock();
 
-		deferred.then((data, userInfo, roleInfo, ssoInfo) => {
+		promise.then((data, userInfo, roleInfo, ssoInfo) => {
 
 			this._update(userInfo, roleInfo, ssoInfo).done(() => {
 
