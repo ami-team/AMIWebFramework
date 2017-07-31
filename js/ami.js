@@ -137,6 +137,8 @@ amiTwig.tokenizer = {
 			code = code.substring(1);
 			i += 1;
 
+			/*			continue __l0;
+    */
 			/*-------------------------------------------------*/
 		}
 
@@ -148,7 +150,8 @@ amiTwig.tokenizer = {
 			result_tokens.push(word);
 			result_types.push(-1);
 			result_lines.push(line);
-			word = '';
+			/*			word = '';
+    */
 		}
 
 		return {
@@ -330,8 +333,10 @@ amiTwig.expr.Tokenizer = function (code, line) {
 
 	/*-----------------------------------------------------------------*/
 
-	this.next = function (n) {
-		this.i += n || 1;
+	this.next = function () {
+		var n = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+
+		this.i += n;
 	};
 
 	/*-----------------------------------------------------------------*/
@@ -839,7 +844,9 @@ amiTwig.expr.Compiler.prototype = {
 		if (node) {
 			/*-------------------------------------------------*/
 
-			for (var temp = node; temp.nodeType === amiTwig.expr.tokens.DOT; temp = temp.nodeLeft) {}
+			var temp = node;
+
+			for (; temp.nodeType === amiTwig.expr.tokens.DOT; temp = temp.nodeLeft) {}
 
 			/*-------------------------------------------------*/
 
@@ -1329,13 +1336,27 @@ amiTwig.tmpl.Compiler.prototype = {
 
 	/*-----------------------------------------------------------------*/
 
+	_count: function _count(s) {
+		var result = 0;
+
+		var l = s.length;
+
+		for (var i = 0; i < l; i++) {
+			if (s[i] === '\n') result++;
+		}
+
+		return result;
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	$init: function $init(tmpl) {
 		/*---------------------------------------------------------*/
 
 		var line = 1;
 
-		var column = 0;
-		var COLUMN = 0;
+		var column = void 0;
+		var COLUMN = void 0;
 
 		/*---------------------------------------------------------*/
 
@@ -1344,7 +1365,7 @@ amiTwig.tmpl.Compiler.prototype = {
 			keyword: '@root',
 			expression: '',
 			blocks: [{
-				expression: '@root',
+				expression: '@true',
 				list: []
 			}],
 			value: ''
@@ -1374,11 +1395,7 @@ amiTwig.tmpl.Compiler.prototype = {
 			if (m === null) {
 				/*-----------------------------------------*/
 
-				for (var i = tmpl.length - 1; i >= 0; i--) {
-					if (tmpl[i] === '\n') {
-						line++;
-					}
-				}
+				line += this._count(tmpl);
 
 				/*-----------------------------------------*/
 
@@ -1394,10 +1411,10 @@ amiTwig.tmpl.Compiler.prototype = {
 
 				var errors = [];
 
-				for (var _i2 = stack1.length - 1; _i2 > 0; _i2--) {
-					/**/if (stack1[_i2].keyword === 'if') {
+				for (var i = stack1.length - 1; i > 0; i--) {
+					/**/if (stack1[i].keyword === 'if') {
 						errors.push('missing keyword `endif`');
-					} else if (stack1[_i2].keyword === 'for') {
+					} else if (stack1[i].keyword === 'for') {
 						errors.push('missing keyword `endfor`');
 					}
 				}
@@ -1408,7 +1425,7 @@ amiTwig.tmpl.Compiler.prototype = {
 
 				/*-----------------------------------------*/
 
-				return;
+				break;
 			}
 
 			/*-------------------------------------------------*/
@@ -1425,11 +1442,7 @@ amiTwig.tmpl.Compiler.prototype = {
 
 			/*-------------------------------------------------*/
 
-			for (var c in VALUE) {
-				if (c === '\n') {
-					line++;
-				}
-			}
+			line += this._count(VALUE);
 
 			/*-------------------------------------------------*/
 
@@ -1529,7 +1542,7 @@ amiTwig.tmpl.Compiler.prototype = {
 					indx = curr.blocks.length;
 
 					curr.blocks.push({
-						expression: '@else',
+						expression: '@true',
 						list: []
 					});
 
@@ -1611,19 +1624,16 @@ amiTwig.engine = {
 
 	/*-----------------------------------------------------------------*/
 
-	_render: function _render(result, item, dict) {
-		var k = void 0,
-		    l = void 0;
+	_render: function _render(result, item) {
+		var _this = this;
 
-		var expression = void 0,
-		    list = void 0;
+		var dict = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
 
-		var m = void 0,
-		    symb = void 0,
-		    expr = void 0,
-		    value = void 0;
+		var m = void 0;
 
-		this.dict = dict || {};
+		var expression = void 0;
+
+		this.dict = dict;
 
 		switch (item.keyword) {
 			/*-------------------------------------------------*/
@@ -1631,52 +1641,56 @@ amiTwig.engine = {
 			/*-------------------------------------------------*/
 
 			case 'do':
-				/*-----------------------------------------*/
+				{
+					/*-----------------------------------------*/
 
-				amiTwig.expr.cache.eval(item.expression, item.line, dict);
+					amiTwig.expr.cache.eval(item.expression, item.line, dict);
 
-				/*-----------------------------------------*/
+					/*-----------------------------------------*/
 
-				break;
+					break;
+				}
 
 			/*-------------------------------------------------*/
 			/* SET                                             */
 			/*-------------------------------------------------*/
 
 			case 'set':
-				/*-----------------------------------------*/
+				{
+					/*-----------------------------------------*/
 
-				m = item.expression.match(/([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*(.+)/);
+					m = item.expression.match(/([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*(.+)/);
 
-				if (!m) {
-					throw 'syntax error, line `' + item.line + '`, invalid `set` statement';
+					if (!m) {
+						throw 'syntax error, line `' + item.line + '`, invalid `set` statement';
+					}
+
+					/*-----------------------------------------*/
+
+					dict[m[1]] = amiTwig.expr.cache.eval(m[2], item.line, dict);
+
+					/*-----------------------------------------*/
+
+					break;
 				}
-
-				/*-----------------------------------------*/
-
-				dict[m[1]] = amiTwig.expr.cache.eval(m[2], item.line, dict);
-
-				/*-----------------------------------------*/
-
-				break;
 
 			/*-------------------------------------------------*/
 			/* @TEXT                                           */
 			/*-------------------------------------------------*/
 
 			case '@text':
-				/*-----------------------------------------*/
+				{
+					/*-----------------------------------------*/
 
-				result.push(item.value.replace(this.VARIABLE_RE, function (match, expression) {
+					result.push(item.value.replace(this.VARIABLE_RE, function (match, expression) {
 
-					value = amiTwig.expr.cache.eval(expression, item.line, dict);
+						return amiTwig.expr.cache.eval(expression, item.line, dict) || '';
+					}));
 
-					return value !== undefined && value !== null ? value : '';
-				}));
+					/*-----------------------------------------*/
 
-				/*-----------------------------------------*/
-
-				break;
+					break;
+				}
 
 			/*-------------------------------------------------*/
 			/* IF                                              */
@@ -1684,159 +1698,158 @@ amiTwig.engine = {
 
 			case 'if':
 			case '@root':
-				/*-----------------------------------------*/
+				{
+					/*-----------------------------------------*/
 
-				for (var i in item.blocks) {
-					expression = item.blocks[i].expression;
+					item.blocks.every(function (block) {
 
-					if (expression === '@root' || expression === '@else' || amiTwig.expr.cache.eval(expression, item.line, dict)) {
-						list = item.blocks[i].list;
+						expression = block.expression;
 
-						for (var j in list) {
-							this._render(result, list[j], dict);
+						if (expression === '@true' || amiTwig.expr.cache.eval(expression, item.line, dict)) {
+							block.list.forEach(function (item) {
+
+								_this._render(result, item, dict);
+							});
+
+							return false;
 						}
 
-						break;
-					}
+						return true;
+					});
+
+					/*-----------------------------------------*/
+
+					break;
 				}
-
-				/*-----------------------------------------*/
-
-				break;
 
 			/*-------------------------------------------------*/
 			/* FOR                                             */
 			/*-------------------------------------------------*/
 
 			case 'for':
-				/*-----------------------------------------*/
+				{
+					/*-----------------------------------------*/
 
-				m = item.blocks[0].expression.match(/([a-zA-Z_$][a-zA-Z0-9_$]*)\s+in\s+(.+)/);
+					m = item.blocks[0].expression.match(/([a-zA-Z_$][a-zA-Z0-9_$]*)\s+in\s+(.+)/);
 
-				if (!m) {
-					throw 'syntax error, line `' + item.line + '`, invalid `for` statement';
-				}
-
-				/*-----------------------------------------*/
-
-				symb = m[1];
-				expr = m[2];
-
-				value = amiTwig.expr.cache.eval(expr, item.line, dict);
-
-				/*-----------------------------------------*/
-
-				var typeName = Object.prototype.toString.call(value);
-
-				if (typeName !== '[object Array]' && typeName !== '[object Object]' && typeName !== '[object String]') {
-					throw 'syntax error, line `' + item.line + '`, right operande not iterable';
-				}
-
-				/*-----------------------------------------*/
-
-				if (typeName === '[object Object]') {
-					value = Object.keys(value);
-				}
-
-				/*-----------------------------------------*/
-
-				var old1 = dict[symb];
-				var old2 = dict['loop'];
-
-				/*-----------------------------------------*/
-
-				k = 0x0000000000;
-				l = value.length;
-
-				dict.loop = { length: l };
-
-				list = item.blocks[0].list;
-
-				for (var _i3 in value) {
-					dict[symb] = value[_i3];
-
-					dict.loop.first = k === 0 - 0;
-					dict.loop.last = k === l - 1;
-
-					dict.loop.index0 = k;
-					k++;
-					dict.loop.index = k;
-
-					for (var _j in list) {
-						this._render(result, list[_j], dict);
+					if (!m) {
+						throw 'syntax error, line `' + item.line + '`, invalid `for` statement';
 					}
-				}
 
-				/*-----------------------------------------*/
+					/*-----------------------------------------*/
 
-				if (old2) {
+					var symb = m[1];
+					var expr = m[2];
+
+					/*-----------------------------------------*/
+
+					var value = amiTwig.expr.cache.eval(expr, item.line, dict);
+
+					/*-----------------------------------------*/
+
+					var typeName = Object.prototype.toString.call(value);
+
+					if (typeName === '[object Object]') {
+						value = Object.keys(value);
+					} else {
+						if (typeName !== '[object Array]' && typeName !== '[object String]') {
+							throw 'syntax error, line `' + item.line + '`, right operande not iterable';
+						}
+					}
+
+					/*-----------------------------------------*/
+
+					var old1 = dict[symb];
+					var old2 = dict['loop'];
+
+					/*-----------------------------------------*/
+
+					var k = 0x0000000000;
+					var l = value.length;
+
+					dict.loop = { length: l };
+
+					var list = item.blocks[0].list;
+
+					for (var i in value) {
+						dict[symb] = value[i];
+
+						dict.loop.first = k === 0 - 0;
+						dict.loop.last = k === l - 1;
+
+						dict.loop.index0 = k;
+						k++;
+						dict.loop.index = k;
+
+						for (var j in list) {
+							this._render(result, list[j], dict);
+						}
+					}
+
+					/*-----------------------------------------*/
+
 					dict['loop'] = old2;
-				}
-
-				if (old1) {
 					dict[symb] = old1;
+
+					/*-----------------------------------------*/
+
+					break;
 				}
-
-				/*-----------------------------------------*/
-
-				break;
 
 			/*-------------------------------------------------*/
 			/* INCLUDE                                         */
 			/*-------------------------------------------------*/
 
 			case 'include':
-				/*-----------------------------------------*/
+				{
+					/*-----------------------------------------*/
 
-				expression = item.expression;
+					var m_1_ = item.expression,
+					    with_subexpr = void 0,
+					    with_context = void 0;
 
-				/*-----------------------------------------*/
+					/**/if (m = m_1_.match(/(.+)\s+with\s+(.+)\s+only$/)) {
+						expression = m[1];
+						with_subexpr = m[2];
+						with_context = false;
+					} else if (m = m_1_.match(/(.+)\s+with\s+(.+)$/)) {
+						expression = m[1];
+						with_subexpr = m[2];
+						with_context = true;
+					} else if (m = m_1_.match(/(.+)\s+only$/)) {
+						expression = m[1];
+						with_subexpr = '{}';
+						with_context = false;
+					} else {
+						expression = m_1_;
+						with_subexpr = '{}';
+						with_context = true;
+					}
 
-				var with_context = true;
+					/*-----------------------------------------*/
 
-				expression = expression.trim();
+					var fileName = amiTwig.expr.cache.eval(expression, item.line, dict) || '';
 
-				if (m = expression.match(/only$/)) {
-					expression = expression.substr(expression, expression.length - m[0].length - 1);
+					if (Object.prototype.toString.call(fileName) !== '[object String]') {
+						throw 'runtime error, line `' + item.line + '`, string expected';
+					}
 
-					with_context = false;
+					/*-----------------------------------------*/
+
+					var variables = amiTwig.expr.cache.eval(with_subexpr, item.line, dict) || {};
+
+					if (Object.prototype.toString.call(variables) !== '[object Object]') {
+						throw 'runtime error, line `' + item.line + '`, object expected';
+					}
+
+					/*-----------------------------------------*/
+
+					result.push(amiTwig.stdlib.include(fileName, variables, with_context, false));
+
+					/*-----------------------------------------*/
+
+					break;
 				}
-
-				/*-----------------------------------------*/
-
-				var with_subexpr = '{}';
-
-				expression = expression.trim();
-
-				if (m = expression.match(/with\s+(.+)$/)) {
-					expression = expression.substr(expression, expression.length - m[0].length - 1);
-
-					with_subexpr = m[1];
-				}
-
-				/*-----------------------------------------*/
-
-				var FILENAME = amiTwig.expr.cache.eval(expression, item.line, dict) || '';
-
-				if (Object.prototype.toString.call(FILENAME) !== '[object String]') {
-					throw 'runtime error, line `' + item.line + '`, string expected';
-				}
-
-				/*-----------------------------------------*/
-
-				var VARIABLES = amiTwig.expr.cache.eval(with_subexpr, item.line, dict) || {};
-
-				if (Object.prototype.toString.call(VARIABLES) !== '[object Object]') {
-					throw 'runtime error, line `' + item.line + '`, object expected';
-				}
-
-				/*-----------------------------------------*/
-
-				result.push(amiTwig.stdlib.include(FILENAME, VARIABLES, with_context, false));
-
-				/*-----------------------------------------*/
-
-				break;
 
 			/*-------------------------------------------------*/
 		}
@@ -1846,10 +1859,20 @@ amiTwig.engine = {
 
 	/*-----------------------------------------------------------------*/
 
-	render: function render(tmpl, dict) {
+	render: function render(tmpl) {
+		var dict = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+
 		var result = [];
 
-		this._render(result, Object.prototype.toString.call(tmpl) === '[object String]' ? new amiTwig.tmpl.Compiler(tmpl).rootNode : tmpl, dict || {});
+		switch (Object.prototype.toString.call(tmpl)) {
+			case '[object String]':
+				this._render(result, new amiTwig.tmpl.Compiler(tmpl).rootNode, dict);
+				break;
+
+			case '[object Object]':
+				this._render(result, /*--------------*/tmpl /*--------------*/, dict);
+				break;
+		}
 
 		return result.join('');
 	}
@@ -2146,10 +2169,8 @@ amiTwig.stdlib = {
 
 	/*-----------------------------------------------------------------*/
 
-	'range': function range(x1, x2, step) {
-		if (!step) {
-			step = 1;
-		}
+	'range': function range(x1, x2) {
+		var step = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 1;
 
 		var result = [];
 
@@ -2158,8 +2179,8 @@ amiTwig.stdlib = {
 				result.push( /*---------------*/i);
 			}
 		} else if (this.isString(x1) && x1.length === 1 && this.isString(x2) && x2.length === 1) {
-			for (var _i4 = x1.charCodeAt(0); _i4 <= x2.charCodeAt(0); _i4 += step) {
-				result.push(String.fromCharCode(_i4));
+			for (var _i2 = x1.charCodeAt(0); _i2 <= x2.charCodeAt(0); _i2 += step) {
+				result.push(String.fromCharCode(_i2));
 			}
 		}
 
@@ -2225,8 +2246,8 @@ amiTwig.stdlib = {
 			if (this.isArray(arguments[0])) {
 				var _L = [];
 
-				for (var _i5 in arguments) {
-					var _item = arguments[_i5];
+				for (var _i3 in arguments) {
+					var _item = arguments[_i3];
 
 					if (!this.isArray(_item)) {
 						return null;
@@ -2245,15 +2266,15 @@ amiTwig.stdlib = {
 			if (this.isObject(arguments[0])) {
 				var D = {};
 
-				for (var _i6 in arguments) {
-					var _item2 = arguments[_i6];
+				for (var _i4 in arguments) {
+					var _item2 = arguments[_i4];
 
 					if (!this.isObject(_item2)) {
 						return null;
 					}
 
-					for (var _j2 in _item2) {
-						D[_j2] = _item2[_j2];
+					for (var _j in _item2) {
+						D[_j] = _item2[_j];
 					}
 				}
 
@@ -2615,7 +2636,11 @@ amiTwig.stdlib = {
 	/* TEMPLATES                                                       */
 	/*-----------------------------------------------------------------*/
 
-	'include': function include(fileName, variables, withContext, ignoreMissing) {
+	'include': function include(fileName) {
+		var variables = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+		var withContext = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+		var ignoreMissing = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
+
 		var temp = {};
 
 		/*---------------------------------------------------------*/
@@ -2627,8 +2652,8 @@ amiTwig.stdlib = {
 		}
 
 		if (variables) {
-			for (var _i7 in /*-*/variables /*-*/) {
-				temp[_i7] = /*-*/variables /*-*/[_i7];
+			for (var _i5 in /*-*/variables /*-*/) {
+				temp[_i5] = /*-*/variables /*-*/[_i5];
 			}
 		}
 
@@ -2710,8 +2735,8 @@ amiTwig.expr.interpreter = {
 
 				L = [];
 
-				for (var _i8 in node.dict) {
-					L.push(_i8 + ':' + this._getJS(node.dict[_i8]));
+				for (var _i6 in node.dict) {
+					L.push(_i6 + ':' + this._getJS(node.dict[_i6]));
 				}
 
 				/*-----------------------------------------*/
@@ -2727,8 +2752,8 @@ amiTwig.expr.interpreter = {
 
 				L = [];
 
-				for (var _i9 in node.list) {
-					L.push(this._getJS(node.list[_i9]));
+				for (var _i7 in node.list) {
+					L.push(this._getJS(node.list[_i7]));
 				}
 
 				/*-----------------------------------------*/
@@ -2744,8 +2769,8 @@ amiTwig.expr.interpreter = {
 
 				L = [];
 
-				for (var _i10 in node.list) {
-					L.push('[' + this._getJS(node.list[_i10]) + ']');
+				for (var _i8 in node.list) {
+					L.push('[' + this._getJS(node.list[_i8]) + ']');
 				}
 
 				/*-----------------------------------------*/
@@ -4646,7 +4671,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*-----------------------------------------------------------------*/
 
 	$: function $() {
-		var _this = this;
+		var _this2 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -4709,9 +4734,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				var parts = param.split('=');
 
 				/**/if (parts.length === 1) {
-					_this.args[decodeURIComponent(parts[0])] = /*---------*/'' /*---------*/;
+					_this2.args[decodeURIComponent(parts[0])] = /*---------*/'' /*---------*/;
 				} else if (parts.length === 2) {
-					_this.args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+					_this2.args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
 				}
 			});
 		}
@@ -5012,7 +5037,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*-----------------------------------------------------------------*/
 
 	__loadXXX: function __loadXXX(deferred, result, urls, dataType, context) {
-		var _this2 = this;
+		var _this3 = this;
 
 		if (urls.length === 0) {
 			return deferred.resolveWith(context || deferred, [result]);
@@ -5037,7 +5062,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 				this._loadControls($.Deferred(), result, [url]).then(function () {
 
-					_this2.__loadXXX(deferred, result, urls, dataType, context);
+					_this3.__loadXXX(deferred, result, urls, dataType, context);
 				}, function (e) {
 
 					deferred.rejectWith(context || deferred, [e]);
@@ -5066,7 +5091,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						result.push(true);
 
-						_this2.__loadXXX(deferred, result, urls, dataType, context);
+						_this3.__loadXXX(deferred, result, urls, dataType, context);
 					}, function () {
 
 						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
@@ -5096,7 +5121,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						result.push(true);
 
-						_this2.__loadXXX(deferred, result, urls, dataType, context);
+						_this3.__loadXXX(deferred, result, urls, dataType, context);
 					}, function () {
 
 						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
@@ -5121,7 +5146,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 					result.push(data);
 
-					_this2.__loadXXX(deferred, result, urls, dataType, context);
+					_this3.__loadXXX(deferred, result, urls, dataType, context);
 				}, function () {
 
 					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
@@ -5423,7 +5448,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	formatTWIG: function formatTWIG(twig, dict) {
-		var _this3 = this;
+		var _this4 = this;
 
 		var result = [];
 
@@ -5431,12 +5456,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		var render = function render(twig, dict) {
 
-			if (_this3.typeOf(dict) !== 'Object') {
+			if (_this4.typeOf(dict) !== 'Object') {
 				dict = {};
 			}
 
-			dict['ORIGIN_URL'] = _this3.originURL;
-			dict['WEBAPP_URL'] = _this3.webAppURL;
+			dict['ORIGIN_URL'] = _this4.originURL;
+			dict['WEBAPP_URL'] = _this4.webAppURL;
 
 			return amiTwig.engine.render(twig, dict);
 		};
@@ -5525,7 +5550,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*-----------------------------------------------------------------*/
 
 	_publishAlert: function _publishAlert(html, fadeOut, target) {
-		var _this4 = this;
+		var _this5 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -5537,7 +5562,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 			$(document).scrollTop(0);
 
-			_this4.unlock();
+			_this5.unlock();
 
 			if (fadeOut) {
 				el.find('.alert').fadeOut(60000);
@@ -5663,7 +5688,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	start: function start(settings) {
-		var _this5 = this;
+		var _this6 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -5718,7 +5743,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		window.onbeforeunload = function (e) {
 
-			if (!_this5._canLeave) {
+			if (!_this6._canLeave) {
 				var f = e || window.event;
 
 				if (f) {
@@ -5742,14 +5767,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 			$.ajax({ url: subapps_url, cache: false, crossDomain: true, dataType: 'json' }).then(function (data2) {
 
 				for (var name in data1) {
-					_this5._controls[name.toLowerCase()] = data1[name];
+					_this6._controls[name.toLowerCase()] = data1[name];
 				}
 
 				for (var _name3 in data2) {
-					_this5._subapps[_name3.toLowerCase()] = data2[_name3];
+					_this6._subapps[_name3.toLowerCase()] = data2[_name3];
 				}
 
-				if (!_this5._embedded) {
+				if (!_this6._embedded) {
 					/*---------------------------------*/
 
 					var dict = {
@@ -5765,11 +5790,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						$.ajax({ url: locker_url, cache: true, crossDomain: true, dataType: 'text' }).then(function (data4) {
 
-							$('body').append(_this5.formatTWIG(data3, dict) + data4).promise().done(function () {
+							$('body').append(_this6.formatTWIG(data3, dict) + data4).promise().done(function () {
 
 								amiLogin._init().fail(function (e) {
 
-									_this5.error(e);
+									_this6.error(e);
 								});
 							});
 						}, function () {
@@ -5791,7 +5816,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 							amiLogin._init().fail(function (e) {
 
-								_this5.error(e);
+								_this6.error(e);
 							});
 						});
 					});
@@ -5815,7 +5840,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*-----------------------------------------------------------------*/
 
 	_loadControls: function _loadControls(deferred, result, controls, context) {
-		var _this6 = this;
+		var _this7 = this;
 
 		if (controls.length === 0) {
 			return deferred.resolveWith(context || deferred, [result]);
@@ -5846,7 +5871,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						result.push(clazz);
 
-						_this6._loadControls(deferred, result, controls, context);
+						_this7._loadControls(deferred, result, controls, context);
 					}, function (e) {
 
 						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`: ' + e]);
@@ -5921,7 +5946,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	loadSubApp: function loadSubApp(defaultSubApp, defaultUserData) {
-		var _this7 = this;
+		var _this8 = this;
 
 		var subapp = this.args['subapp'] || defaultSubApp;
 		var userdata = this.args['userdata'] || defaultUserData;
@@ -5936,38 +5961,38 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 					/**/
 
-					_this7._currentSubAppInstance.onExit(userdata);
+					_this8._currentSubAppInstance.onExit(userdata);
 
-					_this7._currentSubAppInstance = instance;
+					_this8._currentSubAppInstance = instance;
 
 					/**/
 
-					_this7.lock();
+					_this8.lock();
 
 					var promise = loaded[0] ? instance.onReady(userdata) : /*-------*/null /*-------*/
 					;
 
 					_ami_internal_then(promise, function () {
 
-						var promise = amiLogin.isAuthenticated() ? _this7.triggerLogin() : _this7.triggerLogout();
+						var promise = amiLogin.isAuthenticated() ? _this8.triggerLogin() : _this8.triggerLogout();
 
 						_ami_internal_then(promise, function () {
 
-							_this7.unlock();
+							_this8.unlock();
 						}, function (e) {
 
-							_this7.error('could not load sub-application `' + subapp + '`: ' + e);
+							_this8.error('could not load sub-application `' + subapp + '`: ' + e);
 						});
 					}, function (e) {
 
-						_this7.error('could not load sub-application `' + subapp + '`: ' + e);
+						_this8.error('could not load sub-application `' + subapp + '`: ' + e);
 					});
 				} catch (e) {
-					_this7.error('could not load sub-application `' + subapp + '`: ' + e);
+					_this8.error('could not load sub-application `' + subapp + '`: ' + e);
 				}
 			}, function (e) {
 
-				_this7.error('could not load sub-application `' + subapp + '`: ' + e);
+				_this8.error('could not load sub-application `' + subapp + '`: ' + e);
 			});
 		} else {
 			this.error('could not find sub-application `' + subapp + '`');
@@ -6738,7 +6763,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	_init: function _init() {
-		var _this8 = this;
+		var _this9 = this;
 
 		amiWebApp.lock();
 
@@ -6746,8 +6771,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			/*-------------------------------------------------*/
 
-			_this8.fragmentLoginButton = data[0];
-			_this8.fragmentLogoutButton = data[1];
+			_this9.fragmentLoginButton = data[0];
+			_this9.fragmentLogoutButton = data[1];
 
 			amiWebApp.appendHTML('body', data[2]);
 
@@ -6755,27 +6780,27 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit(function (e) {
 
-				_this8.form_login(e);
+				_this9.form_login(e);
 			});
 
 			$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit(function (e) {
 
-				_this8.form_addUser(e);
+				_this9.form_addUser(e);
 			});
 
 			$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit(function (e) {
 
-				_this8.form_remindPass(e);
+				_this9.form_remindPass(e);
 			});
 
 			$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit(function (e) {
 
-				_this8.form_changeInfo(e);
+				_this9.form_changeInfo(e);
 			});
 
 			$('#E92A1097_983B_4857_875F_07E4659B41B0').submit(function (e) {
 
-				_this8.form_changePass(e);
+				_this9.form_changePass(e);
 			});
 
 			/*-------------------------------------------------*/
@@ -6804,7 +6829,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 				var pass = e.originalEvent.data.pass;
 
 				if (user && pass) {
-					_this8.form_login2(user, pass);
+					_this9.form_login2(user, pass);
 
 					e.originalEvent.source.close();
 				}
@@ -6820,7 +6845,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 				_ami_internal_then(amiWebApp.onReady(xxxxxxxxxxxxxxxx), function () {
 
-					_this8._update(userInfo, roleInfo, ssoInfo).always(function () {
+					_this9._update(userInfo, roleInfo, ssoInfo).always(function () {
 
 						amiWebApp.unlock();
 					});
@@ -6892,7 +6917,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	_update: function _update(userInfo, roleInfo, ssoInfo) {
-		var _this9 = this;
+		var _this10 = this;
 
 		var result = $.Deferred();
 
@@ -7038,7 +7063,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			_ami_internal_always(amiWebApp.triggerLogin(), function () {
 
-				amiWebApp.replaceHTML('#ami_login_content', _this9.fragmentLogoutButton, { dict: dict });
+				amiWebApp.replaceHTML('#ami_login_content', _this10.fragmentLogoutButton, { dict: dict });
 
 				result.resolve();
 			});
@@ -7051,7 +7076,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 				result.resolve();
 
-				amiWebApp.replaceHTML('#ami_login_content', _this9.fragmentLoginButton, { dict: dict });
+				amiWebApp.replaceHTML('#ami_login_content', _this10.fragmentLoginButton, { dict: dict });
 			});
 
 			/*-------------------------------------------------*/
@@ -7203,15 +7228,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
    */
 
 	signOut: function signOut() {
-		var _this10 = this;
+		var _this11 = this;
 
 		amiWebApp.lock();
 
 		return amiCommand.logout().always(function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this10._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this11._update(userInfo, roleInfo, ssoInfo).done(function () {
 
-				_this10._clean();
+				_this11._clean();
 				amiWebApp.unlock();
 			});
 		});
@@ -7243,7 +7268,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_login2: function form_login2(user, pass) {
-		var _this11 = this;
+		var _this12 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -7255,12 +7280,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		promise.then(function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this11._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this12._update(userInfo, roleInfo, ssoInfo).done(function () {
 
 				if (userInfo.AMIUser !== userInfo.guestUser) {
 					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-					_this11._clean();
+					_this12._clean();
 					amiWebApp.unlock();
 				} else {
 					var error = 'Authentication failed.';
@@ -7269,14 +7294,14 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 						error += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.' + ' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.';
 					}
 
-					_this11._showErrorMessage1(error);
+					_this12._showErrorMessage1(error);
 				}
 			});
 		}, function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this11._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this12._update(userInfo, roleInfo, ssoInfo).done(function () {
 
-				_this11._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+				_this12._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 			});
 		});
 
@@ -7286,7 +7311,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_attachCert: function form_attachCert() {
-		var _this12 = this;
+		var _this13 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -7305,10 +7330,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.attachCert(user, pass).then(function (data) {
 
-			_this12._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this13._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this12._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this13._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7317,7 +7342,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_detachCert: function form_detachCert() {
-		var _this13 = this;
+		var _this14 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -7336,10 +7361,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.detachCert(user, pass).then(function (data) {
 
-			_this13._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this14._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this13._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this14._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7348,7 +7373,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_addUser: function form_addUser(e) {
-		var _this14 = this;
+		var _this15 = this;
 
 		e.preventDefault();
 
@@ -7362,10 +7387,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values).then(function (data) {
 
-			_this14._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this15._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this14._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this15._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7374,7 +7399,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_remindPass: function form_remindPass(e) {
-		var _this15 = this;
+		var _this16 = this;
 
 		e.preventDefault();
 
@@ -7388,10 +7413,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.resetPass(values['user']).then(function (data) {
 
-			_this15._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this16._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this15._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this16._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7400,7 +7425,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_changeInfo: function form_changeInfo(e) {
-		var _this16 = this;
+		var _this17 = this;
 
 		e.preventDefault();
 
@@ -7414,10 +7439,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).then(function (data) {
 
-			_this16._showSuccessMessage2(amiWebApp.jspath('..info.$', data));
+			_this17._showSuccessMessage2(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this16._showErrorMessage2(amiWebApp.jspath('..error.$', data));
+			_this17._showErrorMessage2(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7426,7 +7451,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_changePass: function form_changePass(e) {
-		var _this17 = this;
+		var _this18 = this;
 
 		e.preventDefault();
 
@@ -7440,10 +7465,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.changePass(values['old_pass'], values['new_pass']).then(function (data) {
 
-			_this17._showSuccessMessage3(amiWebApp.jspath('..info.$', data));
+			_this18._showSuccessMessage3(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this17._showErrorMessage3(amiWebApp.jspath('..error.$', data));
+			_this18._showErrorMessage3(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/

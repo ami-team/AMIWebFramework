@@ -145,8 +145,8 @@ __l0:		while(i < l)
 			code = code.substring(1);
 			i += 1;
 
-			continue __l0;
-
+/*			continue __l0;
+ */
 			/*-------------------------------------------------*/
 		}
 
@@ -160,8 +160,8 @@ __l0:		while(i < l)
 			result_tokens.push(word);
 			result_types.push(-1);
 			result_lines.push(line);
-			word = '';
-		}
+/*			word = '';
+ */		}
 
 		return {
 			tokens: result_tokens,
@@ -1036,7 +1036,9 @@ amiTwig.expr.Compiler.prototype = {
 		{
 			/*-------------------------------------------------*/
 
-			for(var temp = node; temp.nodeType === amiTwig.expr.tokens.DOT; temp = temp.nodeLeft);
+			let temp = node;
+
+			for(; temp.nodeType === amiTwig.expr.tokens.DOT; temp = temp.nodeLeft);
 
 			/*-------------------------------------------------*/
 
@@ -1612,8 +1614,8 @@ amiTwig.tmpl.Compiler.prototype = {
 
 		let line = 1;
 
-		let column = 0;
-		let COLUMN = 0;
+		let column;
+		let COLUMN;
 
 		/*---------------------------------------------------------*/
 
@@ -1668,7 +1670,7 @@ amiTwig.tmpl.Compiler.prototype = {
 
 				/*-----------------------------------------*/
 
-				var errors = [];
+				const errors = [];
 
 				for(let i = stack1.length - 1; i > 0; i--)
 				{
@@ -1897,11 +1899,9 @@ amiTwig.engine = {
 
 	_render: function(result, item, dict = {})
 	{
-		let k, l;
+		let m;
 
-		let expression, list;
-
-		let m, symb, expr, value;
+		let expression;
 
 		this.dict = dict;
 
@@ -1912,6 +1912,7 @@ amiTwig.engine = {
 			/*-------------------------------------------------*/
 
 			case 'do':
+			{
 				/*-----------------------------------------*/
 
 				amiTwig.expr.cache.eval(item.expression, item.line, dict);
@@ -1919,12 +1920,14 @@ amiTwig.engine = {
 				/*-----------------------------------------*/
 
 				break;
+			}
 
 			/*-------------------------------------------------*/
 			/* SET                                             */
 			/*-------------------------------------------------*/
 
 			case 'set':
+			{
 				/*-----------------------------------------*/
 
 				m = item.expression.match(/([a-zA-Z_$][a-zA-Z0-9_$]*)\s*=\s*(.+)/)
@@ -1941,12 +1944,14 @@ amiTwig.engine = {
 				/*-----------------------------------------*/
 
 				break;
+			}
 
 			/*-------------------------------------------------*/
 			/* @TEXT                                           */
 			/*-------------------------------------------------*/
 
 			case '@text':
+			{
 				/*-----------------------------------------*/
 
 				result.push(item.value.replace(this.VARIABLE_RE, function(match, expression) {
@@ -1957,6 +1962,7 @@ amiTwig.engine = {
 				/*-----------------------------------------*/
 
 				break;
+			}
 
 			/*-------------------------------------------------*/
 			/* IF                                              */
@@ -1964,6 +1970,7 @@ amiTwig.engine = {
 
 			case 'if':
 			case '@root':
+			{
 				/*-----------------------------------------*/
 
 				item.blocks.every((block) => {
@@ -1979,19 +1986,21 @@ amiTwig.engine = {
 
 						return false;
 					}
-					
+
 					return true;
 				});
 
 				/*-----------------------------------------*/
 
 				break;
+			}
 
 			/*-------------------------------------------------*/
 			/* FOR                                             */
 			/*-------------------------------------------------*/
 
 			case 'for':
+			{
 				/*-----------------------------------------*/
 
 				m = item.blocks[0].expression.match(/([a-zA-Z_$][a-zA-Z0-9_$]*)\s+in\s+(.+)/)
@@ -2003,44 +2012,44 @@ amiTwig.engine = {
 
 				/*-----------------------------------------*/
 
-				symb = m[1];
-				expr = m[2];
-
-				value = amiTwig.expr.cache.eval(expr, item.line, dict);
+				const symb = m[1];
+				const expr = m[2];
 
 				/*-----------------------------------------*/
 
-				var typeName = Object.prototype.toString.call(value);
-
-				if(typeName !== '[object Array]'
-				   &&
-				   typeName !== '[object Object]'
-				   &&
-				   typeName !== '[object String]'
-				 ) {
-					throw 'syntax error, line `' + item.line + '`, right operande not iterable';
-				}
+				let value = amiTwig.expr.cache.eval(expr, item.line, dict);
 
 				/*-----------------------------------------*/
+
+				const typeName = Object.prototype.toString.call(value);
 
 				if(typeName === '[object Object]')
 				{
 					value = Object.keys(value);
 				}
+				else
+				{
+					if(typeName !== '[object Array]'
+					   &&
+					   typeName !== '[object String]'
+					 ) {
+						throw 'syntax error, line `' + item.line + '`, right operande not iterable';
+					}
+				}
 
 				/*-----------------------------------------*/
 
-				var old1 = dict[(symb)];
-				var old2 = dict['loop'];
+				const old1 = dict[(symb)];
+				const old2 = dict['loop'];
 
 				/*-----------------------------------------*/
 
-				k = 0x0000000000;
-				l = value.length;
+				let k = 0x0000000000;
+				const l = value.length;
 
 				dict.loop = {length: l};
 
-				list = item.blocks[0].list;
+				const list = item.blocks[0].list;
 
 				for(const i in value)
 				{
@@ -2067,56 +2076,57 @@ amiTwig.engine = {
 				/*-----------------------------------------*/
 
 				break;
+			}
 
 			/*-------------------------------------------------*/
 			/* INCLUDE                                         */
 			/*-------------------------------------------------*/
 
 			case 'include':
+			{
 				/*-----------------------------------------*/
 
-				expression = item.expression;
+				let m_1_ = item.expression, with_subexpr, with_context;
 
-				/*-----------------------------------------*/
-
-				var with_context = true;
-
-				expression = expression.trim();
-
-				if((m = expression.match(/only$/)))
+				/**/ if((m = m_1_.match(/(.+)\s+with\s+(.+)\s+only$/)))
 				{
-					expression = expression.substr(expression, expression.length - m[0].length - 1);
-
+					expression = m[1];
+					with_subexpr = m[2];
 					with_context = false;
 				}
-
-				/*-----------------------------------------*/
-
-				var with_subexpr = '{}';
-
-				expression = expression.trim();
-
-				if((m = expression.match(/with\s+(.+)$/)))
+				else if((m = m_1_.match(/(.+)\s+with\s+(.+)$/)))
 				{
-					expression = expression.substr(expression, expression.length - m[0].length - 1);
-
-					with_subexpr = m[1];
+					expression = m[1];
+					with_subexpr = m[2];
+					with_context = true;
+				}
+				else if((m = m_1_.match(/(.+)\s+only$/)))
+				{
+					expression = m[1];
+					with_subexpr = '{}';
+					with_context = false;
+				}
+				else
+				{
+					expression = m_1_;
+					with_subexpr = '{}';
+					with_context = true;
 				}
 
 				/*-----------------------------------------*/
 
-				var FILENAME = amiTwig.expr.cache.eval(expression, item.line, dict) || '';
+				const fileName = amiTwig.expr.cache.eval(expression, item.line, dict) || '';
 
-				if(Object.prototype.toString.call(FILENAME) !== '[object String]')
+				if(Object.prototype.toString.call(fileName) !== '[object String]')
 				{
 					throw 'runtime error, line `' + item.line + '`, string expected';
 				}
 
 				/*-----------------------------------------*/
 
-				var VARIABLES = amiTwig.expr.cache.eval(with_subexpr, item.line, dict) || {};
+				const variables = amiTwig.expr.cache.eval(with_subexpr, item.line, dict) || {};
 
-				if(Object.prototype.toString.call(VARIABLES) !== '[object Object]')
+				if(Object.prototype.toString.call(variables) !== '[object Object]')
 				{
 					throw 'runtime error, line `' + item.line + '`, object expected';
 				}
@@ -2124,8 +2134,8 @@ amiTwig.engine = {
 				/*-----------------------------------------*/
 
 				result.push(amiTwig.stdlib.include(
-					FILENAME,
-					VARIABLES,
+					fileName,
+					variables,
 					with_context,
 					false
 				));
@@ -2133,6 +2143,7 @@ amiTwig.engine = {
 				/*-----------------------------------------*/
 
 				break;
+			}
 
 			/*-------------------------------------------------*/
 		}
@@ -2519,13 +2530,8 @@ amiTwig.stdlib = {
 
 	/*-----------------------------------------------------------------*/
 
-	'range': function(x1, x2, step)
+	'range': function(x1, x2, step = 1)
 	{
-		if(!step)
-		{
-			step = 1;
-		}
-
 		const result = [];
 
 		/**/ if(this.isNumber(x1)
@@ -2621,7 +2627,7 @@ amiTwig.stdlib = {
 
 			if(this.isArray(arguments[0]))
 			{
-				const L = []
+				const L = [];
 
 				for(const i in arguments)
 				{
@@ -2642,7 +2648,7 @@ amiTwig.stdlib = {
 
 			if(this.isObject(arguments[0]))
 			{
-				const D = {}
+				const D = {};
 
 				for(const i in arguments)
 				{
@@ -3086,7 +3092,7 @@ __l0:			while(i < l)
 	/* TEMPLATES                                                       */
 	/*-----------------------------------------------------------------*/
 
-	'include': function(fileName, variables, withContext, ignoreMissing)
+	'include': function(fileName, variables = {}, withContext = true, ignoreMissing = false)
 	{
 		const temp = {};
 

@@ -60,17 +60,17 @@ $AMIClass('TableCtrl', {
 
 		this.appendCommandFunc = function(fields, values) {
 
-			return 'xAddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';
+			return 'AddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';
 		};
 
 		this.updateCommandFunc = function(primaryValue, field, value) {
 
-			return 'xUpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '" -field="' + amiWebApp.textToString(field) + '" -value="' + amiWebApp.textToString(value) + '"';
+			return 'UpdateElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '"';
 		};
 
 		this.deleteCommandFunc = function(primaryValue) {
 		
-			return 'xRemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
+			return 'RemoveElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
 		};
 
 		/**/
