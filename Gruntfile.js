@@ -18,8 +18,9 @@ module.exports = function(grunt) {
 					"template": "./tools/jsdoc"
 				},
 				"src": [
-					"js/AMI/AMIObject.js",
 					"js/AMI/AMIExtension.js",
+					"js/AMI/AMIObject.js",
+					"js/AMI/AMIRouter.js",
 					"js/AMI/AMIWebApp.js",
 					"js/AMI/AMIInterface.js",
 					"js/AMI/AMICommand.js",
@@ -47,8 +48,9 @@ module.exports = function(grunt) {
 				"src": [
 					"js/AMI/external/ami-twig.es6.js",
 					"js/AMI/external/jspath.js",
-					"js/AMI/AMIObject.js",
 					"js/AMI/AMIExtension.js",
+					"js/AMI/AMIObject.js",
+					"js/AMI/AMIRouter.js",
 					"js/AMI/AMIWebApp.js",
 					"js/AMI/AMIInterface.js",
 					"js/AMI/AMICommand.js",

@@ -4199,6 +4199,115 @@ amiTwig.expr.interpreter = {
 })();
 
 /*!
+ * AMI Web Framework - AMIExtension.js
+ *
+ * Copyright (c) 2014-2017 The AMI Team / LPSC / IN2P3
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+/*-------------------------------------------------------------------------*/
+/* ES6 EXTENSIONS                                                          */
+/*-------------------------------------------------------------------------*/
+
+if (!String.prototype.startsWith) {
+	String.prototype.startsWith = function (s) {
+		var base = 0x00000000000000000000;
+
+		return this.indexOf(s, base) === base;
+	};
+}
+
+/*-------------------------------------------------------------------------*/
+
+if (!String.prototype.endsWith) {
+	String.prototype.endsWith = function (s) {
+		var base = this.length - s.length;
+
+		return this.indexOf(s, base) === base;
+	};
+}
+
+/*-------------------------------------------------------------------------*/
+/* JQUERY EXTENSIONS                                                       */
+/*-------------------------------------------------------------------------*/
+
+var _ami_internal_jQueryEach = jQuery.each;
+var _ami_internal_jQueryAjax = jQuery.ajax;
+
+/*-------------------------------------------------------------------------*/
+
+jQuery.each = function (el, callback, context) {
+	return _ami_internal_jQueryEach(el, context ? function (index, value) {
+		return callback.call(context, index, value);
+	} : callback);
+};
+
+/*-------------------------------------------------------------------------*/
+
+jQuery.ajax = function (settings) {
+	if ((typeof settings === 'undefined' ? 'undefined' : _typeof(settings)) === 'object' && settings.dataType === 'sheet') {
+		var url = '';
+		var context = null;
+
+		if ('url' in settings) {
+			url = settings['url'];
+		}
+
+		if ('context' in settings) {
+			context = settings['context'];
+		}
+
+		/*---------------------------------------------------------*/
+
+		var deferred = $.Deferred();
+
+		if (url) {
+			$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(function () {
+
+				deferred.resolveWith(context || deferred);
+			});
+		} else {
+			deferred.rejectWith(context || deferred);
+		}
+
+		return deferred.promise();
+
+		/*---------------------------------------------------------*/
+	} else {
+		/*---------------------------------------------------------*/
+
+		return _ami_internal_jQueryAjax.apply(this, arguments);
+
+		/*---------------------------------------------------------*/
+	}
+};
+
+/*-------------------------------------------------------------------------*/
+/* BOOTSTRAP EXTENSIONS                                                    */
+/*-------------------------------------------------------------------------*/
+
+var _ami_internal_modalZIndex = 1050;
+
+/*-------------------------------------------------------------------------*/
+
+$(document).on('show.bs.modal', '.modal', function () {
+
+	var el = $(this);
+
+	setTimeout(function () {
+
+		$('body > .modal-backdrop:last').css('z-index', _ami_internal_modalZIndex++);
+		/*-----------*/el /*-----------*/.css('z-index', _ami_internal_modalZIndex++);
+	}, 10);
+});
+
+/*-------------------------------------------------------------------------*/
+
+/*!
  * AMI Web Framework - AMIObject.js
  *
  * Copyright (c) 2014-2017 The AMI Team / LPSC / IN2P3
@@ -4456,7 +4565,7 @@ if (jQuery) {
 /*-------------------------------------------------------------------------*/
 
 /*!
- * AMI Web Framework - AMIExtension.js
+ * AMI Web Framework - AMIRouter.js
  *
  * Copyright (c) 2014-2017 The AMI Team / LPSC / IN2P3
  *
@@ -4467,100 +4576,6 @@ if (jQuery) {
  */
 
 /*-------------------------------------------------------------------------*/
-/* ES6 EXTENSIONS                                                          */
-/*-------------------------------------------------------------------------*/
-
-if (!String.prototype.startsWith) {
-	String.prototype.startsWith = function (s) {
-		var base = 0x00000000000000000000;
-
-		return this.indexOf(s, base) === base;
-	};
-}
-
-/*-------------------------------------------------------------------------*/
-
-if (!String.prototype.endsWith) {
-	String.prototype.endsWith = function (s) {
-		var base = this.length - s.length;
-
-		return this.indexOf(s, base) === base;
-	};
-}
-
-/*-------------------------------------------------------------------------*/
-/* JQUERY EXTENSIONS                                                       */
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_jQueryEach = jQuery.each;
-var _ami_internal_jQueryAjax = jQuery.ajax;
-
-/*-------------------------------------------------------------------------*/
-
-jQuery.each = function (el, callback, context) {
-	return _ami_internal_jQueryEach(el, context ? function (index, value) {
-		return callback.call(context, index, value);
-	} : callback);
-};
-
-/*-------------------------------------------------------------------------*/
-
-jQuery.ajax = function (settings) {
-	if ((typeof settings === 'undefined' ? 'undefined' : _typeof(settings)) === 'object' && settings.dataType === 'sheet') {
-		var url = '';
-		var context = null;
-
-		if ('url' in settings) {
-			url = settings['url'];
-		}
-
-		if ('context' in settings) {
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		var deferred = $.Deferred();
-
-		if (url) {
-			$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(function () {
-
-				deferred.resolveWith(context || deferred);
-			});
-		} else {
-			deferred.rejectWith(context || deferred);
-		}
-
-		return deferred.promise();
-
-		/*---------------------------------------------------------*/
-	} else {
-		/*---------------------------------------------------------*/
-
-		return _ami_internal_jQueryAjax.apply(this, arguments);
-
-		/*---------------------------------------------------------*/
-	}
-};
-
-/*-------------------------------------------------------------------------*/
-/* BOOTSTRAP EXTENSIONS                                                    */
-/*-------------------------------------------------------------------------*/
-
-var _ami_internal_modalZIndex = 1050;
-
-/*-------------------------------------------------------------------------*/
-
-$(document).on('show.bs.modal', '.modal', function () {
-
-	var el = $(this);
-
-	setTimeout(function () {
-
-		$('body > .modal-backdrop:last').css('z-index', _ami_internal_modalZIndex++);
-		/*-----------*/el /*-----------*/.css('z-index', _ami_internal_modalZIndex++);
-	}, 10);
-});
 
 /*-------------------------------------------------------------------------*/
 
@@ -5047,7 +5062,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*---------------------------------------------------------*/
 
-		var url = urls.shift();
+		var url = urls.shift().trim();
 
 		/*---------------------------------------------------------*/
 
