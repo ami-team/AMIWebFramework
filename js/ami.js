@@ -4577,6 +4577,185 @@ if (jQuery) {
 
 /*-------------------------------------------------------------------------*/
 
+$AMINamespace('amiRouter', {
+	/*-----------------------------------------------------------------*/
+
+	_mode: '',
+	_routes: [],
+
+	/*-----------------------------------------------------------------*/
+
+	_scriptURL: '',
+	_originURL: '',
+	_webAppURL: '',
+
+	_hash: '',
+	_args: [],
+
+	/*-----------------------------------------------------------------*/
+
+	$: function $() {
+		var _this2 = this;
+
+		/*---------------------------------------------------------*/
+
+		var href = window.location.href.trim();
+		var hash = window.location.hash.trim();
+		var search = window.location.search.trim();
+
+		/*---------------------------------------------------------*/
+		/* ORIGIN_URL                                              */
+		/*---------------------------------------------------------*/
+
+		var scripts = document.getElementsByTagName('script');
+
+		/*---------------------------------------------------------*/
+
+		for (var idx, i = 0; i < scripts.length; i++) {
+			idx = scripts[i].src.indexOf('js/ami.');
+
+			if (idx > 0) {
+				this._scriptURL = scripts[i].src;
+
+				this._originURL = this._eatSlashes(this._scriptURL.substring(0, idx));
+
+				break;
+			}
+		}
+
+		/*---------------------------------------------------------*/
+		/* WEBAPP_URL                                              */
+		/*---------------------------------------------------------*/
+
+		this._webAppURL = this._eatSlashes(href.replace(/(?:\#|\?).*$/, ''));
+
+		/*---------------------------------------------------------*/
+		/* HASH                                                    */
+		/*---------------------------------------------------------*/
+
+		this._hash = this._eatSlashes(hash.substring(1).replace(/\?.*$/, ''));
+
+		/*---------------------------------------------------------*/
+		/* ARGS                                                    */
+		/*---------------------------------------------------------*/
+
+		if (search) {
+			search.substring(1).split('&').forEach(function (param) {
+
+				var parts = param.split('=');
+
+				/**/if (parts.length === 1) {
+					_this2._args[decodeURIComponent(parts[0])] = /*---------*/'' /*---------*/;
+				} else if (parts.length === 2) {
+					_this2._args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+				}
+			});
+		}
+
+		/*---------------------------------------------------------*/
+	},
+
+	/*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
+
+	_eatSlashes: function _eatSlashes(url) {
+		url = url.trim();
+
+		while (url[url.length - 1] === '/') {
+			url = url.substring(0, url.length - 1);
+		}
+
+		return url;
+	},
+
+	/*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
+
+	getScriptURL: function getScriptURL() {
+		return this._scriptURL;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	getOriginURL: function getOriginURL() {
+		return this._originURL;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	getWebAppURL: function getWebAppURL() {
+		return this._webAppURL;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	getHash: function getHash() {
+		return this._hash;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	getArgs: function getArgs() {
+		return this._args;
+	},
+
+	/*-----------------------------------------------------------------*/
+	/*-----------------------------------------------------------------*/
+
+	add: function add(regExp, handler) {
+		this._routes.push({
+			regExp: regExp,
+			handler: handler
+		});
+
+		return this;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	remove: function remove(regExp) {
+		for (var i = 0; i < this._routes.length; i++) {
+			if (this._routes[i].regExp.toString() === regExp.toString()) {
+				this._routes.splice(i, 1);
+
+				break;
+			}
+		}
+
+		return this;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	check: function check() {
+		var m = void 0;
+
+		for (var i = 0; i < this._routes.length; i++) {
+			m = this._hash.match(this._routes[i].regExp);
+
+			if (m) {
+				m.shift();
+
+				this._routes[i].handler.apply(amiRouter, m);
+
+				break;
+			}
+		}
+
+		return this;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	navigate: function navigate(path) {
+		history.pushState(null, null, this._webAppURL + this._eatSlashes(path));
+
+		return this;
+	}
+
+	/*-----------------------------------------------------------------*/
+});
+
 /*-------------------------------------------------------------------------*/
 
 /*!
@@ -4688,53 +4867,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*-----------------------------------------------------------------*/
 
 	$: function $() {
-		var _this2 = this;
-
+		/*---------------------------------------------------------*/
+		/* GET FLAGS                                               */
 		/*---------------------------------------------------------*/
 
-		function _eatSlashes(url) {
-			url = url.trim();
+		var url = amiRouter.getScriptURL();
 
-			while (url[url.length - 1] === '/') {
-				url = url.substring(0, url.length - 1);
-			}
+		var idx = url.indexOf('?');
 
-			return url;
-		}
-
-		/*---------------------------------------------------------*/
-
-		var href = window.location.href.trim();
-		var search = window.location.search.trim();
-
-		/**/
-
-		var scripts = document.getElementsByTagName('script');
-
-		var src = scripts[scripts.length - 1].src.trim();
-
-		/*---------------------------------------------------------*/
-		/* ORIGIN_URL                                              */
-		/*---------------------------------------------------------*/
-
-		var idx1 = src.indexOf('js/ami.');
-
-		this.originURL = _eatSlashes(idx1 > 0 ? src.substring(0, idx1) : '/');
-
-		/*---------------------------------------------------------*/
-		/* WEBAPP_URL                                              */
-		/*---------------------------------------------------------*/
-
-		var idx2 = href.indexOf('?');
-
-		this.webAppURL = _eatSlashes(idx2 > 0 ? href.substring(0, idx2) : href);
-
-		/*---------------------------------------------------------*/
-		/* FLAGS                                                   */
-		/*---------------------------------------------------------*/
-
-		if (idx1 > 0) {
-			var flags = src.substring(idx1).toLowerCase();
+		if (idx > 0) {
+			var flags = url.substring(idx).toLowerCase();
 
 			this._embedded = flags.indexOf('embedded') >= 0;
 
@@ -4742,24 +4884,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		}
 
 		/*---------------------------------------------------------*/
-		/* ARGS                                                    */
+		/* GET URLS AND ARGS                                       */
 		/*---------------------------------------------------------*/
 
-		if (search) {
-			search.substring(1).split('&').forEach(function (param) {
+		this.originURL = amiRouter.getOriginURL();
+		this.webAppURL = amiRouter.getWebAppURL();
 
-				var parts = param.split('=');
-
-				/**/if (parts.length === 1) {
-					_this2.args[decodeURIComponent(parts[0])] = /*---------*/'' /*---------*/;
-				} else if (parts.length === 2) {
-					_this2.args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
-				}
-			});
-		}
+		this.args = amiRouter.getArgs();
 
 		/*---------------------------------------------------------*/
-		/* DEFAULT SHEETS AND SCRIPTS                              */
+		/* LOAD SHEETS AND SCRIPTS                                 */
 		/*---------------------------------------------------------*/
 
 		if (this._noBootstrap === false && typeof jQuery.fn.modal !== 'function') {
