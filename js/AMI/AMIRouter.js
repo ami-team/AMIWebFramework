@@ -13,12 +13,12 @@
 
 /*-------------------------------------------------------------------------*/
 
-$AMINamespace('amiRouter', {
-	/*-----------------------------------------------------------------*/
+/**
+ * The AMI url routing subsystem
+ * @namespace amiRouter
+ */
 
-	_mode: '',
-	_routes: [],
-
+$AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/*-----------------------------------------------------------------*/
 
 	_scriptURL: '',
@@ -27,6 +27,7 @@ $AMINamespace('amiRouter', {
 
 	_hash: '',
 	_args: [],
+	_routes: [],
 
 	/*-----------------------------------------------------------------*/
 
@@ -39,11 +40,11 @@ $AMINamespace('amiRouter', {
 		const search = window.location.search.trim();
 
 		/*---------------------------------------------------------*/
-		/* ORIGIN_URL                                              */
-		/*---------------------------------------------------------*/
 
 		const scripts = document.getElementsByTagName('script');
 
+		/*---------------------------------------------------------*/
+		/* SCRIPT_URL AND ORIGIN_URL                               */
 		/*---------------------------------------------------------*/
 
 		for(let idx, i = 0; i < scripts.length; i++)
@@ -81,6 +82,9 @@ $AMINamespace('amiRouter', {
 		/*---------------------------------------------------------*/
 		/* ARGS                                                    */
 		/*---------------------------------------------------------*/
+
+		this._args.length = 0;
+		this._routes.length = 0;
 
 		if(search)
 		{
@@ -120,12 +124,22 @@ $AMINamespace('amiRouter', {
 	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
+	/**
+	  * Get the AWF's script URL
+	  * @returns {String} The AWF's script URL
+	  */
+
 	getScriptURL: function()
 	{
 		return this._scriptURL;
 	},
 
 	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Get the origin URL
+	  * @returns {String} The origin URL
+	  */
 
 	getOriginURL: function()
 	{
@@ -134,6 +148,11 @@ $AMINamespace('amiRouter', {
 
 	/*-----------------------------------------------------------------*/
 
+	/**
+	  * Get the webapp URL
+	  * @returns {String} The webapp URL
+	  */
+
 	getWebAppURL: function()
 	{
 		return this._webAppURL;
@@ -141,12 +160,22 @@ $AMINamespace('amiRouter', {
 
 	/*-----------------------------------------------------------------*/
 
+	/**
+	  * Get the anchor part of the webapp URL
+	  * @returns {String} The anchor part of the webapp URL
+	  */
+
 	getHash: function()
 	{
 		return this._hash;
 	},
 
 	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Get the arguments extracted from the webapp URL
+	  * @returns {Array<String>} The arguments extracted from the webapp URL
+	  */
 
 	getArgs: function()
 	{
@@ -210,7 +239,10 @@ $AMINamespace('amiRouter', {
 
 	navigate: function(path)
 	{
-		history.pushState(null, null, this._webAppURL + this._eatSlashes(path));
+		if(history.pushState)
+		{
+			history.pushState(null, null, this._webAppURL + this._eatSlashes(path));
+		}
 
 		return this;
 	},

@@ -100,14 +100,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	originURL: '/',
 
 	/**
-	  * WebApp URL
+	  * Webapp URL
 	  * @type {String}
 	  */
 
 	webAppURL: '/',
 
 	/**
-	  * URL arguments
+	  * The anchor part of the webapp URL
+	  * @type {String}
+	  */
+
+	hash: '',
+
+	/**
+	  * The arguments extracted from the webapp URL
 	  * @type {Array<String>}
 	  */
 
@@ -137,12 +144,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		}
 
 		/*---------------------------------------------------------*/
-		/* GET URLS AND ARGS                                       */
+		/* GET URLS, HASH AND ARGS                                 */
 		/*---------------------------------------------------------*/
 
 		this.originURL = amiRouter.getOriginURL();
 		this.webAppURL = amiRouter.getWebAppURL();
 
+		this.hash = amiRouter.getHash();
 		this.args = amiRouter.getArgs();
 
 		/*---------------------------------------------------------*/
