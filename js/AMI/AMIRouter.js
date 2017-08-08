@@ -224,15 +224,13 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 
 			if(m)
 			{
-				m.shift();
-
 				this._routes[i].handler.apply(amiRouter, m);
 
-				break;
+				return true;
 			}
 		}
 
-		return this;
+		return false;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -242,9 +240,11 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 		if(history.pushState)
 		{
 			history.pushState(null, null, this._webAppURL + this._eatSlashes(path));
+
+			return true;
 		}
 
-		return this;
+		return false;
 	},
 
 	/*-----------------------------------------------------------------*/
