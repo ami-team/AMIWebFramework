@@ -1546,13 +1546,9 @@ __l0:		for(let i = 0; i < l;)
 
 				try
 				{
-					const instance = window[
-						descr.instance
-					];
-
-					/**/
-
 					this._currentSubAppInstance.onExit(userdata);
+
+					const instance = window[descr.instance];
 
 					this._currentSubAppInstance = instance;
 

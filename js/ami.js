@@ -6200,11 +6200,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 			this.loadScripts(this.originURL + '/' + descr.file).then(function (loaded) {
 
 				try {
-					var instance = window[descr.instance];
-
-					/**/
-
 					_this7._currentSubAppInstance.onExit(userdata);
+
+					var instance = window[descr.instance];
 
 					_this7._currentSubAppInstance = instance;
 
