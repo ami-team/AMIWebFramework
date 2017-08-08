@@ -43,6 +43,8 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 
 		const scripts = document.getElementsByTagName('script');
 
+		alert(typeof scripts);
+
 		/*---------------------------------------------------------*/
 		/* SCRIPT_URL AND ORIGIN_URL                               */
 		/*---------------------------------------------------------*/

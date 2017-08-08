@@ -1501,6 +1501,11 @@ __l0:		for(let i = 0; i < l;)
 
 	loadSubApp: function(defaultSubApp, defaultUserData)
 	{
+		if(amiRouter.check())
+		{
+			return;
+		}
+
 		const subapp = this.args['subapp'] || defaultSubApp;
 		const userdata = this.args['userdata'] || defaultUserData;
 

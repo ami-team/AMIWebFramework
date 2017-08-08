@@ -4608,6 +4608,8 @@ $AMINamespace('amiRouter', /** @lends amiRouter */{
 
 		var scripts = document.getElementsByTagName('script');
 
+		alert(typeof scripts === 'undefined' ? 'undefined' : _typeof(scripts));
+
 		/*---------------------------------------------------------*/
 		/* SCRIPT_URL AND ORIGIN_URL                               */
 		/*---------------------------------------------------------*/
@@ -4763,15 +4765,13 @@ $AMINamespace('amiRouter', /** @lends amiRouter */{
 			m = this._hash.match(this._routes[i].regExp);
 
 			if (m) {
-				m.shift();
-
 				this._routes[i].handler.apply(amiRouter, m);
 
-				break;
+				return true;
 			}
 		}
 
-		return this;
+		return false;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -4779,9 +4779,11 @@ $AMINamespace('amiRouter', /** @lends amiRouter */{
 	navigate: function navigate(path) {
 		if (history.pushState) {
 			history.pushState(null, null, this._webAppURL + this._eatSlashes(path));
+
+			return true;
 		}
 
-		return this;
+		return false;
 	}
 
 	/*-----------------------------------------------------------------*/
@@ -6137,6 +6139,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 	loadSubApp: function loadSubApp(defaultSubApp, defaultUserData) {
 		var _this8 = this;
+
+		if (amiRouter.check()) {
+			return;
+		}
 
 		var subapp = this.args['subapp'] || defaultSubApp;
 		var userdata = this.args['userdata'] || defaultUserData;
