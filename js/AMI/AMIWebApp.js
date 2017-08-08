@@ -469,7 +469,15 @@ __l0:		for(let i = 0; i < l;)
 
 		if(dataType === 'auto')
 		{
-			if(url.indexOf('ctrl:') !== 0)
+			/**/ if(url.indexOf('ctrl:') === 0)
+			{
+				result = 'control';
+			}
+			else if(url.indexOf('subapp:') === 0)
+			{
+				result = 'subapp';
+			}
+			else
 			{
 				switch(this._getExtension(url).toLowerCase())
 				{
@@ -493,10 +501,6 @@ __l0:		for(let i = 0; i < l;)
 						result = 'text';
 						break;
 				}
-			}
-			else
-			{
-				result = 'control';
 			}
 		}
 		else
@@ -534,7 +538,28 @@ __l0:		for(let i = 0; i < l;)
 
 			case 'control':
 
-				this._loadControls($.Deferred(), result, [url]).then(() => {
+				this.loadControl(url).then((data) => {
+
+					result.push(data);
+
+					this.__loadXXX(deferred, result, urls, dataType, context);
+
+				}, (e) => {
+
+					deferred.rejectWith(context || deferred, [e]);
+				});
+
+				break;
+
+			/*-------------------------------------------------*/
+			/* SUBAPP                                          */
+			/*-------------------------------------------------*/
+
+			case 'subapp':
+
+				this.loadSubApp(url).then((data) => {
+
+					result.push(data);
 
 					this.__loadXXX(deferred, result, urls, dataType, context);
 
@@ -891,8 +916,6 @@ __l0:		for(let i = 0; i < l;)
 		/*---------------------------------------------------------*/
 
 		return result.promise();
-
-		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1377,23 +1400,34 @@ __l0:		for(let i = 0; i < l;)
 	/* CONTROLS                                                        */
 	/*-----------------------------------------------------------------*/
 
-	_loadControls: function(deferred, result, controls, context)
+	/**
+	  * Loads a control asynchronously
+	  * @param {String} control the array of control name
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	loadControl: function(control, settings)
 	{
-		if(controls.length === 0)
+		let context = null;
+
+		if(settings && 'context' in settings)
 		{
-			return deferred.resolveWith(context || deferred, [result]);
+			context = settings['context'];
 		}
 
 		/*---------------------------------------------------------*/
 
-		let name = controls.shift();
+		const result = $.Deferred();
 
-		if(name.indexOf('ctrl:') === 0)
+		/*---------------------------------------------------------*/
+
+		if(control.indexOf('ctrl:') === 0)
 		{
-			name = name.substring(5);
+			control = control.substring(5);
 		}
 
-		const descr = this._controls[name.toLowerCase()];
+		const descr = this._controls[control.toLowerCase()];
 
 		/*---------------------------------------------------------*/
 
@@ -1413,58 +1447,31 @@ __l0:		for(let i = 0; i < l;)
 
 					_ami_internal_then(promise, () => {
 
-						result.push(clazz);
-
-						this._loadControls(deferred, result, controls, context);
+						result.resolveWith(context || result, [/*--------------------*/clazz/*--------------------*/]);
 
 					}, (e) => {
 
-						deferred.rejectWith(context || deferred, ['could not load control `' + name + '`: ' + e]);
+						result.rejectWith(context || result, ['could not load control `' + control + '`: ' + e]);
 					});
 				}
 				catch(e)
 				{
-					deferred.rejectWith(context || deferred, ['could not load control `' + name + '`: ' + e]);
+					result.rejectWith(context || result, ['could not load control `' + control + '`: ' + e]);
 				}
 
 			}, (e) => {
 
-				deferred.rejectWith(context || deferred, ['could not load control `' + name + '`: ' + e]);
+				result.rejectWith(context || result, ['could not load control `' + control + '`: ' + e]);
 			});
 		}
 		else
 		{
-			deferred.rejectWith(context || deferred, ['could not find control `' + name + '`']);
+			result.rejectWith(context || result, ['could not find control `' + control + '`']);
 		}
 
 		/*---------------------------------------------------------*/
 
-		return deferred;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	/**
-	  * Loads controls asynchronously
-	  * @param {(Array|String)} controls the array of control names
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	loadControls: function(controls, settings)
-	{
-		let context = null;
-
-		if(settings && 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
-		return this._loadControls($.Deferred(), [], this.asArray(controls), context).promise();
-
-		/*---------------------------------------------------------*/
+		return result.promise();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1494,22 +1501,44 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Loads a sub-application
-	  * @param {String} defaultSubApp the default sub-application name, if null, 'amiWebApp.args["subapp"]'
-	  * @param {?} [defaultUserData] the default user data, if null, 'amiWebApp.args["userdata"]'
+	  * Loads a sub-application asynchronously
+	  * @param {String} subapp the sub-application name
+	  * @param {?} [userdata] the user data
+	  * @param {Object} [settings] dictionary of settings (context)
 	  */
 
-	loadSubApp: function(defaultSubApp, defaultUserData)
+	loadSubApp: function(subapp, userdata, settings)
 	{
-		if(amiRouter.check())
+		let context = null;
+
+		if(settings && 'context' in settings)
 		{
-			return;
+			context = settings['context'];
 		}
 
-		const subapp = this.args['subapp'] || defaultSubApp;
-		const userdata = this.args['userdata'] || defaultUserData;
+		/*---------------------------------------------------------*/
+
+		const result = $.Deferred();
+
+		/*---------------------------------------------------------*/
+
+		this.lock();
+
+		result.always(() => {
+
+			this.unlock();
+		});
+
+		/*---------------------------------------------------------*/
+
+		if(subapp.indexOf('subapp:') === 0)
+		{
+			subapp = subapp.substring(7);
+		}
 
 		const descr = this._subapps[subapp.toLowerCase()];
+
+		/*---------------------------------------------------------*/
 
 		if(descr)
 		{
@@ -1529,8 +1558,6 @@ __l0:		for(let i = 0; i < l;)
 
 					/**/
 
-					this.lock();
-
 					const promise = loaded[0] ? instance.onReady(userdata)
 					                          : /*-------*/null/*-------*/
 					;
@@ -1543,33 +1570,59 @@ __l0:		for(let i = 0; i < l;)
 
 						_ami_internal_then(promise, () => {
 
-							this.unlock();
+							result.resolveWith(context || result, [/*----------------------*/instance/*----------------------*/]);
 
 						}, (e) => {
 
-							this.error('could not load sub-application `' + subapp + '`: ' + e);
+							result.rejectWith(context || result, ['could not load sub-application `' + subapp + '`: ' + e]);
 						});
 
 					}, (e) => {
 
-						this.error('could not load sub-application `' + subapp + '`: ' + e);
+						result.rejectWith(context || result, ['could not load sub-application `' + subapp + '`: ' + e]);
 					});
 				}
 				catch(e)
 				{
-					this.error('could not load sub-application `' + subapp + '`: ' + e);
+					result.rejectWith(context || result, ['could not load sub-application `' + subapp + '`: ' + e]);
 				}
 
 			}, (e) => {
 
-				this.error('could not load sub-application `' + subapp + '`: ' + e);
+				result.rejectWith(context || result, ['could not load sub-application `' + subapp + '`: ' + e]);
 			});
 		}
 		else
 		{
-			this.error('could not find sub-application `' + subapp + '`');
+			result.rejectWith(context || result, ['could not find sub-application `' + subapp + '`']);
 		}
+
+		/*---------------------------------------------------------*/
+
+		return result.promise();
 	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Loads a sub-application by URL
+	  * @param {String} defaultSubApp the default sub-application name, if null, 'amiWebApp.args["subapp"]'
+	  * @param {?} [defaultUserData] the default user data, if null, 'amiWebApp.args["userdata"]'
+	  */
+
+	loadSubAppByURL: function(defaultSubApp, defaultUserData)
+	{
+		if(!amiRouter.check())
+		{
+			const subapp = this.args['subapp'] || defaultSubApp;
+			const userdata = this.args['userdata'] || defaultUserData;
+
+			this.loadSubApp(subapp, userdata).fail((e) => {
+
+				this.error(e);
+			});
+		}
+	}
 
 	/*-----------------------------------------------------------------*/
 });

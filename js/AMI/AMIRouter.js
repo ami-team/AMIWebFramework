@@ -185,7 +185,14 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/*-----------------------------------------------------------------*/
 	/*-----------------------------------------------------------------*/
 
-	add: function(regExp, handler)
+	/**
+	  * Append a routing rule
+	  * @param {String} regExp the regExp
+	  * @param {Object} handler the handler
+	  * @returns {Namespace} The amiRouter singleton
+	  */
+
+	append: function(regExp, handler)
 	{
 		this._routes.push({
 			regExp: regExp,
@@ -196,6 +203,12 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	},
 
 	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Remove a routing rule
+	  * @param {String} regExp the regExp
+	  * @returns {Namespace} The amiRouter singleton
+	  */
 
 	remove: function(regExp)
 	{
@@ -213,6 +226,11 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	},
 
 	/*-----------------------------------------------------------------*/
+
+	/**
+	  * ???
+	  * @returns {Boolean} ???
+	  */
 
 	check: function()
 	{
@@ -234,6 +252,12 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	},
 
 	/*-----------------------------------------------------------------*/
+
+	/**
+	  * ???
+	  * @param {String} path the path
+	  * @returns {Boolean} ???
+	  */
 
 	navigate: function(path)
 	{

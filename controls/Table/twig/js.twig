@@ -27,7 +27,7 @@
 
 	amiWebApp.onReady = function() {
 
-		return amiWebApp.loadControls(['table']).done(function(ctrls) {
+		return amiWebApp.loadResources(['ctrl:table']).done(function(ctrls) {
 
 			myTable = new ctrls[0];
 		});
