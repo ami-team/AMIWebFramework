@@ -5518,7 +5518,7 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/**
 	  * Append a new history entry
 	  * @param {String} path the new path
-	  * @param {Object} [context] the new context
+	  * @param {Object} [context=null] the new context
 	  * @returns {Boolean}
 	  */
 
@@ -5539,7 +5539,7 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/**
 	  * Replace the current history entry
 	  * @param {String} path the new path
-	  * @param {Object} [context] the new context
+	  * @param {Object} [context=null] the new context
 	  * @returns {Boolean}
 	  */
 
