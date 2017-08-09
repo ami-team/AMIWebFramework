@@ -67,7 +67,7 @@
 		<script type="text/javascript">
 
 			amiWebApp.start({
-				logo_url: 'images/logo-alt.png',
+				logo_url: 'images/logo.png',
 				theme_url: 'twig/AMI/Theme/blue.twig',
 				endpoint_url: '{{ENDPOINT}}',
 			});
