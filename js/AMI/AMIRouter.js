@@ -27,6 +27,9 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 
 	_hash: '',
 	_args: [],
+
+	/*-----------------------------------------------------------------*/
+
 	_routes: [],
 
 	/*-----------------------------------------------------------------*/
@@ -47,6 +50,11 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 
 	$: function()
 	{
+		/*---------------------------------------------------------*/
+
+		this._args.length = 0;
+		this._routes.length = 0;
+
 		/*---------------------------------------------------------*/
 
 		const  href  = window.location. href .trim();
@@ -96,9 +104,6 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 		/*---------------------------------------------------------*/
 		/* ARGS                                                    */
 		/*---------------------------------------------------------*/
-
-		this._args.length = 0;
-		this._routes.length = 0;
 
 		if(search)
 		{
@@ -247,17 +252,38 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * ???
+	  * Append a new history entry
 	  * @param {String} path the new path
-	  * @param {Object} context the new context
+	  * @param {Object} [context] the new context
 	  * @returns {Boolean}
 	  */
 
-	navigate: function(path, context = null)
+	appendHistoryEntry: function(path, context = null)
 	{
 		if(history.pushState)
 		{
 			history.pushState(context, null, this._webAppURL + this._eatSlashes(path));
+
+			return true;
+		}
+
+		return false;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	/**
+	  * Replace the current history entry
+	  * @param {String} path the new path
+	  * @param {Object} [context] the new context
+	  * @returns {Boolean}
+	  */
+
+	replaceHistoryEntry: function(path, context = null)
+	{
+		if(history.replaceState)
+		{
+			history.replaceState(context, null, this._webAppURL + this._eatSlashes(path));
 
 			return true;
 		}
