@@ -24,7 +24,7 @@ $AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Patch an HTML identifier
+	  * Patches an HTML identifier
 	  * @param {String} id the unpatched HTML identifier
 	  * @returns {String} The patched HTML identifier
 	  */
@@ -34,7 +34,7 @@ $AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Put a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+	  * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)

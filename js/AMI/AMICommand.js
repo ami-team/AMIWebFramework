@@ -56,7 +56,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Execute an AMI command
+	  * Executes an AMI command
 	  * @param {String} command the command
 	  * @param {Object} [settings] dictionary of settings (context, endpoint, converter, extraParam, extraValue)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -210,7 +210,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Login by login/password
+	  * Logs in by login/password
 	  * @param {String} user the user
 	  * @param {String} pass the password
 	  * @param {Object} [settings] dictionary of settings (context)
@@ -281,7 +281,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Login by certificate
+	  * Logs in by certificate
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
@@ -350,7 +350,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Logout
+	  * Logs out
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
@@ -419,7 +419,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Attach a certificate
+	  * Attaches a certificate
 	  * @param {String} user the user
 	  * @param {String} pass the password
 	  * @param {Object} [settings] dictionary of settings (context)
@@ -434,7 +434,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Detach a certificate
+	  * Detaches a certificate
 	  * @param {String} user the user
 	  * @param {String} pass the password
 	  * @param {Object} [settings] dictionary of settings (context)
@@ -449,7 +449,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Add a new user
+	  * Adds a new user
 	  * @param {String} user the user
 	  * @param {String} pass the password
 	  * @param {String} firstName the first name
@@ -468,7 +468,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Change the account information
+	  * Changes the account information
 	  * @param {String} firstName the first name
 	  * @param {String} lastName the last name
 	  * @param {String} email the email
@@ -484,7 +484,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Change the account password
+	  * Changes the account password
 	  * @param {String} oldPass the old password
 	  * @param {String} newPass the new password
 	  * @param {Object} [settings] dictionary of settings (context)
@@ -499,7 +499,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Reset the account password
+	  * Resets the account password
 	  * @param {String} user the user
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object

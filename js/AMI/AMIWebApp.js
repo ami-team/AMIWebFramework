@@ -189,7 +189,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Check whether the WebApp is executed in embedded mode
+	  * Checks whether the WebApp is executed in embedded mode
 	  * @returns {Boolean}
 	  */
 
@@ -201,7 +201,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Check whether the WebApp is executed locally (file://, localhost or 127.0.0.1)
+	  * Checks whether the WebApp is executed locally (file://, localhost or 127.0.0.1)
 	  * @returns {Boolean}
 	  */
 
@@ -230,45 +230,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	asArray: function(x)
 	{
-		return this.typeOf(x) === 'Array' ? (x)
-		                                  : [x]
+		return Object.prototype.toString.call(x) === '[object Array]' ? (x)
+		                                                              : [x]
 		;
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	_replace: function(s, oldStrs, newStrs)
-	{
-		const result = [];
-
-		const l = s.length;
-
-__l0:		for(let i = 0; i < l;)
-		{
-			for(const j in oldStrs)
-			{
-				if(s.substring(i).indexOf(oldStrs[j]) === 0)
-				{
-					result.push(newStrs[j]);
-
-					i += oldStrs[j].length;
-
-					continue __l0;
-				}
-			}
-
-			result.push(s.charAt(i++));
-		}
-
-		return result.join('');
-	},
+	replace: amiTwig.stdlib._replace,
 
 	/*-----------------------------------------------------------------*/
 
 	_textToHtmlX: ['&'    , '"'     , '<'   , '>'   ],
 	_textToHtmlY: ['&amp;', '&quot;', '&lt;', '&gt;'],
-
-	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Escapes the given string from text to HTML
@@ -278,10 +252,8 @@ __l0:		for(let i = 0; i < l;)
 
 	textToHtml: function(s)
 	{
-		return this._replace(s || '', this._textToHtmlX, this._textToHtmlY);
+		return this.replace(s || '', this._textToHtmlX, this._textToHtmlY);
 	},
-
-	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Unescapes the given string from HTML to text
@@ -291,15 +263,13 @@ __l0:		for(let i = 0; i < l;)
 
 	htmlToText: function(s)
 	{
-		return this._replace(s || '', this._textToHtmlY, this._textToHtmlX);
+		return this.replace(s || '', this._textToHtmlY, this._textToHtmlX);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	_textToStringX: ['\\'  , '\n' , '"'  , '\''  ],
 	_textToStringY: ['\\\\', '\\n', '\\"', '\\\''],
-
-	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Escapes the given string from text to JavaScript string
@@ -309,10 +279,8 @@ __l0:		for(let i = 0; i < l;)
 
 	textToString: function(s)
 	{
-		return this._replace(s || '', this._textToStringX, this._textToStringY);
+		return this.replace(s || '', this._textToStringX, this._textToStringY);
 	},
-
-	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Unescapes the given string from JavaScript string to text
@@ -322,7 +290,7 @@ __l0:		for(let i = 0; i < l;)
 
 	stringToText: function(s)
 	{
-		return this._replace(s || '', this._textToStringY, this._textToStringX);
+		return this.replace(s || '', this._textToStringY, this._textToStringX);
 
 	},
 
@@ -330,8 +298,6 @@ __l0:		for(let i = 0; i < l;)
 
 	_htmlToStringX: ['\\'  , '\n' , '&quot;'  , '\''  ],
 	_htmlToStringY: ['\\\\', '\\n', '\\&quot;', '\\\''],
-
-	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Escapes the given string from HTML to JavaScript string
@@ -341,10 +307,8 @@ __l0:		for(let i = 0; i < l;)
 
 	htmlToString: function(s)
 	{
-		return this._replace(s || '', this._htmlToStringX, this._htmlToStringY);
+		return this.replace(s || '', this._htmlToStringX, this._htmlToStringY);
 	},
-
-	/*-----------------------------------------------------------------*/
 
 	/**
 	  * Unescapes the given string from JavaScript string to HTML
@@ -354,7 +318,7 @@ __l0:		for(let i = 0; i < l;)
 
 	stringToHtml: function(s)
 	{
-		return this._replace(s || '', this._htmlToStringY, this._htmlToStringX);
+		return this.replace(s || '', this._htmlToStringY, this._htmlToStringX);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -923,7 +887,7 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Put a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+	  * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
 	  * @param {Object} [settings] dictionary of settings (context, dict)
@@ -1064,7 +1028,7 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Enable the message in a confirmation dialog box to inform that the user is about to leave the current page.
+	  * Enables the message in a confirmation dialog box to inform that the user is about to leave the current page.
 	  */
 
 	canLeave: function()
@@ -1075,7 +1039,7 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Disable the message in a confirmation dialog box to inform that the user is about to leave the current page.
+	  * Disables the message in a confirmation dialog box to inform that the user is about to leave the current page.
 	  */
 
 	cannotLeave: function()
@@ -1113,7 +1077,7 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Show an 'info' message
+	  * Shows an 'info' message
 	  * @param {String} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  * @param {String} [id=null] the target id
@@ -1132,7 +1096,7 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Show a 'success' message
+	  * Shows a 'success' message
 	  * @param {String} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  * @param {String} [id=null] the target id
@@ -1151,7 +1115,7 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Show a 'warning' message
+	  * Shows a 'warning' message
 	  * @param {String} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  * @param {String} [id=null] the target id
@@ -1170,7 +1134,7 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Show an 'error' message
+	  * Shows an 'error' message
 	  * @param {String} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
 	  * @param {String} [id=null] the target id
@@ -1189,7 +1153,7 @@ __l0:		for(let i = 0; i < l;)
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Flush messages
+	  * Flushes messages
 	  */
 
 	flush: function()

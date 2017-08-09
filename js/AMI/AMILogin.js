@@ -419,7 +419,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * The current user
+	  * Gets the current user
 	  * @returns {String} The current user
 	  */
 
@@ -431,7 +431,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * The guest user
+	  * Gets the guest user
 	  * @returns {String} The guest user
 	  */
 
@@ -443,7 +443,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * The client DN
+	  * Gets the client DN
 	  * @returns {String} The client DN
 	  */
 
@@ -455,7 +455,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * The issuer DN
+	  * Gets the issuer DN
 	  * @returns {String} The issuer DN
 	  */
 
@@ -467,7 +467,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Check whether the user is authenticated
+	  * Checks whether the user is authenticated
 	  * @returns {Boolean}
 	  */
 
@@ -479,7 +479,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Check if the user has the given role
+	  * Checks whether the user has the given role
 	  * @param {String} role the role
 	  * @returns {Boolean}
 	  */
@@ -492,7 +492,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Open the 'SSO' modal window
+	  * Opens the 'SSO' modal window
 	  */
 
 	sso: function()
@@ -506,7 +506,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Open the 'SignIn' modal window
+	  * Opens the 'SignIn' modal window
 	  */
 
 	signIn: function()
@@ -520,7 +520,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Open the 'Change Info' modal window
+	  * Opens the 'Change Info' modal window
 	  */
 
 	changeInfo: function()
@@ -534,7 +534,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Open the 'Change Password' modal window
+	  * Opens the 'Change Password' modal window
 	  */
 
 	changePass: function()
@@ -548,7 +548,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Open the 'Account Status' modal window
+	  * Opens the 'Account Status' modal window
 	  */
 
 	accountStatus: function()
@@ -562,7 +562,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Sign out
+	  * Signs out
 	  */
 
 	signOut: function()

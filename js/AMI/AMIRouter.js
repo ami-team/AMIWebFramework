@@ -31,6 +31,20 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 
 	/*-----------------------------------------------------------------*/
 
+	_eatSlashes: function(url)
+	{
+		url = url.trim();
+
+		while(url[url.length - 1] === '/')
+		{
+			url = url.substring(0, url.length - 1);
+		}
+
+		return url;
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	$: function()
 	{
 		/*---------------------------------------------------------*/
@@ -107,25 +121,9 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	},
 
 	/*-----------------------------------------------------------------*/
-	/*-----------------------------------------------------------------*/
-
-	_eatSlashes: function(url)
-	{
-		url = url.trim();
-
-		while(url[url.length - 1] === '/')
-		{
-			url = url.substring(0, url.length - 1);
-		}
-
-		return url;
-	},
-
-	/*-----------------------------------------------------------------*/
-	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Get the AWF's script URL
+	  * Gets the AWF's script URL
 	  * @returns {String} The AWF's script URL
 	  */
 
@@ -137,7 +135,7 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Get the origin URL
+	  * Gets the origin URL
 	  * @returns {String} The origin URL
 	  */
 
@@ -149,7 +147,7 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Get the webapp URL
+	  * Gets the webapp URL
 	  * @returns {String} The webapp URL
 	  */
 
@@ -161,7 +159,7 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Get the anchor part of the webapp URL
+	  * Gets the anchor part of the webapp URL
 	  * @returns {String} The anchor part of the webapp URL
 	  */
 
@@ -173,7 +171,7 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Get the arguments extracted from the webapp URL
+	  * Gets the arguments extracted from the webapp URL
 	  * @returns {Array<String>} The arguments extracted from the webapp URL
 	  */
 
@@ -186,7 +184,7 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Append a routing rule
+	  * Appends a routing rule
 	  * @param {String} regExp the regExp
 	  * @param {Object} handler the handler
 	  * @returns {Namespace} The amiRouter singleton
@@ -194,7 +192,7 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 
 	append: function(regExp, handler)
 	{
-		this._routes.push({
+		this._routes.unshift({
 			regExp: regExp,
 			handler: handler,
 		});
@@ -205,22 +203,17 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Remove a routing rule
+	  * Removes some routing rules
 	  * @param {String} regExp the regExp
 	  * @returns {Namespace} The amiRouter singleton
 	  */
 
 	remove: function(regExp)
 	{
-		for(let i = 0; i < this._routes.length; i++)
-		{
-			if(this._routes[i].regExp.toString() === regExp.toString())
-			{
-				this._routes.splice(i, 1);
+		this._routes = this._routes.filter((route) => {
 
-				break;
-			}
-		}
+			return route.regExp.toString() !== regExp.toString();
+		});
 
 		return this;
 	},
@@ -228,8 +221,8 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * ???
-	  * @returns {Boolean} ???
+	  * Checks whether the URL matches with a routing rule
+	  * @returns {Boolean}
 	  */
 
 	check: function()
@@ -255,15 +248,16 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 
 	/**
 	  * ???
-	  * @param {String} path the path
-	  * @returns {Boolean} ???
+	  * @param {String} path the new path
+	  * @param {Object} context the new context
+	  * @returns {Boolean}
 	  */
 
-	navigate: function(path)
+	navigate: function(path, context = null)
 	{
 		if(history.pushState)
 		{
-			history.pushState(null, null, this._webAppURL + this._eatSlashes(path));
+			history.pushState(context, null, this._webAppURL + this._eatSlashes(path));
 
 			return true;
 		}
