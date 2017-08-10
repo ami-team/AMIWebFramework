@@ -93,14 +93,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Origin URL
+	  * The origin URL
 	  * @type {String}
 	  */
 
 	originURL: '/',
 
 	/**
-	  * Webapp URL
+	  * The webapp URL
 	  * @type {String}
 	  */
 
