@@ -174,8 +174,7 @@ function $AMIClass($name, $descr)
 
 	/*-----------------------------------------------------------------*/
 
-	const $super = ($descr.$extends instanceof Function) ? $descr.$extends
-	                                                             .prototype : {};
+	const $super = ($descr.$extends instanceof Function) ? $descr.$extends.prototype : {};
 
 	const $super_implements = ($super.$implements instanceof Array) ? $super.$implements : [];
 	const $descr_implements = ($descr.$implements instanceof Array) ? $descr.$implements : [];
@@ -324,7 +323,7 @@ if(typeof exports !== 'undefined')
 /* JQUERY EXTENSION                                                        */
 /*-------------------------------------------------------------------------*/
 
-if(jQuery)
+if(typeof jQuery !== 'undefined')
 {
 	jQuery.Namespace = $AMINamespace;
 	jQuery.Interface = $AMIInterface;

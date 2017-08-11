@@ -1441,8 +1441,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Loads a sub-application asynchronously
-	  * @param {String} subapp the sub-application name
+	  * Loads a subapp asynchronously
+	  * @param {String} subapp the subapp
 	  * @param {?} [userdata] the user data
 	  * @param {Object} [settings] dictionary of settings (context)
 	  */
@@ -1503,31 +1503,31 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 						_ami_internal_then(promise, () => {
 
-							result.resolveWith(context, [/*----------------------*/instance/*----------------------*/]);
+							result.resolveWith(context, [/*-------------------*/instance/*-------------------*/]);
 
 						}, (e) => {
 
-							result.rejectWith(context, ['could not load sub-application `' + subapp + '`: ' + e]);
+							result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
 						});
 
 					}, (e) => {
 
-						result.rejectWith(context, ['could not load sub-application `' + subapp + '`: ' + e]);
+						result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
 					});
 				}
 				catch(e)
 				{
-					result.rejectWith(context, ['could not load sub-application `' + subapp + '`: ' + e]);
+					result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
 				}
 
 			}, (e) => {
 
-				result.rejectWith(context, ['could not load sub-application `' + subapp + '`: ' + e]);
+				result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
 			});
 		}
 		else
 		{
-			result.rejectWith(context, ['could not find sub-application `' + subapp + '`']);
+			result.rejectWith(context, ['could not find subapp `' + subapp + '`']);
 		}
 
 		/*---------------------------------------------------------*/
@@ -1538,8 +1538,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*-----------------------------------------------------------------*/
 
 	/**
-	  * Loads a sub-application by URL
-	  * @param {String} defaultSubApp if 'amiWebApp.args["subapp"]' is null, the default sub-application name
+	  * Loads a subapp by URL
+	  * @param {String} defaultSubApp if 'amiWebApp.args["subapp"]' is null, the default subapp
 	  * @param {?} [defaultUserData] if 'amiWebApp.args["userdata"]' is null, the default user data
 	  */
 
