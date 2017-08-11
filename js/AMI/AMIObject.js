@@ -209,9 +209,12 @@ function $AMIClass($name, $descr)
 
 		/*---------------------------------------------------------*/
 
-		this.$super = {};
-
 		const _super = this.$class._internal_super;
+		const _added = this.$class._internal_added;
+
+		/*---------------------------------------------------------*/
+
+		this.$super = {};
 
 		for(const name in _super)
 		{
@@ -228,8 +231,6 @@ function $AMIClass($name, $descr)
 		/*---------------------------------------------------------*/
 
 		this.$added = {};
-
-		const _added = this.$class._internal_added;
 
 		for(const name in _added)
 		{

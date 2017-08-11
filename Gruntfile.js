@@ -82,7 +82,7 @@ module.exports = function(grunt) {
 		"babel": {
 			"js": {
 				"options": {
-					"presets": [["babel-preset-es2015", {"loose": true}]]
+					"presets": [["es2015", {"loose": true}]]
 				},
 				"files": {
 					"js/ami.js": "js/ami.es6.js"

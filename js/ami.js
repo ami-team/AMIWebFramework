@@ -15,8 +15,6 @@
 /* amiTwig                                                                 */
 /*-------------------------------------------------------------------------*/
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 var amiTwig = {};
 
 /*-------------------------------------------------------------------------*/
@@ -4170,9 +4168,9 @@ amiTwig.expr.interpreter = {
 
 	decl.apply = decl;
 
-	if ((typeof module === 'undefined' ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
+	if (typeof module === 'object' && typeof module.exports === 'object') {
 		module.exports = decl;
-	} else if ((typeof modules === 'undefined' ? 'undefined' : _typeof(modules)) === 'object') {
+	} else if (typeof modules === 'object') {
 		modules.define('jspath', function (provide) {
 			provide(decl);
 		});
@@ -4236,7 +4234,7 @@ jQuery.each = function (el, callback, context) {
 /*-------------------------------------------------------------------------*/
 
 jQuery.ajax = function (settings) {
-	if ((typeof settings === 'undefined' ? 'undefined' : _typeof(settings)) === 'object' && settings.dataType === 'sheet') {
+	if (typeof settings === 'object' && settings.dataType === 'sheet') {
 		var url = '';
 		var context = null;
 
@@ -4466,7 +4464,7 @@ function $AMIClass($name, $descr) {
 					if ($interface.$members.hasOwnProperty(j)) {
 						var $member = $interface.$members[j];
 
-						if (_typeof(this[j]) !== (typeof $member === 'undefined' ? 'undefined' : _typeof($member))) {
+						if (typeof this[j] !== typeof $member) {
 							throw 'class `' + this.$name + '` with must implement `' + $interface.$name + '.' + j + '`';
 						}
 					}
@@ -4476,9 +4474,12 @@ function $AMIClass($name, $descr) {
 
 		/*---------------------------------------------------------*/
 
-		this.$super = {};
-
 		var _super = this.$class._internal_super;
+		var _added = this.$class._internal_added;
+
+		/*---------------------------------------------------------*/
+
+		this.$super = {};
 
 		for (var name in _super) {
 			if (_super.hasOwnProperty(name)) {
@@ -4494,8 +4495,6 @@ function $AMIClass($name, $descr) {
 		/*---------------------------------------------------------*/
 
 		this.$added = {};
-
-		var _added = this.$class._internal_added;
 
 		for (var _name in _added) {
 			if (_added.hasOwnProperty(_name)) {
