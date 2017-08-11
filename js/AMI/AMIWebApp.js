@@ -228,11 +228,36 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
-	asArray: function(x)
+	setup: function(optionNames, optionDefaults, settings)
 	{
-		return Object.prototype.toString.call(x) === '[object Array]' ? (x)
-		                                                              : [x]
-		;
+		const result = [];
+
+		/*---------------------------------------------------------*/
+
+		const l = optionNames.length;
+		const m = optionDefaults.length;
+
+		if(l !== m)
+		{
+			throw 'internal error';
+		}
+
+		/*---------------------------------------------------------*/
+
+		if(settings) {
+			for(let i = 0; i < l; i++) {
+				result.push(optionNames[i] in settings ? settings[optionNames[i]] : optionDefaults[i]);
+			}
+		}
+		else {
+			for(let i = 0; i < l; i++) {
+				result.push(/*---------------------------------------------------*/ optionDefaults[i]);
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
+		return result;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -481,7 +506,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		if(urls.length === 0)
 		{
-			return deferred.resolveWith(context || deferred, [result]);
+			return deferred.resolveWith(context, [result]);
 		}
 
 		/*---------------------------------------------------------*/
@@ -510,7 +535,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				}, (e) => {
 
-					deferred.rejectWith(context || deferred, [e]);
+					deferred.rejectWith(context, [e]);
 				});
 
 				break;
@@ -529,7 +554,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				}, (e) => {
 
-					deferred.rejectWith(context || deferred, [e]);
+					deferred.rejectWith(context, [e]);
 				});
 
 				break;
@@ -562,7 +587,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					}, () => {
 
-						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+						deferred.rejectWith(context, ['could not load `' + url + '`']);
 					});
 				}
 
@@ -596,7 +621,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					}, () => {
 
-						deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+						deferred.rejectWith(context, ['could not load `' + url + '`']);
 					});
 				}
 
@@ -622,7 +647,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				}, () => {
 
-					deferred.rejectWith(context || deferred, ['could not load `' + url + '`']);
+					deferred.rejectWith(context, ['could not load `' + url + '`']);
 				});
 
 				break;
@@ -639,16 +664,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	_loadXXX: function(urls, dataType, settings)
 	{
-		let context = null;
+		const deferred = $.Deferred();
 
-		if(settings && 'context' in settings)
-		{
-			context = settings['context'];
-		}
+		let [context] = this.setup(
+			['context'],
+			[deferred],
+			settings
+		);
 
 		/*---------------------------------------------------------*/
 
-		return this.__loadXXX($.Deferred(), [], this.asArray(urls), dataType, context).promise();
+		return this.__loadXXX(deferred, [], this.typeOf(urls) === 'Array' ? (urls) : [urls], dataType, context).promise();
 
 		/*---------------------------------------------------------*/
 	},
@@ -771,24 +797,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	_xxxHTML: function(selector, twig, mode, settings)
 	{
-		let context = null;
-		let suffix = null;
-		let dict = null;
+		const result = $.Deferred();
 
-		if(settings)
-		{
-			if('context' in settings) {
-				context = settings['context'];
-			}
-
-			if('suffix' in settings) {
-				suffix = settings['suffix'];
-			}
-
-			if('dict' in settings) {
-				dict = settings['dict'];
-			}
-		}
+		let [context, suffix, dict] = this.setup(
+			['context', 'suffix', 'dict'],
+			[result, null, null],
+			settings
+		);
 
 		/*---------------------------------------------------------*/
 
@@ -805,8 +820,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/*---------------------------------------------------------*/
 
 		const target = $(selector);
-
-		const result = $.Deferred();
 
 		/*---------------------------------------------------------*/
 
@@ -872,7 +885,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*-------------------------------------------------*/
 
-			result.resolveWith(context || result, [html]);
+			result.resolveWith(context, [html]);
 
 			/*-------------------------------------------------*/
 		});
@@ -882,8 +895,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		return result.promise();
 	},
 
-	/*-----------------------------------------------------------------*/
-	/* HTML CONTENT                                                    */
 	/*-----------------------------------------------------------------*/
 
 	/**
@@ -1204,52 +1215,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	start: function(settings)
 	{
-		/*---------------------------------------------------------*/
-
-		let logo_url = this.originURL
-					+ '/images/logo.png';
-		let home_url = this.webAppURL;
-
-		let contact_email = 'ami@lpsc.in2p3.fr';
-		let about_url = 'http://cern.ch/ami/';
-
-		let theme_url = this.originURL + '/twig/AMI/Theme/blue.twig';
-		let locker_url = this.originURL + '/twig/AMI/Fragment/locker.twig';
-
-		let endpoint_url = this.originURL + '/AMI/FrontEnd';
-
-		/*---------------------------------------------------------*/
-
-		if(settings)
-		{
-			if('logo_url' in settings) {
-				logo_url = settings['logo_url'];
-			}
-
-			if('home_url' in settings) {
-				home_url = settings['home_url'];
-			}
-
-			if('contact_email' in settings) {
-				contact_email = settings['contact_email'];
-			}
-
-			if('about_url' in settings) {
-				about_url = settings['about_url'];
-			}
-
-			if('theme_url' in settings) {
-				theme_url = settings['theme_url'];
-			}
-
-			if('locker_url' in settings) {
-				locker_url = settings['locker_url'];
-			}
-
-			if('endpoint_url' in settings) {
-				endpoint_url = settings['endpoint_url'];
-			}
-		}
+		let [logo_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url] = this.setup(
+			['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'],
+			[
+				this.originURL
+					+ '/images/logo.png',
+				this.webAppURL,
+				'ami@lpsc.in2p3.fr',
+				'http://cern.ch/ami/',
+				this.originURL + '/twig/AMI/Theme/blue.twig',
+				this.originURL + '/twig/AMI/Fragment/locker.twig',
+				this.originURL + '/AMI/FrontEnd',
+			],
+			settings
+		);
 
 		/*---------------------------------------------------------*/
 
@@ -1373,16 +1352,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	loadControl: function(control, settings)
 	{
-		let context = null;
-
-		if(settings && 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
 		const result = $.Deferred();
+
+		let [context] = this.setup(
+			['context'],
+			[result],
+			settings
+		);
 
 		/*---------------------------------------------------------*/
 
@@ -1411,26 +1387,26 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					_ami_internal_then(promise, () => {
 
-						result.resolveWith(context || result, [/*--------------------*/clazz/*--------------------*/]);
+						result.resolveWith(context, [/*--------------------*/clazz/*--------------------*/]);
 
 					}, (e) => {
 
-						result.rejectWith(context || result, ['could not load control `' + control + '`: ' + e]);
+						result.rejectWith(context, ['could not load control `' + control + '`: ' + e]);
 					});
 				}
 				catch(e)
 				{
-					result.rejectWith(context || result, ['could not load control `' + control + '`: ' + e]);
+					result.rejectWith(context, ['could not load control `' + control + '`: ' + e]);
 				}
 
 			}, (e) => {
 
-				result.rejectWith(context || result, ['could not load control `' + control + '`: ' + e]);
+				result.rejectWith(context, ['could not load control `' + control + '`: ' + e]);
 			});
 		}
 		else
 		{
-			result.rejectWith(context || result, ['could not find control `' + control + '`']);
+			result.rejectWith(context, ['could not find control `' + control + '`']);
 		}
 
 		/*---------------------------------------------------------*/
@@ -1473,16 +1449,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	loadSubApp: function(subapp, userdata, settings)
 	{
-		let context = null;
-
-		if(settings && 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
 		const result = $.Deferred();
+
+		let [context] = this.setup(
+			['context'],
+			[result],
+			settings
+		);
 
 		/*---------------------------------------------------------*/
 
@@ -1530,31 +1503,31 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 						_ami_internal_then(promise, () => {
 
-							result.resolveWith(context || result, [/*----------------------*/instance/*----------------------*/]);
+							result.resolveWith(context, [/*----------------------*/instance/*----------------------*/]);
 
 						}, (e) => {
 
-							result.rejectWith(context || result, ['could not load sub-application `' + subapp + '`: ' + e]);
+							result.rejectWith(context, ['could not load sub-application `' + subapp + '`: ' + e]);
 						});
 
 					}, (e) => {
 
-						result.rejectWith(context || result, ['could not load sub-application `' + subapp + '`: ' + e]);
+						result.rejectWith(context, ['could not load sub-application `' + subapp + '`: ' + e]);
 					});
 				}
 				catch(e)
 				{
-					result.rejectWith(context || result, ['could not load sub-application `' + subapp + '`: ' + e]);
+					result.rejectWith(context, ['could not load sub-application `' + subapp + '`: ' + e]);
 				}
 
 			}, (e) => {
 
-				result.rejectWith(context || result, ['could not load sub-application `' + subapp + '`: ' + e]);
+				result.rejectWith(context, ['could not load sub-application `' + subapp + '`: ' + e]);
 			});
 		}
 		else
 		{
-			result.rejectWith(context || result, ['could not find sub-application `' + subapp + '`']);
+			result.rejectWith(context, ['could not find sub-application `' + subapp + '`']);
 		}
 
 		/*---------------------------------------------------------*/
@@ -1566,8 +1539,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Loads a sub-application by URL
-	  * @param {String} defaultSubApp the default sub-application name, if null, 'amiWebApp.args["subapp"]'
-	  * @param {?} [defaultUserData] the default user data, if null, 'amiWebApp.args["userdata"]'
+	  * @param {String} defaultSubApp if 'amiWebApp.args["subapp"]' is null, the default sub-application name
+	  * @param {?} [defaultUserData] if 'amiWebApp.args["userdata"]' is null, the default user data
 	  */
 
 	loadSubAppByURL: function(defaultSubApp, defaultUserData)

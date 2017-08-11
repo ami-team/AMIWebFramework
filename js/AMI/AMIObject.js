@@ -63,6 +63,12 @@ function _$addToNamespace($name, x)
 /* NAMESPACES                                                              */
 /*-------------------------------------------------------------------------*/
 
+/**
+  * Create a new namespace
+  * @param {String} $name the namespace name
+  * @param {Object} [$descr] the namespace body
+  */
+
 function $AMINamespace($name, $descr)
 {
 	if(!$descr)
@@ -91,6 +97,12 @@ function $AMINamespace($name, $descr)
 /*-------------------------------------------------------------------------*/
 /* INTERFACES                                                              */
 /*-------------------------------------------------------------------------*/
+
+/**
+  * Create a new interface
+  * @param {String} $name the interface name
+  * @param {Object} [$descr] the interface body
+  */
 
 function $AMIInterface($name, $descr)
 {
@@ -147,6 +159,12 @@ function $AMIInterface($name, $descr)
 /* CLASSES                                                                 */
 /*-------------------------------------------------------------------------*/
 
+/**
+  * Create a new class
+  * @param {String} $name the class name
+  * @param {Object} [$descr] the class body
+  */
+
 function $AMIClass($name, $descr)
 {
 	if(!$descr)
@@ -170,15 +188,21 @@ function $AMIClass($name, $descr)
 
 		for(const i in this.$implements)
 		{
-			const $interface = this.$implements[i];
-
-			for(const j in $interface.$members)
+			if(this.$implements.hasOwnProperty(i))
 			{
-				const $member = $interface.$members[j];
+				const $interface = this.$implements[i];
 
-				if(typeof(this[j]) !== typeof($member))
+				for(const j in $interface.$members)
 				{
-					throw 'class `' + this.$name + '` with must implement `' + $interface.$name + '.' + j + '`';
+					if($interface.$members.hasOwnProperty(j))
+					{
+						const $member = $interface.$members[j];
+
+						if(typeof(this[j]) !== typeof($member))
+						{
+							throw 'class `' + this.$name + '` with must implement `' + $interface.$name + '.' + j + '`';
+						}
+					}
 				}
 			}
 		}
@@ -187,26 +211,36 @@ function $AMIClass($name, $descr)
 
 		this.$super = {};
 
-		for(const name in this.$class._internal_super)
+		const _super = this.$class._internal_super;
+
+		for(const name in _super)
 		{
-			this.$super[name] = ((name, that) => function() {
+			if(_super.hasOwnProperty(name))
+			{
+				this.$super[name] = ((_super, name, that) => function() {
 
-				return that.$class._internal_super[name].apply(that, arguments)
+					return _super[name].apply(that, arguments)
 
-			})(name, this);
+				})(_super, name, this);
+			}
 		}
 
 		/*---------------------------------------------------------*/
 
 		this.$added = {};
 
-		for(const name in this.$class._internal_added)
+		const _added = this.$class._internal_added;
+
+		for(const name in _added)
 		{
-			this.$added[name] = ((name, that) => function() {
+			if(_added.hasOwnProperty(name))
+			{
+				this.$added[name] = ((_added, name, that) => function() {
 
-				return that.$class._internal_added[name].apply(that, arguments);
+					return _added[name].apply(that, arguments);
 
-			})(name, this);
+				})(_added, name, this);
+			}
 		}
 
 		/*---------------------------------------------------------*/

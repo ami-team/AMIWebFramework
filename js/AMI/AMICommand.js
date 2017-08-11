@@ -40,18 +40,6 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	converter: 'AMIXmlToJson.xsl',
 
 	/*-----------------------------------------------------------------*/
-	/* PRIVATE METHODS                                                 */
-	/*-----------------------------------------------------------------*/
-
-	_textToString: function(s)
-	{
-		return (s || '').replace(/[\\'"]/g, (x) => {
-
-			return '\\' + x;
-		});
-	},
-
-	/*-----------------------------------------------------------------*/
 	/* PUBLIC METHODS                                                  */
 	/*-----------------------------------------------------------------*/
 
@@ -64,39 +52,13 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	execute: function(command, settings)
 	{
-		let endpoint = this.endpoint;
-		let converter = this.converter;
-		let context = null;
-		let timeout = 0x00;
-		let extraParam = null;
-		let extraValue = null;
+		const result = $.Deferred();
 
-		if(settings)
-		{
-			if('endpoint' in settings) {
-				endpoint = settings['endpoint'];
-			}
-
-			if('converter' in settings) {
-				converter = settings['converter'];
-			}
-
-			if('context' in settings) {
-				context = settings['context'];
-			}
-
-			if('timeout' in settings) {
-				timeout = settings['timeout'];
-			}
-
-			if('extraParam' in settings) {
-				extraParam = settings['extraParam'];
-			}
-
-			if('extraValue' in settings) {
-				extraValue = settings['extraValue'];
-			}
-		}
+		let [endpoint, converter, context, timeout, extraParam, extraValue] = amiWebApp.setup(
+			['endpoint', 'converter', 'context', 'timeout', 'extraParam', 'extraValue'],
+			[this.endpoint, this.converter, result, 0, null, null],
+			settings
+		);
 
 		/*---------------------------------------------------------*/
 
@@ -124,10 +86,6 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*---------------------------------------------------------*/
 
-		const result = $.Deferred();
-
-		/*---------------------------------------------------------*/
-
 		if(CONVERTER === 'AMIXmlToJson.xsl')
 		{
 			/*-------------------------------------------------*/
@@ -149,11 +107,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 					if(error.length === 0)
 					{
-						result.resolveWith(context || result, [data, urlWithParameters]);
+						result.resolveWith(context, [data, urlWithParameters]);
 					}
 					else
 					{
-						result.rejectWith(context || result, [data, urlWithParameters]);
+						result.rejectWith(context, [data, urlWithParameters]);
 					}
 				},
 				error: (jqXHR, textStatus) => {
@@ -165,7 +123,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 					const data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
-					result.rejectWith(context || result, [data, urlWithParameters]);
+					result.rejectWith(context, [data, urlWithParameters]);
 				},
 			});
 
@@ -186,7 +144,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				},
 				success: (data) => {
 
-					result.resolveWith(context || result, [data, urlWithParameters]);
+					result.resolveWith(context, [data, urlWithParameters]);
 				},
 				error: (jqXHR, textStatus) => {
 
@@ -195,7 +153,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 						textStatus = 'service temporarily unreachable';
 					}
 
-					result.rejectWith(context || result, [textStatus, urlWithParameters]);
+					result.rejectWith(context, [textStatus, urlWithParameters]);
 				},
 			});
 
@@ -219,20 +177,17 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	passLogin: function(user, pass, settings)
 	{
-		let context = null;
-
-		if(settings && 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
 		const result = $.Deferred();
 
+		let [context] = amiWebApp.setup(
+			['context'],
+			[result],
+			settings
+		);
+
 		/*---------------------------------------------------------*/
 
-		this.execute('GetSessionInfo -AMIUser="' + this._textToString(user) + '" -AMIPass="' + this._textToString(pass) + '"', {extraParam: 'NoCert'}).then((data) => {
+		this.execute('GetSessionInfo -AMIUser="' + amiWebApp.textToString(user) + '" -AMIPass="' + amiWebApp.textToString(pass) + '"', {extraParam: 'NoCert'}).then((data) => {
 
 			const userInfo = {};
 			const roleInfo = {};
@@ -266,11 +221,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context || result, [data, userInfo, roleInfo, ssoInfo]);
+			result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
 
 		}, (data) => {
 
-			result.rejectWith(context || result, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
+			result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
 		/*---------------------------------------------------------*/
@@ -288,16 +243,13 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	certLogin: function(settings)
 	{
-		let context = null;
-
-		if(settings && 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
 		const result = $.Deferred();
+
+		let [context] = amiWebApp.setup(
+			['context'],
+			[result],
+			settings
+		);
 
 		/*---------------------------------------------------------*/
 
@@ -335,11 +287,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context || result, [data, userInfo, roleInfo, ssoInfo]);
+			result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
 
 		}, (data) => {
 
-			result.rejectWith(context || result, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
+			result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
 		/*---------------------------------------------------------*/
@@ -357,16 +309,13 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	logout: function(settings)
 	{
-		let context = null;
-
-		if(settings && 'context' in settings)
-		{
-			context = settings['context'];
-		}
-
-		/*---------------------------------------------------------*/
-
 		const result = $.Deferred();
+
+		let [context] = amiWebApp.setup(
+			['context'],
+			[result],
+			settings
+		);
 
 		/*---------------------------------------------------------*/
 
@@ -404,11 +353,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context || result, [data, userInfo, roleInfo, ssoInfo]);
+			result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
 
 		}, (data) => {
 
-			result.rejectWith(context || result, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
+			result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
 		/*---------------------------------------------------------*/
@@ -428,7 +377,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	attachCert: function(user, pass, settings)
 	{
-		return this.execute('GetSessionInfo -attachCert -amiLogin="' + this._textToString(user) + '" -amiPassword="' + this._textToString(pass) + '"', settings);
+		return this.execute('GetSessionInfo -attachCert -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -443,7 +392,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	detachCert: function(user, pass, settings)
 	{
-		return this.execute('GetSessionInfo -detachCert -amiLogin="' + this._textToString(user) + '" -amiPassword="' + this._textToString(pass) + '"', settings);
+		return this.execute('GetSessionInfo -detachCert -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -462,7 +411,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	addUser: function(user, pass, firstName, lastName, email, attach, settings)
 	{
-		return this.execute('AddUser -amiLogin="' + this._textToString(user) + '" -amiPassword="' + this._textToString(pass) + '" -firstName="' + this._textToString(firstName) + '" -lastName="' + this._textToString(lastName) + '" -email="' + this._textToString(email) + '"' + (attach ? ' -attach' : ''), settings);
+		return this.execute('AddUser -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '" -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"' + (attach ? ' -attach' : ''), settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -478,7 +427,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	changeInfo: function(firstName, lastName, email, settings)
 	{
-		return this.execute('SetUserInfo -firstName="' + this._textToString(firstName) + '" -lastName="' + this._textToString(lastName) + '" -email="' + this._textToString(email) + '"', settings);
+		return this.execute('SetUserInfo -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -493,7 +442,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	changePass: function(oldPass, newPass, settings)
 	{
-		return this.execute('ChangePassword -amiPasswordOld="' + this._textToString(oldPass) + '" -amiPasswordNew="' + this._textToString(newPass) + '"', settings);
+		return this.execute('ChangePassword -amiPasswordOld="' + amiWebApp.textToString(oldPass) + '" -amiPasswordNew="' + amiWebApp.textToString(newPass) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -507,7 +456,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	resetPass: function(user, settings)
 	{
-		return this.execute('ResetPassword -amiLogin="' + this._textToString(user) + '"', settings);
+		return this.execute('ResetPassword -amiLogin="' + amiWebApp.textToString(user) + '"', settings);
 	},
 
 	/*-----------------------------------------------------------------*/
