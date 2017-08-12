@@ -6401,7 +6401,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		const result = $.Deferred();
 
-		let [context, suffix, dict] = this.setup(
+		const [context, suffix, dict] = this.setup(
 			['context', 'suffix', 'dict'],
 			[result, null, null],
 			settings

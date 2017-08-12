@@ -664,7 +664,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		const deferred = $.Deferred();
 
-		let [context] = this.setup(
+		const [context] = this.setup(
 			['context'],
 			[deferred],
 			settings
@@ -799,7 +799,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		const result = $.Deferred();
 
-		let [context, suffix, dict] = this.setup(
+		const [context, suffix, dict] = this.setup(
 			['context', 'suffix', 'dict'],
 			[result, null, null],
 			settings
@@ -1215,7 +1215,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	start: function(settings)
 	{
-		let [logo_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url] = this.setup(
+		const [logo_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url] = this.setup(
 			['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'],
 			[
 				this.originURL
@@ -1354,7 +1354,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		const result = $.Deferred();
 
-		let [context] = this.setup(
+		const [context] = this.setup(
 			['context'],
 			[result],
 			settings
@@ -1451,7 +1451,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		const result = $.Deferred();
 
-		let [context] = this.setup(
+		const [context] = this.setup(
 			['context'],
 			[result],
 			settings
