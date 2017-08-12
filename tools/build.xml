@@ -25,7 +25,7 @@
 		<clone-and-copy />
 
 		<!-- **************************************************** -->
-		<!-- GENERATE MINIMIZED FILES                             -->
+		<!-- COPY MINIMIZED FILES                                 -->
 		<!-- **************************************************** -->
 
 		<copy file="${AMIWebAppTmpDir}/css/ami.min.css" tofile="css/ami.min.css" overwrite="true" />
@@ -54,7 +54,7 @@
 		<clone-and-copy />
 
 		<!-- **************************************************** -->
-		<!-- GENERATE MINIMIZED FILES                             -->
+		<!-- COPY MINIMIZED FILES                                 -->
 		<!-- **************************************************** -->
 
 		<copy file="${AMIWebAppTmpDir}/css/ami.css" tofile="css/ami.min.css" overwrite="true" />
@@ -189,13 +189,16 @@
 				<fileset dir="${AMIWebAppTmpDir}/images" includes="**/*" />
 			</copy>
 
-			<copy todir="tools" overwrite="true">
-				<fileset dir="${AMIWebAppTmpDir}/tools" includes="**/*.jar" />
-			</copy>
-
 			<copy todir="twig" overwrite="true">
 				<fileset dir="${AMIWebAppTmpDir}/twig" includes="**/*" />
 			</copy>
+
+			<!-- ******************************************** -->
+
+			<copy todir="tools" overwrite="true">
+				<fileset dir="${AMIWebAppTmpDir}/tools" includes="awf.jar" />
+<!--				<fileset dir="${AMIWebAppTmpDir}/tools" includes="awf.js" />
+  -->			</copy>
 
 			<!-- ******************************************** -->
 
@@ -228,17 +231,12 @@
 			</copy>
 
 			<!-- ******************************************** -->
-			<!-- MAKE DIRECTORIES                             -->
-			<!-- ******************************************** -->
-
-			<mkdir dir="css/AMI" />
-			<mkdir dir="js/AMI" />
-
-			<!-- ******************************************** -->
 			<!-- OTHER                                        -->
 			<!-- ******************************************** -->
 
 			<copy file="${AMIWebAppTmpDir}/.eslintrc.json" tofile=".eslintrc.json" overwrite="true" />
+
+			<copy file="${AMIWebAppTmpDir}/tools/build.xml" tofile="build.xml" overwrite="true" />
 
 			<!-- ******************************************** -->
 
