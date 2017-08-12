@@ -4904,36 +4904,31 @@ jQuery.ajax = function(settings)
 	   &&
 	   settings.dataType === 'sheet'
 	 ) {
-		let url = '';
-		let context = null;
+		const result = $.Deferred();
 
-		if('url' in settings) {
-			url = settings['url'];
-		}
-
-		if('context' in settings) {
-			context = settings['context'];
-		}
+		const [context, url] = amiWebApp.setup(
+			['context', 'url'],
+			[result, ''],
+			settings
+		)
 
 		/*---------------------------------------------------------*/
-
-		const deferred = $.Deferred();
 
 		if(url)
 		{
 			$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(() => {
 
-				deferred.resolveWith(context || deferred);
+				result.resolveWith(context);
 			});
 		}
 		else
 		{
-			deferred.rejectWith(context || deferred);
+			result.rejectWith(context);
 		}
 
-		return deferred.promise();
-
 		/*---------------------------------------------------------*/
+
+		return result.promise();
 	}
 	else
 	{

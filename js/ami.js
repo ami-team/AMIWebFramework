@@ -4235,33 +4235,26 @@ jQuery.each = function (el, callback, context) {
 
 jQuery.ajax = function (settings) {
 	if (typeof settings === 'object' && settings.dataType === 'sheet') {
-		var url = '';
-		var context = null;
+		var result = $.Deferred();
 
-		if ('url' in settings) {
-			url = settings['url'];
-		}
-
-		if ('context' in settings) {
-			context = settings['context'];
-		}
+		var _amiWebApp$setup = amiWebApp.setup(['context', 'url'], [result, ''], settings),
+		    context = _amiWebApp$setup[0],
+		    url = _amiWebApp$setup[1];
 
 		/*---------------------------------------------------------*/
-
-		var deferred = $.Deferred();
 
 		if (url) {
 			$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(function () {
 
-				deferred.resolveWith(context || deferred);
+				result.resolveWith(context);
 			});
 		} else {
-			deferred.rejectWith(context || deferred);
+			result.rejectWith(context);
 		}
 
-		return deferred.promise();
-
 		/*---------------------------------------------------------*/
+
+		return result.promise();
 	} else {
 		/*---------------------------------------------------------*/
 
@@ -6531,13 +6524,13 @@ $AMINamespace('amiCommand', /** @lends amiCommand */{
 	execute: function execute(command, settings) {
 		var result = $.Deferred();
 
-		var _amiWebApp$setup = amiWebApp.setup(['endpoint', 'converter', 'context', 'timeout', 'extraParam', 'extraValue'], [this.endpoint, this.converter, result, 0, null, null], settings),
-		    endpoint = _amiWebApp$setup[0],
-		    converter = _amiWebApp$setup[1],
-		    context = _amiWebApp$setup[2],
-		    timeout = _amiWebApp$setup[3],
-		    extraParam = _amiWebApp$setup[4],
-		    extraValue = _amiWebApp$setup[5];
+		var _amiWebApp$setup2 = amiWebApp.setup(['endpoint', 'converter', 'context', 'timeout', 'extraParam', 'extraValue'], [this.endpoint, this.converter, result, 0, null, null], settings),
+		    endpoint = _amiWebApp$setup2[0],
+		    converter = _amiWebApp$setup2[1],
+		    context = _amiWebApp$setup2[2],
+		    timeout = _amiWebApp$setup2[3],
+		    extraParam = _amiWebApp$setup2[4],
+		    extraValue = _amiWebApp$setup2[5];
 
 		/*---------------------------------------------------------*/
 
@@ -6648,8 +6641,8 @@ $AMINamespace('amiCommand', /** @lends amiCommand */{
 	passLogin: function passLogin(user, pass, settings) {
 		var result = $.Deferred();
 
-		var _amiWebApp$setup2 = amiWebApp.setup(['context'], [result], settings),
-		    context = _amiWebApp$setup2[0];
+		var _amiWebApp$setup3 = amiWebApp.setup(['context'], [result], settings),
+		    context = _amiWebApp$setup3[0];
 
 		/*---------------------------------------------------------*/
 
@@ -6708,8 +6701,8 @@ $AMINamespace('amiCommand', /** @lends amiCommand */{
 	certLogin: function certLogin(settings) {
 		var result = $.Deferred();
 
-		var _amiWebApp$setup3 = amiWebApp.setup(['context'], [result], settings),
-		    context = _amiWebApp$setup3[0];
+		var _amiWebApp$setup4 = amiWebApp.setup(['context'], [result], settings),
+		    context = _amiWebApp$setup4[0];
 
 		/*---------------------------------------------------------*/
 
@@ -6768,8 +6761,8 @@ $AMINamespace('amiCommand', /** @lends amiCommand */{
 	logout: function logout(settings) {
 		var result = $.Deferred();
 
-		var _amiWebApp$setup4 = amiWebApp.setup(['context'], [result], settings),
-		    context = _amiWebApp$setup4[0];
+		var _amiWebApp$setup5 = amiWebApp.setup(['context'], [result], settings),
+		    context = _amiWebApp$setup5[0];
 
 		/*---------------------------------------------------------*/
 
