@@ -54,7 +54,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	{
 		const result = $.Deferred();
 
-		let [endpoint, converter, context, timeout, extraParam, extraValue] = amiWebApp.setup(
+		const [endpoint, converter, context, timeout, extraParam, extraValue] = amiWebApp.setup(
 			['endpoint', 'converter', 'context', 'timeout', 'extraParam', 'extraValue'],
 			[this.endpoint, this.converter, result, 0, null, null],
 			settings
@@ -179,7 +179,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	{
 		const result = $.Deferred();
 
-		let [context] = amiWebApp.setup(
+		const [context] = amiWebApp.setup(
 			['context'],
 			[result],
 			settings
@@ -245,7 +245,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	{
 		const result = $.Deferred();
 
-		let [context] = amiWebApp.setup(
+		const [context] = amiWebApp.setup(
 			['context'],
 			[result],
 			settings
@@ -311,7 +311,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	{
 		const result = $.Deferred();
 
-		let [context] = amiWebApp.setup(
+		const [context] = amiWebApp.setup(
 			['context'],
 			[result],
 			settings
