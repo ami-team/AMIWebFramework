@@ -656,8 +656,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		}
 
 		/*---------------------------------------------------------*/
-
-		return deferred;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -674,9 +672,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		return this.__loadXXX(deferred, [], this.typeOf(urls) === 'Array' ? (urls) : [urls], dataType, context).promise();
+		this.__loadXXX(deferred, [], this.typeOf(urls) === 'Array' ? (urls) : [urls], dataType, context);
 
 		/*---------------------------------------------------------*/
+
+		return deferred.promise();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1387,7 +1387,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					_ami_internal_then(promise, () => {
 
-						result.resolveWith(context, [/*--------------------*/clazz/*--------------------*/]);
+						result.resolveWith(context, [/*---------------------*/clazz/*---------------------*/]);
 
 					}, (e) => {
 
