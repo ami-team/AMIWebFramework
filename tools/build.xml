@@ -166,12 +166,12 @@
 			<!-- ******************************************** -->
 
 			<copy todir="css" overwrite="true">
-				<fileset dir="${AMIWebAppTmpDir}/css" includes="*" excludes="ami.*" />
+				<fileset dir="${AMIWebAppTmpDir}/css" includes="*.css" excludes="ami.*" />
 				<fileset dir="${AMIWebAppTmpDir}/css" includes="3rd-party/**/*" />
 			</copy>
 
 			<copy todir="js" overwrite="true">
-				<fileset dir="${AMIWebAppTmpDir}/js" includes="*" excludes="ami.*" />
+				<fileset dir="${AMIWebAppTmpDir}/js" includes="*.js" excludes="ami.*" />
 				<fileset dir="${AMIWebAppTmpDir}/js" includes="3rd-party/**/*" />
 			</copy>
 
