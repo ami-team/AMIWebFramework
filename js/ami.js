@@ -5048,6 +5048,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 	/*-----------------------------------------------------------------*/
 
+	asArray: function asArray(x) {
+		return this.typeOf(x) === 'Array' ? x : [x];
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	setup: function setup(optionNames, optionDefaults, settings) {
 		var result = [];
 
@@ -5439,7 +5445,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*---------------------------------------------------------*/
 
-		this.__loadXXX(deferred, [], this.typeOf(urls) === 'Array' ? urls : [urls], dataType, context);
+		this.__loadXXX(deferred, [], this.asArray(urls), dataType, context);
 
 		/*---------------------------------------------------------*/
 
