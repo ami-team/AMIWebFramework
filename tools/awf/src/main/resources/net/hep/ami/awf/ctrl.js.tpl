@@ -20,7 +20,7 @@ $AMIClass('{{NAME}}Ctrl', {
 
 	$init: function()
 	{
-		this.$super_$init();
+		this.$super.$init();
 	},
 
 	/*-----------------------------------------------------------------*/

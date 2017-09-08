@@ -5002,7 +5002,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		if (this._noBootstrap === false && typeof jQuery.fn.modal !== 'function') {
 			this.loadSheets([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-toggle.min.css', this.originURL + '/css/bootstrap-vertical-tabs.min.css']);
 
-			this.loadScripts([this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-toggle.min.js', this.originURL + '/js/bootstrap-typeahead.min.js']);
+			this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-toggle.min.js', this.originURL + '/js/bootstrap-typeahead.min.js']);
 		}
 
 		/*---------------------------------------------------------*/
@@ -7237,7 +7237,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 			/* UPDATE NOTIFICATION BAR                         */
 			/*-------------------------------------------------*/
 
-			var icon = message ? '<a href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">' + '<i class="fa fa-exclamation-triangle"></i>' + '</a>' : '';
+			var icon = message ? '<a class="nav-link" href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">' + '<i class="fa fa-exclamation-triangle"></i>' + '</a>' : '';
 
 			/*-------------------------------------------------*/
 			/* UPDATE MENU BAR                                 */

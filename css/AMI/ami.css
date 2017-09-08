@@ -2,23 +2,6 @@
 /* AMI                                                                     */
 /*-------------------------------------------------------------------------*/
 
-.ami-callout {
-	background: rgb(255, 255, 255);
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-	margin: 20px 00px;
-	padding: 20px 20px;
-	position: relative;
-}
-
-.ami-callout:before,
-.ami-callout:after {
-	content: "";
-	position: absolute;
-	z-index: -2;
-}
-
-/*-------------------------------------------------------------------------*/
-
 .ami-code {
 	border-left: 6px solid rgb(85, 138, 187);
 	counter-reset: listing;

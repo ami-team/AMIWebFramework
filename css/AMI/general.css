@@ -56,12 +56,6 @@
 /* GENERAL                                                                 */
 /*-------------------------------------------------------------------------*/
 
-blockquote {
- 	font-size: 15.5px;
-}
-
-/*-------------------------------------------------------------------------*/
-
 h1, h2, h3, h4, h5, h6 {
 	font-family: "Open Sans Light", "sans-serif";
 }
@@ -70,6 +64,9 @@ h1, h2, h3, h4, h5, h6 {
 
 pre {
 	background-image: url("../images/blueprint-dark.png");
+	border: 1px solid rgb(204, 204, 204);
+	border-radius: 4px;
+	padding: 10px;
 }
 
 /*-------------------------------------------------------------------------*/

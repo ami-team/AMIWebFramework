@@ -13,26 +13,26 @@
 
 <div class="row">
 	<div class="col-md-3">
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<h3 class="panel-title">Command list</h3>
+		<div class="card">
+			<div class="card-header">
+				Command list
 			</div>
-			<div class="panel-body" style="height: 280px; margin: 6px; padding: 0px; overflow-x: hidden; overflow-y: scroll;">
+			<div class="card-body" style="height: 280px; margin: 6px; padding: 0px; overflow-x: hidden; overflow-y: scroll;">
 				<div id="D847C44B_D28F_49B3_AF79_7A68B3305ED2"></div>
 			</div>
 		</div>
 	</div>
 	<div class="col-md-6">
-		<div class="modal-dialog" style="margin-top: 0px;">
-			<div class="modal-content">
+		<div class="modal-dialog modal-lg" style="margin-top: 0px;" role="document">
+			<div class="modal-content ">
 				<div class="modal-body">
 					<div class="form-group">
 						<label for="CE9A50CD_63CA_4A1E_B336_F45399BEC84D" class="control-label">Command</label>
-						<textarea name="command" rows="5" class="form-control" id="CE9A50CD_63CA_4A1E_B336_F45399BEC84D">{{command|default('GetUserInfo -amiLogin="jodier"')}}</textarea>
+						<textarea name="command" rows="5" class="form-control form-control-sm" id="CE9A50CD_63CA_4A1E_B336_F45399BEC84D">{{command|default('GetUserInfo -amiLogin="jodier"')}}</textarea>
 					</div>
 					<div class="form-group">
 						<label for="C8D10895_E8A7_46A0_B638_C8DDDED8F91C" class="control-label">Output format</label>
-						<select class="form-control" id="C8D10895_E8A7_46A0_B638_C8DDDED8F91C">
+						<select class="form-control form-control-sm" id="C8D10895_E8A7_46A0_B638_C8DDDED8F91C">
 							<option value="">XML</option>
 							<option value="AMIXmlToJson.xsl">JSON</option>
 							<option value="AMIXmlToText.xsl" selected="selected">TEXT</option>
@@ -41,7 +41,7 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-default" id="C124A2A9_B5F5_46F0_AFBC_234859F3F6FA" onclick="commandApp.execute();">Submit</button>
+					<button type="button" class="btn btn-primary" id="C124A2A9_B5F5_46F0_AFBC_234859F3F6FA" onclick="commandApp.execute();">Submit</button>
 				</div>
 			</div>
 		</div>

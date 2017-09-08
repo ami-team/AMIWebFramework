@@ -56,12 +56,6 @@
 /* GENERAL                                                                 */
 /*-------------------------------------------------------------------------*/
 
-blockquote {
- 	font-size: 15.5px;
-}
-
-/*-------------------------------------------------------------------------*/
-
 h1, h2, h3, h4, h5, h6 {
 	font-family: "Open Sans Light", "sans-serif";
 }
@@ -70,6 +64,9 @@ h1, h2, h3, h4, h5, h6 {
 
 pre {
 	background-image: url("../images/blueprint-dark.png");
+	border: 1px solid rgb(204, 204, 204);
+	border-radius: 4px;
+	padding: 10px;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -78,23 +75,18 @@ pre {
 /* BOOTSTRAP                                                               */
 /*-------------------------------------------------------------------------*/
 
-.breadcrumb {
-	background-image: url("../images/stripe2.png");
-}
-
-.breadcrumb > li + li::before {
-	content: "/";
+.bg-light {
+	background-image: url("../images/stripe1.png");
 }
 
 /*-------------------------------------------------------------------------*/
 
-.modal-body {
-	padding-bottom: 10px;
+.breadcrumb {
+	background-image: url("../images/stripe2.png");
+	padding: 0.25rem 0.5rem;
 }
 
-.modal-header button.close {
-	margin-top: 4px;
-}
+/*-------------------------------------------------------------------------*/
 
 .modal-footer {
 	background: rgb(245, 245, 245) url("../images/stripe2.png");
@@ -102,7 +94,7 @@ pre {
 }
 
 /*-------------------------------------------------------------------------*/
-
+/*
 .input-group-addon {
 	border-left-width: 0;
 	border-right-width: 0;
@@ -115,12 +107,8 @@ pre {
 .input-group-addon:last-child {
 	border-right-width: 1px;
 }
-
+*/
 /*-------------------------------------------------------------------------*/
-
-.input-group-btn > .btn {
-	height: 35px;
-}
 
 @-moz-document url-prefix() {
 
@@ -129,6 +117,20 @@ pre {
 		padding: 0.375rem 1.75rem 0.375rem 0.75rem;
 		-moz-appearance: none;
 	}
+}
+
+/*-------------------------------------------------------------------------*/
+
+.navbar-nav .dropdown-menu {
+	padding: 0.3rem 0rem;
+}
+
+.navbar-nav .dropdown-divider {
+	margin: 0.2rem 0rem;
+}
+
+.navbar-nav .dropdown-item {
+	padding: 0.2rem 1rem;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -168,19 +170,10 @@ pre {
 	}
 }
 
-.navbar-brand {
-	padding: 15px 15px;
-}
-
-.navbar-nav > li > .dropdown-menu {
-	border-radius: 4px;
-	margin-top: 2px;
-}
-
 /*-------------------------------------------------------------------------*/
 
 .nav-tabs {
-	margin-bottom: 8px;
+	margin-bottom: 0.5rem;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -197,23 +190,6 @@ pre {
 
 /*-------------------------------------------------------------------------*/
 /* AMI                                                                     */
-/*-------------------------------------------------------------------------*/
-
-.ami-callout {
-	background: rgb(255, 255, 255);
-	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
-	margin: 20px 00px;
-	padding: 20px 20px;
-	position: relative;
-}
-
-.ami-callout:before,
-.ami-callout:after {
-	content: "";
-	position: absolute;
-	z-index: -2;
-}
-
 /*-------------------------------------------------------------------------*/
 
 .ami-code {

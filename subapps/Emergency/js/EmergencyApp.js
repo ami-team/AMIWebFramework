@@ -22,7 +22,7 @@ $AMIClass('EmergencyApp', {
 	{
 		/*---------------------------------------------------------*/
 
-		$('#ami_breadcrumb_content').html('<li>Tools</li><li><a href="' + amiWebApp.webAppURL + '?subapp=emergency">Emergency</a></li>');
+		$('#ami_breadcrumb_content').html('<li class="breadcrumb-item">Tools</li><li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp=emergency">Emergency</a></li>');
 
 		/*---------------------------------------------------------*/
 

@@ -35,69 +35,71 @@
 
 <!-- ******************************************************************** -->
 
-<nav class="navbar navbar-default">
-	<div class="container-fluid">
-		<div class="navbar-header">
-			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#F4B10C5C_47BC_2093_5269_EA03881409FA">
-				<span class="sr-only">Toggle navigation</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-			</button>
-			<span class="navbar-brand">
-				<span id="C57C824B_166C_4C23_F349_8B0C8E94114A"><i class="fa fa-info-circle"></i></span>
-			</span>
+<nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top" style="border: 1px solid #EEE; border-bottom: 0;">
+
+	<span class="navbar-brand" id="C57C824B_166C_4C23_F349_8B0C8E94114A">
+		<i class="fa fa-info-circle"></i>
+	</span>
+
+	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#F4B10C5C_47BC_2093_5269_EA03881409FA">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="F4B10C5C_47BC_2093_5269_EA03881409FA">
+
+		<div class="form-inline mr-sm-2 my-2 my-lg-0">
+			<div class="input-group">
+				<span class="input-group-btn">
+					<button class="btn btn-outline-secondary" id="BB126294_FFC2_24B8_8765_CF653EB950F7">
+						<i class="fa fa-step-backward"></i>
+					</button>
+				</span>
+				<input type="text" class="form-control" id="DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB" value="{{start}}" />
+				<span class="input-group-addon" style="padding: 2px;"><i class="fa fa-arrows-h"></i></span>
+				<input type="text" class="form-control" id="BF85DC0E_C07E_DE5E_A65B_237FCA3D461C" value="{{stop}}" />
+				<span class="input-group-btn">
+					<button class="btn btn-outline-secondary" id="E7FDF4C8_ECD2_3FE0_8C75_541E511239C2">
+						<i class="fa fa-step-forward"></i>
+					</button>
+				</span>
+			</div>
 		</div>
-		<div class="collapse navbar-collapse" id="F4B10C5C_47BC_2093_5269_EA03881409FA">
-			<div class="navbar-form navbar-left">
-				<div class="input-group">
-					<span class="input-group-btn">
-						<button class="btn btn-default" id="BB126294_FFC2_24B8_8765_CF653EB950F7">
-							<i class="fa fa-step-backward"></i>
-						</button>
-					</span>
-					<input type="text" class="form-control" id="DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB" value="{{start}}" />
-					<span class="input-group-addon" style="padding: 4px;">-</span>
-					<input type="text" class="form-control" id="BF85DC0E_C07E_DE5E_A65B_237FCA3D461C" value="{{stop}}" />
-					<span class="input-group-btn">
-						<button class="btn btn-default" id="E7FDF4C8_ECD2_3FE0_8C75_541E511239C2">
-							<i class="fa fa-step-forward"></i>
-						</button>
-					</span>
-				</div>
-			</div>
-			<div class="navbar-form navbar-left">
-				<button type="button" class="btn btn-default" id="D809166F_A40B_2376_C8A5_977AA0C8C408"><i class="fa fa-refresh"></i></button>
-				{% if canEdit and primaryField is not empty %}
-				<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D"
-				                       data-toggle="toggle"
-				                       data-onstyle="warning"
-				                       data-on="&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt; edit mode"
-				                       data-off="&lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt; view mode"
-				/>
-				<button type="button" class="btn btn-warning" id="CDE5AD14_1268_8FA7_F5D8_0D690F3FB850"><i class="fa fa-plus"></i></button>
-				{% endif %}
-			</div>
-			<div class="nav navbar-nav navbar-left">
-				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button">More... <span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li><a href="#" id="D49853E2_9319_52C3_5253_A208F9500408">Command</a></li>
-						<li><a href="#" id="C50C3427_FEE5_F115_1FEC_6A6668763EC4">JavaScript</a></li>
-					</ul>
-				</li>
-			</div>
-			{% if isEmbedded %}
-			<p class="navbar-text navbar-right hidden-xs hidden-sm" style="margin-top: 0; margin-bottom: 0; line-height: 50px;">
-				Powered by <img src="{{ORIGIN_URL}}/images/logo.png" height="28"/>
-			</p>
+
+		<div class="form-inline mr-sm-2 my-2 my-lg-0">
+			<button type="button" class="btn btn-outline-secondary mr-2" id="D809166F_A40B_2376_C8A5_977AA0C8C408"><i class="fa fa-refresh"></i></button>
+			{% if canEdit and primaryField is not empty %}
+			<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D"
+					       data-width="125"
+					       data-toggle="toggle"
+					       data-onstyle="outline-warning"
+					       data-offstyle="outline-secondary"
+					       data-on="&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&nbsp;edit mode"
+					       data-off="&lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt;&nbsp;view mode"
+			/>
+			<button type="button" class="btn btn-outline-warning ml-2" id="CDE5AD14_1268_8FA7_F5D8_0D690F3FB850"><i class="fa fa-plus"></i></button>
 			{% endif %}
 		</div>
+
+		<ul class="navbar-nav mr-sm-2 my-2 my-lg-0">
+			<li class="nav-item dropdown">
+				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More...</a>
+				<div class="dropdown-menu">
+					<a class="dropdown-item" href="#" id="D49853E2_9319_52C3_5253_A208F9500408">Command</a>
+					<a class="dropdown-item" href="#" id="C50C3427_FEE5_F115_1FEC_6A6668763EC4">JavaScript</a>
+				</div>
+			</li>
+		</ul>
+
+		<span class="navbar-text ml-auto">
+			Powered by <img src="{{ORIGIN_URL}}/images/logo.png" height="28" />
+		</span>
+
 	</div>
+
 </nav>
 
 <!-- ******************************************************************** -->
 
-<div id="FEF9E8D8_D4AB_B545_B394_C12DD5817D61" style="margin-top: -18px; overflow-x: scroll;"></div>
+<div id="FEF9E8D8_D4AB_B545_B394_C12DD5817D61" style="overflow-x: scroll;"></div>
 
 <!-- ******************************************************************** -->

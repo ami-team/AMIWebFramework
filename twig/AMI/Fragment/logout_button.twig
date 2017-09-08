@@ -1,18 +1,18 @@
-<li>
+<li class="nav-item">
 	{{icon}}
 </li>
-<li class="dropdown">
-	<a href="#" class="dropdown-toggle" data-toggle="dropdown">
-		<i class="fa fa-user"></i> {{user}} <i class="caret"></i>
+<li class="nav-item dropdown">
+	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+		<i class="fa fa-user"></i> {{user}}
 	</a>
-	<ul class="dropdown-menu">
-		<li><a href="javascript:amiLogin.changeInfo();">Change Information</a></li>
-		<li><a href="javascript:amiLogin.changePass();">Change Password</a></li>
-		<li><a href="javascript:amiLogin.accountStatus();">Account Status</a></li>
-	</ul>
+	<div class="dropdown-menu">
+		<a class="dropdown-item" href="javascript:amiLogin.changeInfo();">Change Information</a>
+		<a class="dropdown-item" href="javascript:amiLogin.changePass();">Change Password</a>
+		<a class="dropdown-item" href="javascript:amiLogin.accountStatus();">Account Status</a>
+	</div>
 </li>
 <li>
-	<button type="button" class="btn btn-default navbar-btn" onclick="amiLogin.signOut()">
+	<button type="button" class="btn btn-outline-secondary navbar-btn" onclick="amiLogin.signOut()">
 		<i class="fa fa-sign-out"></i> Sign out
 	</button>
 </li>

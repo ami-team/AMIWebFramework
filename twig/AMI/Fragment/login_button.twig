@@ -1,11 +1,11 @@
-<li>
+<li class="nav-item">
 {% if sso_url !== 'N/A' %}
-	<button type="button" class="btn btn-default navbar-btn" onclick="amiLogin.sso()">
+	<button type="button" class="btn btn-outline-secondary navbar-btn" onclick="amiLogin.sso()">
 		<i class="fa fa-sign-in"></i> {{sso_name}}
 	</button>
 	or
 {% endif %}
-	<button type="button" class="btn btn-default navbar-btn" onclick="amiLogin.signIn()">
+	<button type="button" class="btn btn-outline-secondary navbar-btn" onclick="amiLogin.signIn()">
 		<i class="fa fa-sign-in"></i> Sign in
 	</button>
 </li>

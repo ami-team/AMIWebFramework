@@ -5765,6 +5765,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			]);
 
 			this.loadScripts([
+				this.originURL + '/js/popper.min.js',
 				this.originURL + '/js/bootstrap.min.js',
 				this.originURL + '/js/bootstrap-toggle.min.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js',
@@ -8241,7 +8242,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* UPDATE NOTIFICATION BAR                         */
 			/*-------------------------------------------------*/
 
-			const icon = message ? '<a href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">'
+			const icon = message ? '<a class="nav-link" href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">'
 			                       +
 			                       '<i class="fa fa-exclamation-triangle"></i>'
 			                       +

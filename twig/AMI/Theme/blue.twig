@@ -12,26 +12,11 @@ body {
 /*-------------------------------------------------------------------------*/
 
 #ami_main_container {
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
 	border-radius: 10px;
 	box-shadow: 00px 05px 15px rgba(19, 0, 0, 0.5);
-	margin: 12px auto 32px auto;
+	margin: 12px auto 24px auto;
 	padding: 0;
 	width: 94%;
-}
-
-/*-------------------------------------------------------------------------*/
-
-#ami_top_menu {
-	background: white url("images/stripe1.png");
-	border: none;
-	border-top-left-radius: 5px;
-	border-top-right-radius: 5px;
-	border-bottom-left-radius: 0px;
-	border-bottom-right-radius: 0px;
-	box-shadow: none;
-	margin: 0;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -39,82 +24,47 @@ body {
 #ami_main_center {
 	background-color: white;
 	margin: 0;
-	padding: 4px 10px;
+	padding: 4px 16px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
 
 /*-------------------------------------------------------------------------*/
 
+#ami_top_menu {
+	border-radius: 10px 10px 0 0;
+}
+
 #ami_bottom_menu {
-	background: white url("images/stripe2.png");
-	border: none;
-	border-top-left-radius: 0px;
-	border-top-right-radius: 0px;
-	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
-	box-shadow: none;
-	margin: 0;
-}
-
-/*-------------------------------------------------------------------------*/
-
-#ami_top_menu .navbar-left,
-#ami_top_menu .navbar-right,
-#ami_top_menu .navbar-collapse,
-#ami_bottom_menu .navbar-left,
-#ami_bottom_menu .navbar-right,
-#ami_bottom_menu .navbar-collapse {
-	margin-left: 0;
-	margin-right: 0;
-}
-
-#ami_top_menu .container-fluid,
-#ami_bottom_menu .container-fluid {
-	padding-left: 10px;
-	padding-right: 10px;
-}
-
-#ami_top_menu .navbar-header,
-#ami_bottom_menu .navbar-header {
-	line-height: 45px;
-	margin-left: 0px;
-	margin-right: 4px;
-}
-
-#ami_top_menu .navbar-toggle,
-#ami_bottom_menu .navbar-toggle {
-	margin-right: -4px;
+	border-radius: 0 0 10px 10px;
 }
 
 /*-------------------------------------------------------------------------*/
 </style>
 
-<div class="container" id="ami_main_container">
+<div id="ami_main_container">
 
-	<nav class="navbar navbar-default navbar-static-top" id="ami_top_menu">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ami_top_menu_collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a href="{{HOME_URL}}" style="display: inline-block; height: 50px; line-height: 50px;">
-					<img src="{{LOGO_URL}}" alt="Logo" style="max-height: 44px;" />
-				</a>
-			</div>
-			<div class="collapse navbar-collapse" id="ami_top_menu_collapse">
-				<ul id="ami_menu_content" class="nav navbar-nav navbar-left"></ul>
-				<ul id="ami_login_content" class="nav navbar-nav navbar-right"></ul>
-			</div>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" id="ami_top_menu">
+
+ 		<a class="navbar-brand" href="{{HOME_URL}}" style="padding-top: 0; padding-bottom: 0;">
+			<img src="{{LOGO_URL}}" alt="Logo" style="height: 40px;" />
+		</a>
+
+		<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#FCE61AFD_012B_2816_B9FD_C737908FAF72">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="FCE61AFD_012B_2816_B9FD_C737908FAF72">
+
+			<ul class="navbar-nav mr-auto" id="ami_menu_content"></ul>
+			<ul class="navbar-nav ml-auto" id="ami_login_content"></ul>
+
 		</div>
 	</nav>
 
 	<div id="ami_main_center">
 
-		<ul class="breadcrumb" id="ami_breadcrumb_content">&nbsp;</ul>
+		<ol class="breadcrumb" id="ami_breadcrumb_content">&nbsp;</ol>
 
 		<div id="ami_alert_content" role="alert"></div>
 		<div id="ami_main_content" role="main"></div>
@@ -123,23 +73,25 @@ body {
 
 	</div>
 
-	<nav class="navbar navbar-default navbar-static-bottom" id="ami_bottom_menu">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ami_navbar_bottom_collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="collapse navbar-collapse" id="ami_navbar_bottom_collapse">
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="mailto:{{CONTACT_EMAIL}}"><i class="fa fa-envelope-o"></i> Contact</a></li>
-					<li><a href="{{ABOUT_URL}}" target="_blank">About</a></li>
-				</ul>
-			</div>
+	<nav class="navbar navbar-expand-lg navbar-light bg-light" id="ami_bottom_menu">
+
+		<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#B06DBB00_43B5_3128_B476_F7D3BAE1B15C">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="B06DBB00_43B5_3128_B476_F7D3BAE1B15C">
+
+			<ul class="navbar-nav" style="margin-left: auto;">
+				<li class="nav-item">
+					<a class="nav-link" href="mailto:{{CONTACT_EMAIL}}"><i class="fa fa-envelope-o"></i> Contact</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ABOUT_URL}}" target="_blank">About</a>
+				</li>
+			</ul>
+
 		</div>
+
 	</nav>
 
 </div>

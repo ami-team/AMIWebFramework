@@ -168,6 +168,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			]);
 
 			this.loadScripts([
+				this.originURL + '/js/popper.min.js',
 				this.originURL + '/js/bootstrap.min.js',
 				this.originURL + '/js/bootstrap-toggle.min.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js',
