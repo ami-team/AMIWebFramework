@@ -45,11 +45,13 @@ $AMIClass('GlanceCtrl', {
 
 			newVal = $(this).val();
 
+			/**/
+
 			if(newVal !== oldVal)
 			{
 				_this.setFreeComment(newVal).fail(function() {
 
-					$(this).val(oldVal);
+					$('#E704D1D0_AA06_9F62_B79E_540E003CFDB2').val(oldVal);
 				});
 			}
 		});
@@ -93,7 +95,6 @@ $AMIClass('GlanceCtrl', {
 			amiWebApp.originURL + '/controls/Glance/js/tablesort.min.js',
 			amiWebApp.originURL + '/controls/Glance/twig/GlanceCtrl.twig',
 			amiWebApp.originURL + '/controls/Glance/twig/datasets.twig',
-			'ctrl:confirmBox',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.appendHTML('body', data[2], {context: this}).done(function() {
@@ -104,9 +105,7 @@ $AMIClass('GlanceCtrl', {
 
 				/*-----------------------------------------*/
 
-				this.fragmentDatasets = /**/ data[3];
-
-				this.confirmBox = new data[4];
+				this.fragmentDatasets = data[3];
 
 				this.paperType = '';
 
@@ -153,7 +152,7 @@ $AMIClass('GlanceCtrl', {
 
 	_updateNumberOfDatasets: function()
 	{
-		$('#BBF23DB9_72C5_CAC4_1ACF_D33C342DD081').text('(' + $('#C6768D59_6B1F_786A_3F79_BA2C8E132B43 tbody td').length + ' datasets)');
+		$('#BBF23DB9_72C5_CAC4_1ACF_D33C342DD081').text('(' + $('#C6768D59_6B1F_786A_3F79_BA2C8E132B43 tbody tr').length + ' datasets)');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -190,13 +189,13 @@ $AMIClass('GlanceCtrl', {
 
 			if(phase === 'submission' && force === '0')
 			{
-				$('#D7A2964A_138B_5D24_380A_7C45BB29CBA0').hide();
-				$('#AAAF7B5A_432F_3894_3395_FEED09A2C750').hide();
+				$('#D7A2964A_138B_5D24_380A_7C45BB29CBA0').prop('disabled', true);
+				$('#AAAF7B5A_432F_3894_3395_FEED09A2C750').prop('disabled', true);
 			}
 			else
 			{
-				$('#D7A2964A_138B_5D24_380A_7C45BB29CBA0').show();
-				$('#AAAF7B5A_432F_3894_3395_FEED09A2C750').show();
+				$('#D7A2964A_138B_5D24_380A_7C45BB29CBA0').prop('disabled', false);
+				$('#AAAF7B5A_432F_3894_3395_FEED09A2C750').prop('disabled', false);
 			}
 
 			/*-------------------------------------------------*/
@@ -234,14 +233,28 @@ $AMIClass('GlanceCtrl', {
 
 			amiWebApp.replaceHTML('#C6768D59_6B1F_786A_3F79_BA2C8E132B43 tbody', this.fragmentDatasets, {context: this, dict: {DATASETS: DATASETS}}).done(function() {
 
+				/*-----------------------------------------*/
+
+				var _this = this;
+
+		 		$('span[data-ldn]').click(function() {
+
+					_this.removeDataset($(this).attr('data-ldn'));
+				});
+
+				/*-----------------------------------------*/
 
 				$('#C0FAD691_EACD_867C_1374_22ACF302B933').modal('show');
+
+				$('#DB5E5AA2_3F0D_70F1_9380_415EE6129188').val('');
 
 				$('#F13156B6_D340_F6FF_D96E_AC297BEC4552').hide();
 
 				this._updateNumberOfDatasets();
 
 				amiWebApp.unlock();
+
+				/*-----------------------------------------*/
 			});
 
 			/*-------------------------------------------------*/
@@ -278,29 +291,158 @@ $AMIClass('GlanceCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	addDatasets: function()
+	_addDatasets: function(datasets, info, err)
 	{
-		alert('Hello');
+		/*-------------------------------------------------*/
+
+		if(datasets.length === 0)
+		{
+			this._updateNumberOfDatasets();
+
+			/**/ if(err.length > 0)
+			{
+				amiWebApp.error(err, true, '#F0E0C2C3_B750_D75D_5734_639E449DE7C3');
+			}
+			else if(info.length > 0)
+			{
+				amiWebApp.error(info, true, '#F0E0C2C3_B750_D75D_5734_639E449DE7C3');
+			}
+			else
+			{
+				amiWebApp.unlock();
+			}
+
+			return;
+		}
+
+		/*-------------------------------------------------*/
+
+		const dataset = datasets.shift().trim();
+
+		if(dataset)
+		{
+			amiCommand.execute('GlanceAddDataset -paperType="' + amiWebApp.textToString(this.paperType) + '" -refCode="' + amiWebApp.textToString(this.refCode) + '" -dataset="' + amiWebApp.textToString(dataset) + '"', {context: this}).done(function(data) {
+
+				/*---------------------------------*/
+
+				var prodsysStatus = amiWebApp.jspath('..field{.@name==="prodsysStatus"}.$', data)[0] || '';
+				var completion = amiWebApp.jspath('..field{.@name==="completion"}.$', data)[0] || '';
+				var amiStatus = amiWebApp.jspath('..field{.@name==="amiStatus"}.$', data)[0] || '';
+
+				/**/
+
+				var colorAndStatus = this._getStatus(prodsysStatus, amiStatus);
+
+				/**/
+
+				var DATASETS = [{
+					LDN: dataset,
+					COLOR: colorAndStatus['color'],
+					STATUS: colorAndStatus['status'],
+					PRODSYSSTATUS: prodsysStatus,
+					COMPLETION: completion,
+					AMISTATUS: amiStatus,
+				}];
+
+				/*---------------------------------*/
+
+				amiWebApp.replaceHTML('#C6768D59_6B1F_786A_3F79_BA2C8E132B43 tbody', this.fragmentDatasets, {context: this, dict: {DATASETS: DATASETS}}).done(function() {
+
+					/*---------------------------------*/
+
+					var _this = this;
+
+			 		$('span[data-ldn="' + dataset + '"]').click(function() {
+
+						_this.removeDataset(dataset);
+					});
+
+					/*---------------------------------*/
+
+/*					Array.prototype.push.apply(info, amiWebApp.jspath('..info.$', data));
+ */
+					this._addDatasets(datasets, info, err);
+
+					/*---------------------------------*/
+				});
+
+				/*-----------------------------------------*/
+
+			}).fail(function(data) {
+
+				/*-----------------------------------------*/
+
+				Array.prototype.push.apply(err, amiWebApp.jspath('..error.$', data));
+
+				this._addDatasets(datasets, info, err);
+
+				/*-----------------------------------------*/
+			});
+		}
+		else
+		{
+			this._addDatasets(datasets, info, err);
+		}
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	removeDatasets()
+	addDatasets: function()
 	{
-		this.confirmBox.show('You are about to create a new AMI-Tag?', {context: this}).done(function() {
+		amiWebApp.flush();
+		amiWebApp.lock();
 
+		this._addDatasets($('#DB5E5AA2_3F0D_70F1_9380_415EE6129188').val().split('\n'), [], []);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	removeDataset: function(ldn)
+	{
+		if(confirm('Please confirm...'))
+		{
 			amiWebApp.flush();
 			amiWebApp.lock();
 
-			amiCommand.execute('GlanceRemoveDatasets -paperType="' + amiWebApp.textToString(this.paperType) + '" -refCode="' + amiWebApp.textToString(this.refCode) + '"', {context: this}).done(function() {
+			amiCommand.execute('GlanceRemoveDataset -paperType="' + amiWebApp.textToString(this.paperType) + '" -refCode="' + amiWebApp.textToString(this.refCode) + '" -dataset="' + amiWebApp.textToString(ldn) + '"', {context: this}).done(function() {
 
-				this.render(this.paperType, this.refCode);
+				$('span[data-ldn="' + ldn + '"]').parent().parent().remove();
+
+				this._updateNumberOfDatasets();
+
+				amiWebApp.unlock();
 
 			}).fail(function(data) {
 
 				amiWebApp.error(amiWebApp.jspath('..error.$', data), true, '#F0E0C2C3_B750_D75D_5734_639E449DE7C3');
 			});
-		});
+		}
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	removeDatasets: function()
+	{
+		if(confirm('Please confirm...'))
+		{
+			amiWebApp.flush();
+			amiWebApp.lock();
+
+			amiCommand.execute('GlanceRemoveDatasets -paperType="' + amiWebApp.textToString(this.paperType) + '" -refCode="' + amiWebApp.textToString(this.refCode) + '"', {context: this}).done(function() {
+
+				$('#C6768D59_6B1F_786A_3F79_BA2C8E132B43 tbody').empty();
+
+				this._updateNumberOfDatasets();
+
+				amiWebApp.unlock();
+
+			}).fail(function(data) {
+
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true, '#F0E0C2C3_B750_D75D_5734_639E449DE7C3');
+			});
+		}
 	},
 
 	/*-----------------------------------------------------------------*/

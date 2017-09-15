@@ -2,6 +2,31 @@
 
 <style type="text/css">
 
+.badge-danger {
+  background-color: #b94a48;
+}
+.badge-danger:hover {
+  background-color: #953b39;
+}
+.badge-warning {
+  background-color: #f89406;
+}
+.badge-warning:hover {
+  background-color: #c67605;
+}
+.badge-success {
+  background-color: #468847;
+}
+.badge-success:hover {
+  background-color: #356635;
+}
+.badge-info {
+  background-color: #3a87ad;
+}
+.badge-info:hover {
+  background-color: #2d6987;
+}
+
 #C0FAD691_EACD_867C_1374_22ACF302B933 .card::before {
 	border-bottom: 7px solid rgba(0, 0, 0, 0.2);
 	border-left: 7px solid transparent;
@@ -33,7 +58,7 @@
 <!-- ******************************************************************** -->
 
 <div class="modal fade" role="dialog" id="C0FAD691_EACD_867C_1374_22ACF302B933">
-	<div class="modal-dialog" role="document" style="max-width: 90%;">
+	<div class="modal-dialog" role="document" style="max-width: 90%; width: 90%;">
 		<div class="modal-content">
 			<div class="modal-header">
 				<img src="{{ORIGIN_URL}}/images/logo.png" height="28" />
@@ -58,23 +83,23 @@
 
 				<h1><i class="fa fa-align-justify"></i> Datasets <small id="BBF23DB9_72C5_CAC4_1ACF_D33C342DD081"></small></h1>
 
-				<button type="button" class="btn btn-outline-primary btn-sm" id="D7A2964A_138B_5D24_380A_7C45BB29CBA0">
+				<button type="button" class="btn btn-primary btn-outline-primary btn-sm" id="D7A2964A_138B_5D24_380A_7C45BB29CBA0">
 					<i class="fa fa-plus"></i>
 				</button>
 
-				<button type="button" class="btn btn-outline-danger btn-sm" id="AAAF7B5A_432F_3894_3395_FEED09A2C750">
+				<button type="button" class="btn btn-danger btn-outline-danger btn-sm" id="AAAF7B5A_432F_3894_3395_FEED09A2C750">
 					<i class="fa fa-bolt"></i> Remove all datasets
 				</button>
 
-				<div class="btn-group">
-					<button type="button" class="btn btn-outline-info btn-sm dropdown-toggle" data-toggle="dropdown">
-						<i class="fa fa-download"></i> Export all datasets
-					</button>
-					<div class="dropdown-menu">
-						<a class="dropdown-item" href="#" id="D97C3F0E_23B1_91FD_9D22_0F947409D1AD">CSV</a>
-						<a class="dropdown-item" href="#" id="EC61E236_3C64_F841_24F6_40A35D548083">TXT</a>
-					</div>
-				</div>
+				&nbsp;
+
+				<button type="button" class="btn btn-primary btn-outline-primary btn-sm" id="D97C3F0E_23B1_91FD_9D22_0F947409D1AD">
+					<i class="fa fa-download"></i> Export datasets (CSV)
+				</button>
+
+				<button type="button" class="btn btn-primary btn-outline-primary btn-sm" id="EC61E236_3C64_F841_24F6_40A35D548083">
+					<i class="fa fa-download"></i> Export datasets (TXT)
+				</button>
 
 				<!-- ************************************ -->
 
