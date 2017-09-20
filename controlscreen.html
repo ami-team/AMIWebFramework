@@ -3,40 +3,40 @@
 <!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <title>AMI Control Screen</title>
+		<title>AMI Control Screen</title>
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/ami.min.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/ami.min.js"></script>
 
-    <script type="text/javascript">
+		<script type="text/javascript">
 
-	amiWebApp.onReady = function()
-	{
-		amiWebApp.loadSubAppByURL('monitoring');
-	};
+			amiWebApp.onReady = function()
+			{
+				amiWebApp.loadSubAppByURL('monitoring');
+			};
 
-	amiWebApp.onRefresh = function()
-	{
-		/* EMPTY */
-	};
+			amiWebApp.onRefresh = function()
+			{
+				/* EMPTY */
+			};
 
-    </script>
-  </head>
-  <body>
+		</script>
+	</head>
+	<body>
 
-    <script type="text/javascript">
+		<script type="text/javascript">
 
-	amiWebApp.start({
-		theme_url: 'twig/AMI/Theme/plain.twig',
-		endpoint_url: 'https://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd',
-	});
+			amiWebApp.start({
+				theme_url: 'twig/AMI/Theme/plain.twig',
+				endpoint_url: 'http://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd',
+			});
 
-    </script>
+		</script>
 
-  </body>
+	</body>
 </html>

@@ -62,6 +62,8 @@ $AMIClass('MonitoringApp', {
 
 				/*-----------------------------------------*/
 
+				this._reloadTime = 4 * 60 * 60 * 1000;
+
 				this._interval = 5000;
 
 				this._nodes = [
@@ -86,7 +88,7 @@ $AMIClass('MonitoringApp', {
 
 				this._earthLock = 0;
 
-				this._time = 0;
+				this._earthTime = 0;
 
 				/*-----------------------------------------*/
 
@@ -106,6 +108,17 @@ $AMIClass('MonitoringApp', {
 	/*-----------------------------------------------------------------*/
 
 	onLogin: function()
+	{
+		if($('#E86BAEDC_5386_454F_318B_3337E7B1CFB3').is(':empty'))
+		{
+			this._stage1();
+			this._stage2();
+		}
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	onLogout: function()
 	{
 		if($('#E86BAEDC_5386_454F_318B_3337E7B1CFB3').is(':empty'))
 		{
@@ -352,20 +365,15 @@ $AMIClass('MonitoringApp', {
 			/* EXECUTE HANDLERS                                */
 			/*-------------------------------------------------*/
 
-			var oldDate;
-			var newDate;
-
-			oldDate = newDate = new Date();
+			var sum = 0
 
 			setInterval(function() {
 
-				newDate = new Date();
-
-				if((newDate - oldDate) < 60 * 1000)
+				if(sum < _this._reloadTime)
 				{
-					_this._handler();
+					sum += _this._interval;
 
-					oldDate = newDate;
+					_this._handler();
 				}
 				else
 				{
@@ -492,13 +500,13 @@ $AMIClass('MonitoringApp', {
 					if(_this._earthLock === 0)
 					{
 						projection.rotate([
-							_this._earthOrigin[0] + _this._earthVelocity[0] * _this._time,
-							_this._earthOrigin[1] + _this._earthVelocity[1] * _this._time,
+							_this._earthOrigin[0] + _this._earthVelocity[0] * _this._earthTime,
+							_this._earthOrigin[1] + _this._earthVelocity[1] * _this._earthTime,
 						]);
 
 						svg.selectAll('path').attr('d', projectionPath);
 
-						_this._time += 2500;
+						_this._earthTime += 2500;
 					}
 
 				}, 2500);
@@ -562,7 +570,7 @@ $AMIClass('MonitoringApp', {
 
 				_this._earthLock = 1;
 
-				/**/	_this._time = 0;
+				/**/	_this._earthTime = 0;
 				/**/
 				/**/	_this._earthOrigin = coords;
 				/**/

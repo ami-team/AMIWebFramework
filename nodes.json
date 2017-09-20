@@ -48,7 +48,7 @@
                         },
                         {
                            "@name": "endpoint",
-                           "$": "https://atlas-ami.cern.ch/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
+                           "$": "http://atlas-ami.cern.ch/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
                         }
                      ]
                   },
