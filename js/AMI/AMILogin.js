@@ -44,7 +44,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		amiWebApp.lock();
 
-		return amiWebApp.loadHTMLs([
+		return amiWebApp.loadTWIGs([
 			amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Modal/login.twig',

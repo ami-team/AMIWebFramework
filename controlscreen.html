@@ -35,8 +35,8 @@
 
 	if(amiWebApp.isLocal())
 	{
-		endpoint_url = 'https://localhost:8443/AMI/FrontEnd';
-//		endpoint_url = 'https://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
+//		endpoint_url = 'https://localhost:8443/AMI/FrontEnd';
+		endpoint_url = 'https://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
 	}
 	else
 	{
@@ -44,7 +44,7 @@
 	}
 
 	amiWebApp.start({
-		template_filename: 'twig/AMI/controlscreen.twig',
+		theme_url: 'twig/AMI/Theme/plain.twig',
 		endpoint_url: endpoint_url,
 	});
 

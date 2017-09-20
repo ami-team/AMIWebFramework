@@ -7,15 +7,15 @@
                   {
                      "field":[
                         {
-                           "@name":"node",
-                           "$":"localhost"
+                           "@name": "node",
+                           "$":"ami.in2p3.fr"
                         },
                         {
-                           "@name":"url",
-                           "$":"https://localhost:8443/AMI/FrontEnd"
+                           "@name": "url",
+                           "$": "http://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
                         },
                         {
-                           "@name":"service",
+                           "@name": "service",
                            "$":"web"
                         }
                      ]
@@ -23,16 +23,80 @@
                   {
                      "field":[
                         {
-                           "@name":"node",
-                           "$":"localhost"
+                           "@name": "node",
+                           "$":"ami-dev.in2p3.fr"
                         },
                         {
-                           "@name":"url",
-                           "$":"https://localhost:8443/AMI/FrontEnd"
+                           "@name": "url",
+                           "$": "http://ami-dev.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
                         },
                         {
-                           "@name":"service",
-                           "$":"task"
+                           "@name": "service",
+                           "$":"web"
+                        }
+                     ]
+                  },
+                  {
+                     "field":[
+                        {
+                           "@name": "node",
+                           "$":"ccami021"
+                        },
+                        {
+                           "@name": "url",
+                           "$": "http://ccami021.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
+                        },
+                        {
+                           "@name": "service",
+                           "$":"web"
+                        }
+                     ]
+                  },
+                  {
+                     "field":[
+                        {
+                           "@name": "node",
+                           "$":"ccami022"
+                        },
+                        {
+                           "@name": "url",
+                           "$": "http://ccami022.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
+                        },
+                        {
+                           "@name": "service",
+                           "$":"web"
+                        }
+                     ]
+                  },
+                  {
+                     "field":[
+                        {
+                           "@name": "node",
+                           "$":"ccami023"
+                        },
+                        {
+                           "@name": "url",
+                           "$": "http://ccami023.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
+                        },
+                        {
+                           "@name": "service",
+                           "$":"web"
+                        }
+                     ]
+                  },
+                  {
+                     "field":[
+                        {
+                           "@name": "node",
+                           "$":"ccami024"
+                        },
+                        {
+                           "@name": "url",
+                           "$": "http://ccami024.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
+                        },
+                        {
+                           "@name": "service",
+                           "$":"web"
                         }
                      ]
                   }

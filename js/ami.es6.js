@@ -6459,6 +6459,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			{
 				target.find('[data-toggle="tooltip"]').tooltip({
 					container: 'body',
+					html: false,
 					delay: {
 						show: 500,
 						hide: 100,
@@ -6470,16 +6471,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(jQuery.fn.popover)
 			{
-				target.find('[data-toggle="popover"][tabindex="0"]').popover({
+				target.find('[data-toggle="popover"]').popover({
 					container: 'body',
 					html: true,
-					trigger: 'focus',
-				});
-
-				target.find('[data-toggle="popover"][tabindex!="0"]').popover({
-					container: 'body',
-					html: true,
-					trigger: 'click',
+					delay: {
+						show: 500,
+						hide: 100,
+					},
 				});
 			}
 
@@ -7917,7 +7915,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		amiWebApp.lock();
 
-		return amiWebApp.loadHTMLs([
+		return amiWebApp.loadTWIGs([
 			amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Modal/login.twig',

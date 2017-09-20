@@ -23,8 +23,6 @@
 
 				if(isAuth)
 				{
-					myGlance.render('paper', 'EXOT-2016-13');
-
 					myTable1.render('#myTable1', 'SearchQuery -project="Atlas_Production" -processingStep="Atlas_Production" -sql="SELECT identifier, productionStepName, productionStepTag, actor, productionStepRank FROM productionStep WHERE productionStepStatus = \'VALID\' ORDER BY productionStepTag"', {canEdit: true, catalog: 'Atlas_Production:Atlas_Production', entity: 'productionStep', primaryField: 'identifier', stop: 100});
 				}
 				else
@@ -58,6 +56,10 @@
 		</nav>
 
 		<div id="ami_alert_content"></div>
+
+		<div class="text-center">
+			<button type="button" class="btn btn-primary" onclick="myGlance.render('paper', 'EXOT-2016-13');">Edit EXOT-2016-13</button>
+		</div>
 
 		<div id="myGlance" style="margin: auto; width: 90%;"></div>
 
