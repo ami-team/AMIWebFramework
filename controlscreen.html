@@ -8,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <title>Control Screen</title>
+    <title>AMI Control Screen</title>
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/ami.min.js"></script>
@@ -31,21 +31,9 @@
 
     <script type="text/javascript">
 
-	var endpoint_url;
-
-	if(amiWebApp.isLocal())
-	{
-//		endpoint_url = 'https://localhost:8443/AMI/FrontEnd';
-		endpoint_url = 'https://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
-	}
-	else
-	{
-		endpoint_url = '/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd';
-	}
-
 	amiWebApp.start({
 		theme_url: 'twig/AMI/Theme/plain.twig',
-		endpoint_url: endpoint_url,
+		endpoint_url: 'https://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd',
 	});
 
     </script>

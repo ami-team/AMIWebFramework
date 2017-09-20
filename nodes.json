@@ -8,15 +8,15 @@
                      "field":[
                         {
                            "@name": "node",
-                           "$":"ami.in2p3.fr"
+                           "$": "ami.in2p3.fr"
                         },
                         {
-                           "@name": "url",
+                           "@name": "service",
+                           "$": "web"
+                        },
+                        {
+                           "@name": "endpoint",
                            "$": "http://ami.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
-                        },
-                        {
-                           "@name": "service",
-                           "$":"web"
                         }
                      ]
                   },
@@ -24,15 +24,15 @@
                      "field":[
                         {
                            "@name": "node",
-                           "$":"ami-dev.in2p3.fr"
+                           "$": "ami-dev.in2p3.fr"
                         },
                         {
-                           "@name": "url",
+                           "@name": "service",
+                           "$": "web"
+                        },
+                        {
+                           "@name": "endpoint",
                            "$": "http://ami-dev.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
-                        },
-                        {
-                           "@name": "service",
-                           "$":"web"
                         }
                      ]
                   },
@@ -40,15 +40,31 @@
                      "field":[
                         {
                            "@name": "node",
-                           "$":"ccami021"
+                           "$": "atlas-ami.cern.ch"
                         },
                         {
-                           "@name": "url",
+                           "@name": "service",
+                           "$": "web"
+                        },
+                        {
+                           "@name": "endpoint",
+                           "$": "https://atlas-ami.cern.ch/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
+                        }
+                     ]
+                  },
+                  {
+                     "field":[
+                        {
+                           "@name": "node",
+                           "$": "ccami021"
+                        },
+                        {
+                           "@name": "service",
+                           "$": "web"
+                        },
+                        {
+                           "@name": "endpoint",
                            "$": "http://ccami021.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
-                        },
-                        {
-                           "@name": "service",
-                           "$":"web"
                         }
                      ]
                   },
@@ -56,15 +72,15 @@
                      "field":[
                         {
                            "@name": "node",
-                           "$":"ccami022"
+                           "$": "ccami022"
                         },
                         {
-                           "@name": "url",
+                           "@name": "service",
+                           "$": "web"
+                        },
+                        {
+                           "@name": "endpoint",
                            "$": "http://ccami022.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
-                        },
-                        {
-                           "@name": "service",
-                           "$":"web"
                         }
                      ]
                   },
@@ -72,15 +88,15 @@
                      "field":[
                         {
                            "@name": "node",
-                           "$":"ccami023"
+                           "$": "ccami023"
                         },
                         {
-                           "@name": "url",
+                           "@name": "service",
+                           "$": "web"
+                        },
+                        {
+                           "@name": "endpoint",
                            "$": "http://ccami023.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
-                        },
-                        {
-                           "@name": "service",
-                           "$":"web"
                         }
                      ]
                   },
@@ -88,15 +104,15 @@
                      "field":[
                         {
                            "@name": "node",
-                           "$":"ccami024"
-                        },
-                        {
-                           "@name": "url",
-                           "$": "http://ccami024.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
+                           "$": "ccami024"
                         },
                         {
                            "@name": "service",
-                           "$":"web"
+                           "$": "web"
+                        },
+                        {
+                           "@name": "endpoint",
+                           "$": "http://ccami024.in2p3.fr/AMI/servlet/net.hep.atlas.Database.Bookkeeping.AMI.Servlet.FrontEnd"
                         }
                      ]
                   }

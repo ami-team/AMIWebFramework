@@ -123,9 +123,9 @@ $AMIClass('MonitoringApp', {
 		if(i < this._nodes.length)
 		{
 			var service = this._nodes[i].service;
-			var   url   = this._nodes[i].  url  ;
+			var endpoint = this._nodes[i].endpoint;
 
-			amiCommand.execute('GetSessionInfo', {context: this, endpoint: url}).done(function() {
+			amiCommand.execute('GetSessionInfo', {context: this, endpoint: endpoint}).done(function() {
 
 				/*-----------------------------------------*/
 
@@ -250,9 +250,9 @@ $AMIClass('MonitoringApp', {
 
 			rows.forEach(function(row) {
 
-				var service = amiWebApp.jspath('..field{.@name==="service"}.$', row)[0] || '';
 				var node = amiWebApp.jspath('..field{.@name==="node"}.$', row)[0] || '';
-				var url = amiWebApp.jspath('..field{.@name==="url"}.$', row)[0] || '';
+				var service = amiWebApp.jspath('..field{.@name==="service"}.$', row)[0] || '';
+				var endpoint = amiWebApp.jspath('..field{.@name==="endpoint"}.$', row)[0] || '';
 
 				/**/ if(service === 'web') {
 					numberOfWebNodes++;
@@ -262,15 +262,16 @@ $AMIClass('MonitoringApp', {
 				}
 
 				_this._nodes.push({
-					service: service,
 					node: node,
-					url: url,
+					service: service,
+					endpoint: endpoint,
 				});
 
 				series.push({
 					type: 'line',
 					name: service + '::' + node,
 					showInLegend: true,
+					markerType: null,
 					dataPoints: [],
 				});
 			});
@@ -338,7 +339,6 @@ $AMIClass('MonitoringApp', {
 					minimum: 0,
 					maximum: 1,
 					interval: 1,
-					tickLength: 0,
 					title: 'Availability',
 				},
 				backgroundColor: 'transparent',
