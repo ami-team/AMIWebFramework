@@ -90,11 +90,19 @@ code {
 /*-------------------------------------------------------------------------*/
 
 .card-header {
+	background: rgb(233, 236, 239) url("../images/stripe1.png");
+}
+
+.card-footer {
 	background: rgb(233, 236, 239) url("../images/stripe2.png");
-	padding: 0.6rem 1.0rem;
 }
 
 /*-------------------------------------------------------------------------*/
+
+.modal-header {
+	background: rgb(245, 245, 245) url("../images/stripe1.png");
+	border-radius: 0.25rem 0.25rem 0 0;
+}
 
 .modal-footer {
 	background: rgb(245, 245, 245) url("../images/stripe2.png");
