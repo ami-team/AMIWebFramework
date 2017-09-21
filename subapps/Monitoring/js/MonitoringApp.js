@@ -43,6 +43,29 @@ $AMIClass('MonitoringApp', {
 	{
 		/*---------------------------------------------------------*/
 
+		this._confFile = 'nodes.json';
+
+		this._extraTitle = /*-*/''/*-*/;
+
+		/*---------------------------------------------------------*/
+
+		if(userdata)
+		{
+			var json = JSON.parse(userdata);
+
+			if(json.conf_file)
+			{
+				this._confFile = json.conf_file;
+			}
+
+			if(json.extra_title)
+			{
+				this._extraTitle = json.extra_title;
+			}
+		}
+
+		/*---------------------------------------------------------*/
+
 		$('#ami_breadcrumb_content').html('<li class="breadcrumb-item">Tools</li><li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp=monitoring">Monitoring</a></li>');
 
 		/*---------------------------------------------------------*/
@@ -59,6 +82,10 @@ $AMIClass('MonitoringApp', {
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
+
+				/*-----------------------------------------*/
+
+				$('#AF46CD08_34D4_E172_7426_8D528BD6BF2D').text(this._extraTitle);
 
 				/*-----------------------------------------*/
 
@@ -247,7 +274,7 @@ $AMIClass('MonitoringApp', {
 		var _this = this;
 
 		amiWebApp.loadJSONs([
-			'nodes.json'
+			this._confFile
 		], {context: this}).done(function(data) {
 
 			/*-------------------------------------------------*/

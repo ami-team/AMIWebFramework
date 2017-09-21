@@ -71,6 +71,14 @@ pre {
 
 /*-------------------------------------------------------------------------*/
 
+pre,
+code {
+	font-family: "Ubuntu Mono";
+	font-size: 14px;
+}
+
+/*-------------------------------------------------------------------------*/
+
 /*-------------------------------------------------------------------------*/
 /* BOOTSTRAP                                                               */
 /*-------------------------------------------------------------------------*/
@@ -90,24 +98,9 @@ pre {
 
 .modal-footer {
 	background: rgb(245, 245, 245) url("../images/stripe2.png");
-	border-radius: 0 0 6px 6px;
+	border-radius: 0 0 0.25rem 0.25rem;
 }
 
-/*-------------------------------------------------------------------------*/
-/*
-.input-group-addon {
-	border-left-width: 0;
-	border-right-width: 0;
-}
-
-.input-group-addon:first-child {
-	border-left-width: 1px;
-}
-
-.input-group-addon:last-child {
-	border-right-width: 1px;
-}
-*/
 /*-------------------------------------------------------------------------*/
 
 @-moz-document url-prefix() {
