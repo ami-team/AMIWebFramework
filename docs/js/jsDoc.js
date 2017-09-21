@@ -359,7 +359,7 @@ var jsDoc = {
 
 			result += '<h5><strong>Parameters:</strong></h5>';
 
-			result += '<table class="table table-condensed table-bordered table-striped" style="width: auto;">';
+			result += '<table class="table table-sm table-bordered table-striped" style="width: auto;">';
 
 			result += '<thread>';
 			result += '<tr>';
