@@ -3,13 +3,17 @@
 /*-------------------------------------------------------------------------*/
 
 .bg-light {
-	background-image: url("../images/stripe1.png");
+	background: rgb(248, 249, 250) url("../images/stripe1.png");
+}
+
+.bg-light2 {
+	background: rgb(248, 249, 250) url("../images/stripe2.png");
 }
 
 /*-------------------------------------------------------------------------*/
 
 .breadcrumb {
-	background-image: url("../images/stripe2.png");
+	background: rgb(233, 236, 239) url("../images/stripe2.png");
 	padding: 0.25rem 0.5rem;
 }
 
