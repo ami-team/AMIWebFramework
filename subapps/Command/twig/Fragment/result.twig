@@ -4,19 +4,25 @@
 			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.copy($(this).parent().parent().parent().find('url').text());">
 				<span class="fa-stack">
 					<i class="fa fa-clipboard fa-stack-2x"></i>
-					<strong class="fa-stack-1x" style="color: #CCC;">URL</strong>
+					<strong class="fa-stack-1x" style="color: #999;">URL</strong>
+				</span>
+			</button>
+			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.copy($(this).parent().parent().parent().find('code').text());">
+				<span class="fa-stack">
+					<i class="fa fa-clipboard fa-stack-2x"></i>
+					<strong class="fa-stack-1x" style="color: #999;">TXT</strong>
 				</span>
 			</button>
 			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.save($(this).parent().parent().parent().find('code').text());">
 				<span class="fa-stack">
 					<i class="fa fa-download fa-stack-2x"></i>
-					<strong class="fa-stack-1x" style="color: #CCC;"></strong>
+					<strong class="fa-stack-1x" style="color: #999;"></strong>
 				</span>
 			</button>
 			<button type="button" class="btn btn-sm btn-link" onclick="$(this).parent().parent().parent().remove();">
 				<span class="fa-stack">
 					<i class="fa fa-times-circle-o fa-stack-2x"></i>
-					<strong class="fa-stack-1x" style="color: #CCC;"></strong>
+					<strong class="fa-stack-1x" style="color: #999;"></strong>
 				</span>
 			</button>
 		</div>
