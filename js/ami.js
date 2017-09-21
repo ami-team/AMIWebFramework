@@ -7091,12 +7091,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	_clean: function _clean() {
-		$('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val('');
-		$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val('');
-		$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val('');
-		$('#F238E6EE_44BD_486A_B85D_C927A4D045D3').val('');
-		$('#D487FE72_8D95_4048_BEA3_252274862AF4').val('');
-		$('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val('');
+		$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').trigger('reset');
+		$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').trigger('reset');
+		$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').trigger('reset');
+		$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').trigger('reset');
+		$('#E92A1097_983B_4857_875F_07E4659B41B0').trigger('reset');
 	},
 
 	/*-----------------------------------------------------------------*/
