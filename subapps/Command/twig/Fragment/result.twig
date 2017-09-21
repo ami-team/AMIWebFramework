@@ -1,22 +1,26 @@
-<div>
-	<button class="close" onclick="$(this).parent().remove();" style="margin-left: 10px;">
-		<span class="fa-stack">
-			<i class="fa fa-times-circle-o fa-stack-2x"></i>
-			<strong class="fa-stack-1x" style="color: #444444;"></strong>
-		</span>
-	</button>
-	<button class="close" onclick="commandApp.save($(this).parent().find('code').text());" style="margin-left: 10px;">
-		<span class="fa-stack">
-			<i class="fa fa-download fa-stack-2x"></i>
-			<strong class="fa-stack-1x" style="color: #444444;"></strong>
-		</span>
-	</button>
-	<button class="close" onclick="commandApp.copy($(this).parent().find('url').text());" style="margin-left: 10px;">
-		<span class="fa-stack">
-			<i class="fa fa-clipboard fa-stack-2x"></i>
-			<strong class="fa-stack-1x" style="color: #444444;">URL</strong>
-		</span>
-	</button>
-	<pre class="ami-code"><code><i class="line-number"></i>{{data|escape|replace({'\n': '\n<i class="line-number"></i>'})}}</code></pre>
-	<url class="invisible">{{url|escape}}</url>
+<div class="mb-0 mt-2 mt-lg-0">
+	<div class="text-right">
+		<div class="cmd-tools">
+			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.copy($(this).parent().parent().parent().find('url').text());">
+				<span class="fa-stack">
+					<i class="fa fa-clipboard fa-stack-2x"></i>
+					<strong class="fa-stack-1x" style="color: #CCC;">URL</strong>
+				</span>
+			</button>
+			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.save($(this).parent().parent().parent().find('code').text());">
+				<span class="fa-stack">
+					<i class="fa fa-download fa-stack-2x"></i>
+					<strong class="fa-stack-1x" style="color: #CCC;"></strong>
+				</span>
+			</button>
+			<button type="button" class="btn btn-sm btn-link" onclick="$(this).parent().parent().parent().remove();">
+				<span class="fa-stack">
+					<i class="fa fa-times-circle-o fa-stack-2x"></i>
+					<strong class="fa-stack-1x" style="color: #CCC;"></strong>
+				</span>
+			</button>
+		</div>
+	</div>
+	<pre class="ami-code" style="border-top-right-radius: 0;"><code><i class="line-number"></i>{{data|escape|replace({'\n': '\n<i class="line-number"></i>'})}}</code></pre>
+	<url class="d-none">{{url|escape}}</url>
 </div>
