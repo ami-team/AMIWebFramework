@@ -11,12 +11,12 @@
                            "$":"localhost"
                         },
                         {
-                           "@name":"url",
-                           "$":"https://localhost:8443/AMI/FrontEnd"
-                        },
-                        {
                            "@name":"service",
                            "$":"web"
+                        },
+                        {
+                           "@name":"endpoint",
+                           "$":"https://localhost:8443/AMI/FrontEnd"
                         }
                      ]
                   },
@@ -27,12 +27,12 @@
                            "$":"localhost"
                         },
                         {
-                           "@name":"url",
-                           "$":"https://localhost:8443/AMI/FrontEnd"
-                        },
-                        {
                            "@name":"service",
                            "$":"task"
+                        },
+                        {
+                           "@name":"endpoint",
+                           "$":"https://localhost:8443/AMI/FrontEnd"
                         }
                      ]
                   }
