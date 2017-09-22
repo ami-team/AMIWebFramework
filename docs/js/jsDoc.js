@@ -49,7 +49,7 @@ var jsDoc = {
 
 	makeMenu: function()
 	{
-		var s = '<h5><a href=""><i class="fa fa-home"></i> Home</a></h5><hr />';
+		var s = '<h6><a href=""><i class="fa fa-home"></i> Home</a></h6><hr />';
 
 		s += this.makeSubMenu('Global', 'global');
 		s += this.makeSubMenu('Namespace', 'namespaces');
@@ -92,7 +92,7 @@ var jsDoc = {
 		{
 			var id = 'jsdoc_menu_' + title.toLowerCase();
 
-			result += '<h5><a href="#' + id + '" data-toggle="collapse"><i class="fa fa-book"></i> ' + title + '</a></h5>';
+			result += '<h6><a href="#' + id + '" data-toggle="collapse"><i class="fa fa-book"></i> ' + title + '</a></h6>';
 
 			result += '<ul class="collapse" id="' +  id + '">';
 
@@ -359,28 +359,28 @@ var jsDoc = {
 
 			result += '<h5><strong>Parameters:</strong></h5>';
 
-			result += '<table class="table table-sm table-bordered table-striped" style="width: auto;">';
+			result += '<table class="table table-sm table-bordered" style="width: auto;">';
 
 			result += '<thread>';
 			result += '<tr>';
 
 			if(cnt1 > 0) {
-				result += '<td>Name</td>';
+				result += '<th>Name</th>';
 			}
 			if(cnt2 > 0) {
-				result += '<td>Type</td>';
+				result += '<th>Type</th>';
 			}
 			if(cnt4 > 0) {
-				result += '<td>Default</td>';
+				result += '<th>Default</th>';
 			}
 			if(cnt5 > 0) {
-				result += '<td>Optional</td>';
+				result += '<th>Optional</th>';
 			}
 			if(cnt6 > 0) {
-				result += '<td>Nullable</td>';
+				result += '<th>Nullable</th>';
 			}
 			if(cnt3 > 0) {
-				result += '<td>Description</td>';
+				result += '<th>Description</th>';
 			}
 
 			result += '</tr>';
