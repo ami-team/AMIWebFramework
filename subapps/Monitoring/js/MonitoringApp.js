@@ -47,20 +47,34 @@ $AMIClass('MonitoringApp', {
 
 		this._extraTitle = /*-*/''/*-*/;
 
+		this._externalFrame = /*-*/''/*-*/;
+
 		/*---------------------------------------------------------*/
 
 		if(userdata)
 		{
-			var json = JSON.parse(userdata);
-
-			if(json.conf_file)
+			try
 			{
-				this._confFile = json.conf_file;
+				var json = JSON.parse(userdata);
+
+				if(json.conf_file)
+				{
+					this._confFile = json.conf_file;
+				}
+
+				if(json.extra_title)
+				{
+					this._extraTitle = json.extra_title;
+				}
+
+				if(json.external_frame)
+				{
+					this._externalFrame = json.external_frame;
+				}
 			}
-
-			if(json.extra_title)
+			catch(e)
 			{
-				this._extraTitle = json.extra_title;
+				/* IGNORE */
 			}
 		}
 
@@ -81,7 +95,7 @@ $AMIClass('MonitoringApp', {
 			'js/3rd-party/canvasjs.min.js',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {externalFrame: this._externalFrame}}).done(function() {
 
 				/*-----------------------------------------*/
 
