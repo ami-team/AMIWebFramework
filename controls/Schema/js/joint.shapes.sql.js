@@ -65,7 +65,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		'<g>',
 		  '<path class="sql-table-top" />',
 		  '<path class="sql-table-body" />',
-		  '<a xlink:href="" target="_blank"><text class="sql-table-tool">🔍</text></a><text class="sql-table-name" />',
+		  '<a class="sql-table-link" xlink:href="" target="_blank"><text class="sql-table-tool">🔍</text></a><text class="sql-table-name" />',
 		'<text class="sql-table-columns" />',
 		'</g>',
 	].join(''),
@@ -286,7 +286,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		this.attr('.sql-table-name/text', name);
 
-		this.attr('.sql-table-tool/href', '?subapp=tableViewer&amp;userdata=' + encodeURIComponent(
+		this.attr('.sql-table-link/href', '?subapp=tableViewer&userdata=' + encodeURIComponent(
 			'{'
 			+
 			'"catalog":"' + catalog + '",' + '"entity":"' + table + '",' + '"query":"SELECT `' + catalog + '`.`' + table + '`.*"'
