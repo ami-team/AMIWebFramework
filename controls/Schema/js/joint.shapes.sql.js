@@ -91,7 +91,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			'.sql-table-tool': {
 				'ref': '.sql-table-top',
 				'ref-y': 0.55,
-				'ref-x': 0.5,
+				'ref-x': 0.05,
 				'x-alignment': 'middle',
 				'y-alignment': 'middle',
 				'fill': 'white',
@@ -101,8 +101,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			},
 			'.sql-table-name': {
 				'ref': '.sql-table-top',
+				'ref-x': 0.50,
 				'ref-y': 0.55,
-				'ref-x': 0.5,
 				'x-alignment': 'middle',
 				'y-alignment': 'middle',
 				'fill': 'white',
@@ -112,8 +112,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			},
 			'.sql-table-columns': {
 				'ref': '.sql-table-body',
-				'ref-y': 7.5,
 				'ref-x': 10,
+				'ref-y': 7.5,
 				'fill': 'black',
 				'font-family': 'Courier New',
 				'font-weight': 'normal',
@@ -279,9 +279,9 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		var name = table.toUpperCase();
 
-		if(name.length > 24)
+		if(name.length > 22)
 		{
-			name = name.substring(0, 22) + '…';
+			name = name.substring(0, 20) + '…';
 		}
 
 		this.attr('.sql-table-name/text', name);
@@ -337,8 +337,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		this.resize(width, height);
 
-		width += 1; // For nice overlap
-		height += 1; // For nice overlap
+		width += 2; // For nice overlap (stroke)
+		height += 2; // For nice overlap (stroke)
 
 		this.attr('.sql-table-top/d', _my_rounded_rect(0, 0, width, 20, 8, true, true, false, false));
 		this.attr('.sql-table-body/d', _my_rounded_rect(0, 20, width, height, 2, false, false, true, true));
