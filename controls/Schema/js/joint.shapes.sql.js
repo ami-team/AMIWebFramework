@@ -90,7 +90,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			},
 			'.sql-table-tool': {
 				'ref': '.sql-table-top',
-				'ref-x': 0.01,
+				'ref-x': 0.015,
 				'ref-y': 0.50,
 				'x-alignment': 'left',
 				'y-alignment': 'middle',
@@ -279,9 +279,9 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		var name = table.toUpperCase();
 
-		if(name.length > 22)
+		if(name.length > 23)
 		{
-			name = name.substring(0, 20) + '…';
+			name = name.substring(0, 21) + '…';
 		}
 
 		this.attr('.sql-table-name/text', name);
