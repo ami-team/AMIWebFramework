@@ -65,7 +65,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		'<g>',
 		  '<path class="sql-table-top" />',
 		  '<path class="sql-table-body" />',
-		  '<a class="sql-table-link" xlink:href="" target="_blank"><text class="sql-table-tool"></text></a><text class="sql-table-name" />',
+		  '<a class="sql-table-link" xlink:href="" target="_blank"><text class="sql-table-tool"></text></a><text class="sql-table-name" />',
 		'<text class="sql-table-columns" />',
 		'</g>',
 	].join(''),
@@ -126,6 +126,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		topColor: '#0066CC',
 		bodyColor: '#FFFFFF',
 		strokeColor: '#0057AD',
+		showLinkTool: true,
 		columns: [],
 
 	}, joint.shapes.basic.Generic.prototype.defaults),
@@ -224,20 +225,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 	/*-----------------------------------------------------------------*/
 
-	getFields: function()
-	{
-		return this.get('columns');
-	},
-
-	setFields: function(columns)
-	{
-		this.set('columns', columns);
-
-		this.updateFields();
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	appendField: function(item)
 	{
 		var columns = this.get('columns');
@@ -274,6 +261,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 	updateTable: function()
 	{
+		/*---------------------------------------------------------*/
+
 		var catalog = this.get('catalog');
 		var table = this.get('table');
 
@@ -286,13 +275,26 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		this.attr('.sql-table-name/text', name);
 
-		this.attr('.sql-table-link/href', '?subapp=tableViewer&userdata=' + encodeURIComponent(
-			'{'
-			+
-			'"catalog":"' + catalog + '",' + '"entity":"' + table + '",' + '"query":"SELECT `' + catalog + '`.`' + table + '`.*"'
-			+
-			'}'
-		));
+		/*---------------------------------------------------------*/
+
+		if(this.get('showLinkTool'))
+		{
+			this.attr('.sql-table-link/href', '?subapp=tableViewer&userdata=' + encodeURIComponent(
+				'{'
+				+
+				'"catalog":"' + catalog + '",' + '"entity":"' + table + '",' + '"query":"SELECT `' + catalog + '`.`' + table + '`.*"'
+				+
+				'}'
+			));
+
+			this.attr('.sql-table-tool/text', '');
+		}
+		else
+		{
+			this.attr('.sql-table-tool/text', '');
+		}
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -310,6 +312,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 	updateFields: function()
 	{
+		/*---------------------------------------------------------*/
+
 		var cnt = 0
 		var text = '';
 
@@ -332,6 +336,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			text += line + '\n';
 		});
 
+		/*---------------------------------------------------------*/
+
 		var width = this.get('size').width;
 		var height = Math.ceil((cnt * 14 + 20) / 10.0) * 10 - 2;
 
@@ -344,6 +350,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.attr('.sql-table-body/d', _my_rounded_rect(0, 20, width, height, 2, false, false, true, true));
 
 		this.attr('.sql-table-columns/text', text);
+
+		/*---------------------------------------------------------*/
 	}
 
 	/*-----------------------------------------------------------------*/

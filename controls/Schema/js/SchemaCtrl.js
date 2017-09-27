@@ -214,6 +214,7 @@ $AMIClass('SchemaCtrl', {
 								topColor: topColor,
 								bodyColor: bodyColor,
 								strokeColor: strokeColor,
+								showLinkTool: amiWebApp.isEmbedded() === false,
 							}),
 							fields: [],
 						};
