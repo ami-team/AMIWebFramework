@@ -50,13 +50,13 @@ $AMIClass('SchemaCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	render: function(id, catalog, settings)
+	render: function(selector, catalog, settings)
 	{
 		var _this = this;
 
 		/*---------------------------------------------------------*/
 
-		var el1 = $(this._id = id);
+		var el1 = $(this._selector = selector);
 
 		el1.css('box-shadow', '0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075)');
 		el1.css('border', '1px solid rgb(231, 231, 231)');
@@ -101,14 +101,27 @@ $AMIClass('SchemaCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
+	fitToContent: function()
+	{
+		this.paper.fitToContent({
+			padding: 10,
+			gridWidth: 10,
+			gridHeight: 10,
+			minWidth: this._width,
+			minHeight: this._height,
+		});
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	_refresh: function(result, catalog, settings)
 	{
 		context = result;
 
 		editable = false;
 
-		width = 2000;
-		height = 2000;
+		this._width = 2000;
+		this._height = 2000;
 
 		if(settings)
 		{
@@ -121,11 +134,11 @@ $AMIClass('SchemaCtrl', {
 			}
 
 			if('width' in settings) {
-				width = setting['width'];
+				this._width = setting['width'];
 			}
 
 			if('height' in settings) {
-				height = setting['height'];
+				this._height = setting['height'];
 			}
 		}
 
@@ -139,8 +152,6 @@ $AMIClass('SchemaCtrl', {
 		/*---------------------------------------------------------*/
 
 		this.graph.clear();
-
-		this.paper.setDimensions(width, height);
 
 		/*---------------------------------------------------------*/
 
@@ -252,6 +263,12 @@ $AMIClass('SchemaCtrl', {
 			}, this);
 
 			/*-------------------------------------------------*/
+			/* FIT TO CONTENT                                  */
+			/*-------------------------------------------------*/
+
+			this.fitToContent();
+
+			/*-------------------------------------------------*/
 
 			result.resolveWith(context);
 
@@ -283,7 +300,7 @@ $AMIClass('SchemaCtrl', {
 			})
 		}
 
-		return result;
+		return result.promise();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -321,7 +338,7 @@ $AMIClass('SchemaCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var svg = $(this._id + ' svg');
+		var svg = $(this._selector + ' svg');
 
 		/*---------------------------------------------------------*/
 

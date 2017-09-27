@@ -52,7 +52,7 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	render: function(id, command, settings)
+	render: function(selector, command, settings)
 	{
 		this.command = command.trim();
 
@@ -171,7 +171,7 @@ $AMIClass('TableCtrl', {
 
 		if(this.defaultFields.length > 0)
 		{
-			this._display(id);
+			this._display(selector);
 		}
 		else
 		{
@@ -182,7 +182,7 @@ $AMIClass('TableCtrl', {
 				this.defaultTypes = amiWebApp.jspath('..field{.@name==="type"}.$', data) || [];
 				this.defaultSizes = amiWebApp.jspath('..field{.@name==="size"}.$', data) || [];
 
-				this._display(id);
+				this._display(selector);
 
 			}).fail(function() {
 
@@ -190,7 +190,7 @@ $AMIClass('TableCtrl', {
 				this.defaultValues = /*------------*/[ ]/*------------*/;
 				this.defaultTypes = /*------------*/[ ]/*------------*/;
 
-				this._display(id);
+				this._display(selector);
 			});
 		}
 
@@ -199,7 +199,7 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	_display: function(id)
+	_display: function(selector)
 	{
 		/*---------------------------------------------------------*/
 
@@ -250,7 +250,7 @@ $AMIClass('TableCtrl', {
 			orderWay: this.orderWay,
 		};
 
-		this.replaceHTML(id, this.fragmentTableCtrl, {context: this, dict: dict}).done(function() {
+		this.replaceHTML(selector, this.fragmentTableCtrl, {context: this, dict: dict}).done(function() {
 
 			this.appendHTML('body', this.fragmentModal, {context: this, dict: dict}).done(function() {
 
