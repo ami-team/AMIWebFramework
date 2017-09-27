@@ -90,8 +90,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			},
 			'.sql-table-tool': {
 				'ref': '.sql-table-top',
-				'ref-y': 0.55,
 				'ref-x': 0.05,
+				'ref-y': 0.50,
 				'x-alignment': 'middle',
 				'y-alignment': 'middle',
 				'fill': 'white',
@@ -102,7 +102,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			'.sql-table-name': {
 				'ref': '.sql-table-top',
 				'ref-x': 0.50,
-				'ref-y': 0.55,
+				'ref-y': 0.50,
 				'x-alignment': 'middle',
 				'y-alignment': 'middle',
 				'fill': 'white',
