@@ -67,9 +67,7 @@ $AMIClass('SchemaCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var el2 = $('<div></div>').appendTo(el1);
-
-		el2.css('margin', 'auto');
+		var el2 = $('<div class="ami-schema"></div>').appendTo(el1);
 
 		/*---------------------------------------------------------*/
 

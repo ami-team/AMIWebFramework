@@ -8,19 +8,19 @@
 
 /*-------------------------------------------------------------------------*/
 
-.joint-paper-grid {
+.ami-schema .joint-paper-grid {
 	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAEklEQVQY02NgYGD4zzAKBh8AAJYTAQDCZ1BnAAAAAElFTkSuQmCC');
 }
 
 /*-------------------------------------------------------------------------*/
 
-.joint-paper a:hover {
+.ami-schema a:hover {
 	text-decoration: none;
 }
 
 /*-------------------------------------------------------------------------*/
 
-.link-tools .tool-remove {
+.ami-schema .link-tools .tool-remove {
 	display: none;
 }
 
