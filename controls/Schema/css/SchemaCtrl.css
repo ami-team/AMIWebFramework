@@ -1,0 +1,27 @@
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-2017 The AMI Team
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ *
+ */
+
+/*-------------------------------------------------------------------------*/
+
+.joint-paper-grid {
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAABmJLR0QA/wD/AP+gvaeTAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAEklEQVQY02NgYGD4zzAKBh8AAJYTAQDCZ1BnAAAAAElFTkSuQmCC');
+}
+
+/*-------------------------------------------------------------------------*/
+
+.joint-paper a:hover {
+	text-decoration: none;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.link-tools .tool-remove {
+	display: none;
+}
+
+/*-------------------------------------------------------------------------*/
