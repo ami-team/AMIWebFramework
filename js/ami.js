@@ -6394,8 +6394,16 @@ $AMIClass('ami.Control', /** @lends ami.Control */{
 
 	/*-----------------------------------------------------------------*/
 
-	$init: function $init() {
+	$init: function $init(parent) {
+		this._parent = parent || null;
+
 		this.instanceSuffix = ami.Control.instanceCnt++;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	getParent: function getParent() {
+		return this._parent;
 	},
 
 	/*-----------------------------------------------------------------*/
