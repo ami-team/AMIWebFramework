@@ -162,7 +162,7 @@ code {
 
 /*-------------------------------------------------------------------------*/
 
-.nav-tabs {
+.nav-tabs:not(.card-header-tabs) {
 	margin-bottom: 0.5rem;
 }
 
