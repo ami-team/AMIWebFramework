@@ -57,7 +57,7 @@ $AMIClass('TabCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	_getPanEl: function(tabId)
+	_getPaneEl: function(tabId)
 	{
 		return $(this._selector + ' #' + tabId);
 	},
@@ -150,7 +150,7 @@ $AMIClass('TabCtrl', {
 	{
 		this._getTabEl(tabId).remove();
 
-		this._getPanEl(tabId).remove();
+		this._getPaneEl(tabId).remove();
 	},
 
 	/*-----------------------------------------------------------------*/
