@@ -6414,15 +6414,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*---------------------------------------------------------*/
 
-		let html = this.formatTWIG(twig, dict);
-
 		if(suffix)
 		{
-			html = html.replace(this._idRegExp, function(id) {
+			twig = twig.replace(this._idRegExp, function(id) {
 
 				return id + '_instance' + suffix;
 			});
 		}
+
+		let html = this.formatTWIG(twig, dict);
 
 		/*---------------------------------------------------------*/
 

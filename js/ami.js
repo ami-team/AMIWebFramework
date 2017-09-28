@@ -5570,14 +5570,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*---------------------------------------------------------*/
 
-		var html = this.formatTWIG(twig, dict);
-
 		if (suffix) {
-			html = html.replace(this._idRegExp, function (id) {
+			twig = twig.replace(this._idRegExp, function (id) {
 
 				return id + '_instance' + suffix;
 			});
 		}
+
+		var html = this.formatTWIG(twig, dict);
 
 		/*---------------------------------------------------------*/
 
