@@ -18,9 +18,9 @@ $AMIClass('TabCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	$init: function()
+	$init: function(parent)
 	{
-		this.$super.$init();
+		this.$super.$init(parent);
 
 		this._cnt = 0;
 	},

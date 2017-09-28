@@ -16,32 +16,39 @@
 
 		<script type="text/javascript">
 
+			var myTab;
 			var mySchema;
-			var myTable2;
+			var myTable;
 
 			amiWebApp.onRefresh = function(isAuth) {
 
 				if(isAuth)
 				{
+					myTab.render('#myTab');
+					myTab.appendTab('tab1');
+					myTab.appendTab('tab2');
+
 					mySchema.render('#mySchema', 'self');
 
-					myTable2.render('#myTable2', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
+					myTable.render('#myTable', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
 				}
 				else
 				{
-					$('#myTable1').empty();
-
-					$('#myTable2').empty();
+					$('#myTab').empty();
+					$('#mySchema').empty();
+					$('#myTable').empty();
 				}
 			};
 
 			amiWebApp.onReady = function() {
 
-				return amiWebApp.loadResources(['ctrl:schema', 'ctrl:table']).done(function(controls) {
+				return amiWebApp.loadResources(['ctrl:tab', 'ctrl:schema', 'ctrl:table']).done(function(controls) {
 
-					mySchema = new controls[0];
+					myTab = new controls[0];
 
-					myTable2 = new controls[1];
+					mySchema = new controls[1];
+
+					myTable = new controls[2];
 				});
 			};
 
@@ -61,8 +68,17 @@
 
 		<div id="ami_alert_content"></div>
 
+		<br />
+
+		<div id="myTab" style="margin: auto; width: 75%;"></div>
+
+		<br />
+
 		<div id="mySchema" style="margin: auto; width: 95%; height: 400px;"></div>
-		<div id="myTable2" style="margin: auto; width: 75%;"></div>
+
+		<br />
+
+		<div id="myTable" style="margin: auto; width: 75%;"></div>
 
 	</body>
 </html>

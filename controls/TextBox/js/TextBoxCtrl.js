@@ -18,9 +18,9 @@ $AMIClass('TextBoxCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	$init: function()
+	$init: function(parent)
 	{
-		this.$super.$init();
+		this.$super.$init(parent);
 	},
 
 	/*-----------------------------------------------------------------*/
