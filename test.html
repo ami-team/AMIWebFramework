@@ -29,7 +29,9 @@
 
 					myTab1.appendTab('tab1').done(function(sel) {
 
-						$(sel).html('Wello world 1');
+						myTable.render(sel, 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
+
+						//$(sel).html('Wello world 1');
 					});
 
 					myTab1.appendTab('tab2').done(function(sel) {
@@ -50,8 +52,6 @@
 					});
 
 					mySchema.render('#mySchema', 'self');
-
-					myTable.render('#myTable', 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
 				}
 				else
 				{
