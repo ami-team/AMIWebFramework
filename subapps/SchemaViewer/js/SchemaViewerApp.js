@@ -7,8 +7,6 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global joint
- *
  */
 
 /*-------------------------------------------------------------------------*/
@@ -30,86 +28,49 @@ $AMIClass('SchemaViewerApp', {
 
 		var result = $.Deferred();
 
-		amiWebApp.loadScripts([
-			'js/3rd-party/jscolor.min.js',
-			'js/3rd-party/filesaver.min.js',
-			'js/3rd-party/jointjs/lodash.min.js',
-			'js/3rd-party/jointjs/backbone-min.js',
-			'js/3rd-party/jointjs/joint.min.js',
-			'subapps/SchemaViewer/js/joint.shapes.sql.js',
-		], {context: this}).done(function() {
+		amiWebApp.loadResources([
+			'subapps/SchemaViewer/twig/SchemaViewerApp.twig',
+			'subapps/SchemaViewer/css/SchemaViewerApp.css',
+			'ctrl:schema',
+		], {context: this}).done(function(data) {
 
-			amiWebApp.loadSheets([
-				'css/3rd-party/jointjs/joint.min.css',
-				'subapps/SchemaViewer/css/SchemaViewerApp.css',
-			]);
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
+				/*---------------------------------*/
+				/* DROP ZONE                       */
+				/*---------------------------------*/
 
-			amiWebApp.loadHTMLs([
-				'subapps/SchemaViewer/twig/SchemaViewerApp.twig',
-			], {context: this}).done(function(data) {
+				var dropZone = document.getElementById('EFAEDA1C_C8B2_46EA_AC47_A591A0704FE3');
 
-				amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
-					/*---------------------------------*/
-					/* DROP ZONE                       */
-					/*---------------------------------*/
+				dropZone.addEventListener('dragover', this.handleDragOver, false);
+				dropZone.addEventListener('drop'    , this.handleDrop    , false);
 
-					var dropZone = document.getElementById('EFAEDA1C_C8B2_46EA_AC47_A591A0704FE3');
+				/*---------------------------------*/
+				/* EDITOR                          */
+				/*---------------------------------*/
 
-					dropZone.addEventListener('dragover', this.handleDragOver, false);
-					dropZone.addEventListener('drop'    , this.handleDrop    , false);
+				(this.schema = new data[2]).render('#C6DDFAF6_9E75_41C5_87BD_0896B5299559');
 
-					/*---------------------------------*/
-					/* EDITOR                          */
-					/*---------------------------------*/
+				/*---------------------------------*/
 
-					var el = $('#BDA5FA36_3523_4435_8ED1_8BC0315BACAB');
+				$('#DB5F6C24_4775_40D5_AFA4_F1847423A4B5').val(
+					$('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').outerHeight()
+				);
 
-					/*---------------------------------*/
+				/*---------------------------------*/
 
-					this.graph = new joint.dia.Graph;
+				amiWebApp.loadResources([
+					'js/3rd-party/jscolor.min.js'
+				]);
 
-					this.paper = new joint.dia.Paper({
-						model: this.graph,
-						el: el,
-						width: 1,
-						height: 1,
-						gridSize: 5.0,
-					});
+				/*---------------------------------*/
+				/* DEFAULT CATALOG                 */
+				/*---------------------------------*/
 
-					/*---------------------------------*/
+				this.defaultCatalog = userdata;
 
-					if(amiLogin.hasRole('AMI_ADMIN'))
-					{
-						el.find('svg').css('background-image', 'url("' + this.getGridBackgroundImage(10, 10) + '")');
-					}
+				/*---------------------------------*/
 
-					/*---------------------------------*/
-
-					this.resizeTriggerOn = true;
-
-					this.paper.on('resize', function(width, height) {
-
-						if(schemaViewerApp.resizeTriggerOn)
-						{
-							$('#E16F14F4_FBB4_43A3_AC79_76BEE3087F77').val(schemaViewerApp.paperWidth = width);
-							$('#DB5F6C24_4775_40D5_AFA4_F1847423A4B5').val(schemaViewerApp.paperHeight = height);
-						}
-					});
-
-					/*---------------------------------*/
-					/* DEFAULT CATALOG                 */
-					/*---------------------------------*/
-
-					this.defaultCatalog = userdata;
-
-					/*---------------------------------*/
-
-					result.resolve();
-				});
-
-			}).fail(function(data) {
-
-				result.reject(data);
+				result.resolve();
 			});
 
 		}).fail(function(data) {
@@ -150,10 +111,15 @@ $AMIClass('SchemaViewerApp', {
 					}
 				}, this);
 
-				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', false);
-				$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
-
 				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').html(s);
+
+				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', false);
+
+				$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
+				$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', false);
+
+				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
+				$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
 
 				this.openSchema(this.defaultCatalog);
 
@@ -172,81 +138,17 @@ $AMIClass('SchemaViewerApp', {
 
 	onLogout: function()
 	{
-		this.graph.clear();
-
-		this.paper.setDimensions(1, 1);
+		this.schema.clear();
 
 		$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').empty();
 
 		$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', true);
+
 		$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', true);
 		$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', true);
+
 		$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', true);
 		$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', true);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	getGridBackgroundImage: function(gridX, gridY)
-	{
-		var canvas = document.createElement('canvas');
-
-		canvas.width = gridX;
-		canvas.height = gridY;
-
-		if(gridX > 5
-		   &&
-		   gridY > 5
-		 ) {
-			var context = canvas.getContext('2d');
-
-			context.beginPath();
-			context.rect(
-				gridX - 1,
-				gridY - 1,
-				1,
-				1
-			);
-			context.fillStyle = 'black';
-			context.fill();
-		}
-
-		return canvas.toDataURL('image/png');
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	fitToContent: function()
-	{
-		this.resizeTriggerOn = true;
-
-		this.paper.fitToContent({
-			padding: 10,
-			gridWidth: 10,
-			gridHeight: 10,
-		});
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	setPaperWidth: function(value) {
-
-		this.resizeTriggerOn = false;
-
-		this.paperWidth = Math.ceil(parseInt(value, 10) / 10.0) * 10;
-
-		this.paper.setDimensions(this.paperWidth, this.paperHeight);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	setPaperHeight: function(value) {
-
-		this.resizeTriggerOn = false;
-
-		this.paperHeight = Math.ceil(parseInt(value, 10) / 10.0) * 10;
-
-		this.paper.setDimensions(this.paperWidth, this.paperHeight);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -276,11 +178,9 @@ $AMIClass('SchemaViewerApp', {
 			{
 				try
 				{
-					var text = JSON.parse(e.target.result);
+					var json = JSON.parse(e.target.result);
 
-					schemaViewerApp.graph.fromJSON(text);
-
-					schemaViewerApp.fitToContent();
+					schemaViewerApp.schema.setJSON(json);
 				}
 				catch(e)
 				{
@@ -290,6 +190,13 @@ $AMIClass('SchemaViewerApp', {
 
 			reader.readAsText(file);
 		}
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	setPaperHeight: function(height)
+	{
+		$('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').outerHeight(height);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -305,153 +212,18 @@ $AMIClass('SchemaViewerApp', {
 
 		amiWebApp.lock();
 
-		/*---------------------------------------------------------*/
-
-		this.graph.clear();
-
-		/*---------------------------------------------------------*/
-
-		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `custom` FROM `router_catalog` WHERE `externalCatalog` = \'' + amiWebApp.textToString(catalog) + '\'"', {context: this}).done(function(data) {
-			/*-------------------------------------------------*/
-			/* GET JSON INFO                                   */
-			/*-------------------------------------------------*/
-
-			var custom;
-
-			try
-			{
-				custom = JSON.parse(amiWebApp.jspath('..field{.@name==="custom"}.$', data)[0] || '{}');
-			}
-			catch(e)
-			{
-				custom = {};
-			}
-
-			/*-------------------------------------------------*/
-			/* GET COLUMNS                                     */
-			/*-------------------------------------------------*/
-
-			var cnt = 0;
-
-			var tables = {};
-
-			$.each(this.columns, function(index, value) {
-
-				if(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] === catalog)
-				{
-					var table = amiWebApp.jspath('..field{.@name==="table"}.$', value)[0];
-					var name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0];
-					var type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0];
-					var primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0];
-
-					if(!(table in tables))
-					{
-						var x;
-						var y;
-						var topColor;
-						var bodyColor;
-						var strokeColor;
-
-						if(!(table in custom))
-						{
-							x = y = 20
-							      + 10 * cnt++;
-							topColor = '#0066CC';
-							bodyColor = '#FFFFFF';
-							strokeColor = '#0057AD';
-						}
-						else
-						{
-							x = custom[table].x;
-							y = custom[table].y;
-							topColor = custom[table].topColor;
-							bodyColor = custom[table].bodyColor;
-							strokeColor = custom[table].strokeColor;
-						}
-
-						tables[table] = {
-							table: this.graph.newTable({
-								position: {
-									x: x,
-									y: y,
-								},
-								catalog: catalog,
-								table: table,
-								topColor: topColor,
-								bodyColor: bodyColor,
-								strokeColor: strokeColor,
-							}),
-							fields: [],
-						};
-					}
-
-					if(!(name in tables[table]['fields']))
-					{
-						tables[table]['table'].appendField({
-							name: name,
-							type: type,
-							primary: primary === 'true',
-						});
-					}
-				}
-			}, this);
-
-			/*-------------------------------------------------*/
-			/* GET FKEYS                                       */
-			/*-------------------------------------------------*/
-
-			$.each(this.foreignKeys, function(index, value) {
-
-				if(amiWebApp.jspath('..field{.@name==="fkExternalCatalog"}.$', value)[0] === catalog
-				   &&
-				   amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', value)[0] === catalog
-				 ) {
-					var fkTable = amiWebApp.jspath('..field{.@name==="fkTable"}.$', value)[0];
-					var pkTable = amiWebApp.jspath('..field{.@name==="pkTable"}.$', value)[0];
-
-					this.graph.newForeignKey(
-						tables[fkTable]['table'].get('id'),
-						tables[pkTable]['table'].get('id'),
-					);
-				}
-			}, this);
-
-			/*-------------------------------------------------*/
-			/* FIT TO CONTENT                                  */
-			/*-------------------------------------------------*/
-
-			this.fitToContent();
-
-			/*-------------------------------------------------*/
-			/* CHANGE CURRENT URL                              */
-			/*-------------------------------------------------*/
+		this.schema.refresh(catalog).done(function() {
 
 			window.history.pushState('', '', amiWebApp.webAppURL + '?subapp=schemaViewer&userdata=' + encodeURIComponent(catalog));
 
-			/*-------------------------------------------------*/
-			/* ENABLE TOOL BUTTONS                             */
-			/*-------------------------------------------------*/
-
-			$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
-			$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
-
-			if(amiLogin.hasRole('AMI_ADMIN'))
-			{
-				$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', false);
-				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
-			}
-
-			/*-------------------------------------------------*/
-			/* UNLOCK                                          */
-			/*-------------------------------------------------*/
-
 			amiWebApp.unlock();
 
-			/*-------------------------------------------------*/
 		}).fail(function(data) {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -466,7 +238,7 @@ $AMIClass('SchemaViewerApp', {
 
 		var custom = {};
 
-		$.each(this.graph.getCells(), function(index, value) {
+		$.each(this.schema.graph.getCells(), function(index, value) {
 
 			if(value.get('type') === 'sql.Table')
 			{
@@ -514,44 +286,14 @@ $AMIClass('SchemaViewerApp', {
 
 	exportSchema: function()
 	{
-		amiWebApp.lock();
-
-		try
-		{
-			var json = JSON.stringify(this.graph.toJSON());
-
-			var blob = new Blob([json], {type: 'application/json'});
-
-			saveAs(blob, 'schema.json');
-
-			amiWebApp.unlock();
-		}
-		catch(e)
-		{
-			amiWebApp.error(e, true);
-		}
+		this.schema.exportSchema();
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	printSchema: function()
 	{
-		/*---------------------------------------------------------*/
-
-		var svg = $('#BDA5FA36_3523_4435_8ED1_8BC0315BACAB svg');
-
-		/*---------------------------------------------------------*/
-
-		var w = window.open('', '', 'height=' + svg.height() + ', width=' + svg.width() + ', toolbar=no');
-
-		w.document.write('<html><head><style>body { margin: 0px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap { display: none; } .connection { fill: none; }</style></head><body>' + $('#BDA5FA36_3523_4435_8ED1_8BC0315BACAB').html() + '</body></html>');
-
-		$(w.document).find('svg').css('background-image', 'none');
-
-		w.print();
-		w.close();
-
-		/*---------------------------------------------------------*/
+		this.schema.printSchema();
 	},
 
 	/*-----------------------------------------------------------------*/

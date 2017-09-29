@@ -144,7 +144,7 @@ $AMIClass('SchemaCtrl', {
 
 		if(!catalog)
 		{
-			result.rejectWith(context);
+			result.resolveWith(context);
 
 			return;
 		}
@@ -277,7 +277,7 @@ $AMIClass('SchemaCtrl', {
 		}).fail(function(data) {
 
 			result.rejectWith(context, [data]);
-		})
+		});
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -314,6 +314,22 @@ $AMIClass('SchemaCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
+	setJSON: function(json)
+	{
+		this.graph.fromJSON(json);
+
+		this.fitToContent();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	getJSON: function()
+	{
+		return this.graph.toJSON();
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	exportSchema: function()
 	{
 		try
@@ -344,7 +360,7 @@ $AMIClass('SchemaCtrl', {
 
 		var w = window.open('', '', 'height=' + svg.height() + ', width=' + svg.width() + ', toolbar=no');
 
-		w.document.write('<html><head><style>body { margin: 0px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap { display: none; } .connection { fill: none; }</style></head><body>' + $('#BDA5FA36_3523_4435_8ED1_8BC0315BACAB').html() + '</body></html>');
+		w.document.write('<html><head><style>body { margin: 10px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap, .sql-table-link { display: none; } .connection { fill: none; }</style></head><body>' + $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').html() + '</body></html>');
 
 		$(w.document).find('svg').css('background-image', 'none');
 

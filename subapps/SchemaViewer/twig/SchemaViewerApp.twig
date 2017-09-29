@@ -1,56 +1,48 @@
 <div class="row">
 	<div class="col-md-3">
 		<ul class="nav nav-tabs" style="margin-top: 10px;">
-			<li class="active">
-				<a href="#EE062E82_8F6E_457D_94EA_E453CB1DD333" data-toggle="tab">Catalogs</a>
+			<li class="nav-item">
+				<a href="#EE062E82_8F6E_457D_94EA_E453CB1DD333" class="nav-link active" data-toggle="tab">Catalogs</a>
 			</li>
-			<li class="xxxxxx">
-				<a href="#B0A85256_B481_4C61_AE15_682237B610B9" data-toggle="tab">Properties</a>
+			<li class="nav-item">
+				<a href="#B0A85256_B481_4C61_AE15_682237B610B9" class="nav-link xxxxxx" data-toggle="tab">Properties</a>
 			</li>
 		</ul>
 		<div class="tab-content">
 			<div class="tab-pane active" id="EE062E82_8F6E_457D_94EA_E453CB1DD333">
-				<div class="panel-group">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a href="#C4DD1448_3241_4454_A804_16EF6665645A" data-toggle="collapse">Existing catalogs</a>
-							</h4>
-						</div>
-						<div class="panel-collapse collapse in" id="C4DD1448_3241_4454_A804_16EF6665645A">
-							<div class="panel-body">
-								<div>
-									<select class="form-control" id="D015B3C1_B150_4E27_99D9_A628B3F9B0AC"></select>
-								</div>
-								<div>&nbsp;</div>
-								<div>
-									<div class="btn-group btn-group-xs" style="width: 100%;">
-										<button class="btn btn-default" style="width: 50%;" id="A9A20536_D366_4AFE_96E3_56E3FAF52179" onclick="schemaViewerApp.openSchema($('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').val());">Open</button>
-										<button class="btn btn-default" style="width: 50%;" id="D342245F_B95E_4CAB_84C5_53B509C28319" onclick="schemaViewerApp.saveSchema($('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').val());">Save</button>
-									</div>
+				<div class="card mb-2">
+					<div class="card-header">
+						<a href="#C4DD1448_3241_4454_A804_16EF6665645A" data-toggle="collapse">Existing catalogs</a>
+					</div>
+					<div class="collapse show" id="C4DD1448_3241_4454_A804_16EF6665645A">
+						<div class="card-body">
+							<div>
+								<select class="form-control" id="D015B3C1_B150_4E27_99D9_A628B3F9B0AC"></select>
+							</div>
+							<div>&nbsp;</div>
+							<div>
+								<div class="btn-group" style="width: 100%;">
+									<button class="btn btn-sm btn-outline-secondary" style="width: 50%;" id="A9A20536_D366_4AFE_96E3_56E3FAF52179" onclick="schemaViewerApp.openSchema($('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').val());">Open</button>
+									<button class="btn btn-sm btn-outline-secondary" style="width: 50%;" id="D342245F_B95E_4CAB_84C5_53B509C28319" onclick="schemaViewerApp.saveSchema($('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').val());">Save</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="panel-group">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a href="#FC49A4AA_76EE_4D52_A2B6_5A0E1BAF541D" data-toggle="collapse">Import / Export schema</a>
-							</h4>
-						</div>
-						<div class="panel-collapse collapse in" id="FC49A4AA_76EE_4D52_A2B6_5A0E1BAF541D">
-							<div class="panel-body">
-								<div id="EFAEDA1C_C8B2_46EA_AC47_A591A0704FE3">
-									Drop a file
-								</div>
-								<div>&nbsp;</div>
-								<div>
-									<div class="btn-group btn-group-xs" style="width: 100%;">
-										<button class="btn btn-default" style="width: 50%;" id="A8A2E848_F02A_40C7_8327_53F73B1B2BD6" onclick="schemaViewerApp.exportSchema();">Export</button>
-										<button class="btn btn-default" style="width: 50%;" id="DA57C571_E294_4D75_B36F_FF6BB066D504" onclick="schemaViewerApp.printSchema();">Print</button>
-									</div>
+				<div class="card mb-0">
+					<div class="card-header">
+						<a href="#FC49A4AA_76EE_4D52_A2B6_5A0E1BAF541D" data-toggle="collapse">Import / Export schema</a>
+					</div>
+					<div class="collapse show" id="FC49A4AA_76EE_4D52_A2B6_5A0E1BAF541D">
+						<div class="card-body">
+							<div id="EFAEDA1C_C8B2_46EA_AC47_A591A0704FE3">
+								Drop a file
+							</div>
+							<div>&nbsp;</div>
+							<div>
+								<div class="btn-group" style="width: 100%;">
+									<button class="btn btn-sm btn-outline-secondary" style="width: 50%;" id="A8A2E848_F02A_40C7_8327_53F73B1B2BD6" onclick="schemaViewerApp.exportSchema();">Export</button>
+									<button class="btn btn-sm btn-outline-secondary" style="width: 50%;" id="DA57C571_E294_4D75_B36F_FF6BB066D504" onclick="schemaViewerApp.printSchema();">Print</button>
 								</div>
 							</div>
 						</div>
@@ -58,42 +50,26 @@
 				</div>
 			</div>
 			<div class="tab-pane" id="B0A85256_B481_4C61_AE15_682237B610B9">
-				<div class="panel-group">
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a href="#B3EBFDD2_58B1_4D62_ABA3_9C20270C38B4" data-toggle="collapse">Sheet</a>
-							</h4>
-						</div>
-						<div class="panel-collapse collapse in" id="B3EBFDD2_58B1_4D62_ABA3_9C20270C38B4">
-							<div class="panel-body">
-								<table class="table table-condensed" style="margin: 0px;">
-									<thead>
-										<tr>
-											<th style="border-top: none;">Width</th>
-											<th style="border-top: none;">Height</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td><input type="number" step="10" class="form-control input-sm" id="E16F14F4_FBB4_43A3_AC79_76BEE3087F77" onkeyup="schemaViewerApp.setPaperWidth(this.value);" onchange="schemaViewerApp.setPaperWidth(this.value);" /></td>
-											<td><input type="number" step="10" class="form-control input-sm" id="DB5F6C24_4775_40D5_AFA4_F1847423A4B5" onkeyup="schemaViewerApp.setPaperHeight(this.value);" onchange="schemaViewerApp.setPaperHeight(this.value);" /></td>
-										</tr>
-									</tbody>
-								</table>
+				<div class="card mb-2">
+					<div class="card-header">
+						<a href="#B3EBFDD2_58B1_4D62_ABA3_9C20270C38B4" data-toggle="collapse">Sheet</a>
+					</div>
+					<div class="collapse show" id="B3EBFDD2_58B1_4D62_ABA3_9C20270C38B4">
+						<div class="card-body">
+							<div>
+								<label>Page height</label>
+								<input type="number" step="1" class="form-control form-control-sm" id="DB5F6C24_4775_40D5_AFA4_F1847423A4B5" onkeyup="schemaViewerApp.setPaperHeight(this.value);" onchange="schemaViewerApp.setPaperHeight(this.value);" /></td>
 							</div>
 						</div>
 					</div>
-					<div class="panel panel-default">
-						<div class="panel-heading">
-							<h4 class="panel-title">
-								<a href="#F5F86E23_C7C0_4C8A_8D67_C997C4DECB50" data-toggle="collapse">Color</a>
-							</h4>
-						</div>
-						<div class="panel-collapse collapse in" id="F5F86E23_C7C0_4C8A_8D67_C997C4DECB50">
-							<div class="panel-body">
-								<input type="text" value="0066CC" class="form-control input-sm jscolor" />
-							</div>
+				</div>
+				<div class="card mb-0">
+					<div class="card-header">
+						<a href="#F5F86E23_C7C0_4C8A_8D67_C997C4DECB50" data-toggle="collapse">Boxes</a>
+					</div>
+					<div class="collapse show" id="F5F86E23_C7C0_4C8A_8D67_C997C4DECB50">
+						<div class="card-body">
+							<input type="text" value="0066CC" class="form-control form-control-sm jscolor" />
 						</div>
 					</div>
 				</div>
@@ -101,8 +77,6 @@
 		</div>
 	</div>
 	<div class="col-md-9">
-		<div id="C6DDFAF6_9E75_41C5_87BD_0896B5299559">
-			<div id="BDA5FA36_3523_4435_8ED1_8BC0315BACAB"></div>
-		</div>
+		<div id="C6DDFAF6_9E75_41C5_87BD_0896B5299559"></div>
 	</div>
 </div>
