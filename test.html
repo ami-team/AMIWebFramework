@@ -16,7 +16,8 @@
 
 		<script type="text/javascript">
 
-			var myTab;
+			var myTab1;
+			var myTab2;
 			var mySchema;
 			var myTable;
 
@@ -24,9 +25,29 @@
 
 				if(isAuth)
 				{
-					myTab.render('#myTab');
-					myTab.appendTab('tab1');
-					myTab.appendTab('tab2');
+					myTab1.render('#myTab1');
+
+					myTab1.appendTab('tab1').done(function(sel) {
+
+						$(sel).html('Wello world 1');
+					});
+
+					myTab1.appendTab('tab2').done(function(sel) {
+
+						$(sel).html('Wello world 2');
+					});
+
+					myTab2.render('#myTab2', {card: true});
+
+					myTab2.appendTab('tab3').done(function(sel) {
+
+						$(sel).html('Wello world 3');
+					});
+
+					myTab2.appendTab('tab4').done(function(sel) {
+
+						$(sel).html('Wello world 4');
+					});
 
 					mySchema.render('#mySchema', 'self');
 
@@ -34,7 +55,8 @@
 				}
 				else
 				{
-					$('#myTab').empty();
+					$('#myTab1').empty();
+					$('#myTab2').empty();
 					$('#mySchema').empty();
 					$('#myTable').empty();
 				}
@@ -44,7 +66,8 @@
 
 				return amiWebApp.loadResources(['ctrl:tab', 'ctrl:schema', 'ctrl:table']).done(function(controls) {
 
-					myTab = new controls[0];
+					myTab1 = new controls[0];
+					myTab2 = new controls[0];
 
 					mySchema = new controls[1];
 
@@ -70,15 +93,21 @@
 
 		<br />
 
-		<div id="myTab" style="margin: auto; width: 75%;"></div>
+		<div id="myTab1" style="margin: auto; width: 75%;"></div>
 
 		<br />
 
-		<div id="mySchema" style="margin: auto; width: 95%; height: 400px;"></div>
+		<div id="myTab2" style="margin: auto; width: 75%;"></div>
+
+		<br />
+
+		<div id="mySchema" style="margin: auto; width: 95%; height: 200px;"></div>
 
 		<br />
 
 		<div id="myTable" style="margin: auto; width: 75%;"></div>
+
+		<br />
 
 	</body>
 </html>

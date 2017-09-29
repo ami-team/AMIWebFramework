@@ -45,6 +45,11 @@ $AMIClass('TabCtrl', {
 
 	render: function(selector, settings)
 	{
+		if(settings)
+		{
+			settings['dict'] = {card: settings['card']};
+		}
+
 		return this.replaceHTML(this._selector = selector, this.fragmentTabCtrl, settings);
 	},
 
@@ -94,7 +99,7 @@ $AMIClass('TabCtrl', {
 					_this.removeTab(tabId);
 				});
 
-				result.resolveWith(settings && settings['context'] ? settings['context'] : result, [tabId]);
+				result.resolveWith(settings && settings['context'] ? settings['context'] : result, ['#' + tabId]);
 			});
 		});
 
@@ -135,7 +140,7 @@ $AMIClass('TabCtrl', {
 					_this.removeTab(tabId);
 				});
 
-				result.resolveWith(settings && settings['context'] ? settings['context'] : result, [tabId]);
+				result.resolveWith(settings && settings['context'] ? settings['context'] : result, ['#' + tabId]);
 			});
 		});
 
@@ -151,6 +156,29 @@ $AMIClass('TabCtrl', {
 		this._getTabEl(tabId).remove();
 
 		this._getPaneEl(tabId).remove();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	removeTabs: function()
+	{
+		$(this._selector + ' .nav-tabs').empty();
+
+		$(this._selector + ' .tab-content').empty();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	showTabs: function(visible)
+	{
+		if(visible)
+		{
+			$(this._selector + ' .nav-tabs').show();
+		}
+		else
+		{
+			$(this._selector + ' .nav-tabs').hide();
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
