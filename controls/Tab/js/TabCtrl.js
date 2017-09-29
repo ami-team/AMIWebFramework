@@ -71,9 +71,22 @@ $AMIClass('TabCtrl', {
 
 	prependTab: function(title, settings)
 	{
-		var _this = this;
-
 		var result = $.Deferred();
+
+		var context = result;
+
+		var active = false;
+
+		if(settings)
+		{
+			if(settings['context']) {
+	  			context = settings['context'];
+			}
+
+			if(settings['active']) {
+				active = settings['active'];
+			}
+		}
 
 		/*---------------------------------------------------------*/
 
@@ -82,24 +95,45 @@ $AMIClass('TabCtrl', {
 		var dict = {
 			id: tabId,
 			title: title,
-			active: this._cnt === 0,
+			active: active || this._cnt === 0,
 		};
 
 		this._cnt++;
 
 		/*---------------------------------------------------------*/
 
+		if(active)
+		{
+			$(this._selector + ' .nav-link').removeClass('active')
+			                                .addClass('xxxxxx')
+			;
+
+			$(this._selector + ' .tab-pane').removeClass('active')
+			                                .addClass('xxxxxx')
+			;
+		}
+
+		/*---------------------------------------------------------*/
+
+		var _this = this;
+
 		this.prependHTML(this._selector + ' .nav-tabs', this.fragmentNavItem, {context: this, dict: dict}).done(function() {
 			this.prependHTML(this._selector + ' .tab-content', this.fragmentTabPane, {context: this, dict: dict}).done(function() {
 
+				/*-----------------------------------------*/
+
 				this._getTabEl(tabId).find('.fa-times').click(function(e) {
 
-					e.preventDefault();
-
 					_this.removeTab(tabId);
+
+					e.preventDefault();
 				});
 
+				/*-----------------------------------------*/
+
 				result.resolveWith(settings && settings['context'] ? settings['context'] : result, ['#' + tabId]);
+
+				/*-----------------------------------------*/
 			});
 		});
 
@@ -112,9 +146,22 @@ $AMIClass('TabCtrl', {
 
 	appendTab: function(title, settings)
 	{
-		var _this = this;
-
 		var result = $.Deferred();
+
+		var context = result;
+
+		var active = false;
+
+		if(settings)
+		{
+			if(settings['context']) {
+	  			context = settings['context'];
+			}
+
+			if(settings['active']) {
+				active = settings['active'];
+			}
+		}
 
 		/*---------------------------------------------------------*/
 
@@ -123,24 +170,45 @@ $AMIClass('TabCtrl', {
 		var dict = {
 			id: tabId,
 			title: title,
-			active: this._cnt === 0,
+			active: active || this._cnt === 0,
 		};
 
 		this._cnt++;
 
 		/*---------------------------------------------------------*/
 
+		if(active)
+		{
+			$(this._selector + ' .nav-link').removeClass('active')
+			                                .addClass('xxxxxx')
+			;
+
+			$(this._selector + ' .tab-pane').removeClass('active')
+			                                .addClass('xxxxxx')
+			;
+		}
+
+		/*---------------------------------------------------------*/
+
+		var _this = this;
+
 		this.appendHTML(this._selector + ' .nav-tabs', this.fragmentNavItem, {context: this, dict: dict}).done(function() {
 			this.appendHTML(this._selector + ' .tab-content', this.fragmentTabPane, {context: this, dict: dict}).done(function() {
 
+				/*-----------------------------------------*/
+
 				this._getTabEl(tabId).find('.fa-times').click(function(e) {
 
-					e.preventDefault();
-
 					_this.removeTab(tabId);
+
+					e.preventDefault();
 				});
 
+				/*-----------------------------------------*/
+
 				result.resolveWith(settings && settings['context'] ? settings['context'] : result, ['#' + tabId]);
+
+				/*-----------------------------------------*/
 			});
 		});
 

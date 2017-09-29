@@ -30,13 +30,13 @@
 					myTab1.appendTab('tab1').done(function(sel) {
 
 						myTable.render(sel, 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
-
-						//$(sel).html('Wello world 1');
 					});
 
-					myTab1.appendTab('tab2').done(function(sel) {
+					myTab1.appendTab('tab2', {active: true}).done(function(sel) {
 
-						$(sel).html('Wello world 2');
+						$(sel).height(200);
+
+						mySchema.render(sel, 'self');
 					});
 
 					myTab2.render('#myTab2', {card: true});
@@ -50,15 +50,11 @@
 
 						$(sel).html('Wello world 4');
 					});
-
-					mySchema.render('#mySchema', 'self');
 				}
 				else
 				{
 					$('#myTab1').empty();
 					$('#myTab2').empty();
-					$('#mySchema').empty();
-					$('#myTable').empty();
 				}
 			};
 
@@ -98,16 +94,6 @@
 		<br />
 
 		<div id="myTab2" style="margin: auto; width: 75%;"></div>
-
-		<br />
-
-		<div id="mySchema" style="margin: auto; width: 95%; height: 200px;"></div>
-
-		<br />
-
-		<div id="myTable" style="margin: auto; width: 75%;"></div>
-
-		<br />
 
 	</body>
 </html>
