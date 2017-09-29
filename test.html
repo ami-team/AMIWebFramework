@@ -32,7 +32,7 @@
 						myTable.render(sel, 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
 					});
 
-					myTab1.appendTab('tab2', {active: true}).done(function(sel) {
+					myTab1.appendTab('tab2').done(function(sel) {
 
 						$(sel).height(200);
 
@@ -41,12 +41,12 @@
 
 					myTab2.render('#myTab2', {card: true});
 
-					myTab2.appendTab('tab3').done(function(sel) {
+					myTab2.appendTab('tab3', {active: false}).done(function(sel) {
 
 						$(sel).html('Wello world 3');
 					});
 
-					myTab2.appendTab('tab4').done(function(sel) {
+					myTab2.appendTab('tab4', {active: false}).done(function(sel) {
 
 						$(sel).html('Wello world 4');
 					});

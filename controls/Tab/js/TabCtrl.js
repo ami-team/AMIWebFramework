@@ -75,15 +75,15 @@ $AMIClass('TabCtrl', {
 
 		var context = result;
 
-		var active = false;
+		var active = true;
 
 		if(settings)
 		{
-			if(settings['context']) {
+			if('context' in settings) {
 	  			context = settings['context'];
 			}
 
-			if(settings['active']) {
+			if('active' in settings) {
 				active = settings['active'];
 			}
 		}
@@ -131,7 +131,7 @@ $AMIClass('TabCtrl', {
 
 				/*-----------------------------------------*/
 
-				result.resolveWith(settings && settings['context'] ? settings['context'] : result, ['#' + tabId]);
+				result.resolveWith(context, ['#' + tabId]);
 
 				/*-----------------------------------------*/
 			});
@@ -150,15 +150,15 @@ $AMIClass('TabCtrl', {
 
 		var context = result;
 
-		var active = false;
+		var active = true;
 
 		if(settings)
 		{
-			if(settings['context']) {
+			if('context' in settings) {
 	  			context = settings['context'];
 			}
 
-			if(settings['active']) {
+			if('active' in settings) {
 				active = settings['active'];
 			}
 		}
@@ -206,7 +206,7 @@ $AMIClass('TabCtrl', {
 
 				/*-----------------------------------------*/
 
-				result.resolveWith(settings && settings['context'] ? settings['context'] : result, ['#' + tabId]);
+				result.resolveWith(context, ['#' + tabId]);
 
 				/*-----------------------------------------*/
 			});
