@@ -280,11 +280,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		if(this.get('showLinkTool'))
 		{
 			this.attr('.sql-table-link/href', '?subapp=tableViewer&userdata=' + encodeURIComponent(
-				'{'
-				+
-				'"catalog":"' + catalog + '",' + '"entity":"' + table + '",' + '"query":"SELECT `' + catalog + '`.`' + table + '`.*"'
-				+
-				'}'
+				'{"catalog":"' + catalog + '",' + '"entity":"' + table + '"}'
 			));
 
 			this.attr('.sql-table-tool/text', '');

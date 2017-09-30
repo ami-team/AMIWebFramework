@@ -11,7 +11,7 @@
 
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('{{NAME}}App', {
+$AMIClass('TableViewerApp', {
 	/*-----------------------------------------------------------------*/
 
 	$implements: [ami.SubApp],
@@ -22,20 +22,43 @@ $AMIClass('{{NAME}}App', {
 	{
 		/*---------------------------------------------------------*/
 
-		$('#ami_breadcrumb_content').html('<li class="breadcrumb-item">My SubApps</li><li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp={{name}}">{{NAME}}</a></li>');
+		$('#ami_breadcrumb_content').html('<li class="breadcrumb-item">Metadata</li><li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp=tableViewer">TableViewer</a></li>');
 
 		/*---------------------------------------------------------*/
 
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
-			'subapps/{{NAME}}/twig/{{NAME}}App.twig',
-			'subapps/{{NAME}}/css/{{NAME}}App.css',
+			'subapps/TableViewer/twig/TableViewerApp.twig',
+			'ctrl:tab',
+			'ctrl:table',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-				result.resolve();
+				this.tab = new data[1];
+				this.table = new data[2];
+
+				this.tab.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', {context: this}).done(function() {
+
+					var json;
+
+					try
+					{
+						json = JSON.parse(userdata || '{}');
+					}
+					catch(e)
+					{
+						json = {/*----------------------*/};
+					}
+
+					this.tab.appendTab(json.catalog + '.' + json.entity, {context: this}).done(function(sel) {
+
+						this._1stTabSel = sel;
+
+						result.resolve();
+					});
+				});
 			});
 
 		}).fail(function(data) {
@@ -50,20 +73,30 @@ $AMIClass('{{NAME}}App', {
 
 	/*-----------------------------------------------------------------*/
 
-	onExit: function()
+	onLogin: function(userdata)
 	{
-	},
+		var json;
 
-	/*-----------------------------------------------------------------*/
+		try
+		{
+			json = JSON.parse(userdata || '{}');
+		}
+		catch(e)
+		{
+			json = {/*----------------------*/};
+		}
 
-	onLogin: function()
-	{
+		this.table.render(this._1stTabSel, 'SearchQuery -catalog="' + json.catalog + '" -entity="' + json.entity + '" -mql="SELECT `*`"', {canEdit: true, catalog: json.catalog, entity: json.entity, primaryField: 'id', start: 1, stop: 20}).done(function() {
+
+			$('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0').show();
+		});
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	onLogout: function()
 	{
+		$('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0').hide();
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -73,6 +106,6 @@ $AMIClass('{{NAME}}App', {
 /* GLOBAL INSTANCE                                                         */
 /*-------------------------------------------------------------------------*/
 
-var {{name}}App = new {{NAME}}App();
+var tableViewerApp = new TableViewerApp();
 
 /*-------------------------------------------------------------------------*/
