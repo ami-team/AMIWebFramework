@@ -1448,6 +1448,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*-----------------------------------------------------------------*/
 
+	fillBreadcrumb: function(items)
+	{
+		var s = this.typeOf(items) === 'Array' ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
+		                                       : ''
+		;
+
+		$('#ami_breadcrumb_content').html(s);
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	/**
 	  * Loads a subapp asynchronously
 	  * @param {String} subapp the subapp
@@ -1504,6 +1515,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 					;
 
 					_ami_internal_then(promise, () => {
+
+						this.fillBreadcrumb(descr.breadcrumb);
 
 						const promise = amiLogin.isAuthenticated() ? this.triggerLogin()
 						                                           : this.triggerLogout()

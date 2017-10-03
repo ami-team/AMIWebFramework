@@ -6137,6 +6137,18 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 	/*-----------------------------------------------------------------*/
 
+	fillBreadcrumb: function fillBreadcrumb(items) {
+		var _this7 = this;
+
+		var s = this.typeOf(items) === 'Array' ? items.map(function (item) {
+			return '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, _this7.webAppURL) + '</li>';
+		}).join('') : '';
+
+		$('#ami_breadcrumb_content').html(s);
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	/**
    * Loads a subapp asynchronously
    * @param {String} subapp the subapp
@@ -6145,7 +6157,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	loadSubApp: function loadSubApp(subapp, userdata, settings) {
-		var _this7 = this;
+		var _this8 = this;
 
 		var result = $.Deferred();
 
@@ -6158,7 +6170,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		result.always(function () {
 
-			_this7.unlock();
+			_this8.unlock();
 		});
 
 		/*---------------------------------------------------------*/
@@ -6175,11 +6187,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 			this.loadScripts(this.originURL + '/' + descr.file).then(function (loaded) {
 
 				try {
-					_this7._currentSubAppInstance.onExit(userdata);
+					_this8._currentSubAppInstance.onExit(userdata);
 
 					var instance = window[descr.instance];
 
-					_this7._currentSubAppInstance = instance;
+					_this8._currentSubAppInstance = instance;
 
 					/**/
 
@@ -6188,7 +6200,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 					_ami_internal_then(promise, function () {
 
-						var promise = amiLogin.isAuthenticated() ? _this7.triggerLogin() : _this7.triggerLogout();
+						_this8.fillBreadcrumb(descr.breadcrumb);
+
+						var promise = amiLogin.isAuthenticated() ? _this8.triggerLogin() : _this8.triggerLogout();
 
 						_ami_internal_then(promise, function () {
 
@@ -6226,18 +6240,18 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	loadSubAppByURL: function loadSubAppByURL(defaultSubApp, defaultUserData) {
-		var _this8 = this;
+		var _this9 = this;
 
 		if (this.args['hash']) {
 			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['hash']) + '"').fail(function (data) {
 
-				_this8.error(_this8.jspath('..error.$', data));
+				_this9.error(_this9.jspath('..error.$', data));
 			}).done(function (data) {
 
 				var json;
 
 				try {
-					json = JSON.parse(_this8.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
+					json = JSON.parse(_this9.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
 				} catch (e) {
 					json = {/* EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON */};
 				}
@@ -6247,9 +6261,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				var subapp = json['subapp'] || defaultSubApp;
 				var userdata = json['userdata'] || defaultUserData;
 
-				_this8.loadSubApp(subapp, userdata).fail(function (e) {
+				_this9.loadSubApp(subapp, userdata).fail(function (e) {
 
-					_this8.error(e);
+					_this9.error(e);
 				});
 
 				/*-----------------------------------------*/
@@ -6263,7 +6277,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 				this.loadSubApp(subapp, userdata).fail(function (e) {
 
-					_this8.error(e);
+					_this9.error(e);
 				});
 
 				/*-----------------------------------------*/
@@ -6988,7 +7002,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	_init: function _init() {
-		var _this9 = this;
+		var _this10 = this;
 
 		amiWebApp.lock();
 
@@ -6996,8 +7010,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			/*-------------------------------------------------*/
 
-			_this9.fragmentLoginButton = data[0];
-			_this9.fragmentLogoutButton = data[1];
+			_this10.fragmentLoginButton = data[0];
+			_this10.fragmentLogoutButton = data[1];
 
 			amiWebApp.appendHTML('body', data[2]);
 
@@ -7005,27 +7019,27 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit(function (e) {
 
-				_this9.form_login(e);
+				_this10.form_login(e);
 			});
 
 			$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit(function (e) {
 
-				_this9.form_addUser(e);
+				_this10.form_addUser(e);
 			});
 
 			$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit(function (e) {
 
-				_this9.form_remindPass(e);
+				_this10.form_remindPass(e);
 			});
 
 			$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit(function (e) {
 
-				_this9.form_changeInfo(e);
+				_this10.form_changeInfo(e);
 			});
 
 			$('#E92A1097_983B_4857_875F_07E4659B41B0').submit(function (e) {
 
-				_this9.form_changePass(e);
+				_this10.form_changePass(e);
 			});
 
 			/*-------------------------------------------------*/
@@ -7054,7 +7068,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 				var pass = e.originalEvent.data.pass;
 
 				if (user && pass) {
-					_this9.form_login2(user, pass);
+					_this10.form_login2(user, pass);
 
 					e.originalEvent.source.close();
 				}
@@ -7070,7 +7084,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 				_ami_internal_then(amiWebApp.onReady(xxxxxxxxxxxxxxxx), function () {
 
-					_this9._update(userInfo, roleInfo, ssoInfo).always(function () {
+					_this10._update(userInfo, roleInfo, ssoInfo).always(function () {
 
 						amiWebApp.unlock();
 					});
@@ -7140,7 +7154,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	_update: function _update(userInfo, roleInfo, ssoInfo) {
-		var _this10 = this;
+		var _this11 = this;
 
 		var result = $.Deferred();
 
@@ -7286,7 +7300,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			_ami_internal_always(amiWebApp.triggerLogin(), function () {
 
-				amiWebApp.replaceHTML('#ami_login_content', _this10.fragmentLogoutButton, { dict: dict });
+				amiWebApp.replaceHTML('#ami_login_content', _this11.fragmentLogoutButton, { dict: dict });
 
 				result.resolve();
 			});
@@ -7299,7 +7313,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 				result.resolve();
 
-				amiWebApp.replaceHTML('#ami_login_content', _this10.fragmentLoginButton, { dict: dict });
+				amiWebApp.replaceHTML('#ami_login_content', _this11.fragmentLoginButton, { dict: dict });
 			});
 
 			/*-------------------------------------------------*/
@@ -7451,15 +7465,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
    */
 
 	signOut: function signOut() {
-		var _this11 = this;
+		var _this12 = this;
 
 		amiWebApp.lock();
 
 		return amiCommand.logout().always(function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this11._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this12._update(userInfo, roleInfo, ssoInfo).done(function () {
 
-				_this11._clean();
+				_this12._clean();
 				amiWebApp.unlock();
 			});
 		});
@@ -7491,7 +7505,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_login2: function form_login2(user, pass) {
-		var _this12 = this;
+		var _this13 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -7503,12 +7517,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		promise.then(function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this12._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this13._update(userInfo, roleInfo, ssoInfo).done(function () {
 
 				if (userInfo.AMIUser !== userInfo.guestUser) {
 					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-					_this12._clean();
+					_this13._clean();
 					amiWebApp.unlock();
 				} else {
 					var error = 'Authentication failed.';
@@ -7517,14 +7531,14 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 						error += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.' + ' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.';
 					}
 
-					_this12._showErrorMessage1(error);
+					_this13._showErrorMessage1(error);
 				}
 			});
 		}, function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this12._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this13._update(userInfo, roleInfo, ssoInfo).done(function () {
 
-				_this12._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+				_this13._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 			});
 		});
 
@@ -7534,7 +7548,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_attachCert: function form_attachCert() {
-		var _this13 = this;
+		var _this14 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -7553,10 +7567,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.attachCert(user, pass).then(function (data) {
 
-			_this13._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this14._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this13._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this14._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7565,7 +7579,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_detachCert: function form_detachCert() {
-		var _this14 = this;
+		var _this15 = this;
 
 		/*---------------------------------------------------------*/
 
@@ -7584,10 +7598,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.detachCert(user, pass).then(function (data) {
 
-			_this14._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this15._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this14._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this15._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7596,7 +7610,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_addUser: function form_addUser(e) {
-		var _this15 = this;
+		var _this16 = this;
 
 		e.preventDefault();
 
@@ -7610,10 +7624,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values).then(function (data) {
 
-			_this15._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this16._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this15._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this16._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7622,7 +7636,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_remindPass: function form_remindPass(e) {
-		var _this16 = this;
+		var _this17 = this;
 
 		e.preventDefault();
 
@@ -7636,10 +7650,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.resetPass(values['user']).then(function (data) {
 
-			_this16._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this17._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this16._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this17._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7648,7 +7662,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_changeInfo: function form_changeInfo(e) {
-		var _this17 = this;
+		var _this18 = this;
 
 		e.preventDefault();
 
@@ -7662,10 +7676,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).then(function (data) {
 
-			_this17._showSuccessMessage2(amiWebApp.jspath('..info.$', data));
+			_this18._showSuccessMessage2(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this17._showErrorMessage2(amiWebApp.jspath('..error.$', data));
+			_this18._showErrorMessage2(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
@@ -7674,7 +7688,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*-----------------------------------------------------------------*/
 
 	form_changePass: function form_changePass(e) {
-		var _this18 = this;
+		var _this19 = this;
 
 		e.preventDefault();
 
@@ -7688,10 +7702,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.changePass(values['old_pass'], values['new_pass']).then(function (data) {
 
-			_this18._showSuccessMessage3(amiWebApp.jspath('..info.$', data));
+			_this19._showSuccessMessage3(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this18._showErrorMessage3(amiWebApp.jspath('..error.$', data));
+			_this19._showErrorMessage3(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*---------------------------------------------------------*/
