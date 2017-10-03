@@ -6239,8 +6239,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				try {
 					json = JSON.parse(_this8.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
 				} catch (e) {
-					json = {/*----------------------------------------------------------------*/};
+					json = {/* EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON */};
 				}
+
+				/*-----------------------------------------*/
 
 				var subapp = json['subapp'] || defaultSubApp;
 				var userdata = json['userdata'] || defaultUserData;
@@ -6249,9 +6251,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 					_this8.error(e);
 				});
+
+				/*-----------------------------------------*/
 			});
 		} else {
 			if (!amiRouter.check()) {
+				/*-----------------------------------------*/
+
 				var subapp = this.args['subapp'] || defaultSubApp;
 				var userdata = this.args['userdata'] || defaultUserData;
 
@@ -6259,6 +6265,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 					_this8.error(e);
 				});
+
+				/*-----------------------------------------*/
 			}
 		}
 	}
