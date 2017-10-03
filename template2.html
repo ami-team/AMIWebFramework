@@ -20,8 +20,10 @@
 		amiWebApp.loadSubAppByURL('document');
 	};
 
-	amiWebApp.onRefresh = function()
+	amiWebApp.onRefresh = function(isAuth)
 	{
+		/*---------------------------------------------------------*/
+
 		var menu =
 			'<li class="nav-item dropdown">' +
 			'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
@@ -45,9 +47,13 @@
 			'</li>'
 		;
 
+		/*---------------------------------------------------------*/
+
+		var adminMenu;
+
 		if(amiLogin.hasRole('AMI_ADMIN'))
 		{
-			menu +=
+			adminMenu =
 				'<li class="nav-item dropdown">' +
 				'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
 				'    <i class="fa fa-key"></i> Admin' +
@@ -61,8 +67,55 @@
 				'</li>'
 			;
 		}
+		else
+		{
+			adminMenu = '';
+		}
 
-		$('#ami_menu_content').html(menu);
+		/*---------------------------------------------------------*/
+
+		if(isAuth)
+		{
+			amiCommand.execute('ListHashes').done(function(data) {
+
+				var rows = amiWebApp.jspath('..row', data) || [];
+
+				menu +=
+					'<li class="nav-item dropdown">' +
+					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+					'    Bookmarks' +
+					'  </a>' +
+					'  <div class="dropdown-menu">' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=???"><i class="fa fa-pencil"></i> Manage...</a>' +
+					'    <div class="dropdown-divider"></div>'
+				;
+
+				rows.forEach(function(row) {
+
+					var hash = amiWebApp.jspath('.field{.@name==="hash"}.$', row)[0] || '';
+					var name = amiWebApp.jspath('.field{.@name==="name"}.$', row)[0] || '';
+
+					menu += '    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?hash=' + hash + '">' + amiWebApp.textToHtml(name) + '</a>';
+				});
+
+				menu +=
+					'  </div>' +
+					'</li>'
+				;
+
+				$('#ami_menu_content').html(menu + adminMenu);
+
+			}).fail(function() {
+
+				$('#ami_menu_content').html(menu + adminMenu);
+			});
+		}
+		else
+		{
+			$('#ami_menu_content').html(menu + adminMenu);
+		}
+
+		/*---------------------------------------------------------*/
 	};
 
     </script>
