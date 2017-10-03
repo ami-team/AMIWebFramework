@@ -20,12 +20,6 @@ $AMIClass('TableViewerApp', {
 
 	onReady: function(userdata)
 	{
-		/*---------------------------------------------------------*/
-
-		$('#ami_breadcrumb_content').html('<li class="breadcrumb-item">Metadata</li><li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp=tableViewer">TableViewer</a></li>');
-
-		/*---------------------------------------------------------*/
-
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
@@ -68,8 +62,6 @@ $AMIClass('TableViewerApp', {
 
 			result.reject(data);
 		});
-
-		/*---------------------------------------------------------*/
 
 		return result;
 	},

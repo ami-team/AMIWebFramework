@@ -22,12 +22,6 @@ $AMIClass('CommandApp', {
 
 	onReady: function(userdata)
 	{
-		/*---------------------------------------------------------*/
-
-		$('#ami_breadcrumb_content').html('<li class="breadcrumb-item">Tools</li><li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp=command">Command</a></li>');
-
-		/*---------------------------------------------------------*/
-
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
@@ -52,8 +46,6 @@ $AMIClass('CommandApp', {
 
 			result.reject(data);
 		});
-
-		/*---------------------------------------------------------*/
 
 		return result;
 	},
