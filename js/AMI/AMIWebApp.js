@@ -1553,15 +1553,46 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	loadSubAppByURL: function(defaultSubApp, defaultUserData)
 	{
-		if(!amiRouter.check())
+		if(this.args['hash'])
 		{
-			const subapp = this.args['subapp'] || defaultSubApp;
-			const userdata = this.args['userdata'] || defaultUserData;
+			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['hash']) + '"').fail((data) => {
 
-			this.loadSubApp(subapp, userdata).fail((e) => {
+				this.error(this.jspath('..error.$', data));
 
-				this.error(e);
+			}).done((data) => {
+
+				var json;
+
+				try
+				{
+					json = JSON.parse(this.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
+				}
+				catch(e)
+				{
+					json = {/*----------------------------------------------------------------*/};
+				}
+
+				const subapp = json['subapp'] || defaultSubApp;
+				const userdata = json['userdata'] || defaultUserData;
+
+				this.loadSubApp(subapp, userdata).fail((e) => {
+
+					this.error(e);
+				});
 			});
+		}
+		else
+		{
+			if(!amiRouter.check())
+			{
+				const subapp = this.args['subapp'] || defaultSubApp;
+				const userdata = this.args['userdata'] || defaultUserData;
+
+				this.loadSubApp(subapp, userdata).fail((e) => {
+
+					this.error(e);
+				});
+			}
 		}
 	}
 

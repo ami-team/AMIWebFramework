@@ -52,7 +52,10 @@ $AMIClass('TableViewerApp', {
 						json = {/*----------------------*/};
 					}
 
-					this.tab.appendTab(json.catalog + '.' + json.entity, {context: this}).done(function(sel) {
+					this.catalog = json.catalog;
+					this.entity = json.entity;
+
+					this.tab.appendTab(this.catalog + '.' + this.entity, {context: this}).done(function(sel) {
 
 						this._1stTabSel = sel;
 
@@ -73,23 +76,11 @@ $AMIClass('TableViewerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	onLogin: function(userdata)
+	onLogin: function()
 	{
-		var json;
+		this.table.render(this._1stTabSel, 'SearchQuery -catalog="' + this.catalog + '" -entity="' + this.entity + '" -mql="SELECT `*`"', {canEdit: true, catalog: this.catalog, entity: this.entity, primaryField: 'id', start: 1, stop: 20});
 
-		try
-		{
-			json = JSON.parse(userdata || '{}');
-		}
-		catch(e)
-		{
-			json = {/*----------------------*/};
-		}
-
-		this.table.render(this._1stTabSel, 'SearchQuery -catalog="' + json.catalog + '" -entity="' + json.entity + '" -mql="SELECT `*`"', {canEdit: true, catalog: json.catalog, entity: json.entity, primaryField: 'id', start: 1, stop: 20}).done(function() {
-
-			$('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0').show();
-		});
+		$('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0').show();
 	},
 
 	/*-----------------------------------------------------------------*/

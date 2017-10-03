@@ -6228,14 +6228,38 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	loadSubAppByURL: function loadSubAppByURL(defaultSubApp, defaultUserData) {
 		var _this8 = this;
 
-		if (!amiRouter.check()) {
-			var subapp = this.args['subapp'] || defaultSubApp;
-			var userdata = this.args['userdata'] || defaultUserData;
+		if (this.args['hash']) {
+			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['hash']) + '"').fail(function (data) {
 
-			this.loadSubApp(subapp, userdata).fail(function (e) {
+				_this8.error(_this8.jspath('..error.$', data));
+			}).done(function (data) {
 
-				_this8.error(e);
+				var json;
+
+				try {
+					json = JSON.parse(_this8.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
+				} catch (e) {
+					json = {/*----------------------------------------------------------------*/};
+				}
+
+				var subapp = json['subapp'] || defaultSubApp;
+				var userdata = json['userdata'] || defaultUserData;
+
+				_this8.loadSubApp(subapp, userdata).fail(function (e) {
+
+					_this8.error(e);
+				});
 			});
+		} else {
+			if (!amiRouter.check()) {
+				var subapp = this.args['subapp'] || defaultSubApp;
+				var userdata = this.args['userdata'] || defaultUserData;
+
+				this.loadSubApp(subapp, userdata).fail(function (e) {
+
+					_this8.error(e);
+				});
+			}
 		}
 	}
 
