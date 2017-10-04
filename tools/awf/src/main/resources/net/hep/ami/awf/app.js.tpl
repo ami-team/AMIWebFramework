@@ -14,18 +14,12 @@
 $AMIClass('{{NAME}}App', {
 	/*-----------------------------------------------------------------*/
 
-	$implements: [ami.SubApp],
+	$extends: ami.SubApp,
 
 	/*-----------------------------------------------------------------*/
 
 	onReady: function(userdata)
 	{
-		/*---------------------------------------------------------*/
-
-		$('#ami_breadcrumb_content').html('<li class="breadcrumb-item">My SubApps</li><li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp={{name}}">{{NAME}}</a></li>');
-
-		/*---------------------------------------------------------*/
-
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
@@ -42,8 +36,6 @@ $AMIClass('{{NAME}}App', {
 
 			result.reject(data);
 		});
-
-		/*---------------------------------------------------------*/
 
 		return result;
 	},

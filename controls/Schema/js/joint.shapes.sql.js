@@ -97,7 +97,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 				'fill': 'white',
 				'font-family': 'FontAwesome',
 				'font-weight': 'normal',
-				'font-size': 14,
+				'font-size': 12,
 			},
 			'.sql-table-name': {
 				'ref': '.sql-table-top',
@@ -283,7 +283,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 				'{"catalog":"' + catalog + '",' + '"entity":"' + table + '"}'
 			));
 
-			this.attr('.sql-table-tool/text', '');
+			this.attr('.sql-table-tool/text', '');
 		}
 		else
 		{
