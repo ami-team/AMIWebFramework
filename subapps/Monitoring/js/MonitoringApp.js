@@ -80,10 +80,6 @@ $AMIClass('MonitoringApp', {
 
 		/*---------------------------------------------------------*/
 
-		$('#ami_breadcrumb_content').html('<li class="breadcrumb-item">Tools</li><li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp=monitoring">Monitoring</a></li>');
-
-		/*---------------------------------------------------------*/
-
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
