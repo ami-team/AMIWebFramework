@@ -6242,8 +6242,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	loadSubAppByURL: function loadSubAppByURL(defaultSubApp, defaultUserData) {
 		var _this9 = this;
 
-		if (this.args['hash']) {
-			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['hash']) + '"').fail(function (data) {
+		if (this.args['v']) {
+			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['v']) + '"').fail(function (data) {
 
 				_this9.error(_this9.jspath('..error.$', data));
 			}).done(function (data) {
