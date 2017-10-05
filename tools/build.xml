@@ -226,6 +226,7 @@
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Document/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Emergency/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Monitoring/**/*" />
+				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="SchemaViewer/**/*" />
 			</copy>
 
 			<copy todir="subapps" overwrite="false">
