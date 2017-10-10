@@ -20,6 +20,8 @@ $AMIClass('SchemaViewerApp', {
 
 	onReady: function(userdata)
 	{
+		var _this = this;
+
 		/*---------------------------------------------------------*/
 
 		$('#ami_breadcrumb_content').css('display', 'none');
@@ -66,7 +68,12 @@ $AMIClass('SchemaViewerApp', {
 				/* DEFAULT CATALOG                 */
 				/*---------------------------------*/
 
-				this.defaultCatalog = userdata;
+				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').change(function() {
+
+					_this.defaultCatalog = $('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC option:selected').val();
+				});
+
+				_this.defaultCatalog = userdata;
 
 				/*---------------------------------*/
 
@@ -121,7 +128,7 @@ $AMIClass('SchemaViewerApp', {
 				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
 				$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
 
-				this.openSchema(this.defaultCatalog);
+				this.openSchema();
 
 			}).fail(function(data) {
 
@@ -201,9 +208,9 @@ $AMIClass('SchemaViewerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	openSchema: function(catalog)
+	openSchema: function()
 	{
-		if(!catalog)
+		if(!this.defaultCatalog)
 		{
 			return;
 		}
@@ -212,9 +219,9 @@ $AMIClass('SchemaViewerApp', {
 
 		amiWebApp.lock();
 
-		this.schema.refresh(catalog).done(function() {
+		this.schema.refresh(this.defaultCatalog).done(function() {
 
-			window.history.pushState('', '', amiWebApp.webAppURL + '?subapp=schemaViewer&userdata=' + encodeURIComponent(catalog));
+			window.history.pushState('', '', amiWebApp.webAppURL + '?subapp=schemaViewer&userdata=' + encodeURIComponent(this.defaultCatalog));
 
 			amiWebApp.unlock();
 
@@ -228,8 +235,13 @@ $AMIClass('SchemaViewerApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	saveSchema: function(catalog)
+	saveSchema: function()
 	{
+		if(!this.defaultCatalog)
+		{
+			return;
+		}
+
 		/*---------------------------------------------------------*/
 
 		amiWebApp.lock();
@@ -267,7 +279,7 @@ $AMIClass('SchemaViewerApp', {
 
 			/*-------------------------------------------------*/
 
-			amiCommand.execute('UpdateElements -catalog="self" -entity="router_catalog" -separator="%" -fields="custom" -values="' + amiWebApp.textToString(text) + '" -keyFields="externalCatalog" -keyValues="' + amiWebApp.textToString(catalog) + '"').done(function(data) {
+			amiCommand.execute('UpdateElements -catalog="self" -entity="router_catalog" -separator="%" -fields="custom" -values="' + amiWebApp.textToString(text) + '" -keyFields="externalCatalog" -keyValues="' + amiWebApp.textToString(this.defaultCatalog) + '"').done(function(data) {
 
 				amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
