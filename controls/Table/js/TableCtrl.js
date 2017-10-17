@@ -75,6 +75,8 @@ $AMIClass('TableCtrl', {
 
 		/**/
 
+		this.enableCache = false;
+
 		this.canEdit = false;
 
 		this.catalog = '';
@@ -104,6 +106,12 @@ $AMIClass('TableCtrl', {
 
 			if('deleteCommandFunc' in settings) {
 				this.deleteCommandFunc = settings['deleteCommandFunc'];
+			}
+
+			/**/
+
+			if('enableCache' in settings) {
+				this.enableCache = settings['enableCache'];
 			}
 
 			/**/
@@ -239,6 +247,7 @@ $AMIClass('TableCtrl', {
 			isEmbedded: amiWebApp.isEmbedded(),
 			endpoint: amiCommand.endpoint,
 			command: this.command,
+			enableCache: this.enableCache,
 			canEdit: this.canEdit,
 			catalog: this.catalog,
 			entity: this.entity,
@@ -418,9 +427,20 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
+		if(this.enableCache)
+		{
+			command += ' -cache';
+		}
+
+		/*---------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		amiCommand.execute(command, {context: this}).done(function(data) {
+
+			var fieldDescriptions = this.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.rowset + '"}.fieldDescription', data) || []
+			                                    : amiWebApp.jspath('..fieldDescription'                                                    , data) || []
+			;
 
 			var rows = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.row', data) || []
 			                       : amiWebApp.jspath('..row'                                       , data) || []
@@ -431,6 +451,7 @@ $AMIClass('TableCtrl', {
 			;
 
 			var dict = {
+				fieldDescriptions: fieldDescriptions,
 				rows: rows,
 				primaryField: this.primaryField,
 			};
@@ -540,15 +561,15 @@ $AMIClass('TableCtrl', {
 				/*-----------------------------------------*/
 				/* TOOLTIP CONTENT                         */
 				/*-----------------------------------------*/
-/*
-				var title = this.entity + (totalResults ? ': #' + totalResults : '');
+
+				var title = this.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (totalResults ? totalResults : 'N/A');
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
-					placement: (('top')),
-					trigger: 'manual',
+					placement: (('bottom')),
 					title: title,
-				}).tooltip('show');
- */
+					html: true,
+				});
+
 				/*-----------------------------------------*/
 				/* VIEW MODE                               */
 				/*-----------------------------------------*/

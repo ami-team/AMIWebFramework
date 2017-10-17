@@ -266,12 +266,18 @@ $AMIClass('MonitoringApp', {
 
 			var now = new Date();
 
+			/*-------------------------------------------------*/
+
 			for(var i in this._nodes)
 			{
 				this._chart2.options.data[i].dataPoints.push({x: now, y: data[i]});
 			}
 
+			this._chart3.options.data[0].dataPoints.push({x: now, y: webNr > 0 ? 1 : 0});
+			this._chart3.options.data[1].dataPoints.push({x: now, y: taskNr > 0 ? 1 : 0});
+
 			this._chart2.render();
+			this._chart3.render();
 
 			/*-------------------------------------------------*/
 		});
@@ -293,7 +299,8 @@ $AMIClass('MonitoringApp', {
 
 			var rows = amiWebApp.jspath('..row', data[0]) || [];
 
-			var series = [];
+			var series1 = [];
+			var series2 = [];
 
 			var numberOfWebNodes = 0;
 			var numberOfTaskNodes = 0;
@@ -317,13 +324,29 @@ $AMIClass('MonitoringApp', {
 					endpoint: endpoint,
 				});
 
-				series.push({
+				series1.push({
 					type: 'line',
 					name: service + '::' + node,
 					showInLegend: true,
 					markerType: null,
 					dataPoints: [],
 				});
+			});
+
+			series2.push({
+				type: 'line',
+				name: 'web',
+				showInLegend: true,
+				markerType: null,
+				dataPoints: [],
+			});
+
+			series2.push({
+				type: 'line',
+				name: 'tasks',
+				showInLegend: true,
+				markerType: null,
+				dataPoints: [],
 			});
 
 			/*-------------------------------------------------*/
@@ -389,14 +412,34 @@ $AMIClass('MonitoringApp', {
 					minimum: 0,
 					maximum: 1,
 					interval: 1,
-					title: 'Availability',
+					title: 'Node availability',
 				},
 				backgroundColor: 'transparent',
-				data: series,
+				data: series1,
 				zoomEnabled: true,
 			});
 
 			this._chart2.render();
+
+			/*-------------------------------------------------*/
+
+			this._chart3 = new CanvasJS.Chart('C3C51231_AEE3_FD2E_20F3_39FDECA45987', {
+				axisX: {
+					labelAngle: -50,
+					valueFormatString: 'H:m',
+				},
+				axisY: {
+					minimum: 0,
+					maximum: 1,
+					interval: 1,
+					title: 'Global availability',
+				},
+				backgroundColor: 'transparent',
+				data: series2,
+				zoomEnabled: true,
+			});
+
+			this._chart3.render();
 
 			/*-------------------------------------------------*/
 			/* EXECUTE HANDLERS                                */
@@ -450,11 +493,11 @@ $AMIClass('MonitoringApp', {
 		/*---------------------------------------------------------*/
 
 		var projection = d3.geoOrthographic()
-		                       .scale(l / 2 - 1)
-		                       .translate([l / 2, l / 2])
-		                       .rotate(this._earthOrigin)
-		                       .clipAngle(90)
-		                       .precision(0.1)
+		                   .scale(l / 2 - 1)
+		                   .translate([l / 2, l / 2])
+		                   .rotate(this._earthOrigin)
+		                   .clipAngle(90)
+		                   .precision(0.1)
 		;
 
 		var projectionPath = d3.geoPath().projection(projection);

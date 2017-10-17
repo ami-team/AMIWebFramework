@@ -29,7 +29,7 @@
 
 					myTab1.appendTab('tab1').done(function(sel) {
 
-						myTable.render(sel, 'SearchQuery -catalog="self" -sql="SELECT id, command, class from router_command"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
+						myTable.render(sel, 'SearchQuery -catalog="self" -entity="router_command" -mql="SELECT id, command, class, 1 AS an_integer"', {canEdit: true, catalog: 'self', entity: 'router_command', primaryField: 'id'});
 					});
 
 					myTab1.appendTab('tab2').done(function(sel) {
@@ -65,9 +65,9 @@
 					myTab1 = new controls[0];
 					myTab2 = new controls[0];
 
-					mySchema = new controls[1];
+					mySchema = new controls[1](myTab1);
 
-					myTable = new controls[2];
+					myTable = new controls[2](myTab1);
 				});
 			};
 
