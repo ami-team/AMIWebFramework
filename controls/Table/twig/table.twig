@@ -6,7 +6,7 @@
 		{%     if fieldDescriptions.length > loop.index0 %}
 		{%       set fieldDescription = fieldDescriptions[loop.index0] %}
 		{%     else %}
-		{%       set fieldDescription = /*---------*/ {} /*---------*/ %}
+		{%       set fieldDescription = {                            } %}
 		{%     endif %}
 		{%     if field['@name'] === primaryField %}
 		<th class="text-center edit-mode">Tools</th>
@@ -15,15 +15,17 @@
 			<a href="#" data-orderway="DESC" data-row="{{field['@name']}}"><i class="fa fa-chevron-down"></i></a>
 			<span{% if fieldDescription['$'] and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|escape}}"{% endif %}>{{field['@name']}}</span>
 			<a href="#" data-orderway="ASC" data-row="{{field['@name']}}"><i class="fa fa-chevron-up"></i></a>
+			{% if showTools %}
 			<br />
-			<a href="#" data-row="{{field['@name']}}"><i class="fa fa-search"></i></a>
-			{% if fieldDescription['@type'] matches '/INT|FLOAT|DOUBLE|DECIMAL|NUMERIC/i' %}
-			&nbsp;
-			<a href="#" data-row="{{field['@name']}}"><i class="fa fa-bar-chart"></i></a>
-			{% endif %}
-			{% if fieldDescription['@groupable'] === 'true' %}
-			&nbsp;
-			<a href="#" data-row="{{field['@name']}}"><i class="fa fa-bars"></i></a>
+			{%   if fieldDescription['@field'] %}
+			<a href="#" class="text-secondary mx-1" data-action="refine" data-catalog="{{fieldDescription['@catalog']}}" data-entity="{{fieldDescription['@entity']}}" data-field="{{fieldDescription['@field']}}"><i class="fa fa-filter"></i></a>
+			{%   endif %}
+			{%   if fieldDescription['@statable'] === 'true' %}
+			<a href="#" class="text-secondary mx-1" data-action="stat" data-catalog="{{fieldDescription['@catalog']}}" data-entity="{{fieldDescription['@entity']}}" data-field="{{fieldDescription['@field']}}"><i class="fa fa-bar-chart"></i></a>
+			{%   endif %}
+			{%   if fieldDescription['@groupable'] === 'true' %}
+			<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']}}" data-entity="{{fieldDescription['@entity']}}" data-field="{{fieldDescription['@field']}}"><i class="fa fa-slack"></i></a>
+			{%   endif %}
 			{% endif %}
 		</th>
 		{%     endif %}

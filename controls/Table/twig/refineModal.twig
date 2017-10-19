@@ -1,0 +1,44 @@
+<div class="modal fade" role="dialog" id="C48564EA_A64D_98BA_6232_D03D524CAD08">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title"><i class="fa fa-filter"></i> Filter</h4>
+			</div>
+			<form class="modal-body form-horizontal" id="F114E547_5E78_72D9_BB7F_355CDBB3D03A">
+				<input type="hidden" name="column" id="F3A040E1_40EE_97B3_45D6_E7BFB61DBF44" />
+				<div class="form-group">
+					<label for="E95603E7_85A5_9CFC_50A3_6E3CDF7DE45C" class="form-label">Field « <strong id="E7014B57_B16A_7593_FA1B_0DD15C15AC3E"></strong> »</label>
+					<select name="filter" class="form-control form-control-sm" onchange="var f = $(this).val(); if(f === '2' || f === '3' || f === '4' || f === '5' || f === '6' || f === '7' || f === '8' || f === '9') { $('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').show(); $('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide(); } else if(f === '10' || f === '11') { $('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide(); $('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').show(); } else { $('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide(); $('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide(); }">
+						<option value="" style="display: none;">Choose a filter</option>
+						<option value="0">IS NULL</option>
+						<option value="1">NOT IS NULL</option>
+						<option value="2">EQUALS</option>
+						<option value="3">NOT EQUALS</option>
+						<option value="4">LIKE</option>
+						<option value="5">NOT LIKE</option>
+						<option value="6">&lt;</option>
+						<option value="7">&lt;=</option>
+						<option value="8">&gt;</option>
+						<option value="9">&gt;=</option>
+						<option value="10">BETWEEN</option>
+						<option value="11">NOT BETWEEN</option>
+					</select>
+				</div>
+				<div id="CAF8B5EB_1796_3837_5722_3B5B2A7C729B">
+					<input type="text" name="x" class="form-control form-control-sm" />
+				</div>
+				<div id="A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7">
+					<div class="input-group input-group-sm">
+						<input type="text" name="x1" class="form-control" />
+						<span class="input-group-addon px-1">and</span>
+						<input type="text" name="x2" class="form-control" />
+					</div>
+				</div>
+			</form>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary" id="C31B969B_357E_B68B_E56D_BA38DC220599">Close</button>
+				<button type="button" class="btn btn-primary" id="CE7B4CA6_63C6_416B_A2BC_45B53CC5EF37">Refine</button>
+			</div>
+		</div>
+	</div>
+</div>

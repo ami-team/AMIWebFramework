@@ -31,20 +31,36 @@ $AMIClass('TableCtrl', {
 
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/Table/twig/TableCtrl.twig',
-			amiWebApp.originURL + '/controls/Table/twig/modal.twig',
+			amiWebApp.originURL + '/controls/Table/twig/refineModal.twig',
+			amiWebApp.originURL + '/controls/Table/twig/editModal.twig',
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/js.twig',
 			'ctrl:messageBox',
 			'ctrl:textBox',
 		], {context: this}).done(function(data) {
 
-			this.fragmentTableCtrl = data[0];
-			this.fragmentModal = data[1];
-			this.fragmentTable = data[2];
-			this.fragmentJS = data[3];
+			amiWebApp.appendHTML('body', data[1], {context: this}).done(function() {
 
-			this.messageBox = new data[4];
-			this.textBox = new data[5];
+				var _this = this;
+
+				$('#C31B969B_357E_B68B_E56D_BA38DC220599').click(function() {
+
+					_this.hideRefineModal();
+				});
+
+				$('#CE7B4CA6_63C6_416B_A2BC_45B53CC5EF37').click(function() {
+
+					_this.refine();
+				});
+
+				this.fragmentTableCtrl = data[0];
+				this.fragmentEditModal = data[2];
+				this.fragmentTable = data[3];
+				this.fragmentJS = data[4];
+
+				this.messageBox = new data[5];
+				this.textBox = new data[6];
+			});
 		});
 
 		/*---------------------------------------------------------*/
@@ -76,7 +92,8 @@ $AMIClass('TableCtrl', {
 		/**/
 
 		this.enableCache = false;
-
+		this.showDetails = false;
+		this.showTools = true;
 		this.canEdit = false;
 
 		this.catalog = '';
@@ -115,6 +132,14 @@ $AMIClass('TableCtrl', {
 			}
 
 			/**/
+
+			if('showDetails' in settings) {
+				this.showDetails = settings['showDetails'];
+			}
+
+			if('showTools' in settings) {
+				this.showTools = settings['showTools'];
+			}
 
 			if('canEdit' in settings) {
 				this.canEdit = settings['canEdit'];
@@ -248,6 +273,8 @@ $AMIClass('TableCtrl', {
 			endpoint: amiCommand.endpoint,
 			command: this.command,
 			enableCache: this.enableCache,
+			showDetails: this.showDetails,
+			showTools: this.showTools,
 			canEdit: this.canEdit,
 			catalog: this.catalog,
 			entity: this.entity,
@@ -261,7 +288,7 @@ $AMIClass('TableCtrl', {
 
 		this.replaceHTML(selector, this.fragmentTableCtrl, {context: this, dict: dict}).done(function() {
 
-			this.appendHTML('body', this.fragmentModal, {context: this, dict: dict}).done(function() {
+			this.appendHTML('body', this.fragmentEditModal, {context: this, dict: dict}).done(function() {
 
 				var _this = this;
 
@@ -289,17 +316,27 @@ $AMIClass('TableCtrl', {
 
 				$(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(function() {
 
-					_this.showModal();
+					_this.showEditModal();
 				});
 
 				$(this.patchId('#F5221AF4_E3C8_260F_4556_A1ED96055B2F')).click(function() {
 
-					_this.hideModal();
+					_this.hideEditModal();
 				});
 
 				$(this.patchId('#DF100F06_DCAF_061E_1698_B301143311F7')).click(function() {
 
 					_this.appendRow();
+				});
+
+				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(function() {
+
+					_this.showMQL();
+				});
+
+				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(function() {
+
+					_this.showSQL();
 				});
 
 				$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(function() {
@@ -446,14 +483,39 @@ $AMIClass('TableCtrl', {
 			                       : amiWebApp.jspath('..row'                                       , data) || []
 			;
 
-			var totalResults = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@totalResults', data)[0] || ''
-			                               : amiWebApp.jspath('..@totalResults'                                       , data)[0] || ''
+			this.mql = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@mql', data)[0] || 'N/A'
+			                       : amiWebApp.jspath('..@mql'                                       , data)[0] || 'N/A'
 			;
+
+
+			this.sql = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@sql', data)[0] || 'N/A'
+			                       : amiWebApp.jspath('..@sql'                                       , data)[0] || 'N/A'
+			;
+
+			var totalResults = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@totalResults', data)[0] || 'N/A'
+			                               : amiWebApp.jspath('..@totalResults'                                       , data)[0] || 'N/A'
+			;
+
+			if(this.mql === 'N/A') {
+				$('#F4F0EB6C_6535_7714_54F7_4BC28C254872').addClass('disabled');
+			}
+			else {
+				$('#F4F0EB6C_6535_7714_54F7_4BC28C254872').removeClass('disabled');
+			}
+
+			if(this.sql === 'N/A') {
+				$('#CD458FEC_9AD9_30E8_140F_263F119961BE').addClass('disabled');
+			}
+			else {
+				$('#CD458FEC_9AD9_30E8_140F_263F119961BE').removeClass('disabled');
+			}
 
 			var dict = {
 				fieldDescriptions: fieldDescriptions,
 				rows: rows,
 				primaryField: this.primaryField,
+				showDetails: this.showDetails,
+				showTools: this.showTools && (this.mql !== 'N/A' || this.sql !== 'N/A'),
 			};
 
 			this.replaceHTML(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.fragmentTable, {context: this, dict: dict}).done(function() {
@@ -490,11 +552,56 @@ $AMIClass('TableCtrl', {
 
 				/*-----------------------------------------*/
 
+				parent.find('a[data-action="refine"]').click(function(e) {
+
+					e.preventDefault();
+
+					_this.showRefineModal(
+						this.getAttribute('data-catalog')
+						,
+						this.getAttribute('data-entity')
+						,
+						this.getAttribute('data-field')
+					);
+				});
+
+				/*-----------------------------------------*/
+
+				parent.find('a[data-action="stat"]').click(function(e) {
+
+					e.preventDefault();
+
+					_this.stat(
+						this.getAttribute('data-catalog')
+						,
+						this.getAttribute('data-entity')
+						,
+						this.getAttribute('data-field')
+					);
+				});
+
+				/*-----------------------------------------*/
+
+				parent.find('a[data-action="group"]').click(function(e) {
+
+					e.preventDefault();
+
+					_this.group(
+						this.getAttribute('data-catalog')
+						,
+						this.getAttribute('data-entity')
+						,
+						this.getAttribute('data-field')
+					);
+				});
+
+				/*-----------------------------------------*/
+
 				parent.find('a[data-action="clone"]').click(function(e) {
 
 					e.preventDefault();
 
-					_this.cloneModal(this.getAttribute('data-row'));
+					_this.showCloneModal(this.getAttribute('data-row'));
 				});
 
 				/*-----------------------------------------*/
@@ -562,7 +669,7 @@ $AMIClass('TableCtrl', {
 				/* TOOLTIP CONTENT                         */
 				/*-----------------------------------------*/
 
-				var title = this.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (totalResults ? totalResults : 'N/A');
+				var title = this.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + totalResults;
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
 					placement: (('bottom')),
@@ -615,7 +722,7 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	cloneModal: function(primaryValue)
+	showCloneModal: function(primaryValue)
 	{
 		var field;
 		var value;
@@ -624,7 +731,7 @@ $AMIClass('TableCtrl', {
 						+ ' .edit-field[data-row="' + primaryValue + '"]');
 		var el2 = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
 
-		this.showModal();
+		this.showEditModal();
 
 		el1.each(function() {
 
@@ -637,7 +744,7 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	showModal: function()
+	showEditModal: function()
 	{
 		var field;
 		var value;
@@ -658,7 +765,7 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	hideModal: function()
+	hideEditModal: function()
 	{
 		var field;
 		var value;
@@ -707,7 +814,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-			this.hideModal();
+			this.hideEditModal();
 
 			amiCommand.execute(this.appendCommandFunc.apply(this, this._form()), {context: this}).done(function() {
 
@@ -731,7 +838,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-			this.hideModal();
+			this.hideEditModal();
 
 			amiCommand.execute(this.updateCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
@@ -755,7 +862,7 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-			this.hideModal();
+			this.hideEditModal();
 
 			amiCommand.execute(this.deleteCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
@@ -772,6 +879,20 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
+	showMQL: function()
+	{
+		this.messageBox.show(this.sql);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	showSQL: function()
+	{
+		this.messageBox.show(this.mql);
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	showCommand: function()
 	{
 		this.messageBox.show(this.command);
@@ -782,6 +903,86 @@ $AMIClass('TableCtrl', {
 	showJavaScript: function()
 	{
 		this.textBox.show(this.jsCode);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_buildColumnName: function(catalog, entity, field)
+	{
+		var result = [];
+
+		if(catalog && catalog !== 'N/A') {
+			result.push('`' + catalog + '`');
+		}
+
+		if(entity && entity !== 'N/A') {
+			result.push('`' + entity + '`');
+		}
+
+		if(field && field !== 'N/A') {
+			result.push('`' + field + '`');
+		}
+
+		return result.join('.');
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	showRefineModal: function(catalog, entity, field)
+	{
+		var column = this._buildColumnName(catalog, entity, field);
+
+		var el = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
+
+		el.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
+		el.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
+
+		el.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
+		el.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
+
+		el.find('form')[0].reset();
+
+		el.modal('show');
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	hideRefineModal: function()
+	{
+		var column = /*------------------*/''/*------------------*/;
+
+		var el = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
+
+		el.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
+		el.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
+
+		el.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
+		el.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
+
+		el.find('form')[0].reset();
+
+		el.modal('hide');
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	refine: function()
+	{
+		this.hideRefineModal();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	stat: function(catalog, entity, field)
+	{
+		alert('stat: ' + this._buildColumnName(catalog, entity, field));
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	group: function(catalog, entity, field)
+	{
+		alert('group: ' + this._buildColumnName(catalog, entity, field));
 	},
 
 	/*-----------------------------------------------------------------*/

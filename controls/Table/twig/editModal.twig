@@ -7,10 +7,10 @@
 			<form class="modal-body form-horizontal" id="B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1">
 				{% for info in fieldInfo %}
 				{%   if info.field !== primaryField %}
-				<div class="form-group form-group-sm">
-					<label for="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" class="col-sm-3 control-label">{{info.field}}</label>
+				<div class="form-group row">
+					<label for="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" class="col-sm-3 col-form-label">{{info.field}}</label>
 					<div class="col-sm-9">
-						<input type="text" name="{{info.field|lower}}" class="form-control" id="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" placeholder="{{info.type}}({{info.size}})" />
+						<input type="text" name="{{info.field|lower}}" class="form-control form-control-sm" id="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" placeholder="{{info.type}}({{info.size}})" />
 					</div>
 				</div>
 				{%   endif %}
