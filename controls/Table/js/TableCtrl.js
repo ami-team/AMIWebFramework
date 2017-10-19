@@ -95,7 +95,6 @@ $AMIClass('TableCtrl', {
 		this.defaultFields = [];
 		this.defaultValues = [];
 		this.defaultTypes = [];
-		this.defaultSizes = [];
 
 		this.start = 0x01;
 		this.stop = 0x0A;
@@ -168,10 +167,6 @@ $AMIClass('TableCtrl', {
 				this.defaultTypes = settings['defaultTypes'];
 			}
 
-			if('defaultSizes' in settings) {
-				this.defaultSizes = settings['defaultSizes'];
-			}
-
 			/**/
 
 			if('start' in settings) {
@@ -204,7 +199,23 @@ $AMIClass('TableCtrl', {
 				this.defaultFields = amiWebApp.jspath('..field{.@name==="name"}.$', data) || [];
 				this.defaultValues = amiWebApp.jspath('..field{.@name==="def"}.$', data) || [];
 				this.defaultTypes = amiWebApp.jspath('..field{.@name==="type"}.$', data) || [];
-				this.defaultSizes = amiWebApp.jspath('..field{.@name==="size"}.$', data) || [];
+				this.primaryFields = amiWebApp.jspath('..field{.@name==="primary"}.$', data) || []
+
+				var n = Math.max(
+					this.defaultTypes.length
+					,
+					this.primaryFields.length
+				);
+
+				for(i = 0; i < n; i++)
+				{
+					if(this.primaryFields[i] === 'true')
+					{
+						this.primaryField = this.defaultFields[i];
+
+						break;
+					}
+				}
 
 				this._display(selector);
 
@@ -230,15 +241,12 @@ $AMIClass('TableCtrl', {
 		var l1 = this.defaultFields.length;
 		var l2 = this.defaultValues.length;
 		var l3 = this.defaultTypes.length;
-		var l4 = this.defaultSizes.length;
 		
 		if(l1 !== l2
 		   ||
 		   l1 !== l3
-		   ||
-		   l1 !== l4
 		 ) {
-			amiWebApp.error('options `defaultFields`, `defaultValues`, `defaultTypes`, `defaultSizes` must be arrays of same size');
+			amiWebApp.error('options `defaultFields`, `defaultValues`, `defaultTypes` must be arrays of same size');
 
 			return;
 		}
@@ -253,7 +261,6 @@ $AMIClass('TableCtrl', {
 	  			field: this.defaultFields[i],
 	  			value: this.defaultValues[i],
 	  			type: this.defaultTypes[i],
-	  			size: this.defaultSizes[i],
 			});
 		}
 
