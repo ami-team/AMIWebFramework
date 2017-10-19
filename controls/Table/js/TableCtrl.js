@@ -199,21 +199,24 @@ $AMIClass('TableCtrl', {
 				this.defaultFields = amiWebApp.jspath('..field{.@name==="name"}.$', data) || [];
 				this.defaultValues = amiWebApp.jspath('..field{.@name==="def"}.$', data) || [];
 				this.defaultTypes = amiWebApp.jspath('..field{.@name==="type"}.$', data) || [];
-				this.primaryFields = amiWebApp.jspath('..field{.@name==="primary"}.$', data) || []
+				this.defaultPrimary = amiWebApp.jspath('..field{.@name==="primary"}.$', data) || []
 
-				var n = Math.max(
-					this.defaultTypes.length
-					,
-					this.primaryFields.length
-				);
-
-				for(i = 0; i < n; i++)
+				if(!this.primaryField)
 				{
-					if(this.primaryFields[i] === 'true')
-					{
-						this.primaryField = this.defaultFields[i];
+					var n = Math.max(
+						this.defaultTypes.length
+						,
+						this.defaultPrimary.length
+					);
 
-						break;
+					for(i = 0; i < n; i++)
+					{
+						if(this.defaultPrimary[i] === 'true')
+						{
+							this.primaryField = this.defaultFields[i];
+
+							break;
+						}
 					}
 				}
 
@@ -221,9 +224,9 @@ $AMIClass('TableCtrl', {
 
 			}).fail(function() {
 
-				this.defaultFields = /*------------*/[ ]/*------------*/;
-				this.defaultValues = /*------------*/[ ]/*------------*/;
-				this.defaultTypes = /*------------*/[ ]/*------------*/;
+				this.defaultFields = [];
+				this.defaultValues = [];
+				this.defaultTypes = [];
 
 				this._display(selector);
 			});
@@ -246,7 +249,7 @@ $AMIClass('TableCtrl', {
 		   ||
 		   l1 !== l3
 		 ) {
-			amiWebApp.error('options `defaultFields`, `defaultValues`, `defaultTypes` must be arrays of same size');
+			amiWebApp.error('options `defaultFields`, `defaultValues` and `defaultTypes` must be arrays of same size');
 
 			return;
 		}
@@ -270,9 +273,6 @@ $AMIClass('TableCtrl', {
 			isEmbedded: amiWebApp.isEmbedded(),
 			endpoint: amiCommand.endpoint,
 			command: this.command,
-			enableCache: this.enableCache,
-			showDetails: this.showDetails,
-			showTools: this.showTools,
 			canEdit: this.canEdit,
 			catalog: this.catalog,
 			entity: this.entity,
