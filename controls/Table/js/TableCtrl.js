@@ -1088,13 +1088,45 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var xql = this.mql ? this.mql : this.sql;
+		var tokens = xqlTokenizer(this.mql ? this.mql : this.sql);
 
-		alert(JSON.stringify(xqlTokenizer(xql)));
+		/*---------------------------------------------------------*/
 
-		xql = xql.replace(/\s*LIMIT\s+[0-9]+\s+OFFSET\s+[0-9]+\s*$/i, '')
+		var lock = 0;
 
-		alert(xql + (xql.toUpperCase().indexOf('WHERE') < 0 ? ' WHERE ' : ' AND ') + sql);
+		var whereIdx = -1;
+		var limitIdx = -1;
+
+		tokens.forEach(function(token, idx) {
+
+			/**/ if(token === '(') {
+				lock++;
+			}
+			else if(token === ')') {
+				lock--;
+			}
+			else
+			{
+				if(lock === 0)
+				{
+					/**/ if(token.toUpperCase() === 'WHERE') {
+						whereIdx = idx;
+					}
+					else if(token.toUpperCase() === 'LIMIT') {
+						limitIdx = idx;
+					}
+				}
+			}
+		});
+
+		/*---------------------------------------------------------*/
+
+		if(limitIdx > 1)
+		{
+			tokens.length = limitIdx - 1;
+		}
+
+		alert(tokens.join('') + (whereIdx < 0 ? ' WHERE ' : ' AND ') + sql);
 
 		/*---------------------------------------------------------*/
 	},
