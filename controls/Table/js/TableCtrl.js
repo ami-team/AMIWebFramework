@@ -317,6 +317,22 @@ $AMIClass('TableCtrl', {
 				_this.next();
 			});
 
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).keypress(function(e) {
+
+				if(e.keyCode == 13)
+				{
+					_this.refresh();
+				}
+			});
+
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).keypress(function(e) {
+
+				if(e.keyCode == 13)
+				{
+					_this.refresh();
+				}
+			});
+
 			$(this.patchId('#D809166F_A40B_2376_C8A5_977AA0C8C408')).click(function() {
 
 				_this.refresh();
@@ -663,7 +679,7 @@ $AMIClass('TableCtrl', {
 
 					/**/ if(e.keyCode == 13)
 					{
-					    //	this.innerHTML = this.innerHTML;
+					    	this.innerHTML = this.innerHTML;
 
 						e.preventDefault();
 
