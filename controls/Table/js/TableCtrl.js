@@ -842,7 +842,7 @@ $AMIClass('TableCtrl', {
 
  			}).fail(function(data) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data));
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 			});
 		}
 
@@ -866,7 +866,7 @@ $AMIClass('TableCtrl', {
 
  			}).fail(function(data) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data));
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 			});
 		}
 
@@ -890,7 +890,7 @@ $AMIClass('TableCtrl', {
 
  			}).fail(function(data) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data));
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 			});
 		}
 
@@ -990,18 +990,22 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		this.hideRefineModal();
+		var el = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
+
+		var filter = el.find('select[name="filter"]').val();
+
+		var x = el.find('input[name="x"]').val();
+		var y = el.find('input[name="y"]').val();
+		var y1 = el.find('input[name="y1"]').val();
+		var y2 = el.find('input[name="y2"]').val();
+
+		y = y.replace(/'/g, '\'\'');
+		y1 = y1.replace(/'/g, '\'\'');
+		y2 = y2.replace(/'/g, '\'\'');
 
 		/*---------------------------------------------------------*/
 
-		var el = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
-
-		var filter = el.find('[name="filter"]').val();
-
-		var x = el.find('[name="x"]').val();
-		var y = el.find('[name="y"]').val();
-		var y1 = el.find('[name="y1"]').val();
-		var y2 = el.find('[name="y2"]').val();
+		this.hideRefineModal();
 
 		/*---------------------------------------------------------*/
 
@@ -1018,35 +1022,35 @@ $AMIClass('TableCtrl', {
 				break;
 
 			case '2':
-				sql = x + ' = \'' + x0 + '\'';
+				sql = x + ' = \'' + y + '\'';
 				break;
 
 			case '3':
-				sql = x + ' != \'' + x0 + '\'';
+				sql = x + ' != \'' + y + '\'';
 				break;
 
 			case '4':
-				sql = x + ' LIKE \'' + x0 + '\'';
+				sql = x + ' LIKE \'' + y + '\'';
 				break;
 
 			case '5':
-				sql = x + ' NOT LIKE \'' + x0 + '\'';
+				sql = x + ' NOT LIKE \'' + y + '\'';
 				break;
 
 			case '6':
-				sql = x + ' < \'' + x0 + '\'';
+				sql = x + ' < \'' + y + '\'';
 				break;
 
 			case '7':
-				sql = x + ' <= \'' + x0 + '\'';
+				sql = x + ' <= \'' + y + '\'';
 				break;
 
 			case '8':
-				sql = x + ' > \'' + x0 + '\'';
+				sql = x + ' > \'' + y + '\'';
 				break;
 
 			case '9':
-				sql = x + ' >= \'' + x0 + '\'';
+				sql = x + ' >= \'' + y + '\'';
 				break;
 
 			case '10':
@@ -1058,6 +1062,7 @@ $AMIClass('TableCtrl', {
 				break;
 
 			default:
+	  			amiWebApp.error('internal error', true);
 				return;
 		}
 
@@ -1072,7 +1077,7 @@ $AMIClass('TableCtrl', {
 
 	showDetailsTab: function(primaryValue)
 	{
-		alert( this._buildColumnName(this.catalog, this.entity, this.primaryField) + ' = `' + primaryValue.replace(/`/g, '``') + '`');
+		alert( this._buildColumnName(this.catalog, this.entity, this.primaryField) + ' = \'' + primaryValue.replace(/'/g, '\'\'') + '\'');
 	},
 
 	/*-----------------------------------------------------------------*/
