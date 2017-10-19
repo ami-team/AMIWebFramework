@@ -16,7 +16,7 @@
 		{%     else %}
 		<th class="text-center">
 			<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{field['@name']}}"><i class="fa fa-chevron-down"></i></a>
-			<span class="text-primary"{% if fieldDescription['$'] and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|escape}}"{% endif %}>{{field['@name']}}</span>
+			<span class="text-primary"{% if fieldDescription['$'] and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{field['@name']}}</span>
 			<a href="#" class="text-secondary" data-orderway="ASC" data-row="{{field['@name']}}"><i class="fa fa-chevron-up"></i></a>
 			{% if showTools %}
 			<br />
@@ -52,9 +52,15 @@
 			<a href="#" class="text-danger" data-action="delete" data-row="{{elementId}}"><i class="fa fa-trash"></i></a>
 		</td>
 		{%     else %}
-		<td>
+		{%       if field.$ starts with '@filter-prev::' %}
+		<td class="text-center">
+			<a href="#" data-action="filter-prev" data-filter-def="{{field.$|e}}"><i class="fa fa-link"></i></a>
+		</td>
+		{%       else %}
+		<td class="text-left">
 			<span class="edit-field" data-row="{{elementId}}" data-col="{{field['@name']}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$}}</span>
 		</td>
+		{%       endif %}
 		{%     endif %}
 		{%   endif %}
 		{% endfor %}

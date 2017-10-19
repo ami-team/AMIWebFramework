@@ -649,6 +649,15 @@ $AMIClass('TableCtrl', {
 				});
 
 				/*-----------------------------------------*/
+
+				parent.find('a[data-action="filter-prev"]').click(function(e) {
+
+					e.preventDefault();
+
+					alert(this.getAttribute('data-filter-def'));
+				});
+
+				/*-----------------------------------------*/
 				/* FIELDS                                  */
 				/*-----------------------------------------*/
 
@@ -1132,6 +1141,10 @@ $AMIClass('TableCtrl', {
 				new this.$class(parent).render(sel, command, this.ctx);
 			});
 		}
+		else
+		{
+			amiWebApp.error('could not create a new tab', true);
+		}
 
 		/*---------------------------------------------------------*/
 	},
@@ -1199,6 +1212,10 @@ $AMIClass('TableCtrl', {
 				new this.$class(parent).render(sel, command, this.ctx);
 			});
 		}
+		else
+		{
+			amiWebApp.error('could not create a new tab', true);
+		}
 
 		/*---------------------------------------------------------*/
 	},
@@ -1216,7 +1233,7 @@ $AMIClass('TableCtrl', {
 		var columnName = this._buildColumnName('N/A', entity, field);
 
 		regions['SELECT'] = columnName
-				+ ', count(*) AS total, \'\' AS go';
+				+ ', count(*) AS total, CONCAT(\'@filter-prev::' + columnName + '::\', ' + columnName + ') AS go';
 		regions['GROUP'] = columnName;
 
 		/*---------------------------------------------------------*/
@@ -1253,6 +1270,10 @@ $AMIClass('TableCtrl', {
 
 				new this.$class(parent).render(sel, command, this.ctx);
 			});
+		}
+		else
+		{
+			amiWebApp.error('could not create a new tab', true);
 		}
 
 		/*---------------------------------------------------------*/
