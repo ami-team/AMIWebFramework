@@ -36,6 +36,7 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/controls/Table/twig/fieldList.twig',
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/js.twig',
+			amiWebApp.originURL + '/controls/Table/js/xql.js',
 			'ctrl:messageBox',
 			'ctrl:textBox',
 		], {context: this}).done(function(data) {
@@ -48,8 +49,8 @@ $AMIClass('TableCtrl', {
 					this.fragmentTable = data[4];
 					this.fragmentJS = data[5];
 
-					this.messageBox = new data[6];
-					this.textBox = new data[7];
+					this.messageBox = new data[7];
+					this.textBox = new data[8];
 				});
 			});
 		});
@@ -1088,6 +1089,8 @@ $AMIClass('TableCtrl', {
 		/*---------------------------------------------------------*/
 
 		var xql = this.mql ? this.mql : this.sql;
+
+		alert(JSON.stringify(xqlTokenizer(xql)));
 
 		xql = xql.replace(/\s*LIMIT\s+[0-9]+\s+OFFSET\s+[0-9]+\s*$/i, '')
 
