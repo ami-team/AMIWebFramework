@@ -16,7 +16,7 @@
 		{%     else %}
 		<th class="text-center">
 			<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{field['@name']}}"><i class="fa fa-chevron-down"></i></a>
-			<span{% if fieldDescription['$'] and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|escape}}"{% endif %}>{{field['@name']}}</span>
+			<span class="text-primary"{% if fieldDescription['$'] and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|escape}}"{% endif %}>{{field['@name']}}</span>
 			<a href="#" class="text-secondary" data-orderway="ASC" data-row="{{field['@name']}}"><i class="fa fa-chevron-up"></i></a>
 			{% if showTools %}
 			<br />
