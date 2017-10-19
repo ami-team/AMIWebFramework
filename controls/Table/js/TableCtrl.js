@@ -1117,7 +1117,21 @@ $AMIClass('TableCtrl', {
 			xql.push('WHERE ' + regions['WHERE']);
 		}
 
-		alert(xql.join(' '));
+		/*---------------------------------------------------------*/
+
+		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+
+		/*---------------------------------------------------------*/
+
+		var parent = this.getParent();
+
+		if(parent.$name === 'TabCtrl')
+		{
+			parent.appendTab(this.ctx.entity, {context: this}).done(function(sel) {
+
+				new this.$class(parent).render(sel, command, this.ctx);
+			});
+		}
 
 		/*---------------------------------------------------------*/
 	},
@@ -1170,7 +1184,21 @@ $AMIClass('TableCtrl', {
 			sql.push('WHERE ' + regions['WHERE']);
 		}
 
-		alert(sql.join(' '));
+		/*---------------------------------------------------------*/
+
+		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -sql="' + amiWebApp.textToString(sql.join(' ')) + '"';
+
+		/*---------------------------------------------------------*/
+
+		var parent = this.getParent();
+
+		if(parent.$name === 'TabCtrl')
+		{
+			parent.appendTab(this.ctx.entity, {context: this}).done(function(sel) {
+
+				new this.$class(parent).render(sel, command, this.ctx);
+			});
+		}
 
 		/*---------------------------------------------------------*/
 	},
@@ -1193,25 +1221,39 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var xql = [];
+		var sql = [];
 
 		if(regions['SELECT']) {
-			xql.push('SELECT ' + regions['SELECT']);
+			sql.push('SELECT ' + regions['SELECT']);
 		}
 
 		if(regions['FROM']) {
-			xql.push('FROM ' + regions['FROM']);
+			sql.push('FROM ' + regions['FROM']);
 		}
 
 		if(regions['WHERE']) {
-			xql.push('WHERE ' + regions['WHERE']);
+			sql.push('WHERE ' + regions['WHERE']);
 		}
 
 		if(regions['GROUP']) {
-			xql.push('GROUP BY ' + regions['GROUP']);
+			sql.push('GROUP BY ' + regions['GROUP']);
 		}
 
-		alert(xql.join(' '));
+		/*---------------------------------------------------------*/
+
+		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -sql="' + amiWebApp.textToString(sql.join(' ')) + '"';
+
+		/*---------------------------------------------------------*/
+
+		var parent = this.getParent();
+
+		if(parent.$name === 'TabCtrl')
+		{
+			parent.appendTab(this.ctx.entity, {context: this}).done(function(sel) {
+
+				new this.$class(parent).render(sel, command, this.ctx);
+			});
+		}
 
 		/*---------------------------------------------------------*/
 	},
