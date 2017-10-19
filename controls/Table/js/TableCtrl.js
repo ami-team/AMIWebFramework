@@ -1139,7 +1139,7 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var columnName = this._buildColumnName(catalog, entity, field);
+		var columnName = this._buildColumnName('N/A', entity, field);
 
 		regions['SELECT'] = columnName + ' AS field'
 		                    + ' ' +
@@ -1185,7 +1185,7 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var columnName = this._buildColumnName(catalog, entity, field);
+		var columnName = this._buildColumnName('N/A', entity, field);
 
 		regions['SELECT'] = columnName
 				+ ', count(*) AS total';
