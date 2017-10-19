@@ -1194,7 +1194,7 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab(this.ctx.entity, {context: this}).done(function(sel) {
+			parent.appendTab(this.ctx.entity + '::stats', {context: this}).done(function(sel) {
 
 				new this.$class(parent).render(sel, command, this.ctx);
 			});
@@ -1249,7 +1249,7 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab(this.ctx.entity, {context: this}).done(function(sel) {
+			parent.appendTab(this.ctx.entity + '::groupby', {context: this}).done(function(sel) {
 
 				new this.$class(parent).render(sel, command, this.ctx);
 			});
