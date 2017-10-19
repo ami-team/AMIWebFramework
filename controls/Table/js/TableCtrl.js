@@ -971,7 +971,7 @@ $AMIClass('TableCtrl', {
 
 	showRefineModal: function(catalog, entity, field)
 	{
-		var column = this._buildColumnName(catalog, entity, field);
+		var column = this._buildColumnName('N/A', entity, field);
 
 		var el = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
 
@@ -990,7 +990,7 @@ $AMIClass('TableCtrl', {
 
 	hideRefineModal: function()
 	{
-		var column = /*------------------*/''/*------------------*/;
+		var column = /*-----------------*/''/*-----------------*/;
 
 		var el = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
 
