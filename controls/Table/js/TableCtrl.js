@@ -1025,10 +1025,6 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		this.hideRefineModal();
-
-		/*---------------------------------------------------------*/
-
 		var sql;
 
 		switch(filter)
@@ -1082,13 +1078,20 @@ $AMIClass('TableCtrl', {
 				break;
 
 			default:
-	  			amiWebApp.error('invalid filter', true);
 				return;
 		}
 
 		/*---------------------------------------------------------*/
 
-		alert(sql);
+		this.hideRefineModal();
+
+		/*---------------------------------------------------------*/
+
+		var xql = this.mql ? this.mql : this.sql;
+
+		xql = xql.replace(/\s*LIMIT\s+[0-9]+\s+OFFSET\s+[0-9]+\s*$/i, '')
+
+		alert(xql + (xql.toUpperCase().indexOf('WHERE') < 0 ? ' WHERE ' : ' AND ') + sql);
 
 		/*---------------------------------------------------------*/
 	},
