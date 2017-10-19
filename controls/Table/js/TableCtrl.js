@@ -81,12 +81,12 @@ $AMIClass('TableCtrl', {
 
 		this.updateCommandFunc = function(primaryValue, field, value) {
 
-			return 'UpdateElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '"';
+			return 'UpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '"';
 		};
 
 		this.deleteCommandFunc = function(primaryValue) {
 		
-			return 'RemoveElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
+			return 'RemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
 		};
 
 		/**/
@@ -497,25 +497,29 @@ $AMIClass('TableCtrl', {
 			;
 
 			if(this.mql === 'N/A') {
-				$('#F4F0EB6C_6535_7714_54F7_4BC28C254872').addClass('disabled');
+				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).hide();
 			}
 			else {
-				$('#F4F0EB6C_6535_7714_54F7_4BC28C254872').removeClass('disabled');
+				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).show();
 			}
 
 			if(this.sql === 'N/A') {
-				$('#CD458FEC_9AD9_30E8_140F_263F119961BE').addClass('disabled');
+				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).hide();
 			}
 			else {
-				$('#CD458FEC_9AD9_30E8_140F_263F119961BE').removeClass('disabled');
+				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).show();
 			}
+
+			var isXQL = this.mql !== 'N/A' || this.sql !== 'N/A';
 
 			var dict = {
 				fieldDescriptions: fieldDescriptions,
 				rows: rows,
 				primaryField: this.primaryField,
 				showDetails: this.showDetails,
-				showTools: this.showTools && (this.mql !== 'N/A' || this.sql !== 'N/A'),
+				showTools: this.showTools
+				           &&
+					   isXQL,
 			};
 
 			this.replaceHTML(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.fragmentTable, {context: this, dict: dict}).done(function() {
@@ -567,11 +571,11 @@ $AMIClass('TableCtrl', {
 
 				/*-----------------------------------------*/
 
-				parent.find('a[data-action="stat"]').click(function(e) {
+				parent.find('a[data-action="stats"]').click(function(e) {
 
 					e.preventDefault();
 
-					_this.stat(
+					_this.showStatsTab(
 						this.getAttribute('data-catalog')
 						,
 						this.getAttribute('data-entity')
@@ -586,13 +590,22 @@ $AMIClass('TableCtrl', {
 
 					e.preventDefault();
 
-					_this.group(
+					_this.showGroupTab(
 						this.getAttribute('data-catalog')
 						,
 						this.getAttribute('data-entity')
 						,
 						this.getAttribute('data-field')
 					);
+				});
+
+				/*-----------------------------------------*/
+
+				parent.find('a[data-action="details"]').click(function(e) {
+
+					e.preventDefault();
+
+					_this.showDetailsTab(this.getAttribute('data-row'));
 				});
 
 				/*-----------------------------------------*/
@@ -669,7 +682,7 @@ $AMIClass('TableCtrl', {
 				/* TOOLTIP CONTENT                         */
 				/*-----------------------------------------*/
 
-				var title = this.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + totalResults;
+				var title = this.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (isXQL ? totalResults : rows.length);
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
 					placement: (('bottom')),
@@ -973,16 +986,23 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	stat: function(catalog, entity, field)
+	showDetailsTab: function(primaryValue)
 	{
-		alert('stat: ' + this._buildColumnName(catalog, entity, field));
+		alert( this._buildColumnName(this.catalog, this.entity, this.primaryField) + ' = `' + primaryValue.replace(/`/g, '``') + '`');
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	group: function(catalog, entity, field)
+	showStatsTab: function(catalog, entity, field)
 	{
-		alert('group: ' + this._buildColumnName(catalog, entity, field));
+		alert(this._buildColumnName(catalog, entity, field) + ' = \'' + '???' + '\'');
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	showGroupTab: function(catalog, entity, field)
+	{
+		alert(this._buildColumnName(catalog, entity, field));
 	},
 
 	/*-----------------------------------------------------------------*/
