@@ -283,24 +283,28 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------*/
 
+			$('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1').submit(function(e) {
+
+				e.preventDefault();
+
+				_this.appendRow();
+			});
+
 			$('#F5221AF4_E3C8_260F_4556_A1ED96055B2F').click(function() {
 
 				_this.hideEditModal();
 			});
 
-			$('#DF100F06_DCAF_061E_1698_B301143311F7').click(function() {
+			$('#F114E547_5E78_72D9_BB7F_355CDBB3D03A').submit(function(e) {
 
-				_this.appendRow();
+				e.preventDefault();
+
+				_this.refineResult();
 			});
 
 			$('#C31B969B_357E_B68B_E56D_BA38DC220599').click(function() {
 
 				_this.hideRefineModal();
-			});
-
-			$('#CE7B4CA6_63C6_416B_A2BC_45B53CC5EF37').click(function() {
-
-				_this.refineResult();
 			});
 
 			/*-------------------------------------------------*/
@@ -352,7 +356,7 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------*/
 
-			amiWebApp.replaceHTML('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1', this.fragmentFieldList, {dict: dict});
+			amiWebApp.replaceHTML('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1 .modal-body', this.fragmentFieldList, {dict: dict});
 
 			/*-------------------------------------------------*/
 
@@ -1062,7 +1066,7 @@ $AMIClass('TableCtrl', {
 				break;
 
 			default:
-	  			amiWebApp.error('internal error', true);
+	  			amiWebApp.error('invalid filter', true);
 				return;
 		}
 
