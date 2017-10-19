@@ -1081,7 +1081,7 @@ $AMIClass('TableCtrl', {
 
 	showDetailsTab: function(primaryValue)
 	{
-		alert(this._buildColumnName(this.catalog, this.entity, this.primaryField) + ' = \'' + primaryValue.replace(/'/g, '\'\'') + '\'');
+		alert('GetElementInfo -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -primaryField="' + amiWebApp.textToString(this.primaryField) + '" -primaryValue="' + amiWebApp.textToString(primaryValue) + '"');
 	},
 
 	/*-----------------------------------------------------------------*/
