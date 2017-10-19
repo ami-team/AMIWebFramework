@@ -4,18 +4,7 @@
 			<div class="modal-header">
 				<h4 class="modal-title"><i class="fa fa-plus-circle"></i> New row</h4>
 			</div>
-			<form class="modal-body form-horizontal" id="B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1">
-				{% for info in fieldInfo %}
-				{%   if info.field !== primaryField %}
-				<div class="form-group row">
-					<label for="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" class="col-sm-3 col-form-label">{{info.field}}</label>
-					<div class="col-sm-9">
-						<input type="text" name="{{info.field|lower}}" class="form-control form-control-sm" id="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" placeholder="{{info.type}}({{info.size}})" />
-					</div>
-				</div>
-				{%   endif %}
-				{% endfor %}
-			</form>
+			<form class="modal-body form-horizontal" id="B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1"></form>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" id="F5221AF4_E3C8_260F_4556_A1ED96055B2F">Close</button>
 				<button type="button" class="btn btn-primary" id="DF100F06_DCAF_061E_1698_B301143311F7">Append</button>

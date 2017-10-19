@@ -1,0 +1,10 @@
+{% for info in fieldInfo %}
+{%   if info.field !== primaryField %}
+<div class="form-group row">
+	<label for="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" class="col-sm-3 col-form-label">{{info.field}}</label>
+	<div class="col-sm-9">
+		<input type="text" name="{{info.field|lower}}" class="form-control form-control-sm" id="A8572167_6898_AD6F_8EAD_9D4E2AEB3550__{{info.field}}" placeholder="{{info.type}}({{info.size}})" />
+	</div>
+</div>
+{%   endif %}
+{% endfor %}

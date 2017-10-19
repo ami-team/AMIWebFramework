@@ -33,6 +33,7 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/controls/Table/twig/TableCtrl.twig',
 			amiWebApp.originURL + '/controls/Table/twig/refineModal.twig',
 			amiWebApp.originURL + '/controls/Table/twig/editModal.twig',
+			amiWebApp.originURL + '/controls/Table/twig/fieldList.twig',
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/js.twig',
 			'ctrl:messageBox',
@@ -40,26 +41,16 @@ $AMIClass('TableCtrl', {
 		], {context: this}).done(function(data) {
 
 			amiWebApp.appendHTML('body', data[1], {context: this}).done(function() {
+				amiWebApp.appendHTML('body', data[2], {context: this}).done(function() {
 
-				var _this = this;
+					this.fragmentTableCtrl = data[0];
+					this.fragmentFieldList = data[3];
+					this.fragmentTable = data[4];
+					this.fragmentJS = data[5];
 
-				$('#C31B969B_357E_B68B_E56D_BA38DC220599').click(function() {
-
-					_this.hideRefineModal();
+					this.messageBox = new data[6];
+					this.textBox = new data[7];
 				});
-
-				$('#CE7B4CA6_63C6_416B_A2BC_45B53CC5EF37').click(function() {
-
-					_this.refine();
-				});
-
-				this.fragmentTableCtrl = data[0];
-				this.fragmentEditModal = data[2];
-				this.fragmentTable = data[3];
-				this.fragmentJS = data[4];
-
-				this.messageBox = new data[5];
-				this.textBox = new data[6];
 			});
 		});
 
@@ -288,77 +279,90 @@ $AMIClass('TableCtrl', {
 
 		this.replaceHTML(selector, this.fragmentTableCtrl, {context: this, dict: dict}).done(function() {
 
-			this.appendHTML('body', this.fragmentEditModal, {context: this, dict: dict}).done(function() {
+			var _this = this;
 
-				var _this = this;
+			/*-------------------------------------------------*/
 
-				/*-----------------------------------------*/
+			$('#F5221AF4_E3C8_260F_4556_A1ED96055B2F').click(function() {
 
-				$(this.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(function() {
-
-					_this.prev();
-				});
-
-				$(this.patchId('#E7FDF4C8_ECD2_3FE0_8C75_541E511239C2')).click(function() {
-
-					_this.next();
-				});
-
-				$(this.patchId('#D809166F_A40B_2376_C8A5_977AA0C8C408')).click(function() {
-
-					_this.refresh();
-				});
-
-				$(this.patchId('#DDC32238_DD25_8354_AC6C_F6E27CA6E18D')).change(function() {
-
-					_this.setMode();
-				});
-
-				$(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(function() {
-
-					_this.showEditModal();
-				});
-
-				$(this.patchId('#F5221AF4_E3C8_260F_4556_A1ED96055B2F')).click(function() {
-
-					_this.hideEditModal();
-				});
-
-				$(this.patchId('#DF100F06_DCAF_061E_1698_B301143311F7')).click(function() {
-
-					_this.appendRow();
-				});
-
-				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(function() {
-
-					_this.showMQL();
-				});
-
-				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(function() {
-
-					_this.showSQL();
-				});
-
-				$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(function() {
-
-					_this.showCommand();
-				});
-
-				$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(function() {
-
-					_this.showJavaScript();
-				});
-
-				/*-----------------------------------------*/
-
-				this.jsCode = amiWebApp.formatTWIG(this.fragmentJS, dict);
-
-				/*-----------------------------------------*/
-
-				this.refresh();
-
-				/*-----------------------------------------*/
+				_this.hideEditModal();
 			});
+
+			$('#DF100F06_DCAF_061E_1698_B301143311F7').click(function() {
+
+				_this.appendRow();
+			});
+
+			$('#C31B969B_357E_B68B_E56D_BA38DC220599').click(function() {
+
+				_this.hideRefineModal();
+			});
+
+			$('#CE7B4CA6_63C6_416B_A2BC_45B53CC5EF37').click(function() {
+
+				_this.refineResult();
+			});
+
+			/*-------------------------------------------------*/
+
+			$(this.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(function() {
+
+				_this.prev();
+			});
+
+			$(this.patchId('#E7FDF4C8_ECD2_3FE0_8C75_541E511239C2')).click(function() {
+
+				_this.next();
+			});
+
+			$(this.patchId('#D809166F_A40B_2376_C8A5_977AA0C8C408')).click(function() {
+
+				_this.refresh();
+			});
+
+			$(this.patchId('#DDC32238_DD25_8354_AC6C_F6E27CA6E18D')).change(function() {
+
+				_this.setMode();
+			});
+
+			$(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(function() {
+
+				_this.showEditModal();
+			});
+
+			$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(function() {
+
+				_this.showMQL();
+			});
+
+			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(function() {
+
+				_this.showSQL();
+			});
+
+			$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(function() {
+
+				_this.showCommand();
+			});
+
+			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(function() {
+
+				_this.showJavaScript();
+			});
+
+			/*-------------------------------------------------*/
+
+			amiWebApp.replaceHTML('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1', this.fragmentFieldList, {dict: dict});
+
+			/*-------------------------------------------------*/
+
+			this.jsCode = amiWebApp.formatTWIG(this.fragmentJS, dict);
+
+			/*-------------------------------------------------*/
+
+			this.refresh();
+
+			/*-------------------------------------------------*/
 		});
 
 		/*---------------------------------------------------------*/
@@ -742,7 +746,7 @@ $AMIClass('TableCtrl', {
 
 		var el1 = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61')
 						+ ' .edit-field[data-row="' + primaryValue + '"]');
-		var el2 = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
+		var el2 = $(/*--------*/('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
 
 		this.showEditModal();
 
@@ -762,8 +766,8 @@ $AMIClass('TableCtrl', {
 		var field;
 		var value;
 
-		var el1 = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
-		var el2 = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
+		var el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
+		var el2 = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1');
 
 		for(var i in this.fieldInfo)
 		{
@@ -783,8 +787,8 @@ $AMIClass('TableCtrl', {
 		var field;
 		var value;
 
-		var el1 = $(this.patchId('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550'));
-		var el2 = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1'));
+		var el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
+		var el2 = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1');
 
 		for(var i in this.fieldInfo)
 		{
@@ -801,7 +805,7 @@ $AMIClass('TableCtrl', {
 
 	_formToArray: function()
 	{
-		var form = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1')).serializeArray();
+		var form = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1').serializeArray();
 
 		var fieldList = [];
 		var valueList = [];
@@ -979,7 +983,7 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	refine: function()
+	refineResult: function()
 	{
 		this.hideRefineModal();
 	},
@@ -995,7 +999,7 @@ $AMIClass('TableCtrl', {
 
 	showStatsTab: function(catalog, entity, field)
 	{
-		alert(this._buildColumnName(catalog, entity, field) + ' = \'' + '???' + '\'');
+		alert(this._buildColumnName(catalog, entity, field));
 	},
 
 	/*-----------------------------------------------------------------*/
