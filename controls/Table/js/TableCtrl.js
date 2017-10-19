@@ -1172,17 +1172,17 @@ $AMIClass('TableCtrl', {
 
 		var columnName = this._buildColumnName('N/A', entity, field);
 
-		regions['SELECT'] = columnName + ' AS field'
-		                    + ' ' +
-		                    'MIN(' + columnName + ') AS min,'
-		                    + ' ' +
-				    'MAX(' + columnName + ') AS max,'
-				    + ' ' +
-				    'AVG(' + columnName + ') AS avg,'
-				    + ' ' +
-				    'STDDEV(' + columnName + ') AS stddev,'
-				    + ' ' +
-				    'COUNT(' + columnName + ') AS count'
+		regions['SELECT'] = columnName + ' AS `field`'
+		                    + ', ' +
+		                    'MIN(' + columnName + ') AS `min`'
+		                    + ', ' +
+				    'MAX(' + columnName + ') AS `max`'
+				    + ', ' +
+				    'AVG(' + columnName + ') AS `avg`'
+				    + ', ' +
+				    'STDDEV(' + columnName + ') AS `stddev`'
+				    + ', ' +
+				    'COUNT(' + columnName + ') AS `count`'
 		;
 
 		/*---------------------------------------------------------*/
@@ -1237,7 +1237,7 @@ $AMIClass('TableCtrl', {
 		var columnName = this._buildColumnName('N/A', entity, field);
 
 		regions['SELECT'] = columnName
-				+ ', count(*) AS total, CONCAT(\'@master::' + columnName + '::\', ' + columnName + ') AS go';
+				+ ', count(*) AS `total`, CONCAT(\'@master::' + columnName + '::\', ' + columnName + ') AS `go`';
 		regions['GROUP'] = columnName;
 
 		/*---------------------------------------------------------*/

@@ -30,8 +30,8 @@ $AMIClass('TableViewerApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-				this.tab = new data[1];
-				this.table = new data[2];
+				this.tab = new data[1](((this)));
+				this.table = new data[2](this.tab);
 
 				this.tab.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', {context: this}).done(function() {
 
@@ -46,12 +46,13 @@ $AMIClass('TableViewerApp', {
 						json = {/*----------------------*/};
 					}
 
-					this.catalog = json.catalog;
-					this.entity = json.entity;
+					this.catalog = json.catalog || '';
+					this.entity = json.entity || '';
+					this.primaryField = json.primaryField || '';
 
-					this.tab.appendTab(this.catalog + '.' + this.entity, {context: this}).done(function(sel) {
+					this.tab.appendTab(this.entity, {context: this}).done(function(tabSel) {
 
-						this._1stTabSel = sel;
+						this.tabSel = tabSel;
 
 						result.resolve();
 					});
@@ -70,7 +71,7 @@ $AMIClass('TableViewerApp', {
 
 	onLogin: function()
 	{
-		this.table.render(this._1stTabSel, 'SearchQuery -catalog="' + this.catalog + '" -entity="' + this.entity + '" -mql="SELECT `*`"', {canEdit: true, catalog: this.catalog, entity: this.entity, primaryField: 'id', start: 1, stop: 20});
+		this.table.render(this.tabSel, 'SearchQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*`"', {showDetails: true, canEdit: true, catalog: this.catalog, entity: this.entity, primaryField: this.primaryField, start: 1, stop: 20});
 
 		$('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0').show();
 	},
