@@ -799,7 +799,7 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	_form: function()
+	_formToArray: function()
 	{
 		var form = $(this.patchId('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1')).serializeArray();
 
@@ -829,7 +829,7 @@ $AMIClass('TableCtrl', {
 			amiWebApp.lock();
 			this.hideEditModal();
 
-			amiCommand.execute(this.appendCommandFunc.apply(this, this._form()), {context: this}).done(function() {
+			amiCommand.execute(this.appendCommandFunc.apply(this, this._formToArray()), {context: this}).done(function() {
 
 				this.refresh();
 
