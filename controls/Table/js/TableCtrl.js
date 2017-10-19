@@ -1077,7 +1077,7 @@ $AMIClass('TableCtrl', {
 
 	showDetailsTab: function(primaryValue)
 	{
-		alert( this._buildColumnName(this.catalog, this.entity, this.primaryField) + ' = \'' + primaryValue.replace(/'/g, '\'\'') + '\'');
+		alert(this._buildColumnName(this.catalog, this.entity, this.primaryField) + ' = \'' + primaryValue.replace(/'/g, '\'\'') + '\'');
 	},
 
 	/*-----------------------------------------------------------------*/
