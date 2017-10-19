@@ -52,9 +52,9 @@
 			<a href="#" class="text-danger" data-action="delete" data-row="{{elementId}}"><i class="fa fa-trash"></i></a>
 		</td>
 		{%     else %}
-		{%       if field.$ starts with '@filter-prev::' %}
+		{%       if field.$ starts with '@master::' %}
 		<td class="text-center">
-			<a href="#" data-action="filter-prev" data-filter-def="{{field.$|e}}"><i class="fa fa-link"></i></a>
+			<a href="#" data-action="filter" data-filter-def="{{field.$.substring(9)|e}}"><i class="fa fa-link"></i></a>
 		</td>
 		{%       else %}
 		<td class="text-left">

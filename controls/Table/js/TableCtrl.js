@@ -240,6 +240,8 @@ $AMIClass('TableCtrl', {
 		}
 
 		/*---------------------------------------------------------*/
+
+		return this;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -650,11 +652,13 @@ $AMIClass('TableCtrl', {
 
 				/*-----------------------------------------*/
 
-				parent.find('a[data-action="filter-prev"]').click(function(e) {
+				parent.find('a[data-action="filter"]').click(function(e) {
 
 					e.preventDefault();
 
-					alert(this.getAttribute('data-filter-def'));
+					var descr = this.getAttribute('data-filter-def').split('::');
+
+					if(descr.length === 2) _this.master.refineResult('2', descr[0], descr[1]);
 				});
 
 				/*-----------------------------------------*/
@@ -1016,16 +1020,16 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	refineResult: function()
+	refineResult: function(_filter, _x, _y)
 	{
 		/*---------------------------------------------------------*/
 
 		var el = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
 
-		var filter = el.find('select[name="filter"]').val();
+		var filter = _filter || el.find('select[name="filter"]').val();
 
-		var x = el.find('input[name="x"]').val();
-		var y = el.find('input[name="y"]').val();
+		var x = _x || el.find('input[name="x"]').val();
+		var y = _y || el.find('input[name="y"]').val();
 		var y1 = el.find('input[name="y1"]').val();
 		var y2 = el.find('input[name="y2"]').val();
 
@@ -1138,7 +1142,7 @@ $AMIClass('TableCtrl', {
 		{
 			parent.appendTab(this.ctx.entity, {context: this}).done(function(sel) {
 
-				new this.$class(parent).render(sel, command, this.ctx);
+				new this.$class(parent).render(sel, command, this.ctx).master = this;
 			});
 		}
 		else
@@ -1209,7 +1213,7 @@ $AMIClass('TableCtrl', {
 		{
 			parent.appendTab('<i class="fa fa-bar-chart"></i> ' + this.ctx.entity, {context: this}).done(function(sel) {
 
-				new this.$class(parent).render(sel, command, this.ctx);
+				new this.$class(parent).render(sel, command, this.ctx).master = this;
 			});
 		}
 		else
@@ -1233,7 +1237,7 @@ $AMIClass('TableCtrl', {
 		var columnName = this._buildColumnName('N/A', entity, field);
 
 		regions['SELECT'] = columnName
-				+ ', count(*) AS total, CONCAT(\'@filter-prev::' + columnName + '::\', ' + columnName + ') AS go';
+				+ ', count(*) AS total, CONCAT(\'@master::' + columnName + '::\', ' + columnName + ') AS go';
 		regions['GROUP'] = columnName;
 
 		/*---------------------------------------------------------*/
@@ -1268,7 +1272,7 @@ $AMIClass('TableCtrl', {
 		{
 			parent.appendTab('<i class="fa fa-slack"></i> ' + this.ctx.entity, {context: this}).done(function(sel) {
 
-				new this.$class(parent).render(sel, command, this.ctx);
+				new this.$class(parent).render(sel, command, this.ctx).master = this;
 			});
 		}
 		else
