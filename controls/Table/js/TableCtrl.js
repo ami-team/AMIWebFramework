@@ -1194,7 +1194,7 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab(this.ctx.entity + '::stats', {context: this}).done(function(sel) {
+			parent.appendTab('<i class="fa fa-bar-chart"></i> ' + this.ctx.entity, {context: this}).done(function(sel) {
 
 				new this.$class(parent).render(sel, command, this.ctx);
 			});
@@ -1216,7 +1216,7 @@ $AMIClass('TableCtrl', {
 		var columnName = this._buildColumnName('N/A', entity, field);
 
 		regions['SELECT'] = columnName
-				+ ', count(*) AS total';
+				+ ', count(*) AS total, \'\' AS go';
 		regions['GROUP'] = columnName;
 
 		/*---------------------------------------------------------*/
@@ -1249,7 +1249,7 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab(this.ctx.entity + '::groupby', {context: this}).done(function(sel) {
+			parent.appendTab('<i class="fa fa-slack"></i> ' + this.ctx.entity, {context: this}).done(function(sel) {
 
 				new this.$class(parent).render(sel, command, this.ctx);
 			});
