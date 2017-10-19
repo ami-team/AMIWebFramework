@@ -487,25 +487,21 @@ $AMIClass('TableCtrl', {
 			                       : amiWebApp.jspath('..row'                                       , data) || []
 			;
 
+			this.sql = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@sql', data)[0] || 'N/A'
+			                       : amiWebApp.jspath('..@sql'                                       , data)[0] || 'N/A'
+			;
+
 			this.mql = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@mql', data)[0] || 'N/A'
 			                       : amiWebApp.jspath('..@mql'                                       , data)[0] || 'N/A'
 			;
 
-
-			this.sql = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@sql', data)[0] || 'N/A'
-			                       : amiWebApp.jspath('..@sql'                                       , data)[0] || 'N/A'
+			this.ast = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@ast', data)[0] || 'N/A'
+			                       : amiWebApp.jspath('..@ast'                                       , data)[0] || 'N/A'
 			;
 
 			var totalResults = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@totalResults', data)[0] || 'N/A'
 			                               : amiWebApp.jspath('..@totalResults'                                       , data)[0] || 'N/A'
 			;
-
-			if(this.mql === 'N/A') {
-				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).hide();
-			}
-			else {
-				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).show();
-			}
 
 			if(this.sql === 'N/A') {
 				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).hide();
@@ -514,7 +510,14 @@ $AMIClass('TableCtrl', {
 				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).show();
 			}
 
-			var isXQL = this.mql !== 'N/A' || this.sql !== 'N/A';
+			if(this.mql === 'N/A') {
+				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).hide();
+			}
+			else {
+				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).show();
+			}
+
+			var isXQL = this.sql !== 'N/A' || this.mql !== 'N/A';
 
 			var dict = {
 				fieldDescriptions: fieldDescriptions,
@@ -896,14 +899,14 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	showMQL: function()
+	showSQL: function()
 	{
 		this.messageBox.show(this.sql);
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	showSQL: function()
+	showMQL: function()
 	{
 		this.messageBox.show(this.mql);
 	},
