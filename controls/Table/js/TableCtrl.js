@@ -61,159 +61,165 @@ $AMIClass('TableCtrl', {
 
 	render: function(selector, command, settings)
 	{
-		this.command = command.trim();
+		this.ctx = {
+			isEmbedded: amiWebApp.isEmbedded(),
 
-		/**/
+			endpoint: amiCommand.endpoint,
 
-		this.appendCommandFunc = function(fields, values) {
+			command: command.trim(),
 
-			return 'AddElement -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';
-		};
+			/**/
 
-		this.updateCommandFunc = function(primaryValue, field, value) {
+			appendCommandFunc: function(fields, values) {
 
-			return 'UpdateElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '"';
-		};
+				return 'AddElement -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';
+			},
 
-		this.deleteCommandFunc = function(primaryValue) {
+			updateCommandFunc: function(primaryValue, field, value) {
+
+				return 'UpdateElements -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.ctx.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '"';
+			},
+
+			deleteCommandFunc: function(primaryValue) {
 		
-			return 'RemoveElements -catalog="' + this.catalog + '" -entity="' + this.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
+				return 'RemoveElements -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.ctx.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
+			},
+
+			/**/
+
+			enableCache: false,
+			showDetails: false,
+			showTools: true,
+			canEdit: false,
+
+			catalog: '',
+			entity: '',
+			primaryField: '',
+			rowset: '',
+
+			defaultFields: [],
+			defaultValues: [],
+			defaultTypes: [],
+
+			start: 0x01,
+			stop: 0x0A,
+			orderBy: '',
+			orderWay: '',
 		};
-
-		/**/
-
-		this.enableCache = false;
-		this.showDetails = false;
-		this.showTools = true;
-		this.canEdit = false;
-
-		this.catalog = '';
-		this.entity = '';
-		this.primaryField = '';
-		this.rowset = '';
-
-		this.defaultFields = [];
-		this.defaultValues = [];
-		this.defaultTypes = [];
-
-		this.start = 0x01;
-		this.stop = 0x0A;
-		this.orderBy = '';
-		this.orderWay = '';
 
 		if(settings)
 		{
 			if('appendCommandFunc' in settings) {
-				this.appendCommandFunc = settings['appendCommandFunc'];
+				this.ctx.appendCommandFunc = settings['appendCommandFunc'];
 			}
 
 			if('updateCommandFunc' in settings) {
-				this.updateCommandFunc = settings['updateCommandFunc'];
+				this.ctx.updateCommandFunc = settings['updateCommandFunc'];
 			}
 
 			if('deleteCommandFunc' in settings) {
-				this.deleteCommandFunc = settings['deleteCommandFunc'];
+				this.ctx.deleteCommandFunc = settings['deleteCommandFunc'];
 			}
 
 			/**/
 
 			if('enableCache' in settings) {
-				this.enableCache = settings['enableCache'];
+				this.ctx.enableCache = settings['enableCache'];
 			}
 
 			/**/
 
 			if('showDetails' in settings) {
-				this.showDetails = settings['showDetails'];
+				this.ctx.showDetails = settings['showDetails'];
 			}
 
 			if('showTools' in settings) {
-				this.showTools = settings['showTools'];
+				this.ctx.showTools = settings['showTools'];
 			}
 
 			if('canEdit' in settings) {
-				this.canEdit = settings['canEdit'];
+				this.ctx.canEdit = settings['canEdit'];
 			}
 
 			/**/
 
 			if('catalog' in settings) {
-				this.catalog = settings['catalog'];
+				this.ctx.catalog = settings['catalog'];
 			}
 
 			if('entity' in settings) {
-				this.entity = settings['entity'];
+				this.ctx.entity = settings['entity'];
 			}
 
 			if('primaryField' in settings) {
-				this.primaryField = settings['primaryField'];
+				this.ctx.primaryField = settings['primaryField'];
 			}
 
 			if('rowset' in settings) {
-				this.rowset = settings['rowset'];
+				this.ctx.rowset = settings['rowset'];
 			}
 
 			/**/
 
 			if('defaultFields' in settings) {
-				this.defaultFields = settings['defaultFields'];
+				this.ctx.defaultFields = settings['defaultFields'];
 			}
 
 			if('defaultValues' in settings) {
-				this.defaultValues = settings['defaultValues'];
+				this.ctx.defaultValues = settings['defaultValues'];
 			}
 
 			if('defaultTypes' in settings) {
-				this.defaultTypes = settings['defaultTypes'];
+				this.ctx.defaultTypes = settings['defaultTypes'];
 			}
 
 			/**/
 
 			if('start' in settings) {
-				this.start = settings['start'];
+				this.ctx.start = settings['start'];
 			}
 
 			if('stop' in settings) {
-				this.stop = settings['stop'];
+				this.ctx.stop = settings['stop'];
 			}
 
 			if('orderBy' in settings) {
-				this.orderBy = settings['orderBy'];
+				this.ctx.orderBy = settings['orderBy'];
 			}
 
 			if('orderWay' in settings) {
-				this.orderWay = settings['orderWay'];
+				this.ctx.orderWay = settings['orderWay'];
 			}
 		}
 
 		/*---------------------------------------------------------*/
 
-		if(this.defaultFields.length > 0)
+		if(this.ctx.defaultFields.length > 0)
 		{
 			this._display(selector);
 		}
 		else
 		{
-			amiCommand.execute('GetFieldInfo -catalog="' + this.catalog + '" -entity="' + this.entity + '"', {context: this}).done(function(data) {
+			amiCommand.execute('GetFieldInfo -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '"', {context: this}).done(function(data) {
 
-				this.defaultFields = amiWebApp.jspath('..field{.@name==="name"}.$', data) || [];
-				this.defaultValues = amiWebApp.jspath('..field{.@name==="def"}.$', data) || [];
-				this.defaultTypes = amiWebApp.jspath('..field{.@name==="type"}.$', data) || [];
-				this.defaultPrimary = amiWebApp.jspath('..field{.@name==="primary"}.$', data) || []
+				this.ctx.defaultFields = amiWebApp.jspath('..field{.@name==="name"}.$', data) || [];
+				this.ctx.defaultValues = amiWebApp.jspath('..field{.@name==="def"}.$', data) || [];
+				this.ctx.defaultTypes = amiWebApp.jspath('..field{.@name==="type"}.$', data) || [];
+				this.ctx_defaultPrimary = amiWebApp.jspath('..field{.@name==="primary"}.$', data) || []
 
-				if(!this.primaryField)
+				if(!this.ctx.primaryField)
 				{
 					var n = Math.max(
-						this.defaultTypes.length
+						this.ctx.defaultTypes.length
 						,
-						this.defaultPrimary.length
+						this.ctx_defaultPrimary.length
 					);
 
 					for(i = 0; i < n; i++)
 					{
-						if(this.defaultPrimary[i] === 'true')
+						if(this.ctx_defaultPrimary[i] === 'true')
 						{
-							this.primaryField = this.defaultFields[i];
+							this.ctx.primaryField = this.ctx.defaultFields[i];
 
 							break;
 						}
@@ -224,9 +230,9 @@ $AMIClass('TableCtrl', {
 
 			}).fail(function() {
 
-				this.defaultFields = [];
-				this.defaultValues = [];
-				this.defaultTypes = [];
+				this.ctx.defaultFields = [];
+				this.ctx.defaultValues = [];
+				this.ctx.defaultTypes = [];
 
 				this._display(selector);
 			});
@@ -241,9 +247,9 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var l1 = this.defaultFields.length;
-		var l2 = this.defaultValues.length;
-		var l3 = this.defaultTypes.length;
+		var l1 = this.ctx.defaultFields.length;
+		var l2 = this.ctx.defaultValues.length;
+		var l3 = this.ctx.defaultTypes.length;
 		
 		if(l1 !== l2
 		   ||
@@ -256,35 +262,20 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		this.fieldInfo = [];
+		this.ctx.fieldInfo = [];
 
 		for(var i = 0; i < l1; i++)
 		{
-			this.fieldInfo.push({
-	  			field: this.defaultFields[i],
-	  			value: this.defaultValues[i],
-	  			type: this.defaultTypes[i],
+			this.ctx.fieldInfo.push({
+	  			field: this.ctx.defaultFields[i],
+	  			value: this.ctx.defaultValues[i],
+	  			type: this.ctx.defaultTypes[i],
 			});
 		}
 
 		/*---------------------------------------------------------*/
 
-		var dict = {
-			isEmbedded: amiWebApp.isEmbedded(),
-			endpoint: amiCommand.endpoint,
-			command: this.command,
-			canEdit: this.canEdit,
-			catalog: this.catalog,
-			entity: this.entity,
-			primaryField: this.primaryField,
-			fieldInfo: this.fieldInfo,
-			start: this.start,
-			stop: this.stop,
-			orderBy: this.orderBy,
-			orderWay: this.orderWay,
-		};
-
-		this.replaceHTML(selector, this.fragmentTableCtrl, {context: this, dict: dict}).done(function() {
+		this.replaceHTML(selector, this.fragmentTableCtrl, {context: this, dict: this.ctx}).done(function() {
 
 			var _this = this;
 
@@ -363,11 +354,7 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------*/
 
-			amiWebApp.replaceHTML('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1 .modal-body', this.fragmentFieldList, {dict: dict});
-
-			/*-------------------------------------------------*/
-
-			this.jsCode = amiWebApp.formatTWIG(this.fragmentJS, dict);
+			amiWebApp.replaceHTML('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1 .modal-body', this.fragmentFieldList, {dict: this.ctx});
 
 			/*-------------------------------------------------*/
 
@@ -388,11 +375,11 @@ $AMIClass('TableCtrl', {
 	prev: function()
 	{
 		var oldStart = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.start
+			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
 		);
 
 		var oldStop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.stop
+			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
 		);
 
 		var range = oldStop - oldStart + 1;
@@ -419,11 +406,11 @@ $AMIClass('TableCtrl', {
 	next: function()
 	{
 		var oldStart = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.start
+			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
 		);
 
 		var oldStop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.stop
+			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
 		);
 
 		var range = oldStop - oldStart + 1;
@@ -451,35 +438,35 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var command = this.command;
+		var command = this.ctx.command;
 
 		/*---------------------------------------------------------*/
 
-		if(this.orderBy)
+		if(this.ctx.orderBy)
 		{
-			command += ' -orderBy="' + this.orderBy + '"';
+			command += ' -orderBy="' + this.ctx.orderBy + '"';
 
-			if(this.orderWay)
+			if(this.ctx.orderWay)
 			{
-				command += ' -orderWay="' + this.orderWay + '"';
+				command += ' -orderWay="' + this.ctx.orderWay + '"';
 			}
 		}
 
 		/*---------------------------------------------------------*/
 
 		var start = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.start
+			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
 		);
 
 		var stop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.stop
+			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
 		);
 
 		command += ' -limit="' + (stop - start + 1) + '" -offset="' + (start - 1) + '"';
 
 		/*---------------------------------------------------------*/
 
-		if(this.enableCache)
+		if(this.ctx.enableCache)
 		{
 			command += ' -cache';
 		}
@@ -490,28 +477,28 @@ $AMIClass('TableCtrl', {
 
 		amiCommand.execute(command, {context: this}).done(function(data) {
 
-			var fieldDescriptions = this.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.rowset + '"}.fieldDescription', data) || []
-			                                    : amiWebApp.jspath('..fieldDescription'                                                    , data) || []
+			var fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data) || []
+			                                        : amiWebApp.jspath('..fieldDescription'                                                        , data) || []
 			;
 
-			var rows = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.row', data) || []
-			                       : amiWebApp.jspath('..row'                                       , data) || []
+			var rows = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}.row', data) || []
+			                           : amiWebApp.jspath('..row'                                           , data) || []
 			;
 
-			this.sql = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@sql', data)[0] || 'N/A'
-			                       : amiWebApp.jspath('..@sql'                                       , data)[0] || 'N/A'
+			this.sql = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}.@sql', data)[0] || 'N/A'
+			                           : amiWebApp.jspath('..@sql'                                           , data)[0] || 'N/A'
 			;
 
-			this.mql = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@mql', data)[0] || 'N/A'
-			                       : amiWebApp.jspath('..@mql'                                       , data)[0] || 'N/A'
+			this.mql = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}.@mql', data)[0] || 'N/A'
+			                           : amiWebApp.jspath('..@mql'                                           , data)[0] || 'N/A'
 			;
 
-			this.ast = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@ast', data)[0] || 'N/A'
-			                       : amiWebApp.jspath('..@ast'                                       , data)[0] || 'N/A'
+			this.ast = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}.@ast', data)[0] || 'N/A'
+			                           : amiWebApp.jspath('..@ast'                                           , data)[0] || 'N/A'
 			;
 
-			var totalResults = this.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.rowset + '"}.@totalResults', data)[0] || 'N/A'
-			                               : amiWebApp.jspath('..@totalResults'                                       , data)[0] || 'N/A'
+			var totalResults = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}.@totalResults', data)[0] || 'N/A'
+			                                   : amiWebApp.jspath('..@totalResults'                                           , data)[0] || 'N/A'
 			;
 
 			if(this.sql === 'N/A') {
@@ -533,9 +520,9 @@ $AMIClass('TableCtrl', {
 			var dict = {
 				fieldDescriptions: fieldDescriptions,
 				rows: rows,
-				primaryField: this.primaryField,
-				showDetails: this.showDetails,
-				showTools: this.showTools
+				primaryField: this.ctx.primaryField,
+				showDetails: this.ctx.showDetails,
+				showTools: this.ctx.showTools
 				           &&
 					   isXQL,
 			};
@@ -554,8 +541,8 @@ $AMIClass('TableCtrl', {
 
 					e.preventDefault();
 
-					_this.orderBy = this.getAttribute('data-row');
-					_this.orderWay = 'DESC';
+					_this.ctx.orderBy = this.getAttribute('data-row');
+					_this.ctx.orderWay = 'DESC';
 
 					_this.refresh();
 				});
@@ -566,8 +553,8 @@ $AMIClass('TableCtrl', {
 
 					e.preventDefault();
 
-					_this.orderBy = this.getAttribute('data-row');
-					_this.orderWay = 'ASC';
+					_this.ctx.orderBy = this.getAttribute('data-row');
+					_this.ctx.orderWay = 'ASC';
 
 					_this.refresh();
 				});
@@ -697,10 +684,16 @@ $AMIClass('TableCtrl', {
 				});
 
 				/*-----------------------------------------*/
+				/* UPDATE JAVASCRIPT                       */
+				/*-----------------------------------------*/
+
+				this.jsCode = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
+
+				/*-----------------------------------------*/
 				/* TOOLTIP CONTENT                         */
 				/*-----------------------------------------*/
 
-				var title = this.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (isXQL ? totalResults : rows.length);
+				var title = this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (isXQL ? totalResults : rows.length);
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
 					placement: (('bottom')),
@@ -739,13 +732,13 @@ $AMIClass('TableCtrl', {
 
 		if($(this.patchId('#DDC32238_DD25_8354_AC6C_F6E27CA6E18D')).prop('checked'))
 		{
-			if(this.fieldInfo.length > 0) tags1.show();
+			if(this.ctx.fieldInfo.length > 0) tags1.show();
 			/*-------------------------*/ tags2.show();
 			tags3.attr('contenteditable', 'true');
 		}
 		else
 		{
-			if(this.fieldInfo.length > 0) tags1.hide();
+			if(this.ctx.fieldInfo.length > 0) tags1.hide();
 			/*-------------------------*/ tags2.hide();
 			tags3.attr('contenteditable', 'false');
 		}
@@ -783,10 +776,10 @@ $AMIClass('TableCtrl', {
 		var el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
 		var el2 = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1');
 
-		for(var i in this.fieldInfo)
+		for(var i in this.ctx.fieldInfo)
 		{
-			field = this.fieldInfo[i].field;
-			value = this.fieldInfo[i].value;
+			field = this.ctx.fieldInfo[i].field;
+			value = this.ctx.fieldInfo[i].value;
 
 			el2.find('input[name="' + field.toLowerCase() + '"]').val(value);
 		}
@@ -804,10 +797,10 @@ $AMIClass('TableCtrl', {
 		var el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
 		var el2 = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1');
 
-		for(var i in this.fieldInfo)
+		for(var i in this.ctx.fieldInfo)
 		{
-			field = this.fieldInfo[i].field;
-			value = this.fieldInfo[i].value;
+			field = this.ctx.fieldInfo[i].field;
+			value = this.ctx.fieldInfo[i].value;
 
 			el2.find('input[name="' + field.toLowerCase() + '"]').val(value);
 		}
@@ -847,7 +840,7 @@ $AMIClass('TableCtrl', {
 			amiWebApp.lock();
 			this.hideEditModal();
 
-			amiCommand.execute(this.appendCommandFunc.apply(this, this._formToArray()), {context: this}).done(function() {
+			amiCommand.execute(this.ctx.appendCommandFunc.apply(this, this._formToArray()), {context: this}).done(function() {
 
 				this.refresh();
 
@@ -871,7 +864,7 @@ $AMIClass('TableCtrl', {
 			amiWebApp.lock();
 			this.hideEditModal();
 
-			amiCommand.execute(this.updateCommandFunc.apply(this, arguments), {context: this}).done(function() {
+			amiCommand.execute(this.ctx.updateCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
 				this.refresh();
 
@@ -895,7 +888,7 @@ $AMIClass('TableCtrl', {
 			amiWebApp.lock();
 			this.hideEditModal();
 
-			amiCommand.execute(this.deleteCommandFunc.apply(this, arguments), {context: this}).done(function() {
+			amiCommand.execute(this.ctx.deleteCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
 				this.refresh();
 
@@ -926,7 +919,7 @@ $AMIClass('TableCtrl', {
 
 	showCommand: function()
 	{
-		this.messageBox.show(this.command);
+		this.messageBox.show(this.ctx.command);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1088,7 +1081,7 @@ $AMIClass('TableCtrl', {
 
 	showDetailsTab: function(primaryValue)
 	{
-		alert('GetElementInfo -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -primaryField="' + amiWebApp.textToString(this.primaryField) + '" -primaryValue="' + amiWebApp.textToString(primaryValue) + '"');
+		alert('GetElementInfo -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -primaryField="' + amiWebApp.textToString(this.ctx.primaryField) + '" -primaryValue="' + amiWebApp.textToString(primaryValue) + '"');
 	},
 
 	/*-----------------------------------------------------------------*/
