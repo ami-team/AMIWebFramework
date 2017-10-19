@@ -5,7 +5,6 @@
 				<h4 class="modal-title"><i class="fa fa-filter"></i> Filter</h4>
 			</div>
 			<form class="modal-body form-horizontal" id="F114E547_5E78_72D9_BB7F_355CDBB3D03A">
-				<input type="hidden" name="column" id="F3A040E1_40EE_97B3_45D6_E7BFB61DBF44" />
 				<div class="form-group">
 					<label for="E95603E7_85A5_9CFC_50A3_6E3CDF7DE45C" class="form-label">Field « <strong id="E7014B57_B16A_7593_FA1B_0DD15C15AC3E"></strong> »</label>
 					<select name="filter" class="form-control form-control-sm" onchange="var f = $(this).val(); if(f === '2' || f === '3' || f === '4' || f === '5' || f === '6' || f === '7' || f === '8' || f === '9') { $('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').show(); $('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide(); } else if(f === '10' || f === '11') { $('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide(); $('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').show(); } else { $('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide(); $('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide(); }">
@@ -24,15 +23,12 @@
 						<option value="11">NOT BETWEEN</option>
 					</select>
 				</div>
-				<div id="CAF8B5EB_1796_3837_5722_3B5B2A7C729B">
-					<input type="text" name="x" class="form-control form-control-sm" />
-				</div>
-				<div id="A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7">
-					<div class="input-group input-group-sm">
-						<input type="text" name="x1" class="form-control" />
-						<span class="input-group-addon px-1">and</span>
-						<input type="text" name="x2" class="form-control" />
-					</div>
+				<input type="hidden" name="x" class="xxxxxxxxxxxxxxxxxxxxxxxxxxxx" id="F3A040E1_40EE_97B3_45D6_E7BFB61DBF44" />
+				<input type= "text"  name="y" class="form-control form-control-sm" id="CAF8B5EB_1796_3837_5722_3B5B2A7C729B" />
+				<div class="input-group input-group-sm" id="A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7">
+					<input type="text" name="y1" class="form-control" />
+					<span class="input-group-addon px-1">and</span>
+					<input type="text" name="y2" class="form-control" />
 				</div>
 			</form>
 			<div class="modal-footer">

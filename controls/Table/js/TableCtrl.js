@@ -988,7 +988,84 @@ $AMIClass('TableCtrl', {
 
 	refineResult: function()
 	{
+		/*---------------------------------------------------------*/
+
 		this.hideRefineModal();
+
+		/*---------------------------------------------------------*/
+
+		var el = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
+
+		var filter = el.find('[name="filter"]').val();
+
+		var x = el.find('[name="x"]').val();
+		var y = el.find('[name="y"]').val();
+		var y1 = el.find('[name="y1"]').val();
+		var y2 = el.find('[name="y2"]').val();
+
+		/*---------------------------------------------------------*/
+
+		var sql;
+
+		switch(filter)
+		{
+			case '0':
+				sql = x + ' IS NULL';
+				break;
+
+			case '1':
+				sql = x + ' IS NOT NULL';
+				break;
+
+			case '2':
+				sql = x + ' = \'' + x0 + '\'';
+				break;
+
+			case '3':
+				sql = x + ' != \'' + x0 + '\'';
+				break;
+
+			case '4':
+				sql = x + ' LIKE \'' + x0 + '\'';
+				break;
+
+			case '5':
+				sql = x + ' NOT LIKE \'' + x0 + '\'';
+				break;
+
+			case '6':
+				sql = x + ' < \'' + x0 + '\'';
+				break;
+
+			case '7':
+				sql = x + ' <= \'' + x0 + '\'';
+				break;
+
+			case '8':
+				sql = x + ' > \'' + x0 + '\'';
+				break;
+
+			case '9':
+				sql = x + ' >= \'' + x0 + '\'';
+				break;
+
+			case '10':
+				sql = x + ' BETWEEN \'' + y1 + '\' AND \'' + y2 + '\'';
+				break;
+
+			case '11':
+				sql = x + ' NOT BETWEEN \'' + y1 + '\' AND \'' + y2 + '\'';
+				break;
+
+			default:
+				return;
+		}
+
+		/*---------------------------------------------------------*/
+
+		alert(sql);
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
