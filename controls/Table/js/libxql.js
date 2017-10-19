@@ -63,3 +63,78 @@ function xqlTokenizer(xql)
 }
 
 /*-------------------------------------------------------------------------*/
+
+var _xqlRegions = {
+	'SELECT': 'SELECT',
+	'FROM': 'FROM',
+	'WHERE': 'WHERE',
+	'GROUP': 'GROUP',
+	'ORDER': 'ORDER',
+	'LIMIT': 'LIMIT',
+	'OFFSET': 'OFFSET',
+};
+
+/*-------------------------------------------------------------------------*/
+
+function xqlGetRegions(xql)
+{
+	var result = {};
+
+	/*-----------------------------------------------------------------*/
+
+	var lock = 0;
+
+	var TOKEN = '';
+	var tokens = [];
+	var keyword = '';
+
+	xqlTokenizer(xql).forEach(function(token) {
+
+		TOKEN = token.toUpperCase();
+
+		/*---------------------------------------------------------*/
+
+		/**/ if(TOKEN === '(')
+		{
+			tokens.push('(');
+			lock++;
+		}
+		else if(TOKEN === ')')
+		{
+			tokens.push(')');
+			lock--;
+		}
+
+		/*---------------------------------------------------------*/
+
+		else if(lock === 0 && TOKEN in _xqlRegions)
+		{
+			if(keyword)
+			{
+				result[keyword] = tokens.join('').trim();
+			}
+
+			tokens = [   ];
+			keyword = TOKEN;
+		}
+
+		/*---------------------------------------------------------*/
+
+		else if(TOKEN !== 'BY') tokens.push(token);
+
+		/*---------------------------------------------------------*/
+	});
+
+	/*-----------------------------------------------------------------*/
+
+	if(keyword)
+	{
+		result[keyword] = tokens.join('').trim();
+	}
+
+	/*-----------------------------------------------------------------*/
+
+	return result;
+}
+
+/*-------------------------------------------------------------------------*/

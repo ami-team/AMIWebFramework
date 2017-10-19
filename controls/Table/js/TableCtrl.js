@@ -35,8 +35,8 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/controls/Table/twig/editModal.twig',
 			amiWebApp.originURL + '/controls/Table/twig/fieldList.twig',
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
-			amiWebApp.originURL + '/controls/Table/twig/js.twig',
-			amiWebApp.originURL + '/controls/Table/js/xql.js',
+			amiWebApp.originURL + '/controls/Table/twig/code.twig',
+			amiWebApp.originURL + '/controls/Table/js/libxql.js',
 			'ctrl:messageBox',
 			'ctrl:textBox',
 		], {context: this}).done(function(data) {
@@ -1026,56 +1026,56 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var sql;
+		var cond;
 
 		switch(filter)
 		{
 			case '0':
-				sql = x + ' IS NULL';
+				cond = x + ' IS NULL';
 				break;
 
 			case '1':
-				sql = x + ' IS NOT NULL';
+				cond = x + ' IS NOT NULL';
 				break;
 
 			case '2':
-				sql = x + ' = \'' + y + '\'';
+				cond = x + ' = \'' + y + '\'';
 				break;
 
 			case '3':
-				sql = x + ' != \'' + y + '\'';
+				cond = x + ' != \'' + y + '\'';
 				break;
 
 			case '4':
-				sql = x + ' LIKE \'' + y + '\'';
+				cond = x + ' LIKE \'' + y + '\'';
 				break;
 
 			case '5':
-				sql = x + ' NOT LIKE \'' + y + '\'';
+				cond = x + ' NOT LIKE \'' + y + '\'';
 				break;
 
 			case '6':
-				sql = x + ' < \'' + y + '\'';
+				cond = x + ' < \'' + y + '\'';
 				break;
 
 			case '7':
-				sql = x + ' <= \'' + y + '\'';
+				cond = x + ' <= \'' + y + '\'';
 				break;
 
 			case '8':
-				sql = x + ' > \'' + y + '\'';
+				cond = x + ' > \'' + y + '\'';
 				break;
 
 			case '9':
-				sql = x + ' >= \'' + y + '\'';
+				cond = x + ' >= \'' + y + '\'';
 				break;
 
 			case '10':
-				sql = x + ' BETWEEN \'' + y1 + '\' AND \'' + y2 + '\'';
+				cond = x + ' BETWEEN \'' + y1 + '\' AND \'' + y2 + '\'';
 				break;
 
 			case '11':
-				sql = x + ' NOT BETWEEN \'' + y1 + '\' AND \'' + y2 + '\'';
+				cond = x + ' NOT BETWEEN \'' + y1 + '\' AND \'' + y2 + '\'';
 				break;
 
 			default:
@@ -1088,45 +1088,36 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var tokens = xqlTokenizer(this.mql ? this.mql : this.sql);
+		var regions = xqlGetRegions(this.mql ? this.mql : this.sql);
 
 		/*---------------------------------------------------------*/
 
-		var lock = 0;
-
-		var whereIdx = -1;
-		var limitIdx = -1;
-
-		tokens.forEach(function(token, idx) {
-
-			/**/ if(token === '(') {
-				lock++;
-			}
-			else if(token === ')') {
-				lock--;
-			}
-			else
-			{
-				if(lock === 0)
-				{
-					/**/ if(token.toUpperCase() === 'WHERE') {
-						whereIdx = idx;
-					}
-					else if(token.toUpperCase() === 'LIMIT') {
-						limitIdx = idx;
-					}
-				}
-			}
-		});
-
-		/*---------------------------------------------------------*/
-
-		if(limitIdx > 1)
+		if(regions['WHERE'])
 		{
-			tokens.length = limitIdx - 1;
+			regions['WHERE'] += ' AND ' + cond;
+		}
+		else
+		{
+			regions['WHERE'] = cond;
 		}
 
-		alert(tokens.join('') + (whereIdx < 0 ? ' WHERE ' : ' AND ') + sql);
+		/*---------------------------------------------------------*/
+
+		var xql = [];
+
+		if(regions['SELECT']) {
+			xql.push('SELECT ' + regions['SELECT']);
+		}
+
+		if(regions['FROM']) {
+			xql.push('FROM ' + regions['FROM']);
+		}
+
+		if(regions['WHERE']) {
+			xql.push('WHERE ' + regions['WHERE']);
+		}
+
+		alert(xql.join(' '));
 
 		/*---------------------------------------------------------*/
 	},
@@ -1142,14 +1133,87 @@ $AMIClass('TableCtrl', {
 
 	showStatsTab: function(catalog, entity, field)
 	{
-		alert(this._buildColumnName(catalog, entity, field));
+		/*---------------------------------------------------------*/
+
+		var regions = xqlGetRegions(this.sql);
+
+		/*---------------------------------------------------------*/
+
+		var columnName = this._buildColumnName(catalog, entity, field);
+
+		regions['SELECT'] = columnName + ' AS field'
+		                    + ' ' +
+		                    'MIN(' + columnName + ') AS min,'
+		                    + ' ' +
+				    'MAX(' + columnName + ') AS max,'
+				    + ' ' +
+				    'AVG(' + columnName + ') AS avg,'
+				    + ' ' +
+				    'STDDEV(' + columnName + ') AS stddev,'
+				    + ' ' +
+				    'COUNT(' + columnName + ') AS count'
+		;
+
+		/*---------------------------------------------------------*/
+
+		var sql = [];
+
+		if(regions['SELECT']) {
+			sql.push('SELECT ' + regions['SELECT']);
+		}
+
+		if(regions['FROM']) {
+			sql.push('FROM ' + regions['FROM']);
+		}
+
+		if(regions['WHERE']) {
+			sql.push('WHERE ' + regions['WHERE']);
+		}
+
+		alert(sql.join(' '));
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	showGroupTab: function(catalog, entity, field)
 	{
-		alert(this._buildColumnName(catalog, entity, field));
+		/*---------------------------------------------------------*/
+
+		var regions = xqlGetRegions(this.sql);
+
+		/*---------------------------------------------------------*/
+
+		var columnName = this._buildColumnName(catalog, entity, field);
+
+		regions['SELECT'] = columnName
+				+ ', count(*) AS total';
+		regions['GROUP'] = columnName;
+
+		/*---------------------------------------------------------*/
+
+		var xql = [];
+
+		if(regions['SELECT']) {
+			xql.push('SELECT ' + regions['SELECT']);
+		}
+
+		if(regions['FROM']) {
+			xql.push('FROM ' + regions['FROM']);
+		}
+
+		if(regions['WHERE']) {
+			xql.push('WHERE ' + regions['WHERE']);
+		}
+
+		if(regions['GROUP']) {
+			xql.push('GROUP BY ' + regions['GROUP']);
+		}
+
+		alert(xql.join(' '));
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
