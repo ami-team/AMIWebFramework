@@ -7370,9 +7370,10 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*-----------------------------------------------------------------*/
 
-	$init: function(parent)
+	$init: function(parent, owner)
 	{
-		this._parent = parent || null;
+		this._parent = parent || this;
+		this._owner = owner || this;
 
 		this.instanceSuffix = ami.Control.instanceCnt++;
 	},
@@ -7382,6 +7383,13 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 	getParent: function()
 	{
 		return this._parent;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	getOwner: function()
+	{
+		return this._owner;
 	},
 
 	/*-----------------------------------------------------------------*/

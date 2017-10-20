@@ -38,9 +38,6 @@ $AMIClass('SchemaCtrl', {
 
 			amiWebApp.originURL + '/controls/Schema/js/joint.shapes.sql.js',
 			amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css',
-
-			'ctrl:messageBox',
-			'ctrl:textBox',
 		], {context: this}).done(function(data) {
 
 			this.columns = null;

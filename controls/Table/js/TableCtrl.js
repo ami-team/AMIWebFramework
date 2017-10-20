@@ -18,9 +18,9 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	$init: function(parent)
+	$init: function(parent, owner)
 	{
-		this.$super.$init(parent);
+		this.$super.$init(parent, owner);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -37,6 +37,7 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/code.twig',
 			amiWebApp.originURL + '/controls/Table/js/libxql.js',
+			'ctrl:elementInfo',
 			'ctrl:messageBox',
 			'ctrl:textBox',
 		], {context: this}).done(function(data) {
@@ -49,8 +50,9 @@ $AMIClass('TableCtrl', {
 					this.fragmentTable = data[4];
 					this.fragmentJS = data[5];
 
-					this.messageBox = new data[7];
-					this.textBox = new data[8];
+					this.elementInfoCtor = data[7];
+					this.messageBox = new data[8];
+					this.textBox = new data[9];
 				});
 			});
 		});
@@ -657,7 +659,7 @@ $AMIClass('TableCtrl', {
 
 					var descr = this.getAttribute('data-filter-def').split('::');
 
-					if(descr.length === 2) _this.master.refineResult('2', descr[0], descr[1]);
+					if(descr.length === 2) _this.getOwner().refineResult('2', descr[0], descr[1]);
 				});
 
 				/*-----------------------------------------*/
@@ -968,9 +970,15 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab('<i class="fa fa-arrows-alt"></i> ' + this.ctx.entity, {context: this}).done(function(sel) {
+			parent.appendTab('<i class="fa fa-arrows-alt"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
 
-				$(sel).text('GetElementInfo -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -primaryField="' + amiWebApp.textToString(this.ctx.primaryField) + '" -primaryValue="' + amiWebApp.textToString(primaryValue) + '"');
+				new this.elementInfoCtor(parent, this).render(
+					selector,
+					this.ctx.catalog,
+					this.ctx.entity,
+					this.ctx.primaryField,
+					primaryValue
+				);
 			});
 		}
 		else
@@ -1160,13 +1168,9 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab(this.ctx.entity, {context: this}).done(function(sel) {
+			parent.appendTab(this.ctx.entity, {context: this}).done(function(selector) {
 
-				var table = new this.$class(parent);
-
-				table.render(sel, command, this.ctx);
-
-				table.master = this;
+				new this.$class(parent, this).render(selector, command, this.ctx);
 			});
 		}
 		else
@@ -1229,13 +1233,9 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab('<i class="fa fa-bar-chart"></i> ' + this.ctx.entity, {context: this}).done(function(sel) {
+			parent.appendTab('<i class="fa fa-bar-chart"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
 
-				var table = new this.$class(parent);
-
-				table.render(sel, command, this.ctx);
-
-				table.master = this;
+				new this.$class(parent, this).render(selector, command, this.ctx);
 			});
 		}
 		else
@@ -1259,7 +1259,7 @@ $AMIClass('TableCtrl', {
 		var columnName = this._buildColumnName('N/A', entity, field);
 
 		regions['SELECT'] = columnName
-				+ ', count(*) AS `total`, CONCAT(\'@master::' + columnName + '::\', ' + columnName + ') AS `go`';
+				+ ', count(*) AS `total`, CONCAT(\'@owner::' + columnName + '::\', ' + columnName + ') AS `go`';
 		regions['GROUP'] = columnName;
 
 		/*---------------------------------------------------------*/
@@ -1292,13 +1292,9 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab('<i class="fa fa-slack"></i> ' + this.ctx.entity, {context: this}).done(function(sel) {
+			parent.appendTab('<i class="fa fa-slack"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
 
-				var table = new this.$class(parent);
-
-				table.render(sel, command, this.ctx);
-
-				table.master = this;
+				new this.$class(parent, this).render(selector, command, this.ctx);
 			});
 		}
 		else

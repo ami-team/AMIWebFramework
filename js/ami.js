@@ -6440,8 +6440,9 @@ $AMIClass('ami.Control', /** @lends ami.Control */{
 
 	/*-----------------------------------------------------------------*/
 
-	$init: function $init(parent) {
-		this._parent = parent || null;
+	$init: function $init(parent, owner) {
+		this._parent = parent || this;
+		this._owner = owner || this;
 
 		this.instanceSuffix = ami.Control.instanceCnt++;
 	},
@@ -6450,6 +6451,12 @@ $AMIClass('ami.Control', /** @lends ami.Control */{
 
 	getParent: function getParent() {
 		return this._parent;
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	getOwner: function getOwner() {
+		return this._owner;
 	},
 
 	/*-----------------------------------------------------------------*/
