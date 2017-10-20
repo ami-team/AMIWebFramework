@@ -899,9 +899,10 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-			this.hideEditModal();
 
 			amiCommand.execute(this.ctx.appendCommandFunc.apply(this, this._formToArray()), {context: this}).done(function() {
+
+				this.hideEditModal();
 
 				this.refresh();
 
@@ -923,9 +924,10 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-		//	this.hideEditModal();
 
 			amiCommand.execute(this.ctx.updateCommandFunc.apply(this, arguments), {context: this}).done(function() {
+
+			//	this.hideEditModal();
 
 				this.refresh();
 
@@ -947,9 +949,10 @@ $AMIClass('TableCtrl', {
 		if(result)
 		{
 			amiWebApp.lock();
-		//	this.hideEditModal();
 
 			amiCommand.execute(this.ctx.deleteCommandFunc.apply(this, arguments), {context: this}).done(function() {
+
+			//	this.hideEditModal();
 
 				this.refresh();
 
