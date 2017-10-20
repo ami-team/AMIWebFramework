@@ -15,19 +15,19 @@
 		<th class="text-center edit-mode"> tools </th>
 		{%     else %}
 		<th class="text-center">
-			<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{field['@name']}}"><i class="fa fa-chevron-down"></i></a>
-			<span class="text-primary"{% if fieldDescription['$'] and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{field['@name']}}</span>
-			<a href="#" class="text-secondary" data-orderway="ASC" data-row="{{field['@name']}}"><i class="fa fa-chevron-up"></i></a>
+			<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{field['@name']|e}}"><i class="fa fa-chevron-down"></i></a>
+			<span class="text-primary"{% if fieldDescription['$'] and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{field['@name']|e}}</span>
+			<a href="#" class="text-secondary" data-orderway="ASC" data-row="{{field['@name']|e}}"><i class="fa fa-chevron-up"></i></a>
 			{% if showTools %}
 			<br />
 			{%   if fieldDescription['@field'] %}
-			<a href="#" class="text-secondary mx-1" data-action="refine" data-catalog="{{fieldDescription['@catalog']}}" data-entity="{{fieldDescription['@entity']}}" data-field="{{fieldDescription['@field']}}"><i class="fa fa-filter"></i></a>
+			<a href="#" class="text-secondary mx-1" data-action="refine" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-filter"></i></a>
 			{%   endif %}
 			{%   if fieldDescription['@statable'] === 'true' %}
-			<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']}}" data-entity="{{fieldDescription['@entity']}}" data-field="{{fieldDescription['@field']}}"><i class="fa fa-bar-chart"></i></a>
+			<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-bar-chart"></i></a>
 			{%   endif %}
 			{%   if fieldDescription['@groupable'] === 'true' %}
-			<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']}}" data-entity="{{fieldDescription['@entity']}}" data-field="{{fieldDescription['@field']}}"><i class="fa fa-slack"></i></a>
+			<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-slack"></i></a>
 			{%   endif %}
 			{% endif %}
 		</th>
@@ -43,13 +43,13 @@
 		{%       set elementId = field.$ %}
 		{%       if showDetails %}
 		<td class="text-center">
-			<a href="#" class="text-secondary" data-action="details" data-row="{{elementId}}"><i class="fa fa-arrows-alt"></i></a>
+			<a href="#" class="text-secondary" data-action="details" data-row="{{elementId|e}}"><i class="fa fa-arrows-alt"></i></a>
 		</td>
 		{%       endif %}
 		<td class="text-center edit-mode">
-			<a href="#" class="text-info" data-action="clone" data-row="{{elementId}}"><i class="fa fa-files-o"></i></a>
+			<a href="#" class="text-info" data-action="clone" data-row="{{elementId|e}}"><i class="fa fa-files-o"></i></a>
 			&nbsp;
-			<a href="#" class="text-danger" data-action="delete" data-row="{{elementId}}"><i class="fa fa-trash"></i></a>
+			<a href="#" class="text-danger" data-action="delete" data-row="{{elementId|e}}"><i class="fa fa-trash"></i></a>
 		</td>
 		{%     else %}
 		{%       if field.$ starts with '@master::' %}
@@ -58,7 +58,7 @@
 		</td>
 		{%       else %}
 		<td class="text-left">
-			<span class="edit-field" data-row="{{elementId}}" data-col="{{field['@name']}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$}}</span>
+			<span class="edit-field" data-row="{{elementId|e}}" data-col="{{field['@name']|e}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$|e}}</span>
 		</td>
 		{%       endif %}
 		{%     endif %}
