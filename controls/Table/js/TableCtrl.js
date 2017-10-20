@@ -908,7 +908,7 @@ $AMIClass('TableCtrl', {
 
  			}).fail(function(data) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
 			});
 		}
 
