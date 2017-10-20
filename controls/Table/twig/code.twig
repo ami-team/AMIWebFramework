@@ -8,19 +8,19 @@
 
 		if(isAuth)
 		{
-			myTable.render('#myTable', '{{command|e}}', {
+			myTable.render('#myTable', '{{command|e('js')}}', {
 				enableCache: {{enableCache}},
 				showDetails: {{showDetails}},
 				showTools: {{showTools}},
 				canEdit: {{canEdit}},
-				catalog: '{{catalog|e}}',
-				entity: '{{entity|e}}',
-				primaryField: '{{primaryField|e}}',
-				rowset: '{{rowset|e}}',
+				catalog: '{{catalog|e('js')}}',
+				entity: '{{entity|e('js')}}',
+				primaryField: '{{primaryField|e('js')}}',
+				rowset: '{{rowset|e('js')}}',
 				start: {{start}},
 				stop: {{stop}},
-				orderBy: '{{orderBy|e}}',
-				orderWay: '{{orderWay|e}}',
+				orderBy: '{{orderBy|e('js')}}',
+				orderWay: '{{orderWay|e('js')}}',
 			});
 		}
 		else
