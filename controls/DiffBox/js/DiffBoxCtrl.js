@@ -20,9 +20,9 @@ $AMIClass('DiffBoxCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	$init: function(parent)
+	$init: function(parent, owner)
 	{
-		this.$super.$init(parent);
+		this.$super.$init(parent, owner);
 	},
 
 	/*-----------------------------------------------------------------*/
