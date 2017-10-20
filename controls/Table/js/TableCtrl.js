@@ -375,7 +375,7 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------*/
 
-			amiWebApp.replaceHTML('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1 .modal-body', this.fragmentFieldList, {context: this, dict: this.ctx}).done(function() {
+			amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {context: this, dict: this.ctx}).done(function() {
 
 				this.refresh();
 			});
