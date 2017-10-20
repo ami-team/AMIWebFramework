@@ -964,7 +964,19 @@ $AMIClass('TableCtrl', {
 
 	showDetailsTab: function(primaryValue)
 	{
-		alert('GetElementInfo -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -primaryField="' + amiWebApp.textToString(this.ctx.primaryField) + '" -primaryValue="' + amiWebApp.textToString(primaryValue) + '"');
+		var parent = this.getParent();
+
+		if(parent.$name === 'TabCtrl')
+		{
+			parent.appendTab('<i class="fa fa-arrows-alt"></i> ' + this.ctx.entity, {context: this}).done(function(sel) {
+
+				$(sel).text('GetElementInfo -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -primaryField="' + amiWebApp.textToString(this.ctx.primaryField) + '" -primaryValue="' + amiWebApp.textToString(primaryValue) + '"');
+			});
+		}
+		else
+		{
+			amiWebApp.error('could not create a new tab', true);
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
