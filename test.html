@@ -33,14 +33,14 @@
 
 						myTable.render(sel, 'SearchQuery -catalog="self" -entity="router_command" -mql="SELECT id, id+1 AS idp1, command, class, 1 AS an_integer"', {showDetails: true, canEdit: true, catalog: 'self', entity: 'router_command'});
 					});
-/*
+
 					myTab1.appendTab('tab2').done(function(sel) {
 
 						$(sel).height(325);
 
 						mySchema.render(sel, 'self');
 					});
-*/
+
 					myTab2.render('#myTab2', {card: true});
 
 					myTab2.appendTab('tab3', {active: false}).done(function(sel) {

@@ -747,7 +747,7 @@ $AMIClass('TableCtrl', {
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data));
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
 		/*---------------------------------------------------------*/
