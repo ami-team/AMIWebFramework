@@ -36,6 +36,7 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/controls/Table/twig/fieldList.twig',
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/code.twig',
+			amiWebApp.originURL + '/controls/Table/js/libunits.js',
 			amiWebApp.originURL + '/controls/Table/js/libxql.js',
 			'ctrl:elementInfo',
 			'ctrl:messageBox',
@@ -48,11 +49,11 @@ $AMIClass('TableCtrl', {
 					this.fragmentTableCtrl = data[0];
 					this.fragmentFieldList = data[3];
 					this.fragmentTable = data[4];
-					this.fragmentJS = data[5];
+					this.fragmentCode = data[5];
 
-					this.elementInfoCtor = data[7];
-					this.messageBox = new data[8];
-					this.textBox = new data[9];
+					this.elementInfoCtor = data[8];
+					this.messageBox = new data[9];
+					this.textBox = new data[10];
 				});
 			});
 		});
@@ -718,7 +719,7 @@ $AMIClass('TableCtrl', {
 				/* UPDATE JAVASCRIPT                       */
 				/*-----------------------------------------*/
 
-				this.jsCode = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
+				this.jsCode = amiWebApp.formatTWIG(this.fragmentCode, this.ctx);
 
 				/*-----------------------------------------*/
 				/* TOOLTIP CONTENT                         */
