@@ -69,7 +69,9 @@ $AMIClass('SimpleSearchCtrl', {
 
 		return this.replaceHTML(selector, this.fragmentSimpleSearch, settings).done(function() {
 
-			$(_this.patchId('#A3EE7475_BC97_887C_AE78_7BAC7501E939')).click(function() {
+			$(_this.patchId('#E8F152B0_66C6_132C_0155_955D36654C13')).submit(function(e) {
+
+				e.preventDefault();
 
 				_this._search();
 			});
