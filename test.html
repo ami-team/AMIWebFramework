@@ -19,8 +19,8 @@
 			var myTab1;
 			var myTab2;
 			var myTable;
-			var mySimpleSearch;
 			var mySchema;
+			var mySimpleSearch;
 
 			amiWebApp.onRefresh = function(isAuth) {
 
@@ -30,17 +30,10 @@
 
 					myTab1.appendTab('tab1').done(function(sel) {
 
-//						myTable.render(sel, 'GetSessionInfo', {canEdit: false, catalog: 'self', entity: 'user', rowset: 'user'});
-
 						myTable.render(sel, 'SearchQuery -catalog="self" -entity="router_command" -mql="SELECT id, id+1 AS idp1, command, class, 1 AS an_integer"', {showDetails: true, canEdit: true, catalog: 'self', entity: 'router_command'});
 					});
 
 					myTab1.appendTab('tab2').done(function(sel) {
-
-						mySimpleSearch.render(sel, {command: 'GetUserInfo', param: 'amiLogin', canEdit: false, catalog: 'self', entity: 'user', rowset: 'user'});
-					});
-
-					myTab1.appendTab('tab3').done(function(sel) {
 
 						$(sel).height(325);
 
@@ -51,15 +44,11 @@
 
 					myTab2.render('#myTab2', {card: true});
 
-					myTab2.appendTab('tab1', {active: false}).done(function(sel) {
+					myTab2.appendTab('Search').done(function(sel) {
 
-						$(sel).html('Wello world 3');
+						mySimpleSearch.render(sel, {command: 'GetUserInfo', param: 'amiLogin', canEdit: false, catalog: 'self', entity: 'user', rowset: 'user'});
 					});
 
-					myTab2.appendTab('tab2', {active: false}).done(function(sel) {
-
-						$(sel).html('Wello world 4');
-					});
 				}
 				else
 				{
@@ -70,14 +59,14 @@
 
 			amiWebApp.onReady = function() {
 
-				return amiWebApp.loadResources(['ctrl:tab', 'ctrl:table', 'ctrl:simpleSearch', 'ctrl:schema']).done(function(controls) {
+				return amiWebApp.loadResources(['ctrl:tab', 'ctrl:table', 'ctrl:schema', 'ctrl:simpleSearch']).done(function(controls) {
 
 					myTab1 = new controls[0];
 					myTab2 = new controls[0];
 
 					myTable = new controls[1](myTab1);
-					mySimpleSearch = new controls[2](myTab1);
-					mySchema = new controls[3](myTab1);
+					mySchema = new controls[2](myTab1);
+					mySimpleSearch = new controls[3](myTab2);
 				});
 			};
 
@@ -99,11 +88,16 @@
 
 		<br />
 
-		<div id="myTab1" style="margin: auto; width: 75%;"></div>
+		<div id="myTab1" style="margin: auto; width: 85%;"></div>
 
 		<br />
 
-		<div id="myTab2" style="margin: auto; width: 75%;"></div>
+		<div id="myTab2" style="margin: auto; width: 85%;"></div>
+
+		<br />
+		<br />
+		<br />
+		<br />
 
 	</body>
 </html>
