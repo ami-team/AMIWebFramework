@@ -209,6 +209,7 @@
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="ElementInfo/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="MessageBox/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="Schema/**/*" />
+				<fileset dir="${AMIWebAppTmpDir}/controls" includes="SimpleSearch/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="Tab/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="Table/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="TextBox/**/*" />
