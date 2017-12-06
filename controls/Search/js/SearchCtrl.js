@@ -139,6 +139,10 @@ $AMIClass('SearchCtrl', {
 			});
 
 			/*-------------------------------------------------*/
+
+			_this.refresh();
+
+			/*-------------------------------------------------*/
 		});
 
 		/*---------------------------------------------------------*/		
@@ -191,33 +195,24 @@ $AMIClass('SearchCtrl', {
 
 		promise.done(function() {
 
-			var _this = this;
-
 			/*-------------------------------------------------*/
 
-			var predicate = 'Q' + criteria.cnt;
+			var _this = this;
 
-			var selector = this.patchId('#C12133EC_2A38_3545_0685_974260DCC950') + '_' + predicate;
+			var name = 'Q' + criteria.cnt;
+
+			var selector = this.patchId('#C12133EC_2A38_3545_0685_974260DCC950') + '_' + name;
+
+			/*-------------------------------------------------*/
 
 			var el = $(selector);
 
 			/*-------------------------------------------------*/
 
-			el.find('[data-dismiss="box"]').click(function(e) {
-
-				e.preventDefault();
-
-				_this.closeBox(predicate);
-			});
-
-			/*-------------------------------------------------*/
-
-			var f;
-
 			switch(criteria.type)
 			{
 				/*-----------------------------------------*/
-				/* TEXT BOX (FEW)                          */
+				/* TEXT BOX                                */
 				/*-----------------------------------------*/
 
 				case 0:
@@ -226,14 +221,14 @@ $AMIClass('SearchCtrl', {
 
 						e.preventDefault();
 
-						_this.select(predicate);
+						_this.select(name);
 					});
 
 					el.find('input.filter').keyup(function(e) {
 
 						if(e.keyCode !== 13)
 						{
-							if(criteria.type === 0) _this.filter1(predicate);
+							if(criteria.type === 0) _this.filter1(name);
 						}
 					});
 
@@ -243,7 +238,7 @@ $AMIClass('SearchCtrl', {
 						{
 							e.preventDefault();
 
-							if(criteria.type === 0) _this.select(predicate); else _this.filter2(predicate);
+							if(criteria.type === 0) _this.select(name); else _this.filter2(name);
 						}
 					});
 
@@ -253,7 +248,7 @@ $AMIClass('SearchCtrl', {
 						{
 							e.preventDefault();
 
-							if(criteria.type === 0) _this.select(predicate); else _this.filter2(predicate);
+							if(criteria.type === 0) _this.select(name); else _this.filter2(name);
 						}
 					});
 
@@ -261,21 +256,21 @@ $AMIClass('SearchCtrl', {
 
 						e.preventDefault();
 
-						_this.select(predicate);
+						_this.select(name);
 					});
 
 					el.find('.show-less').click(function(e) {
 
 						e.preventDefault();
 
-						_this.viewLess(predicate);
+						_this.viewLess(name);
 					});
 
 					el.find('.show-more').click(function(e) {
 
 						e.preventDefault();
 
-						_this.viewMore(predicate);
+						_this.viewMore(name);
 					});
 
 					break;
@@ -290,14 +285,14 @@ $AMIClass('SearchCtrl', {
 
 						e.preventDefault();
 
-						_this.setOrReset(predicate, 0);
+						_this.setOrReset(name, 0);
 					});
 
 					el.find('.reset').click(function(e) {
 
 						e.preventDefault();
 
-						_this.setOrReset(predicate, 1);
+						_this.setOrReset(name, 1);
 					});
 
 					el.find('.timedate').daterangepicker({
@@ -320,7 +315,7 @@ $AMIClass('SearchCtrl', {
 
 						e.preventDefault();
 
-						_this.toggle(predicate);
+						_this.toggle(name);
 					});
 
 					break;
@@ -330,7 +325,16 @@ $AMIClass('SearchCtrl', {
 
 			/*-------------------------------------------------*/
 
-			this.ctx.predicates[predicate] = {
+			el.find('button[data-dismiss="box"]').click(function(e) {
+
+				e.preventDefault();
+
+				_this.closeBox(name);
+			});
+
+			/*-------------------------------------------------*/
+
+			this.ctx.predicates[name] = {
 				/* PREDICAT */
 				selector: selector,
 				criteria: criteria,
@@ -342,15 +346,15 @@ $AMIClass('SearchCtrl', {
 
 			/*-------------------------------------------------*/
 
-			this.addPredicateInAST(predicate);
+			this.addPredicateInAST(name);
 
 			/*-------------------------------------------------*/
 
 			if(criteria.type === 4) {
-				this.toggle(predicate);
+				this.toggle(name);
 			}
 			else {
-				this.refresh(predicate);
+				this.refresh(name);
 			}
 
 			/*-------------------------------------------------*/
@@ -415,11 +419,30 @@ $AMIClass('SearchCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		//alert(this.dumpAST(this.ctx.predicates));
+		var filter = this.dumpAST(this.ctx.predicates);
+
+		var mql = 'SELECT COUNT(*) AS `nb`';
+
+		if(filter)
+		{
+			mql += ' WHERE ';
+			mql += filter;
+		}
 
 		/*---------------------------------------------------------*/
 
-		amiWebApp.unlock();
+		return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
+
+			var nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
+
+			$(this.patchId('#D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA')).text(nb);
+
+			amiWebApp.unlock();
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
 
 		/*---------------------------------------------------------*/
 	},
@@ -483,6 +506,10 @@ $AMIClass('SearchCtrl', {
 			$(predicate.selector + ' .count').text(L.length - 1);
 
 			$(predicate.selector + ' .limit').text(predicate.limit);
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
 		/*---------------------------------------------------------*/
@@ -520,6 +547,10 @@ $AMIClass('SearchCtrl', {
 
 			$(predicate.selector + ' input.min').val(min);
 			$(predicate.selector + ' input.max').val(max);
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
 		/*---------------------------------------------------------*/
@@ -833,21 +864,28 @@ $AMIClass('SearchCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		amiWebApp.lock();
-
-		/*---------------------------------------------------------*/
-
-		try
+		if(expression)
 		{
-			this.ctx.ast = fix(new amiTwig.expr.Compiler(expression, 1).rootNode);
+			/*-------------------------------------------------*/
 
-			this.refresh();
-		}
-		catch(e)
-		{
-			$(this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val(this.dumpAST());
+			amiWebApp.lock();
 
-			amiWebApp.error(e, true);
+			/*-------------------------------------------------*/
+
+			try
+			{
+				this.ctx.ast = fix(new amiTwig.expr.Compiler(expression, 1).rootNode);
+
+				this.refresh();
+			}
+			catch(e)
+			{
+				$(this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val(this.dumpAST());
+
+				amiWebApp.error(e, true);
+			}
+
+			/*-------------------------------------------------*/
 		}
 
 		/*---------------------------------------------------------*/
