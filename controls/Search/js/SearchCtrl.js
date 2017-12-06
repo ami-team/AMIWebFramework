@@ -212,6 +212,8 @@ $AMIClass('SearchCtrl', {
 
 			/*-------------------------------------------------*/
 
+			var f;
+
 			switch(criteria.type)
 			{
 				/*-----------------------------------------*/
@@ -219,6 +221,7 @@ $AMIClass('SearchCtrl', {
 				/*-----------------------------------------*/
 
 				case 0:
+				case 1:
 					el.find('select').change(function(e) {
 
 						e.preventDefault();
@@ -226,20 +229,31 @@ $AMIClass('SearchCtrl', {
 						_this.select(predicate);
 					});
 
+					el.find('input.filter').keyup(function(e) {
+
+						if(e.keyCode !== 13)
+						{
+							if(criteria.type === 0) _this.filter1(predicate);
+						}
+					});
+
 					el.find('button.filter').click(function(e) {
 
-						e.preventDefault();
+						if(/*-*/ true /*-*/)
+						{
+							e.preventDefault();
 
-						_this.filter1(predicate);
+							if(criteria.type === 0) _this.select(predicate); else _this.filter2(predicate);
+						}
 					});
 
 					el.find('input.filter').keypress(function(e) {
 
-						if(e.keyCode == 13)
+						if(e.keyCode === 13)
 						{
 							e.preventDefault();
 
-							_this.filter1(predicate);
+							if(criteria.type === 0) _this.select(predicate); else _this.filter2(predicate);
 						}
 					});
 
@@ -250,45 +264,14 @@ $AMIClass('SearchCtrl', {
 						_this.select(predicate);
 					});
 
-					break;
-
-				/*-----------------------------------------*/
-				/* TEXT BOX (MANY)                         */
-				/*-----------------------------------------*/
-
-				case 1:
-					el.find('select').change(function(e) {
-
-						e.preventDefault();
-
-						_this.select(predicate);
-					});
-
-					el.find('button.filter').click(function(e) {
-
-						e.preventDefault();
-
-						_this.filter2(predicate);
-					});
-
-					el.find('input.filter').keypress(function(e) {
-
-						if(e.keyCode == 13)
-						{
-							e.preventDefault();
-
-							_this.filter2(predicate);
-						}
-					});
-
-					el.find('.view-less').click(function(e) {
+					el.find('.show-less').click(function(e) {
 
 						e.preventDefault();
 
 						_this.viewLess(predicate);
 					});
 
-					el.find('.view-more').click(function(e) {
+					el.find('.show-more').click(function(e) {
 
 						e.preventDefault();
 
@@ -303,7 +286,6 @@ $AMIClass('SearchCtrl', {
 
 				case 2:
 				case 3:
-
 					el.find('.set').click(function(e) {
 
 						e.preventDefault();
@@ -352,7 +334,6 @@ $AMIClass('SearchCtrl', {
 				/* PREDICAT */
 				selector: selector,
 				criteria: criteria,
-
 				/* SQL */
 				select: {},
 				filter: '',
@@ -365,7 +346,12 @@ $AMIClass('SearchCtrl', {
 
 			/*-------------------------------------------------*/
 
-			this.refresh();
+			if(criteria.type === 4) {
+				this.toggle(predicate);
+			}
+			else {
+				this.refresh(predicate);
+			}
 
 			/*-------------------------------------------------*/
 		});
@@ -454,12 +440,14 @@ $AMIClass('SearchCtrl', {
 
 		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
 
-		if(filter) {
+		if(filter)
+		{
 			mql += ' WHERE ' + filter;
 		}
 
-		if(applyLimit) {
-			mql += ' LIMIT ' + predicate.limit + ' OFFSET 0';
+		if(applyLimit)
+		{
+			mql += ' LIMIT ' + predicate.limit;
 		}
 
 		/*---------------------------------------------------------*/
@@ -479,7 +467,7 @@ $AMIClass('SearchCtrl', {
 				L.push('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
 			}
 
-			$.each(rows, function(index, row) {
+			$.each(rows, function(idx, row) {
 
 				var value = amiWebApp.textToHtml(amiWebApp.jspath('..field.$', row)[0] || '');
 
@@ -490,14 +478,11 @@ $AMIClass('SearchCtrl', {
 				}
 			});
 
-			if(predicate.limit > L.length)
-			{
-				predicate.limit = L.length;
-			}
-
 			$(predicate.selector + ' select').html(L.join(''));
 
 			$(predicate.selector + ' .count').text(L.length - 1);
+
+			$(predicate.selector + ' .limit').text(predicate.limit);
 		});
 
 		/*---------------------------------------------------------*/
@@ -519,9 +504,11 @@ $AMIClass('SearchCtrl', {
 
 		var filter = this.dumpAST(this.ctx.predicates);
 
-		if(filter) {
+		if(filter)
+		{
 			mql += ' WHERE ' + filter;
 		}
+
 		/*---------------------------------------------------------*/
 		/* FILL BOX                                                */
 		/*---------------------------------------------------------*/
@@ -588,9 +575,45 @@ $AMIClass('SearchCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
+	_wildcard: function(parts, s)
+	{
+		var idx;
+
+		for(var i = 0; i < parts.length; s = s.substring(idx + parts[i++].length))
+		{
+			if((idx = s.indexOf(parts[i])) < 0)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	},
+
+	/*-----------------------------------------------------------------*/
+
 	filter1: function(name)
 	{
-		alert(name);
+		/*---------------------------------------------------------*/
+
+		var predicate = this.ctx.predicates[name];
+
+		/*---------------------------------------------------------*/
+
+		var filter = $(predicate.selector + ' .filter').val();
+
+		var parts = filter.toLowerCase().split('%');
+
+		/*---------------------------------------------------------*/
+
+		var _this = this;
+
+		$(predicate.selector + ' option:not(:first)').prop('selected', function() {
+
+			return filter && _this._wildcard(parts, this.value.toLowerCase());
+		});
+
+		/*---------------------------------------------------------*/
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -632,7 +655,7 @@ $AMIClass('SearchCtrl', {
 	{
 		var predicate = this.ctx.predicates[name];
 
-		/****/ if(predicate.limit > 100) {
+		/*--*/ if(predicate.limit > 100) {
 			predicate.limit -= 100;
 		} else if(predicate.limit > 10) {
 			predicate.limit -= 10;
@@ -654,7 +677,7 @@ $AMIClass('SearchCtrl', {
 	{
 		var predicate = this.ctx.predicates[name];
 
-		/****/ if(predicate.limit > 100) {
+		/*--*/ if(predicate.limit > 100) {
 			predicate.limit += 100;
 		} else if(predicate.limit > 10) {
 			predicate.limit += 10;
