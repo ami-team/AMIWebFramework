@@ -21,6 +21,7 @@
 			var myTable;
 			var mySchema;
 			var mySimpleSearch;
+			var mySearch;
 
 			amiWebApp.onRefresh = function(isAuth) {
 
@@ -49,6 +50,10 @@
 						mySimpleSearch.render(sel, {command: 'GetUserInfo', param: 'amiLogin', canEdit: false, catalog: 'self', entity: 'user', rowset: 'user'});
 					});
 
+					myTab2.appendTab('Search').done(function(sel) {
+
+						mySearch.render(sel, {});
+					});
 				}
 				else
 				{
@@ -59,7 +64,7 @@
 
 			amiWebApp.onReady = function() {
 
-				return amiWebApp.loadResources(['ctrl:tab', 'ctrl:table', 'ctrl:schema', 'ctrl:simpleSearch']).done(function(controls) {
+				return amiWebApp.loadResources(['ctrl:tab', 'ctrl:table', 'ctrl:schema', 'ctrl:simpleSearch', 'ctrl:search']).done(function(controls) {
 
 					myTab1 = new controls[0];
 					myTab2 = new controls[0];
@@ -67,6 +72,7 @@
 					myTable = new controls[1](myTab1);
 					mySchema = new controls[2](myTab1);
 					mySimpleSearch = new controls[3](myTab2);
+					mySearch = new controls[4](myTab2);
 				});
 			};
 
@@ -88,11 +94,11 @@
 
 		<br />
 
-		<div id="myTab1" style="margin: auto; width: 85%;"></div>
+		<div id="myTab2" style="margin: auto; width: 95%;"></div>
 
 		<br />
 
-		<div id="myTab2" style="margin: auto; width: 85%;"></div>
+		<div id="myTab1" style="margin: auto; width: 95%;"></div>
 
 		<br />
 		<br />

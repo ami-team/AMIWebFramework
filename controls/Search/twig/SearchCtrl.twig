@@ -1,0 +1,50 @@
+<div class="row mb-1">
+	<div class="col-md-2 text-center">
+{% if isEmbedded %}
+		<img class="d-none d-md-inline" src="{{ORIGIN_URL}}/images/logo.png" alt="AMI" height="24" />
+{% else %}
+		<!-- EMPTY -->
+{% endif %}
+	</div>
+	<div class="col-md-10 text-left">
+		<div class="rounded" style="background-color: #F5F5F5">
+			<table>
+				<tr>
+					<td class="pr-1">
+						<button class="btn btn-success btn-sm" id="A604B953_E0F6_3BA3_3B8A_DE24C951B613">View selection</button>
+					</td>
+					<td class="pl-1">
+						Number of selected items: <span class="text-success" id="D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA">?</span>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-2">
+		<div id="A1F37BF8_EEAA_7794_2882_AD2DFD106421">
+			{% for criteria in criterias %}
+			<button type="button" class="btn btn-sm btn-outline-primary" style="margin-bottom: 4px; width: 100%;" data-open-box="{{loop.index0}}">{{criteria.name|e}}</button>
+			{% endfor %}
+		</div>
+		<div class="form-group">
+			<label class="col-form-label" for="FA9E7209_DB1B_9FAE_C9A5_0EE6602AFBC3">Other criteria (<a href="#" id="D199AEE3_39DD_D588_FA94_FB525CEAEAEE">help me</a>):</label>
+			<div class="input-group input-group-sm">
+				<input type="text" class="form-control" id="FA9E7209_DB1B_9FAE_C9A5_0EE6602AFBC3" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-outline-secondary" id="F5F9DA0F_C961_4EA5_CFDA_1C5CEA91F4B1" style="width: 32px;"><i class="fa fa-plus"></i></button>
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-10">
+		<div class="input-group input-group-sm">
+			<input type="text" class="form-control" id="CA15011B_EECA_E9AB_63EE_7A2A467025A5" />
+			<span class="input-group-btn">
+				<button type="button" class="btn btn-outline-secondary" id="AADD9C49_349F_5910_336E_F299F6196408" style="width: 32px;"><i class="fa fa-check"></i></button>
+			</span>
+		</div>
+		<div class="d-flex flex-wrap justify-content-start" id="CF445396_19BE_7A34_902E_7F63B53CAEC8"></div>
+	</div>
+</div>
