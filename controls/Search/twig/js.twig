@@ -9,7 +9,10 @@
 		if(isAuth)
 		{
 			mySearch.render('#mySearch', {
-
+				name: '{{name|e('js')}}',
+				defaultCatalog: '{{defaultCatalog|e('js')}}',
+				defaultEntity: '{{defaultEntity|e('js')}}',
+				criterias: {{criterias|json_encode}},
 			});
 		}
 		else

@@ -463,17 +463,21 @@ $AMIClass('SearchCtrl', {
 
 		var filter = this.dumpAST(this.ctx.predicates);
 
+		/*---------------------------------------------------------*/
+
 		var mql = 'SELECT COUNT(*) AS `nb`';
+
+		this.ctx.mql = 'SELECT *';
 
 		if(filter)
 		{
 			mql += ' WHERE ';
 			mql += filter;
+			this.ctx.mql += ' WHERE ';
+			this.ctx.mql += filter;
 		}
 
 		/*---------------------------------------------------------*/
-
-		this.ctx.mql = mql;
 
 		this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
 
@@ -895,7 +899,7 @@ $AMIClass('SearchCtrl', {
 		{
 			parent.appendTab('<i class="fa fa-table"></i> ' + this.ctx.defaultCatalog, {context: this, height: 'auto'}).done(function(selector) {
 
-				new this.tableCtor(parent, this).render(selector, 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"', {showDetails: true, canEdit: false, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity});
+				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"', {showDetails: true, canEdit: false, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity});
 			});
 		}
 	},
