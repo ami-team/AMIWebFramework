@@ -34,12 +34,15 @@ $AMIClass('SearchCtrl', {
 			amiWebApp.originURL + '/controls/Search/twig/criteria_number.twig',
 			amiWebApp.originURL + '/controls/Search/twig/criteria_date.twig',
 			amiWebApp.originURL + '/controls/Search/twig/criteria_bool.twig',
+			amiWebApp.originURL + '/controls/Search/twig/js.twig',
 			/**/
 			amiWebApp.originURL + '/controls/Search/js/moment.min.js',
 			amiWebApp.originURL + '/controls/Search/js/daterangepicker.js',
 			amiWebApp.originURL + '/controls/Search/js/daterangepicker.css',
 			/**/
 			'ctrl:schema',
+			'ctrl:messageBox',
+			'ctrl:textBox',
 		], {context: this}).done(function(data) {
 
 			this.fragmentSearch = data[0];
@@ -48,8 +51,11 @@ $AMIClass('SearchCtrl', {
 			this.fragmentCriteriaNumber = data[3];
 			this.fragmentCriteriaDate = data[4];
 			this.fragmentCriteriaBool = data[5];
+			this.fragmentJS = data[6];
 
-			this.schemaCtor = data[9];
+			this.schemaCtor = data[10];
+			this.messageBox = new data[11];
+			this.textBox = new data[12];
 		});
 	},
 
@@ -59,6 +65,11 @@ $AMIClass('SearchCtrl', {
 	{
 		this.ctx = {
 			isEmbedded: amiWebApp.isEmbedded(),
+
+			endpoint: amiCommand.endpoint,
+
+			/**/
+
 			name: 'user',
 			defaultCatalog: 'self',
 			defaultEntity: 'router_user',
@@ -69,10 +80,12 @@ $AMIClass('SearchCtrl', {
 				{name: 'Created', catalog: 'self', entity: 'router_user', field: 'created', type: 3},
 				{name: 'Valid', catalog: 'self', entity: 'router_user', field: 'valid', type: 4},
 			],
-			predicates: {
-			},
+
+			/**/
+
 			cnt: 1,
 			ast: null,
+			predicates: {},
 		};
 	
 		if(settings)
@@ -140,6 +153,30 @@ $AMIClass('SearchCtrl', {
 
 			/*-------------------------------------------------*/
 
+			$(_this.patchId('#D75D8E3A_8485_FF24_2EB4_2E09FEFD2750')).click(function(e) {
+
+				e.preventDefault();
+
+				_this.showMQL();
+			});
+
+			/*-------------------------------------------------*/
+
+			$(_this.patchId('#E6B6F387_34EE_9FFB_5C5A_C92A49577133')).click(function(e) {
+
+				e.preventDefault();
+
+				_this.showJS();
+			});
+
+			/*-------------------------------------------------*/
+
+			_this.mql = '';
+
+			_this.js = '';
+
+			/*-------------------------------------------------*/
+
 			_this.refresh();
 
 			/*-------------------------------------------------*/
@@ -154,6 +191,8 @@ $AMIClass('SearchCtrl', {
 	{
 		/*---------------------------------------------------------*/		
 
+		var name;
+
 		var promise;
 
 		var criteria = this.ctx.criterias[idx];
@@ -163,27 +202,27 @@ $AMIClass('SearchCtrl', {
 		switch(criteria.type)
 		{
 			case 0:
-				criteria.cnt = this.ctx.cnt++;
+				name = 'Q' + (criteria.cnt = this.ctx.cnt++);
 				promise = this.appendHTML(selector, this.fragmentCriteriaStringFew, {context: this, dict: criteria});
 				break;
 
 			case 1:
-				criteria.cnt = this.ctx.cnt++;
+				name = 'Q' + (criteria.cnt = this.ctx.cnt++);
 				promise = this.appendHTML(selector, this.fragmentCriteriaStringMany, {context: this, dict: criteria});
 				break;
 
 			case 2:
-				criteria.cnt = this.ctx.cnt++;
+				name = 'Q' + (criteria.cnt = this.ctx.cnt++);
 				promise = this.appendHTML(selector, this.fragmentCriteriaNumber, {context: this, dict: criteria});
 				break;
 
 			case 3:
-				criteria.cnt = this.ctx.cnt++;
+				name = 'Q' + (criteria.cnt = this.ctx.cnt++);
 				promise = this.appendHTML(selector, this.fragmentCriteriaDate, {context: this, dict: criteria});
 				break;
 
 			case 4:
-				criteria.cnt = this.ctx.cnt++;
+				name = 'Q' + (criteria.cnt = this.ctx.cnt++);
 				promise = this.appendHTML(selector, this.fragmentCriteriaBool, {context: this, dict: criteria});
 				break;
 
@@ -197,15 +236,11 @@ $AMIClass('SearchCtrl', {
 
 			/*-------------------------------------------------*/
 
-			var _this = this;
-
-			var name = 'Q' + criteria.cnt;
-
 			var selector = this.patchId('#C12133EC_2A38_3545_0685_974260DCC950') + '_' + name;
 
-			/*-------------------------------------------------*/
-
 			var el = $(selector);
+
+			var _this = this;
 
 			/*-------------------------------------------------*/
 
@@ -431,6 +466,12 @@ $AMIClass('SearchCtrl', {
 
 		/*---------------------------------------------------------*/
 
+		this.mql = mql;
+
+		this.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
+
+		/*---------------------------------------------------------*/
+
 		return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
 			var nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
@@ -625,20 +666,23 @@ $AMIClass('SearchCtrl', {
 
 	filter1: function(name)
 	{
+		var _this = this;
+
 		/*---------------------------------------------------------*/
 
 		var predicate = this.ctx.predicates[name];
 
 		/*---------------------------------------------------------*/
 
-		var filter = $(predicate.selector + ' .filter').val();
-
-		var parts = filter.toLowerCase().split('%');
+		var filter = $(predicate.selector + ' .filter').val()
+		                                               .trim()
+							       .toLowerCase()
+		;
 
 		/*---------------------------------------------------------*/
 
-		var _this = this;
-
+		var parts = filter.split('%');
+		
 		$(predicate.selector + ' option:not(:first)').prop('selected', function() {
 
 			return filter && _this._wildcard(parts, this.value.toLowerCase());
@@ -708,11 +752,11 @@ $AMIClass('SearchCtrl', {
 	{
 		var predicate = this.ctx.predicates[name];
 
-		/*--*/ if(predicate.limit > 100) {
+		/*--*/ if(predicate.limit >= 100) {
 			predicate.limit += 100;
-		} else if(predicate.limit > 10) {
+		} else if(predicate.limit >= 10) {
 			predicate.limit += 10;
-		} else if(predicate.limit > 0) {
+		} else if(predicate.limit >= 0) {
 			predicate.limit += 1;
 		}
 
@@ -834,6 +878,20 @@ $AMIClass('SearchCtrl', {
 				$(selector).height(400);
 			});
 		}
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	showMQL: function()
+	{
+		this.messageBox.show(this.mql);
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	showJS: function()
+	{
+		this.textBox.show(this.js);
 	},
 
 	/*-----------------------------------------------------------------*/

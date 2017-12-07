@@ -1,0 +1,41 @@
+<script type="text/javascript" src="{{ORIGIN_URL}}/js/ami.min.js?embedded"></script>
+
+<script type="text/javascript">
+
+	var mySearch;
+
+	amiWebApp.onRefresh = function(isAuth) {
+
+		if(isAuth)
+		{
+			mySearch.render('#mySearch', {
+
+			});
+		}
+		else
+		{
+			$('#mySearch').empty();
+		}
+	};
+
+	amiWebApp.onReady = function() {
+
+		return amiWebApp.loadResources(['ctrl:search']).done(function(ctrls) {
+
+			mySearch = new ctrls[0];
+		});
+	};
+
+	amiWebApp.start({
+		endpoint_url: '{{endpoint}}'
+	});
+
+</script>
+
+<div class="clearfix">
+	<div class="nav navbar-nav" id="ami_login_content"></div>
+</div>
+
+<div id="ami_alert_content"></div>
+
+<div id="mySearch"></div>

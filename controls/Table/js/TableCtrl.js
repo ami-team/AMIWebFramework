@@ -35,9 +35,11 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/controls/Table/twig/editModal.twig',
 			amiWebApp.originURL + '/controls/Table/twig/fieldList.twig',
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
-			amiWebApp.originURL + '/controls/Table/twig/code.twig',
+			amiWebApp.originURL + '/controls/Table/twig/js.twig',
+			/**/
 			amiWebApp.originURL + '/controls/Table/js/libunits.js',
 			amiWebApp.originURL + '/controls/Table/js/libxql.js',
+			/**/
 			'ctrl:elementInfo',
 			'ctrl:messageBox',
 			'ctrl:textBox',
@@ -49,7 +51,7 @@ $AMIClass('TableCtrl', {
 					this.fragmentTableCtrl = data[0];
 					this.fragmentFieldList = data[3];
 					this.fragmentTable = data[4];
-					this.fragmentCode = data[5];
+					this.fragmentJS = data[5];
 
 					this.elementInfoCtor = data[8];
 					this.messageBox = new data[9];
@@ -371,7 +373,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(function() {
 
-				_this.showJavaScript();
+				_this.showJS();
 			});
 
 			/*-------------------------------------------------*/
@@ -719,7 +721,7 @@ $AMIClass('TableCtrl', {
 				/* UPDATE JAVASCRIPT                       */
 				/*-----------------------------------------*/
 
-				this.jsCode = amiWebApp.formatTWIG(this.fragmentCode, this.ctx);
+				this.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
 
 				/*-----------------------------------------*/
 				/* TOOLTIP CONTENT                         */
@@ -801,9 +803,9 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	showJavaScript: function()
+	showJS: function()
 	{
-		this.textBox.show(this.jsCode);
+		this.textBox.show(this.js);
 	},
 
 	/*-----------------------------------------------------------------*/

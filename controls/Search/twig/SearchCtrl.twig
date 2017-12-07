@@ -7,17 +7,18 @@
 {% endif %}
 	</div>
 	<div class="col-md-10 text-left">
-		<div class="rounded" style="background-color: #F5F5F5">
-			<table>
-				<tr>
-					<td class="pr-1">
-						<button class="btn btn-success btn-sm" id="A604B953_E0F6_3BA3_3B8A_DE24C951B613">View selection</button>
-					</td>
-					<td class="pl-1">
-						Number of selected items: <span class="text-success" id="D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA"></span>
-					</td>
-				</tr>
-			</table>
+		<div class="rounded" style="background-color: #F5F5F5;">
+			<div class="btn-group">
+				<button type="button" class="btn btn-sm btn-success" id="A604B953_E0F6_3BA3_3B8A_DE24C951B613">View Selection</button>
+				<button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+				<div class="dropdown-menu">
+					<a href="#" class="dropdown-item" id="D75D8E3A_8485_FF24_2EB4_2E09FEFD2750">MQL query</a>
+					<a href="#" class="dropdown-item" id="E6B6F387_34EE_9FFB_5C5A_C92A49577133">JavaScript</a>
+				</div>
+			</div>
+			<span class="align-middle">
+				Number of selected items: <span class="text-success" id="D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA"></span>
+			</span>
 		</div>
 	</div>
 </div>
