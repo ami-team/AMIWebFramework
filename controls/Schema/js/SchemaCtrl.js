@@ -29,19 +29,24 @@ $AMIClass('SchemaCtrl', {
 	{
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
-
+			/**/
 			amiWebApp.originURL + '/js/3rd-party/jointjs/lodash.min.js',
 			amiWebApp.originURL + '/js/3rd-party/jointjs/backbone-min.js',
-
+			/**/
 			amiWebApp.originURL + '/js/3rd-party/jointjs/joint.min.js',
 			amiWebApp.originURL + '/css/3rd-party/jointjs/joint.min.css',
-
+			/**/
 			amiWebApp.originURL + '/controls/Schema/js/joint.shapes.sql.js',
+			/**/
 			amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css',
+			/**/
+			'ctrl:table',
 		], {context: this}).done(function(data) {
 
 			this.columns = null;
 			this.foreignKeys = null;
+
+			this.tableCtor = data[7];
 		});
 	},
 
@@ -49,11 +54,11 @@ $AMIClass('SchemaCtrl', {
 
 	render: function(selector, catalog, settings)
 	{
-		var _this = this;
-
 		/*---------------------------------------------------------*/
 
-		var el1 = $(this._selector = selector);
+		this._selector = selector;
+
+		var el1 = $(selector);
 
 		el1.css('box-shadow', '0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075)');
 		el1.css('border', '1px solid rgb(231, 231, 231)');
@@ -113,12 +118,16 @@ $AMIClass('SchemaCtrl', {
 
 	_refresh: function(result, catalog, settings)
 	{
-		context = result;
+		var _this = this;
 
-		editable = false;
+		var context = result;
+
+		var showLinkTool = true;
 
 		this._width = 2000;
 		this._height = 2000;
+
+		this._catalog = catalog;
 
 		if(settings)
 		{
@@ -126,8 +135,8 @@ $AMIClass('SchemaCtrl', {
 				context = setting['context'];
 			}
 
-			if('editable' in settings) {
-				editable = setting['editable'];
+			if('showLinkTool' in settings) {
+				showLinkTool = setting['showLinkTool'];
 			}
 
 			if('width' in settings) {
@@ -181,10 +190,10 @@ $AMIClass('SchemaCtrl', {
 
 				if(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] === catalog)
 				{
-					var table = amiWebApp.jspath('..field{.@name==="table"}.$', value)[0];
-					var name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0];
-					var type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0];
-					var primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0];
+					var table = amiWebApp.jspath('..field{.@name==="table"}.$', value)[0] || '';
+					var name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0] || '';
+					var type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
+					var primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0] || '';
 
 					if(!(table in tables))
 					{
@@ -217,12 +226,11 @@ $AMIClass('SchemaCtrl', {
 									x: x,
 									y: y,
 								},
-								catalog: catalog,
 								table: table,
 								topColor: topColor,
 								bodyColor: bodyColor,
 								strokeColor: strokeColor,
-								showLinkTool: amiWebApp.isEmbedded() === false,
+								showLinkTool: showLinkTool,
 							}),
 							fields: [],
 						};
@@ -237,7 +245,17 @@ $AMIClass('SchemaCtrl', {
 						});
 					}
 				}
+
 			}, this);
+
+			/*-------------------------------------------------*/
+
+			$(this._selector + ' a[data-table]').click(function(e) {
+
+				e.preventDefault();
+
+				_this.viewEntity($(this).attr('data-table'));
+			});
 
 			/*-------------------------------------------------*/
 			/* GET FKEYS                                       */
@@ -257,6 +275,7 @@ $AMIClass('SchemaCtrl', {
 						tables[pkTable]['table'].get('id'),
 					);
 				}
+
 			}, this);
 
 			/*-------------------------------------------------*/
@@ -294,7 +313,7 @@ $AMIClass('SchemaCtrl', {
 			this.getSchemas().done(function() {
 
 				this._refresh(result, catalog, settings);
-			})
+			});
 		}
 
 		return result.promise();
@@ -322,6 +341,8 @@ $AMIClass('SchemaCtrl', {
 
 	getJSON: function()
 	{
+		this.fitToContent();
+
 		return this.graph.toJSON();
 	},
 
@@ -331,7 +352,7 @@ $AMIClass('SchemaCtrl', {
 	{
 		try
 		{
-			var json = JSON.stringify(this.graph.toJSON());
+			var json = JSON.stringify(this.getJSON(), null, 4);
 
 			var blob = new Blob([json], {
 				type: 'application/json'
@@ -365,6 +386,21 @@ $AMIClass('SchemaCtrl', {
 		w.close();
 
 		/*---------------------------------------------------------*/
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	viewEntity: function(entity)
+	{
+		var parent = this.getParent();
+
+		if(parent.$name === 'TabCtrl')
+		{
+			parent.appendTab('<i class="fa fa-table"></i> ' + entity, {context: this, height: 'auto'}).done(function(selector) {
+
+				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this._catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT *"', {showDetails: true, canEdit: false, catalog: this._catalog, entity: entity});
+			});
+		}
 	},
 
 	/*-----------------------------------------------------------------*/

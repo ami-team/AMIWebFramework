@@ -2609,8 +2609,8 @@ amiTwig.stdlib = {
 	/* JSON                                                            */
 	/*-----------------------------------------------------------------*/
 
-	'filter_json_encode': function filter_json_encode(x) {
-		return JSON.stringify(x, null, 2);
+	'filter_json_encode': function filter_json_encode(x, indent) {
+		return JSON.stringify(x, null, this.isNumber(indent) ? indent : 2);
 	},
 
 	/*-----------------------------------------------------------------*/

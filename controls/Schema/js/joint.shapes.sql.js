@@ -65,7 +65,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		'<g>',
 		  '<path class="sql-table-top" />',
 		  '<path class="sql-table-body" />',
-		  '<a class="sql-table-link" xlink:href="" target="_blank"><text class="sql-table-tool"></text></a><text class="sql-table-name" />',
+		  '<a class="sql-table-link" xlink:href="#" data-table=""><text class="sql-table-tool"></text></a><text class="sql-table-name" />',
 		'<text class="sql-table-columns" />',
 		'</g>',
 	].join(''),
@@ -121,7 +121,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			},
 		},
 
-		catalog: '',
 		table: '',
 		topColor: '#0066CC',
 		bodyColor: '#FFFFFF',
@@ -150,20 +149,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		joint.shapes.basic.Generic.prototype.initialize.apply(this, arguments);
 	},
-
-	/*-----------------------------------------------------------------*/
-
-	getCatalog: function()
-	{
-		return this.get('catalog');
-	},
-
-	setCatalog: function(name)
-	{
-		this.set('catalog', name);
-
-/*		this.updateTable();
- */	},
 
 	/*-----------------------------------------------------------------*/
 
@@ -263,8 +248,19 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 	{
 		/*---------------------------------------------------------*/
 
-		var catalog = this.get('catalog');
 		var table = this.get('table');
+
+		this.attr('.sql-table-link/data-table', table);
+
+		/*---------------------------------------------------------*/
+
+		var tool = this.get('showLinkTool') ? ''
+		                                    : ''
+		;
+
+		this.attr('.sql-table-tool/text', tool);
+
+		/*---------------------------------------------------------*/
 
 		var name = table.toUpperCase();
 
@@ -274,21 +270,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		}
 
 		this.attr('.sql-table-name/text', name);
-
-		/*---------------------------------------------------------*/
-
-		if(this.get('showLinkTool'))
-		{
-			this.attr('.sql-table-link/href', '?subapp=tableViewer&userdata=' + encodeURIComponent(
-				'{"catalog":"' + catalog + '",' + '"entity":"' + table + '"}'
-			));
-
-			this.attr('.sql-table-tool/text', '');
-		}
-		else
-		{
-			this.attr('.sql-table-tool/text', '');
-		}
 
 		/*---------------------------------------------------------*/
 	},
