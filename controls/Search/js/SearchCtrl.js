@@ -41,6 +41,7 @@ $AMIClass('SearchCtrl', {
 			amiWebApp.originURL + '/controls/Search/js/daterangepicker.css',
 			/**/
 			'ctrl:schema',
+			'ctrl:table',
 			'ctrl:messageBox',
 			'ctrl:textBox',
 		], {context: this}).done(function(data) {
@@ -54,8 +55,9 @@ $AMIClass('SearchCtrl', {
 			this.fragmentJS = data[6];
 
 			this.schemaCtor = data[10];
-			this.messageBox = new data[11];
-			this.textBox = new data[12];
+			this.tableCtor = data[11];
+			this.messageBox = new data[12];
+			this.textBox = new data[13];
 		});
 	},
 
@@ -86,6 +88,8 @@ $AMIClass('SearchCtrl', {
 			cnt: 1,
 			ast: null,
 			predicates: {},
+			mql: '',
+			js: '',
 		};
 	
 		if(settings)
@@ -130,7 +134,7 @@ $AMIClass('SearchCtrl', {
 
 				e.preventDefault();
 
-				_this.addCriteria(_this.ctx.defaultCatalog);
+				_this.addCriteria();
 			});
 
 			/*-------------------------------------------------*/
@@ -139,7 +143,7 @@ $AMIClass('SearchCtrl', {
 
 				e.preventDefault();
 
-				_this.openSchema(_this.ctx.defaultCatalog);
+				_this.openSchema();
 			});
 
 			/*-------------------------------------------------*/
@@ -148,7 +152,16 @@ $AMIClass('SearchCtrl', {
 
 				e.preventDefault();
 
-				_this.updateExpression($(_this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val());
+				_this.updateExpression();
+			});
+
+			/*-------------------------------------------------*/
+
+			$(_this.patchId('#A604B953_E0F6_3BA3_3B8A_DE24C951B613')).click(function(e) {
+
+				e.preventDefault();
+
+				_this.viewSelection();
 			});
 
 			/*-------------------------------------------------*/
@@ -168,12 +181,6 @@ $AMIClass('SearchCtrl', {
 
 				_this.showJS();
 			});
-
-			/*-------------------------------------------------*/
-
-			_this.mql = '';
-
-			_this.js = '';
 
 			/*-------------------------------------------------*/
 
@@ -466,9 +473,9 @@ $AMIClass('SearchCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		this.mql = mql;
+		this.ctx.mql = mql;
 
-		this.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
+		this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
 
 		/*---------------------------------------------------------*/
 
@@ -858,24 +865,37 @@ $AMIClass('SearchCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	addCriteria: function(catalog)
+	addCriteria: function()
 	{
 		alert('TODO');
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	openSchema: function(catalog)
+	openSchema: function()
 	{
 		var parent = this.getParent();
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab('<i class="fa fa-database"></i> ' + catalog, {context: this}).done(function(selector) {
+			parent.appendTab('<i class="fa fa-database"></i> ' + this.ctx.defaultCatalog, {context: this, height: '400px'}).done(function(selector) {
 
-				new this.schemaCtor(parent, this).render(selector, catalog);
+				new this.schemaCtor(parent, this).render(selector, this.ctx.defaultCatalog);
+			});
+		}
+	},
 
-				$(selector).height(400);
+	/*-----------------------------------------------------------------*/
+
+	viewSelection: function()
+	{
+		var parent = this.getParent();
+
+		if(parent.$name === 'TabCtrl')
+		{
+			parent.appendTab('<i class="fa fa-table"></i> ' + this.ctx.defaultCatalog, {context: this, height: 'auto'}).done(function(selector) {
+
+				new this.tableCtor(parent, this).render(selector, 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"', {showDetails: true, canEdit: false, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity});
 			});
 		}
 	},
@@ -884,21 +904,21 @@ $AMIClass('SearchCtrl', {
 
 	showMQL: function()
 	{
-		this.messageBox.show(this.mql);
+		this.messageBox.show(this.ctx.mql);
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	showJS: function()
 	{
-		this.textBox.show(this.js);
+		this.textBox.show(this.ctx.js);
 	},
 
 	/*-----------------------------------------------------------------*/
 	/* AST
 	/*-----------------------------------------------------------------*/
 
-	updateExpression: function(expression)
+	updateExpression: function()
 	{
 		/*---------------------------------------------------------*/
 
@@ -919,6 +939,10 @@ $AMIClass('SearchCtrl', {
 
 			return node;
 		};
+
+		/*---------------------------------------------------------*/
+
+		var expression = $(_this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val();
 
 		/*---------------------------------------------------------*/
 
@@ -1189,6 +1213,8 @@ $AMIClass('SearchCtrl', {
 	{
 		var result;
 
+		/*---------------------------------------------------------*/
+
 		if(this.ctx.ast)
 		{
 			if((result = this._dumpAST(this.ctx.ast, dict, ignore)))
@@ -1209,6 +1235,8 @@ $AMIClass('SearchCtrl', {
 		{
 			result = '';
 		}
+
+		/*---------------------------------------------------------*/
 
 		return result;
 	},

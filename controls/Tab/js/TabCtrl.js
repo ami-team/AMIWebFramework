@@ -150,12 +150,18 @@ $AMIClass('TabCtrl', {
 
 		var context = result;
 
+		var height = 'auto';
+
 		var active = true;
 
 		if(settings)
 		{
 			if('context' in settings) {
 	  			context = settings['context'];
+			}
+
+			if('height' in settings) {
+				height = settings['height'];
 			}
 
 			if('active' in settings) {
@@ -170,6 +176,7 @@ $AMIClass('TabCtrl', {
 		var dict = {
 			id: tabId,
 			title: title,
+			height: height,
 			active: active || this._cnt === 0,
 		};
 
