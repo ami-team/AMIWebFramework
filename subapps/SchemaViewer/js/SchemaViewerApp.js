@@ -33,6 +33,7 @@ $AMIClass('SchemaViewerApp', {
 		amiWebApp.loadResources([
 			'subapps/SchemaViewer/twig/SchemaViewerApp.twig',
 			'subapps/SchemaViewer/css/SchemaViewerApp.css',
+			/**/
 			'ctrl:schema',
 		], {context: this}).done(function(data) {
 
@@ -219,7 +220,7 @@ $AMIClass('SchemaViewerApp', {
 
 		amiWebApp.lock();
 
-		this.schema.refresh(this.defaultCatalog).done(function() {
+		this.schema.refresh(this.defaultCatalog, {context: this}).done(function() {
 
 			window.history.pushState('', '', amiWebApp.webAppURL + '?subapp=schemaViewer&userdata=' + encodeURIComponent(this.defaultCatalog));
 

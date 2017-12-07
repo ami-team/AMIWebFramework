@@ -132,19 +132,19 @@ $AMIClass('SchemaCtrl', {
 		if(settings)
 		{
 			if('context' in settings) {
-				context = setting['context'];
+				context = settings['context'];
 			}
 
 			if('showLinkTool' in settings) {
-				showLinkTool = setting['showLinkTool'];
+				showLinkTool = settings['showLinkTool'];
 			}
 
 			if('width' in settings) {
-				this._width = setting['width'];
+				this._width = settings['width'];
 			}
 
 			if('height' in settings) {
-				this._height = setting['height'];
+				this._height = settings['height'];
 			}
 		}
 
@@ -400,6 +400,10 @@ $AMIClass('SchemaCtrl', {
 
 				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this._catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT *"', {showDetails: true, canEdit: false, catalog: this._catalog, entity: entity});
 			});
+		}
+		else
+		{
+			window.open(amiWebApp.webAppURL + '?subapp=tableViewer&userdata=' + encodeURIComponent('{"catalog": "' + amiWebApp.textToString(this._catalog) + '", "entity": "' + amiWebApp.textToString(entity) + '"}'), '_blank').focus();
 		}
 	},
 
