@@ -2,7 +2,7 @@
 	{% if rows is not empty %}
 	<tr>
 		{% for field in rows[0].field %}
-		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' %}
+		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
 		{%     if fieldDescriptions.length > loop.index0 %}
 		{%       set fieldDescription = fieldDescriptions[loop.index0] %}
 		{%     else %}
@@ -38,7 +38,7 @@
 	{%   for row in rows %}
 	<tr>
 		{% for field in row.field %}
-		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' %}
+		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
 		{%     if field['@name'] === primaryField %}
 		{%       set elementId = field.$ %}
 		{%       if showDetails %}
