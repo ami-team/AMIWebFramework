@@ -113,6 +113,10 @@ $AMIClass('SearchCtrl', {
 
 		/*---------------------------------------------------------*/
 
+		amiWebApp.lock();
+
+		/*---------------------------------------------------------*/
+
 		var _this = this;
 
 		return this.replaceHTML(selector, this.fragmentSearch, {dict: this.ctx}).done(function() {

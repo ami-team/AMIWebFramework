@@ -1,0 +1,49 @@
+<div class="row">
+	<div class="col-md-8">
+		<div class="card">
+			<div class="card-header text-center" style="font-family: 'Open Sans Light'; padding: 3px;">
+				<strong>Metadata</strong>
+			</div>
+			<div class="card-body" style="padding: 0;">
+				<table class="table table-sm table-striped table-bordered" style="margin-bottom: 0;">
+					{% if elementRows is not empty %}
+					{%   for row in elementRows %}
+					{%     for field in row.field %}
+					{%       if (showEmptyFields or (field.$ is not empty and field.$ != 'N/A' and field.$ is defined)) and (field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID') %}
+					<tr>
+						<td>
+							<strong>{{field['@name']|e}}</strong>
+						</td>
+						{% if field['link'] is defined %}
+						<td>{{field.$|e}}<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}</td>
+						{% else %}
+						<td>{{field.$|e}}</td>
+						{% endif %}
+					</tr>
+					{%       endif %}
+					{%     endfor %}
+					{%   endfor %}
+					{% else %}
+					<tr>
+						<td class="text-center text-warning">empty element</td>
+					</tr>
+					{% endif %}
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-4">
+		<div class="card">
+			<div class="card-header text-center" style="font-family: 'Open Sans Light'; padding: 3px;">
+				<strong>Linked Entities</strong>
+			</div>
+			<div class="card-body" style="padding: 0;">
+				<table class="table table-sm table-striped table-bordered" style="margin-bottom: 0;">
+
+					<!-- TODO -->
+
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
