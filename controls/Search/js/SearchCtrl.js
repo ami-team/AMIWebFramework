@@ -513,7 +513,7 @@ $AMIClass('SearchCtrl', {
 		/* BUILD SQL QUERY                                         */
 		/*---------------------------------------------------------*/
 
-		var mql = 'SELECT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`';
+		var mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`';
 
 		/*---------------------------------------------------------*/
 
