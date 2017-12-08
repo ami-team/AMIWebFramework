@@ -135,12 +135,12 @@ $AMIClass('ElementInfoCtrl', {
 
 			var fieldDescriptions = amiWebApp.jspath('..fieldDescriptions.description', data) || [];
 
-			var elementRows = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data) || [];
+			var rows = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data) || [];
 
 			var dict = {
 				showEmptyFields: showEmptyFields,
 				fieldDescriptions: fieldDescriptions,
-				elementRows: elementRows,
+				rows: rows,
 			};
 
 			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentEmpty, {dict: dict, context: this}).done(function() {

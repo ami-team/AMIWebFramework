@@ -6,8 +6,8 @@
 			</div>
 			<div class="card-body" style="padding: 0;">
 				<table class="table table-sm table-striped table-bordered" style="margin-bottom: 0;">
-					{% if elementRows is not empty %}
-					{%   for row in elementRows %}
+					{% if rows is not empty %}
+					{%   for row in rows %}
 					{%     for field in row.field %}
 					{%       if (showEmptyFields or (field.$ is not empty and field.$ != 'N/A' and field.$ is defined)) and (field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID') %}
 					<tr>
