@@ -29,7 +29,7 @@ $AMIClass('ElementInfoCtrl', {
 	{
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/ElementInfo/twig/ElementInfoCtrl.twig',
-			amiWebApp.originURL + '/controls/ElementInfo/twig/infoDetails.twig',
+			amiWebApp.originURL + '/controls/ElementInfo/twig/details.twig',
 			amiWebApp.originURL + '/controls/ElementInfo/twig/js.twig',
 			/**/
 			'ctrl:messageBox',
@@ -37,7 +37,7 @@ $AMIClass('ElementInfoCtrl', {
 		], {context: this}).done(function(data) {
 
 			this.fragmentElementInfoCtrl = data[0];
-			this.fragmentEmpty = data[1];
+			this.fragmentDetails = data[1];
 			this.fragmentJS = data[2];
 
 			this.messageBox = new data[3];
@@ -143,7 +143,7 @@ $AMIClass('ElementInfoCtrl', {
 				rows: rows,
 			};
 
-			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentEmpty, {dict: dict, context: this}).done(function() {
+			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentDetails, {dict: dict, context: this}).done(function() {
 
 				amiWebApp.unlock();
 			});
