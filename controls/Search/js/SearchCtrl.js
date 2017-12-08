@@ -480,11 +480,6 @@ $AMIClass('SearchCtrl', {
 			this.ctx.mql += ' WHERE ';
 			this.ctx.mql += filter;
 		}
-		else /* BERK */
-		{
-			mql += ' WHERE 1=1';
-			this.ctx.mql += ' WHERE 1=1';
-		}
 
 		/*---------------------------------------------------------*/
 
