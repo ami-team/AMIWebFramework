@@ -135,7 +135,7 @@ $AMIClass('ElementInfoCtrl', {
 
 			var fieldDescriptions = amiWebApp.jspath('..fieldDescriptions.description', data) || [];
 
-			var rows = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data) || [];
+			var rows = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data) || []; /* BERK */
 
 			var dict = {
 				showEmptyFields: showEmptyFields,
