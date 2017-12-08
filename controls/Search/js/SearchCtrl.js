@@ -526,7 +526,7 @@ $AMIClass('SearchCtrl', {
 
 		if(applyLimit)
 		{
-			mql += ' LIMIT ' + predicate.limit;
+			mql += ' LIMIT ' + predicate.limit + ' OFFSET 0'
 		}
 
 		/*---------------------------------------------------------*/
