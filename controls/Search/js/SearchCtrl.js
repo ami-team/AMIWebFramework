@@ -75,6 +75,8 @@ $AMIClass('SearchCtrl', {
 			name: 'user',
 			defaultCatalog: 'self',
 			defaultEntity: 'router_user',
+			defaultField: 'AMIUser',
+			defaultPrimaryField: 'identifier',
 			criterias: [
 				{name: 'Id', catalog: 'self', entity: 'router_user', field: 'id', type: 2},
 				{name: 'User1', catalog: 'self', entity: 'router_user', field: 'AMIUser', type: 0},
@@ -104,6 +106,14 @@ $AMIClass('SearchCtrl', {
 
 			if('defaultEntity' in settings) {
 				this.ctx.defaultEntity = settings['defaultEntity'];
+			}
+
+			if('defaultField' in settings) {
+				this.ctx.defaultField = settings['defaultField'];
+			}
+
+			if('defaultPrimaryField' in settings) {
+				this.ctx.defaultPrimaryField = settings['defaultPrimaryField'];
 			}
 
 			if('criterias' in settings) {
@@ -903,7 +913,7 @@ $AMIClass('SearchCtrl', {
 		{
 			parent.appendTab('<i class="fa fa-table"></i> ' + this.ctx.defaultEntity, {context: this, height: 'auto'}).done(function(selector) {
 
-				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"', {showDetails: true, canEdit: false, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity});
+				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"', {showDetails: true, canEdit: false, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField});
 			});
 		}
 	},
