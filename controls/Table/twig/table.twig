@@ -57,11 +57,10 @@
 			<a href="#" data-action="filter" data-filter-def="{{field.$.substring(8)|e}}"><i class="fa fa-link"></i></a>
 		</td>
 		{%       else %}
-		<td class="text-left">
-			{% if field['link'] is defined %}
-			<span class="edit-field" data-row="{{elementId|e}}" data-col="{{field['@name']|e}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$|e}}<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}</span>
-			{% else %}
+		<td class="text-center">
 			<span class="edit-field" data-row="{{elementId|e}}" data-col="{{field['@name']|e}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$|e}}</span>
+			{% if field['link'] is defined %}
+			<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}
 			{% endif %}
 		</td>
 		{%       endif %}

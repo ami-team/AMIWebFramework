@@ -11,14 +11,15 @@
 					{%     for field in row.field %}
 					{%       if (showEmptyFields or (field.$ is not empty and field.$ != 'N/A' and field.$ is defined)) and (field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE') %}
 					<tr>
-						<td>
+						<td class="text-left">
 							<strong>{{field['@name']|e}}</strong>
 						</td>
-						{% if field['link'] is defined %}
-						<td class="text-center">{{field.$|e}}<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}</td>
-						{% else %}
-						<td class="text-center">{{field.$|e}}</td>
-						{% endif %}
+						<td class="text-center">
+							{{field.$|e}}
+							{% if field['link'] is defined %}
+							<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}</td>
+							{% endif %}
+						</td>
 					</tr>
 					{%       endif %}
 					{%     endfor %}
