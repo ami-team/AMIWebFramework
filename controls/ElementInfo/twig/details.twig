@@ -1,50 +1,53 @@
-<div class="row">
-	<div class="col-md-8">
-		<div class="card">
-			<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
-				Metadata
+<table>
+	<tr>
+		<td class="align-top">
+			<div class="card">
+				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
+					Metadata
+				</div>
+				<div class="card-body" style="padding: 0;">
+					<table class="table table-sm table-striped table-bordered mb-0">
+						{% if rows is not empty %}
+						{%   for row in rows %}
+						{%     for field in row.field %}
+						{%       if (showEmptyFields or (field.$ is not empty and field.$ != 'N/A' and field.$ is defined)) and (field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE') %}
+						<tr>
+							<td class="text-left">
+								<strong>{{field['@name']|e}}</strong>
+							</td>
+							<td class="text-center">
+								{{field.$|e}}
+								{% if field['link'] is defined %}
+								<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}</td>
+								{% endif %}
+							</td>
+						</tr>
+						{%       endif %}
+						{%     endfor %}
+						{%   endfor %}
+						{% else %}
+						<tr>
+							<td class="text-center text-warning">empty element</td>
+						</tr>
+						{% endif %}
+					</table>
+				</div>
 			</div>
-			<div class="card-body" style="padding: 0;">
-				<table class="table table-sm table-striped table-bordered mb-0">
-					{% if rows is not empty %}
-					{%   for row in rows %}
-					{%     for field in row.field %}
-					{%       if (showEmptyFields or (field.$ is not empty and field.$ != 'N/A' and field.$ is defined)) and (field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE') %}
-					<tr>
-						<td class="text-left">
-							<strong>{{field['@name']|e}}</strong>
-						</td>
-						<td class="text-center">
-							{{field.$|e}}
-							{% if field['link'] is defined %}
-							<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}</td>
-							{% endif %}
-						</td>
-					</tr>
-					{%       endif %}
-					{%     endfor %}
-					{%   endfor %}
-					{% else %}
-					<tr>
-						<td class="text-center text-warning">empty element</td>
-					</tr>
-					{% endif %}
-				</table>
-			</div>
-		</div>
-	</div>
-	<div class="col-md-4">
-		<div class="card">
-			<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
-				Linked Entities
-			</div>
-			<div class="card-body" style="padding: 0;">
-				<table class="table table-sm table-striped table-bordered mb-0">
+		</td>
+		<td>&nbsp</td>
+		<td class="align-top">
+			<div class="card">
+				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
+					Linked Entities
+				</div>
+				<div class="card-body" style="padding: 0;">
+					<table class="table table-sm table-striped table-bordered mb-0">
 
-					<!-- TODO -->
+						<!-- TODO -->
 
-				</table>
+					</table>
+				</div>
 			</div>
-		</div>
-	</div>
-</div>
+		</td>
+	</tr>
+</table>

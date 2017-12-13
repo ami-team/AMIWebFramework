@@ -161,7 +161,7 @@ $AMIClass('SchemaCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT `custom` FROM `router_catalog` WHERE `externalCatalog` = \'' + amiWebApp.textToString(catalog) + '\'"', {context: this}).done(function(data) {
+		amiCommand.execute('GetJSONSchema -catalog="' + amiWebApp.textToString(catalog) + '"', {context: this}).done(function(data) {
 
 			/*-------------------------------------------------*/
 			/* GET JSON INFO                                   */
@@ -171,7 +171,7 @@ $AMIClass('SchemaCtrl', {
 
 			try
 			{
-				custom = JSON.parse(amiWebApp.jspath('..field{.@name==="custom"}.$', data)[0] || '{}');
+				custom = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
 			}
 			catch(e)
 			{

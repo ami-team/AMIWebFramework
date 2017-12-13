@@ -504,24 +504,24 @@ $AMIClass('TableCtrl', {
 			                                        : amiWebApp.jspath('..fieldDescription'                                                        , data) || []
 			;
 
-			var rows = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}.row', data) || []
-			                           : amiWebApp.jspath('..row'                                           , data) || []
+			var rows = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}..row', data) || []
+			                           : amiWebApp.jspath('..row'                                            , data) || []
 			;
 
-			this.sql = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}.@sql', data)[0] || 'N/A'
-			                           : amiWebApp.jspath('..@sql'                                           , data)[0] || 'N/A'
+			this.sql = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}..@sql', data)[0] || 'N/A'
+			                           : amiWebApp.jspath('..@sql'                                            , data)[0] || 'N/A'
 			;
 
-			this.mql = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}.@mql', data)[0] || 'N/A'
-			                           : amiWebApp.jspath('..@mql'                                           , data)[0] || 'N/A'
+			this.mql = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}..@mql', data)[0] || 'N/A'
+			                           : amiWebApp.jspath('..@mql'                                            , data)[0] || 'N/A'
 			;
 
-			this.ast = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}.@ast', data)[0] || 'N/A'
-			                           : amiWebApp.jspath('..@ast'                                           , data)[0] || 'N/A'
+			this.ast = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}..@ast', data)[0] || 'N/A'
+			                           : amiWebApp.jspath('..@ast'                                            , data)[0] || 'N/A'
 			;
 
-			var totalResults = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}.@totalResults', data)[0] || 'N/A'
-			                                   : amiWebApp.jspath('..@totalResults'                                           , data)[0] || 'N/A'
+			var totalResults = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}..@totalResults', data)[0] || 'N/A'
+			                                   : amiWebApp.jspath('..@totalResults'                                            , data)[0] || 'N/A'
 			;
 
 			if(this.sql === 'N/A') {
@@ -1135,7 +1135,7 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.mql ? this.mql : this.sql);
+		var regions = xqlGetRegions(this.mql && this.mql !== 'N/A' ? this.mql : this.sql);
 
 		/*---------------------------------------------------------*/
 

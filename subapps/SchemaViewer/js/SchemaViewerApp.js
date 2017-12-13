@@ -280,7 +280,7 @@ $AMIClass('SchemaViewerApp', {
 
 			/*-------------------------------------------------*/
 
-			amiCommand.execute('UpdateElements -catalog="self" -entity="router_catalog" -separator="%" -fields="custom" -values="' + amiWebApp.textToString(text) + '" -keyFields="externalCatalog" -keyValues="' + amiWebApp.textToString(this.defaultCatalog) + '"').done(function(data) {
+			amiCommand.execute('SetJSONSchema -catalog="' + amiWebApp.textToString(this.defaultCatalog) + '" -json="' + amiWebApp.textToString(text) + '"').done(function(data) {
 
 				amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
