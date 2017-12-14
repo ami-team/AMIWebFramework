@@ -204,39 +204,34 @@ $AMIClass('TableCtrl', {
 		}
 		else
 		{
+			this.ctx.defaultFields = [];
+			this.ctx.defaultValues = [];
+			this.ctx.defaultTypes = [];
+
 			amiCommand.execute('GetFieldInfo -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '"', {context: this}).done(function(data) {
 
-				this.ctx.defaultFields = amiWebApp.jspath('..field{.@name==="name"}.$', data) || [];
-				this.ctx.defaultValues = amiWebApp.jspath('..field{.@name==="def"}.$', data) || [];
-				this.ctx.defaultTypes = amiWebApp.jspath('..field{.@name==="type"}.$', data) || [];
-				this.ctx_defaultPrimary = amiWebApp.jspath('..field{.@name==="primary"}.$', data) || []
+				var rows = amiWebApp.jspath('..row', data) || [];
 
-				if(!this.ctx.primaryField)
+				for(var i in rows)
 				{
-					var n = Math.max(
-						this.ctx.defaultTypes.length
-						,
-						this.ctx_defaultPrimary.length
-					);
+					var field = amiWebApp.jspath('..field{.@name==="name"}.$', rows[i])[0] || '';
+					var value = amiWebApp.jspath('..field{.@name==="def"}.$', rows[i])[0] || '';
+					var type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
+					var primary = amiWebApp.jspath('..field{.@name==="primary"}.$', rows[i])[0] || '';
 
-					for(i = 0; i < n; i++)
+					this.ctx.defaultFields.push(field);
+					this.ctx.defaultValues.push(value);
+					this.ctx.defaultTypes.push(type);
+
+					if(primary === 'true')
 					{
-						if(this.ctx_defaultPrimary[i] === 'true')
-						{
-							this.ctx.primaryField = this.ctx.defaultFields[i];
-
-							break;
-						}
+						this.ctx.primaryField = field;
 					}
 				}
 
 				this._display(selector);
 
 			}).fail(function() {
-
-				this.ctx.defaultFields = [];
-				this.ctx.defaultValues = [];
-				this.ctx.defaultTypes = [];
 
 				this._display(selector);
 			});
@@ -504,25 +499,19 @@ $AMIClass('TableCtrl', {
 			                                        : amiWebApp.jspath('..fieldDescription'                                                        , data) || []
 			;
 
-			var rows = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}..row', data) || []
-			                           : amiWebApp.jspath('..row'                                            , data) || []
+			var rowset = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data) || []
+			                             : amiWebApp.jspath('..rowset'                                     , data) || []
 			;
 
-			this.sql = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}..@sql', data)[0] || 'N/A'
-			                           : amiWebApp.jspath('..@sql'                                            , data)[0] || 'N/A'
-			;
+			var rows = amiWebApp.jspath('..row', rowset) || [];
 
-			this.mql = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}..@mql', data)[0] || 'N/A'
-			                           : amiWebApp.jspath('..@mql'                                            , data)[0] || 'N/A'
-			;
+			this.sql = amiWebApp.jspath('..@sql', rowset)[0] || 'N/A';
+			this.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
+			this.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
 
-			this.ast = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}..@ast', data)[0] || 'N/A'
-			                           : amiWebApp.jspath('..@ast'                                            , data)[0] || 'N/A'
-			;
+			var totalResults = amiWebApp.jspath('..@totalResults', rowset)[0] || 'N/A';
 
-			var totalResults = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}..@totalResults', data)[0] || 'N/A'
-			                                   : amiWebApp.jspath('..@totalResults'                                            , data)[0] || 'N/A'
-			;
+			/**/
 
 			if(this.sql === 'N/A') {
 				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).hide();
