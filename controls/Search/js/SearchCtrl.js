@@ -960,7 +960,7 @@ $AMIClass('SearchCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var expression = $(_this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val();
+		var expression = $(this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val();
 
 		/*---------------------------------------------------------*/
 
