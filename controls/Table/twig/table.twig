@@ -1,6 +1,7 @@
 <table class="table table-sm table-striped table-bordered">
 	{% if rows is not empty %}
 	<tr>
+		<th class="text-center edit-mode"> tools </th>
 		{% for field in rows[0].field %}
 		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
 		{%     if fieldDescriptions.length > loop.index0 %}
@@ -8,12 +9,6 @@
 		{%     else %}
 		{%       set fieldDescription = {                            } %}
 		{%     endif %}
-		{%     if field['@name'] === primaryField %}
-		{%       if showDetails %}
-		<th class="text-center xxxxxxxxx">details</th>
-		{%       endif %}
-		<th class="text-center edit-mode"> tools </th>
-		{%     else %}
 		<th class="text-center">
 			<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{field['@name']|e}}"><i class="fa fa-chevron-down"></i></a>
 			<span class="text-primary"{% if fieldDescription['$'] and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{field['@name']|e}}</span>
@@ -31,40 +26,37 @@
 			{%   endif %}
 			{% endif %}
 		</th>
-		{%     endif %}
 		{%   endif %}
 		{% endfor %}
 	</tr>
 	{%   for row in rows %}
 	<tr>
 		{% for field in row.field %}
-		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
-		{%     if field['@name'] === primaryField %}
-		{%       set elementId = field.$ %}
-		{%       if showDetails %}
-		<td class="text-center">
-			<a href="#" class="text-secondary" data-action="details" data-row="{{elementId|e}}"><i class="fa fa-arrows-alt"></i></a>
-		</td>
-		{%       endif %}
+		{%   if field['@name'] === primaryField %}
+		{%     set elementId = field.$ %}
+		{%   endif %}
+		{% endfor %}
 		<td class="text-center edit-mode">
 			<a href="#" class="text-info" data-action="clone" data-row="{{elementId|e}}"><i class="fa fa-files-o"></i></a>
 			&nbsp;
 			<a href="#" class="text-danger" data-action="delete" data-row="{{elementId|e}}"><i class="fa fa-trash"></i></a>
 		</td>
+		{% for field in row.field %}
+		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
+		{%     if fieldDescriptions.length > loop.index0 %}
+		{%       set fieldDescription = fieldDescriptions[loop.index0] %}
 		{%     else %}
-		{%       if field.$ starts with '@owner::' %}
+		{%       set fieldDescription = {                            } %}
+		{%     endif %}
 		<td class="text-center">
-			<a href="#" data-action="filter" data-filter-def="{{field.$.substring(8)|e}}"><i class="fa fa-link"></i></a>
-		</td>
-		{%       else %}
-		<td class="text-center">
+			{% if showDetails and field['@name'] === primaryField %}
+			<a href="#" class="text-secondary" data-action="details" data-row="{{elementId|e}}"><i class="fa fa-eye"></i></a>
+			{% endif %}
 			<span class="edit-field" data-row="{{elementId|e}}" data-col="{{field['@name']|e}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$|e}}</span>
 			{% if field['link'] is defined %}
 			<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}
 			{% endif %}
 		</td>
-		{%       endif %}
-		{%     endif %}
 		{%   endif %}
 		{% endfor %}
 	</tr>
