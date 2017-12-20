@@ -55,9 +55,13 @@
 		{%       set fieldDescription = {                            } %}
 		{%     endif %}
 		<td class="text-center">
+			{% if field.$ starts with '@owner::' %}
+				<a href="#" data-action="filter" data-filter-def="{{field.$.substring(8)|e}}"><i class="fa fa-link"></i></a>
+			{% else %}
 			<span class="edit-field" data-row="{{elementId|e}}" data-col="{{field['@name']|e}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$|e}}</span>
-			{% if field['link'] is defined %}
+			{%   if field['link'] is defined %}
 			<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}
+			{%   endif %}
 			{% endif %}
 		</td>
 		{%   endif %}
