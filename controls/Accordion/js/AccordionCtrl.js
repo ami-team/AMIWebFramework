@@ -81,8 +81,10 @@ $AMIClass('AccordionCtrl', {
 
 		/*---------------------------------------------------------*/
 
+		var id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt;
+		
 		var dict = {
-			id: this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt,
+			id: id,
 			item_title: title,
 			card:this._card,
 		};
@@ -98,12 +100,12 @@ $AMIClass('AccordionCtrl', {
 			/*-----------------------------------------*/
 
 			if (show) {
-				$('#collapse_' + dict['id']).collapse('show');
+				$('#' + id + '_collaspe').collapse('show');
 			}
 
 			/*-----------------------------------------*/
 
-			result.resolveWith(context, ['#content_' + dict['id']]);
+			result.resolveWith(context, ['#' + id + '_content']);
 
 			/*-----------------------------------------*/
 		});
@@ -135,8 +137,10 @@ $AMIClass('AccordionCtrl', {
 
 		/*---------------------------------------------------------*/
 
+		var id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt;
+
 		var dict = {
-			id: this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt,
+			id: id,
 			item_title: title,
 			card: this._card,
 		};
@@ -152,12 +156,12 @@ $AMIClass('AccordionCtrl', {
 			/*-----------------------------------------*/
 
 			if (show) {
-				$('#collapse_' + dict['id']).collapse('show');
+				$('#' + id + '_collapse').collapse('show');
 			}
 
 			/*-----------------------------------------*/
 
-			result.resolveWith(context, ['#content_' + dict['id']]);
+			result.resolveWith(context, ['#' + id + '_content']);
 
 			/*-----------------------------------------*/
 		});
