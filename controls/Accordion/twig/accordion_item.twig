@@ -1,0 +1,21 @@
+{% if card %}
+<div class="card-header" id="heading_{{ id }}">
+	<button class="btn btn-link" data-toggle="collapse" data-target="#collapse_{{ id }}">
+		{{ item_title }}
+	</button>
+</div>
+<div id="collapse_{{ id }}" class="collapse">
+	<div class="card-body" id="content_{{ id }}">
+		{{ item_content }}
+	</div>
+</div>
+{% else %}
+<button class="btn btn-link" data-toggle="collapse" data-target="#collapse_{{ id }}">
+	{{ item_title }}
+</button>
+<div id="collapse_{{ id }}" class="collapse">
+	<div class="card-body" id="content_{{ id }}">
+		{{ item_content }}
+	</div>
+</div>
+{% endif %}
