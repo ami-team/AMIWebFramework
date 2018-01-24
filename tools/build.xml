@@ -214,6 +214,7 @@
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="Tab/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="Table/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="TextBox/**/*" />
+				<fileset dir="${AMIWebAppTmpDir}/controls" includes="Accordion/**/*" />
 			</copy>
 
 			<copy todir="controls" overwrite="false">

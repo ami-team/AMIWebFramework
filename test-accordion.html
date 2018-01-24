@@ -28,12 +28,12 @@
 
 					myAccordion.appendItem('item0',{show: true}).done(function(sel) {
 						$(sel).text('hello0');
-						//myTable1.render(sel, 'SearchQuery -catalog="mc16_001:production" -entity="dataset" -sql="SELECT logicalDatasetName FROM dataset WHERE logicalDatasetName=\'mc16_13TeV.364226.Sherpa_221_NNPDF30NNLO_Wenu_PTV500_1000.deriv.log.e5626_e5984_s3126_r10201_r10210_p3384\'"', {showDetails: true, canEdit: true, catalog: 'mc16_001:production', entity: 'dataset'});
+						myTable1.render(sel, 'SearchQuery -catalog="mc16_001:production" -entity="dataset" -sql="SELECT logicalDatasetName FROM dataset WHERE logicalDatasetName=\'mc16_13TeV.364226.Sherpa_221_NNPDF30NNLO_Wenu_PTV500_1000.deriv.log.e5626_e5984_s3126_r10201_r10210_p3384\'"', {showDetails: true, canEdit: true, catalog: 'mc16_001:production', entity: 'dataset'});
 					});
 
 					myAccordion.appendItem('item1').done(function(sel) {
 						$(sel).text('hello1');
-						//myTable2.render(sel, 'SearchQuery -catalog="mc16_001:production"  -entity="dataset" -sql="SELECT logicalDatasetName FROM dataset WHERE logicalDatasetName=\'mc16_13TeV.364226.Sherpa_221_NNPDF30NNLO_Wenu_PTV500_1000.deriv.NTUP_PILEUP.e5626_e5984_s3126_r10201_r10210_p3384\'"', {showDetails: true, canEdit: true, catalog: 'mc16_001:production', entity: 'dataset'});
+						myTable2.render(sel, 'SearchQuery -catalog="mc16_001:production"  -entity="dataset" -sql="SELECT logicalDatasetName FROM dataset WHERE logicalDatasetName=\'mc16_13TeV.364226.Sherpa_221_NNPDF30NNLO_Wenu_PTV500_1000.deriv.NTUP_PILEUP.e5626_e5984_s3126_r10201_r10210_p3384\'"', {showDetails: true, canEdit: true, catalog: 'mc16_001:production', entity: 'dataset'});
 					});
 
 					/*----*/
