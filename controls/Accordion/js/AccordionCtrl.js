@@ -43,11 +43,16 @@ $AMIClass('AccordionCtrl', {
 	render: function(selector, settings)
 	{
 		this._card = false;
+		this._context = this;
 
 		if(settings)
 		{
 			if('card' in settings) {
 				this._card = settings['card'];
+			}
+
+			if('context' in settings) {
+				this._context = settings['context'];
 			}
 		}
 
@@ -55,7 +60,7 @@ $AMIClass('AccordionCtrl', {
 			'card': this._card
 		};
 
-		return this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {dict: dict});
+		return this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {context: this._context, dict: dict});
 	},
 
 	/*-----------------------------------------------------------------*/
