@@ -45,8 +45,14 @@ $AMIClass('TabCtrl', {
 
 	render: function(selector, settings)
 	{
+		this._closable = true;
+
 		if(settings)
 		{
+			if('closable' in settings) {
+				this._closable = settings['closable'];
+			}
+
 			settings['dict'] = {card: settings['card']};
 		}
 
@@ -96,6 +102,7 @@ $AMIClass('TabCtrl', {
 			id: tabId,
 			title: title,
 			active: active || this._cnt === 0,
+			closable: this._closable,
 		};
 
 		this._cnt++;
