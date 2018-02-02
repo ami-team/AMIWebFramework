@@ -1,5 +1,11 @@
 {% if card %}
 <div class="card">
+        {% if cardHeader %}
+        <div class="card-header text-right">
+                <button type="button" id="idCollapse" class="btn btn-outline-primary btn-sm">Collapse All</button>
+                <button type="button" id="idRemoveAll" class="btn btn-outline-danger btn-sm">Remove All</button>
+        </div>
+        {% endif %}
 </div>
 {% else %}
 <div></div>

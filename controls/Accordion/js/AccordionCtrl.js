@@ -43,7 +43,9 @@ $AMIClass('AccordionCtrl', {
 	render: function(selector, settings)
 	{
 		this._card = false;
-		this._context = this;
+		this._cardHeader = false;
+		this._closable = true;
+		this._collapseAll = false;
 
 		if(settings)
 		{
@@ -51,16 +53,38 @@ $AMIClass('AccordionCtrl', {
 				this._card = settings['card'];
 			}
 
-			if('context' in settings) {
-				this._context = settings['context'];
+			if('cardHeader' in settings) {
+				this._cardHeader = settings['cardHeader'];
+			}
+
+			if('closable' in settings) {
+				this._closable = settings['closable'];
 			}
 		}
 
 		var dict = {
-			'card': this._card
+			card: this._card,
+			cardHeader: this._cardHeader,
+			closable: this._closable,
 		};
 
-		return this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {context: this._context, dict: dict});
+		var _this = this;
+
+		return this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {dict: dict}).done(function(e){
+
+			/*-----------------------------------------*/
+
+			$("#idCollapse").click(function(e){
+
+				_this.collapseAll();
+			});
+
+			$("#idRemoveAll").click(function(e){
+
+				_this.removeAll(_this._selector);
+			});
+
+		});
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -87,11 +111,12 @@ $AMIClass('AccordionCtrl', {
 		/*---------------------------------------------------------*/
 
 		var id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt;
-		
+
 		var dict = {
 			id: id,
 			item_title: title,
 			card:this._card,
+			closable: this._closable,
 		};
 
 		this._cnt++;
@@ -101,6 +126,13 @@ $AMIClass('AccordionCtrl', {
 		var _this = this;
 
 		this.prependHTML(this._selector + ' > div', this.fragmentAccordionItem, {context: this, dict: dict}).done(function() {
+
+			/*-----------------------------------------*/
+
+			$("#"+id+"_remove").click(function(e){
+
+				_this.removeItem("#"+id);
+			});
 
 			/*-----------------------------------------*/
 
@@ -148,6 +180,7 @@ $AMIClass('AccordionCtrl', {
 			id: id,
 			item_title: title,
 			card: this._card,
+			closable: this._closable,
 		};
 
 		this._cnt++;
@@ -157,6 +190,13 @@ $AMIClass('AccordionCtrl', {
 		var _this = this;
 
 		this.appendHTML(this._selector + ' > div', this.fragmentAccordionItem, {context: this, dict: dict}).done(function() {
+
+			/*-----------------------------------------*/
+
+			$("#"+id+"_remove").click(function(e){
+
+				_this.removeItem("#"+id);
+			});
 
 			/*-----------------------------------------*/
 
@@ -174,6 +214,35 @@ $AMIClass('AccordionCtrl', {
 		/*---------------------------------------------------------*/
 
 		return result.promise();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	removeItem: function(selector){
+
+		$(selector+"_heading").remove();
+		$(selector+"_collapse").remove();
+
+	},
+	/*-----------------------------------------------------------------*/
+
+	removeAll: function(selector){
+
+		$(selector+" .card").children(".body").remove();
+
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	collapseAll: function(){
+
+		if(this._collapseAll){
+			$(".card").children(".body").children( ".collapse" ).attr("class", "collapse");
+			this._collapseAll = false;
+		} else {
+			$(".card").children(".body").children( ".collapse" ).attr("class", "collapse show");
+			this._collapseAll = true;
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
