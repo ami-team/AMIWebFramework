@@ -9,9 +9,7 @@
 	{% endif %}
 </div>
 <div id="{{ id }}_collapse" class="collapse">
-	<div class="card-body" id="{{ id }}_content" style="padding:10px;">
-		{{ item_content }}
-	</div>
+	<div class="card-body" id="{{ id }}_content" style="padding:10px;"></div>
 </div>
 </div>
 {% else %}
@@ -20,9 +18,7 @@
 	{{ item_title }}
 </button>
 <div id="{{ id }}_collapse" class="collapse">
-	<div class="card-body" id="{{ id }}_content">
-		{{ item_content }}
-	</div>
+	<div class="card-body" id="{{ id }}_content"></div>
 </div>
 </div>
 {% endif %}
