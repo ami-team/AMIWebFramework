@@ -50,7 +50,7 @@ $AMIClass('TableViewerApp', {
 					this.entity = json.entity || '';
 					this.primaryField = json.primaryField || '';
 
-					this.tab.appendTab(this.entity, {context: this}).done(function(tabSel) {
+					this.tab.appendItem(this.entity, {context: this}).done(function(tabSel) {
 
 						this.tabSel = tabSel;
 

@@ -965,7 +965,7 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab('<i class="fa fa-arrows-alt"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
+			parent.appendItem('<i class="fa fa-arrows-alt"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
 
 				new this.elementInfoCtor(parent, this).render(
 					selector,
@@ -1163,7 +1163,7 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab(this.ctx.entity, {context: this}).done(function(selector) {
+			parent.appendItem(this.ctx.entity, {context: this}).done(function(selector) {
 
 				new this.$class(parent, this).render(selector, command, this.ctx);
 			});
@@ -1228,7 +1228,7 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab('<i class="fa fa-bar-chart"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
+			parent.appendItem('<i class="fa fa-bar-chart"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
 
 				new this.$class(parent, this).render(selector, command, this.ctx);
 			});
@@ -1287,7 +1287,7 @@ $AMIClass('TableCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab('<i class="fa fa-slack"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
+			parent.appendItem('<i class="fa fa-slack"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
 
 				new this.$class(parent, this).render(selector, command, this.ctx);
 			});

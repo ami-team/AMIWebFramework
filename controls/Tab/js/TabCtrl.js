@@ -75,7 +75,7 @@ $AMIClass('TabCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	prependTab: function(title, settings)
+	prependItem: function(title, settings)
 	{
 		var result = $.Deferred();
 
@@ -164,7 +164,7 @@ $AMIClass('TabCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	appendTab: function(title, settings)
+	appendItem: function(title, settings)
 	{
 		var result = $.Deferred();
 

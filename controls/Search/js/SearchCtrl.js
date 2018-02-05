@@ -896,7 +896,7 @@ $AMIClass('SearchCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab('<i class="fa fa-database"></i> ' + this.ctx.defaultCatalog, {context: this, height: '400px'}).done(function(selector) {
+			parent.appendItem('<i class="fa fa-database"></i> ' + this.ctx.defaultCatalog, {context: this, height: '400px'}).done(function(selector) {
 
 				new this.schemaCtor(parent, this).render(selector, this.ctx.defaultCatalog);
 			});
@@ -911,7 +911,7 @@ $AMIClass('SearchCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab('<i class="fa fa-table"></i> ' + this.ctx.defaultEntity, {context: this, height: 'auto'}).done(function(selector) {
+			parent.appendItem('<i class="fa fa-table"></i> ' + this.ctx.defaultEntity, {context: this, height: 'auto'}).done(function(selector) {
 
 				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"', {showDetails: true, canEdit: false, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField});
 			});

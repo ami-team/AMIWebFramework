@@ -94,7 +94,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab(this.entity ? this.entity : 'result', {context: this}).done(function(selector) {
+			parent.appendItem(this.entity ? this.entity : 'result', {context: this}).done(function(selector) {
 
 				new this._tableCtrl(parent, this).render(selector, command, this._settings);
 			});

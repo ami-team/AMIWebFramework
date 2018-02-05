@@ -396,7 +396,7 @@ $AMIClass('SchemaCtrl', {
 
 		if(parent.$name === 'TabCtrl')
 		{
-			parent.appendTab('<i class="fa fa-table"></i> ' + entity, {context: this, height: 'auto'}).done(function(selector) {
+			parent.appendItem('<i class="fa fa-table"></i> ' + entity, {context: this, height: 'auto'}).done(function(selector) {
 
 				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this._catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT *"', {showDetails: true, canEdit: false, catalog: this._catalog, entity: entity});
 			});
