@@ -45,18 +45,26 @@ $AMIClass('TabCtrl', {
 
 	render: function(selector, settings)
 	{
+		this._card = true;
+
 		this._closable = true;
 
 		if(settings)
 		{
+			if('card' in settings) {
+				this._card = settings['card'];
+			}
+
 			if('closable' in settings) {
 				this._closable = settings['closable'];
 			}
-
-			settings['dict'] = {card: settings['card']};
 		}
 
-		return this.replaceHTML(this._selector = selector, this.fragmentTabCtrl, settings);
+		var dict = {
+			'card': this._card
+		};
+
+		return this.replaceHTML(this._selector = selector, this.fragmentTabCtrl, {dict: dict});
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -64,6 +72,13 @@ $AMIClass('TabCtrl', {
 	_getTabEl: function(tabId)
 	{
 		return $(this._selector + ' .nav-link[href="#' + tabId + '"]:parent');
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_getLinkEl: function(tabId)
+	{
+		return $(this._selector + ' .nav-link[href="#' + tabId + '"]');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -114,24 +129,8 @@ $AMIClass('TabCtrl', {
 			id: tabId,
 			title: title,
 			height: height,
-			active: active || this._cnt === 0,
 			closable: closable,
 		};
-
-		this._cnt++;
-
-		/*---------------------------------------------------------*/
-
-		if(active)
-		{
-			$(this._selector + ' .nav-link').removeClass('active')
-			                                .addClass('xxxxxx')
-			;
-
-			$(this._selector + ' .tab-pane').removeClass('active')
-			                                .addClass('xxxxxx')
-			;
-		}
 
 		/*---------------------------------------------------------*/
 
@@ -148,6 +147,20 @@ $AMIClass('TabCtrl', {
 
 					e.preventDefault();
 				});
+
+				/*-----------------------------------------*/
+
+				this._getLinkEl(tabId).on('show.bs.tab', function(e) {
+
+					_this._previousActiveTab = e.relatedTarget ? $(e.relatedTarget).attr('href').substring(1) : '';
+				});
+
+				/*-----------------------------------------*/
+
+				if(active || this._cnt++ === 0)
+				{
+					this._getLinkEl(tabId).tab('show');
+				}
 
 				/*-----------------------------------------*/
 
@@ -203,24 +216,8 @@ $AMIClass('TabCtrl', {
 			id: tabId,
 			title: title,
 			height: height,
-			active: active || this._cnt === 0,
 			closable: closable,
 		};
-
-		this._cnt++;
-
-		/*---------------------------------------------------------*/
-
-		if(active)
-		{
-			$(this._selector + ' .nav-link').removeClass('active')
-			                                .addClass('xxxxxx')
-			;
-
-			$(this._selector + ' .tab-pane').removeClass('active')
-			                                .addClass('xxxxxx')
-			;
-		}
 
 		/*---------------------------------------------------------*/
 
@@ -237,6 +234,20 @@ $AMIClass('TabCtrl', {
 
 					e.preventDefault();
 				});
+
+				/*-----------------------------------------*/
+
+				this._getLinkEl(tabId).on('show.bs.tab', function(e) {
+
+					_this._previousActiveTab = e.relatedTarget ? $(e.relatedTarget).attr('href').substring(1) : '';
+				});
+
+				/*-----------------------------------------*/
+
+				if(active || this._cnt++ === 0)
+				{
+					this._getLinkEl(tabId).tab('show');
+				}
 
 				/*-----------------------------------------*/
 
@@ -258,6 +269,11 @@ $AMIClass('TabCtrl', {
 		this._getTabEl(tabId).remove();
 
 		this._getPaneEl(tabId).remove();
+
+		if(this._previousActiveTab)
+		{
+			this._getLinkEl(this._previousActiveTab).tab('show');
+		}
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -267,20 +283,6 @@ $AMIClass('TabCtrl', {
 		$(this._selector + ' .nav-tabs').empty();
 
 		$(this._selector + ' .tab-content').empty();
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	showTabs: function(visible)
-	{
-		if(visible)
-		{
-			$(this._selector + ' .nav-tabs').show();
-		}
-		else
-		{
-			$(this._selector + ' .nav-tabs').hide();
-		}
 	},
 
 	/*-----------------------------------------------------------------*/
