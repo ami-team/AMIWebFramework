@@ -81,7 +81,11 @@ $AMIClass('TabCtrl', {
 
 		var context = result;
 
+		var height = 'auto';
+
 		var active = true;
+
+		var closable = this._closable;
 
 		if(settings)
 		{
@@ -89,8 +93,16 @@ $AMIClass('TabCtrl', {
 	  			context = settings['context'];
 			}
 
+			if('height' in settings) {
+				height = settings['height'];
+			}
+
 			if('active' in settings) {
 				active = settings['active'];
+			}
+
+			if('closable' in settings) {
+				closable = settings['closable'];
 			}
 		}
 
@@ -101,8 +113,9 @@ $AMIClass('TabCtrl', {
 		var dict = {
 			id: tabId,
 			title: title,
+			height: height,
 			active: active || this._cnt === 0,
-			closable: this._closable,
+			closable: closable,
 		};
 
 		this._cnt++;
@@ -161,6 +174,8 @@ $AMIClass('TabCtrl', {
 
 		var active = true;
 
+		var closable = this._closable;
+
 		if(settings)
 		{
 			if('context' in settings) {
@@ -174,6 +189,10 @@ $AMIClass('TabCtrl', {
 			if('active' in settings) {
 				active = settings['active'];
 			}
+
+			if('closable' in settings) {
+				closable = settings['closable'];
+			}
 		}
 
 		/*---------------------------------------------------------*/
@@ -185,6 +204,7 @@ $AMIClass('TabCtrl', {
 			title: title,
 			height: height,
 			active: active || this._cnt === 0,
+			closable: closable,
 		};
 
 		this._cnt++;
