@@ -102,6 +102,8 @@ $AMIClass('AccordionCtrl', {
 
 		var show = false;
 
+		var closable = this._closable;
+
 		if(settings)
 		{
 			if('context' in settings) {
@@ -110,6 +112,10 @@ $AMIClass('AccordionCtrl', {
 
 			if('show' in settings) {
 				show = settings['show'];
+			}
+
+			if('closable' in settings) {
+				closable = settings['closable'];
 			}
 		}
 
@@ -121,7 +127,7 @@ $AMIClass('AccordionCtrl', {
 			id: id,
 			item_title: title,
 			card:this._card,
-			closable: this._closable,
+			closable: closable,
 		};
 
 		this._cnt++;
@@ -166,6 +172,8 @@ $AMIClass('AccordionCtrl', {
 
 		var show = false;
 
+		var closable = this._closable;
+
 		if(settings)
 		{
 			if('context' in settings) {
@@ -174,6 +182,10 @@ $AMIClass('AccordionCtrl', {
 
 			if('show' in settings) {
 				show = settings['show'];
+			}
+
+			if('closable' in settings) {
+				closable = settings['closable'];
 			}
 		}
 
@@ -185,7 +197,7 @@ $AMIClass('AccordionCtrl', {
 			id: id,
 			item_title: title,
 			card: this._card,
-			closable: this._closable,
+			closable: closable,
 		};
 
 		this._cnt++;
