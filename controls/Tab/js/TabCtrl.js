@@ -157,7 +157,7 @@ $AMIClass('TabCtrl', {
 
 				/*-----------------------------------------*/
 
-				if(this._cnt++ === 0  || active)
+				if(this._cnt++ === 0 || active)
 				{
 					this._getLinkEl(tabId).tab('show');
 				}
