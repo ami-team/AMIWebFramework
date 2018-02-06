@@ -1,24 +1,13 @@
-{% if card %}
-<div class="body">
-	<div style="padding-left:0px; padding-top:1px; padding-bottom:1px;" class="card-header" id="{{ id }}_heading">
-	<button class="btn btn-link" data-toggle="collapse" data-target="#{{ id }}_collapse">
-		{{ item_title }}
-	</button>
-	{% if closable %}
-	<button type="button" id="{{id}}_remove" class="close" aria-label="Close" style="position: relative; padding-top:6.5px"><span aria-hidden="true">&times;</span></button>
-	{% endif %}
+<div class="card" id="{{id}}">
+	<div class="card-header" style="padding-left: 0px; padding-top: 1px; padding-bottom: 1px;">
+		<button class="btn btn-link" data-toggle="collapse" data-target="#{{id}}_collapse">
+			{{title}}
+		</button>
+		{% if closable %}
+		<button type="button" class="close" style="position: relative; padding-top: 6.5px;">
+			&times;
+		</button>
+		{% endif %}
+	</div>
+	<div class="card-body collapse p-1" id="{{id}}_collapse"></div>
 </div>
-<div id="{{ id }}_collapse" class="collapse">
-	<div class="card-body" id="{{ id }}_content" style="padding:10px;"></div>
-</div>
-</div>
-{% else %}
-<div class="body">
-<button class="btn btn-link" data-toggle="collapse" data-target="#{{ id }}_collapse">
-	{{ item_title }}
-</button>
-<div id="{{ id }}_collapse" class="collapse">
-	<div class="card-body" id="{{ id }}_content"></div>
-</div>
-</div>
-{% endif %}

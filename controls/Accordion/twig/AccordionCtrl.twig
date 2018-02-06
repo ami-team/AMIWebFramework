@@ -1,12 +1,10 @@
-{% if card %}
-<div class="card">
-        {% if cardHeader %}
-        <div class="card-header text-right">
-                <button type="button" id="idCollapse" class="btn btn-outline-primary btn-sm">Collapse All</button>
-                <button type="button" id="idRemoveAll" class="btn btn-outline-danger btn-sm">Remove All</button>
-        </div>
-        {% endif %}
+{% if toolbar %}
+<div class="p-1 text-right">
+	<button type="button" class="btn btn-sm btn-outline-primary" id="FE73B120_F051_EC64_29BC_911239F6F120">
+		Collapse All
+	</button>
+	<button type="button" class="btn btn-sm btn-outline-primary" id="B1E0F1F1_C9A0_7D80_3580_2E314B8735D1">
+		Remove All
+	</button>
 </div>
-{% else %}
-<div></div>
 {% endif %}

@@ -22,6 +22,8 @@ $AMIClass('AccordionCtrl', {
 	{
 		this.$super.$init(parent, owner);
 
+		this._collapsed = false;
+
 		this._cnt = 0;
 	},
 
@@ -33,6 +35,7 @@ $AMIClass('AccordionCtrl', {
 			amiWebApp.originURL + '/controls/Accordion/twig/AccordionCtrl.twig',
 			amiWebApp.originURL + '/controls/Accordion/twig/accordion_item.twig',
 		], {context: this}).done(function(data) {
+
 			this.fragmentAccordionCtrl = data[0];
 			this.fragmentAccordionItem = data[1];
 		});
@@ -43,10 +46,8 @@ $AMIClass('AccordionCtrl', {
 	render: function(selector, settings)
 	{
 		this._context = this;
-		this._card = false;
-		this._cardHeader = false;
+		this._toolbar = false;
 		this._closable = true;
-		this._collapseAll = false;
 
 		if(settings)
 		{
@@ -54,12 +55,8 @@ $AMIClass('AccordionCtrl', {
 				this._context = settings['context'];
 			}
 
-			if('card' in settings) {
-				this._card = settings['card'];
-			}
-
-			if('cardHeader' in settings) {
-				this._cardHeader = settings['cardHeader'];
+			if('toolbar' in settings) {
+				this._toolbar = settings['toolbar'];
 			}
 
 			if('closable' in settings) {
@@ -68,27 +65,22 @@ $AMIClass('AccordionCtrl', {
 		}
 
 		var dict = {
-			card: this._card,
-			cardHeader: this._cardHeader,
-			closable: this._closable,
+			toolbar: this._toolbar,
 		};
 
 		var _this = this;
 
 		return this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {context: this._context, dict: dict}).done(function(e){
 
-			/*-----------------------------------------*/
-
-			$("#idCollapse").click(function(e){
+			$('#' + this.patchId('FE73B120_F051_EC64_29BC_911239F6F120')).click(function() {
 
 				_this.collapseAll();
 			});
 
-			$("#idRemoveAll").click(function(e){
+			$('#' + this.patchId('B1E0F1F1_C9A0_7D80_3580_2E314B8735D1')).click(function() {
 
-				_this.removeAll(_this._selector);
+				_this.removeAll();
 			});
-
 		});
 	},
 
@@ -121,39 +113,37 @@ $AMIClass('AccordionCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt;
+		var id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt++;
 
 		var dict = {
 			id: id,
-			item_title: title,
-			card:this._card,
+			title: title,
 			closable: closable,
 		};
-
-		this._cnt++;
 
 		/*---------------------------------------------------------*/
 
 		var _this = this;
 
-		this.prependHTML(this._selector + ' > div', this.fragmentAccordionItem, {context: this, dict: dict}).done(function() {
+		this.prependHTML(this._selector, this.fragmentAccordionItem, {context: this, dict: dict}).done(function() {
 
 			/*-----------------------------------------*/
 
-			$("#"+id+"_remove").click(function(e){
+			$("#" + id + " > .card-header > .close").click(function() {
 
-				_this.removeItem("#"+id);
+				$("#" + id).remove();
 			});
 
 			/*-----------------------------------------*/
 
-			if (show) {
-				$('#' + id + '_collaspe').collapse('show');
+			if(show)
+			{
+				$('#' + id + '_collapse').collapse('show');
 			}
 
 			/*-----------------------------------------*/
 
-			result.resolveWith(context, ['#' + id + '_content']);
+			result.resolveWith(context, ['#' + id + '_collapse']);
 
 			/*-----------------------------------------*/
 		});
@@ -162,6 +152,7 @@ $AMIClass('AccordionCtrl', {
 
 		return result.promise();
 	},
+
 	/*-----------------------------------------------------------------*/
 
 	appendItem: function(title, settings)
@@ -177,7 +168,7 @@ $AMIClass('AccordionCtrl', {
 		if(settings)
 		{
 			if('context' in settings) {
-	  			context = settings['context'];
+				context = settings['context'];
 			}
 
 			if('show' in settings) {
@@ -191,39 +182,37 @@ $AMIClass('AccordionCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt;
+		var id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt++;
 
 		var dict = {
 			id: id,
-			item_title: title,
-			card: this._card,
+			title: title,
 			closable: closable,
 		};
-
-		this._cnt++;
 
 		/*---------------------------------------------------------*/
 
 		var _this = this;
 
-		this.appendHTML(this._selector + ' > div', this.fragmentAccordionItem, {context: this, dict: dict}).done(function() {
+		this.appendHTML(this._selector, this.fragmentAccordionItem, {context: this, dict: dict}).done(function() {
 
 			/*-----------------------------------------*/
 
-			$("#"+id+"_remove").click(function(e){
+			$("#" + id + " > .card-header > .close").click(function() {
 
-				_this.removeItem("#"+id);
+				$("#" + id).remove();
 			});
 
 			/*-----------------------------------------*/
 
-			if (show) {
+			if(show)
+			{
 				$('#' + id + '_collapse').collapse('show');
 			}
 
 			/*-----------------------------------------*/
 
-			result.resolveWith(context, ['#' + id + '_content']);
+			result.resolveWith(context, ['#' + id + '_collapse']);
 
 			/*-----------------------------------------*/
 		});
@@ -235,31 +224,16 @@ $AMIClass('AccordionCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	removeItem: function(selector){
-
-		$(selector+"_heading").remove();
-		$(selector+"_collapse").remove();
-
-	},
-	/*-----------------------------------------------------------------*/
-
-	removeAll: function(selector){
-
-		$(selector+" .card").children(".body").remove();
-
+	removeAll: function()
+	{
+		$(this._selector + ' > .card').remove();
 	},
 
 	/*-----------------------------------------------------------------*/
 
-	collapseAll: function(){
-
-		if(this._collapseAll){
-			$(".card").children(".body").children( ".collapse" ).attr("class", "collapse");
-			this._collapseAll = false;
-		} else {
-			$(".card").children(".body").children( ".collapse" ).attr("class", "collapse show");
-			this._collapseAll = true;
-		}
+	collapseAll: function()
+	{
+		$(this._selector + ' > .card > .collapse').collapse((this._collapsed = !this._collapsed) ? 'hide' : 'show');
 	},
 
 	/*-----------------------------------------------------------------*/
