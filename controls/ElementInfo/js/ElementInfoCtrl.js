@@ -12,18 +12,18 @@
 /*-------------------------------------------------------------------------*/
 
 $AMIClass('ElementInfoCtrl', {
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	$extends: ami.Control,
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	$init: function(parent, owner)
 	{
 		this.$super.$init(parent, owner);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	onReady: function()
 	{
@@ -45,14 +45,18 @@ $AMIClass('ElementInfoCtrl', {
 		});
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	render: function(selector, catalog, entity, primaryFieldName, primaryFieldValue, settings)
 	{
+		var result = $.Deferred();
+
 		this.ctx = {
 			isEmbedded: amiWebApp.isEmbedded(),
 
 			endpoint: amiCommand.endpoint,
+
+			context: result,
 
 			/**/
 
@@ -72,103 +76,143 @@ $AMIClass('ElementInfoCtrl', {
 
 		if(settings)
 		{
+			if('context' in settings) {
+				this.ctx.context = settings['context'];
+			}
+
 			if('showEmptyFields' in settings) {
 				this.ctx.showEmptyFields = settings['showEmptyFields'];
 			}
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		amiWebApp.lock();
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var _this = this;
+		return this.replaceHTML(selector, this.fragmentElementInfoCtrl, {context: this dict: this.ctx}).done(function(data) {
 
-		this.replaceHTML(selector, this.fragmentElementInfoCtrl, {dict: this.ctx}).done(function(data) {
+			var _this = this;
 
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 
-			$(_this.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).change(function(e) {
+			$(this.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).change(function(e) {
 
 				_this.ctx.showEmptyFields = $(e.target).prop('checked');
 
 				_this.refresh();
 			});
 
-			$(_this.patchId('#ACFEDF15_7894_6D91_CBE7_D98B5F7E9C6A')).click(function(e) {
+			$(this.patchId('#ACFEDF15_7894_6D91_CBE7_D98B5F7E9C6A')).click(function() {
 
 				_this.refresh();
 			});
 
-			$(_this.patchId('#BF7E7885_DB34_7993_9F17_37990DDD4BF3')).click(function(e) {
+			$(this.patchId('#BF7E7885_DB34_7993_9F17_37990DDD4BF3')).click(function() {
 
 				_this.showCommand();
 			});
 
-			$(_this.patchId('#F1232710_45E2_92BF_7378_1BCD05FBF131')).click(function(e) {
+			$(this.patchId('#F1232710_45E2_92BF_7378_1BCD05FBF131')).click(function() {
 
 				_this.showJS();
 			});
 
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 
-			_this.ctx.js = amiWebApp.formatTWIG(_this.fragmentJS, _this.ctx);
+			this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
 
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 
-			_this.refresh();
+			this.refresh().done(function(descriptions, rows) {
 
-			/*-------------------------------------------------*/
+				result.resolveWith(_this.ctx.context, [descriptions, rows]);
+
+			}).fail(function(error) {
+
+				result.rejectWith(_this.ctx.context, [error]);
+			});
+
+			/*-------------------------------------------------------------*/
 		});
+
+		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
-	refresh: function()
+	refresh: function(settings)
 	{
+		var result = $.Deferred();
+
+		var context = result;
+
+		if(settings)
+		{
+			if('context' in settings) {
+	  			context = settings['context'];
+			}
+		}
+
 		amiWebApp.lock();
 
-		return amiCommand.execute(this.ctx.command, {context: this}).done(function(data){
+		return amiCommand.execute(this.ctx.command, {context: this}).done(function(data) {
+
+			/*-------------------------------------------------------------*/
 
 			var showEmptyFields = this.ctx.showEmptyFields;
 
-			var fieldDescriptions = amiWebApp.jspath('..fieldDescriptions.description', data) || [];
+			/*-------------------------------------------------------------*/
+
+			var descriptions = amiWebApp.jspath('..descriptions.description', data) || [];
 
 			var rows = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data) || []; /* BERK */
 
+			/*-------------------------------------------------------------*/
+
 			var dict = {
 				showEmptyFields: showEmptyFields,
-				fieldDescriptions: fieldDescriptions,
+				descriptions: descriptions,
 				rows: rows,
 			};
 
-			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentDetails, {dict: dict, context: this}).done(function() {
+			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentDetails, {dict: dict}).done(function() {
+
+				result.resolveWith(context, [descriptions, rows]);
 
 				amiWebApp.unlock();
 			});
 
+			/*-------------------------------------------------------------*/
+
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data));
+			var error = amiWebApp.jspath('..error.$', data);
+
+			result.rejectWith(context, [error]);
+
+			amiWebApp.error(error);
 		});
+
+		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	showCommand: function()
 	{
 		this.messageBox.show(this.ctx.command);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	showJS: function()
 	{
 		this.textBox.show(this.ctx.js);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/

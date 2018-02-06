@@ -47,12 +47,18 @@ $AMIClass('TabCtrl', {
 
 	render: function(selector, settings)
 	{
-		this._card = true;
+		var result = $.Deferred();
 
+		this._context = result;
+		this._card = true;
 		this._closable = true;
 
 		if(settings)
 		{
+			if('context' in settings) {
+				this._context = settings['context'];
+			}
+
 			if('card' in settings) {
 				this._card = settings['card'];
 			}
@@ -66,7 +72,12 @@ $AMIClass('TabCtrl', {
 			'card': this._card
 		};
 
-		return this.replaceHTML(this._selector = selector, this.fragmentTabCtrl, {dict: dict});
+		this.replaceHTML(this._selector = selector, this.fragmentTabCtrl, {context: this, dict: dict}).done(function() {
+
+			result.resolveWith(this._context);
+		});
+
+		return result.promise();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -97,11 +108,8 @@ $AMIClass('TabCtrl', {
 		var result = $.Deferred();
 
 		var context = result;
-
 		var height = 'auto';
-
 		var active = true;
-
 		var closable = this._closable;
 
 		if(settings)
@@ -184,11 +192,8 @@ $AMIClass('TabCtrl', {
 		var result = $.Deferred();
 
 		var context = result;
-
 		var height = 'auto';
-
 		var active = true;
-
 		var closable = this._closable;
 
 		if(settings)

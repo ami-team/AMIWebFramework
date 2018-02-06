@@ -45,7 +45,9 @@ $AMIClass('AccordionCtrl', {
 
 	render: function(selector, settings)
 	{
-		this._context = this;
+		var result = $.Deferred();
+
+		this._context = result;
 		this._toolbar = false;
 		this._closable = true;
 
@@ -68,20 +70,30 @@ $AMIClass('AccordionCtrl', {
 			toolbar: this._toolbar,
 		};
 
-		var _this = this;
+		this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {context: this, dict: dict}).done(function(e){
 
-		return this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {context: this._context, dict: dict}).done(function(e){
+			var _this = this;
 
-			$('#' + this.patchId('FE73B120_F051_EC64_29BC_911239F6F120')).click(function() {
+			/*-------------------------------------------------------------*/
+
+			$(this.patchId('#FE73B120_F051_EC64_29BC_911239F6F120')).click(function() {
 
 				_this.collapseAll();
 			});
 
-			$('#' + this.patchId('B1E0F1F1_C9A0_7D80_3580_2E314B8735D1')).click(function() {
+			$(this.patchId('#B1E0F1F1_C9A0_7D80_3580_2E314B8735D1')).click(function() {
 
 				_this.removeAll();
 			});
+
+			/*-------------------------------------------------------------*/
+
+			result.resolveWith(this._context);
+
+			/*-------------------------------------------------------------*/
 		});
+
+		return result.promise();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -91,9 +103,7 @@ $AMIClass('AccordionCtrl', {
 		var result = $.Deferred();
 
 		var context = result;
-
 		var show = false;
-
 		var closable = this._closable;
 
 		if(settings)
@@ -160,9 +170,7 @@ $AMIClass('AccordionCtrl', {
 		var result = $.Deferred();
 
 		var context = result;
-
 		var show = false;
-
 		var closable = this._closable;
 
 		if(settings)
