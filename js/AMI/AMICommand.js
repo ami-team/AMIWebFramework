@@ -21,9 +21,9 @@
  */
 
 $AMINamespace('amiCommand', /** @lends amiCommand */ {
-	/*-----------------------------------------------------------------*/
-	/* PUBLIC MEMBERS                                                  */
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
+	/* PUBLIC MEMBERS                                                      */
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Default endpoint
@@ -39,9 +39,9 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	converter: 'AMIXmlToJson.xsl',
 
-	/*-----------------------------------------------------------------*/
-	/* PUBLIC METHODS                                                  */
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
+	/* PUBLIC METHODS                                                      */
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Executes an AMI command
@@ -60,13 +60,13 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			settings
 		);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		const URL = endpoint.trim();
 		const COMMAND = command.trim();
 		const CONVERTER = converter.trim();
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		const data = {
 			Command: COMMAND,
@@ -80,17 +80,17 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			;
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		const urlWithParameters = URL + '?' + $.param(data);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		if(CONVERTER === 'AMIXmlToJson.xsl')
 		{
-			/*-------------------------------------------------*/
-			/* JSON FORMAT                                     */
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
+			/* JSON FORMAT                                                 */
+			/*-------------------------------------------------------------*/
 
 			$.ajax({
 				url: URL,
@@ -127,11 +127,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				},
 			});
 
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 		} else {
-			/*-------------------------------------------------*/
-			/* OTHER FORMATS                                   */
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
+			/* OTHER FORMATS                                               */
+			/*-------------------------------------------------------------*/
 
 			$.ajax({
 				url: URL,
@@ -157,15 +157,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				},
 			});
 
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		return result.promise();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Logs in by login/password
@@ -185,7 +185,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			settings
 		);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		this.execute('GetSessionInfo -AMIUser="' + amiWebApp.textToString(user) + '" -AMIPass="' + amiWebApp.textToString(pass) + '"', {extraParam: 'NoCert'}).then((data) => {
 
@@ -228,12 +228,12 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		return result.promise();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Logs in by certificate
@@ -251,7 +251,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			settings
 		);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		this.execute('GetSessionInfo').then((data) => {
 
@@ -294,12 +294,12 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		return result.promise();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Logs out
@@ -317,7 +317,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			settings
 		);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).then((data) => {
 
@@ -360,12 +360,12 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		return result.promise();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Attaches a certificate
@@ -380,7 +380,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 		return this.execute('GetSessionInfo -attachCert -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '"', settings);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Detaches a certificate
@@ -395,7 +395,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 		return this.execute('GetSessionInfo -detachCert -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '"', settings);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Adds a new user
@@ -414,7 +414,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 		return this.execute('AddUser -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '" -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"' + (attach ? ' -attach' : ''), settings);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Changes the account information
@@ -430,7 +430,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 		return this.execute('SetUserInfo -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"', settings);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Changes the account password
@@ -445,7 +445,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 		return this.execute('ChangePassword -amiPasswordOld="' + amiWebApp.textToString(oldPass) + '" -amiPasswordNew="' + amiWebApp.textToString(newPass) + '"', settings);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	/**
 	  * Resets the account password
@@ -459,7 +459,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 		return this.execute('ResetPassword -amiLogin="' + amiWebApp.textToString(user) + '"', settings);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/
