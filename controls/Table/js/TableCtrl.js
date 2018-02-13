@@ -486,7 +486,7 @@ $AMIClass('TableCtrl', {
 
 		if(this.ctx.enableCache)
 		{
-			command += ' -cache';
+			command += ' -cached';
 		}
 
 		/*---------------------------------------------------------*/
