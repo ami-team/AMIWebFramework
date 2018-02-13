@@ -12,18 +12,18 @@
 /*-------------------------------------------------------------------------*/
 
 $AMIClass('SchemaCtrl', {
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	$extends: ami.Control,
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	$init: function(parent, owner)
 	{
 		this.$super.$init(parent, owner);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	onReady: function()
 	{
@@ -43,22 +43,20 @@ $AMIClass('SchemaCtrl', {
 			'ctrl:table',
 		], {context: this}).done(function(data) {
 
-			this.columns = null;
-			this.foreignKeys = null;
+			this._columns = null;
+			this._foreignKeys = null;
 
 			this.tableCtor = data[7];
 		});
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
-	render: function(selector, catalog, settings)
+	render: function(selector, settings)
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		this._selector = selector;
-
-		var el1 = $(selector);
+		var el1 = $(this._selector = selector);
 
 		el1.css('box-shadow', '0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075)');
 		el1.css('border', '1px solid rgb(231, 231, 231)');
@@ -67,11 +65,11 @@ $AMIClass('SchemaCtrl', {
 		el1.css('overflow-y', 'scroll');
 		el1.css('padding', '10px');
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var el2 = $('<div class="ami-schema"></div>').appendTo(el1);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		this.graph = new joint.dia.Graph;
 
@@ -83,25 +81,14 @@ $AMIClass('SchemaCtrl', {
 			gridSize: 5.0,
 		});
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		return this.refresh(catalog, settings);
+		return this.refresh(null, settings);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
-
-	getSchemas: function()
-	{
-		return amiCommand.execute('GetSchemas', {context: this}).done(function(data) {
-
-			this.columns = amiWebApp.jspath('..rowset{.@type==="columns"}.row', data);
-			this.foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data);
-		});
-	},
-
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	fitToContent: function()
 	{
@@ -114,20 +101,18 @@ $AMIClass('SchemaCtrl', {
 		});
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	_refresh: function(result, catalog, settings)
 	{
-		var _this = this;
-
 		var context = result;
 
-		var showLinkTool = true;
+		this._catalog = catalog;
 
 		this._width = 2000;
 		this._height = 2000;
 
-		this._catalog = catalog;
+		this._showLinks = true;
 
 		if(settings)
 		{
@@ -135,8 +120,8 @@ $AMIClass('SchemaCtrl', {
 				context = settings['context'];
 			}
 
-			if('showLinkTool' in settings) {
-				showLinkTool = settings['showLinkTool'];
+			if('catalog' in settings) {
+				this._catalog = settings['catalog'];
 			}
 
 			if('width' in settings) {
@@ -146,49 +131,55 @@ $AMIClass('SchemaCtrl', {
 			if('height' in settings) {
 				this._height = settings['height'];
 			}
+
+			if('showLinks' in settings) {
+				this._showLinks = settings['showLinks'];
+			}
 		}
 
-		if(!catalog)
+		/*-----------------------------------------------------------------*/
+
+		if(!this._catalog)
 		{
-			result.resolveWith(context);
+			result.resolveWith(context, [null]);
 
 			return;
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		this.graph.clear();
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute('GetJSONSchema -catalog="' + amiWebApp.textToString(catalog) + '"', {context: this}).done(function(data) {
+		amiCommand.execute('GetJSONSchema -catalog="' + amiWebApp.textToString(this._catalog) + '"', {context: this}).done(function(data) {
 
-			/*-------------------------------------------------*/
-			/* GET JSON INFO                                   */
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
+			/* GET JSON                                                    */
+			/*-------------------------------------------------------------*/
 
-			var custom;
+			var json;
 
 			try
 			{
-				custom = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
+				json = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
 			}
 			catch(e)
 			{
-				custom = {};
+				json = {/*---------------------------------------------------------------------*/};
 			}
 
-			/*-------------------------------------------------*/
-			/* GET COLUMNS                                     */
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
+			/* GET COLUMNS                                                 */
+			/*-------------------------------------------------------------*/
 
 			var cnt = 0;
 
 			var tables = {};
 
-			$.each(this.columns, function(index, value) {
+			$.each(this._columns, function(index, value) {
 
-				if(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] === catalog)
+				if((amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] || '') === this._catalog)
 				{
 					var table = amiWebApp.jspath('..field{.@name==="table"}.$', value)[0] || '';
 					var name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0] || '';
@@ -203,21 +194,21 @@ $AMIClass('SchemaCtrl', {
 						var bodyColor;
 						var strokeColor;
 
-						if(!(table in custom))
+						if(!(table in json))
 						{
 							x = y = 20
-							      + 10 * cnt++;
+								  + 10 * cnt++;
 							topColor = '#0066CC';
 							bodyColor = '#FFFFFF';
 							strokeColor = '#0057AD';
 						}
 						else
 						{
-							x = custom[table].x;
-							y = custom[table].y;
-							topColor = custom[table].topColor;
-							bodyColor = custom[table].bodyColor;
-							strokeColor = custom[table].strokeColor;
+							x = json[table].x;
+							y = json[table].y;
+							topColor = json[table].topColor;
+							bodyColor = json[table].bodyColor;
+							strokeColor = json[table].strokeColor;
 						}
 
 						tables[table] = {
@@ -230,7 +221,7 @@ $AMIClass('SchemaCtrl', {
 								topColor: topColor,
 								bodyColor: bodyColor,
 								strokeColor: strokeColor,
-								showLinkTool: showLinkTool,
+								showLinks: this._showLinks,
 							}),
 							fields: [],
 						};
@@ -248,24 +239,26 @@ $AMIClass('SchemaCtrl', {
 
 			}, this);
 
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
+
+			var _this = this;
 
 			$(this._selector + ' a[data-table]').click(function(e) {
 
-				e.preventDefault();
-
 				_this.viewEntity($(this).attr('data-table'));
+
+				e.preventDefault();
 			});
 
-			/*-------------------------------------------------*/
-			/* GET FKEYS                                       */
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
+			/* GET FKEYS                                                   */
+			/*-------------------------------------------------------------*/
 
-			$.each(this.foreignKeys, function(index, value) {
+			$.each(this._foreignKeys, function(index, value) {
 
-				if(amiWebApp.jspath('..field{.@name==="fkExternalCatalog"}.$', value)[0] === catalog
+				if(amiWebApp.jspath('..field{.@name==="fkExternalCatalog"}.$', value)[0] === this._catalog
 				   &&
-				   amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', value)[0] === catalog
+				   amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', value)[0] === this._catalog
 				 ) {
 					var fkTable = amiWebApp.jspath('..field{.@name==="fkTable"}.$', value)[0];
 					var pkTable = amiWebApp.jspath('..field{.@name==="pkTable"}.$', value)[0];
@@ -278,17 +271,15 @@ $AMIClass('SchemaCtrl', {
 
 			}, this);
 
-			/*-------------------------------------------------*/
-			/* FIT TO CONTENT                                  */
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
+			/* FIT TO CONTENT                                              */
+			/*-------------------------------------------------------------*/
 
 			this.fitToContent();
 
-			/*-------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 
-			result.resolveWith(context);
-
-			/*-------------------------------------------------*/
+			result.resolveWith(context, [data]);
 
 		}).fail(function(data) {
 
@@ -296,21 +287,24 @@ $AMIClass('SchemaCtrl', {
 		});
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	refresh: function(catalog, settings)
 	{
 		var result = $.Deferred();
 
-		if(this.columns
+		if(this._columns
 		   &&
-		   this.foreignKeys
+		   this._foreignKeys
 		 ) {
 			this._refresh(result, catalog, settings);
 		}
 		else
 		{
-			this.getSchemas().done(function() {
+			amiCommand.execute('GetSchemas', {context: this}).always(function(data) {
+
+				this._columns = amiWebApp.jspath('..rowset{.@type==="columns"}.row', data) || [];
+				this._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data) || [];
 
 				this._refresh(result, catalog, settings);
 			});
@@ -319,7 +313,7 @@ $AMIClass('SchemaCtrl', {
 		return result.promise();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	clear: function()
 	{
@@ -328,7 +322,7 @@ $AMIClass('SchemaCtrl', {
 		this.paper.setDimensions(1, 1);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	setJSON: function(json)
 	{
@@ -337,7 +331,7 @@ $AMIClass('SchemaCtrl', {
 		this.fitToContent();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	getJSON: function()
 	{
@@ -346,7 +340,7 @@ $AMIClass('SchemaCtrl', {
 		return this.graph.toJSON();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	exportSchema: function()
 	{
@@ -355,7 +349,8 @@ $AMIClass('SchemaCtrl', {
 			var json = JSON.stringify(this.getJSON(), null, 4);
 
 			var blob = new Blob([json], {
-				type: 'application/json'
+				type: 'application/json',
+				endings : 'native',
 			});
 
 			saveAs(blob, 'schema.json');
@@ -366,15 +361,15 @@ $AMIClass('SchemaCtrl', {
 		}
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	printSchema: function()
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var svg = $(this._selector + ' svg');
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var w = window.open('', '', 'height=' + svg.height() + ', width=' + svg.width() + ', toolbar=no');
 
@@ -385,17 +380,19 @@ $AMIClass('SchemaCtrl', {
 		w.print();
 		w.close();
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	viewEntity: function(entity)
 	{
 		var parent = this.getParent();
 
-		if(parent.$name === 'TabCtrl')
-		{
+		if(parent.$name === ((('TabCtrl')))
+		   ||
+		   parent.$name === 'AccordionCtrl'
+		 ) {
 			parent.appendItem('<i class="fa fa-table"></i> ' + entity, {context: this, height: 'auto'}).done(function(selector) {
 
 				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this._catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT *"', {showDetails: true, canEdit: false, catalog: this._catalog, entity: entity});
@@ -407,5 +404,5 @@ $AMIClass('SchemaCtrl', {
 		}
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 });

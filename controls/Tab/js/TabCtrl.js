@@ -12,20 +12,22 @@
 /*-------------------------------------------------------------------------*/
 
 $AMIClass('TabCtrl', {
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	$extends: ami.Control,
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	$init: function(parent, owner)
 	{
 		this.$super.$init(parent, owner);
 
+		this._previousActiveTab = '';
+
 		this._cnt = 0;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	onReady: function()
 	{
@@ -41,16 +43,22 @@ $AMIClass('TabCtrl', {
 		});
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	render: function(selector, settings)
 	{
-		this._card = true;
+		var result = $.Deferred();
 
+		this._context = result;
+		this._card = true;
 		this._closable = true;
 
 		if(settings)
 		{
+			if('context' in settings) {
+				this._context = settings['context'];
+			}
+
 			if('card' in settings) {
 				this._card = settings['card'];
 			}
@@ -64,42 +72,44 @@ $AMIClass('TabCtrl', {
 			'card': this._card
 		};
 
-		return this.replaceHTML(this._selector = selector, this.fragmentTabCtrl, {dict: dict});
+		this.replaceHTML(this._selector = selector, this.fragmentTabCtrl, {context: this, dict: dict}).done(function() {
+
+			result.resolveWith(this._context);
+		});
+
+		return result.promise();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	_getTabEl: function(tabId)
 	{
 		return $(this._selector + ' .nav-link[href="#' + tabId + '"]:parent');
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	_getLinkEl: function(tabId)
 	{
 		return $(this._selector + ' .nav-link[href="#' + tabId + '"]');
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	_getPaneEl: function(tabId)
 	{
 		return $(this._selector + ' #' + tabId);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	prependItem: function(title, settings)
 	{
 		var result = $.Deferred();
 
 		var context = result;
-
 		var height = 'auto';
-
 		var active = true;
-
 		var closable = this._closable;
 
 		if(settings)
@@ -121,7 +131,7 @@ $AMIClass('TabCtrl', {
 			}
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var tabId = this.patchId('F3EF6D3D_723B_F5FB_F299_E0AA9CA0914D') + '_' + this._cnt;
 
@@ -132,14 +142,14 @@ $AMIClass('TabCtrl', {
 			closable: closable,
 		};
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var _this = this;
 
 		this.prependHTML(this._selector + ' .nav-tabs', this.fragmentNavItem, {context: this, dict: dict}).done(function() {
 			this.prependHTML(this._selector + ' .tab-content', this.fragmentTabPane, {context: this, dict: dict}).done(function() {
 
-				/*-----------------------------------------*/
+				/*---------------------------------------------------------*/
 
 				this._getTabEl(tabId).find('.fa-times').click(function(e) {
 
@@ -148,45 +158,42 @@ $AMIClass('TabCtrl', {
 					e.preventDefault();
 				});
 
-				/*-----------------------------------------*/
+				/*---------------------------------------------------------*/
 
 				this._getLinkEl(tabId).on('show.bs.tab', function(e) {
 
 					_this._previousActiveTab = e.relatedTarget ? $(e.relatedTarget).attr('href').substring(1) : '';
 				});
 
-				/*-----------------------------------------*/
+				/*---------------------------------------------------------*/
 
 				if(this._cnt++ === 0 || active)
 				{
 					this._getLinkEl(tabId).tab('show');
 				}
 
-				/*-----------------------------------------*/
+				/*---------------------------------------------------------*/
 
 				result.resolveWith(context, ['#' + tabId]);
 
-				/*-----------------------------------------*/
+				/*---------------------------------------------------------*/
 			});
 		});
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		return result.promise();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	appendItem: function(title, settings)
 	{
 		var result = $.Deferred();
 
 		var context = result;
-
 		var height = 'auto';
-
 		var active = true;
-
 		var closable = this._closable;
 
 		if(settings)
@@ -208,7 +215,7 @@ $AMIClass('TabCtrl', {
 			}
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var tabId = this.patchId('F3EF6D3D_723B_F5FB_F299_E0AA9CA0914D') + '_' + this._cnt;
 
@@ -219,14 +226,14 @@ $AMIClass('TabCtrl', {
 			closable: closable,
 		};
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var _this = this;
 
 		this.appendHTML(this._selector + ' .nav-tabs', this.fragmentNavItem, {context: this, dict: dict}).done(function() {
 			this.appendHTML(this._selector + ' .tab-content', this.fragmentTabPane, {context: this, dict: dict}).done(function() {
 
-				/*-----------------------------------------*/
+				/*---------------------------------------------------------*/
 
 				this._getTabEl(tabId).find('.fa-times').click(function(e) {
 
@@ -235,34 +242,34 @@ $AMIClass('TabCtrl', {
 					e.preventDefault();
 				});
 
-				/*-----------------------------------------*/
+				/*---------------------------------------------------------*/
 
 				this._getLinkEl(tabId).on('show.bs.tab', function(e) {
 
 					_this._previousActiveTab = e.relatedTarget ? $(e.relatedTarget).attr('href').substring(1) : '';
 				});
 
-				/*-----------------------------------------*/
+				/*---------------------------------------------------------*/
 
 				if(this._cnt++ === 0 || active)
 				{
 					this._getLinkEl(tabId).tab('show');
 				}
 
-				/*-----------------------------------------*/
+				/*---------------------------------------------------------*/
 
 				result.resolveWith(context, ['#' + tabId]);
 
-				/*-----------------------------------------*/
+				/*---------------------------------------------------------*/
 			});
 		});
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		return result.promise();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	removeTab: function(tabId)
 	{
@@ -276,7 +283,7 @@ $AMIClass('TabCtrl', {
 		}
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	removeTabs: function()
 	{
@@ -285,7 +292,7 @@ $AMIClass('TabCtrl', {
 		$(this._selector + ' .tab-content').empty();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/
