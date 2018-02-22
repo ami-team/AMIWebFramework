@@ -303,8 +303,8 @@ $AMIClass('SchemaCtrl', {
 		{
 			amiCommand.execute('GetSchemas', {context: this}).always(function(data) {
 
-				this._columns = amiWebApp.jspath('..rowset{.@type==="columns"}.row', data) || [];
-				this._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data) || [];
+				this._columns = amiWebApp.jspath('..rowset{.@type==="columns"}.row', data);
+				this._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data);
 
 				this._refresh(result, catalog, settings);
 			});
