@@ -91,7 +91,7 @@ $AMIClass('MonitoringApp', {
 			'js/3rd-party/canvasjs.min.js',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {externalFrame: this._externalFrame}}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {height: 0.325 * ($(document).height() - 100), externalFrame: this._externalFrame}}).done(function() {
 
 				/*---------------------------------------------------------*/
 
