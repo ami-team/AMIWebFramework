@@ -109,9 +109,19 @@ code {
 	border-bottom-right-radius: 0 !important;
 }
 
+.input-group-prepend > .form-control:not(:first-child) {
+	border-top-left-radius: 0 !important;
+	border-bottom-left-radius: 0 !important;
+}
+
 .input-group-append > .form-control {
 	border-top-left-radius: 0 !important;
 	border-bottom-left-radius: 0 !important;
+}
+
+.input-group-append > .form-control:not(:first-child) {
+	border-top-right-radius: 0 !important;
+	border-bottom-right-radius: 0 !important;
 }
 
 /*-------------------------------------------------------------------------*/
