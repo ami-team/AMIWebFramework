@@ -91,7 +91,7 @@ $AMIClass('ElementInfoCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		return this.replaceHTML(selector, this.fragmentElementInfoCtrl, {context: this, dict: this.ctx}).done(function(data) {
+		this.replaceHTML(selector, this.fragmentElementInfoCtrl, {context: this, dict: this.ctx}).done(function(data) {
 
 			var _this = this;
 
@@ -157,7 +157,7 @@ $AMIClass('ElementInfoCtrl', {
 
 		amiWebApp.lock();
 
-		return amiCommand.execute(this.ctx.command, {context: this}).done(function(data) {
+		amiCommand.execute(this.ctx.command, {context: this}).done(function(data) {
 
 			/*-------------------------------------------------------------*/
 
