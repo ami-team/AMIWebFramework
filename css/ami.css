@@ -110,6 +110,7 @@ code {
 }
 
 .input-group-prepend > .form-control:not(:first-child) {
+	border-left: none;
 	border-top-left-radius: 0 !important;
 	border-bottom-left-radius: 0 !important;
 }
@@ -120,6 +121,7 @@ code {
 }
 
 .input-group-append > .form-control:not(:first-child) {
+	border-left: none;
 	border-top-right-radius: 0 !important;
 	border-bottom-right-radius: 0 !important;
 }
