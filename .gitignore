@@ -7,3 +7,5 @@
 node_modules
 
 tools/awf/target
+
+tools/bootstrap/bootstrap-*
