@@ -479,7 +479,7 @@ $AMIClass('SearchCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var mql = 'SELECT COUNT(*) AS `nb`';
+		var mql = 'SELECT COUNT(' + this.ctx.defaultPrimaryField + ') AS `nb`';
 
 		this.ctx.mql = 'SELECT *';
 
