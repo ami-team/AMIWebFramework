@@ -4926,6 +4926,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*---------------------------------------------------------------------*/
 
 	_currentSubAppInstance: new function () {
+		this.$name = 'fake';
+
 		this.onReady = function () {};
 		this.onExit = function () {};
 		this.onLogin = function () {};
@@ -5759,6 +5761,22 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	},
 
 	/*---------------------------------------------------------------------*/
+	/* STACK                                                               */
+	/*---------------------------------------------------------------------*/
+
+	getStack: function getStack() {
+		try {
+			throw Error();
+		} catch (e1) {
+			try {
+				return e1.stack;
+			} catch (e2) {
+				return '';
+			}
+		}
+	},
+
+	/*---------------------------------------------------------------------*/
 	/* LOCK                                                                */
 	/*---------------------------------------------------------------------*/
 
@@ -5768,6 +5786,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 	lock: function lock() {
 		$('#ami_locker').css('display', 'block');
+
+		/**/
+
+		var lines = this.getStack().split('\n');
+
+		if (lines.length > 2) {
+			console.log('lock@' + lines[2]); // eslint-disable-line no-console
+		}
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -5778,6 +5804,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 	unlock: function unlock() {
 		$('#ami_locker').css('display', 'none');
+
+		/**/
+
+		var lines = this.getStack().split('\n');
+
+		if (lines.length > 2) {
+			console.log('unlock@' + lines[2]); // eslint-disable-line no-console
+		}
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -5841,6 +5875,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 			message = message.join('. ');
 		}
 
+		console.log('AMI INFO: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
+
 		this._publishAlert('<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Info!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
 
@@ -5857,6 +5893,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		if (this.typeOf(message) === 'Array') {
 			message = message.join('. ');
 		}
+
+		console.log('AMI SUCCESS: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
 
 		this._publishAlert('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Success!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
@@ -5875,6 +5913,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 			message = message.join('. ');
 		}
 
+		console.log('AMI WARNING: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
+
 		this._publishAlert('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Warning!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
 
@@ -5892,6 +5932,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 			message = message.join('. ');
 		}
 
+		console.log('AMI ERROR: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
+
 		this._publishAlert('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Error!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
 
@@ -5903,6 +5945,25 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 	flush: function flush() {
 		$('#ami_alert_content').empty();
+	},
+
+	/*---------------------------------------------------------------------*/
+	/* BREADCRUMB                                                          */
+	/*---------------------------------------------------------------------*/
+
+	/**
+   * Fill the main breadcrumb
+   * @param {Array} items the array of items (HTML format)
+   */
+
+	fillBreadcrumb: function fillBreadcrumb(items) {
+		var _this6 = this;
+
+		var s = this.typeOf(items) === 'Array' ? items.map(function (item) {
+			return '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, _this6.webAppURL) + '</li>';
+		}).join('') : '';
+
+		$('#ami_breadcrumb_content').html(s);
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -5943,7 +6004,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    */
 
 	start: function start(settings) {
-		var _this6 = this;
+		var _this7 = this;
 
 		var _setup3 = this.setup(['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'], [this.originURL + '/images/logo.png', this.webAppURL, 'ami@lpsc.in2p3.fr', 'http://cern.ch/ami/', this.originURL + '/twig/AMI/Theme/blue.twig', this.originURL + '/twig/AMI/Fragment/locker.twig', this.originURL + '/AMI/FrontEnd'], settings),
 		    logo_url = _setup3[0],
@@ -5962,7 +6023,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		window.onbeforeunload = function (e) {
 
-			if (!_this6._canLeave) {
+			if (!_this7._canLeave) {
 				var f = e || window.event;
 
 				if (f) {
@@ -5986,14 +6047,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 			$.ajax({ url: subapps_url, cache: false, crossDomain: true, dataType: 'json' }).then(function (data2) {
 
 				for (var name in data1) {
-					_this6._controls[name.toLowerCase()] = data1[name];
+					_this7._controls[name.toLowerCase()] = data1[name];
 				}
 
 				for (var _name3 in data2) {
-					_this6._subapps[_name3.toLowerCase()] = data2[_name3];
+					_this7._subapps[_name3.toLowerCase()] = data2[_name3];
 				}
 
-				if (!_this6._embedded) {
+				if (!_this7._embedded) {
 					/*-----------------------------------------------------*/
 
 					var dict = {
@@ -6009,11 +6070,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						$.ajax({ url: locker_url, cache: true, crossDomain: true, dataType: 'text' }).then(function (data4) {
 
-							$('body').append(_this6.formatTWIG(data3, dict) + data4).promise().done(function () {
+							$('body').append(_this7.formatTWIG(data3, dict) + data4).promise().done(function () {
 
 								amiLogin._init().fail(function (e) {
 
-									_this6.error(e);
+									_this7.error(e);
 								});
 							});
 						}, function () {
@@ -6035,7 +6096,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 							amiLogin._init().fail(function (e) {
 
-								_this6.error(e);
+								_this7.error(e);
 							});
 						});
 					});
@@ -6118,38 +6179,51 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*---------------------------------------------------------------------*/
 
 	triggerLogin: function triggerLogin() {
-		var result = this._currentSubAppInstance.onLogin(this.args['userdata']);
+		var _this8 = this;
 
-		this.onRefresh(true);
+		var result = $.Deferred();
 
-		return result;
+		/*-----------------------------------------------------------------*/
+
+		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), function () {
+
+			_ami_internal_always(_this8.onRefresh(true), function () {
+
+				result.resolve();
+			});
+		}, function (e) {
+
+			result.reject(e);
+		});
+
+		/*-----------------------------------------------------------------*/
+
+		return result.promise();
 	},
 
 	/*---------------------------------------------------------------------*/
 
 	triggerLogout: function triggerLogout() {
-		var result = this._currentSubAppInstance.onLogout(this.args['userdata']);
+		var _this9 = this;
 
-		this.onRefresh(false);
+		var result = $.Deferred();
 
-		return result;
-	},
+		/*-----------------------------------------------------------------*/
 
-	/*---------------------------------------------------------------------*/
+		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), function () {
 
-	/**
-   * Fill the main breadcrumb
-   * @param {Array} items the array of items (HTML format)
-   */
+			_ami_internal_always(_this9.onRefresh(false), function () {
 
-	fillBreadcrumb: function fillBreadcrumb(items) {
-		var _this7 = this;
+				result.resolve();
+			});
+		}, function (e) {
 
-		var s = this.typeOf(items) === 'Array' ? items.map(function (item) {
-			return '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, _this7.webAppURL) + '</li>';
-		}).join('') : '';
+			result.reject(e);
+		});
 
-		$('#ami_breadcrumb_content').html(s);
+		/*-----------------------------------------------------------------*/
+
+		return result.promise();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -6159,10 +6233,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    * @param {String} subapp the subapp
    * @param {?} [userdata] the user data
    * @param {Object} [settings] dictionary of settings (context)
+   * @returns {$.Deferred} A JQuery deferred object
    */
 
 	loadSubApp: function loadSubApp(subapp, userdata, settings) {
-		var _this8 = this;
+		var _this10 = this;
 
 		var result = $.Deferred();
 
@@ -6175,7 +6250,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		result.always(function () {
 
-			_this8.unlock();
+			_this10.unlock();
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -6192,24 +6267,24 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 			this.loadScripts(this.originURL + '/' + descr.file).then(function (loaded) {
 
 				try {
-					_this8._currentSubAppInstance.onExit(userdata);
+					_this10._currentSubAppInstance.onExit(userdata);
 
 					var instance = window[descr.instance];
 
-					_this8._currentSubAppInstance = instance;
+					_this10._currentSubAppInstance = instance;
 
 					/**/
+
+					_this10.fillBreadcrumb(descr.breadcrumb);
 
 					var promise = loaded[0] ? instance.onReady(userdata) : /*-------*/null /*-------*/
 					;
 
 					_ami_internal_then(promise, function () {
 
-						_this8.fillBreadcrumb(descr.breadcrumb);
+						var promise = amiLogin.isAuthenticated() ? _this10.triggerLogin() : _this10.triggerLogout();
 
-						var promise = amiLogin.isAuthenticated() ? _this8.triggerLogin() : _this8.triggerLogout();
-
-						_ami_internal_then(promise, function () {
+						promise.then(function () {
 
 							result.resolveWith(context, [/*-------------------*/instance /*-------------------*/]);
 						}, function (e) {
@@ -6242,21 +6317,24 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
    * Loads a subapp by URL
    * @param {String} defaultSubApp if 'amiWebApp.args["subapp"]' is null, the default subapp
    * @param {?} [defaultUserData] if 'amiWebApp.args["userdata"]' is null, the default user data
+   * @returns {$.Deferred} A JQuery deferred object
    */
 
 	loadSubAppByURL: function loadSubAppByURL(defaultSubApp, defaultUserData) {
-		var _this9 = this;
+		var _this11 = this;
+
+		var result = $.Deferred();
 
 		if (this.args['v']) {
 			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['v']) + '"').fail(function (data) {
 
-				_this9.error(_this9.jspath('..error.$', data));
+				result.reject(_this11.jspath('..error.$', data));
 			}).done(function (data) {
 
 				var json;
 
 				try {
-					json = JSON.parse(_this9.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
+					json = JSON.parse(_this11.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
 				} catch (e) {
 					json = {/* EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON */};
 				}
@@ -6266,9 +6344,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				var subapp = json['subapp'] || defaultSubApp;
 				var userdata = json['userdata'] || defaultUserData;
 
-				_this9.loadSubApp(subapp, userdata).fail(function (e) {
+				_this11.loadSubApp(subapp, userdata).then(function () {
 
-					_this9.error(e);
+					result.resolve();
+				}, function (e) {
+
+					result.reject(e);
 				});
 
 				/*---------------------------------------------------------*/
@@ -6280,14 +6361,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				var subapp = this.args['subapp'] || defaultSubApp;
 				var userdata = this.args['userdata'] || defaultUserData;
 
-				this.loadSubApp(subapp, userdata).fail(function (e) {
+				this.loadSubApp(subapp, userdata).then(function () {
 
-					_this9.error(e);
+					result.resolve();
+				}, function (e) {
+
+					result.reject(e);
 				});
 
 				/*---------------------------------------------------------*/
 			}
 		}
+
+		return result.promise();
 	}
 
 	/*---------------------------------------------------------------------*/
@@ -7014,16 +7100,20 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*---------------------------------------------------------------------*/
 
 	_init: function _init() {
-		var _this10 = this;
+		var _this12 = this;
+
+		var result = $.Deferred();
+
+		/*-----------------------------------------------------------------*/
 
 		amiWebApp.lock();
 
-		return amiWebApp.loadTWIGs([amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig', amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig', amiWebApp.originURL + '/twig/AMI/Modal/login.twig']).done(function (data) {
+		amiWebApp.loadTWIGs([amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig', amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig', amiWebApp.originURL + '/twig/AMI/Modal/login.twig']).done(function (data) {
 
 			/*-------------------------------------------------------------*/
 
-			_this10.fragmentLoginButton = data[0];
-			_this10.fragmentLogoutButton = data[1];
+			_this12.fragmentLoginButton = data[0];
+			_this12.fragmentLogoutButton = data[1];
 
 			amiWebApp.appendHTML('body', data[2]);
 
@@ -7031,27 +7121,27 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit(function (e) {
 
-				_this10.form_login(e);
+				_this12.form_login(e);
 			});
 
 			$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit(function (e) {
 
-				_this10.form_addUser(e);
+				_this12.form_addUser(e);
 			});
 
 			$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit(function (e) {
 
-				_this10.form_remindPass(e);
+				_this12.form_remindPass(e);
 			});
 
 			$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit(function (e) {
 
-				_this10.form_changeInfo(e);
+				_this12.form_changeInfo(e);
 			});
 
 			$('#E92A1097_983B_4857_875F_07E4659B41B0').submit(function (e) {
 
-				_this10.form_changePass(e);
+				_this12.form_changePass(e);
 			});
 
 			/*-------------------------------------------------------------*/
@@ -7080,7 +7170,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 				var pass = e.originalEvent.data.pass;
 
 				if (user && pass) {
-					_this10.form_login2(user, pass);
+					_this12.form_login2(user, pass);
 
 					e.originalEvent.source.close();
 				}
@@ -7088,26 +7178,37 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			/*-------------------------------------------------------------*/
 
-			var xxxxxxxxxxxxxxxx = amiWebApp.args['userdata'] || '';
+			var userdata = amiWebApp.args['userdata'] || '';
 
 			/*-------------------------------------------------------------*/
 
 			amiCommand.certLogin().always(function (data, userInfo, roleInfo, ssoInfo) {
 
-				_ami_internal_then(amiWebApp.onReady(xxxxxxxxxxxxxxxx), function () {
+				_this12._update(userInfo, roleInfo, ssoInfo).always(function () {
 
-					_this10._update(userInfo, roleInfo, ssoInfo).always(function () {
+					_ami_internal_then(amiWebApp.onReady(userdata), function () {
 
 						amiWebApp.unlock();
-					});
-				}, function (data) {
 
-					amiWebApp.error(data);
+						result.resolve();
+					}, function (e) {
+
+						amiWebApp.unlock();
+
+						result.reject(e);
+					});
 				});
 			});
 
 			/*-------------------------------------------------------------*/
+		}).fail(function (e) {
+
+			result.reject(e);
 		});
+
+		/*-----------------------------------------------------------------*/
+
+		return result.promise();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -7166,7 +7267,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*---------------------------------------------------------------------*/
 
 	_update: function _update(userInfo, roleInfo, ssoInfo) {
-		var _this11 = this;
+		var _this13 = this;
 
 		var result = $.Deferred();
 
@@ -7310,9 +7411,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			/*-------------------------------------------------------------*/
 
-			_ami_internal_always(amiWebApp.triggerLogin(), function () {
+			amiWebApp.triggerLogin().always(function () {
 
-				amiWebApp.replaceHTML('#ami_login_content', _this11.fragmentLogoutButton, { dict: dict });
+				amiWebApp.replaceHTML('#ami_login_content', _this13.fragmentLogoutButton, { dict: dict });
 
 				result.resolve();
 			});
@@ -7321,11 +7422,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 		} else {
 			/*-------------------------------------------------------------*/
 
-			_ami_internal_always(amiWebApp.triggerLogout(), function () {
+			amiWebApp.triggerLogout().always(function () {
 
 				result.resolve();
 
-				amiWebApp.replaceHTML('#ami_login_content', _this11.fragmentLoginButton, { dict: dict });
+				amiWebApp.replaceHTML('#ami_login_content', _this13.fragmentLoginButton, { dict: dict });
 			});
 
 			/*-------------------------------------------------------------*/
@@ -7477,15 +7578,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
    */
 
 	signOut: function signOut() {
-		var _this12 = this;
+		var _this14 = this;
 
 		amiWebApp.lock();
 
 		return amiCommand.logout().always(function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this12._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this14._update(userInfo, roleInfo, ssoInfo).done(function () {
 
-				_this12._clean();
+				_this14._clean();
 				amiWebApp.unlock();
 			});
 		});
@@ -7517,7 +7618,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*---------------------------------------------------------------------*/
 
 	form_login2: function form_login2(user, pass) {
-		var _this13 = this;
+		var _this15 = this;
 
 		/*-----------------------------------------------------------------*/
 
@@ -7529,12 +7630,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		promise.then(function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this13._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this15._update(userInfo, roleInfo, ssoInfo).done(function () {
 
 				if (userInfo.AMIUser !== userInfo.guestUser) {
 					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-					_this13._clean();
+					_this15._clean();
 					amiWebApp.unlock();
 				} else {
 					var error = 'Authentication failed.';
@@ -7543,14 +7644,14 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 						error += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.' + ' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.';
 					}
 
-					_this13._showErrorMessage1(error);
+					_this15._showErrorMessage1(error);
 				}
 			});
 		}, function (data, userInfo, roleInfo, ssoInfo) {
 
-			_this13._update(userInfo, roleInfo, ssoInfo).done(function () {
+			_this15._update(userInfo, roleInfo, ssoInfo).done(function () {
 
-				_this13._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+				_this15._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 			});
 		});
 
@@ -7560,7 +7661,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*---------------------------------------------------------------------*/
 
 	form_attachCert: function form_attachCert() {
-		var _this14 = this;
+		var _this16 = this;
 
 		/*-----------------------------------------------------------------*/
 
@@ -7579,10 +7680,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.attachCert(user, pass).then(function (data) {
 
-			_this14._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this16._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this14._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this16._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -7591,7 +7692,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*---------------------------------------------------------------------*/
 
 	form_detachCert: function form_detachCert() {
-		var _this15 = this;
+		var _this17 = this;
 
 		/*-----------------------------------------------------------------*/
 
@@ -7610,10 +7711,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.detachCert(user, pass).then(function (data) {
 
-			_this15._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this17._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this15._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this17._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -7622,7 +7723,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*---------------------------------------------------------------------*/
 
 	form_addUser: function form_addUser(e) {
-		var _this16 = this;
+		var _this18 = this;
 
 		e.preventDefault();
 
@@ -7636,10 +7737,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values).then(function (data) {
 
-			_this16._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this18._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this16._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this18._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -7648,7 +7749,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*---------------------------------------------------------------------*/
 
 	form_remindPass: function form_remindPass(e) {
-		var _this17 = this;
+		var _this19 = this;
 
 		e.preventDefault();
 
@@ -7662,10 +7763,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.resetPass(values['user']).then(function (data) {
 
-			_this17._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
+			_this19._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this17._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+			_this19._showErrorMessage1(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -7674,7 +7775,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*---------------------------------------------------------------------*/
 
 	form_changeInfo: function form_changeInfo(e) {
-		var _this18 = this;
+		var _this20 = this;
 
 		e.preventDefault();
 
@@ -7688,10 +7789,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).then(function (data) {
 
-			_this18._showSuccessMessage2(amiWebApp.jspath('..info.$', data));
+			_this20._showSuccessMessage2(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this18._showErrorMessage2(amiWebApp.jspath('..error.$', data));
+			_this20._showErrorMessage2(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -7700,7 +7801,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/*---------------------------------------------------------------------*/
 
 	form_changePass: function form_changePass(e) {
-		var _this19 = this;
+		var _this21 = this;
 
 		e.preventDefault();
 
@@ -7714,10 +7815,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 		amiCommand.changePass(values['old_pass'], values['new_pass']).then(function (data) {
 
-			_this19._showSuccessMessage3(amiWebApp.jspath('..info.$', data));
+			_this21._showSuccessMessage3(amiWebApp.jspath('..info.$', data));
 		}, function (data) {
 
-			_this19._showErrorMessage3(amiWebApp.jspath('..error.$', data));
+			_this21._showErrorMessage3(amiWebApp.jspath('..error.$', data));
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -7743,7 +7844,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 /* eslint-disable */
 
-var amiDoc = { "functions": [{ "name": "$AMINamespace", "desc": "Create a new namespace", "params": [{ "name": "$name", "type": "String", "desc": "the namespace name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": "Object", "desc": "the namespace body", "default": "", "optional": true, "nullable": "" }] }, { "name": "$AMIInterface", "desc": "Create a new interface", "params": [{ "name": "$name", "type": "String", "desc": "the interface name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": "Object", "desc": "the interface body", "default": "", "optional": true, "nullable": "" }] }, { "name": "$AMIClass", "desc": "Create a new class", "params": [{ "name": "$name", "type": "String", "desc": "the class name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": "Object", "desc": "the class body", "default": "", "optional": true, "nullable": "" }] }], "namespaces": [{ "name": "amiRouter", "desc": "The AMI url routing subsystem", "functions": [{ "name": "getScriptURL", "desc": "Gets the AWF's script URL", "params": [], "returns": [{ "type": "String", "desc": "The AWF's script URL" }] }, { "name": "getOriginURL", "desc": "Gets the origin URL", "params": [], "returns": [{ "type": "String", "desc": "The origin URL" }] }, { "name": "getWebAppURL", "desc": "Gets the webapp URL", "params": [], "returns": [{ "type": "String", "desc": "The webapp URL" }] }, { "name": "getHash", "desc": "Gets the anchor part of the webapp URL", "params": [], "returns": [{ "type": "String", "desc": "The anchor part of the webapp URL" }] }, { "name": "getArgs", "desc": "Gets the arguments extracted from the webapp URL", "params": [], "returns": [{ "type": "Array.<String>", "desc": "The arguments extracted from the webapp URL" }] }, { "name": "append", "desc": "Appends a routing rule", "params": [{ "name": "regExp", "type": "String", "desc": "the regExp", "default": "", "optional": "", "nullable": "" }, { "name": "handler", "type": "Object", "desc": "the handler", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "Namespace", "desc": "The amiRouter singleton" }] }, { "name": "remove", "desc": "Removes some routing rules", "params": [{ "name": "regExp", "type": "String", "desc": "the regExp", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "Namespace", "desc": "The amiRouter singleton" }] }, { "name": "check", "desc": "Checks whether the URL matches with a routing rule", "params": [], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "appendHistoryEntry", "desc": "Append a new history entry", "params": [{ "name": "path", "type": "String", "desc": "the new path", "default": "", "optional": "", "nullable": "" }, { "name": "context", "type": "Object", "desc": "the new context", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "replaceHistoryEntry", "desc": "Replace the current history entry", "params": [{ "name": "path", "type": "String", "desc": "the new path", "default": "", "optional": "", "nullable": "" }, { "name": "context", "type": "Object", "desc": "the new context", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "Boolean", "desc": "" }] }] }, { "name": "amiWebApp", "desc": "The AMI webapp subsystem", "variables": [{ "name": "originURL", "type": "String", "desc": "The origin URL" }, { "name": "webAppURL", "type": "String", "desc": "The webapp URL" }, { "name": "hash", "type": "String", "desc": "The anchor part of the webapp URL" }, { "name": "args", "type": "Array.<String>", "desc": "The arguments extracted from the webapp URL" }], "functions": [{ "name": "isEmbedded", "desc": "Checks whether the WebApp is executed in embedded mode", "params": [], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "isLocal", "desc": "Checks whether the WebApp is executed locally (file://, localhost or 127.0.0.1)", "params": [], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "textToHtml", "desc": "Escapes the given string from text to HTML", "params": [{ "name": "string", "type": "String", "desc": "the unescaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The escaped string" }] }, { "name": "htmlToText", "desc": "Unescapes the given string from HTML to text", "params": [{ "name": "string", "type": "String", "desc": "the escaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The unescaped string" }] }, { "name": "textToString", "desc": "Escapes the given string from text to JavaScript string", "params": [{ "name": "string", "type": "String", "desc": "the unescaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The escaped string" }] }, { "name": "stringToText", "desc": "Unescapes the given string from JavaScript string to text", "params": [{ "name": "string", "type": "String", "desc": "the escaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The unescaped string" }] }, { "name": "htmlToString", "desc": "Escapes the given string from HTML to JavaScript string", "params": [{ "name": "string", "type": "String", "desc": "the unescaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The escaped string" }] }, { "name": "stringToHtml", "desc": "Unescapes the given string from JavaScript string to HTML", "params": [{ "name": "string", "type": "String", "desc": "the escaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The unescaped string" }] }, { "name": "base64Encode", "desc": "Encodes (RFC 4648) a string", "params": [{ "name": "string", "type": "String", "desc": "the decoded string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The encoded string" }] }, { "name": "base64Decode", "desc": "Decodes (RFC 4648) a string", "params": [{ "name": "string", "type": "String", "desc": "the encoded string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The decoded string" }] }, { "name": "loadResources", "desc": "Loads resources asynchronously by extension", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadSheets", "desc": "Loads CSS sheets asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadScripts", "desc": "Loads JS scripts asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadJSONs", "desc": "Loads JSON files asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadXMLs", "desc": "Loads XML files asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadHTMLs", "desc": "Loads HTML files asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadTWIGs", "desc": "Loads TWIG files asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadTexts", "desc": "Loads text files asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "replaceHTML", "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "prependHTML", "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "appendHTML", "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "formatTWIG", "desc": "Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}", "params": [{ "name": "twig", "type": "String", "desc": "the TWIG string", "default": "", "optional": "", "nullable": "" }, { "name": "dict", "type": ["Object", "Array"], "desc": "the dictionary", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "String", "desc": "The Interpreted TWIG string" }] }, { "name": "jspath", "desc": "Finds data within the given JSON, see {@link https://github.com/dfilatov/jspath}", "params": [{ "name": "path", "type": "String", "desc": "the path", "default": "", "optional": "", "nullable": "" }, { "name": "json", "type": "Object", "desc": "the JSON", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "Array", "desc": "The resulting array" }] }, { "name": "lock", "desc": "Locks the web application", "params": [] }, { "name": "unlock", "desc": "Unlocks the web application", "params": [] }, { "name": "canLeave", "desc": "Enables the message in a confirmation dialog box to inform that the user is about to leave the current page.", "params": [] }, { "name": "cannotLeave", "desc": "Disables the message in a confirmation dialog box to inform that the user is about to leave the current page.", "params": [] }, { "name": "info", "desc": "Shows an 'info' message", "params": [{ "name": "message", "type": ["String", "Array"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": "Boolean", "desc": "if True, the message disappears after 60s", "default": "", "optional": true, "nullable": "" }, { "name": "id", "type": "String", "desc": "the target id", "default": "", "optional": true, "nullable": "" }] }, { "name": "success", "desc": "Shows a 'success' message", "params": [{ "name": "message", "type": ["String", "Array"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": "Boolean", "desc": "if True, the message disappears after 60s", "default": "", "optional": true, "nullable": "" }, { "name": "id", "type": "String", "desc": "the target id", "default": "", "optional": true, "nullable": "" }] }, { "name": "warning", "desc": "Shows a 'warning' message", "params": [{ "name": "message", "type": ["String", "Array"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": "Boolean", "desc": "if True, the message disappears after 60s", "default": "", "optional": true, "nullable": "" }, { "name": "id", "type": "String", "desc": "the target id", "default": "", "optional": true, "nullable": "" }] }, { "name": "error", "desc": "Shows an 'error' message", "params": [{ "name": "message", "type": ["String", "Array"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": "Boolean", "desc": "if True, the message disappears after 60s", "default": "", "optional": true, "nullable": "" }, { "name": "id", "type": "String", "desc": "the target id", "default": "", "optional": true, "nullable": "" }] }, { "name": "flush", "desc": "Flushes messages", "params": [] }, { "name": "start", "desc": "Starts the web application", "params": [{ "name": "settings", "type": "Object", "desc": "dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url)", "default": "", "optional": true, "nullable": "" }] }, { "name": "loadControl", "desc": "Loads a control asynchronously", "params": [{ "name": "control", "type": "String", "desc": "the array of control name", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "fillBreadcrumb", "desc": "Fill the main breadcrumb", "params": [{ "name": "items", "type": "Array", "desc": "the array of items (HTML format)", "default": "", "optional": "", "nullable": "" }] }, { "name": "loadSubApp", "desc": "Loads a subapp asynchronously", "params": [{ "name": "subapp", "type": "String", "desc": "the subapp", "default": "", "optional": "", "nullable": "" }, { "name": "userdata", "type": "?", "desc": "the user data", "default": "", "optional": true, "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }] }, { "name": "loadSubAppByURL", "desc": "Loads a subapp by URL", "params": [{ "name": "defaultSubApp", "type": "String", "desc": "if 'amiWebApp.args[\"subapp\"]' is null, the default subapp", "default": "", "optional": "", "nullable": "" }, { "name": "defaultUserData", "type": "?", "desc": "if 'amiWebApp.args[\"userdata\"]' is null, the default user data", "default": "", "optional": true, "nullable": "" }] }], "events": [{ "name": "onReady", "desc": "This method must be overloaded and is called when the web application starts", "params": [{ "name": "userData", "type": "String", "desc": "", "default": "", "optional": "", "nullable": "" }] }, { "name": "onRefresh", "desc": "This method must be overloaded and is called when the toolbar needs to be updated", "params": [{ "name": "isAuth", "type": "Boolean", "desc": "", "default": "", "optional": "", "nullable": "" }] }] }, { "name": "amiCommand", "desc": "The AMI command subsystem", "variables": [{ "name": "endpoint", "type": "String", "desc": "Default endpoint" }, { "name": "converter", "type": "String", "desc": "Default converter" }], "functions": [{ "name": "execute", "desc": "Executes an AMI command", "params": [{ "name": "command", "type": "String", "desc": "the command", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, endpoint, converter, extraParam, extraValue)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "passLogin", "desc": "Logs in by login/password", "params": [{ "name": "user", "type": "String", "desc": "the user", "default": "", "optional": "", "nullable": "" }, { "name": "pass", "type": "String", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "certLogin", "desc": "Logs in by certificate", "params": [{ "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "logout", "desc": "Logs out", "params": [{ "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "attachCert", "desc": "Attaches a certificate", "params": [{ "name": "user", "type": "String", "desc": "the user", "default": "", "optional": "", "nullable": "" }, { "name": "pass", "type": "String", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "detachCert", "desc": "Detaches a certificate", "params": [{ "name": "user", "type": "String", "desc": "the user", "default": "", "optional": "", "nullable": "" }, { "name": "pass", "type": "String", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "addUser", "desc": "Adds a new user", "params": [{ "name": "user", "type": "String", "desc": "the user", "default": "", "optional": "", "nullable": "" }, { "name": "pass", "type": "String", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "firstName", "type": "String", "desc": "the first name", "default": "", "optional": "", "nullable": "" }, { "name": "lastName", "type": "String", "desc": "the last name", "default": "", "optional": "", "nullable": "" }, { "name": "email", "type": "String", "desc": "the email", "default": "", "optional": "", "nullable": "" }, { "name": "attach", "type": "Boolean", "desc": "attach the current certificate", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "changeInfo", "desc": "Changes the account information", "params": [{ "name": "firstName", "type": "String", "desc": "the first name", "default": "", "optional": "", "nullable": "" }, { "name": "lastName", "type": "String", "desc": "the last name", "default": "", "optional": "", "nullable": "" }, { "name": "email", "type": "String", "desc": "the email", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "changePass", "desc": "Changes the account password", "params": [{ "name": "oldPass", "type": "String", "desc": "the old password", "default": "", "optional": "", "nullable": "" }, { "name": "newPass", "type": "String", "desc": "the new password", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "resetPass", "desc": "Resets the account password", "params": [{ "name": "user", "type": "String", "desc": "the user", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }] }, { "name": "amiLogin", "desc": "The AMI authentication subsystem", "functions": [{ "name": "getUser", "desc": "Gets the current user", "params": [], "returns": [{ "type": "String", "desc": "The current user" }] }, { "name": "getGuest", "desc": "Gets the guest user", "params": [], "returns": [{ "type": "String", "desc": "The guest user" }] }, { "name": "getClientDN", "desc": "Gets the client DN", "params": [], "returns": [{ "type": "String", "desc": "The client DN" }] }, { "name": "getIssuerDN", "desc": "Gets the issuer DN", "params": [], "returns": [{ "type": "String", "desc": "The issuer DN" }] }, { "name": "isAuthenticated", "desc": "Checks whether the user is authenticated", "params": [], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "hasRole", "desc": "Checks whether the user has the given role", "params": [{ "name": "role", "type": "String", "desc": "the role", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "sso", "desc": "Opens the 'SSO' modal window", "params": [] }, { "name": "signIn", "desc": "Opens the 'SignIn' modal window", "params": [] }, { "name": "changeInfo", "desc": "Opens the 'Change Info' modal window", "params": [] }, { "name": "changePass", "desc": "Opens the 'Change Password' modal window", "params": [] }, { "name": "accountStatus", "desc": "Opens the 'Account Status' modal window", "params": [] }, { "name": "signOut", "desc": "Signs out", "params": [] }] }], "interfaces": [{ "name": "ami.IControl", "desc": "The AMI control interface", "implements": [], "inherits": [], "functions": [{ "name": "patchId", "desc": "Patches an HTML identifier", "params": [{ "name": "id", "type": "String", "desc": "the unpatched HTML identifier", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The patched HTML identifier" }] }, { "name": "replaceHTML", "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "prependHTML", "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "appendHTML", "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "onReady", "desc": "Called when the control is ready to run", "params": [] }] }, { "name": "ami.ISubApp", "desc": "The AMI sub-application interface", "implements": [], "inherits": [], "functions": [{ "name": "onReady", "desc": "Called when the sub-application is ready to run", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onExit", "desc": "Called when the sub-application is about to exit", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogin", "desc": "Called when logging in", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogout", "desc": "Called when logging out", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }] }], "classes": [{ "name": "ami.Control", "desc": "The basic AMI control", "implements": ["ami.IControl"], "inherits": [], "konstructor": { "name": "Control", "params": [] }, "functions": [{ "name": "patchId", "desc": "Patches an HTML identifier", "params": [{ "name": "id", "type": "String", "desc": "the unpatched HTML identifier", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The patched HTML identifier" }] }, { "name": "replaceHTML", "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "prependHTML", "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "appendHTML", "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "onReady", "desc": "Called when the control is ready to run", "params": [] }] }, { "name": "ami.SubApp", "desc": "The basic AMI sub-application", "implements": ["ami.ISubApp"], "inherits": [], "konstructor": { "name": "SubApp", "params": [] }, "functions": [{ "name": "onReady", "desc": "Called when the sub-application is ready to run", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onExit", "desc": "Called when the sub-application is about to exit", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogin", "desc": "Called when logging in", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogout", "desc": "Called when logging out", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }] }] };
+var amiDoc = { "functions": [{ "name": "$AMINamespace", "desc": "Create a new namespace", "params": [{ "name": "$name", "type": "String", "desc": "the namespace name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": "Object", "desc": "the namespace body", "default": "", "optional": true, "nullable": "" }] }, { "name": "$AMIInterface", "desc": "Create a new interface", "params": [{ "name": "$name", "type": "String", "desc": "the interface name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": "Object", "desc": "the interface body", "default": "", "optional": true, "nullable": "" }] }, { "name": "$AMIClass", "desc": "Create a new class", "params": [{ "name": "$name", "type": "String", "desc": "the class name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": "Object", "desc": "the class body", "default": "", "optional": true, "nullable": "" }] }], "namespaces": [{ "name": "amiRouter", "desc": "The AMI url routing subsystem", "functions": [{ "name": "getScriptURL", "desc": "Gets the AWF's script URL", "params": [], "returns": [{ "type": "String", "desc": "The AWF's script URL" }] }, { "name": "getOriginURL", "desc": "Gets the origin URL", "params": [], "returns": [{ "type": "String", "desc": "The origin URL" }] }, { "name": "getWebAppURL", "desc": "Gets the webapp URL", "params": [], "returns": [{ "type": "String", "desc": "The webapp URL" }] }, { "name": "getHash", "desc": "Gets the anchor part of the webapp URL", "params": [], "returns": [{ "type": "String", "desc": "The anchor part of the webapp URL" }] }, { "name": "getArgs", "desc": "Gets the arguments extracted from the webapp URL", "params": [], "returns": [{ "type": "Array.<String>", "desc": "The arguments extracted from the webapp URL" }] }, { "name": "append", "desc": "Appends a routing rule", "params": [{ "name": "regExp", "type": "String", "desc": "the regExp", "default": "", "optional": "", "nullable": "" }, { "name": "handler", "type": "Object", "desc": "the handler", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "Namespace", "desc": "The amiRouter singleton" }] }, { "name": "remove", "desc": "Removes some routing rules", "params": [{ "name": "regExp", "type": "String", "desc": "the regExp", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "Namespace", "desc": "The amiRouter singleton" }] }, { "name": "check", "desc": "Checks whether the URL matches with a routing rule", "params": [], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "appendHistoryEntry", "desc": "Append a new history entry", "params": [{ "name": "path", "type": "String", "desc": "the new path", "default": "", "optional": "", "nullable": "" }, { "name": "context", "type": "Object", "desc": "the new context", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "replaceHistoryEntry", "desc": "Replace the current history entry", "params": [{ "name": "path", "type": "String", "desc": "the new path", "default": "", "optional": "", "nullable": "" }, { "name": "context", "type": "Object", "desc": "the new context", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "Boolean", "desc": "" }] }] }, { "name": "amiWebApp", "desc": "The AMI webapp subsystem", "variables": [{ "name": "originURL", "type": "String", "desc": "The origin URL" }, { "name": "webAppURL", "type": "String", "desc": "The webapp URL" }, { "name": "hash", "type": "String", "desc": "The anchor part of the webapp URL" }, { "name": "args", "type": "Array.<String>", "desc": "The arguments extracted from the webapp URL" }], "functions": [{ "name": "isEmbedded", "desc": "Checks whether the WebApp is executed in embedded mode", "params": [], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "isLocal", "desc": "Checks whether the WebApp is executed locally (file://, localhost or 127.0.0.1)", "params": [], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "textToHtml", "desc": "Escapes the given string from text to HTML", "params": [{ "name": "string", "type": "String", "desc": "the unescaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The escaped string" }] }, { "name": "htmlToText", "desc": "Unescapes the given string from HTML to text", "params": [{ "name": "string", "type": "String", "desc": "the escaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The unescaped string" }] }, { "name": "textToString", "desc": "Escapes the given string from text to JavaScript string", "params": [{ "name": "string", "type": "String", "desc": "the unescaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The escaped string" }] }, { "name": "stringToText", "desc": "Unescapes the given string from JavaScript string to text", "params": [{ "name": "string", "type": "String", "desc": "the escaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The unescaped string" }] }, { "name": "htmlToString", "desc": "Escapes the given string from HTML to JavaScript string", "params": [{ "name": "string", "type": "String", "desc": "the unescaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The escaped string" }] }, { "name": "stringToHtml", "desc": "Unescapes the given string from JavaScript string to HTML", "params": [{ "name": "string", "type": "String", "desc": "the escaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The unescaped string" }] }, { "name": "base64Encode", "desc": "Encodes (RFC 4648) a string", "params": [{ "name": "string", "type": "String", "desc": "the decoded string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The encoded string" }] }, { "name": "base64Decode", "desc": "Decodes (RFC 4648) a string", "params": [{ "name": "string", "type": "String", "desc": "the encoded string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The decoded string" }] }, { "name": "loadResources", "desc": "Loads resources asynchronously by extension", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadSheets", "desc": "Loads CSS sheets asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadScripts", "desc": "Loads JS scripts asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadJSONs", "desc": "Loads JSON files asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadXMLs", "desc": "Loads XML files asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadHTMLs", "desc": "Loads HTML files asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadTWIGs", "desc": "Loads TWIG files asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadTexts", "desc": "Loads text files asynchronously", "params": [{ "name": "urls", "type": ["Array", "String"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "replaceHTML", "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "prependHTML", "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "appendHTML", "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "formatTWIG", "desc": "Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}", "params": [{ "name": "twig", "type": "String", "desc": "the TWIG string", "default": "", "optional": "", "nullable": "" }, { "name": "dict", "type": ["Object", "Array"], "desc": "the dictionary", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "String", "desc": "The Interpreted TWIG string" }] }, { "name": "jspath", "desc": "Finds data within the given JSON, see {@link https://github.com/dfilatov/jspath}", "params": [{ "name": "path", "type": "String", "desc": "the path", "default": "", "optional": "", "nullable": "" }, { "name": "json", "type": "Object", "desc": "the JSON", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "Array", "desc": "The resulting array" }] }, { "name": "lock", "desc": "Locks the web application", "params": [] }, { "name": "unlock", "desc": "Unlocks the web application", "params": [] }, { "name": "canLeave", "desc": "Enables the message in a confirmation dialog box to inform that the user is about to leave the current page.", "params": [] }, { "name": "cannotLeave", "desc": "Disables the message in a confirmation dialog box to inform that the user is about to leave the current page.", "params": [] }, { "name": "info", "desc": "Shows an 'info' message", "params": [{ "name": "message", "type": ["String", "Array"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": "Boolean", "desc": "if True, the message disappears after 60s", "default": "", "optional": true, "nullable": "" }, { "name": "id", "type": "String", "desc": "the target id", "default": "", "optional": true, "nullable": "" }] }, { "name": "success", "desc": "Shows a 'success' message", "params": [{ "name": "message", "type": ["String", "Array"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": "Boolean", "desc": "if True, the message disappears after 60s", "default": "", "optional": true, "nullable": "" }, { "name": "id", "type": "String", "desc": "the target id", "default": "", "optional": true, "nullable": "" }] }, { "name": "warning", "desc": "Shows a 'warning' message", "params": [{ "name": "message", "type": ["String", "Array"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": "Boolean", "desc": "if True, the message disappears after 60s", "default": "", "optional": true, "nullable": "" }, { "name": "id", "type": "String", "desc": "the target id", "default": "", "optional": true, "nullable": "" }] }, { "name": "error", "desc": "Shows an 'error' message", "params": [{ "name": "message", "type": ["String", "Array"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": "Boolean", "desc": "if True, the message disappears after 60s", "default": "", "optional": true, "nullable": "" }, { "name": "id", "type": "String", "desc": "the target id", "default": "", "optional": true, "nullable": "" }] }, { "name": "flush", "desc": "Flushes messages", "params": [] }, { "name": "fillBreadcrumb", "desc": "Fill the main breadcrumb", "params": [{ "name": "items", "type": "Array", "desc": "the array of items (HTML format)", "default": "", "optional": "", "nullable": "" }] }, { "name": "start", "desc": "Starts the web application", "params": [{ "name": "settings", "type": "Object", "desc": "dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url)", "default": "", "optional": true, "nullable": "" }] }, { "name": "loadControl", "desc": "Loads a control asynchronously", "params": [{ "name": "control", "type": "String", "desc": "the array of control name", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadSubApp", "desc": "Loads a subapp asynchronously", "params": [{ "name": "subapp", "type": "String", "desc": "the subapp", "default": "", "optional": "", "nullable": "" }, { "name": "userdata", "type": "?", "desc": "the user data", "default": "", "optional": true, "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "loadSubAppByURL", "desc": "Loads a subapp by URL", "params": [{ "name": "defaultSubApp", "type": "String", "desc": "if 'amiWebApp.args[\"subapp\"]' is null, the default subapp", "default": "", "optional": "", "nullable": "" }, { "name": "defaultUserData", "type": "?", "desc": "if 'amiWebApp.args[\"userdata\"]' is null, the default user data", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }], "events": [{ "name": "onReady", "desc": "This method must be overloaded and is called when the web application starts", "params": [{ "name": "userData", "type": "String", "desc": "", "default": "", "optional": "", "nullable": "" }] }, { "name": "onRefresh", "desc": "This method must be overloaded and is called when the toolbar needs to be updated", "params": [{ "name": "isAuth", "type": "Boolean", "desc": "", "default": "", "optional": "", "nullable": "" }] }] }, { "name": "amiCommand", "desc": "The AMI command subsystem", "variables": [{ "name": "endpoint", "type": "String", "desc": "Default endpoint" }, { "name": "converter", "type": "String", "desc": "Default converter" }], "functions": [{ "name": "execute", "desc": "Executes an AMI command", "params": [{ "name": "command", "type": "String", "desc": "the command", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, endpoint, converter, extraParam, extraValue)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "passLogin", "desc": "Logs in by login/password", "params": [{ "name": "user", "type": "String", "desc": "the user", "default": "", "optional": "", "nullable": "" }, { "name": "pass", "type": "String", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "certLogin", "desc": "Logs in by certificate", "params": [{ "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "logout", "desc": "Logs out", "params": [{ "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "attachCert", "desc": "Attaches a certificate", "params": [{ "name": "user", "type": "String", "desc": "the user", "default": "", "optional": "", "nullable": "" }, { "name": "pass", "type": "String", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "detachCert", "desc": "Detaches a certificate", "params": [{ "name": "user", "type": "String", "desc": "the user", "default": "", "optional": "", "nullable": "" }, { "name": "pass", "type": "String", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "addUser", "desc": "Adds a new user", "params": [{ "name": "user", "type": "String", "desc": "the user", "default": "", "optional": "", "nullable": "" }, { "name": "pass", "type": "String", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "firstName", "type": "String", "desc": "the first name", "default": "", "optional": "", "nullable": "" }, { "name": "lastName", "type": "String", "desc": "the last name", "default": "", "optional": "", "nullable": "" }, { "name": "email", "type": "String", "desc": "the email", "default": "", "optional": "", "nullable": "" }, { "name": "attach", "type": "Boolean", "desc": "attach the current certificate", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "changeInfo", "desc": "Changes the account information", "params": [{ "name": "firstName", "type": "String", "desc": "the first name", "default": "", "optional": "", "nullable": "" }, { "name": "lastName", "type": "String", "desc": "the last name", "default": "", "optional": "", "nullable": "" }, { "name": "email", "type": "String", "desc": "the email", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "changePass", "desc": "Changes the account password", "params": [{ "name": "oldPass", "type": "String", "desc": "the old password", "default": "", "optional": "", "nullable": "" }, { "name": "newPass", "type": "String", "desc": "the new password", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "resetPass", "desc": "Resets the account password", "params": [{ "name": "user", "type": "String", "desc": "the user", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }] }, { "name": "amiLogin", "desc": "The AMI authentication subsystem", "functions": [{ "name": "getUser", "desc": "Gets the current user", "params": [], "returns": [{ "type": "String", "desc": "The current user" }] }, { "name": "getGuest", "desc": "Gets the guest user", "params": [], "returns": [{ "type": "String", "desc": "The guest user" }] }, { "name": "getClientDN", "desc": "Gets the client DN", "params": [], "returns": [{ "type": "String", "desc": "The client DN" }] }, { "name": "getIssuerDN", "desc": "Gets the issuer DN", "params": [], "returns": [{ "type": "String", "desc": "The issuer DN" }] }, { "name": "isAuthenticated", "desc": "Checks whether the user is authenticated", "params": [], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "hasRole", "desc": "Checks whether the user has the given role", "params": [{ "name": "role", "type": "String", "desc": "the role", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "Boolean", "desc": "" }] }, { "name": "sso", "desc": "Opens the 'SSO' modal window", "params": [] }, { "name": "signIn", "desc": "Opens the 'SignIn' modal window", "params": [] }, { "name": "changeInfo", "desc": "Opens the 'Change Info' modal window", "params": [] }, { "name": "changePass", "desc": "Opens the 'Change Password' modal window", "params": [] }, { "name": "accountStatus", "desc": "Opens the 'Account Status' modal window", "params": [] }, { "name": "signOut", "desc": "Signs out", "params": [] }] }], "interfaces": [{ "name": "ami.IControl", "desc": "The AMI control interface", "implements": [], "inherits": [], "functions": [{ "name": "patchId", "desc": "Patches an HTML identifier", "params": [{ "name": "id", "type": "String", "desc": "the unpatched HTML identifier", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The patched HTML identifier" }] }, { "name": "replaceHTML", "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "prependHTML", "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "appendHTML", "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "onReady", "desc": "Called when the control is ready to run", "params": [] }] }, { "name": "ami.ISubApp", "desc": "The AMI sub-application interface", "implements": [], "inherits": [], "functions": [{ "name": "onReady", "desc": "Called when the sub-application is ready to run", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onExit", "desc": "Called when the sub-application is about to exit", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogin", "desc": "Called when logging in", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogout", "desc": "Called when logging out", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }] }], "classes": [{ "name": "ami.Control", "desc": "The basic AMI control", "implements": ["ami.IControl"], "inherits": [], "konstructor": { "name": "Control", "params": [] }, "functions": [{ "name": "patchId", "desc": "Patches an HTML identifier", "params": [{ "name": "id", "type": "String", "desc": "the unpatched HTML identifier", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "String", "desc": "The patched HTML identifier" }] }, { "name": "replaceHTML", "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "prependHTML", "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "appendHTML", "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": "String", "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": "String", "desc": "the TWIG fragment", "default": "", "optional": "", "nullable": "" }, { "name": "settings", "type": "Object", "desc": "dictionary of settings (context, dict)", "default": "", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "onReady", "desc": "Called when the control is ready to run", "params": [] }] }, { "name": "ami.SubApp", "desc": "The basic AMI sub-application", "implements": ["ami.ISubApp"], "inherits": [], "konstructor": { "name": "SubApp", "params": [] }, "functions": [{ "name": "onReady", "desc": "Called when the sub-application is ready to run", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onExit", "desc": "Called when the sub-application is about to exit", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogin", "desc": "Called when logging in", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogout", "desc": "Called when logging out", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }] }] };
 
 /* eslint-enable */
 

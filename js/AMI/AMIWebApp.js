@@ -82,6 +82,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	_currentSubAppInstance: new function()
 	{
+		this.$name = 'fake';
+
 		this.onReady = function() {};
 		this.onExit = function() {};
 		this.onLogin = function() {};
@@ -1021,6 +1023,29 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*---------------------------------------------------------------------*/
+	/* STACK                                                               */
+	/*---------------------------------------------------------------------*/
+
+	getStack: function()
+	{
+		try
+		{
+			throw Error();
+		}
+		catch(e1)
+		{
+			try
+			{
+				return e1.stack;
+			}
+			catch(e2)
+			{
+				return ((('')));
+			}
+		}
+	},
+
+	/*---------------------------------------------------------------------*/
 	/* LOCK                                                                */
 	/*---------------------------------------------------------------------*/
 
@@ -1031,6 +1056,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	lock: function()
 	{
 		$('#ami_locker').css('display', 'block');
+
+		/**/
+
+		let lines = this.getStack().split('\n');
+
+		if(lines.length > 2)
+		{
+			console.log('lock@' + lines[2]); // eslint-disable-line no-console
+		}
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -1042,6 +1076,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	unlock: function()
 	{
 		$('#ami_locker').css('display', 'none');
+
+		/**/
+
+		let lines = this.getStack().split('\n');
+
+		if(lines.length > 2)
+		{
+			console.log('unlock@' + lines[2]); // eslint-disable-line no-console
+		}
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -1109,6 +1152,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
+		console.log('AMI INFO: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
+
 		this._publishAlert('<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Info!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
 
@@ -1127,6 +1172,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			message = message.join('. ');
 		}
+
+		console.log('AMI SUCCESS: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
 
 		this._publishAlert('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Success!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
@@ -1147,6 +1194,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
+		console.log('AMI WARNING: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
+
 		this._publishAlert('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Warning!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
 
@@ -1166,6 +1215,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
+		console.log('AMI ERROR: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
+
 		this._publishAlert('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Error!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
 	},
 
@@ -1178,6 +1229,24 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	flush: function()
 	{
 		$('#ami_alert_content').empty();
+	},
+
+	/*---------------------------------------------------------------------*/
+	/* BREADCRUMB                                                          */
+	/*---------------------------------------------------------------------*/
+
+	/**
+	  * Fill the main breadcrumb
+	  * @param {Array} items the array of items (HTML format)
+	  */
+
+	fillBreadcrumb: function(items)
+	{
+		var s = this.typeOf(items) === 'Array' ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
+		                                       : ''
+		;
+
+		$('#ami_breadcrumb_content').html(s);
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -1428,38 +1497,50 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	triggerLogin: function()
 	{
-		const result = this._currentSubAppInstance.onLogin(this.args['userdata']);
+		const result = $.Deferred();
 
-		this.onRefresh(true);
+		/*-----------------------------------------------------------------*/
 
-		return result;
+		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
+
+			_ami_internal_always(this.onRefresh(true), () => {
+
+				result.resolve();
+			});
+
+		}, (e) => {
+
+				result.reject(e);
+		});
+
+		/*-----------------------------------------------------------------*/
+
+		return result.promise();
 	},
 
 	/*---------------------------------------------------------------------*/
 
 	triggerLogout: function()
 	{
-		const result = this._currentSubAppInstance.onLogout(this.args['userdata']);
+		const result = $.Deferred();
 
-		this.onRefresh(false);
+		/*-----------------------------------------------------------------*/
 
-		return result;
-	},
+		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
 
-	/*---------------------------------------------------------------------*/
+			_ami_internal_always(this.onRefresh(false), () => {
 
-	/**
-	  * Fill the main breadcrumb
-	  * @param {Array} items the array of items (HTML format)
-	  */
+				result.resolve();
+			});
 
-	fillBreadcrumb: function(items)
-	{
-		var s = this.typeOf(items) === 'Array' ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
-		                                       : ''
-		;
+		}, (e) => {
 
-		$('#ami_breadcrumb_content').html(s);
+				result.reject(e);
+		});
+
+		/*-----------------------------------------------------------------*/
+
+		return result.promise();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -1469,6 +1550,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * @param {String} subapp the subapp
 	  * @param {?} [userdata] the user data
 	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	loadSubApp: function(subapp, userdata, settings)
@@ -1515,19 +1597,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					/**/
 
+					this.fillBreadcrumb(descr.breadcrumb);
+
 					const promise = loaded[0] ? instance.onReady(userdata)
 					                          : /*-------*/null/*-------*/
 					;
 
 					_ami_internal_then(promise, () => {
 
-						this.fillBreadcrumb(descr.breadcrumb);
-
 						const promise = amiLogin.isAuthenticated() ? this.triggerLogin()
 						                                           : this.triggerLogout()
 						;
 
-						_ami_internal_then(promise, () => {
+						promise.then(() => {
 
 							result.resolveWith(context, [/*-------------------*/instance/*-------------------*/]);
 
@@ -1567,15 +1649,18 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Loads a subapp by URL
 	  * @param {String} defaultSubApp if 'amiWebApp.args["subapp"]' is null, the default subapp
 	  * @param {?} [defaultUserData] if 'amiWebApp.args["userdata"]' is null, the default user data
+	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
 	loadSubAppByURL: function(defaultSubApp, defaultUserData)
 	{
+		const result = $.Deferred();
+
 		if(this.args['v'])
 		{
 			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['v']) + '"').fail((data) => {
 
-				this.error(this.jspath('..error.$', data));
+				result.reject(this.jspath('..error.$', data));
 
 			}).done((data) => {
 
@@ -1595,9 +1680,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				const subapp = json['subapp'] || defaultSubApp;
 				const userdata = json['userdata'] || defaultUserData;
 
-				this.loadSubApp(subapp, userdata).fail((e) => {
+				this.loadSubApp(subapp, userdata).then(() => {
 
-					this.error(e);
+					result.resolve();
+
+				}, (e) => {
+
+					result.reject(e);
 				});
 
 				/*---------------------------------------------------------*/
@@ -1612,14 +1701,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				const subapp = this.args['subapp'] || defaultSubApp;
 				const userdata = this.args['userdata'] || defaultUserData;
 
-				this.loadSubApp(subapp, userdata).fail((e) => {
+				this.loadSubApp(subapp, userdata).then(() => {
 
-					this.error(e);
+					result.resolve();
+
+				}, (e) => {
+
+					result.reject(e);
 				});
 
 				/*---------------------------------------------------------*/
 			}
 		}
+
+		return result.promise();
 	}
 
 	/*---------------------------------------------------------------------*/

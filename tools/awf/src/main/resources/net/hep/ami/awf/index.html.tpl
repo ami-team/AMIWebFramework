@@ -62,7 +62,7 @@
 
 			amiWebApp.onReady = function()
 			{
-				amiWebApp.loadSubAppByURL('document');
+				return amiWebApp.loadSubAppByURL('document');
 			};
 
 		</script>

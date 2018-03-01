@@ -42,9 +42,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	_init: function()
 	{
+		const result = $.Deferred();
+
+		/*-----------------------------------------------------------------*/
+
 		amiWebApp.lock();
 
-		return amiWebApp.loadTWIGs([
+		amiWebApp.loadTWIGs([
 			amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig',
 			amiWebApp.originURL + '/twig/AMI/Modal/login.twig',
@@ -123,27 +127,39 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			var xxxxxxxxxxxxxxxx = amiWebApp.args['userdata'] || '';
+			var userdata = amiWebApp.args['userdata'] || '';
 
 			/*-------------------------------------------------------------*/
 
 			amiCommand.certLogin().always((data, userInfo, roleInfo, ssoInfo) => {
 
-				_ami_internal_then(amiWebApp.onReady(xxxxxxxxxxxxxxxx), () => {
+				this._update(userInfo, roleInfo, ssoInfo).always(() => {
 
-					this._update(userInfo, roleInfo, ssoInfo).always(() => {
+					_ami_internal_then(amiWebApp.onReady(userdata), () => {
 
 						amiWebApp.unlock();
+
+						result.resolve();
+
+					}, (e) => {
+
+						amiWebApp.unlock();
+
+						result.reject(e);
 					});
-
-				}, (data) => {
-
-					amiWebApp.error(data);
 				});
 			});
 
 			/*-------------------------------------------------------------*/
+
+		}).fail((e) => {
+
+			result.reject(e);
 		});
+
+		/*-----------------------------------------------------------------*/
+
+		return result.promise();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -384,7 +400,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			_ami_internal_always(amiWebApp.triggerLogin(), () => {
+			amiWebApp.triggerLogin().always(() => {
 
 				amiWebApp.replaceHTML('#ami_login_content', this.fragmentLogoutButton, {dict: dict});
 
@@ -397,7 +413,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		{
 			/*-------------------------------------------------------------*/
 
-			_ami_internal_always(amiWebApp.triggerLogout(), () => {
+			amiWebApp.triggerLogout().always(() => {
 
 				result.resolve();
 
