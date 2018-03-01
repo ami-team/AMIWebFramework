@@ -1,0 +1,75 @@
+<h1 style="text-align: center; margin-top: 40px; margin-bottom: 50px;">Dataset WhiteBoard Administrator</h1>
+
+<!-- onclick="datasetWhiteBoardAdminApp.listAllGroups()" -->
+
+<nav>
+        <div class="nav nav-tabs" id="adminNavTab" role="tablist">
+                {% if groupAdmin %}
+                <a class="nav-item nav-link active" data-toggle="tab" href="#AD5C54D9_889F_2CFF_C921_D57445EE8C33" role="tab"> Group/Themes Admin</a>
+                {% endif %}
+                {% if AMI_Dataset_WB_Admin %}
+                <a class="nav-item nav-link" data-toggle="tab" href="#EC45D701_A94A_4A2B_511D_E69E60C34C3E" role="tab">AMI Dataset WhiteBoard Admin</a>
+                {% endif %}
+                {% if AMIAdmin %}
+                <a class="nav-item nav-link" data-toggle="tab" href="#B1FC1CD5_387C_ADEC_6245_389B117F9590" role="tab">AMI Admin</a>
+                {% endif %}
+        </div>
+</nav>
+
+<div class="tab-content">
+
+        <div class="tab-pane fade active show" id="AD5C54D9_889F_2CFF_C921_D57445EE8C33" role="tabpanel">
+                <h2>TEST </h2>
+                <div id="C31CFA05_9F19_D148_FD51_0449011D1828"></div>
+        </div>
+
+        <!-- -->
+
+        <div class="tab-pane fade" id="EC45D701_A94A_4A2B_511D_E69E60C34C3E" role="tabpanel">
+                <div style="margin-right: 50px; margin-left: 50px;" class="text-center">
+                        <h2 style="margin-top:20px; margin-bottom:20px;"> Interface WhiteBoard Admin </h2>
+                        <nav>
+                                <div class="nav nav-tabs" role="tablist" id="nav-tab">
+                                        <a class="nav-item nav-link active" data-toggle="tab" href="#B2415FBD_D354_0282_3D2E_72CBA0A27E38" role="tab">GROUPS</a>
+                                        <a class="nav-item nav-link" data-toggle="tab" href="#A0D1A747_CE90_D7BF_F96C_8E6AF5B8D53D" role="tab">THEMES</a>
+                                        <a class="nav-item nav-link" data-toggle="tab" href="#B8B996F9_2157_9CA8_77F6_55DF87D445D0" role="tab">USERS</a>
+                                </div>
+                        </nav>
+                        <div class="tab-content" id="nav-tabContent">
+                                <div class="tab-pane fade active show" id="B2415FBD_D354_0282_3D2E_72CBA0A27E38" role="tabpanel">
+                                        <h4>TABLES GROUP</h4>
+                                        <div style="margin-right: 20px; margin-left: 20px;" id="F31AF596_6CC5_3C55_DC09_7C6B1DE2D9B6"></div>
+                                </div>
+                                <div class="tab-pane fade" id="A0D1A747_CE90_D7BF_F96C_8E6AF5B8D53D" role="tabpanel">
+                                        <h4>TABLES THEMES</h4>
+                                        <div id="DC43AA12_9F32_6242_171F_92B7D5B51FAD"></div>
+                                </div>
+                                <div class="tab-pane fade" id="B8B996F9_2157_9CA8_77F6_55DF87D445D0" role="tabpanel">
+                                        <h4>TABLES USER</h4>
+                                        <div id="A99CD0CC_662F_D1DD_5AE6_B6C3FC100FF1"></div>
+                                </div>
+                        </div>
+                        <div id="D69C23FE_C644_6E45_DFA4_427E885C58C6"></div>
+                </div>
+        </div>
+
+        <!-- -->
+
+        <div class="tab-pane fade" id="B1FC1CD5_387C_ADEC_6245_389B117F9590" role="tabpanel">
+                <div class="text-center">
+                        <div class="my-3">
+                                <img src="{{ORIGIN_URL}}/images/glass.png" alt="search" style="width: 80px; height: 80px;"/>
+                        </div>
+                        <div class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8 input-group">
+                                        <input type="text" class="form-control form-control-sm" id="DC47F2CE_14D4_B402_55F6_97A3A7FEBD38" />
+                                        <span class="input-group-btn">
+                                                <button type="button" id="E42E33EE_5420_0DA4_D737_BB08AF646167" class="btn btn-sm btn-secondary">Search</button>
+                                        </span>
+                                </div>
+                        </div>
+                </div>
+                <div id="D54A443F_9434_DC93_F281_8DB9B8CF336B"></div>
+        </div>
+</div>
