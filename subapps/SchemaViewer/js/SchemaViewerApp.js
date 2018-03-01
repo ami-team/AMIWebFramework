@@ -180,7 +180,7 @@ $AMIClass('SchemaViewerApp', {
 
 		var files = e.dataTransfer.files;
 
-		for(var i = 0, file; file = files[i]; i++)
+		for(var i = 0, file; (file = files[i]); i++)
 		{
 			var reader = new FileReader();
 

@@ -325,7 +325,7 @@ $AMIClass('MonitoringApp', {
 				});
 
 				series1.push({
-					type: "stackedArea",
+					type: 'stackedArea',
 					name: service + '::' + node,
 					showInLegend: true,
 					markerType: null,
@@ -334,7 +334,7 @@ $AMIClass('MonitoringApp', {
 			});
 
 			series2.push({
-				type: "stackedArea",
+				type: 'stackedArea',
 				name: 'web',
 				showInLegend: true,
 				markerType: null,
@@ -342,7 +342,7 @@ $AMIClass('MonitoringApp', {
 			});
 
 			series2.push({
-				type: "stackedArea",
+				type: 'stackedArea',
 				name: 'tasks',
 				showInLegend: true,
 				markerType: null,
@@ -611,10 +611,10 @@ $AMIClass('MonitoringApp', {
 		var _this = this;
 
 		var set = g.selectAll('.' + className)
-			   .data(featureSet)
-			   .enter()
-			   .append('g')
-			   .attr('class', className)
+		           .data(featureSet)
+		           .enter()
+		           .append('g')
+		           .attr('class', className)
 		;
 
 		set.append('path')
@@ -632,7 +632,7 @@ $AMIClass('MonitoringApp', {
 
 		   .attr('style', function(d) {
 
-			return 'fill: ' + (data[d.id] ? _this._countryHeatmap(data[d.id] / max) : 'white');
+				return 'fill: ' + (data[d.id] ? _this._countryHeatmap(data[d.id] / max) : 'white');
 		    })
 
 		   /*--------------------------------------------------------------*/
@@ -664,11 +664,11 @@ $AMIClass('MonitoringApp', {
 				/**/
 				/**/			svg.selectAll('path').attr('d', projectionPath);
 				/**/		};
-				/**/	   })
+				/**/	  })
 				/**/	  .on('end', function() {
 				/**/
 				/**/		_this._earthLock = 0;
-				/**/	   });
+				/**/	  })
 				/**/	;
 		   })
 
