@@ -265,7 +265,7 @@ $AMIClass('SchemaCtrl', {
 
 					this.graph.newForeignKey(
 						tables[fkTable]['table'].get('id'),
-						tables[pkTable]['table'].get('id'),
+						tables[pkTable]['table'].get('id')
 					);
 				}
 
