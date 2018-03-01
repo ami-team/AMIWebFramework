@@ -91,7 +91,7 @@ $AMIClass('ElementInfoCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		this.replaceHTML(selector, this.fragmentElementInfoCtrl, {context: this, dict: this.ctx}).done(function(data) {
+		this.replaceHTML(selector, this.fragmentElementInfoCtrl, {context: this, dict: this.ctx}).done(function() {
 
 			var _this = this;
 

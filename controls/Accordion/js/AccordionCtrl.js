@@ -70,7 +70,7 @@ $AMIClass('AccordionCtrl', {
 			toolbar: this._toolbar,
 		};
 
-		this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {context: this, dict: dict}).done(function(e){
+		this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {context: this, dict: dict}).done(function(){
 
 			var _this = this;
 
@@ -133,15 +133,13 @@ $AMIClass('AccordionCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		var _this = this;
-
 		this.prependHTML(this._selector, this.fragmentAccordionItem, {context: this, dict: dict}).done(function() {
 
 			/*-------------------------------------------------------------*/
 
-			$("#" + id + " > .card-header > .close").click(function() {
+			$('#' + id + ' > .card-header > .close').click(function() {
 
-				$("#" + id).remove();
+				$('#' + id).remove();
 			});
 
 			/*-------------------------------------------------------------*/
@@ -200,15 +198,13 @@ $AMIClass('AccordionCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		var _this = this;
-
 		this.appendHTML(this._selector, this.fragmentAccordionItem, {context: this, dict: dict}).done(function() {
 
 			/*-------------------------------------------------------------*/
 
-			$("#" + id + " > .card-header > .close").click(function() {
+			$('#' + id + ' > .card-header > .close').click(function() {
 
-				$("#" + id).remove();
+				$('#' + id).remove();
 			});
 
 			/*-------------------------------------------------------------*/

@@ -7,6 +7,8 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
+ * @global amiTwig
+ *
  */
 
 /*-------------------------------------------------------------------------*/
@@ -647,7 +649,7 @@ $AMIClass('SearchCtrl', {
 
 			$(predicate.selector + ' option:selected').each(function() {
 
-				L.push('`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + this.value.replace(/\'/g, '\'\'') + '\'');
+				L.push('`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + this.value.replace(/'/g, '\'\'') + '\'');
 
 				S[this.value] = true;
 			});
@@ -737,9 +739,9 @@ $AMIClass('SearchCtrl', {
 		var filter = $(predicate.selector + ' .filter').val();
 
 		if(filter.indexOf('%') < 0) {
-			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + filter.replace(/\'/g, '\'\'') + '\'';
+			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + filter.replace(/'/g, '\'\'') + '\'';
 		} else {
-			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` LIKE \'' + filter.replace(/\'/g, '\'\'') + '\'';
+			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\'';
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -1114,14 +1116,19 @@ $AMIClass('SearchCtrl', {
 
 	_dumpAST: function(node, dict, ignore)
 	{
+		var t1;
+		var t2;
+
+		var result;
+
 		/**/ if(node.nodeLeft
 		        &&
 		        node.nodeRight
 		 ) {
 			/*-------------------------------------------------------------*/
 
-			var t1 = this._dumpAST(node.nodeLeft, dict, ignore);
-			var t2 = this._dumpAST(node.nodeRight, dict, ignore);
+			t1 = this._dumpAST(node.nodeLeft, dict, ignore);
+			t2 = this._dumpAST(node.nodeRight, dict, ignore);
 
 			/**/ if(!t1)
 			{
@@ -1133,7 +1140,7 @@ $AMIClass('SearchCtrl', {
 			}
 			else
 			{
-		 		var result = [];
+		 		result = [];
 
 				result.push(t1);
   				result.push(node.nodeValue);
@@ -1148,7 +1155,7 @@ $AMIClass('SearchCtrl', {
 		{
 			/*-------------------------------------------------------------*/
 
-			var t2 = this._dumpAST(node.nodeRight, dict, ignore);
+			t2 = this._dumpAST(node.nodeRight, dict, ignore);
 
 			if(!t2)
 			{
@@ -1156,7 +1163,7 @@ $AMIClass('SearchCtrl', {
 			}
 			else
 			{
-		 		var result = [];
+		 		result = [];
 
 				result.push(node.nodeValue);
 				result.push(t2);
@@ -1170,7 +1177,7 @@ $AMIClass('SearchCtrl', {
 		{
 			/*-------------------------------------------------------------*/
 
-			var t1 = this._dumpAST(node.nodeLeft, dict, ignore);
+			t1 = this._dumpAST(node.nodeLeft, dict, ignore);
 
 			if(!t1)
 			{
@@ -1178,7 +1185,7 @@ $AMIClass('SearchCtrl', {
 			}
 			else
 			{
-		 		var result = [];
+		 		result = [];
 
 				result.push(t1);
 				result.push(node.nodeValue);
