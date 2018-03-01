@@ -192,7 +192,7 @@ $AMIClass('ElementInfoCtrl', {
 
 			result.rejectWith(context, [error]);
 
-			amiWebApp.error(error);
+			amiWebApp.error(error, true);
 		});
 
 		return result;
