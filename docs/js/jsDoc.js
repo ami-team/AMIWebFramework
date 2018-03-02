@@ -49,12 +49,16 @@ var jsDoc = {
 
 	makeMenu: function()
 	{
-		var s = '<h6><a href=""><i class="fa fa-home"></i> Home</a></h6><hr />';
+		var s = '<a class="list-group-item list-group-item-action p-2" href=""><i class="fa fa-home"></i> Home</a>';
+
+		s += '<div class="list-group-item list-group-item-action p-2">';
 
 		s += this.makeSubMenu('Global', 'global');
 		s += this.makeSubMenu('Namespace', 'namespaces');
 		s += this.makeSubMenu('Interface', 'interfaces');
 		s += this.makeSubMenu('Class', 'classes');
+
+		s += '</div>';
 
 		$('#jsdoc_menu').html(s);
 	},
@@ -92,9 +96,11 @@ var jsDoc = {
 		{
 			var id = 'jsdoc_menu_' + title.toLowerCase();
 
-			result += '<h6><a href="#' + id + '" data-toggle="collapse"><i class="fa fa-book"></i> ' + title + '</a></h6>';
+			result += '<div>';
 
-			result += '<ul class="collapse" id="' +  id + '">';
+			result += '<a href="#' + id + '" data-toggle="collapse"><i class="fa fa-book"></i> ' + title + '</a>';
+
+			result += '<ul class="collapse mb-0" id="' +  id + '">';
 
 			for(var i in items)
 			{
@@ -102,6 +108,8 @@ var jsDoc = {
 			}
 
 			result += '</ul>';
+
+			result += '</div>';
 		}
 
 		/*---------------------------------------------------------*/
@@ -138,10 +146,12 @@ var jsDoc = {
 
 		/*---------------------------------------------------------*/
 
-		s += '<div class="well">';
+		s += '<div class="card">';
+		s += '<div class="card-body bg-light">';
 		s += '<h1>' + title + ': ' + item.name + '</h1>';
 		s += '<div>' + this.makeDesc(item) + '</div>';
 		s += this.makeDetails(item);
+		s += '</div>';
 		s += '</div>';
 
 		/*---------------------------------------------------------*/
@@ -150,14 +160,14 @@ var jsDoc = {
 
 		if(item.konstructor)
 		{
-			s += '<h3>Constructor</h3>';
+			s += '<h3 class="mt-3">Constructor</h3>';
 
 			s += this.makeFunction(item.konstructor);
 		}
 
 		if(item.variables)
 		{
-			s += '<h3>Members</h3>';
+			s += '<h3 class="mt-3">Members</h3>';
 
 			for(i in item.variables)
 			{
@@ -167,7 +177,7 @@ var jsDoc = {
 
 		if(item.functions)
 		{
-			s += '<h3>Methods</h3>';
+			s += '<h3 class="mt-3">Methods</h3>';
 
 			for(i in item.functions)
 			{
@@ -177,7 +187,7 @@ var jsDoc = {
 
 		if(item.events)
 		{
-			s += '<h3>Events</h3>';
+			s += '<h3 class="mt-3">Events</h3>';
 
 			for(i in item.events)
 			{
