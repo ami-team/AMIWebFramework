@@ -5673,6 +5673,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_controls: {},
 	_subapps: {},
 
+	_isReady: false,
+
 	_canLeave: true,
 
 	/*---------------------------------------------------------------------*/
@@ -7092,17 +7094,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* SUBAPPS                                                             */
 	/*---------------------------------------------------------------------*/
 
-	_trigger: false,
-
-	/*---------------------------------------------------------------------*/
-
 	triggerLogin: function()
 	{
 		const result = $.Deferred();
 
 		/*-----------------------------------------------------------------*/
 
-		if(this._trigger)
+		if(this._isReady)
 		{
 			_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
 
@@ -7134,7 +7132,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		if(this._trigger)
+		if(this._isReady)
 		{
 			_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
 
@@ -8191,7 +8189,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			_ami_internal_then(amiWebApp.onReady(userdata), () => {
 
-				amiWebApp._trigger = true;
+				amiWebApp._isReady = true;
 
 				amiCommand.certLogin().always((data, userInfo, roleInfo, ssoInfo) => {
 
