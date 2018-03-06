@@ -135,6 +135,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				amiWebApp._isReady = true;
 
+				amiWebApp.lock();
+
 				amiCommand.certLogin().always((data, userInfo, roleInfo, ssoInfo) => {
 
 					this._update(userInfo, roleInfo, ssoInfo).always(() => {
