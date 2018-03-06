@@ -6072,7 +6072,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 							$('body').append(_this7.formatTWIG(data3, dict) + data4).promise().done(function () {
 
-								amiLogin._init().fail(function (e) {
+								amiLogin._start().fail(function (e) {
 
 									_this7.error(e);
 								});
@@ -7099,7 +7099,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 	/* PRIVATE METHODS                                                     */
 	/*---------------------------------------------------------------------*/
 
-	_init: function _init() {
+	_start: function _start() {
 		var _this12 = this;
 
 		var result = $.Deferred();
@@ -7182,22 +7182,22 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 			/*-------------------------------------------------------------*/
 
-			amiCommand.certLogin().always(function (data, userInfo, roleInfo, ssoInfo) {
+			_ami_internal_then(amiWebApp.onReady(userdata), function () {
 
-				_this12._update(userInfo, roleInfo, ssoInfo).always(function () {
+				amiCommand.certLogin().always(function (data, userInfo, roleInfo, ssoInfo) {
 
-					_ami_internal_then(amiWebApp.onReady(userdata), function () {
+					_this12._update(userInfo, roleInfo, ssoInfo).always(function () {
 
 						amiWebApp.unlock();
 
 						result.resolve();
-					}, function (e) {
-
-						amiWebApp.unlock();
-
-						result.reject(e);
 					});
 				});
+			}, function (e) {
+
+				amiWebApp.unlock();
+
+				result.reject(e);
 			});
 
 			/*-------------------------------------------------------------*/

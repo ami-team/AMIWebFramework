@@ -40,7 +40,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/* PRIVATE METHODS                                                     */
 	/*---------------------------------------------------------------------*/
 
-	_init: function()
+	_start: function()
 	{
 		const result = $.Deferred();
 
@@ -131,23 +131,24 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			amiCommand.certLogin().always((data, userInfo, roleInfo, ssoInfo) => {
+			_ami_internal_then(amiWebApp.onReady(userdata), () => {
 
-				this._update(userInfo, roleInfo, ssoInfo).always(() => {
+				amiCommand.certLogin().always((data, userInfo, roleInfo, ssoInfo) => {
 
-					_ami_internal_then(amiWebApp.onReady(userdata), () => {
+					this._update(userInfo, roleInfo, ssoInfo).always(() => {
 
 						amiWebApp.unlock();
 
 						result.resolve();
 
-					}, (e) => {
-
-						amiWebApp.unlock();
-
-						result.reject(e);
 					});
 				});
+
+			}, (e) => {
+
+				amiWebApp.unlock();
+
+				result.reject(e);
 			});
 
 			/*-------------------------------------------------------------*/

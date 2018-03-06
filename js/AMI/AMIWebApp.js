@@ -1367,7 +1367,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-								amiLogin._init().fail((e) => {
+								amiLogin._start().fail((e) => {
 
 									this.error(e);
 								});
