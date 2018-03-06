@@ -6178,6 +6178,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/* SUBAPPS                                                             */
 	/*---------------------------------------------------------------------*/
 
+	_trigger: false,
+
+	/*---------------------------------------------------------------------*/
+
 	triggerLogin: function triggerLogin() {
 		var _this8 = this;
 
@@ -6185,16 +6189,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*-----------------------------------------------------------------*/
 
-		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), function () {
+		if (this._trigger) {
+			_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), function () {
 
-			_ami_internal_always(_this8.onRefresh(true), function () {
+				_ami_internal_always(_this8.onRefresh(true), function () {
 
-				result.resolve();
+					result.resolve();
+				});
+			}, function (e) {
+
+				result.reject(e);
 			});
-		}, function (e) {
-
-			result.reject(e);
-		});
+		} else {
+			result.resolve();
+		}
 
 		/*-----------------------------------------------------------------*/
 
@@ -6210,16 +6218,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*-----------------------------------------------------------------*/
 
-		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), function () {
+		if (this._trigger) {
+			_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), function () {
 
-			_ami_internal_always(_this9.onRefresh(false), function () {
+				_ami_internal_always(_this9.onRefresh(false), function () {
 
-				result.resolve();
+					result.resolve();
+				});
+			}, function (e) {
+
+				result.reject(e);
 			});
-		}, function (e) {
-
-			result.reject(e);
-		});
+		} else {
+			result.resolve();
+		}
 
 		/*-----------------------------------------------------------------*/
 
@@ -7183,6 +7195,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 			/*-------------------------------------------------------------*/
 
 			_ami_internal_then(amiWebApp.onReady(userdata), function () {
+
+				amiWebApp._trigger = true;
 
 				amiCommand.certLogin().always(function (data, userInfo, roleInfo, ssoInfo) {
 

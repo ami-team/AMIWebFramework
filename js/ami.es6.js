@@ -7092,23 +7092,34 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* SUBAPPS                                                             */
 	/*---------------------------------------------------------------------*/
 
+	_trigger: false,
+
+	/*---------------------------------------------------------------------*/
+
 	triggerLogin: function()
 	{
 		const result = $.Deferred();
 
 		/*-----------------------------------------------------------------*/
 
-		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
+		if(this._trigger)
+		{
+			_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
 
-			_ami_internal_always(this.onRefresh(true), () => {
+				_ami_internal_always(this.onRefresh(true), () => {
 
-				result.resolve();
+					result.resolve();
+				});
+
+			}, (e) => {
+
+					result.reject(e);
 			});
-
-		}, (e) => {
-
-				result.reject(e);
-		});
+		}
+		else
+		{
+			result.resolve();
+		}
 
 		/*-----------------------------------------------------------------*/
 
@@ -7123,17 +7134,24 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
+		if(this._trigger)
+		{
+			_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
 
-			_ami_internal_always(this.onRefresh(false), () => {
+				_ami_internal_always(this.onRefresh(false), () => {
 
-				result.resolve();
+					result.resolve();
+				});
+
+			}, (e) => {
+
+					result.reject(e);
 			});
-
-		}, (e) => {
-
-				result.reject(e);
-		});
+		}
+		else
+		{
+			result.resolve();
+		}
 
 		/*-----------------------------------------------------------------*/
 
@@ -8172,6 +8190,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/*-------------------------------------------------------------*/
 
 			_ami_internal_then(amiWebApp.onReady(userdata), () => {
+
+				amiWebApp._trigger = true;
 
 				amiCommand.certLogin().always((data, userInfo, roleInfo, ssoInfo) => {
 
