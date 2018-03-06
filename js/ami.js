@@ -4908,6 +4908,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 	_idRegExp: new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g'),
 
+	_linkExp: new RegExp('\\[([^\\]]*)\\]\\(([^\\)]*)\\)', 'g'),
+
 	/*---------------------------------------------------------------------*/
 
 	_embedded: false,
@@ -4928,8 +4930,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*---------------------------------------------------------------------*/
 
 	_currentSubAppInstance: new function () {
-		this.$name = 'fake';
-
 		this.onReady = function () {};
 		this.onExit = function () {};
 		this.onLogin = function () {};
@@ -5248,9 +5248,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 	/*---------------------------------------------------------------------*/
 
 	_getExtension: function _getExtension(url) {
-		var index = url.lastIndexOf('.');
+		var idx = url.lastIndexOf('.');
 
-		return index > 0 ? url.substring(index) : '';
+		return idx > 0 ? url.substring(idx) : '';
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -5849,7 +5849,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*-----------------------------------------------------------------*/
 
-		el.html(html).promise().done(function () {
+		el.html(html.replace(this._linkExp, '<a href="$1">$2</a>')).promise().done(function () {
 
 			$(document).scrollTop(0);
 
