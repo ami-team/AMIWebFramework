@@ -6094,7 +6094,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						$('body').append(data3).promise().done(function () {
 
-							amiLogin._init().fail(function (e) {
+							amiLogin._start().fail(function (e) {
 
 								_this7.error(e);
 							});
