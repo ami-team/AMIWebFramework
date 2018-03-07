@@ -6720,7 +6720,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		el.html(html.replace(this._linkExp, '<a href="$1">$2</a>')).promise().done(() => {
+		el.html(html.replace(this._linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
 
 			$(document).scrollTop(0);
 
