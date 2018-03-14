@@ -169,17 +169,33 @@ $AMIClass('ElementInfoCtrl', {
 
 			var rows = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data) || []; /* BERK */
 
+			var children = amiWebApp.jspath('..rowset{.@type==="child" || .@type==="Element_Child"}.row', data) || []; /* BERK ITOU */
+
 			/*-------------------------------------------------------------*/
 
 			var dict = {
 				showEmptyFields: showEmptyFields,
 				descriptions: descriptions,
 				rows: rows,
+				children: children,
 			};
 
-			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentDetails, {dict: dict}).done(function() {
+			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentDetails, {context:this, dict: dict}).done(function() {
 
-				result.resolveWith(context, [descriptions, rows]);
+				for (var i = 0; i < children.length; i++)
+				{
+					$(this.patchId('#B8275C83_776D_57AC_5379_70DC7391AD5A') + '  a:eq('+ i +')').on('click', {context: this, child:children[i]}, function(e) {
+
+						data = e.data;
+
+						var catalog = data.context.ctx.catalog;
+						var entity = amiWebApp.jspath('..@childName', data.child) || [];
+						var mql = amiWebApp.jspath('..field[0].$', data.child) || [];
+
+						data.context.showLinkedEntity(catalog, entity, mql);
+					});
+				}
+				result.resolveWith(context, [descriptions, rows, children]);
 
 				amiWebApp.unlock();
 			});
@@ -196,6 +212,50 @@ $AMIClass('ElementInfoCtrl', {
 		});
 
 		return result;
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	showLinkedEntity: function(catalog, entity, mql)
+	{
+		var app = this.getParent().getParent(); // ?? be careful of cyclic loadRessources...
+		var parent = this.getParent();
+
+		if(parent.$name === 'TabCtrl')
+		{
+			parent.appendItem('<i class="fa fa-arrows-alt"></i> ' + entity, {context: this}).done(function(sel) {
+
+				cmd = 'SearchQuery -catalog=\"' + catalog + '\" -entity=\"' + entity + '\" -mql=\"' + mql + '\"';
+
+				var table = new app._tableCtor(parent);
+
+				if(typeof table !== 'undefined' && table !== null)
+				{
+					table.render(sel,cmd,{
+						enableCache: false,
+						showDetails: true,
+						showTools: true,
+						canEdit: false,
+						catalog: catalog,
+						entity: entity,
+						primaryField: 'identifier',
+						rowset: '',
+						start: 1,
+						stop: 10,
+						orderBy: 'created',
+						orderWay: 'DESC',
+					});
+				}
+				else
+				{
+					amiWebApp.error('could not create a new table', true);
+				}
+			});
+		}
+		else
+		{
+			amiWebApp.error('could not create a new tab', true);
+		}
 	},
 
 	/*---------------------------------------------------------------------*/

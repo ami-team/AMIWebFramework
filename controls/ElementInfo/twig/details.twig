@@ -40,11 +40,20 @@
 				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
 					Linked Entities
 				</div>
-				<div class="card-body" style="padding: 0;">
+				<div class="card-body" style="padding: 0;" id="B8275C83_776D_57AC_5379_70DC7391AD5A">
 					<table class="table table-sm table-striped table-bordered mb-0">
-
-						<!-- TODO -->
-
+						{% if children is not empty %}
+						{%   for child in children %}
+						<tr>
+							<td class="text-center"><a href="#">{{ child['@childName'] }}</a></td>
+							<td class="text-center">{{ child.field[0]['@numRecords'] }} records</td>
+						</tr>
+						{%   endfor %}
+						{% else %}
+						<tr>
+							<td class="text-center">no child</td>
+						</tr>
+						{% endif %}
 					</table>
 				</div>
 			</div>
