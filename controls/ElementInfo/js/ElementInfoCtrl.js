@@ -151,7 +151,7 @@ $AMIClass('ElementInfoCtrl', {
 		if(settings)
 		{
 			if('context' in settings) {
-	  			context = settings['context'];
+				context = settings['context'];
 			}
 		}
 
@@ -182,19 +182,23 @@ $AMIClass('ElementInfoCtrl', {
 
 			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentDetails, {context:this, dict: dict}).done(function() {
 
-				for (var i = 0; i < children.length; i++)
-				{
-					$(this.patchId('#B8275C83_776D_57AC_5379_70DC7391AD5A') + '  a:eq('+ i +')').on('click', {context: this, child:children[i]}, function(e) {
+				var _this = this;
 
-						data = e.data;
+				var parent = $(this.patchId('#B8275C83_776D_57AC_5379_70DC7391AD5A'));
 
-						var catalog = data.context.ctx.catalog;
-						var entity = amiWebApp.jspath('..@childName', data.child) || [];
-						var mql = amiWebApp.jspath('..field[0].$', data.child) || [];
+				parent.find('a[data-action="child"]').click(function(e) {
 
-						data.context.showLinkedEntity(catalog, entity, mql);
-					});
-				}
+					e.preventDefault();
+
+					_this.showLinkedEntity(
+							this.getAttribute('data-catalog')
+							,
+							this.getAttribute('data-entity')
+							,
+							this.getAttribute('data-mql')
+					);
+				});
+
 				result.resolveWith(context, [descriptions, rows, children]);
 
 				amiWebApp.unlock();

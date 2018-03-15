@@ -45,8 +45,8 @@
 						{% if children is not empty %}
 						{%   for child in children %}
 						<tr>
-							<td class="text-center"><a href="#">{{ child['@childName'] }}</a></td>
-							<td class="text-center">{{ child.field[0]['@numRecords'] }} records</td>
+							<td class="text-center"><a href="#" data-action="child" data-catalog="{{child.field[0]['@catalog']|e}}" data-entity="{{child.field[0]['@table']|e}}" data-mql="{{child.field[0].$}}">{{child.field[0]['@table']|e}}</a></td>
+							<td class="text-center">{{child.field[0]['@numRecords']|e}} records</td>
 						</tr>
 						{%   endfor %}
 						{% else %}
