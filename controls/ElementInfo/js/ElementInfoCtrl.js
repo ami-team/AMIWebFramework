@@ -72,6 +72,10 @@ $AMIClass('ElementInfoCtrl', {
 			/**/
 
 			showEmptyFields: false,
+
+			/**/
+
+			expandedLinkedElements: [],
 		};
 
 		if(settings)
@@ -83,7 +87,26 @@ $AMIClass('ElementInfoCtrl', {
 			if('showEmptyFields' in settings) {
 				this.ctx.showEmptyFields = settings['showEmptyFields'];
 			}
+
+			if('expandedLinkedElements' in settings) {
+				this.ctx.expandedLinkedElements = settings['expandedLinkedElements'];
+			}
 		}
+
+		/*-----------------------------------------------------------------*/
+		var expandedLinkedElement;
+		var commandExtra = [];
+
+		for( var i in this.ctx.expandedLinkedElements)
+		{
+			expandedLinkedElement = this.ctx.expandedLinkedElements[i];
+			catalog = expandedLinkedElement.catalog;
+			entity = expandedLinkedElement.entity;
+
+			commandExtra.push(catalog + '.' + entity);
+		}
+
+		this.ctx.command += ' -expandedLinkedElements="' + commandExtra.join(',') + '"';
 
 		/*-----------------------------------------------------------------*/
 
@@ -171,6 +194,22 @@ $AMIClass('ElementInfoCtrl', {
 
 			var linkedElementRowset = amiWebApp.jspath('..rowset{.@type==="linked_elements" || .@type==="Element_Child"}.row', data) || []; /* BERK ITOU */
 
+			var expandedLinkedElements = [];
+
+			for( var i in this.ctx.expandedLinkedElements)
+			{
+				expandedLinkedElement = this.ctx.expandedLinkedElements[i];
+
+				expandedLinkedElements.push({
+					catalog: expandedLinkedElement.catalog,
+					entity: expandedLinkedElement.entity,
+					fields: expandedLinkedElement.fields,
+					keyValMode: expandedLinkedElement.keyValMode,
+					rows: amiWebApp.jspath('..rowset{.@type==="' + expandedLinkedElement.entity + '"}.row', data) || [],
+				})
+			}
+
+			console.debug('expandedLinkedElements: ' + JSON.stringify(expandedLinkedElements));
 			/*-------------------------------------------------------------*/
 
 			var dict = {
@@ -178,6 +217,7 @@ $AMIClass('ElementInfoCtrl', {
 				descriptions: descriptions,
 				elementRowset: elementRowset,
 				linkedElementRowset: linkedElementRowset,
+				expandedLinkedElements: expandedLinkedElements,
 			};
 
 			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentDetails, {context:this, dict: dict}).done(function() {
