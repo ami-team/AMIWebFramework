@@ -167,17 +167,17 @@ $AMIClass('ElementInfoCtrl', {
 
 			var descriptions = amiWebApp.jspath('..descriptions.description', data) || [];
 
-			var rows = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data) || []; /* BERK */
+			var elementRowset = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data) || []; /* BERK */
 
-			var children = amiWebApp.jspath('..rowset{.@type==="child" || .@type==="Element_Child"}.row', data) || []; /* BERK ITOU */
+			var linkedElementRowset = amiWebApp.jspath('..rowset{.@type==="linked_elements" || .@type==="Element_Child"}.row', data) || []; /* BERK ITOU */
 
 			/*-------------------------------------------------------------*/
 
 			var dict = {
 				showEmptyFields: showEmptyFields,
 				descriptions: descriptions,
-				rows: rows,
-				children: children,
+				elementRowset: elementRowset,
+				linkedElementRowset: linkedElementRowset,
 			};
 
 			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentDetails, {context:this, dict: dict}).done(function() {
@@ -186,7 +186,7 @@ $AMIClass('ElementInfoCtrl', {
 
 				var parent = $(this.patchId('#B8275C83_776D_57AC_5379_70DC7391AD5A'));
 
-				parent.find('a[data-action="child"]').click(function(e) {
+				parent.find('a[data-action="linked_element"]').click(function(e) {
 
 					e.preventDefault();
 
@@ -199,7 +199,7 @@ $AMIClass('ElementInfoCtrl', {
 					);
 				});
 
-				result.resolveWith(context, [descriptions, rows, children]);
+				result.resolveWith(context, [descriptions, elementRowset, linkedElementRowset]);
 
 				amiWebApp.unlock();
 			});
