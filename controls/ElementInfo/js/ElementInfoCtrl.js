@@ -203,8 +203,8 @@ $AMIClass('ElementInfoCtrl', {
 				expandedLinkedElements.push({
 					catalog: expandedLinkedElement.catalog,
 					entity: expandedLinkedElement.entity,
-					fields: expandedLinkedElement.fields,
-					keyValMode: expandedLinkedElement.keyValMode,
+					fields: expandedLinkedElement.fields || [],
+					keyValMode: expandedLinkedElement.keyValMode || false,
 					rows: amiWebApp.jspath('..rowset{.@type==="' + expandedLinkedElement.entity + '"}.row', data) || [],
 				})
 			}
@@ -219,7 +219,7 @@ $AMIClass('ElementInfoCtrl', {
 				expandedLinkedElements: expandedLinkedElements,
 			};
 
-			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentDetails, {context:this, dict: dict}).done(function() {
+			this.replaceHTML(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.fragmentDetails, {context: this, dict: dict}).done(function() {
 
 				var _this = this;
 
@@ -230,11 +230,11 @@ $AMIClass('ElementInfoCtrl', {
 					e.preventDefault();
 
 					_this.showLinkedEntity(
-						this.getAttribute('data-catalog')
-						,
-						this.getAttribute('data-entity')
-						,
-						this.getAttribute('data-mql')
+							this.getAttribute('data-catalog')
+							,
+							this.getAttribute('data-entity')
+							,
+							this.getAttribute('data-mql')
 					);
 				});
 
@@ -319,3 +319,4 @@ $AMIClass('ElementInfoCtrl', {
 });
 
 /*-------------------------------------------------------------------------*/
+
