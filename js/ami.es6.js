@@ -5766,6 +5766,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/css/bootstrap.min.css',
 				this.originURL + '/css/bootstrap-toggle.min.css',
 				this.originURL + '/css/bootstrap-vertical-tabs.min.css',
+				this.originURL + '/css/select2.min.css',
 			]);
 
 			this.loadScripts([
@@ -5773,6 +5774,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/js/bootstrap.min.js',
 				this.originURL + '/js/bootstrap-toggle.min.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js',
+				this.originURL + '/js/select2.min.js',
 			]);
 		}
 
