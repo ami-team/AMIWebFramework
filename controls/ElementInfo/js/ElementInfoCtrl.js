@@ -34,6 +34,7 @@ $AMIClass('ElementInfoCtrl', {
 			/**/
 			'ctrl:messageBox',
 			'ctrl:textBox',
+			'ctrl:table',
 		], {context: this}).done(function(data) {
 
 			this.fragmentElementInfoCtrl = data[0];

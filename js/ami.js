@@ -5372,6 +5372,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 						result.push(true);
 
+						_this3._sheets.push(url);
+
 						_this3.__loadXXX(deferred, result, urls, dataType, context);
 					}, function () {
 
@@ -5401,6 +5403,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 					}).then(function () {
 
 						result.push(true);
+
+						_this3._scripts.push(url);
 
 						_this3.__loadXXX(deferred, result, urls, dataType, context);
 					}, function () {

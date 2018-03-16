@@ -599,6 +599,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 						result.push(true);
 
+						this._sheets.push(url);
+
 						this.__loadXXX(deferred, result, urls, dataType, context);
 
 					}, () => {
@@ -632,6 +634,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 					}).then(() => {
 
 						result.push(true);
+
+						this._scripts.push(url);
 
 						this.__loadXXX(deferred, result, urls, dataType, context);
 
