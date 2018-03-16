@@ -43,6 +43,7 @@ $AMIClass('ElementInfoCtrl', {
 
 			this.messageBox = new data[3];
 			this.textBox = new data[4];
+			this.tableCtor = data[5]
 		});
 	},
 
@@ -204,10 +205,10 @@ $AMIClass('ElementInfoCtrl', {
 				expandedLinkedElements.push({
 					catalog: expandedLinkedElement.catalog,
 					entity: expandedLinkedElement.entity,
-					fields: expandedLinkedElement.fields || [],
-					keyValMode: expandedLinkedElement.keyValMode || false,
+					fields: expandedLinkedElement.fields,
+					keyValMode: expandedLinkedElement.keyValMode,
 					rows: amiWebApp.jspath('..rowset{.@type==="' + expandedLinkedElement.entity + '"}.row', data) || [],
-				})
+				});
 			}
 
 			/*-------------------------------------------------------------*/
@@ -262,38 +263,22 @@ $AMIClass('ElementInfoCtrl', {
 
 	showLinkedEntity: function(catalog, entity, mql)
 	{
-		var app = this.getParent().getParent(); // ?? be careful of cyclic loadRessources...
 		var parent = this.getParent();
 
 		if(parent.$name === 'TabCtrl')
 		{
 			parent.appendItem('<i class="fa fa-arrows-alt"></i> ' + entity, {context: this}).done(function(sel) {
 
-				cmd = 'SearchQuery -catalog=\"' + catalog + '\" -entity=\"' + entity + '\" -mql=\"' + mql + '\"';
+				var command = 'SearchQuery -catalog=\"' + amiWebApp.textToString(catalog) + '\" -entity=\"' + amiWebApp.textToString(entity) + '\" -mql=\"' + amiWebApp.textToString(mql) + '\"';
 
-				var table = new app._tableCtor(parent);
-
-				if(typeof table !== 'undefined' && table !== null)
-				{
-					table.render(sel,cmd,{
-						enableCache: false,
-						showDetails: true,
-						showTools: true,
-						canEdit: false,
-						catalog: catalog,
-						entity: entity,
-						primaryField: 'identifier',
-						rowset: '',
-						start: 1,
-						stop: 10,
-						orderBy: 'created',
-						orderWay: 'DESC',
-					});
-				}
-				else
-				{
-					amiWebApp.error('could not create a new table', true);
-				}
+				new this.tableCtor(parent, this).render(sel, command, {
+					enableCache: false,
+					showDetails: true,
+					showTools: true,
+					canEdit: false,
+					catalog: catalog,
+					entity: entity,
+				});
 			});
 		}
 		else
