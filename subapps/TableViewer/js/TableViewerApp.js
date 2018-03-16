@@ -71,7 +71,7 @@ $AMIClass('TableViewerApp', {
 
 	onLogin: function()
 	{
-		this.table.render(this.tabSel, 'SearchQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*`"', {showDetails: true, canEdit: true, catalog: this.catalog, entity: this.entity, primaryField: this.primaryField, start: 1, stop: 20});
+		this.table.render(this.tabSel, 'SearchQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: this.catalog, entity: this.entity, primaryField: this.primaryField, start: 1, stop: 20});
 
 		$('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0').show();
 	},
