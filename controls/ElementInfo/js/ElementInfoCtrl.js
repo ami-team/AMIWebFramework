@@ -192,11 +192,11 @@ $AMIClass('ElementInfoCtrl', {
 
 			var elementRowset = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data) || []; /* BERK */
 
-			var linkedElementRowset = amiWebApp.jspath('..rowset{.@type==="linked_elements" || .@type==="Element_Child"}.row', data) || []; /* BERK ITOU */
+			var linkedElementRowset = amiWebApp.jspath('..rowset{.@type==="linked_elements" || .@type==="Element_Child"}.row', data) || []; /* BERK */
 
 			var expandedLinkedElements = [];
 
-			for( var i in this.ctx.expandedLinkedElements)
+			for(var i in this.ctx.expandedLinkedElements)
 			{
 				expandedLinkedElement = this.ctx.expandedLinkedElements[i];
 
@@ -209,7 +209,6 @@ $AMIClass('ElementInfoCtrl', {
 				})
 			}
 
-			console.debug('expandedLinkedElements: ' + JSON.stringify(expandedLinkedElements));
 			/*-------------------------------------------------------------*/
 
 			var dict = {
@@ -231,11 +230,11 @@ $AMIClass('ElementInfoCtrl', {
 					e.preventDefault();
 
 					_this.showLinkedEntity(
-							this.getAttribute('data-catalog')
-							,
-							this.getAttribute('data-entity')
-							,
-							this.getAttribute('data-mql')
+						this.getAttribute('data-catalog')
+						,
+						this.getAttribute('data-entity')
+						,
+						this.getAttribute('data-mql')
 					);
 				});
 
