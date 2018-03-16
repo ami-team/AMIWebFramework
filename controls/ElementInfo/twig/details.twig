@@ -59,11 +59,32 @@
 			</div>
 			{% if expandedLinkedElements is not empty %}
 			{%   for expandedLinkedElement in expandedLinkedElements %}
-
 					<div class="card mt-1">
 						<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
 							{{ expandedLinkedElement.entity }}
 						</div>
+					</div>
+					<div class="card-body" style="padding: 0;">
+						<table class="table table-sm table-striped table-bordered mb-0">
+			{%     if expandedLinkedElement.keyValMode === true %}
+			{%       for row in expandedLinkedElement.rows %}
+							<tr>
+			{%         for field in expandedLinkedElement.fields %}
+								<td class="text-center">{{row | json_jspath('..field{.@name==="' + field + '"}.$')[0] | e}}</td>
+			{%         endfor %}
+							</tr>
+			{%       endfor %}
+			{%     else %}
+			{%       for row in expandedLinkedElement.rows %}
+			{%         for field in expandedLinkedElement.fields %}
+							<tr>
+								<td class="text-center">{{field | e}}</td>
+								<td class="text-center">{{row | json_jspath('..field{.@name==="' + field + '"}.$')[0] | e}}</td>
+							</tr>
+			{%         endfor %}
+			{%       endfor %}
+			{%     endif %}
+						</table>
 					</div>
 
 			{%   endfor %}
