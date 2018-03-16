@@ -15,6 +15,8 @@
 /* amiTwig                                                                 */
 /*-------------------------------------------------------------------------*/
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 var amiTwig = {};
 
 /*-------------------------------------------------------------------------*/
@@ -4168,9 +4170,9 @@ amiTwig.expr.interpreter = {
 
 	decl.apply = decl;
 
-	if (typeof module === 'object' && typeof module.exports === 'object') {
+	if ((typeof module === 'undefined' ? 'undefined' : _typeof(module)) === 'object' && _typeof(module.exports) === 'object') {
 		module.exports = decl;
-	} else if (typeof modules === 'object') {
+	} else if ((typeof modules === 'undefined' ? 'undefined' : _typeof(modules)) === 'object') {
 		modules.define('jspath', function (provide) {
 			provide(decl);
 		});
@@ -4234,7 +4236,7 @@ jQuery.each = function (el, callback, context) {
 /*-------------------------------------------------------------------------*/
 
 jQuery.ajax = function (settings) {
-	if (typeof settings === 'object' && settings.dataType === 'sheet') {
+	if ((typeof settings === 'undefined' ? 'undefined' : _typeof(settings)) === 'object' && settings.dataType === 'sheet') {
 		var result = $.Deferred();
 
 		var _amiWebApp$setup = amiWebApp.setup(['context', 'url'], [result, ''], settings),
@@ -4457,7 +4459,7 @@ function $AMIClass($name, $descr) {
 					if ($interface.$members.hasOwnProperty(j)) {
 						var $member = $interface.$members[j];
 
-						if (typeof this[j] !== typeof $member) {
+						if (_typeof(this[j]) !== (typeof $member === 'undefined' ? 'undefined' : _typeof($member))) {
 							throw 'class `' + this.$name + '` with must implement `' + $interface.$name + '.' + j + '`';
 						}
 					}
