@@ -57,6 +57,17 @@
 					</table>
 				</div>
 			</div>
+			{% if expandedLinkedElements is not empty %}
+			{%   for expandedLinkedElement in expandedLinkedElements %}
+
+					<div class="card mt-1">
+						<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
+							{{ expandedLinkedElement.entity }}
+						</div>
+					</div>
+
+			{%   endfor %}
+			{% endif %}
 		</td>
 	</tr>
 </table>

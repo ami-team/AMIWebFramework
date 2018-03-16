@@ -89,7 +89,7 @@ $AMIClass('TableCtrl', {
 			},
 
 			deleteCommandFunc: function(primaryValue) {
-		
+
 				return 'RemoveElements -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -keyFields="' + amiWebApp.textToString(this.ctx.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
 			},
 
@@ -195,6 +195,10 @@ $AMIClass('TableCtrl', {
 
 			if('orderWay' in settings) {
 				this.ctx.orderWay = settings['orderWay'];
+			}
+
+			if('expandedLinkedElements' in settings) {
+				this.ctx.expandedLinkedElements = settings['expandedLinkedElements'];
 			}
 		}
 
@@ -974,7 +978,8 @@ $AMIClass('TableCtrl', {
 					this.ctx.catalog,
 					this.ctx.entity,
 					this.ctx.primaryField,
-					primaryValue
+					primaryValue,
+					{expandedLinkedElements: this.ctx.expandedLinkedElements}
 				);
 			});
 		}
