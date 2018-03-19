@@ -101,7 +101,7 @@ $AMIClass('MonitoringApp', {
 
 				this._reloadTime = 4 * 60 * 60 * 1000;
 
-				this._interval = 5000;
+				this._interval = 2500;
 
 				this._nodes = [
 				];
@@ -274,7 +274,6 @@ $AMIClass('MonitoringApp', {
 			}
 
 			this._chart3.options.data[0].dataPoints.push({x: now, y: webNr > 0 ? 1 : 0});
-			this._chart3.options.data[1].dataPoints.push({x: now, y: taskNr > 0 ? 1 : 0});
 
 			this._chart2.render();
 			this._chart3.render();
@@ -335,15 +334,7 @@ $AMIClass('MonitoringApp', {
 
 			series2.push({
 				type: 'stackedArea',
-				name: 'web',
-				showInLegend: true,
-				markerType: null,
-				dataPoints: [],
-			});
-
-			series2.push({
-				type: 'stackedArea',
-				name: 'tasks',
+				name: 'web service',
 				showInLegend: true,
 				markerType: null,
 				dataPoints: [],
@@ -430,8 +421,8 @@ $AMIClass('MonitoringApp', {
 				},
 				axisY: {
 					minimum: 0,
-					maximum: 2,
-					interval: 2,
+					maximum: 1,
+					interval: 1,
 					title: 'Global availability',
 				},
 				backgroundColor: 'transparent',
