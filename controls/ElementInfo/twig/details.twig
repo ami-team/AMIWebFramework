@@ -46,10 +46,10 @@
 						{%   for row in linkedElementRowset %}
 						<tr>
 							<td class="text-center">
-								<a href="#" data-action="linked_element" data-catalog="{{row | json_jspath('..field{.@name==="catalog"}.$')[0] | e}}" data-entity="{{row | json_jspath('..field{.@name==="entity"}.$')[0] | e}}" data-mql="{{row | json_jspath('..field{.@name==="mql"}.$')[0] | e}}">{{row | json_jspath('..field{.@name==="entity"}.$')[0] | e}}</a>
+								<a href="#" data-action="linked_element" data-catalog="{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}" data-entity="{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}" data-mql="{{row|json_jspath('..field{.@name==="mql"}.$')[0]|e}}">{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}} <span class="text-muted">{ {{row|json_jspath('..field{.@name==="constraint"}.$')[0]|e}} }</span></a>
 							</td>
 							<td class="text-center">
-								{{row | json_jspath('..field{.@name==="count"}.$')[0] | e}} records
+								{{row|json_jspath('..field{.@name==="count"}.$')[0]|e}} records
 							</td>
 						</tr>
 						{%   endfor %}
@@ -74,7 +74,7 @@
 							{%   for row in expandedLinkedElement.rows %}
 							<tr>
 								{% for field in expandedLinkedElement.fields %}
-								<td class="text-center">{{row | json_jspath('..field{.@name==="' + field + '"}.$')[0] | e}}</td>
+								<td class="text-center">{{row|json_jspath('..field{.@name==="' + field + '"}.$')[0]|e}}</td>
 								{% endfor %}
 							</tr>
 							{%   endfor %}
@@ -82,8 +82,8 @@
 							{%   for row in expandedLinkedElement.rows %}
 							{%     for field in row.fields %}
 							<tr>
-								<td class="text-center">{{field | e}}</td>
-								<td class="text-center">{{row | json_jspath('..field{.@name==="' + field + '"}.$')[0] | e}}</td>
+								<td class="text-center">{{field|e}}</td>
+								<td class="text-center">{{row|json_jspath('..field{.@name==="' + field + '"}.$')[0]|e}}</td>
 							</tr>
 							{%     endfor %}
 							{%   endfor %}
