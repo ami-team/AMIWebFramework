@@ -5,7 +5,7 @@
 				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
 					Metadata
 				</div>
-				<div class="card-body" style="padding: 0;">
+				<div class="card-body p-0">
 					<table class="table table-sm table-striped table-bordered mb-0">
 						{% if elementRowset is not empty %}
 						{%   for row in elementRowset %}
@@ -40,7 +40,7 @@
 				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
 					Linked Entities
 				</div>
-				<div class="card-body" style="padding: 0;" id="B8275C83_776D_57AC_5379_70DC7391AD5A">
+				<div class="card-body p-0" id="B8275C83_776D_57AC_5379_70DC7391AD5A">
 					<table class="table table-sm table-striped table-bordered mb-0">
 						{% if linkedElementRowset is not empty %}
 						{%   for row in linkedElementRowset %}
@@ -68,7 +68,7 @@
 							{{ expandedLinkedElement.entity }}
 						</div>
 					</div>
-					<div class="card-body" style="padding: 0;">
+					<div class="card-body p-0">
 						<table class="table table-sm table-striped table-bordered mb-0">
 							{% if expandedLinkedElement.keyValMode === true %}
 							{%   for row in expandedLinkedElement.rows %}
