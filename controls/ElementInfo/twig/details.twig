@@ -8,8 +8,8 @@
 				<div class="card-body" style="padding: 0;">
 					<table class="table table-sm table-striped table-bordered mb-0">
 						{% if elementRowset is not empty %}
-						{%   for elementRow in elementRowset %}
-						{%     for field in elementRow.field %}
+						{%   for row in elementRowset %}
+						{%     for field in row.field %}
 						{%       if (showEmptyFields or (field.$ is not empty and field.$ != 'N/A' and field.$ is defined)) and (field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE') %}
 						<tr>
 							<td class="text-left">
@@ -43,10 +43,14 @@
 				<div class="card-body" style="padding: 0;" id="B8275C83_776D_57AC_5379_70DC7391AD5A">
 					<table class="table table-sm table-striped table-bordered mb-0">
 						{% if linkedElementRowset is not empty %}
-						{%   for linkedElementRow in linkedElementRowset %}
+						{%   for row in linkedElementRowset %}
 						<tr>
-							<td class="text-center"><a href="#" data-action="linked_element" data-catalog="{{linkedElementRow | json_jspath('..field{.@name==="catalog"}.$')[0] | e}}" data-entity="{{linkedElementRow | json_jspath('..field{.@name==="entity"}.$')[0] | e}}" data-mql="{{linkedElementRow | json_jspath('..field{.@name==="mql"}.$')[0] | e}}">{{linkedElementRow | json_jspath('..field{.@name==="entity"}.$')[0] | e}}</a></td>
-							<td class="text-center">{{linkedElementRow | json_jspath('..field{.@name==="count"}.$')[0] | e}} records</td>
+							<td class="text-center">
+								<a href="#" data-action="linked_element" data-catalog="{{row | json_jspath('..field{.@name==="catalog"}.$')[0] | e}}" data-entity="{{row | json_jspath('..field{.@name==="entity"}.$')[0] | e}}" data-mql="{{row | json_jspath('..field{.@name==="mql"}.$')[0] | e}}">{{row | json_jspath('..field{.@name==="entity"}.$')[0] | e}}</a>
+							</td>
+							<td class="text-center">
+								{{row | json_jspath('..field{.@name==="count"}.$')[0] | e}} records
+							</td>
 						</tr>
 						{%   endfor %}
 						{% else %}
@@ -66,27 +70,26 @@
 					</div>
 					<div class="card-body" style="padding: 0;">
 						<table class="table table-sm table-striped table-bordered mb-0">
-			{%     if expandedLinkedElement.keyValMode === true %}
-			{%       for row in expandedLinkedElement.rows %}
+							{% if expandedLinkedElement.keyValMode === true %}
+							{%   for row in expandedLinkedElement.rows %}
 							<tr>
-			{%         for field in expandedLinkedElement.fields %}
+								{% for field in expandedLinkedElement.fields %}
 								<td class="text-center">{{row | json_jspath('..field{.@name==="' + field + '"}.$')[0] | e}}</td>
-			{%         endfor %}
+								{% endfor %}
 							</tr>
-			{%       endfor %}
-			{%     else %}
-			{%       for row in expandedLinkedElement.rows %}
-			{%         for field in expandedLinkedElement.fields %}
+							{%   endfor %}
+							{% else %}
+							{%   for row in expandedLinkedElement.rows %}
+							{%     for field in row.fields %}
 							<tr>
 								<td class="text-center">{{field | e}}</td>
 								<td class="text-center">{{row | json_jspath('..field{.@name==="' + field + '"}.$')[0] | e}}</td>
 							</tr>
-			{%         endfor %}
-			{%       endfor %}
-			{%     endif %}
+							{%     endfor %}
+							{%   endfor %}
+							{% endif %}
 						</table>
 					</div>
-
 			{%   endfor %}
 			{% endif %}
 		</td>
