@@ -334,8 +334,7 @@ $AMIClass('MonitoringApp', {
 
 			series2.push({
 				type: 'stackedArea',
-				name: 'web service',
-				showInLegend: true,
+				showInLegend: false,
 				markerType: null,
 				dataPoints: [],
 			});
@@ -423,7 +422,7 @@ $AMIClass('MonitoringApp', {
 					minimum: 0,
 					maximum: 1,
 					interval: 1,
-					title: 'Global availability',
+					title: 'Service availability',
 				},
 				backgroundColor: 'transparent',
 				data: series2,

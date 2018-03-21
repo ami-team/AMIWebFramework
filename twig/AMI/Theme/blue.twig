@@ -24,7 +24,7 @@ body {
 #ami_main_center {
 	background-color: white;
 	margin: 0;
-	padding: 4px 16px;
+	padding: 8px 16px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
@@ -44,10 +44,10 @@ body {
 
 <div id="ami_main_container">
 
-	<nav class="navbar navbar-expand-lg navbar-light bg-light" id="ami_top_menu">
+	<nav class="navbar navbar-light navbar-expand-lg border-bottom bg-light" id="ami_top_menu">
 
  		<a class="navbar-brand py-0" href="{{HOME_URL}}">
-			<img src="{{LOGO_URL}}" alt="Logo" style="height: 40px;" />
+			<img src="{{LOGO_URL}}" alt="Logo" style="height: 38px;" />
 		</a>
 
 		<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#FCE61AFD_012B_2816_B9FD_C737908FAF72">
@@ -60,6 +60,7 @@ body {
 			<ul class="navbar-nav ml-auto" id="ami_login_content"></ul>
 
 		</div>
+
 	</nav>
 
 	<div id="ami_main_center">
@@ -68,8 +69,6 @@ body {
 
 		<div id="ami_alert_content" role="alert"></div>
 		<div id="ami_main_content" role="main"></div>
-
-		<br />
 
 	</div>
 
@@ -86,7 +85,7 @@ body {
 					<a class="nav-link" href="mailto:{{CONTACT_EMAIL}}"><i class="fa fa-envelope-o"></i> Contact</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="{{ABOUT_URL}}" target="_blank">About</a>
+					<a class="nav-link" href="{{ABOUT_URL}}" target="_blank"><i class="fa fa-external-link"></i> About</a>
 				</li>
 			</ul>
 

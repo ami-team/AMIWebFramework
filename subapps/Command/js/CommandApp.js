@@ -63,31 +63,39 @@ $AMIClass('CommandApp', {
 			rows.forEach(function(row) {
 
 				var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0] || '';
-				var help = amiWebApp.jspath('..field{.@name==="help" || .@name==="shortHelp"}.$', row)[0] || '';
+
+				var visible = (amiWebApp.jspath('..field{.@name=== "visible" }.$', row)[0] || 'true') !== 'false';
+				var secured = (amiWebApp.jspath('..field{.@name=== "secured" }.$', row)[0] || 'false') !== 'false';
+
+				var help = amiWebApp.jspath('..field{.@name==="help" || .@name==="shortHelp"}.$', row)[0] || ''; // BERK
 				var usage = amiWebApp.jspath('..field{.@name==="usage"}.$', row)[0] || '';
 
-				if(command.indexOf('AMI') === 0)
+				if(visible || amiLogin.hasRole('AMI_ADMIN'))
 				{
-					command = command.substring(3);
+					if(command.indexOf('AMI') === 0)
+					{
+						command = command.substring(3);
+					}
+
+					var proto;
+
+					if(!usage) {
+						proto = command;
+						help += '<br /><br />Usage:<br />' + command;
+					} else {
+						proto = command + ' ' + usage;
+						help += '<br /><br />Usage:<br />' + command + ' ' + usage;
+					}
+
+					help = help.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
+
+					dict.push({
+						command: command,
+						secured: secured,
+						help: help,
+						proto: proto,
+					});
 				}
-
-				var proto;
-
-				if(!usage) {
-					proto = command;
-					help += '<br /><br />Usage:<br />' + command;
-				} else {
-					proto = command + ' ' + usage;
-					help += '<br /><br />Usage:<br />' + command + ' ' + usage;
-				}
-
-				help = help.replace(new RegExp(command, 'g'), '<kbd>' + command + '</kbd>');
-
-				dict.push({
-					command: command,
-					help: help,
-					proto: proto,
-				});
 			});
 
 			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this.fragmentCommand, {dict: dict}).done(function() {
