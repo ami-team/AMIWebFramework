@@ -57,19 +57,8 @@ $AMIClass('GraphCtrl', {
 
 			var dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
 
-			//exemple of DOT like it must be
-			/*
-			dotString = 'digraph "mc16_13TeV.410650.aMcAtNloPythia8EvtGen_NNPDF30ME_A14_ug2gamt2gambWlnLH.merge.EVNT.e6054_e5984" { ' + 
-			'  graph [rankdir="LR", ranksep="0.20"];' +
-			'  node [width="1.2", height="0.2", style ="filled", fontcolor="blue", fontname="times", fontsize="11.0"];' +
-			'  "mc16_13TeV.410650.aMcAtNloPythia8EvtGen_NNPDF30ME_A14_ug2gamt2gambWlnLH.merge.EVNT.e6054_e5984" [pos="200,2000", color="chartreuse", shape="rectangle", URL="{&quot;catalog&quot;:&quot;mc16_001:production&quot;,&quot;entity&quot;:&quot;dataset&quot;,&quot;field&quot;:&quot;logicalDatasetName&quot;,&quot;value&quot;:&quot;mc16_13TeV.410650.aMcAtNloPythia8EvtGen_NNPDF30ME_A14_ug2gamt2gambWlnLH.merge.EVNT.e6054_e5984&quot;, &quot;icon&quot;:&quot;f1f8&quot;}" label="mc16_13TeV.410650.aMcAtNloPythia8EvtGen_NNPDF30ME_A14_ug2gamt2gambWlnLH.merge.EVNT.e6054_e5984"];' +
-			'  "mc15_13TeV.410650.aMcAtNloPythia8EvtGen_NNPDF30ME_A14_ug2gamt2gambWlnLH.evgen.EVNT.e6054" [pos="190,1950",color="chartreuse", URL="{&quot;catalog&quot;:&quot;mc15_001:production&quot;,&quot;entity&quot;:&quot;dataset&quot;,&quot;field&quot;:&quot;logicalDatasetName&quot;,&quot;value&quot;:&quot;mc15_13TeV.410650.aMcAtNloPythia8EvtGen_NNPDF30ME_A14_ug2gamt2gambWlnLH.evgen.EVNT.e6054&quot;}" label="mc15_13TeV.410650.aMcAtNloPythia8EvtGen_NNPDF30ME_A14_ug2gamt2gambWlnLH.evgen.EVNT.e6054"];' +
-			'  "mc15_13TeV.410650.aMcAtNloPythia8EvtGen_NNPDF30ME_A14_ug2gamt2gambWlnLH.evgen.EVNT.e6054" -> "mc16_13TeV.410650.aMcAtNloPythia8EvtGen_NNPDF30ME_A14_ug2gamt2gambWlnLH.merge.EVNT.e6054_e5984"' +
-			'}';
-			*/
-
 			var dict = {
-				graph : typeof Viz !== 'undefined' ?  Viz(dotString, 'svg', {scale: 10.0}) : '',
+				graph : typeof Viz !== 'undefined' ?  Viz(dotString, 'svg') : '',
 			};
 
 			/*--------------------------------------------------------------*/
