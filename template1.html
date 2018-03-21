@@ -11,7 +11,7 @@
     <title>Template</title>
 
     <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/ami.min.js"></script>
+    <script type="text/javascript" src="js/ami.es6.js"></script>
 
     <script type="text/javascript">
 
@@ -20,46 +20,102 @@
 		return amiWebApp.loadSubAppByURL('document');
 	};
 
-	amiWebApp.onRefresh = function()
+	amiWebApp.onRefresh = function(isAuth)
 	{
+		/*---------------------------------------------------------*/
+
 		var menu =
-			'<li class="dropdown">' +
-			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
-			'    Search <span class="caret"></span>' +
+			'<li class="nav-item dropdown">' +
+			'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+			'    Search' +
 			'  </a>' +
-			'  <ul class="dropdown-menu">' +
-			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiSearchEngine">Search Engine</a></li>' +
-			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=amiSimpleSearchEngine">Simple Search Engine</a></li>' +
-			'    <li class="divider" role="separator"></li>' +
-			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=schemaViewer">Schema Viewer</a></li>' +
-			'  </ul>' +
+			'  <div class="dropdown-menu">' +
+			'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=searchEngine">Search Engine</a>' +
+			'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=simpleSearchEngine">Simple Search Engine</a>' +
+			'    <div class="dropdown-divider"></div>' +
+			'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=schemaViewer">Schema Viewer</a>' +
+			'  </div>' +
 			'</li>' +
-			'<li class="dropdown">' +
-			'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
-			'    Tools <span class="caret"></span>' +
+			'<li class="nav-item dropdown">' +
+			'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+			'    Tools' +
 			'  </a>' +
-			'  <ul class="dropdown-menu">' +
-			'    <li><a href="' + amiWebApp.webAppURL + '?subapp=command">Command</a></li>' +
-			'  </ul>' +
+			'  <div class="dropdown-menu">' +
+			'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=command">Command</a>' +
+			'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=emergency">Emergency</a>' +
+			'  </div>' +
 			'</li>'
 		;
 
+		/*---------------------------------------------------------*/
+
+		var adminMenu;
+
 		if(amiLogin.hasRole('AMI_ADMIN'))
 		{
-			menu +=
-				'<li class="dropdown">' +
-				'  <a href="#" class="dropdown-toggle" data-toggle="dropdown">' +
-				'    <i class="fa fa-key"></i> Admin <span class="caret"></span>' +
+			adminMenu =
+				'<li class="nav-item dropdown">' +
+				'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+				'    <i class="fa fa-key"></i> Admin' +
 				'  </a>' +
-				'  <ul class="dropdown-menu">' +
-				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=document&userdata=api.html">AMI Web Framework API</a></li>' +
-				'    <li><a href="' + amiWebApp.webAppURL + '?subapp=document&userdata=info.html">AMI Web Framework Info</a></li>' +
-				'  </ul>' +
+				'  <div class="dropdown-menu">' +
+				'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=monitoring">AMI Monitoring</a>' +
+				'    <div class="dropdown-divider"></div>' +
+				'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=api.html">AMI Web Framework API</a>' +
+				'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=info.html">AMI Web Framework Info</a>' +
+				'  </div>' +
 				'</li>'
 			;
 		}
+		else
+		{
+			adminMenu = '';
+		}
 
-		$('#ami_menu_content').html(menu);
+		/*---------------------------------------------------------*/
+
+		if(isAuth)
+		{
+			amiCommand.execute('ListHashes').done(function(data) {
+
+				var rows = amiWebApp.jspath('..row', data) || [];
+
+				menu +=
+					'<li class="nav-item dropdown">' +
+					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+					'    Bookmarks' +
+					'  </a>' +
+					'  <div class="dropdown-menu">' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=???"><i class="fa fa-pencil"></i> Manage...</a>' +
+					'    <div class="dropdown-divider"></div>'
+				;
+
+				rows.forEach(function(row) {
+
+					var hash = amiWebApp.jspath('.field{.@name==="hash"}.$', row)[0] || '';
+					var name = amiWebApp.jspath('.field{.@name==="name"}.$', row)[0] || '';
+
+					menu += '    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?v=' + hash + '">' + amiWebApp.textToHtml(name) + '</a>';
+				});
+
+				menu +=
+					'  </div>' +
+					'</li>'
+				;
+
+				$('#ami_menu_content').html(menu + adminMenu);
+
+			}).fail(function() {
+
+				$('#ami_menu_content').html(menu + adminMenu);
+			});
+		}
+		else
+		{
+			$('#ami_menu_content').html(menu + adminMenu);
+		}
+
+		/*---------------------------------------------------------*/
 	};
 
     </script>
