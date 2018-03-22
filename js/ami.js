@@ -6225,12 +6225,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 	/*---------------------------------------------------------------------*/
 
-	createControlInContainer: function createControlInContainer(parent, owner, control, paramsWithoutSettings, controlSettings, parentSettings, icon, title, _settings) {
+	createControlInContainer: function createControlInContainer(parent, owner, control, paramsWithoutSettings, controlSettings, parentSettings, icon, title, settings) {
 		var _this8 = this;
 
 		var result = $.Deferred();
 
-		var _setup6 = this.setup(['context'], [result], _settings),
+		var _setup6 = this.setup(['context'], [result], settings),
 		    context = _setup6[0];
 
 		/*-----------------------------------------------------------------*/
@@ -6238,30 +6238,30 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		try {
 			parent.appendItem('<i class="fa fa-' + this.textToHtml(icon) + '"></i> ' + this.textToHtml(title)).done(function (selector) {
 
-				var params = [];
-				var settings = {};
+				var PARAMS = [];
+				var SETTINGS = {};
 
 				/*---------------------------------------------------------*/
 
 				for (var key in parentSettings) {
-					settings[key] = parentSettings[key];
+					SETTINGS[key] = parentSettings[key];
 				}
 
 				for (var _key in controlSettings) {
-					settings[_key] = controlSettings[_key];
+					SETTINGS[_key] = controlSettings[_key];
 				}
 
 				/*---------------------------------------------------------*/
 
-				params.push(selector);
+				PARAMS.push(selector);
 
-				Array.prototype.push.apply(params, paramsWithoutSettings);
+				Array.prototype.push.apply(PARAMS, paramsWithoutSettings);
 
-				params.push(settings);
+				PARAMS.push(SETTINGS);
 
 				/*---------------------------------------------------------*/
 
-				_this8.createControl(parent, owner, control, params).done(function (instance) {
+				_this8.createControl(parent, owner, control, PARAMS).done(function (instance) {
 
 					result.resolveWith(context, [instance]);
 				}).fail(function (e) {

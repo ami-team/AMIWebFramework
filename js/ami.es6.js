@@ -7145,14 +7145,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*---------------------------------------------------------------------*/
 
-	createControlInContainer: function(parent, owner, control, paramsWithoutSettings, controlSettings, parentSettings, icon, title, _settings)
+	createControlInContainer: function(parent, owner, control, paramsWithoutSettings, controlSettings, parentSettings, icon, title, settings)
 	{
 		const result = $.Deferred();
 
 		const [context] = this.setup(
 			['context'],
 			[result],
-			_settings
+			settings
 		);
 
 		/*-----------------------------------------------------------------*/
@@ -7161,30 +7161,30 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			parent.appendItem('<i class="fa fa-' + this.textToHtml(icon) + '"></i> ' + this.textToHtml(title)).done((selector) => {
 
-				let params = [];
-				let settings = {};
+				let PARAMS = [];
+				let SETTINGS = {};
 
 				/*---------------------------------------------------------*/
 
 				for(let key in parentSettings) {
-					settings[key] = parentSettings[key];
+					SETTINGS[key] = parentSettings[key];
 				}
 
 				for(let key in controlSettings) {
-					settings[key] = controlSettings[key];
+					SETTINGS[key] = controlSettings[key];
 				}
 
 				/*---------------------------------------------------------*/
 
-				params.push(selector);
+				PARAMS.push(selector);
 
-				Array.prototype.push.apply(params, paramsWithoutSettings);
+				Array.prototype.push.apply(PARAMS, paramsWithoutSettings);
 
-				params.push(settings);
+				PARAMS.push(SETTINGS);
 
 				/*---------------------------------------------------------*/
 
-				this.createControl(parent, owner, control, params).done((instance) => {
+				this.createControl(parent, owner, control, PARAMS).done((instance) => {
 
 					result.resolveWith(context, [instance]);
 
