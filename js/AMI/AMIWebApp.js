@@ -1500,6 +1500,53 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*---------------------------------------------------------------------*/
+
+	/**
+	  * Create a control asynchronously
+	  * @param {Object} parent ???
+	  * @param {Object} [owner] ???
+	  * @param {String} control ???
+	  * @param {Array<String>} params ???
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	createControl: function(parent, owner, control, params, settings)
+	{
+		const result = $.Deferred();
+
+		const [context] = this.setup(
+			['context'],
+			[result],
+			settings
+		);
+
+		/*-----------------------------------------------------------------*/
+
+		this.loadControl(control, settings).done((constructor) => {
+
+			let instance = new constructor(parent, owner);
+
+			constructor.prototype.render.call(instance, params).done(() => {
+
+				result.resolveWith(context, [instance]);
+
+			}).fail((e) => {
+
+				result.rejectWith(context, [e]);
+			});
+
+		}).fail((e) => {
+
+			result.rejectWith(context, [e]);
+		});
+
+		/*-----------------------------------------------------------------*/
+
+		return result.promise();
+	},
+
+	/*---------------------------------------------------------------------*/
 	/* SUBAPPS                                                             */
 	/*---------------------------------------------------------------------*/
 
