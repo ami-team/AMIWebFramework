@@ -1506,7 +1506,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * @param {Object} parent ???
 	  * @param {Object} [owner] ???
 	  * @param {String} control ???
-	  * @param {Array<String>} params ???
+	  * @param {Array} params ???
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
@@ -1547,6 +1547,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*---------------------------------------------------------------------*/
+
+	/**
+	  * Create a control in a container asynchronously
+	  * @param {Object} parent ???
+	  * @param {Object} [owner] ???
+	  * @param {String} control ???
+	  * @param {Array} paramsWithoutSettings ???
+	  * @param {Object} controlSettings ???
+	  * @param {Object} parentSettings ???
+	  * @param {String} icon ???
+	  * @param {String} title ???
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	createControlInContainer: function(parent, owner, control, paramsWithoutSettings, controlSettings, parentSettings, icon, title, settings)
 	{
