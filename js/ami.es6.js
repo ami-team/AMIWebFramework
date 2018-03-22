@@ -7144,6 +7144,69 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*---------------------------------------------------------------------*/
+
+	createControlInContainer: function(parent, owner, control, paramsWithoutSettings, controlSettings, parentSettings, icon, title, _settings)
+	{
+		const result = $.Deferred();
+
+		const [context] = this.setup(
+			['context'],
+			[result],
+			_settings
+		);
+
+		/*-----------------------------------------------------------------*/
+
+		try
+		{
+			parent.appendItem('<i class="fa fa-' + this.textToHtml(icon) + '"></i> ' + this.textToHtml(title)).done((selector) => {
+
+				let params = [];
+				let settings = {};
+
+				/*---------------------------------------------------------*/
+
+				for(let key in parentSettings) {
+					settings[key] = parentSettings[key];
+				}
+
+				for(let key in controlSettings) {
+					settings[key] = controlSettings[key];
+				}
+
+				/*---------------------------------------------------------*/
+
+				params.push(selector);
+
+				Array.prototype.push.apply(params, paramsWithoutSettings);
+
+				params.push(settings);
+
+				/*---------------------------------------------------------*/
+
+				this.createControl(parent, owner, control, params).done((instance) => {
+
+					result.resolveWith(context, [instance]);
+
+				}).fail((e) => {
+
+					result.rejectWith(context, [e]);
+				});
+
+				/*---------------------------------------------------------*/
+			});
+		}
+		catch(e)
+		{
+			result.rejectWith(context, [e]);
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		return result.promise();
+	},
+
+	/*---------------------------------------------------------------------*/
 	/* SUBAPPS                                                             */
 	/*---------------------------------------------------------------------*/
 
