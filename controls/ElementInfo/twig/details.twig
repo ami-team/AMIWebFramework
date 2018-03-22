@@ -18,7 +18,7 @@
 							<td class="text-center">
 								{{field.$|e}}
 								{% if field['link'] is defined %}
-								<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}</td>
+								<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="{% if link['@target'] is empty %}_self{% else %}{{link['@target']|e}}{% endif %}">{{link['@label']|e}}</a>{% endfor %}</td>
 								{% endif %}
 							</td>
 						</tr>
@@ -46,7 +46,7 @@
 						{%   for row in linkedElementRowset %}
 						<tr>
 							<td class="text-center">
-								<a href="#" data-action="linked_element" data-catalog="{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}" data-entity="{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}" data-mql="{{row|json_jspath('..field{.@name==="mql"}.$')[0]|e}}">{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}} <span class="text-muted">{ {{row|json_jspath('..field{.@name==="constraint"}.$')[0]|e}} }</span></a>
+								<a href="#" data-ctrl="table" data-params="[&quot;SearchQuery -catalog=\&quot;{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}\&quot; -entity=\&quot;{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}\&quot; -mql=\&quot;{{row|json_jspath('..field{.@name==="mql"}.$')[0]|e}}\&quot;&quot;]" data-settings="{&quot;catalog&quot;:&quot;{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}&quot;,&quot;entity&quot;:&quot;{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}&quot;}" data-icon="table" data-title="{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}">{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}} <span class="text-muted">{ {{row|json_jspath('..field{.@name==="constraint"}.$')[0]|e}} }</span></a>
 							</td>
 							<td class="text-center">
 								{{row|json_jspath('..field{.@name==="count"}.$')[0]|e}} records
@@ -63,6 +63,7 @@
 			</div>
 			{% if expandedLinkedElements is not empty %}
 			{%   for expandedLinkedElement in expandedLinkedElements %}
+			{%     if expandedLinkedElement.rows is not empty %}
 					<div class="card mt-1">
 						<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
 							{{ expandedLinkedElement.entity }}
@@ -90,6 +91,7 @@
 							{% endif %}
 						</table>
 					</div>
+			{%     endif %}
 			{%   endfor %}
 			{% endif %}
 		</td>

@@ -979,7 +979,7 @@ $AMIClass('TableCtrl', {
 					this.ctx.entity,
 					this.ctx.primaryField,
 					primaryValue,
-					{expandedLinkedElements: this.ctx.expandedLinkedElements}
+					this.ctx
 				);
 			});
 		}

@@ -35,6 +35,7 @@ $AMIClass('ElementInfoCtrl', {
 			'ctrl:messageBox',
 			'ctrl:textBox',
 			'ctrl:table',
+			'ctrl:graph',
 		], {context: this}).done(function(data) {
 
 			this.fragmentElementInfoCtrl = data[0];
@@ -43,7 +44,8 @@ $AMIClass('ElementInfoCtrl', {
 
 			this.messageBox = new data[3];
 			this.textBox = new data[4];
-			this.tableCtor = data[5]
+			this.tableCtor = data[5];
+			this.graphCtor = data[6];
 		});
 	},
 
@@ -53,32 +55,39 @@ $AMIClass('ElementInfoCtrl', {
 	{
 		var result = $.Deferred();
 
-		this.ctx = {
-			isEmbedded: amiWebApp.isEmbedded(),
+		this.ctx = {};
 
-			endpoint: amiCommand.endpoint,
+		for(var key in settings)
+		{
+			this.ctx[key] = settings[key];
+		}
 
-			context: result,
+		this.ctx.isEmbedded = amiWebApp.isEmbedded();
 
-			/**/
+		this.ctx.endpoint = amiCommand.endpoint;
 
-			catalog: catalog,
-			entity: entity,
-			primaryField: primaryFieldName,
-			primaryFieldValue: primaryFieldValue,
-
-			/**/
-
-			command: 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '" -GUI="yes"',
+		this.ctx.context = result;
 
 			/**/
 
-			showEmptyFields: false,
+		this.ctx.catalog = catalog;
+		this.ctx.entity = entity;
+		this.ctx.primaryField = primaryFieldName;
+		this.ctx.primaryFieldValue = primaryFieldValue;
 
 			/**/
 
-			expandedLinkedElements: [],
-		};
+		this.ctx.command = 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '" -GUI="yes"';
+
+			/**/
+
+		this.ctx.showEmptyFields = false;
+
+			/**/
+
+		this.ctx.expandedLinkedElements = [];
+
+		/* Inherited settings */
 
 		if(settings)
 		{
@@ -227,17 +236,19 @@ $AMIClass('ElementInfoCtrl', {
 
 				var parent = $(this.patchId('#B8275C83_776D_57AC_5379_70DC7391AD5A'));
 
-				parent.find('a[data-action="linked_element"]').click(function(e) {
+				parent.find('a[data-ctrl]').click(function(e) {
 
 					e.preventDefault();
 
-					_this.showLinkedEntity(
-							this.getAttribute('data-catalog')
-							,
-							this.getAttribute('data-entity')
-							,
-							this.getAttribute('data-mql')
-					);
+					/*test*/
+					var dataCtrl = this.getAttribute('data-ctrl');
+					var dataParams = JSON.parse(this.getAttribute('data-params'));
+					var dataSettings = JSON.parse(this.getAttribute('data-settings'));
+					var dataIcon = this.getAttribute('data-icon');
+					var dataTitle = this.getAttribute('data-title');
+
+					amiWebApp.createControlInContainer(_this.getParent(), _this, dataCtrl, dataParams, dataSettings, _this.ctx, dataIcon, dataTitle);
+
 				});
 
 				result.resolveWith(context, [descriptions, elementRowset, linkedElementRowset]);
@@ -279,6 +290,25 @@ $AMIClass('ElementInfoCtrl', {
 					catalog: catalog,
 					entity: entity,
 				});
+			});
+		}
+		else
+		{
+			amiWebApp.error('could not create a new tab', true);
+		}
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	showGraphWebLink: function(command)
+	{
+		alert('coucou');
+		var parent = this.getParent();
+
+		if(parent.$name === 'TabCtrl')
+		{
+			new this.graphCtor(parent, this).render(sel, command, {
+				context: this,
 			});
 		}
 		else
