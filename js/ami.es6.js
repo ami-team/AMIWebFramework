@@ -7124,7 +7124,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			let instance = new constructor(parent, owner);
 
-			constructor.prototype.render.call(instance, params).done(() => {
+			constructor.prototype.render.apply(instance, params).done(() => {
 
 				result.resolveWith(context, [instance]);
 
