@@ -1250,7 +1250,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	fillBreadcrumb: function(items)
 	{
-		var s = this.typeOf(items) === 'Array' ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
+		let s = this.typeOf(items) === 'Array' ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
 		                                       : ''
 		;
 
@@ -1639,11 +1639,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		/*-----------------------------------------------------------------*/
 
-		var dataCtrl = el.getAttribute('data-ctrl');
-		var dataParams = JSON.parse(el.getAttribute('data-params'));
-		var dataSettings = JSON.parse(el.getAttribute('data-settings'));
-		var dataIcon = el.getAttribute('data-icon');
-		var dataTitle = el.getAttribute('data-title');
+		let dataCtrl = el.getAttribute('data-ctrl');
+		let dataParams; try { dataParams = JSON.parse(el.getAttribute('data-params')); } catch(e) { dataParams = []; }
+		let dataSettings; try { dataSettings = JSON.parse(el.getAttribute('data-settings')); } catch(e) { dataSettings = {}; }
+		let dataIcon = el.getAttribute('data-icon');
+		let dataTitle = el.getAttribute('data-title');
 
 		/*-----------------------------------------------------------------*/
 
@@ -1848,7 +1848,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}).done((data) => {
 
-				var json;
+				let json;
 
 				try
 				{

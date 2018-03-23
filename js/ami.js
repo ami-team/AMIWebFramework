@@ -6312,8 +6312,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		/*-----------------------------------------------------------------*/
 
 		var dataCtrl = el.getAttribute('data-ctrl');
-		var dataParams = JSON.parse(el.getAttribute('data-params'));
-		var dataSettings = JSON.parse(el.getAttribute('data-settings'));
+		var dataParams = void 0;try {
+			dataParams = JSON.parse(el.getAttribute('data-params'));
+		} catch (e) {
+			dataParams = [];
+		}
+		var dataSettings = void 0;try {
+			dataSettings = JSON.parse(el.getAttribute('data-settings'));
+		} catch (e) {
+			dataSettings = {};
+		}
 		var dataIcon = el.getAttribute('data-icon');
 		var dataTitle = el.getAttribute('data-title');
 
@@ -6497,7 +6505,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				result.reject(_this13.jspath('..error.$', data));
 			}).done(function (data) {
 
-				var json;
+				var json = void 0;
 
 				try {
 					json = JSON.parse(_this13.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
