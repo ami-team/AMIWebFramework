@@ -18,7 +18,11 @@
 							<td class="text-center">
 								{{field.$|e}}
 								{% if field['link'] is defined %}
-								<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="{% if link['@target'] is empty %}_self{% else %}{{link['@target']|e}}{% endif %}">{{link['@label']|e}}</a>{% endfor %}</td>
+								<br />
+								{% for link in field['link'] %}
+									{% if not loop.first %} - {% endif %}
+									<a href="{{link['@href']|e}}"{% if link['@target'] is not empty %} target="{{link['@target']|e}}"{% endif %}{% if link['@data-ctrl'] is not empty %} data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}{% if link['@data-params'] is not empty %} data-params="{{link['@data-params']|e}}"{% endif %}{% if link['@data-settings'] is not empty %} data-settings="{{link['@data-settings']|e}}"{% endif %}{% if link['@data-icon'] is not empty %} data-icon="{{link['@data-icon']|e}}"{% endif %}{% if link['@data-title'] is not empty %} data-title="{{link['@data-title']|e}}"{% endif %}>{{link['@label']|e}}</a>
+								{% endfor %}</td>
 								{% endif %}
 							</td>
 						</tr>

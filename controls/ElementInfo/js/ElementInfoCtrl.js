@@ -234,20 +234,25 @@ $AMIClass('ElementInfoCtrl', {
 
 				var _this = this;
 
-				var parent = $(this.patchId('#B8275C83_776D_57AC_5379_70DC7391AD5A'));
+				var parent = $(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'));
 
 				parent.find('a[data-ctrl]').click(function(e) {
 
 					e.preventDefault();
 
-					/*test*/
 					var dataCtrl = this.getAttribute('data-ctrl');
 					var dataParams = JSON.parse(this.getAttribute('data-params'));
 					var dataSettings = JSON.parse(this.getAttribute('data-settings'));
 					var dataIcon = this.getAttribute('data-icon');
 					var dataTitle = this.getAttribute('data-title');
 
-					amiWebApp.createControlInContainer(_this.getParent(), _this, dataCtrl, dataParams, dataSettings, _this.ctx, dataIcon, dataTitle);
+					amiWebApp.lock();
+
+					amiWebApp.createControlInContainer(_this.getParent(), _this, dataCtrl, dataParams, dataSettings, _this.ctx, dataIcon, dataTitle).done(function() {
+						amiWebApp.unlock();
+					}).fail(function(data){
+						amiWebApp.error(data);
+					});
 
 				});
 
