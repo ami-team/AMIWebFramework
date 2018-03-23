@@ -69,16 +69,18 @@ $AMIClass('GraphCtrl', {
 
 			dict.graph = dict.graph.replace(/xlink:href="([^"]*)"/g, function(x, json) {
 
-				var jsonbObj = JSON.parse(json.replace(/&quot;/g, '"'));
+				var jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
 
-				var attrs = '';
+				var attrs = [];
 
-				for(var key in jsonbObj)
-				{
-					attrs += ' data-' + key + '="' + jsonbObj[key] + '"';
-				}
+				attrs.push('data-ctrl="' + amiWebApp.textToHtml(jsonbObj['data-ctrl']) + '"');
+				attrs.push('data-params="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params'])) + '"');
+				attrs.push('data-settings="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings'])) + '"');
+				attrs.push('data-icon="' + amiWebApp.textToHtml(jsonbObj['data-icon']) + '"');
+				attrs.push('data-title="' + amiWebApp.textToHtml(jsonbObj['data-title']) + '"');
+				attrs.push('data-title-icon="' + amiWebApp.textToHtml(jsonbObj['data-title-icon']) + '"');
 
-				return 'xlink:href="#"' + attrs;
+				return 'xlink:href="#" ' + attrs.join(' ');
 			});
 
 			/*--------------------------------------------------------------*/
@@ -87,16 +89,25 @@ $AMIClass('GraphCtrl', {
 
 			var svg = $(doc.documentElement);
 
-			svg.find('a[data-icon]').each(function() {
+			svg.find('a[data-title-icon]').each(function() {
 
-				$('<tspan font-family="FontAwesome">' + String.fromCharCode('0x' + $(this).attr('data-icon')) + '</tspan><tspan> </tspan>').prependTo($(this).find('text'));
+				$('<tspan font-family="FontAwesome">' + String.fromCharCode('0x' + $(this).attr('data-title-icon')) + '</tspan><tspan> </tspan>').prependTo($(this).find('text'));
 			});
 
 			dict.graph = doc.documentElement.outerHTML;
 
 			/*--------------------------------------------------------------*/
 
-			this.replaceHTML(this._selector = selector, this.fragmentGraphCtrl, {dict: dict}).done(function() {
+			this.replaceHTML(this._selector = selector, this.fragmentGraphCtrl, {context: this, dict: dict}).done(function() {
+
+				var _this = this;
+
+				$(selector + ' a[data-ctrl]').click(function(e) {
+
+					e.preventDefault();
+
+					_this.createControlInContainerFromWebLink(_this.getParent(), this, _this.ctx);
+				});
 
 				result.resolveWith(context, [data]);
 			});
