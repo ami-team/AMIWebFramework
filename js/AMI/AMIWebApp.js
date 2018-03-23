@@ -702,7 +702,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Loads resources asynchronously by extension
+	  * Asynchronously loads resources by extension
 	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -716,7 +716,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Loads CSS sheets asynchronously
+	  * Asynchronously loads CSS sheets
 	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -730,7 +730,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Loads JS scripts asynchronously
+	  * Asynchronously loads JS scripts
 	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -744,7 +744,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Loads JSON files asynchronously
+	  * Asynchronously loads JSON files
 	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -758,7 +758,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Loads XML files asynchronously
+	  * Asynchronously loads XML files
 	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -772,7 +772,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Loads HTML files asynchronously
+	  * Asynchronously loads HTML files
 	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -786,7 +786,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Loads TWIG files asynchronously
+	  * Asynchronously loads TWIG files
 	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -800,7 +800,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Loads text files asynchronously
+	  * Asynchronously loads text files
 	  * @param {(Array|String)} urls the array of urls
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -1429,7 +1429,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Loads a control asynchronously
+	  * Asynchronously loads a control
 	  * @param {String} control the array of control name
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
@@ -1502,8 +1502,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Create a control asynchronously
-	  * @param {Object} parent ???
+	  * Asynchronously create a control
+	  * @param {Object} [parent] ???
 	  * @param {Object} [owner] ???
 	  * @param {String} control ???
 	  * @param {Array} params ???
@@ -1549,8 +1549,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Create a control in a container asynchronously
-	  * @param {Object} parent ???
+	  * Asynchronously create a control in a container
+	  * @param {Object} [parent] ???
 	  * @param {Object} [owner] ???
 	  * @param {String} control ???
 	  * @param {Array} paramsWithoutSettings ???
@@ -1624,6 +1624,44 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*---------------------------------------------------------------------*/
+
+	/**
+	  * Asynchronously create a control in a container from a WEB link
+	  * @param {Object} [parent] ???
+	  * @param {Object} [owner] ???
+	  * @param {String} el ???
+	  * @param {Object} parentSettings ???
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	createControlInContainerFromWebLink: function(parent, owner, el, parentSettings, settings)
+	{
+		/*-----------------------------------------------------------------*/
+
+		var dataCtrl = el.getAttribute('data-ctrl');
+		var dataParams = JSON.parse(el.getAttribute('data-params'));
+		var dataSettings = JSON.parse(el.getAttribute('data-settings'));
+		var dataIcon = el.getAttribute('data-icon');
+		var dataTitle = el.getAttribute('data-title');
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		return amiWebApp.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(function() {
+
+			amiWebApp.unlock();
+
+		}).fail(function(e) {
+
+			amiWebApp.error(e);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
 	/* SUBAPPS                                                             */
 	/*---------------------------------------------------------------------*/
 
@@ -1692,7 +1730,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Loads a subapp asynchronously
+	  * Asynchronously loads a subapp
 	  * @param {String} subapp the subapp
 	  * @param {?} [userdata] the user data
 	  * @param {Object} [settings] dictionary of settings (context)
