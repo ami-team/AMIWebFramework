@@ -1647,15 +1647,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		amiWebApp.lock();
+		this.lock();
 
-		return amiWebApp.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(function() {
+		return this.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(() => {
 
-			amiWebApp.unlock();
+			this.unlock();
 
 		}).fail(function(e) {
 
-			amiWebApp.error(e);
+			this.error(e);
 		});
 
 		/*-----------------------------------------------------------------*/
