@@ -6326,7 +6326,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 			_this9.unlock();
 		}).fail(function (e) {
 
-			this.error(e);
+			_this9.error(e);
 		});
 
 		/*-----------------------------------------------------------------*/
