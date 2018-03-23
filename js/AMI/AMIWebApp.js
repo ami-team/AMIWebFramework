@@ -1503,7 +1503,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Asynchronously create a control
-	  * @param {Object} [parent] ???
+	  * @param {Object} parent ???
 	  * @param {Object} [owner] ???
 	  * @param {String} control ???
 	  * @param {Array} params ???
@@ -1550,7 +1550,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Asynchronously create a control in a container
-	  * @param {Object} [parent] ???
+	  * @param {Object} parent ???
 	  * @param {Object} [owner] ???
 	  * @param {String} control ???
 	  * @param {Array} paramsWithoutSettings ???
@@ -1562,7 +1562,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	createControlInContainer: function(parent, owner, control, paramsWithoutSettings, controlSettings, parentSettings, icon, title, settings)
+	createControlInContainer: function(parent, owner, control, controlParamsWithoutSettings, controlSettings, parentSettings, icon, title, settings)
 	{
 		const result = $.Deferred();
 
@@ -1595,7 +1595,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				PARAMS.push(selector);
 
-				Array.prototype.push.apply(PARAMS, paramsWithoutSettings);
+				Array.prototype.push.apply(PARAMS, controlParamsWithoutSettings);
 
 				PARAMS.push(SETTINGS);
 
@@ -1627,7 +1627,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Asynchronously create a control in a container from a WEB link
-	  * @param {Object} [parent] ???
+	  * @param {Object} parent ???
 	  * @param {Object} [owner] ???
 	  * @param {String} el ???
 	  * @param {Object} parentSettings ???
