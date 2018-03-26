@@ -1250,7 +1250,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	fillBreadcrumb: function(items)
 	{
-		var s = this.typeOf(items) === 'Array' ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
+		let s = this.typeOf(items) === 'Array' ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
 		                                       : ''
 		;
 
@@ -1503,7 +1503,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Asynchronously create a control
-	  * @param {Object} [parent] ???
+	  * @param {Object} parent ???
 	  * @param {Object} [owner] ???
 	  * @param {String} control ???
 	  * @param {Array} params ???
@@ -1550,7 +1550,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Asynchronously create a control in a container
-	  * @param {Object} [parent] ???
+	  * @param {Object} parent ???
 	  * @param {Object} [owner] ???
 	  * @param {String} control ???
 	  * @param {Array} paramsWithoutSettings ???
@@ -1562,7 +1562,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	createControlInContainer: function(parent, owner, control, paramsWithoutSettings, controlSettings, parentSettings, icon, title, settings)
+	createControlInContainer: function(parent, owner, control, controlParamsWithoutSettings, controlSettings, parentSettings, icon, title, settings)
 	{
 		const result = $.Deferred();
 
@@ -1595,7 +1595,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				PARAMS.push(selector);
 
-				Array.prototype.push.apply(PARAMS, paramsWithoutSettings);
+				Array.prototype.push.apply(PARAMS, controlParamsWithoutSettings);
 
 				PARAMS.push(SETTINGS);
 
@@ -1627,7 +1627,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Asynchronously create a control in a container from a WEB link
-	  * @param {Object} [parent] ???
+	  * @param {Object} parent ???
 	  * @param {Object} [owner] ???
 	  * @param {String} el ???
 	  * @param {Object} parentSettings ???
@@ -1639,11 +1639,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		/*-----------------------------------------------------------------*/
 
-		var dataCtrl = el.getAttribute('data-ctrl');
-		var dataParams = JSON.parse(el.getAttribute('data-params'));
-		var dataSettings = JSON.parse(el.getAttribute('data-settings'));
-		var dataIcon = el.getAttribute('data-icon');
-		var dataTitle = el.getAttribute('data-title');
+		let dataCtrl = el.getAttribute('data-ctrl');
+		let dataParams; try { dataParams = JSON.parse(el.getAttribute('data-params')); } catch(e) { dataParams = []; }
+		let dataSettings; try { dataSettings = JSON.parse(el.getAttribute('data-settings')); } catch(e) { dataSettings = {}; }
+		let dataIcon = el.getAttribute('data-icon');
+		let dataTitle = el.getAttribute('data-title');
 
 		/*-----------------------------------------------------------------*/
 
@@ -1848,7 +1848,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}).done((data) => {
 
-				var json;
+				let json;
 
 				try
 				{
