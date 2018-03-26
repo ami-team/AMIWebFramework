@@ -53,6 +53,17 @@ $AMIClass('TextBoxCtrl', {
 	},
 
 	/*-----------------------------------------------------------------*/
+
+	render: function(text)
+	{
+		var html = text ? '<i class="line-number"></i>' + amiWebApp.textToHtml(text).replace(/\n/g, '\n<i class="line-number"></i>') : '';
+
+		$('#B8927006_7FCE_87BD_FC8D_C7575D69C362 code').html(html);
+
+		$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').modal('show');
+	},
+
+	/*-----------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/

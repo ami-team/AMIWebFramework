@@ -41,10 +41,6 @@ $AMIClass('TableCtrl', {
 			/**/
 			amiWebApp.originURL + '/controls/Table/js/libunits.js',
 			amiWebApp.originURL + '/controls/Table/js/libxql.js',
-			/**/
-			'ctrl:elementInfo',
-			'ctrl:messageBox',
-			'ctrl:textBox',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.appendHTML('body', data[1], {context: this}).done(function() {
@@ -54,10 +50,6 @@ $AMIClass('TableCtrl', {
 					this.fragmentFieldList = data[3];
 					this.fragmentTable = data[4];
 					this.fragmentJS = data[5];
-
-					this.elementInfoCtor = data[8];
-					this.messageBox = new data[9];
-					this.textBox = new data[10];
 				});
 			});
 		});
@@ -359,22 +351,22 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(function() {
 
-				_this.showMQL();
+				amiWebApp.createControl(_this.getParent(),this,'messageBox',[_this.mql],{});
 			});
 
 			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(function() {
 
-				_this.showSQL();
+				amiWebApp.createControl(_this.getParent(),this,'messageBox',[_this.sql],{});
 			});
 
 			$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(function() {
 
-				_this.showCommand();
+				amiWebApp.createControl(_this.getParent(),this,'messageBox',[_this.ctx.command],{});
 			});
 
 			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(function() {
 
-				_this.showJS();
+				amiWebApp.createControl(_this.getParent(),this,'textBox',[_this.js],{});
 			});
 
 			/*-------------------------------------------------*/
@@ -624,11 +616,11 @@ $AMIClass('TableCtrl', {
 
 				/*-----------------------------------------*/
 
-				parent.find('a[data-action="details"]').click(function(e) {
+				parent.find('a[data-ctrl]').click(function(e) {
 
 					e.preventDefault();
 
-					_this.showDetailsTab(this.getAttribute('data-row'));
+					_this.createControlInContainerFromWebLink(_this.getParent(), this, _this.ctx);
 				});
 
 				/*-----------------------------------------*/
@@ -773,34 +765,6 @@ $AMIClass('TableCtrl', {
 			/*-------------------------*/ tags2.hide();
 			tags3.attr('contenteditable', 'false');
 		}
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	showSQL: function()
-	{
-		this.messageBox.show(this.sql);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	showMQL: function()
-	{
-		this.messageBox.show(this.mql);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	showCommand: function()
-	{
-		this.messageBox.show(this.ctx.command);
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	showJS: function()
-	{
-		this.textBox.show(this.js);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -961,32 +925,6 @@ $AMIClass('TableCtrl', {
 		}
 
 		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	showDetailsTab: function(primaryValue)
-	{
-		var parent = this.getParent();
-
-		if(parent.$name === 'TabCtrl')
-		{
-			parent.appendItem('<i class="fa fa-arrows-alt"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
-
-				new this.elementInfoCtor(parent, this).render(
-					selector,
-					this.ctx.catalog,
-					this.ctx.entity,
-					this.ctx.primaryField,
-					primaryValue,
-					this.ctx
-				);
-			});
-		}
-		else
-		{
-			amiWebApp.error('could not create a new tab', true);
-		}
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -1190,6 +1128,35 @@ $AMIClass('TableCtrl', {
 		/*---------------------------------------------------------*/
 
 		var regions = xqlGetRegions(this.sql);
+
+		/*---------------------------------------------------------*/
+		/* DEBUG FL                                                */
+		/*---------------------------------------------------------*/
+
+		//@TODO
+		// bug with alias -> should replace entity by aliasMap[entity]
+
+		/*var aliasMap = {}
+
+		if(regions['FROM'])
+		{
+			var tmpAliases = regions['FROM'].split(',')
+
+			for (var i = 0; i < tmpAliases.length; i++)
+			{
+				var item = tmpAliases[i].trim().split('\\s+');
+
+				if (item.length === 1)
+				{
+					aliasMap[item[0]] = item[0];
+				}
+				else if (item.length === 2)
+				{
+					aliasMap[item[0]] = item[1];
+				}
+			}
+		}*/
+
 
 		/*---------------------------------------------------------*/
 

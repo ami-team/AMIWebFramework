@@ -31,21 +31,11 @@ $AMIClass('ElementInfoCtrl', {
 			amiWebApp.originURL + '/controls/ElementInfo/twig/ElementInfoCtrl.twig',
 			amiWebApp.originURL + '/controls/ElementInfo/twig/details.twig',
 			amiWebApp.originURL + '/controls/ElementInfo/twig/js.twig',
-			/**/
-			'ctrl:messageBox',
-			'ctrl:textBox',
-			'ctrl:table',
-			'ctrl:graph',
 		], {context: this}).done(function(data) {
 
 			this.fragmentElementInfoCtrl = data[0];
 			this.fragmentDetails = data[1];
 			this.fragmentJS = data[2];
-
-			this.messageBox = new data[3];
-			this.textBox = new data[4];
-			this.tableCtor = data[5];
-			this.graphCtor = data[6];
 		});
 	},
 
@@ -145,12 +135,12 @@ $AMIClass('ElementInfoCtrl', {
 
 			$(this.patchId('#BF7E7885_DB34_7993_9F17_37990DDD4BF3')).click(function() {
 
-				_this.showCommand();
+				amiWebApp.createControl(_this.getParent(),this,'messageBox',[_this.ctx.command],{});
 			});
 
 			$(this.patchId('#F1232710_45E2_92BF_7378_1BCD05FBF131')).click(function() {
 
-				_this.showJS();
+				amiWebApp.createControl(_this.getParent(),this,'textBox',[_this.ctx.js],{});
 			});
 
 			/*-------------------------------------------------------------*/
@@ -258,67 +248,6 @@ $AMIClass('ElementInfoCtrl', {
 		});
 
 		return result;
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	showLinkedEntity: function(catalog, entity, mql)
-	{
-		var parent = this.getParent();
-
-		if(parent.$name === 'TabCtrl')
-		{
-			parent.appendItem('<i class="fa fa-arrows-alt"></i> ' + entity, {context: this}).done(function(sel) {
-
-				var command = 'SearchQuery -catalog=\"' + amiWebApp.textToString(catalog) + '\" -entity=\"' + amiWebApp.textToString(entity) + '\" -mql=\"' + amiWebApp.textToString(mql) + '\"';
-
-				new this.tableCtor(parent, this).render(sel, command, {
-					enableCache: false,
-					showDetails: true,
-					showTools: true,
-					canEdit: false,
-					catalog: catalog,
-					entity: entity,
-				});
-			});
-		}
-		else
-		{
-			amiWebApp.error('could not create a new tab', true);
-		}
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	showGraphWebLink: function(command)
-	{
-		alert('coucou');
-		var parent = this.getParent();
-
-		if(parent.$name === 'TabCtrl')
-		{
-			new this.graphCtor(parent, this).render(sel, command, {
-				context: this,
-			});
-		}
-		else
-		{
-			amiWebApp.error('could not create a new tab', true);
-		}
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	showCommand: function()
-	{
-		this.messageBox.show(this.ctx.command);
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	showJS: function()
-	{
-		this.textBox.show(this.ctx.js);
 	},
 
 	/*---------------------------------------------------------------------*/
