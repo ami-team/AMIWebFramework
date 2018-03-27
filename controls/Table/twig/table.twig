@@ -46,7 +46,7 @@
 		</td>
 		{% if showDetails %}
 		<td class="text-center xxxxxxxxx">
-			<a href="#" class="text-secondary" data-ctrl="elementInfo" data-params="[&quot;{{fieldDescription['@catalog']|e}}&quot;, &quot;{{fieldDescription['@entity']|e}}&quot;, &quot;{{ primaryField }}&quot;, &quot;{{ elementId }}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescription['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
+			<a href="#" class="text-secondary" data-ctrl="elementInfo" data-params="[&quot;{{fieldDescription['@catalog']|e}}&quot;, &quot;{{fieldDescription['@entity']|e}}&quot;, &quot;{{ primaryField }}&quot;, &quot;{{ elementId }}&quot;]" data-settings="{&quot;catalog&quot;: &quot;&quot;{{fieldDescription['@catalog']|e}}&quot;, &quot;entity&quot;: &quot;&quot;{{fieldDescription['@entity']|e}}&quot;}" data-icon="arrows-alt" data-title="{{fieldDescription['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
 		</td>
 		{% endif %}
 		{% for field in row.field %}
