@@ -1185,6 +1185,7 @@ $AMIClass('TableCtrl', {
 		}
 
 		if(regions['FROM']) {
+			alert(regions['FROM']);
 			sql.push('FROM ' + regions['FROM']);
 		}
 
@@ -1264,6 +1265,7 @@ $AMIClass('TableCtrl', {
 			parent.appendItem('<i class="fa fa-slack"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
 
 				new this.$class(parent, this).render(selector, command, this.ctx);
+				//new this.$class(parent, this).render(selector, command, {orderBy: '`' + entity + '`.`' + field +'`', showDetails: false });
 			});
 		}
 		else
