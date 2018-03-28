@@ -534,7 +534,7 @@ $AMIClass('TableCtrl', {
 				showDetails: this.ctx.showDetails,
 				showTools: this.ctx.showTools
 				           &&
-					   isXQL,
+				           isXQL,
 			};
 
 			this.replaceHTML(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.fragmentTable, {context: this, dict: dict}).done(function() {
