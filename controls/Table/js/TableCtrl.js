@@ -1129,39 +1129,14 @@ $AMIClass('TableCtrl', {
 
 		var regions = xqlGetRegions(this.sql);
 
-		/*---------------------------------------------------------*/
-		/* DEBUG FL                                                */
-		/*---------------------------------------------------------*/
-
-		//@TODO
-		// bug with alias -> should replace entity by aliasMap[entity]
-
-		/*var aliasMap = {}
-
-		if(regions['FROM'])
-		{
-			var tmpAliases = regions['FROM'].split(',')
-
-			for (var i = 0; i < tmpAliases.length; i++)
-			{
-				var item = tmpAliases[i].trim().split('\\s+');
-
-				if (item.length === 1)
-				{
-					aliasMap[item[0]] = item[0];
-				}
-				else if (item.length === 2)
-				{
-					aliasMap[item[0]] = item[1];
-				}
-			}
-		}*/
-
+		var aliases = regions['ALIASES'];
 
 		/*---------------------------------------------------------*/
 
-		var columnName = this._buildColumnName('N/A', entity, field);
-		var columnNAME = this._buildColumnName(catalog, entity, field);
+		//var columnName = this._buildColumnName('N/A', entity, field);
+		var columnName = this._buildColumnName('N/A', aliases[field].tableAlias, field);
+		//var columnNAME = this._buildColumnName(catalog, entity, field);
+		var columnNAME = this._buildColumnName(catalog, aliases[field].tableAlias, field);
 
 		regions['SELECT'] = '\'' + columnNAME.replace(/'/g, '\'\'') + '\' AS `field`'
 		                    + ', ' +
@@ -1204,7 +1179,8 @@ $AMIClass('TableCtrl', {
 		{
 			parent.appendItem('<i class="fa fa-bar-chart"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
 
-				new this.$class(parent, this).render(selector, command, {orderBy: '`' + entity + '`.`' + field +'`', showDetails: false });
+				//new this.$class(parent, this).render(selector, command, {orderBy: '`' + entity + '`.`' + field +'`', showDetails: false });
+				new this.$class(parent, this).render(selector, command, {orderBy: '`' + (aliases[field].tableAlias === '' ? field : aliases[field].tableAlias + '`.`' + field) +'`', showDetails: false });
 			});
 		}
 		else
@@ -1223,9 +1199,12 @@ $AMIClass('TableCtrl', {
 
 		var regions = xqlGetRegions(this.sql);
 
+		var aliases = regions['ALIASES'];
+
 		/*---------------------------------------------------------*/
 
-		var columnName = this._buildColumnName('N/A', entity, field);
+		//var columnName = this._buildColumnName('N/A', entity, field);
+		var columnName = this._buildColumnName('N/A', aliases[field].tableAlias, field);
 
 		regions['SELECT'] = columnName
 				+ ', count(*) AS `total`, CONCAT(\'@owner::' + columnName + '::\', ' + columnName + ') AS `go`';
@@ -1248,7 +1227,8 @@ $AMIClass('TableCtrl', {
 		}
 
 		if(regions['GROUP']) {
-			sql.push('GROUP BY ' + regions['GROUP']);
+			//sql.push('GROUP BY ' + regions['GROUP']);
+			sql.push('GROUP BY ' + regions['GROUP'].replace(entity, aliases[field].tableAlias));
 		}
 
 		/*---------------------------------------------------------*/
@@ -1263,7 +1243,8 @@ $AMIClass('TableCtrl', {
 		{
 			parent.appendItem('<i class="fa fa-slack"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
 
-				new this.$class(parent, this).render(selector, command, {orderBy: '`' + entity + '`.`' + field +'`', showDetails: false });
+				//new this.$class(parent, this).render(selector, command, {orderBy: '`' + entity + '`.`' + field +'`', showDetails: false });
+				new this.$class(parent, this).render(selector, command, {orderBy: '`' + (aliases[field].tableAlias === '' ? field : aliases[field].tableAlias + '`.`' + field) +'`', showDetails: false });
 			});
 		}
 		else
