@@ -222,7 +222,6 @@ function _xqlGetAliases(xqlSelectFragment, xqlFromFragment)
 		result[fieldAlias] = {'field' : field, 'fieldAlias' : fieldAlias, 'table' : table, 'tableAlias' : tableAlias};
 	});
 
-	alert(JSON.stringify(result));
 	return result;
 }
 
