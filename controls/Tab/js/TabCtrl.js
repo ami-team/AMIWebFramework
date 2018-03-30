@@ -91,6 +91,7 @@ $AMIClass('TabCtrl', {
 
 	_getLinkEl: function(tabId)
 	{
+		
 		return $(this._selector + ' .nav-link[href="#' + tabId + '"]');
 	},
 
@@ -280,6 +281,10 @@ $AMIClass('TabCtrl', {
 		if(this._previousActiveTab)
 		{
 			this._getLinkEl(this._previousActiveTab).tab('show');
+		}
+		else
+		{
+			$(this._selector + ' .nav-link:first').tab('show');
 		}
 	},
 
