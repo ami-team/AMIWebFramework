@@ -62,7 +62,7 @@
 			{% else %}
 			<span class="edit-field" data-row="{{elementId|e}}" data-col="{{field['@name']|e}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$|e}}</span>
 			{%   if field['link'] is defined %}
-			<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="#">{{link['@label']|e}}</a>{% endfor %}
+			<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}" target="_blank">{{link['@label']|e}}</a>{% endfor %}
 			{%   endif %}
 			{% endif %}
 		</td>
