@@ -91,7 +91,6 @@ $AMIClass('TabCtrl', {
 
 	_getLinkEl: function(tabId)
 	{
-		
 		return $(this._selector + ' .nav-link[href="#' + tabId + '"]');
 	},
 
@@ -147,8 +146,8 @@ $AMIClass('TabCtrl', {
 
 		var _this = this;
 
-		this.prependHTML(this._selector + ' .nav-tabs', this.fragmentNavItem, {context: this, dict: dict}).done(function() {
-			this.prependHTML(this._selector + ' .tab-content', this.fragmentTabPane, {context: this, dict: dict}).done(function() {
+		this.prependHTML(this._selector + ' > .nav-tabs', this.fragmentNavItem, {context: this, dict: dict}).done(function() {
+			this.prependHTML(this._selector + ' > .tab-content', this.fragmentTabPane, {context: this, dict: dict}).done(function() {
 
 				/*---------------------------------------------------------*/
 
@@ -231,8 +230,8 @@ $AMIClass('TabCtrl', {
 
 		var _this = this;
 
-		this.appendHTML(this._selector + ' .nav-tabs', this.fragmentNavItem, {context: this, dict: dict}).done(function() {
-			this.appendHTML(this._selector + ' .tab-content', this.fragmentTabPane, {context: this, dict: dict}).done(function() {
+		this.appendHTML(this._selector + ' > .nav-tabs', this.fragmentNavItem, {context: this, dict: dict}).done(function() {
+			this.appendHTML(this._selector + ' > .tab-content', this.fragmentTabPane, {context: this, dict: dict}).done(function() {
 
 				/*---------------------------------------------------------*/
 
