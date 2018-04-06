@@ -701,7 +701,7 @@ $AMIClass('TableCtrl', {
 				/* TOOLTIP CONTENT                         */
 				/*-----------------------------------------*/
 
-				var title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (isXQL ? totalResults : rows.length);
+				var title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (totalResults !== 'N/A' ? totalResults : rows.length);
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
 					placement: (('bottom')),
