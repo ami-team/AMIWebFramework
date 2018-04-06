@@ -61,6 +61,8 @@ $AMIClass('TableCtrl', {
 
 	render: function(selector, command, settings)
 	{
+		this.settings = settings;
+
 		this.ctx = {
 			isEmbedded: amiWebApp.isEmbedded(),
 
@@ -226,7 +228,6 @@ $AMIClass('TableCtrl', {
 						this.ctx.primaryField = field;
 					}
 				}
-
 				this._display(selector);
 
 			}).fail(function() {
@@ -257,9 +258,9 @@ $AMIClass('TableCtrl', {
 			for(var i = 0; i < l1; i++)
 			{
 				this.ctx.fieldInfo.push({
-		  			field: this.ctx.defaultFields[i],
-		  			value: this.ctx.defaultValues[i],
-		  			type: this.ctx.defaultTypes[i],
+					field: this.ctx.defaultFields[i],
+					value: this.ctx.defaultValues[i],
+					type: this.ctx.defaultTypes[i],
 				});
 			}
 		}
@@ -276,26 +277,12 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------*/
 
-			$('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1').submit(function(e) {
-
-				e.preventDefault();
-
-				_this.appendRow();
-			});
-
 			$('#F5221AF4_E3C8_260F_4556_A1ED96055B2F').click(function() {
 
 				_this.hideEditModal();
 			});
 
 			/*-------------------------------------------------*/
-
-			$('#F114E547_5E78_72D9_BB7F_355CDBB3D03A').submit(function(e) {
-
-				e.preventDefault();
-
-				_this.refineResult();
-			});
 
 			$('#C31B969B_357E_B68B_E56D_BA38DC220599').click(function() {
 
@@ -351,22 +338,22 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(function() {
 
-				amiWebApp.createControl(_this.getParent(),this,'messageBox',[_this.mql],{});
+				amiWebApp.createControl(_this.getParent(),this,'messageBox', [_this.mql], {});
 			});
 
 			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(function() {
 
-				amiWebApp.createControl(_this.getParent(),this,'messageBox',[_this.sql],{});
+				amiWebApp.createControl(_this.getParent(),this,'messageBox', [_this.sql], {});
 			});
 
 			$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(function() {
 
-				amiWebApp.createControl(_this.getParent(),this,'messageBox',[_this.ctx.command],{});
+				amiWebApp.createControl(_this.getParent(),this,'messageBox', [_this.ctx.command], {});
 			});
 
 			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(function() {
 
-				amiWebApp.createControl(_this.getParent(),this,'textBox',[_this.js],{});
+				amiWebApp.createControl(_this.getParent(),this,'textBox', [_this.js], {});
 			});
 
 			/*-------------------------------------------------*/
@@ -534,7 +521,7 @@ $AMIClass('TableCtrl', {
 				showDetails: this.ctx.showDetails,
 				showTools: this.ctx.showTools
 				           &&
-					   isXQL,
+				           isXQL,
 			};
 
 			this.replaceHTML(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.fragmentTable, {context: this, dict: dict}).done(function() {
@@ -620,7 +607,7 @@ $AMIClass('TableCtrl', {
 
 					e.preventDefault();
 
-					_this.createControlInContainerFromWebLink(_this.getParent(), this, _this.ctx);
+					_this.createControlInContainerFromWebLink(_this.getParent(), this, _this.settings);
 				});
 
 				/*-----------------------------------------*/
@@ -714,7 +701,7 @@ $AMIClass('TableCtrl', {
 				/* TOOLTIP CONTENT                         */
 				/*-----------------------------------------*/
 
-				var title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (isXQL ? totalResults : rows.length);
+				var title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (totalResults !== 'N/A' ? totalResults : rows.length);
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
 					placement: (('bottom')),
@@ -785,6 +772,15 @@ $AMIClass('TableCtrl', {
 			el2.find('input[name="' + field.toLowerCase() + '"]').val(value);
 		}
 
+		var _this = this;
+
+		el2.off().submit(function(e) {
+
+			e.preventDefault();
+
+			_this.refineResult();
+		});
+
 		el1.modal('show');
 	},
 
@@ -805,6 +801,15 @@ $AMIClass('TableCtrl', {
 
 			el2.find('input[name="' + field.toLowerCase() + '"]').val(value);
 		}
+
+		var _this = this;
+
+		el2.off().submit(function(e) {
+
+			e.preventDefault();
+
+			/* DO NOTHING */
+		});
 
 		el1.modal('hide');
 	},
@@ -952,38 +957,72 @@ $AMIClass('TableCtrl', {
 
 	showRefineModal: function(catalog, entity, field)
 	{
-		var column = this._buildColumnName('N/A', entity, field);
+		/*---------------------------------------------------------*/
 
-		var el = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
+		var regions = xqlGetRegions(this.mql && this.mql !== 'N/A' ? this.mql : this.sql);
 
-		el.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
-		el.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
+		var aliases = regions['ALIASES'];
 
-		el.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
-		el.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
+		var column;
 
-		el.find('form')[0].reset();
+		column = this._buildColumnName('N/A', aliases[field].tableAlias, aliases[field].field);
 
-		el.modal('show');
+		/*---------------------------------------------------------*/
+
+		var el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
+		var el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
+
+		el1.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
+		el1.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
+
+		el1.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
+		el1.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
+
+		el1.find('form')[0].reset();
+
+		var _this = this;
+
+		el2.off().submit(function(e) {
+
+			e.preventDefault();
+
+			_this.refineResult();
+		});
+
+		el1.modal('show');
 	},
 
 	/*-----------------------------------------------------------------*/
 
 	hideRefineModal: function()
 	{
+		/*---------------------------------------------------------*/
+
 		var column = /*-----------------*/''/*-----------------*/;
 
-		var el = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
+		/*---------------------------------------------------------*/
 
-		el.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
-		el.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
+		var el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
+		var el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
 
-		el.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
-		el.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
+		el1.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
+		el1.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
 
-		el.find('form')[0].reset();
+		el1.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
+		el1.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
 
-		el.modal('hide');
+		el1.find('form')[0].reset();
+
+		var _this = this;
+
+		el2.off().submit(function(e) {
+
+			e.preventDefault();
+
+			/* DO NOTHING */
+		});
+
+		el1.modal('hide');
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -997,6 +1036,7 @@ $AMIClass('TableCtrl', {
 		var filter = _filter || el.find('select[name="filter"]').val();
 
 		var x = _x || el.find('input[name="x"]').val();
+
 		var y = _y || el.find('input[name="y"]').val();
 		var y1 = el.find('input[name="y1"]').val();
 		var y2 = el.find('input[name="y2"]').val();
@@ -1104,19 +1144,7 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var parent = this.getParent();
-
-		if(parent.$name === 'TabCtrl')
-		{
-			parent.appendItem(this.ctx.entity, {context: this}).done(function(selector) {
-
-				new this.$class(parent, this).render(selector, command, this.ctx);
-			});
-		}
-		else
-		{
-			amiWebApp.error('could not create a new tab', true);
-		}
+		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {}, this.settings, 'table', this.ctx.entity);
 
 		/*---------------------------------------------------------*/
 	},
@@ -1127,28 +1155,26 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.sql);
+		var regions = xqlGetRegions(this.mql && this.mql !== 'N/A' ? this.mql : this.sql);
 
 		var aliases = regions['ALIASES'];
 
 		/*---------------------------------------------------------*/
 
-		//var columnName = this._buildColumnName('N/A', entity, field);
-		var columnName = this._buildColumnName('N/A', aliases[field].tableAlias, field);
-		//var columnNAME = this._buildColumnName(catalog, entity, field);
-		var columnNAME = this._buildColumnName(catalog, aliases[field].tableAlias, field);
+		var columnName = this._buildColumnName('N/A', aliases[field].tableAlias, aliases[field].field);
+		var columnNAME = this._buildColumnName(catalog, aliases[field].tableAlias, aliases[field].field);
 
 		regions['SELECT'] = '\'' + columnNAME.replace(/'/g, '\'\'') + '\' AS `field`'
 		                    + ', ' +
 		                    'MIN(' + columnName + ') AS `min`'
 		                    + ', ' +
-				    'MAX(' + columnName + ') AS `max`'
-				    + ', ' +
-				    'AVG(' + columnName + ') AS `avg`'
-				    + ', ' +
-				    'STDDEV(' + columnName + ') AS `stddev`'
-				    + ', ' +
-				    'COUNT(' + columnName + ') AS `count`'
+		                    'MAX(' + columnName + ') AS `max`'
+		                    + ', ' +
+		                    'AVG(' + columnName + ') AS `avg`'
+		                    + ', ' +
+		                    'STDDEV(' + columnName + ') AS `stddev`'
+		                    + ', ' +
+		                    'COUNT(' + columnName + ') AS `count`'
 		;
 
 		/*---------------------------------------------------------*/
@@ -1173,20 +1199,7 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var parent = this.getParent();
-
-		if(parent.$name === 'TabCtrl')
-		{
-			parent.appendItem('<i class="fa fa-bar-chart"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
-
-				//new this.$class(parent, this).render(selector, command, {orderBy: '`' + entity + '`.`' + field +'`', showDetails: false });
-				new this.$class(parent, this).render(selector, command, {orderBy: '`' + (aliases[field].tableAlias === '' ? field : aliases[field].tableAlias + '`.`' + field) +'`', showDetails: false });
-			});
-		}
-		else
-		{
-			amiWebApp.error('could not create a new tab', true);
-		}
+		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: '', showDetails: false}, this.settings, 'bar-chart', this.ctx.entity);
 
 		/*---------------------------------------------------------*/
 	},
@@ -1197,14 +1210,13 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.sql);
+		var regions = xqlGetRegions(this.mql && this.mql !== 'N/A' ? this.mql : this.sql);
 
 		var aliases = regions['ALIASES'];
 
 		/*---------------------------------------------------------*/
 
-		//var columnName = this._buildColumnName('N/A', entity, field);
-		var columnName = this._buildColumnName('N/A', aliases[field].tableAlias, field);
+		var columnName = this._buildColumnName('N/A', aliases[field].tableAlias, aliases[field].field);
 
 		regions['SELECT'] = columnName
 				+ ', count(*) AS `total`, CONCAT(\'@owner::' + columnName + '::\', ' + columnName + ') AS `go`';
@@ -1227,7 +1239,6 @@ $AMIClass('TableCtrl', {
 		}
 
 		if(regions['GROUP']) {
-			//sql.push('GROUP BY ' + regions['GROUP']);
 			sql.push('GROUP BY ' + regions['GROUP'].replace(entity, aliases[field].tableAlias));
 		}
 
@@ -1237,20 +1248,7 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var parent = this.getParent();
-
-		if(parent.$name === 'TabCtrl')
-		{
-			parent.appendItem('<i class="fa fa-slack"></i> ' + this.ctx.entity, {context: this}).done(function(selector) {
-
-				//new this.$class(parent, this).render(selector, command, {orderBy: '`' + entity + '`.`' + field +'`', showDetails: false });
-				new this.$class(parent, this).render(selector, command, {orderBy: '`' + (aliases[field].tableAlias === '' ? field : aliases[field].tableAlias + '`.`' + field) +'`', showDetails: false });
-			});
-		}
-		else
-		{
-			amiWebApp.error('could not create a new tab', true);
-		}
+		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: columnName, showDetails: false}, this.settings, 'slack', this.ctx.entity);
 
 		/*---------------------------------------------------------*/
 	},
