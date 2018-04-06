@@ -149,8 +149,8 @@ $AMIClass('TabCtrl', {
 		var tabSelector = this._card ? '.card > .card-header > .nav-tabs' : '.nav-tabs';
 		var contentSelector = this._card ? '.card > .card-body > .tab-content' : '.tab-content';
 
-		this.prependHTML(this._selector + ' ' + tabSelector, this.fragmentNavItem, {context: this, dict: dict}).done(function() {
-			this.prependHTML(this._selector + ' ' + contentSelector, this.fragmentTabPane, {context: this, dict: dict}).done(function() {
+		this.prependHTML(this._selector + ' > ' + tabSelector, this.fragmentNavItem, {context: this, dict: dict}).done(function() {
+			this.prependHTML(this._selector + ' > ' + contentSelector, this.fragmentTabPane, {context: this, dict: dict}).done(function() {
 
 				/*---------------------------------------------------------*/
 
@@ -236,8 +236,8 @@ $AMIClass('TabCtrl', {
 		var tabSelector = this._card ? '.card > .card-header > .nav-tabs' : '.nav-tabs';
 		var contentSelector = this._card ? '.card > .card-body > .tab-content' : '.tab-content';
 
-		this.appendHTML(this._selector + ' ' + tabSelector, this.fragmentNavItem, {context: this, dict: dict}).done(function() {
-			this.appendHTML(this._selector + ' ' + contentSelector, this.fragmentTabPane, {context: this, dict: dict}).done(function() {
+		this.appendHTML(this._selector + ' > ' + tabSelector, this.fragmentNavItem, {context: this, dict: dict}).done(function() {
+			this.appendHTML(this._selector + ' > ' + contentSelector, this.fragmentTabPane, {context: this, dict: dict}).done(function() {
 
 				/*---------------------------------------------------------*/
 
