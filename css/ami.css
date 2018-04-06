@@ -209,6 +209,12 @@ pre {
 	text-align: left;
 }
 
+.ami-code,
+.ami-code code {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
 .ami-code code .line-number {
 	counter-increment: listing;
 	display: inline-block;
