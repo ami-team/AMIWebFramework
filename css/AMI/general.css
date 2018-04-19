@@ -30,6 +30,13 @@
 	;
 }
 
+@font-face {
+	font-family: "trochut";
+	font-weight: normal;
+	font-style: normal;
+	src: url("../fonts/Trochut-Regular.ttf");
+}
+
 /*-------------------------------------------------------------------------*/
 /* GENERAL                                                                 */
 /*-------------------------------------------------------------------------*/

@@ -8276,6 +8276,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	clientDN: '',
 	issuerDN: '',
 
+	notBefore: '',
+	notAfter: '',
+
 	/*---------------------------------------------------------------------*/
 
 	roleInfo: {},
@@ -8484,8 +8487,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		const user = this.user = userInfo.AMIUser || '';
 		const guest = this.guest = userInfo.guestUser || '';
 
+		const notBefore = this.notBefore = userInfo.notBefore || '';
+		const notAfter = this.notAfter = userInfo.notAfter || '';
+
 		const clientDNInSession = this.clientDN = userInfo.clientDNInSession || '';
 		const issuerDNInSession = this.issuerDN = userInfo.issuerDNInSession || '';
+
+		/*-----------------------------------------------------------------*/
 
 		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
 
@@ -8588,6 +8596,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400');
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').text('❧ valid ❧');
 
+				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore);
+				$('#D4E8EA80_A2B7_A823_21AF_ACD56F0DD597').text(notAfter);
+
 				color = 'orange';
 
 				/*---------------------------------------------------------*/
@@ -8623,6 +8634,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', 'url("images/account-pink.png") center center');
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#8B0000');
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').text('❧ invalid ❧');
+
+				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore);
+				$('#D4E8EA80_A2B7_A823_21AF_ACD56F0DD597').text(notAfter);
 
 				color = 'red';
 
