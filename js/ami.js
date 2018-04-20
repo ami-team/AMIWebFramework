@@ -7571,8 +7571,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400');
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').text('❧ valid ❧');
 
-				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore);
-				$('#D4E8EA80_A2B7_A823_21AF_ACD56F0DD597').text(notAfter);
+				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
 
 				color = 'orange';
 
@@ -7598,8 +7597,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#8B0000');
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').text('❧ invalid ❧');
 
-				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore);
-				$('#D4E8EA80_A2B7_A823_21AF_ACD56F0DD597').text(notAfter);
+				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
 
 				color = 'red';
 
