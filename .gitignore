@@ -4,7 +4,11 @@
 .settings
 .classpath
 
+berk
+
 node_modules
+
+package-lock.json
 
 tools/awf/target
 
