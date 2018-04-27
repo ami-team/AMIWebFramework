@@ -1,4 +1,4 @@
-BOOTSTRAP_VERSION=4.0.0
+BOOTSTRAP_VERSION=4.1.0
 
 all: clean
 	#############################################################################
@@ -20,8 +20,8 @@ all: clean
 
 	#############################################################################
 
-	cp bootstrap-4.0.0/dist/css/bootstrap.min.css ../../css
-	cp bootstrap-4.0.0/dist/js/bootstrap.min.js ../../js
+	cp bootstrap-$(BOOTSTRAP_VERSION)/dist/css/bootstrap.min.css ../../css
+	cp bootstrap-$(BOOTSTRAP_VERSION)/dist/js/bootstrap.min.js ../../js
 
 	#############################################################################
 
