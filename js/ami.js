@@ -6352,7 +6352,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		/*-----------------------------------------------------------------*/
 
 		if (this._isReady) {
-			alert('triggerLogin');
 			_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), function () {
 
 				_ami_internal_always(_this10.onRefresh(true), function () {
@@ -6382,7 +6381,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 		/*-----------------------------------------------------------------*/
 
 		if (this._isReady) {
-			alert('triggerLogout');
 			_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), function () {
 
 				_ami_internal_always(_this11.onRefresh(false), function () {
