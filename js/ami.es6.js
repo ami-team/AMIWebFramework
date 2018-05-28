@@ -7270,6 +7270,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(this._isReady)
 		{
+alert('triggerLogin');
 			_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
 
 				_ami_internal_always(this.onRefresh(true), () => {
@@ -7279,7 +7280,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (e) => {
 
-					result.reject(e);
+				result.reject(e);
 			});
 		}
 		else
@@ -7302,6 +7303,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(this._isReady)
 		{
+alert('triggerLogout');
 			_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
 
 				_ami_internal_always(this.onRefresh(false), () => {
@@ -7311,7 +7313,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (e) => {
 
-					result.reject(e);
+				result.reject(e);
 			});
 		}
 		else
