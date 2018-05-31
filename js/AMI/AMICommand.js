@@ -56,7 +56,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		const [endpoint, converter, context, timeout, extraParam, extraValue] = amiWebApp.setup(
 			['endpoint', 'converter', 'context', 'timeout', 'extraParam', 'extraValue'],
-			[this.endpoint, this.converter, result, 0, null, null],
+			[this.endpoint, this.converter, result, 2 * 60 * 1000, null, null],
 			settings
 		);
 

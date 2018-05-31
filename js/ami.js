@@ -6872,7 +6872,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */{
 	execute: function execute(command, settings) {
 		var result = $.Deferred();
 
-		var _amiWebApp$setup2 = amiWebApp.setup(['endpoint', 'converter', 'context', 'timeout', 'extraParam', 'extraValue'], [this.endpoint, this.converter, result, 0, null, null], settings),
+		var _amiWebApp$setup2 = amiWebApp.setup(['endpoint', 'converter', 'context', 'timeout', 'extraParam', 'extraValue'], [this.endpoint, this.converter, result, 2 * 60 * 1000, null, null], settings),
 		    endpoint = _amiWebApp$setup2[0],
 		    converter = _amiWebApp$setup2[1],
 		    context = _amiWebApp$setup2[2],
