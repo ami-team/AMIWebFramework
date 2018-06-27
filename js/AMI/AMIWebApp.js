@@ -1682,7 +1682,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (e) => {
 
-					result.reject(e);
+				result.reject(e);
 			});
 		}
 		else
@@ -1714,7 +1714,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (e) => {
 
-					result.reject(e);
+				result.reject(e);
 			});
 		}
 		else

@@ -7279,7 +7279,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (e) => {
 
-					result.reject(e);
+				result.reject(e);
 			});
 		}
 		else
@@ -7311,7 +7311,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (e) => {
 
-					result.reject(e);
+				result.reject(e);
 			});
 		}
 		else
@@ -7837,7 +7837,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		const [endpoint, converter, context, timeout, extraParam, extraValue] = amiWebApp.setup(
 			['endpoint', 'converter', 'context', 'timeout', 'extraParam', 'extraValue'],
-			[this.endpoint, this.converter, result, 0, null, null],
+			[this.endpoint, this.converter, result, 2 * 60 * 1000, null, null],
 			settings
 		);
 
@@ -8662,11 +8662,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			amiWebApp.triggerLogin().always(() => {
+			amiWebApp.replaceHTML('#ami_login_content', this.fragmentLogoutButton, {dict: dict}).done(() => {
 
-				amiWebApp.replaceHTML('#ami_login_content', this.fragmentLogoutButton, {dict: dict});
+				amiWebApp.triggerLogin().always(() => {
 
-				result.resolve();
+					result.resolve();
+				});
 			});
 
 			/*-------------------------------------------------------------*/
@@ -8675,11 +8676,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		{
 			/*-------------------------------------------------------------*/
 
-			amiWebApp.triggerLogout().always(() => {
+			amiWebApp.replaceHTML('#ami_login_content', this.fragmentLoginButton, {dict: dict}).done(() => {
 
-				result.resolve();
+				amiWebApp.triggerLogout().always(() => {
 
-				amiWebApp.replaceHTML('#ami_login_content', this.fragmentLoginButton, {dict: dict});
+					result.resolve();
+				});
 			});
 
 			/*-------------------------------------------------------------*/
