@@ -49,8 +49,8 @@ $AMIClass('AccordionCtrl', {
 
 		this._context = result;
 		this._toolbar = false;
-		this._closable = true;
 		this._clazz = null;
+		this._closable = true;
 
 		if(settings)
 		{
@@ -62,12 +62,12 @@ $AMIClass('AccordionCtrl', {
 				this._toolbar = settings['toolbar'];
 			}
 
-			if('closable' in settings) {
-				this._closable = settings['closable'];
-			}
-
 			if('clazz' in settings) {
 				this._clazz = settings['clazz'];
+			}
+
+			if('closable' in settings) {
+				this._closable = settings['closable'];
 			}
 		}
 
