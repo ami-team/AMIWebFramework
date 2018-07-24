@@ -1,0 +1,70 @@
+<div id="A4E89C31_F65A_D4CD_DE10_60564C7D8DD6">
+	<nav class="nav nav-tabs" role="tablist">
+		<a class="nav-item nav-link active" href="#E87CF689_EC60_230D_8450_A852821FB6D4" data-toggle="tab" role="tab">Recurrent tasks</a>
+		<a class="nav-item nav-link xxxxxx" href="#F5C21C13_C7EF_0EC9_8490_3C983CE4BF64" data-toggle="tab" role="tab">One shot tasks</a>
+		<a class="nav-item nav-link xxxxxx" href="#C4EA4861_8843_8AF0_D7C8_92B1DC28FA49" data-toggle="tab" role="tab">Server Status</a>
+
+		<span class="ml-auto"><button type="button" class="btn btn-sm btn-outline-success" data-target="#DC48E537_4113_EFE6_254C_681063948076" data-toggle="modal"><i class="fa fa-plus"></i> Append task</button></span>
+		<span class=" ml-1 "><button type="button" class="btn btn-sm btn-outline-danger" data-target="#AF78C883_D47B_A7B5_8123_E555A4279894" data-toggle="modal"><i class="fa fa-minus"></i> Remove task</button></span>
+	</nav>
+	<div class="tab-content" id="nav-tabContent">
+		<div class="tab-pane fade show active" id="E87CF689_EC60_230D_8450_A852821FB6D4" role="tabpanel">
+			<div id="C85980DA_6A5D_3D7C_54DE_D50A1BD15292"></div>
+		</div>
+		<div class="tab-pane fade xxxx xxxxxx" id="F5C21C13_C7EF_0EC9_8490_3C983CE4BF64" role="tabpanel">
+			<div id="E6D5E436_5891_0A6F_47E3_8A318364DE4A"></div>
+		</div>
+		<div class="tab-pane fade xxxx xxxxxx" id="C4EA4861_8843_8AF0_D7C8_92B1DC28FA49" role="tabpanel">
+			<!-- todo -->
+		</div>
+	</div>
+
+	<div class="modal fade" tabindex="-1" role="dialog" id="DC48E537_4113_EFE6_254C_681063948076">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title"><i class="fa fa-plus"></i> Append task</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						&times;
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group mb-0">
+							<label for="tasknName" class="col-form-label">Name</label>
+							<input type="text" class="form-control form-control-sm" name="tasknName" id="tasknName" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="taskCommand" class="col-form-label">Command</label>
+							<input type="text" class="form-control form-control-sm" name="taskCommand" id="taskCommand" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="taskServerName" class="col-form-label">Server Name</label>
+							<input type="typeahead" class="form-control form-control-sm" name="taskServerName" id="taskServerName" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="taskDescription" class="col-form-label">Description</label>
+							<input type="text" class="form-control form-control-sm" name="taskDescription" id="taskDescription" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="taskTimeStep" class="col-form-label">Time Step [ms]</label>
+							<input type="number" class="form-control form-control-sm typeahead" id="taskTimeStep" name="taskTimeStep" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="priority" class="col-form-label">Priority [>0]</label>
+							<input type="number" class="form-control form-control-sm" id="priority" name="priority" />
+						</div>
+						<div class="form-check form-check-inline">
+							<input type="checkbox" class="form-check-input" value="true" id="oneShotTask" />
+							<label class="form-check-label" for="oneShotTask">oneShotTask</label>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-outline-success" data-dismiss="modal" onclick="taskServerAdminApp.addTask()">Append</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

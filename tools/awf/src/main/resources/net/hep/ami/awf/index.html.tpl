@@ -48,7 +48,8 @@
 						'    <i class="fa fa-key"></i> Admin' +
 						'  </a>' +
 						'  <div class="dropdown-menu">' +
-						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=monitoring">AMI Monitoring</a>' +
+						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=monitoring">Monitoring</a>' +
+						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=taskServerAdmin">Task servers</a>' +
 						'    <div class="dropdown-divider"></div>' +
 						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=api.html">AMI Web Framework API</a>' +
 						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=info.html">AMI Web Framework Info</a>' +

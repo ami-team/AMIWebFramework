@@ -1,4 +1,12 @@
 {
+   "taskServerAdmin":{
+      "file":"subapps\/TaskServerAdmin\/js\/TaskServerAdminApp.js",
+      "instance":"taskServerAdminApp",
+      "breadcrumb":[
+         "Admin",
+         "<a href=\"{{WEBAPP_URL}}?subapp=taskServerAdmin\">Task servers<\/a>"
+      ]
+   },
    "mission":{
       "file":"subapps\/Mission\/js\/MissionApp.js",
       "instance":"missionApp"
@@ -39,7 +47,7 @@
       "file":"subapps\/Monitoring\/js\/MonitoringApp.js",
       "instance":"monitoringApp",
       "breadcrumb":[
-         "Tools",
+         "Admin",
          "<a href=\"{{WEBAPP_URL}}?subapp=monitoring\">Monitoring<\/a>"
       ]
    },
