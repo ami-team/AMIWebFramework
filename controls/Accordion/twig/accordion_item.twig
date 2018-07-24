@@ -1,5 +1,5 @@
 <div class="card" id="{{id}}">
-	<div class="card-header" style="padding-left: 0px; padding-top: 1px; padding-bottom: 1px;">
+	<div class="card-header{% if clazz %} {{ clazz|e }}{% endif %}" style="padding-left: 0px; padding-top: 1px; padding-bottom: 1px;">
 		<button class="btn btn-link" data-toggle="collapse" data-target="#{{id}}_collapse">
 			{{title}}
 		</button>
