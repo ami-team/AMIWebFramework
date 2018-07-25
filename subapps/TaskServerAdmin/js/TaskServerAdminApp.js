@@ -29,10 +29,37 @@ $AMIClass('TaskServerAdminApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-				//$('#A4E89C31_F65A_D4CD_DE10_60564C7D8DD6').hide();
+				var that = this;
 
-				this._tableCtrlTasks = new data[2]();
-				this._tableCtrlOneShotTasks = new data[2]();
+				/*---------------------------------------------------------*/
+
+				this._tableCtrlTasks = new data[1]();
+				this._tableCtrlOneShotTasks = new data[1]();
+
+				/*---------------------------------------------------------*/
+
+				$('#D567A5FD_6C12_EEA6_4E74_FDB678BE483B:checkbox').change(function(e) {
+
+					if($(this).prop('checked'))
+					{
+						$('#CB715F4D_8C12_52DC_2745_296FC8A9AC63').prop('disabled', false);
+					}
+					else
+					{
+						$('#CB715F4D_8C12_52DC_2745_296FC8A9AC63').prop('disabled', true);
+					}
+				});
+
+				/*---------------------------------------------------------*/
+
+				$('#DC48E537_4113_EFE6_254C_681063948076').submit(function(e) {
+
+					e.preventDefault();
+
+					that.addTask();
+				});
+
+				/*---------------------------------------------------------*/
 
 				result.resolve();
 			});
@@ -47,12 +74,6 @@ $AMIClass('TaskServerAdminApp', {
 
 	/*---------------------------------------------------------------------*/
 
-	onExit: function()
-	{
-	},
-
-	/*---------------------------------------------------------------------*/
-
 	onLogin: function()
 	{
 		/*-----------------------------------------------------------------*/
@@ -61,9 +82,9 @@ $AMIClass('TaskServerAdminApp', {
 
 		/*-----------------------------------------------------------------*/
 
-		this._tableCtrlTasks.render("#C85980DA_6A5D_3D7C_54DE_D50A1BD15292", 'BrowseQuery -catalog="tasks" -entity="router_task" -mql="SELECT `*` WHERE oneShot = \'0\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
+		this._tableCtrlTasks.render('#C85980DA_6A5D_3D7C_54DE_D50A1BD15292', 'BrowseQuery -catalog="tasks" -sql="SELECT id, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, running, success, stdout, stderr, FROM_UNIXTIME(lastStartDate) AS lastStart, FROM_UNIXTIME(lastStopDate) AS lastStop FROM router_task WHERE oneShot = \'0\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
 
-		this._tableCtrlOneShotTasks.render("#E6D5E436_5891_0A6F_47E3_8A318364DE4A", 'BrowseQuery -catalog="tasks" -entity="router_task" -mql="SELECT `*` WHERE oneShot = \'1\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
+		this._tableCtrlOneShotTasks.render('#E6D5E436_5891_0A6F_47E3_8A318364DE4A', 'BrowseQuery -catalog="tasks" -sql="SELECT id, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, running, success, stdout, stderr, FROM_UNIXTIME(lastStartDate) AS lastStart, FROM_UNIXTIME(lastStopDate) AS lastStop FROM router_task WHERE oneShot = \'1\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
 
 		/*-----------------------------------------------------------------*/
 
@@ -73,7 +94,7 @@ $AMIClass('TaskServerAdminApp', {
 
 			that._refreshTables();
 
-		}, 5000);
+		}, 10000);
 
 		/*-----------------------------------------------------------------*/
 /*
@@ -104,7 +125,7 @@ $AMIClass('TaskServerAdminApp', {
 	{
 		var result = $.Deferred();
 
-		amiCommand.execute('BrowseQuery -catalog="tasks" -entity="router_task" -mql="SELECT DISTINCT `serverName`"', {context: this}).done(function(data) {
+		amiCommand.execute('BrowseQuery -catalog="tasks" -entity="router_task" -mql="SELECT DISTINCT `serverName`"').done(function(data) {
 
 			/*-------------------------------------------------------------*/
 
@@ -112,7 +133,7 @@ $AMIClass('TaskServerAdminApp', {
 
 			/*-------------------------------------------------------------*/
 
-			$('#taskServerName').typeahead('destroy').typeahead({
+			$('#E81F70B5_422A_A17C_F608_845B8A9E73FB').typeahead('destroy').typeahead({
 				source: infos,
 				items: 100,
 			});
@@ -131,25 +152,40 @@ $AMIClass('TaskServerAdminApp', {
 
 	/*---------------------------------------------------------------------*/
 
-	addTask: function() {
+	addTask: function()
+	{
+		amiWebApp.lock();
 
-		var result = $.Deferred();
+		var name = $('#ED7BCBC3_671E_F168_C3FF_AEDA3D34FB14').val();
+		var command = $('#AF67EB3D_91A9_3DAF_5F8D_237E39644E61').val();
+		var description = $('#B8BFD2D5_2E3B_BD58_B1DC_03CCDAAB7AF0').val();
+		var commaSeparatedLocks = $('#ABB96D21_A45D_5C4E_2B29_A1E7A0BFE2FD').val();
+		var priority = $('#FDEC9ADB_66C1_73E7_DEB2_19103F70DC26').val();
+		var timeStep = $('#CB715F4D_8C12_52DC_2745_296FC8A9AC63').val();
+		var serverName = $('#E81F70B5_422A_A17C_F608_845B8A9E73FB').val();
 
-		var taskName = $("#taskName").val();
-		var taskCommand = $("#taskCommand").val();
-		var taskDescription = $("#taskDescription").val();
-		var taskTimeStep = $("#taskTimeStep").val();
-		var taskServerName = $("#taskServerName").val();
-		var priority = $("#priority").val();
-		var oneShotTask = $("#oneShotTask").prop("checked");
+		var oneShot;
 
-		amiCommand.execute('GetSessionInfo' /* A MODIFIER */, {context: this}).done(function(data) {
+		if($('#D567A5FD_6C12_EEA6_4E74_FDB678BE483B').prop('checked') === false)
+		{
+			timeStep = 0x000000;
+			oneShot = 1;
+		}
+		else
+		{
+		//	timeStep = timeStep;
+			oneShot = 0;
+		}
 
-			this.refreshTasksTables();
+		amiCommand.execute('AddElement -catalog="tasks" -entity="router_task" -fields="name,command,description,commaSeparatedLocks,oneShot,priority,timeStep,serverName" -values="' + name + ',' + command + ',' + description + ',' + commaSeparatedLocks + ',' + oneShot + ',' + priority + ',' + timeStep  + ',' + serverName + '"').done(function(data) {
+
+			$('#DC48E537_4113_EFE6_254C_681063948076').modal('hide');
+
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true, /*------------*/ null /*------------*/);
 
 		}).fail(function(data) {
 
-			result.reject(data);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true, '#E7300D7E_F671_4DF0_08B2_6AD0B9DC5C1F');
 		});
 	},
 
@@ -163,7 +199,6 @@ $AMIClass('TaskServerAdminApp', {
 	},
 
 	/*---------------------------------------------------------------------*/
-
 });
 
 /*-------------------------------------------------------------------------*/
