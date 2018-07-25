@@ -82,9 +82,9 @@ $AMIClass('TaskServerAdminApp', {
 
 		/*-----------------------------------------------------------------*/
 
-		this._tableCtrlTasks.render('#C85980DA_6A5D_3D7C_54DE_D50A1BD15292', 'BrowseQuery -catalog="tasks" -sql="SELECT id, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, running, success, stdout, stderr, FROM_UNIXTIME(lastStartDate) AS lastStart, FROM_UNIXTIME(lastStopDate) AS lastStop FROM router_task WHERE oneShot = \'0\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
+		this._tableCtrlTasks.render('#C85980DA_6A5D_3D7C_54DE_D50A1BD15292', 'BrowseQuery -catalog="tasks" -sql="SELECT id, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, running, success, stdout, stderr, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate FROM router_task WHERE oneShot = \'0\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
 
-		this._tableCtrlOneShotTasks.render('#E6D5E436_5891_0A6F_47E3_8A318364DE4A', 'BrowseQuery -catalog="tasks" -sql="SELECT id, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, running, success, stdout, stderr, FROM_UNIXTIME(lastStartDate) AS lastStart, FROM_UNIXTIME(lastStopDate) AS lastStop FROM router_task WHERE oneShot = \'1\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
+		this._tableCtrlOneShotTasks.render('#E6D5E436_5891_0A6F_47E3_8A318364DE4A', 'BrowseQuery -catalog="tasks" -sql="SELECT id, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, running, success, stdout, stderr, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate FROM router_task WHERE oneShot = \'1\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
 
 		/*-----------------------------------------------------------------*/
 
