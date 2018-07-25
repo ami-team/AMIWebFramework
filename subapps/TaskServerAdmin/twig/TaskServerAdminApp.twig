@@ -1,84 +1,92 @@
-<div id="A4E89C31_F65A_D4CD_DE10_60564C7D8DD6">
-	<nav class="nav nav-tabs" role="tablist">
-		<a class="nav-item nav-link active" href="#E87CF689_EC60_230D_8450_A852821FB6D4" data-toggle="tab" role="tab">Recurrent tasks</a>
-		<a class="nav-item nav-link xxxxxx" href="#F5C21C13_C7EF_0EC9_8490_3C983CE4BF64" data-toggle="tab" role="tab">One shot tasks</a>
-		<a class="nav-item nav-link xxxxxx" href="#C4EA4861_8843_8AF0_D7C8_92B1DC28FA49" data-toggle="tab" role="tab">Server Status</a>
-		<span class="ml-auto">
-			<button type="button" class="btn btn-sm btn-outline-success" data-target="#DC48E537_4113_EFE6_254C_681063948076" data-toggle="modal"><i class="fa fa-plus"></i> Append task</button>
-		</span>
-		<span class=" ml-1 ">
-			<div class="input-group input-group-sm">
-				<input type="text" class="form-control" placeholder="id" />
-				<div class="input-group-append">
-					<button type="button" class="btn btn-outline-danger" onclick="alert('TODO');">Kill task</button>
-				</div>
-			</div>
-		</span>
-	</nav>
-	<div class="tab-content" id="nav-tabContent">
-		<div class="tab-pane fade show active" id="E87CF689_EC60_230D_8450_A852821FB6D4" role="tabpanel">
-			<div id="C85980DA_6A5D_3D7C_54DE_D50A1BD15292"></div>
-		</div>
-		<div class="tab-pane fade xxxx xxxxxx" id="F5C21C13_C7EF_0EC9_8490_3C983CE4BF64" role="tabpanel">
-			<div id="E6D5E436_5891_0A6F_47E3_8A318364DE4A"></div>
-		</div>
-		<div class="tab-pane fade xxxx xxxxxx" id="C4EA4861_8843_8AF0_D7C8_92B1DC28FA49" role="tabpanel">
-			TODO
-		</div>
-	</div>
+<div class="card">
+	<div class="card-header">
 
-	<form class="modal fade" tabindex="-1" role="dialog" id="DC48E537_4113_EFE6_254C_681063948076">
-		<div class="modal-dialog modal-lg" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title"><i class="fa fa-plus"></i> Append task</h5>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						&times;
-					</button>
+		<nav class="nav nav-tabs card-header-tabs" role="tablist">
+			<a class="nav-item nav-link active" href="#E87CF689_EC60_230D_8450_A852821FB6D4" data-toggle="tab" role="tab">Recurrent tasks</a>
+			<a class="nav-item nav-link xxxxxx" href="#F5C21C13_C7EF_0EC9_8490_3C983CE4BF64" data-toggle="tab" role="tab">One shot tasks</a>
+			<a class="nav-item nav-link xxxxxx" href="#C4EA4861_8843_8AF0_D7C8_92B1DC28FA49" data-toggle="tab" role="tab">Server Status</a>
+			<span class="ml-auto">
+				<button type="button" class="btn btn-sm btn-outline-success" data-target="#DC48E537_4113_EFE6_254C_681063948076" data-toggle="modal"><i class="fa fa-plus"></i> Append task</button>
+			</span>
+			<span class=" ml-1 ">
+				<div class="input-group input-group-sm">
+					<input type="text" class="form-control" placeholder="id" />
+					<div class="input-group-append">
+						<button type="button" class="btn btn-outline-danger" onclick="alert('TODO');"><i class="fa fa-times"></i> Kill task</button>
+					</div>
 				</div>
-				<div class="modal-body">
-					<div id="E7300D7E_F671_4DF0_08B2_6AD0B9DC5C1F"></div>
-					<div class="form-group mb-0">
-						<label for="ED7BCBC3_671E_F168_C3FF_AEDA3D34FB14" class="col-form-label">Name</label>
-						<input type="text" class="form-control form-control-sm" name="name" id="ED7BCBC3_671E_F168_C3FF_AEDA3D34FB14" required="required" />
+			</span>
+		</nav>
+
+	</div>
+	<div class="card-body">
+
+		<div class="tab-content" id="nav-tabContent">
+			<div class="tab-pane fade show active" id="E87CF689_EC60_230D_8450_A852821FB6D4" role="tabpanel">
+				<div id="C85980DA_6A5D_3D7C_54DE_D50A1BD15292"></div>
+			</div>
+			<div class="tab-pane fade xxxx xxxxxx" id="F5C21C13_C7EF_0EC9_8490_3C983CE4BF64" role="tabpanel">
+				<div id="E6D5E436_5891_0A6F_47E3_8A318364DE4A"></div>
+			</div>
+			<div class="tab-pane fade xxxx xxxxxx" id="C4EA4861_8843_8AF0_D7C8_92B1DC28FA49" role="tabpanel">
+				TODO
+			</div>
+		</div>
+
+		<form class="modal fade" tabindex="-1" role="dialog" id="DC48E537_4113_EFE6_254C_681063948076">
+			<div class="modal-dialog modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title"><i class="fa fa-plus"></i> Append task</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							&times;
+						</button>
 					</div>
-					<div class="form-group mb-0">
-						<label for="B8BFD2D5_2E3B_BD58_B1DC_03CCDAAB7AF0" class="col-form-label">Description</label>
-						<input type="text" class="form-control form-control-sm" name="description" id="B8BFD2D5_2E3B_BD58_B1DC_03CCDAAB7AF0" xxxxxxxx="xxxxxxxx" />
-					</div>
-					<div class="form-group mb-0">
-						<label for="AF67EB3D_91A9_3DAF_5F8D_237E39644E61" class="col-form-label">Command</label>
-						<input type="text" class="form-control form-control-sm" name="command" id="AF67EB3D_91A9_3DAF_5F8D_237E39644E61" required="required" />
-					</div>
-					<div class="form-group mb-0">
-						<label for="ABB96D21_A45D_5C4E_2B29_A1E7A0BFE2FD" class="col-form-label">Comma separated locks</label>
-						<input type="text" class="form-control form-control-sm" name="commaSeparatedLocks" id="ABB96D21_A45D_5C4E_2B29_A1E7A0BFE2FD" xxxxxxxx="xxxxxxxx" />
-					</div>
-					<div class="form-group mb-0">
-						<label for="FDEC9ADB_66C1_73E7_DEB2_19103F70DC26" class="col-form-label">Priority [0..7]: <span id="AABF1966_97F9_017F_2ADA_9C8ECEAE83AC">0</span></label>
-						<input type="range" class="custom-range" name="priority" value="0" min="0" max="7" id="FDEC9ADB_66C1_73E7_DEB2_19103F70DC26" onchange="$('#AABF1966_97F9_017F_2ADA_9C8ECEAE83AC').text($(this).val());" />
-					</div>
-					<div class="form-group mb-0">
-						<label for="CB715F4D_8C12_52DC_2745_296FC8A9AC63" class="col-form-label">Time Step [ms]</label>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<div class="input-group-text">
-									<input type="checkbox" name="one_shot" checked="checked" id="D567A5FD_6C12_EEA6_4E74_FDB678BE483B" />&nbsp;Recurrent task
+					<div class="modal-body">
+						<div id="E7300D7E_F671_4DF0_08B2_6AD0B9DC5C1F"></div>
+						<div class="form-group mb-0">
+							<label for="ED7BCBC3_671E_F168_C3FF_AEDA3D34FB14" class="col-form-label">Name</label>
+							<input type="text" class="form-control form-control-sm" name="name" id="ED7BCBC3_671E_F168_C3FF_AEDA3D34FB14" required="required" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="B8BFD2D5_2E3B_BD58_B1DC_03CCDAAB7AF0" class="col-form-label">Description</label>
+							<input type="text" class="form-control form-control-sm" name="description" id="B8BFD2D5_2E3B_BD58_B1DC_03CCDAAB7AF0" xxxxxxxx="xxxxxxxx" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="AF67EB3D_91A9_3DAF_5F8D_237E39644E61" class="col-form-label">Command</label>
+							<input type="text" class="form-control form-control-sm" name="command" id="AF67EB3D_91A9_3DAF_5F8D_237E39644E61" required="required" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="ABB96D21_A45D_5C4E_2B29_A1E7A0BFE2FD" class="col-form-label">Comma separated locks</label>
+							<input type="text" class="form-control form-control-sm" name="commaSeparatedLocks" id="ABB96D21_A45D_5C4E_2B29_A1E7A0BFE2FD" xxxxxxxx="xxxxxxxx" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="FDEC9ADB_66C1_73E7_DEB2_19103F70DC26" class="col-form-label">Priority [0..7]: <span id="AABF1966_97F9_017F_2ADA_9C8ECEAE83AC">0</span></label>
+							<input type="range" class="custom-range" name="priority" value="0" min="0" max="7" id="FDEC9ADB_66C1_73E7_DEB2_19103F70DC26" onchange="$('#AABF1966_97F9_017F_2ADA_9C8ECEAE83AC').text($(this).val());" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="CB715F4D_8C12_52DC_2745_296FC8A9AC63" class="col-form-label">Time Step [ms]</label>
+							<div class="input-group mb-3">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<input type="checkbox" name="one_shot" checked="checked" id="D567A5FD_6C12_EEA6_4E74_FDB678BE483B" />&nbsp;Recurrent task
+									</div>
 								</div>
+								<input type="number" class="form-control form-control-sm" name="time_step" id="CB715F4D_8C12_52DC_2745_296FC8A9AC63" required="required" />
 							</div>
-							<input type="number" class="form-control form-control-sm" name="time_step" id="CB715F4D_8C12_52DC_2745_296FC8A9AC63" required="required" />
+						</div>
+						<div class="form-group mb-0">
+							<label for="E81F70B5_422A_A17C_F608_845B8A9E73FB" class="col-form-label">Server Name</label>
+							<input type="text" class="form-control form-control-sm" name="server_name" id="E81F70B5_422A_A17C_F608_845B8A9E73FB" required="required" />
 						</div>
 					</div>
-					<div class="form-group mb-0">
-						<label for="E81F70B5_422A_A17C_F608_845B8A9E73FB" class="col-form-label">Server Name</label>
-						<input type="text" class="form-control form-control-sm" name="server_name" id="E81F70B5_422A_A17C_F608_845B8A9E73FB" required="required" />
+					<div class="modal-footer">
+						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+						<button type="submit" class="btn btn-outline-success" xxxx-xxxxxxx="xxxxx">Append</button>
 					</div>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-					<button type="submit" class="btn btn-outline-success" xxxx-xxxxxxx="xxxxx">Append<>
-				</div>
 			</div>
-		</div>
+		</form>
+
 	</div>
-</form>
+</div>
