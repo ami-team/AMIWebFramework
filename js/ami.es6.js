@@ -7279,7 +7279,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (e) => {
 
-				result.reject(e);
+				_ami_internal_always(this.onRefresh(true), () => {
+
+					result.reject(e);
+				});
 			});
 		}
 		else
@@ -7311,7 +7314,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (e) => {
 
-				result.reject(e);
+				_ami_internal_always(this.onRefresh(false), () => {
+
+					result.reject(e);
+				});
 			});
 		}
 		else

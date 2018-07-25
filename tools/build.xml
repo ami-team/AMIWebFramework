@@ -232,6 +232,7 @@
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="Monitoring/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="SchemaViewer/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="TableViewer/**/*" />
+				<fileset dir="${AMIWebAppTmpDir}/subapps" includes="TaskServerAdmin/**/*" />
 			</copy>
 
 			<copy todir="subapps" overwrite="false">

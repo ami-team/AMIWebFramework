@@ -6360,7 +6360,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				});
 			}, function (e) {
 
-				result.reject(e);
+				_ami_internal_always(_this10.onRefresh(true), function () {
+
+					result.reject(e);
+				});
 			});
 		} else {
 			result.resolve();
@@ -6389,7 +6392,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 				});
 			}, function (e) {
 
-				result.reject(e);
+				_ami_internal_always(_this11.onRefresh(false), function () {
+
+					result.reject(e);
+				});
 			});
 		} else {
 			result.resolve();
