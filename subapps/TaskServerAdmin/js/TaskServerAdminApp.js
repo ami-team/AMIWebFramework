@@ -316,15 +316,7 @@ $AMIClass('TaskServerAdminApp', {
 
 			var logs = amiWebApp.jspath('..field{.@name==="logs"}.$', data);
 
-			$('#FE88551D_8779_8359_02AA_32699B324D33').val((''));
-			$('#FE88551D_8779_8359_02AA_32699B324D33').blur();
-
-			setTimeout(function() {
-
-				$('#FE88551D_8779_8359_02AA_32699B324D33').focus();
-				$('#FE88551D_8779_8359_02AA_32699B324D33').val(logs);
-
-			}, 500);
+			$('#FE88551D_8779_8359_02AA_32699B324D33').val(logs);
 
 		}).always(function() {
 
