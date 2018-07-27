@@ -59,6 +59,12 @@ $AMIClass('TaskServerAdminApp', {
 					that.addTask();
 				});
 
+				$('#FE046874_8D80_D8E5_CF7D_BCD1C8298F8A').click(function(e) {
+
+					e.preventDefault();
+
+					that.killTask();
+				});
 
 				$('#A2A6E378_7F58_8AC8_EBFE_54646CF06122').click(function(e) {
 
@@ -171,7 +177,7 @@ $AMIClass('TaskServerAdminApp', {
 			$('#CEA0E2BE_4C71_ACA3_7525_0D7AC734BEED').html(html.join(''));
 
 			$('#E81F70B5_422A_A17C_F608_845B8A9E73FB').typeahead('destroy').typeahead({
-				source: this.servers.keys(),
+				source: Object.keys(this.servers),
 				items: 100,
 			});
 
@@ -337,6 +343,49 @@ $AMIClass('TaskServerAdminApp', {
 
 	/*---------------------------------------------------------------------*/
 
+	killTask: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		var id = $('#E6870C83_B91A_6AE5_442E_261C8158E4D4').val();
+
+		if(!id)
+		{
+			amiWebApp.unlock();
+
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('BrowseQuery -catalog="tasks" -sql="SELECT serverName FROM router_task WHERE id = \'' + amiWebApp.textToString(id) + '\'"', {context: this}).done(function(data) {
+
+			var serverName = amiWebApp.jspath('..field{.@name==="serverName"}.$', data)[0] || '';
+
+			if(serverName in this.servers)
+			{
+				amiCommand.execute('KillTask -id="' + amiWebApp.textToString(id) + '"', {context: this, endpoint: this.servers[serverName]}).done(function(data) {
+
+					amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+
+				}).fail(function(data) {
+
+					amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+				});
+			}
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
 	addTask: function()
 	{
 		/*-----------------------------------------------------------------*/
@@ -375,7 +424,7 @@ $AMIClass('TaskServerAdminApp', {
 
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute('AddElement -catalog="tasks" -entity="router_task" -fields="name,command,description,commaSeparatedLocks,oneShot,priority,timeStep,serverName" -values="' + name + ',' + command + ',' + description + ',' + commaSeparatedLocks + ',' + oneShot + ',' + priority + ',' + timeStep  + ',' + serverName + '"').done(function(data) {
+		amiCommand.execute('AddElement -catalog="tasks" -entity="router_task" -fields="name,command,description,commaSeparatedLocks,oneShot,priority,timeStep,serverName" -values="' + amiWebApp.textToString(name) + ',' + amiWebApp.textToString(command) + ',' + amiWebApp.textToString(description) + ',' + amiWebApp.textToString(commaSeparatedLocks) + ',' + amiWebApp.textToString(oneShot) + ',' + amiWebApp.textToString(priority) + ',' + amiWebApp.textToString(timeStep) + ',' + amiWebApp.textToString(serverName) + '"').done(function(data) {
 
 			$('#DC48E537_4113_EFE6_254C_681063948076').modal('hide');
 
