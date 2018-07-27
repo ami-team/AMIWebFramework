@@ -59,6 +59,22 @@ $AMIClass('TaskServerAdminApp', {
 					that.addTask();
 				});
 
+
+				$('#A2A6E378_7F58_8AC8_EBFE_54646CF06122').click(function(e) {
+
+					e.preventDefault();
+
+					that.getServerStatus();
+				});
+
+				/*---------------------------------------------------------*/
+
+				this.profiles = {
+				};
+
+				this.servers = {
+				};
+
 				/*---------------------------------------------------------*/
 
 				result.resolve();
@@ -125,16 +141,37 @@ $AMIClass('TaskServerAdminApp', {
 	{
 		var result = $.Deferred();
 
-		amiCommand.execute('BrowseQuery -catalog="tasks" -entity="router_task" -mql="SELECT DISTINCT `serverName`"').done(function(data) {
+		amiCommand.execute('BrowseQuery -catalog="tasks" -sql="SELECT name, description, endpoint FROM router_task_server"', {context: this}).done(function(data) {
 
 			/*-------------------------------------------------------------*/
 
-			var infos = amiWebApp.jspath('..field{.@name==="serverName"}.$', data);
+			var rows = amiWebApp.jspath('..row', data);
 
 			/*-------------------------------------------------------------*/
+
+			var html = ['<option value="" style="display: none;">-- select a task server --</option>'];
+
+			rows.forEach(function(row) {
+
+				var name = amiWebApp.jspath('..field{.@name==="name"}.$', row)[0] || '';
+				var description = amiWebApp.jspath('..field{.@name==="description"}.$', row)[0] || '';
+				var endpoint = amiWebApp.jspath('..field{.@name==="endpoint"}.$', row)[0] || '';
+
+				if(name && endpoint)
+				{
+					this.servers[name] = endpoint;
+
+					html.push('<option value="' + name + '">' + name + '</option>');
+				}
+
+			}, this);
+
+			/*-------------------------------------------------------------*/
+
+			$('#CEA0E2BE_4C71_ACA3_7525_0D7AC734BEED').html(html.join(''));
 
 			$('#E81F70B5_422A_A17C_F608_845B8A9E73FB').typeahead('destroy').typeahead({
-				source: infos,
+				source: this.servers.keys(),
 				items: 100,
 			});
 
@@ -152,9 +189,161 @@ $AMIClass('TaskServerAdminApp', {
 
 	/*---------------------------------------------------------------------*/
 
+	getServerStatus: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		var nr = 2;
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		var endpoint = this.servers[$('#CEA0E2BE_4C71_ACA3_7525_0D7AC734BEED').val()] || '';
+
+		if(!endpoint)
+		{
+			amiWebApp.unlock();
+
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		$('#C546B8C6_FC0F_DB86_E6D1_B9291E96B200').removeClass('badge-success');
+		$('#C546B8C6_FC0F_DB86_E6D1_B9291E96B200').addClass('badge-danger');
+		$('#C546B8C6_FC0F_DB86_E6D1_B9291E96B200').text('stopped');
+
+		$('#CDBD4AB0_B1FF_C53C_1EE2_85C9E76F8DED').removeClass('badge-success');
+		$('#CDBD4AB0_B1FF_C53C_1EE2_85C9E76F8DED').addClass('badge-danger');
+		$('#CDBD4AB0_B1FF_C53C_1EE2_85C9E76F8DED').text('?');
+
+		$('#DE7F28B6_BC3B_8A12_2194_87A4A3A0CC1A').removeClass('badge-success');
+		$('#DE7F28B6_BC3B_8A12_2194_87A4A3A0CC1A').addClass('badge-danger');
+		$('#DE7F28B6_BC3B_8A12_2194_87A4A3A0CC1A').text('?');
+
+		$('#C0345D24_3729_AE4F_5177_8C28A7E353B6').removeClass('badge-success');
+		$('#C0345D24_3729_AE4F_5177_8C28A7E353B6').addClass('badge-danger');
+		$('#C0345D24_3729_AE4F_5177_8C28A7E353B6').text('?');
+
+		$('#D34F9230_073D_467B_7AD0_9FD54CBF9436').removeClass('badge-success');
+		$('#D34F9230_073D_467B_7AD0_9FD54CBF9436').addClass('badge-danger');
+		$('#D34F9230_073D_467B_7AD0_9FD54CBF9436').text('?');
+
+		$('#FAAF468D_6270_42A1_167E_F38F02DB47F2').removeClass('badge-success');
+		$('#FAAF468D_6270_42A1_167E_F38F02DB47F2').addClass('badge-danger');
+		$('#FAAF468D_6270_42A1_167E_F38F02DB47F2').text('?');
+
+		$('#FE88551D_8779_8359_02AA_32699B324D33').val('');
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('GetServerStatus', {context: this, endpoint: endpoint}).done(function(data) {
+
+			var freeDisk = Math.floor(parseFloat(amiWebApp.jspath('..field{.@name==="freeDisk"}.$', data)) / (1024.0 * 1024.0));
+			var totalDisk = Math.floor(parseFloat(amiWebApp.jspath('..field{.@name==="totalDisk"}.$', data)) / (1024.0 * 1024.0));
+			var freeMem = Math.floor(parseFloat(amiWebApp.jspath('..field{.@name==="freeMem"}.$', data)) / (1024.0 * 1024.0));
+			var totalMem = Math.floor(parseFloat(amiWebApp.jspath('..field{.@name==="totalMem"}.$', data)) / (1024.0 * 1024.0));
+
+			var nbOfCPUs = parseInt(amiWebApp.jspath('..field{.@name==="nbOfCPUs"}.$', data));
+
+			/**/
+
+			$('#CDBD4AB0_B1FF_C53C_1EE2_85C9E76F8DED').text(freeDisk + ' MB');
+			$('#DE7F28B6_BC3B_8A12_2194_87A4A3A0CC1A').text(totalDisk + ' MB');
+
+			if((freeDisk / totalDisk) > 0.25)
+			{
+				$('#CDBD4AB0_B1FF_C53C_1EE2_85C9E76F8DED').removeClass('badge-danger');
+				$('#CDBD4AB0_B1FF_C53C_1EE2_85C9E76F8DED').addClass('badge-success');
+			}
+			else
+			{
+				$('#CDBD4AB0_B1FF_C53C_1EE2_85C9E76F8DED').removeClass('badge-success');
+				$('#CDBD4AB0_B1FF_C53C_1EE2_85C9E76F8DED').addClass('badge-danger');
+			}
+
+			$('#DE7F28B6_BC3B_8A12_2194_87A4A3A0CC1A').removeClass('badge-danger');
+			$('#DE7F28B6_BC3B_8A12_2194_87A4A3A0CC1A').addClass('badge-success');
+
+			/**/
+
+			$('#C0345D24_3729_AE4F_5177_8C28A7E353B6').text(freeMem + ' MB');
+			$('#D34F9230_073D_467B_7AD0_9FD54CBF9436').text(totalMem + ' MB');
+
+			if((freeMem / totalMem) > 0.25)
+			{
+				$('#C0345D24_3729_AE4F_5177_8C28A7E353B6').removeClass('badge-danger');
+				$('#C0345D24_3729_AE4F_5177_8C28A7E353B6').addClass('badge-success');
+			}
+			else
+			{
+				$('#C0345D24_3729_AE4F_5177_8C28A7E353B6').removeClass('badge-success');
+				$('#C0345D24_3729_AE4F_5177_8C28A7E353B6').addClass('badge-danger');
+			}
+
+			$('#D34F9230_073D_467B_7AD0_9FD54CBF9436').removeClass('badge-danger');
+			$('#D34F9230_073D_467B_7AD0_9FD54CBF9436').addClass('badge-success');
+
+			/**/
+
+			$('#FAAF468D_6270_42A1_167E_F38F02DB47F2').text(nbOfCPUs);
+
+			$('#FAAF468D_6270_42A1_167E_F38F02DB47F2').removeClass('badge-danger');
+			$('#FAAF468D_6270_42A1_167E_F38F02DB47F2').addClass('badge-success');
+
+		}).always(function() {
+
+			if(--nr <= 0)
+			{
+				$('#C546B8C6_FC0F_DB86_E6D1_B9291E96B200').removeClass('badge-danger');
+				$('#C546B8C6_FC0F_DB86_E6D1_B9291E96B200').addClass('badge-success');
+				$('#C546B8C6_FC0F_DB86_E6D1_B9291E96B200').text('running');
+
+				amiWebApp.unlock();
+			}
+		});
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('GetServerLogs', {context: this, endpoint: endpoint}).done(function(data) {
+
+			var logs = amiWebApp.jspath('..field{.@name==="logs"}.$', data);
+
+			$('#FE88551D_8779_8359_02AA_32699B324D33').val((''));
+			$('#FE88551D_8779_8359_02AA_32699B324D33').blur();
+
+			setTimeout(function() {
+
+				$('#FE88551D_8779_8359_02AA_32699B324D33').focus();
+				$('#FE88551D_8779_8359_02AA_32699B324D33').val(logs);
+
+			}, 500);
+
+		}).always(function() {
+
+			if(--nr <= 0)
+			{
+				$('#C546B8C6_FC0F_DB86_E6D1_B9291E96B200').removeClass('badge-danger');
+				$('#C546B8C6_FC0F_DB86_E6D1_B9291E96B200').addClass('badge-success');
+				$('#C546B8C6_FC0F_DB86_E6D1_B9291E96B200').text('running');
+
+				amiWebApp.unlock();
+			}
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
 	addTask: function()
 	{
+		/*-----------------------------------------------------------------*/
+
 		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
 
 		var name = $('#ED7BCBC3_671E_F168_C3FF_AEDA3D34FB14').val();
 		var command = $('#AF67EB3D_91A9_3DAF_5F8D_237E39644E61').val();
@@ -177,6 +366,15 @@ $AMIClass('TaskServerAdminApp', {
 			oneShot = 0;
 		}
 
+		if(!(serverName in this.servers))
+		{
+				amiWebApp.error('invalid task server name');
+
+				return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
 		amiCommand.execute('AddElement -catalog="tasks" -entity="router_task" -fields="name,command,description,commaSeparatedLocks,oneShot,priority,timeStep,serverName" -values="' + name + ',' + command + ',' + description + ',' + commaSeparatedLocks + ',' + oneShot + ',' + priority + ',' + timeStep  + ',' + serverName + '"').done(function(data) {
 
 			$('#DC48E537_4113_EFE6_254C_681063948076').modal('hide');
@@ -187,6 +385,8 @@ $AMIClass('TaskServerAdminApp', {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data), true, '#E7300D7E_F671_4DF0_08B2_6AD0B9DC5C1F');
 		});
+
+		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
