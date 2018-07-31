@@ -356,19 +356,14 @@ $AMIClass('TaskServerAdminApp', {
 
 		amiCommand.execute('BrowseQuery -catalog="tasks" -sql="SELECT serverName FROM router_task WHERE id = \'' + amiWebApp.textToString(id) + '\'"', {context: this}).done(function(data) {
 
-			var serverName = amiWebApp.jspath('..field{.@name==="serverName"}.$', data)[0] || '';
+			amiCommand.execute('KillTask -id="' + amiWebApp.textToString(id) + '"', {context: this, endpoint: this.servers[amiWebApp.jspath('..field{.@name==="serverName"}.$', data)[0] || ''] || ''}).done(function(data) {
 
-			if(serverName in this.servers)
-			{
-				amiCommand.execute('KillTask -id="' + amiWebApp.textToString(id) + '"', {context: this, endpoint: this.servers[serverName]}).done(function(data) {
+				amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
-					amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+			}).fail(function(data) {
 
-				}).fail(function(data) {
-
-					amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
-				});
-			}
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			});
 
 		}).fail(function(data) {
 

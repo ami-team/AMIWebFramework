@@ -7908,6 +7908,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 						textStatus = 'service temporarily unreachable';
 					}
 
+					if(textStatus === 'parsererror')
+					{
+						textStatus = 'resource temporarily unreachable';
+					}
+
 					const data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
 					result.rejectWith(context, [data, urlWithParameters]);
