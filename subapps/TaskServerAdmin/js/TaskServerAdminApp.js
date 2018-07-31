@@ -393,13 +393,13 @@ $AMIClass('TaskServerAdminApp', {
 
 		if($('#D567A5FD_6C12_EEA6_4E74_FDB678BE483B').prop('checked') === false)
 		{
-			timeStep = 0x000000;
-			oneShot = 1;
+			timeStep = ((('0')));
+			oneShot = '1';
 		}
 		else
 		{
 		//	timeStep = timeStep;
-			oneShot = 0;
+			oneShot = '0';
 		}
 
 		if(!(serverName in this.servers))
