@@ -104,9 +104,9 @@ $AMIClass('TaskServerAdminApp', {
 
 		/*-----------------------------------------------------------------*/
 
-		this._tableCtrlRecurrentTasks.render('#C85980DA_6A5D_3D7C_54DE_D50A1BD15292', 'BrowseQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'0\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
+		this._tableCtrlRecurrentTasks.render('#C85980DA_6A5D_3D7C_54DE_D50A1BD15292', 'SearchQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'0\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
 
-		this._tableCtrlOneShotTasks.render('#E6D5E436_5891_0A6F_47E3_8A318364DE4A', 'BrowseQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'1\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
+		this._tableCtrlOneShotTasks.render('#E6D5E436_5891_0A6F_47E3_8A318364DE4A', 'SearchQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'1\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
 
 		/*-----------------------------------------------------------------*/
 
@@ -147,7 +147,7 @@ $AMIClass('TaskServerAdminApp', {
 	{
 		var result = $.Deferred();
 
-		amiCommand.execute('BrowseQuery -catalog="tasks" -sql="SELECT name, description, endpoint FROM router_task_server"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="tasks" -sql="SELECT name, description, endpoint FROM router_task_server"', {context: this}).done(function(data) {
 
 			/*-------------------------------------------------------------*/
 
@@ -354,7 +354,7 @@ $AMIClass('TaskServerAdminApp', {
 
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute('BrowseQuery -catalog="tasks" -sql="SELECT serverName FROM router_task WHERE id = \'' + amiWebApp.textToString(id) + '\'"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="tasks" -sql="SELECT serverName FROM router_task WHERE id = \'' + amiWebApp.textToString(id) + '\'"', {context: this}).done(function(data) {
 
 			amiCommand.execute('KillTask -id="' + amiWebApp.textToString(id) + '"', {context: this, endpoint: this.servers[amiWebApp.jspath('..field{.@name==="serverName"}.$', data)[0] || ''] || ''}).done(function(data) {
 
