@@ -24,6 +24,7 @@ $AMIClass('TaskServerAdminApp', {
 
 		amiWebApp.loadResources([
 			'subapps/TaskServerAdmin/twig/TaskServerAdminApp.twig',
+			'ctrl:tab',
 			'ctrl:table',
 		], {context: this}).done(function(data) {
 
@@ -31,59 +32,78 @@ $AMIClass('TaskServerAdminApp', {
 
 				var that = this;
 
-				/*---------------------------------------------------------*/
+				var tab1 = new data[1](this);
+				var tab2 = new data[1](this);
 
-				this._tableCtrlRecurrentTasks = new data[1]();
-				this._tableCtrlOneShotTasks = new data[1]();
+				tab1.render('#C85980DA_6A5D_3D7C_54DE_D50A1BD15292', {context: this, card: false}).done(function() {
 
-				/*---------------------------------------------------------*/
+					tab2.render('#E6D5E436_5891_0A6F_47E3_8A318364DE4A', {context: this, card: false}).done(function() {
 
-				$('#D567A5FD_6C12_EEA6_4E74_FDB678BE483B:checkbox').change(function(e) {
+						tab1.appendItem('<i class="fa fa-clock-o"></i> tasks', {context: this, closable: false}).done(function(tabSel1) {
 
-					if($(this).prop('checked'))
-					{
-						$('#CB715F4D_8C12_52DC_2745_296FC8A9AC63').prop('disabled', false);
-					}
-					else
-					{
-						$('#CB715F4D_8C12_52DC_2745_296FC8A9AC63').prop('disabled', true);
-					}
+							tab2.appendItem('<i class="fa fa-clock-o"></i> tasks', {context: this, closable: false}).done(function(tabSel2) {
+
+								/*-----------------------------------------*/
+
+								this._tableCtrlRecurrentTasks = new data[2](tab1);
+								this._tableCtrlOneShotTasks = new data[2](tab2);
+
+								this.tabSel1 = tabSel1;
+								this.tabSel2 = tabSel2;
+
+								/*-----------------------------------------*/
+
+								$('#D567A5FD_6C12_EEA6_4E74_FDB678BE483B:checkbox').change(function(e) {
+
+									if($(this).prop('checked'))
+									{
+										$('#CB715F4D_8C12_52DC_2745_296FC8A9AC63').prop('disabled', false);
+									}
+									else
+									{
+										$('#CB715F4D_8C12_52DC_2745_296FC8A9AC63').prop('disabled', true);
+									}
+								});
+
+								/*-----------------------------------------*/
+
+								$('#DC48E537_4113_EFE6_254C_681063948076').submit(function(e) {
+
+									e.preventDefault();
+
+									that.addTask();
+								});
+
+								$('#FE046874_8D80_D8E5_CF7D_BCD1C8298F8A').click(function(e) {
+
+									e.preventDefault();
+
+									that.killTask();
+								});
+
+								$('#A2A6E378_7F58_8AC8_EBFE_54646CF06122').click(function(e) {
+
+									e.preventDefault();
+
+									that.getServerStatus();
+								});
+
+								/*-----------------------------------------*/
+
+								this.profiles = {
+								};
+
+								this.servers = {
+								};
+
+								/*-----------------------------------------*/
+
+								result.resolve();
+
+							});
+						});
+					});
 				});
-
-				/*---------------------------------------------------------*/
-
-				$('#DC48E537_4113_EFE6_254C_681063948076').submit(function(e) {
-
-					e.preventDefault();
-
-					that.addTask();
-				});
-
-				$('#FE046874_8D80_D8E5_CF7D_BCD1C8298F8A').click(function(e) {
-
-					e.preventDefault();
-
-					that.killTask();
-				});
-
-				$('#A2A6E378_7F58_8AC8_EBFE_54646CF06122').click(function(e) {
-
-					e.preventDefault();
-
-					that.getServerStatus();
-				});
-
-				/*---------------------------------------------------------*/
-
-				this.profiles = {
-				};
-
-				this.servers = {
-				};
-
-				/*---------------------------------------------------------*/
-
-				result.resolve();
 			});
 
 		}).fail(function(data) {
@@ -104,9 +124,9 @@ $AMIClass('TaskServerAdminApp', {
 
 		/*-----------------------------------------------------------------*/
 
-		this._tableCtrlRecurrentTasks.render('#C85980DA_6A5D_3D7C_54DE_D50A1BD15292', 'SearchQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'0\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
+		this._tableCtrlRecurrentTasks.render(this.tabSel1, 'SearchQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'0\'"', {showDetails: false, showTools: true, canEdit: true, catalog: 'tasks', entity: 'tasks', primaryField: 'id'});
 
-		this._tableCtrlOneShotTasks.render('#E6D5E436_5891_0A6F_47E3_8A318364DE4A', 'SearchQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'1\'"', {showDetails: false, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
+		this._tableCtrlOneShotTasks.render(this.tabSel2, 'SearchQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'1\'"', {showDetails: false, showTools: true, canEdit: true, catalog: 'tasks', entity: 'tasks', primaryField: 'id'});
 
 		/*-----------------------------------------------------------------*/
 
