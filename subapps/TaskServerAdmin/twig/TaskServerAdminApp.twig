@@ -2,9 +2,11 @@
 	<div class="card-header">
 
 		<nav class="nav nav-tabs card-header-tabs" role="tablist">
+
 			<a class="nav-item nav-link active" href="#E87CF689_EC60_230D_8450_A852821FB6D4" data-toggle="tab" role="tab">Recurrent tasks</a>
 			<a class="nav-item nav-link xxxxxx" href="#F5C21C13_C7EF_0EC9_8490_3C983CE4BF64" data-toggle="tab" role="tab">One shot tasks</a>
 			<a class="nav-item nav-link xxxxxx" href="#C4EA4861_8843_8AF0_D7C8_92B1DC28FA49" data-toggle="tab" role="tab">Server Status</a>
+
 			<span class="ml-auto">
 				<div class="btn-group" role="group">
 					<button type="button" class="btn btn-sm btn-outline-success" data-target="#DC48E537_4113_EFE6_254C_681063948076" data-toggle="modal">
@@ -17,6 +19,7 @@
 					</div>
 				</div>
 			</span>
+
 			<span class="ml-1">
 				<div class="input-group input-group-sm">
 					<input type="text" class="form-control" id="E6870C83_B91A_6AE5_442E_261C8158E4D4" placeholder="id" />
@@ -28,58 +31,58 @@
 		</nav>
 
 	</div>
-	<div class="card-body">
+	<div class="tab-content card-body" id="nav-tabContent">
 
-		<div class="tab-content" id="nav-tabContent">
-			<div class="tab-pane fade show active" id="E87CF689_EC60_230D_8450_A852821FB6D4" role="tabpanel">
-				<div class="text-right">
-					<span class="badge badge-pill  badge-success ">0 = stopped</span>
-					<span class="badge badge-pill  badge-primary ">1 = running</span>
-					<span class="badge badge-pill badge-secondary">2 = zombie</span>
-				</div>
-				<div id="C85980DA_6A5D_3D7C_54DE_D50A1BD15292" style="margin-top: -20px;"></div>
+		<div class="tab-pane fade show active" id="E87CF689_EC60_230D_8450_A852821FB6D4" role="tabpanel">
+			<div class="text-right">
+				<span class="badge badge-pill  badge-success ">0 = stopped</span>
+				<span class="badge badge-pill  badge-primary ">1 = running</span>
+				<span class="badge badge-pill badge-secondary">2 = zombie</span>
 			</div>
-			<div class="tab-pane fade xxxx xxxxxx" id="F5C21C13_C7EF_0EC9_8490_3C983CE4BF64" role="tabpanel">
-				<div class="text-right">
-					<span class="badge badge-pill  badge-success ">0 = stopped</span>
-					<span class="badge badge-pill  badge-primary ">1 = running</span>
-					<span class="badge badge-pill badge-secondary">2 = zombie</span>
-				</div>
-				<div id="E6D5E436_5891_0A6F_47E3_8A318364DE4A" style="margin-top: -20px;"></div>
+			<div id="C85980DA_6A5D_3D7C_54DE_D50A1BD15292" style="margin-top: -20px;"></div>
+		</div>
+
+		<div class="tab-pane fade xxxx xxxxxx" id="F5C21C13_C7EF_0EC9_8490_3C983CE4BF64" role="tabpanel">
+			<div class="text-right">
+				<span class="badge badge-pill  badge-success ">0 = stopped</span>
+				<span class="badge badge-pill  badge-primary ">1 = running</span>
+				<span class="badge badge-pill badge-secondary">2 = zombie</span>
 			</div>
-			<div class="tab-pane fade xxxx xxxxxx" id="C4EA4861_8843_8AF0_D7C8_92B1DC28FA49" role="tabpanel">
+			<div id="E6D5E436_5891_0A6F_47E3_8A318364DE4A" style="margin-top: -20px;"></div>
+		</div>
 
-				<div class="input-group">
-					<select class="custom-select" id="CEA0E2BE_4C71_ACA3_7525_0D7AC734BEED">
-					</select>
-					<div class="input-group-append">
-						<button type="button" class="btn btn-outline-primary" id="A2A6E378_7F58_8AC8_EBFE_54646CF06122">
-							View status
-						</button>
-					</div>
+		<div class="tab-pane fade xxxx xxxxxx" id="C4EA4861_8843_8AF0_D7C8_92B1DC28FA49" role="tabpanel">
+
+			<div class="input-group">
+				<select class="custom-select" id="CEA0E2BE_4C71_ACA3_7525_0D7AC734BEED">
+				</select>
+				<div class="input-group-append">
+					<button type="button" class="btn btn-outline-primary" id="A2A6E378_7F58_8AC8_EBFE_54646CF06122">
+						View status
+					</button>
 				</div>
-
-				<div class="row mx-0 mt-2 p-2 border rounded">
-					<div class="col-md-2 text-center">
-						status: <span class="badge badge-success" id="C546B8C6_FC0F_DB86_E6D1_B9291E96B200">?</span>
-					</div>
-					<div class="col-md-4 text-center">
-						freeDisk: <span class="badge badge-success" id="CDBD4AB0_B1FF_C53C_1EE2_85C9E76F8DED">?</span> / totalDisk: <span class="badge badge-success" id="DE7F28B6_BC3B_8A12_2194_87A4A3A0CC1A">?</span>
-					</div>
-					<div class="col-md-4 text-center">
-						freeMem: <span class="badge badge-success" id="C0345D24_3729_AE4F_5177_8C28A7E353B6">?</span> / totalMem: <span class="badge badge-success" id="D34F9230_073D_467B_7AD0_9FD54CBF9436">?</span>
-					</div>
-					<div class="col-md-2 text-center">
-						nbOfCPUs: <span class="badge badge-success" id="FAAF468D_6270_42A1_167E_F38F02DB47F2">?</span>
-					</div>
-				</div>
-
-				<div class="form-group mb-0">
-					<label for="FE88551D_8779_8359_02AA_32699B324D33" class="col-form-label">Server logs</label>
-					<textarea rows="10" class="form-control" id="FE88551D_8779_8359_02AA_32699B324D33" readonly="readonly"></textarea>
-				</div>
-
 			</div>
+
+			<div class="row mx-0 mt-2 p-2 border rounded">
+				<div class="col-md-2 text-center">
+					status: <span class="badge badge-success" id="C546B8C6_FC0F_DB86_E6D1_B9291E96B200">?</span>
+				</div>
+				<div class="col-md-4 text-center">
+					freeDisk: <span class="badge badge-success" id="CDBD4AB0_B1FF_C53C_1EE2_85C9E76F8DED">?</span> / totalDisk: <span class="badge badge-success" id="DE7F28B6_BC3B_8A12_2194_87A4A3A0CC1A">?</span>
+				</div>
+				<div class="col-md-4 text-center">
+					freeMem: <span class="badge badge-success" id="C0345D24_3729_AE4F_5177_8C28A7E353B6">?</span> / totalMem: <span class="badge badge-success" id="D34F9230_073D_467B_7AD0_9FD54CBF9436">?</span>
+				</div>
+				<div class="col-md-2 text-center">
+					nbOfCPUs: <span class="badge badge-success" id="FAAF468D_6270_42A1_167E_F38F02DB47F2">?</span>
+				</div>
+			</div>
+
+			<div class="form-group mb-0">
+				<label for="FE88551D_8779_8359_02AA_32699B324D33" class="col-form-label">Server logs</label>
+				<textarea rows="14" class="form-control text-white bg-dark" id="FE88551D_8779_8359_02AA_32699B324D33" readonly="readonly"></textarea>
+			</div>
+
 		</div>
 
 		<form class="modal fade" tabindex="-1" role="dialog" id="DC48E537_4113_EFE6_254C_681063948076">
