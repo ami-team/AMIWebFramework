@@ -124,9 +124,9 @@ $AMIClass('TaskServerAdminApp', {
 
 		/*-----------------------------------------------------------------*/
 
-		this._tableCtrlRecurrentTasks.render(this.tabSel1, 'SearchQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'0\'"', {showDetails: false, showTools: true, canEdit: true, catalog: 'tasks', entity: 'tasks', primaryField: 'id'});
+		this._tableCtrlRecurrentTasks.render(this.tabSel1, 'SearchQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'0\'"', {showDetails: false, showTools: true, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
 
-		this._tableCtrlOneShotTasks.render(this.tabSel2, 'SearchQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'1\'"', {showDetails: false, showTools: true, canEdit: true, catalog: 'tasks', entity: 'tasks', primaryField: 'id'});
+		this._tableCtrlOneShotTasks.render(this.tabSel2, 'SearchQuery -catalog="tasks" -sql="SELECT id, running, success, FROM_UNIXTIME(lastStartDate) AS lastStartDate, FROM_UNIXTIME(lastStopDate) AS lastStopDate, name, description, command, commaSeparatedLocks AS locks, priority, timeStep, serverName, stdout, stderr FROM router_task WHERE oneShot = \'1\'"', {showDetails: false, showTools: true, canEdit: true, catalog: 'tasks', entity: 'router_task', primaryField: 'id'});
 
 		/*-----------------------------------------------------------------*/
 
@@ -435,6 +435,13 @@ $AMIClass('TaskServerAdminApp', {
 
 			$('#DC48E537_4113_EFE6_254C_681063948076').modal('hide');
 
+				/**/ if(!oneShot) {
+					this._tableCtrlRecurrentTasks.refresh();
+				}
+				else {
+					this._tableCtrlOneShotTasks.refresh();
+				}
+
 			amiWebApp.success(amiWebApp.jspath('..info.$', data), true, /*------------*/ null /*------------*/);
 
 		}).fail(function(data) {
@@ -449,9 +456,13 @@ $AMIClass('TaskServerAdminApp', {
 
 	_refreshTables: function()
 	{
-		this._tableCtrlRecurrentTasks.refresh();
+		if(!this._tableCtrlRecurrentTasks.isInEditMode()) {
+			this._tableCtrlRecurrentTasks.refresh();
+		}
 
-		this._tableCtrlOneShotTasks.refresh();
+		if(!this._tableCtrlOneShotTasks.isInEditMode()) {
+			this._tableCtrlOneShotTasks.refresh();
+		}
 	},
 
 	/*---------------------------------------------------------------------*/

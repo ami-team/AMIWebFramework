@@ -107,6 +107,8 @@ $AMIClass('TableCtrl', {
 			stop: 0x0A,
 			orderBy: '',
 			orderWay: '',
+
+			inEditMode: false,
 		};
 
 		if(settings)
@@ -745,13 +747,22 @@ $AMIClass('TableCtrl', {
 			if(this.ctx.fieldInfo.length > 0) tags1.show();
 			/*-------------------------*/ tags2.show();
 			tags3.attr('contenteditable', 'true');
+			this.ctx.inEditMode = true;
 		}
 		else
 		{
 			if(this.ctx.fieldInfo.length > 0) tags1.hide();
 			/*-------------------------*/ tags2.hide();
 			tags3.attr('contenteditable', 'false');
+			this.ctx.inEditMode = false;
 		}
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	isInEditMode: function()
+	{
+		return this.ctx.inEditMode;
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -778,7 +789,7 @@ $AMIClass('TableCtrl', {
 
 			e.preventDefault();
 
-			_this.refineResult();
+			_this.appendRow();
 		});
 
 		el1.modal('show');
