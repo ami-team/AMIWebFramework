@@ -46,7 +46,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	/**
 	  * Executes an AMI command
 	  * @param {String} command the command
-	  * @param {Object} [settings] dictionary of settings (context, endpoint, converter, extraParam, extraValue)
+	  * @param {Object} [settings] dictionary of settings (context, endpoint, converter, timeout, extraParam, extraValue)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
