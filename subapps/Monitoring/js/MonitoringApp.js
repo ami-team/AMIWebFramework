@@ -91,7 +91,7 @@ $AMIClass('MonitoringApp', {
 			'js/3rd-party/canvasjs.min.js',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {height: 0.325 * ($(document).height() - 100), externalFrame: this._externalFrame}}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {externalFrame: this._externalFrame}}).done(function() {
 
 				/*---------------------------------------------------------*/
 
@@ -150,6 +150,11 @@ $AMIClass('MonitoringApp', {
 		{
 			this._stage1();
 			this._stage2();
+
+			$(window).resize(function() {
+
+				monitoringApp._stage2();
+			});
 		}
 	},
 
@@ -161,12 +166,17 @@ $AMIClass('MonitoringApp', {
 		{
 			this._stage1();
 			this._stage2();
+
+			$(window).resize(function() {
+
+				monitoringApp._stage2();
+			});
 		}
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	__handler: function(deferred, data, webNr, webOk, taskNr, taskOk)
+	__handler: function(deferred, data, frontNr, frontOK, webNr, webOk, taskNr, taskOk)
 	{
 		var i = data.length;
 
@@ -175,23 +185,27 @@ $AMIClass('MonitoringApp', {
 			var service = this._nodes[i].service;
 			var endpoint = this._nodes[i].endpoint;
 
-			amiCommand.execute('GetSessionInfo', {context: this, endpoint: endpoint}).done(function() {
+			amiCommand.execute('GetSessionInfo', {context: this, endpoint: endpoint, timeout: 15000}).done(function() {
 
 				/*---------------------------------------------------------*/
 
 				data.push(1);
 
-				/**/ if(service === 'web')
+				/**/ if(service === 'front')
 				{
-					this.__handler(deferred, data, webNr + 1, webOk + 1, taskNr + 0, taskOk + 0);
+					this.__handler(deferred, data, frontNr + 1, frontOK + 1, webNr + 0, webOk + 0, taskNr + 0, taskOk + 0);
+				}
+				else if(service === 'web')
+				{
+					this.__handler(deferred, data, frontNr + 0, frontOK + 0, webNr + 1, webOk + 1, taskNr + 0, taskOk + 0);
 				}
 				else if(service === 'task')
 				{
-					this.__handler(deferred, data, webNr + 0, webOk + 0, taskNr + 1, taskOk + 1);
+					this.__handler(deferred, data, frontNr + 0, frontOK + 0, webNr + 0, webOk + 0, taskNr + 1, taskOk + 1);
 				}
 				else
 				{
-					this.__handler(deferred, data, webNr + 0, webOk + 0, taskNr + 0, taskOk + 0);
+					this.__handler(deferred, data, frontNr + 0, frontOK + 0, webNr + 0, webOk + 0, taskNr + 0, taskOk + 0);
 				}
 
 				/*---------------------------------------------------------*/
@@ -202,17 +216,21 @@ $AMIClass('MonitoringApp', {
 
 				data.push(0);
 
-				/**/ if(service === 'web')
+				/**/ if(service === 'front')
 				{
-					this.__handler(deferred, data, webNr + 1, webOk + 0, taskNr + 0, taskOk + 0);
+					this.__handler(deferred, data, frontNr + 1, frontOK + 0, webNr + 0, webOk + 0, taskNr + 0, taskOk + 0);
+				}
+				else if(service === 'web')
+				{
+					this.__handler(deferred, data, frontNr + 0, frontOK + 0, webNr + 1, webOk + 0, taskNr + 0, taskOk + 0);
 				}
 				else if(service === 'task')
 				{
-					this.__handler(deferred, data, webNr + 0, webOk + 0, taskNr + 1, taskOk + 0);
+					this.__handler(deferred, data, frontNr + 0, frontOK + 0, webNr + 0, webOk + 0, taskNr + 1, taskOk + 0);
 				}
 				else
 				{
-					this.__handler(deferred, data, webNr + 0, webOk + 0, taskNr + 0, taskOk + 0);
+					this.__handler(deferred, data, frontNr + 0, frontOK + 0, webNr + 0, webOk + 0, taskNr + 0, taskOk + 0);
 				}
 
 				/*---------------------------------------------------------*/
@@ -220,7 +238,7 @@ $AMIClass('MonitoringApp', {
 		}
 		else
 		{
-			deferred.resolveWith(this, [data, webNr, webOk, taskNr, taskOk]);
+			deferred.resolveWith(this, [data, frontNr, frontOK, webNr, webOk, taskNr, taskOk]);
 		}
 
 		return deferred;
@@ -230,37 +248,52 @@ $AMIClass('MonitoringApp', {
 
 	_handler: function()
 	{
-		this.__handler($.Deferred(), [], 0, 0, 0, 0).done(function(data, webNr, webOk, taskNr, taskOk) {
+		this.__handler($.Deferred(), [], 0, 0, 0, 0, 0, 0).done(function(data, frontNr, frontOK, webNr, webOk, taskNr, taskOk) {
 
 			/*-------------------------------------------------------------*/
 
-			if(webNr === 0)
+			if(frontNr === 0)
 			{
 				this._chart0.options.data[0].dataPoints[0].y = 1;
 				this._chart0.options.data[0].dataPoints[1].y = 0;
 			}
 			else
 			{
-				this._chart0.options.data[0].dataPoints[0].y = webOk;
-				this._chart0.options.data[0].dataPoints[1].y = webNr - webOk;
+				this._chart0.options.data[0].dataPoints[0].y = frontOK;
+				this._chart0.options.data[0].dataPoints[1].y = frontNr - frontOK;
 			}
 
 			this._chart0.render();
 
 			/*-------------------------------------------------------------*/
 
-			if(taskNr === 0)
+			if(webNr === 0)
 			{
 				this._chart1.options.data[0].dataPoints[0].y = 1;
 				this._chart1.options.data[0].dataPoints[1].y = 0;
 			}
 			else
 			{
-				this._chart1.options.data[0].dataPoints[0].y = taskOk;
-				this._chart1.options.data[0].dataPoints[1].y = taskNr - taskOk;
+				this._chart1.options.data[0].dataPoints[0].y = webOk;
+				this._chart1.options.data[0].dataPoints[1].y = webNr - webOk;
 			}
 
 			this._chart1.render();
+
+			/*-------------------------------------------------------------*/
+
+			if(taskNr === 0)
+			{
+				this._chart2.options.data[0].dataPoints[0].y = 1;
+				this._chart2.options.data[0].dataPoints[1].y = 0;
+			}
+			else
+			{
+				this._chart2.options.data[0].dataPoints[0].y = taskOk;
+				this._chart2.options.data[0].dataPoints[1].y = taskNr - taskOk;
+			}
+
+			this._chart2.render();
 
 			/*-------------------------------------------------------------*/
 
@@ -270,13 +303,13 @@ $AMIClass('MonitoringApp', {
 
 			for(var i in this._nodes)
 			{
-				this._chart2.options.data[i].dataPoints.push({x: now, y: data[i]});
+				this._chart3.options.data[i].dataPoints.push({x: now, y: data[i]});
 			}
 
-			this._chart3.options.data[0].dataPoints.push({x: now, y: webNr > 0 ? 1 : 0});
+			this._chart4.options.data[0].dataPoints.push({x: now, y: webNr > 0 ? 1 : 0});
 
-			this._chart2.render();
 			this._chart3.render();
+			this._chart4.render();
 
 			/*-------------------------------------------------------------*/
 		});
@@ -343,7 +376,7 @@ $AMIClass('MonitoringApp', {
 			/* BUILD CHARTS                                                */
 			/*-------------------------------------------------------------*/
 
-			this._chart0 = new CanvasJS.Chart('E86BAEDC_5386_454F_318B_3337E7B1CFB3', {
+			this._chart0 = new CanvasJS.Chart('E4EB0C21_133E_4F03_6865_53258FC536A6', {
 				backgroundColor: 'transparent',
 				data: [{
 					type: 'doughnut',
@@ -351,12 +384,12 @@ $AMIClass('MonitoringApp', {
 					indexLabelFontSize: 14,
 					indexLabelFontFamily: 'Garamond',
 					dataPoints: [
-						{y: 0, label: 'Available'},
-						{y: 0, label: 'Unavailable'},
+						{y: 0, label: 'Up'},
+						{y: 0, label: 'Down'},
 					],
 				}],
 				title: {
-					text: numberOfWebNodes + ' web node(s)',
+					text: numberOfWebNodes + ' front(s)',
 					horizontalAlign: 'center',
 				},
 				toolTip:{
@@ -368,7 +401,7 @@ $AMIClass('MonitoringApp', {
 
 			/*-------------------------------------------------------------*/
 
-			this._chart1 = new CanvasJS.Chart('CDB3AD94_DC62_215E_E9EA_AACDF05E542A', {
+			this._chart1 = new CanvasJS.Chart('E86BAEDC_5386_454F_318B_3337E7B1CFB3', {
 				backgroundColor: 'transparent',
 				data: [{
 					type: 'doughnut',
@@ -376,12 +409,12 @@ $AMIClass('MonitoringApp', {
 					indexLabelFontSize: 14,
 					indexLabelFontFamily: 'Garamond',
 					dataPoints: [
-						{y: 0, label: 'Available'},
-						{y: 0, label: 'Unavailable'},
+						{y: 0, label: 'Up'},
+						{y: 0, label: 'Down'},
 					],
 				}],
 				title: {
-					text: numberOfTaskNodes + ' task node(s)',
+					text: numberOfWebNodes + ' web node(s)',
 					horizontalAlign: 'center',
 				},
 				toolTip:{
@@ -393,7 +426,32 @@ $AMIClass('MonitoringApp', {
 
 			/*-------------------------------------------------------------*/
 
-			this._chart2 = new CanvasJS.Chart('A8F5DC0E_F1D2_7220_29F0_C86DD93A23E2', {
+			this._chart2 = new CanvasJS.Chart('CDB3AD94_DC62_215E_E9EA_AACDF05E542A', {
+				backgroundColor: 'transparent',
+				data: [{
+					type: 'doughnut',
+					indexLabel: '{label} #percent%',
+					indexLabelFontSize: 14,
+					indexLabelFontFamily: 'Garamond',
+					dataPoints: [
+						{y: 0, label: 'Up'},
+						{y: 0, label: 'Down'},
+					],
+				}],
+				title: {
+					text: numberOfTaskNodes + ' task node(s)',
+					horizontalAlign: 'center',
+				},
+				toolTip:{
+					enabled: false,
+				},
+			});
+
+			this._chart2.render();
+
+			/*-------------------------------------------------------------*/
+
+			this._chart3 = new CanvasJS.Chart('A8F5DC0E_F1D2_7220_29F0_C86DD93A23E2', {
 				axisX: {
 					labelAngle: -50,
 					valueFormatString: 'H:m',
@@ -409,11 +467,11 @@ $AMIClass('MonitoringApp', {
 				zoomEnabled: true,
 			});
 
-			this._chart2.render();
+			this._chart3.render();
 
 			/*-------------------------------------------------------------*/
 
-			this._chart3 = new CanvasJS.Chart('C3C51231_AEE3_FD2E_20F3_39FDECA45987', {
+			this._chart4 = new CanvasJS.Chart('C3C51231_AEE3_FD2E_20F3_39FDECA45987', {
 				axisX: {
 					labelAngle: -50,
 					valueFormatString: 'H:m',
@@ -429,7 +487,7 @@ $AMIClass('MonitoringApp', {
 				zoomEnabled: true,
 			});
 
-			this._chart3.render();
+			this._chart4.render();
 
 			/*-------------------------------------------------------------*/
 			/* EXECUTE HANDLERS                                            */
@@ -466,13 +524,13 @@ $AMIClass('MonitoringApp', {
 	{
 		/*-----------------------------------------------------------------*/
 
-		var l = $('#A7CB3444_3882_26FF_F3AF_52278A0F37C1').height();
+		var l = 400;
 
 		/*-----------------------------------------------------------------*/
 
-		var svg = d3.select('#A7CB3444_3882_26FF_F3AF_52278A0F37C1').append('svg')
-		                                                            .attr('width', l)
-		                                                            .attr('height', l)
+		var svg = d3.select('#A7CB3444_3882_26FF_F3AF_52278A0F37C1').html('')
+		                                                            .append('svg')
+		                                                            .attr('style', 'margin: 0.5rem 0; height: calc(40vh - 8rem);')
 		                                                            .attr('viewBox', '0, 0, ' + l + ', ' + l)
 		;
 
