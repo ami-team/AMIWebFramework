@@ -301,12 +301,20 @@ $AMIClass('MonitoringApp', {
 
 			/*-------------------------------------------------------------*/
 
+			var j = 0;
+			var k = 0;
+
 			for(var i in this._nodes)
 			{
-				this._chart3.options.data[i].dataPoints.push({x: now, y: data[i]});
+				if(this._nodes[i].service === 'front')
+				{
+					this._chart4.options.data[j++].dataPoints.push({x: now, y: data[i]});
+				}
+				else
+				{
+					this._chart3.options.data[k++].dataPoints.push({x: now, y: data[i]});
+				}
 			}
-
-			this._chart4.options.data[0].dataPoints.push({x: now, y: webNr > 0 ? 1 : 0});
 
 			this._chart3.render();
 			this._chart4.render();
@@ -360,20 +368,26 @@ $AMIClass('MonitoringApp', {
 					endpoint: endpoint,
 				});
 
-				series1.push({
-					type: 'stackedArea',
-					name: service + '::' + node,
-					showInLegend: true,
-					markerType: null,
-					dataPoints: [],
-				});
-			});
-
-			series2.push({
-				type: 'stackedArea',
-				showInLegend: false,
-				markerType: null,
-				dataPoints: [],
+				if(service === 'front')
+				{
+					series2.push({
+						type: 'stackedArea',
+						name: service + '::' + node,
+						showInLegend: true,
+						markerType: null,
+						dataPoints: [],
+					});
+				}
+				else
+				{
+					series1.push({
+						type: 'stackedArea',
+						name: service + '::' + node,
+						showInLegend: true,
+						markerType: null,
+						dataPoints: [],
+					});
+				}
 			});
 
 			/*-------------------------------------------------------------*/
@@ -462,8 +476,8 @@ $AMIClass('MonitoringApp', {
 				},
 				axisY: {
 					minimum: 0,
-					maximum: rows.length,
-					interval: rows.length,
+					maximum: series1.length,
+					interval: 1,
 					title: 'Node availability',
 				},
 				backgroundColor: 'transparent',
@@ -482,7 +496,7 @@ $AMIClass('MonitoringApp', {
 				},
 				axisY: {
 					minimum: 0,
-					maximum: 1,
+					maximum: series2.length,
 					interval: 1,
 					title: 'Service availability',
 				},
@@ -528,7 +542,7 @@ $AMIClass('MonitoringApp', {
 	{
 		/*-----------------------------------------------------------------*/
 
-		var l = 400;
+		var l = 350;
 
 		/*-----------------------------------------------------------------*/
 
