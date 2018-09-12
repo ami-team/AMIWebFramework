@@ -334,6 +334,7 @@ $AMIClass('MonitoringApp', {
 			var series1 = [];
 			var series2 = [];
 
+			var numberOfFronts = 0;
 			var numberOfWebNodes = 0;
 			var numberOfTaskNodes = 0;
 
@@ -343,7 +344,10 @@ $AMIClass('MonitoringApp', {
 				var service = amiWebApp.jspath('..field{.@name==="service"}.$', row)[0] || '';
 				var endpoint = amiWebApp.jspath('..field{.@name==="endpoint"}.$', row)[0] || '';
 
-				/**/ if(service === 'web') {
+				/**/ if(service === 'front') {
+					numberOfFronts++;
+				}
+				else if(service === 'web') {
 					numberOfWebNodes++;
 				}
 				else if(service === 'task') {
@@ -389,7 +393,7 @@ $AMIClass('MonitoringApp', {
 					],
 				}],
 				title: {
-					text: numberOfWebNodes + ' front(s)',
+					text: numberOfFronts + ' front(s)',
 					horizontalAlign: 'center',
 				},
 				toolTip:{
