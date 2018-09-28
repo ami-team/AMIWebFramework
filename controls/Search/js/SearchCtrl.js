@@ -42,13 +42,10 @@ $AMIClass('SearchCtrl', {
 			amiWebApp.originURL + '/controls/Search/js/daterangepicker.js',
 			amiWebApp.originURL + '/controls/Search/js/daterangepicker.css',
 			/**/
-			'ctrl:schema',
-			'ctrl:table',
-			'ctrl:messageBox',
-			'ctrl:textBox',
+			'ctrl:tab',
 		], {context: this}).done(function(data) {
 
-			this.fragmentSearch = data[0];
+			this.fragmentSearchCtrl = data[0];
 			this.fragmentCriteriaStringFew = data[1];
 			this.fragmentCriteriaStringMany = data[2];
 			this.fragmentCriteriaNumber = data[3];
@@ -56,10 +53,7 @@ $AMIClass('SearchCtrl', {
 			this.fragmentCriteriaBool = data[5];
 			this.fragmentJS = data[6];
 
-			this.schemaCtor = data[10];
-			this.tableCtor = data[11];
-			this.messageBox = new data[12];
-			this.textBox = new data[13];
+			this.tabCtrl = new data[10];
 		});
 	},
 
@@ -129,83 +123,98 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		var _this = this;
+		return this.tabCtrl.render(selector, {context: this}).done(function() {
 
-		return this.replaceHTML(selector, this.fragmentSearch, {dict: this.ctx}).done(function() {
-
-			var parent = $(selector);
-
-			/*-------------------------------------------------------------*/
-
-			parent.find('button[data-open-box]').click(function(e) {
-
-				e.preventDefault();
-
-				_this.openBox($(this).attr('data-open-box'));
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#F5F9DA0F_C961_4EA5_CFDA_1C5CEA91F4B1')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.addCriteria();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#D199AEE3_39DD_D588_FA94_FB525CEAEAEE')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.openSchema();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#AADD9C49_349F_5910_336E_F299F6196408')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.updateExpression();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#A604B953_E0F6_3BA3_3B8A_DE24C951B613')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.viewSelection();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#D75D8E3A_8485_FF24_2EB4_2E09FEFD2750')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.showMQL();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#E6B6F387_34EE_9FFB_5C5A_C92A49577133')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.showJS();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			_this.refresh();
-
-			/*-------------------------------------------------------------*/
+			this.renderForm();
 		});
 
 		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	renderForm: function()
+	{
+		this.tabCtrl.appendItem(this.ctx.name, {context: this}).done(function(selector) {
+
+			this.replaceHTML(selector, this.fragmentSearchCtrl, {context: this, dict: this.ctx}).done(function() {
+
+				var _this = this;
+
+				var parent = $(selector);
+
+				/*---------------------------------------------------------*/
+
+				parent.find('button[data-open-box]').click(function(e) {
+
+					e.preventDefault();
+
+					_this.openBox($(this).attr('data-open-box'));
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#F5F9DA0F_C961_4EA5_CFDA_1C5CEA91F4B1')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.addCriteria();
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#D199AEE3_39DD_D588_FA94_FB525CEAEAEE')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.openSchema();
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#AADD9C49_349F_5910_336E_F299F6196408')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.updateExpression();
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#A604B953_E0F6_3BA3_3B8A_DE24C951B613')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.viewSelection();
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#D75D8E3A_8485_FF24_2EB4_2E09FEFD2750')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.showMQL();
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#E6B6F387_34EE_9FFB_5C5A_C92A49577133')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.showJS();
+				});
+
+				/*---------------------------------------------------------*/
+
+				this.refresh();
+
+				/*---------------------------------------------------------*/
+			});
+
+			/*-------------------------------------------------------------*/
+		});
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -894,44 +903,32 @@ $AMIClass('SearchCtrl', {
 
 	openSchema: function()
 	{
-		var parent = this.getParent();
+		amiWebApp.createControlInContainer(this.tabCtrl, this, 'schema', [this.ctx.defaultCatalog], {}, this.ctx, 'database', this.ctx.defaultCatalog);
 
-		if(parent.$name === 'TabCtrl')
-		{
-			parent.appendItem('<i class="fa fa-database"></i> ' + this.ctx.defaultCatalog, {context: this, height: '400px'}).done(function(selector) {
-
-				new this.schemaCtor(parent, this).render(selector, this.ctx.defaultCatalog);
-			});
-		}
+		/* À VERIFIER !!! */
 	},
 
 	/*---------------------------------------------------------------------*/
 
 	viewSelection: function()
 	{
-		var parent = this.getParent();
+		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', ['BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"'], {showDetails: true, canEdit: false, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField}, this.ctx, 'table', this.ctx.defaultEntity);
 
-		if(parent.$name === 'TabCtrl')
-		{
-			parent.appendItem('<i class="fa fa-table"></i> ' + this.ctx.defaultEntity, {context: this, height: 'auto'}).done(function(selector) {
-
-				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"', {showDetails: true, canEdit: false, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField});
-			});
-		}
+		/* À VERIFIER !!! */
 	},
 
 	/*---------------------------------------------------------------------*/
 
 	showMQL: function()
 	{
-		this.messageBox.show(this.ctx.mql);
+		amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.mql], {});
 	},
 
 	/*---------------------------------------------------------------------*/
 
 	showJS: function()
 	{
-		this.textBox.show(this.ctx.js);
+		amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js], {});
 	},
 
 	/*---------------------------------------------------------------------*/
