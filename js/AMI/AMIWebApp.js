@@ -1556,6 +1556,78 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * @param {Array} paramsWithoutSettings ???
 	  * @param {Object} controlSettings ???
 	  * @param {Object} parentSettings ???
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	createControlInBody: function(parent, owner, control, controlParamsWithoutSettings, controlSettings, parentSettings, settings)
+	{
+		const result = $.Deferred();
+
+		const [context] = this.setup(
+			['context'],
+			[result],
+			settings
+		);
+
+		/*-----------------------------------------------------------------*/
+
+		try
+		{
+			let PARAMS = [];
+			let SETTINGS = {};
+
+			/*-------------------------------------------------------------*/
+
+			for(let key in parentSettings) {
+				SETTINGS[key] = parentSettings[key];
+			}
+
+			for(let key in controlSettings) {
+				SETTINGS[key] = controlSettings[key];
+			}
+
+			/*-------------------------------------------------------------*/
+
+			//////.push(selector);
+
+			Array.prototype.push.apply(PARAMS, controlParamsWithoutSettings);
+
+			PARAMS.push(SETTINGS);
+
+			/*-------------------------------------------------------------*/
+
+			this.createControl(parent, owner, control, PARAMS).done((instance) => {
+
+				result.resolveWith(context, [instance]);
+
+			}).fail((e) => {
+
+				result.rejectWith(context, [e]);
+			});
+
+			/*-------------------------------------------------------------*/
+		}
+		catch(e)
+		{
+			result.rejectWith(context, [e]);
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		return result.promise();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	/**
+	  * Asynchronously create a control in a container
+	  * @param {Object} parent ???
+	  * @param {Object} [owner] ???
+	  * @param {String} control ???
+	  * @param {Array} paramsWithoutSettings ???
+	  * @param {Object} controlSettings ???
+	  * @param {Object} parentSettings ???
 	  * @param {String} icon ???
 	  * @param {String} title ???
 	  * @param {Object} [settings] dictionary of settings (context)
@@ -1635,28 +1707,48 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	createControlInContainerFromWebLink: function(parent, owner, el, parentSettings, settings)
+	createControlFromWebLink: function(parent, owner, el, parentSettings, settings)
 	{
 		/*-----------------------------------------------------------------*/
 
 		let dataCtrl = el.getAttribute('data-ctrl');
+		let dataCtrlLocation = el.getAttribute('data-ctrl-location');
 		let dataParams; try { dataParams = JSON.parse(el.getAttribute('data-params')); } catch(e) { dataParams = []; }
 		let dataSettings; try { dataSettings = JSON.parse(el.getAttribute('data-settings')); } catch(e) { dataSettings = {}; }
-		let dataIcon = el.getAttribute('data-icon');
-		let dataTitle = el.getAttribute('data-title');
+		let dataIcon; try { dataIcon = el.getAttribute('data-icon'); } catch(e) { dataIcon = 'question'; }
+		let dataTitle; try { dataTitle = el.getAttribute('data-title'); } catch(e) { dataTitle = 'Unknown'; }
 
 		/*-----------------------------------------------------------------*/
 
-		this.lock();
+		/**/ if(dataCtrlLocation === 'body')
+		{
+			this.lock();
 
-		return this.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(() => {
+			return this.createControlInBody(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, settings).done(() => {
 
-			this.unlock();
+				this.unlock();
 
-		}).fail((e) => {
+			}).fail((e) => {
 
-			this.error(e);
-		});
+				this.error(e);
+			});
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		else
+		{
+			this.lock();
+
+			return this.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(() => {
+
+				this.unlock();
+
+			}).fail((e) => {
+
+				this.error(e);
+			});
+		}
 
 		/*-----------------------------------------------------------------*/
 	},
