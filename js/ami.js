@@ -6863,14 +6863,20 @@ $AMIClass('ami.Control', /** @lends ami.Control */{
 
 	/*---------------------------------------------------------------------*/
 
+	createControlInBody: function createControlInBody(parent, control, controlParamsWithoutSettings, controlSettings, parentSettings, settings) {
+		return amiWebApp.createControlInBody(parent, this, control, controlParamsWithoutSettings, controlSettings, parentSettings, settings);
+	},
+
+	/*---------------------------------------------------------------------*/
+
 	createControlInContainer: function createControlInContainer(parent, control, controlParamsWithoutSettings, controlSettings, parentSettings, icon, title, settings) {
 		return amiWebApp.createControlInContainerFromWebLink(parent, this, control, controlParamsWithoutSettings, controlSettings, parentSettings, icon, title, settings);
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	createControlInContainerFromWebLink: function createControlInContainerFromWebLink(parent, el, parentSettings, settings) {
-		return amiWebApp.createControlInContainerFromWebLink(parent, this, el, parentSettings, settings);
+	createControlFromWebLink: function createControlFromWebLink(parent, el, parentSettings, settings) {
+		return amiWebApp.createControlFromWebLink(parent, this, el, parentSettings, settings);
 	}
 
 	/*---------------------------------------------------------------------*/
