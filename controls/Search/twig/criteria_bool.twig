@@ -5,6 +5,6 @@
 		<button type="button" class="close box-question ml-1" data-toggle="tooltip" data-title="hello"><i class="fa fa-question-circle"></i></button>
 	</div>
 	<div class="card-body text-center" style="padding: 0.5rem;">
-		<input type="checkbox" data-toggle="toggle" data-size="small" data-width="260" data-offstyle="outline-secondary" data-onstyle="outline-success" data-off="false" data-on="true" />
+		<input type="checkbox" data-toggle="toggle" data-size="small" data-width="260" data-offstyle="outline-secondary" data-onstyle="outline-success" data-off="{{ states.off | default('false') }}" data-on="{{ states.on | default('true') }}"{% if select === states.on %} checked="checked"{% endif %} />
 	</div>
 </div>

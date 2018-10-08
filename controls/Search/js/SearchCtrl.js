@@ -208,6 +208,16 @@ $AMIClass('SearchCtrl', {
 
 				/*---------------------------------------------------------*/
 
+				for(var idx in this.ctx.criterias)
+				{
+					if(this.ctx.criterias[idx].auto_open === true)
+					{
+						this.openBox(idx);
+					}
+				}
+
+				/*---------------------------------------------------------*/
+
 				this.refresh();
 
 				/*---------------------------------------------------------*/
@@ -227,9 +237,16 @@ $AMIClass('SearchCtrl', {
 
 		var promise;
 
+		var select = {};
+		var filter = [];
+
 		var criteria = this.ctx.criterias[idx];
 
 		var selector = this.patchId('#CF445396_19BE_7A34_902E_7F63B53CAEC8');
+
+		var catalog = criteria.catalog;
+		var entity = criteria.entity;
+		var field = criteria.field;
 
 		switch(criteria.type)
 		{
@@ -340,6 +357,16 @@ $AMIClass('SearchCtrl', {
 						_this.viewMore(name);
 					});
 
+					if('select' in criteria)
+					{
+						for(var i in criteria.select)
+						{
+							select[criteria.select[i]] = true;
+
+							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + criteria.select[i].replace(/'/g, '\'\'') + '\'');
+						}
+					}
+
 					break;
 
 				/*---------------------------------------------------------*/
@@ -367,9 +394,22 @@ $AMIClass('SearchCtrl', {
 						timePicker24Hour: true,
 						singleDatePicker: true,
 						locale: {
-							format: 'DD/MM/YYYY HH:mm',
+							format: 'YYYY-MM-DD HH:mm:ss',
 						},
 					});
+
+					if('select' in criteria)
+					{
+						if('min' in criteria.select)
+						{
+							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '` >= \'' + new String(criteria.select.min).replace(/'/g, '\'\'') + '\'');
+						}
+
+						if('max' in criteria.select)
+						{
+							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '` <= \'' + new String(criteria.select.max).replace(/'/g, '\'\'') + '\'');
+						}
+					}
 
 					break;
 
@@ -406,8 +446,8 @@ $AMIClass('SearchCtrl', {
 				selector: selector,
 				criteria: criteria,
 				/* SQL */
-				select: {},
-				filter: '',
+				select: select,
+				filter: filter.join(' AND '),
 				limit: 10,
 			};
 
@@ -832,7 +872,7 @@ $AMIClass('SearchCtrl', {
 				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` >= \'' + min + '\''
 				                   +
 				                   ' AND '
-						   +
+				                   +
 				                   '`' + catalog + '`.`' + entity + '`.`' + field + '` <= \'' + max + '\''
 				;
 			}
@@ -841,7 +881,7 @@ $AMIClass('SearchCtrl', {
 				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` < \'' + min + '\''
 				                   +
 				                   ' OR '
-						   +
+				                   +
 				                   '`' + catalog + '`.`' + entity + '`.`' + field + '` > \'' + max + '\''
 				;
 			}
@@ -876,13 +916,20 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
+		if($(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 		{
-			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = 0';
+			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + new String(criteria.states.on).replace(/'/g, '\'\'') + '\'';
 		}
 		else
 		{
-			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` != 0';
+			if(!criteria.inclusive)
+			{
+				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + new String(criteria.states.off).replace(/'/g, '\'\'') + '\'';
+			}
+			else
+			{
+				predicate.filter = '';
+			}
 		}
 
 		/*-----------------------------------------------------------------*/
