@@ -6400,9 +6400,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*-----------------------------------------------------------------*/
 
-		/**/if (dataCtrlLocation === 'body') {
-			this.lock();
+		this.lock();
 
+		/**/if (dataCtrlLocation === 'body') {
 			return this.createControlInBody(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, settings).done(function () {
 
 				_this9.unlock();
@@ -6410,21 +6410,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 				_this9.error(e);
 			});
+		} else {
+			return this.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(function () {
+
+				_this9.unlock();
+			}).fail(function (e) {
+
+				_this9.error(e);
+			});
 		}
-
-		/*-----------------------------------------------------------------*/
-
-		else {
-				this.lock();
-
-				return this.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(function () {
-
-					_this9.unlock();
-				}).fail(function (e) {
-
-					_this9.error(e);
-				});
-			}
 
 		/*-----------------------------------------------------------------*/
 	},
