@@ -74,6 +74,7 @@ $AMIClass('GraphCtrl', {
 				var attrs = [];
 
 				attrs.push('data-ctrl="' + amiWebApp.textToHtml(jsonbObj['data-ctrl']) + '"');
+				attrs.push('data-ctrl-location="' + amiWebApp.textToHtml(jsonbObj['data-ctrl-location']) + '"');
 				attrs.push('data-params="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params'])) + '"');
 				attrs.push('data-settings="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings'])) + '"');
 				attrs.push('data-icon="' + amiWebApp.textToHtml(jsonbObj['data-icon']) + '"');
@@ -106,7 +107,7 @@ $AMIClass('GraphCtrl', {
 
 					e.preventDefault();
 
-					_this.createControlInContainerFromWebLink(_this.getParent(), this, _this.ctx);
+					_this.createControlFromWebLink(_this.getParent(), this, _this.ctx);
 				});
 
 				result.resolveWith(context, [data]);

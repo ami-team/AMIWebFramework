@@ -21,7 +21,7 @@
 								<br />
 								{% for link in field['link'] %}
 									{% if not loop.first %} - {% endif %}
-									<a href="{{link['@href']|e}}"{% if link['@target'] is not empty %} target="{{link['@target']|e}}"{% endif %}{% if link['@data-ctrl'] is not empty %} data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}{% if link['@data-params'] is not empty %} data-params="{{link['@data-params']|e}}"{% endif %}{% if link['@data-settings'] is not empty %} data-settings="{{link['@data-settings']|e}}"{% endif %}{% if link['@data-icon'] is not empty %} data-icon="{{link['@data-icon']|e}}"{% endif %}{% if link['@data-title'] is not empty %} data-title="{{link['@data-title']|e}}"{% endif %}>{{link['@label']|e}}</a>
+									<a href="{{link['@href']|e}}"{% if link['@target'] is not empty %} target="{{link['@target']|e}}"{% endif %}{% if link['@data-ctrl'] is not empty %} data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}{% if link['@data-ctrl-location'] is not empty %} data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}{% if link['@data-params'] is not empty %} data-params="{{link['@data-params']|e}}"{% endif %}{% if link['@data-settings'] is not empty %} data-settings="{{link['@data-settings']|e}}"{% endif %}{% if link['@data-icon'] is not empty %} data-icon="{{link['@data-icon']|e}}"{% endif %}{% if link['@data-title'] is not empty %} data-title="{{link['@data-title']|e}}"{% endif %}>{{link['@label']|e}}</a>
 								{% endfor %}</td>
 								{% endif %}
 							</td>
@@ -50,7 +50,7 @@
 						{%   for row in linkedElementRowset %}
 						<tr>
 							<td class="text-center">
-								<a href="#" data-ctrl="table" data-params="[&quot;SearchQuery -catalog=\&quot;{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}\&quot; -entity=\&quot;{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}\&quot; -mql=\&quot;{{row|json_jspath('..field{.@name==="mql"}.$')[0]|e}}\&quot;&quot;]" data-settings="{&quot;catalog&quot;:&quot;{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}&quot;,&quot;entity&quot;:&quot;{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}&quot;,&quot;orderBy&quot;:&quot;&quot;, &quot;orderWay&quot;:&quot;&quot;}" data-icon="table" data-title="{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}">{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}} <span class="text-muted">{ {{row|json_jspath('..field{.@name==="constraint"}.$')[0]|e}} }</span></a>
+								<a href="#" data-ctrl="table" data-ctrl-location="container" data-params="[&quot;SearchQuery -catalog=\&quot;{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}\&quot; -entity=\&quot;{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}\&quot; -mql=\&quot;{{row|json_jspath('..field{.@name==="mql"}.$')[0]|e}}\&quot;&quot;]" data-settings="{&quot;catalog&quot;:&quot;{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}&quot;,&quot;entity&quot;:&quot;{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}&quot;,&quot;orderBy&quot;:&quot;&quot;, &quot;orderWay&quot;:&quot;&quot;}" data-icon="table" data-title="{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}">{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}} <span class="text-muted">{ {{row|json_jspath('..field{.@name==="constraint"}.$')[0]|e}} }</span></a>
 							</td>
 							<td class="text-center">
 								{{row|json_jspath('..field{.@name==="count"}.$')[0]|e}} records

@@ -609,7 +609,7 @@ $AMIClass('TableCtrl', {
 
 					e.preventDefault();
 
-					_this.createControlInContainerFromWebLink(_this.getParent(), this, _this.settings);
+					_this.createControlFromWebLink(_this.getParent(), this, _this.settings);
 				});
 
 				/*-----------------------------------------*/
