@@ -1707,64 +1707,48 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	createControlInBodyFromWebLink: function(parent, owner, el, parentSettings, settings)
+	createControlFromWebLink: function(parent, owner, el, parentSettings, settings)
 	{
 		/*-----------------------------------------------------------------*/
 
 		let dataCtrl = el.getAttribute('data-ctrl');
+		let dataCtrlLocation = el.getAttribute('data-ctrl-location');
 		let dataParams; try { dataParams = JSON.parse(el.getAttribute('data-params')); } catch(e) { dataParams = []; }
 		let dataSettings; try { dataSettings = JSON.parse(el.getAttribute('data-settings')); } catch(e) { dataSettings = {}; }
+		let dataIcon; try { dataIcon = el.getAttribute('data-icon'); } catch(e) { dataIcon = 'question'; }
+		let dataTitle; try { dataTitle = el.getAttribute('data-title'); } catch(e) { dataTitle = 'Unknown'; }
 
 		/*-----------------------------------------------------------------*/
 
-		this.lock();
+		/**/ if(dataCtrlLocation === 'body')
+		{
+			this.lock();
 
-		return this.createControlInBody(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, settings).done(() => {
+			return this.createControlInBody(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, settings).done(() => {
 
-			this.unlock();
+				this.unlock();
 
-		}).fail((e) => {
+			}).fail((e) => {
 
-			this.error(e);
-		});
-
-		/*-----------------------------------------------------------------*/
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	/**
-	  * Asynchronously create a control in a container from a WEB link
-	  * @param {Object} parent ???
-	  * @param {Object} [owner] ???
-	  * @param {String} el ???
-	  * @param {Object} parentSettings ???
-	  * @param {Object} [settings] dictionary of settings (context)
-	  * @returns {$.Deferred} A JQuery deferred object
-	  */
-
-	createControlInContainerFromWebLink: function(parent, owner, el, parentSettings, settings)
-	{
-		/*-----------------------------------------------------------------*/
-
-		let dataCtrl = el.getAttribute('data-ctrl');
-		let dataParams; try { dataParams = JSON.parse(el.getAttribute('data-params')); } catch(e) { dataParams = []; }
-		let dataSettings; try { dataSettings = JSON.parse(el.getAttribute('data-settings')); } catch(e) { dataSettings = {}; }
-		let dataIcon = el.getAttribute('data-icon');
-		let dataTitle = el.getAttribute('data-title');
+				this.error(e);
+			});
+		}
 
 		/*-----------------------------------------------------------------*/
 
-		this.lock();
+		else
+		{
+			this.lock();
 
-		return this.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(() => {
+			return this.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(() => {
 
-			this.unlock();
+				this.unlock();
 
-		}).fail((e) => {
+			}).fail((e) => {
 
-			this.error(e);
-		});
+				this.error(e);
+			});
+		}
 
 		/*-----------------------------------------------------------------*/
 	},
