@@ -1556,6 +1556,78 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * @param {Array} paramsWithoutSettings ???
 	  * @param {Object} controlSettings ???
 	  * @param {Object} parentSettings ???
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	createControlInBody: function(parent, owner, control, controlParamsWithoutSettings, controlSettings, parentSettings, settings)
+	{
+		const result = $.Deferred();
+
+		const [context] = this.setup(
+			['context'],
+			[result],
+			settings
+		);
+
+		/*-----------------------------------------------------------------*/
+
+		try
+		{
+			let PARAMS = [];
+			let SETTINGS = {};
+
+			/*-------------------------------------------------------------*/
+
+			for(let key in parentSettings) {
+				SETTINGS[key] = parentSettings[key];
+			}
+
+			for(let key in controlSettings) {
+				SETTINGS[key] = controlSettings[key];
+			}
+
+			/*-------------------------------------------------------------*/
+
+			//////.push(selector);
+
+			Array.prototype.push.apply(PARAMS, controlParamsWithoutSettings);
+
+			PARAMS.push(SETTINGS);
+
+			/*-------------------------------------------------------------*/
+
+			this.createControl(parent, owner, control, PARAMS).done((instance) => {
+
+				result.resolveWith(context, [instance]);
+
+			}).fail((e) => {
+
+				result.rejectWith(context, [e]);
+			});
+
+			/*-------------------------------------------------------------*/
+		}
+		catch(e)
+		{
+			result.rejectWith(context, [e]);
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		return result.promise();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	/**
+	  * Asynchronously create a control in a container
+	  * @param {Object} parent ???
+	  * @param {Object} [owner] ???
+	  * @param {String} control ???
+	  * @param {Array} paramsWithoutSettings ???
+	  * @param {Object} controlSettings ???
+	  * @param {Object} parentSettings ???
 	  * @param {String} icon ???
 	  * @param {String} title ???
 	  * @param {Object} [settings] dictionary of settings (context)
@@ -1621,6 +1693,42 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/*-----------------------------------------------------------------*/
 
 		return result.promise();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	/**
+	  * Asynchronously create a control in a container from a WEB link
+	  * @param {Object} parent ???
+	  * @param {Object} [owner] ???
+	  * @param {String} el ???
+	  * @param {Object} parentSettings ???
+	  * @param {Object} [settings] dictionary of settings (context)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	createControlInBodyFromWebLink: function(parent, owner, el, parentSettings, settings)
+	{
+		/*-----------------------------------------------------------------*/
+
+		let dataCtrl = el.getAttribute('data-ctrl');
+		let dataParams; try { dataParams = JSON.parse(el.getAttribute('data-params')); } catch(e) { dataParams = []; }
+		let dataSettings; try { dataSettings = JSON.parse(el.getAttribute('data-settings')); } catch(e) { dataSettings = {}; }
+
+		/*-----------------------------------------------------------------*/
+
+		this.lock();
+
+		return this.createControlInBody(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, settings).done(() => {
+
+			this.unlock();
+
+		}).fail((e) => {
+
+			this.error(e);
+		});
+
+		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
