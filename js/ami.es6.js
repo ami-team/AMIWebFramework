@@ -7317,10 +7317,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
+		this.lock();
+
 		/**/ if(dataCtrlLocation === 'body')
 		{
-			this.lock();
-
 			return this.createControlInBody(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, settings).done(() => {
 
 				this.unlock();
@@ -7330,13 +7330,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.error(e);
 			});
 		}
-
-		/*-----------------------------------------------------------------*/
-
 		else
 		{
-			this.lock();
-
 			return this.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(() => {
 
 				this.unlock();
