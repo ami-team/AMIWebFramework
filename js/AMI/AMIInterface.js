@@ -231,6 +231,13 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*---------------------------------------------------------------------*/
 
+	createControlInBody: function(parent, control, controlParamsWithoutSettings, controlSettings, parentSettings, settings)
+	{
+		return amiWebApp.createControlInBody(parent, this, control, controlParamsWithoutSettings, controlSettings, parentSettings, settings);
+	},
+
+	/*---------------------------------------------------------------------*/
+
 	createControlInContainer: function(parent, control, controlParamsWithoutSettings, controlSettings, parentSettings, icon, title, settings)
 	{
 		return amiWebApp.createControlInContainerFromWebLink(parent, this, control, controlParamsWithoutSettings, controlSettings, parentSettings, icon, title, settings);
@@ -238,9 +245,9 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*---------------------------------------------------------------------*/
 
-	createControlInContainerFromWebLink: function(parent, el, parentSettings, settings)
+	createControlFromWebLink: function(parent, el, parentSettings, settings)
 	{
-		return amiWebApp.createControlInContainerFromWebLink(parent, this, el, parentSettings, settings);
+		return amiWebApp.createControlFromWebLink(parent, this, el, parentSettings, settings);
 	},
 
 	/*---------------------------------------------------------------------*/

@@ -1,44 +1,60 @@
 {
-   "AMIMessage":[
-      {
-         "rowset":[
-            {
-               "row":[
-                  {
-                     "field":[
-                        {
-                           "@name":"node",
-                           "$":"localhost"
-                        },
-                        {
-                           "@name":"service",
-                           "$":"web"
-                        },
-                        {
-                           "@name":"endpoint",
-                           "$":"https://localhost:8443/AMI/FrontEnd"
-                        }
-                     ]
-                  },
-                  {
-                     "field":[
-                        {
-                           "@name":"node",
-                           "$":"localhost"
-                        },
-                        {
-                           "@name":"service",
-                           "$":"task"
-                        },
-                        {
-                           "@name":"endpoint",
-                           "$":"https://localhost:8443/AMI/FrontEnd"
-                        }
-                     ]
-                  }
-               ]
-            }
-         ]
-      }
-   ]
+	"AMIMessage": [
+		{
+			"rowset": [
+				{
+					"row": [
+						{
+							"field": [
+								{
+									"@name": "node",
+									"$": "localhost"
+								},
+								{
+									"@name": "service",
+									"$": "front"
+								},
+								{
+									"@name": "endpoint",
+									"$": "https://localhost:8443/AMI/FrontEnd"
+								}
+							]
+						},
+						{
+							"field": [
+								{
+									"@name": "node",
+									"$": "localhost"
+								},
+								{
+									"@name": "service",
+									"$": "web"
+								},
+								{
+									"@name": "endpoint",
+									"$": "https://localhost:8443/AMI/FrontEnd"
+								}
+							]
+						},
+						{
+							"field": [
+								{
+									"@name": "node",
+									"$": "localhost"
+								},
+								{
+									"@name": "service",
+									"$": "task"
+								},
+								{
+									"@name": "endpoint",
+									"$": "https://localhost:8443/AMI/FrontEnd"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	]
 }

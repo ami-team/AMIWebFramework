@@ -228,7 +228,7 @@ $AMIClass('ElementInfoCtrl', {
 
 					e.preventDefault();
 
-					_this.createControlInContainerFromWebLink(_this.getParent(), this, _this.ctx);
+					_this.createControlFromWebLink(_this.getParent(), this, _this.ctx);
 				});
 
 				result.resolveWith(context, [descriptions, elementRowset, linkedElementRowset]);

@@ -12,6 +12,48 @@
  */
 
 /*-------------------------------------------------------------------------*/
+/* BOX CRITERIA HOW TO                                                     */
+/*-------------------------------------------------------------------------*/
+
+/* 
+ * Mandatory criteria
+ * 
+ * name: criteria display name
+ * catalog: project:process (catalog id)
+ * entity: entity to search on
+ * field: field to search on
+ * 
+ * Optionnal criteria
+ * 
+ * type 0 box (String few)
+ * 
+ * select: [...], list of default values to select at init
+ * auto_open: boolean, open/not open the box by at start
+ * 
+ * type 1 box (String many)
+ * 
+ * select: [...], list of default values to select at init
+ * auto_open: boolean, open/not open the box by at start
+ * 
+ * type 2 box (Range)
+ * 
+ * select: {'min':..., max:...}, default min and max values
+ * auto_open: boolean, open/not open the box by at start
+ * 
+ * type 3 box (Date)
+ * 
+ * select: {'min':..., max:...}, default min and max values
+ * auto_open: boolean, open/not open the box by at start
+ * 
+ * type 4 box (Boolean)
+ * 
+ * select: ... , the default selected value
+ * states: {'on': xxx, 'off': yyy}, values xxx for state on and yyy for state off
+ * inclusive: boolean, mode xxx/all or xxx/yyy
+ * auto_open: boolean, open/not open the box by at start
+ */
+
+/*-------------------------------------------------------------------------*/
 
 $AMIClass('SearchCtrl', {
 	/*---------------------------------------------------------------------*/
@@ -42,13 +84,10 @@ $AMIClass('SearchCtrl', {
 			amiWebApp.originURL + '/controls/Search/js/daterangepicker.js',
 			amiWebApp.originURL + '/controls/Search/js/daterangepicker.css',
 			/**/
-			'ctrl:schema',
-			'ctrl:table',
-			'ctrl:messageBox',
-			'ctrl:textBox',
+			'ctrl:tab',
 		], {context: this}).done(function(data) {
 
-			this.fragmentSearch = data[0];
+			this.fragmentSearchCtrl = data[0];
 			this.fragmentCriteriaStringFew = data[1];
 			this.fragmentCriteriaStringMany = data[2];
 			this.fragmentCriteriaNumber = data[3];
@@ -56,10 +95,7 @@ $AMIClass('SearchCtrl', {
 			this.fragmentCriteriaBool = data[5];
 			this.fragmentJS = data[6];
 
-			this.schemaCtor = data[10];
-			this.tableCtor = data[11];
-			this.messageBox = new data[12];
-			this.textBox = new data[13];
+			this.tabCtrl = new data[10];
 		});
 	},
 
@@ -129,83 +165,108 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		var _this = this;
+		return this.tabCtrl.render(selector, {context: this}).done(function() {
 
-		return this.replaceHTML(selector, this.fragmentSearch, {dict: this.ctx}).done(function() {
-
-			var parent = $(selector);
-
-			/*-------------------------------------------------------------*/
-
-			parent.find('button[data-open-box]').click(function(e) {
-
-				e.preventDefault();
-
-				_this.openBox($(this).attr('data-open-box'));
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#F5F9DA0F_C961_4EA5_CFDA_1C5CEA91F4B1')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.addCriteria();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#D199AEE3_39DD_D588_FA94_FB525CEAEAEE')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.openSchema();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#AADD9C49_349F_5910_336E_F299F6196408')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.updateExpression();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#A604B953_E0F6_3BA3_3B8A_DE24C951B613')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.viewSelection();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#D75D8E3A_8485_FF24_2EB4_2E09FEFD2750')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.showMQL();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			$(_this.patchId('#E6B6F387_34EE_9FFB_5C5A_C92A49577133')).click(function(e) {
-
-				e.preventDefault();
-
-				_this.showJS();
-			});
-
-			/*-------------------------------------------------------------*/
-
-			_this.refresh();
-
-			/*-------------------------------------------------------------*/
+			this.renderForm();
 		});
 
 		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	renderForm: function()
+	{
+		this.tabCtrl.appendItem(this.ctx.name, {context: this}).done(function(selector) {
+
+			this.replaceHTML(selector, this.fragmentSearchCtrl, {context: this, dict: this.ctx}).done(function() {
+
+				var _this = this;
+
+				var parent = $(selector);
+
+				/*---------------------------------------------------------*/
+
+				parent.find('button[data-open-box]').click(function(e) {
+
+					e.preventDefault();
+
+					_this.openBox($(this).attr('data-open-box'));
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#F5F9DA0F_C961_4EA5_CFDA_1C5CEA91F4B1')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.addCriteria();
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#D199AEE3_39DD_D588_FA94_FB525CEAEAEE')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.openSchema();
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#AADD9C49_349F_5910_336E_F299F6196408')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.updateExpression();
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#A604B953_E0F6_3BA3_3B8A_DE24C951B613')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.viewSelection();
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#D75D8E3A_8485_FF24_2EB4_2E09FEFD2750')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.showMQL();
+				});
+
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#E6B6F387_34EE_9FFB_5C5A_C92A49577133')).click(function(e) {
+
+					e.preventDefault();
+
+					_this.showJS();
+				});
+
+				/*---------------------------------------------------------*/
+
+				for(var idx in this.ctx.criterias)
+				{
+					if(this.ctx.criterias[idx].auto_open === true)
+					{
+						this.openBox(idx);
+					}
+				}
+
+				/*---------------------------------------------------------*/
+
+				this.refresh();
+
+				/*---------------------------------------------------------*/
+			});
+
+			/*-------------------------------------------------------------*/
+		});
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -218,9 +279,16 @@ $AMIClass('SearchCtrl', {
 
 		var promise;
 
+		var select = {};
+		var filter = [];
+
 		var criteria = this.ctx.criterias[idx];
 
 		var selector = this.patchId('#CF445396_19BE_7A34_902E_7F63B53CAEC8');
+
+		var catalog = criteria.catalog;
+		var entity = criteria.entity;
+		var field = criteria.field;
 
 		switch(criteria.type)
 		{
@@ -331,6 +399,16 @@ $AMIClass('SearchCtrl', {
 						_this.viewMore(name);
 					});
 
+					if('select' in criteria)
+					{
+						for(var i in criteria.select)
+						{
+							select[criteria.select[i]] = true;
+
+							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + criteria.select[i].replace(/'/g, '\'\'') + '\'');
+						}
+					}
+
 					break;
 
 				/*---------------------------------------------------------*/
@@ -358,9 +436,22 @@ $AMIClass('SearchCtrl', {
 						timePicker24Hour: true,
 						singleDatePicker: true,
 						locale: {
-							format: 'DD/MM/YYYY HH:mm',
+							format: 'YYYY-MM-DD HH:mm:ss',
 						},
 					});
+
+					if('select' in criteria)
+					{
+						if('min' in criteria.select)
+						{
+							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '` >= \'' + new String(criteria.select.min).replace(/'/g, '\'\'') + '\'');
+						}
+
+						if('max' in criteria.select)
+						{
+							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '` <= \'' + new String(criteria.select.max).replace(/'/g, '\'\'') + '\'');
+						}
+					}
 
 					break;
 
@@ -397,8 +488,8 @@ $AMIClass('SearchCtrl', {
 				selector: selector,
 				criteria: criteria,
 				/* SQL */
-				select: {},
-				filter: '',
+				select: select,
+				filter: filter.join(' AND '),
 				limit: 10,
 			};
 
@@ -823,7 +914,7 @@ $AMIClass('SearchCtrl', {
 				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` >= \'' + min + '\''
 				                   +
 				                   ' AND '
-						   +
+				                   +
 				                   '`' + catalog + '`.`' + entity + '`.`' + field + '` <= \'' + max + '\''
 				;
 			}
@@ -832,7 +923,7 @@ $AMIClass('SearchCtrl', {
 				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` < \'' + min + '\''
 				                   +
 				                   ' OR '
-						   +
+				                   +
 				                   '`' + catalog + '`.`' + entity + '`.`' + field + '` > \'' + max + '\''
 				;
 			}
@@ -867,13 +958,20 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
+		if($(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 		{
-			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = 0';
+			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + new String(criteria.states.on).replace(/'/g, '\'\'') + '\'';
 		}
 		else
 		{
-			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` != 0';
+			if(!criteria.inclusive)
+			{
+				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + new String(criteria.states.off).replace(/'/g, '\'\'') + '\'';
+			}
+			else
+			{
+				predicate.filter = '';
+			}
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -894,44 +992,32 @@ $AMIClass('SearchCtrl', {
 
 	openSchema: function()
 	{
-		var parent = this.getParent();
+		amiWebApp.createControlInContainer(this.tabCtrl, this, 'schema', [this.ctx.defaultCatalog], {}, this.ctx, 'database', this.ctx.defaultCatalog);
 
-		if(parent.$name === 'TabCtrl')
-		{
-			parent.appendItem('<i class="fa fa-database"></i> ' + this.ctx.defaultCatalog, {context: this, height: '400px'}).done(function(selector) {
-
-				new this.schemaCtor(parent, this).render(selector, this.ctx.defaultCatalog);
-			});
-		}
+		/* À VERIFIER !!! */
 	},
 
 	/*---------------------------------------------------------------------*/
 
 	viewSelection: function()
 	{
-		var parent = this.getParent();
+		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', ['BrowseQuery -GUI -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"'], {showDetails: true, canEdit: false, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField}, this.ctx, 'table', this.ctx.defaultEntity);
 
-		if(parent.$name === 'TabCtrl')
-		{
-			parent.appendItem('<i class="fa fa-table"></i> ' + this.ctx.defaultEntity, {context: this, height: 'auto'}).done(function(selector) {
-
-				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"', {showDetails: true, canEdit: false, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField});
-			});
-		}
+		/* À VERIFIER !!! */
 	},
 
 	/*---------------------------------------------------------------------*/
 
 	showMQL: function()
 	{
-		this.messageBox.show(this.ctx.mql);
+		amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.mql], {});
 	},
 
 	/*---------------------------------------------------------------------*/
 
 	showJS: function()
 	{
-		this.textBox.show(this.ctx.js);
+		amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js], {});
 	},
 
 	/*---------------------------------------------------------------------*/
