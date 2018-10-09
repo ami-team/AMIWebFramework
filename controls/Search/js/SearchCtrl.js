@@ -12,6 +12,48 @@
  */
 
 /*-------------------------------------------------------------------------*/
+/* BOX CRITERIA HOW TO                                                     */
+/*-------------------------------------------------------------------------*/
+
+/* 
+ * Mandatory criteria
+ * 
+ * name: criteria display name
+ * catalog: project:process (catalog id)
+ * entity: entity to search on
+ * field: field to search on
+ * 
+ * Optionnal criteria
+ * 
+ * type 0 box (String few)
+ * 
+ * select: [...], list of default values to select at init
+ * auto_open: boolean, open/not open the box by at start
+ * 
+ * type 1 box (String many)
+ * 
+ * select: [...], list of default values to select at init
+ * auto_open: boolean, open/not open the box by at start
+ * 
+ * type 2 box (Range)
+ * 
+ * select: {'min':..., max:...}, default min and max values
+ * auto_open: boolean, open/not open the box by at start
+ * 
+ * type 3 box (Date)
+ * 
+ * select: {'min':..., max:...}, default min and max values
+ * auto_open: boolean, open/not open the box by at start
+ * 
+ * type 4 box (Boolean)
+ * 
+ * select: ... , the default selected value
+ * states: {'on': xxx, 'off': yyy}, values xxx for state on and yyy for state off
+ * inclusive: boolean, mode xxx/all or xxx/yyy
+ * auto_open: boolean, open/not open the box by at start
+ */
+
+/*-------------------------------------------------------------------------*/
 
 $AMIClass('SearchCtrl', {
 	/*---------------------------------------------------------------------*/
