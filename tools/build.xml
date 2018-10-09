@@ -31,7 +31,6 @@
 		<copy file="${AMIWebAppTmpDir}/css/ami.min.css" tofile="css/ami.min.css" overwrite="true" />
 
 		<copy file="${AMIWebAppTmpDir}/js/ami.es6.min.js" tofile="js/ami.es6.min.js" overwrite="true" />
-
 		<copy file="${AMIWebAppTmpDir}/js/ami.min.js" tofile="js/ami.min.js" overwrite="true" />
 
 		<!-- ************************************************************ -->
