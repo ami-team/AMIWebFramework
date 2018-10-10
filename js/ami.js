@@ -6375,28 +6375,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */{
 
 		/*-----------------------------------------------------------------*/
 
-		var dataCtrl = el.getAttribute('data-ctrl');
-		var dataCtrlLocation = el.getAttribute('data-ctrl-location');
-		var dataParams = void 0;try {
-			dataParams = JSON.parse(el.getAttribute('data-params'));
-		} catch (e) {
-			dataParams = [];
-		}
-		var dataSettings = void 0;try {
-			dataSettings = JSON.parse(el.getAttribute('data-settings'));
-		} catch (e) {
-			dataSettings = {};
-		}
-		var dataIcon = void 0;try {
-			dataIcon = el.getAttribute('data-icon');
-		} catch (e) {
-			dataIcon = 'question';
-		}
-		var dataTitle = void 0;try {
-			dataTitle = el.getAttribute('data-title');
-		} catch (e) {
-			dataTitle = 'Unknown';
-		}
+		var dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl') : '';
+
+		var dataCtrlLocation = el.hasAttribute('data-ctrl-location') ? el.getAttribute('data-ctrl-location') : '';
+
+		/*-----------------------------------------------------------------*/
+
+		var dataParams = el.hasAttribute('data-params') ? JSON.parse(el.getAttribute('data-params')) : [];
+
+		var dataSettings = el.hasAttribute('data-settings') ? JSON.parse(el.getAttribute('data-settings')) : {};
+
+		/*-----------------------------------------------------------------*/
+
+		var dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon') : 'question';
+
+		var dataTitle = el.hasAttribute('data-title') ? el.getAttribute('data-title') : 'Unknown';
 
 		/*-----------------------------------------------------------------*/
 
@@ -6857,7 +6850,7 @@ $AMIClass('ami.Control', /** @lends ami.Control */{
 
 	/*---------------------------------------------------------------------*/
 
-	createContro: function createContro(parent, control, params, settings) {
+	createControl: function createControl(parent, control, params, settings) {
 		return amiWebApp.createControl(parent, this, control, params, settings);
 	},
 
@@ -6870,7 +6863,7 @@ $AMIClass('ami.Control', /** @lends ami.Control */{
 	/*---------------------------------------------------------------------*/
 
 	createControlInContainer: function createControlInContainer(parent, control, controlParamsWithoutSettings, controlSettings, parentSettings, icon, title, settings) {
-		return amiWebApp.createControlInContainerFromWebLink(parent, this, control, controlParamsWithoutSettings, controlSettings, parentSettings, icon, title, settings);
+		return amiWebApp.createControlInContainer(parent, this, control, controlParamsWithoutSettings, controlSettings, parentSettings, icon, title, settings);
 	},
 
 	/*---------------------------------------------------------------------*/
