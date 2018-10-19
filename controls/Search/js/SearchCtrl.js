@@ -95,7 +95,7 @@ $AMIClass('SearchCtrl', {
 			this.fragmentCriteriaBool = data[5];
 			this.fragmentJS = data[6];
 
-			this.tabCtrl = new data[10];
+			this.tabCtor = data[10];
 		});
 	},
 
@@ -162,6 +162,10 @@ $AMIClass('SearchCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		this.tabCtrl = new this.tabCtor(this.getParent(), this);
 
 		/*-----------------------------------------------------------------*/
 
