@@ -10,104 +10,147 @@
 /* AMIAdminDashboardHome                                                   */
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('AMIAdminDashboardHome', {
-	/*-----------------------------------------------------------------*/
+$AMIClass('AdminDashboardHome', {
+	/*---------------------------------------------------------------------*/
 
 	_init: function()
 	{
-		$('#ami_jumbotron_content').html('Home');
-
 		var result = $.Deferred();
 
-		amiWebApp.loadHTMLs([
-			'subapps/AdminDashboard/html/fragment/home/home.html',
+		amiWebApp.loadResources([
+			'subapps/AdminDashboard/twig/home/home.html',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_admin_dashboard_content', data[0]).done(function() {
+			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0]).done(function() {
 
 				result.resolve();
 			});
 
 		}).fail(function() {
+
 			result.reject();
 		});
 
 		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
-
-	onLogin: function()
-	{
-	},
-
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	stop: function()
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		if(!confirm('Please confirm...'))
 		{
 			return;
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		amiWebApp.lock();
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var command = 'StopAMI';
+		amiCommand.execute('StopAMI').done(function(data) {
 
-		/*---------------------------------------------------------*/
-
-		amiCommand.execute(command).done(function(data) {
-
-			amiWebApp.success(amiWebApp.jspath('..info.$', data)[0], true);
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	restart: function()
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		if(!confirm('Please confirm...'))
 		{
 			return;
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		amiWebApp.lock();
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var command = 'RestartAMI';
+		amiCommand.execute('RestartAMI').done(function(data) {
 
-		/*---------------------------------------------------------*/
-
-		amiCommand.execute(command).done(function(data) {
-
-			amiWebApp.success(amiWebApp.jspath('..info.$', data)[0], true);
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data)[0], true);
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
+
+	flushCommandCache: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('FlushCommandCache').done(function(data) {
+
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	flushServerCaches: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('FlushServerCaches').done(function(data) {
+
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/

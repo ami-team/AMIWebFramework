@@ -10,38 +10,37 @@
 /* AMIAdminDashboardCommands                                               */
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('AMIAdminDashboardCommands', {
-	/*-----------------------------------------------------------------*/
+$AMIClass('AdminDashboardCommands', {
+	/*---------------------------------------------------------------------*/
 
 	_init: function()
 	{
-		$('#ami_jumbotron_content').html('Commands');
-
 		var result = $.Deferred();
 
-		amiWebApp.loadHTMLs([
-			'subapps/AdminDashboard/html/fragment/commands/commands.html',
+		amiWebApp.loadResources([
+			'subapps/AdminDashboard/twig/commands/commands.html',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_admin_dashboard_content', data[0]).done(function() {
+			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0]).done(function() {
 
 				result.resolve();
 			});
 
 		}).fail(function() {
+
 			result.reject();
 		});
 
 		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	onLogin: function()
 	{
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/

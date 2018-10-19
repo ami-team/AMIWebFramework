@@ -17,75 +17,66 @@
 /* AMIAdminDashboardApp                                                    */
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('AMIAdminDashboardApp', {
-	/*-----------------------------------------------------------------*/
+$AMIClass('AdminDashboardApp', {
+	/*---------------------------------------------------------------------*/
 
-	$implements: [ami.ISubApp],
+	$extends: ami.SubApp,
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	onReady: function(userdata)
 	{
-		amiWebApp.loadSheets([
-			'subapps/AdminDashboard/css/AMIAdminDashboardApp.css',
-		]);
+		var result = $.Deferred();
 
-		amiWebApp.loadScripts([
+		amiWebApp.loadResources([
+			'subapps/AdminDashboard/css/AdminDashboardApp.css',
+			'subapps/AdminDashboard/twig/AdminDashboardApp.html',
 			'subapps/AdminDashboard/js/_home.js',
 			'subapps/AdminDashboard/js/_config.js',
 			'subapps/AdminDashboard/js/_roles.js',
 			'subapps/AdminDashboard/js/_commands.js',
 			'subapps/AdminDashboard/js/_users.js',
-			'subapps/AdminDashboard/js/_tasks.js',
-		]);
-
-		$('#ami_jumbotron_title').html('Admin Dashboard');
-		$('#ami_breadcrumb_content').html('<li>Admin</li><li><a href="' + amiWebApp.webAppURL + '?subapp=amiAdminDashboard">Admin Dashboard</a></li>');
-
-		var result = $.Deferred();
-
-		amiWebApp.loadHTMLs([
-			'subapps/AdminDashboard/html/AMIAdminDashboardApp.html',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[1], {context: this}).done(function() {
 
 				var subsubapp;
 
 				/**/ if(userdata === 'config') {
-					subsubapp = this.subsubapp = new AMIAdminDashboardConfig();
+					subsubapp = this.subsubapp = new AdminDashboardConfig();
 				}
 				else if(userdata === 'roles') {
-					subsubapp = this.subsubapp = new AMIAdminDashboardRoles();
+					subsubapp = this.subsubapp = new AdminDashboardRoles();
 				}
 				else if(userdata === 'commands') {
-					subsubapp = this.subsubapp = new AMIAdminDashboardCommands();
+					subsubapp = this.subsubapp = new AdminDashboardCommands();
 				}
 				else if(userdata === 'users') {
-					subsubapp = this.subsubapp = new AMIAdminDashboardUsers();
-				}
-				else if(userdata === 'tasks') {
-					subsubapp = this.subsubapp = new AMIAdminDashboardTasks();
+					subsubapp = this.subsubapp = new AdminDashboardUsers();
 				}
 				else {
-					subsubapp = this.subsubapp = new AMIAdminDashboardHome();
+					subsubapp = this.subsubapp = new AdminDashboardHome();
 				}
 
 				subsubapp._init().done(function() {
+
 					result.resolve();
+
 				}).fail(function() {
+
 					result.reject();
 				});
 			});
 
 		}).fail(function() {
+
 			result.reject();
 		});
 
 		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	onExit: function()
 	{
@@ -95,7 +86,7 @@ $AMIClass('AMIAdminDashboardApp', {
 		}
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	onLogin: function()
 	{
@@ -105,7 +96,7 @@ $AMIClass('AMIAdminDashboardApp', {
 		}
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	onLogout: function()
 	{
@@ -115,15 +106,13 @@ $AMIClass('AMIAdminDashboardApp', {
 		}
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/
 /* GLOBAL INSTANCE                                                         */
 /*-------------------------------------------------------------------------*/
 
-amiAdminDashboardApp = new AMIAdminDashboardApp();
-
-amiRegisterSubApp('amiAdminDashboard', amiAdminDashboardApp);
+adminDashboardApp = new AdminDashboardApp();
 
 /*-------------------------------------------------------------------------*/

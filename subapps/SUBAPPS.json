@@ -1,4 +1,12 @@
 {
+   "adminDashboard":{
+      "file":"subapps\/AdminDashboard\/js\/AdminDashboardApp.js",
+      "instance":"adminDashboardApp",
+      "breadcrumb":[
+         "Admin",
+         "<a href=\"{{WEBAPP_URL}}?subapp=adminDashboard\">Admin Dashboard<\/a>"
+      ]
+   },
    "taskServerAdmin":{
       "file":"subapps\/TaskServerAdmin\/js\/TaskServerAdminApp.js",
       "instance":"taskServerAdminApp",

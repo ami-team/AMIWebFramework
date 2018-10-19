@@ -10,38 +10,37 @@
 /* AMIAdminDashboardRoles                                                  */
 /*-------------------------------------------------------------------------*/
 
-$AMIClass('AMIAdminDashboardRoles', {
-	/*-----------------------------------------------------------------*/
+$AMIClass('AdminDashboardRoles', {
+	/*---------------------------------------------------------------------*/
 
 	_init: function()
 	{
-		$('#ami_jumbotron_content').html('Roles');
-
 		var result = $.Deferred();
 
-		amiWebApp.loadHTMLs([
-			'subapps/AdminDashboard/html/fragment/roles/roles.html',
+		amiWebApp.loadResources([
+			'subapps/AdminDashboard/twig/roles/roles.html',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_admin_dashboard_content', data[0]).done(function() {
+			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0]).done(function() {
 
 				result.resolve();
 			});
 
 		}).fail(function() {
+
 			result.reject();
 		});
 
 		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	onLogin: function()
 	{
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/
