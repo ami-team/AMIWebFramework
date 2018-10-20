@@ -62,6 +62,17 @@ $AMIClass('AdminDashboardConfig', {
 				var name = fields[i]['@name'] || '';
 				var value = fields[i][(('$'))] || '';
 
+				if(name === 'task_server_name'
+				   ||
+				   name === 'task_server_pass'
+				   ||
+				   name === 'task_server_url'
+				   ||
+				   name === 'task_server_user'
+				 ) {
+					continue;
+				}
+
 				var el = $('#D17C089F_FB5D_B2A5_7C9F_65AA0736084F [name = "' + name + '"]')
 
 				if(el.length === 0)
@@ -87,6 +98,48 @@ $AMIClass('AdminDashboardConfig', {
 
 	/*---------------------------------------------------------------------*/
 
+	_save: function()
+	{
+		var names = [], name;
+		var values = [], value;
+
+		var params = $('#D17C089F_FB5D_B2A5_7C9F_65AA0736084F').serializeArray();
+
+		for(var i in params)
+		{
+			name = params[i].name;
+			value = params[i].value;
+
+			if(name.indexOf('|') >= 0) {
+				amiWebApp.error('character `|` not allow in parameter names (' + name + ':' + value + ')', true);
+				return
+			}
+
+			if(value.indexOf('|') >= 0) {
+				amiWebApp.error('character `|` not allow in parameter values (' + name + ':' + value + ')', true);
+				return
+			}
+
+			names.push(amiWebApp.textToString(name));
+			values.push(amiWebApp.textToString(value));
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		return amiCommand.execute('SetConfig -separator="|" -names="' + names.join('|') + '" -values="' + values.join('|') + '"').done(function(data) {
+
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
 	apply: function()
 	{
 		if(!confirm('Please confirm...'))
@@ -95,6 +148,13 @@ $AMIClass('AdminDashboardConfig', {
 		}
 
 		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		this._save().done(function() {
+
+			amiWebApp.unlock();
+		});
 
 		/*-----------------------------------------------------------------*/
 	},
