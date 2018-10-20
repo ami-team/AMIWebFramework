@@ -44,7 +44,36 @@ $AMIClass('AdminDashboardConfig', {
 
 	onLogin: function()
 	{
+		this._load();
+	},
 
+	/*-----------------------------------------------------------------*/
+
+	_load: function()
+	{
+		return amiCommand.execute('GetConfig', {context: this}).done(function(data) {
+
+			var fields = amiWebApp.jspath('..rowset{.@type==="config"}.row.field', data);
+
+			var dict = [];
+
+			for(var i in fields)
+			{
+				var name = fields[i]['@name'] || '';
+				var value = fields[i][(('$'))] || '';
+
+				var el = $('#D17C089F_FB5D_B2A5_7C9F_65AA0736084F [name = "' + name + '"]')
+
+				if(el.length === 1)
+				{
+					el.val(value);
+				}
+				else
+				{
+
+				}
+			}
+		});
 	},
 
 	/*-----------------------------------------------------------------*/
