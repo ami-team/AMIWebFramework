@@ -11,7 +11,7 @@
 /*-------------------------------------------------------------------------*/
 
 $AMIClass('AdminDashboardConfig', {
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	_init: function()
 	{
@@ -40,14 +40,14 @@ $AMIClass('AdminDashboardConfig', {
 		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	onLogin: function()
 	{
 		this._load();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	_load: function()
 	{
@@ -64,19 +64,125 @@ $AMIClass('AdminDashboardConfig', {
 
 				var el = $('#D17C089F_FB5D_B2A5_7C9F_65AA0736084F [name = "' + name + '"]')
 
-				if(el.length === 1)
+				if(el.length === 0)
 				{
-					el.val(value);
+					dict.push({
+						NAME: name,
+						VALUE: value,
+					});
 				}
 				else
 				{
-
+					el.val(value);
 				}
 			}
+
+			amiWebApp.replaceHTML('#B5C738DB_B705_5E37_24CD_B265532D0853', this.fragmentParameter, {dict: dict});
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
+
+	apply: function()
+	{
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	reset: function()
+	{
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		this._load().done(function() {
+
+			amiWebApp.unlock();
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	testEmail: function(email)
+	{
+		amiWebApp.lock();
+
+		amiCommand.execute('TestEmail -from="ami@in2p3.fr" -to="' + amiWebApp.textToString(email) + '"').done(function(data) {
+
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	addParameter: function()
+	{
+		var name = prompt('Parameter name:') || '';
+
+		name = name.trim();
+
+		if(name)
+		{
+			if($('#B5C738DB_B705_5E37_24CD_B265532D0853_' + name).length === 0)
+			{
+				var dict = {
+					NAME: name,
+					VALUE: (('')),
+				};
+
+				amiWebApp.prependHTML('#B5C738DB_B705_5E37_24CD_B265532D0853', this.fragmentParameter, {dict: dict});
+			}
+		else
+		{
+			amiWebApp.error('duplicated parameter name', true);
+		}
+		}
+		else
+		{
+			amiWebApp.error('empty parameter name', true);
+		}
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	delParameter: function(name)
+	{
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		$('#B5C738DB_B705_5E37_24CD_B265532D0853_' + name).parent().parent().remove();
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/

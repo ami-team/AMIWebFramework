@@ -131,7 +131,7 @@
 
 			<div class="card mt-2">
 
-				<h5 class="card-header p-2">Connection pool</h5>
+				<h5 class="card-header p-2"><i class="fa fa-th-large text-primary"></i> Connection pool</h5>
 
 				<div class="card-body">
 
@@ -160,7 +160,7 @@
 
 			<div class="card mt-2">
 
-				<h5 class="card-header p-2">Emails</h5>
+				<h5 class="card-header p-2"><i class="fa fa-envelope text-primary"></i> Emails</h5>
 
 				<div class="card-body">
 
@@ -204,12 +204,15 @@
 						<div class="col-md-6">
 						</div>
 						<div class="col-md-6">
-							<div class="input-group input-group-sm">
-								<input class="form-control" type="email" id="EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6" placeholder="Test email" />
-								<div class="input-group-append">
-									<span class="btn btn-outline-secondary" onclick="amiAdminDashboardApp.subsubapp.testEmail($('#EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6').val());">
-										<i class="fa fa-check"></i>
-									</span>
+							<div class="form-group">
+								<label for="EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6" class="control-label">Test</label>
+								<div class="input-group input-group-sm">
+									<input class="form-control" type="email" id="EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6" placeholder="Email adresse" />
+									<div class="input-group-append">
+										<span class="btn btn-outline-success" onclick="adminDashboardApp.subsubapp.testEmail($('#EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6').val());">
+											<i class="fa fa-check"></i>
+										</span>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -221,7 +224,7 @@
 
 			<div class="card mt-2">
 
-				<h5 class="card-header p-2">Logs</h5>
+				<h5 class="card-header p-2"><i class="fa fa-file-text text-primary"></i> Logs</h5>
 
 				<div class="card-body">
 
@@ -264,16 +267,16 @@
 				<div class="card-body">
 
 					<div class="form-group">
-						<label for="C1F663DC_7E8F_FDC2_4E79_3F1804F5CBF6_use_voms" class="control-label">use_voms (or similar)</label>
-						<select class="form-control form-control-sm" name="use_voms" id="C1F663DC_7E8F_FDC2_4E79_3F1804F5CBF6_use_voms">
+						<label for="C3B15C87_4404_450C_C393_CB43030AB001" class="control-label">use_voms (or similar)</label>
+						<select class="form-control form-control-sm" name="use_voms" id="C3B15C87_4404_450C_C393_CB43030AB001">
 							<option value="false">false</option>
 							<option value="true">true</option>
 						</select>
 					</div>
 
 					<div class="form-group">
-						<label for="C1F663DC_7E8F_FDC2_4E79_3F1804F5CBF6_max_number_of_rows" class="control-label">max_number_of_rows</label>
-						<input class="form-control form-control-sm" type="number" min="1" value="25000" name="max_number_of_rows" id="C1F663DC_7E8F_FDC2_4E79_3F1804F5CBF6_max_number_of_rows" />
+						<label for="F28B83AF_251A_915B_F0FC_993E94E52C17" class="control-label">max_number_of_rows</label>
+						<input class="form-control form-control-sm" type="number" min="1" value="10000" name="max_number_of_rows" id="F28B83AF_251A_915B_F0FC_993E94E52C17" />
 					</div>
 
 				</div>
@@ -282,9 +285,9 @@
 
 			<div class="card mt-2">
 
-				<h5 class="card-header p-2">Custom <a href="javascript:amiAdminDashboardApp.subsubapp.addParameter();"><i class="fa fa-plus-circle"></i></a></h5>
+				<h5 class="card-header p-2">Custom <a href="javascript:adminDashboardApp.subsubapp.addParameter();"><i class="fa fa-plus-circle"></i></a></h5>
 
-				<div class="card-body"></div>
+				<div class="card-body" id="B5C738DB_B705_5E37_24CD_B265532D0853"></div>
 
 			</div>
 
