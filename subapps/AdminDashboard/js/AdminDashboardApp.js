@@ -40,25 +40,23 @@ $AMIClass('AdminDashboardApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[1], {context: this}).done(function() {
 
-				var subsubapp;
-
 				/**/ if(userdata === 'config') {
-					subsubapp = this.subsubapp = new AdminDashboardConfig();
+					this.subsubapp = new AdminDashboardConfig();
 				}
 				else if(userdata === 'roles') {
-					subsubapp = this.subsubapp = new AdminDashboardRoles();
+					this.subsubapp = new AdminDashboardRoles();
 				}
 				else if(userdata === 'commands') {
-					subsubapp = this.subsubapp = new AdminDashboardCommands();
+					this.subsubapp = new AdminDashboardCommands();
 				}
 				else if(userdata === 'users') {
-					subsubapp = this.subsubapp = new AdminDashboardUsers();
+					this.subsubapp = new AdminDashboardUsers();
 				}
 				else {
-					subsubapp = this.subsubapp = new AdminDashboardHome();
+					this.subsubapp = new AdminDashboardHome();
 				}
 
-				subsubapp._init().done(function() {
+				this.subsubapp._init().done(function() {
 
 					result.resolve();
 
@@ -90,9 +88,16 @@ $AMIClass('AdminDashboardApp', {
 
 	onLogin: function()
 	{
-		if(this.subsubapp.onLogin)
+		if(amiLogin.hasRole('AMI_ADMIN'))
 		{
-			this.subsubapp.onLogin();
+			if(this.subsubapp.onLogin)
+			{
+				this.subsubapp.onLogin();
+			}
+		}
+		else
+		{
+			amiWebApp.error('This interface requires administrator roles!');
 		}
 	},
 
@@ -100,9 +105,16 @@ $AMIClass('AdminDashboardApp', {
 
 	onLogout: function()
 	{
-		if(this.subsubapp.onLogout)
+		if(amiLogin.hasRole('AMI_ADMIN'))
 		{
-			this.subsubapp.onLogout();
+			if(this.subsubapp.onLogout)
+			{
+				this.subsubapp.onLogout();
+			}
+		}
+		else
+		{
+			amiWebApp.error('This interface requires administrator roles!');
 		}
 	},
 
