@@ -47,7 +47,10 @@ $AMIClass('AdminDashboardConfig', {
 
 	onLogin: function()
 	{
-		this._load();
+		if($.isEmptyObject(this.paramDict))
+		{
+			this._load();
+		}
 	},
 
 	/*---------------------------------------------------------------------*/
