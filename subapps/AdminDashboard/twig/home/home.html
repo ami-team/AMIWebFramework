@@ -1,8 +1,8 @@
-<div class="row mb-4">
+<div class="row">
 	<!-- **************************************************************** -->
 
 	<div class="col-xl-3">
-		<div class="card">
+		<div class="card mb-4">
 			<div class="card-body pr-2">
 				<div class="row">
 					<div class="col-4">
@@ -25,7 +25,7 @@
 	<!-- **************************************************************** -->
 
 	<div class="col-xl-3">
-		<div class="card">
+		<div class="card mb-4">
 			<div class="card-body pr-2">
 				<div class="row">
 					<div class="col-4">
@@ -48,7 +48,7 @@
 	<!-- **************************************************************** -->
 
 	<div class="col-xl-3">
-		<div class="card">
+		<div class="card mb-4">
 			<div class="card-body pr-2">
 				<div class="row">
 					<div class="col-4">
@@ -71,7 +71,7 @@
 	<!-- **************************************************************** -->
 
 	<div class="col-xl-3">
-		<div class="card">
+		<div class="card mb-4">
 			<div class="card-body pr-2">
 				<div class="row">
 					<div class="col-4">
@@ -94,11 +94,11 @@
 	<!-- **************************************************************** -->
 </div>
 
-<div class="row mb-2">
+<div class="row">
 	<!-- **************************************************************** -->
 
 	<div class="col-xl-3">
-		<div class="card">
+		<div class="card mb-4">
 			<div class="card-body pr-2">
 				<div class="row">
 					<div class="col-4">
@@ -121,7 +121,7 @@
 	<!-- **************************************************************** -->
 
 	<div class="col-xl-3">
-		<div class="card">
+		<div class="card mb-4">
 			<div class="card-body pr-2">
 				<div class="row">
 					<div class="col-4">
@@ -144,7 +144,7 @@
 	<!-- **************************************************************** -->
 
 	<div class="col-xl-3">
-		<div class="card">
+		<div class="card mb-4">
 			<div class="card-body pr-2">
 				<div class="row">
 					<div class="col-4">
@@ -167,7 +167,7 @@
 	<!-- **************************************************************** -->
 
 	<div class="col-xl-3">
-		<div class="card">
+		<div class="card mb-4">
 			<div class="card-body pr-2">
 				<div class="row">
 					<div class="col-4">
@@ -190,17 +190,20 @@
 	<!-- **************************************************************** -->
 </div>
 
-<hr />
-
-<div class="row">
-	<div class="col-md-4">
-		<p><i class="fa fa-arrow-circle-right"></i> <a href="javascript:adminDashboardApp.subsubapp.stop();">Stop AMI</a></p>
-
-		<p><i class="fa fa-arrow-circle-right"></i> <a href="javascript:adminDashboardApp.subsubapp.restart();">Restart AMI</a></p>
-	</div>
-	<div class="col-md-4">
-		<p><i class="fa fa-arrow-circle-right"></i> <a href="javascript:adminDashboardApp.subsubapp.flushCommandCache();">Flush command cache</a></p>
-
-		<p><i class="fa fa-arrow-circle-right"></i> <a href="javascript:adminDashboardApp.subsubapp.flushServerCaches();">Flush server caches</a></p>
+<div class="card">
+	<div class="card-body py-2 row">
+		<div class="col-md-4 text-left">
+			<i class="fa fa-arrow-circle-right"></i> <a href="javascript:adminDashboardApp.subsubapp.stop();">Stop AMI</a>
+			<br />
+			<i class="fa fa-arrow-circle-right"></i> <a href="javascript:adminDashboardApp.subsubapp.restart();">Restart AMI</a>
+		</div>
+		<div class="col-md-4 text-left">
+			<i class="fa fa-arrow-circle-right"></i> <a href="javascript:adminDashboardApp.subsubapp.flushCommandCache();">Flush command cache</a>
+			<br />
+			<i class="fa fa-arrow-circle-right"></i> <a href="javascript:adminDashboardApp.subsubapp.flushServerCaches();">Flush server caches</a>
+		</div>
+		<div class="col-md-4 text-right">
+			<img src="{{ORIGIN_URL}}/images/logo.png" alt="AMI" style="height: 45px;" />
+		</div>
 	</div>
 </div>
