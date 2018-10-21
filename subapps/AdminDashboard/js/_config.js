@@ -28,6 +28,9 @@ $AMIClass('AdminDashboardConfig', {
 
 					this.fragmentParameter = data[2];
 
+					this.paramDict = {};
+					this.paramDel = [];
+
 					result.resolve();
 				});
 			});
@@ -59,6 +62,8 @@ $AMIClass('AdminDashboardConfig', {
 
 			for(var i in fields)
 			{
+				/*---------------------------------------------------------*/
+
 				var name = fields[i]['@name'] || '';
 				var value = fields[i][(('$'))] || '';
 
@@ -73,6 +78,12 @@ $AMIClass('AdminDashboardConfig', {
 					continue;
 				}
 
+				/*---------------------------------------------------------*/
+
+				this.paramDict[name] = value;
+
+				/*---------------------------------------------------------*/
+
 				var el = $('#D17C089F_FB5D_B2A5_7C9F_65AA0736084F [name = "' + name + '"]')
 
 				if(el.length === 0)
@@ -86,6 +97,8 @@ $AMIClass('AdminDashboardConfig', {
 				{
 					el.val(value);
 				}
+
+				/*---------------------------------------------------------*/
 			}
 
 			amiWebApp.replaceHTML('#B5C738DB_B705_5E37_24CD_B265532D0853', this.fragmentParameter, {dict: dict});
@@ -110,18 +123,21 @@ $AMIClass('AdminDashboardConfig', {
 			name = params[i].name;
 			value = params[i].value;
 
-			if(name.indexOf('|') >= 0) {
-				amiWebApp.error('character `|` not allow in parameter names (' + name + ':' + value + ')', true);
-				return
-			}
+			if(this.paramDict[name] !== value)
+			{
+				if(name.indexOf('|') >= 0) {
+					amiWebApp.error('character `|` not allow in parameter names (' + name + ':' + value + ')', true);
+					return
+				}
 
-			if(value.indexOf('|') >= 0) {
-				amiWebApp.error('character `|` not allow in parameter values (' + name + ':' + value + ')', true);
-				return
-			}
+				if(value.indexOf('|') >= 0) {
+					amiWebApp.error('character `|` not allow in parameter values (' + name + ':' + value + ')', true);
+					return
+				}
 
-			names.push(amiWebApp.textToString(name));
-			values.push(amiWebApp.textToString(value));
+				names.push(amiWebApp.textToString(name));
+				values.push(amiWebApp.textToString(value));
+			}
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -215,10 +231,10 @@ $AMIClass('AdminDashboardConfig', {
 
 				amiWebApp.prependHTML('#B5C738DB_B705_5E37_24CD_B265532D0853', this.fragmentParameter, {dict: dict});
 			}
-		else
-		{
-			amiWebApp.error('duplicated parameter name', true);
-		}
+			else
+			{
+				amiWebApp.error('duplicated parameter name', true);
+			}
 		}
 		else
 		{
@@ -233,6 +249,15 @@ $AMIClass('AdminDashboardConfig', {
 		if(!confirm('Please confirm...'))
 		{
 			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		if(name in this.paramDict)
+		{
+			this.paramDel.push(name);
+
+			delete this.paramDict[name];
 		}
 
 		/*-----------------------------------------------------------------*/
