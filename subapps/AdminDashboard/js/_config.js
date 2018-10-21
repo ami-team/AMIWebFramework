@@ -58,6 +58,9 @@ $AMIClass('AdminDashboardConfig', {
 
 			var fields = amiWebApp.jspath('..rowset{.@type==="config"}.row.field', data);
 
+			this.paramDict = {};
+			this.paramDel = [];
+
 			var dict = [];
 
 			for(var i in fields)
