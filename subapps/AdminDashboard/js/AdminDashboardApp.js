@@ -80,7 +80,7 @@ $AMIClass('AdminDashboardApp', {
 	{
 		if(this.subsubapp.onExit)
 		{
-			this.subsubapp.onExit();
+			return this.subsubapp.onExit();
 		}
 	},
 
@@ -92,7 +92,7 @@ $AMIClass('AdminDashboardApp', {
 		{
 			if(this.subsubapp.onLogin)
 			{
-				this.subsubapp.onLogin();
+				return this.subsubapp.onLogin();
 			}
 		}
 		else
@@ -105,16 +105,9 @@ $AMIClass('AdminDashboardApp', {
 
 	onLogout: function()
 	{
-		if(amiLogin.hasRole('AMI_ADMIN'))
+		if(this.subsubapp.onLogout)
 		{
-			if(this.subsubapp.onLogout)
-			{
-				this.subsubapp.onLogout();
-			}
-		}
-		else
-		{
-			amiWebApp.error('This interface requires administrator roles!');
+			return this.subsubapp.onLogout();
 		}
 	},
 

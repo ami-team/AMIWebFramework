@@ -47,24 +47,10 @@ $AMIClass('AdminDashboardConfig', {
 
 	onLogin: function()
 	{
-		var result = $.Deferred();
-
 		if($.isEmptyObject(this.paramDict))
 		{
-			this._load().fail(function() {
-
-				result.reject();
-
-			}).done(function() {
-
-				result.resolve();
-			});
+			return this._load();
 		}
-		else {
-			result.resolve();
-		}
-
-		return result;
 	},
 
 	/*---------------------------------------------------------------------*/
