@@ -1,0 +1,59 @@
+<h1>Users</h1>
+
+{% if rolesForUsers is not empty %}
+<div class="table-responsive">
+	<table class="table table-sm table-striped">
+		<thead>
+			<tr>
+				<th>User</th>
+				<th>First name</th>
+				<th>Last name</th>
+				<th>Email</th>
+				<th>Valid</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for user in rolesForUsers|keys %}
+			<tr>
+				<td>
+					{{rolesForUsers[user].AMIUser|e}}
+				</td>
+				<td>
+					{{rolesForUsers[user].firstname|e}}
+				</td>
+				<td>
+					{{rolesForUsers[user].lastname|e}}
+				</td>
+				<td>
+					{{rolesForUsers[user].email|e}}
+				</td>
+				<td>
+					<input type="checkbox" {% if rolesForUsers[user].valid !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-toggle="toggle" data-offstyle="outline-danger" data-onstyle="outline-primary" data-admin-valid="{{rolesForUsers[user].AMIUser|e}}" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="6">
+					<select class="w-100" multiple="multiple" data-admin-role="{{rolesForUsers[user].AMIUser|e}}">
+						{% for role in roles %}
+						<option {% if role in rolesForUsers[user].roles %}selected="selected"{% else %}xxxxxxxx="xxxxxxxx"{% endif %}>{{role|e}}</option>
+						{% endfor %}
+					</select>
+					<br />
+					<small data-admin-client-dn="{{rolesForUsers[user].AMIUser|e}}">
+						<span class="badge badge-primary">Client DN</span>
+						<span class="value">{{rolesForUsers[user].clientDN|e}}</span>
+					</small>
+					<br />
+					<small data-admin-issuer-dn="{{rolesForUsers[user].AMIUser|e}}">
+						<span class="badge badge-danger">Issuer DN</span>
+						<span class="value">{{rolesForUsers[user].issuerDN|e}}</span>
+					</small>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% else %}
+No result found.
+{% endif %}
