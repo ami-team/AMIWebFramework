@@ -73,9 +73,9 @@ $AMIClass('AdminDashboardUsers', {
 		filter = filter.trim();
 
 
-		amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`AMIUser`, `router_role`.`role` WHERE `router_user`.`AMIUser` LIKE \'%' + filter + '%\'"', {context: this}).done(function(data2) {
+		amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`id`, `router_role`.`role` WHERE `router_user`.`AMIUser` LIKE \'%' + filter + '%\'"', {context: this}).done(function(data2) {
 
-			amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `AMIUser`, `clientDN`, `issuerDN`, `firstName`, `lastName`, `email`, `valid` WHERE `AMIUser` LIKE \'%' + filter + '%\' ORDER BY `AMIUser`"', {context: this}).done(function(data1) {
+			amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `id`, `AMIUser`, `clientDN`, `issuerDN`, `firstName`, `lastName`, `email`, `valid` WHERE `AMIUser` LIKE \'%' + filter + '%\' ORDER BY `AMIUser`"', {context: this}).done(function(data1) {
 
 				var rows1 = amiWebApp.jspath('..rowset.row', data1) || [];
 				var rows2 = amiWebApp.jspath('..rowset.row', data2) || [];
@@ -84,6 +84,7 @@ $AMIClass('AdminDashboardUsers', {
 
 				rows1.forEach(function(row) {
 
+					var id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
 					var AMIUser = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', row)[0] || '';
 					var clientDN = amiWebApp.jspath('..field{.@name==="clientDN"}.$', row)[0] || '';
 					var issuerDN = amiWebApp.jspath('..field{.@name==="issuerDN"}.$', row)[0] || '';
@@ -92,7 +93,7 @@ $AMIClass('AdminDashboardUsers', {
 					var email = amiWebApp.jspath('..field{.@name==="email"}.$', row)[0] || '';
 					var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', row)[0] || '';
 
-					rolesForUsers[AMIUser] = {
+					rolesForUsers[id] = {
 						AMIUser: AMIUser,
 						clientDN: clientDN,
 						issuerDN: issuerDN,
@@ -106,21 +107,21 @@ $AMIClass('AdminDashboardUsers', {
 
 				rows2.forEach(function(row) {
 
-					var AMIUser = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', row)[0] || '';
+					var id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
 					var role = amiWebApp.jspath('..field{.@name==="role"}.$', row)[0] || '';
 
-					rolesForUsers[AMIUser].roles.push(role);
+					rolesForUsers[id].roles.push(role);
 				});
 
 				amiWebApp.replaceHTML('#FCBD6DFC_2061_8CC3_652C_77671A179AAC', this.fragmentTable, {dict: {roles: this.roles, rolesForUsers: rolesForUsers}}).done(function() {
 
-					var el1 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-valid]");
+					var el1 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-valid]");
 
-					var el2 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-role]");
+					var el2 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-role]");
 
-					var el3 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-client-dn");
+					var el3 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-client-dn");
 
-					var el4 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-issuer-dn");
+					var el4 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-issuer-dn");
 
 					/*-----------------------------------------------------*/
 
@@ -134,7 +135,7 @@ $AMIClass('AdminDashboardUsers', {
 
 						amiWebApp.lock();
 
-						amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="valid" -values="' + ($(this).prop('checked') ? 1 : 0) + '" -keyFields="AMIUser" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-valid')) + '"', {context: this}).done(function(data) {
+						amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="valid" -values="' + ($(this).prop('checked') ? 1 : 0) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-valid')) + '"', {context: this}).done(function(data) {
 
 							amiWebApp.unlock();
 
@@ -150,7 +151,7 @@ $AMIClass('AdminDashboardUsers', {
 
 						amiWebApp.lock();
 
-						amiCommand.execute('AddUserRole -user="' + amiWebApp.textToString($(this).attr('data-admin-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+						amiCommand.execute('AddUserRole -user="' + amiWebApp.textToString($(this).attr('data-change-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
 
 							amiWebApp.unlock();
 
@@ -166,7 +167,7 @@ $AMIClass('AdminDashboardUsers', {
 
 						amiWebApp.lock();
 
-						amiCommand.execute('RemoveUserRole -user="' + amiWebApp.textToString($(this).attr('data-admin-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+						amiCommand.execute('RemoveUserRole -user="' + amiWebApp.textToString($(this).attr('data-change-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
 
 							amiWebApp.unlock();
 
@@ -186,7 +187,7 @@ $AMIClass('AdminDashboardUsers', {
 						{
 							amiWebApp.lock();
 
-							amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="clientDN" -values="' + amiWebApp.textToString(clientDN) + '" -keyFields="AMIUser" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-client-dn')) + '"', {context: this}).done(function(data) {
+							amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="clientDN" -values="' + amiWebApp.textToString(clientDN) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-client-dn')) + '"', {context: this}).done(function(data) {
 
 								$(this).find('.value').text(clientDN);
 
@@ -209,7 +210,7 @@ $AMIClass('AdminDashboardUsers', {
 						{
 							amiWebApp.lock();
 
-							amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="issuerDN" -values="' + amiWebApp.textToString(issuerDN) + '" -keyFields="AMIUser" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-issuer-dn')) + '"', {context: this}).done(function(data) {
+							amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="issuerDN" -values="' + amiWebApp.textToString(issuerDN) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-issuer-dn')) + '"', {context: this}).done(function(data) {
 
 								$(this).find('.value').text(issuerDN);
 

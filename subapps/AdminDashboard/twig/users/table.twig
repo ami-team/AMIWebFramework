@@ -13,43 +13,43 @@
 			</tr>
 		</thead>
 		<tbody>
-			{% for user in rolesForUsers|keys %}
+			{% for id in rolesForUsers|keys %}
 			<tr>
 				<td>
-					{{rolesForUsers[user].AMIUser|e}}
+					{{rolesForUsers[id].AMIUser|e}}
 				</td>
 				<td>
-					{{rolesForUsers[user].firstname|e}}
+					{{rolesForUsers[id].firstname|e}}
 				</td>
 				<td>
-					{{rolesForUsers[user].lastname|e}}
+					{{rolesForUsers[id].lastname|e}}
 				</td>
 				<td>
-					{{rolesForUsers[user].email|e}}
+					{{rolesForUsers[id].email|e}}
 				</td>
 				<td>
-					<span class="switch switch-sm switch-primary">
-						<input type="checkbox" id="C3EBBFBD_2964_CCBA_92E4_E7C8C36CA916_0_{{loop.index0}}" {% if rolesForUsers[user].valid !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-admin-valid="{{rolesForUsers[user].AMIUser|e}}" />
+					<span class="switch switch-sm switch-on-primary switch-off-danger">
+						<input type="checkbox" id="C3EBBFBD_2964_CCBA_92E4_E7C8C36CA916_0_{{loop.index0}}" {% if rolesForUsers[id].valid !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-change-valid="{{id|e}}" />
 						<label for="C3EBBFBD_2964_CCBA_92E4_E7C8C36CA916_0_{{loop.index0}}"></label>
 					</span>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="6">
-					<select class="w-100" multiple="multiple" data-admin-role="{{rolesForUsers[user].AMIUser|e}}">
+					<select class="w-100" multiple="multiple" data-change-role="{{rolesForUsers[id].AMIUser|e}}">
 						{% for role in roles %}
-						<option {% if role in rolesForUsers[user].roles %}selected="selected"{% else %}xxxxxxxx="xxxxxxxx"{% endif %}>{{role|e}}</option>
+						<option {% if role in rolesForUsers[id].roles %}selected="selected"{% else %}xxxxxxxx="xxxxxxxx"{% endif %}>{{role|e}}</option>
 						{% endfor %}
 					</select>
 					<br />
-					<small data-admin-client-dn="{{rolesForUsers[user].AMIUser|e}}">
+					<small data-change-client-dn="{{id|e}}">
 						<span class="badge badge-primary">Client DN</span>
-						<span class="value">{{rolesForUsers[user].clientDN|e}}</span>
+						<span class="value">{{rolesForUsers[id].clientDN|e}}</span>
 					</small>
 					<br />
-					<small data-admin-issuer-dn="{{rolesForUsers[user].AMIUser|e}}">
+					<small data-change-issuer-dn="{{id|e}}">
 						<span class="badge badge-danger">Issuer DN</span>
-						<span class="value">{{rolesForUsers[user].issuerDN|e}}</span>
+						<span class="value">{{rolesForUsers[id].issuerDN|e}}</span>
 					</small>
 				</td>
 			</tr>

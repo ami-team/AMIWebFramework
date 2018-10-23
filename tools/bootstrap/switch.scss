@@ -1,0 +1,243 @@
+//
+// Switches for Bootstrap 4.
+//
+// - Fully customizable with Sass variables
+// - No JavaScript required
+// - Fully accessible
+//
+
+//-------------------------------------------------------------------------
+
+$switch-height: calc(#{$input-height} * .8) !default;
+$switch-height-sm: calc(#{$input-height-sm} * .8) !default;
+$switch-height-lg: calc(#{$input-height-lg} * .8) !default;
+$switch-border-radius: $switch-height !default;
+$switch-disabled-bg: $custom-control-indicator-disabled-bg !default;
+$switch-disabled-color: $custom-control-label-disabled-color !default;
+$switch-thumb-bg: $white !default;
+$switch-thumb-border-radius: 50% !default;
+$switch-thumb-padding: 2px !default;
+$switch-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba(map-get($theme-colors, 'primary'), .25);
+$switch-transition: .2s all !default;
+
+//-------------------------------------------------------------------------
+
+.switch {
+	font-size: $font-size-base;
+	position: relative;
+
+	input {
+		//-----------------------------------------------------------------
+
+		background: none;
+		border: 0;
+		clip: rect(0 0 0 0);
+		clip-path: inset(50%);
+		overflow: hidden;
+		position: absolute;
+		height: 1px;
+		width: 1px;
+
+		//-----------------------------------------------------------------
+
+		+ label {
+			border-radius: $switch-border-radius;
+			cursor: pointer;
+			display: inline-block;
+			height: $switch-height;
+			line-height: $switch-height;
+			margin: 0;
+			min-width: calc(#{$switch-height} * 2);
+			outline: none;
+			position: relative;
+			text-indent: calc(calc(#{$switch-height} * 2) + .5rem);
+			user-select: none;
+			vertical-align: middle;
+		}
+
+		//-----------------------------------------------------------------
+
+		+ label::before,
+		+ label::after {
+			bottom: 0;
+			content: '';
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: calc(#{$switch-height} * 2);
+		}
+
+		//-----------------------------------------------------------------
+
+		+ label::before {
+			border-radius: $switch-border-radius;
+			right: 0;
+			transition: $switch-transition;
+		}
+
+		+ label::after {
+			background-color: $switch-thumb-bg;
+			border-radius: $switch-thumb-border-radius;
+			top: $switch-thumb-padding;
+			left: $switch-thumb-padding;
+			transition: $switch-transition;
+			height: calc(#{$switch-height} - calc(#{$switch-thumb-padding} * 2));
+			width: calc(#{$switch-height} - calc(#{$switch-thumb-padding} * 2));
+		}
+
+		//-----------------------------------------------------------------
+
+		&:checked + label::after {
+			margin-left: $switch-height;
+		}
+
+		//-----------------------------------------------------------------
+
+		&:focus + label::before {
+			outline: none;
+			box-shadow: $switch-focus-box-shadow;
+		}
+
+		//-----------------------------------------------------------------
+
+		&:disabled + label {
+			color: $switch-disabled-color;
+			cursor: not-allowed;
+		}
+
+		&:disabled + label::before {
+			background-color: $switch-disabled-bg;
+		}
+
+		//-----------------------------------------------------------------
+	}
+
+	//---------------------------------------------------------------------
+
+	&.switch-off-primary input + label::before {
+		background-color: map-get($theme-colors, 'primary');
+	}
+	
+	&.switch-off-secondary input + label::before {
+		background-color: map-get($theme-colors, 'secondary');
+	}
+	
+	&.switch-off-success input + label::before {
+		background-color: map-get($theme-colors, 'success');
+	}
+	
+	&.switch-off-danger input + label::before {
+		background-color: map-get($theme-colors, 'danger');
+	}
+	
+	&.switch-off-warning input + label::before {
+		background-color: map-get($theme-colors, 'warning');
+	}
+	
+	&.switch-off-info input + label::before {
+		background-color: map-get($theme-colors, 'info');
+	}
+	
+	&.switch-off-light input + label::before {
+		background-color: map-get($theme-colors, 'light');
+	}
+	
+	&.switch-off-dark input + label::before {
+		background-color: map-get($theme-colors, 'dark');
+	}
+
+	//---------------------------------------------------------------------
+
+	&.switch-on-primary input:checked + label::before {
+		background-color: map-get($theme-colors, 'primary');
+	}
+	
+	&.switch-on-secondary input:checked + label::before {
+		background-color: map-get($theme-colors, 'secondary');
+	}
+	
+	&.switch-on-success input:checked + label::before {
+		background-color: map-get($theme-colors, 'success');
+	}
+	
+	&.switch-on-danger input:checked + label::before {
+		background-color: map-get($theme-colors, 'danger');
+	}
+	
+	&.switch-on-warning input:checked + label::before {
+		background-color: map-get($theme-colors, 'warning');
+	}
+	
+	&.switch-on-info input:checked + label::before {
+		background-color: map-get($theme-colors, 'info');
+	}
+	
+	&.switch-on-light input:checked + label::before {
+		background-color: map-get($theme-colors, 'light');
+	}
+	
+	&.switch-on-dark input:checked + label::before {
+		background-color: map-get($theme-colors, 'dark');
+	}
+
+	//---------------------------------------------------------------------
+
+	&.switch-sm {
+		font-size: $font-size-sm;
+
+		input {
+			+ label {
+				height: $switch-height-sm;
+				line-height: $switch-height-sm;
+				min-width: calc(#{$switch-height-sm} * 2);
+				text-indent: calc(calc(#{$switch-height-sm} * 2) + .5rem);
+			}
+
+			+ label::before {
+				width: calc(#{$switch-height-sm} * 2);
+			}
+
+			+ label::after {
+				height: calc(#{$switch-height-sm} - calc(#{$switch-thumb-padding} * 2));
+				width: calc(#{$switch-height-sm} - calc(#{$switch-thumb-padding} * 2));
+			}
+
+			&:checked + label::after {
+				margin-left: $switch-height-sm;
+			}
+		}
+	}
+
+	//---------------------------------------------------------------------
+
+	&.switch-lg {
+		font-size: $font-size-lg;
+
+		input {
+			+ label {
+				height: $switch-height-lg;
+				line-height: $switch-height-lg;
+				min-width: calc(#{$switch-height-lg} * 2);
+				text-indent: calc(calc(#{$switch-height-lg} * 2) + .5rem);
+			}
+
+			+ label::before {
+				width: calc(#{$switch-height-lg} * 2);
+			}
+
+			+ label::after {
+				height: calc(#{$switch-height-lg} - calc(#{$switch-thumb-padding} * 2));
+				width: calc(#{$switch-height-lg} - calc(#{$switch-thumb-padding} * 2));
+			}
+
+			&:checked + label::after {
+				margin-left: $switch-height-lg;
+			}
+		}
+	}
+
+	//---------------------------------------------------------------------
+}
+
+//-------------------------------------------------------------------------
