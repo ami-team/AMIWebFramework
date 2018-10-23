@@ -29,6 +29,7 @@ $AMIClass('AdminDashboardConfig', {
 					this.fragmentParameter = data[2];
 
 					this.paramDict = {};
+
 					this.paramDel = [];
 
 					result.resolve();
@@ -60,6 +61,8 @@ $AMIClass('AdminDashboardConfig', {
 		return amiCommand.execute('GetConfig', {context: this}).done(function(data) {
 
 			var fields = amiWebApp.jspath('..rowset{.@type==="config"}.row.field', data);
+
+			$('#B5C738DB_B705_5E37_24CD_B265532D0853').empty();
 
 			this.paramDict = {};
 			this.paramDel = [];
@@ -148,7 +151,18 @@ $AMIClass('AdminDashboardConfig', {
 
 		/*-----------------------------------------------------------------*/
 
-		return amiCommand.execute('SetConfig -separator="|" -names="' + names.join('|') + '" -values="' + values.join('|') + '"').done(function(data) {
+		for(var j in this.paramDel)
+		{
+			name = this.paramDel[j];
+			value = ((('::null::')));
+
+			names.push(amiWebApp.textToString(name));
+			values.push(amiWebApp.textToString(value));
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		return amiCommand.execute('UpdateConfig -separator="|" -names="' + names.join('|') + '" -values="' + values.join('|') + '"').done(function(data) {
 
 			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
@@ -208,7 +222,7 @@ $AMIClass('AdminDashboardConfig', {
 	{
 		amiWebApp.lock();
 
-		amiCommand.execute('TestEmail -from="ami@in2p3.fr" -to="' + amiWebApp.textToString(email) + '"').done(function(data) {
+		amiCommand.execute('SendEmail -from="' + amiWebApp.textToString(this.paramDict['admin_email']) + '" -to="' + amiWebApp.textToString(email) + '" -subject="Test" -message="This is a test."').done(function(data) {
 
 			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
@@ -259,10 +273,10 @@ $AMIClass('AdminDashboardConfig', {
 
 		/*-----------------------------------------------------------------*/
 
+		this.paramDel.push(name);
+
 		if(name in this.paramDict)
 		{
-			this.paramDel.push(name);
-
 			delete this.paramDict[name];
 		}
 

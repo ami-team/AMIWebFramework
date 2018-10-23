@@ -76,6 +76,8 @@ $switch-transition: .2s all !default;
 			transition: $switch-transition;
 		}
 
+		//-----------------------------------------------------------------
+
 		+ label::after {
 			background-color: $switch-thumb-bg;
 			border-radius: $switch-thumb-border-radius;

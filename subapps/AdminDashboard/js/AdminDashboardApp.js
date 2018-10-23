@@ -29,7 +29,6 @@ $AMIClass('AdminDashboardApp', {
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
-			'subapps/AdminDashboard/css/AdminDashboardApp.css',
 			'subapps/AdminDashboard/twig/AdminDashboardApp.twig',
 			'subapps/AdminDashboard/js/_home.js',
 			'subapps/AdminDashboard/js/_config.js',
@@ -38,7 +37,7 @@ $AMIClass('AdminDashboardApp', {
 			'subapps/AdminDashboard/js/_users.js',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[1], {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
 				/**/ if(userdata === 'config') {
 					this.subsubapp = new AdminDashboardConfig();
