@@ -72,7 +72,7 @@ $AMIClass('AdminDashboardCommands', {
 
 		filter = filter.trim();
 
-		return amiCommand.execute('SearchQuery -catalog="self" -entity="router_command" -mql="SELECT `router_command`.`command`, `router_command`.`class`, `router_command`.`visible`, `router_command`.`secured`, `router_role`.`role` WHERE `router_command`.`command` LIKE \'%' + filter + '%\'"', {context: this}).done(function(data) {
+		return amiCommand.execute('SearchQuery -catalog="self" -entity="router_command" -mql="SELECT `router_command`.`command`, `router_command`.`class`, `router_command`.`visible`, `router_command`.`secured`, `router_role`.`role` WHERE `router_command`.`command` LIKE \'%' + filter + '%\' ORDER BY `router_command`.`command`"', {context: this}).done(function(data) {
 
 			var rows = amiWebApp.jspath('..rowset.row', data) || [];
 
