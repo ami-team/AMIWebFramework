@@ -72,25 +72,26 @@ $AMIClass('AdminDashboardUsers', {
 
 		filter = filter.trim();
 
-		return amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`AMIUser`, `router_user`.`clientDN`, `router_user`.`issuerDN`, `router_user`.`firstName`, `router_user`.`lastName`, `router_user`.`email`, `router_user`.`valid`, `router_role`.`role` WHERE `router_user`.`AMIUser` LIKE \'%' + filter + '%\' ORDER BY `router_user`.`AMIUser`"', {context: this}).done(function(data) {
 
-			var rows = amiWebApp.jspath('..rowset.row', data) || [];
+		amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`AMIUser`, `router_role`.`role` WHERE `router_user`.`AMIUser` LIKE \'%' + filter + '%\'"', {context: this}).done(function(data2) {
 
-			var rolesForUsers = {};
+			amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `AMIUser`, `clientDN`, `issuerDN`, `firstName`, `lastName`, `email`, `valid` WHERE `AMIUser` LIKE \'%' + filter + '%\' ORDER BY `AMIUser`"', {context: this}).done(function(data1) {
 
-			rows.forEach(function(row) {
+				var rows1 = amiWebApp.jspath('..rowset.row', data1) || [];
+				var rows2 = amiWebApp.jspath('..rowset.row', data2) || [];
 
-				var AMIUser = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', row)[0] || '';
-				var clientDN = amiWebApp.jspath('..field{.@name==="clientDN"}.$', row)[0] || '';
-				var issuerDN = amiWebApp.jspath('..field{.@name==="issuerDN"}.$', row)[0] || '';
-				var firstname = amiWebApp.jspath('..field{.@name==="firstName"}.$', row)[0] || '';
-				var lastname = amiWebApp.jspath('..field{.@name==="lastName"}.$', row)[0] || '';
-				var email = amiWebApp.jspath('..field{.@name==="email"}.$', row)[0] || '';
-				var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', row)[0] || '';
-				var role = amiWebApp.jspath('..field{.@name==="role"}.$', row)[0] || '';
+				var rolesForUsers = {};
 
-				if(!(AMIUser in rolesForUsers))
-				{
+				rows1.forEach(function(row) {
+
+					var AMIUser = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', row)[0] || '';
+					var clientDN = amiWebApp.jspath('..field{.@name==="clientDN"}.$', row)[0] || '';
+					var issuerDN = amiWebApp.jspath('..field{.@name==="issuerDN"}.$', row)[0] || '';
+					var firstname = amiWebApp.jspath('..field{.@name==="firstName"}.$', row)[0] || '';
+					var lastname = amiWebApp.jspath('..field{.@name==="lastName"}.$', row)[0] || '';
+					var email = amiWebApp.jspath('..field{.@name==="email"}.$', row)[0] || '';
+					var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', row)[0] || '';
+
 					rolesForUsers[AMIUser] = {
 						AMIUser: AMIUser,
 						clientDN: clientDN,
@@ -101,76 +102,86 @@ $AMIClass('AdminDashboardUsers', {
 						valid: valid,
 						roles: [],
 					};
-				}
-
-				rolesForUsers[AMIUser].roles.push(role);
-			});
-
-			amiWebApp.replaceHTML('#FCBD6DFC_2061_8CC3_652C_77671A179AAC', this.fragmentTable, {dict: {roles: this.roles, rolesForUsers: rolesForUsers}}).done(function() {
-
-				var el1 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-valid]");
-
-				var el2 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-role]");
-
-				/*---------------------------------------------------------*/
-
-				el2.select2({
-					placeholder: 'Select a role',
 				});
 
-				/*---------------------------------------------------------*/
+				rows2.forEach(function(row) {
 
-				el1.change(function() {
+					var AMIUser = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', row)[0] || '';
+					var role = amiWebApp.jspath('..field{.@name==="role"}.$', row)[0] || '';
 
-					amiWebApp.lock();
+					rolesForUsers[AMIUser].roles.push(role);
+				});
 
-					amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="valid" -values="' + ($(this).prop('checked') ? 1 : 0) + '" -keyFields="AMIUser" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-valid')) + '"', {context: this}).done(function(data) {
+				amiWebApp.replaceHTML('#FCBD6DFC_2061_8CC3_652C_77671A179AAC', this.fragmentTable, {dict: {roles: this.roles, rolesForUsers: rolesForUsers}}).done(function() {
 
-						amiWebApp.unlock();
+					var el1 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-valid]");
 
-					}).fail(function(data) {
+					var el2 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-role]");
 
-						amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+					/*-----------------------------------------------------*/
+
+					el2.select2({
+						placeholder: 'Select a role',
 					});
-				});
 
-				/*---------------------------------------------------------*/
+					/*-----------------------------------------------------*/
 
-				el2.on('select2:select', function(e) {
+					el1.change(function() {
 
-					amiWebApp.lock();
+						amiWebApp.lock();
 
-					amiCommand.execute('AddUserRole -user="' + amiWebApp.textToString($(this).attr('data-admin-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+						amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="valid" -values="' + ($(this).prop('checked') ? 1 : 0) + '" -keyFields="AMIUser" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-valid')) + '"', {context: this}).done(function(data) {
 
-						amiWebApp.unlock();
+							amiWebApp.unlock();
 
-					}).fail(function(data) {
+						}).fail(function(data) {
 
-						amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+						});
 					});
-				});
 
-				/*---------------------------------------------------------*/
+					/*-----------------------------------------------------*/
 
-				el2.on('select2:unselect', function(e) {
+					el2.on('select2:select', function(e) {
 
-					amiWebApp.lock();
+						amiWebApp.lock();
 
-					amiCommand.execute('RemoveUserRole -user="' + amiWebApp.textToString($(this).attr('data-admin-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+						amiCommand.execute('AddUserRole -user="' + amiWebApp.textToString($(this).attr('data-admin-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
 
-						amiWebApp.unlock();
+							amiWebApp.unlock();
 
-					}).fail(function(data) {
+						}).fail(function(data) {
 
-						amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+						});
 					});
+
+					/*-----------------------------------------------------*/
+
+					el2.on('select2:unselect', function(e) {
+
+						amiWebApp.lock();
+
+						amiCommand.execute('RemoveUserRole -user="' + amiWebApp.textToString($(this).attr('data-admin-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+
+							amiWebApp.unlock();
+
+						}).fail(function(data) {
+
+							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+						});
+					});
+
+					/*-----------------------------------------------------*/
+
+					amiWebApp.unlock();
+
+					/*-----------------------------------------------------*/
 				});
 
-				/*---------------------------------------------------------*/
+			}).fail(function(data) {
 
-				amiWebApp.unlock();
-
-				/*---------------------------------------------------------*/
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 			});
 
 		}).fail(function(data) {
