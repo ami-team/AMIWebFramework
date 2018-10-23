@@ -118,6 +118,10 @@ $AMIClass('AdminDashboardUsers', {
 
 					var el2 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-role]");
 
+					var el3 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-client-dn");
+
+					var el4 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-issuer-dn");
+
 					/*-----------------------------------------------------*/
 
 					el2.select2({
@@ -170,6 +174,52 @@ $AMIClass('AdminDashboardUsers', {
 
 							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 						});
+					});
+
+					/*-----------------------------------------------------*/
+
+					el3.on('click', function(e) {
+
+						var clientDN = prompt('New client DN', $(this).find('.value').text());
+
+						if(clientDN)
+						{
+							amiWebApp.lock();
+
+							amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="clientDN" -values="' + amiWebApp.textToString(clientDN) + '" -keyFields="AMIUser" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-client-dn')) + '"', {context: this}).done(function(data) {
+
+								$(this).find('.value').text(clientDN);
+
+								amiWebApp.unlock();
+
+							}).fail(function(data) {
+
+								amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							});
+						}
+					});
+
+					/*-----------------------------------------------------*/
+
+					el4.on('click', function(e) {
+
+						var issuerDN = prompt('New issuer DN', $(this).find('.value').text());
+
+						if(issuerDN)
+						{
+							amiWebApp.lock();
+
+							amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="issuerDN" -values="' + amiWebApp.textToString(issuerDN) + '" -keyFields="AMIUser" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-issuer-dn')) + '"', {context: this}).done(function(data) {
+
+								$(this).find('.value').text(issuerDN);
+
+								amiWebApp.unlock();
+
+							}).fail(function(data) {
+
+								amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							});
+						}
 					});
 
 					/*-----------------------------------------------------*/

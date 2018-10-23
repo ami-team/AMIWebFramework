@@ -31,7 +31,10 @@
 						{% endfor %}
 					</select>
 					<br />
-					<small><span class="badge badge-primary">Java class</span> {{rolesForCommands[command].clazz|e}}</small>
+					<small data-admin-class="{{rolesForCommands[command].command|e}}>
+						<span class="badge badge-primary">Java class</span>
+						<span class="value">{{rolesForCommands[command].clazz|e}}</span>
+					</small>
 				</td>
 			</tr>
 			{% endfor %}

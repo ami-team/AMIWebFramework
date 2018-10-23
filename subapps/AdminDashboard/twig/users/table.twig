@@ -39,9 +39,15 @@
 						{% endfor %}
 					</select>
 					<br />
-					<small><span class="badge badge-primary">Client DN</span> {{rolesForUsers[user].clientDN|e}}</small>
+					<small data-admin-client-dn="{{rolesForUsers[user].AMIUser|e}}">
+						<span class="badge badge-primary">Client DN</span>
+						<span class="value">{{rolesForUsers[user].clientDN|e}}</span>
+					</small>
 					<br />
-					<small><span class="badge badge-danger">Issuer DN</span> {{rolesForUsers[user].issuerDN|e}}</small>
+					<small data-admin-issuer-dn="{{rolesForUsers[user].AMIUser|e}}">
+						<span class="badge badge-danger">Issuer DN</span>
+						<span class="value">{{rolesForUsers[user].issuerDN|e}}</span>
+					</small>
 				</td>
 			</tr>
 			{% endfor %}

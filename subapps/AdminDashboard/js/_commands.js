@@ -113,6 +113,8 @@ $AMIClass('AdminDashboardCommands', {
 
 					var el3 = $("#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-admin-role]");
 
+					var el4 = $("#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-admin-class]");
+
 					/*-----------------------------------------------------*/
 
 					el3.select2({
@@ -181,6 +183,29 @@ $AMIClass('AdminDashboardCommands', {
 
 							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 						});
+					});
+
+					/*-----------------------------------------------------*/
+
+					el4.on('click', function(e) {
+
+						var clazz = prompt('New Java class', $(this).find('.value').text());
+
+						if(clazz)
+						{
+							amiWebApp.lock();
+
+							amiCommand.execute('UpdateElements -catalog="self" -entity="router_command" -separator="|" -fields="class" -values="' + amiWebApp.textToString(clazz) + '" -keyFields="command" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-class')) + '"', {context: this}).done(function(data) {
+
+								$(this).find('.value').text(clazz);
+
+								amiWebApp.unlock();
+
+							}).fail(function(data) {
+
+								amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							});
+						}
 					});
 
 					/*-----------------------------------------------------*/
