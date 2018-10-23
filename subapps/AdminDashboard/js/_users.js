@@ -72,7 +72,7 @@ $AMIClass('AdminDashboardUsers', {
 
 		filter = filter.trim();
 
-		return amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`AMIUser`, `router_user`.`firstName`, `router_user`.`lastName`, `router_user`.`email`, `router_role`.`role` WHERE `router_user`.`AMIUser` LIKE \'%' + filter + '%\'"', {context: this}).done(function(data) {
+		return amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`AMIUser`, `router_user`.`clientDN`, `router_user`.`issuerDN`, `router_user`.`firstName`, `router_user`.`lastName`, `router_user`.`email`, `router_user`.`valid`, `router_role`.`role` WHERE `router_user`.`AMIUser` LIKE \'%' + filter + '%\'"', {context: this}).done(function(data) {
 
 			var rows = amiWebApp.jspath('..rowset.row', data) || [];
 
@@ -81,18 +81,24 @@ $AMIClass('AdminDashboardUsers', {
 			rows.forEach(function(row) {
 
 				var AMIUser = amiWebApp.jspath('..field{.@name==="AMIUser"}.$', row)[0] || '';
+				var clientDN = amiWebApp.jspath('..field{.@name==="clientDN"}.$', row)[0] || '';
+				var issuerDN = amiWebApp.jspath('..field{.@name==="issuerDN"}.$', row)[0] || '';
 				var firstname = amiWebApp.jspath('..field{.@name==="firstName"}.$', row)[0] || '';
 				var lastname = amiWebApp.jspath('..field{.@name==="lastName"}.$', row)[0] || '';
 				var email = amiWebApp.jspath('..field{.@name==="email"}.$', row)[0] || '';
+				var valid = amiWebApp.jspath('..field{.@name==="valid"}.$', row)[0] || '';
 				var role = amiWebApp.jspath('..field{.@name==="role"}.$', row)[0] || '';
 
 				if(!(AMIUser in rolesForUsers))
 				{
 					rolesForUsers[AMIUser] = {
 						AMIUser: AMIUser,
+						clientDN: clientDN,
+						issuerDN: issuerDN,
 						firstname: firstname,
 						lastname: lastname,
 						email: email,
+						valid: valid,
 						roles: [],
 					};
 				}
@@ -102,22 +108,23 @@ $AMIClass('AdminDashboardUsers', {
 
 			amiWebApp.replaceHTML('#FCBD6DFC_2061_8CC3_652C_77671A179AAC', this.fragmentTable, {dict: {roles: this.roles, rolesForUsers: rolesForUsers}}).done(function() {
 
-				var el = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC select");
+				var el1 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-valid]");
+
+				var el2 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-admin-role]");
 
 				/*---------------------------------------------------------*/
 
-				el.select2({
+				el2.select2({
 					placeholder: 'Select a role',
-			    	allowClear: true,
 				});
 
 				/*---------------------------------------------------------*/
 
-				el.on('select2:select', function(e) {
+				el1.change(function() {
 
 					amiWebApp.lock();
 
-					amiCommand.execute('AddUserRole -user="' + amiWebApp.textToString($(this).attr('data-user')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+					amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="valid" -values="' + ($(this).prop('checked') ? 1 : 0) + '" -keyFields="AMIUser" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-valid')) + '"', {context: this}).done(function(data) {
 
 						amiWebApp.unlock();
 
@@ -129,11 +136,27 @@ $AMIClass('AdminDashboardUsers', {
 
 				/*---------------------------------------------------------*/
 
-				el.on('select2:unselect', function(e) {
+				el2.on('select2:select', function(e) {
 
 					amiWebApp.lock();
 
-					amiCommand.execute('RemoveUserRole -user="' + amiWebApp.textToString($(this).attr('data-user')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+					amiCommand.execute('AddUserRole -user="' + amiWebApp.textToString($(this).attr('data-admin-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+
+						amiWebApp.unlock();
+
+					}).fail(function(data) {
+
+						amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+					});
+				});
+
+				/*---------------------------------------------------------*/
+
+				el2.on('select2:unselect', function(e) {
+
+					amiWebApp.lock();
+
+					amiCommand.execute('RemoveUserRole -user="' + amiWebApp.textToString($(this).attr('data-admin-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
 
 						amiWebApp.unlock();
 

@@ -102,22 +102,26 @@ $AMIClass('AdminDashboardCommands', {
 
 			amiWebApp.replaceHTML('#F989424E_06B3_365D_0CAD_9F223EC8DA01', this.fragmentTable, {dict: {roles: this.roles, rolesForCommands: rolesForCommands}}).done(function() {
 
-				var el = $("#F989424E_06B3_365D_0CAD_9F223EC8DA01 select");
+				var el1 = $("#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-admin-visible]");
+
+				var el2 = $("#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-admin-secured]");
+
+				var el3 = $("#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-admin-role]");
 
 				/*---------------------------------------------------------*/
 
-				el.select2({
+				el3.select2({
 					placeholder: 'Select a role',
 			    	allowClear: true,
 				});
 
 				/*---------------------------------------------------------*/
 
-				el.on('select2:select', function(e) {
+				el1.change(function() {
 
 					amiWebApp.lock();
 
-					amiCommand.execute('AddCommandRole -command="' + amiWebApp.textToString($(this).attr('data-command')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+					amiCommand.execute('UpdateElements -catalog="self" -entity="router_command" -separator="|" -fields="visible" -values="' + ($(this).prop('checked') ? 1 : 0) + '" -keyFields="command" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-visible')) + '"', {context: this}).done(function(data) {
 
 						amiWebApp.unlock();
 
@@ -129,11 +133,43 @@ $AMIClass('AdminDashboardCommands', {
 
 				/*---------------------------------------------------------*/
 
-				el.on('select2:unselect', function(e) {
+				el2.change(function() {
 
 					amiWebApp.lock();
 
-					amiCommand.execute('RemoveCommandRole -command="' + amiWebApp.textToString($(this).attr('data-command')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+					amiCommand.execute('UpdateElements -catalog="self" -entity="router_command" -separator="|" -fields="secured" -values="' + ($(this).prop('checked') ? 1 : 0) + '" -keyFields="command" -keyValues="' + amiWebApp.textToString($(this).attr('data-admin-secured')) + '"', {context: this}).done(function(data) {
+
+						amiWebApp.unlock();
+
+					}).fail(function(data) {
+
+						amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+					});
+				});
+
+				/*---------------------------------------------------------*/
+
+				el3.on('select2:select', function(e) {
+
+					amiWebApp.lock();
+
+					amiCommand.execute('AddCommandRole -command="' + amiWebApp.textToString($(this).attr('data-admin-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+
+						amiWebApp.unlock();
+
+					}).fail(function(data) {
+
+						amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+					});
+				});
+
+				/*---------------------------------------------------------*/
+
+				el3.on('select2:unselect', function(e) {
+
+					amiWebApp.lock();
+
+					amiCommand.execute('RemoveCommandRole -command="' + amiWebApp.textToString($(this).attr('data-admin-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
 
 						amiWebApp.unlock();
 
