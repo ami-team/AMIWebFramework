@@ -1,43 +1,45 @@
 <h1>Commands</h1>
 
 {% if rolesForCommands is not empty %}
-<table class="table table-sm table-striped">
-	<thead>
-		<tr>
-			<th>Command</th>
-			<th>Visible</th>
-			<th>Secured</th>
-			<th>Roles</th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for command in rolesForCommands|keys %}
-		<tr>
-			<td>
-				{{rolesForCommands[command].command|e}}
-			</td>
-			<td>
-				<input type="checkbox" {% if rolesForCommands[command].visible !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-toggle="toggle" data-offstyle="outline-secondary" data-onstyle="outline-primary" data-admin-visible="{{rolesForCommands[command].command|e}}" />
-			</td>
-			<td>
-				<input type="checkbox" {% if rolesForCommands[command].secured !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-toggle="toggle" data-offstyle="outline-secondary" data-onstyle="outline-primary" data-admin-secured="{{rolesForCommands[command].command|e}}" />
-			</td>
-			<td>
-				<select multiple="multiple" style="width: 100%;" data-admin-role="{{rolesForCommands[command].command|e}}">
-					{% for role in roles %}
-					<option {% if role in rolesForCommands[command].roles %}selected="selected"{% else %}xxxxxxxx="xxxxxxxx"{% endif %}>{{role|e}}</option>
-					{% endfor %}
-				</select>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="5">
-				<small><span class="badge badge-primary">Java class</span> {{rolesForCommands[command].clazz|e}}</small>
-			</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+<div class="table-responsive">
+	<table class="table table-sm table-striped">
+		<thead>
+			<tr>
+				<th>Command</th>
+				<th>Visible</th>
+				<th>Secured</th>
+				<th>Roles</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for command in rolesForCommands|keys %}
+			<tr>
+				<td>
+					{{rolesForCommands[command].command|e}}
+				</td>
+				<td>
+					<input type="checkbox" {% if rolesForCommands[command].visible !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-toggle="toggle" data-offstyle="outline-secondary" data-onstyle="outline-primary" data-admin-visible="{{rolesForCommands[command].command|e}}" />
+				</td>
+				<td>
+					<input type="checkbox" {% if rolesForCommands[command].secured !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-toggle="toggle" data-offstyle="outline-secondary" data-onstyle="outline-primary" data-admin-secured="{{rolesForCommands[command].command|e}}" />
+				</td>
+				<td>
+					<select multiple="multiple" style="width: 100%;" data-admin-role="{{rolesForCommands[command].command|e}}">
+						{% for role in roles %}
+						<option {% if role in rolesForCommands[command].roles %}selected="selected"{% else %}xxxxxxxx="xxxxxxxx"{% endif %}>{{role|e}}</option>
+						{% endfor %}
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="5">
+					<small><span class="badge badge-primary">Java class</span> {{rolesForCommands[command].clazz|e}}</small>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
 {% else %}
 No result found.
 {% endif %}
