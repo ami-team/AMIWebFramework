@@ -117,7 +117,6 @@ $AMIClass('AdminDashboardCommands', {
 
 					el3.select2({
 						placeholder: 'Select a role',
-						allowClear: true,
 					});
 
 					/*-----------------------------------------------------*/
