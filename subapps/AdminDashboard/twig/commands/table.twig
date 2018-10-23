@@ -25,7 +25,7 @@
 			</tr>
 			<tr>
 				<td colspan="4">
-					<select multiple="multiple" style="width: 100%;" data-admin-role="{{rolesForCommands[command].command|e}}">
+					<select class="w-100" multiple="multiple" data-admin-role="{{rolesForCommands[command].command|e}}">
 						{% for role in roles %}
 						<option {% if role in rolesForCommands[command].roles %}selected="selected"{% else %}xxxxxxxx="xxxxxxxx"{% endif %}>{{role|e}}</option>
 						{% endfor %}
