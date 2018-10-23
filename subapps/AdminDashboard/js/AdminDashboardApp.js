@@ -30,7 +30,7 @@ $AMIClass('AdminDashboardApp', {
 
 		amiWebApp.loadResources([
 			'subapps/AdminDashboard/css/AdminDashboardApp.css',
-			'subapps/AdminDashboard/twig/AdminDashboardApp.html',
+			'subapps/AdminDashboard/twig/AdminDashboardApp.twig',
 			'subapps/AdminDashboard/js/_home.js',
 			'subapps/AdminDashboard/js/_config.js',
 			'subapps/AdminDashboard/js/_roles.js',

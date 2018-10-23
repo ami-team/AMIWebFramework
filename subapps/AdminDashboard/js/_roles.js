@@ -18,7 +18,7 @@ $AMIClass('AdminDashboardRoles', {
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
-			'subapps/AdminDashboard/twig/roles/roles.html',
+			'subapps/AdminDashboard/twig/roles/roles.twig',
 			'ctrl:table',
 		], {context: this}).done(function(data) {
 

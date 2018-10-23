@@ -18,9 +18,9 @@ $AMIClass('AdminDashboardConfig', {
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
-			'subapps/AdminDashboard/twig/config/config.html',
-			'subapps/AdminDashboard/twig/config/extra_menu.html',
-			'subapps/AdminDashboard/twig/config/parameter.html',
+			'subapps/AdminDashboard/twig/config/config.twig',
+			'subapps/AdminDashboard/twig/config/extra_menu.twig',
+			'subapps/AdminDashboard/twig/config/parameter.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0], {context: this}).done(function() {
@@ -47,10 +47,24 @@ $AMIClass('AdminDashboardConfig', {
 
 	onLogin: function()
 	{
+		var result = $.Deferred();
+
 		if($.isEmptyObject(this.paramDict))
 		{
-			this._load();
+			this._load().fail(function() {
+
+				result.reject();
+
+			}).done(function() {
+
+				result.resolve();
+			});
 		}
+		else {
+			result.resolve();
+		}
+
+		return result;
 	},
 
 	/*---------------------------------------------------------------------*/
