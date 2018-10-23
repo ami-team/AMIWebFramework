@@ -1,4 +1,4 @@
-BOOTSTRAP_VERSION=4.1.1
+BOOTSTRAP_VERSION=4.1.3
 
 all: clean
 	#############################################################################
@@ -11,8 +11,10 @@ all: clean
 	#############################################################################
 
 	mv bootstrap-$(BOOTSTRAP_VERSION)/scss/bootstrap.scss bootstrap-$(BOOTSTRAP_VERSION)/scss/bootstrap.orig.scss
-
 	awk '/@import "mixins";/ { print "@import \"../../ami.scss\";"; print; next }1' bootstrap-$(BOOTSTRAP_VERSION)/scss/bootstrap.orig.scss > bootstrap-$(BOOTSTRAP_VERSION)/scss/bootstrap.scss
+
+	mv bootstrap-$(BOOTSTRAP_VERSION)/scss/bootstrap.scss bootstrap-$(BOOTSTRAP_VERSION)/scss/bootstrap.orig.scss
+	awk '/@import "buttons";/ { print "@import \"../../switch.scss\";"; print; next }1' bootstrap-$(BOOTSTRAP_VERSION)/scss/bootstrap.orig.scss > bootstrap-$(BOOTSTRAP_VERSION)/scss/bootstrap.scss
 
 	#############################################################################
 

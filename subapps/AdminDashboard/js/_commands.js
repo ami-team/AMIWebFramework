@@ -19,31 +19,34 @@ $AMIClass('AdminDashboardCommands', {
 
 		amiWebApp.loadResources([
 			'subapps/AdminDashboard/twig/commands/commands.twig',
+			'subapps/AdminDashboard/twig/commands/extra_menu.twig',
 			'subapps/AdminDashboard/twig/commands/table.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0], {context: this}).done(function() {
+				amiWebApp.replaceHTML('#C54485C3_44F8_CE8E_0F54_BF847CEECE11', data[1], {context: this}).done(function() {
 
-				this.fragmentTable = data[1];
+					this.fragmentTable = data[2];
 
-				/*---------------------------------------------------------*/
+					/*---------------------------------------------------------*/
 
-				$('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').keypress(function(e) {
+					$('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').keypress(function(e) {
 
-					if(e.keyCode == 13)
-					{
+						if(e.keyCode == 13)
+						{
+							adminDashboardApp.subsubapp.find($('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').val());
+						}
+					});
+
+					$('#CD24BC02_C39F_AE0C_A83F_85B6458421B6').click(function() {
+
 						adminDashboardApp.subsubapp.find($('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').val());
-					}
+					});
+
+					/*---------------------------------------------------------*/
+
+					result.resolve();
 				});
-
-				$('#CD24BC02_C39F_AE0C_A83F_85B6458421B6').click(function() {
-
-					adminDashboardApp.subsubapp.find($('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').val());
-				});
-
-				/*---------------------------------------------------------*/
-
-				result.resolve();
 			});
 
 		}).fail(function() {
@@ -224,6 +227,64 @@ $AMIClass('AdminDashboardCommands', {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	findNewCommands: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('FindNewCommands').done(function(data) {
+
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	flushServerCaches: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('FlushServerCaches').done(function(data) {
+
+			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+
+		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/

@@ -28,7 +28,10 @@
 					{{rolesForUsers[user].email|e}}
 				</td>
 				<td>
-					<input type="checkbox" {% if rolesForUsers[user].valid !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-toggle="toggle" data-offstyle="outline-danger" data-onstyle="outline-primary" data-admin-valid="{{rolesForUsers[user].AMIUser|e}}" />
+					<span class="switch switch-sm switch-primary">
+						<input type="checkbox" id="C3EBBFBD_2964_CCBA_92E4_E7C8C36CA916_0_{{loop.index0}}" {% if rolesForUsers[user].valid !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-admin-valid="{{rolesForUsers[user].AMIUser|e}}" />
+						<label for="C3EBBFBD_2964_CCBA_92E4_E7C8C36CA916_0_{{loop.index0}}"></label>
+					</span>
 				</td>
 			</tr>
 			<tr>

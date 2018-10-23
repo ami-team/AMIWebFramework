@@ -17,10 +17,16 @@
 					{{rolesForCommands[command].command|e}}
 				</td>
 				<td>
-					<input type="checkbox" {% if rolesForCommands[command].visible !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-toggle="toggle" data-offstyle="outline-secondary" data-onstyle="outline-primary" data-admin-visible="{{rolesForCommands[command].command|e}}" />
+					<span class="switch switch-sm switch-primary">
+						<input type="checkbox" id="E2EE0224_4207_4B46_4AA2_4F4082B713B6_0_{{loop.index0}}" {% if rolesForCommands[command].visible !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-admin-visible="{{rolesForCommands[command].command|e}}" />
+						<label for="E2EE0224_4207_4B46_4AA2_4F4082B713B6_0_{{loop.index0}}"></label>
+					</span>
 				</td>
 				<td>
-					<input type="checkbox" {% if rolesForCommands[command].secured !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-toggle="toggle" data-offstyle="outline-secondary" data-onstyle="outline-primary" data-admin-secured="{{rolesForCommands[command].command|e}}" />
+					<span class="switch switch-sm switch-primary">
+						<input type="checkbox" id="E2EE0224_4207_4B46_4AA2_4F4082B713B6_1_{{loop.index0}}" {% if rolesForCommands[command].secured !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-admin-secured="{{rolesForCommands[command].command|e}}" />
+						<label for="E2EE0224_4207_4B46_4AA2_4F4082B713B6_1_{{loop.index0}}"></label>
+					</span>
 				</td>
 			</tr>
 			<tr>
