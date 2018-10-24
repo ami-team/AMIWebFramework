@@ -20,19 +20,13 @@ $AMIClass('EmergencyApp', {
 
 	onReady: function()
 	{
-		/*---------------------------------------------------------*/
-
-		$('#ami_breadcrumb_content').html('<li class="breadcrumb-item">Tools</li><li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp=emergency">Emergency</a></li>');
-
-		/*---------------------------------------------------------*/
-
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
 			'subapps/Emergency/twig/EmergencyApp.twig',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(function() {
 
 				result.resolve();
 			});
@@ -41,8 +35,6 @@ $AMIClass('EmergencyApp', {
 
 			result.reject(data);
 		});
-
-		/*---------------------------------------------------------*/
 
 		return result;
 	},
@@ -65,11 +57,11 @@ $AMIClass('EmergencyApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	send: function()
+	send: function(message)
 	{
 		/*---------------------------------------------------------*/
 
-		var message = $('#C51A09D0_6E2A_0CFA_83C8_9ABC1E2EAA75').val().trim();
+		message = message.trim();
 
 		/*---------------------------------------------------------*/
 

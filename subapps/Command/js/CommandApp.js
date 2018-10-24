@@ -29,15 +29,12 @@ $AMIClass('CommandApp', {
 			'subapps/Command/twig/Fragment/command.twig',
 			'subapps/Command/twig/Fragment/result.twig',
 			'js/3rd-party/filesaver.min.js',
-			'ctrl:textBox',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
 
 				this.fragmentCommand = data[1];
 				this.fragmentResult = data[2];
-
-				this.textBox = new data[4];
 
 				result.resolve();
 			});
@@ -124,12 +121,12 @@ $AMIClass('CommandApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	execute: function()
+	execute: function(command, converter)
 	{
 		/*---------------------------------------------------------*/
 
-		var command = $('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').val().trim();
-		var converter = $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val().trim();
+		command = command.trim();
+		converter = converter.trim();
 
 		/*---------------------------------------------------------*/
 
@@ -167,9 +164,9 @@ $AMIClass('CommandApp', {
 
 	/*-----------------------------------------------------------------*/
 
-	copy: function(url)
+	copy: function(text)
 	{
-		this.textBox.show(url);
+		amiWebApp.createControl(null, this, 'textBox', [text], {});
 	},
 
 	/*-----------------------------------------------------------------*/
