@@ -97,6 +97,8 @@ $AMIClass('SchemaViewerApp', {
 
 	onLogin: function()
 	{
+		var result = $.Deferred();
+
 		amiCommand.execute('GetSchemas', {context: this}).done(function(data1) {
 
 			this.columns = amiWebApp.jspath('..rowset{.@type==="columns"}.row', data1);
@@ -133,15 +135,21 @@ $AMIClass('SchemaViewerApp', {
 
 				this.openSchema();
 
+				result.resolve();
+
 			}).fail(function(data) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data));
+				result.reject(data);
 			});
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data));
+			result.reject(data);
 		});
+
+		/*-----------------------------------------------------------------*/
+
+		return result;
 	},
 
 	/*---------------------------------------------------------------------*/
