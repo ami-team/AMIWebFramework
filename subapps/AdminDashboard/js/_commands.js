@@ -82,7 +82,9 @@ $AMIClass('AdminDashboardCommands', {
 				var rows1 = amiWebApp.jspath('..rowset.row', data1) || [];
 				var rows2 = amiWebApp.jspath('..rowset.row', data2) || [];
 
-				var rolesForCommands = {};
+				var ids = [];
+
+				var commands = {};
 
 				rows1.forEach(function(row) {
 
@@ -92,7 +94,9 @@ $AMIClass('AdminDashboardCommands', {
 					var visible = amiWebApp.jspath('..field{.@name==="visible"}.$', row)[0] || '';
 					var secured = amiWebApp.jspath('..field{.@name==="secured"}.$', row)[0] || '';
 
-					rolesForCommands[id] = {
+					ids.push(id);
+
+					commands[id] = {
 						command: command,
 						clazz: clazz,
 						visible: visible,
@@ -106,10 +110,10 @@ $AMIClass('AdminDashboardCommands', {
 					var id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
 					var role = amiWebApp.jspath('..field{.@name==="role"}.$', row)[0] || '';
 
-					rolesForCommands[id].roles.push(role);
+					commands[id].roles.push(role);
 				});
 
-				amiWebApp.replaceHTML('#F989424E_06B3_365D_0CAD_9F223EC8DA01', this.fragmentTable, {dict: {roles: this.roles, rolesForCommands: rolesForCommands}}).done(function() {
+				amiWebApp.replaceHTML('#F989424E_06B3_365D_0CAD_9F223EC8DA01', this.fragmentTable, {dict: {roles: this.roles, ids: ids, commands: commands}}).done(function() {
 
 					var el1 = $("#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-visible]");
 

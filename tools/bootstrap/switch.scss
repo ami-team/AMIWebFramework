@@ -31,7 +31,6 @@ $switch-transition: .2s all !default;
 
 		background: none;
 		border: 0;
-		clip: rect(0 0 0 0);
 		clip-path: inset(50%);
 		overflow: hidden;
 		position: absolute;
@@ -107,6 +106,8 @@ $switch-transition: .2s all !default;
 			color: $switch-disabled-color;
 			cursor: not-allowed;
 		}
+
+		//-----------------------------------------------------------------
 
 		&:disabled + label::before {
 			background-color: $switch-disabled-bg;
