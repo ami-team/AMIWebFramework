@@ -59,10 +59,10 @@ $AMIClass('CommandApp', {
 
 			rows.forEach(function(row) {
 
-				var command = amiWebApp.jspath('..field{.@name=== "command" }.$', row)[0] || '';
+				var command = amiWebApp.jspath('..field{.@name==="command"}.$', row)[0] || '';
 
-				var visible = (amiWebApp.jspath('..field{.@name=== "visible" }.$', row)[0] || 'true') !== 'false';
-				var secured = (amiWebApp.jspath('..field{.@name=== "secured" }.$', row)[0] || 'false') !== 'false';
+				var visible = (amiWebApp.jspath('..field{.@name==="visible"}.$', row)[0] || 'true') !== 'false';
+				var secured = (amiWebApp.jspath('..field{.@name==="secured"}.$', row)[0] || 'false') !== 'false';
 
 				var help = amiWebApp.jspath('..field{.@name==="help" || .@name==="shortHelp"}.$', row)[0] || ''; // BERK
 				var usage = amiWebApp.jspath('..field{.@name==="usage"}.$', row)[0] || '';
