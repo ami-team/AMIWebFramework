@@ -424,7 +424,7 @@ $AMIClass('TaskServerAdminApp', {
 
 		if(!(serverName in this.servers))
 		{
-				amiWebApp.error('invalid task server name');
+				amiWebApp.error('invalid task server name', true);
 
 				return;
 		}

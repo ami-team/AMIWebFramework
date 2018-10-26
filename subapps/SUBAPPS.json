@@ -15,10 +15,6 @@
          "<a href=\"{{WEBAPP_URL}}?subapp=taskServerAdmin\">Task servers<\/a>"
       ]
    },
-   "mission":{
-      "file":"subapps\/Mission\/js\/MissionApp.js",
-      "instance":"missionApp"
-   },
    "tableViewer":{
       "file":"subapps\/TableViewer\/js\/TableViewerApp.js",
       "instance":"tableViewerApp",
@@ -26,10 +22,6 @@
          "Metadata",
          "<a href=\"{{WEBAPP_URL}}?subapp=tableViewer\">Table Viewer<\/a>"
       ]
-   },
-   "rdfViewer":{
-      "file":"subapps\/RDFViewer\/js\/RDFViewerApp.js",
-      "instance":"rdfViewerApp"
    },
    "document":{
       "file":"subapps\/Document\/js\/DocumentApp.js",
