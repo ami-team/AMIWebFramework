@@ -26,8 +26,8 @@ $AMIClass('CommandApp', {
 
 		amiWebApp.loadResources([
 			'subapps/Command/twig/CommandApp.twig',
-			'subapps/Command/twig/Fragment/command.twig',
-			'subapps/Command/twig/Fragment/result.twig',
+			'subapps/Command/twig/command.twig',
+			'subapps/Command/twig/result.twig',
 			'js/3rd-party/filesaver.min.js',
 		], {context: this}).done(function(data) {
 
