@@ -2,22 +2,6 @@
 /* BOOTSTRAP                                                               */
 /*-------------------------------------------------------------------------*/
 
-@-moz-document url-prefix() {
-
-	select:not([multiple]).form-control {
-		background: rgb(255, 255, 255) url("../images/dropdown.svg") no-repeat scroll right 0.75rem center / 8px 10px;
-		-moz-appearance: none;
-	}
-
-	select:not([multiple]).form-control:disabled,
-	select:not([multiple]).form-control[readonly] {
-		background-color: rgb(233, 236, 239);
-		opacity: 1;
-	}
-}
-
-/*-------------------------------------------------------------------------*/
-
 .bg-light {
 	background: rgb(248, 249, 250) url("../images/stripe1.png");
 }
