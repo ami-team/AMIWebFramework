@@ -7,20 +7,12 @@
          "<a href=\"{{WEBAPP_URL}}?subapp=adminDashboard\">Admin Dashboard<\/a>"
       ]
    },
-   "taskServerAdmin":{
-      "file":"subapps\/TaskServerAdmin\/js\/TaskServerAdminApp.js",
-      "instance":"taskServerAdminApp",
+   "command":{
+      "file":"subapps\/Command\/js\/CommandApp.js",
+      "instance":"commandApp",
       "breadcrumb":[
-         "Admin",
-         "<a href=\"{{WEBAPP_URL}}?subapp=taskServerAdmin\">Task servers<\/a>"
-      ]
-   },
-   "tableViewer":{
-      "file":"subapps\/TableViewer\/js\/TableViewerApp.js",
-      "instance":"tableViewerApp",
-      "breadcrumb":[
-         "Metadata",
-         "<a href=\"{{WEBAPP_URL}}?subapp=tableViewer\">Table Viewer<\/a>"
+         "Tools",
+         "<a href=\"{{WEBAPP_URL}}?subapp=command\">Command<\/a>"
       ]
    },
    "document":{
@@ -35,14 +27,6 @@
          "<a href=\"{{WEBAPP_URL}}?subapp=emergency\">Emergency<\/a>"
       ]
    },
-   "schemaViewer":{
-      "file":"subapps\/SchemaViewer\/js\/SchemaViewerApp.js",
-      "instance":"schemaViewerApp",
-      "breadcrumb":[
-         "Metadata",
-         "<a href=\"{{WEBAPP_URL}}?subapp=schemaViewer\">Schema Viewer<\/a>"
-      ]
-   },
    "monitoring":{
       "file":"subapps\/Monitoring\/js\/MonitoringApp.js",
       "instance":"monitoringApp",
@@ -51,12 +35,36 @@
          "<a href=\"{{WEBAPP_URL}}?subapp=monitoring\">Monitoring<\/a>"
       ]
    },
-   "command":{
-      "file":"subapps\/Command\/js\/CommandApp.js",
-      "instance":"commandApp",
+   "searchModeler":{
+      "file":"subapps\/SearchModeler\/js\/SearchModelerApp.js",
+      "instance":"searchModelerApp",
       "breadcrumb":[
-         "Tools",
-         "<a href=\"{{WEBAPP_URL}}?subapp=command\">Command<\/a>"
+         "Admin",
+         "<a href=\"{{WEBAPP_URL}}?subapp=searchModeler\">Search Modeler<\/a>"
+      ]
+   },
+   "schemaViewer":{
+      "file":"subapps\/SchemaViewer\/js\/SchemaViewerApp.js",
+      "instance":"schemaViewerApp",
+      "breadcrumb":[
+         "Metadata",
+         "<a href=\"{{WEBAPP_URL}}?subapp=schemaViewer\">Schema Viewer<\/a>"
+      ]
+   },
+   "tableViewer":{
+      "file":"subapps\/TableViewer\/js\/TableViewerApp.js",
+      "instance":"tableViewerApp",
+      "breadcrumb":[
+         "Metadata",
+         "<a href=\"{{WEBAPP_URL}}?subapp=tableViewer\">Table Viewer<\/a>"
+      ]
+   },
+   "taskServerAdmin":{
+      "file":"subapps\/TaskServerAdmin\/js\/TaskServerAdminApp.js",
+      "instance":"taskServerAdminApp",
+      "breadcrumb":[
+         "Admin",
+         "<a href=\"{{WEBAPP_URL}}?subapp=taskServerAdmin\">Task servers<\/a>"
       ]
    }
 }
