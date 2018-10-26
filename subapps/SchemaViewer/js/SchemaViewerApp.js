@@ -20,8 +20,6 @@ $AMIClass('SchemaViewerApp', {
 
 	onReady: function(userdata)
 	{
-		var _this = this;
-
 		/*-----------------------------------------------------------------*/
 
 		$('#ami_breadcrumb_content').css('display', 'none');
@@ -52,6 +50,8 @@ $AMIClass('SchemaViewerApp', {
 				/* EDITOR                          */
 				/*---------------------------------*/
 
+				var that = this;
+
 				(this.schema = new data[2]).render('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').done(function() {
 
 					/*---------------------------------*/
@@ -66,10 +66,10 @@ $AMIClass('SchemaViewerApp', {
 
 					$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').change(function() {
 
-						_this.defaultCatalog = $('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC option:selected').val();
+						that.defaultCatalog = $('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC option:selected').val();
 					});
 
-					_this.defaultCatalog = userdata;
+					that.defaultCatalog = userdata;
 
 					/*---------------------------------*/
 

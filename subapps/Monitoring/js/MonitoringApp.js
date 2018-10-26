@@ -327,7 +327,7 @@ $AMIClass('MonitoringApp', {
 
 	_stage1: function()
 	{
-		var _this = this;
+		var that = this;
 
 		amiWebApp.loadJSONs([
 			this._confFile
@@ -362,7 +362,7 @@ $AMIClass('MonitoringApp', {
 					numberOfTaskNodes++;
 				}
 
-				_this._nodes.push({
+				that._nodes.push({
 					node: node,
 					service: service,
 					endpoint: endpoint,
@@ -515,11 +515,11 @@ $AMIClass('MonitoringApp', {
 
 			setInterval(function() {
 
-				if(sum < _this._reloadTime)
+				if(sum < that._reloadTime)
 				{
-					sum += _this._interval;
+					sum += that._interval;
 
-					_this._handler();
+					that._handler();
 				}
 				else
 				{
@@ -625,7 +625,7 @@ $AMIClass('MonitoringApp', {
 
 			/*-------------------------------------------------------------*/
 
-			var _this = this;
+			var that = this;
 
 			amiWebApp.loadJSONs([
 				'subapps/Monitoring/data/world.json'
@@ -643,16 +643,16 @@ $AMIClass('MonitoringApp', {
 
 				setInterval(function() {
 
-					if(_this._earthLock === 0)
+					if(that._earthLock === 0)
 					{
 						projection.rotate([
-							_this._earthOrigin[0] + _this._earthVelocity[0] * _this._earthTime,
-							_this._earthOrigin[1] + _this._earthVelocity[1] * _this._earthTime,
+							that._earthOrigin[0] + that._earthVelocity[0] * that._earthTime,
+							that._earthOrigin[1] + that._earthVelocity[1] * that._earthTime,
 						]);
 
 						svg.selectAll('path').attr('d', projectionPath);
 
-						_this._earthTime += 2500;
+						that._earthTime += 2500;
 					}
 
 				}, 2500);
@@ -674,7 +674,7 @@ $AMIClass('MonitoringApp', {
 
 	_drawWorld: function(svg, g, projection, projectionPath, className, featureSet, data, max)
 	{
-		var _this = this;
+		var that = this;
 
 		var set = g.selectAll('.' + className)
 		           .data(featureSet)
@@ -698,7 +698,7 @@ $AMIClass('MonitoringApp', {
 
 		   .attr('style', function(d) {
 
-				return 'fill: ' + (data[d.id] ? _this._countryHeatmap(data[d.id] / max) : 'white');
+				return 'fill: ' + (data[d.id] ? that._countryHeatmap(data[d.id] / max) : 'white');
 		    })
 
 		   /*--------------------------------------------------------------*/
@@ -714,11 +714,11 @@ $AMIClass('MonitoringApp', {
 
 				var interpolate = d3.interpolate(projection.rotate(), coords);
 
-				_this._earthLock = 1;
+				that._earthLock = 1;
 
-				/**/	_this._earthTime = 0;
+				/**/	that._earthTime = 0;
 				/**/
-				/**/	_this._earthOrigin = coords;
+				/**/	that._earthOrigin = coords;
 				/**/
 				/**/	d3.transition()
 				/**/	  .duration(1250)
@@ -733,7 +733,7 @@ $AMIClass('MonitoringApp', {
 				/**/	  })
 				/**/	  .on('end', function() {
 				/**/
-				/**/		_this._earthLock = 0;
+				/**/		that._earthLock = 0;
 				/**/	  })
 				/**/	;
 		   })
