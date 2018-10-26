@@ -230,7 +230,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		const name = Object.prototype.toString.call(x);
 
-		return name.startsWith('[object ') ? name.substring(8, name.length - 1) : '';
+		return name.startsWith('[object ') ? name.substring(8, name.length - 1)
+		                                   : ''
+		;
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -360,6 +362,33 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	stringToHtml: function(s)
 	{
 		return this.replace(s || '', this._htmlToStringY, this._htmlToStringX);
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	_textToSQLX: ['\''  ],
+	_textToSQLY: ['\'\''],
+
+	/**
+	  * Escapes the given string from text to SQL
+	  * @param {String} string the unescaped string
+	  * @returns {String} The escaped string
+	  */
+
+	textToSQL: function(s)
+	{
+		return this.replace(s || '', this._textToSQLX, this._textToSQLY);
+	},
+
+	/**
+	  * Unescapes the given string from SQL to text
+	  * @param {String} string the escaped string
+	  * @returns {String} The unescaped string
+	  */
+
+	sqlToText: function(s)
+	{
+		return this.replace(s || '', this._textToSQLY, this._textToSQLX);
 	},
 
 	/*---------------------------------------------------------------------*/

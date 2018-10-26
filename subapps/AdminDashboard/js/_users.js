@@ -4,6 +4,8 @@
  * Copyright (c) 2014 The AMI Team
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  *
+ * @global adminDashboardApp
+ *
  */
 
 /*-------------------------------------------------------------------------*/
@@ -73,9 +75,9 @@ $AMIClass('AdminDashboardUsers', {
 		filter = filter.trim();
 
 
-		amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`id`, `router_role`.`role` WHERE `router_user`.`AMIUser` LIKE \'%' + filter + '%\'"', {context: this}).done(function(data2) {
+		amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`id`, `router_role`.`role` WHERE `router_user`.`AMIUser` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\'"', {context: this}).done(function(data2) {
 
-			amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `id`, `AMIUser`, `clientDN`, `issuerDN`, `firstName`, `lastName`, `email`, `valid` WHERE `AMIUser` LIKE \'%' + filter + '%\' ORDER BY `AMIUser`"', {context: this}).done(function(data1) {
+			amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `id`, `AMIUser`, `clientDN`, `issuerDN`, `firstName`, `lastName`, `email`, `valid` WHERE `AMIUser` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' ORDER BY `AMIUser`"', {context: this}).done(function(data1) {
 
 				var rows1 = amiWebApp.jspath('..rowset.row', data1) || [];
 				var rows2 = amiWebApp.jspath('..rowset.row', data2) || [];
@@ -119,13 +121,13 @@ $AMIClass('AdminDashboardUsers', {
 
 				amiWebApp.replaceHTML('#FCBD6DFC_2061_8CC3_652C_77671A179AAC', this.fragmentTable, {dict: {roles: this.roles, ids: ids, users: users}}).done(function() {
 
-					var el1 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-valid]");
+					var el1 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-valid]');
 
-					var el2 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-role]");
+					var el2 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-role]');
 
-					var el3 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-client-dn");
+					var el3 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-client-dn');
 
-					var el4 = $("#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-issuer-dn");
+					var el4 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-issuer-dn');
 
 					/*-----------------------------------------------------*/
 
@@ -139,7 +141,7 @@ $AMIClass('AdminDashboardUsers', {
 
 						amiWebApp.lock();
 
-						amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="valid" -values="' + ($(this).prop('checked') ? 1 : 0) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-valid')) + '"', {context: this}).done(function(data) {
+						amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="valid" -values="' + ($(this).prop('checked') ? 1 : 0) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-valid')) + '"').done(function() {
 
 							amiWebApp.unlock();
 
@@ -155,7 +157,7 @@ $AMIClass('AdminDashboardUsers', {
 
 						amiWebApp.lock();
 
-						amiCommand.execute('AddUserRole -user="' + amiWebApp.textToString($(this).attr('data-change-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+						amiCommand.execute('AddUserRole -user="' + amiWebApp.textToString($(this).attr('data-change-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"').done(function() {
 
 							amiWebApp.unlock();
 
@@ -171,7 +173,7 @@ $AMIClass('AdminDashboardUsers', {
 
 						amiWebApp.lock();
 
-						amiCommand.execute('RemoveUserRole -user="' + amiWebApp.textToString($(this).attr('data-change-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"', {context: this}).done(function(data) {
+						amiCommand.execute('RemoveUserRole -user="' + amiWebApp.textToString($(this).attr('data-change-role')) + '" -role="' + amiWebApp.textToString(e.params.data.text) + '"').done(function() {
 
 							amiWebApp.unlock();
 
@@ -183,7 +185,7 @@ $AMIClass('AdminDashboardUsers', {
 
 					/*-----------------------------------------------------*/
 
-					el3.on('click', function(e) {
+					el3.on('click', function() {
 
 						var clientDN = prompt('New client DN', $(this).find('.value').text());
 
@@ -191,7 +193,7 @@ $AMIClass('AdminDashboardUsers', {
 						{
 							amiWebApp.lock();
 
-							amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="clientDN" -values="' + amiWebApp.textToString(clientDN) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-client-dn')) + '"', {context: this}).done(function(data) {
+							amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="clientDN" -values="' + amiWebApp.textToString(clientDN) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-client-dn')) + '"', {context: this}).done(function() {
 
 								$(this).find('.value').text(clientDN);
 
@@ -206,7 +208,7 @@ $AMIClass('AdminDashboardUsers', {
 
 					/*-----------------------------------------------------*/
 
-					el4.on('click', function(e) {
+					el4.on('click', function() {
 
 						var issuerDN = prompt('New issuer DN', $(this).find('.value').text());
 
@@ -214,7 +216,7 @@ $AMIClass('AdminDashboardUsers', {
 						{
 							amiWebApp.lock();
 
-							amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="issuerDN" -values="' + amiWebApp.textToString(issuerDN) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-issuer-dn')) + '"', {context: this}).done(function(data) {
+							amiCommand.execute('UpdateElements -catalog="self" -entity="router_user" -separator="|" -fields="issuerDN" -values="' + amiWebApp.textToString(issuerDN) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-issuer-dn')) + '"', {context: this}).done(function() {
 
 								$(this).find('.value').text(issuerDN);
 

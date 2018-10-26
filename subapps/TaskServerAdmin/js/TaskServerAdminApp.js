@@ -18,7 +18,7 @@ $AMIClass('TaskServerAdminApp', {
 
 	/*---------------------------------------------------------------------*/
 
-	onReady: function(userdata)
+	onReady: function()
 	{
 		var result = $.Deferred();
 
@@ -53,7 +53,7 @@ $AMIClass('TaskServerAdminApp', {
 
 								/*-----------------------------------------*/
 
-								$('#D567A5FD_6C12_EEA6_4E74_FDB678BE483B:checkbox').change(function(e) {
+								$('#D567A5FD_6C12_EEA6_4E74_FDB678BE483B:checkbox').change(function() {
 
 									if($(this).prop('checked'))
 									{

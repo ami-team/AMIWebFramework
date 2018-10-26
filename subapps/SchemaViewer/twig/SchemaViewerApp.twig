@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-3">
-		<ul class="nav nav-tabs" style="margin-top: 10px;">
+		<ul class="nav nav-tabs">
 			<li class="nav-item">
 				<a href="#EE062E82_8F6E_457D_94EA_E453CB1DD333" class="nav-link active" data-toggle="tab">Catalogs</a>
 			</li>
@@ -9,6 +9,9 @@
 			</li>
 		</ul>
 		<div class="tab-content">
+
+			<!-- ******************************************************** -->
+
 			<div class="tab-pane active" id="EE062E82_8F6E_457D_94EA_E453CB1DD333">
 				<div class="card mb-2">
 					<div class="card-header">
@@ -17,13 +20,13 @@
 					<div class="collapse show" id="C4DD1448_3241_4454_A804_16EF6665645A">
 						<div class="card-body">
 							<div>
-								<select class="form-control" id="D015B3C1_B150_4E27_99D9_A628B3F9B0AC"></select>
+								<select class="custom-select" id="D015B3C1_B150_4E27_99D9_A628B3F9B0AC"></select>
 							</div>
 							<div>&nbsp;</div>
 							<div>
-								<div class="btn-group" style="width: 100%;">
-									<button class="btn btn-sm btn-outline-secondary" style="width: 50%;" id="A9A20536_D366_4AFE_96E3_56E3FAF52179" onclick="schemaViewerApp.openSchema();">Open</button>
-									<button class="btn btn-sm btn-outline-secondary" style="width: 50%;" id="D342245F_B95E_4CAB_84C5_53B509C28319" onclick="schemaViewerApp.saveSchema();">Save</button>
+								<div class="btn-group w-100">
+									<button class="btn btn-sm btn-outline-secondary w-50" id="A9A20536_D366_4AFE_96E3_56E3FAF52179" onclick="schemaViewerApp.openSchema();">Open</button>
+									<button class="btn btn-sm btn-outline-secondary w-50" id="D342245F_B95E_4CAB_84C5_53B509C28319" onclick="schemaViewerApp.saveSchema();">Save</button>
 								</div>
 							</div>
 						</div>
@@ -40,16 +43,19 @@
 							</div>
 							<div>&nbsp;</div>
 							<div>
-								<div class="btn-group" style="width: 100%;">
-									<button class="btn btn-sm btn-outline-secondary" style="width: 50%;" id="A8A2E848_F02A_40C7_8327_53F73B1B2BD6" onclick="schemaViewerApp.exportSchema();">Export</button>
-									<button class="btn btn-sm btn-outline-secondary" style="width: 50%;" id="DA57C571_E294_4D75_B36F_FF6BB066D504" onclick="schemaViewerApp.printSchema();">Print</button>
+								<div class="btn-group w-100">
+									<button class="btn btn-sm btn-outline-secondary w-50" id="A8A2E848_F02A_40C7_8327_53F73B1B2BD6" onclick="schemaViewerApp.exportSchema();">Export</button>
+									<button class="btn btn-sm btn-outline-secondary w-50" id="DA57C571_E294_4D75_B36F_FF6BB066D504" onclick="schemaViewerApp.printSchema();">Print</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="tab-pane" id="B0A85256_B481_4C61_AE15_682237B610B9">
+
+			<!-- ******************************************************** -->
+
+			<div class="tab-pane xxxxxx" id="B0A85256_B481_4C61_AE15_682237B610B9">
 				<div class="card mb-2">
 					<div class="card-header">
 						<a href="#B3EBFDD2_58B1_4D62_ABA3_9C20270C38B4" data-toggle="collapse">Sheet</a>
@@ -58,7 +64,7 @@
 						<div class="card-body">
 							<div class="form-group">
 								<label for="DB5F6C24_4775_40D5_AFA4_F1847423A4B5">Page height</label>
-								<input type="number" step="1" class="form-control form-control-sm" id="DB5F6C24_4775_40D5_AFA4_F1847423A4B5" onkeyup="schemaViewerApp.setPaperHeight(this.value);" onchange="schemaViewerApp.setPaperHeight(this.value);" /></td>
+								<input type="number" step="1" class="form-control" id="DB5F6C24_4775_40D5_AFA4_F1847423A4B5" onkeyup="schemaViewerApp.setPaperHeight(this.value);" onchange="schemaViewerApp.setPaperHeight(this.value);" /></td>
 							</div>
 						</div>
 					</div>
@@ -74,6 +80,9 @@
 					</div>
 				</div>
 			</div>
+
+			<!-- ******************************************************** -->
+
 		</div>
 	</div>
 	<div class="col-md-9">
