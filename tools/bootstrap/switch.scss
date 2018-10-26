@@ -121,31 +121,31 @@ $switch-transition: .2s all !default;
 	&.switch-off-primary input + label::before {
 		background-color: map-get($theme-colors, 'primary');
 	}
-	
+
 	&.switch-off-secondary input + label::before {
 		background-color: map-get($theme-colors, 'secondary');
 	}
-	
+
 	&.switch-off-success input + label::before {
 		background-color: map-get($theme-colors, 'success');
 	}
-	
+
 	&.switch-off-danger input + label::before {
 		background-color: map-get($theme-colors, 'danger');
 	}
-	
+
 	&.switch-off-warning input + label::before {
 		background-color: map-get($theme-colors, 'warning');
 	}
-	
+
 	&.switch-off-info input + label::before {
 		background-color: map-get($theme-colors, 'info');
 	}
-	
+
 	&.switch-off-light input + label::before {
 		background-color: map-get($theme-colors, 'light');
 	}
-	
+
 	&.switch-off-dark input + label::before {
 		background-color: map-get($theme-colors, 'dark');
 	}
@@ -155,31 +155,31 @@ $switch-transition: .2s all !default;
 	&.switch-on-primary input:checked + label::before {
 		background-color: map-get($theme-colors, 'primary');
 	}
-	
+
 	&.switch-on-secondary input:checked + label::before {
 		background-color: map-get($theme-colors, 'secondary');
 	}
-	
+
 	&.switch-on-success input:checked + label::before {
 		background-color: map-get($theme-colors, 'success');
 	}
-	
+
 	&.switch-on-danger input:checked + label::before {
 		background-color: map-get($theme-colors, 'danger');
 	}
-	
+
 	&.switch-on-warning input:checked + label::before {
 		background-color: map-get($theme-colors, 'warning');
 	}
-	
+
 	&.switch-on-info input:checked + label::before {
 		background-color: map-get($theme-colors, 'info');
 	}
-	
+
 	&.switch-on-light input:checked + label::before {
 		background-color: map-get($theme-colors, 'light');
 	}
-	
+
 	&.switch-on-dark input:checked + label::before {
 		background-color: map-get($theme-colors, 'dark');
 	}
