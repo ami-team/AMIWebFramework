@@ -53,6 +53,18 @@
 
 /*-------------------------------------------------------------------------*/
 
+/* BUG FIX IN BOOTSTRAP 4 */
+
+.custom-select-sm {
+	padding-top: .25rem;
+	padding-bottom: .25rem;
+	font-size: 95%;
+}
+
+/* BUG FIX IN BOOTSTRAP 4 */
+
+/*-------------------------------------------------------------------------*/
+
 .modal-header {
 	background: rgb(245, 245, 245) url("../images/stripe1.png");
 	border-radius: 0.25rem 0.25rem 0 0;
