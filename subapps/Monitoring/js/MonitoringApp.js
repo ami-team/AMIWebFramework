@@ -47,8 +47,6 @@ $AMIClass('MonitoringApp', {
 
 		this._extraTitle = /*-*/''/*-*/;
 
-		this._externalFrame = /*-*/''/*-*/;
-
 		/*-----------------------------------------------------------------*/
 
 		if(userdata)
@@ -65,11 +63,6 @@ $AMIClass('MonitoringApp', {
 				if(json.extra_title)
 				{
 					this._extraTitle = json.extra_title;
-				}
-
-				if(json.external_frame)
-				{
-					this._externalFrame = json.external_frame;
 				}
 			}
 			catch(e)
@@ -91,7 +84,7 @@ $AMIClass('MonitoringApp', {
 			'js/3rd-party/canvasjs.min.js',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {externalFrame: this._externalFrame}}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
 				/*---------------------------------------------------------*/
 
