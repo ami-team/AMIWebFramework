@@ -36,6 +36,28 @@ $AMIClass('AdminDashboardHome', {
 
 	/*---------------------------------------------------------------------*/
 
+	onLogin: function()
+	{
+		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(*) FROM `router_config`) AS nb1, (SELECT COUNT(*) FROM `router_role`) AS nb2, (SELECT COUNT(*) FROM `router_command`) AS nb3, (SELECT COUNT(*) FROM `router_user`) AS nb4"').done(function(data) {
+
+			var nr1 = amiWebApp.jspath('..field{.@name==="nb1"}.$', data);
+			var nr2 = amiWebApp.jspath('..field{.@name==="nb2"}.$', data);
+			var nr3 = amiWebApp.jspath('..field{.@name==="nb3"}.$', data);
+			var nr4 = amiWebApp.jspath('..field{.@name==="nb4"}.$', data);
+
+			$('#F38F2C33_FD2B_0947_D711_D07C095AED8C').text(nr1);
+			$('#B86F861D_ECA4_8CF4_1ABC_30EFF044A03F').text(nr2);
+			$('#B1969A3F_D9F3_DEA2_E351_53A827AECA72').text(nr3);
+			$('#CFC83907_4194_F600_8191_C0DEB7CADF25').text(nr4);
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
 	flushCommandCache: function()
 	{
 		/*-----------------------------------------------------------------*/
