@@ -7682,7 +7682,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 				$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(message ? '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message : '');
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#B8D49B url("' + amiWebApp.originURL + '/images/certificate-green.png") no-repeat center center fixed').css('background-size', 'cover');
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#B8D49B url("' + amiWebApp.originURL + '/images/certificate-green.png") no-repeat center center').css('background-size', 'cover');
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400').text('❧ valid ❧');
 
@@ -7708,7 +7708,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 				$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(message ? '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message : '');
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#E8C8CF url("' + amiWebApp.originURL + '/images/certificate-pink.png") no-repeat center center fixed').css('background-size', 'cover');
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#E8C8CF url("' + amiWebApp.originURL + '/images/certificate-pink.png") no-repeat center center').css('background-size', 'cover');
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#8B0000').text('❧ invalid ❧');
 
