@@ -8747,7 +8747,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					message ? '<span class="fa fa-exclamation-triangle" style="color: orange;"></span> ' + message : ''
 				);
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#B8D49B url("' + amiWebApp.originURL + '/images/certificate-green.png") no-repeat center center fixed')
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#B8D49B url("' + amiWebApp.originURL + '/images/certificate-green.png") no-repeat center center')
 				                                                   .css('background-size', 'cover')
 				;
 
@@ -8789,7 +8789,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					message ? '<span class="fa fa-exclamation-triangle" style="color: red;"></span> ' + message : ''
 				);
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#E8C8CF url("' + amiWebApp.originURL + '/images/certificate-pink.png") no-repeat center center fixed')
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#E8C8CF url("' + amiWebApp.originURL + '/images/certificate-pink.png") no-repeat center center')
 				                                                   .css('background-size', 'cover')
 				;
 
