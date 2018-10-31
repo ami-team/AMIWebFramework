@@ -24,7 +24,7 @@ $AMIClass('AdminDashboardCatalogs', {
 
 			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0], {context: this}).done(function() {
 
-				this.table = new data[1]();
+				this.table1 = new data[1]();
 
 				result.resolve();
 			});
@@ -41,9 +41,12 @@ $AMIClass('AdminDashboardCatalogs', {
 
 	onLogin: function()
 	{
-		this.table.render('#A5F4DDCC_C731_9B8D_D293_5FCCF9F6F99F', 'SearchQuery -catalog="self" -entity="router_catalog" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity: 'router_catalog', primaryField: 'id', start: 1, stop: 25});
+		this.table1.render('#A5F4DDCC_C731_9B8D_D293_5FCCF9F6F99F', 'SearchQuery -catalog="self" -entity="router_catalog" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity: 'router_catalog', primaryField: 'id', start: 1, stop: 25});
+
+		$('#A8A6384A_0599_B207_B5E3_89FBD4BF0657').text('TODO');
 
 		$('#A5F4DDCC_C731_9B8D_D293_5FCCF9F6F99F').show();
+		$('#A8A6384A_0599_B207_B5E3_89FBD4BF0657').show();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -51,6 +54,7 @@ $AMIClass('AdminDashboardCatalogs', {
 	onLogout: function()
 	{
 		$('#A5F4DDCC_C731_9B8D_D293_5FCCF9F6F99F').hide();
+		$('#A8A6384A_0599_B207_B5E3_89FBD4BF0657').hide();
 	},
 
 	/*---------------------------------------------------------------------*/
