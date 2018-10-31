@@ -7609,7 +7609,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 		/*-----------------------------------------------------------------*/
 
 		var dict = {
-			sso_name: ssoInfo.name || 'SSO',
+			sso_label: ssoInfo.label || 'SSO',
 			sso_url: ssoInfo.url || 'N/A'
 		};
 
