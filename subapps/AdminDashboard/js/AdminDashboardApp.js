@@ -34,6 +34,7 @@ $AMIClass('AdminDashboardApp', {
 			'subapps/AdminDashboard/js/_roles.js',
 			'subapps/AdminDashboard/js/_commands.js',
 			'subapps/AdminDashboard/js/_users.js',
+			'subapps/AdminDashboard/js/_catalogs.js',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
@@ -49,6 +50,9 @@ $AMIClass('AdminDashboardApp', {
 				}
 				else if(userdata === 'users') {
 					this.subsubapp = new AdminDashboardUsers();
+				}
+				else if(userdata === 'catalogs') {
+					this.subsubapp = new AdminDashboardCatalogs();
 				}
 				else {
 					this.subsubapp = new AdminDashboardHome();
