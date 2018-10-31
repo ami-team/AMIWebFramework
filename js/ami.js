@@ -7698,9 +7698,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */{
 
 				if (vomsEnabled !== 'false') {
 					if (!clientDNInAMI || !issuerDNInAMI) {
-						message = 'Register a valid GRID certificate.';
+						message = 'Register a valid certificate.';
 					} else {
-						message = 'Check your VOMS roles.';
+						message = 'Check your VO roles.';
 					}
 				} else {
 					message = 'Contact the AMI team.';
