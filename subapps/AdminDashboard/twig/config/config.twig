@@ -11,7 +11,11 @@
 
 		<div class="tab-pane active" id="AECB0E11_094F_F4DB_103A_5D673E09A36F">
 
-			<div class="card mt-0">
+			<div class="alert alert-warning" role="alert">
+				Modify `Server`, `Database` and `Add-ones` sections in `<span id="DF9704CF_51FF_F570_F587_27FB5625A936"></span>`.
+			</div>
+
+			<div class="card mt-2">
 
 				<h5 class="card-header p-2"><i class="fa fa-server text-primary"></i> Server</h5>
 
@@ -312,8 +316,16 @@
 				<div class="card-body">
 
 					<div class="form-group">
-						<label for="C3B15C87_4404_450C_C393_CB43030AB001" class="control-label">use_voms (virtual organization)</label>
-						<select class="custom-select custom-select-sm" name="use_voms" id="C3B15C87_4404_450C_C393_CB43030AB001">
+						<label for="C62A433E_EB36_42F2_C3CE_71E69045CD06" class="control-label">rebuild_schema_cache_in_background</label>
+						<select class="custom-select custom-select-sm" name="rebuild_schema_cache_in_background" id="C62A433E_EB36_42F2_C3CE_71E69045CD06">
+							<option value="false">false</option>
+							<option value="true">true</option>
+						</select>
+					</div>
+
+					<div class="form-group">
+						<label for="C3B15C87_4404_450C_C393_CB43030AB001" class="control-label">has_virtual_organization</label>
+						<select class="custom-select custom-select-sm" name="has_virtual_organization" id="C3B15C87_4404_450C_C393_CB43030AB001">
 							<option value="false">false</option>
 							<option value="true">true</option>
 						</select>

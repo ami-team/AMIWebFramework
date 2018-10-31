@@ -60,7 +60,17 @@ $AMIClass('AdminDashboardConfig', {
 	{
 		return amiCommand.execute('GetConfig', {context: this}).done(function(data) {
 
-			var fields = amiWebApp.jspath('..rowset{.@type==="config"}.row.field', data);
+			var path_fields = amiWebApp.jspath('..rowset{.@type==="paths"}.row.field', data);
+
+			var config_fields = amiWebApp.jspath('..rowset{.@type==="config"}.row.field', data);
+
+			/*-------------------------------------------------------------*/
+
+			$('#DF9704CF_51FF_F570_F587_27FB5625A936').text(
+				amiWebApp.jspath('.{.@name==="configFileName"}.$[0]', path_fields)
+			);
+
+			/*-------------------------------------------------------------*/
 
 			$('#B5C738DB_B705_5E37_24CD_B265532D0853').empty();
 
@@ -69,12 +79,12 @@ $AMIClass('AdminDashboardConfig', {
 
 			var dict = [];
 
-			for(var i in fields)
+			for(var i in config_fields)
 			{
 				/*---------------------------------------------------------*/
 
-				var name = fields[i]['@name'] || '';
-				var value = fields[i][(('$'))] || '';
+				var name = config_fields[i]['@name'] || '';
+				var value = config_fields[i][(('$'))] || '';
 
 				if(name === 'task_server_name'
 				   ||
@@ -111,6 +121,8 @@ $AMIClass('AdminDashboardConfig', {
 			}
 
 			amiWebApp.replaceHTML('#B5C738DB_B705_5E37_24CD_B265532D0853', this.fragmentParameter, {dict: dict});
+
+			/*-------------------------------------------------------------*/
 
 		}).fail(function(data) {
 
