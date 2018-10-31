@@ -373,11 +373,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					   ||
 					   !issuerDNInAMI
 					 ) {
-						message = 'Register a valid GRID certificate.';
+						message = 'Register a valid certificate.';
 					}
 					else
 					{
-						message = 'Check your VOMS roles.';
+						message = 'Check your VO roles.';
 					}
 				}
 				else
