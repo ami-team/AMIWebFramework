@@ -2,8 +2,8 @@
 
 	<ul class="nav nav-tabs">
 		<li class="nav-item"><a class="nav-link active" href="#AECB0E11_094F_F4DB_103A_5D673E09A36F" data-toggle="tab">General</a></li>
-		<li class="nav-item"><a class="nav-link xxxxxx" href="#EFC2B445_664B_FDFB_42FF_1987B77BE7B4" data-toggle="tab">Connections</a></li>
-		<li class="nav-item"><a class="nav-link xxxxxx" href="#C5C6F02C_F104_9E65_87A0_2DD60A595BFC" data-toggle="tab">Logs</a></li>
+		<li class="nav-item"><a class="nav-link xxxxxx" href="#EFC2B445_664B_FDFB_42FF_1987B77BE7B4" data-toggle="tab">Pools & caches</a></li>
+		<li class="nav-item"><a class="nav-link xxxxxx" href="#C5C6F02C_F104_9E65_87A0_2DD60A595BFC" data-toggle="tab">Logs & emails</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#B18672FB_F009_6F9F_77FC_3334CEA56959" data-toggle="tab">Misc.</a></li>
 	</ul>
 
@@ -154,6 +154,31 @@
 
 			</div>
 
+			<div class="card mt-2">
+
+				<h5 class="card-header p-2"><i class="fa fa-th-large text-primary"></i> Command cache</h5>
+
+				<div class="card-body">
+
+					<div class="form-group">
+						<label for="BDFD511F_D66F_921D_00EC_FA8911A7D1E7" class="control-label">memcached_host</label>
+						<input class="form-control form-control-sm" type="text" value="localhost" name="memcached_host" id="BDFD511F_D66F_921D_00EC_FA8911A7D1E7" />
+					</div>
+
+					<div class="form-group">
+						<label for="E2DE15C0_575E_AFA3_5505_1A92183F6501" class="control-label">memcached_port</label>
+						<input class="form-control form-control-sm" type="number" min="0" max="65535" value="11211" name="memcached_port" id="E2DE15C0_575E_AFA3_5505_1A92183F6501" />
+					</div>
+
+					<div class="form-group">
+						<label for="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83" class="control-label">memcached_expiration [s]</label>
+						<input class="form-control form-control-sm" type="number" min="0" value="3600" name="memcached_expiration" id="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83" />
+					</div>
+
+				</div>
+
+			</div>
+
 		</div>
 
 		<div class="tab-pane" id="C5C6F02C_F104_9E65_87A0_2DD60A595BFC">
@@ -277,6 +302,11 @@
 					<div class="form-group">
 						<label for="F28B83AF_251A_915B_F0FC_993E94E52C17" class="control-label">max_number_of_rows</label>
 						<input class="form-control form-control-sm" type="number" min="1" value="10000" name="max_number_of_rows" id="F28B83AF_251A_915B_F0FC_993E94E52C17" />
+					</div>
+
+					<div class="form-group">
+						<label for="BBCDCD19_3A47_E8DF_0D94_2560FF21E385" class="control-label">user_validator_class</label>
+						<input class="form-control form-control-sm" type="text" name="user_validator_class" id="BBCDCD19_3A47_E8DF_0D94_2560FF21E385" />
 					</div>
 
 				</div>
