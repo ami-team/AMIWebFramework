@@ -9,6 +9,7 @@
  * @global AdminDashboardRoles
  * @global AdminDashboardCommands
  * @global AdminDashboardUsers
+ * @global AdminDashboardCatalogs
  *
  */
 
