@@ -330,7 +330,7 @@ $AMIClass('MonitoringApp', {
 			/* GET NODES                                                   */
 			/*-------------------------------------------------------------*/
 
-			var rows = amiWebApp.jspath('..row', data[0]) || [];
+			var rows = amiWebApp.jspath('..row', data[0]);
 
 			var series1 = [];
 			var series2 = [];
@@ -597,7 +597,7 @@ $AMIClass('MonitoringApp', {
 			/* COUNTRIES                                                   */
 			/*-------------------------------------------------------------*/
 
-			var rows = amiWebApp.jspath('..rowset{.@type=== "countries"}..row', data) || [];
+			var rows = amiWebApp.jspath('..rowset{.@type=== "countries"}..row', data);
 
 			var score = {};
 

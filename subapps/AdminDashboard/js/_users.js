@@ -79,8 +79,8 @@ $AMIClass('AdminDashboardUsers', {
 
 			amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `id`, `AMIUser`, `clientDN`, `issuerDN`, `firstName`, `lastName`, `email`, `valid` WHERE `AMIUser` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' ORDER BY `AMIUser`"', {context: this}).done(function(data1) {
 
-				var rows1 = amiWebApp.jspath('..rowset.row', data1) || [];
-				var rows2 = amiWebApp.jspath('..rowset.row', data2) || [];
+				var rows1 = amiWebApp.jspath('..rowset.row', data1);
+				var rows2 = amiWebApp.jspath('..rowset.row', data2);
 
 				var ids = [];
 

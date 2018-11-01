@@ -30,7 +30,7 @@ $AMIClass('AdminDashboardCommands', {
 
 					this.fragmentTable = data[2];
 
-					/*---------------------------------------------------------*/
+					/*-----------------------------------------------------*/
 
 					$('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').keypress(function(e) {
 
@@ -45,7 +45,7 @@ $AMIClass('AdminDashboardCommands', {
 						adminDashboardApp.subsubapp.find($('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').val());
 					});
 
-					/*---------------------------------------------------------*/
+					/*-----------------------------------------------------*/
 
 					result.resolve();
 				});
@@ -81,8 +81,8 @@ $AMIClass('AdminDashboardCommands', {
 
 			amiCommand.execute('SearchQuery -catalog="self" -entity="router_command" -mql="SELECT `id`, `command`, `class`, `visible`, `secured` WHERE `command` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' ORDER BY `command`"', {context: this}).done(function(data1) {
 
-				var rows1 = amiWebApp.jspath('..rowset.row', data1) || [];
-				var rows2 = amiWebApp.jspath('..rowset.row', data2) || [];
+				var rows1 = amiWebApp.jspath('..rowset.row', data1);
+				var rows2 = amiWebApp.jspath('..rowset.row', data2);
 
 				var ids = [];
 

@@ -189,11 +189,11 @@ $AMIClass('ElementInfoCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			var descriptions = amiWebApp.jspath('..descriptions.description', data) || [];
+			var descriptions = amiWebApp.jspath('..descriptions.description', data);
 
-			var elementRowset = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data) || []; /* BERK */
+			var elementRowset = amiWebApp.jspath('..rowset{.@type==="element" || .@type==="Element_Info"}.row', data); /* BERK */
 
-			var linkedElementRowset = amiWebApp.jspath('..rowset{.@type==="linked_elements" || .@type==="Element_Child"}.row', data) || []; /* BERK */
+			var linkedElementRowset = amiWebApp.jspath('..rowset{.@type==="linked_elements" || .@type==="Element_Child"}.row', data); /* BERK */
 
 			var expandedLinkedElements = [];
 
@@ -206,7 +206,7 @@ $AMIClass('ElementInfoCtrl', {
 					entity: expandedLinkedElement.entity,
 					fields: expandedLinkedElement.fields,
 					keyValMode: expandedLinkedElement.keyValMode,
-					rows: amiWebApp.jspath('..rowset{.@type==="' + expandedLinkedElement.entity + '"}.row', data) || [],
+					rows: amiWebApp.jspath('..rowset{.@type==="' + expandedLinkedElement.entity + '"}.row', data),
 				});
 			}
 

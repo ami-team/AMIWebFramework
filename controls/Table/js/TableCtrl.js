@@ -212,7 +212,7 @@ $AMIClass('TableCtrl', {
 
 			amiCommand.execute('GetFieldInfo -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '"', {context: this}).done(function(data) {
 
-				var rows = amiWebApp.jspath('..row', data) || [];
+				var rows = amiWebApp.jspath('..row', data);
 
 				for(var i in rows)
 				{
@@ -482,15 +482,15 @@ $AMIClass('TableCtrl', {
 
 		amiCommand.execute(command, {context: this}).done(function(data) {
 
-			var fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data) || []
-			                                        : amiWebApp.jspath('..fieldDescription'                                                        , data) || []
+			var fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
+			                                        : amiWebApp.jspath('..fieldDescription'                                                        , data)
 			;
 
-			var rowset = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data) || []
-			                             : amiWebApp.jspath('..rowset'                                     , data) || []
+			var rowset = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)
+			                             : amiWebApp.jspath('..rowset'                                     , data)
 			;
 
-			var rows = amiWebApp.jspath('..row', rowset) || [];
+			var rows = amiWebApp.jspath('..row', rowset);
 
 			this.sql = amiWebApp.jspath('..@sql', rowset)[0] || 'N/A';
 			this.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
