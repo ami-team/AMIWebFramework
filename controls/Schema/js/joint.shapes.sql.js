@@ -1,4 +1,13 @@
-/* @global _, joint
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ * @global _, joint
  *
  */
 
@@ -63,7 +72,7 @@ joint.shapes.sql = {}
 /*-------------------------------------------------------------------------*/
 
 joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	markup: [
 		'<g>',
@@ -74,23 +83,23 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		'</g>',
 	].join(''),
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	defaults: joint.util.deepSupplement({
 
 		type: 'sql.Table',
 
 		size: {
-			width: 228,
-			height: 14,
+			width: 0,
+			height: 0,
 		},
 
 		attrs: {
 			'.sql-table-top': {
-				'stroke-width': 2,
+				'stroke-width': 1,
 			},
 			'.sql-table-body': {
-				'stroke-width': 2,
+				'stroke-width': 1,
 			},
 			'.sql-table-tool': {
 				'ref': '.sql-table-top',
@@ -111,7 +120,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 				'y-alignment': 'middle',
 				'fill': 'white',
 				'font-family': 'Courier New',
-				'font-weight': 'bold',
+				'font-weight': 'normal',
 				'font-size': 14,
 			},
 			'.sql-table-columns': {
@@ -130,11 +139,12 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		bodyColor: '#FFFFFF',
 		strokeColor: '#0057AD',
 		showLinkTool: true,
+		grideSize: 10,
 		columns: [],
 
 	}, joint.shapes.basic.Generic.prototype.defaults),
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	initialize: function()
 	{
@@ -154,7 +164,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		joint.shapes.basic.Generic.prototype.initialize.apply(this, arguments);
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	getTable: function()
 	{
@@ -168,7 +178,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.updateTable();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	getTopColor: function()
 	{
@@ -183,7 +193,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.updateColors();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	getBodyColor: function()
 	{
@@ -198,7 +208,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.updateColors();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	getStrokeColor: function()
 	{
@@ -212,7 +222,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.updateColors();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	appendField: function(item)
 	{
@@ -246,17 +256,17 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.updateFields();
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	updateTable: function()
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var table = this.get('table');
 
 		this.attr('.sql-table-link/data-table', table);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var tool = this.get('showLinkTool') ? ''
 		                                    : ''
@@ -264,7 +274,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		this.attr('.sql-table-tool/text', tool);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var name = table.toUpperCase();
 
@@ -275,10 +285,10 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		this.attr('.sql-table-name/text', name);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	updateColors: function()
 	{
@@ -289,18 +299,17 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.attr('.sql-table-body/stroke', this.get('strokeColor'));
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	updateFields: function()
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var cnt = 0
 		var text = '';
+		var width = 230;
+		var height = 20;
 
 		_.each(this.get('columns'), function(column) {
-
-			cnt++;
 
 			var line = column.name + ': ' + column.type;
 
@@ -315,27 +324,28 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			}
 
 			text += line + '\n';
+
+			height += 14;
 		});
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var width = this.get('size').width;
-		var height = Math.ceil((cnt * 14 + 20) / 10.0) * 10 - 2;
+		var grideSize = this.get('grideSize');
+
+		width = Math.ceil(width / grideSize) * grideSize;
+		height = Math.ceil(height / grideSize) * grideSize;
 
 		this.resize(width, height);
 
-		width += 2; // For nice overlap (stroke)
-		height += 2; // For nice overlap (stroke)
-
-		this.attr('.sql-table-top/d', _my_rounded_rect(0, 0, width, 20, 8, true, true, false, false));
-		this.attr('.sql-table-body/d', _my_rounded_rect(0, 20, width, height, 2, false, false, true, true));
+		this.attr('.sql-table-top/d', _my_rounded_rect(0.75, 0.5, width, 20, 8, true, true, false, false));
+		this.attr('.sql-table-body/d', _my_rounded_rect(0.75, 20.5, width, height, 3, false, false, true, true));
 
 		this.attr('.sql-table-columns/text', text);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	}
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/

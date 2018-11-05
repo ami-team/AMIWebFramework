@@ -133,9 +133,14 @@ $AMIClass('SchemaViewerApp', {
 				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
 				$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
 
-				this.openSchema();
+				this.openSchema().done(function() {
 
-				result.resolve();
+					result.resolve();
+
+				}).fail(function(data) {
+
+					result.reject(data);
+				});
 
 			}).fail(function(data) {
 
@@ -221,16 +226,9 @@ $AMIClass('SchemaViewerApp', {
 
 	openSchema: function()
 	{
-		if(!this.defaultCatalog)
-		{
-			return;
-		}
-
-		/*-----------------------------------------------------------------*/
-
 		amiWebApp.lock();
 
-		this.schema.refresh(this.defaultCatalog, {context: this}).done(function() {
+		return this.schema.refresh(this.defaultCatalog, {context: this}).done(function() {
 
 			window.history.pushState('', '', amiWebApp.webAppURL + '?subapp=schemaViewer&userdata=' + encodeURIComponent(this.defaultCatalog));
 
@@ -240,8 +238,6 @@ $AMIClass('SchemaViewerApp', {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
-
-		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/

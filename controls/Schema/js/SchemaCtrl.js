@@ -41,14 +41,10 @@ $AMIClass('SchemaCtrl', {
 			amiWebApp.originURL + '/controls/Schema/js/joint.shapes.sql.js',
 			/**/
 			amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css',
-			/**/
-			'ctrl:table',
 		], {context: this}).done(function(data) {
 
 			this._columns = null;
 			this._foreignKeys = null;
-
-			this.tableCtor = data[7];
 		});
 	},
 
@@ -81,6 +77,12 @@ $AMIClass('SchemaCtrl', {
 			width: 1,
 			height: 1,
 			gridSize: 5.0,
+			drawGrid: {
+				name: 'dot',
+				args: [
+					{color: 'red', scaleFactor: 2, thickness: 1},
+				]
+			}
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -395,10 +397,7 @@ $AMIClass('SchemaCtrl', {
 		   ||
 		   parent.$name === 'AccordionCtrl'
 		 ) {
-			parent.appendItem('<i class="fa fa-table"></i> ' + entity, {context: this, height: 'auto'}).done(function(selector) {
-
-				new this.tableCtor(parent, this).render(selector, 'BrowseQuery -catalog="' + amiWebApp.textToString(this._catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT *"', {showDetails: true, canEdit: false, catalog: this._catalog, entity: entity});
-			});
+			/* TODO */
 		}
 		else
 		{
