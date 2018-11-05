@@ -50,15 +50,17 @@ $AMIClass('SchemaViewerApp', {
 				/* EDITOR                          */
 				/*---------------------------------*/
 
+				$('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').outerHeight(
+					$(document).height() - $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').offset().top - 8
+				);
+
+				/*---------------------------------*/
+
 				var that = this;
 
-				(this.schema = new data[2]).render('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').done(function() {
+				this.schema = new data[2]();
 
-					/*---------------------------------*/
-
-					$('#DB5F6C24_4775_40D5_AFA4_F1847423A4B5').val(
-						$('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').outerHeight()
-					);
+				this.schema.render('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').done(function() {
 
 					/*---------------------------------*/
 					/* DEFAULT CATALOG                 */
@@ -123,17 +125,17 @@ $AMIClass('SchemaViewerApp', {
 					}
 				}, this);
 
-				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').html(s);
-
-				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', false);
-
-				$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
-				$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', false);
-
-				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
-				$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
-
 				this.openSchema().done(function() {
+
+					$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').html(s);
+
+					$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', false);
+
+					$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
+					$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', false);
+
+					$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
+					$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
 
 					result.resolve();
 
