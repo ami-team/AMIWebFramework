@@ -42,7 +42,7 @@ $AMIClass('AdminDashboardCatalogs', {
 
 	onLogin: function()
 	{
-		this.table1.render('#A5F4DDCC_C731_9B8D_D293_5FCCF9F6F99F', 'SearchQuery -catalog="self" -entity="router_catalog" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity: 'router_catalog', primaryField: 'id', start: 1, stop: 25});
+		this.table1.render('#A5F4DDCC_C731_9B8D_D293_5FCCF9F6F99F', 'SearchQuery -catalog="self" -entity=   "router_catalog"    -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity:    'router_catalog'   , primaryField: 'id', start: 1, stop: 25});
 		this.table2.render('#A8A6384A_0599_B207_B5E3_89FBD4BF0657', 'SearchQuery -catalog="self" -entity="router_catalog_extra" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity: 'router_catalog_extra', primaryField: 'id', start: 1, stop: 25});
 
 		$('#A8A6384A_0599_B207_B5E3_89FBD4BF0657').text('TODO');
