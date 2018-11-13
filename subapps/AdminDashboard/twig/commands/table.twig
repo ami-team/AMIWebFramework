@@ -37,9 +37,14 @@
 						{% endfor %}
 					</select>
 					<br />
-					<small data-change-class="{{id|e}}">
-						<span class="badge badge-primary">Java class</span>
+					<small data-change-command-class="{{id|e}}">
+						<span class="badge badge-primary">Java command class</span>
 						<span class="value">{{commands[id].clazz|e}}</span>
+					</small>
+					<br />
+					<small data-change-role-validator-class="{{id|e}}">
+						<span class="badge badge-warning">Java role validator class</span>
+						<span class="value">{{commands[id].roleValidatorClazz|e}}</span>
 					</small>
 				</td>
 			</tr>

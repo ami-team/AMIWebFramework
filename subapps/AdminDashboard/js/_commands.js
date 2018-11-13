@@ -79,7 +79,7 @@ $AMIClass('AdminDashboardCommands', {
 
 		amiCommand.execute('SearchQuery -catalog="self" -entity="router_command" -mql="SELECT `router_command`.`id`, `router_role`.`role` WHERE `router_command`.`command` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\'"', {context: this}).done(function(data2) {
 
-			amiCommand.execute('SearchQuery -catalog="self" -entity="router_command" -mql="SELECT `id`, `command`, `class`, `visible`, `secured` WHERE `command` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' ORDER BY `command`"', {context: this}).done(function(data1) {
+			amiCommand.execute('SearchQuery -catalog="self" -entity="router_command" -mql="SELECT `id`, `command`, `class`, `visible`, `secured`, `roleValidatorClass` WHERE `command` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' ORDER BY `command`"', {context: this}).done(function(data1) {
 
 				var rows1 = amiWebApp.jspath('..rowset.row', data1);
 				var rows2 = amiWebApp.jspath('..rowset.row', data2);
@@ -95,6 +95,7 @@ $AMIClass('AdminDashboardCommands', {
 					var clazz = amiWebApp.jspath('..field{.@name==="class"}.$', row)[0] || '';
 					var visible = amiWebApp.jspath('..field{.@name==="visible"}.$', row)[0] || '';
 					var secured = amiWebApp.jspath('..field{.@name==="secured"}.$', row)[0] || '';
+					var roleValidatorClazz = amiWebApp.jspath('..field{.@name==="roleValidatorClass"}.$', row)[0] || '';
 
 					ids.push(id);
 
@@ -103,6 +104,7 @@ $AMIClass('AdminDashboardCommands', {
 						clazz: clazz,
 						visible: visible,
 						secured: secured,
+						roleValidatorClazz: roleValidatorClazz,
 						roles: [],
 					};
 				});
@@ -123,7 +125,9 @@ $AMIClass('AdminDashboardCommands', {
 
 					var el3 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-role]');
 
-					var el4 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-class]');
+					var el4 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-command-class]');
+
+					var el5 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-role-validator-class]');
 
 					/*-----------------------------------------------------*/
 
@@ -199,13 +203,37 @@ $AMIClass('AdminDashboardCommands', {
 
 					el4.on('click', function() {
 
-						var clazz = prompt('New Java class', $(this).find('.value').text());
+						var clazz = prompt('New Java command class', $(this).find('.value').text());
 
-						if(clazz)
+						if(clazz !== null)
 						{
 							amiWebApp.lock();
 
-							amiCommand.execute('UpdateElements -catalog="self" -entity="router_command" -separator="|" -fields="class" -values="' + amiWebApp.textToString(clazz) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-class')) + '"', {context: this}).done(function() {
+							amiCommand.execute('UpdateElements -catalog="self" -entity="router_command" -separator="|" -fields="class" -values="' + amiWebApp.textToString(clazz) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-command-class')) + '"', {context: this}).done(function() {
+
+								$(this).find('.value').text(clazz);
+
+								amiWebApp.unlock();
+
+							}).fail(function(data) {
+
+								amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							});
+						}
+					});
+
+
+					/*-----------------------------------------------------*/
+
+					el5.on('click', function() {
+
+						var clazz = prompt('New Java role validator class', $(this).find('.value').text());
+
+						if(clazz !== null)
+						{
+							amiWebApp.lock();
+
+							amiCommand.execute('UpdateElements -catalog="self" -entity="router_command" -separator="|" -fields="roleValidatorClass" -values="' + amiWebApp.textToString(clazz) + '" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-change-role-validator-class')) + '"', {context: this}).done(function() {
 
 								$(this).find('.value').text(clazz);
 
