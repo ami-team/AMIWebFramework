@@ -631,10 +631,17 @@ $AMIClass('SearchCtrl', {
 			mql += ' WHERE ' + filter;
 		}
 
+		if (criteria.order) 
+		{
+			mql += ' ORDER BY `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '` ' + criteria.order;
+		}
+
 		if(applyLimit)
 		{
 			mql += ' LIMIT ' + predicate.limit + ' OFFSET 0'
 		}
+
+
 
 		/*-----------------------------------------------------------------*/
 		/* FILL BOX                                                        */
