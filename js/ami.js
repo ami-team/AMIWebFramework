@@ -7129,13 +7129,14 @@ $AMINamespace('amiLogin',
       /*-------------------------------------------------------------*/
 
       $(window).on('message', function (e) {
-        var user = e.originalEvent.data.user;
-        var pass = e.originalEvent.data.pass;
+        var user = e.data.user;
+        var pass = e.data.pass;
+        alert(JSON.stringify(e.data));
 
         if (user && pass) {
           _this14.form_login2(user, pass);
 
-          e.originalEvent.source.close();
+          e.source.close();
         }
       });
       /*-------------------------------------------------------------*/

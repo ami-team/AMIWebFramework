@@ -117,14 +117,14 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			$(window).on('message', (e) => {
 
-				const user = e.originalEvent.data.user;
-				const pass = e.originalEvent.data.pass;
-
+				const user = e.data.user;
+				const pass = e.data.pass;
+				alert(JSON.stringify(e.data));
 				if(user && pass)
 				{
 					this.form_login2(user, pass);
 
-					e.originalEvent.source.close();
+					e.source.close();
 				}
 			});
 
