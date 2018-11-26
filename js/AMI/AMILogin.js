@@ -125,14 +125,16 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					if(user && pass)
 					{
 						this.form_login2(user, pass);
+
+						e.source.close();
 					}
 				}
 				else
 				{
 					amiWebApp.error('???');
-				}
 
-				e.source.close();
+					e.source.close();
+				}
 
 			}, false);
 
