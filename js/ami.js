@@ -7128,17 +7128,20 @@ $AMINamespace('amiLogin',
       });
       /*-------------------------------------------------------------*/
 
-      $(window).on('message', function (e) {
+      window.addEventListener('message', function (e) {
         var user = e.data.user;
         var pass = e.data.pass;
-        alert(JSON.stringify(e.data));
 
-        if (user && pass) {
-          _this14.form_login2(user, pass);
-
-          e.source.close();
+        if (_this14.ssoInfo.url.startsWith(e.origin)) {
+          if (user && pass) {
+            _this14.form_login2(user, pass);
+          }
+        } else {
+          amiWebApp.error('???');
         }
-      });
+
+        e.source.close();
+      }, false);
       /*-------------------------------------------------------------*/
 
       var userdata = amiWebApp.args['userdata'] || '';
@@ -7456,7 +7459,7 @@ $AMINamespace('amiLogin',
 
     this._clean();
 
-    window.open(this.ssoInfo.url + '?originURL=' + encodeURIComponent(amiWebApp.originURL), 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+    window.open(this.ssoInfo.url, 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
   },
 
   /*---------------------------------------------------------------------*/

@@ -115,18 +115,26 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			$(window).on('message', (e) => {
+			window.addEventListener('message', (e) => {
 
 				const user = e.data.user;
 				const pass = e.data.pass;
-				alert(JSON.stringify(e.data));
-				if(user && pass)
-				{
-					this.form_login2(user, pass);
 
-					e.source.close();
+				if(this.ssoInfo.url.startsWith(e.origin))
+				{
+					if(user && pass)
+					{
+						this.form_login2(user, pass);
+					}
 				}
-			});
+				else
+				{
+					amiWebApp.error('???');
+				}
+
+				e.source.close();
+
+			}, false);
 
 			/*-------------------------------------------------------------*/
 
@@ -541,7 +549,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		this._flush();
 		this._clean();
 
-		window.open(this.ssoInfo.url + '?originURL=' + encodeURIComponent(amiWebApp.originURL), 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+		window.open(this.ssoInfo.url, 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
 	},
 
 	/*---------------------------------------------------------------------*/

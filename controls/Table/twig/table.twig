@@ -1,78 +1,97 @@
+{% set primaryIdx = -1 %}
 <table class="table table-sm table-striped table-bordered">
-	{% if rows is not empty %}
-	<tr>
-		{% if showDetails %}
-		<th class="text-center xxxxxxxxx">details</th>
-		{% endif %}
-		<th class="text-center edit-mode"> tools </th>
-		{% for field in rows[0].field %}
-		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
-		{%     if fieldDescriptions.length > loop.index0 %}
-		{%       set fieldDescription = fieldDescriptions[loop.index0] %}
-		{%     else %}
-		{%       set fieldDescription = {                            } %}
-		{%     endif %}
-		<th class="text-center">
-			<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{field['@name']|e}}"><i class="fa fa-chevron-down"></i></a>
-			<span class="text-primary"{% if fieldDescription['$'] and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{% if fieldDescription['@label'] %}{{fieldDescription['@label']}}{% else %}{{field['@name']|e}}{% endif %}</span>
-			<a href="#" class="text-secondary" data-orderway="ASC" data-row="{{field['@name']|e}}"><i class="fa fa-chevron-up"></i></a>
-			{% if showTools %}
-			<br />
-			{%   if fieldDescription['@field'] %}
-			<a href="#" class="text-secondary mx-1" data-action="refine" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-filter"></i></a>
+	<!-- **************************************************************** -->
+	<thead>
+		<tr>
+			{% if fieldDescriptions is not empty %}
+			<!-- ******************************************************** -->
+			{%   if showDetails %}
+			<th class="text-center xxxxxxxxx">details</th>
 			{%   endif %}
-			{%   if fieldDescription['@statable'] === 'true' %}
-			<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-bar-chart"></i></a>
-			{%   endif %}
-			{%   if fieldDescription['@groupable'] === 'true' %}
-			<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-slack"></i></a>
-			{%   endif %}
-			{% endif %}
-		</th>
-		{%   endif %}
-		{% endfor %}
-	</tr>
-	{%   for row in rows %}
-	<tr>
-		{% for field in row.field %}
-		{%   if field['@name'] === primaryField %}
-		{%     set elementId = field.$ %}
-		{%   endif %}
-		{% endfor %}
-		<td class="text-center edit-mode">
-			<a href="#" class="text-info" data-action="clone" data-row="{{elementId|e}}"><i class="fa fa-files-o"></i></a>
-			&nbsp;
-			<a href="#" class="text-danger" data-action="delete" data-row="{{elementId|e}}"><i class="fa fa-trash"></i></a>
-		</td>
-		{% if showDetails %}
-		<td class="text-center xxxxxxxxx">
-			<a href="#" class="text-secondary" data-ctrl="elementInfo" data-ctrl-location="container" data-params="[&quot;{{fieldDescription['@catalog']|e}}&quot;, &quot;{{fieldDescription['@entity']|e}}&quot;, &quot;{{ primaryField }}&quot;, &quot;{{ elementId }}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescription['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
-		</td>
-		{% endif %}
-		{% for field in row.field %}
-		{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
-		{%     if fieldDescriptions.length > loop.index0 %}
-		{%       set fieldDescription = fieldDescriptions[loop.index0] %}
-		{%     else %}
-		{%       set fieldDescription = {                            } %}
-		{%     endif %}
-		<td class="text-center">
-			{% if field.$ starts with '@owner::' %}
-				<a href="#" data-action="filter" data-filter-def="{{field.$.substring(8)|e}}"><i class="fa fa-link"></i></a>
+			<th class="text-center edit-mode"> tools </th>
+			{%   for fieldDescription in fieldDescriptions %}
+			{%     if fieldDescription['@primary'] === 'true' %}
+			{%       set primaryIdx = loop.index0 %}
+			{%     endif %}
+			<th class="text-center">
+				<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{fieldDescription['@field']|e}}"><i class="fa fa-chevron-down"></i></a>
+				<span class="text-primary"{% if fieldDescription['$'] and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{fieldDescription['@label']|e}}</span>
+				<a href="#" class="text-secondary" data-orderway="ASC" data-row="{{fieldDescription['@field']|e}}"><i class="fa fa-chevron-up"></i></a>
+				{% if showTools %}
+				<br />
+				{%   if fieldDescription['@field'] is not empty %}
+				<a href="#" class="text-secondary mx-1" data-action="refine" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-filter"></i></a>
+				{%   endif %}
+				{%   if fieldDescription['@statable'] === 'true' %}
+				<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-bar-chart"></i></a>
+				{%   endif %}
+				{%   if fieldDescription['@groupable'] === 'true' %}
+				<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-slack"></i></a>
+				{%   endif %}
+				{% endif %}
+			</th>
+			{%   endfor %}
+			<!-- ******************************************************** -->
 			{% else %}
-			<span class="edit-field" data-row="{{elementId|e}}" data-col="{{field['@name']|e}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$|e}}</span>
-			{%   if field['link'] is defined %}
-			<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}"{% if link['@target'] is not empty %} target="{{link['@target']|e}}"{% endif %}{% if link['@data-ctrl'] is not empty %} data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}{% if link['@data-ctrl-location'] is not empty %} data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}{% if link['@data-params'] is not empty %} data-params="{{link['@data-params']|e}}"{% endif %}{% if link['@data-settings'] is not empty %} data-settings="{{link['@data-settings']|e}}"{% endif %}{% if link['@data-icon'] is not empty %} data-icon="{{link['@data-icon']|e}}"{% endif %}{% if link['@data-title'] is not empty %} data-title="{{link['@data-title']|e}}"{% endif %}>{{link['@label']|e}}</a>{% endfor %}
+			<!-- ******************************************************** -->
+			{%   if rows is not empty %}
+			{%     for field in rows[0].field %}
+			{%       if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
+			<th class="text-center">
+				<span class="text-primary">{{field['@name']|e}}</span>
+			</th>
+			{%       endif %}
+			{%     endfor %}
 			{%   endif %}
+			<!-- ******************************************************** -->
 			{% endif %}
-		</td>
-		{%   endif %}
-		{% endfor %}
-	</tr>
-	{%   endfor %}
-	{% else %}
-	<tr>
-		<td class="text-center text-warning">empty table</td>
-	</tr>
-	{% endif %}
+		</tr>
+	</thead>
+	<!-- **************************************************************** -->
+	<tbody>
+		{% if rows is not empty %}
+		{%   for row in rows %}
+		<tr>
+			<!-- ******************************************************** -->
+			{% if fieldDescriptions is not empty %}
+			{%   if showDetails %}
+			<td class="text-center xxxxxxxxx">
+				<a href="#" class="text-secondary" data-ctrl="elementInfo" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e}}&quot;, &quot;{{fieldDescriptions[primaryIdx]['@entity']|e}}&quot;, &quot;{{fieldDescriptions[primaryIdx]['@field']|e}}&quot;, &quot;{{row.field[primaryIdx].$|e}}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescriptions[primaryIdx]['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
+			</td>
+			{%   endif %}
+			<td class="text-center edit-mode">
+				<a href="#" class="text-info" data-action="clone" data-row="{{row.field[primaryIdx].$|e}}"><i class="fa fa-files-o"></i></a>
+				&nbsp;
+				<a href="#" class="text-danger" data-action="delete" data-row="{{row.field[primaryIdx].$|e}}"><i class="fa fa-trash"></i></a>
+			</td>
+			{% endif %}
+			<!-- ******************************************************** -->
+			{% for field in row.field %}
+			{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
+			<td class="text-center">
+				{% if field.$ starts with '@owner::' %}
+				<a href="#" data-action="filter" data-filter-def="{{field.$.substring(8)|e}}"><i class="fa fa-link"></i></a>
+				{% else %}
+				{%   if primaryIdx >= 0 %}
+				<span class="edit-field" data-row="{{row.field[primaryIdx].$|e}}" data-col="{{field['@name']|e}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$|e}}</span>
+				{%   else %}
+				<span>{{field.$|e}}</span>
+				{%   endif %}
+				{%   if field['link'] is defined %}
+				<br />{% for link in field['link'] %}{% if not loop.first %} - {% endif %}<a href="{{link['@href']|e}}"{% if link['@target'] is not empty %} target="{{link['@target']|e}}"{% endif %}{% if link['@data-ctrl'] is not empty %} data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}{% if link['@data-ctrl-location'] is not empty %} data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}{% if link['@data-params'] is not empty %} data-params="{{link['@data-params']|e}}"{% endif %}{% if link['@data-settings'] is not empty %} data-settings="{{link['@data-settings']|e}}"{% endif %}{% if link['@data-icon'] is not empty %} data-icon="{{link['@data-icon']|e}}"{% endif %}{% if link['@data-title'] is not empty %} data-title="{{link['@data-title']|e}}"{% endif %}>{{link['@label']|e}}</a>{% endfor %}
+				{%   endif %}
+				{% endif %}
+			</td>
+			{%   endif %}
+			{% endfor %}
+			<!-- ******************************************************** -->
+		</tr>
+		{%   endfor %}
+		{% else %}
+		<tr>
+			<td class="text-center text-warning" colspan="100">empty table</td>
+		</tr>
+		{% endif %}
+	</tbody>
+	<!-- **************************************************************** -->
 </table>
