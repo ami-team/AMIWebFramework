@@ -7135,12 +7135,13 @@ $AMINamespace('amiLogin',
         if (_this14.ssoInfo.url.startsWith(e.origin)) {
           if (user && pass) {
             _this14.form_login2(user, pass);
+
+            e.source.close();
           }
         } else {
           amiWebApp.error('???');
+          e.source.close();
         }
-
-        e.source.close();
       }, false);
       /*-------------------------------------------------------------*/
 
