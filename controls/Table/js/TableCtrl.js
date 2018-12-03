@@ -953,6 +953,7 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
+		//!WARNING
 		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
 
 		var aliases = regions['ALIASES'];
