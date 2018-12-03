@@ -59,11 +59,13 @@
 				<a href="#" class="text-secondary" data-ctrl="elementInfo" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e}}&quot;, &quot;{{fieldDescriptions[primaryIdx]['@entity']|e}}&quot;, &quot;{{fieldDescriptions[primaryIdx]['@field']|e}}&quot;, &quot;{{row.field[primaryIdx].$|e}}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescriptions[primaryIdx]['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
 			</td>
 			{%   endif %}
-			<td class="text-center edit-mode">
-				<a href="#" class="text-info" data-action="clone" data-row="{{row.field[primaryIdx].$|e}}"><i class="fa fa-files-o"></i></a>
-				&nbsp;
-				<a href="#" class="text-danger" data-action="delete" data-row="{{row.field[primaryIdx].$|e}}"><i class="fa fa-trash"></i></a>
-			</td>
+				{%   if primaryIdx >= 0 %}
+				<td class="text-center edit-mode">
+					<a href="#" class="text-info" data-action="clone" data-row="{{row.field[primaryIdx].$|e}}"><i class="fa fa-files-o"></i></a>
+					&nbsp;
+					<a href="#" class="text-danger" data-action="delete" data-row="{{row.field[primaryIdx].$|e}}"><i class="fa fa-trash"></i></a>
+				</td>
+				{% endif %}
 			{% endif %}
 			<!-- ******************************************************** -->
 			{% for field in row.field %}
