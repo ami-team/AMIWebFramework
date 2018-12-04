@@ -485,7 +485,7 @@ $AMIClass('TableCtrl', {
 		amiCommand.execute(command, {context: this}).done(function(data) {
 
 			this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
-			                                        : amiWebApp.jspath('..fieldDescription'                                                        , data)
+			                                             : amiWebApp.jspath('..fieldDescription'                                                        , data)
 			;
 
 			var rowset = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)

@@ -135,16 +135,6 @@ function xqlGetRegions(xql, fieldDescriptions)
 
 	/*-----------------------------------------------------------------*/
 
-
-	/*if (result['FROM'])
-	{
-		result['ALIASES'] = _xqlGetAliases(result['SELECT'], result['FROM']);
-	}
-	else
-	{
-		result['ALIASES'] = _xqlGetAliases(result['SELECT'], '');
-	}*/
-
 	result['ALIASES'] = _getAliases(fieldDescriptions);
 
 	/*-----------------------------------------------------------------*/
