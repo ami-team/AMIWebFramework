@@ -1175,23 +1175,23 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var sql = [];
+		var xql = [];
 
 		if(regions['SELECT']) {
-			sql.push('SELECT ' + regions['SELECT']);
+			xql.push('SELECT ' + regions['SELECT']);
 		}
 
 		if(regions['FROM']) {
-			sql.push('FROM ' + regions['FROM']);
+			xql.push('FROM ' + regions['FROM']);
 		}
 
 		if(regions['WHERE']) {
-			sql.push('WHERE ' + regions['WHERE']);
+			xql.push('WHERE ' + regions['WHERE']);
 		}
 
 		/*---------------------------------------------------------*/
 
-		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -sql="' + amiWebApp.textToString(sql.join(' ')) + '"';
+		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
 		/*---------------------------------------------------------*/
 
@@ -1220,27 +1220,27 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var sql = [];
+		var xql = [];
 
 		if(regions['SELECT']) {
-			sql.push('SELECT ' + regions['SELECT']);
+			xql.push('SELECT ' + regions['SELECT']);
 		}
 
 		if(regions['FROM']) {
-			sql.push('FROM ' + regions['FROM']);
+			xql.push('FROM ' + regions['FROM']);
 		}
 
 		if(regions['WHERE']) {
-			sql.push('WHERE ' + regions['WHERE']);
+			xql.push('WHERE ' + regions['WHERE']);
 		}
 
 		if(regions['GROUP']) {
-			sql.push('GROUP BY ' + regions['GROUP'].replace(entity, aliases[field].tableAlias));
+			xql.push('GROUP BY ' + regions['GROUP'].replace(entity, aliases[field].tableAlias));
 		}
 
 		/*---------------------------------------------------------*/
 
-		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -sql="' + amiWebApp.textToString(sql.join(' ')) + '"';
+		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
 		/*---------------------------------------------------------*/
 
