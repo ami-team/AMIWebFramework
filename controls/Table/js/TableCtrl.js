@@ -265,7 +265,7 @@ $AMIClass('TableCtrl', {
 		}
 		else
 		{
-			alert('987654321');
+			//alert('987654321');
 
 			this._render(selector);
 		}
@@ -953,7 +953,8 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.mql && this.mql !== 'N/A' ? this.mql : this.sql);
+		//!WARNING
+		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
 
 		var aliases = regions['ALIASES'];
 
@@ -1103,7 +1104,7 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.mql && this.mql !== 'N/A' ? this.mql : this.sql);
+		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
 
 		/*---------------------------------------------------------*/
 
@@ -1149,7 +1150,7 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.mql && this.mql !== 'N/A' ? this.mql : this.sql);
+		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
 
 		var aliases = regions['ALIASES'];
 
@@ -1204,7 +1205,7 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.mql && this.mql !== 'N/A' ? this.mql : this.sql);
+		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
 
 		var aliases = regions['ALIASES'];
 
