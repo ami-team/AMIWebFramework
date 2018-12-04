@@ -100,6 +100,7 @@ $AMIClass('TableCtrl', {
 
 			fieldInfo: [],
 			primaryField: '',
+			fieldDescriptions: [],
 
 			sql: 'N/A',
 			mql: 'N/A',
@@ -483,7 +484,7 @@ $AMIClass('TableCtrl', {
 
 		amiCommand.execute(command, {context: this}).done(function(data) {
 
-			var fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
+			this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
 			                                        : amiWebApp.jspath('..fieldDescription'                                                        , data)
 			;
 
@@ -516,7 +517,7 @@ $AMIClass('TableCtrl', {
 			}
 
 			var dict = {
-				fieldDescriptions: fieldDescriptions,
+				fieldDescriptions: this.ctx.fieldDescriptions,
 				rows: rows,
 				showDetails: this.ctx.showDetails,
 				showTools: this.ctx.showTools,
@@ -954,7 +955,7 @@ $AMIClass('TableCtrl', {
 		/*---------------------------------------------------------*/
 
 		//!WARNING
-		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
+		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql, this.ctx.fieldDescriptions);
 
 		var aliases = regions['ALIASES'];
 
@@ -1104,7 +1105,7 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
+		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql, this.ctx.fieldDescriptions);
 
 		/*---------------------------------------------------------*/
 
@@ -1150,7 +1151,7 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
+		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql, this.ctx.fieldDescriptions);
 
 		var aliases = regions['ALIASES'];
 
@@ -1205,7 +1206,7 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
+		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql, this.ctx.fieldDescriptions);
 
 		var aliases = regions['ALIASES'];
 
