@@ -160,7 +160,7 @@ function _getAliases(fieldDescriptions)
 
 	fieldDescriptions.forEach(function(item) {
 
-		result[amiWebApp.jspath('@label', item)] = {'field' : amiWebApp.jspath('@field', item), 'fieldAlias' : amiWebApp.jspath('@label', item), 'table' : amiWebApp.jspath('@entity', item), 'tableAlias' : amiWebApp.jspath('@entity', item)};
+		result[amiWebApp.jspath('..@label', item)] = {'field' : amiWebApp.jspath('..@field', item), 'fieldAlias' : amiWebApp.jspath('..@label', item), 'table' : amiWebApp.jspath('..@entity', item), 'tableAlias' : amiWebApp.jspath('..@entity', item)};
 	});
 
 	return result;
