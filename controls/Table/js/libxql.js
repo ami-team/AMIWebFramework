@@ -76,7 +76,7 @@ var _xqlRegions = {
 
 /*-------------------------------------------------------------------------*/
 
-function xqlGetRegions(xql)
+function xqlGetRegions(xql, fieldDescriptions)
 {
 	var result = {};
 
@@ -136,16 +136,32 @@ function xqlGetRegions(xql)
 	/*-----------------------------------------------------------------*/
 
 
-	if (result['FROM'])
+	/*if (result['FROM'])
 	{
 		result['ALIASES'] = _xqlGetAliases(result['SELECT'], result['FROM']);
 	}
 	else
 	{
 		result['ALIASES'] = _xqlGetAliases(result['SELECT'], '');
-	}
+	}*/
+
+	result['ALIASES'] = _getAliases(fieldDescriptions);
 
 	/*-----------------------------------------------------------------*/
+
+	return result;
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _getAliases(fieldDescriptions)
+{
+	var result = {};
+
+	fieldDescriptions.forEach(function(item) {
+
+		result[amiWebApp.jspath('@label', item)] = {'field' : amiWebApp.jspath('@field', item), 'fieldAlias' : amiWebApp.jspath('@label', item), 'table' : amiWebApp.jspath('@entity', item), 'tableAlias' : amiWebApp.jspath('@entity', item)};
+	});
 
 	return result;
 }
