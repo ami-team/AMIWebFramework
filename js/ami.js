@@ -7137,7 +7137,7 @@ $AMINamespace('amiLogin',
             _this14.form_login2(user, pass);
           }
         } else {
-          amiWebApp.error('???');
+          amiWebApp.error('Security issue, contact the AMI team.');
         }
 
         e.source.close();

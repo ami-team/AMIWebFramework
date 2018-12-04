@@ -8529,7 +8529,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				}
 				else
 				{
-					amiWebApp.error('???');
+					amiWebApp.error('Security issue, contact the AMI team.');
 				}
 
 				e.source.close();
