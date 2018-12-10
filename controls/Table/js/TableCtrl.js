@@ -100,6 +100,7 @@ $AMIClass('TableCtrl', {
 
 			fieldInfo: [],
 			primaryField: '',
+			fieldDescriptions: [],
 
 			sql: 'N/A',
 			mql: 'N/A',
@@ -483,8 +484,8 @@ $AMIClass('TableCtrl', {
 
 		amiCommand.execute(command, {context: this}).done(function(data) {
 
-			var fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
-			                                        : amiWebApp.jspath('..fieldDescription'                                                        , data)
+			this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
+			                                             : amiWebApp.jspath('..fieldDescription'                                                        , data)
 			;
 
 			var rowset = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)
@@ -516,7 +517,7 @@ $AMIClass('TableCtrl', {
 			}
 
 			var dict = {
-				fieldDescriptions: fieldDescriptions,
+				fieldDescriptions: this.ctx.fieldDescriptions,
 				rows: rows,
 				showDetails: this.ctx.showDetails,
 				showTools: this.ctx.showTools,
@@ -954,7 +955,7 @@ $AMIClass('TableCtrl', {
 		/*---------------------------------------------------------*/
 
 		//!WARNING
-		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
+		var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
 
 		var aliases = regions['ALIASES'];
 
@@ -1104,7 +1105,7 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
+		var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
 
 		/*---------------------------------------------------------*/
 
@@ -1150,7 +1151,7 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
+		var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
 
 		var aliases = regions['ALIASES'];
 
@@ -1174,23 +1175,23 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var sql = [];
+		var xql = [];
 
 		if(regions['SELECT']) {
-			sql.push('SELECT ' + regions['SELECT']);
+			xql.push('SELECT ' + regions['SELECT']);
 		}
 
 		if(regions['FROM']) {
-			sql.push('FROM ' + regions['FROM']);
+			xql.push('FROM ' + regions['FROM']);
 		}
 
 		if(regions['WHERE']) {
-			sql.push('WHERE ' + regions['WHERE']);
+			xql.push('WHERE ' + regions['WHERE']);
 		}
 
 		/*---------------------------------------------------------*/
 
-		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -sql="' + amiWebApp.textToString(sql.join(' ')) + '"';
+		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
 		/*---------------------------------------------------------*/
 
@@ -1205,7 +1206,7 @@ $AMIClass('TableCtrl', {
 	{
 		/*---------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.ctx.sql && this.ctx.sql !== 'N/A' ? this.ctx.sql : this.ctx.mql);
+		var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
 
 		var aliases = regions['ALIASES'];
 
@@ -1219,27 +1220,27 @@ $AMIClass('TableCtrl', {
 
 		/*---------------------------------------------------------*/
 
-		var sql = [];
+		var xql = [];
 
 		if(regions['SELECT']) {
-			sql.push('SELECT ' + regions['SELECT']);
+			xql.push('SELECT ' + regions['SELECT']);
 		}
 
 		if(regions['FROM']) {
-			sql.push('FROM ' + regions['FROM']);
+			xql.push('FROM ' + regions['FROM']);
 		}
 
 		if(regions['WHERE']) {
-			sql.push('WHERE ' + regions['WHERE']);
+			xql.push('WHERE ' + regions['WHERE']);
 		}
 
 		if(regions['GROUP']) {
-			sql.push('GROUP BY ' + regions['GROUP'].replace(entity, aliases[field].tableAlias));
+			xql.push('GROUP BY ' + regions['GROUP'].replace(entity, aliases[field].tableAlias));
 		}
 
 		/*---------------------------------------------------------*/
 
-		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -sql="' + amiWebApp.textToString(sql.join(' ')) + '"';
+		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
 		/*---------------------------------------------------------*/
 
