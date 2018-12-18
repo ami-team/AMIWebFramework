@@ -191,8 +191,6 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		//alert(!this.ctx.primaryField + ' ' + this.ctx.showDetails + ' ' + this.ctx.showTools + ' ' + this.ctx.canEdit + ' ' + (this.ctx.fieldInfo.length === 0));
-
 		if(!this.ctx.primaryField
 		   &&
 		   (
@@ -266,8 +264,6 @@ $AMIClass('TableCtrl', {
 		}
 		else
 		{
-			//alert('987654321');
-
 			this._render(selector);
 		}
 
@@ -789,18 +785,11 @@ $AMIClass('TableCtrl', {
 			dict = {
 				fieldInfo: []
 			};
-
-			this.ctx.fieldInfo.forEach(function(field) {
-
-				alert(JSON.stringify(field));
-			});
 		}
 		else
 		{
 			dict = this.ctx;
 		}
-
-		alert(JSON.stringify(dict));
 
 		/*-----------------------------------------------------------------*/
 
@@ -889,7 +878,7 @@ $AMIClass('TableCtrl', {
 
 			amiCommand.execute(this.ctx.updateCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
-			//	this.hideEditModal();
+				this.hideEditModal();
 
 				this.refresh();
 
