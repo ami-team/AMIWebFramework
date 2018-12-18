@@ -265,8 +265,6 @@ $AMIClass('TableCtrl', {
 		}
 		else
 		{
-			//alert('987654321');
-
 			this._render(selector);
 		}
 
