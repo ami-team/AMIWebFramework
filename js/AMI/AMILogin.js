@@ -131,13 +131,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 						this.form_login2(user, pass);
 					}
 				}
-<<<<<<< HEAD
-=======
-				else
-				{
-					amiWebApp.error('???');
-				}
->>>>>>> parent of ee81040... update
 
 				e.source.close();
 
