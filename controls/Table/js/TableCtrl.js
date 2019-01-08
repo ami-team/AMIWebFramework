@@ -644,18 +644,18 @@ $AMIClass('TableCtrl', {
 
 				fields.focus(function() {
 
-					this.data_orig = this.innerHTML;
+					this.data_orig = this.textContent;
 				});
 
 				/*---------------------------------------------------------*/
 
 				fields.blur(function() {
 
-					if(this.innerHTML != this.data_orig)
+					if(this.textContent != this.data_orig)
 					{
-						if(!that.updateRow(this.getAttribute('data-row'), this.getAttribute('data-col'), this.innerHTML))
+						if(!that.updateRow(this.getAttribute('data-row'), this.getAttribute('data-col'), this.textContent))
 						{
-							this.innerHTML = this.data_orig;
+							this.textContent = this.data_orig;
 						}
 					}
 				});
@@ -666,7 +666,7 @@ $AMIClass('TableCtrl', {
 
 					/**/ if(e.keyCode == 13)
 					{
-					    this.innerHTML = this.innerHTML;
+					    this.textContent = this.textContent;
 
 						e.preventDefault();
 
@@ -676,7 +676,7 @@ $AMIClass('TableCtrl', {
 					}
 					else if(e.keyCode == 27)
 					{
-						this.innerHTML = this.data_orig;
+						this.textContent = this.data_orig;
 
 						e.preventDefault();
 
