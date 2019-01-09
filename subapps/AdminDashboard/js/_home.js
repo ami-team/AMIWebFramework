@@ -149,6 +149,16 @@ $AMIClass('AdminDashboardHome', {
 
 				/*---------------------------------------------------------*/
 
+				var buildVersion = amiWebApp.jspath('..field{.@name==="buildVersion"}.$', data)[0] || 'N/A';
+				var commitIdAbbrev = amiWebApp.jspath('..field{.@name==="commitIdAbbrev"}.$', data)[0] || 'N/A';
+
+				/*---------------------------------------------------------*/
+
+				$('#F1FA8298_F283_E0C4_A9F6_74C8EB2E4762').text(buildVersion);
+				$('#A8F46B0F_4657_09B7_BB0D_6B4434FD79A3').text(commitIdAbbrev);
+
+				/*---------------------------------------------------------*/
+
 				var hostName = amiWebApp.jspath('..field{.@name==="hostName"}.$', data)[0] || 'N/A';
 
 				var freeDisk = parseInt(amiWebApp.jspath('..field{.@name==="freeDisk"}.$', data)[0] || '0');
