@@ -18,10 +18,103 @@ $AMIClass('AdminDashboardHome', {
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
+			'js/3rd-party/chart.bundle.min.js',
 			'subapps/AdminDashboard/twig/home/home.twig',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0]).done(function() {
+			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[1], {context: this}).done(function() {
+
+				/*---------------------------------------------------------*/
+
+				var options1 = {
+					rotation: -Math.PI,
+					cutoutPercentage: 50,
+					circumference: +Math.PI,
+					animation: {
+						animateScale: false,
+						animateRotate: false,
+					},
+					legend: {
+						display: true,
+						position: 'left',
+					},
+					title: {
+						display: true,
+						position: 'bottom',
+						text: 'Disk availability [MBytes]',
+					},
+				};
+
+				/*---------------------------------------------------------*/
+
+				var options2 = {
+					rotation: -Math.PI,
+					cutoutPercentage: 50,
+					circumference: +Math.PI,
+					animation: {
+						animateScale: false,
+						animateRotate: false,
+					},
+					legend: {
+						display: true,
+						position: 'left',
+					},
+					title: {
+						display: true,
+						position: 'bottom',
+						text: 'Memory availability [MBytes]',
+					},
+				};
+
+				/*---------------------------------------------------------*/
+
+				this._chart1 = new Chart($('#F6D24B37_F159_CB36_2D51_466740F9588E')[0].getContext('2d'), {
+					type: 'pie',
+					data: {
+						labels: [
+							'Used',
+							'Free',
+						],
+						datasets: [{
+							data: [0, 100],
+							borderColor: [
+								'#F5C6CB',
+								'#C3E6CB',
+							],
+							backgroundColor: [
+								'#F5C6CB',
+								'#D4EDDA',
+							],
+						}],
+					},
+					options: options1,
+				});
+
+				/*---------------------------------------------------------*/
+
+				this._chart2 = new Chart($('#D058BCEF_2903_2D9D_837F_0B5C8858011D')[0].getContext('2d'), {
+					type: 'pie',
+					data: {
+						labels: [
+							'Used',
+							'Free',
+						],
+						datasets: [{
+							data: [0, 100],
+							borderColor: [
+								'#F5C6CB',
+								'#C3E6CB',
+							],
+							backgroundColor: [
+								'#F5C6CB',
+								'#D4EDDA',
+							],
+						}]
+					},
+					options: options2,
+				});
+
+				/*---------------------------------------------------------*/
 
 				result.resolve();
 			});
@@ -38,7 +131,7 @@ $AMIClass('AdminDashboardHome', {
 
 	onLogin: function()
 	{
-		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(*) FROM `router_config`) AS `nb1`, (SELECT COUNT(*) FROM `router_role`) AS `nb2`, (SELECT COUNT(*) FROM `router_command`) AS `nb3`, (SELECT COUNT(*) FROM `router_user`) AS `nb4`, (SELECT COUNT(*) FROM `router_catalog`) AS `nb5`"').done(function(data) {
+			amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(*) FROM `router_config`) AS `nb1`, (SELECT COUNT(*) FROM `router_role`) AS `nb2`, (SELECT COUNT(*) FROM `router_command`) AS `nb3`, (SELECT COUNT(*) FROM `router_user`) AS `nb4`, (SELECT COUNT(*) FROM `router_catalog`) AS `nb5`"', {context: this}).done(function(data) {
 
 			var nr1 = amiWebApp.jspath('..field{.@name==="nb1"}.$', data);
 			var nr2 = amiWebApp.jspath('..field{.@name==="nb2"}.$', data);
@@ -51,6 +144,39 @@ $AMIClass('AdminDashboardHome', {
 			$('#B1969A3F_D9F3_DEA2_E351_53A827AECA72').text(nr3);
 			$('#CFC83907_4194_F600_8191_C0DEB7CADF25').text(nr4);
 			$('#BC9730FE_4458_C523_2F43_2B16F0671E7E').text(nr5);
+
+			amiCommand.execute('GetServerStatus', {context: this}).done(function(data) {
+
+				/*---------------------------------------------------------*/
+
+				var hostName = amiWebApp.jspath('..field{.@name==="hostName"}.$', data) || 'N/A';
+
+				var freeDisk = parseInt(amiWebApp.jspath('..field{.@name==="freeDisk"}.$', data) || '0');
+				var totalDisk = parseInt(amiWebApp.jspath('..field{.@name==="totalDisk"}.$', data) || '0');
+
+				var freeMem = parseInt(amiWebApp.jspath('..field{.@name==="freeMem"}.$', data) || '0');
+				var totalMem = parseInt(amiWebApp.jspath('..field{.@name==="totalMem"}.$', data) || '0');
+
+				/*---------------------------------------------------------*/
+
+				$('#C2C3B0C0_753B_47BD_926A_B71AF5399852').text(hostName);
+
+				/*---------------------------------------------------------*/
+
+				this._chart1.data.datasets[0].data[0] = Math.round((totalDisk - freeDisk) / (1024.0 * 1024.0));
+				this._chart1.data.datasets[0].data[1] = Math.round((freeDisk - 0x000000) / (1024.0 * 1024.0));
+				this._chart1.update();
+
+				this._chart2.data.datasets[0].data[0] = Math.round((totalMem - freeMem) / (1024.0 * 1024.0));
+				this._chart2.data.datasets[0].data[1] = Math.round((freeMem - 0x00000) / (1024.0 * 1024.0));
+				this._chart2.update();
+
+				/*---------------------------------------------------------*/
+
+			}).fail(function(data) {
+
+				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			});
 
 		}).fail(function(data) {
 
