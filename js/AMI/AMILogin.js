@@ -117,22 +117,18 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			window.addEventListener('message', (e) => {
 
-				const user = e.data.user;
-				const pass = e.data.pass;
-
 				if(this.ssoInfo.url.startsWith(e.origin))
 				{
+					const user = e.data.user;
+					const pass = e.data.pass;
+
 					if(user && pass)
 					{
 						this.form_login2(user, pass);
 					}
-				}
-				else
-				{
-					amiWebApp.error('Security issue, contact the AMI team.');
-				}
 
-				e.source.close();
+					e.source.close();
+				}
 
 			}, false);
 

@@ -230,7 +230,7 @@ $AMIClass('AdminDashboardHome', {
 
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute('FlushServerCaches').done(function(data) {
+		amiCommand.execute('FlushServerCaches -full').done(function(data) {
 
 			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
 
