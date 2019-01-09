@@ -133,11 +133,11 @@ $AMIClass('AdminDashboardHome', {
 	{
 			amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(*) FROM `router_config`) AS `nb1`, (SELECT COUNT(*) FROM `router_role`) AS `nb2`, (SELECT COUNT(*) FROM `router_command`) AS `nb3`, (SELECT COUNT(*) FROM `router_user`) AS `nb4`, (SELECT COUNT(*) FROM `router_catalog`) AS `nb5`"', {context: this}).done(function(data) {
 
-			var nr1 = amiWebApp.jspath('..field{.@name==="nb1"}.$', data);
-			var nr2 = amiWebApp.jspath('..field{.@name==="nb2"}.$', data);
-			var nr3 = amiWebApp.jspath('..field{.@name==="nb3"}.$', data);
-			var nr4 = amiWebApp.jspath('..field{.@name==="nb4"}.$', data);
-			var nr5 = amiWebApp.jspath('..field{.@name==="nb5"}.$', data);
+			var nr1 = amiWebApp.jspath('..field{.@name==="nb1"}.$', data)[0] || 'N/A';
+			var nr2 = amiWebApp.jspath('..field{.@name==="nb2"}.$', data)[0] || 'N/A';
+			var nr3 = amiWebApp.jspath('..field{.@name==="nb3"}.$', data)[0] || 'N/A';
+			var nr4 = amiWebApp.jspath('..field{.@name==="nb4"}.$', data)[0] || 'N/A';
+			var nr5 = amiWebApp.jspath('..field{.@name==="nb5"}.$', data)[0] || 'N/A';
 
 			$('#F38F2C33_FD2B_0947_D711_D07C095AED8C').text(nr1);
 			$('#B86F861D_ECA4_8CF4_1ABC_30EFF044A03F').text(nr2);
@@ -149,17 +149,21 @@ $AMIClass('AdminDashboardHome', {
 
 				/*---------------------------------------------------------*/
 
-				var hostName = amiWebApp.jspath('..field{.@name==="hostName"}.$', data) || 'N/A';
+				var hostName = amiWebApp.jspath('..field{.@name==="hostName"}.$', data)[0] || 'N/A';
 
-				var freeDisk = parseInt(amiWebApp.jspath('..field{.@name==="freeDisk"}.$', data) || '0');
-				var totalDisk = parseInt(amiWebApp.jspath('..field{.@name==="totalDisk"}.$', data) || '0');
+				var freeDisk = parseInt(amiWebApp.jspath('..field{.@name==="freeDisk"}.$', data)[0] || '0');
+				var totalDisk = parseInt(amiWebApp.jspath('..field{.@name==="totalDisk"}.$', data)[0] || '0');
 
-				var freeMem = parseInt(amiWebApp.jspath('..field{.@name==="freeMem"}.$', data) || '0');
-				var totalMem = parseInt(amiWebApp.jspath('..field{.@name==="totalMem"}.$', data) || '0');
+				var freeMem = parseInt(amiWebApp.jspath('..field{.@name==="freeMem"}.$', data)[0] || '0');
+				var totalMem = parseInt(amiWebApp.jspath('..field{.@name==="totalMem"}.$', data)[0] || '0');
+
+				var nbOfCores = amiWebApp.jspath('..field{.@name==="nbOfCores"}.$', data)[0] || 'N/A';
 
 				/*---------------------------------------------------------*/
 
-				$('#C2C3B0C0_753B_47BD_926A_B71AF5399852').text(hostName);
+				$('#C2C3B0C0_753B_47BD_926A_B71AF5399852').html(
+					'Host name: <strong>' + amiWebApp.textToHtml(hostName) + '</strong>, nb of cores: <strong>' + amiWebApp.textToHtml(nbOfCores) + '</strong>, disk: <strong>' + Math.round(totalDisk / (1024.0 * 1024.0)) + '</strong> MBytes, memory: <strong>' + Math.round(totalMem / (1024.0 * 1024.0)) + '</strong> MBytes'
+				);
 
 				/*---------------------------------------------------------*/
 
