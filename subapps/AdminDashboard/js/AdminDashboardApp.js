@@ -95,6 +95,7 @@ $AMIClass('AdminDashboardApp', {
 		{
 			amiWebApp.flush();
 
+			$('#C54485C3_44F8_CE8E_0F54_BF847CEECE11').show();
 			$('#CB6036B7_5971_41C2_1194_F5A051B21EA0').show();
 
 			if(this.subsubapp.onLogin)
@@ -114,6 +115,7 @@ $AMIClass('AdminDashboardApp', {
 	{
 		amiWebApp.error('Administrator roles required!');
 
+		$('#C54485C3_44F8_CE8E_0F54_BF847CEECE11').hide();
 		$('#CB6036B7_5971_41C2_1194_F5A051B21EA0').hide();
 	},
 
