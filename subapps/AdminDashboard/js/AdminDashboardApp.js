@@ -95,12 +95,18 @@ $AMIClass('AdminDashboardApp', {
 		{
 			if(this.subsubapp.onLogin)
 			{
+				$('#CB6036B7_5971_41C2_1194_F5A051B21EA0').show();
+
+				amiWebApp.flush();
+
 				return this.subsubapp.onLogin();
 			}
 		}
 		else
 		{
-			amiWebApp.error('This interface requires administrator roles!');
+			$('#CB6036B7_5971_41C2_1194_F5A051B21EA0').hide();
+
+			amiWebApp.error('Administrator roles required!');
 		}
 	},
 
