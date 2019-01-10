@@ -131,7 +131,7 @@ $AMIClass('AdminDashboardHome', {
 
 	onLogin: function()
 	{
-			amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(*) FROM `router_config`) AS `nb1`, (SELECT COUNT(*) FROM `router_role`) AS `nb2`, (SELECT COUNT(*) FROM `router_command`) AS `nb3`, (SELECT COUNT(*) FROM `router_user`) AS `nb4`, (SELECT COUNT(*) FROM `router_catalog`) AS `nb5`"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(*) FROM `router_config`) AS `nb1`, (SELECT COUNT(*) FROM `router_role`) AS `nb2`, (SELECT COUNT(*) FROM `router_command`) AS `nb3`, (SELECT COUNT(*) FROM `router_user`) AS `nb4`, (SELECT COUNT(*) FROM `router_catalog`) AS `nb5`"', {context: this}).done(function(data) {
 
 			var nr1 = amiWebApp.jspath('..field{.@name==="nb1"}.$', data)[0] || 'N/A';
 			var nr2 = amiWebApp.jspath('..field{.@name==="nb2"}.$', data)[0] || 'N/A';

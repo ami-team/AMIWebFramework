@@ -93,20 +93,18 @@ $AMIClass('AdminDashboardApp', {
 	{
 		if(amiLogin.hasRole('AMI_ADMIN'))
 		{
+			amiWebApp.flush();
+
+			$('#CB6036B7_5971_41C2_1194_F5A051B21EA0').show();
+
 			if(this.subsubapp.onLogin)
 			{
-				$('#CB6036B7_5971_41C2_1194_F5A051B21EA0').show();
-
-				amiWebApp.flush();
-
 				return this.subsubapp.onLogin();
 			}
 		}
 		else
 		{
-			$('#CB6036B7_5971_41C2_1194_F5A051B21EA0').hide();
-
-			amiWebApp.error('Administrator roles required!');
+			return this.onLogout();
 		}
 	},
 
@@ -114,10 +112,9 @@ $AMIClass('AdminDashboardApp', {
 
 	onLogout: function()
 	{
-		if(this.subsubapp.onLogout)
-		{
-			return this.subsubapp.onLogout();
-		}
+		amiWebApp.error('Administrator roles required!');
+
+		$('#CB6036B7_5971_41C2_1194_F5A051B21EA0').hide();
 	},
 
 	/*---------------------------------------------------------------------*/
