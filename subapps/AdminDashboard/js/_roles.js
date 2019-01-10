@@ -29,9 +29,9 @@ $AMIClass('AdminDashboardRoles', {
 				result.resolve();
 			});
 
-		}).fail(function() {
+		}).fail(function(message) {
 
-			result.reject();
+			result.reject(message);
 		});
 
 		return result;

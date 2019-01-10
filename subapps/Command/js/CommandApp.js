@@ -39,9 +39,9 @@ $AMIClass('CommandApp', {
 				result.resolve();
 			});
 
-		}).fail(function(data) {
+		}).fail(function(message) {
 
-			result.reject(data);
+			result.reject(message);
 		});
 
 		return result;
@@ -51,8 +51,24 @@ $AMIClass('CommandApp', {
 
 	onLogin: function()
 	{
-		amiCommand.execute('ListCommands', {context: this}).done(function(data)
+		return this._load();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	onLogout: function()
+	{
+		return this._load();
+	},
+
+	/*-----------------------------------------------------------------*/
+
+	_load: function()
+	{
+		return amiCommand.execute('ListCommands', {context: this}).done(function(data)
 		{
+			var isAuthenticated = amiLogin.isAuthenticated();
+
 			var rows = amiWebApp.jspath('..row', data);
 
 			var dict = [];
@@ -67,7 +83,7 @@ $AMIClass('CommandApp', {
 				var help = amiWebApp.jspath('..field{.@name==="help" || .@name==="shortHelp"}.$', row)[0] || ''; // BERK
 				var usage = amiWebApp.jspath('..field{.@name==="usage"}.$', row)[0] || '';
 
-				if(visible || amiLogin.hasRole('AMI_ADMIN'))
+				if((visible && isAuthenticated) || amiLogin.hasRole('AMI_ADMIN') || command === 'GetSessionInfo' || command === 'ResetPassword' || command === 'AddUser')
 				{
 					if(command.indexOf('AMI') === 0)
 					{
@@ -95,28 +111,8 @@ $AMIClass('CommandApp', {
 				}
 			});
 
-			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this.fragmentCommand, {dict: dict}).done(function() {
-
-				$('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').prop('disabled', false);
-				$('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').prop('disabled', false);
-				$('#C124A2A9_B5F5_46F0_AFBC_234859F3F6FA').prop('disabled', false);
-			});
-
-		}).fail(function(data) {
-
-			amiWebApp.error(amiWebApp.jspath('..error.$', data));
+			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this.fragmentCommand, {dict: dict});
 		});
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	onLogout: function()
-	{
-		$('#D847C44B_D28F_49B3_AF79_7A68B3305ED2').empty();
-
-		$('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').prop('disabled', true);
-		$('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').prop('disabled', true);
-		$('#C124A2A9_B5F5_46F0_AFBC_234859F3F6FA').prop('disabled', true);
 	},
 
 	/*-----------------------------------------------------------------*/
@@ -134,7 +130,7 @@ $AMIClass('CommandApp', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute(command, {context: this, converter: converter}).always(function(data, url) {
+			amiCommand.execute(command, {context: this, converter: converter}).always(function(data, message, url) {
 
 				data = (converter === 'AMIXmlToJson.xsl') ? JSON.stringify(data, undefined, 2)
 				                                          : data

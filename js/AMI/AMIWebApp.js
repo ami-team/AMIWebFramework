@@ -578,9 +578,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					this.__loadXXX(deferred, result, urls, dataType, context);
 
-				}, (e) => {
+				}, (message) => {
 
-					deferred.rejectWith(context, [e]);
+					deferred.rejectWith(context, [message]);
 				});
 
 				break;
@@ -597,9 +597,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					this.__loadXXX(deferred, result, urls, dataType, context);
 
-				}, (e) => {
+				}, (message) => {
 
-					deferred.rejectWith(context, [e]);
+					deferred.rejectWith(context, [message]);
 				});
 
 				break;
@@ -1031,11 +1031,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				result.push(render(twig, dict));
 			}
 		}
-		catch(e)
+		catch(message)
 		{
 			result.length = 0;
 
-			this.error(e);
+			this.error(message);
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -1404,9 +1404,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-								amiLogin._start().fail((e) => {
+								amiLogin._start().fail((message) => {
 
-									this.error(e);
+									this.error(message);
 								});
 							});
 
@@ -1430,9 +1430,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 						$('body').append(data3).promise().done(() => {
 
-							amiLogin._start().fail((e) => {
+							amiLogin._start().fail((message) => {
 
-								this.error(e);
+								this.error(message);
 							});
 						});
 					});
@@ -1503,19 +1503,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 						result.resolveWith(context, [/*---------------------*/clazz/*---------------------*/]);
 
-					}, (e) => {
+					}, (message) => {
 
-						result.rejectWith(context, ['could not load control `' + control + '`: ' + e]);
+						result.rejectWith(context, ['could not load control `' + control + '`: ' + message]);
 					});
 				}
-				catch(e)
+				catch(message)
 				{
-					result.rejectWith(context, ['could not load control `' + control + '`: ' + e]);
+					result.rejectWith(context, ['could not load control `' + control + '`: ' + message]);
 				}
 
-			}, (e) => {
+			}, (message) => {
 
-				result.rejectWith(context, ['could not load control `' + control + '`: ' + e]);
+				result.rejectWith(context, ['could not load control `' + control + '`: ' + message]);
 			});
 		}
 		else
@@ -1560,14 +1560,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				result.resolveWith(context, [instance]);
 
-			}).fail((e) => {
+			}).fail((message) => {
 
-				result.rejectWith(context, [e]);
+				result.rejectWith(context, [message]);
 			});
 
-		}).fail((e) => {
+		}).fail((message) => {
 
-			result.rejectWith(context, [e]);
+			result.rejectWith(context, [message]);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -1630,16 +1630,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				result.resolveWith(context, [instance]);
 
-			}).fail((e) => {
+			}).fail((message) => {
 
-				result.rejectWith(context, [e]);
+				result.rejectWith(context, [message]);
 			});
 
 			/*-------------------------------------------------------------*/
 		}
-		catch(e)
+		catch(message)
 		{
-			result.rejectWith(context, [e]);
+			result.rejectWith(context, [message]);
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -1706,17 +1706,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					result.resolveWith(context, [instance]);
 
-				}).fail((e) => {
+				}).fail((message) => {
 
-					result.rejectWith(context, [e]);
+					result.rejectWith(context, [message]);
 				});
 
 				/*---------------------------------------------------------*/
 			});
 		}
-		catch(e)
+		catch(message)
 		{
-			result.rejectWith(context, [e]);
+			result.rejectWith(context, [message]);
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -1778,9 +1778,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				this.unlock();
 
-			}).fail((e) => {
+			}).fail((message) => {
 
-				this.error(e);
+				this.error(message);
 			});
 		}
 		else
@@ -1789,9 +1789,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				this.unlock();
 
-			}).fail((e) => {
+			}).fail((message) => {
 
-				this.error(e);
+				this.error(message);
 			});
 		}
 
@@ -1817,11 +1817,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 					result.resolve();
 				});
 
-			}, (e) => {
+			}, (message) => {
 
 				_ami_internal_always(this.onRefresh(true), () => {
 
-					result.reject(e);
+					result.reject(message);
 				});
 			});
 		}
@@ -1852,11 +1852,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 					result.resolve();
 				});
 
-			}, (e) => {
+			}, (message) => {
 
 				_ami_internal_always(this.onRefresh(false), () => {
 
-					result.reject(e);
+					result.reject(message);
 				});
 			});
 		}
@@ -1940,24 +1940,24 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 							result.resolveWith(context, [/*-------------------*/instance/*-------------------*/]);
 
-						}, (e) => {
+						}, (message) => {
 
-							result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
+							result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + message]);
 						});
 
-					}, (e) => {
+					}, (message) => {
 
-						result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
+						result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + message]);
 					});
 				}
-				catch(e)
+				catch(message)
 				{
-					result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
+					result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + message]);
 				}
 
-			}, (e) => {
+			}, (message) => {
 
-				result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
+				result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + message]);
 			});
 		}
 		else
@@ -1997,7 +1997,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				{
 					json = JSON.parse(this.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
 				}
-				catch(e)
+				catch(message)
 				{
 					json = {/* EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON */};
 				}
@@ -2011,9 +2011,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					result.resolve();
 
-				}, (e) => {
+				}, (message) => {
 
-					result.reject(e);
+					result.reject(message);
 				});
 
 				/*---------------------------------------------------------*/
@@ -2032,9 +2032,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					result.resolve();
 
-				}, (e) => {
+				}, (message) => {
 
-					result.reject(e);
+					result.reject(message);
 				});
 
 				/*---------------------------------------------------------*/

@@ -119,9 +119,9 @@ $AMIClass('AdminDashboardHome', {
 				result.resolve();
 			});
 
-		}).fail(function() {
+		}).fail(function(message) {
 
-			result.reject();
+			result.reject(message);
 		});
 
 		return result;
@@ -131,6 +131,8 @@ $AMIClass('AdminDashboardHome', {
 
 	onLogin: function()
 	{
+		var result = $.Deferred();
+
 		amiCommand.execute('SearchQuery -catalog="self" -sql="SELECT (SELECT COUNT(*) FROM `router_config`) AS `nb1`, (SELECT COUNT(*) FROM `router_role`) AS `nb2`, (SELECT COUNT(*) FROM `router_command`) AS `nb3`, (SELECT COUNT(*) FROM `router_user`) AS `nb4`, (SELECT COUNT(*) FROM `router_catalog`) AS `nb5`"', {context: this}).done(function(data) {
 
 			var nr1 = amiWebApp.jspath('..field{.@name==="nb1"}.$', data)[0] || 'N/A';
@@ -171,7 +173,7 @@ $AMIClass('AdminDashboardHome', {
 
 				/*---------------------------------------------------------*/
 
-				$('#C2C3B0C0_753B_47BD_926A_B71AF5399852').html('Host name: <strong>' + amiWebApp.textToHtml(hostName) + '</strong>, nb of cores: <strong>' + amiWebApp.textToHtml(nbOfCores) + '</strong>, disk: <strong>' + Math.round(totalDisk / (1024.0 * 1024.0)) + '</strong> MBytes, memory: <strong>' + Math.round(totalMem / (1024.0 * 1024.0)) + '</strong> MBytes');
+				$('#C2C3B0C0_753B_47BD_926A_B71AF5399852').html('Host name: <strong>' + amiWebApp.textToHtml(hostName) + '</strong>, nb of cores: <strong>' + amiWebApp.textToHtml(nbOfCores) + '</strong>, disk: <strong>' + Math.round(totalDisk / (1024.0 * 1024.0)) + '</strong> MBytes, memory: <strong>' + Math.round(totalMem / (1024.0 * 1024.0)) + '</strong> MBytes <button type="button" class="btn btn-sm btn-info" onclick="adminDashboardApp.subsubapp.reflesh()" style="position: absolute; top: 8px; right: 8px;">refresh</button>');
 
 				/*---------------------------------------------------------*/
 
@@ -185,15 +187,19 @@ $AMIClass('AdminDashboardHome', {
 
 				/*---------------------------------------------------------*/
 
-			}).fail(function(data) {
+				result.resolve();
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			}).fail(function(data, message) {
+
+				result.reject(message);
 			});
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			result.reject(message);
 		});
+
+		return result;
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -213,13 +219,13 @@ $AMIClass('AdminDashboardHome', {
 
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute('FlushCommandCache').done(function(data) {
+		amiCommand.execute('FlushCommandCache').done(function(data, message) {
 
-			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+			amiWebApp.success(message, true);
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -242,13 +248,35 @@ $AMIClass('AdminDashboardHome', {
 
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute('FlushServerCaches -full').done(function(data) {
+		amiCommand.execute('FlushServerCaches -full').done(function(data, message) {
 
-			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+			amiWebApp.success(message, true);
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	reflesh: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		this.onLogin().done(function() {
+
+			amiWebApp.unlock();
+
+		}).fail(function(data, message) {
+
+			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/

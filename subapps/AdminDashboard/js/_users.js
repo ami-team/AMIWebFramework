@@ -48,9 +48,9 @@ $AMIClass('AdminDashboardUsers', {
 				result.resolve();
 			});
 
-		}).fail(function() {
+		}).fail(function(e) {
 
-			result.reject();
+			result.reject(e);
 		});
 
 		return result;
@@ -145,9 +145,9 @@ $AMIClass('AdminDashboardUsers', {
 
 							amiWebApp.unlock();
 
-						}).fail(function(data) {
+						}).fail(function(data, message) {
 
-							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							amiWebApp.error(message, true);
 						});
 					});
 
@@ -161,9 +161,9 @@ $AMIClass('AdminDashboardUsers', {
 
 							amiWebApp.unlock();
 
-						}).fail(function(data) {
+						}).fail(function(data, message) {
 
-							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							amiWebApp.error(message, true);
 						});
 					});
 
@@ -177,9 +177,9 @@ $AMIClass('AdminDashboardUsers', {
 
 							amiWebApp.unlock();
 
-						}).fail(function(data) {
+						}).fail(function(data, message) {
 
-							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							amiWebApp.error(message, true);
 						});
 					});
 
@@ -199,9 +199,9 @@ $AMIClass('AdminDashboardUsers', {
 
 								amiWebApp.unlock();
 
-							}).fail(function(data) {
+							}).fail(function(data, message) {
 
-								amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+								amiWebApp.error(message, true);
 							});
 						}
 					});
@@ -222,9 +222,9 @@ $AMIClass('AdminDashboardUsers', {
 
 								amiWebApp.unlock();
 
-							}).fail(function(data) {
+							}).fail(function(data, message) {
 
-								amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+								amiWebApp.error(message, true);
 							});
 						}
 					});
@@ -236,14 +236,14 @@ $AMIClass('AdminDashboardUsers', {
 					/*-----------------------------------------------------*/
 				});
 
-			}).fail(function(data) {
+			}).fail(function(data, message) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+				amiWebApp.error(message, true);
 			});
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 	},
 

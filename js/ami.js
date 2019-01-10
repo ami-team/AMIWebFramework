@@ -5168,8 +5168,8 @@ $AMINamespace('amiWebApp',
           result.push(data);
 
           _this3.__loadXXX(deferred, result, urls, dataType, context);
-        }, function (e) {
-          deferred.rejectWith(context, [e]);
+        }, function (message) {
+          deferred.rejectWith(context, [message]);
         });
         break;
 
@@ -5184,8 +5184,8 @@ $AMINamespace('amiWebApp',
           result.push(data);
 
           _this3.__loadXXX(deferred, result, urls, dataType, context);
-        }, function (e) {
-          deferred.rejectWith(context, [e]);
+        }, function (message) {
+          deferred.rejectWith(context, [message]);
         });
         break;
 
@@ -5554,9 +5554,9 @@ $AMINamespace('amiWebApp',
       } else {
         result.push(render(twig, dict));
       }
-    } catch (e) {
+    } catch (message) {
       result.length = 0;
-      this.error(e);
+      this.error(message);
     }
     /*-----------------------------------------------------------------*/
 
@@ -5889,8 +5889,8 @@ $AMINamespace('amiWebApp',
               dataType: 'text'
             }).then(function (data4) {
               $('body').append(_this7.formatTWIG(data3, dict) + data4).promise().done(function () {
-                amiLogin._start().fail(function (e) {
-                  _this7.error(e);
+                amiLogin._start().fail(function (message) {
+                  _this7.error(message);
                 });
               });
             }, function () {
@@ -5909,8 +5909,8 @@ $AMINamespace('amiWebApp',
             dataType: 'text'
           }).done(function (data3) {
             $('body').append(data3).promise().done(function () {
-              amiLogin._start().fail(function (e) {
-                _this7.error(e);
+              amiLogin._start().fail(function (message) {
+                _this7.error(message);
               });
             });
           });
@@ -5969,14 +5969,14 @@ $AMINamespace('amiWebApp',
             clazz
             /*---------------------*/
             ]);
-          }, function (e) {
-            result.rejectWith(context, ['could not load control `' + control + '`: ' + e]);
+          }, function (message) {
+            result.rejectWith(context, ['could not load control `' + control + '`: ' + message]);
           });
-        } catch (e) {
-          result.rejectWith(context, ['could not load control `' + control + '`: ' + e]);
+        } catch (message) {
+          result.rejectWith(context, ['could not load control `' + control + '`: ' + message]);
         }
-      }, function (e) {
-        result.rejectWith(context, ['could not load control `' + control + '`: ' + e]);
+      }, function (message) {
+        result.rejectWith(context, ['could not load control `' + control + '`: ' + message]);
       });
     } else {
       result.rejectWith(context, ['could not find control `' + control + '`']);
@@ -6010,11 +6010,11 @@ $AMINamespace('amiWebApp',
       var instance = new constructor(parent, owner);
       constructor.prototype.render.apply(instance, params).done(function () {
         result.resolveWith(context, [instance]);
-      }).fail(function (e) {
-        result.rejectWith(context, [e]);
+      }).fail(function (message) {
+        result.rejectWith(context, [message]);
       });
-    }).fail(function (e) {
-      result.rejectWith(context, [e]);
+    }).fail(function (message) {
+      result.rejectWith(context, [message]);
     });
     /*-----------------------------------------------------------------*/
 
@@ -6064,12 +6064,12 @@ $AMINamespace('amiWebApp',
 
       this.createControl(parent, owner, control, PARAMS).done(function (instance) {
         result.resolveWith(context, [instance]);
-      }).fail(function (e) {
-        result.rejectWith(context, [e]);
+      }).fail(function (message) {
+        result.rejectWith(context, [message]);
       });
       /*-------------------------------------------------------------*/
-    } catch (e) {
-      result.rejectWith(context, [e]);
+    } catch (message) {
+      result.rejectWith(context, [message]);
     }
     /*-----------------------------------------------------------------*/
 
@@ -6125,14 +6125,14 @@ $AMINamespace('amiWebApp',
 
         _this8.createControl(parent, owner, control, PARAMS).done(function (instance) {
           result.resolveWith(context, [instance]);
-        }).fail(function (e) {
-          result.rejectWith(context, [e]);
+        }).fail(function (message) {
+          result.rejectWith(context, [message]);
         });
         /*---------------------------------------------------------*/
 
       });
-    } catch (e) {
-      result.rejectWith(context, [e]);
+    } catch (message) {
+      result.rejectWith(context, [message]);
     }
     /*-----------------------------------------------------------------*/
 
@@ -6173,14 +6173,14 @@ $AMINamespace('amiWebApp',
     if (dataCtrlLocation === 'body') {
       return this.createControlInBody(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, settings).done(function () {
         _this9.unlock();
-      }).fail(function (e) {
-        _this9.error(e);
+      }).fail(function (message) {
+        _this9.error(message);
       });
     } else {
       return this.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(function () {
         _this9.unlock();
-      }).fail(function (e) {
-        _this9.error(e);
+      }).fail(function (message) {
+        _this9.error(message);
       });
     }
     /*-----------------------------------------------------------------*/
@@ -6203,9 +6203,9 @@ $AMINamespace('amiWebApp',
         _ami_internal_always(_this10.onRefresh(true), function () {
           result.resolve();
         });
-      }, function (e) {
+      }, function (message) {
         _ami_internal_always(_this10.onRefresh(true), function () {
-          result.reject(e);
+          result.reject(message);
         });
       });
     } else {
@@ -6229,9 +6229,9 @@ $AMINamespace('amiWebApp',
         _ami_internal_always(_this11.onRefresh(false), function () {
           result.resolve();
         });
-      }, function (e) {
+      }, function (message) {
         _ami_internal_always(_this11.onRefresh(false), function () {
-          result.reject(e);
+          result.reject(message);
         });
       });
     } else {
@@ -6301,17 +6301,17 @@ $AMINamespace('amiWebApp',
               instance
               /*-------------------*/
               ]);
-            }, function (e) {
-              result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
+            }, function (message) {
+              result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + message]);
             });
-          }, function (e) {
-            result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
+          }, function (message) {
+            result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + message]);
           });
-        } catch (e) {
-          result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
+        } catch (message) {
+          result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + message]);
         }
-      }, function (e) {
-        result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + e]);
+      }, function (message) {
+        result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + message]);
       });
     } else {
       result.rejectWith(context, ['could not find subapp `' + subapp + '`']);
@@ -6343,7 +6343,7 @@ $AMINamespace('amiWebApp',
 
         try {
           json = JSON.parse(_this13.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
-        } catch (e) {
+        } catch (message) {
           json = {
             /* EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON */
           };
@@ -6356,8 +6356,8 @@ $AMINamespace('amiWebApp',
 
         _this13.loadSubApp(subapp, userdata).then(function () {
           result.resolve();
-        }, function (e) {
-          result.reject(e);
+        }, function (message) {
+          result.reject(message);
         });
         /*---------------------------------------------------------*/
 
@@ -6369,8 +6369,8 @@ $AMINamespace('amiWebApp',
         var userdata = this.args['userdata'] || defaultUserData;
         this.loadSubApp(subapp, userdata).then(function () {
           result.resolve();
-        }, function (e) {
-          result.reject(e);
+        }, function (message) {
+          result.reject(message);
         });
         /*---------------------------------------------------------*/
       }
@@ -6738,12 +6738,13 @@ $AMINamespace('amiCommand',
           withCredentials: true
         },
         success: function success(data) {
-          var error = JSPath.apply('.AMIMessage.error', data);
+          var info = JSPath.apply('.AMIMessage.info.$', data);
+          var error = JSPath.apply('.AMIMessage.error.$', data);
 
           if (error.length === 0) {
-            result.resolveWith(context, [data, urlWithParameters]);
+            result.resolveWith(context, [data, info.join('. '), urlWithParameters]);
           } else {
-            result.rejectWith(context, [data, urlWithParameters]);
+            result.rejectWith(context, [data, error.join('. '), urlWithParameters]);
           }
         },
         error: function error(jqXHR, textStatus) {
@@ -6762,7 +6763,7 @@ $AMINamespace('amiCommand',
               }]
             }]
           };
-          result.rejectWith(context, [data, urlWithParameters]);
+          result.rejectWith(context, [data, textStatus, urlWithParameters]);
         }
       });
       /*-------------------------------------------------------------*/
@@ -6782,14 +6783,14 @@ $AMINamespace('amiCommand',
           withCredentials: true
         },
         success: function success(data) {
-          result.resolveWith(context, [data, urlWithParameters]);
+          result.resolveWith(context, [data, data, urlWithParameters]);
         },
         error: function error(jqXHR, textStatus) {
           if (textStatus === 'error') {
             textStatus = 'service temporarily unreachable';
           }
 
-          result.rejectWith(context, [textStatus, urlWithParameters]);
+          result.rejectWith(context, [textStatus, textStatus, urlWithParameters]);
         }
       });
       /*-------------------------------------------------------------*/
@@ -6819,7 +6820,7 @@ $AMINamespace('amiCommand',
 
     this.execute('GetSessionInfo -AMIUser="' + amiWebApp.textToString(user) + '" -AMIPass="' + amiWebApp.textToString(pass) + '"', {
       extraParam: 'NoCert'
-    }).then(function (data) {
+    }).then(function (data, message) {
       var userInfo = {};
       var roleInfo = {};
       var ssoInfo = {};
@@ -6841,9 +6842,9 @@ $AMINamespace('amiCommand',
         });
         roleInfo[name] = role;
       });
-      result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
-    }, function (data) {
-      result.rejectWith(context, [data, {
+      result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
+    }, function (data, message) {
+      result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
         guestUser: 'guest'
       }, {}, '']);
@@ -6868,7 +6869,7 @@ $AMINamespace('amiCommand',
     /*-----------------------------------------------------------------*/
 
 
-    this.execute('GetSessionInfo').then(function (data) {
+    this.execute('GetSessionInfo').then(function (data, message) {
       var userInfo = {};
       var roleInfo = {};
       var ssoInfo = {};
@@ -6890,9 +6891,9 @@ $AMINamespace('amiCommand',
         });
         roleInfo[name] = role;
       });
-      result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
-    }, function (data) {
-      result.rejectWith(context, [data, {
+      result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
+    }, function (data, message) {
+      result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
         guestUser: 'guest'
       }, {}, '']);
@@ -6919,7 +6920,7 @@ $AMINamespace('amiCommand',
 
     this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {
       extraParam: 'NoCert'
-    }).then(function (data) {
+    }).then(function (data, message) {
       var userInfo = {};
       var roleInfo = {};
       var ssoInfo = {};
@@ -6941,9 +6942,9 @@ $AMINamespace('amiCommand',
         });
         roleInfo[name] = role;
       });
-      result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
-    }, function (data) {
-      result.rejectWith(context, [data, {
+      result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
+    }, function (data, message) {
+      result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
         guestUser: 'guest'
       }, {}, '']);
@@ -7146,22 +7147,25 @@ $AMINamespace('amiLogin',
       /*-------------------------------------------------------------*/
 
       _ami_internal_then(amiWebApp.onReady(userdata), function () {
-        amiWebApp._isReady = true;
         amiWebApp.lock();
-        amiCommand.certLogin().always(function (data, userInfo, roleInfo, ssoInfo) {
-          _this14._update(userInfo, roleInfo, ssoInfo).always(function () {
+        amiWebApp._isReady = true;
+        amiCommand.certLogin().always(function (data, message, userInfo, roleInfo, ssoInfo) {
+          _this14._update(userInfo, roleInfo, ssoInfo).then(function () {
             amiWebApp.unlock();
             result.resolve();
+          }, function (message) {
+            amiWebApp.unlock();
+            result.reject(message);
           });
         });
-      }, function (e) {
+      }, function (message) {
         amiWebApp.unlock();
-        result.reject(e);
+        result.reject(message);
       });
       /*-------------------------------------------------------------*/
 
-    }).fail(function (e) {
-      result.reject(e);
+    }).fail(function (message) {
+      result.reject(message);
     });
     /*-----------------------------------------------------------------*/
 
@@ -7169,36 +7173,36 @@ $AMINamespace('amiLogin',
   },
 
   /*---------------------------------------------------------------------*/
-  _showSuccessMessage1: function _showSuccessMessage1(message) {
+  _success1: function _success1(message) {
     amiWebApp.success(message, true, '#C0D13C0C_BA64_4A79_BF48_1A35F26D19AC');
 
     this._clean();
   },
-  _showErrorMessage1: function _showErrorMessage1(message) {
+  _error1: function _error1(message) {
     amiWebApp.error(message, true, '#C0D13C0C_BA64_4A79_BF48_1A35F26D19AC');
 
     this._clean();
   },
 
   /*---------------------------------------------------------------------*/
-  _showSuccessMessage2: function _showSuccessMessage2(message) {
+  _success2: function _success2(message) {
     amiWebApp.success(message, true, '#C76F40DA_0480_4D3F_A74B_65735465EA25');
 
     this._clean();
   },
-  _showErrorMessage2: function _showErrorMessage2(message) {
+  _error2: function _error2(message) {
     amiWebApp.error(message, true, '#C76F40DA_0480_4D3F_A74B_65735465EA25');
 
     this._clean();
   },
 
   /*---------------------------------------------------------------------*/
-  _showSuccessMessage3: function _showSuccessMessage3(message) {
+  _success3: function _success3(message) {
     amiWebApp.success(message, true, '#F14D98EC_5751_4C15_B4A1_927BA76AFCA6');
 
     this._clean();
   },
-  _showErrorMessage3: function _showErrorMessage3(message) {
+  _error3: function _error3(message) {
     amiWebApp.error(message, true, '#F14D98EC_5751_4C15_B4A1_927BA76AFCA6');
 
     this._clean();
@@ -7360,8 +7364,10 @@ $AMINamespace('amiLogin',
       amiWebApp.replaceHTML('#ami_login_content', this.fragmentLogoutButton, {
         dict: dict
       }).done(function () {
-        amiWebApp.triggerLogin().always(function () {
+        amiWebApp.triggerLogin().then(function () {
           result.resolve();
+        }, function (message) {
+          result.reject(message);
         });
       });
       /*-------------------------------------------------------------*/
@@ -7370,8 +7376,10 @@ $AMINamespace('amiLogin',
       amiWebApp.replaceHTML('#ami_login_content', this.fragmentLoginButton, {
         dict: dict
       }).done(function () {
-        amiWebApp.triggerLogout().always(function () {
+        amiWebApp.triggerLogout().then(function () {
           result.resolve();
+        }, function (message) {
+          result.reject(message);
         });
       });
       /*-------------------------------------------------------------*/
@@ -7521,11 +7529,15 @@ $AMINamespace('amiLogin',
     var _this15 = this;
 
     amiWebApp.lock();
-    return amiCommand.logout().always(function (data, userInfo, roleInfo, ssoInfo) {
-      _this15._update(userInfo, roleInfo, ssoInfo).done(function () {
+    return amiCommand.logout().always(function (data, message, userInfo, roleInfo, ssoInfo) {
+      _this15._update(userInfo, roleInfo, ssoInfo).then(function () {
         _this15._clean();
 
         amiWebApp.unlock();
+      }, function (message) {
+        _this15._clean();
+
+        amiWebApp.error(message);
       });
     });
   },
@@ -7557,28 +7569,40 @@ $AMINamespace('amiLogin',
     /*-----------------------------------------------------------------*/
 
     amiWebApp.lock();
-    promise.then(function (data, userInfo, roleInfo, ssoInfo) {
-      _this16._update(userInfo, roleInfo, ssoInfo).done(function () {
+    promise.then(function (data, message, userInfo, roleInfo, ssoInfo) {
+      _this16._update(userInfo, roleInfo, ssoInfo).then(function () {
         if (userInfo.AMIUser !== userInfo.guestUser) {
           $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
           _this16._clean();
 
           amiWebApp.unlock();
-        } else {
-          var error = 'Authentication failed.';
+        }
+      }, function (message) {
+        if (userInfo.AMIUser !== userInfo.guestUser) {
+          $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-          if (userInfo.clientDNInSession || userInfo.issuerDNInSession) {
-            error += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.' + ' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.';
-          }
+          _this16._clean();
 
-          _this16._showErrorMessage1(error);
+          amiWebApp.error(message);
         }
       });
-    }, function (data, userInfo, roleInfo, ssoInfo) {
-      _this16._update(userInfo, roleInfo, ssoInfo).done(function () {
-        _this16._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+
+      if (userInfo.AMIUser === userInfo.guestUser) {
+        var _message = 'Authentication failed.';
+
+        if (userInfo.clientDNInSession || userInfo.issuerDNInSession) {
+          _message += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.' + ' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.';
+        }
+
+        _this16._error1(_message);
+      }
+    }, function (data, message, userInfo, roleInfo, ssoInfo) {
+      _this16._update(userInfo, roleInfo, ssoInfo).fail(function (message) {
+        amiWebApp.error(message);
       });
+
+      _this16._error1(message);
     });
     /*-----------------------------------------------------------------*/
   },
@@ -7592,7 +7616,7 @@ $AMINamespace('amiLogin',
     var pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
 
     if (!user || !pass) {
-      this._showErrorMessage1('Please, fill all fields with a red star.');
+      this._error1('Please, fill all fields with a red star.');
 
       return;
     }
@@ -7600,10 +7624,10 @@ $AMINamespace('amiLogin',
 
 
     amiWebApp.lock();
-    amiCommand.attachCert(user, pass).then(function (data) {
-      _this17._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
-    }, function (data) {
-      _this17._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+    amiCommand.attachCert(user, pass).then(function (data, message) {
+      _this17._success1(message);
+    }, function (data, message) {
+      _this17._error1(message);
     });
     /*-----------------------------------------------------------------*/
   },
@@ -7617,7 +7641,7 @@ $AMINamespace('amiLogin',
     var pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
 
     if (!user || !pass) {
-      this._showErrorMessage1('Please, fill all fields with a red star.');
+      this._error1('Please, fill all fields with a red star.');
 
       return;
     }
@@ -7625,10 +7649,10 @@ $AMINamespace('amiLogin',
 
 
     amiWebApp.lock();
-    amiCommand.detachCert(user, pass).then(function (data) {
-      _this18._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
-    }, function (data) {
-      _this18._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+    amiCommand.detachCert(user, pass).then(function (data, message) {
+      _this18._success1(message);
+    }, function (data, message) {
+      _this18._error1(message);
     });
     /*-----------------------------------------------------------------*/
   },
@@ -7645,10 +7669,10 @@ $AMINamespace('amiLogin',
 
 
     amiWebApp.lock();
-    amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values).then(function (data) {
-      _this19._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
-    }, function (data) {
-      _this19._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+    amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values).then(function (data, message) {
+      _this19._success1(message);
+    }, function (data, message) {
+      _this19._error1(message);
     });
     /*-----------------------------------------------------------------*/
   },
@@ -7665,10 +7689,10 @@ $AMINamespace('amiLogin',
 
 
     amiWebApp.lock();
-    amiCommand.resetPass(values['user']).then(function (data) {
-      _this20._showSuccessMessage1(amiWebApp.jspath('..info.$', data));
-    }, function (data) {
-      _this20._showErrorMessage1(amiWebApp.jspath('..error.$', data));
+    amiCommand.resetPass(values['user']).then(function (data, message) {
+      _this20._success1(message);
+    }, function (data, message) {
+      _this20._error1(message);
     });
     /*-----------------------------------------------------------------*/
   },
@@ -7685,10 +7709,10 @@ $AMINamespace('amiLogin',
 
 
     amiWebApp.lock();
-    amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).then(function (data) {
-      _this21._showSuccessMessage2(amiWebApp.jspath('..info.$', data));
-    }, function (data) {
-      _this21._showErrorMessage2(amiWebApp.jspath('..error.$', data));
+    amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).then(function (data, message) {
+      _this21._success2(message);
+    }, function (data, message) {
+      _this21._error2(message);
     });
     /*-----------------------------------------------------------------*/
   },
@@ -7705,10 +7729,10 @@ $AMINamespace('amiLogin',
 
 
     amiWebApp.lock();
-    amiCommand.changePass(values['old_pass'], values['new_pass']).then(function (data) {
-      _this22._showSuccessMessage3(amiWebApp.jspath('..info.$', data));
-    }, function (data) {
-      _this22._showErrorMessage3(amiWebApp.jspath('..error.$', data));
+    amiCommand.changePass(values['old_pass'], values['new_pass']).then(function (data, message) {
+      _this22._success3(message);
+    }, function (data, message) {
+      _this22._error3(message);
     });
     /*-----------------------------------------------------------------*/
   }

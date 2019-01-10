@@ -38,7 +38,10 @@ $AMIClass('DocumentApp', {
 			context: this,
 		}).done(function(data) {
 
-			$('#ami_breadcrumb_content').html('<li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp=document">Documents</a></li><li class="breadcrumb-item"><a href="' + amiWebApp.webAppURL + '?subapp=document&userdata=' + encodeURIComponent(page) + '">' + amiWebApp.textToHtml(page) + '</a></li>');
+			amiWebApp.fillBreadcrumb([
+				'<a href="' + amiWebApp.webAppURL + '?subapp=document">Documents</a>',
+				'<a href="' + amiWebApp.webAppURL + '?subapp=document&userdata=' + encodeURIComponent(page) + '">' + amiWebApp.textToHtml(page) + '</a>',
+			]);
 
 			amiWebApp.replaceHTML('#ami_main_content', data);
 

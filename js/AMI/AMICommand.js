@@ -103,15 +103,16 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				},
 				success: (data) => {
 
-					const error = JSPath.apply('.AMIMessage.error', data);
+					const info = JSPath.apply('.AMIMessage.info.$', data);
+					const error = JSPath.apply('.AMIMessage.error.$', data);
 
 					if(error.length === 0)
 					{
-						result.resolveWith(context, [data, urlWithParameters]);
+						result.resolveWith(context, [data, info.join('. '), urlWithParameters]);
 					}
 					else
 					{
-						result.rejectWith(context, [data, urlWithParameters]);
+						result.rejectWith(context, [data, error.join('. '), urlWithParameters]);
 					}
 				},
 				error: (jqXHR, textStatus) => {
@@ -128,7 +129,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 					const data = {'AMIMessage': [{'error': [{'$': textStatus}]}]};
 
-					result.rejectWith(context, [data, urlWithParameters]);
+					result.rejectWith(context, [data, textStatus, urlWithParameters]);
 				},
 			});
 
@@ -149,7 +150,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				},
 				success: (data) => {
 
-					result.resolveWith(context, [data, urlWithParameters]);
+					result.resolveWith(context, [data, data, urlWithParameters]);
 				},
 				error: (jqXHR, textStatus) => {
 
@@ -158,7 +159,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 						textStatus = 'service temporarily unreachable';
 					}
 
-					result.rejectWith(context, [textStatus, urlWithParameters]);
+					result.rejectWith(context, [textStatus, textStatus, urlWithParameters]);
 				},
 			});
 
@@ -192,7 +193,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*-----------------------------------------------------------------*/
 
-		this.execute('GetSessionInfo -AMIUser="' + amiWebApp.textToString(user) + '" -AMIPass="' + amiWebApp.textToString(pass) + '"', {extraParam: 'NoCert'}).then((data) => {
+		this.execute('GetSessionInfo -AMIUser="' + amiWebApp.textToString(user) + '" -AMIPass="' + amiWebApp.textToString(pass) + '"', {extraParam: 'NoCert'}).then((data, message) => {
 
 			const userInfo = {};
 			const roleInfo = {};
@@ -226,11 +227,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
 
-		}, (data) => {
+		}, (data, message) => {
 
-			result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
+			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -258,7 +259,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*-----------------------------------------------------------------*/
 
-		this.execute('GetSessionInfo').then((data) => {
+		this.execute('GetSessionInfo').then((data, message) => {
 
 			const userInfo = {};
 			const roleInfo = {};
@@ -292,11 +293,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
 
-		}, (data) => {
+		}, (data, message) => {
 
-			result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
+			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -324,7 +325,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		/*-----------------------------------------------------------------*/
 
-		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).then((data) => {
+		this.execute('GetSessionInfo -AMIUser="" -AMIPass=""', {extraParam: 'NoCert'}).then((data, message) => {
 
 			const userInfo = {};
 			const roleInfo = {};
@@ -358,11 +359,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, userInfo, roleInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
 
-		}, (data) => {
+		}, (data, message) => {
 
-			result.rejectWith(context, [data, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
+			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
 		});
 
 		/*-----------------------------------------------------------------*/

@@ -285,9 +285,9 @@ $AMIClass('SchemaCtrl', {
 
 			result.resolveWith(context, [data]);
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			result.rejectWith(context, [data]);
+			result.rejectWith(context, [message]);
 		});
 	},
 

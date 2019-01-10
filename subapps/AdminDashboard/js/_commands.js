@@ -51,9 +51,9 @@ $AMIClass('AdminDashboardCommands', {
 				});
 			});
 
-		}).fail(function() {
+		}).fail(function(e) {
 
-			result.reject();
+			result.reject(e);
 		});
 
 		return result;
@@ -145,9 +145,9 @@ $AMIClass('AdminDashboardCommands', {
 
 							amiWebApp.unlock();
 
-						}).fail(function(data) {
+						}).fail(function(data, message) {
 
-							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							amiWebApp.error(message, true);
 						});
 					});
 
@@ -161,9 +161,9 @@ $AMIClass('AdminDashboardCommands', {
 
 							amiWebApp.unlock();
 
-						}).fail(function(data) {
+						}).fail(function(data, message) {
 
-							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							amiWebApp.error(message, true);
 						});
 					});
 
@@ -177,9 +177,9 @@ $AMIClass('AdminDashboardCommands', {
 
 							amiWebApp.unlock();
 
-						}).fail(function(data) {
+						}).fail(function(data, message) {
 
-							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							amiWebApp.error(message, true);
 						});
 					});
 
@@ -193,9 +193,9 @@ $AMIClass('AdminDashboardCommands', {
 
 							amiWebApp.unlock();
 
-						}).fail(function(data) {
+						}).fail(function(data, message) {
 
-							amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+							amiWebApp.error(message, true);
 						});
 					});
 
@@ -215,9 +215,9 @@ $AMIClass('AdminDashboardCommands', {
 
 								amiWebApp.unlock();
 
-							}).fail(function(data) {
+							}).fail(function(data, message) {
 
-								amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+								amiWebApp.error(message, true);
 							});
 						}
 					});
@@ -239,9 +239,9 @@ $AMIClass('AdminDashboardCommands', {
 
 								amiWebApp.unlock();
 
-							}).fail(function(data) {
+							}).fail(function(data, message) {
 
-								amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+								amiWebApp.error(message, true);
 							});
 						}
 					});
@@ -253,14 +253,14 @@ $AMIClass('AdminDashboardCommands', {
 					/*-----------------------------------------------------*/
 				});
 
-			}).fail(function(data) {
+			}).fail(function(data, message) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+				amiWebApp.error(message, true);
 			});
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 	},
 
@@ -281,13 +281,13 @@ $AMIClass('AdminDashboardCommands', {
 
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute('FindNewCommands').done(function(data) {
+		amiCommand.execute('FindNewCommands').done(function(data, message) {
 
-			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+			amiWebApp.success(message, true);
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -310,13 +310,13 @@ $AMIClass('AdminDashboardCommands', {
 
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute('FlushServerCaches').done(function(data) {
+		amiCommand.execute('FlushServerCaches').done(function(data, message) {
 
-			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+			amiWebApp.success(message, true);
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/

@@ -85,9 +85,9 @@ $AMIClass('SchemaViewerApp', {
 				});
 			});
 
-		}).fail(function(data) {
+		}).fail(function(message) {
 
-			result.reject(data);
+			result.reject(message);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -139,19 +139,19 @@ $AMIClass('SchemaViewerApp', {
 
 					result.resolve();
 
-				}).fail(function(data) {
+				}).fail(function(message) {
 
-					result.reject(data);
+					result.reject(message);
 				});
 
-			}).fail(function(data) {
+			}).fail(function(data, message) {
 
-				result.reject(data);
+				result.reject(message);
 			});
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			result.reject(data);
+			result.reject(message);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -207,9 +207,9 @@ $AMIClass('SchemaViewerApp', {
 
 					schemaViewerApp.schema.setJSON(json);
 				}
-				catch(e)
+				catch(message)
 				{
-					amiWebApp.error(e, true);
+					amiWebApp.error(message, true);
 				}
 			};
 
@@ -236,9 +236,9 @@ $AMIClass('SchemaViewerApp', {
 
 			amiWebApp.unlock();
 
-		}).fail(function(data) {
+		}).fail(function(message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 	},
 
@@ -288,13 +288,13 @@ $AMIClass('SchemaViewerApp', {
 
 			/*-------------------------------------------------------------*/
 
-			amiCommand.execute('SetJSONSchema -catalog="' + amiWebApp.textToString(this.defaultCatalog) + '" -json="' + amiWebApp.textToString(text) + '"').done(function(data) {
+			amiCommand.execute('SetJSONSchema -catalog="' + amiWebApp.textToString(this.defaultCatalog) + '" -json="' + amiWebApp.textToString(text) + '"').done(function(data, message) {
 
-				amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+				amiWebApp.success(message, true);
 
-			}).fail(function(data) {
+			}).fail(function(data, message) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+				amiWebApp.error(message, true);
 			});
 
 			/*-------------------------------------------------------------*/

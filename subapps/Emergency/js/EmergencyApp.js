@@ -31,9 +31,9 @@ $AMIClass('EmergencyApp', {
 				result.resolve();
 			});
 
-		}).fail(function(data) {
+		}).fail(function(message) {
 
-			result.reject(data);
+			result.reject(message);
 		});
 
 		return result;
@@ -69,13 +69,13 @@ $AMIClass('EmergencyApp', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute('SendSMS -message="' + amiWebApp.textToString(message) + '"').done(function(data) {
+			amiCommand.execute('SendSMS -message="' + amiWebApp.textToString(message) + '"').done(function(data, message) {
 
-				amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+				amiWebApp.success(message, true);
 
-			}).fail(function(data) {
+			}).fail(function(data, message) {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+				amiWebApp.error(message, true);
 			});
 		}
 

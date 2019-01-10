@@ -63,15 +63,15 @@ $AMIClass('AdminDashboardApp', {
 
 					result.resolve();
 
-				}).fail(function() {
+				}).fail(function(data) {
 
-					result.reject();
+					result.reject(data);
 				});
 			});
 
-		}).fail(function() {
+		}).fail(function(data) {
 
-			result.reject();
+			result.reject(data);
 		});
 
 		return result;
@@ -105,7 +105,7 @@ $AMIClass('AdminDashboardApp', {
 		}
 		else
 		{
-			return this.onLogout();
+			this.onLogout();
 		}
 	},
 
@@ -117,6 +117,11 @@ $AMIClass('AdminDashboardApp', {
 
 		$('#C54485C3_44F8_CE8E_0F54_BF847CEECE11').hide();
 		$('#CB6036B7_5971_41C2_1194_F5A051B21EA0').hide();
+
+		if(this.subsubapp.onLogout)
+		{
+			return this.subsubapp.onLogout();
+		}
 	},
 
 	/*---------------------------------------------------------------------*/

@@ -36,9 +36,9 @@ $AMIClass('AdminDashboardConfig', {
 				});
 			});
 
-		}).fail(function() {
+		}).fail(function(message) {
 
-			result.reject();
+			result.reject(message);
 		});
 
 		return result;
@@ -66,9 +66,7 @@ $AMIClass('AdminDashboardConfig', {
 
 			/*-------------------------------------------------------------*/
 
-			$('#DF9704CF_51FF_F570_F587_27FB5625A936').text(
-				amiWebApp.jspath('.{.@name==="configFileName"}.$[0]', path_fields)
-			);
+			$('#DF9704CF_51FF_F570_F587_27FB5625A936').text(amiWebApp.jspath('.{.@name==="configFileName"}.$[0]', path_fields));
 
 			/*-------------------------------------------------------------*/
 
@@ -124,9 +122,9 @@ $AMIClass('AdminDashboardConfig', {
 
 			/*-------------------------------------------------------------*/
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 	},
 
@@ -174,13 +172,13 @@ $AMIClass('AdminDashboardConfig', {
 
 		/*-----------------------------------------------------------------*/
 
-		return amiCommand.execute('UpdateConfig -separator="|" -names="' + names.join('|') + '" -values="' + values.join('|') + '"').done(function(data) {
+		return amiCommand.execute('UpdateConfig -separator="|" -names="' + names.join('|') + '" -values="' + values.join('|') + '"').done(function(data, message) {
 
-			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+			amiWebApp.success(message, true);
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -234,13 +232,13 @@ $AMIClass('AdminDashboardConfig', {
 	{
 		amiWebApp.lock();
 
-		amiCommand.execute('SendEmail -from="' + amiWebApp.textToString(this.paramDict['admin_email']) + '" -to="' + amiWebApp.textToString(email) + '" -subject="Test" -message="This is a test."').done(function(data) {
+		amiCommand.execute('SendEmail -from="' + amiWebApp.textToString(this.paramDict['admin_email']) + '" -to="' + amiWebApp.textToString(email) + '" -subject="Test" -message="This is a test."').done(function(data, message) {
 
-			amiWebApp.success(amiWebApp.jspath('..info.$', data), true);
+			amiWebApp.success(message, true);
 
 		}).fail(function(data) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 	},
 

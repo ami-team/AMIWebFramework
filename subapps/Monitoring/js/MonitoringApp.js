@@ -65,7 +65,7 @@ $AMIClass('MonitoringApp', {
 					this._extraTitle = json.extra_title;
 				}
 			}
-			catch(e)
+			catch(message)
 			{
 				/* IGNORE */
 			}
@@ -125,9 +125,9 @@ $AMIClass('MonitoringApp', {
 				result.resolve();
 			});
 
-		}).fail(function(data) {
+		}).fail(function(message) {
 
-			result.reject(data);
+			result.reject(message);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -523,9 +523,9 @@ $AMIClass('MonitoringApp', {
 
 			/*-------------------------------------------------------------*/
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 	},
 
@@ -655,9 +655,9 @@ $AMIClass('MonitoringApp', {
 
 			/*-------------------------------------------------------------*/
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/
