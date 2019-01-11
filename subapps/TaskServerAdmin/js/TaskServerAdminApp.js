@@ -187,7 +187,7 @@ $AMIClass('TaskServerAdminApp', {
 				{
 					this.servers[name] = endpoint;
 
-					html.push('<option value="' + name + '">' + name + '</option>');
+					html.push('<option value="' + name + '" data-description="' + amiWebApp.textToHtml(description) + '">' + name + '</option>');
 				}
 
 			}, this);

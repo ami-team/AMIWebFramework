@@ -236,7 +236,7 @@ $AMIClass('AdminDashboardConfig', {
 
 			amiWebApp.success(message, true);
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
 			amiWebApp.error(message, true);
 		});
