@@ -154,6 +154,8 @@ $AMIClass('AdminDashboardConfig', {
 					return
 				}
 
+				this.paramDict[name] = value;
+
 				names.push(amiWebApp.textToString(name));
 				values.push(amiWebApp.textToString(value));
 			}
