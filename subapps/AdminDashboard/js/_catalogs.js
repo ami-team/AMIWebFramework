@@ -19,16 +19,19 @@ $AMIClass('AdminDashboardCatalogs', {
 
 		amiWebApp.loadResources([
 			'subapps/AdminDashboard/twig/catalogs/catalogs.twig',
+			'subapps/AdminDashboard/twig/catalogs/extra_menu.twig',
 			'ctrl:table',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0], {context: this}).done(function() {
+				amiWebApp.replaceHTML('#C54485C3_44F8_CE8E_0F54_BF847CEECE11', data[1], {context: this}).done(function() {
 
-				this.table1 = new data[1]();
-				this.table2 = new data[1]();
-				this.table3 = new data[1]();
+					this.table1 = new data[2]();
+					this.table2 = new data[2]();
+					this.table3 = new data[2]();
 
-				result.resolve();
+					result.resolve();
+				});
 			});
 
 		}).fail(function(message) {
@@ -46,7 +49,65 @@ $AMIClass('AdminDashboardCatalogs', {
 		this.table1.render('#A5F4DDCC_C731_9B8D_D293_5FCCF9F6F99F', 'SearchQuery -catalog="self" -entity="router_catalog" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity: 'router_catalog', start: 1, stop: 25});
 		this.table2.render('#A8A6384A_0599_B207_B5E3_89FBD4BF0657', 'SearchQuery -catalog="self" -entity="router_catalog_extra" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity: 'router_catalog_extra', start: 1, stop: 25});
 		this.table3.render('#E2DDC44D_7AB8_708B_F4E4_EF18A24B3D2F', 'SearchQuery -catalog="self" -entity="router_foreign_key" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity: 'router_foreign_key', start: 1, stop: 25});
-	}
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	flushServerCachesFast: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('FlushServerCaches').done(function(data, message) {
+
+			amiWebApp.success(message, true);
+
+		}).fail(function(data, message) {
+
+			amiWebApp.error(message, true);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	flushServerCachesSlow: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('FlushServerCaches -full').done(function(data, message) {
+
+			amiWebApp.success(message, true);
+
+		}).fail(function(data, message) {
+
+			amiWebApp.error(message, true);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
 
 	/*---------------------------------------------------------------------*/
 });
