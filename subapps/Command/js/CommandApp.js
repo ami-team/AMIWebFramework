@@ -65,8 +65,10 @@ $AMIClass('CommandApp', {
 
 	_load: function()
 	{
-		return amiCommand.execute('ListCommands', {context: this}).done(function(data)
-		{
+		var result = $.Deferred();
+
+		amiCommand.execute('ListCommands', {context: this}).done(function(data) {
+
 			var isAuthenticated = amiLogin.isAuthenticated();
 
 			var rows = amiWebApp.jspath('..row', data);
@@ -111,8 +113,17 @@ $AMIClass('CommandApp', {
 				}
 			});
 
-			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this.fragmentCommand, {dict: dict});
+			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this.fragmentCommand, {dict: dict}).done(function() {
+
+				result.resolve();
+			});
+
+		}).fail(function(data, message) {
+
+			result.reject(message);
 		});
+
+		return result;
 	},
 
 	/*-----------------------------------------------------------------*/
