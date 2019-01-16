@@ -888,7 +888,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.changePass(values['old_pass'], values['new_pass']).then((data, message) => {
+		amiCommand.changePass(this.user, values['old_pass'], values['new_pass']).then((data, message) => {
 
 			this._success3(message);
 

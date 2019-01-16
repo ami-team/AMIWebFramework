@@ -7015,13 +7015,14 @@ $AMINamespace('amiCommand',
 
   /**
     * Changes the account password
+    * @param {String} user the user
     * @param {String} oldPass the old password
     * @param {String} newPass the new password
     * @param {Object} [settings] dictionary of settings (context)
     * @returns {$.Deferred} A JQuery deferred object
     */
-  changePass: function changePass(oldPass, newPass, settings) {
-    return this.execute('ChangePassword -amiPasswordOld="' + amiWebApp.textToString(oldPass) + '" -amiPasswordNew="' + amiWebApp.textToString(newPass) + '"', settings);
+  changePass: function changePass(user, oldPass, newPass, settings) {
+    return this.execute('ChangePassword -amiLogin="' + amiWebApp.textToString(user) + '" -amiPasswordOld="' + amiWebApp.textToString(oldPass) + '" -amiPasswordNew="' + amiWebApp.textToString(newPass) + '"', settings);
   },
 
   /*---------------------------------------------------------------------*/
@@ -7729,7 +7730,7 @@ $AMINamespace('amiLogin',
 
 
     amiWebApp.lock();
-    amiCommand.changePass(values['old_pass'], values['new_pass']).then(function (data, message) {
+    amiCommand.changePass(this.user, values['old_pass'], values['new_pass']).then(function (data, message) {
       _this22._success3(message);
     }, function (data, message) {
       _this22._error3(message);
@@ -9139,6 +9140,13 @@ var amiDoc = {
       "name": "changePass",
       "desc": "Changes the account password",
       "params": [{
+        "name": "user",
+        "type": "String",
+        "desc": "the user",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
         "name": "oldPass",
         "type": "String",
         "desc": "the old password",

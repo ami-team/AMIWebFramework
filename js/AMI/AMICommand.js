@@ -440,15 +440,16 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 	/**
 	  * Changes the account password
+	  * @param {String} user the user
 	  * @param {String} oldPass the old password
 	  * @param {String} newPass the new password
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	changePass: function(oldPass, newPass, settings)
+	changePass: function(user, oldPass, newPass, settings)
 	{
-		return this.execute('ChangePassword -amiPasswordOld="' + amiWebApp.textToString(oldPass) + '" -amiPasswordNew="' + amiWebApp.textToString(newPass) + '"', settings);
+		return this.execute('ChangePassword -amiLogin="' + amiWebApp.textToString(user) + '" -amiPasswordOld="' + amiWebApp.textToString(oldPass) + '" -amiPasswordNew="' + amiWebApp.textToString(newPass) + '"', settings);
 	},
 
 	/*---------------------------------------------------------------------*/
