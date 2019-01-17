@@ -178,7 +178,10 @@ $AMIClass('AdminDashboardHome', {
 
 				/*---------------------------------------------------------*/
 
-				$('#C2C3B0C0_753B_47BD_926A_B71AF5399852').html('Host name: <strong>' + amiWebApp.textToHtml(hostName) + '</strong>, nb of cores: <strong>' + amiWebApp.textToHtml(nbOfCores) + '</strong>, disk: <strong>' + Math.round(totalDisk / (1024.0 * 1024.0)) + '</strong> MBytes, memory: <strong>' + Math.round(totalMem / (1024.0 * 1024.0)) + '</strong> MBytes <button type="button" class="btn btn-sm btn-info" onclick="adminDashboardApp.subsubapp.reflesh()" style="position: absolute; top: 8px; right: 8px;">refresh</button>');
+				$('#B2BE4D58_BE5D_F374_BE74_BE6C4384B125').text(hostName);
+				$('#C4889AE7_CB06_DE89_1297_B9FF7C9C8BA1').text(nbOfCores);
+				$('#FCD9CCC9_65EA_092F_B715_C1C49255943F').text(Math.round(totalDisk / (1024.0 * 1024.0)));
+				$('#A1A836FF_D465_1A2C_B045_AC691EEF0812').text(Math.round(totalMem / (1024.0 * 1024.0)));
 
 				/*---------------------------------------------------------*/
 
