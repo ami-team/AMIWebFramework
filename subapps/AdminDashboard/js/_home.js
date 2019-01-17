@@ -22,103 +22,106 @@ $AMIClass('AdminDashboardHome', {
 		amiWebApp.loadResources([
 			'js/3rd-party/chart.bundle.min.js',
 			'subapps/AdminDashboard/twig/home/home.twig',
+			'subapps/AdminDashboard/twig/home/extra_menu.twig',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[1], {context: this}).done(function() {
+				amiWebApp.replaceHTML('#C54485C3_44F8_CE8E_0F54_BF847CEECE11', data[2], {context: this}).done(function() {
 
-				/*---------------------------------------------------------*/
+					/*-----------------------------------------------------*/
 
-				var options1 = {
-					rotation: -Math.PI,
-					cutoutPercentage: 50,
-					circumference: +Math.PI,
-					animation: {
-						animateScale: false,
-						animateRotate: false,
-					},
-					legend: {
-						display: true,
-						position: 'left',
-					},
-					title: {
-						display: true,
-						position: 'bottom',
-						text: 'Disk availability [MBytes]',
-					},
-				};
+					var options1 = {
+						rotation: -Math.PI,
+						cutoutPercentage: 50,
+						circumference: +Math.PI,
+						animation: {
+							animateScale: false,
+							animateRotate: false,
+						},
+						legend: {
+							display: true,
+							position: 'left',
+						},
+						title: {
+							display: true,
+							position: 'bottom',
+							text: 'Disk availability [MBytes]',
+						},
+					};
 
-				/*---------------------------------------------------------*/
+					/*-----------------------------------------------------*/
 
-				var options2 = {
-					rotation: -Math.PI,
-					cutoutPercentage: 50,
-					circumference: +Math.PI,
-					animation: {
-						animateScale: false,
-						animateRotate: false,
-					},
-					legend: {
-						display: true,
-						position: 'left',
-					},
-					title: {
-						display: true,
-						position: 'bottom',
-						text: 'Memory availability [MBytes]',
-					},
-				};
+					var options2 = {
+						rotation: -Math.PI,
+						cutoutPercentage: 50,
+						circumference: +Math.PI,
+						animation: {
+							animateScale: false,
+							animateRotate: false,
+						},
+						legend: {
+							display: true,
+							position: 'left',
+						},
+						title: {
+							display: true,
+							position: 'bottom',
+							text: 'Memory availability [MBytes]',
+						},
+					};
 
-				/*---------------------------------------------------------*/
+					/*-----------------------------------------------------*/
 
-				this._chart1 = new Chart($('#F6D24B37_F159_CB36_2D51_466740F9588E')[0].getContext('2d'), {
-					type: 'pie',
-					data: {
-						labels: [
-							'Used',
-							'Free',
-						],
-						datasets: [{
-							data: [0, 100],
-							borderColor: [
-								'#F5C6CB',
-								'#C3E6CB',
+					this._chart1 = new Chart($('#F6D24B37_F159_CB36_2D51_466740F9588E')[0].getContext('2d'), {
+						type: 'pie',
+						data: {
+							labels: [
+								'Used',
+								'Free',
 							],
-							backgroundColor: [
-								'#F5C6CB',
-								'#D4EDDA',
+							datasets: [{
+								data: [0, 100],
+								borderColor: [
+									'#F5C6CB',
+									'#C3E6CB',
+								],
+								backgroundColor: [
+									'#F5C6CB',
+									'#D4EDDA',
+								],
+							}],
+						},
+						options: options1,
+					});
+
+					/*-----------------------------------------------------*/
+
+					this._chart2 = new Chart($('#D058BCEF_2903_2D9D_837F_0B5C8858011D')[0].getContext('2d'), {
+						type: 'pie',
+						data: {
+							labels: [
+								'Used',
+								'Free',
 							],
-						}],
-					},
-					options: options1,
+							datasets: [{
+								data: [0, 100],
+								borderColor: [
+									'#F5C6CB',
+									'#C3E6CB',
+								],
+								backgroundColor: [
+									'#F5C6CB',
+									'#D4EDDA',
+								],
+							}]
+						},
+						options: options2,
+					});
+
+					/*-----------------------------------------------------*/
+
+					result.resolve();
 				});
-
-				/*---------------------------------------------------------*/
-
-				this._chart2 = new Chart($('#D058BCEF_2903_2D9D_837F_0B5C8858011D')[0].getContext('2d'), {
-					type: 'pie',
-					data: {
-						labels: [
-							'Used',
-							'Free',
-						],
-						datasets: [{
-							data: [0, 100],
-							borderColor: [
-								'#F5C6CB',
-								'#C3E6CB',
-							],
-							backgroundColor: [
-								'#F5C6CB',
-								'#D4EDDA',
-							],
-						}]
-					},
-					options: options2,
-				});
-
-				/*---------------------------------------------------------*/
-
-				result.resolve();
 			});
 
 		}).fail(function(message) {
