@@ -167,14 +167,13 @@ $AMIClass('AdminDashboardHome', {
 				/*---------------------------------------------------------*/
 
 				var hostName = amiWebApp.jspath('..field{.@name==="hostName"}.$', data)[0] || 'N/A';
+				var nbOfCores = amiWebApp.jspath('..field{.@name==="nbOfCores"}.$', data)[0] || 'N/A';
 
 				var freeDisk = parseInt(amiWebApp.jspath('..field{.@name==="freeDisk"}.$', data)[0] || '0');
 				var totalDisk = parseInt(amiWebApp.jspath('..field{.@name==="totalDisk"}.$', data)[0] || '0');
 
 				var freeMem = parseInt(amiWebApp.jspath('..field{.@name==="freeMem"}.$', data)[0] || '0');
 				var totalMem = parseInt(amiWebApp.jspath('..field{.@name==="totalMem"}.$', data)[0] || '0');
-
-				var nbOfCores = amiWebApp.jspath('..field{.@name==="nbOfCores"}.$', data)[0] || 'N/A';
 
 				/*---------------------------------------------------------*/
 
