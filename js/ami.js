@@ -6823,9 +6823,13 @@ $AMINamespace('amiCommand',
     }).then(function (data, message) {
       var userInfo = {};
       var roleInfo = {};
+      var rgpdInfo = {};
       var ssoInfo = {};
       JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function (item) {
         userInfo[item['@name']] = item['$'];
+      });
+      JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach(function (item) {
+        rgpdInfo[item['@name']] = item['$'];
       });
       JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function (item) {
         ssoInfo[item['@name']] = item['$'];
@@ -6842,7 +6846,7 @@ $AMINamespace('amiCommand',
         });
         roleInfo[name] = role;
       });
-      result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
+      result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
     }, function (data, message) {
       result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
@@ -6872,9 +6876,13 @@ $AMINamespace('amiCommand',
     this.execute('GetSessionInfo').then(function (data, message) {
       var userInfo = {};
       var roleInfo = {};
+      var rgpdInfo = {};
       var ssoInfo = {};
       JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function (item) {
         userInfo[item['@name']] = item['$'];
+      });
+      JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach(function (item) {
+        rgpdInfo[item['@name']] = item['$'];
       });
       JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function (item) {
         ssoInfo[item['@name']] = item['$'];
@@ -6891,7 +6899,7 @@ $AMINamespace('amiCommand',
         });
         roleInfo[name] = role;
       });
-      result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
+      result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
     }, function (data, message) {
       result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
@@ -6923,9 +6931,13 @@ $AMINamespace('amiCommand',
     }).then(function (data, message) {
       var userInfo = {};
       var roleInfo = {};
+      var rgpdInfo = {};
       var ssoInfo = {};
       JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function (item) {
         userInfo[item['@name']] = item['$'];
+      });
+      JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach(function (item) {
+        rgpdInfo[item['@name']] = item['$'];
       });
       JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function (item) {
         ssoInfo[item['@name']] = item['$'];
@@ -6942,7 +6954,7 @@ $AMINamespace('amiCommand',
         });
         roleInfo[name] = role;
       });
-      result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
+      result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
     }, function (data, message) {
       result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
@@ -6990,11 +7002,12 @@ $AMINamespace('amiCommand',
     * @param {String} lastName the last name
     * @param {String} email the email
     * @param {Boolean} attach attach the current certificate
+    * @param {Boolean} agree agree with the terms and conditions
     * @param {Object} [settings] dictionary of settings (context)
     * @returns {$.Deferred} A JQuery deferred object
     */
-  addUser: function addUser(user, pass, firstName, lastName, email, attach, settings) {
-    return this.execute('AddUser -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '" -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"' + (attach ? ' -attach' : ''), settings);
+  addUser: function addUser(user, pass, firstName, lastName, email, attach, agree, settings) {
+    return this.execute('AddUser -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '" -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"' + (attach ? ' -attach' : '') + (agree ? ' -agree' : ''), settings);
   },
 
   /*---------------------------------------------------------------------*/
@@ -7080,6 +7093,7 @@ $AMINamespace('amiLogin',
 
   /*---------------------------------------------------------------------*/
   roleInfo: {},
+  rgpdInfo: {},
   ssoInfo: {},
 
   /*---------------------------------------------------------------------*/
@@ -7150,8 +7164,8 @@ $AMINamespace('amiLogin',
       _ami_internal_then(amiWebApp.onReady(userdata), function () {
         amiWebApp.lock();
         amiWebApp._isReady = true;
-        amiCommand.certLogin().always(function (data, message, userInfo, roleInfo, ssoInfo) {
-          _this14._update(userInfo, roleInfo, ssoInfo).then(function () {
+        amiCommand.certLogin().always(function (data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) {
+          _this14._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(function () {
             amiWebApp.unlock();
             result.resolve();
           }, function (message) {
@@ -7225,7 +7239,7 @@ $AMINamespace('amiLogin',
   },
 
   /*---------------------------------------------------------------------*/
-  _update: function _update(userInfo, roleInfo, ssoInfo) {
+  _update: function _update(userInfo, roleInfo, rgpdInfo, ssoInfo) {
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
@@ -7238,9 +7252,11 @@ $AMINamespace('amiLogin',
     /*-----------------------------------------------------------------*/
 
     $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
+    $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', rgpdInfo.termsAndConditions || '');
     /*-----------------------------------------------------------------*/
 
     this.roleInfo = roleInfo;
+    this.rgpdInfo = rgpdInfo;
     this.ssoInfo = ssoInfo;
     /*-----------------------------------------------------------------*/
 
@@ -7530,8 +7546,8 @@ $AMINamespace('amiLogin',
     var _this15 = this;
 
     amiWebApp.lock();
-    return amiCommand.logout().always(function (data, message, userInfo, roleInfo, ssoInfo) {
-      _this15._update(userInfo, roleInfo, ssoInfo).then(function () {
+    return amiCommand.logout().always(function (data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) {
+      _this15._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(function () {
         _this15._clean();
 
         amiWebApp.unlock();
@@ -7570,8 +7586,8 @@ $AMINamespace('amiLogin',
     /*-----------------------------------------------------------------*/
 
     amiWebApp.lock();
-    promise.then(function (data, message, userInfo, roleInfo, ssoInfo) {
-      _this16._update(userInfo, roleInfo, ssoInfo).then(function () {
+    promise.then(function (data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) {
+      _this16._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(function () {
         if (userInfo.AMIUser !== userInfo.guestUser) {
           $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
@@ -7598,8 +7614,8 @@ $AMINamespace('amiLogin',
 
         _this16._error1(_message);
       }
-    }, function (data, message, userInfo, roleInfo, ssoInfo) {
-      _this16._update(userInfo, roleInfo, ssoInfo).fail(function (message) {
+    }, function (data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) {
+      _this16._update(userInfo, roleInfo, rgpdInfo, ssoInfo).fail(function (message) {
         amiWebApp.error(message);
       });
 
@@ -7670,7 +7686,7 @@ $AMINamespace('amiLogin',
 
 
     amiWebApp.lock();
-    amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values).then(function (data, message) {
+    amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values, 'agree' in values).then(function (data, message) {
       _this19._success1(message);
     }, function (data, message) {
       _this19._error1(message);
@@ -9085,6 +9101,13 @@ var amiDoc = {
         "name": "attach",
         "type": "Boolean",
         "desc": "attach the current certificate",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "agree",
+        "type": "Boolean",
+        "desc": "agree with the terms and conditions",
         "default": "",
         "optional": "",
         "nullable": ""

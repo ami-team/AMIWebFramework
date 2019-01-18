@@ -37,6 +37,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*---------------------------------------------------------------------*/
 
 	roleInfo: {},
+	rgpdInfo: {},
 	ssoInfo: {},
 
 	/*---------------------------------------------------------------------*/
@@ -144,9 +145,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				amiWebApp._isReady = true;
 
-				amiCommand.certLogin().always((data, message, userInfo, roleInfo, ssoInfo) => {
+				amiCommand.certLogin().always((data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) => {
 
-					this._update(userInfo, roleInfo, ssoInfo).then(() => {
+					this._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(() => {
 
 						amiWebApp.unlock();
 
@@ -242,7 +243,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*---------------------------------------------------------------------*/
 
-	_update: function(userInfo, roleInfo, ssoInfo)
+	_update: function(userInfo, roleInfo, rgpdInfo, ssoInfo)
 	{
 		const result = $.Deferred();
 
@@ -261,10 +262,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
 
+		$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', rgpdInfo.termsAndConditions || '');
+
 		/*-----------------------------------------------------------------*/
 
 		this.roleInfo = roleInfo;
-
+		this.rgpdInfo = rgpdInfo;
 		this.ssoInfo = ssoInfo;
 
 		/*-----------------------------------------------------------------*/
@@ -627,9 +630,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		amiWebApp.lock();
 
-		return amiCommand.logout().always((data, message, userInfo, roleInfo, ssoInfo) => {
+		return amiCommand.logout().always((data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) => {
 
-			this._update(userInfo, roleInfo, ssoInfo).then(() => {
+			this._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(() => {
 
 				this._clean();
 				amiWebApp.unlock();
@@ -681,9 +684,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		promise.then((data, message, userInfo, roleInfo, ssoInfo) => {
+		promise.then((data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) => {
 
-			this._update(userInfo, roleInfo, ssoInfo).then(() => {
+			this._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(() => {
 
 				if(userInfo.AMIUser !== userInfo.guestUser)
 				{
@@ -719,9 +722,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				this._error1(message);
 			}
 
-		}, (data, message, userInfo, roleInfo, ssoInfo) => {
+		}, (data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) => {
 
-			this._update(userInfo, roleInfo, ssoInfo).fail((message) => {
+			this._update(userInfo, roleInfo, rgpdInfo, ssoInfo).fail((message) => {
 
 				amiWebApp.error(message);
 			});
@@ -810,7 +813,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values).then((data, message) => {
+		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values, 'agree' in values).then((data, message) => {
 
 			this._success1(message);
 

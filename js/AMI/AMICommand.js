@@ -197,11 +197,17 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
+			const rgpdInfo = {};
 			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach((item) => {
+
+				rgpdInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
@@ -227,7 +233,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
 
 		}, (data, message) => {
 
@@ -263,11 +269,17 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
+			const rgpdInfo = {};
 			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach((item) => {
+
+				rgpdInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
@@ -293,7 +305,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
 
 		}, (data, message) => {
 
@@ -329,11 +341,17 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
+			const rgpdInfo = {};
 			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach((item) => {
+
+				rgpdInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
@@ -359,7 +377,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
 
 		}, (data, message) => {
 
@@ -411,13 +429,14 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	  * @param {String} lastName the last name
 	  * @param {String} email the email
 	  * @param {Boolean} attach attach the current certificate
+	  * @param {Boolean} agree agree with the terms and conditions
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	addUser: function(user, pass, firstName, lastName, email, attach, settings)
+	addUser: function(user, pass, firstName, lastName, email, attach, agree, settings)
 	{
-		return this.execute('AddUser -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '" -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"' + (attach ? ' -attach' : ''), settings);
+		return this.execute('AddUser -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '" -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"' + (attach ? ' -attach' : '') + (agree ? ' -agree' : ''), settings);
 	},
 
 	/*---------------------------------------------------------------------*/
