@@ -6823,13 +6823,13 @@ $AMINamespace('amiCommand',
     }).then(function (data, message) {
       var userInfo = {};
       var roleInfo = {};
-      var rgpdInfo = {};
+      var udpInfo = {};
       var ssoInfo = {};
       JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function (item) {
         userInfo[item['@name']] = item['$'];
       });
-      JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach(function (item) {
-        rgpdInfo[item['@name']] = item['$'];
+      JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach(function (item) {
+        udpInfo[item['@name']] = item['$'];
       });
       JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function (item) {
         ssoInfo[item['@name']] = item['$'];
@@ -6846,12 +6846,12 @@ $AMINamespace('amiCommand',
         });
         roleInfo[name] = role;
       });
-      result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
+      result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
     }, function (data, message) {
       result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
         guestUser: 'guest'
-      }, {}, '']);
+      }, {}, {}, {}]);
     });
     /*-----------------------------------------------------------------*/
 
@@ -6876,13 +6876,13 @@ $AMINamespace('amiCommand',
     this.execute('GetSessionInfo').then(function (data, message) {
       var userInfo = {};
       var roleInfo = {};
-      var rgpdInfo = {};
+      var udpInfo = {};
       var ssoInfo = {};
       JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function (item) {
         userInfo[item['@name']] = item['$'];
       });
-      JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach(function (item) {
-        rgpdInfo[item['@name']] = item['$'];
+      JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach(function (item) {
+        udpInfo[item['@name']] = item['$'];
       });
       JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function (item) {
         ssoInfo[item['@name']] = item['$'];
@@ -6899,12 +6899,12 @@ $AMINamespace('amiCommand',
         });
         roleInfo[name] = role;
       });
-      result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
+      result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
     }, function (data, message) {
       result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
         guestUser: 'guest'
-      }, {}, '']);
+      }, {}, {}, {}]);
     });
     /*-----------------------------------------------------------------*/
 
@@ -6931,13 +6931,13 @@ $AMINamespace('amiCommand',
     }).then(function (data, message) {
       var userInfo = {};
       var roleInfo = {};
-      var rgpdInfo = {};
+      var udpInfo = {};
       var ssoInfo = {};
       JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach(function (item) {
         userInfo[item['@name']] = item['$'];
       });
-      JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach(function (item) {
-        rgpdInfo[item['@name']] = item['$'];
+      JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach(function (item) {
+        udpInfo[item['@name']] = item['$'];
       });
       JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach(function (item) {
         ssoInfo[item['@name']] = item['$'];
@@ -6954,12 +6954,12 @@ $AMINamespace('amiCommand',
         });
         roleInfo[name] = role;
       });
-      result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
+      result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
     }, function (data, message) {
       result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
         guestUser: 'guest'
-      }, {}, '']);
+      }, {}, {}, {}]);
     });
     /*-----------------------------------------------------------------*/
 
@@ -7093,7 +7093,7 @@ $AMINamespace('amiLogin',
 
   /*---------------------------------------------------------------------*/
   roleInfo: {},
-  rgpdInfo: {},
+  udpInfo: {},
   ssoInfo: {},
 
   /*---------------------------------------------------------------------*/
@@ -7164,8 +7164,8 @@ $AMINamespace('amiLogin',
       _ami_internal_then(amiWebApp.onReady(userdata), function () {
         amiWebApp.lock();
         amiWebApp._isReady = true;
-        amiCommand.certLogin().always(function (data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) {
-          _this14._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(function () {
+        amiCommand.certLogin().always(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
+          _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function () {
             amiWebApp.unlock();
             result.resolve();
           }, function (message) {
@@ -7239,7 +7239,7 @@ $AMINamespace('amiLogin',
   },
 
   /*---------------------------------------------------------------------*/
-  _update: function _update(userInfo, roleInfo, rgpdInfo, ssoInfo) {
+  _update: function _update(userInfo, roleInfo, udpInfo, ssoInfo) {
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
@@ -7252,11 +7252,12 @@ $AMINamespace('amiLogin',
     /*-----------------------------------------------------------------*/
 
     $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
-    $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', rgpdInfo.termsAndConditions || '');
+    $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('href', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+    $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
     /*-----------------------------------------------------------------*/
 
     this.roleInfo = roleInfo;
-    this.rgpdInfo = rgpdInfo;
+    this.udpInfo = udpInfo;
     this.ssoInfo = ssoInfo;
     /*-----------------------------------------------------------------*/
 
@@ -7546,8 +7547,8 @@ $AMINamespace('amiLogin',
     var _this15 = this;
 
     amiWebApp.lock();
-    return amiCommand.logout().always(function (data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) {
-      _this15._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(function () {
+    return amiCommand.logout().always(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
+      _this15._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function () {
         _this15._clean();
 
         amiWebApp.unlock();
@@ -7586,8 +7587,8 @@ $AMINamespace('amiLogin',
     /*-----------------------------------------------------------------*/
 
     amiWebApp.lock();
-    promise.then(function (data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) {
-      _this16._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(function () {
+    promise.then(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
+      _this16._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function () {
         if (userInfo.AMIUser !== userInfo.guestUser) {
           $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
@@ -7614,8 +7615,8 @@ $AMINamespace('amiLogin',
 
         _this16._error1(_message);
       }
-    }, function (data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) {
-      _this16._update(userInfo, roleInfo, rgpdInfo, ssoInfo).fail(function (message) {
+    }, function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
+      _this16._update(userInfo, roleInfo, udpInfo, ssoInfo).fail(function (message) {
         amiWebApp.error(message);
       });
 

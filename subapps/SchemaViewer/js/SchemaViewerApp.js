@@ -101,50 +101,40 @@ $AMIClass('SchemaViewerApp', {
 	{
 		var result = $.Deferred();
 
-		amiCommand.execute('GetSchemas', {context: this}).done(function(data1) {
+		amiCommand.execute('ListCatalogs', {context: this}).done(function(data2) {
 
-			this.columns = amiWebApp.jspath('..rowset{.@type==="columns"}.row', data1);
-			this.foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data1);
+			var s = '<option value="" style="display: none;">Choose a catalog</option>';
 
-			amiCommand.execute('ListCatalogs', {context: this}).done(function(data2) {
+			$.each(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', data2), function(index, value) {
 
-				var s = '<option value="" style="display: none;">Choose a catalog</option>';
-
-				$.each(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', data2), function(index, value) {
-
-					if(value !== 'self' || amiLogin.hasRole('AMI_ADMIN'))
+				if(value !== 'self' || amiLogin.hasRole('AMI_ADMIN'))
+				{
+					if(value === this.defaultCatalog)
 					{
- 						if(value === this.defaultCatalog)
-						{
-							s += '<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>';
-						}
-						else
-						{
-							s += '<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>';
-						}
+						s += '<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>';
 					}
-				}, this);
+					else
+					{
+						s += '<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>';
+					}
+				}
+			}, this);
 
-				this.openSchema().done(function() {
+			this.openSchema().done(function() {
 
-					$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').html(s);
+				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').html(s);
 
-					$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', false);
+				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', false);
 
-					$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
-					$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', false);
+				$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
+				$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', false);
 
-					$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
-					$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
+				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
+				$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
 
-					result.resolve();
+				result.resolve();
 
-				}).fail(function(message) {
-
-					result.reject(message);
-				});
-
-			}).fail(function(data, message) {
+			}).fail(function(message) {
 
 				result.reject(message);
 			});
