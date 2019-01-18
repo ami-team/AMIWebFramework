@@ -313,9 +313,31 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 			var line = column.name + ': ' + column.type;
 
-			if(column.primary)
+			/**/ if(column.hidden)
+			{
+				line = '❌' + line;
+			}
+			else if(column.adminOnly)
+			{
+				line = '🚫' + line;
+			}
+			else if(column.crypted)
+			{
+				line = '🔐' + line;
+			}
+			else if(column.primary)
 			{
 				line = '🔑' + line;
+			}
+			else if(column.created
+			        ||
+			        column.createdBy
+			        ||
+			        column.modified
+			        ||
+			        column.modifiedBy
+			 ) {
+				line = '⚙️' + line;
 			}
 
 			if(line.length > 26)

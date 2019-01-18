@@ -6851,7 +6851,7 @@ $AMINamespace('amiCommand',
       result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
         guestUser: 'guest'
-      }, {}, '']);
+      }, {}, {}, {}]);
     });
     /*-----------------------------------------------------------------*/
 
@@ -6904,7 +6904,7 @@ $AMINamespace('amiCommand',
       result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
         guestUser: 'guest'
-      }, {}, '']);
+      }, {}, {}, {}]);
     });
     /*-----------------------------------------------------------------*/
 
@@ -6959,7 +6959,7 @@ $AMINamespace('amiCommand',
       result.rejectWith(context, [data, message, {
         AMIUser: 'guest',
         guestUser: 'guest'
-      }, {}, '']);
+      }, {}, {}, {}]);
     });
     /*-----------------------------------------------------------------*/
 

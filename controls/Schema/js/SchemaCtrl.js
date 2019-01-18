@@ -188,7 +188,14 @@ $AMIClass('SchemaCtrl', {
 					var table = amiWebApp.jspath('..field{.@name==="table"}.$', value)[0] || '';
 					var name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0] || '';
 					var type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
+					var hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', value)[0] || '';
+					var adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', value)[0] || '';
+					var crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', value)[0] || '';
 					var primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0] || '';
+					var created = amiWebApp.jspath('..field{.@name==="created"}.$', value)[0] || '';
+					var createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', value)[0] || '';
+					var modified = amiWebApp.jspath('..field{.@name==="modified"}.$', value)[0] || '';
+					var modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', value)[0] || '';
 
 					if(!(table in tables))
 					{
@@ -236,7 +243,14 @@ $AMIClass('SchemaCtrl', {
 						tables[table]['table'].appendField({
 							name: name,
 							type: type,
+							hidden: hidden === 'true',
+							adminOnly: adminOnly === 'true',
+							crypted: crypted === 'true',
 							primary: primary === 'true',
+							created: created === 'true',
+							createdBy: createdBy === 'true',
+							modified: modified === 'true',
+							modifiedBy: modifiedBy === 'true',
 						});
 					}
 				}

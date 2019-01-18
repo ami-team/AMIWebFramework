@@ -237,7 +237,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		}, (data, message) => {
 
-			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
+			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, {}, {}]);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -270,7 +270,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			const userInfo = {};
 			const roleInfo = {};
 			const udpInfo = {};
-			const ssoInfo = {}
+			const ssoInfo = {};
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
@@ -309,7 +309,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		}, (data, message) => {
 
-			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
+			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, {}, {}]);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -381,7 +381,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 		}, (data, message) => {
 
-			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, '']);
+			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, {}, {}]);
 		});
 
 		/*-----------------------------------------------------------------*/
