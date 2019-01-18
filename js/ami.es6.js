@@ -8128,7 +8128,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
-			const rgpdInfo = {};
+			const udpInfo = {};
 			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
@@ -8136,9 +8136,9 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach((item) => {
+			JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
 
-				rgpdInfo[item['@name']] = item['$'];
+				udpInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
@@ -8164,7 +8164,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
 
 		}, (data, message) => {
 
@@ -8200,7 +8200,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
-			const rgpdInfo = {};
+			const udpInfo = {};
 			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
@@ -8208,9 +8208,9 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach((item) => {
+			JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
 
-				rgpdInfo[item['@name']] = item['$'];
+				udpInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
@@ -8236,7 +8236,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
 
 		}, (data, message) => {
 
@@ -8272,7 +8272,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
-			const rgpdInfo = {};
+			const udpInfo = {};
 			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
@@ -8280,9 +8280,9 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach((item) => {
+			JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
 
-				rgpdInfo[item['@name']] = item['$'];
+				udpInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
@@ -8308,7 +8308,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
 
 		}, (data, message) => {
 
@@ -8458,7 +8458,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*---------------------------------------------------------------------*/
 
 	roleInfo: {},
-	rgpdInfo: {},
+	udpInfo: {},
 	ssoInfo: {},
 
 	/*---------------------------------------------------------------------*/
@@ -8566,9 +8566,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				amiWebApp._isReady = true;
 
-				amiCommand.certLogin().always((data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) => {
+				amiCommand.certLogin().always((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-					this._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(() => {
+					this._update(userInfo, roleInfo, udpInfo, ssoInfo).then(() => {
 
 						amiWebApp.unlock();
 
@@ -8664,7 +8664,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*---------------------------------------------------------------------*/
 
-	_update: function(userInfo, roleInfo, rgpdInfo, ssoInfo)
+	_update: function(userInfo, roleInfo, udpInfo, ssoInfo)
 	{
 		const result = $.Deferred();
 
@@ -8683,12 +8683,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
 
-		$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', rgpdInfo.termsAndConditions || '');
+		$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('href', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+		$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
 
 		/*-----------------------------------------------------------------*/
 
 		this.roleInfo = roleInfo;
-		this.rgpdInfo = rgpdInfo;
+		this.udpInfo = udpInfo;
 		this.ssoInfo = ssoInfo;
 
 		/*-----------------------------------------------------------------*/
@@ -9051,9 +9052,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		amiWebApp.lock();
 
-		return amiCommand.logout().always((data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) => {
+		return amiCommand.logout().always((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-			this._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(() => {
+			this._update(userInfo, roleInfo, udpInfo, ssoInfo).then(() => {
 
 				this._clean();
 				amiWebApp.unlock();
@@ -9105,9 +9106,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		promise.then((data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) => {
+		promise.then((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-			this._update(userInfo, roleInfo, rgpdInfo, ssoInfo).then(() => {
+			this._update(userInfo, roleInfo, udpInfo, ssoInfo).then(() => {
 
 				if(userInfo.AMIUser !== userInfo.guestUser)
 				{
@@ -9143,9 +9144,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				this._error1(message);
 			}
 
-		}, (data, message, userInfo, roleInfo, rgpdInfo, ssoInfo) => {
+		}, (data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-			this._update(userInfo, roleInfo, rgpdInfo, ssoInfo).fail((message) => {
+			this._update(userInfo, roleInfo, udpInfo, ssoInfo).fail((message) => {
 
 				amiWebApp.error(message);
 			});

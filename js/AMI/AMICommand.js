@@ -197,7 +197,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
-			const rgpdInfo = {};
+			const udpInfo = {};
 			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
@@ -205,9 +205,9 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach((item) => {
+			JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
 
-				rgpdInfo[item['@name']] = item['$'];
+				udpInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
@@ -233,7 +233,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
 
 		}, (data, message) => {
 
@@ -269,7 +269,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
-			const rgpdInfo = {};
+			const udpInfo = {};
 			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
@@ -277,9 +277,9 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach((item) => {
+			JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
 
-				rgpdInfo[item['@name']] = item['$'];
+				udpInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
@@ -305,7 +305,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
 
 		}, (data, message) => {
 
@@ -341,7 +341,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
-			const rgpdInfo = {};
+			const udpInfo = {};
 			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
@@ -349,9 +349,9 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="rgpd"}.row.field', data).forEach((item) => {
+			JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
 
-				rgpdInfo[item['@name']] = item['$'];
+				udpInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
@@ -377,7 +377,7 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, rgpdInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
 
 		}, (data, message) => {
 
