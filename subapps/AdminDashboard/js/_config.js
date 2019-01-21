@@ -300,6 +300,22 @@ $AMIClass('AdminDashboardConfig', {
 	},
 
 	/*---------------------------------------------------------------------*/
+
+	togglePasswordVisibility: function(el)
+	{
+		var input = $('#' + el.parent().attr('for'));
+
+		/**/ if(input.attr('type') === 'text') {
+			el.html('<i class="fa fa-eye"></i>');
+			input.attr('type', 'password');
+		}
+		else if(input.attr('type') === 'password') {
+			el.html('<i class="fa fa-eye-slash"></i>');
+			input.attr('type', 'text');
+		}
+	},
+
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/
