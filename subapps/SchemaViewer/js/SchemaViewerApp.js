@@ -107,17 +107,15 @@ $AMIClass('SchemaViewerApp', {
 
 			$.each(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', data2), function(index, value) {
 
-				if(value !== 'self' || amiLogin.hasRole('AMI_ADMIN'))
+				if(value === this.defaultCatalog)
 				{
-					if(value === this.defaultCatalog)
-					{
-						s += '<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>';
-					}
-					else
-					{
-						s += '<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>';
-					}
+					s += '<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>';
 				}
+				else
+				{
+					s += '<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>';
+				}
+
 			}, this);
 
 			this.openSchema().done(function() {
