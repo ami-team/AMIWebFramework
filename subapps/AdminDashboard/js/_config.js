@@ -62,7 +62,7 @@ $AMIClass('AdminDashboardConfig', {
 
 			var path_fields = amiWebApp.jspath('..rowset{.@type==="paths"}.row.field', data);
 
-			var config_fields = amiWebApp.jspath('..rowset{.@type==="config"}.row.field', data);
+			var config_fields = amiWebApp.jspath('..rowset{.@type==="params"}.row.field', data);
 
 			/*-------------------------------------------------------------*/
 
