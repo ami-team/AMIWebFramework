@@ -43,7 +43,7 @@ $AMIClass('SchemaCtrl', {
 			amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css',
 		], {context: this}).done(function(data) {
 
-			this._columns = null;
+			this._fields = null;
 			this._foreignKeys = null;
 		});
 	},
@@ -181,7 +181,7 @@ $AMIClass('SchemaCtrl', {
 
 			var tables = {};
 
-			$.each(this._columns, function(index, value) {
+			$.each(this._fields, function(index, value) {
 
 				if((amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] || '') === this._catalog)
 				{
@@ -311,7 +311,7 @@ $AMIClass('SchemaCtrl', {
 	{
 		var result = $.Deferred();
 
-		if(this._columns
+		if(this._fields
 		   &&
 		   this._foreignKeys
 		 ) {
@@ -321,7 +321,7 @@ $AMIClass('SchemaCtrl', {
 		{
 			amiCommand.execute('GetSchemas', {context: this}).always(function(data) {
 
-				this._columns = amiWebApp.jspath('..rowset{.@type==="columns"}.row', data);
+				this._fields = amiWebApp.jspath('..rowset{.@type==="fields"}.row', data);
 				this._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data);
 
 				this._refresh(result, catalog, settings);
