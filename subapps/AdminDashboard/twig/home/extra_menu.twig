@@ -1,7 +1,9 @@
 <div class="text-center">
-	<button class="btn btn-outline-primary mb-2" onclick="adminDashboardApp.subsubapp.flushCommandCache();" style="width: 80%;"><i class="fa fa-refresh"></i> Flush command cache</button>
+	<button class="btn btn-outline-primary mb-2" onclick="adminDashboardApp.findNewCommands();" style="width: 80%;"><i class="fa fa-refresh"></i> Find new commands</button>
 	<br />
-	<button class="btn btn-outline-primary mb-2" onclick="adminDashboardApp.subsubapp.flushServerCachesSlow();" style="width: 80%;"><i class="fa fa-refresh"></i> Flush server caches (full)</button>
+	<button class="btn btn-outline-primary mb-2" onclick="adminDashboardApp.flushCommandCache();" style="width: 80%;"><i class="fa fa-refresh"></i> Flush command cache</button>
+	<hr />
+	<button class="btn btn-outline-primary mb-2" onclick="adminDashboardApp.flushServerCachesSlow();" style="width: 80%;"><i class="fa fa-refresh"></i> Flush server caches (full)</button>
 	<br />
-	<button class="btn btn-outline-primary mb-2" onclick="adminDashboardApp.subsubapp.flushServerCachesFast();" style="width: 80%;"><i class="fa fa-refresh"></i> Flush server caches (partial)</button>
+	<button class="btn btn-outline-primary mb-2" onclick="adminDashboardApp.flushServerCachesFast();" style="width: 80%;"><i class="fa fa-refresh"></i> Flush server caches (partial)</button>
 </div>
