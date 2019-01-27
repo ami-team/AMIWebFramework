@@ -170,18 +170,26 @@
 				<div class="card-body">
 
 					<div class="form-group">
+						<label for="D0C89264_4608_DACF_2ADF_769574445992" class="control-label">pool_enabled</label>
+						<select class="custom-select custom-select-sm" name="pool_enabled" id="D0C89264_4608_DACF_2ADF_769574445992">
+							<option value="true">true</option>
+							<option value="false">false</option>
+						</select>
+					</div>
+
+					<div class="form-group">
 						<label for="C0984FFD_179F_CAFF_958D_91BF5844E858" class="control-label">pool_size</label>
 						<input class="form-control form-control-sm" type="number" name="initial_size" min="1" value="10" id="C0984FFD_179F_CAFF_958D_91BF5844E858" />
 					</div>
 
 					<div class="form-group">
-						<label for="D8E0065A_6BFF_1381_5C54_3603EFB1E54F" class="control-label">conn_timeout [ms]</label>
-						<input class="form-control form-control-sm" type="number" name="conn_timeout" min="250" value="30000" id="D8E0065A_6BFF_1381_5C54_3603EFB1E54F" />
+						<label for="D8E0065A_6BFF_1381_5C54_3603EFB1E54F" class="control-label">pool_conn_timeout [ms]</label>
+						<input class="form-control form-control-sm" type="number" name="pool_conn_timeout" min="250" value="30000" id="D8E0065A_6BFF_1381_5C54_3603EFB1E54F" />
 					</div>
 
 					<div class="form-group">
-						<label for="BEF3BAD9_4861_D2A7_0BDD_F8C8A7738F2A" class="control-label">idle_timeout [ms]</label>
-						<input class="form-control form-control-sm" type="number" name="idle_timeout" min="10000" value="600000" id="BEF3BAD9_4861_D2A7_0BDD_F8C8A7738F2A" />
+						<label for="BEF3BAD9_4861_D2A7_0BDD_F8C8A7738F2A" class="control-label">pool_idle_timeout [ms]</label>
+						<input class="form-control form-control-sm" type="number" name="pool_idle_timeout" min="10000" value="600000" id="BEF3BAD9_4861_D2A7_0BDD_F8C8A7738F2A" />
 					</div>
 
 				</div>
