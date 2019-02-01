@@ -7313,8 +7313,8 @@ $AMINamespace('amiLogin',
 
       for (var role in roleInfo) {
         table.push('<tr>');
-        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || '') + '</td>');
-        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || '') + '</td>');
+        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || 'N∕A') + '</td>');
+        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || 'N∕A') + '</td>');
         table.push('</tr>');
       }
 
