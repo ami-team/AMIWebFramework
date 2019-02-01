@@ -182,27 +182,41 @@
 	<!-- **************************************************************** -->
 </div>
 
+<div class="alert alert-info text-right py-2">
+	<span style="font-family: 'Trochut';">AMI</span> version: <span class="badge badge-primary" id="F1FA8298_F283_E0C4_A9F6_74C8EB2E4762"></span>
+	<br />
+	<span style="font-family: 'Trochut';">AMI</span> commit id: <span class="badge badge-primary" id="A8F46B0F_4657_09B7_BB0D_6B4434FD79A3"></span>
+</div>
+
 <div class="card mb-4">
-	<div class="card-body text-right py-2">
-		<span style="font-family: 'Trochut';">AMI</span> version: <span class="badge badge-primary" id="F1FA8298_F283_E0C4_A9F6_74C8EB2E4762"></span>
-		<br />
-		<span style="font-family: 'Trochut';">AMI</span> commit id: <span class="badge badge-primary" id="A8F46B0F_4657_09B7_BB0D_6B4434FD79A3"></span>
-	</div>
-</div>
+	<div class="card-header py-2">
 
-<div class="alert alert-info text-center" role="alert">
-	Host name: <strong id="B2BE4D58_BE5D_F374_BE74_BE6C4384B125">N/A</strong>,
-	nb of cores: <strong id="C4889AE7_CB06_DE89_1297_B9FF7C9C8BA1">N/A</strong>,
-	disk: <strong id="FCD9CCC9_65EA_092F_B715_C1C49255943F">N/A</strong> MBytes,
-	memory: <strong id="A1A836FF_D465_1A2C_B045_AC691EEF0812">N/A</strong> MBytes
-	<button type="button" class="btn btn-sm btn-info" onclick="adminDashboardApp.subsubapp.reflesh()" style="position: absolute; top: 8px; right: 8px;">refresh</button>
-</div>
+		<div class="row">
+			<div class="col-2 text-left align-middle">
+				<!-- ********************************************************************************************************* -->
+			</div>
+			<div class="col-8 text-center align-middle">
+				Host name: <strong id="B2BE4D58_BE5D_F374_BE74_BE6C4384B125">N/A</strong>,
+				nb of cores: <strong id="C4889AE7_CB06_DE89_1297_B9FF7C9C8BA1">N/A</strong>,
+				disk: <strong id="FCD9CCC9_65EA_092F_B715_C1C49255943F">N/A</strong> MBytes,
+				memory: <strong id="A1A836FF_D465_1A2C_B045_AC691EEF0812">N/A</strong> MBytes
+			</div>
+			<div class="col-2 text-right align-middle">
+				<span class="badge badge-info" style="cursor: pointer;" onclick="adminDashboardApp.subsubapp.reflesh()">refresh</span>
+			</div>
+		</div>
 
-<div class="row">
-	<div class="col-md-6 text-center" style="padding-left: 10%; padding-right: 10%;">
-		<canvas id="F6D24B37_F159_CB36_2D51_466740F9588E"></canvas>
 	</div>
-	<div class="col-md-6 text-center" style="padding-left: 10%; padding-right: 10%;">
-		<canvas id="D058BCEF_2903_2D9D_837F_0B5C8858011D"></canvas>
+	<div class="card-body py-2">
+
+		<div class="row">
+			<div class="col-md-6 text-center" style="padding-left: 10%; padding-right: 10%;">
+				<canvas id="F6D24B37_F159_CB36_2D51_466740F9588E"></canvas>
+			</div>
+			<div class="col-md-6 text-center" style="padding-left: 10%; padding-right: 10%;">
+				<canvas id="D058BCEF_2903_2D9D_837F_0B5C8858011D"></canvas>
+			</div>
+		</div>
+
 	</div>
 </div>
