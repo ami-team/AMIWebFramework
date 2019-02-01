@@ -7312,7 +7312,10 @@ $AMINamespace('amiLogin',
       var table = [];
 
       for (var role in roleInfo) {
-        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || '') + '</td>' + '<td>' + amiWebApp.textToHtml(roleInfo[role].description || '') + '</td>');
+        table.push('<tr>');
+        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || '') + '</td>');
+        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || '') + '</td>');
+        table.push('</tr>');
       }
 
       $('#BB07676B_EACA_9B42_ED51_477DB2976041').html(table.join(''));
