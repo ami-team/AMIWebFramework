@@ -54,6 +54,22 @@ $AMIClass('SchemaCtrl', {
 	{
 		/*-----------------------------------------------------------------*/
 
+		this.onFocus = null;
+		this.onBlur = null;
+
+		if(settings)
+		{
+			if('onFocus' in settings) {
+				this.onFocus = settings['onFocus'];
+			}
+
+			if('onBlur' in settings) {
+				this.onBlur = settings['onBlur'];
+			}
+		}
+
+		/*-----------------------------------------------------------------*/
+
 		var el1 = $(this._selector = selector);
 
 		el1.css('box-shadow', '0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075)');
@@ -69,7 +85,7 @@ $AMIClass('SchemaCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		this.graph = new joint.dia.Graph;
+		this.graph = new joint.dia.Graph();
 
 		this.paper = new joint.dia.Paper({
 			model: this.graph,
@@ -87,24 +103,28 @@ $AMIClass('SchemaCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		var that = this;
+		this.paper.on({
+			'cell:pointerclick': function(cellView) {
 
-		this.paper.on('cell:pointerclick', function(cellView) {
+				$('g[model-id]').removeClass('ami-schema-shadow').filter('[model-id="' + cellView.model.id + '"]').addClass('ami-schema-shadow');
 
-			_.each(that.graph.getElements(), function(element) {
+				this.currentCell = cellView.model;
 
-				if(element === cellView.model)
-				{
-					that.currentElement = element;
-
-					that.paper.findViewByModel(element).highlight();
+				if(this.onFocus) {
+					this.onFocus(this.currentCell);
 				}
-				else
-				{
-					that.paper.findViewByModel(element).unhighlight();
+			},
+			'blank:pointerdown': function(cellView) {
+
+				$('g[model-id]').removeClass('ami-schema-shadow')/*---------------------------------------------------------------------------*/;
+
+				if(this.onBlur) {
+					this.onBlur(this.currentCell);
 				}
-			});
-		});
+
+				this.currentCell = /*-*/null/*-*/;
+			}
+		}, this);
 
 		/*-----------------------------------------------------------------*/
 
@@ -357,9 +377,9 @@ $AMIClass('SchemaCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	getCurrentElement: function()
+	getCurrentCell: function()
 	{
-		return this.currentElement;
+		return this.currentCell;
 	},
 
 	/*---------------------------------------------------------------------*/

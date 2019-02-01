@@ -29,60 +29,75 @@ $AMIClass('SchemaViewerApp', {
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
+			'js/3rd-party/jscolor.min.js',
 			'subapps/SchemaViewer/twig/SchemaViewerApp.twig',
 			'subapps/SchemaViewer/css/SchemaViewerApp.css',
 			/**/
 			'ctrl:schema',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this, dict: {command: userdata}}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[1], {context: this, dict: {command: userdata}}).done(function() {
 
-				/*---------------------------------*/
-				/* DROP ZONE                       */
-				/*---------------------------------*/
+				/*---------------------------------------------------------*/
+				/* COLOR PICKER                                            */
+				/*---------------------------------------------------------*/
+
+				this.colorPicker = new jscolor('F542C5DA_46FD_6A57_76CB_9A6A949E7F39', {hash: true});
+
+				/*---------------------------------------------------------*/
+				/* DROP ZONE                                               */
+				/*---------------------------------------------------------*/
 
 				var dropZone = document.getElementById('EFAEDA1C_C8B2_46EA_AC47_A591A0704FE3');
 
 				dropZone.addEventListener('dragover', this.handleDragOver, false);
 				dropZone.addEventListener('drop'    , this.handleDrop    , false);
 
-				/*---------------------------------*/
-				/* EDITOR                          */
-				/*---------------------------------*/
+				/*---------------------------------------------------------*/
+				/* EDITOR                                                  */
+				/*---------------------------------------------------------*/
 
 				$('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').outerHeight(
 					$(document).height() - $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').offset().top - 8
 				);
 
-				/*---------------------------------*/
+				/*---------------------------------------------------------*/
 
 				var that = this;
 
-				this.schema = new data[2]();
+				this.schema = new data[3]();
 
-				this.schema.render('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').done(function() {
+				this.schema.render('#C6DDFAF6_9E75_41C5_87BD_0896B5299559', {
+					onFocus: function(cell) {
 
-					/*---------------------------------*/
-					/* DEFAULT CATALOG                 */
-					/*---------------------------------*/
+						if(cell) {
+							that.colorPicker.fromString(cell.getColor());
+						}
+					},
+					onBlur: function(cell) {
+
+						if(true) {
+							that.colorPicker.fromString(((('#0066CC'))));
+						}
+					},
+				}).done(function() {
+
+					/*-----------------------------------------------------*/
 
 					$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').change(function() {
 
 						that.defaultCatalog = $('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC option:selected').val();
 					});
 
-					that.defaultCatalog = userdata;
+					that.defaultCatalog = /*-----------------------*/ userdata /*-----------------------*/;
 
-					/*---------------------------------*/
-
-					amiWebApp.loadResources([
-						'js/3rd-party/jscolor.min.js'
-					]);
-
-					/*---------------------------------*/
+					/*-----------------------------------------------------*/
 
 					result.resolve();
 				});
+
+				/*---------------------------------------------------------*/
+
 			});
 
 		}).fail(function(message) {
@@ -101,26 +116,26 @@ $AMIClass('SchemaViewerApp', {
 	{
 		var result = $.Deferred();
 
-		amiCommand.execute('ListCatalogs', {context: this}).done(function(data2) {
+		amiCommand.execute('ListCatalogs', {context: this}).done(function(data) {
 
-			var s = '<option value="" style="display: none;">Choose a catalog</option>';
+			var L = ['<option value="" style="display: none;">Choose a catalog</option>'];
 
-			$.each(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', data2), function(index, value) {
+			$.each(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', data), function(index, value) {
 
 				if(value === this.defaultCatalog)
 				{
-					s += '<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>';
+					L.push('<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>');
 				}
 				else
 				{
-					s += '<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>';
+					L.push('<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>');
 				}
 
 			}, this);
 
 			this.openSchema().done(function() {
 
-				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').html(s);
+				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').html(L.join(''));
 
 				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', false);
 
@@ -249,12 +264,12 @@ $AMIClass('SchemaViewerApp', {
 			if(value.get('type') === 'sql.Table')
 			{
 				var position = value.get('position');
-				var topColor = value.get('color');
+				var topColor = value.get('topColor');
 
 				custom[value.get('table')] = {
 					x: position.x,
 					y: position.y,
-					color: color,
+					color: topColor,
 				};
 			}
 		});
@@ -288,11 +303,11 @@ $AMIClass('SchemaViewerApp', {
 
 	setBoxColor: function(color)
 	{
-		var currentElement = this.schema.getCurrentElement();
+		var currentCell = this.schema.getCurrentCell();
 
-		if(currentElement)
+		if(currentCell)
 		{
-			currentElement.setTopColor('#' + color);
+			currentCell.setColor(color);
 		}
 	},
 

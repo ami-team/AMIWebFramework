@@ -178,12 +178,12 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 	/*---------------------------------------------------------------------*/
 
-	getTopColor: function()
+	getColor: function()
 	{
 		return this.get('topColor');
 	},
 
-	setTopColor: function(color)
+	setColor: function(color)
 	{
 		this.attr('.sql-table-name/fill', _get_l(color) > 0.5 ? '#000000' : '#FFFFFF');
 
