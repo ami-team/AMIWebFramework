@@ -266,7 +266,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
 
 		/*-----------------------------------------------------------------*/
-alert(JSON.stringify(roleInfo));
+
 		this.roleInfo = roleInfo;
 		this.udpInfo = udpInfo;
 		this.ssoInfo = ssoInfo;
@@ -326,7 +326,18 @@ alert(JSON.stringify(roleInfo));
 
 			/*-------------------------------------------------------------*/
 
-			$('#BB07676B_EACA_9B42_ED51_477DB2976041').html(Object.keys(roleInfo).join('<br />'));
+			let table = [];
+
+			for(let role in roleInfo)
+			{
+				table.push(
+					'<td>' + amiWebApp.textToHtml(roleInfo[role].name || '') + '</td>'
+					+
+					'<td>' + amiWebApp.textToHtml(roleInfo[role].description || '') + '</td>'
+				);
+			}
+
+			$('#BB07676B_EACA_9B42_ED51_477DB2976041').html(table.join(''));
 
 			/*-------------------------------------------------------------*/
 			/* CHECK USER STATUS                                           */

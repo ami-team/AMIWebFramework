@@ -7309,7 +7309,13 @@ $AMINamespace('amiLogin',
       $('#C587486B_62C0_4B6E_9288_D8F9F89D157B').prop('disabled', vomsEnabled !== 'false');
       /*-------------------------------------------------------------*/
 
-      $('#BB07676B_EACA_9B42_ED51_477DB2976041').html(Object.keys(roleInfo).join('<br />'));
+      var table = [];
+
+      for (var role in roleInfo) {
+        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || '') + '</td>' + '<td>' + amiWebApp.textToHtml(roleInfo[role].description || '') + '</td>');
+      }
+
+      $('#BB07676B_EACA_9B42_ED51_477DB2976041').html(table.join(''));
       /*-------------------------------------------------------------*/
 
       /* CHECK USER STATUS                                           */

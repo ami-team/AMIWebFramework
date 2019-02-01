@@ -8747,7 +8747,18 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			$('#BB07676B_EACA_9B42_ED51_477DB2976041').html(Object.keys(roleInfo).join('<br />'));
+			let table = [];
+
+			for(let role in roleInfo)
+			{
+				table.push(
+					'<td>' + amiWebApp.textToHtml(roleInfo[role].name || '') + '</td>'
+					+
+					'<td>' + amiWebApp.textToHtml(roleInfo[role].description || '') + '</td>'
+				);
+			}
+
+			$('#BB07676B_EACA_9B42_ED51_477DB2976041').html(table.join(''));
 
 			/*-------------------------------------------------------------*/
 			/* CHECK USER STATUS                                           */
