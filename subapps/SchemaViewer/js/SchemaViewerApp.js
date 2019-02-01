@@ -211,13 +211,6 @@ $AMIClass('SchemaViewerApp', {
 
 	/*---------------------------------------------------------------------*/
 
-	setPaperHeight: function(height)
-	{
-		$('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').outerHeight(height);
-	},
-
-	/*---------------------------------------------------------------------*/
-
 	openSchema: function()
 	{
 		amiWebApp.lock();
@@ -256,16 +249,12 @@ $AMIClass('SchemaViewerApp', {
 			if(value.get('type') === 'sql.Table')
 			{
 				var position = value.get('position');
-				var topColor = value.get('topColor');
-				var bodyColor = value.get('bodyColor');
-				var strokeColor = value.get('strokeColor');
+				var topColor = value.get('color');
 
 				custom[value.get('table')] = {
 					x: position.x,
 					y: position.y,
-					topColor: topColor,
-					bodyColor: bodyColor,
-					strokeColor: strokeColor,
+					color: color,
 				};
 			}
 		});
@@ -293,6 +282,18 @@ $AMIClass('SchemaViewerApp', {
 		}
 
 		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	setBoxColor: function(color)
+	{
+		var currentElement = this.schema.getCurrentElement();
+
+		if(currentElement)
+		{
+			currentElement.setTopColor('#' + color);
+		}
 	},
 
 	/*---------------------------------------------------------------------*/

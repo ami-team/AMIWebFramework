@@ -150,9 +150,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 	{
 		this.on({
 			'change:table': this.updateTable,
-			'change:topColor': this.updateColors,
-			'change:bodyColor': this.updateColors,
-			'change:strokeColor': this.updateColors,
+			'change:color': this.updateColors,
 			'change:columns': this.updateFields,
 
 		}, this);
@@ -188,35 +186,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 	setTopColor: function(color)
 	{
 		this.attr('.sql-table-name/fill', _get_l(color) > 0.5 ? '#000000' : '#FFFFFF');
+
 		this.set('topColor', color);
-
-		this.updateColors();
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	getBodyColor: function()
-	{
-		return this.get('bodyColor');
-	},
-
-	setBodyColor: function(color)
-	{
-		this.attr('sql-table-columns/fill', _get_l(color) > 0.5 ? '#000000' : '#FFFFFF');
-		this.set('bodyColor', color);
-
-		this.updateColors();
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	getStrokeColor: function()
-	{
-		return this.get('strokeColor');
-	},
-
-	setStrokeColor: function(color)
-	{
 		this.set('strokeColor', color);
 
 		this.updateColors();

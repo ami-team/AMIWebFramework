@@ -87,6 +87,27 @@ $AMIClass('SchemaCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
+		var that = this;
+
+		this.paper.on('cell:pointerclick', function(cellView) {
+
+			_.each(that.graph.getElements(), function(element) {
+
+				if(element === cellView.model)
+				{
+					that.currentElement = element;
+
+					that.paper.findViewByModel(element).highlight();
+				}
+				else
+				{
+					that.paper.findViewByModel(element).unhighlight();
+				}
+			});
+		});
+
+		/*-----------------------------------------------------------------*/
+
 		return this.refresh(null, settings);
 
 		/*-----------------------------------------------------------------*/
@@ -201,9 +222,7 @@ $AMIClass('SchemaCtrl', {
 					{
 						var x;
 						var y;
-						var topColor;
-						var bodyColor;
-						var strokeColor;
+						var color;
 
 						if(!(table in json))
 						{
@@ -217,9 +236,7 @@ $AMIClass('SchemaCtrl', {
 						{
 							x = json[table].x;
 							y = json[table].y;
-							topColor = json[table].topColor;
-							bodyColor = json[table].bodyColor;
-							strokeColor = json[table].strokeColor;
+							color = json[table].clor;
 						}
 
 						tables[table] = {
@@ -229,9 +246,7 @@ $AMIClass('SchemaCtrl', {
 									y: y,
 								},
 								table: table,
-								topColor: topColor,
-								bodyColor: bodyColor,
-								strokeColor: strokeColor,
+								color: color,
 								showLinks: this._showLinks,
 							}),
 							fields: [],
@@ -342,6 +357,13 @@ $AMIClass('SchemaCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
+	getCurrentElement: function()
+	{
+		return this.currentElement;
+	},
+
+	/*---------------------------------------------------------------------*/
+
 	setJSON: function(json)
 	{
 		this.graph.fromJSON(json);
@@ -405,18 +427,7 @@ $AMIClass('SchemaCtrl', {
 
 	viewEntity: function(entity)
 	{
-		var parent = this.getParent();
-
-		if(parent.$name === ((('TabCtrl')))
-		   ||
-		   parent.$name === 'AccordionCtrl'
-		 ) {
-			/* TODO */
-		}
-		else
-		{
-			window.open(amiWebApp.webAppURL + '?subapp=tableViewer&userdata=' + encodeURIComponent('{"catalog": "' + amiWebApp.textToString(this._catalog) + '", "entity": "' + amiWebApp.textToString(entity) + '"}'), '_blank').focus();
-		}
+		window.open(amiWebApp.webAppURL + '?subapp=tableViewer&userdata=' + encodeURIComponent('{"catalog": "' + amiWebApp.textToString(this._catalog) + '", "entity": "' + amiWebApp.textToString(entity) + '"}'), '_blank').focus();
 	},
 
 	/*---------------------------------------------------------------------*/
