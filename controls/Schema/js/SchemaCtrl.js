@@ -54,22 +54,6 @@ $AMIClass('SchemaCtrl', {
 	{
 		/*-----------------------------------------------------------------*/
 
-		this.onFocus = null;
-		this.onBlur = null;
-
-		if(settings)
-		{
-			if('onFocus' in settings) {
-				this.onFocus = settings['onFocus'];
-			}
-
-			if('onBlur' in settings) {
-				this.onBlur = settings['onBlur'];
-			}
-		}
-
-		/*-----------------------------------------------------------------*/
-
 		var el1 = $(this._selector = selector);
 
 		el1.css('box-shadow', '0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075)');
@@ -110,16 +94,16 @@ $AMIClass('SchemaCtrl', {
 
 				this.currentCell = cellView.model;
 
-				if(this.onFocus) {
-					this.onFocus(this.currentCell);
+				if(this._onFocus) {
+					this._onFocus(this.currentCell);
 				}
 			},
 			'blank:pointerdown': function(cellView) {
 
 				$('g[model-id]').removeClass('ami-schema-shadow')/*---------------------------------------------------------------------------*/;
 
-				if(this.onBlur) {
-					this.onBlur(this.currentCell);
+				if(this._onBlur) {
+					this._onBlur(this.currentCell);
 				}
 
 				this.currentCell = /*-*/null/*-*/;
@@ -159,6 +143,9 @@ $AMIClass('SchemaCtrl', {
 
 		this._showLinks = true;
 
+		this._onFocus = null;
+		this._onBlur = null;
+
 		if(settings)
 		{
 			if('context' in settings) {
@@ -180,6 +167,14 @@ $AMIClass('SchemaCtrl', {
 			if('showLinks' in settings) {
 				this._showLinks = settings['showLinks'];
 			}
+
+			if('onFocus' in settings) {
+				this._onFocus = settings['onFocus'];
+			}
+
+			if('onBlur' in settings) {
+				this._onBlur = settings['onBlur'];
+			}
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -200,18 +195,18 @@ $AMIClass('SchemaCtrl', {
 		amiCommand.execute('GetJSONSchema -catalog="' + amiWebApp.textToString(this._catalog) + '"', {context: this}).done(function(data) {
 
 			/*-------------------------------------------------------------*/
-			/* GET JSON                                                    */
+			/* GET SCHEMA                                                  */
 			/*-------------------------------------------------------------*/
 
-			var json;
+			var schema;
 
 			try
 			{
-				json = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
+				schema = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
 			}
 			catch(e)
 			{
-				json = {/*---------------------------------------------------------------------*/};
+				schema = {/*---------------------------------------------------------------------*/};
 			}
 
 			/*-------------------------------------------------------------*/
@@ -244,19 +239,17 @@ $AMIClass('SchemaCtrl', {
 						var y;
 						var color;
 
-						if(!(table in json))
+						if(!(table in schema))
 						{
-							x = y = 20
-								  + 10 * cnt++;
-							topColor = '#0066CC';
-							bodyColor = '#FFFFFF';
-							strokeColor = '#0057AD';
+							x = y
+							  = 20 + 10 * cnt++;
+							color = '#0066CC';
 						}
 						else
 						{
-							x = json[table].x;
-							y = json[table].y;
-							color = json[table].clor;
+							x = schema[table].x;
+							y = schema[table].y;
+							color = schema[table].color;
 						}
 
 						tables[table] = {
@@ -294,11 +287,11 @@ $AMIClass('SchemaCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			var _this = this;
+			var that = this;
 
 			$(this._selector + ' a[data-table]').click(function(e) {
 
-				_this.viewEntity($(this).attr('data-table'));
+				that.showEntity($(this).attr('data-table'));
 
 				e.preventDefault();
 			});
@@ -332,7 +325,7 @@ $AMIClass('SchemaCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			result.resolveWith(context, [data]);
+			result.resolveWith(context, [schema]);
 
 		}).fail(function(data, message) {
 
@@ -445,7 +438,7 @@ $AMIClass('SchemaCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	viewEntity: function(entity)
+	showEntity: function(entity)
 	{
 		window.open(amiWebApp.webAppURL + '?subapp=tableViewer&userdata=' + encodeURIComponent('{"catalog": "' + amiWebApp.textToString(this._catalog) + '", "entity": "' + amiWebApp.textToString(entity) + '"}'), '_blank').focus();
 	},

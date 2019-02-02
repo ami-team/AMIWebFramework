@@ -15,43 +15,50 @@
 
 function _my_rounded_rect(x, y, w, h, r, tl, tr, bl, br)
 {
-	var retval = 'M' + (x + r) + ',' + y;
+	var result = 'M' + (x + r) + ',' + y;
 
-	retval += 'h' + (w - 2 * r);
+	result += 'h' + (w - 2 * r);
 	if(tr) {
-		retval += 'a' + r + ',' + r + ' 0 0 1 ' + (+r) + ',' + (+r);
+		result += 'a' + r + ',' + r + ' 0 0 1 ' + (+r) + ',' + (+r);
 	} else {
-		retval += 'h' + (+r);
-		retval += 'v' + (+r);
+		result += 'h' + (+r);
+		result += 'v' + (+r);
 	}
 
-	retval += 'v' + (h - 2 * r);
+	result += 'v' + (h - 2 * r);
 	if(br) {
-		retval += 'a' + r + ',' + r + ' 0 0 1 ' + (-r) + ',' + (+r);
+		result += 'a' + r + ',' + r + ' 0 0 1 ' + (-r) + ',' + (+r);
 	}
 	else {
-		retval += 'v' + (+r);
-		retval += 'h' + (-r);
+		result += 'v' + (+r);
+		result += 'h' + (-r);
 	}
 
-	retval += 'h' + (2 * r - w);
+	result += 'h' + (2 * r - w);
 	if(bl) {
-		retval += 'a' + r + ',' + r + ' 0 0 1 ' + (-r) + ',' + (-r);
+		result += 'a' + r + ',' + r + ' 0 0 1 ' + (-r) + ',' + (-r);
 	}
 	else {
-		retval += 'h' + (-r);
-		retval += 'v' + (-r);
+		result += 'h' + (-r);
+		result += 'v' + (-r);
 	}
 
-	retval += 'v' + (2 * r - h);
+	result += 'v' + (2 * r - h);
 	if(tl) {
-		retval += 'a' + r + ',' + r + ' 0 0 1 ' + (+r) + ',' + (-r);
+		result += 'a' + r + ',' + r + ' 0 0 1 ' + (+r) + ',' + (-r);
 	} else {
-		retval += 'v' + (-r);
-		retval += 'h' + (+r);
+		result += 'v' + (-r);
+		result += 'h' + (+r);
 	}
 
-	return retval + 'z';
+	return result + 'z';
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _dec2hex(dec)
+{
+	return dec.toString(16).substr(-4).toUpperCase();
 }
 
 /*-------------------------------------------------------------------------*/
@@ -62,7 +69,18 @@ function _get_l(color)
 	var g = parseInt('0x' + color.substring(3, 5));
 	var b = parseInt('0x' + color.substring(5, 7));
 
-	return (Math.min(r, g, b) + Math.max(r, g, b)) / (2.0 * 255);
+	return (Math.min(r, g, b) + Math.max(r, g, b)) / (2.0 * 255.0);
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _get_stroke(color)
+{
+	var r = parseInt('0x' + color.substring(1, 3));
+	var g = parseInt('0x' + color.substring(3, 5));
+	var b = parseInt('0x' + color.substring(5, 7));
+
+	return '#' + _dec2hex(Math.round(0.85 * r)) + _dec2hex(Math.round(0.85 * g)) + _dec2hex(Math.round(0.85 * b));
 }
 
 /*-------------------------------------------------------------------------*/
@@ -135,7 +153,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		},
 
 		table: '',
-		topColor: '#0066CC',
+		titleColor: '#0066CC',
 		bodyColor: '#FFFFFF',
 		strokeColor: '#0057AD',
 		showLinkTool: true,
@@ -180,17 +198,23 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 	getColor: function()
 	{
-		return this.get('topColor');
+		return this.get('titleColor');
 	},
 
 	setColor: function(color)
 	{
-		this.attr('.sql-table-name/fill', _get_l(color) > 0.5 ? '#000000' : '#FFFFFF');
-
-		this.set('topColor', color);
+		this.set('titleColor', color);
+		color = _get_stroke(color);
 		this.set('strokeColor', color);
 
 		this.updateColors();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	getPosition: function()
+	{
+		return this.get('position');
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -263,11 +287,22 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 	updateColors: function()
 	{
-		this.attr('.sql-table-top/fill', this.get('topColor'));
+		/*-----------------------------------------------------------------*/
+
+		var toolColor = _get_l(this.get('titleColor')) > 0.5 ? '#000000' : '#FFFFFF';
+
+		this.attr('.sql-table-tool/fill', toolColor);
+		this.attr('.sql-table-name/fill', toolColor);
+
+		/*-----------------------------------------------------------------*/
+
+		this.attr('.sql-table-top/fill', this.get('titleColor'));
 		this.attr('.sql-table-top/stroke', this.get('strokeColor'));
 
 		this.attr('.sql-table-body/fill', this.get('bodyColor'));
 		this.attr('.sql-table-body/stroke', this.get('strokeColor'));
+
+		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/

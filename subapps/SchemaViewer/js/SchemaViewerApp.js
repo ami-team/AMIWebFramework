@@ -263,13 +263,13 @@ $AMIClass('SchemaViewerApp', {
 
 			if(value.get('type') === 'sql.Table')
 			{
-				var position = value.get('position');
-				var topColor = value.get('topColor');
+				var position = value.getPosition();
+				var color    = value.getColor()   ;
 
 				custom[value.get('table')] = {
 					x: position.x,
 					y: position.y,
-					color: topColor,
+					color: color,
 				};
 			}
 		});
