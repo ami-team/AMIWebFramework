@@ -289,7 +289,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 	{
 		/*-----------------------------------------------------------------*/
 
-		var toolColor = _get_l(this.get('titleColor')) > 0.5 ? '#000000' : '#FFFFFF';
+		var toolColor = _get_l(this.get('titleColor')) > 0.75 ? '#000000' : '#FFFFFF';
 
 		this.attr('.sql-table-tool/fill', toolColor);
 		this.attr('.sql-table-name/fill', toolColor);
