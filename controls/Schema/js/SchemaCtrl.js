@@ -157,7 +157,8 @@ $AMIClass('SchemaCtrl', {
 		this._width = 2000;
 		this._height = 2000;
 
-		this._showLinks = true;
+		this._showShowTool = false;
+		this._showEditTool = false;
 
 		if(settings)
 		{
@@ -177,8 +178,12 @@ $AMIClass('SchemaCtrl', {
 				this._height = settings['height'];
 			}
 
-			if('showLinks' in settings) {
-				this._showLinks = settings['showLinks'];
+			if('showShowTool' in settings) {
+				this._showShowTool = settings['showShowTool'];
+			}
+
+			if('showEditTool' in settings) {
+				this._showEditTool = settings['showEditTool'];
 			}
 		}
 
@@ -265,7 +270,8 @@ $AMIClass('SchemaCtrl', {
 								},
 								table: table,
 								color: color,
-								showLinks: this._showLinks,
+								showShowTool: this._showShowTool,
+								showEditTool: this._showEditTool,
 							}),
 							fields: [],
 						};
@@ -294,9 +300,16 @@ $AMIClass('SchemaCtrl', {
 
 			var that = this;
 
-			$(this._selector + ' a[data-table]').click(function(e) {
+			$(this._selector + ' a.sql-table-show-link').click(function(e) {
 
 				that.showEntity($(this).attr('data-table'));
+
+				e.preventDefault();
+			});
+
+			$(this._selector + ' a.sql-table-edit-link').click(function(e) {
+
+				that.editEntity($(this).attr('data-table'));
 
 				e.preventDefault();
 			});
@@ -446,6 +459,13 @@ $AMIClass('SchemaCtrl', {
 	showEntity: function(entity)
 	{
 		window.open(amiWebApp.webAppURL + '?subapp=tableViewer&userdata=' + encodeURIComponent('{"catalog": "' + amiWebApp.textToString(this._catalog) + '", "entity": "' + amiWebApp.textToString(entity) + '"}'), '_blank').focus();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	editEntity: function(entity)
+	{
+		window.open(amiWebApp.webAppURL + '?subapp=tableViewer&userdata=' + encodeURIComponent('{"catalog": "' + /*----------*/ 'self' /*----------*/ + '", "entity": "' + /**/ 'router_catalog_extra' /**/ + '"}'), '_blank').focus();
 	},
 
 	/*---------------------------------------------------------------------*/

@@ -230,7 +230,7 @@ $AMIClass('SchemaViewerApp', {
 	{
 		amiWebApp.lock();
 
-		return this.schema.refresh(this.defaultCatalog, {context: this}).done(function() {
+		return this.schema.refresh(this.defaultCatalog, {context: this, showShowTool: true, showEditTool: amiLogin.hasRole('AMI_ADMIN')}).done(function() {
 
 			window.history.pushState('', '', amiWebApp.webAppURL + '?subapp=schemaViewer&userdata=' + encodeURIComponent(this.defaultCatalog));
 

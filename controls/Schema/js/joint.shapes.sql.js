@@ -94,10 +94,12 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 	markup: [
 		'<g>',
-		  '<path class="sql-table-top" />',
-		  '<path class="sql-table-body" />',
-		  '<a class="sql-table-link" xlink:href="#" data-table=""><text class="sql-table-tool"></text></a><text class="sql-table-name" />',
-		'<text class="sql-table-columns" />',
+			'<path class="sql-table-top" />',
+			'<path class="sql-table-body" />',
+			'<a class="sql-table-show-link" xlink:href="#" data-table=""><text class="sql-table-show"></text></a>',
+			'<text class="sql-table-name" />',
+			'<a class="sql-table-edit-link" xlink:href="#" data-table=""><text class="sql-table-edit"></text></a>',
+			'<text class="sql-table-columns" />',
 		'</g>',
 	].join(''),
 
@@ -119,7 +121,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			'.sql-table-body': {
 				'stroke-width': 1,
 			},
-			'.sql-table-tool': {
+			'.sql-table-show': {
 				'ref': '.sql-table-top',
 				'ref-x': 0.015,
 				'ref-y': 0.50,
@@ -141,7 +143,18 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 				'font-weight': 'normal',
 				'font-size': 14,
 			},
-			'.sql-table-columns': {
+			'.sql-table-edit': {
+				'ref': '.sql-table-top',
+				'ref-x': 0.930,
+				'ref-y': 0.50,
+				'x-alignment': 'left',
+				'y-alignment': 'middle',
+				'fill': 'white',
+				'font-family': 'FontAwesome',
+				'font-weight': 'normal',
+				'font-size': 12,
+			},
+				'.sql-table-columns': {
 				'ref': '.sql-table-body',
 				'ref-x': 10,
 				'ref-y': 7.5,
@@ -152,11 +165,12 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			},
 		},
 
-		table: '',
+		table: 'N/A',
 		titleColor: '#0066CC',
 		bodyColor: '#FFFFFF',
 		strokeColor: '#0057AD',
-		showLinkTool: true,
+		showShowTool: false,
+		showEditTool: false,
 		grideSize: 10,
 		columns: [],
 
@@ -259,15 +273,16 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		var table = this.get('table');
 
-		this.attr('.sql-table-link/data-table', table);
+		this.attr('.sql-table-show-link/data-table', table);
+		this.attr('.sql-table-edit-link/data-table', table);
 
 		/*-----------------------------------------------------------------*/
 
-		var tool = this.get('showLinkTool') ? ''
+		var tool = this.get('showShowTool') ? ''
 		                                    : ''
 		;
 
-		this.attr('.sql-table-tool/text', tool);
+		this.attr('.sql-table-show/text', tool);
 
 		/*-----------------------------------------------------------------*/
 
@@ -281,6 +296,14 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.attr('.sql-table-name/text', name);
 
 		/*-----------------------------------------------------------------*/
+
+		var edit = this.get('showEditTool') ? ''
+		                                    : ''
+		;
+
+		this.attr('.sql-table-edit/text', edit);
+
+		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -291,8 +314,9 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		var toolColor = _get_l(this.get('titleColor')) > 0.75 ? '#000000' : '#FFFFFF';
 
-		this.attr('.sql-table-tool/fill', toolColor);
+		this.attr('.sql-table-show/fill', toolColor);
 		this.attr('.sql-table-name/fill', toolColor);
+		this.attr('.sql-table-edit/fill', toolColor);
 
 		/*-----------------------------------------------------------------*/
 
