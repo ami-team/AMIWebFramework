@@ -54,6 +54,22 @@ $AMIClass('SchemaCtrl', {
 	{
 		/*-----------------------------------------------------------------*/
 
+		this._onFocus = null;
+		this._onBlur = null;
+
+		if(settings)
+		{
+			if('onFocus' in settings) {
+				this._onFocus = settings['onFocus'];
+			}
+
+			if('onBlur' in settings) {
+				this._onBlur = settings['onBlur'];
+			}
+		}
+
+		/*-----------------------------------------------------------------*/
+
 		var el1 = $(this._selector = selector);
 
 		el1.css('box-shadow', '0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075)');
@@ -143,9 +159,6 @@ $AMIClass('SchemaCtrl', {
 
 		this._showLinks = true;
 
-		this._onFocus = null;
-		this._onBlur = null;
-
 		if(settings)
 		{
 			if('context' in settings) {
@@ -166,14 +179,6 @@ $AMIClass('SchemaCtrl', {
 
 			if('showLinks' in settings) {
 				this._showLinks = settings['showLinks'];
-			}
-
-			if('onFocus' in settings) {
-				this._onFocus = settings['onFocus'];
-			}
-
-			if('onBlur' in settings) {
-				this._onBlur = settings['onBlur'];
 			}
 		}
 
