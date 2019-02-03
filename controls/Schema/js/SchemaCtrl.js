@@ -30,6 +30,8 @@ $AMIClass('SchemaCtrl', {
 	onReady: function()
 	{
 		return amiWebApp.loadResources([
+			amiWebApp.originURL + '/controls/Schema/twig/SchemaCtrl.twig',
+
 			amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
 			/**/
 			amiWebApp.originURL + '/js/3rd-party/jointjs/lodash.min.js',
@@ -43,8 +45,13 @@ $AMIClass('SchemaCtrl', {
 			amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css',
 		], {context: this}).done(function(data) {
 
-			this._fields = null;
-			this._foreignKeys = null;
+			amiWebApp.appendHTML('body', data[0]).done(function() {
+
+				this._fields = null;
+				this._foreignKeys = null;
+
+				this._currentCell = null;
+			});
 		});
 	},
 
@@ -108,10 +115,10 @@ $AMIClass('SchemaCtrl', {
 
 				$('g[model-id]').removeClass('ami-schema-shadow').filter('[model-id="' + cellView.model.id + '"]').addClass('ami-schema-shadow');
 
-				this.currentCell = cellView.model;
+				this._currentCell = cellView.model;
 
 				if(this._onFocus) {
-					this._onFocus(this.currentCell);
+					this._onFocus(this._currentCell);
 				}
 			},
 			'blank:pointerdown': function(cellView) {
@@ -119,10 +126,10 @@ $AMIClass('SchemaCtrl', {
 				$('g[model-id]').removeClass('ami-schema-shadow')/*---------------------------------------------------------------------------*/;
 
 				if(this._onBlur) {
-					this._onBlur(this.currentCell);
+					this._onBlur(this._currentCell);
 				}
 
-				this.currentCell = /*-*/null/*-*/;
+				this._currentCell = /*-*/null/*-*/;
 			}
 		}, this);
 
@@ -390,7 +397,7 @@ $AMIClass('SchemaCtrl', {
 
 	getCurrentCell: function()
 	{
-		return this.currentCell;
+		return this._currentCell;
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -465,7 +472,7 @@ $AMIClass('SchemaCtrl', {
 
 	editEntity: function(entity)
 	{
-		window.open(amiWebApp.webAppURL + '?subapp=tableViewer&userdata=' + encodeURIComponent('{"catalog": "' + /*----------*/ 'self' /*----------*/ + '", "entity": "' + /**/ 'router_catalog_extra' /**/ + '"}'), '_blank').focus();
+		$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('show');
 	},
 
 	/*---------------------------------------------------------------------*/

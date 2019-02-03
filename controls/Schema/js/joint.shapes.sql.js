@@ -226,13 +226,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 	/*---------------------------------------------------------------------*/
 
-	getPosition: function()
-	{
-		return this.get('position');
-	},
-
-	/*---------------------------------------------------------------------*/
-
 	appendField: function(item)
 	{
 		var columns = this.get('columns');
@@ -263,6 +256,13 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.set('columns', columns);
 
 		this.updateFields();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	getPosition: function()
+	{
+		return this.get('position');
 	},
 
 	/*---------------------------------------------------------------------*/

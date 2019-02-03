@@ -48,6 +48,7 @@ $AMIClass('TableViewerApp', {
 
 					this.catalog = json.catalog || '';
 					this.entity = json.entity || '';
+					this.expression = json.expression || '1=1';
 					this.primaryField = json.primaryField || '';
 
 					this.tab.appendItem(this.entity, {context: this}).done(function(tabSel) {
@@ -71,7 +72,7 @@ $AMIClass('TableViewerApp', {
 
 	onLogin: function()
 	{
-		this.table.render(this.tabSel, 'SearchQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: this.catalog, entity: this.entity, primaryField: this.primaryField, start: 1, stop: 20});
+		this.table.render(this.tabSel, 'SearchQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*` WHERE ' + this.expression + '"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: this.catalog, entity: this.entity, primaryField: this.primaryField, start: 1, stop: 20});
 
 		$('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0').show();
 	},
