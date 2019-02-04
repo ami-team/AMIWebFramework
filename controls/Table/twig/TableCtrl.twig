@@ -66,7 +66,11 @@
 			{% if canEdit and primaryField is not empty %}
 			<span class="switch switch-on-warning switch-off-secondary">
 				<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D" />
-				<label for="DDC32238_DD25_8354_AC6C_F6E27CA6E18D">view/edit</label>
+				<label for="DDC32238_DD25_8354_AC6C_F6E27CA6E18D">
+					<span class="text-secondary">view</span>
+					/
+					<span class="text-warning">edit</span>
+				</label>
 			</span>
 			<button type="button" class="btn btn-outline-warning ml-2" id="CDE5AD14_1268_8FA7_F5D8_0D690F3FB850"><i class="fa fa-plus"></i></button>
 			{% endif %}
