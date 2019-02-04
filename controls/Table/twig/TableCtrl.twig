@@ -64,14 +64,10 @@
 		<div class="form-inline mr-sm-2 my-2 my-lg-0">
 			<button type="button" class="btn btn-outline-secondary mr-2" id="D809166F_A40B_2376_C8A5_977AA0C8C408"><i class="fa fa-refresh"></i></button>
 			{% if canEdit and primaryField is not empty %}
-			<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D"
-					       data-width="125"
-					       data-toggle="toggle"
-					       data-onstyle="outline-warning"
-					       data-offstyle="outline-secondary"
-					       data-on="&lt;i class=&quot;fa fa-pencil&quot;&gt;&lt;/i&gt;&nbsp;edit mode"
-					       data-off="&lt;i class=&quot;fa fa-eye&quot;&gt;&lt;/i&gt;&nbsp;view mode"
-			/>
+			<span class="switch switch-on-warning switch-off-secondary">
+				<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D" />
+				<label for="DDC32238_DD25_8354_AC6C_F6E27CA6E18D">view/edit</label>
+			</span>
 			<button type="button" class="btn btn-outline-warning ml-2" id="CDE5AD14_1268_8FA7_F5D8_0D690F3FB850"><i class="fa fa-plus"></i></button>
 			{% endif %}
 		</div>

@@ -5764,7 +5764,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		 ) {
 			this.loadSheets([
 				this.originURL + '/css/bootstrap.min.css',
-				this.originURL + '/css/bootstrap-toggle.min.css',
 				this.originURL + '/css/bootstrap-vertical-tabs.min.css',
 				this.originURL + '/css/select2.min.css',
 			]);
@@ -5772,7 +5771,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			this.loadScripts([
 				this.originURL + '/js/popper.min.js',
 				this.originURL + '/js/bootstrap.min.js',
-				this.originURL + '/js/bootstrap-toggle.min.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js',
 				this.originURL + '/js/select2.min.js',
 			]);
@@ -7153,11 +7151,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			let instance = new constructor(parent, owner);
 
-			constructor.prototype.render.apply(instance, params).done(() => {
+			_ami_internal_then(constructor.prototype.render.apply(instance, params), () => {
 
 				result.resolveWith(context, [instance]);
 
-			}).fail((message) => {
+			}, (message) => {
 
 				result.rejectWith(context, [message]);
 			});

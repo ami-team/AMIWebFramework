@@ -4847,8 +4847,8 @@ $AMINamespace('amiWebApp',
     /*-----------------------------------------------------------------*/
 
     if (this._noBootstrap === false && typeof jQuery.fn.modal !== 'function') {
-      this.loadSheets([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-toggle.min.css', this.originURL + '/css/bootstrap-vertical-tabs.min.css', this.originURL + '/css/select2.min.css']);
-      this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-toggle.min.js', this.originURL + '/js/bootstrap-typeahead.min.js', this.originURL + '/js/select2.min.js']);
+      this.loadSheets([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-vertical-tabs.min.css', this.originURL + '/css/select2.min.css']);
+      this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-typeahead.min.js', this.originURL + '/js/select2.min.js']);
     }
     /*-----------------------------------------------------------------*/
 
@@ -6008,9 +6008,10 @@ $AMINamespace('amiWebApp',
 
     this.loadControl(control, settings).done(function (constructor) {
       var instance = new constructor(parent, owner);
-      constructor.prototype.render.apply(instance, params).done(function () {
+
+      _ami_internal_then(constructor.prototype.render.apply(instance, params), function () {
         result.resolveWith(context, [instance]);
-      }).fail(function (message) {
+      }, function (message) {
         result.rejectWith(context, [message]);
       });
     }).fail(function (message) {

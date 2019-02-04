@@ -472,7 +472,10 @@ $AMIClass('SchemaCtrl', {
 
 	editEntity: function(entity)
 	{
-		$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('show');
+		amiWebApp.createControl(this.getParent(), this, 'table', ['#CC64CB5C_1686_07CC_913D_BC92FC2A56D5', 'SearchQuery -catalog="self" -entity="router_catalog_extra" -mql="SELECT `*`"', {enableCache: false, showDetails: true, showTools: true, canEdit: true, catalog: 'self', entity: 'router_catalog_extra', primaryField: 'id', orderBy: 'field'}]).done(function() {
+
+			$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('show');
+		});
 	},
 
 	/*---------------------------------------------------------------------*/
