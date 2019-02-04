@@ -99,7 +99,9 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			'<a class="sql-table-show-link" xlink:href="#" data-table=""><text class="sql-table-show"></text></a>',
 			'<text class="sql-table-name" />',
 			'<a class="sql-table-edit-link" xlink:href="#" data-table=""><text class="sql-table-edit"></text></a>',
-			'<g class="sql-table-columns" />',
+			'<g>',
+				'<text class="sql-table-columns" />',
+			'</g>',
 		'</g>',
 	].join(''),
 
@@ -166,13 +168,11 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		},
 
 		table: 'N/A',
-		titleColor: '#0066CC',
-		bodyColor: '#FFFFFF',
-		strokeColor: '#0057AD',
 		showShowTool: false,
 		showEditTool: false,
-		grideSize: 10,
+		color: '#0066CC',
 		columns: [],
+		grideSize: 10,
 
 	}, joint.shapes.basic.Generic.prototype.defaults),
 
@@ -182,8 +182,11 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 	{
 		this.on({
 			'change:table': this.updateTable,
+			'change:showShowTool': this.updateTable,
+			'change:showEditTool': this.updateTable,
 			'change:color': this.updateColors,
 			'change:columns': this.updateFields,
+			'change:grideSize': this.updateFields,
 
 		}, this);
 
@@ -204,8 +207,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 	setTable: function(table)
 	{
 		this.set('table', table);
-
-		this.updateTable();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -217,11 +218,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 	setColor: function(color)
 	{
-		this.set('titleColor', color);
-		color = _get_stroke(color);
-		this.set('strokeColor', color);
-
-		this.updateColors();
+		this.set('color', color);
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -231,8 +228,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		var columns = this.get('columns');
 		columns.push(item);
 		this.set('columns', columns);
-
-		this.updateFields();
 	},
 
 	removeField: function(index)
@@ -240,8 +235,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		var columns = this.get('columns');
 		columns.splice(index, 1);
 		this.set('columns', columns);
-
-		this.updateFields();
 	},
 
 	getField: function(index)
@@ -254,8 +247,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		var columns = this.get('columns');
 		columns[index] = item;
 		this.set('columns', columns);
-
-		this.updateFields();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -278,30 +269,21 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		/*-----------------------------------------------------------------*/
 
-		var tool = this.get('showShowTool') ? ''
-		                                    : ''
-		;
-
-		this.attr('.sql-table-show/text', tool);
+		this.attr('.sql-table-show/text', this.get('showShowTool') ? ''
+		                                                           : ''
+		);
 
 		/*-----------------------------------------------------------------*/
 
-		var name = table.toUpperCase();
-
-		if(name.length > 23)
-		{
-			name = name.substring(0, 21) + '…';
-		}
-
-		this.attr('.sql-table-name/text', name);
+		this.attr('.sql-table-name/text', name.length > 23 ? name.substring(0, 21) + '…'
+		                                                   : name
+		);
 
 		/*-----------------------------------------------------------------*/
 
-		var edit = this.get('showEditTool') ? ''
-		                                    : ''
-		;
-
-		this.attr('.sql-table-edit/text', edit);
+		this.attr('.sql-table-edit/text', this.get('showEditTool') ? ''
+		                                                           : ''
+		);
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -312,7 +294,11 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 	{
 		/*-----------------------------------------------------------------*/
 
-		var toolColor = _get_l(this.get('titleColor')) > 0.75 ? '#000000' : '#FFFFFF';
+		var color = this.get('color');
+
+		/*-----------------------------------------------------------------*/
+
+		var toolColor = _get_l(color) > 0.75 ? '#000000' : '#FFFFFF';
 
 		this.attr('.sql-table-show/fill', toolColor);
 		this.attr('.sql-table-name/fill', toolColor);
@@ -320,11 +306,13 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		/*-----------------------------------------------------------------*/
 
-		this.attr('.sql-table-top/fill', this.get('titleColor'));
-		this.attr('.sql-table-top/stroke', this.get('strokeColor'));
+		var strokeColor = _get_stroke(color);
 
-		this.attr('.sql-table-body/fill', this.get('bodyColor'));
-		this.attr('.sql-table-body/stroke', this.get('strokeColor'));
+		this.attr('.sql-table-top/fill', color);
+		this.attr('.sql-table-top/stroke', strokeColor);
+
+		this.attr('.sql-table-body/fill', '#FFFFFF');
+		this.attr('.sql-table-body/stroke', strokeColor);
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -335,29 +323,30 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 	{
 		/*-----------------------------------------------------------------*/
 
-		var text = '';
 		var width = 230;
 		var height = 20;
 
+		var columnElm = {};
+
 		_.each(this.get('columns'), function(column) {
 
-			var line = column.name + ': ' + column.type;
+			var text = column.name + ': ' + column.type;
 
 			/**/ if(column.hidden)
 			{
-				line = '❌' + line;
+				text = '❌' + text;
 			}
 			else if(column.adminOnly)
 			{
-				line = '🚫' + line;
+				text = '🚫' + text;
 			}
 			else if(column.crypted)
 			{
-				line = '🔐' + line;
+				text = '🔐' + text;
 			}
 			else if(column.primary)
 			{
-				line = '🔑' + line;
+				text = '🔑' + text;
 			}
 			else if(column.created
 			        ||
@@ -367,20 +356,25 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			        ||
 			        column.modifiedBy
 			 ) {
-				line = '⚙️' + line;
+				text = '⚙️' + text;
 			}
 
-			if(line.length > 26)
+			if(text.length > 26)
 			{
-				line = line.substring(0, 24) + '…';
+				text = text.substring(0, 24) + '…';
 			}
 
-			text += '<a><text>' + line + '<text></a>\n';
+			columnElm.push({
+				id: _.uniqueId('column-'),
+				text: text,
+			});
 
 			height += 14;
 		});
 
 		/*-----------------------------------------------------------------*/
+
+		text = 'jkllkj';
 
 		var grideSize = this.get('grideSize');
 
@@ -392,7 +386,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.attr('.sql-table-top/d', _my_rounded_rect(0.75, 0.5, width, 20, 8, true, true, false, false));
 		this.attr('.sql-table-body/d', _my_rounded_rect(0.75, 20.5, width, height, 3, false, false, true, true));
 
-		this.attr('.sql-table-columns', text);
+		this.attr('.sql-table-columns/text', text);
 
 		/*-----------------------------------------------------------------*/
 	}
