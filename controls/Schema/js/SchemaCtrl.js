@@ -479,4 +479,62 @@ $AMIClass('SchemaCtrl', {
 	},
 
 	/*---------------------------------------------------------------------*/
+
+	flushServerCachesFast: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('FlushServerCaches').done(function(data, message) {
+
+			amiWebApp.success(message, true);
+
+		}).fail(function(data, message) {
+
+			amiWebApp.error(message, true);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	flushServerCachesSlow: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('FlushServerCaches -full').done(function(data, message) {
+
+			amiWebApp.success(message, true);
+
+		}).fail(function(data, message) {
+
+			amiWebApp.error(message, true);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
 });

@@ -99,7 +99,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			'<a class="sql-table-show-link" xlink:href="#" data-table=""><text class="sql-table-show"></text></a>',
 			'<text class="sql-table-name" />',
 			'<a class="sql-table-edit-link" xlink:href="#" data-table=""><text class="sql-table-edit"></text></a>',
-			'<text class="sql-table-columns" />',
+			'<g class="sql-table-columns" />',
 		'</g>',
 	].join(''),
 
@@ -154,7 +154,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 				'font-weight': 'normal',
 				'font-size': 12,
 			},
-				'.sql-table-columns': {
+			'.sql-table-columns': {
 				'ref': '.sql-table-body',
 				'ref-x': 10,
 				'ref-y': 7.5,
@@ -375,7 +375,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 				line = line.substring(0, 24) + '…';
 			}
 
-			text += line + '\n';
+			text += '<a><text>' + line + '<text></a>\n';
 
 			height += 14;
 		});
@@ -392,7 +392,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.attr('.sql-table-top/d', _my_rounded_rect(0.75, 0.5, width, 20, 8, true, true, false, false));
 		this.attr('.sql-table-body/d', _my_rounded_rect(0.75, 20.5, width, height, 3, false, false, true, true));
 
-		this.attr('.sql-table-columns/text', text);
+		this.attr('.sql-table-columns', text);
 
 		/*-----------------------------------------------------------------*/
 	}
