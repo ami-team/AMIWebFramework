@@ -5,6 +5,14 @@
 		<button type="button" class="close box-question ml-1" data-toggle="tooltip" data-title="hello"><i class="fa fa-question-circle"></i></button>
 	</div>
 	<div class="card-body text-center" style="padding: 0.5rem;">
-		<input type="checkbox" data-toggle="toggle" data-size="small" data-width="260" data-offstyle="outline-secondary" data-onstyle="outline-success" data-off="{{ states.off | default('false') }}" data-on="{{ states.on | default('true') }}"{% if select === states.on %} checked="checked"{% endif %} />
+		<!-- <input type="checkbox" data-toggle="toggle" data-size="small" data-width="260" data-offstyle="outline-secondary" data-onstyle="outline-success" data-off="{{ states.off | default('false') }}" data-on="{{ states.on | default('true') }}"{% if select === states.on %} checked="checked"{% endif %} /> -->
+		<span class="switch switch-sm switch-on-warning switch-off-secondary">
+			<input type="checkbox" id="ACC12068_1831_2272_F2EF_E6FC1125E1E4"{% if select === states.on %} checked="checked"{% endif %} />
+			<label for="ACC12068_1831_2272_F2EF_E6FC1125E1E4">
+				<span class="text-secondary">{{ states.off | default('false') }}</span>
+				/
+				<span class="text-warning">{{ states.on | default('true') }}</span>
+			</label>
+		</span>
 	</div>
 </div>
