@@ -286,7 +286,7 @@ $AMIClass('SchemaCtrl', {
 
 					if(!(name in tables[table]['fields']))
 					{
-						tables[table]['table'].appendField({
+						tables[table]['table'].appendColumn({
 							name: name,
 							type: type,
 							hidden: hidden === 'true',
