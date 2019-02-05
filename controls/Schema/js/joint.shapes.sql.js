@@ -56,13 +56,6 @@ function _my_rounded_rect(x, y, w, h, r, tl, tr, bl, br)
 
 /*-------------------------------------------------------------------------*/
 
-function _dec2hex(dec)
-{
-	return dec.toString(16).substr(-4).toUpperCase();
-}
-
-/*-------------------------------------------------------------------------*/
-
 function _get_l(color)
 {
 	var r = parseInt('0x' + color.substring(1, 3));
@@ -80,7 +73,15 @@ function _get_stroke(color)
 	var g = parseInt('0x' + color.substring(3, 5));
 	var b = parseInt('0x' + color.substring(5, 7));
 
-	return '#' + _dec2hex(Math.round(0.85 * r)) + _dec2hex(Math.round(0.85 * g)) + _dec2hex(Math.round(0.85 * b));
+	var R = r.toString(16);
+	var G = g.toString(16);
+	var B = b.toString(16);
+
+	if(r < 16) R = '0' + R;
+	if(g < 16) G = '0' + G;
+	if(b < 16) B = '0' + B;
+
+	return ('#' + R + G + B).toUpperCase();
 }
 
 /*-------------------------------------------------------------------------*/
@@ -102,8 +103,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			'<text class="sql-table-columns" />',
 		'</g>',
 	].join(''),
-
-	optionMarkup: '<g class="option"><rect class="option-rect"/><path class="btn-remove-option" d="M0,0 15,0 15,5 0,5z"/><text class="option-text"/></g>',
 
 	/*---------------------------------------------------------------------*/
 
@@ -206,8 +205,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			'change:grideSize': this.updateFields,
 
 		}, this);
-
-		alert(JSON.stringify(V(this.optionMarkup)));
 
 		this.updateTable();
 		this.updateColors();
@@ -344,6 +341,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 	{
 		/*-----------------------------------------------------------------*/
 
+		var tmp = '';
+
 		var width = 230;
 		var height = 20;
 
@@ -385,6 +384,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 				text = text.substring(0, 24) + '…';
 			}
 
+			tmp += text + '\n';
+
 			var selector = 'option-' + _.uniqueId('option-');
 
 			attrsUpdate[selector                  ] = { dynamic: true, transform: 'translate(0, ' + height + ')' };
@@ -396,8 +397,6 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 
 		/*-----------------------------------------------------------------*/
 
-		this.attr(attrsUpdate);
-
 		var grideSize = this.get('grideSize');
 
 		width = Math.ceil(width / grideSize) * grideSize;
@@ -408,7 +407,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.attr('.sql-table-top/d', _my_rounded_rect(0.75, 0.5, width, 20, 8, true, true, false, false));
 		this.attr('.sql-table-body/d', _my_rounded_rect(0.75, 20.5, width, height, 3, false, false, true, true));
 
-		//this.attr('.sql-table-columns/text', text);
+		this.attr('.sql-table-columns/text', tmp);
 
 		/*-----------------------------------------------------------------*/
 	}
