@@ -99,11 +99,11 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			'<a class="sql-table-show-link" xlink:href="#" data-table=""><text class="sql-table-show"></text></a>',
 			'<text class="sql-table-name" />',
 			'<a class="sql-table-edit-link" xlink:href="#" data-table=""><text class="sql-table-edit"></text></a>',
-			'<g>',
-				'<text class="sql-table-columns" />',
-			'</g>',
+			'<text class="sql-table-columns" />',
 		'</g>',
 	].join(''),
+
+	optionMarkup: '<g class="option"><rect class="option-rect"/><path class="btn-remove-option" d="M0,0 15,0 15,5 0,5z"/><text class="option-text"/></g>',
 
 	/*---------------------------------------------------------------------*/
 
@@ -165,6 +165,23 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 				'font-weight': 'normal',
 				'font-size': 14,
 			},
+
+			'.option-text': {
+			    fontSize: 11,
+			    fill: '#4b4a67',
+			    refX: 30,
+			    yAlignment: 'middle'
+			},
+			'.option-rect': {
+			    rx: 3,
+			    ry: 3,
+			    stroke: 'white',
+			    strokeWidth: 1,
+			    strokeOpacity: .5,
+			    fillOpacity: .5,
+			    fill: 'white',
+			    refWidth: '100%'
+			},
 		},
 
 		table: 'N/A',
@@ -189,6 +206,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 			'change:grideSize': this.updateFields,
 
 		}, this);
+
+		alert(JSON.stringify(V(this.optionMarkup)));
 
 		this.updateTable();
 		this.updateColors();
@@ -228,6 +247,8 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		var columns = this.get('columns');
 		columns.push(item);
 		this.set('columns', columns);
+
+		this.updateFields();
 	},
 
 	removeField: function(index)
@@ -326,7 +347,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		var width = 230;
 		var height = 20;
 
-		var columnElm = {};
+		var attrsUpdate = {};
 
 		_.each(this.get('columns'), function(column) {
 
@@ -364,17 +385,18 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 				text = text.substring(0, 24) + '…';
 			}
 
-			columnElm.push({
-				id: _.uniqueId('column-'),
-				text: text,
-			});
+			var selector = 'option-' + _.uniqueId('option-');
+
+			attrsUpdate[selector                  ] = { dynamic: true, transform: 'translate(0, ' + height + ')' };
+			attrsUpdate[selector + ' .option-rect'] = { dynamic: true, height: 14 };
+			attrsUpdate[selector + ' .option-text'] = { dynamic: true, text: text, refY: 14 / 2 };
 
 			height += 14;
 		});
 
 		/*-----------------------------------------------------------------*/
 
-		text = 'jkllkj';
+		this.attr(attrsUpdate);
 
 		var grideSize = this.get('grideSize');
 
@@ -386,7 +408,7 @@ joint.shapes.sql.Table = joint.shapes.basic.Generic.extend({
 		this.attr('.sql-table-top/d', _my_rounded_rect(0.75, 0.5, width, 20, 8, true, true, false, false));
 		this.attr('.sql-table-body/d', _my_rounded_rect(0.75, 20.5, width, height, 3, false, false, true, true));
 
-		this.attr('.sql-table-columns/text', text);
+		//this.attr('.sql-table-columns/text', text);
 
 		/*-----------------------------------------------------------------*/
 	}
