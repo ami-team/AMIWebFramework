@@ -75,7 +75,7 @@
 				<a href="#" data-action="filter" data-filter-def="{{field.$.substring(8)|e}}"><i class="fa fa-link"></i></a>
 				{% else %}
 				{%   if primaryIdx >= 0 %}
-				<span class="edit-field{% if field['properties'] is defined %}{% for property in field['properties'] %}{% if property is not empty %} {{property['@class']}}{% endif %}{% endfor %}{% endif %}" style="width:100%" data-row="{{row.field[primaryIdx].$|e}}" data-col="{{field['@name']|e}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$|e}}</span>
+				<span class="edit-field{% if field['properties'] is defined %}{% for property in field['properties'] %}{% if property is not empty %} {{property['@class']}}{% endif %}{% endfor %}{% endif %}" data-row="{{row.field[primaryIdx].$|e}}" data-col="{{field['@name']|e}}" placeholder="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;">{{field.$|e}}</span>
 				{%   else %}
 				<span>{{field.$|e}}</span>
 				{%   endif %}
