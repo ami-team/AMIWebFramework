@@ -204,7 +204,7 @@ $AMIClass('TableCtrl', {
 			this.ctx.fieldInfo = [];
 			this.ctx.primaryField = '';
 
-			amiCommand.execute('GetFieldInfo -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '"', {context: this}).done(function(data) {
+			amiCommand.execute('GetEntityInfo -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '"', {context: this}).done(function(data) {
 
 				var rows = amiWebApp.jspath('..row', data);
 
