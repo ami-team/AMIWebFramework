@@ -501,10 +501,6 @@ $AMIClass('SchemaCtrl', {
 
 	editField: function(catalog, entity, field)
 	{
-		SchemaCtrl.currentCatalog = catalog;
-		SchemaCtrl.currentEntity = entity;
-		SchemaCtrl.currentField = field;
-
 		if(amiLogin.hasRole('AMI_ADMIN') === false)
 		{
 			return;
@@ -564,12 +560,6 @@ $AMIClass('SchemaCtrl', {
 
 	/*---------------------------------------------------------------------*/
 });
-
-/*-------------------------------------------------------------------------*/
-
-SchemaCtrl.currentCatalog = null;
-SchemaCtrl.currentEntity = null;
-SchemaCtrl.currentField = null;
 
 /*-------------------------------------------------------------------------*/
 
@@ -646,7 +636,7 @@ SchemaCtrl.reset = function()
 
 	/*---------------------------------------------------------------------*/
 
-	amiCommand.execute('RemoveElements -catalog="self" -entity="router_catalog_extra" -keyFields="catalog,entity,field" -keyValues="' + amiWebApp.textToString(SchemaCtrl.currentCatalog) + ',' + amiWebApp.textToString(SchemaCtrl.currentEntity) + ',' + amiWebApp.textToString(SchemaCtrl.currentField) + '"').done(function(data, message) {
+	amiCommand.execute('RemoveElements -separator="|" -catalog="self" -entity="router_catalog_extra" -keyFields="catalog|entity|field" -keyValues="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '"').done(function(data, message) {
 
 		amiWebApp.success(message, true);
 
@@ -673,11 +663,18 @@ SchemaCtrl.apply = function()
 
 	/*---------------------------------------------------------------------*/
 
-	amiCommand.execute('RemoveElements -catalog="self" -entity="router_catalog_extra" -keyFields="catalog,entity,field" -keyValues="' + amiWebApp.textToString(SchemaCtrl.currentCatalog) + ',' + amiWebApp.textToString(SchemaCtrl.currentEntity) + ',' + amiWebApp.textToString(SchemaCtrl.currentField) + '"').done(function(data, message) {
+	amiCommand.execute('RemoveElements -separator="|" -catalog="self" -entity="router_catalog_extra" -keyFields="catalog|entity|field" -keyValues="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '"').done(function(data, message) {
 
-		amiWebApp.success(message, true);
+		amiCommand.execute(/**/'AddElement -separator="|" -catalog="self" -entity="router_catalog_extra" -fields="catalog|entity|field|rank|description|webLinkScript|isAdminOnly|isHidden|isCrypted|isPrimary|isCreated|isCreatedBy|isModified|isModifiedBy|isStatable|isGroupable" -values="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '|' + amiWebApp.textToString($('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val()) + '|' + amiWebApp.textToString($('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val()) + '|' + amiWebApp.textToString($('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').val()) + '|' + ($('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked') ? '1' : '0') + '|' + ($('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked') ? '1' : '0') + '|' + ($('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked') ? '1' : '0') + '|' + ($('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked') ? '1' : '0') + '|' + ($('#BC7E5CA1_09C8_BB5C_20E2_C0CFE3204224').prop('checked') ? '1' : '0') + '|' + ($('#FB998C28_1E59_12A0_1B34_2C2C0A44A6AD').prop('checked') ? '1' : '0') + '|' + ($('#AADC020E_E1CB_BA8E_E870_27B63666C988').prop('checked') ? '1' : '0') + '|' + ($('#FACFE443_72F3_8917_2F08_934D88E55DDC').prop('checked') ? '1' : '0') + '|' + ($('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked') ? '1' : '0') + '|' + ($('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked') ? '1' : '0') + '"').done(function(data, message) {
 
-		$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('hide');
+			amiWebApp.success(message, true);
+
+			$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('hide');
+
+		}).fail(function(data, message) {
+
+			amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+		});
 
 	}).fail(function(data, message) {
 
