@@ -6,6 +6,8 @@
 			</div>
 			<div class="modal-body">
 
+				<div id="F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886"></div>
+
 				<div class="input-group mx-auto w-75 mb-3">
 					<input class="form-control form-control-sm text-center" type="text" id="C78B630C_9805_7D15_C14F_4C7C276E9E2C" readonly="readonly" />
 					<span class="input-group-text input-group-sm border-left-0 border-right-0 rounded-0 px-1">
@@ -114,14 +116,14 @@
 				<br />
 
 				<div class="form-group">
-					<label for="E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F">Web link (Groovy)</label>
+					<label for="E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F">Web link script (Groovy)</label>
 					<textarea class="form-control" rows="8" id="E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F" style="background-image: url('{{ORIGIN_URL}}/images/blueprint-dark.png');"></textarea>
 				</div>
 
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-outline-primary" onclick="alert(SchemaCtrl);"><i class="fa fa-refresh"></i> Flush server caches (full)</button>
-				<button class="btn btn-outline-primary" onclick="SchemaCtrl.flushServerCachesFast();"><i class="fa fa-refresh"></i> Flush server caches (partial)</button>
+				<button class="btn btn-outline-primary" onclick="SchemaCtrl.prototype.flushServerCachesSlow();"><i class="fa fa-refresh"></i> Flush server caches (full)</button>
+				<button class="btn btn-outline-primary" onclick="SchemaCtrl.prototype.flushServerCachesFast();"><i class="fa fa-refresh"></i> Flush server caches (partial)</button>
 				<span class="mr-auto"></span>
 				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
 				<button class="btn btn-warning" onclick=";">Reset</button>
