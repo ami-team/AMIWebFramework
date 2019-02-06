@@ -309,17 +309,39 @@ $AMIClass('SchemaCtrl', {
 
 			$(this._selector + ' a.sql-table-show-link').click(function(e) {
 
-				that.showEntity($(this).attr('data-table'));
+				that.showEntity(
+					that._catalog
+					,
+					$(this).attr('data-table')
+				);
 
 				e.preventDefault();
 			});
 
 			$(this._selector + ' a.sql-table-edit-link').click(function(e) {
 
-				that.editEntity($(this).attr('data-table'));
+				that.editEntity(
+					that._catalog
+					,
+					$(this).attr('data-table')
+				);
 
 				e.preventDefault();
 			});
+
+			$(this._selector + ' a.sql-column-link').click(function(e) {
+
+				that.editField(
+					that._catalog
+					,
+					$(this).attr('data-table')
+					,
+					$(this).attr('data-column')
+				);
+
+				e.preventDefault();
+			});
+
 
 			/*-------------------------------------------------------------*/
 			/* GET FKEYS                                                   */
@@ -463,19 +485,32 @@ $AMIClass('SchemaCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	showEntity: function(entity)
+	showEntity: function(catalog, entity)
 	{
-		window.open(amiWebApp.webAppURL + '?subapp=tableViewer&userdata=' + encodeURIComponent('{"catalog": "' + amiWebApp.textToString(this._catalog) + '", "entity": "' + amiWebApp.textToString(entity) + '"}'), '_blank').focus();
+		window.open(amiWebApp.webAppURL + '?subapp=tableViewer&userdata=' + encodeURIComponent('{"catalog": "' + amiWebApp.textToString(catalog) + '", "entity": "' + amiWebApp.textToString(entity) + '"}'), '_blank').focus();
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	editEntity: function(entity)
+	editEntity: function(catalog, entity)
 	{
-		amiWebApp.createControl(this.getParent(), this, 'table', ['#CC64CB5C_1686_07CC_913D_BC92FC2A56D5', 'SearchQuery -catalog="self" -entity="router_catalog_extra" -mql="SELECT `*`"', {enableCache: false, showDetails: true, showTools: true, canEdit: true, catalog: 'self', entity: 'router_catalog_extra', primaryField: 'id', orderBy: 'field'}]).done(function() {
+		window.open(amiWebApp.webAppURL + '?subapp=adminDashboard&userdata=catalogs', '_blank').focus();
+	},
 
-			$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('show');
-		});
+	/*---------------------------------------------------------------------*/
+
+	editField: function(catalog, entity, field)
+	{
+		if(amiLogin.hasRole('AMI_ADMIN') === false)
+		{
+			return;
+		}
+
+		$('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val(catalog);
+		$('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val(entity);
+		$('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val(field);
+
+		$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('show');
 	},
 
 	/*---------------------------------------------------------------------*/

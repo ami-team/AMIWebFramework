@@ -13,7 +13,7 @@
 
 /*-------------------------------------------------------------------------*/
 
-function _svg_rounded_rect(x, y, w, h, r, tl, tr, bl, br)
+function _svgRoundedRect(x, y, w, h, r, tl, tr, bl, br)
 {
 	var result = 'M' + (x + r) + ',' + y;
 
@@ -56,7 +56,25 @@ function _svg_rounded_rect(x, y, w, h, r, tl, tr, bl, br)
 
 /*-------------------------------------------------------------------------*/
 
-function _get_l(color)
+function _intToStr(v)
+{
+	v = Math.abs(v);
+
+	if(v < 256)
+	{
+		var V = v.toString(16);
+
+		return (v < 16) ? '0' + V
+		                : /*-*/ V
+		;
+	}
+
+	return 0;
+}
+
+/*-------------------------------------------------------------------------*/
+
+function _getL(color)
 {
 	var r = parseInt(color.substring(1, 3), 16);
 	var g = parseInt(color.substring(3, 5), 16);
@@ -67,21 +85,13 @@ function _get_l(color)
 
 /*-------------------------------------------------------------------------*/
 
-function _get_stroke(color)
+function _getStroke(color)
 {
-	var r = Math.round(0.75 * parseInt(color.substring(1, 3), 16));
-	var g = Math.round(0.75 * parseInt(color.substring(3, 5), 16));
-	var b = Math.round(0.75 * parseInt(color.substring(5, 7), 16));
+	var r = parseInt(color.substring(1, 3), 16);
+	var g = parseInt(color.substring(3, 5), 16);
+	var b = parseInt(color.substring(5, 7), 16);
 
-	var R = r.toString(16);
-	var G = g.toString(16);
-	var B = b.toString(16);
-
-	if(r < 16) R = '0' + R;
-	if(g < 16) G = '0' + G;
-	if(b < 16) B = '0' + B;
-
-	return '#' + R + G + B;
+	return '#' + _intToStr(Math.round(0.75 * r)) + _intToStr(Math.round(0.75 * g)) + _intToStr(Math.round(0.75 * b));
 }
 
 /*-------------------------------------------------------------------------*/
@@ -105,59 +115,52 @@ joint.dia.Element.define('sql.Table', {
 	attrs: {
 		/*-----------------------------------------------------------------*/
 		'.sql-table-top': {
+			'ref-x': 0.0,
+			'ref-y': 0.0,
 			'stroke-width': 1,
 		},
 		'.sql-table-body': {
+			'ref-x': 0.0,
+			'ref-y': 20.0,
 			'stroke-width': 1,
 		},
 		/*-----------------------------------------------------------------*/
 		'.sql-table-show-text': {
-			'ref': '.sql-table-top',
-			'ref-x': 0.015,
-			'ref-y': 0.50,
-			'x-alignment': 'left',
-			'y-alignment': 'middle',
+			'ref-x': '2%',
+			'ref-y': 5.0,
+			'text-anchor': 'start',
 			'fill': 'white',
 			'font-family': 'FontAwesome',
 			'font-weight': 'normal',
 			'font-size': 12,
 		},
 		'.sql-table-name-text': {
-			'ref': '.sql-table-top',
-			'ref-x': 0.50,
-			'ref-y': 0.50,
-			'x-alignment': 'middle',
-			'y-alignment': 'middle',
+			'ref-x': '50%',
+			'ref-y': 2.5,
+			'text-anchor': 'middle',
 			'fill': 'white',
 			'font-family': 'Courier New',
 			'font-weight': 'normal',
 			'font-size': 14,
 		},
 		'.sql-table-edit-text': {
-			'ref': '.sql-table-top',
-			'ref-x': 0.930,
-			'ref-y': 0.50,
-			'x-alignment': 'left',
-			'y-alignment': 'middle',
+			'ref-x': '98%',
+			'ref-y': 5.0,
+			'text-anchor': 'end',
 			'fill': 'white',
 			'font-family': 'FontAwesome',
 			'font-weight': 'normal',
 			'font-size': 12,
 		},
 		/*-----------------------------------------------------------------*/
-		'.sql-table-content': {
-			'ref': '.sql-table-body',
+		'.sql-columns': {
 			'ref-x': 0.0,
-			'ref-y': 0.0,
-			'x-alignment': 'left',
-			'y-alignment': 'top',
+			'ref-y': 25.0,
 		},
 		/*-----------------------------------------------------------------*/
-		'.sql-table-column-text': {
-			'ref': '.sql-table-content',
+		'.sql-column-text': {
+			'ref-x': 0.03,
 			'fill': 'black',
-			'x-alignment': 'left',
-			'y-alignment': 'top',
 			'font-family': 'Courier New',
 			'font-weight': 'normal',
 			'font-size': 14,
@@ -180,16 +183,18 @@ joint.dia.Element.define('sql.Table', {
 			'<a class="sql-table-edit-link" xlink:href="#" data-table="">',
 				'<text class="sql-table-edit-text" />',
 			'</a>',
-			'<g class="sql-table-content"></g>',
+			'<g class="sql-columns"></g>',
 		'</g>',
 	].join(''),
 
 	/*---------------------------------------------------------------------*/
 
 	columnMarkup: [
-		'<a class="sql-table-column-link" xlink:href="#" data-table="" data-field="">',
-			'<text class="sql-table-column-text">fff</text>',
-		'</a>',
+		'<g class="sql-column">',
+			'<a class="sql-column-link" xlink:href="#" data-table="" data-column="">',
+				'<text class="sql-column-text">N/A</text>',
+			'</a>',
+		'</g>'
 	].join(''),
 
 	/*---------------------------------------------------------------------*/
@@ -262,9 +267,7 @@ joint.dia.Element.define('sql.Table', {
 
 	appendColumn: function(column)
 	{
-		column.selector = _.uniqueId('sql-table-column-link-');
-
-		var columns = JSON.parse(JSON.stringify(this.get('columns')));
+		var columns = _.clone(this.get('columns'));
 		columns.push(column);
 		this.set('columns', columns);
 	},
@@ -311,7 +314,7 @@ joint.dia.Element.define('sql.Table', {
 
 		/*-----------------------------------------------------------------*/
 
-		var toolColor = _get_l(color) > 0.75 ? '#000000' : '#FFFFFF';
+		var toolColor = _getL(color) > 0.75 ? '#000000' : '#FFFFFF';
 
 		this.attr('.sql-table-show/fill', toolColor);
 		this.attr('.sql-table-name/fill', toolColor);
@@ -319,7 +322,7 @@ joint.dia.Element.define('sql.Table', {
 
 		/*-----------------------------------------------------------------*/
 
-		var strokeColor = _get_stroke(color);
+		var strokeColor = _getStroke(color);
 
 		this.attr('.sql-table-top/fill', color);
 		this.attr('.sql-table-top/stroke', strokeColor);
@@ -336,59 +339,45 @@ joint.dia.Element.define('sql.Table', {
 	{
 		/*-----------------------------------------------------------------*/
 
-		var width = 230;
-		var height = 20;
+		var table = this.get('table');
 
-		var attrsUpdate = {};
+		/*-----------------------------------------------------------------*/
+
+		var width = 230;
+		var height = 0x0;
 
 		_.each(this.get('columns'), function(column) {
 
 			var text = column.name + ': ' + column.type;
 
-			/**/ if(column.hidden)
-			{
+			/**/ if(column.hidden) {
 				text = '❌' + text;
 			}
-			else if(column.adminOnly)
-			{
+			else if(column.adminOnly) {
 				text = '🚫' + text;
 			}
-			else if(column.crypted)
-			{
+			else if(column.crypted) {
 				text = '🔐' + text;
 			}
-			else if(column.primary)
-			{
+			else if(column.primary) {
 				text = '🔑' + text;
 			}
-			else if(column.created
+			else if(column.created || column.createdBy
 			        ||
-			        column.createdBy
-			        ||
-			        column.modified
-			        ||
-			        column.modifiedBy
+			        column.modified || column.modifiedBy
 			 ) {
 				text = '⚙️' + text;
 			}
 
-			if(text.length > 26)
-			{
-				text = text.substring(0, 24) + '…';
-			}
+			column.table = table;
+			column.text = (text.length > 26) ? text.substring(0, 24) + '…' : text;
+			column.offset = height;
 
-			attrsUpdate[column.selector] = {
-//				text: text,
-//				refX: 0x0000,
-//				refY: height,
-			};
+			height += 15;
 
-			height += 14;
-		});
+		}, this);
 
-		/*-----------------------------------------------------------------*/
-
-		this.attr(attrsUpdate);
+		height += 15;
 
 		/*-----------------------------------------------------------------*/
 
@@ -399,8 +388,8 @@ joint.dia.Element.define('sql.Table', {
 
 		this.resize(width, height);
 
-		this.attr('.sql-table-top/d', _svg_rounded_rect(0.75, 0.5, width, 20, 8, true, true, false, false));
-		this.attr('.sql-table-body/d', _svg_rounded_rect(0.75, 20.5, width, height, 3, false, false, true, true));
+		this.attr('.sql-table-top/d', _svgRoundedRect(0, 0, width, 20, 8, true, true, false, false));
+		this.attr('.sql-table-body/d', _svgRoundedRect(0, 0, width, height, 3, false, false, true, true));
 
 		/*-----------------------------------------------------------------*/
 	}
@@ -438,7 +427,7 @@ joint.shapes.sql.TableView = joint.dia.ElementView.extend({
 
 		this.src = V(this.model.columnMarkup);
 
-		this.dst = this.$('.sql-table-content');
+		this.dst = this.$('.sql-columns');
 
 		/*-----------------------------------------------------------------*/
 
@@ -455,11 +444,19 @@ joint.shapes.sql.TableView = joint.dia.ElementView.extend({
 
 		this.dst.empty();
 
-		_.each(this.model.get('columns'), function(column, index) {
+		/*-----------------------------------------------------------------*/
 
-			var clone = this.src.clone();
+		_.each(this.model.get('columns'), function(column) {
 
-			clone.children()[0].addClass(column.selector);
+			var clone = this.src.clone().addClass(column.selector);
+
+			clone.attr('transform', 'translate(0, ' + column.offset + ')');
+
+			clone.find('.sql-column-link')[0].attr('data-table', column.table)
+			                                 .attr('data-column', column.name)
+			;
+
+			clone.find('.sql-column-text')[0].text(column.text);
 
 			this.dst.append(clone.node);
 
