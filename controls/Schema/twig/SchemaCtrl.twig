@@ -2,24 +2,18 @@
 	<div class="modal-dialog modal-xl" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title"><i class="fa fa-database"></i> Catalog extra</h5>
+				<h5 class="modal-title">
+					<i class="fa fa-database"></i>
+					<input class="form-control-plaintext text-center border d-inline w-auto" type="text" id="C78B630C_9805_7D15_C14F_4C7C276E9E2C" readonly="readonly" />
+					<i class="fa fa-circle"></i>
+					<input class="form-control-plaintext text-center border d-inline w-auto" type="text" id="B495FF2B_45A2_F3CA_C810_55FC054872D2" readonly="readonly" />
+					<i class="fa fa-circle"></i>
+					<input class="form-control-plaintext text-center border d-inline w-auto" type="text" id="C3E221A6_6B33_6A52_B7D1_57CB0228BB07" readonly="readonly" />
+				</h5>
 			</div>
 			<div class="modal-body">
 
 				<div id="F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886"></div>
-
-				<div class="input-group mx-auto w-75 mb-3">
-					<input class="form-control form-control-sm text-center" type="text" id="C78B630C_9805_7D15_C14F_4C7C276E9E2C" readonly="readonly" />
-					<span class="input-group-text input-group-sm border-left-0 border-right-0 rounded-0 px-1">
-						<i class="fa fa-circle"></i>
-					</span>
-					<input class="form-control form-control-sm text-center" type="text" id="B495FF2B_45A2_F3CA_C810_55FC054872D2" readonly="readonly" />
-					<span class="input-group-text input-group-sm border-left-0 border-right-0 rounded-0 px-1">
-						<i class="fa fa-circle"></i>
-					</span>
-					<input class="form-control form-control-sm text-center" type="text" id="C3E221A6_6B33_6A52_B7D1_57CB0228BB07" readonly="readonly" />
-				</div>
-
 
 				<div class="row">
 					<div class="col-md-6">
@@ -126,8 +120,8 @@
 				<button class="btn btn-outline-primary" onclick="SchemaCtrl.prototype.flushServerCachesFast();"><i class="fa fa-refresh"></i> Flush server caches (partial)</button>
 				<span class="mr-auto"></span>
 				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-				<button class="btn btn-warning" onclick=";">Reset</button>
-				<button class="btn btn-primary" onclick=";">Apply</button>
+				<button class="btn btn-warning" onclick="SchemaCtrl.prototype.reset();">Reset</button>
+				<button class="btn btn-primary" onclick="SchemaCtrl.prototype.apply();">Apply</button>
 			</div>
 		</div>
 	</div>

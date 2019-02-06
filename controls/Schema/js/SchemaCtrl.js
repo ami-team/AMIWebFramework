@@ -13,6 +13,12 @@
 
 /*-------------------------------------------------------------------------*/
 
+var SchemaCtrl_currentCatalog = null;
+var SchemaCtrl_currentEntity = null;
+var SchemaCtrl_currentField = null;
+
+/*-------------------------------------------------------------------------*/
+
 $AMIClass('SchemaCtrl', {
 	/*---------------------------------------------------------------------*/
 
@@ -501,6 +507,10 @@ $AMIClass('SchemaCtrl', {
 
 	editField: function(catalog, entity, field)
 	{
+		SchemaCtrl_currentCatalog = catalog;
+		SchemaCtrl_currentEntity = entity;
+		SchemaCtrl_currentField = field;
+
 		if(amiLogin.hasRole('AMI_ADMIN') === false)
 		{
 			return;
@@ -511,10 +521,6 @@ $AMIClass('SchemaCtrl', {
 			$('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val(catalog);
 			$('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val(entity);
 			$('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val(field);
-
-			this._currentCatalog = catalog;
-			this._currentEntity = entity;
-			this._currentField = field;
 
 			/**/
 
@@ -616,6 +622,49 @@ $AMIClass('SchemaCtrl', {
 
 			amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
 		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	reset: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('RemoveElements -catalog="self" -entity="router_catalog_extra" -keyFields="catalog,entity,field" -keyValues="' + amiWebApp.textToString(SchemaCtrl_currentCatalog) + ',' + amiWebApp.textToString(SchemaCtrl_currentEntity) + ',' + amiWebApp.textToString(SchemaCtrl_currentField) + '"').done(function(data, message) {
+
+			amiWebApp.success(message, true);
+
+			$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('hide');
+
+		}).fail(function(data, message) {
+
+			amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	apply: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
 
 		/*-----------------------------------------------------------------*/
 	},
