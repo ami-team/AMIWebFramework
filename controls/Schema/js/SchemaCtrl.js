@@ -13,12 +13,6 @@
 
 /*-------------------------------------------------------------------------*/
 
-var SchemaCtrl_currentCatalog = null;
-var SchemaCtrl_currentEntity = null;
-var SchemaCtrl_currentField = null;
-
-/*-------------------------------------------------------------------------*/
-
 $AMIClass('SchemaCtrl', {
 	/*---------------------------------------------------------------------*/
 
@@ -507,9 +501,9 @@ $AMIClass('SchemaCtrl', {
 
 	editField: function(catalog, entity, field)
 	{
-		SchemaCtrl_currentCatalog = catalog;
-		SchemaCtrl_currentEntity = entity;
-		SchemaCtrl_currentField = field;
+		SchemaCtrl.currentCatalog = catalog;
+		SchemaCtrl.currentEntity = entity;
+		SchemaCtrl.currentField = field;
 
 		if(amiLogin.hasRole('AMI_ADMIN') === false)
 		{
@@ -569,105 +563,128 @@ $AMIClass('SchemaCtrl', {
 	},
 
 	/*---------------------------------------------------------------------*/
-
-	flushServerCachesFast: function()
-	{
-		/*-----------------------------------------------------------------*/
-
-		if(!confirm('Please confirm...'))
-		{
-			return;
-		}
-
-		/*-----------------------------------------------------------------*/
-
-		amiWebApp.lock();
-
-		/*-----------------------------------------------------------------*/
-
-		amiCommand.execute('FlushServerCaches').done(function(data, message) {
-
-			amiWebApp.success(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
-
-		}).fail(function(data, message) {
-
-			amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
-		});
-
-		/*-----------------------------------------------------------------*/
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	flushServerCachesSlow: function()
-	{
-		/*-----------------------------------------------------------------*/
-
-		if(!confirm('Please confirm...'))
-		{
-			return;
-		}
-
-		/*-----------------------------------------------------------------*/
-
-		amiWebApp.lock();
-
-		/*-----------------------------------------------------------------*/
-
-		amiCommand.execute('FlushServerCaches -full').done(function(data, message) {
-
-			amiWebApp.success(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
-
-		}).fail(function(data, message) {
-
-			amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
-		});
-
-		/*-----------------------------------------------------------------*/
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	reset: function()
-	{
-		/*-----------------------------------------------------------------*/
-
-		if(!confirm('Please confirm...'))
-		{
-			return;
-		}
-
-		/*-----------------------------------------------------------------*/
-
-		amiCommand.execute('RemoveElements -catalog="self" -entity="router_catalog_extra" -keyFields="catalog,entity,field" -keyValues="' + amiWebApp.textToString(SchemaCtrl_currentCatalog) + ',' + amiWebApp.textToString(SchemaCtrl_currentEntity) + ',' + amiWebApp.textToString(SchemaCtrl_currentField) + '"').done(function(data, message) {
-
-			amiWebApp.success(message, true);
-
-			$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('hide');
-
-		}).fail(function(data, message) {
-
-			amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
-		});
-
-		/*-----------------------------------------------------------------*/
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	apply: function()
-	{
-		/*-----------------------------------------------------------------*/
-
-		if(!confirm('Please confirm...'))
-		{
-			return;
-		}
-
-		/*-----------------------------------------------------------------*/
-
-		/*-----------------------------------------------------------------*/
-	},
-
-	/*---------------------------------------------------------------------*/
 });
+
+/*-------------------------------------------------------------------------*/
+
+SchemaCtrl.currentCatalog = null;
+SchemaCtrl.currentEntity = null;
+SchemaCtrl.currentField = null;
+
+/*-------------------------------------------------------------------------*/
+
+SchemaCtrl.flushServerCachesFast = function()
+{
+	/*---------------------------------------------------------------------*/
+
+	if(!confirm('Please confirm...'))
+	{
+		return;
+	}
+
+	/*---------------------------------------------------------------------*/
+
+	amiWebApp.lock();
+
+	/*---------------------------------------------------------------------*/
+
+	amiCommand.execute('FlushServerCaches').done(function(data, message) {
+
+		amiWebApp.success(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+
+	}).fail(function(data, message) {
+
+		amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+	});
+
+	/*---------------------------------------------------------------------*/
+};
+
+/*-------------------------------------------------------------------------*/
+
+SchemaCtrl.flushServerCachesSlow = function()
+{
+	/*---------------------------------------------------------------------*/
+
+	if(!confirm('Please confirm...'))
+	{
+		return;
+	}
+
+	/*---------------------------------------------------------------------*/
+
+	amiWebApp.lock();
+
+	/*---------------------------------------------------------------------*/
+
+	amiCommand.execute('FlushServerCaches -full').done(function(data, message) {
+
+		amiWebApp.success(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+
+	}).fail(function(data, message) {
+
+		amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+	});
+
+	/*---------------------------------------------------------------------*/
+};
+
+/*-------------------------------------------------------------------------*/
+
+SchemaCtrl.reset = function()
+{
+	/*---------------------------------------------------------------------*/
+
+	if(!confirm('Please confirm...'))
+	{
+		return;
+	}
+
+	/*---------------------------------------------------------------------*/
+
+	amiWebApp.lock();
+
+	/*---------------------------------------------------------------------*/
+
+	amiCommand.execute('RemoveElements -catalog="self" -entity="router_catalog_extra" -keyFields="catalog,entity,field" -keyValues="' + amiWebApp.textToString(SchemaCtrl.currentCatalog) + ',' + amiWebApp.textToString(SchemaCtrl.currentEntity) + ',' + amiWebApp.textToString(SchemaCtrl.currentField) + '"').done(function(data, message) {
+
+		amiWebApp.success(message, true);
+
+		$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('hide');
+
+	}).fail(function(data, message) {
+
+		amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+	});
+
+	/*---------------------------------------------------------------------*/
+};
+
+/*-------------------------------------------------------------------------*/
+
+SchemaCtrl.apply = function()
+{
+	/*---------------------------------------------------------------------*/
+
+	if(!confirm('Please confirm...'))
+	{
+		return;
+	}
+
+	/*---------------------------------------------------------------------*/
+
+	amiCommand.execute('RemoveElements -catalog="self" -entity="router_catalog_extra" -keyFields="catalog,entity,field" -keyValues="' + amiWebApp.textToString(SchemaCtrl.currentCatalog) + ',' + amiWebApp.textToString(SchemaCtrl.currentEntity) + ',' + amiWebApp.textToString(SchemaCtrl.currentField) + '"').done(function(data, message) {
+
+		amiWebApp.success(message, true);
+
+		$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('hide');
+
+	}).fail(function(data, message) {
+
+		amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+	});
+
+	/*---------------------------------------------------------------------*/
+};
+
+/*-------------------------------------------------------------------------*/
