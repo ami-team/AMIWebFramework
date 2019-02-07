@@ -135,17 +135,21 @@ $AMIClass('SchemaViewerApp', {
 
 			this.openSchema().done(function() {
 
+				var disable = amiLogin.hasRole('AMI_ADMIN') === false;
+
 				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').html(L.join(''));
 
 				$('#D015B3C1_B150_4E27_99D9_A628B3F9B0AC').prop('disabled', false);
 
 				$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
-				$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', false);
+				$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', disable);
 
-				$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').prop('disabled', false);
+				$('#D316F050_F66C_8D02_33A0_CFF920BEF817').prop('disabled', disable);
 
-				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
-				$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
+				$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').prop('disabled', disable);
+
+				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', disable);
+				$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', disable);
 
 				result.resolve();
 
@@ -176,6 +180,8 @@ $AMIClass('SchemaViewerApp', {
 
 		$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', true);
 		$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', true);
+
+		$('#D316F050_F66C_8D02_33A0_CFF920BEF817').prop('disabled', true);
 
 		$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').prop('disabled', true);
 
