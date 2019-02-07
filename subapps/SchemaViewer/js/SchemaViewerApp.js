@@ -148,8 +148,8 @@ $AMIClass('SchemaViewerApp', {
 
 				$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').prop('disabled', disable);
 
-				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', disable);
-				$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', disable);
+				$('#A8A2E848_F02A_40C7_8327_53F73B1B2BD6').prop('disabled', false);
+				$('#DA57C571_E294_4D75_B36F_FF6BB066D504').prop('disabled', false);
 
 				result.resolve();
 
