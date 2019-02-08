@@ -368,8 +368,8 @@ amiTwig.expr.Tokenizer = function(code, line) {
 	/*-----------------------------------------------------------------*/
 
 	this._tokenDefs = [
-		'[oO][rR]',
-		'[aA][nN][dD]',
+		'or',
+		'and',
 		'b-or',
 		'b-xor',
 		'b-and',
