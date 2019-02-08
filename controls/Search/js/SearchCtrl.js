@@ -749,7 +749,7 @@ $AMIClass('SearchCtrl', {
 
 			$(predicate.selector + ' option:selected').each(function() {
 
-				L.push('`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+				L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + this.value.replace(/'/g, '\'\'') + '\']');
 
 				S[this.value] = true;
 			});
