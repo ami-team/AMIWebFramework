@@ -388,8 +388,8 @@ joint.dia.Element.define('sql.Table', {
 
 		this.resize(width, height);
 
-		this.attr('.sql-table-top/d', _svgRoundedRect(0, 0, width, 20, 8, true, true, false, false));
-		this.attr('.sql-table-body/d', _svgRoundedRect(0, 0, width, height, 3, false, false, true, true));
+		this.attr('.sql-table-top/d', _svgRoundedRect(0.75, 0.5, width, 20, 8, true, true, false, false));
+		this.attr('.sql-table-body/d', _svgRoundedRect(0.75, 0.5, width, height, 3, false, false, true, true));
 
 		/*-----------------------------------------------------------------*/
 	}
