@@ -746,10 +746,20 @@ $AMIClass('SearchCtrl', {
 		{
 			var L = [];
 			var S = {};
+			
+			var isDefaultEntity = this.ctx.defaultEntity === entity ? true : false;
 
 			$(predicate.selector + ' option:selected').each(function() {
 
-				L.push('`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+				if (isDefaultEntity)
+				{
+					L.push('`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+				}
+				else
+				{
+					L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+				}
+				
 
 				S[this.value] = true;
 			});
