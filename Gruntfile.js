@@ -5,6 +5,22 @@ module.exports = function(grunt) {
 
 	/*---------------------------------------------------------------------*/
 
+	var browserslist = [
+		">= 1%",
+		"last 1 major version",
+		"not dead",
+		"Chrome >= 45",
+		"Firefox >= 38",
+		"Edge >= 12",
+		"Explorer >= 10",
+		"iOS >= 9",
+		"Safari >= 9",
+		"Android >= 4.4",
+		"Opera >= 30"
+	];
+
+	/*---------------------------------------------------------------------*/
+
 	grunt.initConfig({
 		/*-----------------------------------------------------------------*/
 
@@ -73,10 +89,7 @@ module.exports = function(grunt) {
 
 		"autoprefixer": {
 			"options": {
-				"browsers": [
-					'last 2 versions',
-					'ie 10'
-				]
+				"browserslist": browserslist
 			},
 			"build": {
 				"files": {
@@ -103,10 +116,7 @@ module.exports = function(grunt) {
 						"loose": true,
 						"modules": false,
 						"targets": {
-							"browsers": [
-								'last 2 versions',
-								'ie 10'
-							]
+							"browsers": browserslist
 						}
 					}]]
 				},
