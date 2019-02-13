@@ -21,6 +21,23 @@ module.exports = function(grunt) {
 
 	/*---------------------------------------------------------------------*/
 
+	function findES6Files(paths)
+	{
+		var result = {};
+
+		paths.forEach(function(path) {
+
+			grunt.file.expand(path + '/*.es6.js').forEach(function(file) {
+
+				result[file.substring(0, file.length - 6) + 'js'] = file;
+			});
+		});
+
+		return result;
+	}
+
+	/*---------------------------------------------------------------------*/
+
 	grunt.initConfig({
 		/*-----------------------------------------------------------------*/
 
@@ -120,9 +137,11 @@ module.exports = function(grunt) {
 						}
 					}]]
 				},
-				"files": {
-					"js/ami.js": "js/ami.es6.js"
-				}
+				"files": findES6Files([
+					'./js',
+					'./controls/**',
+					'./subapps/**'
+				])
 			}
 		},
 
