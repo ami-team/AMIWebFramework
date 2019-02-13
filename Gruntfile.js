@@ -19,6 +19,8 @@ module.exports = function(grunt) {
 		"Opera >= 30"
 	];
 
+	grunt.log.writeln('Building AWF for: ' + browserslist.join(', '));
+
 	/*---------------------------------------------------------------------*/
 
 	function findES6Files(paths)
@@ -130,6 +132,7 @@ module.exports = function(grunt) {
 				"options": {
 					"sourceMap": false,
 					"presets": [["@babel/preset-env", {
+						"debug": false,
 						"loose": true,
 						"modules": false,
 						"targets": {
