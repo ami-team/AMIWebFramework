@@ -50,20 +50,13 @@ $AMIClass('SchemaCtrl', {
     var _this2 = this;
 
     /*-----------------------------------------------------------------*/
-    this._onFocus = null;
-    this._onBlur = null;
+    var _amiWebApp$setup = amiWebApp.setup(['onFocus', 'onBlur'], [null, null], settings),
+        _onFocus = _amiWebApp$setup[0],
+        _onBlur = _amiWebApp$setup[1];
 
-    if (settings) {
-      if ('onFocus' in settings) {
-        this._onFocus = settings['onFocus'];
-      }
-
-      if ('onBlur' in settings) {
-        this._onBlur = settings['onBlur'];
-      }
-    }
+    this._onFocus = _onFocus;
+    this._onBlur = _onBlur;
     /*-----------------------------------------------------------------*/
-
 
     var el1 = $(this._selector = selector);
     el1.css('box-shadow', '0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075)');
@@ -141,36 +134,20 @@ $AMIClass('SchemaCtrl', {
   _refresh: function _refresh(result, catalog, settings) {
     var _this3 = this;
 
-    var context = result;
     this._currentCatalog = catalog;
-    this._width = 2000;
-    this._height = 2000;
-    this._showShowTool = false;
-    this._showEditTool = false;
 
-    if (settings) {
-      if ('context' in settings) {
-        context = settings['context'];
-      }
+    var _amiWebApp$setup2 = amiWebApp.setup(['context', 'width', 'height', 'showShowTool', 'showEditTool'], [result, 2000, 2000, false, false], settings),
+        context = _amiWebApp$setup2[0],
+        _width = _amiWebApp$setup2[1],
+        _height = _amiWebApp$setup2[2],
+        _showShowTool = _amiWebApp$setup2[3],
+        _showEditTool = _amiWebApp$setup2[4];
 
-      if ('width' in settings) {
-        this._width = settings['width'];
-      }
-
-      if ('height' in settings) {
-        this._height = settings['height'];
-      }
-
-      if ('showShowTool' in settings) {
-        this._showShowTool = settings['showShowTool'];
-      }
-
-      if ('showEditTool' in settings) {
-        this._showEditTool = settings['showEditTool'];
-      }
-    }
+    this._width = _width;
+    this._height = _height;
+    this._showShowTool = _showShowTool;
+    this._showEditTool = _showEditTool;
     /*-----------------------------------------------------------------*/
-
 
     if (!catalog) {
       result.resolveWith(context, [null]);
