@@ -130,6 +130,7 @@ $AMIClass('SearchCtrl', {
 			predicates: {},
 			mql: '',
 			js: '',
+			canEdit: false,
 		};
 
 		if(settings)
@@ -156,6 +157,10 @@ $AMIClass('SearchCtrl', {
 
 			if('criterias' in settings) {
 				this.ctx.criterias = settings['criterias'];
+			}
+			
+			if('canEdit' in settings) {
+				this.ctx.canEdit = settings['canEdit'];
 			}
 		}
 
