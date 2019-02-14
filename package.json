@@ -10,10 +10,11 @@
   },
   "homepage": "https://github.com/ami-team/AMIWebFramework/",
   "devDependencies": {
-    "@babel/core": "^7.1.6",
-    "@babel/preset-env": "^7.1.6",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
     "eslint-plugin-ami": "^1.0.6",
     "grunt": "^1.0.3",
+    "grunt-autoprefixer": "^3.0.4",
     "grunt-babel": "^8.0.0",
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-cssmin": "^3.0.0",
