@@ -214,17 +214,17 @@ $AMIClass('SchemaCtrl', {
 
 				if((amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] || '') === catalog)
 				{
-					let table = amiWebApp.jspath('..field{.@name==="table"}.$', value)[0] || '';
-					let name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0] || '';
-					let type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
-					let hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', value)[0] || '';
-					let adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', value)[0] || '';
-					let crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', value)[0] || '';
-					let primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0] || '';
-					let created = amiWebApp.jspath('..field{.@name==="created"}.$', value)[0] || '';
-					let createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', value)[0] || '';
-					let modified = amiWebApp.jspath('..field{.@name==="modified"}.$', value)[0] || '';
-					let modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', value)[0] || '';
+					const table = amiWebApp.jspath('..field{.@name==="table"}.$', value)[0] || '';
+					const name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0] || '';
+					const type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
+					const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', value)[0] || '';
+					const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', value)[0] || '';
+					const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', value)[0] || '';
+					const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0] || '';
+					const created = amiWebApp.jspath('..field{.@name==="created"}.$', value)[0] || '';
+					const createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', value)[0] || '';
+					const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', value)[0] || '';
+					const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', value)[0] || '';
 
 					if(!(table in tables))
 					{
@@ -329,8 +329,8 @@ $AMIClass('SchemaCtrl', {
 				   &&
 				   amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', value)[0] === catalog
 				 ) {
-					let fkTable = amiWebApp.jspath('..field{.@name==="fkTable"}.$', value)[0];
-					let pkTable = amiWebApp.jspath('..field{.@name==="pkTable"}.$', value)[0];
+					const fkTable = amiWebApp.jspath('..field{.@name==="fkTable"}.$', value)[0];
+					const pkTable = amiWebApp.jspath('..field{.@name==="pkTable"}.$', value)[0];
 
 					this.graph.newForeignKey(
 						tables[fkTable]['table'].get('id'),
@@ -421,7 +421,7 @@ $AMIClass('SchemaCtrl', {
 	{
 		try
 		{
-			let json = JSON.stringify(this.getJSON(), null, 4);
+			const json = JSON.stringify(this.getJSON(), null, 4);
 
 			let blob = new Blob([json], {
 				type: 'application/json',
@@ -489,22 +489,22 @@ $AMIClass('SchemaCtrl', {
 
 			/**/
 
-			let rank = amiWebApp.jspath('..field{.@name==="rank"}.$', data)[0] || '999';
-			let description = amiWebApp.jspath('..field{.@name==="description"}.$', data)[0] || 'N/A';
-			let webLinkScript = amiWebApp.jspath('..field{.@name==="webLinkScript"}.$', data)[0] || '@NULL';
+			const rank = amiWebApp.jspath('..field{.@name==="rank"}.$', data)[0] || '999';
+			const description = amiWebApp.jspath('..field{.@name==="description"}.$', data)[0] || 'N/A';
+			const webLinkScript = amiWebApp.jspath('..field{.@name==="webLinkScript"}.$', data)[0] || '@NULL';
 
-			let adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
-			let hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', data)[0] || 'false';
-			let crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', data)[0] || 'false';
-			let primary = amiWebApp.jspath('..field{.@name==="primary"}.$', data)[0] || 'false';
+			const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
+			const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', data)[0] || 'false';
+			const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', data)[0] || 'false';
+			const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', data)[0] || 'false';
 
-			let created = amiWebApp.jspath('..field{.@name==="created"}.$', data)[0] || 'false';
-			let createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', data)[0] || 'false';
-			let modified = amiWebApp.jspath('..field{.@name==="modified"}.$', data)[0] || 'false';
-			let modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', data)[0] || 'false';
+			const created = amiWebApp.jspath('..field{.@name==="created"}.$', data)[0] || 'false';
+			const createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', data)[0] || 'false';
+			const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', data)[0] || 'false';
+			const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', data)[0] || 'false';
 
-			let statable = amiWebApp.jspath('..field{.@name==="statable"}.$', data)[0] || 'false';
-			let groupable = amiWebApp.jspath('..field{.@name==="groupable"}.$', data)[0] || 'false';
+			const statable = amiWebApp.jspath('..field{.@name==="statable"}.$', data)[0] || 'false';
+			const groupable = amiWebApp.jspath('..field{.@name==="groupable"}.$', data)[0] || 'false';
 
 			$('#C6CA88FD_548A_FE30_9871_AFE55362439B').val(rank);
 			$('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val(description);
