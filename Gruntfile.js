@@ -183,13 +183,13 @@ module.exports = function(grunt) {
 	/*---------------------------------------------------------------------*/
 
 	grunt.loadNpmTasks("grunt-contrib-concat");
-	grunt.loadNpmTasks("grunt-autoprefixer");
 	grunt.loadNpmTasks("grunt-contrib-cssmin");
 	grunt.loadNpmTasks("grunt-contrib-uglify-es");
 
 	/**/
 
 	grunt.loadNpmTasks("grunt-jsdoc");
+	grunt.loadNpmTasks("grunt-autoprefixer");
 	grunt.loadNpmTasks("grunt-eslint");
 	grunt.loadNpmTasks("grunt-babel");
 
