@@ -98,7 +98,9 @@ $AMIClass('SchemaCtrl', {
         }
       },
       'blank:pointerdown': function blankPointerdown(cellView) {
-        $('g[model-id]').removeClass('ami-schema-shadow').filter('[model-id="' + cellView.model.id + '"]').removeClass('ami-schema-shadow');
+        $('g[model-id]').removeClass('ami-schema-shadow')
+        /*---------------------------------------------------------------------------*/
+        ;
 
         if (_this2._onBlur) {
           _this2._onBlur(_this2._currentCell);
