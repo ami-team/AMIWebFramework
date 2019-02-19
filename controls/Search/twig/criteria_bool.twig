@@ -6,8 +6,8 @@
 	</div>
 	<div class="card-body text-center" style="padding: 0.5rem;">
 		<span class="switch switch-sm switch-on-primary switch-off-secondary">
-			<input type="checkbox" id="ACC12068_1831_2272_F2EF_E6FC1125E1E4"{% if select === states.on %} checked="checked"{% endif %} />
-			<label for="ACC12068_1831_2272_F2EF_E6FC1125E1E4">
+			<input type="checkbox" id="ACC12068_1831_2272_F2EF_E6FC1125E1E4_Q{{cnt}}"{% if select === states.on %} checked="checked"{% endif %} />
+			<label for="ACC12068_1831_2272_F2EF_E6FC1125E1E4_Q{{cnt}}">
 				<span class="text-secondary">{{ states.off | default('false') }}</span>
 				/
 				<span class="text-primary">{{ states.on | default('true') }}</span>

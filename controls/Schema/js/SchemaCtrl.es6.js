@@ -122,7 +122,7 @@ $AMIClass('SchemaCtrl', {
 			},
 			'blank:pointerdown': (cellView) => {
 
-				$('g[model-id]').removeClass('ami-schema-shadow').filter('[model-id="' + cellView.model.id + '"]').removeClass('ami-schema-shadow');
+				$('g[model-id]').removeClass('ami-schema-shadow')/*---------------------------------------------------------------------------*/;
 
 				if(this._onBlur) {
 					this._onBlur(this._currentCell);
