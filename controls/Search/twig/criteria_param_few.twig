@@ -1,0 +1,28 @@
+<div class="card pull-left mr-2 mt-2 align-self-start" id="FE7FBF1B_A99D_BD93_5026_80450A922FD8_Q{{cnt}}" style="min-width: 285px;">
+	<div class="card-header" style="padding: 0.5rem;">
+		<span class="text-success">Q{{cnt}}</span>: {{name|e}}
+		<button type="button" class="close box-close ml-1" data-dismiss="box"><i class="fa fa-times-circle"></i></button>
+		<button type="button" class="close box-question ml-1" data-toggle="tooltip" data-title="hello"><i class="fa fa-question-circle"></i></button>
+		<span class="switch switch-sm switch-on-primary switch-off-secondary float-right">
+			<input type="checkbox" id="C9B3B342_BDCF_BE03_A77C_432D749727C8_Q{{cnt}}" />
+			<label for="C9B3B342_BDCF_BE03_A77C_432D749727C8_Q{{cnt}}">
+				<span class="text-secondary">or</span>
+				/
+				<span class="text-primary">and</span>
+			</label>
+		</span>
+	</div>
+	<div class="card-body" style="padding: 0.5rem;">
+		<select class="key" size="6" class="form-control" style="font-size: 13px;"></select>
+		<select class="value" multiple="multiple" size="6" class="form-control" style="font-size: 13px;" disabled="disabled"></select>
+		<div class="text-right">
+			#<span class="count">?</span>
+		</div>
+		<div class="input-group input-group-sm">
+			<input type="text" class="form-control filter" placeholder="Filter, % for wildcarding" />
+			<div class="input-group-append">
+				<button type="button" class="btn btn-secondary filter">Apply</button>
+			</div>
+		</div>
+	</div>
+</div>

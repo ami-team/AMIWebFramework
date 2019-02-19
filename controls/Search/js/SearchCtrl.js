@@ -78,6 +78,7 @@ $AMIClass('SearchCtrl', {
 			amiWebApp.originURL + '/controls/Search/twig/criteria_number.twig',
 			amiWebApp.originURL + '/controls/Search/twig/criteria_date.twig',
 			amiWebApp.originURL + '/controls/Search/twig/criteria_bool.twig',
+			amiWebApp.originURL + '/controls/Search/twig/criteria_param_few.twig',
 			amiWebApp.originURL + '/controls/Search/twig/js.twig',
 			/**/
 			amiWebApp.originURL + '/controls/Search/js/moment.min.js',
@@ -93,9 +94,10 @@ $AMIClass('SearchCtrl', {
 			this.fragmentCriteriaNumber = data[3];
 			this.fragmentCriteriaDate = data[4];
 			this.fragmentCriteriaBool = data[5];
-			this.fragmentJS = data[6];
+			this.fragmentCriteriaParamFew = data[6];
+			this.fragmentJS = data[7];
 
-			this.tabCtor = data[10];
+			this.tabCtor = data[11];
 		});
 	},
 
@@ -325,6 +327,11 @@ $AMIClass('SearchCtrl', {
 				name = 'Q' + (criteria.cnt = this.ctx.cnt++);
 				promise = this.appendHTML(selector, this.fragmentCriteriaBool, {context: this, dict: criteria});
 				break;
+				
+			case 5:
+				name = 'Q' + (criteria.cnt = this.ctx.cnt++);
+				promise = this.appendHTML(selector, this.fragmentCriteriaParamFew, {context: this, dict: criteria});
+				break;
 
 			default:
 				return;
@@ -478,6 +485,55 @@ $AMIClass('SearchCtrl', {
 
 					break;
 
+				/*---------------------------------------------------------*/
+				/* PARAM BOX                                               */
+				/*---------------------------------------------------------*/
+					
+				case 5:
+					el.find('.key').change(function(e) {
+
+						e.preventDefault();
+
+						alert('to do');
+					});
+					
+					el.find('.value').change(function(e) {
+
+						e.preventDefault();
+
+						alert('to do');
+					});
+					
+					el.find('input.filter').keyup(function(e) {
+
+						if(e.keyCode !== 13)
+						{
+							if(criteria.type === 5) alert('todo');
+						}
+					});
+
+					el.find('button.filter').click(function(e) {
+
+						if(/*-*/ true /*-*/)
+						{
+							e.preventDefault();
+
+							if(criteria.type === 5) alert('todo');
+						}
+					});
+
+					el.find('input.filter').keypress(function(e) {
+
+						if(e.keyCode === 13)
+						{
+							e.preventDefault();
+
+							if(criteria.type === 5) alert('todo');
+						}
+					});
+
+					break;
+				
 				/*---------------------------------------------------------*/
 			}
 
