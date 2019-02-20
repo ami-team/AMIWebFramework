@@ -516,7 +516,7 @@ $AMIClass('SearchCtrl', {
 
 						if(e.keyCode !== 13)
 						{
-							if(criteria.type === 5) alert('todo');
+							if(criteria.type === 5) _this.filter1(name);
 						}
 					});
 
@@ -526,7 +526,7 @@ $AMIClass('SearchCtrl', {
 						{
 							e.preventDefault();
 
-							if(criteria.type === 5) alert('todo');
+							if(criteria.type === 5) _this.selectParamVal(name); else _this.filterParamVal(name);
 						}
 					});
 
@@ -536,8 +536,29 @@ $AMIClass('SearchCtrl', {
 						{
 							e.preventDefault();
 
-							if(criteria.type === 5) alert('todo');
+							if(criteria.type === 5)  _this.selectParamVal(name); else _this.filterParamVal(name);
 						}
+					});
+
+					el.find('input[type="checkbox"]').change(function(e) {
+
+						e.preventDefault();
+
+						_this.selectParamVal(name);
+					});
+
+					el.find('.show-less').click(function(e) {
+
+						e.preventDefault();
+
+						/*_this.viewLessParamVal(name)*/;
+					});
+
+					el.find('.show-more').click(function(e) {
+
+						e.preventDefault();
+
+						/*_this.viewMoreParamVal(name)*/;
 					});
 
 					break;
@@ -1022,9 +1043,9 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		if($(predicate.selector + ' option[value="::any::"]:selected').length == 0)
+		if($(predicate.selector + ' select:first option[value="::any::"]:selected').length == 0)
 		{
-			predicate.criteria.param = $(predicate.selector + ' option:selected').val();
+			predicate.criteria.param = $(predicate.selector + ' select:first option:selected').val();
 		}
 		else
 		{
@@ -1064,22 +1085,22 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		if($(predicate.selector + ' option[value="::any::"]:selected').length == 0)
+		if($(predicate.selector + ' select:last option[value="::any::"]:selected').length == 0)
 		{
 			var L = [];
 			var S = {};
 
 			var isDefaultEntity = this.ctx.defaultEntity === entity ? true : false;
 
-			$(predicate.selector + ' option:selected').each(function() {
+			$(predicate.selector + ' select:last option:selected').each(function() {
 
 				if (isDefaultEntity)
 				{
-					L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + criteria.param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+					L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\'');
 				}
 				else
 				{
-					L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + criteria.param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+					L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\']');
 				}
 
 				S[this.value] = true;
@@ -1092,7 +1113,7 @@ $AMIClass('SearchCtrl', {
 		else
 		{
 			predicate.filter = '';
-				$(predicate.selector + ' .filter').val('');
+			$(predicate.selector + ' .filter').val('');
 			predicate.select = {};
 		}
 
@@ -1141,7 +1162,7 @@ $AMIClass('SearchCtrl', {
 
 		var parts = filter.split('%');
 
-		$(predicate.selector + ' option:not(:first)').prop('selected', function() {
+		$(predicate.selector + ' select:last option:not(:first)').prop('selected', function() {
 
 			return filter && _this._wildcard(parts, this.value.toLowerCase());
 		});
@@ -1181,6 +1202,42 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 	},
+
+	/*---------------------------------------------------------------------*/
+
+	filterParamVal: function(name)
+	{
+		/*-----------------------------------------------------------------*/
+
+		var predicate = this.ctx.predicates[name], criteria = predicate.criteria;
+
+		var catalog = criteria.catalog;
+		var entity = criteria.entity;
+		var field = criteria.field;
+		var param = criteria.param;
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		var filter = $(predicate.selector + ' .filter').val();
+
+		if(filter.indexOf('%') < 0) {
+			predicate.filter = 'JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`, \'$.' + param + '\') = \'' + filter.replace(/'/g, '\'\'') + '\'';
+		} else {
+			predicate.filter = 'JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + param + '\') LIKE \'' + filter.replace(/'/g, '\'\'') + '\'';
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		this.refresh();
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
 
 	/*---------------------------------------------------------------------*/
 
