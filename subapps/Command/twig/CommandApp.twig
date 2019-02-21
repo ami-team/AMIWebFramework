@@ -18,48 +18,72 @@
 	border-radius: 0.5rem 0.5rem 0 0;
 }
 
+@media only screen and (max-width: 768px) {
+
+	#BC8FFF19_0038_C117_D7DE_327E7B5D415D {
+
+		width: 100%;
+	}
+
+	#D847C44B_D28F_49B3_AF79_7A68B3305ED2 {
+
+		border-right: none;
+		border-bottom: 1px solid #CCC;
+	}
+}
+
+@media only screen and (min-width: 768px) {
+
+	#BC8FFF19_0038_C117_D7DE_327E7B5D415D {
+
+		width: 75%;
+	}
+
+	#D847C44B_D28F_49B3_AF79_7A68B3305ED2 {
+
+		border-right: 1px solid #CCC;
+		border-bottom: none;
+	}
+
+	#D847C44B_D28F_49B3_AF79_7A68B3305ED2 {
+
+		height: 325px;
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+}
+
 </style>
 
 <!-- ******************************************************************** -->
 
-<div class="row">
-	<div class="col-md-3">
-		<div class="card">
-			<h5 class="card-header m-0 p-2">
-				Command list
-			</h5>
-			<div class="card-body m-2 p-0" style="height: 292px; overflow-x: hidden; overflow-y: scroll;">
-				<div id="D847C44B_D28F_49B3_AF79_7A68B3305ED2"></div>
+<div class="card mb-4" id="BC8FFF19_0038_C117_D7DE_327E7B5D415D">
+	<div class="card-body py-0">
+		<div class="row">
+			<div class="col-md-4 p-2" id="D847C44B_D28F_49B3_AF79_7A68B3305ED2">
 			</div>
-		</div>
-		<br />
-	</div>
-	<div class="col-md-6">
-		<div class="card">
-			<div class="card-body text-left">
+			<div class="col-md-8 py-2" id="FBACBE5B_D5BC_5EE4_862C_538784442F93">
 				<div class="form-group">
 					<label for="CE9A50CD_63CA_4A1E_B336_F45399BEC84D">Command</label>
-					<textarea name="command" rows="5" class="form-control form-control-sm" id="CE9A50CD_63CA_4A1E_B336_F45399BEC84D">{{command|default('GetSessionInfo')}}</textarea>
+					<textarea name="command" rows="7" class="form-control form-control-sm" id="CE9A50CD_63CA_4A1E_B336_F45399BEC84D">{{command|default('GetSessionInfo')}}</textarea>
 				</div>
 				<div class="form-group">
 					<label for="C8D10895_E8A7_46A0_B638_C8DDDED8F91C">Output format</label>
-					<select class="custom-select" id="C8D10895_E8A7_46A0_B638_C8DDDED8F91C">
-						<option value="">XML</option>
-						<option value="AMIXmlToJson.xsl">JSON</option>
+					<select class="custom-select custom-select-sm" id="C8D10895_E8A7_46A0_B638_C8DDDED8F91C">
 						<option value="AMIXmlToText.xsl" selected="selected">TEXT</option>
-						<option value="AMIXmlToCsv.xsl">CSV</option>
+						<option value="AMIXmlToCsv.xsl" xxxxxxxx="xxxxxxxx">CSV</option>
+						<option value="AMIXmlToJson.xsl" xxxxxxxx="xxxxxxxx">JSON</option>
+						<option value="AMIXmlToXml.xsl" xxxxxxxx="xxxxxxxx">XML</option>
 					</select>
 				</div>
 			</div>
-			<div class="card-footer text-right">
-				<button type="button" class="btn btn-primary" id="C124A2A9_B5F5_46F0_AFBC_234859F3F6FA" onclick="commandApp.execute($('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').val(), $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val());">Submit</button>
-			</div>
 		</div>
 	</div>
-	<div class="col-md-3">
-		<!-- nothing -->
+	<div class="card-footer text-right">
+		<button type="button" class="btn btn-primary" id="C124A2A9_B5F5_46F0_AFBC_234859F3F6FA" onclick="commandApp.execute($('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').val(), $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val());">Execute</button>
 	</div>
 </div>
+
 
 <!-- ******************************************************************** -->
 

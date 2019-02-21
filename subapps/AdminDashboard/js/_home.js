@@ -30,6 +30,12 @@ $AMIClass('AdminDashboardHome', {
 
 					/*-----------------------------------------------------*/
 
+					$('#FCA2B6DC_3239_838D_A109_91F164524987').text($.fn.tooltip.Constructor.VERSION);
+
+					$('#F8D580E4_05F1_0317_9F3F_E4BA7AB99D3E').text(jQuery.fn.jquery);
+
+					/*-----------------------------------------------------*/
+
 					var options1 = {
 						rotation: -Math.PI,
 						cutoutPercentage: 50,
