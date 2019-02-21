@@ -122,12 +122,10 @@ $AMIClass('SchemaViewerApp', {
 
 			$.each(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', data), function(index, value) {
 
-				if(value === this.defaultCatalog)
-				{
+				if(value === this.defaultCatalog) {
 					L.push('<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>');
 				}
-				else
-				{
+				else {
 					L.push('<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>');
 				}
 
@@ -144,8 +142,16 @@ $AMIClass('SchemaViewerApp', {
 				$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', false);
 				$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', disable);
 
-				$('#D316F050_F66C_8D02_33A0_CFF920BEF817').prop('disabled', disable);
-				$('#A20151B8_B578_A3F1_AF65_FB5AE59287E6').prop('disabled', disable);
+				if(disable)
+				{
+					$('#D316F050_F66C_8D02_33A0_CFF920BEF817').hide();
+					$('#A20151B8_B578_A3F1_AF65_FB5AE59287E6').hide();
+				}
+				else
+				{
+					$('#D316F050_F66C_8D02_33A0_CFF920BEF817').show();
+					$('#A20151B8_B578_A3F1_AF65_FB5AE59287E6').show();
+				}
 
 				$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').prop('disabled', disable);
 
@@ -182,8 +188,8 @@ $AMIClass('SchemaViewerApp', {
 		$('#A9A20536_D366_4AFE_96E3_56E3FAF52179').prop('disabled', true);
 		$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', true);
 
-		$('#D316F050_F66C_8D02_33A0_CFF920BEF817').prop('disabled', true);
-		$('#A20151B8_B578_A3F1_AF65_FB5AE59287E6').prop('disabled', true);
+		$('#D316F050_F66C_8D02_33A0_CFF920BEF817').hide();
+		$('#A20151B8_B578_A3F1_AF65_FB5AE59287E6').hide();
 
 		$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').prop('disabled', true);
 
