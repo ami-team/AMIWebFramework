@@ -30,9 +30,13 @@ $AMIClass('AdminDashboardHome', {
 
 					/*-----------------------------------------------------*/
 
-					$('#FCA2B6DC_3239_838D_A109_91F164524987').text($.fn.tooltip.Constructor.VERSION);
+					$('#FCA2B6DC_3239_838D_A109_91F164524987').text(jQuery.fn.tooltip.Constructor.VERSION);
 
 					$('#F8D580E4_05F1_0317_9F3F_E4BA7AB99D3E').text(jQuery.fn.jquery);
+
+					$('#ACA527B0_4581_8292_DB2A_22C900E621A0').text(amiTwig.version);
+
+					$('#D9C3541F_3534_1312_4C08_F22962C05347').text(JSPath.version);
 
 					/*-----------------------------------------------------*/
 

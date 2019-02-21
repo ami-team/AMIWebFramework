@@ -8,7 +8,7 @@
 * http://www.opensource.org/licenses/mit-license.php
 * http://www.gnu.org/licenses/gpl.html
 *
-* @version 0.3.4
+* @version 0.4.0
 */
 
 (function() {
@@ -36,8 +36,9 @@ var parse = (function() {
             NUM   : 2,
             STR   : 3,
             BOOL  : 4,
-            PUNCT : 5,
-            EOP   : 6
+            NULL  : 5,
+            PUNCT : 6,
+            EOP   : 7
         },
         MESSAGES = {
             UNEXP_TOKEN : 'Unexpected token "%0"',
@@ -239,8 +240,12 @@ var parse = (function() {
     function parseEqualityExpr() {
         var expr = parseRelationalExpr();
 
-        while(match('==') || match('!=') || match('===') || match('!==') ||
-                match('^=') || match('^==') || match('$==') || match('$=') || match('*==') || match('*=')) {
+        while(
+            match('==') || match('!=') || match('===') || match('!==') ||
+            match('^==') || match('==^') ||match('^=') || match('=^') ||
+            match('$==') || match('==$') || match('$=') || match('=$') ||
+            match('*==') || match('==*')|| match('*=') || match('=*')
+        ) {
             expr = {
                 type : SYNTAX.COMPARISON_EXPR,
                 op   : lex().val,
@@ -341,7 +346,7 @@ var parse = (function() {
         var token = lookahead(),
             type = token.type;
 
-        if(type === TOKEN.STR || type === TOKEN.NUM || type === TOKEN.BOOL) {
+        if(type === TOKEN.STR || type === TOKEN.NUM || type === TOKEN.BOOL || type === TOKEN.NULL) {
             return {
                 type : SYNTAX.LITERAL,
                 val  : lex().val
@@ -456,11 +461,11 @@ var parse = (function() {
     }
 
     function isWhiteSpace(ch) {
-        return ch === ' ';
+        return ' \r\n\t'.indexOf(ch) > -1;
     }
 
     function isIdStart(ch) {
-        return (ch === '$') || (ch === '@') || (ch === '_') || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
+        return ch === '$' || ch === '@' || ch === '_' || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z');
     }
 
     function isIdPart(ch) {
@@ -485,17 +490,29 @@ var parse = (function() {
             id += ch;
         }
 
-        return id === 'true' || id === 'false'?
-            {
-                type  : TOKEN.BOOL,
-                val   : id === 'true',
-                range : [start, idx]
-            } :
-            {
-                type  : TOKEN.ID,
-                val   : id,
-                range : [start, idx]
-            };
+        switch(id) {
+            case 'true':
+            case 'false':
+                return {
+                    type  : TOKEN.BOOL,
+                    val   : id === 'true',
+                    range : [start, idx]
+                };
+
+            case 'null':
+                return {
+                    type  : TOKEN.NULL,
+                    val   : null,
+                    range : [start, idx]
+                };
+
+            default:
+                return {
+                    type  : TOKEN.ID,
+                    val   : id,
+                    range : [start, idx]
+                };
+        }
     }
 
     function scanString() {
@@ -594,6 +611,15 @@ var parse = (function() {
                     };
                 }
             }
+            else if('^$*'.indexOf(ch3) >= 0) {
+                if(ch1 === '=') {
+                    return {
+                        type  : TOKEN.PUNCT,
+                        val   : ch1 + ch2 + ch3,
+                        range : [start, idx += 3]
+                    };
+                }
+            }
             else if('=!^$*><'.indexOf(ch1) >= 0) {
                 return {
                     type  : TOKEN.PUNCT,
@@ -601,6 +627,13 @@ var parse = (function() {
                     range : [start, idx += 2]
                 };
             }
+        }
+        else if(ch1 === '=' && '^$*'.indexOf(ch2) >= 0) {
+            return {
+                type  : TOKEN.PUNCT,
+                val   : ch1 + ch2,
+                range : [start, idx += 2]
+            };
         }
 
         if(ch1 === ch2 && (ch1 === '|' || ch1 === '&')) {
@@ -913,10 +946,15 @@ var translate = (function() {
                 break;
 
             case SYNTAX.LITERAL:
-                var val = expr.val;
-                body.push(dest, '=', typeof val === 'string'? escapeStr(val) : val, ';');
+                body.push(dest, '=');
+                translateLiteral(expr.val);
+                body.push(';');
                 break;
         }
+    }
+
+    function translateLiteral(val) {
+        body.push(typeof val === 'string'? escapeStr(val) : val === null? 'null' : val);
     }
 
     function translateComparisonExpr(expr, dest, ctx) {
@@ -1117,7 +1155,7 @@ var translate = (function() {
 
     function inlineAppendToArray(res, val, tmpArr, len) {
         body.push(
-            'if(', val, '!= null) {',
+            'if(typeof ', val, '!== "undefined") {',
                 'if(isArr(', val, ')) {');
         if(tmpArr) {
             body.push(
@@ -1176,6 +1214,39 @@ var translate = (function() {
         }
     }
 
+    function startsWithStrict(val1, val2) {
+        return ['typeof ', val1, '=== "string" && typeof ', val2, '=== "string" &&',
+            val1, '.indexOf(', val2, ') === 0'].join('');
+    }
+
+    function startsWith(val1, val2) {
+        return [val1, '!= null &&', val2, '!= null &&',
+            val1, '.toString().toLowerCase().indexOf(', val2, '.toString().toLowerCase()) === 0'].join('');
+    }
+
+    function endsWithStrict(val1, val2) {
+        return ['typeof ', val1, '=== "string" && typeof ', val2, '=== "string" &&',
+            val1, '.length >=', val2, '.length &&',
+            val1, '.lastIndexOf(', val2, ') ===', val1, '.length -', val2, '.length'].join('');
+    }
+
+    function endsWith(val1, val2) {
+        return [val1, '!= null &&', val2, '!= null &&',
+            '(', val1, '=', val1, '.toString()).length >=', '(', val2, '=', val2, '.toString()).length &&',
+            '(', val1, '.toLowerCase()).lastIndexOf(', '(', val2, '.toLowerCase())) ===',
+            val1, '.length -', val2, '.length'].join('');
+    }
+
+    function containsStrict(val1, val2) {
+        return ['typeof ', val1, '=== "string" && typeof ', val2, '=== "string" &&',
+            val1, '.indexOf(', val2, ') > -1'].join('');
+    }
+
+    function contains(val1, val2) {
+        return [val1, '!= null && ', val2, '!= null &&',
+            val1, '.toString().toLowerCase().indexOf(', val2, '.toString().toLowerCase()) > -1'].join('');
+    }
+
     var binaryOperators = {
             '===' : function(val1, val2) {
                 return val1 + '===' + val2;
@@ -1211,38 +1282,41 @@ var translate = (function() {
                 return val1 + '!=' + val2;
             },
 
-            '^==' : function(val1, val2) {
-                return ['typeof ', val1, '=== "string" && typeof ', val2, '=== "string" &&',
-                    val1, '.indexOf(', val2, ') === 0'].join('');
+            '^==' : startsWithStrict,
+
+            '==^' : function(val1, val2) {
+                return startsWithStrict(val2, val1);
             },
 
-            '^=' : function(val1, val2) {
-                return [val1, '!= null &&', val2, '!= null &&',
-                    val1, '.toString().toLowerCase().indexOf(', val2, '.toString().toLowerCase()) === 0'].join('');
+            '^=' : startsWith,
+
+            '=^' : function(val1, val2) {
+                return startsWith(val2, val1);
             },
 
-            '$==' : function(val1, val2) {
-                return ['typeof ', val1, '=== "string" && typeof ', val2, '=== "string" &&',
-                    val1, '.length >=', val2, '.length &&',
-                    val1, '.lastIndexOf(', val2, ') ===', val1, '.length -', val2, '.length'].join('');
+            '$==' : endsWithStrict,
+
+            '==$' : function(val1, val2) {
+                return endsWithStrict(val2, val1);
             },
 
-            '$=' : function(val1, val2) {
-                return [val1, '!= null &&', val2, '!= null &&',
-                    '(', val1, '=', val1, '.toString()).length >=', '(', val2, '=', val2, '.toString()).length &&',
-                    '(', val1, '.toLowerCase()).lastIndexOf(', '(', val2, '.toLowerCase())) ===',
-                    val1, '.length -', val2, '.length'].join('');
+            '$=' : endsWith,
+
+            '=$' : function(val1, val2) {
+                return endsWith(val2, val1);
             },
 
-            '*==' : function(val1, val2) {
-                return ['typeof ', val1, '=== "string" && typeof ', val2, '=== "string" &&',
-                    val1, '.indexOf(', val2, ') > -1'].join('');
+            '*==' : containsStrict,
+
+            '==*' : function(val1, val2) {
+                return containsStrict(val2, val1);
             },
 
-            '*=' : function(val1, val2) {
-                return [val1, '!= null && ', val2, '!= null &&',
-                    val1, '.toString().toLowerCase().indexOf(', val2, '.toString().toLowerCase()) > -1'].join('');
+            '=*' : function(val1, val2) {
+                return contains(val2, val1);
             },
+
+            '*=' : contains,
 
             '+' : function(val1, val2) {
                 return val1 + '+' + val2;
@@ -1301,7 +1375,7 @@ var decl = function(path, ctx, substs) {
     return cache[path](ctx, substs || {});
 };
 
-decl.version = '0.3.4';
+decl.version = '0.4.0';
 
 decl.params = function(_params) {
     if(!arguments.length) {
