@@ -75,6 +75,8 @@ $AMIClass('SearchCtrl', {
 			amiWebApp.originURL + '/controls/Search/twig/SearchCtrl.twig',
 			amiWebApp.originURL + '/controls/Search/twig/criteria_string_few.twig',
 			amiWebApp.originURL + '/controls/Search/twig/criteria_string_many.twig',
+			amiWebApp.originURL + '/controls/Search/twig/criteria_param_few.twig',
+			amiWebApp.originURL + '/controls/Search/twig/criteria_param_many.twig',
 			amiWebApp.originURL + '/controls/Search/twig/criteria_number.twig',
 			amiWebApp.originURL + '/controls/Search/twig/criteria_date.twig',
 			amiWebApp.originURL + '/controls/Search/twig/criteria_bool.twig',
@@ -90,12 +92,14 @@ $AMIClass('SearchCtrl', {
 			this.fragmentSearchCtrl = data[0];
 			this.fragmentCriteriaStringFew = data[1];
 			this.fragmentCriteriaStringMany = data[2];
-			this.fragmentCriteriaNumber = data[3];
-			this.fragmentCriteriaDate = data[4];
-			this.fragmentCriteriaBool = data[5];
-			this.fragmentJS = data[6];
+			this.fragmentCriteriaParamFew = data[3];
+			this.fragmentCriteriaParamMany = data[4];
+			this.fragmentCriteriaNumber = data[5];
+			this.fragmentCriteriaDate = data[6];
+			this.fragmentCriteriaBool = data[7];
+			this.fragmentJS = data[8];
 
-			this.tabCtor = data[10];
+			this.tabCtor = data[12];
 		});
 	},
 
@@ -158,7 +162,7 @@ $AMIClass('SearchCtrl', {
 			if('criterias' in settings) {
 				this.ctx.criterias = settings['criterias'];
 			}
-			
+
 			if('canEdit' in settings) {
 				this.ctx.canEdit = settings['canEdit'];
 			}
@@ -326,6 +330,16 @@ $AMIClass('SearchCtrl', {
 				promise = this.appendHTML(selector, this.fragmentCriteriaBool, {context: this, dict: criteria});
 				break;
 
+			case 5:
+				name = 'Q' + (criteria.cnt = this.ctx.cnt++);
+				promise = this.appendHTML(selector, this.fragmentCriteriaParamFew, {context: this, dict: criteria});
+				break;
+
+			case 6:
+				name = 'Q' + (criteria.cnt = this.ctx.cnt++);
+				promise = this.appendHTML(selector, this.fragmentCriteriaParamMany, {context: this, dict: criteria});
+				break;
+
 			default:
 				return;
 		}
@@ -479,6 +493,77 @@ $AMIClass('SearchCtrl', {
 					break;
 
 				/*---------------------------------------------------------*/
+				/* PARAM BOX                                               */
+				/*---------------------------------------------------------*/
+
+				case 5:
+				case 6:
+					el.find('.key').change(function(e) {
+
+						e.preventDefault();
+
+						_this.selectParamKey(name);
+					});
+
+					el.find('.value').change(function(e) {
+
+						e.preventDefault();
+
+						_this.selectParamVal(name);
+					});
+
+					el.find('input.filter').keyup(function(e) {
+
+						if(e.keyCode !== 13)
+						{
+							if(criteria.type === 5) _this.filter1(name);
+						}
+					});
+
+					el.find('button.filter').click(function(e) {
+
+						if(/*-*/ true /*-*/)
+						{
+							e.preventDefault();
+
+							if(criteria.type === 5) _this.selectParamVal(name); else _this.filterParamVal(name);
+						}
+					});
+
+					el.find('input.filter').keypress(function(e) {
+
+						if(e.keyCode === 13)
+						{
+							e.preventDefault();
+
+							if(criteria.type === 5)  _this.selectParamVal(name); else _this.filterParamVal(name);
+						}
+					});
+
+					el.find('input[type="checkbox"]').change(function(e) {
+
+						e.preventDefault();
+
+						_this.selectParamVal(name);
+					});
+
+					el.find('.show-less').click(function(e) {
+
+						e.preventDefault();
+
+						/*_this.viewLessParamVal(name)*/;
+					});
+
+					el.find('.show-more').click(function(e) {
+
+						e.preventDefault();
+
+						/*_this.viewMoreParamVal(name)*/;
+					});
+
+					break;
+
+				/*---------------------------------------------------------*/
 			}
 
 			/*-------------------------------------------------------------*/
@@ -558,6 +643,11 @@ $AMIClass('SearchCtrl', {
 
 				case 1:
 					this.fillStringBox(name, true, true);
+					break;
+
+				case 5:
+				case 6:
+					this.fillParamBoxKey(name);
 					break;
 
 				case 2:
@@ -690,6 +780,159 @@ $AMIClass('SearchCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
+	fillParamBoxKey: function(name, applyFilter, applyLimit)
+	{
+		var predicate = this.ctx.predicates[name], criteria = predicate.criteria;
+
+		/*-----------------------------------------------------------------*/
+		/* BUILD SQL QUERY                                                 */
+		/*-----------------------------------------------------------------*/
+
+		var mql = 'SELECT DISTINCT JSON_KEYS(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$\')';
+
+		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
+
+		if(filter)
+		{
+			mql += ' WHERE ' + filter;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
+
+			var fields = amiWebApp.jspath('..field', data);
+
+			var m = {};
+
+			$.each(fields, function(idx, field) {
+
+				var t = JSON.parse(field.$ || '[]');
+
+				t.forEach(function(key){
+					m[key] = key;
+				})
+			});
+
+			if($.isEmptyObject(m) === false)
+			{
+
+				var L = [];
+
+				if('::any::' in predicate.select) {
+					L.push('<option value="::any::" selected="selected">« reset filter »</option>');
+				}
+				else {
+					L.push('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+				}
+
+				for(var key in m)
+				{
+					if(key in predicate.select) {
+						L.push('<option value="' + amiWebApp.textToHtml(key) + '" selected="selected">' + amiWebApp.textToHtml(key) + '</option>');
+					} else {
+						L.push('<option value="' + amiWebApp.textToHtml(key) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(key) + '</option>');
+					}
+				}
+
+				$(predicate.selector + ' select:first').html(L.join(''));
+			}
+			else
+			{
+				$(predicate.selector + ' select:first').html('');
+				$(predicate.selector + ' select:last').html('');
+				$(predicate.selector + ' select:last').attr('disabled','disabled');
+			}
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	fillParamBoxVal: function(name, applyFilter, applyLimit)
+	{
+		var predicate = this.ctx.predicates[name], criteria = predicate.criteria;
+
+		/*-----------------------------------------------------------------*/
+		/* BUILD SQL QUERY                                                 */
+		/*-----------------------------------------------------------------*/
+
+		var mql = 'SELECT DISTINCT JSON_EXTRACT(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$.' + criteria.param + '\')';
+
+		/*-----------------------------------------------------------------*/
+
+		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
+
+		if(filter)
+		{
+			mql += ' WHERE ' + filter;
+		}
+
+		if (criteria.order) 
+		{
+			mql += ' ORDER BY `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '` ' + criteria.order;
+		}
+
+		if(applyLimit)
+		{
+			mql += ' LIMIT ' + predicate.limit + ' OFFSET 0'
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
+
+			var L = [];
+
+			var fields = amiWebApp.jspath('..field', data);
+
+			if('::any::' in predicate.select) {
+				L.push('<option value="::any::" selected="selected">« reset filter »</option>');
+			}
+			else {
+				L.push('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+			}
+
+			$.each(fields, function(idx, field) {
+
+				var value = field.$.substring(1,field.$.length-1) || '';
+
+				if (value !== '')
+				{
+					if(value in predicate.select) {
+						L.push('<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>');
+					} else {
+						L.push('<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>');
+					}
+				}
+			});
+
+			if(L.length > 1)
+			{
+				$(predicate.selector + ' select:last').html(L.join(''));
+
+				$(predicate.selector + ' .count').text(L.length - 1);
+
+				$(predicate.selector + ' .limit').text(predicate.limit);
+
+				$(predicate.selector + ' select:last').removeAttr('disabled');
+			}
+			else
+			{
+				$(predicate.selector + ' select:last').attr('disabled','disabled');
+			}
+
+		}).fail(function(data) {
+
+			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
 	fillNumberBox: function(name)
 	{
 		var predicate = this.ctx.predicates[name], criteria = predicate.criteria;
@@ -751,7 +994,7 @@ $AMIClass('SearchCtrl', {
 		{
 			var L = [];
 			var S = {};
-			
+
 			var isDefaultEntity = this.ctx.defaultEntity === entity ? true : false;
 
 			$(predicate.selector + ' option:selected').each(function() {
@@ -764,7 +1007,6 @@ $AMIClass('SearchCtrl', {
 				{
 					L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + this.value.replace(/'/g, '\'\'') + '\']');
 				}
-				
 
 				S[this.value] = true;
 			});
@@ -777,6 +1019,101 @@ $AMIClass('SearchCtrl', {
 		{
 			predicate.filter = '';
 				$(predicate.selector + ' .filter').val('');
+			predicate.select = {};
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		this.refresh();
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	selectParamKey: function(name)
+	{
+		/*-----------------------------------------------------------------*/
+
+		var predicate = this.ctx.predicates[name], criteria = predicate.criteria;
+
+		var catalog = criteria.catalog;
+		var entity = criteria.entity;
+		var field = criteria.field;
+
+		/*-----------------------------------------------------------------*/
+
+		if($(predicate.selector + ' select:first option[value="::any::"]:selected').length == 0)
+		{
+			predicate.criteria.param = $(predicate.selector + ' select:first option:selected').val();
+		}
+		else
+		{
+			predicate.criteria.param = '';
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		switch(predicate.criteria.type)
+		{
+			case 5:
+				this.fillParamBoxVal(name, false, false);
+				break;
+			case 6:
+				this.fillParamBoxVal(name, true, true);
+				break;
+		}
+
+		/*-----------------------------------------------------------------*/
+	},
+	/*---------------------------------------------------------------------*/
+
+	selectParamVal: function(name)
+	{
+		/*-----------------------------------------------------------------*/
+
+		var predicate = this.ctx.predicates[name], criteria = predicate.criteria;
+
+		var catalog = criteria.catalog;
+		var entity = criteria.entity;
+		var field = criteria.field;
+		var param = criteria.param;
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		if($(predicate.selector + ' select:last option[value="::any::"]:selected').length == 0)
+		{
+			var L = [];
+			var S = {};
+
+			var isDefaultEntity = this.ctx.defaultEntity === entity ? true : false;
+
+			$(predicate.selector + ' select:last option:selected').each(function() {
+
+				if (isDefaultEntity)
+				{
+					L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+				}
+				else
+				{
+					L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+				}
+
+				S[this.value] = true;
+			});
+
+			predicate.filter = L
+				.join(!$(predicate.selector + ' input[type="checkbox"]').prop('checked') ? ' OR ' : ' AND ');
+			predicate.select = S;
+		}
+		else
+		{
+			predicate.filter = '';
+			$(predicate.selector + ' .filter').val('');
 			predicate.select = {};
 		}
 
@@ -825,7 +1162,7 @@ $AMIClass('SearchCtrl', {
 
 		var parts = filter.split('%');
 
-		$(predicate.selector + ' option:not(:first)').prop('selected', function() {
+		$(predicate.selector + ' select:last option:not(:first)').prop('selected', function() {
 
 			return filter && _this._wildcard(parts, this.value.toLowerCase());
 		});
@@ -865,6 +1202,42 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 	},
+
+	/*---------------------------------------------------------------------*/
+
+	filterParamVal: function(name)
+	{
+		/*-----------------------------------------------------------------*/
+
+		var predicate = this.ctx.predicates[name], criteria = predicate.criteria;
+
+		var catalog = criteria.catalog;
+		var entity = criteria.entity;
+		var field = criteria.field;
+		var param = criteria.param;
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		var filter = $(predicate.selector + ' .filter').val();
+
+		if(filter.indexOf('%') < 0) {
+			predicate.filter = 'JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`, \'$.' + param + '\') = \'' + filter.replace(/'/g, '\'\'') + '\'';
+		} else {
+			predicate.filter = 'JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + param + '\') LIKE \'' + filter.replace(/'/g, '\'\'') + '\'';
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		this.refresh();
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
 
 	/*---------------------------------------------------------------------*/
 
