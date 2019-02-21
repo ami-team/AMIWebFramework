@@ -145,6 +145,7 @@ $AMIClass('SchemaViewerApp', {
 				$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', disable);
 
 				$('#D316F050_F66C_8D02_33A0_CFF920BEF817').prop('disabled', disable);
+				$('#A20151B8_B578_A3F1_AF65_FB5AE59287E6').prop('disabled', disable);
 
 				$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').prop('disabled', disable);
 
@@ -182,6 +183,7 @@ $AMIClass('SchemaViewerApp', {
 		$('#D342245F_B95E_4CAB_84C5_53B509C28319').prop('disabled', true);
 
 		$('#D316F050_F66C_8D02_33A0_CFF920BEF817').prop('disabled', true);
+		$('#A20151B8_B578_A3F1_AF65_FB5AE59287E6').prop('disabled', true);
 
 		$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').prop('disabled', true);
 
@@ -301,6 +303,64 @@ $AMIClass('SchemaViewerApp', {
 
 			/*-------------------------------------------------------------*/
 		}
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	flushServerCachesFast: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('FlushServerCaches').done(function(data, message) {
+
+			amiWebApp.success(message, true);
+
+		}).fail(function(data, message) {
+
+			amiWebApp.error(message, true);
+		});
+
+		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	flushServerCachesSlow: function()
+	{
+		/*-----------------------------------------------------------------*/
+
+		if(!confirm('Please confirm...'))
+		{
+			return;
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
+		amiCommand.execute('FlushServerCaches -full').done(function(data, message) {
+
+			amiWebApp.success(message, true);
+
+		}).fail(function(data, message) {
+
+			amiWebApp.error(message, true);
+		});
 
 		/*-----------------------------------------------------------------*/
 	},
