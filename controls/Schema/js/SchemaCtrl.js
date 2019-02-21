@@ -39,8 +39,6 @@ $AMIClass('SchemaCtrl', {
         _this._foreignKeys = null;
         _this._currentCell = null;
         _this._currentCatalog = null;
-        _this._currentEntity = null;
-        _this._currentField = null;
       });
     });
   },
