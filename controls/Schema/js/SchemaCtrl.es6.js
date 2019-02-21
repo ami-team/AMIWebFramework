@@ -480,6 +480,10 @@ $AMIClass('SchemaCtrl', {
 
 		amiCommand.execute('GetFieldInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -field="' + amiWebApp.textToString(field) + '"').done((data) => {
 
+			$('#A1AA5034_F183_9365_2D09_DF80F1775C95').text(catalog);
+			$('#C52644CB_45E9_586E_DF23_38DD69147735').text(entity);
+			$('#DE6E9DB2_BFED_1783_A6F7_D8CAAFFEFDD0').text(field);
+
 			$('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val(catalog);
 			$('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val(entity);
 			$('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val(field);
