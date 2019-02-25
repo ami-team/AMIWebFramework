@@ -10,11 +10,12 @@
 				<th>Last name</th>
 				<th>Email</th>
 				<th>Valid</th>
+				<th>Delete</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for id in ids %}
-			<tr>
+			<tr data-id="{{id|e}}">
 				<td>
 					{{users[id].AMIUser|e}}
 				</td>
@@ -33,9 +34,12 @@
 						<label for="C3EBBFBD_2964_CCBA_92E4_E7C8C36CA916_0_{{loop.index0}}"></label>
 					</span>
 				</td>
+				<td>
+					<a href="#" class="badge badge-pill badge-danger px-3" data-delete-user="{{id|e}}"><i class="fa fa-trash"></i></a>
+				</td>
 			</tr>
-			<tr>
-				<td colspan="6">
+			<tr data-id="{{id|e}}">
+				<td colspan="7">
 					<select class="w-100" multiple="multiple" data-change-role="{{users[id].AMIUser|e}}">
 						{% for role in roles %}
 						<option {% if role in users[id].roles %}selected="selected"{% else %}xxxxxxxx="xxxxxxxx"{% endif %}>{{role|e}}</option>

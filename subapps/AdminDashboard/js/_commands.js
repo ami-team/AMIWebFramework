@@ -123,15 +123,17 @@ $AMIClass('AdminDashboardCommands', {
 
 					var el2 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-secured]');
 
-					var el3 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-role]');
+					var el3 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-delete-command');
 
-					var el4 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-command-class]');
+					var el4 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-role]');
 
-					var el5 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-role-validator-class]');
+					var el5 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-command-class]');
+
+					var el6 = $('#F989424E_06B3_365D_0CAD_9F223EC8DA01 [data-change-role-validator-class]');
 
 					/*-----------------------------------------------------*/
 
-					el3.select2({
+					el4.select2({
 						placeholder: 'Select a role',
 					});
 
@@ -169,7 +171,32 @@ $AMIClass('AdminDashboardCommands', {
 
 					/*-----------------------------------------------------*/
 
-					el3.on('select2:select', function(e) {
+					el3.click(function(e) {
+
+						e.preventDefault();
+
+						if(!confirm('Please confirm...'))
+						{
+							return;
+						}
+
+						amiWebApp.lock();
+
+						amiCommand.execute('RemoveElements -catalog="self" -entity="router_command" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-delete-command')) + '"', {context: this}).done(function() {
+
+							$('#F989424E_06B3_365D_0CAD_9F223EC8DA01 tr[data-id="' + $(this).attr('data-delete-command') + '"]').remove();
+
+							amiWebApp.unlock();
+
+						}).fail(function(data, message) {
+
+							amiWebApp.error(message, true);
+						});
+					});
+
+					/*-----------------------------------------------------*/
+
+					el4.on('select2:select', function(e) {
 
 						amiWebApp.lock();
 
@@ -185,7 +212,7 @@ $AMIClass('AdminDashboardCommands', {
 
 					/*-----------------------------------------------------*/
 
-					el3.on('select2:unselect', function(e) {
+					el4.on('select2:unselect', function(e) {
 
 						amiWebApp.lock();
 
@@ -201,7 +228,7 @@ $AMIClass('AdminDashboardCommands', {
 
 					/*-----------------------------------------------------*/
 
-					el4.on('click', function() {
+					el5.on('click', function() {
 
 						var clazz = prompt('New Java command class', $(this).find('.value').text());
 
@@ -225,7 +252,7 @@ $AMIClass('AdminDashboardCommands', {
 
 					/*-----------------------------------------------------*/
 
-					el5.on('click', function() {
+					el6.on('click', function() {
 
 						var clazz = prompt('New Java role validator class', $(this).find('.value').text());
 

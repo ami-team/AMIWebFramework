@@ -8,11 +8,12 @@
 				<th>Command</th>
 				<th>Visible</th>
 				<th>Secured</th>
+				<th>Delete</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for id in ids %}
-			<tr>
+			<tr data-id="{{id|e}}">
 				<td>
 					{{commands[id].command|e}}
 				</td>
@@ -28,9 +29,12 @@
 						<label for="E2EE0224_4207_4B46_4AA2_4F4082B713B6_1_{{loop.index0}}"></label>
 					</span>
 				</td>
+				<td>
+					<a href="#" class="badge badge-pill badge-danger px-3" data-delete-command="{{id|e}}"><i class="fa fa-trash"></i></a>
+				</td>
 			</tr>
-			<tr>
-				<td colspan="3">
+			<tr data-id="{{id|e}}">
+				<td colspan="4">
 					<select class="w-100" multiple="multiple" data-change-role="{{commands[id].command|e}}">
 						{% for role in roles %}
 						<option {% if role in commands[id].roles %}selected="selected"{% else %}xxxxxxxx="xxxxxxxx"{% endif %}>{{role|e}}</option>
