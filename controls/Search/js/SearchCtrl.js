@@ -647,7 +647,7 @@ $AMIClass('SearchCtrl', {
 
 				case 5:
 				case 6:
-					this.fillParamBoxKey(name);
+					this.fillParamBoxKey(name); this.fillParamBoxVal(name);
 					break;
 
 				case 2:
@@ -819,7 +819,7 @@ $AMIClass('SearchCtrl', {
 
 				var L = [];
 
-				if('::any::' in predicate.select) {
+				if('::any::' === predicate.selectedParam) {
 					L.push('<option value="::any::" selected="selected">« reset filter »</option>');
 				}
 				else {
@@ -828,7 +828,7 @@ $AMIClass('SearchCtrl', {
 
 				for(var key in m)
 				{
-					if(key in predicate.select) {
+					if(key === predicate.selectedParam) {
 						L.push('<option value="' + amiWebApp.textToHtml(key) + '" selected="selected">' + amiWebApp.textToHtml(key) + '</option>');
 					} else {
 						L.push('<option value="' + amiWebApp.textToHtml(key) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(key) + '</option>');
@@ -860,7 +860,7 @@ $AMIClass('SearchCtrl', {
 		/* BUILD SQL QUERY                                                 */
 		/*-----------------------------------------------------------------*/
 
-		var mql = 'SELECT DISTINCT JSON_EXTRACT(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$.' + criteria.param + '\')';
+		var mql = 'SELECT DISTINCT JSON_EXTRACT(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$.' + predicate.selectedParam + '\')';
 
 		/*-----------------------------------------------------------------*/
 
@@ -1045,11 +1045,13 @@ $AMIClass('SearchCtrl', {
 
 		if($(predicate.selector + ' select:first option[value="::any::"]:selected').length == 0)
 		{
-			predicate.criteria.param = $(predicate.selector + ' select:first option:selected').val();
+			//predicate.criteria.param = $(predicate.selector + ' select:first option:selected').val();
+			this.ctx.predicates[name].selectedParam = $(predicate.selector + ' select:first option:selected').val();
 		}
 		else
 		{
-			predicate.criteria.param = '';
+			//predicate.criteria.param = '';
+			this.ctx.predicates[name].selectedParam = '';
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -1077,7 +1079,8 @@ $AMIClass('SearchCtrl', {
 		var catalog = criteria.catalog;
 		var entity = criteria.entity;
 		var field = criteria.field;
-		var param = criteria.param;
+
+		var param = predicate.selectedParam;
 
 		/*-----------------------------------------------------------------*/
 
