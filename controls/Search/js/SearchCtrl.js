@@ -886,9 +886,9 @@ $AMIClass('SearchCtrl', {
 
 		if (selectedParam !== '')
 		{
-			/*-----------------------------------------------------------------*/
-			/* BUILD SQL QUERY                                                 */
-			/*-----------------------------------------------------------------*/
+			/*-------------------------------------------------------------*/
+			/* BUILD SQL QUERY                                             */
+			/*-------------------------------------------------------------*/
 
 			var mql = '';
 
@@ -905,7 +905,7 @@ $AMIClass('SearchCtrl', {
 					break;
 			}
 
-			/*-----------------------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 
 			var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
 
@@ -935,7 +935,7 @@ $AMIClass('SearchCtrl', {
 				mql += ' LIMIT ' + predicate.limit + ' OFFSET 0'
 			}
 
-			/*-----------------------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 
 			amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
