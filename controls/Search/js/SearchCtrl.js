@@ -516,7 +516,7 @@ $AMIClass('SearchCtrl', {
 
 						if(e.keyCode !== 13)
 						{
-							if(criteria.type === 5) _this.filter1(name);
+							if(criteria.type === 5) _this.filter1(name); else _this.filterParamVal(name);
 						}
 					});
 
@@ -1335,7 +1335,8 @@ $AMIClass('SearchCtrl', {
 		var catalog = criteria.catalog;
 		var entity = criteria.entity;
 		var field = criteria.field;
-		var param = criteria.param;
+
+		var param = predicate.selectedParam;
 
 		/*-----------------------------------------------------------------*/
 
@@ -1345,10 +1346,30 @@ $AMIClass('SearchCtrl', {
 
 		var filter = $(predicate.selector + ' .filter').val();
 
-		if(filter.indexOf('%') < 0) {
-			predicate.filter = 'JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`, \'$.' + param + '\') = \'' + filter.replace(/'/g, '\'\'') + '\'';
-		} else {
-			predicate.filter = 'JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + param + '\') LIKE \'' + filter.replace(/'/g, '\'\'') + '\'';
+		/*-----------------------------------------------------------------*/
+
+		switch(criteria.mode)
+		{
+			case 'json':
+					/*BERK IS NOT NULL NOT IMPLEMENTED AFTER FUNCTION*/
+					predicate.filter = 'JSON_SEARCH(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`, \'$.' + param + '\'), \'one\', \'' + filter.replace(/'/g, '\'\'') + '\') != \'\'';
+				break;
+
+			case 'simple':
+				if(filter.indexOf('%') < 0) {
+					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
+				} else {
+					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
+				}
+				break;
+
+			case 'advanced':
+				if(filter.indexOf('%') < 0) {
+					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
+				} else {
+					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
+				}
+				break;
 		}
 
 		/*-----------------------------------------------------------------*/
