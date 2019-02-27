@@ -788,7 +788,19 @@ $AMIClass('SearchCtrl', {
 		/* BUILD SQL QUERY                                                 */
 		/*-----------------------------------------------------------------*/
 
-		var mql = 'SELECT DISTINCT JSON_KEYS(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$\')';
+		var mql = '';
+
+		switch(criteria.mode)
+		{
+			case 'json':
+				mql = 'SELECT DISTINCT JSON_KEYS(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$\')';
+				break;
+			case 'table':
+				mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '`';
+				break;
+		}
+
+		//var mql = 'SELECT DISTINCT JSON_KEYS(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$\')';
 
 		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
 
@@ -805,14 +817,26 @@ $AMIClass('SearchCtrl', {
 
 			var m = {};
 
-			$.each(fields, function(idx, field) {
+			switch(criteria.mode)
+			{
+				case 'json':
+					$.each(fields, function(idx, field) {
 
-				var t = JSON.parse(field.$ || '[]');
+						var t = JSON.parse(field.$ || '[]');
 
-				t.forEach(function(key){
-					m[key] = key;
-				})
-			});
+						t.forEach(function(key){
+							m[key] = key;
+						})
+					});
+					break;
+
+				case 'table':
+					$.each(fields, function(idx, field) {
+
+						m[field.$] = field.$
+					});
+					break;
+			}
 
 			if($.isEmptyObject(m) === false)
 			{
@@ -860,7 +884,17 @@ $AMIClass('SearchCtrl', {
 		/* BUILD SQL QUERY                                                 */
 		/*-----------------------------------------------------------------*/
 
-		var mql = 'SELECT DISTINCT JSON_EXTRACT(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$.' + predicate.selectedParam + '\')';
+		switch(criteria.mode)
+		{
+			case 'json':
+				mql = 'SELECT DISTINCT JSON_EXTRACT(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$.' + predicate.selectedParam + '\')';
+				break;
+			case 'table':
+				mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '` WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '` = \'' + predicate.selectedParam + '\'';
+				break;
+		}
+
+		//var mql = 'SELECT DISTINCT JSON_EXTRACT(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$.' + predicate.selectedParam + '\')';
 
 		/*-----------------------------------------------------------------*/
 
@@ -873,7 +907,16 @@ $AMIClass('SearchCtrl', {
 
 		if (criteria.order) 
 		{
-			mql += ' ORDER BY `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '` ' + criteria.order;
+			switch(criteria.mode)
+			{
+				case 'json':
+					mql += ' ORDER BY `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '` ' + criteria.order;
+					break;
+				case 'table':
+					mql += ' ORDER BY `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '` ' + criteria.order;
+					break;
+			}
+			//mql += ' ORDER BY `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '` ' + criteria.order;
 		}
 
 		if(applyLimit)
@@ -898,7 +941,17 @@ $AMIClass('SearchCtrl', {
 
 			$.each(fields, function(idx, field) {
 
-				var value = field.$.substring(1,field.$.length-1) || '';
+				var value = '';
+
+				switch(criteria.mode)
+				{
+					case 'json':
+						value = field.$.substring(1,field.$.length-1) || '';
+						break;
+					case 'table':
+						value = field.$ || '';
+						break;
+				}
 
 				if (value !== '')
 				{
@@ -1035,22 +1088,16 @@ $AMIClass('SearchCtrl', {
 	{
 		/*-----------------------------------------------------------------*/
 
-		var predicate = this.ctx.predicates[name], criteria = predicate.criteria;
-
-		var catalog = criteria.catalog;
-		var entity = criteria.entity;
-		var field = criteria.field;
+		var predicate = this.ctx.predicates[name];
 
 		/*-----------------------------------------------------------------*/
 
 		if($(predicate.selector + ' select:first option[value="::any::"]:selected').length == 0)
 		{
-			//predicate.criteria.param = $(predicate.selector + ' select:first option:selected').val();
 			this.ctx.predicates[name].selectedParam = $(predicate.selector + ' select:first option:selected').val();
 		}
 		else
 		{
-			//predicate.criteria.param = '';
 			this.ctx.predicates[name].selectedParam = '';
 		}
 
@@ -1078,7 +1125,6 @@ $AMIClass('SearchCtrl', {
 
 		var catalog = criteria.catalog;
 		var entity = criteria.entity;
-		var field = criteria.field;
 
 		var param = predicate.selectedParam;
 
@@ -1097,14 +1143,32 @@ $AMIClass('SearchCtrl', {
 
 			$(predicate.selector + ' select:last option:selected').each(function() {
 
-				if (isDefaultEntity)
+				switch(criteria.mode)
 				{
-					L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+					case 'json':
+						if (isDefaultEntity)
+						{
+							L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`,\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+						}
+						else
+						{
+							L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`,\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+						}
+						break;
+
+					case 'table':
+						if (isDefaultEntity)
+						{
+							L.push('(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '` = \'' + this.value.replace(/'/g, '\'\'') + '\')');
+						}
+						else
+						{
+							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '` = \'' + this.value.replace(/'/g, '\'\'') + '\')]');
+						}
+						break;
 				}
-				else
-				{
-					L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`,\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\']');
-				}
+
+
 
 				S[this.value] = true;
 			});
