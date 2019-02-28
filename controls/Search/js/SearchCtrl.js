@@ -801,8 +801,6 @@ $AMIClass('SearchCtrl', {
 				break;
 		}
 
-		//var mql = 'SELECT DISTINCT JSON_KEYS(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$\')';
-
 		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
 
 		if(filter)
@@ -844,8 +842,10 @@ $AMIClass('SearchCtrl', {
 			{
 
 				var L = [];
+				var selected = false;
 
 				if('::any::' === predicate.selectedParam) {
+					selected = true;
 					L.push('<option value="::any::" selected="selected">« reset filter »</option>');
 				}
 				else {
@@ -855,6 +855,7 @@ $AMIClass('SearchCtrl', {
 				for(var key in m)
 				{
 					if(key === predicate.selectedParam) {
+						selected = true;
 						L.push('<option value="' + amiWebApp.textToHtml(key) + '" selected="selected">' + amiWebApp.textToHtml(key) + '</option>');
 					} else {
 						L.push('<option value="' + amiWebApp.textToHtml(key) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(key) + '</option>');
@@ -862,6 +863,12 @@ $AMIClass('SearchCtrl', {
 				}
 
 				$(predicate.selector + ' select:first').html(L.join(''));
+
+				if (!selected)
+				{
+					$(predicate.selector + ' select:last').html('');
+					$(predicate.selector + ' select:last').attr('disabled','disabled');
+				}
 			}
 			else
 			{
