@@ -957,7 +957,11 @@ $AMIClass('SearchCtrl', {
 					switch(criteria.mode)
 					{
 						case 'json':
-							value = field.$.substring(1,field.$.length-1) || '';
+							value = (field.$ || '').trim();
+							if(value.startsWith('"') && value.endsWith('"'))
+							{
+								value = amiWebApp.stringToText(value.substring(1, value.length - 1));
+							}
 							break;
 						case 'simple':
 						case 'advanced':
@@ -1119,11 +1123,12 @@ $AMIClass('SearchCtrl', {
 			this.ctx.predicates[name].selectedParam = '';
 		}
 
+
 		/*-----------------------------------------------------------------*/
 
 		if (this.ctx.predicates[name].criteria.mode === 'advanced' && this.ctx.predicates[name].selectedParam !== '')
 		{
-			var mql =  'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '` WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '` = \'' + this.ctx.predicates[name].selectedParam + '\'';
+			var mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '` WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '` = \'' + this.ctx.predicates[name].selectedParam + '\'';
 
 			amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
