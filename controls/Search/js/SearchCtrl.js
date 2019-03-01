@@ -918,7 +918,18 @@ $AMIClass('SearchCtrl', {
 
 			if(filter)
 			{
-				mql += ' WHERE ' + filter;
+				switch(criteria.mode)
+				{
+					case 'json':
+						mql += ' WHERE ';
+						break;
+					case 'simple':
+					case 'advanced':
+						mql += ' AND ';
+						break;
+				}
+
+				mql += filter;
 			}
 
 			if (criteria.order) 
@@ -998,6 +1009,7 @@ $AMIClass('SearchCtrl', {
 				}
 				else
 				{
+					$(predicate.selector + ' select:last').html('');
 					$(predicate.selector + ' select:last').attr('disabled','disabled');
 				}
 
