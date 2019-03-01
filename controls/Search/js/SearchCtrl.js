@@ -801,8 +801,6 @@ $AMIClass('SearchCtrl', {
 				break;
 		}
 
-		//var mql = 'SELECT DISTINCT JSON_KEYS(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$\')';
-
 		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
 
 		if(filter)
@@ -844,8 +842,10 @@ $AMIClass('SearchCtrl', {
 			{
 
 				var L = [];
+				var selected = false;
 
 				if('::any::' === predicate.selectedParam) {
+					selected = true;
 					L.push('<option value="::any::" selected="selected">« reset filter »</option>');
 				}
 				else {
@@ -855,6 +855,7 @@ $AMIClass('SearchCtrl', {
 				for(var key in m)
 				{
 					if(key === predicate.selectedParam) {
+						selected = true;
 						L.push('<option value="' + amiWebApp.textToHtml(key) + '" selected="selected">' + amiWebApp.textToHtml(key) + '</option>');
 					} else {
 						L.push('<option value="' + amiWebApp.textToHtml(key) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(key) + '</option>');
@@ -862,6 +863,12 @@ $AMIClass('SearchCtrl', {
 				}
 
 				$(predicate.selector + ' select:first').html(L.join(''));
+
+				if (!selected)
+				{
+					$(predicate.selector + ' select:last').html('');
+					$(predicate.selector + ' select:last').attr('disabled','disabled');
+				}
 			}
 			else
 			{
@@ -911,7 +918,18 @@ $AMIClass('SearchCtrl', {
 
 			if(filter)
 			{
-				mql += ' WHERE ' + filter;
+				switch(criteria.mode)
+				{
+					case 'json':
+						mql += ' WHERE ';
+						break;
+					case 'simple':
+					case 'advanced':
+						mql += ' AND ';
+						break;
+				}
+
+				mql += filter;
 			}
 
 			if (criteria.order) 
@@ -957,7 +975,11 @@ $AMIClass('SearchCtrl', {
 					switch(criteria.mode)
 					{
 						case 'json':
-							value = field.$.substring(1,field.$.length-1) || '';
+							value = (field.$ || '').trim();
+							if(value.startsWith('"') && value.endsWith('"'))
+							{
+								value = amiWebApp.stringToText(value.substring(1, value.length - 1));
+							}
 							break;
 						case 'simple':
 						case 'advanced':
@@ -987,6 +1009,7 @@ $AMIClass('SearchCtrl', {
 				}
 				else
 				{
+					$(predicate.selector + ' select:last').html('');
 					$(predicate.selector + ' select:last').attr('disabled','disabled');
 				}
 
@@ -1119,11 +1142,12 @@ $AMIClass('SearchCtrl', {
 			this.ctx.predicates[name].selectedParam = '';
 		}
 
+
 		/*-----------------------------------------------------------------*/
 
 		if (this.ctx.predicates[name].criteria.mode === 'advanced' && this.ctx.predicates[name].selectedParam !== '')
 		{
-			var mql =  'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '` WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '` = \'' + this.ctx.predicates[name].selectedParam + '\'';
+			var mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '` WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '` = \'' + this.ctx.predicates[name].selectedParam + '\'';
 
 			amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
