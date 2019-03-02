@@ -228,7 +228,7 @@ $AMIClass('SchemaCtrl', {
 
 				if((amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] || '') === catalog)
 				{
-					const table = amiWebApp.jspath('..field{.@name==="table"}.$', value)[0] || '';
+					const table = amiWebApp.jspath('..field{.@name==="entity"}.$', value)[0] || '';
 					const name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0] || '';
 					const type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
 					const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', value)[0] || '';

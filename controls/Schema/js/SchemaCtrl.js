@@ -195,7 +195,7 @@ $AMIClass('SchemaCtrl', {
 
       _this3._fields.forEach(function (value) {
         if ((amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] || '') === catalog) {
-          var table = amiWebApp.jspath('..field{.@name==="table"}.$', value)[0] || '';
+          var table = amiWebApp.jspath('..field{.@name==="entity"}.$', value)[0] || '';
           var name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0] || '';
           var type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
           var hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', value)[0] || '';

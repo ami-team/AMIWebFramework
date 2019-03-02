@@ -123,15 +123,17 @@ $AMIClass('AdminDashboardUsers', {
 
 					var el1 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-valid]');
 
-					var el2 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-role]');
+					var el2 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-delete-user]');
 
-					var el3 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-client-dn');
+					var el3 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-role]');
 
-					var el4 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-issuer-dn');
+					var el4 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-client-dn');
+
+					var el5 = $('#FCBD6DFC_2061_8CC3_652C_77671A179AAC [data-change-issuer-dn');
 
 					/*-----------------------------------------------------*/
 
-					el2.select2({
+					el3.select2({
 						placeholder: 'Select a role',
 					});
 
@@ -153,7 +155,32 @@ $AMIClass('AdminDashboardUsers', {
 
 					/*-----------------------------------------------------*/
 
-					el2.on('select2:select', function(e) {
+					el2.click(function(e) {
+
+						e.preventDefault();
+
+						if(!confirm('Please confirm...'))
+						{
+							return;
+						}
+
+						amiWebApp.lock();
+
+						amiCommand.execute('RemoveElements -catalog="self" -entity="router_user" -keyFields="id" -keyValues="' + amiWebApp.textToString($(this).attr('data-delete-user')) + '"', {context: this}).done(function() {
+
+							$('#FCBD6DFC_2061_8CC3_652C_77671A179AAC tr[data-id="' + $(this).attr('data-delete-user') + '"]').remove();
+
+							amiWebApp.unlock();
+
+						}).fail(function(data, message) {
+
+							amiWebApp.error(message, true);
+						});
+					});
+
+					/*-----------------------------------------------------*/
+
+					el3.on('select2:select', function(e) {
 
 						amiWebApp.lock();
 
@@ -169,7 +196,7 @@ $AMIClass('AdminDashboardUsers', {
 
 					/*-----------------------------------------------------*/
 
-					el2.on('select2:unselect', function(e) {
+					el3.on('select2:unselect', function(e) {
 
 						amiWebApp.lock();
 
@@ -185,7 +212,7 @@ $AMIClass('AdminDashboardUsers', {
 
 					/*-----------------------------------------------------*/
 
-					el3.on('click', function() {
+					el4.on('click', function() {
 
 						var clientDN = prompt('New client DN', $(this).find('.value').text());
 
@@ -208,7 +235,7 @@ $AMIClass('AdminDashboardUsers', {
 
 					/*-----------------------------------------------------*/
 
-					el4.on('click', function() {
+					el5.on('click', function() {
 
 						var issuerDN = prompt('New issuer DN', $(this).find('.value').text());
 
