@@ -162,23 +162,25 @@ $AMIClass('TableCtrl', {
 					const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', rows[i])[0] || '';
 					const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', rows[i])[0] || '';
 
-					if(created === 'false'
-					   &&
-					   createdBy === 'false'
-					   &&
-					   modified === 'false'
-					   &&
-					   modifiedBy === 'false'
-					 ) {
-						this.ctx.fieldInfo.push({
-							field: field,
-							type: type,
-							def: def,
-						});
-
-						if(primary === 'true')
-						{
-							this.ctx.primaryField = field;
+					if(primary === 'true')
+					{
+						this.ctx.primaryField = field;
+					}
+					else
+					{
+						if(created === 'false'
+						   &&
+						   createdBy === 'false'
+						   &&
+						   modified === 'false'
+						   &&
+						   modifiedBy === 'false'
+						 ) {
+							this.ctx.fieldInfo.push({
+								field: field,
+								type: type,
+								def: def,
+							});
 						}
 					}
 				}
@@ -693,10 +695,6 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			$('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('show');
-
-			/*-------------------------------------------------------------*/
-
 			type = type.toUpperCase();
 
 			/**/ if(value === '@NULL')
@@ -738,6 +736,10 @@ $AMIClass('TableCtrl', {
 
 				this.changeRow(catalog, entity, field, primaryValue, $('#A4A7E040_7F01_C1BD_7180_2327E5244805 .show').find('input, textarea').val());
 			});
+
+			/*-------------------------------------------------------------*/
+
+			$('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('show');
 
 			/*-------------------------------------------------------------*/
 		}
@@ -793,18 +795,16 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {context: this, dict: dict}).done(function() {
+		amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {dict: dict}).done(() => {
 
-			var that = this;
+			const el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
+			const el2 = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1');
 
-			var el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
-			var el2 = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1');
-
-			el2.off().submit(function(e) {
+			el2.off().submit((e) => {
 
 				e.preventDefault();
 
-				that.appendRow();
+				this.appendRow();
 			});
 
 			el1.modal('show');
