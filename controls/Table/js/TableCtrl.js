@@ -180,14 +180,6 @@ $AMIClass('TableCtrl', {
       dict: this.ctx
     }).done(function () {
       /*-------------------------------------------------------------*/
-      $('#F5221AF4_E3C8_260F_4556_A1ED96055B2F').click(function () {
-        _this3.hideEditModal();
-      });
-      $('#C31B969B_357E_B68B_E56D_BA38DC220599').click(function () {
-        _this3.hideRefineModal();
-      });
-      /*-------------------------------------------------------------*/
-
       $(_this3.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(function () {
         _this3.prev();
       });
@@ -604,11 +596,6 @@ $AMIClass('TableCtrl', {
   },
 
   /*-----------------------------------------------------------------*/
-  hideEditModal: function hideEditModal() {
-    $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
-  },
-
-  /*-----------------------------------------------------------------*/
   _formToArray: function _formToArray() {
     var form = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1').serializeArray();
     var fieldList = [];
@@ -631,7 +618,7 @@ $AMIClass('TableCtrl', {
       amiCommand.execute(this.ctx.appendCommandFunc.apply(this, this._formToArray()), {
         context: this
       }).done(function () {
-        this.hideEditModal();
+        $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
         this.refresh();
       }).fail(function (data) {
         amiWebApp.error(amiWebApp.jspath('..error.$', data), true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
@@ -650,7 +637,7 @@ $AMIClass('TableCtrl', {
       amiCommand.execute(this.ctx.deleteCommandFunc.apply(this, arguments), {
         context: this
       }).done(function () {
-        //	this.hideEditModal();
+        $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
         this.refresh();
       }).fail(function (data) {
         amiWebApp.error(amiWebApp.jspath('..error.$', data), true);

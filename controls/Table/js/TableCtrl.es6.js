@@ -224,18 +224,6 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			$('#F5221AF4_E3C8_260F_4556_A1ED96055B2F').click(() => {
-
-				this.hideEditModal();
-			});
-
-			$('#C31B969B_357E_B68B_E56D_BA38DC220599').click(() => {
-
-				this.hideRefineModal();
-			});
-
-			/*-------------------------------------------------------------*/
-
 			$(this.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(() => {
 
 				this.prev();
@@ -815,19 +803,12 @@ $AMIClass('TableCtrl', {
 
 	/*-----------------------------------------------------------------*/
 
-	hideEditModal: function()
-	{
-		$('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
-	},
-
-	/*-----------------------------------------------------------------*/
-
 	_formToArray: function()
 	{
-		var form = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1').serializeArray();
+		const form = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1').serializeArray();
 
-		var fieldList = [];
-		var valueList = [];
+		const fieldList = [];
+		const valueList = [];
 
 		for(var i in form)
 		{
@@ -845,7 +826,7 @@ $AMIClass('TableCtrl', {
 
 	appendRow: function()
 	{
-		var result = confirm('Please confirm!');
+		const result = confirm('Please confirm!');
 
 		if(result)
 		{
@@ -853,7 +834,7 @@ $AMIClass('TableCtrl', {
 
 			amiCommand.execute(this.ctx.appendCommandFunc.apply(this, this._formToArray()), {context: this}).done(function() {
 
-				this.hideEditModal();
+				$('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
 				this.refresh();
 
@@ -870,7 +851,7 @@ $AMIClass('TableCtrl', {
 
 	deleteRow: function()
 	{
-		var result = confirm('Please confirm!');
+		const result = confirm('Please confirm!');
 
 		if(result)
 		{
@@ -878,7 +859,7 @@ $AMIClass('TableCtrl', {
 
 			amiCommand.execute(this.ctx.deleteCommandFunc.apply(this, arguments), {context: this}).done(function() {
 
-			//	this.hideEditModal();
+				$('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
 				this.refresh();
 
