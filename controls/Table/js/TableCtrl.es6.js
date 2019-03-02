@@ -44,7 +44,7 @@ $AMIClass('TableCtrl', {
 			/**/
 			amiWebApp.originURL + '/controls/Table/js/libunits.js',
 			amiWebApp.originURL + '/controls/Table/js/libxql.js',
-		], {context: this}).done(function(data) {
+		]).done((data) => {
 
 			amiWebApp.appendHTML('body', data[1]).done(() => {
 				amiWebApp.appendHTML('body', data[2]).done(() => {
@@ -194,7 +194,7 @@ $AMIClass('TableCtrl', {
 
 				this._render(selector);
 
-			}).fail(function() {
+			}).fail(() => {
 
 				if(/*----*/ true /*----*/)
 				{
@@ -616,9 +616,9 @@ $AMIClass('TableCtrl', {
 				/*---------------------------------------------------------*/
 			});
 
-		}).fail(function(data) {
+		}).fail((data, message) => {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -745,7 +745,7 @@ $AMIClass('TableCtrl', {
 
 			this.refresh();
 
-		}).fail(function(data, message) {
+		}).fail((data, message) => {
 
 			amiWebApp.error(message, true);
 
@@ -765,7 +765,7 @@ $AMIClass('TableCtrl', {
 
 		if(primaryValue)
 		{
-			$(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' div[data-row="' + primaryValue + '"]').each(function() {
+			$(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' div[data-row="' + primaryValue + '"]').each(() => {
 
 				field = $(this).attr('data-field');
 				value = $(this).text(/*--------*/);
@@ -832,15 +832,15 @@ $AMIClass('TableCtrl', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute(this.ctx.appendCommandFunc.apply(this, this._formToArray()), {context: this}).done(function() {
+			amiCommand.execute(this.ctx.appendCommandFunc.apply(this, this._formToArray())).done(() => {
 
 				$('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
 				this.refresh();
 
- 			}).fail(function(data) {
+			}).fail((data, message) => {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data), true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+				amiWebApp.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
 			});
 		}
 
@@ -857,15 +857,15 @@ $AMIClass('TableCtrl', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute(this.ctx.deleteCommandFunc.apply(this, arguments), {context: this}).done(function() {
+			amiCommand.execute(this.ctx.deleteCommandFunc.apply(this, arguments)).done(() => {
 
 				$('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
 				this.refresh();
 
- 			}).fail(function(data) {
+			}).fail((data, message) => {
 
-				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+				amiWebApp.error(message, true, /*-------------*/ null /*-------------*/);
 			});
 		}
 

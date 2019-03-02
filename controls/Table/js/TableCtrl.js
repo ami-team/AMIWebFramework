@@ -23,6 +23,8 @@ $AMIClass('TableCtrl', {
 
   /*---------------------------------------------------------------------*/
   onReady: function onReady() {
+    var _this = this;
+
     /*-----------------------------------------------------------------*/
     return amiWebApp.loadResources([amiWebApp.originURL + '/controls/Table/twig/TableCtrl.twig',
     /**/
@@ -30,11 +32,7 @@ $AMIClass('TableCtrl', {
     /**/
     amiWebApp.originURL + '/controls/Table/twig/fieldList.twig', amiWebApp.originURL + '/controls/Table/twig/table.twig', amiWebApp.originURL + '/controls/Table/twig/js.twig',
     /**/
-    amiWebApp.originURL + '/controls/Table/js/libunits.js', amiWebApp.originURL + '/controls/Table/js/libxql.js'], {
-      context: this
-    }).done(function (data) {
-      var _this = this;
-
+    amiWebApp.originURL + '/controls/Table/js/libunits.js', amiWebApp.originURL + '/controls/Table/js/libxql.js']).done(function (data) {
       amiWebApp.appendHTML('body', data[1]).done(function () {
         amiWebApp.appendHTML('body', data[2]).done(function () {
           amiWebApp.appendHTML('body', data[3]).done(function () {
@@ -157,12 +155,12 @@ $AMIClass('TableCtrl', {
         true
         /*----*/
         ) {
-            this.ctx.showDetails = false;
-            this.ctx.showTools = false;
-            this.ctx.canEdit = false;
+            _this2.ctx.showDetails = false;
+            _this2.ctx.showTools = false;
+            _this2.ctx.canEdit = false;
           }
 
-        this._render(selector);
+        _this2._render(selector);
       });
     } else {
       this._render(selector);
@@ -452,8 +450,8 @@ $AMIClass('TableCtrl', {
         amiWebApp.unlock();
         /*---------------------------------------------------------*/
       });
-    }).fail(function (data) {
-      amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+    }).fail(function (data, message) {
+      amiWebApp.error(message, true);
     });
     /*-----------------------------------------------------------------*/
   },
@@ -566,8 +564,8 @@ $AMIClass('TableCtrl', {
 
     if (primaryValue) {
       $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' div[data-row="' + primaryValue + '"]').each(function () {
-        field = $(this).attr('data-field');
-        value = $(this).text();
+        field = $(_this7).attr('data-field');
+        value = $(_this7).text();
         values[field] = value;
       });
     }
@@ -611,17 +609,18 @@ $AMIClass('TableCtrl', {
 
   /*-----------------------------------------------------------------*/
   appendRow: function appendRow() {
+    var _this8 = this;
+
     var result = confirm('Please confirm!');
 
     if (result) {
       amiWebApp.lock();
-      amiCommand.execute(this.ctx.appendCommandFunc.apply(this, this._formToArray()), {
-        context: this
-      }).done(function () {
+      amiCommand.execute(this.ctx.appendCommandFunc.apply(this, this._formToArray())).done(function () {
         $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
-        this.refresh();
-      }).fail(function (data) {
-        amiWebApp.error(amiWebApp.jspath('..error.$', data), true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+
+        _this8.refresh();
+      }).fail(function (data, message) {
+        amiWebApp.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
       });
     }
 
@@ -630,17 +629,22 @@ $AMIClass('TableCtrl', {
 
   /*-----------------------------------------------------------------*/
   deleteRow: function deleteRow() {
+    var _this9 = this;
+
     var result = confirm('Please confirm!');
 
     if (result) {
       amiWebApp.lock();
-      amiCommand.execute(this.ctx.deleteCommandFunc.apply(this, arguments), {
-        context: this
-      }).done(function () {
+      amiCommand.execute(this.ctx.deleteCommandFunc.apply(this, arguments)).done(function () {
         $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
-        this.refresh();
-      }).fail(function (data) {
-        amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+
+        _this9.refresh();
+      }).fail(function (data, message) {
+        amiWebApp.error(message, true,
+        /*-------------*/
+        null
+        /*-------------*/
+        );
       });
     }
 
