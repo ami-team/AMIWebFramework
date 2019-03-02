@@ -37,21 +37,38 @@ $AMIClass('SchemaCtrl', {
 			amiWebApp.originURL + '/js/3rd-party/jointjs/lodash.min.js',
 			amiWebApp.originURL + '/js/3rd-party/jointjs/backbone-min.js',
 			/**/
-			amiWebApp.originURL + '/js/3rd-party/jointjs/joint.min.js',
 			amiWebApp.originURL + '/css/3rd-party/jointjs/joint.min.css',
+			amiWebApp.originURL + '/js/3rd-party/jointjs/joint.min.js',
 			/**/
 			amiWebApp.originURL + '/controls/Schema/js/joint.shapes.sql.js',
+			/**/
+			amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.css',
+			amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.js',
+			amiWebApp.originURL + '/js/3rd-party/codemirror/addon/edit/matchbrackets.js',
+			amiWebApp.originURL + '/js/3rd-party/codemirror/mode/groovy/groovy.js',
 			/**/
 			amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css',
 		]).done((data) => {
 
 			amiWebApp.appendHTML('body', data[0]).done(() => {
 
+				/*---------------------------------------------------------*/
+
 				this._fields = null;
 				this._foreignKeys = null;
 
 				this._currentCell = null;
 				this._currentCatalog = null;
+
+				/*---------------------------------------------------------*/
+
+				CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
+					lineNumbers: true,
+					matchBrackets: true,
+					mode: 'text/x-groovy',
+				});
+
+				/*---------------------------------------------------------*/
 			});
 		});
 	},
