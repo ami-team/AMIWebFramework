@@ -797,7 +797,7 @@ $AMIClass('TableCtrl', {
 		{
 			dict = this.ctx;
 		}
-
+		alert(JSON.stringify(dict));
 		/*-----------------------------------------------------------------*/
 
 		amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {context: this, dict: dict}).done(function() {
