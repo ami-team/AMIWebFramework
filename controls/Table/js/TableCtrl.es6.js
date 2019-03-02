@@ -89,27 +89,24 @@ $AMIClass('TableCtrl', {
 
 		const fn1 = (fields, values) => 'AddElement -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';
 
-		const fn2 = (primaryValue, field, value) => 'UpdateElements -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -keyFields="' + this.ctx.primaryField + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '"';
+		const fn2 = (primaryValue) => 'RemoveElements -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -keyFields="' + this.ctx.primaryField + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
 
-		const fn3 = (primaryValue) => 'RemoveElements -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -keyFields="' + this.ctx.primaryField + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
-
-		const fn4 = (catalog, entity, field, primaryValue, value) => 'UpdateElements -catalog="' + catalog + '" -entity="' + entity + '" -fields="' + field + '" -values="' + amiWebApp.textToString(value) + '" -keyFields="' + this.ctx.primaryField + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
-
+		const fn3 = (catalog, entity, field, primaryValue, value) => 'UpdateElements -catalog="' + catalog + '" -entity="' + entity + '" -fields="' + field + '" -values="' + amiWebApp.textToString(value) + '" -keyFields="' + this.ctx.primaryField + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
 
 		const [
-			_appendCommandFunc, _updateCommandFunc, _deleteCommandFunc, _editCommandFunc,
+			_appendCommandFunc, _deleteCommandFunc, _editCommandFunc,
 			_enableCache, _showToolBar, _showDetails, _showTools, _canEdit,
 			_catalog, _entity, _primaryField, _rowset,
 			_start, _stop, _orderBy, _orderWay
 		] = amiWebApp.setup(
 			[
-				'appendCommandFunc', 'updateCommandFunc', 'deleteCommandFunc', 'editCommandFunc',
+				'appendCommandFunc', 'deleteCommandFunc', 'editCommandFunc',
 				'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
 				'start', 'stop', 'orderBy', 'orderWay',
 			],
 			[
-				fn1, fn2, fn3, fn4,
+				fn1, fn2, fn3,
 				false, true, false, true, false,
 				'', '', '', '',
 				1, 10, '', '',
@@ -118,7 +115,6 @@ $AMIClass('TableCtrl', {
 		);
 
 		this.ctx.appendCommandFunc = _appendCommandFunc;
-		this.ctx.updateCommandFunc = _updateCommandFunc;
 		this.ctx.deleteCommandFunc = _deleteCommandFunc;
 		this.ctx.editCommandFunc = _editCommandFunc;
 
@@ -775,29 +771,26 @@ $AMIClass('TableCtrl', {
 	{
 		/*-----------------------------------------------------------------*/
 
-		var dict;
+		let values = {};
 
 		if(primaryValue)
 		{
-			var newValues = {};
+			$(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' div[data-row="' + primaryValue + '"]').each(function() {
 
-			$(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' .edit-field[data-row="' + primaryValue + '"]').each(function() {
+				field = $(this).attr('data-field');
+				value = $(this).text(/*--------*/);
 
-				field = $(this).attr('data-col');
-				value = $(this).text(/*------*/);
-
-				newValues[field] = value;
+				values[field] = value;
 			});
+		}
 
-			dict = {
-				fieldInfo: []
-			};
-		}
-		else
-		{
-			dict = this.ctx;
-		}
-		alert(JSON.stringify(dict));
+		/*-----------------------------------------------------------------*/
+
+		const dict = {
+			values: values,
+			fieldInfo: this.ctx.fieldInfo,
+		};
+
 		/*-----------------------------------------------------------------*/
 
 		amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {context: this, dict: dict}).done(function() {
@@ -867,31 +860,6 @@ $AMIClass('TableCtrl', {
  			}).fail(function(data) {
 
 				amiWebApp.error(amiWebApp.jspath('..error.$', data), true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
-			});
-		}
-
-		return result;
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	updateRow: function()
-	{
-		var result = confirm('Please confirm!');
-
-		if(result)
-		{
-			amiWebApp.lock();
-
-			amiCommand.execute(this.ctx.updateCommandFunc.apply(this, arguments), {context: this}).done(function() {
-
-				this.hideEditModal();
-
-				this.refresh();
-
- 			}).fail(function(data) {
-
-				amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 			});
 		}
 
