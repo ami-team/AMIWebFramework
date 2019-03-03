@@ -765,10 +765,10 @@ $AMIClass('TableCtrl', {
 
 		if(primaryValue)
 		{
-			$(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' div[data-row="' + primaryValue + '"]').each(() => {
+			$(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' div[data-row="' + primaryValue + '"]').each((idx, val) => {
 
-				field = $(this).attr('data-field');
-				value = $(this).text(/*--------*/);
+				field = $(val).attr('data-field');
+				value = $(val).text(/*--------*/);
 
 				values[field] = value;
 			});
