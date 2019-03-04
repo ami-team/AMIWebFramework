@@ -718,13 +718,39 @@ $AMIClass('SearchCtrl', {
 		var mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`';
 
 		/*-----------------------------------------------------------------*/
+		/* ADD FILTER                                                      */
+		/*-----------------------------------------------------------------*/
 
 		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
+
+		/*-----------------------------------------------------------------*/
+
+		var el = $(predicate.selector + ' input[type="checkbox"]');
+
+		if(el.length > 0 && predicate.filter)
+		{
+			var mode = el.prop('checked') ? ' AND ' : ' OR ';
+
+			if(filter)
+			{
+				filter += ' AND (' + predicate.filter + mode + ' [`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + ' LIKE \'%\'])';
+			}
+			else
+			{
+				filter = predicate.filter + mode + ' [`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + ' LIKE \'%\']';
+			}
+		}
+
+		/*-----------------------------------------------------------------*/
 
 		if(filter)
 		{
 			mql += ' WHERE ' + filter;
 		}
+
+		/*-----------------------------------------------------------------*/
+		/* ADD ORDER BY AND LIMIT                                          */
+		/*-----------------------------------------------------------------*/
 
 		if (criteria.order) 
 		{
