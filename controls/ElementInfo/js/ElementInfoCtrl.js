@@ -31,11 +31,15 @@ $AMIClass('ElementInfoCtrl', {
 			amiWebApp.originURL + '/controls/ElementInfo/twig/ElementInfoCtrl.twig',
 			amiWebApp.originURL + '/controls/ElementInfo/twig/details.twig',
 			amiWebApp.originURL + '/controls/ElementInfo/twig/js.twig',
+			/**/
+			'ctrl:FieldEditor',
 		], {context: this}).done(function(data) {
 
 			this.fragmentElementInfoCtrl = data[0];
 			this.fragmentDetails = data[1];
 			this.fragmentJS = data[2];
+
+			this.fieldEditorCtor = data[3];
 		});
 	},
 
@@ -58,22 +62,22 @@ $AMIClass('ElementInfoCtrl', {
 
 		this.ctx.context = result;
 
-			/**/
+		/**/
 
 		this.ctx.catalog = catalog;
 		this.ctx.entity = entity;
 		this.ctx.primaryField = primaryFieldName;
 		this.ctx.primaryFieldValue = primaryFieldValue;
 
-			/**/
+		/**/
 
 		this.ctx.command = 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '" -GUI="yes"';
 
-			/**/
+		/**/
 
 		this.ctx.showEmptyFields = false;
 
-			/**/
+		/**/
 
 		this.ctx.expandedLinkedElements = [];
 
@@ -95,6 +99,11 @@ $AMIClass('ElementInfoCtrl', {
 		}
 
 		/*-----------------------------------------------------------------*/
+
+		this.ctx.fieldEditor = new this.fieldEditorCtor(this, this);
+
+		/*-----------------------------------------------------------------*/
+
 		var expandedLinkedElement;
 		var commandExtra = [];
 
