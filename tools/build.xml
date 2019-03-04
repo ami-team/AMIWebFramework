@@ -208,6 +208,7 @@
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="DiffBox/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="EditBox/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="ElementInfo/**/*" />
+				<fileset dir="${AMIWebAppTmpDir}/controls" includes="FieldEditor/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="Graph/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="MessageBox/**/*" />
 				<fileset dir="${AMIWebAppTmpDir}/controls" includes="Schema/**/*" />
