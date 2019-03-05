@@ -230,14 +230,14 @@ $AMIClass('SchemaCtrl', {
 
 			let cnt = 0;
 
-			let tables = {};
+			let entities = {};
 
 			this._fields.forEach((value) => {
 
 				if((amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] || '') === catalog)
 				{
-					const table = amiWebApp.jspath('..field{.@name==="entity"}.$', value)[0] || '';
-					const name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0] || '';
+					const entity = amiWebApp.jspath('..field{.@name==="entity"}.$', value)[0] || '';
+					const field = amiWebApp.jspath('..field{.@name==="field"}.$', value)[0] || '';
 					const type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
 					const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', value)[0] || '';
 					const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', value)[0] || '';
@@ -248,13 +248,13 @@ $AMIClass('SchemaCtrl', {
 					const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', value)[0] || '';
 					const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', value)[0] || '';
 
-					if(!(table in tables))
+					if(!(entity in entities))
 					{
 						let x;
 						let y;
 						let color;
 
-						if(!(table in schema))
+						if(!(entity in schema))
 						{
 							x = y
 							  = 20 + 10 * cnt++;
@@ -262,18 +262,18 @@ $AMIClass('SchemaCtrl', {
 						}
 						else
 						{
-							x = schema[table].x;
-							y = schema[table].y;
-							color = schema[table].color;
+							x = schema[entity].x;
+							y = schema[entity].y;
+							color = schema[entity].color;
 						}
 
-						tables[table] = {
-							table: this.graph.newTable({
+						entities[entity] = {
+							entity: this.graph.newEntity({
 								position: {
 									x: x,
 									y: y,
 								},
-								table: table,
+								entity: entity,
 								color: color,
 								showShowTool: this._showShowTool,
 								showEditTool: this._showEditTool,
@@ -282,10 +282,10 @@ $AMIClass('SchemaCtrl', {
 						};
 					}
 
-					if(!(name in tables[table]['fields']))
+					if(!(field in entities[entity]['fields']))
 					{
-						tables[table]['table'].appendColumn({
-							name: name,
+						entities[entity]['entity'].appendField({
+							field: field,
 							type: type,
 							hidden: hidden === 'true',
 							adminOnly: adminOnly === 'true',
@@ -302,42 +302,42 @@ $AMIClass('SchemaCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			$(this._selector + ' a.sql-table-show-link').click((e) => {
+			$(this._selector + ' a.sql-entity-show-link').click((e) => {
 
 				e.preventDefault();
 
 				this.showEntity(
 					catalog
 					,
-					$(e.currentTarget).attr('data-table')
+					$(e.currentTarget).attr('data-entity')
 				);
 			});
 
 			/*-------------------------------------------------------------*/
 
-			$(this._selector + ' a.sql-table-edit-link').click((e) => {
+			$(this._selector + ' a.sql-entity-edit-link').click((e) => {
 
 				e.preventDefault();
 
 				this.editEntity(
 					catalog
 					,
-					$(e.currentTarget).attr('data-table')
+					$(e.currentTarget).attr('data-entity')
 				);
 			});
 
 			/*-------------------------------------------------------------*/
 
-			$(this._selector + ' a.sql-column-link').click((e) => {
+			$(this._selector + ' a.sql-field-link').click((e) => {
 
 				e.preventDefault();
 
 				this.editField(
 					catalog
 					,
-					$(e.currentTarget).attr('data-table')
+					$(e.currentTarget).attr('data-entity')
 					,
-					$(e.currentTarget).attr('data-column')
+					$(e.currentTarget).attr('data-field')
 				);
 			});
 
@@ -351,12 +351,12 @@ $AMIClass('SchemaCtrl', {
 				   &&
 				   amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', value)[0] === catalog
 				 ) {
-					const fkTable = amiWebApp.jspath('..field{.@name==="fkTable"}.$', value)[0];
-					const pkTable = amiWebApp.jspath('..field{.@name==="pkTable"}.$', value)[0];
+					const fkEntity = amiWebApp.jspath('..field{.@name==="fkEntity"}.$', value)[0];
+					const pkEntity = amiWebApp.jspath('..field{.@name==="pkEntity"}.$', value)[0];
 
 					this.graph.newForeignKey(
-						tables[fkTable]['table'].get('id'),
-						tables[pkTable]['table'].get('id')
+						entities[fkEntity]['entity'].get('id'),
+						entities[pkEntity]['entity'].get('id')
 					);
 				}
 			});
@@ -470,7 +470,7 @@ $AMIClass('SchemaCtrl', {
 
 		let w = window.open('', '', 'height=' + svg.height() + ', width=' + svg.width() + ', toolbar=no');
 
-		w.document.write('<html><head><style>body { margin: 10px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap, .sql-table-link { display: none; } .connection { fill: none; }</style></head><body>' + $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').html() + '</body></html>');
+		w.document.write('<html><head><style>body { margin: 10px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap, .sql-entity-link { display: none; } .connection { fill: none; }</style></head><body>' + $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').html() + '</body></html>');
 
 		$(w.document).find('svg').css('background-image', 'none');
 
