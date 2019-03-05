@@ -62,10 +62,18 @@ $AMIClass('SchemaCtrl', {
 
 				/*---------------------------------------------------------*/
 
-				CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
-					lineNumbers: true,
-					matchBrackets: true,
-					mode: 'text/x-groovy',
+				let cnt = 0;
+
+				$('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', () => {
+
+					if(cnt++ === 0)
+					{
+						CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
+							lineNumbers: true,
+							matchBrackets: true,
+							mode: 'text/x-groovy',
+						});
+					}
 				});
 
 				/*---------------------------------------------------------*/
