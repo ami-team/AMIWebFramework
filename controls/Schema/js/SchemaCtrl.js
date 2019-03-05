@@ -44,10 +44,15 @@ $AMIClass('SchemaCtrl', {
         _this._currentCatalog = null;
         /*---------------------------------------------------------*/
 
-        CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
-          lineNumbers: true,
-          matchBrackets: true,
-          mode: 'text/x-groovy'
+        var cnt = 0;
+        $('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', function () {
+          if (cnt++ === 0) {
+            CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
+              lineNumbers: true,
+              matchBrackets: true,
+              mode: 'text/x-groovy'
+            });
+          }
         });
         /*---------------------------------------------------------*/
       });
@@ -191,12 +196,12 @@ $AMIClass('SchemaCtrl', {
 
 
       var cnt = 0;
-      var tables = {};
+      var entities = {};
 
       _this3._fields.forEach(function (value) {
         if ((amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', value)[0] || '') === catalog) {
-          var table = amiWebApp.jspath('..field{.@name==="entity"}.$', value)[0] || '';
-          var name = amiWebApp.jspath('..field{.@name==="name"}.$', value)[0] || '';
+          var entity = amiWebApp.jspath('..field{.@name==="entity"}.$', value)[0] || '';
+          var field = amiWebApp.jspath('..field{.@name==="field"}.$', value)[0] || '';
           var type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
           var hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', value)[0] || '';
           var adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', value)[0] || '';
@@ -207,27 +212,27 @@ $AMIClass('SchemaCtrl', {
           var modified = amiWebApp.jspath('..field{.@name==="modified"}.$', value)[0] || '';
           var modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', value)[0] || '';
 
-          if (!(table in tables)) {
+          if (!(entity in entities)) {
             var x;
             var y;
             var color;
 
-            if (!(table in schema)) {
+            if (!(entity in schema)) {
               x = y = 20 + 10 * cnt++;
               color = '#0066CC';
             } else {
-              x = schema[table].x;
-              y = schema[table].y;
-              color = schema[table].color;
+              x = schema[entity].x;
+              y = schema[entity].y;
+              color = schema[entity].color;
             }
 
-            tables[table] = {
-              table: _this3.graph.newTable({
+            entities[entity] = {
+              entity: _this3.graph.newEntity({
                 position: {
                   x: x,
                   y: y
                 },
-                table: table,
+                entity: entity,
                 color: color,
                 showShowTool: _this3._showShowTool,
                 showEditTool: _this3._showEditTool
@@ -236,9 +241,9 @@ $AMIClass('SchemaCtrl', {
             };
           }
 
-          if (!(name in tables[table]['fields'])) {
-            tables[table]['table'].appendColumn({
-              name: name,
+          if (!(field in entities[entity]['fields'])) {
+            entities[entity]['entity'].appendField({
+              field: field,
               type: type,
               hidden: hidden === 'true',
               adminOnly: adminOnly === 'true',
@@ -255,24 +260,24 @@ $AMIClass('SchemaCtrl', {
       /*-------------------------------------------------------------*/
 
 
-      $(_this3._selector + ' a.sql-table-show-link').click(function (e) {
+      $(_this3._selector + ' a.sql-entity-show-link').click(function (e) {
         e.preventDefault();
 
-        _this3.showEntity(catalog, $(e.currentTarget).attr('data-table'));
+        _this3.showEntity(catalog, $(e.currentTarget).attr('data-entity'));
       });
       /*-------------------------------------------------------------*/
 
-      $(_this3._selector + ' a.sql-table-edit-link').click(function (e) {
+      $(_this3._selector + ' a.sql-entity-edit-link').click(function (e) {
         e.preventDefault();
 
-        _this3.editEntity(catalog, $(e.currentTarget).attr('data-table'));
+        _this3.editEntity(catalog, $(e.currentTarget).attr('data-entity'));
       });
       /*-------------------------------------------------------------*/
 
-      $(_this3._selector + ' a.sql-column-link').click(function (e) {
+      $(_this3._selector + ' a.sql-field-link').click(function (e) {
         e.preventDefault();
 
-        _this3.editField(catalog, $(e.currentTarget).attr('data-table'), $(e.currentTarget).attr('data-column'));
+        _this3.editField(catalog, $(e.currentTarget).attr('data-entity'), $(e.currentTarget).attr('data-field'));
       });
       /*-------------------------------------------------------------*/
 
@@ -282,10 +287,10 @@ $AMIClass('SchemaCtrl', {
 
       _this3._foreignKeys.forEach(function (value) {
         if (amiWebApp.jspath('..field{.@name==="fkExternalCatalog"}.$', value)[0] === catalog && amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', value)[0] === catalog) {
-          var fkTable = amiWebApp.jspath('..field{.@name==="fkTable"}.$', value)[0];
-          var pkTable = amiWebApp.jspath('..field{.@name==="pkTable"}.$', value)[0];
+          var fkEntity = amiWebApp.jspath('..field{.@name==="fkEntity"}.$', value)[0];
+          var pkEntity = amiWebApp.jspath('..field{.@name==="pkEntity"}.$', value)[0];
 
-          _this3.graph.newForeignKey(tables[fkTable]['table'].get('id'), tables[pkTable]['table'].get('id'));
+          _this3.graph.newForeignKey(entities[fkEntity]['entity'].get('id'), entities[pkEntity]['entity'].get('id'));
         }
       });
       /*-------------------------------------------------------------*/
@@ -369,7 +374,7 @@ $AMIClass('SchemaCtrl', {
     /*-----------------------------------------------------------------*/
 
     var w = window.open('', '', 'height=' + svg.height() + ', width=' + svg.width() + ', toolbar=no');
-    w.document.write('<html><head><style>body { margin: 10px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap, .sql-table-link { display: none; } .connection { fill: none; }</style></head><body>' + $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').html() + '</body></html>');
+    w.document.write('<html><head><style>body { margin: 10px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap, .sql-entity-link { display: none; } .connection { fill: none; }</style></head><body>' + $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').html() + '</body></html>');
     $(w.document).find('svg').css('background-image', 'none');
     w.print();
     w.close();

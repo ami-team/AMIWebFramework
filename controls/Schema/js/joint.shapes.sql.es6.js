@@ -100,32 +100,32 @@ joint.shapes.sql = {}
 
 /*-------------------------------------------------------------------------*/
 
-joint.dia.Element.define('sql.Table', {
+joint.dia.Element.define('sql.Entity', {
 	/*---------------------------------------------------------------------*/
 
-	table: 'N/A',
+	entity: 'N/A',
 	showShowTool: false,
 	showEditTool: false,
 	color: '#0066CC',
 	grideSize: 10,
-	columns: [],
+	fields: [],
 
 	/*---------------------------------------------------------------------*/
 
 	attrs: {
 		/*-----------------------------------------------------------------*/
-		'.sql-table-top': {
+		'.sql-entity-top': {
 			'ref-x': 0.0,
 			'ref-y': 0.0,
 			'stroke-width': 1,
 		},
-		'.sql-table-body': {
+		'.sql-entity-body': {
 			'ref-x': 0.0,
 			'ref-y': 20.0,
 			'stroke-width': 1,
 		},
 		/*-----------------------------------------------------------------*/
-		'.sql-table-show-text': {
+		'.sql-entity-show-text': {
 			'ref-x': '2%',
 			'ref-y': 5.0,
 			'text-anchor': 'start',
@@ -134,7 +134,7 @@ joint.dia.Element.define('sql.Table', {
 			'font-weight': 'normal',
 			'font-size': 12,
 		},
-		'.sql-table-name-text': {
+		'.sql-entity-name-text': {
 			'ref-x': '50%',
 			'ref-y': 2.5,
 			'text-anchor': 'middle',
@@ -143,7 +143,7 @@ joint.dia.Element.define('sql.Table', {
 			'font-weight': 'normal',
 			'font-size': 14,
 		},
-		'.sql-table-edit-text': {
+		'.sql-entity-edit-text': {
 			'ref-x': '98%',
 			'ref-y': 5.0,
 			'text-anchor': 'end',
@@ -153,12 +153,12 @@ joint.dia.Element.define('sql.Table', {
 			'font-size': 12,
 		},
 		/*-----------------------------------------------------------------*/
-		'.sql-columns': {
+		'.sql-fields': {
 			'ref-x': 0.0,
 			'ref-y': 25.0,
 		},
 		/*-----------------------------------------------------------------*/
-		'.sql-column-text': {
+		'.sql-field-text': {
 			'ref-x': 0.03,
 			'fill': 'black',
 			'font-family': 'Courier New',
@@ -174,25 +174,25 @@ joint.dia.Element.define('sql.Table', {
 
 	markup: [
 		'<g>',
-			'<path class="sql-table-top" />',
-			'<path class="sql-table-body" />',
-			'<a class="sql-table-show-link" xlink:href="#" data-table="">',
-				'<text class="sql-table-show-text" />',
+			'<path class="sql-entity-top" />',
+			'<path class="sql-entity-body" />',
+			'<a class="sql-entity-show-link" xlink:href="#" data-entity="">',
+				'<text class="sql-entity-show-text" />',
 			'</a>',
-			'<text class="sql-table-name-text" />',
-			'<a class="sql-table-edit-link" xlink:href="#" data-table="">',
-				'<text class="sql-table-edit-text" />',
+			'<text class="sql-entity-name-text" />',
+			'<a class="sql-entity-edit-link" xlink:href="#" data-entity="">',
+				'<text class="sql-entity-edit-text" />',
 			'</a>',
-			'<g class="sql-columns"></g>',
+			'<g class="sql-fields"></g>',
 		'</g>',
 	].join(''),
 
 	/*---------------------------------------------------------------------*/
 
-	columnMarkup: [
-		'<g class="sql-column">',
-			'<a class="sql-column-link" xlink:href="#" data-table="" data-column="">',
-				'<text class="sql-column-text">N/A</text>',
+	fieldMarkup: [
+		'<g class="sql-field">',
+			'<a class="sql-field-link" xlink:href="#" data-entity="" data-field="">',
+				'<text class="sql-field-text">N/A</text>',
 			'</a>',
 		'</g>'
 	].join(''),
@@ -203,16 +203,16 @@ joint.dia.Element.define('sql.Table', {
 	{
 		joint.dia.Element.prototype.initialize.apply(this, arguments);
 
-		this.on('change:table', this.onTableChange, this);
-		this.on('change:showShowTool', this.onTableChange, this);
-		this.on('change:showEditTool', this.onTableChange, this);
+		this.on('change:entity', this.onEntityChange, this);
+		this.on('change:showShowTool', this.onEntityChange, this);
+		this.on('change:showEditTool', this.onEntityChange, this);
 		this.on('change:color', this.onColorChange, this);
-		this.on('change:grideSize', this.onColumnsChange, this);
-		this.on('change:columns', this.onColumnsChange, this);
+		this.on('change:grideSize', this.onFieldsChange, this);
+		this.on('change:fields', this.onFieldsChange, this);
 
-		this.onTableChange();
+		this.onEntityChange();
 		this.onColorChange();
-		this.onColumnsChange();
+		this.onFieldsChange();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -229,14 +229,14 @@ joint.dia.Element.define('sql.Table', {
 
 	/*---------------------------------------------------------------------*/
 
-	setTable: function(table)
+	setTable: function(entity)
 	{
-		this.set('table', table);
+		this.set('entity', entity);
 	},
 
 	getTable: function()
 	{
-		return this.get('table');
+		return this.get('entity');
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -265,39 +265,39 @@ joint.dia.Element.define('sql.Table', {
 
 	/*---------------------------------------------------------------------*/
 
-	appendColumn: function(column)
+	appendField: function(field)
 	{
-		let columns = _.clone(this.get('columns'));
-		columns.push(column);
-		this.set('columns', columns);
+		let fields = _.clone(this.get('fields'));
+		fields.push(field);
+		this.set('fields', fields);
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	onTableChange: function()
+	onEntityChange: function()
 	{
 		/*-----------------------------------------------------------------*/
 
-		const table = this.get('table');
+		const entity = this.get('entity');
 
-		this.attr('.sql-table-show-link/data-table', table);
-		this.attr('.sql-table-edit-link/data-table', table);
+		this.attr('.sql-entity-show-link/data-entity', entity);
+		this.attr('.sql-entity-edit-link/data-entity', entity);
 
 		/*-----------------------------------------------------------------*/
 
-		this.attr('.sql-table-show-text/text', this.get('showShowTool') ? ''
+		this.attr('.sql-entity-show-text/text', this.get('showShowTool') ? ''
 		                                                                : ''
 		);
 
 		/*-----------------------------------------------------------------*/
 
-		this.attr('.sql-table-name-text/text', table.length > 23 ? table.substring(0, 21) + '…'
-		                                                         : table
+		this.attr('.sql-entity-name-text/text', entity.length > 23 ? entity.substring(0, 21) + '…'
+		                                                         : entity
 		);
 
 		/*-----------------------------------------------------------------*/
 
-		this.attr('.sql-table-edit-text/text', this.get('showEditTool') ? ''
+		this.attr('.sql-entity-edit-text/text', this.get('showEditTool') ? ''
 		                                                                : ''
 		);
 
@@ -316,66 +316,65 @@ joint.dia.Element.define('sql.Table', {
 
 		const toolColor = _getL(color) > 0.75 ? '#000000' : '#FFFFFF';
 
-		this.attr('.sql-table-show/fill', toolColor);
-		this.attr('.sql-table-name/fill', toolColor);
-		this.attr('.sql-table-edit/fill', toolColor);
+		this.attr('.sql-entity-show/fill', toolColor);
+		this.attr('.sql-entity-name/fill', toolColor);
+		this.attr('.sql-entity-edit/fill', toolColor);
 
 		/*-----------------------------------------------------------------*/
 
 		const strokeColor = _getStroke(color);
 
-		this.attr('.sql-table-top/fill', color);
-		this.attr('.sql-table-top/stroke', strokeColor);
+		this.attr('.sql-entity-top/fill', color);
+		this.attr('.sql-entity-top/stroke', strokeColor);
 
-		this.attr('.sql-table-body/fill', '#FFFFFF');
-		this.attr('.sql-table-body/stroke', strokeColor);
+		this.attr('.sql-entity-body/fill', '#FFFFFF');
+		this.attr('.sql-entity-body/stroke', strokeColor);
 
 		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	onColumnsChange: function()
+	onFieldsChange: function()
 	{
 		/*-----------------------------------------------------------------*/
 
-		const table = this.get('table');
+		const entity = this.get('entity');
 
 		/*-----------------------------------------------------------------*/
 
 		let width = 230;
 		let height = 0x0;
 
-		_.each(this.get('columns'), function(column) {
+		this.get('fields').forEach((field) => {
 
-			let text = column.name + ': ' + column.type;
+			let text = field.field + ': ' + field.type;
 
-			/**/ if(column.hidden) {
+			/**/ if(field.hidden) {
 				text = '❌' + text;
 			}
-			else if(column.adminOnly) {
+			else if(field.adminOnly) {
 				text = '🚫' + text;
 			}
-			else if(column.crypted) {
+			else if(field.crypted) {
 				text = '🔐' + text;
 			}
-			else if(column.primary) {
+			else if(field.primary) {
 				text = '🔑' + text;
 			}
-			else if(column.created || column.createdBy
+			else if(field.created || field.createdBy
 			        ||
-			        column.modified || column.modifiedBy
+			        field.modified || field.modifiedBy
 			 ) {
 				text = '⚙️' + text;
 			}
 
-			column.table = table;
-			column.text = (text.length > 26) ? text.substring(0, 24) + '…' : text;
-			column.offset = height;
+			field.entity = entity;
+			field.text = (text.length > 26) ? text.substring(0, 24) + '…' : text;
+			field.offset = height;
 
 			height += 15;
-
-		}, this);
+		});
 
 		height += 15;
 
@@ -388,8 +387,8 @@ joint.dia.Element.define('sql.Table', {
 
 		this.resize(width, height);
 
-		this.attr('.sql-table-top/d', _svgRoundedRect(0.75, 0.5, width, 20, 8, true, true, false, false));
-		this.attr('.sql-table-body/d', _svgRoundedRect(0.75, 0.5, width, height, 3, false, false, true, true));
+		this.attr('.sql-entity-top/d', _svgRoundedRect(0.75, 0.5, width, 20, 8, true, true, false, false));
+		this.attr('.sql-entity-body/d', _svgRoundedRect(0.75, 0.5, width, height, 3, false, false, true, true));
 
 		/*-----------------------------------------------------------------*/
 	}
@@ -399,7 +398,7 @@ joint.dia.Element.define('sql.Table', {
 
 /*-------------------------------------------------------------------------*/
 
-joint.shapes.sql.TableView = joint.dia.ElementView.extend({
+joint.shapes.sql.EntityView = joint.dia.ElementView.extend({
 	/*---------------------------------------------------------------------*/
 
 	initialize: function()
@@ -410,7 +409,7 @@ joint.shapes.sql.TableView = joint.dia.ElementView.extend({
 
 		/*-----------------------------------------------------------------*/
 
-		this.listenTo(this.model, 'change:columns', this.renderColumns, this);
+		this.listenTo(this.model, 'change:fields', this.renderFields, this);
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -425,20 +424,20 @@ joint.shapes.sql.TableView = joint.dia.ElementView.extend({
 
 		/*-----------------------------------------------------------------*/
 
-		this.src = V(this.model.columnMarkup);
+		this.src = V(this.model.fieldMarkup);
 
-		this.dst = this.$('.sql-columns');
+		this.dst = this.$('.sql-fields');
 
 		/*-----------------------------------------------------------------*/
 
-		this.renderColumns();
+		this.renderFields();
 
 		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	renderColumns: function()
+	renderFields: function()
 	{
 		/*-----------------------------------------------------------------*/
 
@@ -446,21 +445,20 @@ joint.shapes.sql.TableView = joint.dia.ElementView.extend({
 
 		/*-----------------------------------------------------------------*/
 
-		_.each(this.model.get('columns'), function(column) {
+		this.model.get('fields').forEach((field) => {
 
-			let clone = this.src.clone().addClass(column.selector);
+			let clone = this.src.clone().addClass(field.selector);
 
-			clone.attr('transform', 'translate(0, ' + column.offset + ')');
+			clone.attr('transform', 'translate(0, ' + field.offset + ')');
 
-			clone.find('.sql-column-link')[0].attr('data-table', column.table)
-			                                 .attr('data-column', column.name)
+			clone.find('.sql-field-link')[0].attr('data-entity', field.entity)
+			                                .attr('data-field', field.field)
 			;
 
-			clone.find('.sql-column-text')[0].text(column.text);
+			clone.find('.sql-field-text')[0].text(field.text);
 
 			this.dst.append(clone.node);
-
-		}, this);
+		});
 
 		/*-----------------------------------------------------------------*/
 
@@ -474,9 +472,9 @@ joint.shapes.sql.TableView = joint.dia.ElementView.extend({
 
 /*-------------------------------------------------------------------------*/
 
-joint.dia.Graph.prototype.newTable = function(table)
+joint.dia.Graph.prototype.newEntity = function(entity)
 {
-	let result = new joint.shapes.sql.Table(table);
+	let result = new joint.shapes.sql.Entity(entity);
 
 	this.addCell(result);
 
@@ -485,11 +483,11 @@ joint.dia.Graph.prototype.newTable = function(table)
 
 /*-------------------------------------------------------------------------*/
 
-joint.dia.Graph.prototype.newForeignKey = function(fkTableId, pkTableId)
+joint.dia.Graph.prototype.newForeignKey = function(fkEntityId, pkEntityId)
 {
 	let result = new joint.dia.Link({
-		source: {id: fkTableId},
-		target: {id: pkTableId},
+		source: {id: fkEntityId},
+		target: {id: pkEntityId},
 		attrs: {
 			'.connection': {'stroke': '#707070', 'stroke-width': 3},
 			'.marker-source': {'stroke': '#707070', 'fill': '#707070', 'd': 'm 14.456044,15.990164 1.23e-4,7.500564 0,-7.179668 -9.0002053,5.179668 0,-11.000206 9.0000823,5.178745 1.23e-4,-7.178745 z'}
