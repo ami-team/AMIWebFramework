@@ -6605,11 +6605,17 @@ $AMIClass('ami.Control',
   },
 
   /*---------------------------------------------------------------------*/
+  setParent: function setParent(parent) {
+    return this._parent = parent || this;
+  },
   getParent: function getParent() {
     return this._parent;
   },
 
   /*---------------------------------------------------------------------*/
+  setOwner: function setOwner(owner) {
+    return this._owner = owner || this;
+  },
   getOwner: function getOwner() {
     return this._owner;
   },

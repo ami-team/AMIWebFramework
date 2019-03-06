@@ -44,7 +44,8 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/controls/Table/js/libunits.js',
 			amiWebApp.originURL + '/controls/Table/js/libxql.js',
 			/**/
-			'ctrl:FieldEditor',
+			'ctrl:fieldEditor',
+			'ctrl:tab',
 		]).done((data) => {
 
 			amiWebApp.appendHTML('body', data[1]).done(() => {
@@ -56,6 +57,7 @@ $AMIClass('TableCtrl', {
 					this.fragmentJS = data[5];
 
 					this.fieldEditorCtor = data[8];
+					this.tabCtor = data[9];
 				});
 			});
 		});
@@ -96,19 +98,22 @@ $AMIClass('TableCtrl', {
 			appendCommandFunc, deleteCommandFunc,
 			enableCache, showToolBar, showDetails, showTools, canEdit,
 			catalog, entity, primaryField, rowset,
-			start, stop, orderBy, orderWay
+			start, stop, orderBy, orderWay,
+			card
 		] = amiWebApp.setup(
 			[
 				'appendCommandFunc', 'deleteCommandFunc',
 				'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
 				'start', 'stop', 'orderBy', 'orderWay',
+				'card'
 			],
 			[
 				fn1, fn2,
 				false, true, false, true, false,
 				'', '', '', '',
 				1, 10, '', '',
+				false,
 			],
 			settings
 		);
@@ -131,6 +136,8 @@ $AMIClass('TableCtrl', {
 		this.ctx.stop = stop;
 		this.ctx.orderBy = orderBy;
 		this.ctx.orderWay = orderWay;
+
+		this.ctx.card = card;
 
 		/*-----------------------------------------------------------------*/
 
@@ -220,8 +227,30 @@ $AMIClass('TableCtrl', {
 
 	_render: function(selector)
 	{
-		/*-----------------------------------------------------------------*/
+		if(this.getParent().$name !== 'TabCtrl')
+		{
+			const tab = new this.tabCtor(null, this);
 
+			tab.render(selector, this.ctx).done(() => {
+
+				tab.appendItem('<i class="fa fa-table"></i> ' + this.ctx.entity).done((selector) => {
+
+					this.setParent(tab);
+
+					this.__render(selector);
+				});
+			});
+		}
+		else
+		{
+			this.__render(selector);
+		}
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	__render: function(selector)
+	{
 		this.replaceHTML(selector, this.fragmentTableCtrl, {dict: this.ctx}).done(() => {
 
 			/*-------------------------------------------------------------*/
@@ -297,8 +326,6 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 		});
-
-		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
