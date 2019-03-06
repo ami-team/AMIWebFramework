@@ -24,40 +24,28 @@ $AMIClass('TableViewerApp', {
 
 		amiWebApp.loadResources([
 			'subapps/TableViewer/twig/TableViewerApp.twig',
-			'ctrl:tab',
 			'ctrl:table',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
 
-				this.tab = new data[1](((this)));
-				this.table = new data[2](this.tab);
+				try
+				{
+					json = JSON.parse(userdata || '{}');
+				}
+				catch(e)
+				{
+					json = {/*----------------------*/};
+				}
 
-				this.tab.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', {context: this}).done(function() {
+				this.catalog = json.catalog || '';
+				this.entity = json.entity || '';
+				this.expression = json.expression || '1=1';
+				this.primaryField = json.primaryField || '';
 
-					var json;
+				this.table = new data[1]();
 
-					try
-					{
-						json = JSON.parse(userdata || '{}');
-					}
-					catch(e)
-					{
-						json = {/*----------------------*/};
-					}
-
-					this.catalog = json.catalog || '';
-					this.entity = json.entity || '';
-					this.expression = json.expression || '1=1';
-					this.primaryField = json.primaryField || '';
-
-					this.tab.appendItem(this.entity, {context: this}).done(function(tabSel) {
-
-						this.tabSel = tabSel;
-
-						result.resolve();
-					});
-				});
+				result.resolve();
 			});
 
 		}).fail(function(data) {
@@ -72,9 +60,9 @@ $AMIClass('TableViewerApp', {
 
 	onLogin: function()
 	{
-		this.table.render(this.tabSel, 'SearchQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*` WHERE ' + this.expression + '"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: this.catalog, entity: this.entity, primaryField: this.primaryField, start: 1, stop: 20});
-
 		$('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0').show();
+
+		this.table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', 'SearchQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*` WHERE ' + this.expression + '"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: this.catalog, entity: this.entity, primaryField: this.primaryField, start: 1, stop: 20, card: true});
 	},
 
 	/*---------------------------------------------------------------------*/
