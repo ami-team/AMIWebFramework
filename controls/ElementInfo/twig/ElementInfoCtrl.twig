@@ -27,6 +27,9 @@
 
 		<div class="form-inline mr-sm-2 my-2 my-lg-0">
 			<button id="ACFEDF15_7894_6D91_CBE7_D98B5F7E9C6A" type="button" class="btn btn-outline-secondary mr-2"><i class="fa fa-refresh"></i></button>
+		</div>
+
+		<div class="form-inline mr-sm-2 my-2 my-lg-0">
 			<span class="switch switch-on-warning switch-off-secondary">
 				<input type="checkbox" id="D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73" />
 				<label for="D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73">
@@ -36,6 +39,19 @@
 				</label>
 			</span>
 		</div>
+
+		{% if canEdit %}
+		<div class="form-inline mr-sm-2 my-2 my-lg-0">
+			<span class="switch switch-on-warning switch-off-secondary">
+				<input type="checkbox" id="AB84A8CC_5E70_EBE7_8766_317FEE71EFE8" />
+				<label for="AB84A8CC_5E70_EBE7_8766_317FEE71EFE8">
+					<span class="text-secondary">view</span>
+					/
+					<span class="text-warning">edit</span>
+				</label>
+			</span>
+		</div>
+		{% endif %}
 
 		<ul class="navbar-nav mr-sm-2 my-2 my-lg-0">
 			<div class="nav-item dropdown">

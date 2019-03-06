@@ -722,7 +722,7 @@ $AMIClass('TableCtrl', {
 		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	_formToArray: function()
 	{
@@ -743,7 +743,7 @@ $AMIClass('TableCtrl', {
 		];
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	appendRow: function()
 	{
@@ -768,7 +768,7 @@ $AMIClass('TableCtrl', {
 		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	deleteRow: function()
 	{
@@ -793,7 +793,7 @@ $AMIClass('TableCtrl', {
 		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	_buildColumnName: function(catalog, entity, field)
 	{
@@ -814,25 +814,20 @@ $AMIClass('TableCtrl', {
 		return result.join('.');
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	showRefineModal: function(catalog, entity, field)
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		//!WARNING
 		var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
 
-		var aliases = regions['ALIASES'];
+		var column = this._buildColumnName('N/A', regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
 
-		var column;
+		/*-----------------------------------------------------------------*/
 
-		column = this._buildColumnName('N/A', aliases[field].tableAlias, aliases[field].field);
-
-		/*---------------------------------------------------------*/
-
-		var el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
-		var el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
+		const el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
+		const el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
 
 		el1.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
 		el1.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
@@ -842,42 +837,36 @@ $AMIClass('TableCtrl', {
 
 		el1.find('form')[0].reset();
 
-		var that = this;
-
-		el2.off().submit(function(e) {
+		el2.off().submit((e) => {
 
 			e.preventDefault();
 
-			that.refineResult();
+			this.refineResult();
 		});
 
 		el1.modal('show');
+
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	hideRefineModal: function()
 	{
-		/*---------------------------------------------------------*/
-
-		var column = /*-----------------*/''/*-----------------*/;
-
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		var el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
 		var el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
 
-		el1.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
-		el1.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
+		el1.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text('');
+		el1.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val('');
 
 		el1.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
 		el1.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
 
 		el1.find('form')[0].reset();
 
-		var that = this;
-
-		el2.off().submit(function(e) {
+		el2.off().submit((e) => {
 
 			e.preventDefault();
 
@@ -885,9 +874,11 @@ $AMIClass('TableCtrl', {
 		});
 
 		el1.modal('hide');
+
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	refineResult: function(_filter, _x, _y)
 	{

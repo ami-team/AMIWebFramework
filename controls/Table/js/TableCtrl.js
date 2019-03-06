@@ -543,7 +543,7 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
   },
 
-  /*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
   _formToArray: function _formToArray() {
     var form = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1').serializeArray();
     var fieldList = [];
@@ -557,7 +557,7 @@ $AMIClass('TableCtrl', {
     return [fieldList, valueList];
   },
 
-  /*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
   appendRow: function appendRow() {
     var _this7 = this;
 
@@ -577,7 +577,7 @@ $AMIClass('TableCtrl', {
     return result;
   },
 
-  /*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
   deleteRow: function deleteRow() {
     var _this8 = this;
 
@@ -601,7 +601,7 @@ $AMIClass('TableCtrl', {
     return result;
   },
 
-  /*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
   _buildColumnName: function _buildColumnName(catalog, entity, field) {
     var result = [];
 
@@ -620,15 +620,16 @@ $AMIClass('TableCtrl', {
     return result.join('.');
   },
 
-  /*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
   showRefineModal: function showRefineModal(catalog, entity, field) {
-    /*---------------------------------------------------------*/
-    //!WARNING
+    var _this9 = this;
+
+    /*-----------------------------------------------------------------*/
     var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
-    var aliases = regions['ALIASES'];
-    var column;
-    column = this._buildColumnName('N/A', aliases[field].tableAlias, aliases[field].field);
-    /*---------------------------------------------------------*/
+
+    var column = this._buildColumnName('N/A', regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
+    /*-----------------------------------------------------------------*/
+
 
     var el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
     var el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
@@ -637,40 +638,34 @@ $AMIClass('TableCtrl', {
     el1.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
     el1.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
     el1.find('form')[0].reset();
-    var that = this;
     el2.off().submit(function (e) {
       e.preventDefault();
-      that.refineResult();
+
+      _this9.refineResult();
     });
     el1.modal('show');
+    /*-----------------------------------------------------------------*/
   },
 
-  /*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
   hideRefineModal: function hideRefineModal() {
-    /*---------------------------------------------------------*/
-    var column =
-    /*-----------------*/
-    ''
-    /*-----------------*/
-    ;
-    /*---------------------------------------------------------*/
-
+    /*-----------------------------------------------------------------*/
     var el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
     var el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
-    el1.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
-    el1.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
+    el1.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text('');
+    el1.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val('');
     el1.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
     el1.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
     el1.find('form')[0].reset();
-    var that = this;
     el2.off().submit(function (e) {
       e.preventDefault();
       /* DO NOTHING */
     });
     el1.modal('hide');
+    /*-----------------------------------------------------------------*/
   },
 
-  /*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
   refineResult: function refineResult(_filter, _x, _y) {
     /*---------------------------------------------------------*/
     var el = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
