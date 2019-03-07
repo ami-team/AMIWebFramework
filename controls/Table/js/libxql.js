@@ -28,9 +28,9 @@ function xqlTokenizer(xql)
 
 	while(i < l)
 	{
-		/*---------------------------------------------------------*/
-		/* EAT SPACES                                              */
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
+		/* EAT SPACES                                                      */
+		/*-----------------------------------------------------------------*/
 
 		/**/ if((m = xql.substring(i).match(_xqlTokenizerPattern1)))
 		{
@@ -39,9 +39,9 @@ function xqlTokenizer(xql)
 			i += m[0].length;
 		}
 
-		/*---------------------------------------------------------*/
-		/* STRING                                                  */
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
+		/* STRING                                                          */
+		/*-----------------------------------------------------------------*/
 
 		else if((m = xql.substring(i).match(_xqlTokenizerPattern2)))
 		{
@@ -50,13 +50,13 @@ function xqlTokenizer(xql)
 			i += m[0].length;
 		}
 
-		/*---------------------------------------------------------*/
-		/* OTHER                                                   */
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
+		/* OTHER                                                           */
+		/*-----------------------------------------------------------------*/
 
 		else result.push(xql[i++]);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	}
 
 	return result;
@@ -76,11 +76,13 @@ var _xqlRegions = {
 
 /*-------------------------------------------------------------------------*/
 
-function xqlGetRegions(xql, fieldDescriptions)
+function xqlGetRegions(xql, fieldDescriptions, addCatalogInALiases)
 {
 	var result = {};
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
+	/* PARSE XQL                                                           */
+	/*---------------------------------------------------------------------*/
 
 	var lock = 0;
 
@@ -92,7 +94,7 @@ function xqlGetRegions(xql, fieldDescriptions)
 
 		TOKEN = token.toUpperCase();
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		/**/ if(TOKEN === '(')
 		{
@@ -105,7 +107,7 @@ function xqlGetRegions(xql, fieldDescriptions)
 			lock--;
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
 		else if(lock === 0 && TOKEN in _xqlRegions)
 		{
@@ -119,114 +121,59 @@ function xqlGetRegions(xql, fieldDescriptions)
 
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		else if(TOKEN !== 'BY') tokens.push(token);
+		else if(TOKEN !== 'BY')
+		{
+			tokens.push(token);
+		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	});
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	if(keyword)
 	{
 		result[keyword] = tokens.join('').trim();
 	}
 
-	/*-----------------------------------------------------------------*/
-
-	result['ALIASES'] = _getAliases(fieldDescriptions);
-
-	/*-----------------------------------------------------------------*/
-
-	return result;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _getAliases(fieldDescriptions)
-{
-	var result = {};
-
-	fieldDescriptions.forEach(function(item) {
-
-		result[amiWebApp.jspath('..@label', item)] = {'field' : amiWebApp.jspath('..@field', item), 'fieldAlias' : amiWebApp.jspath('..@label', item), 'table' : amiWebApp.jspath('..@entity', item), 'tableAlias' : amiWebApp.jspath('..@entity', item)};
-	});
-
-	return result;
-}
-
-/*-------------------------------------------------------------------------*/
-
-function _xqlGetAliases(xqlSelectFragment, xqlFromFragment)
-{
-	var result = {};
-
 	/*---------------------------------------------------------------------*/
-	/* GET DB ALIASES                                                      */
+	/* BUILD ALIAS TABLE                                                   */
 	/*---------------------------------------------------------------------*/
 
-	var _tableAliases = {};
+	var aliases = {};
 
-	xqlFromFragment.split(',').forEach(function(item) {
+	result['ALIASES'] = aliases;
 
-		var parts = item.trim().split(/\s+/);
+	if(addCatalogInALiases)
+	{
+		fieldDescriptions.forEach(function(item) {
 
-		if(parts.length === 1)
-		{
-			_tableAliases[parts[0]] = parts[0];
-		}
-		else if(parts.length === 2)
-		{
-			_tableAliases[parts[1]] = parts[0];
-		}
-		else
-		{
-			throw 'sql syntax error';
-		}
-	});
+			aliases[amiWebApp.jspath('..@label', item)] = {
+				'catalog': amiWebApp.jspath('..@catalog', item)[0],
+				'field': amiWebApp.jspath('..@field', item)[0],
+				'fieldAlias': amiWebApp.jspath('..@label', item)[0],
+				'table': amiWebApp.jspath('..@entity', item)[0],
+				'tableAlias': amiWebApp.jspath('..@entity', item)[0],
+			};
+		});
+	}
+	else
+	{
+		fieldDescriptions.forEach(function(item) {
+
+			aliases[amiWebApp.jspath('..@label', item)] = {
+				'catalog': /*------------*/ 'N/A' /*------------*/,
+				'field': amiWebApp.jspath('..@field', item)[0],
+				'fieldAlias': amiWebApp.jspath('..@label', item)[0],
+				'table': amiWebApp.jspath('..@entity', item)[0],
+				'tableAlias': amiWebApp.jspath('..@entity', item)[0],
+			};
+		});
+	}
 
 	/*---------------------------------------------------------------------*/
-
-	var xqlSelectFragmentPattern1 = /[ ][A,a][S,s][ ]/;
-	var xqlSelectFragmentPattern2 = /[\.]/;
-	var tmp;
-	var fieldAlias;
-	var tableAlias;
-
-	xqlSelectFragment.split(',').forEach(function(item) {
-
-		tmp = [];
-		fieldAlias = '';
-		tableAlias = '';
-
-		item = item.trim().replace(/`/g,'');
-
-		tmp = item.split(xqlSelectFragmentPattern1);
-
-		if(tmp.length === 2)
-		{
-			fieldAlias = tmp.pop();
-		}
-
-		tmp = tmp[0].split(xqlSelectFragmentPattern2);
-
-		field = tmp.pop();
-
-		if(tmp.length === 1)
-		{
-			tableAlias = tmp.pop();
-		}
-
-		if (fieldAlias === '')
-		{
-			fieldAlias = field;
-		}
-
-		table = _tableAliases.length === 0 ? tableAlias : _tableAliases[tableAlias];
-
-		result[fieldAlias] = {'field' : field, 'fieldAlias' : fieldAlias, 'table' : table, 'tableAlias' : tableAlias};
-	});
 
 	return result;
 }

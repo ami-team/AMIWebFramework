@@ -41,10 +41,10 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/js.twig',
 			/**/
-			amiWebApp.originURL + '/controls/Table/js/libunits.js',
 			amiWebApp.originURL + '/controls/Table/js/libxql.js',
 			/**/
-			'ctrl:FieldEditor',
+			'ctrl:fieldEditor',
+			'ctrl:tab',
 		]).done((data) => {
 
 			amiWebApp.appendHTML('body', data[1]).done(() => {
@@ -55,7 +55,8 @@ $AMIClass('TableCtrl', {
 					this.fragmentTable = data[4];
 					this.fragmentJS = data[5];
 
-					this.fieldEditorCtor = data[8];
+					this.fieldEditorCtor = data[7];
+					this.tabCtor = data[8];
 				});
 			});
 		});
@@ -85,6 +86,8 @@ $AMIClass('TableCtrl', {
 			mql: 'N/A',
 			ast: 'N/A',
 
+			totalResults: Number.NaN,
+
 			inEditMode: false,
 		};
 
@@ -96,19 +99,22 @@ $AMIClass('TableCtrl', {
 			appendCommandFunc, deleteCommandFunc,
 			enableCache, showToolBar, showDetails, showTools, canEdit,
 			catalog, entity, primaryField, rowset,
-			start, stop, orderBy, orderWay
+			start, stop, orderBy, orderWay,
+			card
 		] = amiWebApp.setup(
 			[
 				'appendCommandFunc', 'deleteCommandFunc',
 				'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
 				'start', 'stop', 'orderBy', 'orderWay',
+				'card'
 			],
 			[
 				fn1, fn2,
 				false, true, false, true, false,
 				'', '', '', '',
 				1, 10, '', '',
+				false,
 			],
 			settings
 		);
@@ -131,6 +137,8 @@ $AMIClass('TableCtrl', {
 		this.ctx.stop = stop;
 		this.ctx.orderBy = orderBy;
 		this.ctx.orderWay = orderWay;
+
+		this.ctx.card = card;
 
 		/*-----------------------------------------------------------------*/
 
@@ -220,21 +228,55 @@ $AMIClass('TableCtrl', {
 
 	_render: function(selector)
 	{
-		/*-----------------------------------------------------------------*/
+		if(this.getParent().$name !== 'TabCtrl')
+		{
+			const tab = new this.tabCtor(null, this);
 
+			tab.render(selector, this.ctx).done(() => {
+
+				tab.appendItem('<i class="fa fa-table"></i> ' + this.ctx.entity).done((selector) => {
+
+					this.setParent(tab);
+
+					this.__render(selector);
+				});
+			});
+		}
+		else
+		{
+			this.__render(selector);
+		}
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	__render: function(selector)
+	{
 		this.replaceHTML(selector, this.fragmentTableCtrl, {dict: this.ctx}).done(() => {
 
 			/*-------------------------------------------------------------*/
 
+			$(this.patchId('#BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570')).click(() => {
+
+				this.firstPage();
+			});
+
 			$(this.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(() => {
 
-				this.prev();
+				this.prevPage();
 			});
 
 			$(this.patchId('#E7FDF4C8_ECD2_3FE0_8C75_541E511239C2')).click(() => {
 
-				this.next();
+				this.nextPage();
 			});
+
+			$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).click(() => {
+
+				this.lastPage();
+			});
+
+			/*-------------------------------------------------------------*/
 
 			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).keypress((e) => {
 
@@ -297,24 +339,84 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 		});
-
-		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	checkPageNumber: function(_x, _default) { return isNaN(_x) === false && _x > 0 ? _x : _default; },
+	parsePageNumber: function(s, defaultPageNumber)
+	{
+		const parsedPageNumber = parseInt(s);
+
+		return Number.isNaN(parsedPageNumber) === false && parsedPageNumber > 0 ? parsedPageNumber
+		                                                                        : defaultPageNumber
+		;
+	},
 
 	/*---------------------------------------------------------------------*/
 
-	prev: function()
+	getOffsetOfLastPage: function(range)
 	{
-		const oldStart = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
+		const modulo = this.ctx.totalResults % range;
+
+		return this.ctx.totalResults > modulo ? this.ctx.totalResults - modulo
+		                                      : 0x00000000000000000000000000001
+		;
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	firstPage: function()
+	{
+		const oldStart = this.parsePageNumber(
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
 		);
 
-		const oldStop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
+		const oldStop = this.parsePageNumber(
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
+		);
+
+		const range = oldStop - oldStart + 1;
+
+		const newStart = 0x00000000000000000000000000001;
+
+		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
+		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
+
+		this.refresh();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	lastPage: function()
+	{
+		const oldStart = this.parsePageNumber(
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
+		);
+
+		const oldStop = this.parsePageNumber(
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
+		);
+
+		const range = oldStop - oldStart + 1;
+
+		const newStart = this.getOffsetOfLastPage(range);
+
+		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
+		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
+
+		this.refresh();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	prevPage: function()
+	{
+		const oldStart = this.parsePageNumber(
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
+		);
+
+		const oldStop = this.parsePageNumber(
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
 		const range = oldStop - oldStart + 1;
@@ -338,14 +440,14 @@ $AMIClass('TableCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	next: function()
+	nextPage: function()
 	{
-		const oldStart = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
+		const oldStart = this.parsePageNumber(
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
 		);
 
-		const oldStop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
+		const oldStop = this.parsePageNumber(
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
 		const range = oldStop - oldStart + 1;
@@ -389,12 +491,12 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		const start = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
+		const start = this.parsePageNumber(
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
 		);
 
-		const stop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
+		const stop = this.parsePageNumber(
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
 		command += ' -limit="' + (stop - start + 1) + '"';
@@ -426,7 +528,7 @@ $AMIClass('TableCtrl', {
 			this.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
 			this.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
 
-			const totalResults = amiWebApp.jspath('..@totalResults', rowset)[0] || 'N/A';
+			this.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '');
 
 			/**/
 
@@ -444,6 +546,13 @@ $AMIClass('TableCtrl', {
 				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).show();
 			}
 
+			if(Number.isNaN(this.ctx.totalResults)) {
+				$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', true);
+			}
+			else {
+				$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', false);
+			}
+
 			const dict = {
 				fieldDescriptions: this.ctx.fieldDescriptions,
 				rows: rows,
@@ -456,7 +565,7 @@ $AMIClass('TableCtrl', {
 				const parent = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
 
 				/*---------------------------------------------------------*/
-				/* TOOLS                                                   */
+				/* COLUMN TOOLS                                            */
 				/*---------------------------------------------------------*/
 
 				parent.find('a[data-orderway="DESC"]').click((e) => {
@@ -527,16 +636,7 @@ $AMIClass('TableCtrl', {
 				});
 
 				/*---------------------------------------------------------*/
-				/*---------------------------------------------------------*/
-
-				parent.find('a[data-ctrl]').click((e) => {
-
-					e.preventDefault();
-
-					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.settings);
-				});
-
-				/*---------------------------------------------------------*/
+				/* ROW TOOLS                                               */
 				/*---------------------------------------------------------*/
 
 				parent.find('a[data-action="clone"]').click((e) => {
@@ -556,6 +656,18 @@ $AMIClass('TableCtrl', {
 				});
 
 				/*---------------------------------------------------------*/
+				/* DETAILS                                                 */
+				/*---------------------------------------------------------*/
+
+				parent.find('a[data-ctrl]').click((e) => {
+
+					e.preventDefault();
+
+					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.settings);
+				});
+
+				/*---------------------------------------------------------*/
+				/* FILTERS                                                 */
 				/*---------------------------------------------------------*/
 
 				parent.find('a[data-action="filter"]').click((e) => {
@@ -580,10 +692,10 @@ $AMIClass('TableCtrl', {
 				this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
 
 				/*---------------------------------------------------------*/
-				/* TOOLTIP CONTENT                                         */
+				/* FILL TOOLTIP                                            */
 				/*---------------------------------------------------------*/
 
-				const title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (totalResults !== 'N/A' ? totalResults : rows.length);
+				const title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (Number.isNaN(this.ctx.totalResults) === false ? this.ctx.totalResults : 'N/A')
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
 					placement: 'bottom',
@@ -695,7 +807,7 @@ $AMIClass('TableCtrl', {
 		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	_formToArray: function()
 	{
@@ -704,7 +816,7 @@ $AMIClass('TableCtrl', {
 		const fieldList = [];
 		const valueList = [];
 
-		for(var i in form)
+		for(let i in form)
 		{
 			fieldList.push(form[i].name);
 			valueList.push(form[i].value);
@@ -716,7 +828,7 @@ $AMIClass('TableCtrl', {
 		];
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	appendRow: function()
 	{
@@ -741,7 +853,7 @@ $AMIClass('TableCtrl', {
 		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	deleteRow: function()
 	{
@@ -766,11 +878,11 @@ $AMIClass('TableCtrl', {
 		return result;
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	_buildColumnName: function(catalog, entity, field)
 	{
-		var result = [];
+		const result = [];
 
 		if(catalog && catalog !== 'N/A') {
 			result.push('`' + catalog + '`');
@@ -787,25 +899,22 @@ $AMIClass('TableCtrl', {
 		return result.join('.');
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	showRefineModal: function(catalog, entity, field)
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		//!WARNING
-		var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
+		const isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
 
-		var aliases = regions['ALIASES'];
+		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
 
-		var column;
+		const column = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
 
-		column = this._buildColumnName('N/A', aliases[field].tableAlias, aliases[field].field);
+		/*-----------------------------------------------------------------*/
 
-		/*---------------------------------------------------------*/
-
-		var el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
-		var el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
+		const el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
+		const el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
 
 		el1.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
 		el1.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
@@ -815,74 +924,42 @@ $AMIClass('TableCtrl', {
 
 		el1.find('form')[0].reset();
 
-		var that = this;
-
-		el2.off().submit(function(e) {
+		el2.off().submit((e) => {
 
 			e.preventDefault();
 
-			that.refineResult();
+			this.refineResult();
 		});
 
 		el1.modal('show');
+
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
-
-	hideRefineModal: function()
-	{
-		/*---------------------------------------------------------*/
-
-		var column = /*-----------------*/''/*-----------------*/;
-
-		/*---------------------------------------------------------*/
-
-		var el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
-		var el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
-
-		el1.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text(column);
-		el1.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val(column);
-
-		el1.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
-		el1.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
-
-		el1.find('form')[0].reset();
-
-		var that = this;
-
-		el2.off().submit(function(e) {
-
-			e.preventDefault();
-
-			/* DO NOTHING */
-		});
-
-		el1.modal('hide');
-	},
-
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	refineResult: function(_filter, _x, _y)
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var el = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
+		const el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
+		const el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
 
-		var filter = _filter || el.find('select[name="filter"]').val();
+		const filter = _filter || el2.find('select[name="filter"]').val();
 
-		var x = _x || el.find('input[name="x"]').val();
+		let x = _x || el2.find('input[name="x"]').val();
+		let y = _y || el2.find('input[name="y"]').val();
 
-		var y = _y || el.find('input[name="y"]').val();
-		var y1 = el.find('input[name="y1"]').val();
-		var y2 = el.find('input[name="y2"]').val();
+		let y1 = el2.find('input[name="y1"]').val();
+		let y2 = el2.find('input[name="y2"]').val();
 
 		y = y.replace(/'/g, '\'\'');
 		y1 = y1.replace(/'/g, '\'\'');
 		y2 = y2.replace(/'/g, '\'\'');
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var cond;
+		let cond;
 
 		switch(filter)
 		{
@@ -938,15 +1015,17 @@ $AMIClass('TableCtrl', {
 				return;
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		this.hideRefineModal();
+		el1.modal('hide');
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
+		const isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
 
-		/*---------------------------------------------------------*/
+		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
+
+		/*-----------------------------------------------------------------*/
 
 		if(regions['WHERE'])
 		{
@@ -957,9 +1036,9 @@ $AMIClass('TableCtrl', {
 			regions['WHERE'] = cond;
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var xql = [];
+		const xql = [];
 
 		if(regions['SELECT']) {
 			xql.push('SELECT ' + regions['SELECT']);
@@ -973,33 +1052,30 @@ $AMIClass('TableCtrl', {
 			xql.push('WHERE ' + regions['WHERE']);
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
-
-		/*---------------------------------------------------------*/
+		const command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {}, this.settings, 'table', this.ctx.entity);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	showStatsTab: function(catalog, entity, field)
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
+		const isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
 
-		var aliases = regions['ALIASES'];
+		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
 
-		/*---------------------------------------------------------*/
+		const columnName = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
 
-		var columnName = this._buildColumnName('N/A', aliases[field].tableAlias, aliases[field].field);
-		var columnNAME = this._buildColumnName(catalog, aliases[field].tableAlias, aliases[field].field);
+		/*-----------------------------------------------------------------*/
 
-		regions['SELECT'] = '\'' + columnNAME.replace(/'/g, '\'\'') + '\' AS `field`'
+		regions['SELECT'] = '\'' + columnName.replace(/'/g, '\'\'') + '\' AS `field`'
 		                    + ', ' +
 		                    'MIN(' + columnName + ') AS `min`'
 		                    + ', ' +
@@ -1014,9 +1090,9 @@ $AMIClass('TableCtrl', {
 		                    'COUNT(' + columnName + ') AS `count`'
 		;
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var xql = [];
+		const xql = [];
 
 		if(regions['SELECT']) {
 			xql.push('SELECT ' + regions['SELECT']);
@@ -1030,38 +1106,36 @@ $AMIClass('TableCtrl', {
 			xql.push('WHERE ' + regions['WHERE']);
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
-
-		/*---------------------------------------------------------*/
+		const command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: '', showDetails: false}, this.settings, 'bar-chart', this.ctx.entity);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 
 	showGroupTab: function(catalog, entity, field)
 	{
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
+		const isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
 
-		var aliases = regions['ALIASES'];
+		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
 
-		/*---------------------------------------------------------*/
+		const columnName = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
 
-		var columnName = this._buildColumnName('N/A', aliases[field].tableAlias, aliases[field].field);
+		/*-----------------------------------------------------------------*/
 
 		regions['SELECT'] = columnName
 				+ ', count(*) AS `total`, CONCAT(\'@owner::' + columnName + '::\', ' + columnName + ') AS `go`';
 		regions['GROUP'] = columnName;
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var xql = [];
+		const xql = [];
 
 		if(regions['SELECT']) {
 			xql.push('SELECT ' + regions['SELECT']);
@@ -1076,21 +1150,19 @@ $AMIClass('TableCtrl', {
 		}
 
 		if(regions['GROUP']) {
-			xql.push('GROUP BY ' + regions['GROUP'].replace(entity, aliases[field].tableAlias));
+			xql.push('GROUP BY ' + regions['GROUP'].replace(entity, regions['ALIASES'][field].tableAlias));
 		}
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 
-		var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
-
-		/*---------------------------------------------------------*/
+		const command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: columnName, showDetails: false}, this.settings, 'slack', this.ctx.entity);
 
-		/*---------------------------------------------------------*/
+		/*-----------------------------------------------------------------*/
 	},
 
-	/*-----------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/

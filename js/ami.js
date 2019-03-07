@@ -6057,7 +6057,7 @@ $AMINamespace('amiWebApp',
 
   /**
     * Asynchronously create a control
-    * @param {Object} parent ???
+    * @param {Object} [parent] ???
     * @param {Object} [owner] ???
     * @param {String} control ???
     * @param {Array} params ???
@@ -6092,7 +6092,7 @@ $AMINamespace('amiWebApp',
 
   /**
     * Asynchronously create a control in a container
-    * @param {Object} parent ???
+    * @param {Object} [parent] ???
     * @param {Object} [owner] ???
     * @param {String} control ???
     * @param {Array} paramsWithoutSettings ???
@@ -6148,7 +6148,7 @@ $AMINamespace('amiWebApp',
 
   /**
     * Asynchronously create a control in a container
-    * @param {Object} parent ???
+    * @param {Object} [parent] ???
     * @param {Object} [owner] ???
     * @param {String} control ???
     * @param {Array} paramsWithoutSettings ???
@@ -6211,7 +6211,7 @@ $AMINamespace('amiWebApp',
 
   /**
     * Asynchronously create a control in a container from a WEB link
-    * @param {Object} parent ???
+    * @param {Object} [parent] ???
     * @param {Object} [owner] ???
     * @param {String} el ???
     * @param {Object} parentSettings ???
@@ -6605,11 +6605,17 @@ $AMIClass('ami.Control',
   },
 
   /*---------------------------------------------------------------------*/
+  setParent: function setParent(parent) {
+    return this._parent = parent || this;
+  },
   getParent: function getParent() {
     return this._parent;
   },
 
   /*---------------------------------------------------------------------*/
+  setOwner: function setOwner(owner) {
+    return this._owner = owner || this;
+  },
   getOwner: function getOwner() {
     return this._owner;
   },
@@ -8707,7 +8713,7 @@ var amiDoc = {
         "type": "Object",
         "desc": "???",
         "default": "",
-        "optional": "",
+        "optional": true,
         "nullable": ""
       }, {
         "name": "owner",
@@ -8750,7 +8756,7 @@ var amiDoc = {
         "type": "Object",
         "desc": "???",
         "default": "",
-        "optional": "",
+        "optional": true,
         "nullable": ""
       }, {
         "name": "owner",
@@ -8807,7 +8813,7 @@ var amiDoc = {
         "type": "Object",
         "desc": "???",
         "default": "",
-        "optional": "",
+        "optional": true,
         "nullable": ""
       }, {
         "name": "owner",
@@ -8878,7 +8884,7 @@ var amiDoc = {
         "type": "Object",
         "desc": "???",
         "default": "",
-        "optional": "",
+        "optional": true,
         "nullable": ""
       }, {
         "name": "owner",

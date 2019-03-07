@@ -161,12 +161,22 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*---------------------------------------------------------------------*/
 
+	setParent: function(parent)
+	{
+		return this._parent = (parent || this);
+	},
+
 	getParent: function()
 	{
 		return this._parent;
 	},
 
 	/*---------------------------------------------------------------------*/
+
+	setOwner: function(owner)
+	{
+		return this._owner = (owner || this);
+	},
 
 	getOwner: function()
 	{

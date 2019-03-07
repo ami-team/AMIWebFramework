@@ -15,8 +15,8 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top border mb-1" style="padding: 0.1rem 0.75rem 0.1rem 1.0rem;">
 
-	<span class="navbar-brand">
-		Details
+	<span class="navbar-brand" id="C824856C_46A2_E720_BA62_42D23CA38F94">
+		<i class="fa fa-info-circle"></i>
 	</span>
 
 	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#E0C44E70_07E8_24BC_72DD_DCB120E25FAE">
@@ -27,15 +27,32 @@
 
 		<div class="form-inline mr-sm-2 my-2 my-lg-0">
 			<button id="ACFEDF15_7894_6D91_CBE7_D98B5F7E9C6A" type="button" class="btn btn-outline-secondary mr-2"><i class="fa fa-refresh"></i></button>
+		</div>
+
+		<div class="form-inline mr-sm-2 my-2 my-lg-0">
 			<span class="switch switch-on-warning switch-off-secondary">
 				<input type="checkbox" id="D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73" />
 				<label for="D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73">
-					<span class="text-secondary">Empty fields hidden</span>
+					empty fields
+					<span class="text-secondary"> hidden</span>
 					/
-					<span class="text-warning">Empty fields shown</span>
+					<span class="text-warning"> shown</span>
 				</label>
 			</span>
 		</div>
+
+		{% if canEdit %}
+		<div class="form-inline mr-sm-2 my-2 my-lg-0">
+			<span class="switch switch-on-warning switch-off-secondary">
+				<input type="checkbox" id="AB84A8CC_5E70_EBE7_8766_317FEE71EFE8" />
+				<label for="AB84A8CC_5E70_EBE7_8766_317FEE71EFE8">
+					<span class="text-secondary">view</span>
+					/
+					<span class="text-warning">edit</span>
+				</label>
+			</span>
+		</div>
+		{% endif %}
 
 		<ul class="navbar-nav mr-sm-2 my-2 my-lg-0">
 			<div class="nav-item dropdown">
