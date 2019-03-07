@@ -86,6 +86,8 @@ $AMIClass('TableCtrl', {
 			mql: 'N/A',
 			ast: 'N/A',
 
+			totalResults: 'N/A',
+
 			inEditMode: false,
 		};
 
@@ -254,6 +256,11 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
+			$(this.patchId('#BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570')).click(() => {
+
+				this.xxxx();
+			});
+
 			$(this.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(() => {
 
 				this.prev();
@@ -263,6 +270,13 @@ $AMIClass('TableCtrl', {
 
 				this.next();
 			});
+
+			$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).click(() => {
+
+				this.yyyy();
+			});
+
+			/*-------------------------------------------------------------*/
 
 			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).keypress((e) => {
 
@@ -330,6 +344,48 @@ $AMIClass('TableCtrl', {
 	/*---------------------------------------------------------------------*/
 
 	checkPageNumber: function(_x, _default) { return isNaN(_x) === false && _x > 0 ? _x : _default; },
+
+	/*---------------------------------------------------------------------*/
+
+	xxxx: function()
+	{
+		const oldStart = this.checkPageNumber(
+			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
+		);
+
+		const oldStop = this.checkPageNumber(
+			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
+		);
+
+		const range = oldStop - oldStart + 1;
+
+		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(0x001);
+		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(0x000 + range);
+
+		this.refresh();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	yyyy: function()
+	{
+		const oldStart = this.checkPageNumber(
+			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
+		);
+
+		const oldStop = this.checkPageNumber(
+			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
+		);
+
+		const range = oldStop - oldStart + 1;
+
+		alert(this.ctx.totalResults - range + ' ' + this.ctx.totalResults);
+
+		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(this.ctx.totalResults - range);
+		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(this.ctx.totalResults);
+
+		this.refresh();
+	},
 
 	/*---------------------------------------------------------------------*/
 
@@ -426,7 +482,7 @@ $AMIClass('TableCtrl', {
 		command += ' -limit="' + (stop - start + 1) + '"';
 
 		command += ' -offset="' + (0x00 + start - 1) + '"';
-
+alert(command);
 		if(this.ctx.enableCache)
 		{
 			command += ' -cached';
@@ -452,7 +508,7 @@ $AMIClass('TableCtrl', {
 			this.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
 			this.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
 
-			const totalResults = amiWebApp.jspath('..@totalResults', rowset)[0] || 'N/A';
+			this.ctx.totalResults = 63;//amiWebApp.jspath('..@totalResults', rowset)[0] || 'N/A';
 
 			/**/
 
@@ -470,6 +526,13 @@ $AMIClass('TableCtrl', {
 				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).show();
 			}
 
+			if(this.ctx.totalResults === 'N/A') {
+				$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', true);
+			}
+			else {
+				$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', false);
+			}
+
 			const dict = {
 				fieldDescriptions: this.ctx.fieldDescriptions,
 				rows: rows,
@@ -482,7 +545,7 @@ $AMIClass('TableCtrl', {
 				const parent = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
 
 				/*---------------------------------------------------------*/
-				/* TOOLS                                                   */
+				/* COLUMN TOOLS                                            */
 				/*---------------------------------------------------------*/
 
 				parent.find('a[data-orderway="DESC"]').click((e) => {
@@ -553,16 +616,7 @@ $AMIClass('TableCtrl', {
 				});
 
 				/*---------------------------------------------------------*/
-				/*---------------------------------------------------------*/
-
-				parent.find('a[data-ctrl]').click((e) => {
-
-					e.preventDefault();
-
-					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.settings);
-				});
-
-				/*---------------------------------------------------------*/
+				/* ROW TOOLS                                               */
 				/*---------------------------------------------------------*/
 
 				parent.find('a[data-action="clone"]').click((e) => {
@@ -582,6 +636,18 @@ $AMIClass('TableCtrl', {
 				});
 
 				/*---------------------------------------------------------*/
+				/* DETAILS                                                 */
+				/*---------------------------------------------------------*/
+
+				parent.find('a[data-ctrl]').click((e) => {
+
+					e.preventDefault();
+
+					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.settings);
+				});
+
+				/*---------------------------------------------------------*/
+				/* FILTERS                                                 */
 				/*---------------------------------------------------------*/
 
 				parent.find('a[data-action="filter"]').click((e) => {
@@ -606,10 +672,10 @@ $AMIClass('TableCtrl', {
 				this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
 
 				/*---------------------------------------------------------*/
-				/* TOOLTIP CONTENT                                         */
+				/* FILL TOOLTIP                                            */
 				/*---------------------------------------------------------*/
 
-				const title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (totalResults !== 'N/A' ? totalResults : rows.length);
+				const title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + this.ctx.totalResults;
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
 					placement: 'bottom',

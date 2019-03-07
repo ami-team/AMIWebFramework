@@ -65,6 +65,7 @@ $AMIClass('TableCtrl', {
       sql: 'N/A',
       mql: 'N/A',
       ast: 'N/A',
+      totalResults: 'N/A',
       inEditMode: false
     };
 
@@ -196,12 +197,20 @@ $AMIClass('TableCtrl', {
       dict: this.ctx
     }).done(function () {
       /*-------------------------------------------------------------*/
+      $(_this4.patchId('#BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570')).click(function () {
+        _this4.xxxx();
+      });
       $(_this4.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(function () {
         _this4.prev();
       });
       $(_this4.patchId('#E7FDF4C8_ECD2_3FE0_8C75_541E511239C2')).click(function () {
         _this4.next();
       });
+      $(_this4.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).click(function () {
+        _this4.yyyy();
+      });
+      /*-------------------------------------------------------------*/
+
       $(_this4.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).keypress(function (e) {
         if (e.keyCode == 13) {
           _this4.refresh();
@@ -248,6 +257,27 @@ $AMIClass('TableCtrl', {
   /*---------------------------------------------------------------------*/
   checkPageNumber: function checkPageNumber(_x, _default) {
     return isNaN(_x) === false && _x > 0 ? _x : _default;
+  },
+
+  /*---------------------------------------------------------------------*/
+  xxxx: function xxxx() {
+    var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
+    var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
+    var range = oldStop - oldStart + 1;
+    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(0x001);
+    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(0x000 + range);
+    this.refresh();
+  },
+
+  /*---------------------------------------------------------------------*/
+  yyyy: function yyyy() {
+    var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
+    var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
+    var range = oldStop - oldStart + 1;
+    alert(this.ctx.totalResults - range + ' ' + this.ctx.totalResults);
+    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(this.ctx.totalResults - range);
+    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(this.ctx.totalResults);
+    this.refresh();
   },
 
   /*---------------------------------------------------------------------*/
@@ -310,6 +340,7 @@ $AMIClass('TableCtrl', {
     var stop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
     command += ' -limit="' + (stop - start + 1) + '"';
     command += ' -offset="' + (0x00 + start - 1) + '"';
+    alert(command);
 
     if (this.ctx.enableCache) {
       command += ' -cached';
@@ -325,7 +356,8 @@ $AMIClass('TableCtrl', {
       _this5.ctx.sql = amiWebApp.jspath('..@sql', rowset)[0] || 'N/A';
       _this5.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
       _this5.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
-      var totalResults = amiWebApp.jspath('..@totalResults', rowset)[0] || 'N/A';
+      _this5.ctx.totalResults = 63; //amiWebApp.jspath('..@totalResults', rowset)[0] || 'N/A';
+
       /**/
 
       if (_this5.sql === 'N/A') {
@@ -338,6 +370,12 @@ $AMIClass('TableCtrl', {
         $(_this5.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).hide();
       } else {
         $(_this5.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).show();
+      }
+
+      if (_this5.ctx.totalResults === 'N/A') {
+        $(_this5.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', true);
+      } else {
+        $(_this5.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', false);
       }
 
       var dict = {
@@ -353,7 +391,7 @@ $AMIClass('TableCtrl', {
         var parent = $(_this5.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
         /*---------------------------------------------------------*/
 
-        /* TOOLS                                                   */
+        /* COLUMN TOOLS                                            */
 
         /*---------------------------------------------------------*/
 
@@ -396,14 +434,7 @@ $AMIClass('TableCtrl', {
         });
         /*---------------------------------------------------------*/
 
-        /*---------------------------------------------------------*/
-
-        parent.find('a[data-ctrl]').click(function (e) {
-          e.preventDefault();
-
-          _this5.createControlFromWebLink(_this5.getParent(), e.currentTarget, _this5.settings);
-        });
-        /*---------------------------------------------------------*/
+        /* ROW TOOLS                                               */
 
         /*---------------------------------------------------------*/
 
@@ -420,6 +451,19 @@ $AMIClass('TableCtrl', {
           _this5.deleteRow(e.currentTarget.getAttribute('data-row'));
         });
         /*---------------------------------------------------------*/
+
+        /* DETAILS                                                 */
+
+        /*---------------------------------------------------------*/
+
+        parent.find('a[data-ctrl]').click(function (e) {
+          e.preventDefault();
+
+          _this5.createControlFromWebLink(_this5.getParent(), e.currentTarget, _this5.settings);
+        });
+        /*---------------------------------------------------------*/
+
+        /* FILTERS                                                 */
 
         /*---------------------------------------------------------*/
 
@@ -445,11 +489,11 @@ $AMIClass('TableCtrl', {
         _this5.ctx.js = amiWebApp.formatTWIG(_this5.fragmentJS, _this5.ctx);
         /*---------------------------------------------------------*/
 
-        /* TOOLTIP CONTENT                                         */
+        /* FILL TOOLTIP                                            */
 
         /*---------------------------------------------------------*/
 
-        var title = _this5.ctx.catalog + '::' + _this5.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (totalResults !== 'N/A' ? totalResults : rows.length);
+        var title = _this5.ctx.catalog + '::' + _this5.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + _this5.ctx.totalResults;
         $(_this5.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
           placement: 'bottom',
           title: title,
