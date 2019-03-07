@@ -265,22 +265,58 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570')).click(() => {
 
-				this.firstPage();
+				amiWebApp.lock();
+
+				this.firstPage().done(() => {
+
+					amiWebApp.unlock();
+
+				}).fail((message) => {
+
+					amiWebApp.error(message, true);
+				});
 			});
 
 			$(this.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(() => {
 
-				this.prevPage();
+				amiWebApp.lock();
+
+				this.prevPage().done(() => {
+
+					amiWebApp.unlock();
+
+				}).fail((message) => {
+
+					amiWebApp.error(message, true);
+				});
 			});
 
 			$(this.patchId('#E7FDF4C8_ECD2_3FE0_8C75_541E511239C2')).click(() => {
 
-				this.nextPage();
+				amiWebApp.lock();
+
+				this.nextPage().done(() => {
+
+					amiWebApp.unlock();
+
+				}).fail((message) => {
+
+					amiWebApp.error(message, true);
+				});
 			});
 
 			$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).click(() => {
 
-				this.lastPage();
+				amiWebApp.lock();
+
+				this.lastPage().done(() => {
+
+					amiWebApp.unlock();
+
+				}).fail((message) => {
+
+					amiWebApp.error(message, true);
+				});
 			});
 
 			/*-------------------------------------------------------------*/
@@ -289,7 +325,16 @@ $AMIClass('TableCtrl', {
 
 				if(e.keyCode == 13)
 				{
-					this.refresh();
+					amiWebApp.lock();
+
+					this.refresh().done(() => {
+
+						amiWebApp.unlock();
+
+					}).fail((message) => {
+
+						amiWebApp.error(message, true);
+					});
 				}
 			});
 
@@ -297,13 +342,31 @@ $AMIClass('TableCtrl', {
 
 				if(e.keyCode == 13)
 				{
-					this.refresh();
+					amiWebApp.lock();
+
+					this.refresh().done(() => {
+
+						amiWebApp.unlock();
+
+					}).fail((message) => {
+
+						amiWebApp.error(message, true);
+					});
 				}
 			});
 
 			$(this.patchId('#D809166F_A40B_2376_C8A5_977AA0C8C408')).click(() => {
 
-				this.refresh();
+				amiWebApp.lock();
+
+				this.refresh().done(() => {
+
+					amiWebApp.unlock();
+
+				}).fail((message) => {
+
+					amiWebApp.error(message, true);
+				});
 			});
 
 			/*-------------------------------------------------------------*/
@@ -418,7 +481,7 @@ $AMIClass('TableCtrl', {
 		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
 		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
 
-		this.refresh();
+		return this.refresh();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -440,7 +503,7 @@ $AMIClass('TableCtrl', {
 		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
 		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
 
-		this.refresh();
+		return this.refresh();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -471,7 +534,7 @@ $AMIClass('TableCtrl', {
 			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(range);
 		}
 
-		this.refresh();
+		return this.refresh();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -502,7 +565,7 @@ $AMIClass('TableCtrl', {
 			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(range);
 		}
 
-		this.refresh();
+		return this.refresh();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -553,8 +616,6 @@ $AMIClass('TableCtrl', {
 		}
 
 		/*-----------------------------------------------------------------*/
-
-		amiWebApp.lock();
 
 		amiCommand.execute(command).done((data) => {
 
@@ -759,16 +820,12 @@ $AMIClass('TableCtrl', {
 
 				result.resolveWith(context, [this.ctx.fieldDescriptions, rows, this.ctx.sql, this.ctx.mql, this.ctx.ast, this.ctx.totalResults]);
 
-				amiWebApp.unlock();
-
 				/*---------------------------------------------------------*/
 			});
 
 		}).fail((data, message) => {
 
 			result.rejectWith(context, [message]);
-
-			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -942,7 +999,14 @@ $AMIClass('TableCtrl', {
 
 				$('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
-				this.refresh();
+				this.refresh().done(() => {
+
+					amiWebApp.unlock();
+
+				}).fail((message) => {
+
+					amiWebApp.error(message, true);
+				});
 
 			}).fail((data, message) => {
 
@@ -967,7 +1031,14 @@ $AMIClass('TableCtrl', {
 
 				$('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
-				this.refresh();
+				this.refresh().done(() => {
+
+					amiWebApp.unlock();
+
+				}).fail((message) => {
+
+					amiWebApp.error(message, true);
+				});
 
 			}).fail((data, message) => {
 

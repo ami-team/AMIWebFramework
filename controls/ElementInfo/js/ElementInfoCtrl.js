@@ -130,13 +130,25 @@ $AMIClass('ElementInfoCtrl', {
     }).done(function () {
       /*-------------------------------------------------------------*/
       $(_this3.patchId('#ACFEDF15_7894_6D91_CBE7_D98B5F7E9C6A')).click(function () {
-        _this3.refresh();
+        amiWebApp.lock();
+
+        _this3.refresh().done(function () {
+          amiWebApp.unlock();
+        }).fail(function (message) {
+          amiWebApp.error(message, true);
+        });
+      });
+      $(_this3.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).change(function () {
+        amiWebApp.lock();
+
+        _this3.refresh().done(function () {
+          amiWebApp.unlock();
+        }).fail(function (message) {
+          amiWebApp.error(message, true);
+        });
       });
       /*-------------------------------------------------------------*/
 
-      $(_this3.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).change(function () {
-        _this3.refresh();
-      });
       $(_this3.patchId('#AB84A8CC_5E70_EBE7_8766_317FEE71EFE8')).change(function () {
         _this3.setMode();
       });
@@ -178,7 +190,6 @@ $AMIClass('ElementInfoCtrl', {
     this.ctx.command = this.ctx.elementInfoCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.primaryFieldName, this.ctx.primaryFieldValue);
     /*-----------------------------------------------------------------*/
 
-    amiWebApp.lock();
     amiCommand.execute(this.ctx.command).done(function (data) {
       /*-------------------------------------------------------------*/
       var fieldDescriptions = amiWebApp.jspath('..fieldDescription', data);
@@ -239,13 +250,11 @@ $AMIClass('ElementInfoCtrl', {
         /*---------------------------------------------------------*/
 
         result.resolveWith(context, [elementRowset, linkedElementRowset, expandedLinkedElements]);
-        amiWebApp.unlock();
       });
       /*-------------------------------------------------------------*/
 
     }).fail(function (data, message) {
       result.rejectWith(context, [message]);
-      amiWebApp.error(message, true);
     });
     /*-----------------------------------------------------------------*/
 

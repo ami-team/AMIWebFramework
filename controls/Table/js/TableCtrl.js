@@ -204,31 +204,73 @@ $AMIClass('TableCtrl', {
     }).done(function () {
       /*-------------------------------------------------------------*/
       $(_this4.patchId('#BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570')).click(function () {
-        _this4.firstPage();
+        amiWebApp.lock();
+
+        _this4.firstPage().done(function () {
+          amiWebApp.unlock();
+        }).fail(function (message) {
+          amiWebApp.error(message, true);
+        });
       });
       $(_this4.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(function () {
-        _this4.prevPage();
+        amiWebApp.lock();
+
+        _this4.prevPage().done(function () {
+          amiWebApp.unlock();
+        }).fail(function (message) {
+          amiWebApp.error(message, true);
+        });
       });
       $(_this4.patchId('#E7FDF4C8_ECD2_3FE0_8C75_541E511239C2')).click(function () {
-        _this4.nextPage();
+        amiWebApp.lock();
+
+        _this4.nextPage().done(function () {
+          amiWebApp.unlock();
+        }).fail(function (message) {
+          amiWebApp.error(message, true);
+        });
       });
       $(_this4.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).click(function () {
-        _this4.lastPage();
+        amiWebApp.lock();
+
+        _this4.lastPage().done(function () {
+          amiWebApp.unlock();
+        }).fail(function (message) {
+          amiWebApp.error(message, true);
+        });
       });
       /*-------------------------------------------------------------*/
 
       $(_this4.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).keypress(function (e) {
         if (e.keyCode == 13) {
-          _this4.refresh();
+          amiWebApp.lock();
+
+          _this4.refresh().done(function () {
+            amiWebApp.unlock();
+          }).fail(function (message) {
+            amiWebApp.error(message, true);
+          });
         }
       });
       $(_this4.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).keypress(function (e) {
         if (e.keyCode == 13) {
-          _this4.refresh();
+          amiWebApp.lock();
+
+          _this4.refresh().done(function () {
+            amiWebApp.unlock();
+          }).fail(function (message) {
+            amiWebApp.error(message, true);
+          });
         }
       });
       $(_this4.patchId('#D809166F_A40B_2376_C8A5_977AA0C8C408')).click(function () {
-        _this4.refresh();
+        amiWebApp.lock();
+
+        _this4.refresh().done(function () {
+          amiWebApp.unlock();
+        }).fail(function (message) {
+          amiWebApp.error(message, true);
+        });
       });
       /*-------------------------------------------------------------*/
 
@@ -298,7 +340,7 @@ $AMIClass('TableCtrl', {
     var newStart = 0x00000000000000000000000000001;
     $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
     $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
-    this.refresh();
+    return this.refresh();
   },
 
   /*---------------------------------------------------------------------*/
@@ -309,7 +351,7 @@ $AMIClass('TableCtrl', {
     var newStart = this.getOffsetOfLastPage(range);
     $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
     $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
-    this.refresh();
+    return this.refresh();
   },
 
   /*---------------------------------------------------------------------*/
@@ -328,7 +370,7 @@ $AMIClass('TableCtrl', {
       $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(range);
     }
 
-    this.refresh();
+    return this.refresh();
   },
 
   /*---------------------------------------------------------------------*/
@@ -347,7 +389,7 @@ $AMIClass('TableCtrl', {
       $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(range);
     }
 
-    this.refresh();
+    return this.refresh();
   },
 
   /*---------------------------------------------------------------------*/
@@ -387,7 +429,6 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    amiWebApp.lock();
     amiCommand.execute(command).done(function (data) {
       _this5.ctx.fieldDescriptions = _this5.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + _this5.ctx.rowset + '"}.fieldDescription', data) : amiWebApp.jspath('..fieldDescription', data);
       var rowset = _this5.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + _this5.ctx.rowset + '"}"', data) : amiWebApp.jspath('..rowset', data);
@@ -547,12 +588,10 @@ $AMIClass('TableCtrl', {
         /*---------------------------------------------------------*/
 
         result.resolveWith(context, [_this5.ctx.fieldDescriptions, rows, _this5.ctx.sql, _this5.ctx.mql, _this5.ctx.ast, _this5.ctx.totalResults]);
-        amiWebApp.unlock();
         /*---------------------------------------------------------*/
       });
     }).fail(function (data, message) {
       result.rejectWith(context, [message]);
-      amiWebApp.error(message, true);
     });
     /*-----------------------------------------------------------------*/
 
@@ -691,7 +730,11 @@ $AMIClass('TableCtrl', {
       amiCommand.execute(this.ctx.appendCommandFunc.apply(this, this._formToArray())).done(function () {
         $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
-        _this7.refresh();
+        _this7.refresh().done(function () {
+          amiWebApp.unlock();
+        }).fail(function (message) {
+          amiWebApp.error(message, true);
+        });
       }).fail(function (data, message) {
         amiWebApp.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
       });
@@ -711,7 +754,11 @@ $AMIClass('TableCtrl', {
       amiCommand.execute(this.ctx.deleteCommandFunc.apply(this, arguments)).done(function () {
         $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
-        _this8.refresh();
+        _this8.refresh().done(function () {
+          amiWebApp.unlock();
+        }).fail(function (message) {
+          amiWebApp.error(message, true);
+        });
       }).fail(function (data, message) {
         amiWebApp.error(message, true,
         /*-------------*/

@@ -117,17 +117,23 @@ $AMIClass('FieldEditorCtrl', {
     amiWebApp.lock();
     amiCommand.execute(this.editCommandFunc(catalog, entity, field, value, primaryField, primaryValue)).done(function (data, message) {
       $('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('hide');
-      amiWebApp.success(message, true);
 
       if (_this3.getOwner().refresh) {
-        _this3.getOwner().refresh();
+        _ami_internal_then(_this3.getOwner().refresh(), function () {
+          amiWebApp.success(message, true);
+        }, function (message) {
+          amiWebApp.error(message, true);
+        });
       }
     }).fail(function (data, message) {
       $('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('hide');
-      amiWebApp.error(message, true);
 
       if (_this3.getOwner().refresh) {
-        _this3.getOwner().refresh();
+        _ami_internal_then(_this3.getOwner().refresh(), function () {
+          amiWebApp.error(message, true);
+        }, function (message) {
+          amiWebApp.error(message, true);
+        });
       }
     });
   }

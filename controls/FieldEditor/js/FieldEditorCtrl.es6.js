@@ -167,20 +167,31 @@ $AMIClass('FieldEditorCtrl', {
 
 			$('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('hide');
 
-			amiWebApp.success(message, true);
+			if(this.getOwner().refresh)
+			{
+				_ami_internal_then(this.getOwner().refresh(), () => {
 
-			if(this.getOwner().refresh) {
-				this.getOwner().refresh();
-			}
+					amiWebApp.success(message, true);
+
+				}, (message) => {
+
+					amiWebApp.error(message, true);
+				});			}
 
 		}).fail((data, message) => {
 
 			$('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('hide');
 
-			amiWebApp.error(message, true);
+			if(this.getOwner().refresh)
+			{
+				_ami_internal_then(this.getOwner().refresh(), () => {
 
-			if(this.getOwner().refresh) {
-				this.getOwner().refresh();
+					amiWebApp.error(message, true);
+
+				}, (message) => {
+
+					amiWebApp.error(message, true);
+				});
 			}
 		});
 	},

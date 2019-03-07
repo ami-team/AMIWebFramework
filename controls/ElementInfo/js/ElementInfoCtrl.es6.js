@@ -175,19 +175,37 @@ $AMIClass('ElementInfoCtrl', {
 
 			$(this.patchId('#ACFEDF15_7894_6D91_CBE7_D98B5F7E9C6A')).click(() => {
 
-				this.refresh();
+				amiWebApp.lock();
+
+				this.refresh().done(() => {
+
+					amiWebApp.unlock();
+
+				}).fail((message) => {
+
+					amiWebApp.error(message, true);
+				});
+			});
+
+			$(this.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).change(() => {
+
+				amiWebApp.lock();
+
+				this.refresh().done(() => {
+
+					amiWebApp.unlock();
+
+				}).fail((message) => {
+
+					amiWebApp.error(message, true);
+				});
 			});
 
 			/*-------------------------------------------------------------*/
 
-			$(this.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).change(() => {
-
-				this.refresh();
-			});
-
 			$(this.patchId('#AB84A8CC_5E70_EBE7_8766_317FEE71EFE8')).change(() => {
 
-				this.setMode();
+				this.setMode()
 			});
 
 			/*-------------------------------------------------------------*/
@@ -236,8 +254,6 @@ $AMIClass('ElementInfoCtrl', {
 		this.ctx.command = this.ctx.elementInfoCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.primaryFieldName, this.ctx.primaryFieldValue);
 
 		/*-----------------------------------------------------------------*/
-
-		amiWebApp.lock();
 
 		amiCommand.execute(this.ctx.command).done((data) => {
 
@@ -301,8 +317,6 @@ $AMIClass('ElementInfoCtrl', {
 				/*---------------------------------------------------------*/
 
 				result.resolveWith(context, [elementRowset, linkedElementRowset, expandedLinkedElements]);
-
-				amiWebApp.unlock();
 			});
 
 			/*-------------------------------------------------------------*/
@@ -310,8 +324,6 @@ $AMIClass('ElementInfoCtrl', {
 		}).fail((data, message) => {
 
 			result.rejectWith(context, [message]);
-
-			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/
