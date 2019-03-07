@@ -155,7 +155,7 @@ $AMIClass('TableCtrl', {
           _this2.ctx.canEdit = false;
         }
 
-        _this2._render(selector);
+        _this2._render(result, selector);
       }).fail(function () {
         if (
         /*----*/
@@ -269,7 +269,11 @@ $AMIClass('TableCtrl', {
       });
       /*-------------------------------------------------------------*/
 
-      _this4.refresh();
+      _this4.refresh().done(function (fieldDescriptions, rows, sql, mql, ast, totalResults) {
+        result.resolveWith(_this4.ctx.context, [fieldDescriptions, rows, sql, mql, ast, totalResults]);
+      }).fail(function (message) {
+        result.rejectWith(_this4.ctx.context, [message]);
+      });
       /*-------------------------------------------------------------*/
 
     });
@@ -348,12 +352,19 @@ $AMIClass('TableCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  refresh: function refresh() {
+  refresh: function refresh(settings) {
     var _this5 = this;
 
+    var result = $.Deferred();
     /*-----------------------------------------------------------------*/
+
+    var _amiWebApp$setup2 = amiWebApp.setup(['context'], [result], settings),
+        context = _amiWebApp$setup2[0];
+    /*-----------------------------------------------------------------*/
+
+
     var command = this.ctx.command;
-    /*-----------------------------------------------------------------*/
+    /**/
 
     if (this.ctx.orderBy) {
       command += ' -orderBy="' + this.ctx.orderBy + '"';
@@ -362,13 +373,14 @@ $AMIClass('TableCtrl', {
         command += ' -orderWay="' + this.ctx.orderWay + '"';
       }
     }
-    /*-----------------------------------------------------------------*/
+    /**/
 
 
     var start = this.parsePageNumber($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start);
     var stop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     command += ' -limit="' + (stop - start + 1) + '"';
     command += ' -offset="' + (0x00 + start - 1) + '"';
+    /**/
 
     if (this.ctx.enableCache) {
       command += ' -cached';
@@ -387,16 +399,22 @@ $AMIClass('TableCtrl', {
       _this5.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '');
       /**/
 
-      if (_this5.sql === 'N/A') {
+      if (_this5.ctx.sql === 'N/A') {
         $(_this5.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).hide();
       } else {
         $(_this5.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).show();
       }
 
-      if (_this5.mql === 'N/A') {
+      if (_this5.ctx.mql === 'N/A') {
         $(_this5.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).hide();
       } else {
         $(_this5.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).show();
+      }
+
+      if (_this5.ctx.ast === 'N/A') {
+        $(_this5.patchId('#E2EB6136_7358_875A_2857_8766E9B3036E')).hide();
+      } else {
+        $(_this5.patchId('#E2EB6136_7358_875A_2857_8766E9B3036E')).show();
       }
 
       if (Number.isNaN(_this5.ctx.totalResults)) {
@@ -529,13 +547,17 @@ $AMIClass('TableCtrl', {
         });
         /*---------------------------------------------------------*/
 
+        result.resolveWith(context, [_this5.ctx.fieldDescriptions, rows, _this5.ctx.sql, _this5.ctx.mql, _this5.ctx.ast, _this5.ctx.totalResults]);
         amiWebApp.unlock();
         /*---------------------------------------------------------*/
       });
     }).fail(function (data, message) {
+      result.rejectWith(context, [message]);
       amiWebApp.error(message, true);
     });
     /*-----------------------------------------------------------------*/
+
+    return result;
   },
 
   /*---------------------------------------------------------------------*/

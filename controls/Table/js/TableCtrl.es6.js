@@ -209,7 +209,7 @@ $AMIClass('TableCtrl', {
 					this.ctx.canEdit = false;
 				}
 
-				this._render(selector);
+				this._render(result, selector);
 
 			}).fail(() => {
 
@@ -509,15 +509,19 @@ $AMIClass('TableCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	refresh: function()
+	refresh: function(settings)
 	{
 		const result = $.Deferred();
 
 		/*-----------------------------------------------------------------*/
 
-		let command = this.ctx.command;
+		const [context] = amiWebApp.setup(['context'], [result], settings);
 
 		/*-----------------------------------------------------------------*/
+
+		let command = this.ctx.command;
+
+		/**/
 
 		if(this.ctx.orderBy)
 		{
@@ -529,7 +533,7 @@ $AMIClass('TableCtrl', {
 			}
 		}
 
-		/*-----------------------------------------------------------------*/
+		/**/
 
 		const start = this.parsePageNumber(
 			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
@@ -542,6 +546,8 @@ $AMIClass('TableCtrl', {
 		command += ' -limit="' + (stop - start + 1) + '"';
 
 		command += ' -offset="' + (0x00 + start - 1) + '"';
+
+		/**/
 
 		if(this.ctx.enableCache)
 		{
@@ -572,7 +578,7 @@ $AMIClass('TableCtrl', {
 
 			/**/
 
-			if(his.ctx.sql === 'N/A') {
+			if(this.ctx.sql === 'N/A') {
 				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).hide();
 			}
 			else {
