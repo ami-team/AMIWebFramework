@@ -1,6 +1,9 @@
 <table>
 	<tr>
 		<td class="align-top">
+
+			<!-- ******************************************************** -->
+
 			<div class="card">
 				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
 					Metadata
@@ -16,9 +19,8 @@
 								<strong>{{field['@name']|e}}</strong>
 							</td>
 							<td class="text-center">
-								{{field.$|e}}
+								<div class="{% if field['properties'] is defined %}{% for property in field['properties'] %}{% if property is not empty %} {{property['@class']}}{% endif %}{% endfor %}{% endif %}" data-action="edit" data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}" data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}" data-field="{{fieldDescriptions[loop.index0]['@field']|e}}" data-type="{{fieldDescriptions[loop.index0]['@type']|e}}" data-row="{{primaryFieldValue|e}}" style="min-height: 1.25rem;">{{field.$|e}}</div>
 								{% if field['link'] is defined %}
-								<br />
 								{% for link in field['link'] %}
 									{% if not loop.first %} - {% endif %}
 									<a href="{{link['@href']|e}}"{% if link['@target'] is not empty %} target="{{link['@target']|e}}"{% endif %}{% if link['@data-ctrl'] is not empty %} data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}{% if link['@data-ctrl-location'] is not empty %} data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}{% if link['@data-params'] is not empty %} data-params="{{link['@data-params']|e}}"{% endif %}{% if link['@data-settings'] is not empty %} data-settings="{{link['@data-settings']|e}}"{% endif %}{% if link['@data-icon'] is not empty %} data-icon="{{link['@data-icon']|e}}"{% endif %}{% if link['@data-title'] is not empty %} data-title="{{link['@data-title']|e}}"{% endif %}>{{link['@label']|e}}</a>
@@ -37,9 +39,17 @@
 					</table>
 				</div>
 			</div>
+
+			<!-- ******************************************************** -->
+
 		</td>
+
 		<td>&nbsp</td>
+
 		<td class="align-top">
+
+			<!-- ******************************************************** -->
+
 			<div class="card">
 				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
 					Linked Entities
@@ -65,39 +75,44 @@
 					</table>
 				</div>
 			</div>
+
+			<!-- ******************************************************** -->
+
 			{% if expandedLinkedElements is not empty %}
 			{%   for expandedLinkedElement in expandedLinkedElements %}
 			{%     if expandedLinkedElement.rows is not empty %}
-					<div class="card mt-1">
-						<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
-							{{ expandedLinkedElement.entity }}
-						</div>
-					</div>
-					<div class="card-body p-0">
-						<table class="table table-sm table-striped table-bordered mb-0">
-							{% if expandedLinkedElement.keyValMode === true %}
-							{%   for row in expandedLinkedElement.rows %}
-							<tr>
-								{% for field in expandedLinkedElement.fields %}
-								<td class="text-center">{{row|json_jspath('..field{.@name==="' + field + '"}.$')[0]|e}}</td>
-								{% endfor %}
-							</tr>
-							{%   endfor %}
-							{% else %}
-							{%   for row in expandedLinkedElement.rows %}
-							{%     for field in row.fields %}
-							<tr>
-								<td class="text-center">{{field|e}}</td>
-								<td class="text-center">{{row|json_jspath('..field{.@name==="' + field + '"}.$')[0]|e}}</td>
-							</tr>
-							{%     endfor %}
-							{%   endfor %}
-							{% endif %}
-						</table>
-					</div>
+			<div class="card mt-1">
+				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
+					{{ expandedLinkedElement.entity }}
+				</div>
+			</div>
+			<div class="card-body p-0">
+				<table class="table table-sm table-striped table-bordered mb-0">
+					{% if expandedLinkedElement.keyValMode === true %}
+					{%   for row in expandedLinkedElement.rows %}
+					<tr>
+						{% for field in expandedLinkedElement.fields %}
+						<td class="text-center">{{row|json_jspath('..field{.@name==="' + field + '"}.$')[0]|e}}</td>
+						{% endfor %}
+					</tr>
+					{%   endfor %}
+					{% else %}
+					{%   for row in expandedLinkedElement.rows %}
+					{%     for field in row.fields %}
+					<tr>
+						<td class="text-center">{{field|e}}</td>
+						<td class="text-center">{{row|json_jspath('..field{.@name==="' + field + '"}.$')[0]|e}}</td>
+					</tr>
+					{%     endfor %}
+					{%   endfor %}
+					{% endif %}
+				</table>
+			</div>
 			{%     endif %}
 			{%   endfor %}
 			{% endif %}
+
+			<!-- ******************************************************** -->
 		</td>
 	</tr>
 </table>

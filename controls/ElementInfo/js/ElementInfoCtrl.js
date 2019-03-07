@@ -25,7 +25,7 @@ $AMIClass('ElementInfoCtrl', {
 
     return amiWebApp.loadResources([amiWebApp.originURL + '/controls/ElementInfo/twig/ElementInfoCtrl.twig', amiWebApp.originURL + '/controls/ElementInfo/twig/details.twig', amiWebApp.originURL + '/controls/ElementInfo/twig/js.twig',
     /**/
-    'ctrl:FieldEditor', 'ctrl:tab']).done(function (data) {
+    'ctrl:fieldEditor', 'ctrl:tab']).done(function (data) {
       _this.fragmentElementInfoCtrl = data[0];
       _this.fragmentDetails = data[1];
       _this.fragmentJS = data[2];
@@ -36,8 +36,6 @@ $AMIClass('ElementInfoCtrl', {
 
   /*---------------------------------------------------------------------*/
   render: function render(selector, catalog, entity, primaryFieldName, primaryFieldValue, settings) {
-    var _this2 = this;
-
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
@@ -87,9 +85,6 @@ $AMIClass('ElementInfoCtrl', {
     this.ctx.card = card;
     /*-----------------------------------------------------------------*/
 
-    this.fieldEditor = new this.fieldEditorCtor(this, this);
-    /*-----------------------------------------------------------------*/
-
     var L = [];
     this.ctx.expandedLinkedElements.forEach(function (expandedLinkedElement) {
       var catalog = expandedLinkedElement.catalog;
@@ -99,52 +94,80 @@ $AMIClass('ElementInfoCtrl', {
     this.ctx.command += ' -expandedLinkedElements="' + L.join(',') + '"';
     /*-----------------------------------------------------------------*/
 
-    this.replaceHTML(selector, this.fragmentElementInfoCtrl, {
-      dict: this.ctx
-    }).done(function () {
-      /*-------------------------------------------------------------*/
-      $(_this2.patchId('#ACFEDF15_7894_6D91_CBE7_D98B5F7E9C6A')).click(function () {
-        _this2.refresh();
-      });
-      /*-------------------------------------------------------------*/
-
-      $(_this2.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).change(function (e) {
-        _this2.ctx.showEmptyFields = $(e.target).prop('checked');
-
-        _this2.refresh();
-      });
-      $(_this2.patchId('#DDC32238_DD25_8354_AC6C_F6E27CA6E18D')).change(function () {
-        _this2.setMode();
-      });
-      /*-------------------------------------------------------------*/
-
-      $(_this2.patchId('#BF7E7885_DB34_7993_9F17_37990DDD4BF3')).click(function () {
-        amiWebApp.createControl(_this2.getParent(), _this2, 'messageBox', [_this2.ctx.command], {});
-      });
-      $(_this2.patchId('#F1232710_45E2_92BF_7378_1BCD05FBF131')).click(function () {
-        amiWebApp.createControl(_this2.getParent(), _this2, 'textBox', [_this2.ctx.js], {});
-      });
-      /*-------------------------------------------------------------*/
-
-      _this2.ctx.js = amiWebApp.formatTWIG(_this2.fragmentJS, _this2.ctx);
-      /*-------------------------------------------------------------*/
-
-      _this2.refresh().done(function (elementRowset, linkedElementRowset, expandedLinkedElements) {
-        result.resolveWith(_this2.ctx.context, [elementRowset, linkedElementRowset, expandedLinkedElements]);
-      }).fail(function (message) {
-        result.rejectWith(_this2.ctx.context, [message]);
-      });
-      /*-------------------------------------------------------------*/
-
-    });
+    this.fieldEditor = new this.fieldEditorCtor(this, this);
     /*-----------------------------------------------------------------*/
+
+    this._render(result, selector);
+    /*-----------------------------------------------------------------*/
+
 
     return result;
   },
 
   /*---------------------------------------------------------------------*/
-  refresh: function refresh(settings) {
+  _render: function _render(result, selector) {
+    var _this2 = this;
+
+    if (this.getParent().$name !== 'TabCtrl') {
+      var tab = new this.tabCtor(null, this);
+      tab.render(selector, this.ctx).done(function () {
+        tab.appendItem('<i class="fa fa-arrows-alt"></i> ' + _this2.ctx.entity).done(function (selector) {
+          _this2.setParent(tab);
+
+          _this2.__render(result, selector);
+        });
+      });
+    } else {
+      this.__render(result, selector);
+    }
+  },
+
+  /*---------------------------------------------------------------------*/
+  __render: function __render(result, selector) {
     var _this3 = this;
+
+    /*-----------------------------------------------------------------*/
+    this.replaceHTML(selector, this.fragmentElementInfoCtrl, {
+      dict: this.ctx
+    }).done(function () {
+      /*-------------------------------------------------------------*/
+      $(_this3.patchId('#ACFEDF15_7894_6D91_CBE7_D98B5F7E9C6A')).click(function () {
+        _this3.refresh();
+      });
+      /*-------------------------------------------------------------*/
+
+      $(_this3.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).change(function () {
+        _this3.refresh();
+      });
+      $(_this3.patchId('#AB84A8CC_5E70_EBE7_8766_317FEE71EFE8')).change(function () {
+        _this3.setMode();
+      });
+      /*-------------------------------------------------------------*/
+
+      $(_this3.patchId('#BF7E7885_DB34_7993_9F17_37990DDD4BF3')).click(function () {
+        amiWebApp.createControl(_this3.getParent(), _this3, 'messageBox', [_this3.ctx.command], {});
+      });
+      $(_this3.patchId('#F1232710_45E2_92BF_7378_1BCD05FBF131')).click(function () {
+        amiWebApp.createControl(_this3.getParent(), _this3, 'textBox', [_this3.ctx.js], {});
+      });
+      /*-------------------------------------------------------------*/
+
+      _this3.ctx.js = amiWebApp.formatTWIG(_this3.fragmentJS, _this3.ctx);
+      /*-------------------------------------------------------------*/
+
+      _this3.refresh().done(function (elementRowset, linkedElementRowset, expandedLinkedElements) {
+        result.resolveWith(_this3.ctx.context, [elementRowset, linkedElementRowset, expandedLinkedElements]);
+      }).fail(function (message) {
+        result.rejectWith(_this3.ctx.context, [message]);
+      });
+      /*-------------------------------------------------------------*/
+
+    });
+  },
+
+  /*---------------------------------------------------------------------*/
+  refresh: function refresh(settings) {
+    var _this4 = this;
 
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
@@ -173,7 +196,7 @@ $AMIClass('ElementInfoCtrl', {
 
       var expandedLinkedElements = [];
 
-      _this3.ctx.expandedLinkedElements.forEach(function (expandedLinkedElement) {
+      _this4.ctx.expandedLinkedElements.forEach(function (expandedLinkedElement) {
         expandedLinkedElements.push({
           catalog: expandedLinkedElement.catalog,
           entity: expandedLinkedElement.entity,
@@ -187,25 +210,33 @@ $AMIClass('ElementInfoCtrl', {
 
       var dict = {
         fieldDescriptions: fieldDescriptions,
+
+        /**/
         elementRowset: elementRowset,
         linkedElementRowset: linkedElementRowset,
         expandedLinkedElements: expandedLinkedElements,
-        showEmptyFields: _this3.ctx.showEmptyFields
+
+        /**/
+        showToolBar: _this4.ctx.showToolBar,
+        primaryFieldValue: _this4.ctx.primaryFieldValue,
+
+        /**/
+        showEmptyFields: $(_this4.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).prop('checked')
       };
       /*-------------------------------------------------------------*/
 
-      _this3.replaceHTML(_this3.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), _this3.fragmentDetails, {
+      _this4.replaceHTML(_this4.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), _this4.fragmentDetails, {
         dict: dict
       }).done(function () {
         /*---------------------------------------------------------*/
-        _this3.fieldEditor.setup(_this3.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), _this3.ctx.primaryField, _this3.ctx);
+        _this4.fieldEditor.setup(_this4.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), _this4.ctx.primaryFieldName, _this4.ctx);
         /*---------------------------------------------------------*/
 
 
-        $(_this3.patchId('#BBD391C7_759D_01DD_E234_488D46504638')).find('a[data-ctrl]').click(function (e) {
+        $(_this4.patchId('#BBD391C7_759D_01DD_E234_488D46504638')).find('a[data-ctrl]').click(function (e) {
           e.preventDefault();
 
-          _this3.createControlFromWebLink(_this3.getParent(), e.currentTarget, _this3.ctx);
+          _this4.createControlFromWebLink(_this4.getParent(), e.currentTarget, _this4.ctx);
         });
         /*---------------------------------------------------------*/
 
@@ -225,13 +256,11 @@ $AMIClass('ElementInfoCtrl', {
 
   /*---------------------------------------------------------------------*/
   isInEditMode: function isInEditMode() {
-    return this.ctx.inEditMode;
+    return this.fieldEditor.isInEditMode();
   },
 
   /*---------------------------------------------------------------------*/
   setMode: function setMode() {
-    var tags1 = $(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638 .edit-mode'));
-
     if ($(this.patchId('#AB84A8CC_5E70_EBE7_8766_317FEE71EFE8')).prop('checked')) {
       this.fieldEditor.setInEditMode(true);
     } else {

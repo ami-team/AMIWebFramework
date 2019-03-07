@@ -118,7 +118,7 @@ $AMIClass('TableCtrl', {
     this.ctx.card = card;
     /*-----------------------------------------------------------------*/
 
-    this.fieldEditor = new this.fieldEditorCtor(this, this);
+    this.ctx.fieldEditor = new this.fieldEditorCtor(this, this);
     /*-----------------------------------------------------------------*/
 
     if (!this.ctx.primaryField && (this.ctx.showDetails || this.ctx.showTools || this.ctx.canEdit)) {
@@ -406,6 +406,7 @@ $AMIClass('TableCtrl', {
       var dict = {
         fieldDescriptions: _this5.ctx.fieldDescriptions,
         rows: rows,
+        showToolBar: _this5.ctx.showToolBar,
         showDetails: _this5.ctx.showDetails,
         showTools: _this5.ctx.showTools
       };
@@ -503,7 +504,7 @@ $AMIClass('TableCtrl', {
 
         /*---------------------------------------------------------*/
 
-        _this5.fieldEditor.setup(_this5.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), _this5.ctx.primaryFieldValue, _this5.ctx);
+        _this5.ctx.fieldEditor.setup(_this5.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), _this5.ctx.primaryField, _this5.ctx);
         /*---------------------------------------------------------*/
 
         /* UPDATE JAVASCRIPT                                       */
@@ -525,14 +526,6 @@ $AMIClass('TableCtrl', {
           html: true
         });
         /*---------------------------------------------------------*/
-
-        /* VIEW MODE                                               */
-
-        /*---------------------------------------------------------*/
-
-        _this5.setMode();
-        /*---------------------------------------------------------*/
-
 
         amiWebApp.unlock();
         /*---------------------------------------------------------*/
@@ -583,7 +576,7 @@ $AMIClass('TableCtrl', {
 
   /*---------------------------------------------------------------------*/
   isInEditMode: function isInEditMode() {
-    return this.ctx.inEditMode;
+    return this.fieldEditor.isInEditMode();
   },
 
   /*---------------------------------------------------------------------*/
@@ -597,7 +590,7 @@ $AMIClass('TableCtrl', {
         tags2.show();
       }
 
-      this.fieldEditor.setInEditMode(true);
+      this.ctx.fieldEditor.setInEditMode(true);
     } else {
       if (
       /*--------*/
@@ -608,7 +601,7 @@ $AMIClass('TableCtrl', {
           tags2.hide();
         }
 
-      this.fieldEditor.setInEditMode(false);
+      this.ctx.fieldEditor.setInEditMode(false);
     }
   },
 

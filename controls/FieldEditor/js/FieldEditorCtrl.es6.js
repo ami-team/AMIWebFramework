@@ -31,6 +31,8 @@ $AMIClass('FieldEditorCtrl', {
 			amiWebApp.originURL + '/controls/FieldEditor/twig/FieldEditorCtrl.twig',
 		]).done(function(data) {
 
+			this.inEditMode = false;
+
 			amiWebApp.appendHTML('body', data[0]);
 		});
 	},
@@ -45,17 +47,15 @@ $AMIClass('FieldEditorCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		const [editCommandFunc, inEditMode] = amiWebApp.setup(
-			['editCommandFunc', 'inEditMode'],
-			[fn, false],
+		const [editCommandFunc] = amiWebApp.setup(
+			['editCommandFunc'],
+			[fn],
 			settings
 		);
 
 		this.editCommandFunc = editCommandFunc;
 
 		this.primaryField = primaryField;
-
-		this.inEditMode = inEditMode;
 
 		/*-----------------------------------------------------------------*/
 
@@ -81,9 +81,16 @@ $AMIClass('FieldEditorCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	setInEditMode: function(_inEditMode)
+	isInEditMode: function()
 	{
-		this.inEditMode = _inEditMode;
+		return this.inEditMode();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	setInEditMode: function(inEditMode)
+	{
+		this.inEditMode = inEditMode;
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -104,7 +111,7 @@ $AMIClass('FieldEditorCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			$('#E2E8670D_2BAE_B181_79E5_C8A170BD3981')[0].reset(/*--*/);
+			$('#E2E8670D_2BAE_B181_79E5_C8A170BD3981')[0].reset();
 
 			/*-------------------------------------------------------------*/
 

@@ -149,7 +149,7 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		this.fieldEditor = new this.fieldEditorCtor(this, this);
+		this.ctx.fieldEditor = new this.fieldEditorCtor(this, this);
 
 		/*-----------------------------------------------------------------*/
 
@@ -585,6 +585,7 @@ $AMIClass('TableCtrl', {
 			const dict = {
 				fieldDescriptions: this.ctx.fieldDescriptions,
 				rows: rows,
+				showToolBar: this.ctx.showToolBar,
 				showDetails: this.ctx.showDetails,
 				showTools: this.ctx.showTools,
 			};
@@ -712,7 +713,7 @@ $AMIClass('TableCtrl', {
 				/* SETUP FIELD EDITOR                                      */
 				/*---------------------------------------------------------*/
 
-				this.fieldEditor.setup(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.ctx.primaryFieldValue, this.ctx);
+				this.ctx.fieldEditor.setup(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.ctx.primaryField, this.ctx);
 
 				/*---------------------------------------------------------*/
 				/* UPDATE JAVASCRIPT                                       */
@@ -731,12 +732,6 @@ $AMIClass('TableCtrl', {
 					title: title,
 					html: true,
 				});
-
-				/*---------------------------------------------------------*/
-				/* VIEW MODE                                               */
-				/*---------------------------------------------------------*/
-
-				this.setMode();
 
 				/*---------------------------------------------------------*/
 
@@ -805,7 +800,7 @@ $AMIClass('TableCtrl', {
 
 	isInEditMode: function()
 	{
-		return this.ctx.inEditMode;
+		return this.fieldEditor.isInEditMode();
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -824,7 +819,7 @@ $AMIClass('TableCtrl', {
 				tags2.show();
 			}
 
-			this.fieldEditor.setInEditMode(true);
+			this.ctx.fieldEditor.setInEditMode(true);
 		}
 		else
 		{
@@ -834,7 +829,7 @@ $AMIClass('TableCtrl', {
 				tags2.hide();
 			}
 
-			this.fieldEditor.setInEditMode(false);
+			this.ctx.fieldEditor.setInEditMode(false);
 		}
 	},
 

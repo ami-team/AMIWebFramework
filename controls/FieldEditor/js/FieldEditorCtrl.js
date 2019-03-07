@@ -22,6 +22,7 @@ $AMIClass('FieldEditorCtrl', {
   /*---------------------------------------------------------------------*/
   onReady: function onReady() {
     return amiWebApp.loadResources([amiWebApp.originURL + '/controls/FieldEditor/twig/FieldEditorCtrl.twig']).done(function (data) {
+      this.inEditMode = false;
       amiWebApp.appendHTML('body', data[0]);
     });
   },
@@ -37,13 +38,11 @@ $AMIClass('FieldEditorCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    var _amiWebApp$setup = amiWebApp.setup(['editCommandFunc', 'inEditMode'], [fn, false], settings),
-        editCommandFunc = _amiWebApp$setup[0],
-        inEditMode = _amiWebApp$setup[1];
+    var _amiWebApp$setup = amiWebApp.setup(['editCommandFunc'], [fn], settings),
+        editCommandFunc = _amiWebApp$setup[0];
 
     this.editCommandFunc = editCommandFunc;
     this.primaryField = primaryField;
-    this.inEditMode = inEditMode;
     /*-----------------------------------------------------------------*/
 
     $(selector).find('div[data-action="edit"]').click(function (e) {
@@ -53,8 +52,13 @@ $AMIClass('FieldEditorCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  setInEditMode: function setInEditMode(_inEditMode) {
-    this.inEditMode = _inEditMode;
+  isInEditMode: function isInEditMode() {
+    return this.inEditMode();
+  },
+
+  /*---------------------------------------------------------------------*/
+  setInEditMode: function setInEditMode(inEditMode) {
+    this.inEditMode = inEditMode;
   },
 
   /*---------------------------------------------------------------------*/
