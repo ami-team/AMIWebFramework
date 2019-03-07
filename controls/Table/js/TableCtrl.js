@@ -274,8 +274,7 @@ $AMIClass('TableCtrl', {
     var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
     var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
     var range = oldStop - oldStart + 1;
-    alert(this.ctx.totalResults - range + ' ' + this.ctx.totalResults);
-    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(this.ctx.totalResults - range);
+    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(this.ctx.totalResults - range - 1);
     $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(this.ctx.totalResults);
     this.refresh();
   },
@@ -340,7 +339,6 @@ $AMIClass('TableCtrl', {
     var stop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
     command += ' -limit="' + (stop - start + 1) + '"';
     command += ' -offset="' + (0x00 + start - 1) + '"';
-    alert(command);
 
     if (this.ctx.enableCache) {
       command += ' -cached';
@@ -356,7 +354,7 @@ $AMIClass('TableCtrl', {
       _this5.ctx.sql = amiWebApp.jspath('..@sql', rowset)[0] || 'N/A';
       _this5.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
       _this5.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
-      _this5.ctx.totalResults = 63; //amiWebApp.jspath('..@totalResults', rowset)[0] || 'N/A';
+      _this5.ctx.totalResults = 59; //amiWebApp.jspath('..@totalResults', rowset)[0] || 'N/A';
 
       /**/
 
