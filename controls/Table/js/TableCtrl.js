@@ -667,7 +667,7 @@ $AMIClass('TableCtrl', {
 
   /*---------------------------------------------------------------------*/
   refineResult: function refineResult(_filter, _x, _y) {
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
     var el = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
 
     var filter = _filter || el.find('select[name="filter"]').val();
@@ -681,7 +681,7 @@ $AMIClass('TableCtrl', {
     y = y.replace(/'/g, '\'\'');
     y1 = y1.replace(/'/g, '\'\'');
     y2 = y2.replace(/'/g, '\'\'');
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
     var cond;
 
@@ -737,21 +737,21 @@ $AMIClass('TableCtrl', {
       default:
         return;
     }
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
 
     this.hideRefineModal();
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
     var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
     if (regions['WHERE']) {
       regions['WHERE'] += ' AND ' + cond;
     } else {
       regions['WHERE'] = cond;
     }
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
 
     var xql = [];
@@ -767,29 +767,27 @@ $AMIClass('TableCtrl', {
     if (regions['WHERE']) {
       xql.push('WHERE ' + regions['WHERE']);
     }
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
 
     var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
-    /*---------------------------------------------------------*/
-
     amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {}, this.settings, 'table', this.ctx.entity);
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
   },
 
-  /*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
   showStatsTab: function showStatsTab(catalog, entity, field) {
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
     var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
-    var aliases = regions['ALIASES'];
-    /*---------------------------------------------------------*/
 
-    var columnName = this._buildColumnName('N/A', aliases[field].tableAlias, aliases[field].field);
+    var columnName = this._buildColumnName('N/A', regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
 
-    var columnNAME = this._buildColumnName(catalog, aliases[field].tableAlias, aliases[field].field);
+    var columnNAME = this._buildColumnName(catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
+    /*-----------------------------------------------------------------*/
+
 
     regions['SELECT'] = '\'' + columnNAME.replace(/'/g, '\'\'') + '\' AS `field`' + ', ' + 'MIN(' + columnName + ') AS `min`' + ', ' + 'MAX(' + columnName + ') AS `max`' + ', ' + 'SUM(' + columnName + ') AS `sum`' + ', ' + 'AVG(' + columnName + ') AS `avg`' + ', ' + 'STDDEV(' + columnName + ') AS `stddev`' + ', ' + 'COUNT(' + columnName + ') AS `count`';
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
     var xql = [];
 
@@ -804,31 +802,29 @@ $AMIClass('TableCtrl', {
     if (regions['WHERE']) {
       xql.push('WHERE ' + regions['WHERE']);
     }
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
 
     var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
-    /*---------------------------------------------------------*/
-
     amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {
       orderBy: '',
       showDetails: false
     }, this.settings, 'bar-chart', this.ctx.entity);
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
   },
 
-  /*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
   showGroupTab: function showGroupTab(catalog, entity, field) {
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
     var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
-    var aliases = regions['ALIASES'];
-    /*---------------------------------------------------------*/
 
-    var columnName = this._buildColumnName('N/A', aliases[field].tableAlias, aliases[field].field);
+    var columnName = this._buildColumnName('N/A', regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
+    /*-----------------------------------------------------------------*/
+
 
     regions['SELECT'] = columnName + ', count(*) AS `total`, CONCAT(\'@owner::' + columnName + '::\', ' + columnName + ') AS `go`';
     regions['GROUP'] = columnName;
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
     var xql = [];
 
@@ -845,21 +841,19 @@ $AMIClass('TableCtrl', {
     }
 
     if (regions['GROUP']) {
-      xql.push('GROUP BY ' + regions['GROUP'].replace(entity, aliases[field].tableAlias));
+      xql.push('GROUP BY ' + regions['GROUP'].replace(entity, regions['ALIASES'][field].tableAlias));
     }
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
 
     var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
-    /*---------------------------------------------------------*/
-
     amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {
       orderBy: columnName,
       showDetails: false
     }, this.settings, 'slack', this.ctx.entity);
-    /*---------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
   }
-  /*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
 
 });
 /*-------------------------------------------------------------------------*/
