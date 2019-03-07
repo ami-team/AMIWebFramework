@@ -76,7 +76,7 @@ var _xqlRegions = {
 
 /*-------------------------------------------------------------------------*/
 
-function xqlGetRegions(xql, fieldDescriptions)
+function xqlGetRegions(xql, fieldDescriptions, addCatalogInALiases)
 {
 	var result = {};
 
@@ -146,15 +146,32 @@ function xqlGetRegions(xql, fieldDescriptions)
 
 	result['ALIASES'] = aliases;
 
-	fieldDescriptions.forEach(function(item) {
+	if(addCatalogInALiases)
+	{
+		fieldDescriptions.forEach(function(item) {
 
-		aliases[amiWebApp.jspath('..@label', item)] = {
-			'field': amiWebApp.jspath('..@field', item),
-			'fieldAlias': amiWebApp.jspath('..@label', item),
-			'table': amiWebApp.jspath('..@entity', item),
-			'tableAlias': amiWebApp.jspath('..@entity', item),
-		};
-	});
+			aliases[amiWebApp.jspath('..@label', item)] = {
+				'catalog': amiWebApp.jspath('..@catalog', item)[0],
+				'field': amiWebApp.jspath('..@field', item)[0],
+				'fieldAlias': amiWebApp.jspath('..@label', item)[0],
+				'table': amiWebApp.jspath('..@entity', item)[0],
+				'tableAlias': amiWebApp.jspath('..@entity', item)[0],
+			};
+		});
+	}
+	else
+	{
+		fieldDescriptions.forEach(function(item) {
+
+			aliases[amiWebApp.jspath('..@label', item)] = {
+				'catalog': /*------------*/ 'N/A' /*------------*/,
+				'field': amiWebApp.jspath('..@field', item)[0],
+				'fieldAlias': amiWebApp.jspath('..@label', item)[0],
+				'table': amiWebApp.jspath('..@entity', item)[0],
+				'tableAlias': amiWebApp.jspath('..@entity', item)[0],
+			};
+		});
+	}
 
 	/*---------------------------------------------------------------------*/
 

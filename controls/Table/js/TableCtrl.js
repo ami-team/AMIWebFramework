@@ -625,9 +625,10 @@ $AMIClass('TableCtrl', {
     var _this9 = this;
 
     /*-----------------------------------------------------------------*/
-    var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
+    var isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
+    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
 
-    var column = this._buildColumnName('N/A', regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
+    var column = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
     /*-----------------------------------------------------------------*/
 
 
@@ -648,36 +649,19 @@ $AMIClass('TableCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  hideRefineModal: function hideRefineModal() {
+  refineResult: function refineResult(_filter, _x, _y) {
     /*-----------------------------------------------------------------*/
     var el1 = $('#C48564EA_A64D_98BA_6232_D03D524CAD08');
     var el2 = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
-    el1.find('#E7014B57_B16A_7593_FA1B_0DD15C15AC3E').text('');
-    el1.find('#F3A040E1_40EE_97B3_45D6_E7BFB61DBF44').val('');
-    el1.find('#CAF8B5EB_1796_3837_5722_3B5B2A7C729B').hide();
-    el1.find('#A24427DD_0DCB_3AC8_4A3E_A75D79FAA8F7').hide();
-    el1.find('form')[0].reset();
-    el2.off().submit(function (e) {
-      e.preventDefault();
-      /* DO NOTHING */
-    });
-    el1.modal('hide');
-    /*-----------------------------------------------------------------*/
-  },
 
-  /*---------------------------------------------------------------------*/
-  refineResult: function refineResult(_filter, _x, _y) {
-    /*-----------------------------------------------------------------*/
-    var el = $('#F114E547_5E78_72D9_BB7F_355CDBB3D03A');
+    var filter = _filter || el2.find('select[name="filter"]').val();
 
-    var filter = _filter || el.find('select[name="filter"]').val();
+    var x = _x || el2.find('input[name="x"]').val();
 
-    var x = _x || el.find('input[name="x"]').val();
+    var y = _y || el2.find('input[name="y"]').val();
 
-    var y = _y || el.find('input[name="y"]').val();
-
-    var y1 = el.find('input[name="y1"]').val();
-    var y2 = el.find('input[name="y2"]').val();
+    var y1 = el2.find('input[name="y1"]').val();
+    var y2 = el2.find('input[name="y2"]').val();
     y = y.replace(/'/g, '\'\'');
     y1 = y1.replace(/'/g, '\'\'');
     y2 = y2.replace(/'/g, '\'\'');
@@ -740,10 +724,11 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    this.hideRefineModal();
+    el1.modal('hide');
     /*-----------------------------------------------------------------*/
 
-    var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
+    var isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
+    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
     /*-----------------------------------------------------------------*/
 
     if (regions['WHERE']) {
@@ -770,7 +755,7 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+    var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
     amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {}, this.settings, 'table', this.ctx.entity);
     /*-----------------------------------------------------------------*/
   },
@@ -778,15 +763,14 @@ $AMIClass('TableCtrl', {
   /*---------------------------------------------------------------------*/
   showStatsTab: function showStatsTab(catalog, entity, field) {
     /*-----------------------------------------------------------------*/
-    var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
+    var isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
+    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
 
-    var columnName = this._buildColumnName('N/A', regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
-
-    var columnNAME = this._buildColumnName(catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
+    var columnName = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
     /*-----------------------------------------------------------------*/
 
 
-    regions['SELECT'] = '\'' + columnNAME.replace(/'/g, '\'\'') + '\' AS `field`' + ', ' + 'MIN(' + columnName + ') AS `min`' + ', ' + 'MAX(' + columnName + ') AS `max`' + ', ' + 'SUM(' + columnName + ') AS `sum`' + ', ' + 'AVG(' + columnName + ') AS `avg`' + ', ' + 'STDDEV(' + columnName + ') AS `stddev`' + ', ' + 'COUNT(' + columnName + ') AS `count`';
+    regions['SELECT'] = '\'' + columnName.replace(/'/g, '\'\'') + '\' AS `field`' + ', ' + 'MIN(' + columnName + ') AS `min`' + ', ' + 'MAX(' + columnName + ') AS `max`' + ', ' + 'SUM(' + columnName + ') AS `sum`' + ', ' + 'AVG(' + columnName + ') AS `avg`' + ', ' + 'STDDEV(' + columnName + ') AS `stddev`' + ', ' + 'COUNT(' + columnName + ') AS `count`';
     /*-----------------------------------------------------------------*/
 
     var xql = [];
@@ -805,7 +789,7 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+    var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
     amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {
       orderBy: '',
       showDetails: false
@@ -816,9 +800,10 @@ $AMIClass('TableCtrl', {
   /*---------------------------------------------------------------------*/
   showGroupTab: function showGroupTab(catalog, entity, field) {
     /*-----------------------------------------------------------------*/
-    var regions = xqlGetRegions(this.ctx.mql && this.ctx.mql !== 'N/A' ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions);
+    var isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
+    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
 
-    var columnName = this._buildColumnName('N/A', regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
+    var columnName = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
     /*-----------------------------------------------------------------*/
 
 
@@ -846,7 +831,7 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (regions['FROM'] ? 'sql' : 'mql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+    var command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
     amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {
       orderBy: columnName,
       showDetails: false
