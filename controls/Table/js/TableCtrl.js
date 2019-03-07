@@ -34,6 +34,8 @@ $AMIClass('TableCtrl', {
     /**/
     amiWebApp.originURL + '/controls/Table/js/libxql.js',
     /**/
+    amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
+    /**/
     'ctrl:fieldEditor', 'ctrl:tab']).done(function (data) {
       amiWebApp.appendHTML('body', data[1]).done(function () {
         amiWebApp.appendHTML('body', data[2]).done(function () {
@@ -41,8 +43,8 @@ $AMIClass('TableCtrl', {
           _this.fragmentFieldList = data[3];
           _this.fragmentTable = data[4];
           _this.fragmentJS = data[5];
-          _this.fieldEditorCtor = data[7];
-          _this.tabCtor = data[8];
+          _this.fieldEditorCtor = data[8];
+          _this.tabCtor = data[9];
         });
       });
     });
@@ -231,6 +233,20 @@ $AMIClass('TableCtrl', {
       });
       $(_this4.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(function () {
         _this4.showEditModal();
+      });
+      /*-------------------------------------------------------------*/
+
+      $(_this4.patchId('#C9F4DBE7_EF4F_09F1_C31D_97581978BD13')).click(function () {
+        _this4.exportResult('AMIXmlToXml.xsl');
+      });
+      $(_this4.patchId('#A4B03239_52F9_5FBB_0799_C932B9E95FCD')).click(function () {
+        _this4.exportResult('AMIXmlToJson.xsl');
+      });
+      $(_this4.patchId('#C6182164_9432_FA0C_5273_EFF56376660E')).click(function () {
+        _this4.exportResult('AMIXmlToCsv.xsl');
+      });
+      $(_this4.patchId('#B8CCCCA1_9829_3EA5_280E_ED47FCD33ADE')).click(function () {
+        _this4.exportResult('AMIXmlToText.xsl');
       });
       /*-------------------------------------------------------------*/
 
@@ -522,6 +538,44 @@ $AMIClass('TableCtrl', {
       amiWebApp.error(message, true);
     });
     /*-----------------------------------------------------------------*/
+  },
+
+  /*---------------------------------------------------------------------*/
+  exportResult: function exportResult(converter) {
+    amiWebApp.lock();
+    amiCommand.execute(this.ctx.command, {
+      converter: converter
+    }).done(function (data, message) {
+      /*---------------------------------------------------------*/
+      var fileMime;
+      var fileName;
+      /**/
+
+      if (converter === 'AMIXmlToXml.xsl') {
+        fileMime = 'application/xml';
+        fileName = 'result.xml';
+      } else if (converter === 'AMIXmlToJson.xsl') {
+        fileMime = 'application/json';
+        fileName = 'result.json';
+      } else if (converter === 'AMIXmlToCsv.xsl') {
+        fileMime = 'text/csv';
+        fileName = 'result.csv';
+      } else {
+        fileMime = 'text/plain';
+        fileName = 'result.txt';
+      }
+      /*-------------------------------------------------------------*/
+
+
+      saveAs(new Blob([data], {
+        type: fileMime
+      }), fileName);
+      /*-------------------------------------------------------------*/
+
+      amiWebApp.unlock();
+    }).fail(function (data, message) {
+      amiWebApp.error(message, true);
+    });
   },
 
   /*---------------------------------------------------------------------*/

@@ -43,6 +43,8 @@ $AMIClass('TableCtrl', {
 			/**/
 			amiWebApp.originURL + '/controls/Table/js/libxql.js',
 			/**/
+			amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
+			/**/
 			'ctrl:fieldEditor',
 			'ctrl:tab',
 		]).done((data) => {
@@ -55,8 +57,8 @@ $AMIClass('TableCtrl', {
 					this.fragmentTable = data[4];
 					this.fragmentJS = data[5];
 
-					this.fieldEditorCtor = data[7];
-					this.tabCtor = data[8];
+					this.fieldEditorCtor = data[8];
+					this.tabCtor = data[9];
 				});
 			});
 		});
@@ -309,6 +311,28 @@ $AMIClass('TableCtrl', {
 			$(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(() => {
 
 				this.showEditModal();
+			});
+
+			/*-------------------------------------------------------------*/
+
+			$(this.patchId('#C9F4DBE7_EF4F_09F1_C31D_97581978BD13')).click(() => {
+
+				this.exportResult('AMIXmlToXml.xsl');
+			});
+
+			$(this.patchId('#A4B03239_52F9_5FBB_0799_C932B9E95FCD')).click(() => {
+
+				this.exportResult('AMIXmlToJson.xsl');
+			});
+
+			$(this.patchId('#C6182164_9432_FA0C_5273_EFF56376660E')).click(() => {
+
+				this.exportResult('AMIXmlToCsv.xsl');
+			});
+
+			$(this.patchId('#B8CCCCA1_9829_3EA5_280E_ED47FCD33ADE')).click(() => {
+
+				this.exportResult('AMIXmlToText.xsl');
 			});
 
 			/*-------------------------------------------------------------*/
@@ -722,6 +746,54 @@ $AMIClass('TableCtrl', {
 		});
 
 		/*-----------------------------------------------------------------*/
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	exportResult: function(converter)
+	{
+		amiWebApp.lock();
+
+		amiCommand.execute(this.ctx.command, {converter: converter}).done(function(data, message) {
+
+			/*---------------------------------------------------------*/
+
+			var fileMime;
+			var fileName;
+
+			/**/ if(converter === 'AMIXmlToXml.xsl')
+			{
+				fileMime = 'application/xml';
+				fileName = 'result.xml';
+			}
+			else if(converter === 'AMIXmlToJson.xsl')
+			{
+				fileMime = 'application/json';
+				fileName = 'result.json';
+			}
+			else if(converter === 'AMIXmlToCsv.xsl')
+			{
+				fileMime = 'text/csv';
+				fileName = 'result.csv';
+			}
+			else
+			{
+				fileMime = 'text/plain';
+				fileName = 'result.txt';
+			}
+
+			/*-------------------------------------------------------------*/
+
+			saveAs(new Blob([data], {type: fileMime}), fileName);
+
+			/*-------------------------------------------------------------*/
+
+			amiWebApp.unlock();
+
+		}).fail((data, message) => {
+
+			amiWebApp.error(message, true);
+		});
 	},
 
 	/*---------------------------------------------------------------------*/
