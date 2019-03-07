@@ -41,7 +41,6 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/js.twig',
 			/**/
-			amiWebApp.originURL + '/controls/Table/js/libunits.js',
 			amiWebApp.originURL + '/controls/Table/js/libxql.js',
 			/**/
 			'ctrl:fieldEditor',
@@ -56,8 +55,8 @@ $AMIClass('TableCtrl', {
 					this.fragmentTable = data[4];
 					this.fragmentJS = data[5];
 
-					this.fieldEditorCtor = data[8];
-					this.tabCtor = data[9];
+					this.fieldEditorCtor = data[7];
+					this.tabCtor = data[8];
 				});
 			});
 		});
