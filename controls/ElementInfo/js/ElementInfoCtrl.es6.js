@@ -64,9 +64,6 @@ $AMIClass('ElementInfoCtrl', {
 			entity: entity,
 			primaryFieldName: primaryFieldName,
 			primaryFieldValue: primaryFieldValue,
-
-			showEmptyFields: false,
-			inEditMode: false,
 		};
 
 		const fn = (catalog, entity, primaryFieldName, primaryFieldValue) => 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"';

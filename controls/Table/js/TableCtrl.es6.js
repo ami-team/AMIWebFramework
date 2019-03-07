@@ -91,8 +91,6 @@ $AMIClass('TableCtrl', {
 			ast: 'N/A',
 
 			totalResults: Number.NaN,
-
-			inEditMode: false,
 		};
 
 		const fn1 = (fields, values) => 'AddElement -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';

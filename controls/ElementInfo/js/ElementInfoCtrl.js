@@ -47,9 +47,7 @@ $AMIClass('ElementInfoCtrl', {
       catalog: catalog,
       entity: entity,
       primaryFieldName: primaryFieldName,
-      primaryFieldValue: primaryFieldValue,
-      showEmptyFields: false,
-      inEditMode: false
+      primaryFieldValue: primaryFieldValue
     };
 
     var fn = function fn(catalog, entity, primaryFieldName, primaryFieldValue) {
