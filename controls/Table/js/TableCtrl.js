@@ -167,17 +167,19 @@ $AMIClass('TableCtrl', {
             _this2.ctx.canEdit = false;
           }
 
-        _this2._render(selector);
+        _this2._render(result, selector);
       });
     } else {
-      this._render(selector);
+      this._render(result, selector);
     }
     /*-----------------------------------------------------------------*/
 
+
+    return result;
   },
 
   /*---------------------------------------------------------------------*/
-  _render: function _render(selector) {
+  _render: function _render(result, selector) {
     var _this3 = this;
 
     if (this.getParent().$name !== 'TabCtrl') {
@@ -186,16 +188,16 @@ $AMIClass('TableCtrl', {
         tab.appendItem('<i class="fa fa-table"></i> ' + _this3.ctx.entity).done(function (selector) {
           _this3.setParent(tab);
 
-          _this3.__render(selector);
+          _this3.__render(result, selector);
         });
       });
     } else {
-      this.__render(selector);
+      this.__render(result, selector);
     }
   },
 
   /*---------------------------------------------------------------------*/
-  __render: function __render(selector) {
+  __render: function __render(result, selector) {
     var _this4 = this;
 
     this.replaceHTML(selector, this.fragmentTableCtrl, {

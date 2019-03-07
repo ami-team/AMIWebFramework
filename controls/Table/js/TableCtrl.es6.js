@@ -220,20 +220,22 @@ $AMIClass('TableCtrl', {
 					this.ctx.canEdit = false;
 				}
 
-				this._render(selector);
+				this._render(result, selector);
 			});
 		}
 		else
 		{
-			this._render(selector);
+			this._render(result, selector);
 		}
 
 		/*-----------------------------------------------------------------*/
+
+		return result;
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	_render: function(selector)
+	_render: function(result, selector)
 	{
 		if(this.getParent().$name !== 'TabCtrl')
 		{
@@ -245,19 +247,19 @@ $AMIClass('TableCtrl', {
 
 					this.setParent(tab);
 
-					this.__render(selector);
+					this.__render(result, selector);
 				});
 			});
 		}
 		else
 		{
-			this.__render(selector);
+			this.__render(result, selector);
 		}
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	__render: function(selector)
+	__render: function(result, selector)
 	{
 		this.replaceHTML(selector, this.fragmentTableCtrl, {dict: this.ctx}).done(() => {
 
@@ -364,7 +366,14 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			this.refresh();
+			this.refresh().done((fieldDescriptions, rows, sql, mql, ast, totalResults) => {
+
+				result.resolveWith(this.ctx.context, [fieldDescriptions, rows, sql, mql, ast, totalResults]);
+
+			}).fail((message) => {
+
+				result.rejectWith(this.ctx.context, [message]);
+			});
 
 			/*-------------------------------------------------------------*/
 		});
@@ -502,6 +511,8 @@ $AMIClass('TableCtrl', {
 
 	refresh: function()
 	{
+		const result = $.Deferred();
+
 		/*-----------------------------------------------------------------*/
 
 		let command = this.ctx.command;
@@ -561,18 +572,25 @@ $AMIClass('TableCtrl', {
 
 			/**/
 
-			if(this.sql === 'N/A') {
+			if(his.ctx.sql === 'N/A') {
 				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).hide();
 			}
 			else {
 				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).show();
 			}
 
-			if(this.mql === 'N/A') {
+			if(this.ctx.mql === 'N/A') {
 				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).hide();
 			}
 			else {
 				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).show();
+			}
+
+			if(this.ctx.ast === 'N/A') {
+				$(this.patchId('#E2EB6136_7358_875A_2857_8766E9B3036E')).hide();
+			}
+			else {
+				$(this.patchId('#E2EB6136_7358_875A_2857_8766E9B3036E')).show();
 			}
 
 			if(Number.isNaN(this.ctx.totalResults)) {
@@ -735,6 +753,8 @@ $AMIClass('TableCtrl', {
 
 				/*---------------------------------------------------------*/
 
+				result.resolveWith(context, [this.ctx.fieldDescriptions, rows, this.ctx.sql, this.ctx.mql, this.ctx.ast, this.ctx.totalResults]);
+
 				amiWebApp.unlock();
 
 				/*---------------------------------------------------------*/
@@ -742,10 +762,14 @@ $AMIClass('TableCtrl', {
 
 		}).fail((data, message) => {
 
+			result.rejectWith(context, [message]);
+
 			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/
+
+		return result;
 	},
 
 	/*---------------------------------------------------------------------*/

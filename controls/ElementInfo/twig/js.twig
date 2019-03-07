@@ -9,7 +9,7 @@
 		if(isAuth)
 		{
 			myElementInfo.render('#myElementInfo', '{{catalog|e('js')}}', '{{entity|e('js')}}', '{{primaryFieldName|e('js')}}', '{{primaryFieldValue|e('js')}}', {
-				expandedLinkedElements: {{expandedLinkedElements|e('js')}},
+				expandedLinkedElements: [{{expandedLinkedElements|join(', ')|e}}],
 				enableCache: {{enableCache}},
 				showToolBar: {{showToolBar}},
 				showDetails: {{showDetails}},
