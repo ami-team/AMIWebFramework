@@ -70,7 +70,9 @@ $AMIClass('TableCtrl', {
 
 	render: function(selector, command, settings)
 	{
-		this.settings = settings;
+		const result = $.Deferred();
+
+		/*-----------------------------------------------------------------*/
 
 		this.ctx = {
 			isEmbedded: amiWebApp.isEmbedded(),
@@ -98,6 +100,7 @@ $AMIClass('TableCtrl', {
 		const fn2 = (primaryValue) => 'RemoveElements -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -keyFields="' + this.ctx.primaryField + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
 
 		const [
+			context,
 			appendCommandFunc, deleteCommandFunc,
 			enableCache, showToolBar, showDetails, showTools, canEdit,
 			catalog, entity, primaryField, rowset,
@@ -105,13 +108,15 @@ $AMIClass('TableCtrl', {
 			card
 		] = amiWebApp.setup(
 			[
+				'context',
 				'appendCommandFunc', 'deleteCommandFunc',
 				'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
 				'start', 'stop', 'orderBy', 'orderWay',
-				'card'
+				'card',
 			],
 			[
+				result,
 				fn1, fn2,
 				false, true, false, true, false,
 				'', '', '', '',
@@ -144,7 +149,7 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		this.ctx.fieldEditor = new this.fieldEditorCtor(this, this);
+		this.fieldEditor = new this.fieldEditorCtor(this, this);
 
 		/*-----------------------------------------------------------------*/
 
@@ -687,7 +692,7 @@ $AMIClass('TableCtrl', {
 
 					e.preventDefault();
 
-					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.settings);
+					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx);
 				});
 
 				/*---------------------------------------------------------*/
@@ -707,7 +712,7 @@ $AMIClass('TableCtrl', {
 				/* SETUP FIELD EDITOR                                      */
 				/*---------------------------------------------------------*/
 
-				this.ctx.fieldEditor.setup(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.ctx.primaryField, this.settings);
+				this.fieldEditor.setup(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.ctx.primaryFieldValue, this.ctx);
 
 				/*---------------------------------------------------------*/
 				/* UPDATE JAVASCRIPT                                       */
@@ -819,7 +824,7 @@ $AMIClass('TableCtrl', {
 				tags2.show();
 			}
 
-			this.ctx.fieldEditor.setInEditMode(true);
+			this.fieldEditor.setInEditMode(true);
 		}
 		else
 		{
@@ -829,7 +834,7 @@ $AMIClass('TableCtrl', {
 				tags2.hide();
 			}
 
-			this.ctx.fieldEditor.setInEditMode(false);
+			this.fieldEditor.setInEditMode(false);
 		}
 	},
 
@@ -1128,7 +1133,7 @@ $AMIClass('TableCtrl', {
 
 		const command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
-		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {}, this.settings, 'table', this.ctx.entity);
+		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {}, this.ctx, 'table', this.ctx.entity);
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -1182,7 +1187,7 @@ $AMIClass('TableCtrl', {
 
 		const command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
-		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: '', showDetails: false}, this.settings, 'bar-chart', this.ctx.entity);
+		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: '', showDetails: false}, this.ctx, 'bar-chart', this.ctx.entity);
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -1229,7 +1234,7 @@ $AMIClass('TableCtrl', {
 
 		const command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
-		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: columnName, showDetails: false}, this.settings, 'slack', this.ctx.entity);
+		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: columnName, showDetails: false}, this.ctx, 'slack', this.ctx.entity);
 
 		/*-----------------------------------------------------------------*/
 	},
