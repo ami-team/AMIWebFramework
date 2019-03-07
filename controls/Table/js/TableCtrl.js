@@ -1,5 +1,3 @@
-function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
-
 /*!
  * AMI Web Framework
  *
@@ -67,7 +65,7 @@ $AMIClass('TableCtrl', {
       sql: 'N/A',
       mql: 'N/A',
       ast: 'N/A',
-      totalResults: 'N/A',
+      totalResults: Number.NaN,
       inEditMode: false
     };
 
@@ -200,16 +198,16 @@ $AMIClass('TableCtrl', {
     }).done(function () {
       /*-------------------------------------------------------------*/
       $(_this4.patchId('#BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570')).click(function () {
-        _this4.xxxx();
+        _this4.firstPage();
       });
       $(_this4.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(function () {
-        _this4.prev();
+        _this4.prevPage();
       });
       $(_this4.patchId('#E7FDF4C8_ECD2_3FE0_8C75_541E511239C2')).click(function () {
-        _this4.next();
+        _this4.nextPage();
       });
       $(_this4.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).click(function () {
-        _this4.yyyy();
+        _this4.lastPage();
       });
       /*-------------------------------------------------------------*/
 
@@ -257,50 +255,44 @@ $AMIClass('TableCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  checkPageNumber: function checkPageNumber(_x, _default) {
-    return isNaN(_x) === false && _x > 0 ? _x : _default;
+  parsePageNumber: function parsePageNumber(s, defaultPageNumber) {
+    var pageNumber = parseInt(s);
+    return Number.isNaN(pageNumber) === false && pageNumber > 0 ? pageNumber : defaultPageNumber;
   },
 
   /*---------------------------------------------------------------------*/
-  xxxx: function xxxx() {
-    var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
-    var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
+  getOffsetForLastPage: function getOffsetForLastPage(range) {
+    var modulo = this.ctx.totalResults % range;
+    return this.ctx.totalResults > modulo ? this.ctx.totalResults - modulo : 0x0000000000000000000000000001;
+  },
+
+  /*---------------------------------------------------------------------*/
+  firstPage: function firstPage() {
+    var oldStart = this.parsePageNumber($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start);
+    var oldStop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     var range = oldStop - oldStart + 1;
-
-    if (this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
-      range = (_readOnlyError("range"), this.ctx.totalResults);
-    }
-
-    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(0x0000000000000000001);
-    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(0x0000000000000000001 + range - 1);
+    var newStart = 0x000000000000000000000000000001;
+    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
+    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
     this.refresh();
   },
 
   /*---------------------------------------------------------------------*/
-  yyyy: function yyyy() {
-    var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
-    var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
+  lastPage: function lastPage() {
+    var oldStart = this.parsePageNumber($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start);
+    var oldStop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     var range = oldStop - oldStart + 1;
-
-    if (this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
-      range = (_readOnlyError("range"), this.ctx.totalResults);
-    }
-
-    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(this.ctx.totalResults - range + 1);
-    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(this.ctx.totalResults);
+    var newStart = this.getOffsetForLastPage(range);
+    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
+    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
     this.refresh();
   },
 
   /*---------------------------------------------------------------------*/
-  prev: function prev() {
-    var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
-    var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
+  prevPage: function prevPage() {
+    var oldStart = this.parsePageNumber($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start);
+    var oldStop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     var range = oldStop - oldStart + 1;
-
-    if (this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
-      range = (_readOnlyError("range"), this.ctx.totalResults);
-    }
-
     var newStart = oldStart - range;
     var newStop = oldStop - range;
 
@@ -316,15 +308,10 @@ $AMIClass('TableCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  next: function next() {
-    var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
-    var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
+  nextPage: function nextPage() {
+    var oldStart = this.parsePageNumber($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start);
+    var oldStop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     var range = oldStop - oldStart + 1;
-
-    if (this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
-      range = (_readOnlyError("range"), this.ctx.totalResults);
-    }
-
     var newStart = oldStart + range;
     var newStop = oldStop + range;
 
@@ -357,8 +344,8 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    var start = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
-    var stop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
+    var start = this.parsePageNumber($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start);
+    var stop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     command += ' -limit="' + (stop - start + 1) + '"';
     command += ' -offset="' + (0x00 + start - 1) + '"';
 
@@ -376,8 +363,7 @@ $AMIClass('TableCtrl', {
       _this5.ctx.sql = amiWebApp.jspath('..@sql', rowset)[0] || 'N/A';
       _this5.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
       _this5.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
-      _this5.ctx.totalResults = 59; //amiWebApp.jspath('..@totalResults', rowset)[0] || 'N/A';
-
+      _this5.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '59');
       /**/
 
       if (_this5.sql === 'N/A') {
@@ -513,7 +499,7 @@ $AMIClass('TableCtrl', {
 
         /*---------------------------------------------------------*/
 
-        var title = _this5.ctx.catalog + '::' + _this5.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + _this5.ctx.totalResults;
+        var title = _this5.ctx.catalog + '::' + _this5.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (Number.isNaN(_this5.ctx.totalResults) === false ? _this5.ctx.totalResults : 'N/A');
         $(_this5.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
           placement: 'bottom',
           title: title,

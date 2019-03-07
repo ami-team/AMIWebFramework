@@ -86,7 +86,7 @@ $AMIClass('TableCtrl', {
 			mql: 'N/A',
 			ast: 'N/A',
 
-			totalResults: 'N/A',
+			totalResults: Number.NaN,
 
 			inEditMode: false,
 		};
@@ -258,22 +258,22 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570')).click(() => {
 
-				this.xxxx();
+				this.firstPage();
 			});
 
 			$(this.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(() => {
 
-				this.prev();
+				this.prevPage();
 			});
 
 			$(this.patchId('#E7FDF4C8_ECD2_3FE0_8C75_541E511239C2')).click(() => {
 
-				this.next();
+				this.nextPage();
 			});
 
 			$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).click(() => {
 
-				this.yyyy();
+				this.lastPage();
 			});
 
 			/*-------------------------------------------------------------*/
@@ -343,73 +343,83 @@ $AMIClass('TableCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	checkPageNumber: function(_x, _default) { return isNaN(_x) === false && _x > 0 ? _x : _default; },
+	parsePageNumber: function(s, defaultPageNumber)
+	{
+		const parsedPageNumber = parseInt(s);
+
+		return Number.isNaN(parsedPageNumber) === false && parsedPageNumber > 0 ? parsedPageNumber
+		                                                                        : defaultPageNumber
+		;
+	},
 
 	/*---------------------------------------------------------------------*/
 
-	xxxx: function()
+	getOffsetOfLastPage: function(range)
 	{
-		const oldStart = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
+		const modulo = this.ctx.totalResults % range;
+
+		return this.ctx.totalResults > modulo ? this.ctx.totalResults - modulo
+		                                      : 0x00000000000000000000000000001
+		;
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	firstPage: function()
+	{
+		const oldStart = this.parsePageNumber(
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
 		);
 
-		const oldStop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
+		const oldStop = this.parsePageNumber(
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
 		const range = oldStop - oldStart + 1;
 
-		if(isNaN(this.ctx.totalResults) === false && range > this.ctx.totalResults) {
-			range = this.ctx.totalResults;
-		}
+		const newStart = 0x00000000000000000000000000001;
 
-		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(0x0000000000000000001);
-		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(0x0000000000000000001 + range - 1);
+		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
+		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
 
 		this.refresh();
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	yyyy: function()
+	lastPage: function()
 	{
-		const oldStart = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
+		const oldStart = this.parsePageNumber(
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
 		);
 
-		const oldStop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
+		const oldStop = this.parsePageNumber(
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
 		const range = oldStop - oldStart + 1;
 
-		if(isNaN(this.ctx.totalResults) === false && range > this.ctx.totalResults) {
-			range = this.ctx.totalResults;
-		}
+		const newStart = this.getOffsetOfLastPage(range);
 
-		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(this.ctx.totalResults - range + 1);
-		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(this.ctx.totalResults);
+		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
+		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
 
 		this.refresh();
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	prev: function()
+	prevPage: function()
 	{
-		const oldStart = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
+		const oldStart = this.parsePageNumber(
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
 		);
 
-		const oldStop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
+		const oldStop = this.parsePageNumber(
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
 		const range = oldStop - oldStart + 1;
-
-		if(isNaN(this.ctx.totalResults) === false && range > this.ctx.totalResults) {
-			range = this.ctx.totalResults;
-		}
 
 		const newStart = oldStart - range;
 		const newStop = oldStop - range;
@@ -430,21 +440,17 @@ $AMIClass('TableCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	next: function()
+	nextPage: function()
 	{
-		const oldStart = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
+		const oldStart = this.parsePageNumber(
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
 		);
 
-		const oldStop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
+		const oldStop = this.parsePageNumber(
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
 		const range = oldStop - oldStart + 1;
-
-		if(this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
-			range = this.ctx.totalResults;
-		}
 
 		const newStart = oldStart + range;
 		const newStop = oldStop + range;
@@ -485,12 +491,12 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		const start = this.checkPageNumber(
-			parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start
+		const start = this.parsePageNumber(
+			$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start
 		);
 
-		const stop = this.checkPageNumber(
-			parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop
+		const stop = this.parsePageNumber(
+			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
 		command += ' -limit="' + (stop - start + 1) + '"';
@@ -522,8 +528,8 @@ $AMIClass('TableCtrl', {
 			this.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
 			this.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
 
-			this.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '');
-alert(this.ctx.totalResults);
+			this.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '59');
+
 			/**/
 
 			if(this.sql === 'N/A') {
@@ -689,7 +695,7 @@ alert(this.ctx.totalResults);
 				/* FILL TOOLTIP                                            */
 				/*---------------------------------------------------------*/
 
-				const title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (isNaN(this.ctx.totalResults) === false ? this.ctx.totalResults : 'N/A')
+				const title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (Number.isNaN(this.ctx.totalResults) === false ? this.ctx.totalResults : 'N/A')
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
 					placement: 'bottom',
