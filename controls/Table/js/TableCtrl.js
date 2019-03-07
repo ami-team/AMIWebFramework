@@ -32,7 +32,7 @@ $AMIClass('TableCtrl', {
     /**/
     amiWebApp.originURL + '/controls/Table/twig/fieldList.twig', amiWebApp.originURL + '/controls/Table/twig/table.twig', amiWebApp.originURL + '/controls/Table/twig/js.twig',
     /**/
-    amiWebApp.originURL + '/controls/Table/js/libunits.js', amiWebApp.originURL + '/controls/Table/js/libxql.js',
+    amiWebApp.originURL + '/controls/Table/js/libxql.js',
     /**/
     'ctrl:fieldEditor', 'ctrl:tab']).done(function (data) {
       amiWebApp.appendHTML('body', data[1]).done(function () {
@@ -41,8 +41,8 @@ $AMIClass('TableCtrl', {
           _this.fragmentFieldList = data[3];
           _this.fragmentTable = data[4];
           _this.fragmentJS = data[5];
-          _this.fieldEditorCtor = data[8];
-          _this.tabCtor = data[9];
+          _this.fieldEditorCtor = data[7];
+          _this.tabCtor = data[8];
         });
       });
     });
