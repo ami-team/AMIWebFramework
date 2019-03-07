@@ -528,7 +528,7 @@ $AMIClass('TableCtrl', {
 			this.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
 			this.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
 
-			this.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '59');
+			this.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '');
 
 			/**/
 
@@ -546,7 +546,7 @@ $AMIClass('TableCtrl', {
 				$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).show();
 			}
 
-			if(this.ctx.totalResults === 'N/A') {
+			if(Number.isNaN(this.ctx.totalResults)) {
 				$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', true);
 			}
 			else {

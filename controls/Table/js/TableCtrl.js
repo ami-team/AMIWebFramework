@@ -256,14 +256,14 @@ $AMIClass('TableCtrl', {
 
   /*---------------------------------------------------------------------*/
   parsePageNumber: function parsePageNumber(s, defaultPageNumber) {
-    var pageNumber = parseInt(s);
-    return Number.isNaN(pageNumber) === false && pageNumber > 0 ? pageNumber : defaultPageNumber;
+    var parsedPageNumber = parseInt(s);
+    return Number.isNaN(parsedPageNumber) === false && parsedPageNumber > 0 ? parsedPageNumber : defaultPageNumber;
   },
 
   /*---------------------------------------------------------------------*/
-  getOffsetForLastPage: function getOffsetForLastPage(range) {
+  getOffsetOfLastPage: function getOffsetOfLastPage(range) {
     var modulo = this.ctx.totalResults % range;
-    return this.ctx.totalResults > modulo ? this.ctx.totalResults - modulo : 0x0000000000000000000000000001;
+    return this.ctx.totalResults > modulo ? this.ctx.totalResults - modulo : 0x00000000000000000000000000001;
   },
 
   /*---------------------------------------------------------------------*/
@@ -271,7 +271,7 @@ $AMIClass('TableCtrl', {
     var oldStart = this.parsePageNumber($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start);
     var oldStop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     var range = oldStop - oldStart + 1;
-    var newStart = 0x000000000000000000000000000001;
+    var newStart = 0x00000000000000000000000000001;
     $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
     $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
     this.refresh();
@@ -282,7 +282,7 @@ $AMIClass('TableCtrl', {
     var oldStart = this.parsePageNumber($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start);
     var oldStop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     var range = oldStop - oldStart + 1;
-    var newStart = this.getOffsetForLastPage(range);
+    var newStart = this.getOffsetOfLastPage(range);
     $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
     $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
     this.refresh();
@@ -363,7 +363,7 @@ $AMIClass('TableCtrl', {
       _this5.ctx.sql = amiWebApp.jspath('..@sql', rowset)[0] || 'N/A';
       _this5.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
       _this5.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
-      _this5.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '59');
+      _this5.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '');
       /**/
 
       if (_this5.sql === 'N/A') {
@@ -378,7 +378,7 @@ $AMIClass('TableCtrl', {
         $(_this5.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).show();
       }
 
-      if (_this5.ctx.totalResults === 'N/A') {
+      if (Number.isNaN(_this5.ctx.totalResults)) {
         $(_this5.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', true);
       } else {
         $(_this5.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', false);
