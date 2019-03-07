@@ -359,7 +359,7 @@ $AMIClass('TableCtrl', {
 
 		const range = oldStop - oldStart + 1;
 
-		if(this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+		if(isNaN(this.ctx.totalResults) === false && range > this.ctx.totalResults) {
 			range = this.ctx.totalResults;
 		}
 
@@ -383,7 +383,7 @@ $AMIClass('TableCtrl', {
 
 		const range = oldStop - oldStart + 1;
 
-		if(this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+		if(isNaN(this.ctx.totalResults) === false && range > this.ctx.totalResults) {
 			range = this.ctx.totalResults;
 		}
 
@@ -407,7 +407,7 @@ $AMIClass('TableCtrl', {
 
 		const range = oldStop - oldStart + 1;
 
-		if(this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+		if(isNaN(this.ctx.totalResults) === false && range > this.ctx.totalResults) {
 			range = this.ctx.totalResults;
 		}
 
@@ -522,8 +522,8 @@ $AMIClass('TableCtrl', {
 			this.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
 			this.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
 
-			this.ctx.totalResults = 59;//amiWebApp.jspath('..@totalResults', rowset)[0] || 'N/A';
-
+			this.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '');
+alert(this.ctx.totalResults);
 			/**/
 
 			if(this.sql === 'N/A') {
@@ -689,7 +689,7 @@ $AMIClass('TableCtrl', {
 				/* FILL TOOLTIP                                            */
 				/*---------------------------------------------------------*/
 
-				const title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + this.ctx.totalResults;
+				const title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (isNaN(this.ctx.totalResults) === false ? this.ctx.totalResults : 'N/A')
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
 					placement: 'bottom',
