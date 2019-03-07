@@ -69,8 +69,7 @@ $AMIClass('TableCtrl', {
       sql: 'N/A',
       mql: 'N/A',
       ast: 'N/A',
-      totalResults: Number.NaN,
-      inEditMode: false
+      totalResults: Number.NaN
     };
 
     var fn1 = function fn1(fields, values) {
