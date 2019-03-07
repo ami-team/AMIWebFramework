@@ -275,12 +275,12 @@ $AMIClass('SchemaViewerApp', {
 
 		$.each(this.schema.graph.getCells(), function(index, value) {
 
-			if(value.get('type') === 'sql.Table')
+			if(value.get('type') === 'sql.Entity')
 			{
 				var position = value.getPosition();
 				var color    = value.getColor()   ;
 
-				custom[value.get('table')] = {
+				custom[value.get('entity')] = {
 					x: position.x,
 					y: position.y,
 					color: color,
