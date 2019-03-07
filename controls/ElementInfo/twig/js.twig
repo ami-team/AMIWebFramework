@@ -8,11 +8,18 @@
 
 		if(isAuth)
 		{
-			myElementInfo.render('#myElementInfo', {
-				catalog: '{{catalog|e('js')}}',
-				entity: '{{entity|e('js')}}',
-				primaryField: '{{primaryField|e('js')}}',
-				primaryFieldValue: {{primaryFieldValue|e('js')}}',
+			myElementInfo.render('#myElementInfo', '{{catalog|e('js')}}', '{{entity|e('js')}}', '{{primaryFieldName|e('js')}}', '{{primaryFieldValue|e('js')}}', {
+				expandedLinkedElements: {{expandedLinkedElements|e('js')}},
+				enableCache: {{enableCache}},
+				showToolBar: {{showToolBar}},
+				showDetails: {{showDetails}},
+				showTools: {{showTools}},
+				canEdit: {{canEdit}},
+				start: {{start}},
+				stop: {{stop}},
+				orderBy: '{{orderBy|e('js')}}',
+				orderWay: '{{orderWay|e('js')}}',
+				card: {{card}},
 			});
 		}
 		else
