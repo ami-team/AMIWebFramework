@@ -1,3 +1,5 @@
+function _readOnlyError(name) { throw new Error("\"" + name + "\" is read-only"); }
+
 /*!
  * AMI Web Framework
  *
@@ -264,8 +266,13 @@ $AMIClass('TableCtrl', {
     var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
     var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
     var range = oldStop - oldStart + 1;
-    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(0x001);
-    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(0x000 + range);
+
+    if (this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+      range = (_readOnlyError("range"), this.ctx.totalResults);
+    }
+
+    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(0x0000000000000000001);
+    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(0x0000000000000000001 + range - 1);
     this.refresh();
   },
 
@@ -274,7 +281,12 @@ $AMIClass('TableCtrl', {
     var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
     var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
     var range = oldStop - oldStart + 1;
-    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(this.ctx.totalResults - range - 1);
+
+    if (this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+      range = (_readOnlyError("range"), this.ctx.totalResults);
+    }
+
+    $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(this.ctx.totalResults - range + 1);
     $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(this.ctx.totalResults);
     this.refresh();
   },
@@ -284,6 +296,11 @@ $AMIClass('TableCtrl', {
     var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
     var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
     var range = oldStop - oldStart + 1;
+
+    if (this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+      range = (_readOnlyError("range"), this.ctx.totalResults);
+    }
+
     var newStart = oldStart - range;
     var newStop = oldStop - range;
 
@@ -303,6 +320,11 @@ $AMIClass('TableCtrl', {
     var oldStart = this.checkPageNumber(parseInt($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val()), this.ctx.start);
     var oldStop = this.checkPageNumber(parseInt($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val()), this.ctx.stop);
     var range = oldStop - oldStart + 1;
+
+    if (this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+      range = (_readOnlyError("range"), this.ctx.totalResults);
+    }
+
     var newStart = oldStart + range;
     var newStop = oldStop + range;
 

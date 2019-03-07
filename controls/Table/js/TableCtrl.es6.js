@@ -359,8 +359,12 @@ $AMIClass('TableCtrl', {
 
 		const range = oldStop - oldStart + 1;
 
-		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(0x001);
-		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(0x000 + range);
+		if(this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+			range = this.ctx.totalResults;
+		}
+
+		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(0x0000000000000000001);
+		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(0x0000000000000000001 + range - 1);
 
 		this.refresh();
 	},
@@ -378,6 +382,10 @@ $AMIClass('TableCtrl', {
 		);
 
 		const range = oldStop - oldStart + 1;
+
+		if(this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+			range = this.ctx.totalResults;
+		}
 
 		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(this.ctx.totalResults - range + 1);
 		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(this.ctx.totalResults);
@@ -398,6 +406,10 @@ $AMIClass('TableCtrl', {
 		);
 
 		const range = oldStop - oldStart + 1;
+
+		if(this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+			range = this.ctx.totalResults;
+		}
 
 		const newStart = oldStart - range;
 		const newStop = oldStop - range;
@@ -429,6 +441,10 @@ $AMIClass('TableCtrl', {
 		);
 
 		const range = oldStop - oldStart + 1;
+
+		if(this.ctx.totalResults !== 'N/A' && range > this.ctx.totalResults) {
+			range = this.ctx.totalResults;
+		}
 
 		const newStart = oldStart + range;
 		const newStop = oldStop + range;
