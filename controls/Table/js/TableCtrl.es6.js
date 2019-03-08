@@ -666,6 +666,8 @@ $AMIClass('TableCtrl', {
 			}
 
 			const dict = {
+				catalog: this.ctx.catalog,
+				entity: this.ctx.entity,
 				primaryField: this.ctx.primaryField,
 				fieldDescriptions: this.ctx.fieldDescriptions,
 				rows: rows,

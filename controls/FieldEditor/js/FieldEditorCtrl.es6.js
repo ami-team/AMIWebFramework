@@ -43,7 +43,7 @@ $AMIClass('FieldEditorCtrl', {
 	{
 		/*-----------------------------------------------------------------*/
 
-		const fn = (catalog, entity, field, value, primaryField, primaryValue) => 'UpdateElements -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
+		const fn = (catalog, entity, field, value, primaryField, primaryValue) => 'UpdateElements -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '" -keyFields="' + amiWebApp.textToString(this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
 
 		/*-----------------------------------------------------------------*/
 

@@ -464,6 +464,8 @@ $AMIClass('TableCtrl', {
       }
 
       var dict = {
+        catalog: _this5.ctx.catalog,
+        entity: _this5.ctx.entity,
         primaryField: _this5.ctx.primaryField,
         fieldDescriptions: _this5.ctx.fieldDescriptions,
         rows: rows,

@@ -33,7 +33,7 @@ $AMIClass('FieldEditorCtrl', {
 
     /*-----------------------------------------------------------------*/
     var fn = function fn(catalog, entity, field, value, primaryField, primaryValue) {
-      return 'UpdateElements -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '" -keyFields="' + amiWebApp.textToString(_this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
+      return 'UpdateElements -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '" -keyFields="' + amiWebApp.textToString(_this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
     };
     /*-----------------------------------------------------------------*/
 
