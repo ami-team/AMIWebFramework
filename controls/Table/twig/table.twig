@@ -8,7 +8,9 @@
 			{%   if showDetails %}
 			<th class="text-center xxxxxxxxx">details</th>
 			{%   endif %}
+			<!-- ******************************************************** -->
 			<th class="text-center edit-mode"> tools </th>
+			<!-- ******************************************************** -->
 			{%   for fieldDescription in fieldDescriptions %}
 			{%     if fieldDescription['@field'] === primaryField %}
 			{%       set primaryIdx = loop.index0 %}
