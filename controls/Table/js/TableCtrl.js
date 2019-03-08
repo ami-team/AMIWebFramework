@@ -464,6 +464,7 @@ $AMIClass('TableCtrl', {
       }
 
       var dict = {
+        primaryField: _this5.ctx.primaryField,
         fieldDescriptions: _this5.ctx.fieldDescriptions,
         rows: rows,
         showToolBar: _this5.ctx.showToolBar,

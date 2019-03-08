@@ -666,6 +666,7 @@ $AMIClass('TableCtrl', {
 			}
 
 			const dict = {
+				primaryField: this.ctx.primaryField,
 				fieldDescriptions: this.ctx.fieldDescriptions,
 				rows: rows,
 				showToolBar: this.ctx.showToolBar,

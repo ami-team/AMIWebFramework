@@ -10,7 +10,7 @@
 			{%   endif %}
 			<th class="text-center edit-mode"> tools </th>
 			{%   for fieldDescription in fieldDescriptions %}
-			{%     if fieldDescription['@primary'] === 'true' %}
+			{%     if fieldDescription['@field'] === primaryField %}
 			{%       set primaryIdx = loop.index0 %}
 			{%     endif %}
 			<th class="text-center">
@@ -53,20 +53,21 @@
 		{%   for row in rows %}
 		<tr>
 			<!-- ******************************************************** -->
-			{% if primaryIdx >= 0 %}
-			{%   if showDetails %}
+			{% if showDetails %}
 			<td class="text-center xxxxxxxxx">
+				{% if primaryIdx >= 0 %}
 				<a href="#" class="text-secondary" data-ctrl="elementInfo" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e}}&quot;, &quot;{{fieldDescriptions[primaryIdx]['@entity']|e}}&quot;, &quot;{{fieldDescriptions[primaryIdx]['@field']|e}}&quot;, &quot;{{row.field[primaryIdx].$|e}}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescriptions[primaryIdx]['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
+				{% endif %}
 			</td>
-			{%   endif %}
-			{%   if primaryIdx >= 0 %}
+			{% endif %}
+			<!-- ******************************************************** -->
 			<td class="text-center edit-mode">
+				{% if primaryIdx >= 0 %}
 				<a href="#" class="text-info" data-action="clone" data-row="{{row.field[primaryIdx].$|e}}"><i class="fa fa-files-o"></i></a>
 				&nbsp;
 				<a href="#" class="text-danger" data-action="delete" data-row="{{row.field[primaryIdx].$|e}}"><i class="fa fa-trash"></i></a>
+				{% endif %}
 			</td>
-			{%   endif %}
-			{% endif %}
 			<!-- ******************************************************** -->
 			{% for field in row.field %}
 			{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
