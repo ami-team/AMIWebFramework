@@ -184,7 +184,9 @@ $AMIClass('TableCtrl', {
     if (this.getParent().$name !== 'TabCtrl') {
       var tab = new this.tabCtor(null, this);
       tab.render(selector, this.ctx).done(function () {
-        tab.appendItem('<i class="fa fa-table"></i> ' + _this3.ctx.entity).done(function (selector) {
+        tab.appendItem('<i class="fa fa-table"></i> ' + _this3.ctx.entity, {
+          closable: false
+        }).done(function (selector) {
           _this3.setParent(tab);
 
           _this3.__render(result, selector);

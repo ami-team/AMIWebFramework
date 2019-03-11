@@ -109,7 +109,9 @@ $AMIClass('ElementInfoCtrl', {
     if (this.getParent().$name !== 'TabCtrl') {
       var tab = new this.tabCtor(null, this);
       tab.render(selector, this.ctx).done(function () {
-        tab.appendItem('<i class="fa fa-arrows-alt"></i> ' + _this2.ctx.entity).done(function (selector) {
+        tab.appendItem('<i class="fa fa-arrows-alt"></i> ' + _this2.ctx.entity, {
+          closable: false
+        }).done(function (selector) {
           _this2.setParent(tab);
 
           _this2.__render(result, selector);
