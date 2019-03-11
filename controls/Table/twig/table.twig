@@ -78,7 +78,7 @@
 				</a>
 				{% else %}
 				<div {% if field['properties'] is defined %}
-				     class="{% for property in field['properties'] %}{% if property['@class'] not empty %} {{property['@class']}}{% endif %}{% endfor %}"
+				     class="{% for property in field['properties'] %}{% if property['@class'] is not empty %} {{property['@class']}}{% endif %}{% endfor %}"
 				     {% endif %}
 				     {% if primaryIdx >= 0 and fieldDescriptions[loop.index0]['@catalog'] === catalog and fieldDescriptions[loop.index0]['@entity'] === entity %}
 				     data-action="edit"

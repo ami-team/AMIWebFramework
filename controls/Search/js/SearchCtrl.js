@@ -589,7 +589,20 @@ $AMIClass('SearchCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			this.addPredicateInAST(name);
+			switch(criteria.type)
+			{
+			case 0:
+			case 1:
+				break;
+			case 2:
+			case 3:
+			case 4:
+				this.addPredicateInAST(name);
+				break;
+			case 5:
+			case 6:
+				break;
+			}
 
 			/*-------------------------------------------------------------*/
 
@@ -1110,6 +1123,8 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
+		var m = this.lookupParentAST(name);
+
 		if($(predicate.selector + ' option[value="::any::"]:selected').length == 0)
 		{
 			var L = [];
@@ -1134,12 +1149,37 @@ $AMIClass('SearchCtrl', {
 			predicate.filter = L
 				.join(!$(predicate.selector + ' input[type="checkbox"]').prop('checked') ? ' OR ' : ' AND ');
 			predicate.select = S;
+
+			/*-------------------------------------------------------------*/
+			/* ADDING IN AST IF A VALUE IS SELECTED                        */
+			/*-------------------------------------------------------------*/
+
+			if (m === null)
+			{
+				this.addPredicateInAST(name);
+			}
+
+			/*-------------------------------------------------------------*/
 		}
 		else
 		{
+			/*-------------------------------------------------------------*/
+			/* REMOVING FROM AST IF THE SELECTION IS RESET                 */
+			/*-------------------------------------------------------------*/
+
+			if (m !== null)
+			{
+				this.delPredicateInAST(name);
+			}
+
+			/*-------------------------------------------------------------*/
+
 			predicate.filter = '';
 				$(predicate.selector + ' .filter').val('');
 			predicate.select = {};
+
+			/*-------------------------------------------------------------*/
+
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -1167,7 +1207,6 @@ $AMIClass('SearchCtrl', {
 		{
 			this.ctx.predicates[name].selectedParam = '';
 		}
-
 
 		/*-----------------------------------------------------------------*/
 
@@ -1203,7 +1242,6 @@ $AMIClass('SearchCtrl', {
 			}
 		}
 
-
 		/*-----------------------------------------------------------------*/
 	},
 	/*---------------------------------------------------------------------*/
@@ -1224,6 +1262,8 @@ $AMIClass('SearchCtrl', {
 		amiWebApp.lock();
 
 		/*-----------------------------------------------------------------*/
+
+		var m = this.lookupParentAST(name);
 
 		if($(predicate.selector + ' select:last option[value="::any::"]:selected').length == 0)
 		{
@@ -1272,17 +1312,38 @@ $AMIClass('SearchCtrl', {
 						break;
 				}
 
-
-
 				S[this.value] = true;
 			});
 
 			predicate.filter = L
 				.join(!$(predicate.selector + ' input[type="checkbox"]').prop('checked') ? ' OR ' : ' AND ');
 			predicate.select = S;
+
+			/*-------------------------------------------------------------*/
+			/* ADDING IN AST IF A VALUE IS SELECTED                        */
+			/*-------------------------------------------------------------*/
+
+			if (m === null)
+			{
+				this.addPredicateInAST(name);
+			}
+
+			/*-------------------------------------------------------------*/
 		}
 		else
 		{
+
+			/*-------------------------------------------------------------*/
+			/* REMOVING FROM AST IF THE SELECTION IS RESET                 */
+			/*-------------------------------------------------------------*/
+
+			if (m !== null)
+			{
+				this.delPredicateInAST(name);
+			}
+
+			/*-------------------------------------------------------------*/
+
 			predicate.filter = '';
 			$(predicate.selector + ' .filter').val('');
 			predicate.select = {};
@@ -1326,7 +1387,7 @@ $AMIClass('SearchCtrl', {
 
 		var filter = $(predicate.selector + ' .filter').val()
 		                                               .trim()
-							       .toLowerCase()
+		                                               .toLowerCase()
 		;
 
 		/*-----------------------------------------------------------------*/
