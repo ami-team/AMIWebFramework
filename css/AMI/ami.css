@@ -36,6 +36,65 @@
 }
 
 /*-------------------------------------------------------------------------*/
+/* SELECT2                                                                 */
+/*-------------------------------------------------------------------------*/
+
+.form-group .select2-container--default,
+.input-group .select2-container--default {
+	width: 100% !important;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--multiple,
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    border: 1px solid rgb(206, 212, 218) !important;
+    border-radius: 0.2rem !important;
+}
+
+/*-------------------------------------------------------------------------*/
+
+/* SELECT2-DEFAULT */
+
+.select2-container--default .select2-selection--single,
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+	height: calc(1.5em + 0.75rem + 2px) !important;
+}
+
+.select2-container--default .select2-selection--single {
+	padding: calc((1.5em + 0.75rem) / 2.0 - 14px) 0.25rem !important;
+}
+
+/* SELECT2-SMALL */
+
+.form-group-sm .select2-container--default .select2-selection--single,
+.form-group-sm .select2-container--default .select2-selection--single .select2-selection__arrow,
+.input-group-sm .select2-container--default .select2-selection--single,
+.input-group-sm .select2-container--default .select2-selection--single .select2-selection__arrow {
+	height: calc(1.5em + 0.5rem + 2px) !important;
+}
+
+.form-group-sm .select2-container--default .select2-selection--single,
+.input-group-sm .select2-container--default .select2-selection--single {
+	padding: calc((1.5em + 0.5rem) / 2.0 - 14px) 0rem !important;
+}
+
+/* SELECT2-LAGE */
+
+.form-group-lg .select2-container--default .select2-selection--single,
+.form-group-lg .select2-container--default .select2-selection--single .select2-selection__arrow,
+.input-group-lg .select2-container--default .select2-selection--single,
+.input-group-lg .select2-container--default .select2-selection--single .select2-selection__arrow {
+	height: calc(1.5em + 1.0rem + 2px) !important;
+}
+
+.form-group-lg .select2-container--default .select2-selection--single,
+.input-group-lg .select2-container--default .select2-selection--single {
+	padding: calc((1.5em + 1.0rem) / 2.0 - 14px) 0.5rem !important;
+}
+
+/*-------------------------------------------------------------------------*/
 /* CANVASJS                                                                */
 /*-------------------------------------------------------------------------*/
 

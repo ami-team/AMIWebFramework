@@ -44,6 +44,37 @@ $AMIClass('SchemaCtrl', {
         _this._currentCatalog = null;
         /*---------------------------------------------------------*/
 
+        var L = ['<option value="" style="display: none;"></option>'];
+
+        for (var controlName in amiWebApp._controls) {
+          L.push('<option value="' + amiWebApp.textToHtml(controlName) + '">' + amiWebApp.textToHtml(controlName) + '</option>');
+        }
+
+        $('#CE54048D_702D_0132_4659_9E558BE2AC11').html(L.join('')).select2({
+          allowClear: true,
+          placeholder: 'Choose a media type',
+          dropdownParent: $('#B0BEB5C7_8978_7433_F076_A55D2091777C .modal-body')
+        });
+        /*---------------------------------------------------------*/
+
+        var M = ['<option value="" style="display: none;"></option>'];
+
+        for (var controlName in amiWebApp._controls) {
+          M.push('<option value="' + amiWebApp.textToHtml(controlName) + '">' + amiWebApp.textToHtml(controlName) + '</option>');
+        }
+
+        $('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').html(M.join('')).select2({
+          allowClear: true,
+          placeholder: 'Choose a control',
+          dropdownParent: $('#B0BEB5C7_8978_7433_F076_A55D2091777C .modal-body')
+        });
+        $('#CE078F20_B498_CB87_F2BB_C8CFB98408CE').html(M.join('')).select2({
+          allowClear: true,
+          placeholder: 'Choose a control',
+          dropdownParent: $('#B0BEB5C7_8978_7433_F076_A55D2091777C .modal-body')
+        });
+        /*---------------------------------------------------------*/
+
         var cnt = 0;
         $('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', function () {
           if (cnt++ === 0) {
