@@ -70,15 +70,18 @@ $AMIClass('SchemaCtrl', {
 
         amiWebApp.loadResources([amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.css', amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.js', amiWebApp.originURL + '/js/3rd-party/codemirror/addon/edit/matchbrackets.js', amiWebApp.originURL + '/js/3rd-party/codemirror/mode/groovy/groovy.js']).done(function () {
           /*-----------------------------------------------------*/
-          $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor', CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
+          var editor = CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
             lineNumbers: true,
             matchBrackets: true,
             mode: 'text/x-groovy'
-          }));
+          });
+          /*-----------------------------------------------------*/
+
+          $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor', editor);
           /*-----------------------------------------------------*/
 
           $('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', function () {
-            $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').refresh();
+            editor.refresh();
           });
           /*-----------------------------------------------------*/
         });
