@@ -32,6 +32,7 @@ $AMIClass('SchemaCtrl', {
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css',
 			amiWebApp.originURL + '/controls/Schema/twig/SchemaCtrl.twig',
+			amiWebApp.originURL + '/controls/Schema/json/datatype.json',
 			/**/
 			amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
 			/**/
@@ -44,7 +45,7 @@ $AMIClass('SchemaCtrl', {
 			amiWebApp.originURL + '/controls/Schema/js/joint.shapes.sql.js',
 		]).done((data) => {
 
-			amiWebApp.appendHTML('body', data[0]).done(() => {
+			amiWebApp.appendHTML('body', data[1]).done(() => {
 
 				/*---------------------------------------------------------*/
 
@@ -58,9 +59,9 @@ $AMIClass('SchemaCtrl', {
 
 				let L = ['<option value="" style="display: none;"></option>'];
 
-				for(var controlName in amiWebApp._controls)
+				for(let dataType in data[2])
 				{
-					L.push('<option value="' + amiWebApp.textToHtml(controlName) + '">' + amiWebApp.textToHtml(controlName) + '</option>');
+					L.push('<option value="' + amiWebApp.textToHtml(dataType) + '">' + amiWebApp.textToHtml(data[2][dataType]) + '</option>');
 				}
 
 				$('#CE54048D_702D_0132_4659_9E558BE2AC11').html(L.join('')).select2({
@@ -73,18 +74,12 @@ $AMIClass('SchemaCtrl', {
 
 				let M = ['<option value="" style="display: none;"></option>'];
 
-				for(var controlName in amiWebApp._controls)
+				for(let controlName in amiWebApp._controls)
 				{
 					M.push('<option value="' + amiWebApp.textToHtml(controlName) + '">' + amiWebApp.textToHtml(controlName) + '</option>');
 				}
 
 				$('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').html(M.join('')).select2({
-					allowClear: true,
-					placeholder: 'Choose a control',
-					dropdownParent: $('#B0BEB5C7_8978_7433_F076_A55D2091777C .modal-body')
-				});
-
-				$('#CE078F20_B498_CB87_F2BB_C8CFB98408CE').html(M.join('')).select2({
 					allowClear: true,
 					placeholder: 'Choose a control',
 					dropdownParent: $('#B0BEB5C7_8978_7433_F076_A55D2091777C .modal-body')
