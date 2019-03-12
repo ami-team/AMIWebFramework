@@ -565,6 +565,11 @@ $AMIClass('SchemaCtrl', {
 			const statable = amiWebApp.jspath('..field{.@name==="statable"}.$', data)[0] || 'false';
 			const groupable = amiWebApp.jspath('..field{.@name==="groupable"}.$', data)[0] || 'false';
 
+			const displayable = amiWebApp.jspath('..field{.@name==="displayable"}.$', data)[0] || 'false';
+			const base64 = amiWebApp.jspath('..field{.@name==="base64"}.$', data)[0] || 'false';
+			const mime = amiWebApp.jspath('..field{.@name==="mime"}.$', data)[0] || 'false';
+			const ctrl = amiWebApp.jspath('..field{.@name==="ctrl"}.$', data)[0] || 'false';
+
 			$('#C6CA88FD_548A_FE30_9871_AFE55362439B').val(rank);
 			$('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val(description);
 			$('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').val(webLinkScript);
@@ -581,6 +586,11 @@ $AMIClass('SchemaCtrl', {
 
 			$('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked', statable === 'true');
 			$('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked', groupable === 'true');
+
+			$('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked', displayable === 'true');
+			$('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked', base64 === 'true');
+			$('#CE54048D_702D_0132_4659_9E558BE2AC11').val(mime);
+			$('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val(ctrl);
 
 			/**/
 
