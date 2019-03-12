@@ -69,16 +69,18 @@ $AMIClass('SchemaCtrl', {
         /*---------------------------------------------------------*/
 
         amiWebApp.loadResources([amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.css', amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.js', amiWebApp.originURL + '/js/3rd-party/codemirror/addon/edit/matchbrackets.js', amiWebApp.originURL + '/js/3rd-party/codemirror/mode/groovy/groovy.js']).done(function () {
-          var cnt = 0;
+          /*-----------------------------------------------------*/
+          $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor', CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
+            lineNumbers: true,
+            matchBrackets: true,
+            mode: 'text/x-groovy'
+          }));
+          /*-----------------------------------------------------*/
+
           $('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', function () {
-            if (cnt++ === 0) {
-              CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
-                lineNumbers: true,
-                matchBrackets: true,
-                mode: 'text/x-groovy'
-              });
-            }
+            $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').refresh();
           });
+          /*-----------------------------------------------------*/
         });
         /*---------------------------------------------------------*/
       });
@@ -479,7 +481,6 @@ $AMIClass('SchemaCtrl', {
 
       $('#C6CA88FD_548A_FE30_9871_AFE55362439B').val(rank);
       $('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val(description);
-      $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').val(webLinkScript);
       $('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked', adminOnly === 'true');
       $('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked', hidden === 'true');
       $('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked', crypted === 'true');
@@ -496,6 +497,9 @@ $AMIClass('SchemaCtrl', {
       $('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked', base64 === 'true');
       $('#CE54048D_702D_0132_4659_9E558BE2AC11').val(mime).trigger('change.select2');
       $('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val(ctrl).trigger('change.select2');
+      /**/
+
+      $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').setValue(webLinkScript);
       /**/
 
       $('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('show');
@@ -606,7 +610,7 @@ SchemaCtrl.applyField = function () {
   amiCommand.execute('RemoveElements -separator="|" -catalog="self" -entity="router_field" -keyFields="catalog|entity|field" -keyValues="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '"').done(function (data, message) {
     amiCommand.execute(
     /**/
-    'AddElement -separator="|" -catalog="self" -entity="router_field" -fields="catalog|entity|field|rank|isHidden|isAdminOnly|isCrypted|isPrimary|isReadable|isAutomatic|isCreated|isCreatedBy|isModified|isModifiedBy|isStatable|isGroupable|isDisplayable|isBase64|mime|ctrl|description|webLinkScript" -values="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '|' + amiWebApp.textToString($('#C6CA88FD_548A_FE30_9871_AFE55362439B').val()) + '|' + ($('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked') ? '1' : '0') + '|' + ($('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked') ? '1' : '0') + '|' + ($('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked') ? '1' : '0') + '|' + ($('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked') ? '1' : '0') + '|' + ($('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked') ? '1' : '0') + '|' + ($('#E747BF02_031E_A70D_9327_7A974FDF7E96').prop('checked') ? '1' : '0') + '|' + ($('#BC7E5CA1_09C8_BB5C_20E2_C0CFE3204224').prop('checked') ? '1' : '0') + '|' + ($('#FB998C28_1E59_12A0_1B34_2C2C0A44A6AD').prop('checked') ? '1' : '0') + '|' + ($('#AADC020E_E1CB_BA8E_E870_27B63666C988').prop('checked') ? '1' : '0') + '|' + ($('#FACFE443_72F3_8917_2F08_934D88E55DDC').prop('checked') ? '1' : '0') + '|' + ($('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked') ? '1' : '0') + '|' + ($('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked') ? '1' : '0') + '|' + ($('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked') ? '1' : '0') + '|' + ($('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked') ? '1' : '0') + '|' + amiWebApp.textToString($('#CE54048D_702D_0132_4659_9E558BE2AC11').val()) + '|' + amiWebApp.textToString($('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val()) + '|' + amiWebApp.textToString($('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val()) + '|' + amiWebApp.textToString($('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').val()) + '"').done(function (data, message) {
+    'AddElement -separator="|" -catalog="self" -entity="router_field" -fields="catalog|entity|field|rank|isHidden|isAdminOnly|isCrypted|isPrimary|isReadable|isAutomatic|isCreated|isCreatedBy|isModified|isModifiedBy|isStatable|isGroupable|isDisplayable|isBase64|mime|ctrl|description|webLinkScript" -values="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '|' + amiWebApp.textToString($('#C6CA88FD_548A_FE30_9871_AFE55362439B').val()) + '|' + ($('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked') ? '1' : '0') + '|' + ($('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked') ? '1' : '0') + '|' + ($('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked') ? '1' : '0') + '|' + ($('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked') ? '1' : '0') + '|' + ($('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked') ? '1' : '0') + '|' + ($('#E747BF02_031E_A70D_9327_7A974FDF7E96').prop('checked') ? '1' : '0') + '|' + ($('#BC7E5CA1_09C8_BB5C_20E2_C0CFE3204224').prop('checked') ? '1' : '0') + '|' + ($('#FB998C28_1E59_12A0_1B34_2C2C0A44A6AD').prop('checked') ? '1' : '0') + '|' + ($('#AADC020E_E1CB_BA8E_E870_27B63666C988').prop('checked') ? '1' : '0') + '|' + ($('#FACFE443_72F3_8917_2F08_934D88E55DDC').prop('checked') ? '1' : '0') + '|' + ($('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked') ? '1' : '0') + '|' + ($('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked') ? '1' : '0') + '|' + ($('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked') ? '1' : '0') + '|' + ($('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked') ? '1' : '0') + '|' + amiWebApp.textToString($('#CE54048D_702D_0132_4659_9E558BE2AC11').val()) + '|' + amiWebApp.textToString($('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val()) + '|' + amiWebApp.textToString($('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val()) + '|' + amiWebApp.textToString($('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').getValue()) + '"').done(function (data, message) {
       amiCommand.execute('FlushServerCaches').done(function () {
         $('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('hide');
         amiWebApp.success(message + ', please reload the page', true
