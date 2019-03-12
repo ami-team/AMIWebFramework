@@ -524,7 +524,41 @@ $AMIClass('SchemaCtrl', {
 
 	editEntity: function(catalog, entity)
 	{
-		window.open(amiWebApp.webAppURL + '?subapp=adminDashboard&userdata=catalogs', '_blank').focus();
+		if(amiLogin.hasRole('AMI_ADMIN') === false)
+		{
+			return;
+		}
+
+		amiCommand.execute('GetSessionInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '"').done((data) => {
+
+			$('#AF826BB7_E7A8_C5A8_711C_84D00F042418').text(catalog);
+			$('#BA295CEC_F262_BB7F_09BF_4420E9EDBD6E').text(entity);
+
+			$('#D10E4EFD_E2C2_849A_E80A_C5CDF370199C').val(catalog);
+			$('#E1E8A4D4_0F83_39C4_EFDF_D687479C6B25').val(entity);
+
+			/**/
+
+			const rank = amiWebApp.jspath('..field{.@name==="rank"}.$', data)[0] || '999';
+			const description = amiWebApp.jspath('..field{.@name==="description"}.$', data)[0] || 'N/A';
+
+			const bridge = amiWebApp.jspath('..field{.@name==="bridge"}.$', data)[0] || 'false';
+
+			/**/
+
+			$('#F03DA19A_40CE_5C11_9712_A82917FB07AF').val(rank);
+			$('#E831834E_1D7C_A0F7_B266_E5F5F9CB4F16').val(description);
+
+			$('#E1B8F5B1_9BDD_D4A5_56B1_540534E17B09').prop('checked', bridge === 'true');
+
+			/**/
+
+			$('#B7852284_B6C4_8ED5_502D_B8EA22689D2A').modal('show');
+
+		}).fail((data, message) => {
+
+			amiWebApp.error(message, true);
+		});
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -570,6 +604,8 @@ $AMIClass('SchemaCtrl', {
 			const mime = amiWebApp.jspath('..field{.@name==="mime"}.$', data)[0] || '@NULL';
 			const ctrl = amiWebApp.jspath('..field{.@name==="ctrl"}.$', data)[0] || '@NULL';
 
+			/**/
+
 			$('#C6CA88FD_548A_FE30_9871_AFE55362439B').val(rank);
 			$('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val(description);
 			$('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').val(webLinkScript);
@@ -607,7 +643,86 @@ $AMIClass('SchemaCtrl', {
 
 /*-------------------------------------------------------------------------*/
 
-SchemaCtrl.reset = function()
+SchemaCtrl.resetEntity = function()
+{
+	/*---------------------------------------------------------------------*/
+
+	if(!confirm('Please confirm...'))
+	{
+		return;
+	}
+
+	/*---------------------------------------------------------------------*/
+
+	amiWebApp.lock();
+
+	/*---------------------------------------------------------------------*/
+
+	amiCommand.execute('RemoveElements -separator="|" -catalog="self" -entity="router_entity" -keyFields="catalog|entity" -keyValues="' + amiWebApp.textToString($('#D10E4EFD_E2C2_849A_E80A_C5CDF370199C').val()) + '|' + amiWebApp.textToString($('#E1E8A4D4_0F83_39C4_EFDF_D687479C6B25').val()) + '"').done((data, message) => {
+
+		amiCommand.execute('FlushServerCaches').done(() => {
+
+			$('#B7852284_B6C4_8ED5_502D_B8EA22689D2A').modal('hide');
+
+			amiWebApp.success(message + ', please reload the page', true /*---------*/);
+
+		}).fail((data, message) => {
+
+			amiWebApp.error(message, true, '#C3F91880_2CD8_96B3_1093_65CD7AD615C4');
+		});
+
+	}).fail((data, message) => {
+
+		amiWebApp.error(message, true, '#C3F91880_2CD8_96B3_1093_65CD7AD615C4');
+	});
+
+	/*---------------------------------------------------------------------*/
+};
+
+/*-------------------------------------------------------------------------*/
+
+SchemaCtrl.applyEntity = function()
+{
+	/*---------------------------------------------------------------------*/
+
+	if(!confirm('Please confirm...'))
+	{
+		return;
+	}
+
+	/*---------------------------------------------------------------------*/
+
+	amiCommand.execute('RemoveElements -separator="|" -catalog="self" -entity="router_entity" -keyFields="catalog|entity" -keyValues="' + amiWebApp.textToString($('#D10E4EFD_E2C2_849A_E80A_C5CDF370199C').val()) + '|' + amiWebApp.textToString($('#E1E8A4D4_0F83_39C4_EFDF_D687479C6B25').val()) + '"').done((data, message) => {
+
+		amiCommand.execute(/**/'AddElement -separator="|" -catalog="self" -entity="router_entity" -fields="catalog|entity|rank|description|isBridge" -values="' + amiWebApp.textToString($('#D10E4EFD_E2C2_849A_E80A_C5CDF370199C').val()) + '|' + amiWebApp.textToString($('#E1E8A4D4_0F83_39C4_EFDF_D687479C6B25').val()) + '|' + amiWebApp.textToString($('#F03DA19A_40CE_5C11_9712_A82917FB07AF').val()) + '|' + amiWebApp.textToString($('#E831834E_1D7C_A0F7_B266_E5F5F9CB4F16').val()) + '|' + ($('#E1B8F5B1_9BDD_D4A5_56B1_540534E17B09').prop('checked') ? '1' : '0') + '"').done((data, message) => {
+
+			amiCommand.execute('FlushServerCaches').done(() => {
+
+				$('#B7852284_B6C4_8ED5_502D_B8EA22689D2A').modal('hide');
+
+				amiWebApp.success(message + ', please reload the page', true /*---------*/);
+
+			}).fail((data, message) => {
+
+				amiWebApp.error(message, true, '#C3F91880_2CD8_96B3_1093_65CD7AD615C4');
+			});
+
+		}).fail((data, message) => {
+
+			amiWebApp.error(message, true, '#C3F91880_2CD8_96B3_1093_65CD7AD615C4');
+		});
+
+	}).fail((data, message) => {
+
+		amiWebApp.error(message, true, '#C3F91880_2CD8_96B3_1093_65CD7AD615C4');
+	});
+
+	/*---------------------------------------------------------------------*/
+};
+
+/*-------------------------------------------------------------------------*/
+
+SchemaCtrl.resetField = function()
 {
 	/*---------------------------------------------------------------------*/
 
@@ -645,7 +760,7 @@ SchemaCtrl.reset = function()
 
 /*-------------------------------------------------------------------------*/
 
-SchemaCtrl.apply = function()
+SchemaCtrl.applyField = function()
 {
 	/*---------------------------------------------------------------------*/
 
@@ -658,7 +773,7 @@ SchemaCtrl.apply = function()
 
 	amiCommand.execute('RemoveElements -separator="|" -catalog="self" -entity="router_field" -keyFields="catalog|entity|field" -keyValues="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '"').done((data, message) => {
 
-		amiCommand.execute(/**/'AddElement -separator="|" -catalog="self" -entity="router_field" -fields="catalog|entity|field|rank|description|webLinkScript|isHidden|isAdminOnly|isCrypted|isPrimary|isCreated|isCreatedBy|isModified|isModifiedBy|isStatable|isGroupable|isDisplayable|isBase64|mime|ctrl" -values="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '|' + amiWebApp.textToString($('#C6CA88FD_548A_FE30_9871_AFE55362439B').val()) + '|' + amiWebApp.textToString($('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val()) + '|' + amiWebApp.textToString($('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').val()) + '|' + ($('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked') ? '1' : '0') + '|' + ($('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked') ? '1' : '0') + '|' + ($('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked') ? '1' : '0') + '|' + ($('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked') ? '1' : '0') + '|' + ($('#BC7E5CA1_09C8_BB5C_20E2_C0CFE3204224').prop('checked') ? '1' : '0') + '|' + ($('#FB998C28_1E59_12A0_1B34_2C2C0A44A6AD').prop('checked') ? '1' : '0') + '|' + ($('#AADC020E_E1CB_BA8E_E870_27B63666C988').prop('checked') ? '1' : '0') + '|' + ($('#FACFE443_72F3_8917_2F08_934D88E55DDC').prop('checked') ? '1' : '0') + '|' + ($('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked') ? '1' : '0') + '|' + ($('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked') ? '1' : '0') + '|' + ($('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked') ? '1' : '0') + '|' + ($('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked') ? '1' : '0') + '|' + amiWebApp.textToString($('#CE54048D_702D_0132_4659_9E558BE2AC11').val()) + '|' + amiWebApp.textToString($('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val()) + '"').done((data, message) => {
+		amiCommand.execute(/**/'AddElement -separator="|" -catalog="self" -entity="router_field" -fields="catalog|entity|field|rank|isHidden|isAdminOnly|isCrypted|isPrimary|isCreated|isCreatedBy|isModified|isModifiedBy|isStatable|isGroupable|isDisplayable|isBase64|mime|ctrl|description|webLinkScript" -values="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '|' + amiWebApp.textToString($('#C6CA88FD_548A_FE30_9871_AFE55362439B').val()) + '|' + ($('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked') ? '1' : '0') + '|' + ($('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked') ? '1' : '0') + '|' + ($('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked') ? '1' : '0') + '|' + ($('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked') ? '1' : '0') + '|' + ($('#BC7E5CA1_09C8_BB5C_20E2_C0CFE3204224').prop('checked') ? '1' : '0') + '|' + ($('#FB998C28_1E59_12A0_1B34_2C2C0A44A6AD').prop('checked') ? '1' : '0') + '|' + ($('#AADC020E_E1CB_BA8E_E870_27B63666C988').prop('checked') ? '1' : '0') + '|' + ($('#FACFE443_72F3_8917_2F08_934D88E55DDC').prop('checked') ? '1' : '0') + '|' + ($('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked') ? '1' : '0') + '|' + ($('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked') ? '1' : '0') + '|' + ($('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked') ? '1' : '0') + '|' + ($('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked') ? '1' : '0') + '|' + amiWebApp.textToString($('#CE54048D_702D_0132_4659_9E558BE2AC11').val()) + '|' + amiWebApp.textToString($('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val()) + '|' + amiWebApp.textToString($('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val()) + '|' + amiWebApp.textToString($('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').val()) + '"').done((data, message) => {
 
 			amiCommand.execute('FlushServerCaches').done(() => {
 
