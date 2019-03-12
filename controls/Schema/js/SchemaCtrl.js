@@ -25,17 +25,15 @@ $AMIClass('SchemaCtrl', {
   onReady: function onReady() {
     var _this = this;
 
-    return amiWebApp.loadResources([amiWebApp.originURL + '/controls/Schema/twig/SchemaCtrl.twig', amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
+    return amiWebApp.loadResources([amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css', amiWebApp.originURL + '/controls/Schema/twig/SchemaCtrl.twig',
+    /**/
+    amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
     /**/
     amiWebApp.originURL + '/js/3rd-party/jointjs/lodash.min.js', amiWebApp.originURL + '/js/3rd-party/jointjs/backbone-min.js',
     /**/
     amiWebApp.originURL + '/css/3rd-party/jointjs/joint.min.css', amiWebApp.originURL + '/js/3rd-party/jointjs/joint.min.js',
     /**/
-    amiWebApp.originURL + '/controls/Schema/js/joint.shapes.sql.js',
-    /**/
-    amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.css', amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.js', amiWebApp.originURL + '/js/3rd-party/codemirror/addon/edit/matchbrackets.js', amiWebApp.originURL + '/js/3rd-party/codemirror/mode/groovy/groovy.js',
-    /**/
-    amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css']).done(function (data) {
+    amiWebApp.originURL + '/controls/Schema/js/joint.shapes.sql.js']).done(function (data) {
       amiWebApp.appendHTML('body', data[0]).done(function () {
         /*---------------------------------------------------------*/
         _this._fields = null;
@@ -75,15 +73,17 @@ $AMIClass('SchemaCtrl', {
         });
         /*---------------------------------------------------------*/
 
-        var cnt = 0;
-        $('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', function () {
-          if (cnt++ === 0) {
-            CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
-              lineNumbers: true,
-              matchBrackets: true,
-              mode: 'text/x-groovy'
-            });
-          }
+        amiWebApp.loadResources([amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.css', amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.js', amiWebApp.originURL + '/js/3rd-party/codemirror/addon/edit/matchbrackets.js', amiWebApp.originURL + '/js/3rd-party/codemirror/mode/groovy/groovy.js']).done(function () {
+          var cnt = 0;
+          $('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', function () {
+            if (cnt++ === 0) {
+              CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
+                lineNumbers: true,
+                matchBrackets: true,
+                mode: 'text/x-groovy'
+              });
+            }
+          });
         });
         /*---------------------------------------------------------*/
       });

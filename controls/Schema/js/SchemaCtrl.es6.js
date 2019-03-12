@@ -30,8 +30,9 @@ $AMIClass('SchemaCtrl', {
 	onReady: function()
 	{
 		return amiWebApp.loadResources([
+			amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css',
 			amiWebApp.originURL + '/controls/Schema/twig/SchemaCtrl.twig',
-
+			/**/
 			amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
 			/**/
 			amiWebApp.originURL + '/js/3rd-party/jointjs/lodash.min.js',
@@ -41,13 +42,6 @@ $AMIClass('SchemaCtrl', {
 			amiWebApp.originURL + '/js/3rd-party/jointjs/joint.min.js',
 			/**/
 			amiWebApp.originURL + '/controls/Schema/js/joint.shapes.sql.js',
-			/**/
-			amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.css',
-			amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.js',
-			amiWebApp.originURL + '/js/3rd-party/codemirror/addon/edit/matchbrackets.js',
-			amiWebApp.originURL + '/js/3rd-party/codemirror/mode/groovy/groovy.js',
-			/**/
-			amiWebApp.originURL + '/controls/Schema/css/SchemaCtrl.css',
 		]).done((data) => {
 
 			amiWebApp.appendHTML('body', data[0]).done(() => {
@@ -95,20 +89,29 @@ $AMIClass('SchemaCtrl', {
 					placeholder: 'Choose a control',
 					dropdownParent: $('#B0BEB5C7_8978_7433_F076_A55D2091777C .modal-body')
 				});
+
 				/*---------------------------------------------------------*/
 
-				let cnt = 0;
+				amiWebApp.loadResources([
+					amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.css',
+					amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.js',
+					amiWebApp.originURL + '/js/3rd-party/codemirror/addon/edit/matchbrackets.js',
+					amiWebApp.originURL + '/js/3rd-party/codemirror/mode/groovy/groovy.js',
+				]).done(() => {
 
-				$('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', () => {
+					let cnt = 0;
 
-					if(cnt++ === 0)
-					{
-						CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
-							lineNumbers: true,
-							matchBrackets: true,
-							mode: 'text/x-groovy',
-						});
-					}
+					$('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', () => {
+
+						if(cnt++ === 0)
+						{
+							CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
+								lineNumbers: true,
+								matchBrackets: true,
+								mode: 'text/x-groovy',
+							});
+						}
+					});
 				});
 
 				/*---------------------------------------------------------*/
