@@ -449,7 +449,6 @@ $AMIClass('SchemaCtrl', {
       var base64 = amiWebApp.jspath('..field{.@name==="base64"}.$', data)[0] || 'false';
       var mime = amiWebApp.jspath('..field{.@name==="mime"}.$', data)[0] || '@NULL';
       var ctrl = amiWebApp.jspath('..field{.@name==="ctrl"}.$', data)[0] || '@NULL';
-      alert(displayable + ' ' + base64 + ' ' + mime + ' ' + ctrl);
       $('#C6CA88FD_548A_FE30_9871_AFE55362439B').val(rank);
       $('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val(description);
       $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').val(webLinkScript);
@@ -465,8 +464,8 @@ $AMIClass('SchemaCtrl', {
       $('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked', groupable === 'true');
       $('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked', displayable === 'true');
       $('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked', base64 === 'true');
-      $('#CE54048D_702D_0132_4659_9E558BE2AC11').val(mime);
-      $('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val(ctrl);
+      $('#CE54048D_702D_0132_4659_9E558BE2AC11').val(mime).trigger('change.select2');
+      $('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val(ctrl).trigger('change.select2');
       /**/
 
       $('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('show');
