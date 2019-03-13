@@ -489,6 +489,11 @@ $AMIClass('SchemaCtrl', {
       $('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked', crypted === 'true');
       $('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked', primary === 'true');
       $('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked', readable === 'true');
+      $('#EDEB0864_76FC_5FCC_C951_4F59AC5B54D2').prop('checked',
+      /*--*/
+      true
+      /*--*/
+      );
       $('#E747BF02_031E_A70D_9327_7A974FDF7E96').prop('checked', automatic === 'true');
       $('#BC7E5CA1_09C8_BB5C_20E2_C0CFE3204224').prop('checked', created === 'true');
       $('#FB998C28_1E59_12A0_1B34_2C2C0A44A6AD').prop('checked', createdBy === 'true');
