@@ -13,18 +13,22 @@
 						{% if elementRowset is not empty %}
 						{%   for row in elementRowset %}
 						{%     for field in row.field %}
-						{%       if (showEmptyFields or (field.$ is not empty and field.$ != 'N/A' and field.$ is defined)) and (field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE') %}
+						{%       if (showEmptyFields or (field.$ is not empty and field.$ != '@NULL' and field.$ != 'N/A')) and (field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE') %}
 						<tr>
 							<td class="text-left">
 								<strong>{{field['@name']|e}}</strong>
 							</td>
 							<td class="text-center">
+								{% if field.$ === '@NOGO' %}
+								<div class="font-italic text-danger">admin only</div>
+								{% else %}
 								<div class="{% if field['properties'] is defined %}{% for property in field['properties'] %}{% if property is not empty %} {{property['@class']}}{% endif %}{% endfor %}{% endif %}" data-action="edit" data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}" data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}" data-field="{{fieldDescriptions[loop.index0]['@field']|e}}" data-type="{{fieldDescriptions[loop.index0]['@type']|e}}" data-row="{{primaryFieldValue|e}}" style="min-height: 1.25rem;">{{field.$|e}}</div>
-								{% if field['link'] is defined %}
-								{% for link in field['link'] %}
+								{%   if field['link'] is defined %}
+								{%     for link in field['link'] %}
 									{% if not loop.first %} - {% endif %}
 									<a href="{{link['@href']|e}}"{% if link['@target'] is not empty %} target="{{link['@target']|e}}"{% endif %}{% if link['@data-ctrl'] is not empty %} data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}{% if link['@data-ctrl-location'] is not empty %} data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}{% if link['@data-params'] is not empty %} data-params="{{link['@data-params']|e}}"{% endif %}{% if link['@data-settings'] is not empty %} data-settings="{{link['@data-settings']|e}}"{% endif %}{% if link['@data-icon'] is not empty %} data-icon="{{link['@data-icon']|e}}"{% endif %}{% if link['@data-title'] is not empty %} data-title="{{link['@data-title']|e}}"{% endif %}>{{link['@label']|e}}</a>
-								{% endfor %}</td>
+								{%     endfor %}</td>
+								{%   endif %}
 								{% endif %}
 							</td>
 						</tr>
