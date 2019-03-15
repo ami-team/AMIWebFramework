@@ -1210,14 +1210,29 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		if (this.ctx.predicates[name].criteria.mode === 'advanced' && this.ctx.predicates[name].selectedParam !== '')
+		if(this.ctx.predicates[name].selectedParam !== '')
 		{
-			var mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '` WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '` = \'' + this.ctx.predicates[name].selectedParam + '\'';
+			if (this.ctx.predicates[name].criteria.mode === 'advanced')
+			{
+				var mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '` WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '` = \'' + this.ctx.predicates[name].selectedParam + '\'';
 
-			amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
+				amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
-				this.ctx.predicates[name].selectedValueField = amiWebApp.jspath('..field', data)[0].$ || '';
+					this.ctx.predicates[name].selectedValueField = amiWebApp.jspath('..field', data)[0].$ || '';
 
+					switch(predicate.criteria.type)
+					{
+						case 5:
+							this.fillParamBoxVal(name, false, false);
+							break;
+						case 6:
+							this.fillParamBoxVal(name, true, true);
+							break;
+					}
+				});
+			}
+			else
+			{
 				switch(predicate.criteria.type)
 				{
 					case 5:
@@ -1227,10 +1242,12 @@ $AMIClass('SearchCtrl', {
 						this.fillParamBoxVal(name, true, true);
 						break;
 				}
-			});
+			}
 		}
 		else
 		{
+			/*-------------------------------------------------------------*/
+
 			switch(predicate.criteria.type)
 			{
 				case 5:
@@ -1240,6 +1257,12 @@ $AMIClass('SearchCtrl', {
 					this.fillParamBoxVal(name, true, true);
 					break;
 			}
+
+			/*-------------------------------------------------------------*/
+
+			this.selectParamVal(name);
+
+			/*-------------------------------------------------------------*/
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -1265,7 +1288,7 @@ $AMIClass('SearchCtrl', {
 
 		var m = this.lookupParentAST(name);
 
-		if($(predicate.selector + ' select:last option[value="::any::"]:selected').length == 0)
+		if(param !== '' && $(predicate.selector + ' select:last option[value="::any::"]:selected').length == 0)
 		{
 			var L = [];
 			var S = {};
