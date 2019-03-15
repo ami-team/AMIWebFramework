@@ -163,11 +163,11 @@ $AMIClass('TableCtrl', {
 		 ) {
 			amiCommand.execute('GetEntityInfo -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '"').done((data) => {
 
-				const rows = amiWebApp.jspath('..row', data);
+				const rows = amiWebApp.jspath('..{.@type==="fields"}.row', data);
 
 				for(let i in rows)
 				{
-					const field = amiWebApp.jspath('..field{.@name==="name"}.$', rows[i])[0] || '';
+					const field = amiWebApp.jspath('..field{.@name==="field"}.$', rows[i])[0] || '';
 					const type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
 					const def = amiWebApp.jspath('..field{.@name==="def"}.$', rows[i])[0] || '';
 
@@ -627,11 +627,11 @@ $AMIClass('TableCtrl', {
 			                               : amiWebApp.jspath('..rowset'                                     , data)
 			;
 
-			const rows = amiWebApp.jspath('..row', rowset);
+			const rows = amiWebApp.jspath('.row', rowset);
 
-			this.ctx.sql = amiWebApp.jspath('..@sql', rowset)[0] || 'N/A';
-			this.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
-			this.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
+			this.ctx.sql = amiWebApp.jspath('.@sql', rowset)[0] || 'N/A';
+			this.ctx.mql = amiWebApp.jspath('.@mql', rowset)[0] || 'N/A';
+			this.ctx.ast = amiWebApp.jspath('.@ast', rowset)[0] || 'N/A';
 
 			this.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '');
 

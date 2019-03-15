@@ -122,10 +122,10 @@ $AMIClass('TableCtrl', {
 
     if (!this.ctx.primaryField && (this.ctx.showDetails || this.ctx.showTools || this.ctx.canEdit)) {
       amiCommand.execute('GetEntityInfo -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '"').done(function (data) {
-        var rows = amiWebApp.jspath('..row', data);
+        var rows = amiWebApp.jspath('..{.@type==="fields"}.row', data);
 
         for (var i in rows) {
-          var _field = amiWebApp.jspath('..field{.@name==="name"}.$', rows[i])[0] || '';
+          var _field = amiWebApp.jspath('..field{.@name==="field"}.$', rows[i])[0] || '';
 
           var type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
           var def = amiWebApp.jspath('..field{.@name==="def"}.$', rows[i])[0] || '';
@@ -434,10 +434,10 @@ $AMIClass('TableCtrl', {
     amiCommand.execute(command).done(function (data) {
       _this5.ctx.fieldDescriptions = _this5.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + _this5.ctx.rowset + '"}.fieldDescription', data) : amiWebApp.jspath('..fieldDescription', data);
       var rowset = _this5.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + _this5.ctx.rowset + '"}"', data) : amiWebApp.jspath('..rowset', data);
-      var rows = amiWebApp.jspath('..row', rowset);
-      _this5.ctx.sql = amiWebApp.jspath('..@sql', rowset)[0] || 'N/A';
-      _this5.ctx.mql = amiWebApp.jspath('..@mql', rowset)[0] || 'N/A';
-      _this5.ctx.ast = amiWebApp.jspath('..@ast', rowset)[0] || 'N/A';
+      var rows = amiWebApp.jspath('.row', rowset);
+      _this5.ctx.sql = amiWebApp.jspath('.@sql', rowset)[0] || 'N/A';
+      _this5.ctx.mql = amiWebApp.jspath('.@mql', rowset)[0] || 'N/A';
+      _this5.ctx.ast = amiWebApp.jspath('.@ast', rowset)[0] || 'N/A';
       _this5.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '');
       /**/
 
