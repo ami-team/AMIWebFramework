@@ -79,9 +79,7 @@
 				{% elseif field.$ === '@NOGO' %}
 					<div class="font-italic text-danger">admin only</div>
 				{% else %}
-				<div {% if field['properties'] is defined %}
-				     class="{% for property in field['properties'] %}{% if property['@class'] is not empty %} {{property['@class']}}{% endif %}{% endfor %}"
-				     {% endif %}
+				<div class="h-100{% if field['properties'] is defined %}{% for property in field['properties'] %}{% if property['@class'] is not empty %} {{property['@class']}}{% endif %}{% endfor %}{% endif %}"
 				     {% if primaryIdx >= 0 and fieldDescriptions[loop.index0]['@catalog'] === catalog and fieldDescriptions[loop.index0]['@entity'] === entity %}
 				     data-action="edit"
 				     data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
@@ -89,7 +87,8 @@
 				     data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
 				     data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
 				     data-row="{{row.field[primaryIdx].$|e}}"
-				     {% endif %}>{{field.$|e}}</div>
+				     {% endif %}
+				     style="min-height: 1.25rem;">{{field.$|e}}</div>
 				{%   if field['link'] is defined %}
 				{%     for link in field['link'] %}
 				{%       if not loop.first %} - {% endif %}
