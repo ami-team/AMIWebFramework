@@ -346,18 +346,12 @@ $AMIClass('SchemaCtrl', {
     var _this4 = this;
 
     var result = $.Deferred();
+    amiCommand.execute('GetSchemas').always(function (data) {
+      _this4._fields = amiWebApp.jspath('..rowset{.@type==="fields"}.row', data) || [];
+      _this4._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data) || [];
 
-    if (this._fields && this._foreignKeys) {
-      this._refresh(result, catalog, settings);
-    } else {
-      amiCommand.execute('GetSchemas').always(function (data) {
-        _this4._fields = amiWebApp.jspath('..rowset{.@type==="fields"}.row', data) || [];
-        _this4._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data) || [];
-
-        _this4._refresh(result, catalog, settings);
-      });
-    }
-
+      _this4._refresh(result, catalog, settings);
+    });
     return result.promise();
   },
 

@@ -423,22 +423,13 @@ $AMIClass('SchemaCtrl', {
 	{
 		let result = $.Deferred();
 
-		if(this._fields
-		   &&
-		   this._foreignKeys
-		 ) {
+		amiCommand.execute('GetSchemas').always((data) => {
+
+			this._fields = amiWebApp.jspath('..rowset{.@type==="fields"}.row', data) || [];
+			this._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data) || [];
+
 			this._refresh(result, catalog, settings);
-		}
-		else
-		{
-			amiCommand.execute('GetSchemas').always((data) => {
-
-				this._fields = amiWebApp.jspath('..rowset{.@type==="fields"}.row', data) || [];
-				this._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data) || [];
-
-				this._refresh(result, catalog, settings);
-			});
-		}
+		});
 
 		return result.promise();
 	},
