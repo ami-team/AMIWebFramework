@@ -426,6 +426,7 @@ $AMIClass('SchemaCtrl', {
 		amiCommand.execute('GetSchemas').always((data) => {
 
 			this._fields = amiWebApp.jspath('..rowset{.@type==="fields"}.row', data) || [];
+			this._entities = amiWebApp.jspath('..rowset{.@type==="entities"}.row', data) || [];
 			this._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data) || [];
 
 			this._refresh(result, catalog, settings);
@@ -527,7 +528,7 @@ $AMIClass('SchemaCtrl', {
 			return;
 		}
 
-		amiCommand.execute('GetSessionInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '"').done((data) => {
+		amiCommand.execute('GetEntityInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '"').done((data) => {
 
 			$('#AF826BB7_E7A8_C5A8_711C_84D00F042418').text(catalog);
 			$('#BA295CEC_F262_BB7F_09BF_4420E9EDBD6E').text(entity);

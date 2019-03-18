@@ -348,6 +348,7 @@ $AMIClass('SchemaCtrl', {
     var result = $.Deferred();
     amiCommand.execute('GetSchemas').always(function (data) {
       _this4._fields = amiWebApp.jspath('..rowset{.@type==="fields"}.row', data) || [];
+      _this4._entities = amiWebApp.jspath('..rowset{.@type==="entities"}.row', data) || [];
       _this4._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data) || [];
 
       _this4._refresh(result, catalog, settings);
@@ -417,7 +418,7 @@ $AMIClass('SchemaCtrl', {
       return;
     }
 
-    amiCommand.execute('GetSessionInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '"').done(function (data) {
+    amiCommand.execute('GetEntityInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '"').done(function (data) {
       $('#AF826BB7_E7A8_C5A8_711C_84D00F042418').text(catalog);
       $('#BA295CEC_F262_BB7F_09BF_4420E9EDBD6E').text(entity);
       $('#D10E4EFD_E2C2_849A_E80A_C5CDF370199C').val(catalog);
