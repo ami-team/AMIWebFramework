@@ -285,6 +285,9 @@ $AMIClass('ElementInfoCtrl', {
 			/*-------------------------------------------------------------*/
 
 			const dict = {
+				catalog: this.ctx.catalog,
+				entity: this.ctx.entity,
+				/**/
 				fieldDescriptions: fieldDescriptions,
 				/**/
 				elementRowset: elementRowset,
