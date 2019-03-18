@@ -811,13 +811,7 @@ $AMIClass('TableCtrl', {
 				/* FILL TOOLTIP                                            */
 				/*---------------------------------------------------------*/
 
-				const title = this.ctx.catalog + '::' + this.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (Number.isNaN(this.ctx.totalResults) === false ? this.ctx.totalResults : 'N/A')
-
-				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
-					placement: 'bottom',
-					title: title,
-					html: true,
-				});
+				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text('#shown: ' + rows.length + ', #total: ' + (Number.isNaN(this.ctx.totalResults) === false ? this.ctx.totalResults : 'N/A'));
 
 				/*---------------------------------------------------------*/
 

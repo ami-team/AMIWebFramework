@@ -220,6 +220,10 @@ $AMIClass('ElementInfoCtrl', {
 
 
       var dict = {
+        catalog: _this4.ctx.catalog,
+        entity: _this4.ctx.entity,
+
+        /**/
         fieldDescriptions: fieldDescriptions,
 
         /**/

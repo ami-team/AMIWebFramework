@@ -584,12 +584,7 @@ $AMIClass('TableCtrl', {
 
         /*---------------------------------------------------------*/
 
-        var title = _this5.ctx.catalog + '::' + _this5.ctx.entity + '<br />#shown:&nbsp;' + rows.length + ', #total:&nbsp;' + (Number.isNaN(_this5.ctx.totalResults) === false ? _this5.ctx.totalResults : 'N/A');
-        $(_this5.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).data('tooltip', false).tooltip({
-          placement: 'bottom',
-          title: title,
-          html: true
-        });
+        $(_this5.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text('#shown: ' + rows.length + ', #total: ' + (Number.isNaN(_this5.ctx.totalResults) === false ? _this5.ctx.totalResults : 'N/A'));
         /*---------------------------------------------------------*/
 
         result.resolveWith(context, [_this5.ctx.fieldDescriptions, rows, _this5.ctx.sql, _this5.ctx.mql, _this5.ctx.ast, _this5.ctx.totalResults]);
