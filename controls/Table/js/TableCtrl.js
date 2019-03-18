@@ -580,11 +580,21 @@ $AMIClass('TableCtrl', {
         _this5.ctx.js = amiWebApp.formatTWIG(_this5.fragmentJS, _this5.ctx);
         /*---------------------------------------------------------*/
 
-        /* FILL TOOLTIP                                            */
+        /* FILL NUMBERS                                            */
 
         /*---------------------------------------------------------*/
 
-        $(_this5.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text('#shown: ' + rows.length + ', #total: ' + (Number.isNaN(_this5.ctx.totalResults) === false ? _this5.ctx.totalResults : 'N/A'));
+        var numbers = [];
+
+        if (!Number.isNaN(rows.length)) {
+          numbers.push('#shown: ' + rows.length);
+        }
+
+        if (!Number.isNaN(_this5.ctx.totalResults)) {
+          numbers.push('#total: ' + _this5.ctx.totalResults);
+        }
+
+        $(_this5.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text(numbers.join(', '));
         /*---------------------------------------------------------*/
 
         result.resolveWith(context, [_this5.ctx.fieldDescriptions, rows, _this5.ctx.sql, _this5.ctx.mql, _this5.ctx.ast, _this5.ctx.totalResults]);

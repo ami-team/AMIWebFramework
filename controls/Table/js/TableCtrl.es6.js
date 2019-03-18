@@ -808,10 +808,20 @@ $AMIClass('TableCtrl', {
 				this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
 
 				/*---------------------------------------------------------*/
-				/* FILL TOOLTIP                                            */
+				/* FILL NUMBERS                                            */
 				/*---------------------------------------------------------*/
 
-				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text('#shown: ' + rows.length + ', #total: ' + (Number.isNaN(this.ctx.totalResults) === false ? this.ctx.totalResults : 'N/A'));
+				let numbers = [];
+
+				if(!Number.isNaN(rows.length)) {
+					numbers.push('#shown: ' + rows.length);
+				}
+
+				if(!Number.isNaN(this.ctx.totalResults)) {
+					numbers.push('#total: ' + this.ctx.totalResults);
+				}
+
+				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text(numbers.join(', '));
 
 				/*---------------------------------------------------------*/
 
