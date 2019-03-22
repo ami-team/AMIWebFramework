@@ -415,9 +415,14 @@ $AMIClass('TableCtrl', {
 				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.sql], {});
 			});
 
+			$(this.patchId('#EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92')).click(() => {
+
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command2.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command2.substring(11) : this.ctx.command2], {});
+			});
+
 			$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command], {});
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command.substring(11) : this.ctx.command], {});
 			});
 
 			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(() => {
@@ -580,17 +585,17 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		let command = this.ctx.command;
+		this.ctx.command2 = this.ctx.command;
 
 		/**/
 
 		if(this.ctx.orderBy)
 		{
-			command += ' -orderBy="' + this.ctx.orderBy + '"';
+			this.ctx.command2 += ' -orderBy="' + this.ctx.orderBy + '"';
 
 			if(this.ctx.orderWay)
 			{
-				command += ' -orderWay="' + this.ctx.orderWay + '"';
+				this.ctx.command2 += ' -orderWay="' + this.ctx.orderWay + '"';
 			}
 		}
 
@@ -604,20 +609,20 @@ $AMIClass('TableCtrl', {
 			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
-		command += ' -limit="' + (stop - start + 1) + '"';
+		this.ctx.command2 += ' -limit="' + (stop - start + 1) + '"';
 
-		command += ' -offset="' + (0x00 + start - 1) + '"';
+		this.ctx.command2 += ' -offset="' + (0x00 + start - 1) + '"';
 
 		/**/
 
 		if(this.ctx.enableCache)
 		{
-			command += ' -cached';
+			this.ctx.command2 += ' -cached';
 		}
 
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute(command).done((data) => {
+		amiCommand.execute(this.ctx.command2).done((data) => {
 
 			this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
 			                                             : amiWebApp.jspath('..fieldDescription'                                                        , data)

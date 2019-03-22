@@ -304,8 +304,11 @@ $AMIClass('TableCtrl', {
       $(_this4.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(function () {
         amiWebApp.createControl(_this4.getParent(), _this4, 'messageBox', [_this4.ctx.sql], {});
       });
+      $(_this4.patchId('#EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92')).click(function () {
+        amiWebApp.createControl(_this4.getParent(), _this4, 'messageBox', [_this4.ctx.command2.startsWith('BrowseQuery') ? 'SearchQuery' + _this4.ctx.command2.substring(11) : _this4.ctx.command2], {});
+      });
       $(_this4.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(function () {
-        amiWebApp.createControl(_this4.getParent(), _this4, 'messageBox', [_this4.ctx.command], {});
+        amiWebApp.createControl(_this4.getParent(), _this4, 'messageBox', [_this4.ctx.command.startsWith('BrowseQuery') ? 'SearchQuery' + _this4.ctx.command.substring(11) : _this4.ctx.command], {});
       });
       $(_this4.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(function () {
         amiWebApp.createControl(_this4.getParent(), _this4, 'textBox', [_this4.ctx.js], {});
@@ -406,14 +409,14 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    var command = this.ctx.command;
+    this.ctx.command2 = this.ctx.command;
     /**/
 
     if (this.ctx.orderBy) {
-      command += ' -orderBy="' + this.ctx.orderBy + '"';
+      this.ctx.command2 += ' -orderBy="' + this.ctx.orderBy + '"';
 
       if (this.ctx.orderWay) {
-        command += ' -orderWay="' + this.ctx.orderWay + '"';
+        this.ctx.command2 += ' -orderWay="' + this.ctx.orderWay + '"';
       }
     }
     /**/
@@ -421,17 +424,17 @@ $AMIClass('TableCtrl', {
 
     var start = this.parsePageNumber($(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(), this.ctx.start);
     var stop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
-    command += ' -limit="' + (stop - start + 1) + '"';
-    command += ' -offset="' + (0x00 + start - 1) + '"';
+    this.ctx.command2 += ' -limit="' + (stop - start + 1) + '"';
+    this.ctx.command2 += ' -offset="' + (0x00 + start - 1) + '"';
     /**/
 
     if (this.ctx.enableCache) {
-      command += ' -cached';
+      this.ctx.command2 += ' -cached';
     }
     /*-----------------------------------------------------------------*/
 
 
-    amiCommand.execute(command).done(function (data) {
+    amiCommand.execute(this.ctx.command2).done(function (data) {
       _this5.ctx.fieldDescriptions = _this5.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + _this5.ctx.rowset + '"}.fieldDescription', data) : amiWebApp.jspath('..fieldDescription', data);
       var rowset = _this5.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + _this5.ctx.rowset + '"}"', data) : amiWebApp.jspath('..rowset', data);
       var rows = amiWebApp.jspath('.row', rowset);
