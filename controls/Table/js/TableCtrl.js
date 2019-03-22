@@ -587,7 +587,7 @@ $AMIClass('TableCtrl', {
         var numbers = [];
 
         if (!Number.isNaN(_this5.ctx.maxNumberOfRows)) {
-          numbers.push('#max: ' + _this5.ctx.maxNumberOfRows);
+          numbers.push('#max showable: ' + _this5.ctx.maxNumberOfRows);
         }
 
         if (!Number.isNaN(_this5.ctx.totalNumberOfRows)) {
