@@ -991,7 +991,7 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    regions['SELECT'] = columnName + ', count(*) AS `total`, CONCAT(\'@owner::' + columnName + '::\', ' + columnName + ') AS `go`';
+    regions['SELECT'] = columnName + ', count(*) AS `total`, CONCAT(\'@OWNER::' + columnName + '::\', ' + columnName + ') AS `go`';
     regions['GROUP'] = columnName;
     /*-----------------------------------------------------------------*/
 

@@ -28,7 +28,8 @@
 								     data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
 								     data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
 								     data-row="{{primaryFieldValue|e}}"
-								     style="min-height: 1.25rem;">{{field.$|e}}</div>
+								     data-val="{{field.$|e}}"
+								     style="min-height: 1.25rem;">{% if (field.$|length) > 64 %}{{field.$|slice(0, 64)|e}} <span class="text-danger">...</span>{% else %}{{field.$|e}}{% endif %}</div>
 								{%   if field['link'] is defined %}
 								{%     for link in field['link'] %}
 									{% if not loop.first %} - {% endif %}
