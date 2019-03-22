@@ -54,7 +54,7 @@ $AMIClass('ElementInfoCtrl', {
       return 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"';
     };
 
-    var _amiWebApp$setup = amiWebApp.setup(['context', 'elementInfoCommandFunc', 'expandedLinkedElements', 'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'start', 'stop', 'orderBy', 'orderWay', 'card'], [result, fn, [], false, true, false, true, false, 1, 10, '', '', false], settings),
+    var _amiWebApp$setup = amiWebApp.setup(['context', 'elementInfoCommandFunc', 'expandedLinkedElements', 'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'start', 'stop', 'card'], [result, fn, [], false, true, false, true, false, 1, 10, false], settings),
         context = _amiWebApp$setup[0],
         elementInfoCommandFunc = _amiWebApp$setup[1],
         expandedLinkedElements = _amiWebApp$setup[2],
@@ -78,8 +78,6 @@ $AMIClass('ElementInfoCtrl', {
     this.ctx.canEdit = canEdit;
     this.ctx.start = start;
     this.ctx.stop = stop;
-    this.ctx.orderBy = orderBy;
-    this.ctx.orderWay = orderWay;
     this.ctx.card = card;
     /*-----------------------------------------------------------------*/
 

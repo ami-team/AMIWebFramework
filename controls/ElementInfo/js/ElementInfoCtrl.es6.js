@@ -81,7 +81,7 @@ $AMIClass('ElementInfoCtrl', {
 				'elementInfoCommandFunc',
 				'expandedLinkedElements',
 				'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
-				'start', 'stop', 'orderBy', 'orderWay',
+				'start', 'stop',
 				'card',
 			],
 			[
@@ -89,7 +89,7 @@ $AMIClass('ElementInfoCtrl', {
 				fn,
 				[],
 				false, true, false, true, false,
-				1, 10, '', '',
+				1, 10,
 				false,
 			],
 			settings
@@ -107,8 +107,6 @@ $AMIClass('ElementInfoCtrl', {
 
 		this.ctx.start = start;
 		this.ctx.stop = stop;
-		this.ctx.orderBy = orderBy;
-		this.ctx.orderWay = orderWay;
 
 		this.ctx.card = card;
 
