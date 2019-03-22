@@ -100,7 +100,7 @@ $AMIClass('TableCtrl', {
 		const [
 			context,
 			appendCommandFunc, deleteCommandFunc,
-			enableCache, showToolBar, showDetails, showTools, canEdit,
+			enableCache, enableCount, showToolBar, showDetails, showTools, canEdit,
 			catalog, entity, primaryField, rowset,
 			start, stop, orderBy, orderWay,
 			card
@@ -108,7 +108,7 @@ $AMIClass('TableCtrl', {
 			[
 				'context',
 				'appendCommandFunc', 'deleteCommandFunc',
-				'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
+				'enableCache', 'enableCount', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
 				'start', 'stop', 'orderBy', 'orderWay',
 				'card',
@@ -116,7 +116,7 @@ $AMIClass('TableCtrl', {
 			[
 				result,
 				fn1, fn2,
-				false, true, false, true, false,
+				false, true, true, false, true, false,
 				'', '', '', '',
 				1, 10, '', '',
 				false,
@@ -128,6 +128,7 @@ $AMIClass('TableCtrl', {
 		this.ctx.deleteCommandFunc = deleteCommandFunc;
 
 		this.ctx.enableCache = enableCache;
+		this.ctx.enableCount = enableCount;
 		this.ctx.showToolBar = showToolBar;
 		this.ctx.showDetails = showDetails;
 		this.ctx.showTools = showTools;
@@ -618,6 +619,11 @@ $AMIClass('TableCtrl', {
 		if(this.ctx.enableCache)
 		{
 			this.ctx.command2 += ' -cached';
+		}
+
+		if(this.ctx.enableCount)
+		{
+			this.ctx.command2 += ' -count';
 		}
 
 		/*-----------------------------------------------------------------*/

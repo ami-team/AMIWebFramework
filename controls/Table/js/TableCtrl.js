@@ -80,28 +80,30 @@ $AMIClass('TableCtrl', {
       return 'RemoveElements -catalog="' + _this2.ctx.catalog + '" -entity="' + _this2.ctx.entity + '" -separator="§" -keyFields="' + _this2.ctx.primaryField + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
     };
 
-    var _amiWebApp$setup = amiWebApp.setup(['context', 'appendCommandFunc', 'deleteCommandFunc', 'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'catalog', 'entity', 'primaryField', 'rowset', 'start', 'stop', 'orderBy', 'orderWay', 'card'], [result, fn1, fn2, false, true, false, true, false, '', '', '', '', 1, 10, '', '', false], settings),
+    var _amiWebApp$setup = amiWebApp.setup(['context', 'appendCommandFunc', 'deleteCommandFunc', 'enableCache', 'enableCount', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'catalog', 'entity', 'primaryField', 'rowset', 'start', 'stop', 'orderBy', 'orderWay', 'card'], [result, fn1, fn2, false, true, true, false, true, false, '', '', '', '', 1, 10, '', '', false], settings),
         context = _amiWebApp$setup[0],
         appendCommandFunc = _amiWebApp$setup[1],
         deleteCommandFunc = _amiWebApp$setup[2],
         enableCache = _amiWebApp$setup[3],
-        showToolBar = _amiWebApp$setup[4],
-        showDetails = _amiWebApp$setup[5],
-        showTools = _amiWebApp$setup[6],
-        canEdit = _amiWebApp$setup[7],
-        catalog = _amiWebApp$setup[8],
-        entity = _amiWebApp$setup[9],
-        primaryField = _amiWebApp$setup[10],
-        rowset = _amiWebApp$setup[11],
-        start = _amiWebApp$setup[12],
-        stop = _amiWebApp$setup[13],
-        orderBy = _amiWebApp$setup[14],
-        orderWay = _amiWebApp$setup[15],
-        card = _amiWebApp$setup[16];
+        enableCount = _amiWebApp$setup[4],
+        showToolBar = _amiWebApp$setup[5],
+        showDetails = _amiWebApp$setup[6],
+        showTools = _amiWebApp$setup[7],
+        canEdit = _amiWebApp$setup[8],
+        catalog = _amiWebApp$setup[9],
+        entity = _amiWebApp$setup[10],
+        primaryField = _amiWebApp$setup[11],
+        rowset = _amiWebApp$setup[12],
+        start = _amiWebApp$setup[13],
+        stop = _amiWebApp$setup[14],
+        orderBy = _amiWebApp$setup[15],
+        orderWay = _amiWebApp$setup[16],
+        card = _amiWebApp$setup[17];
 
     this.ctx.appendCommandFunc = appendCommandFunc;
     this.ctx.deleteCommandFunc = deleteCommandFunc;
     this.ctx.enableCache = enableCache;
+    this.ctx.enableCount = enableCount;
     this.ctx.showToolBar = showToolBar;
     this.ctx.showDetails = showDetails;
     this.ctx.showTools = showTools;
@@ -430,6 +432,10 @@ $AMIClass('TableCtrl', {
 
     if (this.ctx.enableCache) {
       this.ctx.command2 += ' -cached';
+    }
+
+    if (this.ctx.enableCount) {
+      this.ctx.command2 += ' -count';
     }
     /*-----------------------------------------------------------------*/
 

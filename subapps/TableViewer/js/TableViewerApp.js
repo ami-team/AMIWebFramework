@@ -62,7 +62,7 @@ $AMIClass('TableViewerApp', {
 	{
 		$('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0').show();
 
-		this.table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', 'BrowseQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*` WHERE ' + this.expression + '" -count', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: this.catalog, entity: this.entity, primaryField: this.primaryField, start: 1, stop: 20, card: true});
+		this.table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', 'BrowseQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*` WHERE ' + this.expression + '"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: this.catalog, entity: this.entity, primaryField: this.primaryField, start: 1, stop: 20, card: true});
 	},
 
 	/*---------------------------------------------------------------------*/
