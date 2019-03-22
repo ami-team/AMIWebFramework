@@ -90,7 +90,7 @@ $AMIClass('TableCtrl', {
 			mql: 'N/A',
 			ast: 'N/A',
 
-			totalResults: Number.NaN,
+			totalNumberOfRows: Number.NaN,
 		};
 
 		const fn1 = (fields, values) => 'AddElement -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';
@@ -427,9 +427,9 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			this.refresh().done((fieldDescriptions, rows, sql, mql, ast, totalResults) => {
+			this.refresh().done((fieldDescriptions, rows, sql, mql, ast, totalNumberOfRows) => {
 
-				result.resolveWith(this.ctx.context, [fieldDescriptions, rows, sql, mql, ast, totalResults]);
+				result.resolveWith(this.ctx.context, [fieldDescriptions, rows, sql, mql, ast, totalNumberOfRows]);
 
 			}).fail((message) => {
 
@@ -455,10 +455,10 @@ $AMIClass('TableCtrl', {
 
 	getOffsetOfLastPage: function(range)
 	{
-		const modulo = this.ctx.totalResults % range;
+		const modulo = this.ctx.totalNumberOfRows % range;
 
-		return this.ctx.totalResults > modulo ? this.ctx.totalResults - modulo
-		                                      : 0x00000000000000000000000000001
+		return this.ctx.totalNumberOfRows > modulo ? this.ctx.totalNumberOfRows - modulo
+		                                           : 0x0000000000000000000000000000000001
 		;
 	},
 
@@ -633,7 +633,8 @@ $AMIClass('TableCtrl', {
 			this.ctx.mql = amiWebApp.jspath('.@mql', rowset)[0] || 'N/A';
 			this.ctx.ast = amiWebApp.jspath('.@ast', rowset)[0] || 'N/A';
 
-			this.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '');
+			this.ctx.maxNumberOfRows = parseInt(amiWebApp.jspath('..@maxNumberOfRows', rowset)[0] || '');
+			this.ctx.totalNumberOfRows = parseInt(amiWebApp.jspath('..@totalNumberOfRows', rowset)[0] || '');
 
 			/**/
 
@@ -658,7 +659,7 @@ $AMIClass('TableCtrl', {
 				$(this.patchId('#E2EB6136_7358_875A_2857_8766E9B3036E')).show();
 			}
 
-			if(Number.isNaN(this.ctx.totalResults)) {
+			if(Number.isNaN(this.ctx.totalNumberOfRows)) {
 				$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', true);
 			}
 			else {
@@ -813,19 +814,23 @@ $AMIClass('TableCtrl', {
 
 				let numbers = [];
 
-				if(!Number.isNaN(rows.length)) {
-					numbers.push('#shown: ' + rows.length);
+				if(!Number.isNaN(this.ctx.maxNumberOfRows)) {
+					numbers.push('#max: ' + this.ctx.maxNumberOfRows);
 				}
 
-				if(!Number.isNaN(this.ctx.totalResults)) {
-					numbers.push('#total: ' + this.ctx.totalResults);
+				if(!Number.isNaN(this.ctx.totalNumberOfRows)) {
+					numbers.push('#total: ' + this.ctx.totalNumberOfRows);
+				}
+
+				if(!Number.isNaN(rows.length)) {
+					numbers.push('#shown: ' + rows.length);
 				}
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text(numbers.join(', '));
 
 				/*---------------------------------------------------------*/
 
-				result.resolveWith(context, [this.ctx.fieldDescriptions, rows, this.ctx.sql, this.ctx.mql, this.ctx.ast, this.ctx.totalResults]);
+				result.resolveWith(context, [this.ctx.fieldDescriptions, rows, this.ctx.sql, this.ctx.mql, this.ctx.ast, this.ctx.totalNumberOfRows]);
 
 				/*---------------------------------------------------------*/
 			});

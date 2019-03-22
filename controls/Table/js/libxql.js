@@ -92,6 +92,8 @@ function xqlGetRegions(xql, fieldDescriptions, addCatalogInALiases)
 
 	xqlTokenizer(xql).forEach(function(token) {
 
+		/*-----------------------------------------------------------------*/
+
 		TOKEN = token.toUpperCase();
 
 		/*-----------------------------------------------------------------*/
@@ -137,6 +139,9 @@ function xqlGetRegions(xql, fieldDescriptions, addCatalogInALiases)
 	{
 		result[keyword] = tokens.join('').trim();
 	}
+
+	tokens = [ ];
+	keyword = null;
 
 	/*---------------------------------------------------------------------*/
 	/* BUILD ALIAS TABLE                                                   */
