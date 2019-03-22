@@ -614,21 +614,9 @@ $AMIClass('TableCtrl', {
 
 		this.ctx.command2 += ' -offset="' + (0x00 + start - 1) + '"';
 
-		/**/
-
-		if(this.ctx.enableCache)
-		{
-			this.ctx.command2 += ' -cached';
-		}
-
-		if(this.ctx.enableCount)
-		{
-			this.ctx.command2 += ' -count';
-		}
-
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute(this.ctx.command2).done((data) => {
+		amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '')).done((data) => {
 
 			this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
 			                                             : amiWebApp.jspath('..fieldDescription'                                                        , data)
