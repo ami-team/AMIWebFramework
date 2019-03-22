@@ -428,19 +428,9 @@ $AMIClass('TableCtrl', {
     var stop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     this.ctx.command2 += ' -limit="' + (stop - start + 1) + '"';
     this.ctx.command2 += ' -offset="' + (0x00 + start - 1) + '"';
-    /**/
-
-    if (this.ctx.enableCache) {
-      this.ctx.command2 += ' -cached';
-    }
-
-    if (this.ctx.enableCount) {
-      this.ctx.command2 += ' -count';
-    }
     /*-----------------------------------------------------------------*/
 
-
-    amiCommand.execute(this.ctx.command2).done(function (data) {
+    amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '')).done(function (data) {
       _this5.ctx.fieldDescriptions = _this5.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + _this5.ctx.rowset + '"}.fieldDescription', data) : amiWebApp.jspath('..fieldDescription', data);
       var rowset = _this5.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + _this5.ctx.rowset + '"}"', data) : amiWebApp.jspath('..rowset', data);
       var rows = amiWebApp.jspath('.row', rowset);
