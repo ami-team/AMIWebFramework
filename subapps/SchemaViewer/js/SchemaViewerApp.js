@@ -242,6 +242,13 @@ $AMIClass('SchemaViewerApp', {
 
 	openSchema: function()
 	{
+		if(!this.defaultCatalog)
+		{
+			return $.Deferred().resolve();
+		}
+
+		/*-----------------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		return this.schema.refresh(this.defaultCatalog, {context: this, showShowTool: true, showEditTool: amiLogin.hasRole('AMI_ADMIN')}).done(function() {
@@ -250,10 +257,16 @@ $AMIClass('SchemaViewerApp', {
 
 			amiWebApp.unlock();
 
+			result.resolve();
+
 		}).fail(function(message) {
 
 			amiWebApp.error(message, true);
+
+			result.reject();
 		});
+
+		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
