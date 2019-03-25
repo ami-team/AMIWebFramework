@@ -46,7 +46,7 @@ $AMIClass('FieldEditorCtrl', {
     /*-----------------------------------------------------------------*/
 
     $(selector).find('div[data-action="edit"]').click(function (e) {
-      _this.editField(e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-type'), e.currentTarget.getAttribute('data-row'), e.currentTarget.innerText);
+      _this.editField(e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-type'), e.currentTarget.getAttribute('data-row'), e.currentTarget.getAttribute('data-val'));
     });
     /*-----------------------------------------------------------------*/
   },

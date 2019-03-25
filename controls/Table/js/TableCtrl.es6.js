@@ -90,7 +90,7 @@ $AMIClass('TableCtrl', {
 			mql: 'N/A',
 			ast: 'N/A',
 
-			totalResults: Number.NaN,
+			totalNumberOfRows: Number.NaN,
 		};
 
 		const fn1 = (fields, values) => 'AddElement -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';
@@ -100,7 +100,7 @@ $AMIClass('TableCtrl', {
 		const [
 			context,
 			appendCommandFunc, deleteCommandFunc,
-			enableCache, showToolBar, showDetails, showTools, canEdit,
+			enableCache, enableCount, showToolBar, showDetails, showTools, canEdit,
 			catalog, entity, primaryField, rowset,
 			start, stop, orderBy, orderWay,
 			card
@@ -108,7 +108,7 @@ $AMIClass('TableCtrl', {
 			[
 				'context',
 				'appendCommandFunc', 'deleteCommandFunc',
-				'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
+				'enableCache', 'enableCount', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
 				'start', 'stop', 'orderBy', 'orderWay',
 				'card',
@@ -116,7 +116,7 @@ $AMIClass('TableCtrl', {
 			[
 				result,
 				fn1, fn2,
-				false, true, false, true, false,
+				false, true, true, false, true, false,
 				'', '', '', '',
 				1, 10, '', '',
 				false,
@@ -128,6 +128,7 @@ $AMIClass('TableCtrl', {
 		this.ctx.deleteCommandFunc = deleteCommandFunc;
 
 		this.ctx.enableCache = enableCache;
+		this.ctx.enableCount = enableCount;
 		this.ctx.showToolBar = showToolBar;
 		this.ctx.showDetails = showDetails;
 		this.ctx.showTools = showTools;
@@ -415,9 +416,14 @@ $AMIClass('TableCtrl', {
 				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.sql], {});
 			});
 
+			$(this.patchId('#EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92')).click(() => {
+
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command2.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command2.substring(11) : this.ctx.command2], {});
+			});
+
 			$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command], {});
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command.substring(11) : this.ctx.command], {});
 			});
 
 			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(() => {
@@ -427,9 +433,9 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			this.refresh().done((fieldDescriptions, rows, sql, mql, ast, totalResults) => {
+			this.refresh().done((fieldDescriptions, rows, sql, mql, ast, totalNumberOfRows) => {
 
-				result.resolveWith(this.ctx.context, [fieldDescriptions, rows, sql, mql, ast, totalResults]);
+				result.resolveWith(this.ctx.context, [fieldDescriptions, rows, sql, mql, ast, totalNumberOfRows]);
 
 			}).fail((message) => {
 
@@ -455,10 +461,10 @@ $AMIClass('TableCtrl', {
 
 	getOffsetOfLastPage: function(range)
 	{
-		const modulo = this.ctx.totalResults % range;
+		const modulo = this.ctx.totalNumberOfRows % range;
 
-		return this.ctx.totalResults > modulo ? this.ctx.totalResults - modulo
-		                                      : 0x00000000000000000000000000001
+		return this.ctx.totalNumberOfRows > modulo ? this.ctx.totalNumberOfRows - modulo
+		                                           : 0x0000000000000000000000000000000001
 		;
 	},
 
@@ -580,17 +586,17 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		let command = this.ctx.command;
+		this.ctx.command2 = this.ctx.command;
 
 		/**/
 
 		if(this.ctx.orderBy)
 		{
-			command += ' -orderBy="' + this.ctx.orderBy + '"';
+			this.ctx.command2 += ' -orderBy="' + this.ctx.orderBy + '"';
 
 			if(this.ctx.orderWay)
 			{
-				command += ' -orderWay="' + this.ctx.orderWay + '"';
+				this.ctx.command2 += ' -orderWay="' + this.ctx.orderWay + '"';
 			}
 		}
 
@@ -604,20 +610,13 @@ $AMIClass('TableCtrl', {
 			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
-		command += ' -limit="' + (stop - start + 1) + '"';
+		this.ctx.command2 += ' -limit="' + (stop - start + 1) + '"';
 
-		command += ' -offset="' + (0x00 + start - 1) + '"';
-
-		/**/
-
-		if(this.ctx.enableCache)
-		{
-			command += ' -cached';
-		}
+		this.ctx.command2 += ' -offset="' + (0x00 + start - 1) + '"';
 
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute(command).done((data) => {
+		amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '')).done((data) => {
 
 			this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
 			                                             : amiWebApp.jspath('..fieldDescription'                                                        , data)
@@ -633,7 +632,8 @@ $AMIClass('TableCtrl', {
 			this.ctx.mql = amiWebApp.jspath('.@mql', rowset)[0] || 'N/A';
 			this.ctx.ast = amiWebApp.jspath('.@ast', rowset)[0] || 'N/A';
 
-			this.ctx.totalResults = parseInt(amiWebApp.jspath('..@totalResults', rowset)[0] || '');
+			this.ctx.maxNumberOfRows = parseInt(amiWebApp.jspath('..@maxNumberOfRows', rowset)[0] || '');
+			this.ctx.totalNumberOfRows = parseInt(amiWebApp.jspath('..@totalNumberOfRows', rowset)[0] || '');
 
 			/**/
 
@@ -658,7 +658,7 @@ $AMIClass('TableCtrl', {
 				$(this.patchId('#E2EB6136_7358_875A_2857_8766E9B3036E')).show();
 			}
 
-			if(Number.isNaN(this.ctx.totalResults)) {
+			if(Number.isNaN(this.ctx.totalNumberOfRows)) {
 				$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', true);
 			}
 			else {
@@ -813,19 +813,23 @@ $AMIClass('TableCtrl', {
 
 				let numbers = [];
 
-				if(!Number.isNaN(rows.length)) {
-					numbers.push('#shown: ' + rows.length);
+				if(!Number.isNaN(this.ctx.maxNumberOfRows)) {
+					numbers.push('#max showable: ' + this.ctx.maxNumberOfRows);
 				}
 
-				if(!Number.isNaN(this.ctx.totalResults)) {
-					numbers.push('#total: ' + this.ctx.totalResults);
+				if(!Number.isNaN(this.ctx.totalNumberOfRows)) {
+					numbers.push('#total: ' + this.ctx.totalNumberOfRows);
+				}
+
+				if(!Number.isNaN(rows.length)) {
+					numbers.push('#shown: ' + rows.length);
 				}
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text(numbers.join(', '));
 
 				/*---------------------------------------------------------*/
 
-				result.resolveWith(context, [this.ctx.fieldDescriptions, rows, this.ctx.sql, this.ctx.mql, this.ctx.ast, this.ctx.totalResults]);
+				result.resolveWith(context, [this.ctx.fieldDescriptions, rows, this.ctx.sql, this.ctx.mql, this.ctx.ast, this.ctx.totalNumberOfRows]);
 
 				/*---------------------------------------------------------*/
 			});
@@ -1288,7 +1292,7 @@ $AMIClass('TableCtrl', {
 
 		const command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
-		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: '', showDetails: false}, this.ctx, 'bar-chart', this.ctx.entity);
+		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: '', orderWay: '', showDetails: false}, this.ctx, 'bar-chart', this.ctx.entity);
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -1308,7 +1312,7 @@ $AMIClass('TableCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		regions['SELECT'] = columnName
-				+ ', count(*) AS `total`, CONCAT(\'@owner::' + columnName + '::\', ' + columnName + ') AS `go`';
+				+ ', count(*) AS `total`, CONCAT(\'@OWNER::' + columnName + '::\', ' + columnName + ') AS `go`';
 		regions['GROUP'] = columnName;
 
 		/*-----------------------------------------------------------------*/
@@ -1335,7 +1339,7 @@ $AMIClass('TableCtrl', {
 
 		const command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
 
-		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: columnName, showDetails: false}, this.ctx, 'slack', this.ctx.entity);
+		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: columnName, orderWay: 'ASC', showDetails: false}, this.ctx, 'slack', this.ctx.entity);
 
 		/*-----------------------------------------------------------------*/
 	},

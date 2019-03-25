@@ -7336,7 +7336,7 @@ $AMINamespace('amiLogin',
 
     var dict = {
       sso_label: ssoInfo.label || 'SSO',
-      sso_url: ssoInfo.url || 'N/A'
+      sso_url: ssoInfo.url || '@NULL'
     };
 
     if (user !== guest) {

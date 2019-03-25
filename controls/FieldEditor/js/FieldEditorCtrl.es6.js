@@ -72,7 +72,7 @@ $AMIClass('FieldEditorCtrl', {
 				,
 				e.currentTarget.getAttribute('data-row')
 				,
-				e.currentTarget.innerText
+				e.currentTarget.getAttribute('data-val')
 			);
 		});
 

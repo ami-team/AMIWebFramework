@@ -428,7 +428,7 @@ $AMIClass('SearchCtrl', {
 						{
 							select[criteria.select[i]] = true;
 
-							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + criteria.select[i].replace(/'/g, '\'\'') + '\'');
+							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + criteria.select[i].replace(/'/g, '\'\'') + '\'');
 						}
 					}
 
@@ -467,12 +467,12 @@ $AMIClass('SearchCtrl', {
 					{
 						if('min' in criteria.select)
 						{
-							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '` >= \'' + new String(criteria.select.min).replace(/'/g, '\'\'') + '\'');
+							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' >= \'' + new String(criteria.select.min).replace(/'/g, '\'\'') + '\'');
 						}
 
 						if('max' in criteria.select)
 						{
-							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '` <= \'' + new String(criteria.select.max).replace(/'/g, '\'\'') + '\'');
+							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' <= \'' + new String(criteria.select.max).replace(/'/g, '\'\'') + '\'');
 						}
 					}
 
@@ -1117,8 +1117,6 @@ $AMIClass('SearchCtrl', {
 		var entity = criteria.entity;
 		var field = criteria.field;
 
-		/*-----------------------------------------------------------------*/
-
 		amiWebApp.lock();
 
 		/*-----------------------------------------------------------------*/
@@ -1132,15 +1130,17 @@ $AMIClass('SearchCtrl', {
 
 			var isDefaultEntity = this.ctx.defaultEntity === entity ? true : false;
 
+			var _this = this;
+
 			$(predicate.selector + ' option:selected').each(function() {
 
 				if (isDefaultEntity)
 				{
-					L.push('`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+					L.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\'');
 				}
 				else
 				{
-					L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+					L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\']');
 				}
 
 				S[this.value] = true;
@@ -1304,33 +1304,33 @@ $AMIClass('SearchCtrl', {
 					case 'json':
 						if (isDefaultEntity)
 						{
-							L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`,\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+							L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`,\'$.' + param + '\')' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\'');
 						}
 						else
 						{
-							L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`,\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+							L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`,\'$.' + param + '\')' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\']');
 						}
 						break;
 
 					case 'simple':
 						if (isDefaultEntity)
 						{
-							L.push('(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '` = \'' + this.value.replace(/'/g, '\'\'') + '\')');
+							L.push('(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '`' + _this.dumpConstraints(criteria) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '`' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\')');
 						}
 						else
 						{
-							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '` = \'' + this.value.replace(/'/g, '\'\'') + '\')]');
+							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '`' + _this.dumpConstraints(criteria) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '`' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\')]');
 						}
 						break;
 
 					case 'advanced':
 						if (isDefaultEntity)
 						{
-							L.push('(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '` = \'' + this.value.replace(/'/g, '\'\'') + '\')');
+							L.push('(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '`' + _this.dumpConstraints(criteria) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '`' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\')');
 						}
 						else
 						{
-							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '` = \'' + this.value.replace(/'/g, '\'\'') + '\')]');
+							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '`' + _this.dumpConstraints(criteria) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '`' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\')]');
 						}
 						break;
 				}
@@ -1584,20 +1584,20 @@ $AMIClass('SearchCtrl', {
 
 			if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 			{
-				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` >= \'' + min + '\''
+				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' >= \'' + min + '\''
 				                   +
 				                   ' AND '
 				                   +
-				                   '`' + catalog + '`.`' + entity + '`.`' + field + '` <= \'' + max + '\''
+				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' <= \'' + max + '\''
 				;
 			}
 			else
 			{
-				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` < \'' + min + '\''
+				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' < \'' + min + '\''
 				                   +
 				                   ' OR '
 				                   +
-				                   '`' + catalog + '`.`' + entity + '`.`' + field + '` > \'' + max + '\''
+				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' > \'' + max + '\''
 				;
 			}
 		}
@@ -1633,13 +1633,13 @@ $AMIClass('SearchCtrl', {
 
 		if($(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 		{
-			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + new String(criteria.states.on).replace(/'/g, '\'\'') + '\'';
+			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + new String(criteria.states.on).replace(/'/g, '\'\'') + '\'';
 		}
 		else
 		{
 			if(!criteria.inclusive)
 			{
-				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + new String(criteria.states.off).replace(/'/g, '\'\'') + '\'';
+				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + new String(criteria.states.off).replace(/'/g, '\'\'') + '\'';
 			}
 			else
 			{
@@ -2024,6 +2024,20 @@ $AMIClass('SearchCtrl', {
 
 		return result;
 	},
+
+	/*---------------------------------------------------------------------*/
+
+	dumpConstraints: function(criteria)
+	{
+		var constraintTab = [];
+
+		$.each(criteria.constraints, function(idx, constraint){
+
+			constraintTab.push(constraint.operator + ' `' + constraint.catalog + '`.`' + constraint.entity + '`.`' + constraint.field + '`');
+		});
+
+		return constraintTab.length !== 0 ? '{' + constraintTab.join() + '}' : '';
+	}
 
 	/*---------------------------------------------------------------------*/
 });
