@@ -79,7 +79,7 @@
 						{%   for row in linkedElementRowset %}
 						<tr>
 							<td class="text-center">
-								<a href="#" data-ctrl="table" data-ctrl-location="container" data-params="[&quot;SearchQuery -catalog=\&quot;{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}\&quot; -entity=\&quot;{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}\&quot; -mql=\&quot;{{row|json_jspath('..field{.@name==="mql"}.$')[0]|e}}\&quot;&quot;]" data-settings="{&quot;catalog&quot;: &quot;{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}&quot;, &quot;entity&quot;: &quot;{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}&quot;, &quot;orderBy&quot;: &quot;&quot;, &quot;orderWay&quot;: &quot;&quot;}" data-icon="table" data-title="{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}">
+								<a href="#" data-ctrl="table" data-ctrl-location="container" data-params="[&quot;BrowseQuery -catalog=\&quot;{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}\&quot; -entity=\&quot;{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}\&quot; -mql=\&quot;{{row|json_jspath('..field{.@name==="mql"}.$')[0]|e}}\&quot;&quot;]" data-settings="{&quot;catalog&quot;: &quot;{{row|json_jspath('..field{.@name==="catalog"}.$')[0]|e}}&quot;, &quot;entity&quot;: &quot;{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}&quot;, &quot;orderBy&quot;: &quot;&quot;, &quot;orderWay&quot;: &quot;&quot;}" data-icon="table" data-title="{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}">
 									<span data-toggle="tooltip" data-boundary="window" data-title="via {{row|json_jspath('..field{.@name==="constraint"}.$')[0]|e}}">
 										{{row|json_jspath('..field{.@name==="entity"}.$')[0]|e}}
 									</span>
