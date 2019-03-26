@@ -253,6 +253,8 @@
 
 			<copy file="${AMIWebAppTmpDir}/tools/build.xml" tofile="build.xml" overwrite="true" />
 
+			<copy file="${AMIWebAppTmpDir}/favicon.ico" tofile="favicon.ico" overwrite="true" />
+
 			<!-- ******************************************************** -->
 
 		</sequential>
