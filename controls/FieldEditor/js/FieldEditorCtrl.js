@@ -21,19 +21,21 @@ $AMIClass('FieldEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   onReady: function onReady() {
+    var _this = this;
+
     return amiWebApp.loadResources([amiWebApp.originURL + '/controls/FieldEditor/twig/FieldEditorCtrl.twig']).done(function (data) {
-      this.inEditMode = false;
+      _this.inEditMode = false;
       amiWebApp.appendHTML('body', data[0]);
     });
   },
 
   /*---------------------------------------------------------------------*/
   setup: function setup(selector, primaryField, settings) {
-    var _this = this;
+    var _this2 = this;
 
     /*-----------------------------------------------------------------*/
     var fn = function fn(catalog, entity, field, value, primaryField, primaryValue) {
-      return 'UpdateElements -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '" -keyFields="' + amiWebApp.textToString(_this.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
+      return 'UpdateElements -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(field) + '" -values="' + amiWebApp.textToString(value) + '" -keyFields="' + amiWebApp.textToString(_this2.primaryField) + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
     };
     /*-----------------------------------------------------------------*/
 
@@ -46,7 +48,7 @@ $AMIClass('FieldEditorCtrl', {
     /*-----------------------------------------------------------------*/
 
     $(selector).find('div[data-action="edit"]').click(function (e) {
-      _this.editField(e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-type'), e.currentTarget.getAttribute('data-row'), e.currentTarget.getAttribute('data-val'));
+      _this2.editField(e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-type'), e.currentTarget.getAttribute('data-row'), e.currentTarget.getAttribute('data-val'));
     });
     /*-----------------------------------------------------------------*/
   },
@@ -68,7 +70,7 @@ $AMIClass('FieldEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   editField: function editField(catalog, entity, field, type, primaryValue, value) {
-    var _this2 = this;
+    var _this3 = this;
 
     if (this.inEditMode) {
       /*-------------------------------------------------------------*/
@@ -101,7 +103,7 @@ $AMIClass('FieldEditorCtrl', {
         e.preventDefault();
         var value = $('#A4A7E040_7F01_C1BD_7180_2327E5244805 .show').find('input, textarea').val();
 
-        _this2.changeField(catalog, entity, field, value, _this2.primaryField, primaryValue);
+        _this3.changeField(catalog, entity, field, value, _this3.primaryField, primaryValue);
       });
       /*-------------------------------------------------------------*/
 
@@ -112,14 +114,14 @@ $AMIClass('FieldEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   changeField: function changeField(catalog, entity, field, value, primaryField, primaryValue) {
-    var _this3 = this;
+    var _this4 = this;
 
     amiWebApp.lock();
     amiCommand.execute(this.editCommandFunc(catalog, entity, field, value, primaryField, primaryValue)).done(function (data, message) {
       $('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('hide');
 
-      if (_this3.getOwner().refresh) {
-        _ami_internal_then(_this3.getOwner().refresh(), function () {
+      if (_this4.getOwner().refresh) {
+        _ami_internal_then(_this4.getOwner().refresh(), function () {
           amiWebApp.success(message, true);
         }, function (message) {
           amiWebApp.error(message, true);
@@ -128,8 +130,8 @@ $AMIClass('FieldEditorCtrl', {
     }).fail(function (data, message) {
       $('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('hide');
 
-      if (_this3.getOwner().refresh) {
-        _ami_internal_then(_this3.getOwner().refresh(), function () {
+      if (_this4.getOwner().refresh) {
+        _ami_internal_then(_this4.getOwner().refresh(), function () {
           amiWebApp.error(message, true);
         }, function (message) {
           amiWebApp.error(message, true);

@@ -29,7 +29,7 @@ $AMIClass('FieldEditorCtrl', {
 	{
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/FieldEditor/twig/FieldEditorCtrl.twig',
-		]).done(function(data) {
+		]).done((data) => {
 
 			this.inEditMode = false;
 
