@@ -162,6 +162,8 @@ $AMIClass('SchemaViewerApp', {
 
 			}).fail(function(message) {
 
+				alert('fffff');
+
 				result.reject(message);
 			});
 
@@ -242,31 +244,18 @@ $AMIClass('SchemaViewerApp', {
 
 	openSchema: function()
 	{
-		if(!this.defaultCatalog)
-		{
-			return $.Deferred().resolve();
-		}
-
-		/*-----------------------------------------------------------------*/
-
 		amiWebApp.lock();
 
 		return this.schema.refresh(this.defaultCatalog, {context: this, showShowTool: true, showEditTool: amiLogin.hasRole('AMI_ADMIN')}).done(function() {
 
-			window.history.pushState('', '', amiWebApp.webAppURL + '?subapp=schemaViewer&userdata=' + encodeURIComponent(this.defaultCatalog));
+			window.history.pushState('', '', amiWebApp.webAppURL + '?subapp=schemaViewer' + (this.defaultCatalog ? '&userdata=' + encodeURIComponent(this.defaultCatalog) : ''));
 
 			amiWebApp.unlock();
-
-			result.resolve();
 
 		}).fail(function(message) {
 
 			amiWebApp.error(message, true);
-
-			result.reject();
 		});
-
-		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
