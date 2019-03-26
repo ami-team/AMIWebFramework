@@ -4913,8 +4913,9 @@ $AMINamespace('amiWebApp',
     /*-----------------------------------------------------------------*/
 
     if (this._noBootstrap === false && typeof jQuery.fn.modal !== 'function') {
-      this.loadSheets([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-vertical-tabs.min.css', this.originURL + '/css/select2.min.css']);
-      this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-typeahead.min.js', this.originURL + '/js/select2.min.js']);
+      this.loadSheets([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/select2.min.css']);
+      this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
+      this.originURL + '/js/select2.min.js']);
     }
     /*-----------------------------------------------------------------*/
 
@@ -4940,11 +4941,11 @@ $AMINamespace('amiWebApp',
   /*---------------------------------------------------------------------*/
 
   /**
-    * Checks whether the WebApp is executed locally (file://, localhost or 127.0.0.1)
+    * Checks whether the WebApp is executed locally (file://, localhost, 127.0.0.1 or ::1)
     * @returns {Boolean}
     */
   isLocal: function isLocal() {
-    return document.location.protocol === 'file:' || document.location.hostname === 'localhost' || document.location.hostname === '127.0.0.1';
+    return document.location.protocol === 'file:' || document.location.hostname === 'localhost' || document.location.hostname === '127.0.0.1' || document.location.hostname === '::1';
   },
 
   /*---------------------------------------------------------------------*/
@@ -5509,7 +5510,6 @@ $AMINamespace('amiWebApp',
       /*-------------------------------------------------------------*/
       if (jQuery.fn.tooltip) {
         target.find('[data-toggle="tooltip"]').tooltip({
-          container: 'body',
           html: false,
           delay: {
             show: 500,
@@ -5522,19 +5522,12 @@ $AMINamespace('amiWebApp',
 
       if (jQuery.fn.popover) {
         target.find('[data-toggle="popover"]').popover({
-          container: 'body',
           html: true,
           delay: {
             show: 500,
             hide: 100
           }
         });
-      }
-      /*-------------------------------------------------------------*/
-
-
-      if (jQuery.fn.bootstrapToggle) {
-        target.find('input[type="checkbox"][data-toggle="toggle"]').bootstrapToggle();
       }
       /*-------------------------------------------------------------*/
 
@@ -6024,16 +6017,16 @@ $AMINamespace('amiWebApp',
         try {
           var clazz = window[descr.clazz];
           var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) :
-          /*-----------------*/
+          /*----------------*/
           null
-          /*-----------------*/
+          /*----------------*/
           ;
 
           _ami_internal_then(promise, function () {
             result.resolveWith(context, [
-            /*---------------------*/
+            /*--------------------*/
             clazz
-            /*---------------------*/
+            /*--------------------*/
             ]);
           }, function (message) {
             result.rejectWith(context, ['could not load control `' + control + '`: ' + message]);
@@ -6355,18 +6348,18 @@ $AMINamespace('amiWebApp',
           _this12.fillBreadcrumb(descr.breadcrumb);
 
           var promise = loaded[0] ? instance.onReady(userdata) :
-          /*-------*/
+          /*------*/
           null
-          /*-------*/
+          /*------*/
           ;
 
           _ami_internal_then(promise, function () {
             var promise = amiLogin.isAuthenticated() ? _this12.triggerLogin() : _this12.triggerLogout();
             promise.then(function () {
               result.resolveWith(context, [
-              /*-------------------*/
+              /*------------------*/
               instance
-              /*-------------------*/
+              /*------------------*/
               ]);
             }, function (message) {
               result.rejectWith(context, ['could not load subapp `' + subapp + '`: ' + message]);
@@ -8078,7 +8071,7 @@ var amiDoc = {
       }]
     }, {
       "name": "isLocal",
-      "desc": "Checks whether the WebApp is executed locally (file://, localhost or 127.0.0.1)",
+      "desc": "Checks whether the WebApp is executed locally (file://, localhost, 127.0.0.1 or ::1)",
       "params": [],
       "returns": [{
         "type": "Boolean",
