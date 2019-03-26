@@ -7,59 +7,41 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global Clipboard
+ * @global ClipboardJS
  *
  */
 
 /*-------------------------------------------------------------------------*/
-
 $AMIClass('MessageBoxCtrl', {
-	/*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
+  $extends: ami.Control,
 
-	$extends: ami.Control,
+  /*---------------------------------------------------------------------*/
+  $init: function $init(parent, owner) {
+    this.$super.$init(parent, owner);
+  },
 
-	/*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
+  onReady: function onReady() {
+    return amiWebApp.loadResources([amiWebApp.originURL + '/controls/MessageBox/twig/MessageBoxCtrl.twig', amiWebApp.originURL + '/js/3rd-party/clipboard.min.js']).done(function (data) {
+      amiWebApp.appendHTML('body', data[0]).done(function () {
+        new ClipboardJS('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .btn[data-clipboard-target]');
+      });
+    });
+  },
 
-	$init: function(parent, owner)
-	{
-		this.$super.$init(parent, owner);
-	},
+  /*---------------------------------------------------------------------*/
+  show: function show(text) {
+    $('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(text || '');
+    $('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').modal('show');
+  },
 
-	/*-----------------------------------------------------------------*/
+  /*---------------------------------------------------------------------*/
+  render: function render(text) {
+    $('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(text || '');
+    $('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').modal('show');
+  }
+  /*---------------------------------------------------------------------*/
 
-	onReady: function()
-	{
-		return amiWebApp.loadResources([
-			amiWebApp.originURL + '/controls/MessageBox/twig/MessageBoxCtrl.twig',
-			amiWebApp.originURL + '/js/3rd-party/clipboard.min.js',
-		], {context: this}).done(function(data) {
-
-			amiWebApp.appendHTML('body', data[0]).done(function() {
-
-				new Clipboard('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .btn[data-clipboard-target]');
-			});
-		});
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	show: function(text)
-	{
-		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(text || '');
-
-		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').modal('show');
-	},
-
-	/*-----------------------------------------------------------------*/
-
-	render: function(text)
-	{
-		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(text || '');
-
-		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').modal('show');
-	},
-
-	/*-----------------------------------------------------------------*/
 });
-
 /*-------------------------------------------------------------------------*/

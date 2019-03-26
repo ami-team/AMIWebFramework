@@ -5489,7 +5489,7 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 
 				/**/ if(parts.length === 1)
 				{
-					this._args[decodeURIComponent(parts[0])] = /*---------*/''/*---------*/;
+					this._args[decodeURIComponent(parts[0])] = /*--------*/ '' /*--------*/;
 				}
 				else if(parts.length === 2)
 				{

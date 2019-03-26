@@ -4593,9 +4593,9 @@ $AMINamespace('amiRouter',
 
         if (parts.length === 1) {
           _this2._args[decodeURIComponent(parts[0])] =
-          /*---------*/
+          /*--------*/
           ''
-          /*---------*/
+          /*--------*/
           ;
         } else if (parts.length === 2) {
           _this2._args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
