@@ -25,12 +25,13 @@ $AMIClass('ElementInfoCtrl', {
 
     return amiWebApp.loadResources([amiWebApp.originURL + '/controls/ElementInfo/twig/ElementInfoCtrl.twig', amiWebApp.originURL + '/controls/ElementInfo/twig/details.twig', amiWebApp.originURL + '/controls/ElementInfo/twig/js.twig',
     /**/
-    'ctrl:fieldEditor', 'ctrl:tab']).done(function (data) {
+    'ctrl:fieldEditor', 'ctrl:unitEditor', 'ctrl:tab']).done(function (data) {
       _this.fragmentElementInfoCtrl = data[0];
       _this.fragmentDetails = data[1];
       _this.fragmentJS = data[2];
       _this.fieldEditorCtor = data[3];
-      _this.tabCtor = data[4];
+      _this.fieldUnitCtor = data[4];
+      _this.tabCtor = data[5];
     });
   },
 
@@ -91,6 +92,7 @@ $AMIClass('ElementInfoCtrl', {
     /*-----------------------------------------------------------------*/
 
     this.fieldEditor = new this.fieldEditorCtor(this, this);
+    this.unitEditor = new this.fieldUnitCtor(this, this);
     /*-----------------------------------------------------------------*/
 
     this._render(result, selector);
@@ -243,6 +245,8 @@ $AMIClass('ElementInfoCtrl', {
       }).done(function () {
         /*---------------------------------------------------------*/
         _this4.fieldEditor.setup(_this4.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), _this4.ctx.primaryFieldName, _this4.ctx);
+
+        _this4.unitEditor.setup(_this4.patchId('#BBD391C7_759D_01DD_E234_488D46504638'));
         /*---------------------------------------------------------*/
 
 

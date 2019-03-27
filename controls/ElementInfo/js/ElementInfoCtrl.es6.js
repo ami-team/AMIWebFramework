@@ -33,6 +33,7 @@ $AMIClass('ElementInfoCtrl', {
 			amiWebApp.originURL + '/controls/ElementInfo/twig/js.twig',
 			/**/
 			'ctrl:fieldEditor',
+			'ctrl:unitEditor',
 			'ctrl:tab',
 		]).done((data) => {
 
@@ -41,7 +42,8 @@ $AMIClass('ElementInfoCtrl', {
 			this.fragmentJS = data[2];
 
 			this.fieldEditorCtor = data[3];
-			this.tabCtor = data[4];
+			this.fieldUnitCtor = data[4];
+			this.tabCtor = data[5];
 		});
 	},
 
@@ -127,6 +129,7 @@ $AMIClass('ElementInfoCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		this.fieldEditor = new this.fieldEditorCtor(this, this);
+		this.unitEditor = new this.fieldUnitCtor(this, this);
 
 		/*-----------------------------------------------------------------*/
 
@@ -304,7 +307,9 @@ $AMIClass('ElementInfoCtrl', {
 
 				/*---------------------------------------------------------*/
 
-				this.fieldEditor.setup(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), this.ctx.primaryFieldName, this.ctx);
+				this.fieldEditor.setup(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'),
+																		this.ctx.primaryFieldName, this.ctx);
+				this.unitEditor.setup(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'));
 
 				/*---------------------------------------------------------*/
 

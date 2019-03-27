@@ -1,0 +1,48 @@
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+/*-------------------------------------------------------------------------*/
+
+$AMIClass('UnitEditorCtrl', {
+	/*---------------------------------------------------------------------*/
+
+	$extends: ami.Control,
+
+	/*---------------------------------------------------------------------*/
+
+	$init: function(parent, owner)
+	{
+		this.$super.$init(parent, owner);
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	onReady: function()
+	{
+		return amiWebApp.loadResources([
+			amiWebApp.originURL + '/controls/UnitEditor/twig/UnitEditorCtrl.twig',
+		]).done((data) => {
+
+			amiWebApp.appendHTML('body', data[0]);
+		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	setup: function(selector)
+	{
+
+	},
+
+	/*---------------------------------------------------------------------*/
+});
+
+/*-------------------------------------------------------------------------*/

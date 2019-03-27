@@ -46,6 +46,7 @@ $AMIClass('TableCtrl', {
 			amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
 			/**/
 			'ctrl:fieldEditor',
+			'ctrl:unitEditor',
 			'ctrl:tab',
 		]).done((data) => {
 
@@ -58,7 +59,8 @@ $AMIClass('TableCtrl', {
 					this.fragmentJS = data[5];
 
 					this.fieldEditorCtor = data[8];
-					this.tabCtor = data[9];
+					this.fieldUnitCtor = data[9];
+					this.tabCtor = data[10];
 				});
 			});
 		});
@@ -148,7 +150,8 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		this.ctx.fieldEditor = new this.fieldEditorCtor(this, this);
+		this.fieldEditor = new this.fieldEditorCtor(this, this);
+		this.unitEditor = new this.fieldUnitCtor(this, this);
 
 		/*-----------------------------------------------------------------*/
 
@@ -796,10 +799,12 @@ $AMIClass('TableCtrl', {
 				});
 
 				/*---------------------------------------------------------*/
-				/* SETUP FIELD EDITOR                                      */
+				/* SETUP FIELD & UNIT EDITOR                               */
 				/*---------------------------------------------------------*/
 
-				this.ctx.fieldEditor.setup(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.ctx.primaryField, this.ctx);
+				this.fieldEditor.setup(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'),
+																		this.ctx.primaryField, this.ctx);
+				this.unitEditor.setup(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
 
 				/*---------------------------------------------------------*/
 				/* UPDATE JAVASCRIPT                                       */
@@ -915,7 +920,7 @@ $AMIClass('TableCtrl', {
 				tags2.show();
 			}
 
-			this.ctx.fieldEditor.setInEditMode(true);
+			this.fieldEditor.setInEditMode(true);
 		}
 		else
 		{
@@ -925,7 +930,7 @@ $AMIClass('TableCtrl', {
 				tags2.hide();
 			}
 
-			this.ctx.fieldEditor.setInEditMode(false);
+			this.fieldEditor.setInEditMode(false);
 		}
 	},
 
