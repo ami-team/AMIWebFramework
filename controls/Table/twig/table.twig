@@ -79,7 +79,15 @@
 				{% elseif field.$ === '@NOGO' %}
 					<div class="font-italic text-danger">admin only</div>
 				{% else %}
-				<div class="h-100{% if field['properties'] is defined %}{% for property in field['properties'] %}{% if property['@class'] is not empty %} {{property['@class']}}{% endif %}{% endfor %}{% endif %}"
+				<div style="min-height: 1.25rem;"
+				     {% if field['properties'] is defined %}
+				     {%   if field['properties']['@id'] is not empty %}id="{{field['properties']['@id']|e}}"{% endif %}
+				     {%   if field['properties']['@class'] is not empty %}class="{{field['properties']['@class']|e}}"{% endif %}
+				     {%   if field['properties']['@unitName'] is not empty %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
+				     {%   if field['properties']['@unitFactor'] is not empty %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
+				     {%   if field['properties']['@unitBase'] is not empty %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
+				     {%   if field['properties']['@humanReadable'] is not empty %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
+				     {% endif %}
 				     {% if primaryIdx >= 0 and fieldDescriptions[loop.index0]['@catalog'] === catalog and fieldDescriptions[loop.index0]['@entity'] === entity %}
 				     data-action="edit"
 				     data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
@@ -87,14 +95,15 @@
 				     data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
 				     data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
 				     data-row="{{row.field[primaryIdx].$|e}}"
-				     data-val="{{field.$|e}}"
 				     {% endif %}
-				     style="min-height: 1.25rem;">{% if (field.$|length) > 64 %}{{field.$|slice(0, 64)|e}} <span class="text-danger">...</span>{% else %}{{field.$|e}}{% endif %}</div>
-				{%   if field['link'] is defined %}
-				{%     for link in field['link'] %}
+				     data-val="{{field.$|e}}">{% if (field.$|length) > 64 %}{{field.$|slice(0, 64)|e}} <span class="text-danger">...</span>{% else %}{{field.$|e}}{% endif %}</div>
+				{%   if field['links'] is defined %}
+				{%     for link in field['links'] %}
 				{%       if not loop.first %} - {% endif %}
 				<a href="{{link['@href']|e}}"
 				   {% if link['@target'] is not empty %}target="{{link['@target']|e}}"{% endif %}
+				   {% if link['@id'] is not empty %}id="{{link['@id']|e}}"{% endif %}
+				   {% if link['@class'] is not empty %}class="{{link['@class']|e}}"{% endif %}
 				   {% if link['@data-ctrl'] is not empty %}data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}
 				   {% if link['@data-ctrl-location'] is not empty %}data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}
 				   {% if link['@data-params'] is not empty %}data-params="{{link['@data-params']|e}}"{% endif %}
