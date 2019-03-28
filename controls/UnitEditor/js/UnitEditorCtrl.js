@@ -46,31 +46,30 @@ $AMIClass('UnitEditorCtrl', {
       var unitName = el.attr('data-unit-name');
       var unitFactor = el.attr('data-unit-factor');
       var unitBase = el.attr('data-unit-base');
-
-      if (!unitVal || unitVal === '@NULL') {
-        return;
-      }
       /*-------------------------------------------------------------*/
 
       /* OPTIMIZE UNIT INFO                                          */
 
       /*-------------------------------------------------------------*/
 
-
       var scale = 0.0;
       var base = parseFloat(unitBase);
 
       var rawVal = parseFloat(unitVal) * _this2.getFactorFlt(unitFactor, base);
 
-      if (rawVal !== 0.0) {
-        scale = Math.log(rawVal) / Math.log(base);
-        /**/
+      if (!Number.isNaN(rawVal)) {
+        if (rawVal !== 0.0) {
+          scale = Math.log(rawVal) / Math.log(base);
+          /**/
 
-        if (scale > 0.0) {
-          scale = Math.ceil(scale - 1);
-        } else if (scale < 0.0) {
-          scale = Math.floor(scale - 0);
+          if (scale > 0.0) {
+            scale = Math.ceil(scale - 1);
+          } else if (scale < 0.0) {
+            scale = Math.floor(scale - 0);
+          }
         }
+      } else {
+        return;
       }
       /*-------------------------------------------------------------*/
 

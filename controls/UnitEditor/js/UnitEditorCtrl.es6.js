@@ -55,11 +55,6 @@ $AMIClass('UnitEditorCtrl', {
 			const unitFactor = el.attr('data-unit-factor');
 			const unitBase = el.attr('data-unit-base');
 
-			if(!unitVal || unitVal === '@NULL')
-			{
-				return;
-			}
-
 			/*-------------------------------------------------------------*/
 			/* OPTIMIZE UNIT INFO                                          */
 			/*-------------------------------------------------------------*/
@@ -70,16 +65,23 @@ $AMIClass('UnitEditorCtrl', {
 
 			const rawVal = parseFloat(unitVal) * this.getFactorFlt(unitFactor, base);
 
-			if(rawVal !== 0.0)
+			if(!Number.isNaN(rawVal))
 			{
-				scale = Math.log(rawVal) / Math.log(base);
+				if(rawVal !== 0.0)
+				{
+					scale = Math.log(rawVal) / Math.log(base);
 
-				/**/ if(scale > 0.0) {
-					scale = Math.ceil(scale - 1);
+					/**/ if(scale > 0.0) {
+						scale = Math.ceil(scale - 1);
+					}
+					else if(scale < 0.0) {
+						scale = Math.floor(scale - 0);
+					}
 				}
-				else if(scale < 0.0) {
-					scale = Math.floor(scale - 0);
-				}
+			}
+			else
+			{
+				return;
 			}
 
 			/*-------------------------------------------------------------*/
