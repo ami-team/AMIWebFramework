@@ -46,11 +46,16 @@ $AMIClass('UnitEditorCtrl', {
       var unitName = el.attr('data-unit-name');
       var unitFactor = el.attr('data-unit-factor');
       var unitBase = el.attr('data-unit-base');
+
+      if (!unitVal || unitVal === '@NULL') {
+        return;
+      }
       /*-------------------------------------------------------------*/
 
       /* OPTIMIZE UNIT INFO                                          */
 
       /*-------------------------------------------------------------*/
+
 
       var scale = 0.0;
       var base = parseFloat(unitBase);
