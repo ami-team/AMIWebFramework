@@ -40,7 +40,7 @@
 								     data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
 								     data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
 								     data-row="{{primaryFieldValue|e}}"
-								     data-val="{{field.$|e}}">{% if (field.$|length) > 64 %}{{field.$|slice(0, 64)|e}}... <span data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('js')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></span>{% else %}{{field.$|e}}{% endif %}</div>
+								     data-val="{{field.$|e}}">{% if (field.$|length) > 64 %}<span data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('js')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></span> {{field.$|slice(0, 64)|e}}…{% else %}{{field.$|e}}{% endif %}</div>
 								{%   if field['links'] is defined %}
 								{%     for link in field['links'] %}
 								{%       if not loop.first %} - {% endif %}
