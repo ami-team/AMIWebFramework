@@ -313,7 +313,7 @@ $AMIClass('ElementInfoCtrl', {
 
 				/*---------------------------------------------------------*/
 
-				$(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638')).find('a[data-ctrl]').click((e) => {
+				$(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638')).find('[data-ctrl]').click((e) => {
 
 					e.preventDefault();
 

@@ -88,7 +88,7 @@
 				     {%   if field['properties']['@unitBase'] is not empty %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
 				     {%   if field['properties']['@humanReadable'] is not empty %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
 				     {% endif %}
-				     {% if primaryIdx >= 0 and fieldDescriptions[loop.index0]['@catalog'] === catalog and fieldDescriptions[loop.index0]['@entity'] === entity %}
+				     {% if primaryIdx >= 0 and fieldDescriptions[loop.index0]['@catalog'] === catalog and fieldDescriptions[loop.index0]['@entity'] === entity and fieldDescriptions[loop.index0]['@automatic'] !== 'true' and fieldDescriptions[loop.index0]['@created'] !== 'true' and fieldDescriptions[loop.index0]['@createdBy'] !== 'true' and fieldDescriptions[loop.index0]['@modified'] !== 'true' and fieldDescriptions[loop.index0]['@modifiedBy'] !== 'true' %}
 				     data-action="edit"
 				     data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
 				     data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}"
@@ -96,7 +96,7 @@
 				     data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
 				     data-row="{{row.field[primaryIdx].$|e}}"
 				     {% endif %}
-				     data-val="{{field.$|e}}">{% if (field.$|length) > 64 %}{{field.$|slice(0, 64)|e}} <span class="text-danger">...</span>{% else %}{{field.$|e}}{% endif %}</div>
+				     data-val="{{field.$|e}}">{% if (field.$|length) > 64 %}<span data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('js')|e('html')}}&quot;]" data-settings="{}">{{field.$|slice(0, 64)|e}}</span> <span class="text-danger">...</span>{% else %}{{field.$|e}}{% endif %}</div>
 				{%   if field['links'] is defined %}
 				{%     for link in field['links'] %}
 				{%       if not loop.first %} - {% endif %}

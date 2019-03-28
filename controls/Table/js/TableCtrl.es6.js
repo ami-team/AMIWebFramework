@@ -778,7 +778,7 @@ $AMIClass('TableCtrl', {
 				/* DETAILS                                                 */
 				/*---------------------------------------------------------*/
 
-				parent.find('a[data-ctrl]').click((e) => {
+				parent.find('[data-ctrl]').click((e) => {
 
 					e.preventDefault();
 

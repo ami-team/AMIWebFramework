@@ -250,7 +250,7 @@ $AMIClass('ElementInfoCtrl', {
         /*---------------------------------------------------------*/
 
 
-        $(_this4.patchId('#BBD391C7_759D_01DD_E234_488D46504638')).find('a[data-ctrl]').click(function (e) {
+        $(_this4.patchId('#BBD391C7_759D_01DD_E234_488D46504638')).find('[data-ctrl]').click(function (e) {
           e.preventDefault();
 
           _this4.createControlFromWebLink(_this4.getParent(), e.currentTarget, _this4.ctx);

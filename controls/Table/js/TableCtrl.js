@@ -549,7 +549,7 @@ $AMIClass('TableCtrl', {
 
         /*---------------------------------------------------------*/
 
-        parent.find('a[data-ctrl]').click(function (e) {
+        parent.find('[data-ctrl]').click(function (e) {
           e.preventDefault();
 
           _this5.createControlFromWebLink(_this5.getParent(), e.currentTarget, _this5.ctx);
