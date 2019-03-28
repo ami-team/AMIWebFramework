@@ -55,6 +55,11 @@ $AMIClass('UnitEditorCtrl', {
 			const unitFactor = el.attr('data-unit-factor');
 			const unitBase = el.attr('data-unit-base');
 
+			if(!unitVal || unitVal === '@NULL')
+			{
+				return;
+			}
+
 			/*-------------------------------------------------------------*/
 			/* OPTIMIZE UNIT INFO                                          */
 			/*-------------------------------------------------------------*/
