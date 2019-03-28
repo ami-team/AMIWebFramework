@@ -48,7 +48,9 @@ $AMIClass('FieldEditorCtrl', {
     /*-----------------------------------------------------------------*/
 
     $(selector).find('div[data-action="edit"]').click(function (e) {
-      _this2.editField(e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-type'), e.currentTarget.getAttribute('data-row'), e.currentTarget.getAttribute('data-val'));
+      if (_this2.inEditMode) {
+        _this2.editField(e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-type'), e.currentTarget.getAttribute('data-row'), e.currentTarget.getAttribute('data-val'));
+      }
     });
     /*-----------------------------------------------------------------*/
   },
@@ -72,44 +74,42 @@ $AMIClass('FieldEditorCtrl', {
   editField: function editField(catalog, entity, field, type, primaryValue, value) {
     var _this3 = this;
 
-    if (this.inEditMode) {
-      /*-------------------------------------------------------------*/
-      $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F').text('Field `' + field + '` for `' + catalog + '`.`' + entity + '`.`' + this.primaryField + '` = ' + primaryValue);
-      /*-------------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
+    $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F').text('Field `' + field + '` for `' + catalog + '`.`' + entity + '`.`' + this.primaryField + '` = ' + primaryValue);
+    /*-----------------------------------------------------------------*/
 
-      $('#E2E8670D_2BAE_B181_79E5_C8A170BD3981')[0].reset();
-      /*-------------------------------------------------------------*/
+    $('#E2E8670D_2BAE_B181_79E5_C8A170BD3981')[0].reset();
+    /*-----------------------------------------------------------------*/
 
-      type = type.toUpperCase();
-      /**/
+    type = type.toUpperCase();
+    /**/
 
-      if (value === '@NULL') {
-        $('#A70927B4_918F_07BC_2C91_B48CFCB812C6').collapse('show');
-      } else if (type.match(this.textRegex)) {
-        $('#EDD0ABD2_4AF8_4F27_AECD_D537F2695E67').collapse('show').find('textarea').val(value);
-      } else if (type.match(this.numberRegex)) {
-        $('#D20E11D2_1E45_B4B7_219A_9D9F490666D4').collapse('show').find('input').val(value);
-      } else if (type.match(this.dateRegex)) {
-        $('#F0389A55_B680_9D33_8D06_3D51CF4A3934').collapse('show').find('input').val(value);
-      } else
-        /*-----------------------*/
-        {
-          $('#D22BDDA1_B582_6958_2EED_701D853D3B4D').collapse('show').find('input').val(value);
-        }
-      /*-------------------------------------------------------------*/
+    if (value === '@NULL') {
+      $('#A70927B4_918F_07BC_2C91_B48CFCB812C6').collapse('show');
+    } else if (type.match(this.textRegex)) {
+      $('#EDD0ABD2_4AF8_4F27_AECD_D537F2695E67').collapse('show').find('textarea').val(value);
+    } else if (type.match(this.numberRegex)) {
+      $('#D20E11D2_1E45_B4B7_219A_9D9F490666D4').collapse('show').find('input').val(value);
+    } else if (type.match(this.dateRegex)) {
+      $('#F0389A55_B680_9D33_8D06_3D51CF4A3934').collapse('show').find('input').val(value);
+    } else
+      /*------------------------*/
+      {
+        $('#D22BDDA1_B582_6958_2EED_701D853D3B4D').collapse('show').find('input').val(value);
+      }
+    /*-----------------------------------------------------------------*/
 
 
-      $('#E2E8670D_2BAE_B181_79E5_C8A170BD3981').off().on('submit', function (e) {
-        e.preventDefault();
-        var value = $('#A4A7E040_7F01_C1BD_7180_2327E5244805 .show').find('input, textarea').val();
+    $('#E2E8670D_2BAE_B181_79E5_C8A170BD3981').off().on('submit', function (e) {
+      e.preventDefault();
+      var value = $('#A4A7E040_7F01_C1BD_7180_2327E5244805 .show').find('input, textarea').val();
 
-        _this3.changeField(catalog, entity, field, value, _this3.primaryField, primaryValue);
-      });
-      /*-------------------------------------------------------------*/
+      _this3.changeField(catalog, entity, field, value, _this3.primaryField, primaryValue);
+    });
+    /*-----------------------------------------------------------------*/
 
-      $('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('show');
-      /*-------------------------------------------------------------*/
-    }
+    $('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('show');
+    /*-----------------------------------------------------------------*/
   },
 
   /*---------------------------------------------------------------------*/

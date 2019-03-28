@@ -278,8 +278,10 @@ $AMIClass('ElementInfoCtrl', {
   setMode: function setMode() {
     if ($(this.patchId('#AB84A8CC_5E70_EBE7_8766_317FEE71EFE8')).prop('checked')) {
       this.fieldEditor.setInEditMode(true);
+      this.unitEditor.setInEditMode(true);
     } else {
       this.fieldEditor.setInEditMode(false);
+      this.unitEditor.setInEditMode(false);
     }
   }
   /*---------------------------------------------------------------------*/

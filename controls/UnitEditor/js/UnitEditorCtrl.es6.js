@@ -7,6 +7,7 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
+ * @global FieldEditorCtrl_lock
  */
 
 /*-------------------------------------------------------------------------*/
@@ -30,6 +31,8 @@ $AMIClass('UnitEditorCtrl', {
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/UnitEditor/twig/UnitEditorCtrl.twig',
 		]).done((data) => {
+
+			this.inEditMode = false;
 
 			amiWebApp.appendHTML('body', data[0]);
 		});
@@ -78,7 +81,7 @@ $AMIClass('UnitEditorCtrl', {
 
 			const factor = Math.pow(base, scale);
 
-			el.attr('data-unit-val', rawVal / factor);
+			el.attr('data-unit-val', (rawVal / factor).toPrecision(3));
 
 			el.attr('data-unit-factor', this.getFactorStr(factor, base));
 
@@ -90,18 +93,35 @@ $AMIClass('UnitEditorCtrl', {
 			el.attr('data-raw-unit-base', unitBase);
 
 			/*-------------------------------------------------------------*/
-			/*                                                             */
+			/* SETUP EDITOR AND UPDATE TEXT                                */
 			/*-------------------------------------------------------------*/
 
 			el.click(() => {
 
-				this.editUnit(el);
+				if(!this.inEditMode)
+				{
+					this.editUnit(el);
+				}
 			});
 
-			this.changeUnit(el);
+			this.updateText(el);
 
 			/*-------------------------------------------------------------*/
 		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	isInEditMode: function()
+	{
+		return this.inEditMode();
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	setInEditMode: function(inEditMode)
+	{
+		this.inEditMode = inEditMode;
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -180,9 +200,11 @@ $AMIClass('UnitEditorCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		el.attr('data-unit-val', parseFloat(el.attr('data-raw-unit-val')) / this.getFactorFlt(unitFactor, parseFloat(unitBase)));
+		const newVal = parseFloat(el.attr('data-raw-unit-val')) / this.getFactorFlt(unitFactor, parseFloat(unitBase));
 
-		this.changeUnit(el);
+		el.attr('data-unit-val', newVal.toPrecision(3));
+
+		this.updateText(el);
 
 		/*-----------------------------------------------------------------*/
 
@@ -193,7 +215,7 @@ $AMIClass('UnitEditorCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	changeUnit: function(el)
+	updateText: function(el)
 	{
 		if(el.attr('data-human-readable').replace(/^\s+|\s+$/g, '').toLowerCase() === 'false')
 		{

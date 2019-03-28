@@ -921,6 +921,7 @@ $AMIClass('TableCtrl', {
 			}
 
 			this.fieldEditor.setInEditMode(true);
+			this.unitEditor.setInEditMode(true);
 		}
 		else
 		{
@@ -931,6 +932,7 @@ $AMIClass('TableCtrl', {
 			}
 
 			this.fieldEditor.setInEditMode(false);
+			this.unitEditor.setInEditMode(false);
 		}
 	},
 

@@ -671,6 +671,7 @@ $AMIClass('TableCtrl', {
       }
 
       this.fieldEditor.setInEditMode(true);
+      this.unitEditor.setInEditMode(true);
     } else {
       if (
       /*--------*/
@@ -682,6 +683,7 @@ $AMIClass('TableCtrl', {
         }
 
       this.fieldEditor.setInEditMode(false);
+      this.unitEditor.setInEditMode(false);
     }
   },
 

@@ -7,6 +7,7 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
+ * @global FieldEditorCtrl_lock
  */
 
 /*-------------------------------------------------------------------------*/
@@ -21,14 +22,17 @@ $AMIClass('UnitEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   onReady: function onReady() {
+    var _this = this;
+
     return amiWebApp.loadResources([amiWebApp.originURL + '/controls/UnitEditor/twig/UnitEditorCtrl.twig']).done(function (data) {
+      _this.inEditMode = false;
       amiWebApp.appendHTML('body', data[0]);
     });
   },
 
   /*---------------------------------------------------------------------*/
   setup: function setup(selector) {
-    var _this = this;
+    var _this2 = this;
 
     $('div[data-unit-name]').each(function (index, item) {
       var el = $(item);
@@ -51,7 +55,7 @@ $AMIClass('UnitEditorCtrl', {
       var scale = 0.0;
       var base = parseFloat(unitBase);
 
-      var rawVal = parseFloat(unitVal) * _this.getFactorFlt(unitFactor, base);
+      var rawVal = parseFloat(unitVal) * _this2.getFactorFlt(unitFactor, base);
 
       if (rawVal !== 0.0) {
         scale = Math.log(rawVal) / Math.log(base);
@@ -67,44 +71,56 @@ $AMIClass('UnitEditorCtrl', {
 
 
       var factor = Math.pow(base, scale);
-      el.attr('data-unit-val', rawVal / factor);
-      el.attr('data-unit-factor', _this.getFactorStr(factor, base));
+      el.attr('data-unit-val', (rawVal / factor).toPrecision(3));
+      el.attr('data-unit-factor', _this2.getFactorStr(factor, base));
       /*-------------------------------------------------------------*/
 
-      el.attr('data-orig-unit-val', rawVal);
-      el.attr('data-orig-unit-name', unitName);
-      el.attr('data-orig-unit-factor', "");
-      el.attr('data-orig-unit-base', unitBase);
+      el.attr('data-raw-unit-val', rawVal);
+      el.attr('data-raw-unit-name', unitName);
+      el.attr('data-raw-unit-factor', "");
+      el.attr('data-raw-unit-base', unitBase);
       /*-------------------------------------------------------------*/
 
-      /*                                                             */
+      /* SETUP EDITOR AND UPDATE TEXT                                */
 
       /*-------------------------------------------------------------*/
 
       el.click(function () {
-        _this.editUnit(el);
+        if (!_this2.inEditMode) {
+          _this2.editUnit(el);
+        }
       });
 
-      _this.changeUnit(el);
+      _this2.updateText(el);
       /*-------------------------------------------------------------*/
 
     });
   },
 
   /*---------------------------------------------------------------------*/
+  isInEditMode: function isInEditMode() {
+    return this.inEditMode();
+  },
+
+  /*---------------------------------------------------------------------*/
+  setInEditMode: function setInEditMode(inEditMode) {
+    this.inEditMode = inEditMode;
+  },
+
+  /*---------------------------------------------------------------------*/
   editUnit: function editUnit(el) {
-    var _this2 = this;
+    var _this3 = this;
 
     /*-----------------------------------------------------------------*/
-    var origUnitVal = el.attr('data-orig-unit-val');
-    var origUnitName = el.attr('data-orig-unit-name');
-    var origUnitFactor = el.attr('data-orig-unit-factor');
+    var rawUnitVal = el.attr('data-raw-unit-val');
+    var rawUnitName = el.attr('data-raw-unit-name');
+    var rawUnitFactor = el.attr('data-raw-unit-factor');
     var unitName = el.attr('data-unit-name');
     var unitFactor = el.attr('data-unit-factor');
     var unitBase = el.attr('data-unit-base');
     /*-----------------------------------------------------------------*/
 
-    $('#DB6F1B3B_A1E1_474F_494D_B673367D6020').text(origUnitVal + ' ' + origUnitFactor + origUnitName);
+    $('#DB6F1B3B_A1E1_474F_494D_B673367D6020').text(rawUnitVal + ' ' + rawUnitFactor + rawUnitName);
     /*-----------------------------------------------------------------*/
 
     $('#B23EA96D_07CB_0D49_564A_8CBC446331F0').val(unitName);
@@ -122,7 +138,7 @@ $AMIClass('UnitEditorCtrl', {
     $('#B16DD66F_D5A1_BCDF_DB78_D375D7B208C5').off().on('submit', function (e) {
       e.preventDefault();
 
-      _this2.apply(el);
+      _this3.apply(el);
     });
     /*-----------------------------------------------------------------*/
 
@@ -150,10 +166,9 @@ $AMIClass('UnitEditorCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    el.attr('data-unit-val', parseFloat(el.attr('data-orig-unit-val')) / this.getFactorFlt(unitFactor, parseFloat(unitBase)));
-    /*-----------------------------------------------------------------*/
-
-    this.changeUnit(el);
+    var newVal = parseFloat(el.attr('data-raw-unit-val')) / this.getFactorFlt(unitFactor, parseFloat(unitBase));
+    el.attr('data-unit-val', newVal.toPrecision(3));
+    this.updateText(el);
     /*-----------------------------------------------------------------*/
 
     $('#EEFEE4E6_2756_0FAC_6E1C_77F89E501417').modal('hide');
@@ -161,9 +176,9 @@ $AMIClass('UnitEditorCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  changeUnit: function changeUnit(el) {
+  updateText: function updateText(el) {
     if (el.attr('data-human-readable').replace(/^\s+|\s+$/g, '').toLowerCase() === 'false') {
-      el.text(el.attr('data-orig-unit-val') + ' ' + el.attr('data-orig-unit-factor') + el.attr('data-orig-unit-name'));
+      el.text(el.attr('data-raw-unit-val') + ' ' + el.attr('data-raw-unit-factor') + el.attr('data-raw-unit-name'));
     } else {
       el.text(el.attr('data-unit-val') + ' ' + el.attr('data-unit-factor') + el.attr('data-unit-name'));
     }
