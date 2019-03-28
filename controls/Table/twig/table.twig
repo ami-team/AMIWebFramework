@@ -77,9 +77,9 @@
 					<i class="fa fa-link"></i>
 				</a>
 				{% elseif field.$ === '@NOGO' %}
-					<div class="font-italic text-danger">admin only</div>
+				<div class="font-italic text-danger">admin only</div>
 				{% else %}
-				<div style="min-height: 1.25rem;"
+				<div style="min-height: 0.9rem;"
 				     {% if field['properties'] is defined %}
 				     {%   if field['properties']['@id'] is not empty %}id="{{field['properties']['@id']|e}}"{% endif %}
 				     {%   if field['properties']['@class'] is not empty %}class="{{field['properties']['@class']|e}}"{% endif %}

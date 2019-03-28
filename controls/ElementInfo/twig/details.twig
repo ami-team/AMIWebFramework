@@ -19,30 +19,44 @@
 								<strong>{{field['@name']|e}}</strong>
 							</td>
 							<td class="text-center">
-								{% if field.$ === '@NOGO' %}
+								{% if field.$ starts with '@OWNER::' %}
+								<a href="#" data-action="filter" data-filter-def="{{field.$|slice(8)|e}}">
+									<i class="fa fa-link"></i>
+								</a>
+								{% elseif field.$ === '@NOGO' %}
 								<div class="font-italic text-danger">admin only</div>
 								{% else %}
-								<div class="{% if field['properties'] is defined %}{% for property in field['properties'] %}{% if property is not empty %} {{property['@class']}}{% endif %}{% endfor %}{% endif %}"
+								<div style="min-height: 0.9rem;"
+								     {% if field['properties'] is defined %}
+								     {%   if field['properties']['@id'] is not empty %}id="{{field['properties']['@id']|e}}"{% endif %}
+								     {%   if field['properties']['@class'] is not empty %}class="{{field['properties']['@class']|e}}"{% endif %}
+								     {%   if field['properties']['@unitName'] is not empty %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
+								     {%   if field['properties']['@unitFactor'] is not empty %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
+								     {%   if field['properties']['@unitBase'] is not empty %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
+								     {%   if field['properties']['@humanReadable'] is not empty %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
+								     {% endif %}
 								     data-action="edit" data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
 								     data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}"
 								     data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
 								     data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
 								     data-row="{{primaryFieldValue|e}}"
-								     data-val="{{field.$|e}}"
-								     style="min-height: 1.25rem;">{% if (field.$|length) > 64 %}{{field.$|slice(0, 64)|e}} <span class="text-danger">...</span>{% else %}{{field.$|e}}{% endif %}</div>
-								{%   if field['link'] is defined %}
-								{%     for link in field['link'] %}
-									{% if not loop.first %} - {% endif %}
-									<a href="{{link['@href']|e}}"
-									   {% if link['@target'] is not empty %} target="{{link['@target']|e}}"{% endif %}
-									   {% if link['@data-ctrl'] is not empty %} data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}
-									   {% if link['@data-ctrl-location'] is not empty %} data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}
-									   {% if link['@data-params'] is not empty %} data-params="{{link['@data-params']|e}}"{% endif %}
-									   {% if link['@data-settings'] is not empty %} data-settings="{{link['@data-settings']|e}}"{% endif %}
-									   {% if link['@data-icon'] is not empty %} data-icon="{{link['@data-icon']|e}}"{% endif %}
-									   {% if link['@data-title'] is not empty %} data-title="{{link['@data-title']|e}}"{% endif %}
-									>{{link['@label']|e}}</a>
-								{%     endfor %}</td>
+								     data-val="{{field.$|e}}">{% if (field.$|length) > 64 %}{{field.$|slice(0, 64)|e}} <span class="text-danger">...</span>{% else %}{{field.$|e}}{% endif %}</div>
+								{%   if field['links'] is defined %}
+								{%     for link in field['links'] %}
+								{%       if not loop.first %} - {% endif %}
+								<a href="{{link['@href']|e}}"
+								   {% if link['@target'] is not empty %}target="{{link['@target']|e}}"{% endif %}
+								   {% if link['@id'] is not empty %}id="{{link['@id']|e}}"{% endif %}
+								   {% if link['@class'] is not empty %}class="{{link['@class']|e}}"{% endif %}
+								   {% if link['@data-ctrl'] is not empty %}data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}
+								   {% if link['@data-ctrl-location'] is not empty %}data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}
+								   {% if link['@data-params'] is not empty %}data-params="{{link['@data-params']|e}}"{% endif %}
+								   {% if link['@data-settings'] is not empty %}data-settings="{{link['@data-settings']|e}}"{% endif %}
+								   {% if link['@data-icon'] is not empty %}data-icon="{{link['@data-icon']|e}}"{% endif %}
+								   {% if link['@data-title'] is not empty %}data-title="{{link['@data-title']|e}}"{% endif %}>
+									{{link['@label']|e}}
+								</a>
+								{%     endfor %}
 								{%   endif %}
 								{% endif %}
 							</td>
@@ -80,11 +94,11 @@
 						<tr>
 							<td class="text-center">
 								{% if     (row|json_jspath('..field{.@name==="direction"}.$')[0]) === 'forward' %}
-								<i class="fa fa-long-arrow-right"></i>
+								<i class="fa fa-long-arrow-right" data-toggle="tooltip" data-placement="top" data-title="forward foreign key"></i>
 								{% elseif (row|json_jspath('..field{.@name==="direction"}.$')[0]) === 'backward' %}
-								<i class="fa fa-long-arrow-left"></i>
+								<i class="fa fa-long-arrow-left" data-toggle="tooltip" data-placement="top" data-title="backward foreign key"></i>
 								{% elseif (row|json_jspath('..field{.@name==="direction"}.$')[0]) === 'bridge' %}
-								<i class="fa fa-exchange"></i>
+								<i class="fa fa-exchange" data-toggle="tooltip" data-placement="top" data-title="bridge"></i>
 								{% endif %}
 							</td>
 							<td class="text-center">
