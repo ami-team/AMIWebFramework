@@ -98,7 +98,7 @@ $AMIClass('FieldEditorCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	textRegex: /^.*(?:TEXT).*$/,
+	textRegex: /^.*(?:TEXT|CLOB|BLOB).*$/,
 	dateRegex: /^.*(?:DATE|TIME).*$/,
 	numberRegex: /^.*(?:BIT|INT|FLOAT|DOUBLE|SERIAL|DECIMAL|NUMERIC).*$/,
 

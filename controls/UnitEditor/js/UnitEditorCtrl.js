@@ -120,7 +120,7 @@ $AMIClass('UnitEditorCtrl', {
     var unitBase = el.attr('data-unit-base');
     /*-----------------------------------------------------------------*/
 
-    $('#DB6F1B3B_A1E1_474F_494D_B673367D6020').text(rawUnitVal + ' ' + rawUnitFactor + rawUnitName);
+    $('#DB6F1B3B_A1E1_474F_494D_B673367D6020').text('raw value: ' + rawUnitVal + ' ' + rawUnitFactor + rawUnitName);
     /*-----------------------------------------------------------------*/
 
     $('#B23EA96D_07CB_0D49_564A_8CBC446331F0').val(unitName);

@@ -140,7 +140,7 @@ $AMIClass('UnitEditorCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		$('#DB6F1B3B_A1E1_474F_494D_B673367D6020').text(rawUnitVal + ' ' + rawUnitFactor + rawUnitName);
+		$('#DB6F1B3B_A1E1_474F_494D_B673367D6020').text('raw value: ' + rawUnitVal + ' ' + rawUnitFactor + rawUnitName);
 
 		/*-----------------------------------------------------------------*/
 
