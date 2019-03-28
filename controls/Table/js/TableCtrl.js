@@ -697,7 +697,7 @@ $AMIClass('TableCtrl', {
     if (primaryValue) {
       $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' div[data-row="' + primaryValue + '"]').each(function (idx, val) {
         field = $(val).attr('data-field');
-        value = $(val).text();
+        value = $(val).attr('data-val');
         values[field] = value;
       });
     }
