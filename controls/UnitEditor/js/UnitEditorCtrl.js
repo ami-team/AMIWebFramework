@@ -30,49 +30,143 @@ $AMIClass('UnitEditorCtrl', {
   setup: function setup(selector) {
     var _this = this;
 
-    $('div[data-unit-name]').each(function (idx, val) {
-      var el = $(val);
+    $('div[data-unit-name]').each(function (index, item) {
+      var el = $(item);
       /*-------------------------------------------------------------*/
 
-      el.attr('data-fac', el.attr('data-unit-factor'));
+      /* GET UNIT INFO                                               */
+
       /*-------------------------------------------------------------*/
+
+      var unitVal = el.attr('data-val');
+      var unitName = el.attr('data-unit-name');
+      var unitFactor = el.attr('data-unit-factor');
+      var unitBase = el.attr('data-unit-base');
+      /*-------------------------------------------------------------*/
+
+      /* OPTIMIZE UNIT INFO                                          */
+
+      /*-------------------------------------------------------------*/
+
+      var scale = 0.0;
+      var base = parseFloat(unitBase);
+
+      var rawVal = parseFloat(unitVal) * _this.getFactorFlt(unitFactor, base);
+
+      if (rawVal !== 0.0) {
+        scale = Math.log(rawVal) / Math.log(base);
+        /**/
+
+        if (scale > 0.0) {
+          scale = Math.ceil(scale - 1);
+        } else if (scale < 0.0) {
+          scale = Math.floor(scale - 0);
+        }
+      }
+      /*-------------------------------------------------------------*/
+
+
+      var factor = Math.pow(base, scale);
+      el.attr('data-unit-val', rawVal / factor);
+      el.attr('data-unit-factor', _this.getFactorStr(factor, base));
+      /*-------------------------------------------------------------*/
+
+      el.attr('data-orig-unit-val', rawVal);
+      el.attr('data-orig-unit-name', unitName);
+      el.attr('data-orig-unit-factor', "");
+      el.attr('data-orig-unit-base', unitBase);
+      /*-------------------------------------------------------------*/
+
+      /*                                                             */
 
       /*-------------------------------------------------------------*/
 
       el.click(function () {
         _this.editUnit(el);
       });
+
+      _this.changeUnit(el);
       /*-------------------------------------------------------------*/
+
     });
   },
 
   /*---------------------------------------------------------------------*/
   editUnit: function editUnit(el) {
-    /*----------------------------------------------------------------*/
-    var val = el.attr('data-val');
+    var _this2 = this;
+
+    /*-----------------------------------------------------------------*/
+    var origUnitVal = el.attr('data-orig-unit-val');
+    var origUnitName = el.attr('data-orig-unit-name');
+    var origUnitFactor = el.attr('data-orig-unit-factor');
     var unitName = el.attr('data-unit-name');
     var unitFactor = el.attr('data-unit-factor');
     var unitBase = el.attr('data-unit-base');
-    var humanReadable = el.attr('data-human-readable');
-    /*----------------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
-    $('#DB6F1B3B_A1E1_474F_494D_B673367D6020').text(val + ' ' + unitFactor + unitName);
-    /*----------------------------------------------------------------*/
+    $('#DB6F1B3B_A1E1_474F_494D_B673367D6020').text(origUnitVal + ' ' + origUnitFactor + origUnitName);
+    /*-----------------------------------------------------------------*/
 
     $('#B23EA96D_07CB_0D49_564A_8CBC446331F0').val(unitName);
     $('#C9712C7B_9A5C_BD83_45D1_4CC52CD81DA9').val(unitFactor);
     $('#CE77B2CF_A83B_854D_6B94_1A7A65555833').val(unitBase);
 
-    if (humanReadable.replace(/^\s+|\s+$/g, '').toLowerCase() !== 'false') {
-      $('#D84D615F_8E4A_C9FB_18DD_D927B9CD68BD').prop('checked', true);
-    } else {
+    if (el.attr('data-human-readable').replace(/^\s+|\s+$/g, '').toLowerCase() === 'false') {
       $('#D84D615F_8E4A_C9FB_18DD_D927B9CD68BD').prop('checked', false);
+    } else {
+      $('#D84D615F_8E4A_C9FB_18DD_D927B9CD68BD').prop('checked', true);
     }
-    /*----------------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
 
+
+    $('#B16DD66F_D5A1_BCDF_DB78_D375D7B208C5').off().on('submit', function (e) {
+      e.preventDefault();
+
+      _this2.apply(el);
+    });
+    /*-----------------------------------------------------------------*/
 
     $('#EEFEE4E6_2756_0FAC_6E1C_77F89E501417').modal('show');
-    /*----------------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
+  },
+
+  /*---------------------------------------------------------------------*/
+  apply: function apply(el) {
+    /*-----------------------------------------------------------------*/
+    var unitName = $('#B23EA96D_07CB_0D49_564A_8CBC446331F0').val();
+    var unitFactor = $('#C9712C7B_9A5C_BD83_45D1_4CC52CD81DA9').val();
+    var unitBase = $('#CE77B2CF_A83B_854D_6B94_1A7A65555833').val();
+    /*-----------------------------------------------------------------*/
+
+    el.attr('data-unit-name', unitName);
+    el.attr('data-unit-factor', unitFactor);
+    el.attr('data-unit-base', unitBase);
+
+    if ($('#D84D615F_8E4A_C9FB_18DD_D927B9CD68BD').prop('checked')) {
+      el.attr('data-human-readable', 'true');
+    } else {
+      el.attr('data-human-readable', 'false');
+    }
+    /*-----------------------------------------------------------------*/
+
+
+    el.attr('data-unit-val', parseFloat(el.attr('data-orig-unit-val')) / this.getFactorFlt(unitFactor, parseFloat(unitBase)));
+    /*-----------------------------------------------------------------*/
+
+    this.changeUnit(el);
+    /*-----------------------------------------------------------------*/
+
+    $('#EEFEE4E6_2756_0FAC_6E1C_77F89E501417').modal('hide');
+    /*-----------------------------------------------------------------*/
+  },
+
+  /*---------------------------------------------------------------------*/
+  changeUnit: function changeUnit(el) {
+    if (el.attr('data-human-readable').replace(/^\s+|\s+$/g, '').toLowerCase() === 'false') {
+      el.text(el.attr('data-orig-unit-val') + ' ' + el.attr('data-orig-unit-factor') + el.attr('data-orig-unit-name'));
+    } else {
+      el.text(el.attr('data-unit-val') + ' ' + el.attr('data-unit-factor') + el.attr('data-unit-name'));
+    }
   },
 
   /*---------------------------------------------------------------------*/
@@ -113,9 +207,9 @@ $AMIClass('UnitEditorCtrl', {
     /**/
 
     if (base === 1000.0) {
-      result = factor2Unit_1000.hasOwnProperty(factor) ? factor2Unit_1000[factor] : '?';
+      result = this.factor2Unit_1000.hasOwnProperty(factor) ? this.factor2Unit_1000[factor] : '?';
     } else if (base == 1024.0) {
-      result = factor2Unit_1024.hasOwnProperty(factor) ? factor2Unit_1024[factor] : '?';
+      result = this.factor2Unit_1024.hasOwnProperty(factor) ? this.factor2Unit_1024[factor] : '?';
     } else {
       result = '?';
     }
@@ -161,9 +255,9 @@ $AMIClass('UnitEditorCtrl', {
     /**/
 
     if (base === 1000.0) {
-      result = unit2Factor_1000.hasOwnProperty(unit) ? unit2Factor_1000[unit] : 1.0;
+      result = this.unit2Factor_1000.hasOwnProperty(unit) ? this.unit2Factor_1000[unit] : 1.0;
     } else if (base == 1024.0) {
-      result = unit2Factor_1024.hasOwnProperty(unit) ? unit2Factor_1024[unit] : 1.0;
+      result = this.unit2Factor_1024.hasOwnProperty(unit) ? this.unit2Factor_1024[unit] : 1.0;
     } else {
       result = 1.0;
     }
