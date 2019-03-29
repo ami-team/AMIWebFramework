@@ -73,8 +73,8 @@ $AMIClass('FieldEditorCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  textRegex: /^.*(?:TEXT|CLOB|BLOB).*$/,
   dateRegex: /^.*(?:DATE|TIME).*$/,
+  textRegex: /^.*(?:TEXT|CLOB|BLOB).*$/,
   numberRegex: /^.*(?:BIT|INT|FLOAT|DOUBLE|SERIAL|DECIMAL|NUMERIC).*$/,
 
   /*---------------------------------------------------------------------*/
