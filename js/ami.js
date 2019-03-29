@@ -7318,8 +7318,8 @@ $AMINamespace('amiLogin',
     /*-----------------------------------------------------------------*/
 
     $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
-    $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('href', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
     $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+    $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
     /*-----------------------------------------------------------------*/
 
     this.roleInfo = roleInfo;
