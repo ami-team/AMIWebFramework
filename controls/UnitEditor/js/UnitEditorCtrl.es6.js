@@ -34,7 +34,32 @@ $AMIClass('UnitEditorCtrl', {
 
 			this.inEditMode = false;
 
-			amiWebApp.appendHTML('body', data[0]);
+			amiWebApp.appendHTML('body', data[0]).done(() => {
+
+				const el1 = $('#CE77B2CF_A83B_854D_6B94_1A7A65555833');
+				const el2 = $('#C9712C7B_9A5C_BD83_45D1_4CC52CD81DA9');
+
+				el1.change(() => {
+
+					switch(el1.find('option:selected').val())
+					{
+						case '1000':
+							el2.find('.positive').show();
+							el2.find('.negative').show();
+							break;
+
+						case '1024':
+							el2.find('.positive').show();
+							el2.find('.negative').hide();
+							break;
+
+						default:
+							el2.find('.positive').hide();
+							el2.find('.negative').hide();
+							break;
+					}
+				});
+			});
 		});
 	},
 
