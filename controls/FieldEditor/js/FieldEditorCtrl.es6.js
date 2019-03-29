@@ -57,9 +57,11 @@ $AMIClass('FieldEditorCtrl', {
 
 		this.primaryField = primaryField;
 
+		this.el = $(selector);
+
 		/*-----------------------------------------------------------------*/
 
-		$(selector).find('div[data-action="edit"]').click((e) => {
+		this.el.find('div[data-action="edit"]').click((e) => {
 
 			if(this.inEditMode)
 			{
@@ -93,6 +95,13 @@ $AMIClass('FieldEditorCtrl', {
 
 	setInEditMode: function(inEditMode)
 	{
+		if(inEditMode) {
+			this.el.removeClass('unit-edit');
+		}
+		else {
+			this.el.addClass('unit-edit');
+		}
+
 		this.inEditMode = inEditMode;
 	},
 

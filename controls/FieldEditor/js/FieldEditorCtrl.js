@@ -45,9 +45,10 @@ $AMIClass('FieldEditorCtrl', {
 
     this.editCommandFunc = editCommandFunc;
     this.primaryField = primaryField;
+    this.el = $(selector);
     /*-----------------------------------------------------------------*/
 
-    $(selector).find('div[data-action="edit"]').click(function (e) {
+    this.el.find('div[data-action="edit"]').click(function (e) {
       if (_this2.inEditMode) {
         _this2.editField(e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-type'), e.currentTarget.getAttribute('data-row'), e.currentTarget.getAttribute('data-val'));
       }
@@ -62,6 +63,12 @@ $AMIClass('FieldEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   setInEditMode: function setInEditMode(inEditMode) {
+    if (inEditMode) {
+      this.el.removeClass('unit-edit');
+    } else {
+      this.el.addClass('unit-edit');
+    }
+
     this.inEditMode = inEditMode;
   },
 

@@ -908,28 +908,26 @@ $AMIClass('TableCtrl', {
 
 	setMode: function()
 	{
-		const tags1 = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61')
-																+ ' .edit-mode');
+		const tags1 = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
 		const tags2 = $(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850'));
+
+		const tags3 = tags1.find('.edit-mode');
+		const tags4 = tags1.find('.view-more');
 
 		if($(this.patchId('#DDC32238_DD25_8354_AC6C_F6E27CA6E18D')).prop('checked'))
 		{
-			if(this.ctx.fieldInfo.length > 0)
-			{
-				tags1.show();
-				tags2.show();
-			}
+			tags2.show();
+			tags3.show();
+			tags4.hide();
 
 			this.fieldEditor.setInEditMode(true);
 			this.unitEditor.setInEditMode(true);
 		}
 		else
 		{
-			if(/*--------*/ true /*--------*/)
-			{
-				tags1.hide();
-				tags2.hide();
-			}
+			tags2.hide();
+			tags3.hide();
+			tags4.show();
 
 			this.fieldEditor.setInEditMode(false);
 			this.unitEditor.setInEditMode(false);

@@ -348,13 +348,21 @@ $AMIClass('ElementInfoCtrl', {
 
 	setMode: function()
 	{
+		const tags1 = $(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'));
+
+		const tags2 = tags1.find('.view-more');
+
 		if($(this.patchId('#AB84A8CC_5E70_EBE7_8766_317FEE71EFE8')).prop('checked'))
 		{
+			tags2.hide();
+
 			this.fieldEditor.setInEditMode(true);
 			this.unitEditor.setInEditMode(true);
 		}
 		else
 		{
+			tags2.show();
+
 			this.fieldEditor.setInEditMode(false);
 			this.unitEditor.setInEditMode(false);
 		}

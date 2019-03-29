@@ -34,7 +34,8 @@ $AMIClass('UnitEditorCtrl', {
   setup: function setup(selector) {
     var _this2 = this;
 
-    $('div[data-unit-name]').each(function (index, item) {
+    this.el = $(selector);
+    this.el.find('[data-unit-name]').each(function (index, item) {
       var el = $(item);
       /*-------------------------------------------------------------*/
 
@@ -108,6 +109,12 @@ $AMIClass('UnitEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   setInEditMode: function setInEditMode(inEditMode) {
+    if (inEditMode) {
+      this.el.addClass('field-edit');
+    } else {
+      this.el.removeClass('field-edit');
+    }
+
     this.inEditMode = inEditMode;
   },
 
