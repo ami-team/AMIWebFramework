@@ -26,7 +26,8 @@
 								{% elseif field.$ === '@NOGO' %}
 								<div class="font-italic text-danger">admin only</div>
 								{% else %}
-								<div {% if field['properties'] is defined %}
+								<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
+								     {% if field['properties'] is defined %}
 								     {%   if field['properties']['@id'] is not empty %}id="{{field['properties']['@id']|e}}"{% endif %}
 								     {%   if field['properties']['@class'] is not empty %}class="{{field['properties']['@class']|e}}"{% endif %}
 								     {%   if field['properties']['@unitName'] is not empty %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
