@@ -114,7 +114,7 @@ $AMIClass('AdminDashboardUsers', {
 				rows2.forEach(function(row) {
 
 					var id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
-					var role = amiWebApp.jspath('..field{.@name==="role"}.$', row)[0] || '';
+					var role = amiWebApp.jspath('..field{.@name==="self.router_role.role"}.$', row)[0] || '';
 
 					users[id].roles.push(role);
 				});
