@@ -98,6 +98,7 @@ module.exports = function(grunt) {
 				"src": [
 					"css/AMI/general.css",
 					"css/AMI/bootstrap.css",
+					"css/AMI/jsdoc.css",
 					"css/AMI/ami.css"
 				],
 				"dest": "css/ami.css"
