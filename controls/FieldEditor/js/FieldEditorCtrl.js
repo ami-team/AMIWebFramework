@@ -75,7 +75,7 @@ $AMIClass('FieldEditorCtrl', {
   /*---------------------------------------------------------------------*/
   dateRegex: /^.*(?:DATE|TIME).*$/,
   textRegex: /^.*(?:TEXT|CLOB|BLOB).*$/,
-  numberRegex: /^.*(?:BIT|INT|FLOAT|DOUBLE|SERIAL|DECIMAL|NUMERIC).*$/,
+  numberRegex: /^.*(?:BIT|INT|FLOAT|DOUBLE|SERIAL|DECIMAL|NUMBER).*$/,
 
   /*---------------------------------------------------------------------*/
   editField: function editField(catalog, entity, field, type, primaryValue, value) {
