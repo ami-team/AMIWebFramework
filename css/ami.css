@@ -202,6 +202,88 @@ pre {
 /*-------------------------------------------------------------------------*/
 
 /*-------------------------------------------------------------------------*/
+
+#jsdoc_content {
+	text-align: justify;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#jsdoc_content h1 {
+	font-size: 48px;
+	font-weight: 200;
+	letter-spacing: -2px;
+	margin: 12px 24px 20px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#jsdoc_content .details {
+	border-left: 2px solid #DDD;
+	clear: both;
+	margin-top: 10px;
+	margin-bottom: 00px;
+}
+
+#jsdoc_content .details dt {
+	float: left;
+	padding-left: 10px;
+	width: 120px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#jsdoc_content .signature-name,
+#jsdoc_content .signature-params,
+#jsdoc_content .signature-params-attrs,
+#jsdoc_content .signature-attrs {
+	font-size: 18px;
+}
+
+#jsdoc_content .signature-name {
+	color: rgb(049, 112, 143);
+}
+
+#jsdoc_content .signature-params {
+	color: #000;
+}
+
+#jsdoc_content .signature-params-attrs {
+	color: #AAA;
+	font-size: 60%;
+	font-style: italic;
+}
+
+#jsdoc_content .signature-attrs {
+	color: #AAA;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#jsdoc_content .code-keyword {
+	color: rgb(0, 25, 58);
+	font-weight: bold;
+}
+
+#jsdoc_content .code-comment {
+	color: rgb(115, 129, 145);
+}
+
+#jsdoc_content .code-number {
+	color: rgb(49, 163, 84);
+}
+
+#jsdoc_content .code-regexp {
+	color: rgb(76, 129, 201);
+}
+
+#jsdoc_content .code-string {
+	color: rgb(0, 72, 171);
+}
+
+/*-------------------------------------------------------------------------*/
+
+/*-------------------------------------------------------------------------*/
 /* AMI                                                                     */
 /*-------------------------------------------------------------------------*/
 
