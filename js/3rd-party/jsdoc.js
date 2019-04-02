@@ -600,7 +600,7 @@ var jsDoc = {
 		{
 			result += '<h5><strong>Example:</strong></h5>';
 
-			result += '<pre class="ami-code"><code>' + highlight.highlight(x.examples[i], 'js') + '</code></pre>';
+			//result += '<pre class="ami-code"><code>' + highlight.highlight(x.examples[i], 'js') + '</code></pre>';
 		}
 
 		/*---------------------------------------------------------*/
