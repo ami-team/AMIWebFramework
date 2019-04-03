@@ -261,8 +261,6 @@ def updateAWF(inDebugMode, verbose):
 
 		#####################################################################
 
-		print('Ok.')
-
 		return 0
 
 	except Exception as e:
@@ -301,8 +299,6 @@ def updateTool(verbose):
 
 		#####################################################################
 
-		print('Ok.')
-
 		return 0
 
 	except Exception as e:
@@ -340,8 +336,6 @@ def createHomePage(verbose):
 		saveText('index.html', AWF_HOME_PAGE_TEMPLATE.replace("{{TITLE}}", TITLE).replace("{{ENDPOINT}}", ENDPOINT if ENDPOINT else 'https://localhost:8443/AMI/FrontEnd'))
 
 		#####################################################################
-
-		print('Ok.')
 
 		return 0
 
@@ -400,8 +394,6 @@ def createControl(verbose):
 		saveJSON('controls' + os.sep + 'CONTROLS.json', USER_CONTROLS_JSON)
 
 		#####################################################################
-
-		print('Ok.')
 
 		return 0
 
@@ -462,7 +454,45 @@ def createSubapp(verbose):
 
 		#####################################################################
 
-		print('Ok.')
+		return 0
+
+	except Exception as e:
+
+		print(e)
+
+		return 1
+
+#############################################################################
+
+def lintControls(verbose):
+
+	try:
+
+		#####################################################################
+
+		subprocess.check_call(['eslint', 'controls/**/js/*.js'])
+
+		#####################################################################
+
+		return 0
+
+	except Exception as e:
+
+		print(e)
+
+		return 1
+
+#############################################################################
+
+def lintSubapps(verbose):
+
+	try:
+
+		#####################################################################
+
+		subprocess.check_call(['eslint', 'subapps/**/js/*.js'])
+
+		#####################################################################
 
 		return 0
 
@@ -507,6 +537,8 @@ def main():
 	parser.add_argument('--create-home-page', help = 'create a new home page', action = 'store_true')
 	parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
 	parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
+	parser.add_argument('--lint-controls', help = 'lint controls', action = 'store_true')
+	parser.add_argument('--lint-subapps', help = 'lint subapps', action = 'store_true')
 	parser.add_argument('--create-id', help = 'create a new id', action = 'store_true')
 
 	parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
@@ -527,6 +559,12 @@ def main():
 
 	elif args.create_subapp:
 		return createSubapp(args.verbose)
+
+	elif args.lint_controls:
+		return lintControls(args.verbose)
+
+	elif args.lint_subapps:
+		return lintSubapps(args.verbose)
 
 	elif args.update_prod:
 		return updateAWF(False, args.verbose)
