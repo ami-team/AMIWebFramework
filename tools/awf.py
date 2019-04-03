@@ -185,7 +185,7 @@ def updateAWF(inDebugMode, verbose):
 
 		copyFiles(tempPath, '.', 'tools', 'awf.py', verbose, True)
 
-		print('%d files updated')
+		print('%d files updated' % nb)
 
 		#####################################################################
 
