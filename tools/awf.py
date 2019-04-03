@@ -356,6 +356,11 @@ def createControl(verbose):
 
 		USER_CONTROLS_JSON = loadJSON('controls' + os.sep + 'CONTROLS.json')
 
+		USER_CONTROLS_JSON[name] = {
+			'clazz': NAME + 'Ctrl',
+			'file': 'controls/' + NAME + '/js/' + NAME + 'Ctrl.js',
+		}
+
 		saveJSON('controls' + os.sep + 'CONTROLS.json', USER_CONTROLS_JSON)
 
 		#####################################################################
@@ -410,6 +415,12 @@ def createSubapp(verbose):
 		#####################################################################
 
 		USER_SUBAPPS_JSON = loadJSON('subapps' + os.sep + 'SUBAPPS.json')
+
+		USER_SUBAPPS_JSON[name] = {
+			'breadcrumb': [],
+			'instance': name + 'App',
+			'file': 'subapps/' + NAME + '/js/' + NAME + 'App.js',
+		}
 
 		saveJSON('subapps' + os.sep + 'SUBAPPS.json', USER_SUBAPPS_JSON)
 
