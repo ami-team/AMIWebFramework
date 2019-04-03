@@ -696,7 +696,7 @@ $AMIClass('{{NAME}}App', {
 			'subapps/{{NAME}}/twig/{{NAME}}App.twig',
 		], {context: this}).done(function(data) {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[1], {context: this}).done(function() {
 
 				result.resolve();
 			});
