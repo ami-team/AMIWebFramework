@@ -45,6 +45,8 @@ def gitClone(tempPath, ignore_errors = True):
 
 def copyFiles(tempPath, dst, src, _filter, verbose = True, replace = True):
 
+	result = 0
+
 	idx = len(tempPath) + len(src) + 2
 
 	for SRC in glob.glob(tempPath + os.sep + src + os.sep + _filter):
@@ -55,13 +57,15 @@ def copyFiles(tempPath, dst, src, _filter, verbose = True, replace = True):
 
 		#####################################################################
 
-		if verbose:
-
-			print('  %s <- %s' % (DST, SRC))
-
-		#####################################################################
-
 		if replace or not os.path.exists(DST):
+
+			#################################################################
+
+			if verbose:
+
+				print('  %s <- %s' % (DST, SRC))
+
+			#################################################################
 
 			if not os.path.isdir(SRC):
 
@@ -74,6 +78,14 @@ def copyFiles(tempPath, dst, src, _filter, verbose = True, replace = True):
 				shutil.rmtree(DST, ignore_errors = True)
 
 				shutil.copytree(SRC, DST)
+
+			#################################################################
+
+			result += 1
+
+		#####################################################################
+
+	return result
 
 #############################################################################
 
@@ -155,21 +167,25 @@ def updateAWF(inDebugMode, verbose):
 		print('# INSTALLING CORE FILES...                                                  #')
 		print('#############################################################################')
 
-		copyFiles(tempPath, 'css', 'css', '*.css', verbose, True)
-		copyFiles(tempPath, 'css', 'css', '3rd-party' + os.sep + '*', verbose, True)
+		nb = 0
 
-		copyFiles(tempPath, 'js', 'js', '*.js', verbose, True)
-		copyFiles(tempPath, 'js', 'js', '3rd-party' + os.sep + '*', verbose, True)
+		nb += copyFiles(tempPath, 'css', 'css', '*.css', verbose, True)
+		nb += copyFiles(tempPath, 'css', 'css', '3rd-party' + os.sep + '*', verbose, True)
 
-		copyFiles(tempPath, 'docs', 'docs', '*', verbose, False)
-		copyFiles(tempPath, 'fonts', 'fonts', '*', verbose, True)
-		copyFiles(tempPath, 'images', 'images', '*', verbose, True)
-		copyFiles(tempPath, 'twig', 'twig', '*', verbose, True)
+		nb += copyFiles(tempPath, 'js', 'js', '*.js', verbose, True)
+		nb += copyFiles(tempPath, 'js', 'js', '3rd-party' + os.sep + '*', verbose, True)
+
+		nb += copyFiles(tempPath, 'docs', 'docs', '*', verbose, False)
+		nb += copyFiles(tempPath, 'fonts', 'fonts', '*', verbose, True)
+		nb += copyFiles(tempPath, 'images', 'images', '*', verbose, True)
+		nb += copyFiles(tempPath, 'twig', 'twig', '*', verbose, True)
 
 		copyFiles(tempPath, '.', '.', 'favicon.ico', verbose, False)
 		copyFiles(tempPath, '.', '.', '.eslintrc.json', verbose, True)
 
 		copyFiles(tempPath, '.', 'tools', 'awf.py', verbose, True)
+
+		print('%d files updated')
 
 		#####################################################################
 
