@@ -513,7 +513,7 @@ def main():
 
 	parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
 	parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
-	parser.add_argument('--update-installer', help = 'update this tool (awf.py)', action = 'store_true')
+	parser.add_argument('--update-this-tool', help = 'update this tool (awf.py)', action = 'store_true')
 
 	parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
 
@@ -536,7 +536,7 @@ def main():
 	elif args.update_debug:
 		return updateAWF(True, args.verbose)
 
-	elif args.update_tool:
+	elif args.update_this_tool:
 		return updateTool(args.verbose)
 
 	#########################################################################
