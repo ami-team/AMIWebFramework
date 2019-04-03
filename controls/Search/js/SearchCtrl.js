@@ -1584,20 +1584,20 @@ $AMIClass('SearchCtrl', {
 
 			if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 			{
-				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' >= \'' + min + '\''
+				predicate.filter = '[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' >= \'' + min + '\''
 				                   +
 				                   ' AND '
 				                   +
-				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' <= \'' + max + '\''
+				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' <= \'' + max + '\']'
 				;
 			}
 			else
 			{
-				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' < \'' + min + '\''
+				predicate.filter = '[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' < \'' + min + '\''
 				                   +
 				                   ' OR '
 				                   +
-				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' > \'' + max + '\''
+				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' > \'' + max + '\']'
 				;
 			}
 		}
@@ -1633,13 +1633,13 @@ $AMIClass('SearchCtrl', {
 
 		if($(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 		{
-			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + new String(criteria.states.on).replace(/'/g, '\'\'') + '\'';
+			predicate.filter = '[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + new String(criteria.states.on).replace(/'/g, '\'\'') + '\']';
 		}
 		else
 		{
 			if(!criteria.inclusive)
 			{
-				predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + new String(criteria.states.off).replace(/'/g, '\'\'') + '\'';
+				predicate.filter = '[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + new String(criteria.states.off).replace(/'/g, '\'\'') + '\']';
 			}
 			else
 			{
