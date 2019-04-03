@@ -163,7 +163,7 @@ def updateAWF(inDebugMode, verbose):
 		copyFiles(tempPath, 'twig', 'twig', '*', verbose, True)
 
 		copyFiles(tempPath, '.', '.', 'favicon.ico', verbose, False)
-		copyFiles(tempPath, '.', '.', 'eslintrc.json', verbose, True)
+		copyFiles(tempPath, '.', '.', '.eslintrc.json', verbose, True)
 
 		copyFiles(tempPath, '.', 'tools', 'awf.py', verbose, True)
 
@@ -265,7 +265,7 @@ def updateAWF(inDebugMode, verbose):
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
@@ -303,7 +303,7 @@ def updateTool(verbose):
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
@@ -341,7 +341,7 @@ def createHomePage(verbose):
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
@@ -369,7 +369,7 @@ def createControl(verbose):
 
 		if os.path.exists('controls' + os.sep + NAME):
 
-			raise Exception('error: control already exists')
+			raise Exception('control already exists')
 
 		#####################################################################
 
@@ -399,7 +399,7 @@ def createControl(verbose):
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
@@ -427,7 +427,7 @@ def createSubapp(verbose):
 
 		if os.path.exists('subapps' + os.sep + NAME):
 
-			raise Exception('error: subapp already exists')
+			raise Exception('subapp already exists')
 
 		#####################################################################
 
@@ -458,7 +458,7 @@ def createSubapp(verbose):
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
@@ -478,7 +478,7 @@ def lintControls(verbose):
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
@@ -498,7 +498,7 @@ def lintSubapps(verbose):
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
