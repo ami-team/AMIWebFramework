@@ -33,13 +33,19 @@ def shutil_makedirs(path, ignore_errors = True):
 
 def gitClone(tempPath, ignore_errors = True):
 
-	shutil.rmtree(tempPath, ignore_errors = ignore_errors)
+	if os.path.isdir(tempPath):
 
-	subprocess.check_call(['git', 'clone', AWF_GIT_URL, tempPath])
+		subprocess.check_call(['git', 'pull'], cwd = tempPath)
+
+	else:
+
+		subprocess.check_call(['git', 'clone', AWF_GIT_URL, tempPath])
 
 #############################################################################
 
 def copyFiles(tempPath, dst, src, _filter, verbose = True, replace = True):
+
+	result = 0
 
 	idx = len(tempPath) + len(src) + 2
 
@@ -51,13 +57,15 @@ def copyFiles(tempPath, dst, src, _filter, verbose = True, replace = True):
 
 		#####################################################################
 
-		if verbose:
-
-			print('  %s <- %s' % (DST, SRC))
-
-		#####################################################################
-
 		if replace or not os.path.exists(DST):
+
+			#################################################################
+
+			if verbose:
+
+				print('  %s <- %s' % (DST, SRC))
+
+			#################################################################
 
 			if not os.path.isdir(SRC):
 
@@ -70,6 +78,14 @@ def copyFiles(tempPath, dst, src, _filter, verbose = True, replace = True):
 				shutil.rmtree(DST, ignore_errors = True)
 
 				shutil.copytree(SRC, DST)
+
+			#################################################################
+
+			result += 1
+
+		#####################################################################
+
+	return result
 
 #############################################################################
 
@@ -139,33 +155,37 @@ def updateAWF(inDebugMode, verbose):
 
 		#####################################################################
 
-		print('#############################################################################')
-		print('# DOWNLOADING AWF...                                                        #')
-		print('#############################################################################')
+		print('##############################################################################')
+		print('# DOWNLOADING AWF...                                                         #')
+		print('##############################################################################')
 
 		gitClone(tempPath)
 
 		#####################################################################
 
-		print('#############################################################################')
-		print('# INSTALLING CORE FILES...                                                  #')
-		print('#############################################################################')
+		print('##############################################################################')
+		print('# INSTALLING CORE FILES...                                                   #')
+		print('##############################################################################')
 
-		copyFiles(tempPath, 'css', 'css', '*.css', verbose, True)
-		copyFiles(tempPath, 'css', 'css', '3rd-party' + os.sep + '*', verbose, True)
+		nb = 0
 
-		copyFiles(tempPath, 'js', 'js', '*.js', verbose, True)
-		copyFiles(tempPath, 'js', 'js', '3rd-party' + os.sep + '*', verbose, True)
+		nb += copyFiles(tempPath, 'css', 'css', '*.css', verbose, True)
+		nb += copyFiles(tempPath, 'css', 'css', '3rd-party' + os.sep + '*', verbose, True)
 
-		copyFiles(tempPath, 'docs', 'docs', '*', verbose, False)
-		copyFiles(tempPath, 'fonts', 'fonts', '*', verbose, True)
-		copyFiles(tempPath, 'images', 'images', '*', verbose, True)
-		copyFiles(tempPath, 'twig', 'twig', '*', verbose, True)
+		nb += copyFiles(tempPath, 'js', 'js', '*.js', verbose, True)
+		nb += copyFiles(tempPath, 'js', 'js', '3rd-party' + os.sep + '*', verbose, True)
+
+		nb += copyFiles(tempPath, 'docs', 'docs', '*', verbose, False)
+		nb += copyFiles(tempPath, 'fonts', 'fonts', '*', verbose, True)
+		nb += copyFiles(tempPath, 'images', 'images', '*', verbose, True)
+		nb += copyFiles(tempPath, 'twig', 'twig', '*', verbose, True)
 
 		copyFiles(tempPath, '.', '.', 'favicon.ico', verbose, False)
-		copyFiles(tempPath, '.', '.', 'eslintrc.json', verbose, True)
+		copyFiles(tempPath, '.', '.', '.eslintrc.json', verbose, True)
 
 		copyFiles(tempPath, '.', 'tools', 'awf.py', verbose, True)
+
+		print('-> %d files were copied.' % nb)
 
 		#####################################################################
 
@@ -183,9 +203,9 @@ def updateAWF(inDebugMode, verbose):
 
 		#####################################################################
 
-		print('#############################################################################')
-		print('# INSTALLING DEFAULT CONTROLS...                                            #')
-		print('#############################################################################')
+		print('##############################################################################')
+		print('# INSTALLING DEFAULT CONTROLS...                                             #')
+		print('##############################################################################')
 
 		DEFAULT_CONTROLS_JSON = loadJSON(tempPath + os.sep + 'controls' + os.sep + 'CONTROLS.json')
 		USER_CONTROLS_JSON = loadJSON('controls' + os.sep + 'CONTROLS.json')
@@ -216,9 +236,9 @@ def updateAWF(inDebugMode, verbose):
 
 		#####################################################################
 
-		print('#############################################################################')
-		print('# INSTALLING DEFAULT SUBAPPS...                                             #')
-		print('#############################################################################')
+		print('##############################################################################')
+		print('# INSTALLING DEFAULT SUBAPPS...                                              #')
+		print('##############################################################################')
 
 		DEFAULT_SUBAPPS_JSON = loadJSON(tempPath + os.sep + 'subapps' + os.sep + 'SUBAPPS.json')
 		USER_SUBAPPS_JSON = loadJSON('subapps' + os.sep + 'SUBAPPS.json')
@@ -249,25 +269,23 @@ def updateAWF(inDebugMode, verbose):
 
 		#####################################################################
 
-		print('#############################################################################')
-		print('# CREATING .GITIGNORE FILE...                                               #')
-		print('#############################################################################')
+		print('##############################################################################')
+		print('# GENERATING .GITIGNORE...                                                   #')
+		print('##############################################################################')
 
 		saveText('.gitignore', '\n'.join(ignore))
 
 		#####################################################################
 
-		print('#############################################################################')
+		print('##############################################################################')
 
 		#####################################################################
-
-		print('Ok.')
 
 		return 0
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
@@ -281,33 +299,33 @@ def updateTool(verbose):
 
 		#####################################################################
 
-		print('#############################################################################')
-		print('# DOWNLOADING AWF...                                                        #')
-		print('#############################################################################')
+		print('##############################################################################')
+		print('# DOWNLOADING AWF...                                                         #')
+		print('##############################################################################')
 
 		gitClone(tempPath)
 
 		#####################################################################
 
-		print('#############################################################################')
-		print('# UPDATING AWF.PY...                                                        #')
-		print('#############################################################################')
+		print('##############################################################################')
+		print('# UPDATING AWF.PY...                                                         #')
+		print('##############################################################################')
 
 		copyFiles(tempPath, '.', 'tools', 'awf.py', verbose, True)
 
-		#####################################################################
-
-		print('#############################################################################')
+		print('-> done.')
 
 		#####################################################################
 
-		print('Ok.')
+		print('##############################################################################')
+
+		#####################################################################
 
 		return 0
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
@@ -341,13 +359,11 @@ def createHomePage(verbose):
 
 		#####################################################################
 
-		print('Ok.')
-
 		return 0
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
@@ -375,7 +391,7 @@ def createControl(verbose):
 
 		if os.path.exists('controls' + os.sep + NAME):
 
-			raise Exception('error: control already exists')
+			raise Exception('control already exists')
 
 		#####################################################################
 
@@ -401,13 +417,11 @@ def createControl(verbose):
 
 		#####################################################################
 
-		print('Ok.')
-
 		return 0
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
 
 		return 1
 
@@ -435,7 +449,7 @@ def createSubapp(verbose):
 
 		if os.path.exists('subapps' + os.sep + NAME):
 
-			raise Exception('error: subapp already exists')
+			raise Exception('subapp already exists')
 
 		#####################################################################
 
@@ -462,13 +476,51 @@ def createSubapp(verbose):
 
 		#####################################################################
 
-		print('Ok.')
+		return 0
+
+	except Exception as e:
+
+		print('error: %s' % e)
+
+		return 1
+
+#############################################################################
+
+def lintControls(verbose):
+
+	try:
+
+		#####################################################################
+
+		subprocess.check_call(['eslint', 'controls/**/js/*.js'])
+
+		#####################################################################
 
 		return 0
 
 	except Exception as e:
 
-		print(e)
+		print('error: %s' % e)
+
+		return 1
+
+#############################################################################
+
+def lintSubapps(verbose):
+
+	try:
+
+		#####################################################################
+
+		subprocess.check_call(['eslint', 'subapps/**/js/*.js'])
+
+		#####################################################################
+
+		return 0
+
+	except Exception as e:
+
+		print('error: %s' % e)
 
 		return 1
 
@@ -502,11 +554,29 @@ def main():
 
 	#########################################################################
 
+	print('''
+ █████╗ ███╗   ███╗██╗    ██╗    ██╗███████╗██████╗                           
+██╔══██╗████╗ ████║██║    ██║    ██║██╔════╝██╔══██╗                          
+███████║██╔████╔██║██║    ██║ █╗ ██║█████╗  ██████╔╝                          
+██╔══██║██║╚██╔╝██║██║    ██║███╗██║██╔══╝  ██╔══██╗                          
+██║  ██║██║ ╚═╝ ██║██║    ╚███╔███╔╝███████╗██████╔╝                          
+╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚══╝╚══╝ ╚══════╝╚═════╝                           
+███████╗██████╗  █████╗ ███╗   ███╗███████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗
+██╔════╝██╔══██╗██╔══██╗████╗ ████║██╔════╝██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝
+█████╗  ██████╔╝███████║██╔████╔██║█████╗  ██║ █╗ ██║██║   ██║██████╔╝█████╔╝ 
+██╔══╝  ██╔══██╗██╔══██║██║╚██╔╝██║██╔══╝  ██║███╗██║██║   ██║██╔══██╗██╔═██╗ 
+██║     ██║  ██║██║  ██║██║ ╚═╝ ██║███████╗╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝ ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝'''[1: ])
+
+	#########################################################################
+
 	parser = argparse.ArgumentParser()
 
 	parser.add_argument('--create-home-page', help = 'create a new home page', action = 'store_true')
 	parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
 	parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
+	parser.add_argument('--lint-controls', help = 'lint controls', action = 'store_true')
+	parser.add_argument('--lint-subapps', help = 'lint subapps', action = 'store_true')
 	parser.add_argument('--create-id', help = 'create a new id', action = 'store_true')
 
 	parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
@@ -527,6 +597,12 @@ def main():
 
 	elif args.create_subapp:
 		return createSubapp(args.verbose)
+
+	elif args.lint_controls:
+		return lintControls(args.verbose)
+
+	elif args.lint_subapps:
+		return lintSubapps(args.verbose)
 
 	elif args.update_prod:
 		return updateAWF(False, args.verbose)
