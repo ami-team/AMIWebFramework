@@ -570,7 +570,7 @@ def main():
 
 	#########################################################################
 
-	parser = argparse.ArgumentParser(epilog = 'Authors:\n\tJerome ODIER (jerome.odier@lpsc.in2p3.fr)\n\tFabian LAMBERT (fabian.lambert@lpsc.in2p3.fr)\n\tJerome FULACHIER (jerome.fulachier@lpsc.in2p3.fr')
+	parser = argparse.ArgumentParser(formatter_class = argparse.RawTextHelpFormatter, epilog = 'Authors:\n\tJerome ODIER (jerome.odier@lpsc.in2p3.fr)\n\tFabian LAMBERT (fabian.lambert@lpsc.in2p3.fr)\n\tJerome FULACHIER (jerome.fulachier@lpsc.in2p3.fr')
 
 	parser.add_argument('--create-home-page', help = 'create a new home page', action = 'store_true')
 	parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
