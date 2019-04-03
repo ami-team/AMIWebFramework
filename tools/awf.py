@@ -127,8 +127,6 @@ def saveText(fileName, data):
 
 def updateAWF(inDebugMode, verbose):
 
-	#########################################################################
-
 	ignore = [
 		'.DS_Store', '.DS_Store?',
 		'/css', '/docs/api.html', '/docs/info.html', '/fonts', '/images', '/js', '/twig',
@@ -136,8 +134,6 @@ def updateAWF(inDebugMode, verbose):
 	]
 
 	tempPath = tempfile.gettempdir() + os.sep + hashlib.md5(os.path.realpath(__file__).encode()).hexdigest()
-
-	#########################################################################
 
 	try:
 
@@ -278,6 +274,8 @@ def updateAWF(inDebugMode, verbose):
 #############################################################################
 
 def updateTool(verbose):
+
+	tempPath = tempfile.gettempdir() + os.sep + hashlib.md5(os.path.realpath(__file__).encode()).hexdigest()
 
 	try:
 
