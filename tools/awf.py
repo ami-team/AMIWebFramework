@@ -1,22 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding:utf-8 -*-
-
+#############################################################################
+# Author : Jerome ODIER
+# Email : jerome.odier@lpsc.in2p3.fr
+#
+# AMI Web Framework
+#
+# Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
+#
+# This file must be used under the terms of the CeCILL-C:
+# http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+# http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
 #############################################################################
 
 AWF_GIT_URL = 'https://github.com/ami-team/AMIWebFramework.git'
-
-#############################################################################
-
-AWF_DEFAULT_CONTROLS = [
-	'accordion', 'confirmBox', 'diffBox', 'editBox', 'elementInfo',
-	'fieldEditor', 'graph', 'messageBox', 'schema', 'search',
-	'simpleSearch', 'tab', 'table', 'textBox', 'unitEditor',
-]
-
-AWF_DEFAULT_SUBAPPS = [
-	'adminDashboard', 'command', 'document', 'emergency', 'monitoring',
-	'resetPassword', 'schemaViewer', 'tableViewer', 'taskServerAdmin',
-]
 
 #############################################################################
 
@@ -172,6 +169,8 @@ def updateAWF(inDebugMode, verbose):
 		copyFiles(tempPath, '.', '.', 'favicon.ico', verbose, False)
 		copyFiles(tempPath, '.', '.', 'eslintrc.json', verbose, True)
 
+		copyFiles(tempPath, '.', 'tools', 'awf.py', verbose, True)
+
 		#####################################################################
 
 		if inDebugMode:
@@ -197,25 +196,23 @@ def updateAWF(inDebugMode, verbose):
 
 		#####################################################################
 
-		for control in AWF_DEFAULT_CONTROLS:
+		for control in DEFAULT_CONTROLS_JSON:
 
-			if control in DEFAULT_CONTROLS_JSON:
+			#################################################################
 
-				#############################################################
+			USER_CONTROLS_JSON[control] = DEFAULT_CONTROLS_JSON[control]
 
-				USER_CONTROLS_JSON[control] = DEFAULT_CONTROLS_JSON[control]
+			#################################################################
 
-				#############################################################
+			JS = DEFAULT_CONTROLS_JSON[control]['file']
 
-				JS = DEFAULT_CONTROLS_JSON[control]['file']
+			idx = JS.find('/js/')
 
-				idx = JS.find('/js/')
+			if idx > 0:
 
-				if idx > 0:
+				copyFiles(tempPath, 'controls', 'controls', JS[9: idx], verbose)
 
-					copyFiles(tempPath, 'controls', 'controls', JS[9: idx], verbose)
-
-					ignore.append('/controls/' + JS[9: idx])
+				ignore.append('/controls/' + JS[9: idx])
 
 		#####################################################################
 
@@ -232,25 +229,23 @@ def updateAWF(inDebugMode, verbose):
 
 		#####################################################################
 
-		for subapp in AWF_DEFAULT_SUBAPPS:
+		for subapp in DEFAULT_SUBAPPS_JSON:
 
-			if subapp in DEFAULT_SUBAPPS_JSON:
+			#################################################################
 
-				#############################################################
+			USER_SUBAPPS_JSON[subapp] = DEFAULT_SUBAPPS_JSON[subapp]
 
-				USER_SUBAPPS_JSON[subapp] = DEFAULT_SUBAPPS_JSON[subapp]
+			#################################################################
 
-				#############################################################
+			JS = DEFAULT_SUBAPPS_JSON[subapp]['file']
 
-				JS = DEFAULT_SUBAPPS_JSON[subapp]['file']
+			idx = JS.find('/js/')
 
-				idx = JS.find('/js/')
+			if idx > 0:
 
-				if idx > 0:
+				copyFiles(tempPath, 'subapps', 'subapps', JS[8: idx], verbose)
 
-					copyFiles(tempPath, 'subapps', 'subapps', JS[8: idx], verbose)
-
-					ignore.append('/subapps/' + JS[8: idx])
+				ignore.append('/subapps/' + JS[8: idx])
 
 		#####################################################################
 
@@ -589,7 +584,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 AWF_CONTROL_JS_TEMPLATE = '''/*!
  * AMI Web Framework
  *
- * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -635,7 +630,7 @@ $AMIClass('{{NAME}}Ctrl', {
 AWF_CONTROL_CSS_TEMPLATE = '''/*!
  * AMI Web Framework
  *
- * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -649,7 +644,7 @@ AWF_CONTROL_CSS_TEMPLATE = '''/*!
 AWF_CONTROL_TWIG_TEMPLATE = '''<!--
  * AMI Web Framework
  *
- * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -664,7 +659,7 @@ AWF_CONTROL_TWIG_TEMPLATE = '''<!--
 AWF_SUBAPP_JS_TEMPLATE = '''/*!
  * AMI Web Framework
  *
- * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -738,7 +733,7 @@ var {{name}}App = new {{NAME}}App();
 AWF_SUBAPP_CSS_TEMPLATE = '''/*!
  * AMI Web Framework
  *
- * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -752,7 +747,7 @@ AWF_SUBAPP_CSS_TEMPLATE = '''/*!
 AWF_SUBAPP_TWIG_TEMPLATE = '''<!--
  * AMI Web Framework
  *
- * Copyright (c) 2014-XXXX The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
