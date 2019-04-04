@@ -728,7 +728,7 @@ $AMIClass('SearchCtrl', {
 		/* BUILD SQL QUERY                                                 */
 		/*-----------------------------------------------------------------*/
 
-		var mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`';
+		var mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + this.dumpConstraints(criteria);
 
 		/*-----------------------------------------------------------------*/
 		/* ADD FILTER                                                      */
@@ -832,11 +832,11 @@ $AMIClass('SearchCtrl', {
 		switch(criteria.mode)
 		{
 			case 'json':
-				mql = 'SELECT DISTINCT JSON_KEYS(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$\')';
+				mql = 'SELECT DISTINCT JSON_KEYS(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + this.dumpConstraints(criteria) + ', \'$\')';
 				break;
 			case 'simple':
 			case 'advanced':
-				mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '`';
+				mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '`' + this.dumpConstraints(criteria);
 				break;
 		}
 
@@ -941,13 +941,13 @@ $AMIClass('SearchCtrl', {
 			switch(criteria.mode)
 			{
 				case 'json':
-					mql = 'SELECT DISTINCT JSON_EXTRACT(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`, \'$.' + selectedParam + '\')';
+					mql = 'SELECT DISTINCT JSON_EXTRACT(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + this.dumpConstraints(criteria) + ', \'$.' + selectedParam + '\')';
 					break;
 				case 'simple':
-					mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '` WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '` = \'' + selectedParam + '\'';
+					mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '`' + this.dumpConstraints(criteria) + ' WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '`' + this.dumpConstraints(criteria) + ' = \'' + selectedParam + '\'';
 					break;
 				case 'advanced':
-					mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + this.ctx.predicates[name].selectedValueField + '` WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '` = \'' + selectedParam + '\'';
+					mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + this.ctx.predicates[name].selectedValueField + '`' + this.dumpConstraints(criteria) + ' WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '`' + this.dumpConstraints(criteria) + ' = \'' + selectedParam + '\'';
 					break;
 			}
 
@@ -1074,7 +1074,7 @@ $AMIClass('SearchCtrl', {
 		/* BUILD SQL QUERY                                                 */
 		/*-----------------------------------------------------------------*/
 
-		var mql = 'SELECT MIN(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`) AS `min`, MAX(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`) AS `max`';
+		var mql = 'SELECT MIN(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + this.dumpConstraints(criteria) + ') AS `min`, MAX(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + + this.dumpConstraints(criteria) + ') AS `max`';
 
 		/*-----------------------------------------------------------------*/
 
@@ -1214,7 +1214,7 @@ $AMIClass('SearchCtrl', {
 		{
 			if (this.ctx.predicates[name].criteria.mode === 'advanced')
 			{
-				var mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '` WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '` = \'' + this.ctx.predicates[name].selectedParam + '\'';
+				var mql = 'SELECT DISTINCT `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.valueField + '`' + this.dumpConstraints(criteria) + ' WHERE `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.keyField + '`' + this.dumpConstraints(criteria) + ' = \'' + this.ctx.predicates[name].selectedParam + '\'';
 
 				amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
@@ -1304,11 +1304,11 @@ $AMIClass('SearchCtrl', {
 					case 'json':
 						if (isDefaultEntity)
 						{
-							L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`,\'$.' + param + '\')' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+							L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`' + _this.dumpConstraints(criteria) + ',\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\'');
 						}
 						else
 						{
-							L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`,\'$.' + param + '\')' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+							L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`' + _this.dumpConstraints(criteria) + ',\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\']');
 						}
 						break;
 
@@ -1446,9 +1446,9 @@ $AMIClass('SearchCtrl', {
 		var filter = $(predicate.selector + ' .filter').val();
 
 		if(filter.indexOf('%') < 0) {
-			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` = \'' + filter.replace(/'/g, '\'\'') + '\'';
+			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + filter.replace(/'/g, '\'\'') + '\'';
 		} else {
-			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\'';
+			predicate.filter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'' + filter.replace(/'/g, '\'\'') + '\'';
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -1486,22 +1486,22 @@ $AMIClass('SearchCtrl', {
 		{
 			case 'json':
 					/*BERK IS NOT NULL NOT IMPLEMENTED AFTER FUNCTION*/
-					predicate.filter = 'JSON_SEARCH(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`, \'$.' + param + '\'), \'one\', \'' + filter.replace(/'/g, '\'\'') + '\') != \'\'';
+					predicate.filter = 'JSON_SEARCH(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ', \'$.' + param + '\'), \'one\', \'' + filter.replace(/'/g, '\'\'') + '\') != \'\'';
 				break;
 
 			case 'simple':
 				if(filter.indexOf('%') < 0) {
-					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
+					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '`' + this.dumpConstraints(criteria) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
 				} else {
-					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
+					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '`' + this.dumpConstraints(criteria) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criteria.valueField + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
 				}
 				break;
 
 			case 'advanced':
 				if(filter.indexOf('%') < 0) {
-					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
+					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '`' + this.dumpConstraints(criteria) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
 				} else {
-					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '` = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
+					predicate.filter = '(`' + catalog + '`.`' + entity + '`.`' + criteria.keyField + '`' + this.dumpConstraints(criteria) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
 				}
 				break;
 		}
