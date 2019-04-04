@@ -1613,6 +1613,7 @@ $AMIClass('SearchCtrl', {
 		}
 		else
 		{
+			$(predicate.selector + ' input[type="checkbox"]').prop('checked', true)
 			predicate.filter = '';
 		}
 
