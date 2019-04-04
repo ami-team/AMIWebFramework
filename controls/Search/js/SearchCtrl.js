@@ -1108,11 +1108,8 @@ $AMIClass('SearchCtrl', {
 			var min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '';
 			var max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '';
 
-			if (min !== '' && max !== '')
-			{
-				$(predicate.selector + ' input.min').val(min);
-				$(predicate.selector + ' input.max').val(max);
-			}
+			$(predicate.selector + ' input.min').val(min);
+			$(predicate.selector + ' input.max').val(max);
 
 			if(this.ctx.predicates[name].filter === '')
 			{
