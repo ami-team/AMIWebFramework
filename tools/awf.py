@@ -13,7 +13,21 @@
 # http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
 #############################################################################
 
-import sys, zlib, base64
+AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/AMIWebFramework/master/tools/awf.b64'
+
+#############################################################################
+
+import zlib, base64
+
+#############################################################################
+
+try:
+
+    import urllib.request as urllib_request
+
+except ImportError:
+
+    import urllib as urllib_request
 
 #############################################################################
 # MAIN                                                                      #
@@ -21,8 +35,14 @@ import sys, zlib, base64
 
 if __name__ == '__main__':
 
-	with open('awf.b64', 'r') as f:
+    request = urllib_request.urlopen(AWF_IMAGE_URL)
 
-		exec(zlib.decompress(base64.b64decode(f.read())))
+    try:
+
+        exec(zlib.decompress(base64.b64decode(request.read())))
+
+    finally:
+
+        request.close()
 
 #############################################################################

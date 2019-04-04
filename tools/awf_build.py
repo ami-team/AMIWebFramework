@@ -47,20 +47,26 @@ def main():
 
         #####################################################################
 
-        txt = base64.b64encode(zlib.compress(data.encode('utf-8'))).decode('utf-8')
+        try:
+
+            image = base64.b64encode(zlib.compress(data.encode('utf-8'))).decode('utf-8')
+
+        except:
+
+            image = base64.b64encode(zlib.compress(data))
 
         #####################################################################
 
         with open('awf.b64', 'w') as f:
 
-            f.write(txt)
+            f.write(image)
 
         #####################################################################
 
         return 0
 
     except Exception as e:
-
+        raise e
         print('error: %s' % e)
 
         return 1
