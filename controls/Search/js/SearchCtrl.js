@@ -119,6 +119,7 @@ $AMIClass('SearchCtrl', {
 			defaultEntity: 'router_user',
 			defaultField: 'AMIUser',
 			defaultPrimaryField: 'identifier',
+			defaultSelect : '*',
 			criterias: [
 				{name: 'Id', catalog: 'self', entity: 'router_user', field: 'id', type: 2},
 				{name: 'User1', catalog: 'self', entity: 'router_user', field: 'AMIUser', type: 0},
@@ -157,6 +158,10 @@ $AMIClass('SearchCtrl', {
 
 			if('defaultPrimaryField' in settings) {
 				this.ctx.defaultPrimaryField = settings['defaultPrimaryField'];
+			}
+
+			if('defaultSelect' in settings) {
+				this.ctx.defaultSelect = settings['defaultSelect'];
 			}
 
 			if('criterias' in settings) {
@@ -693,7 +698,7 @@ $AMIClass('SearchCtrl', {
 
 		var mql = 'SELECT COUNT(' + this.ctx.defaultPrimaryField + ') AS `nb`';
 
-		this.ctx.mql = 'SELECT *';
+		this.ctx.mql = 'SELECT ' + this.ctx.defaultSelect;
 
 		if(filter)
 		{
