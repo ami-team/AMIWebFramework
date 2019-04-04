@@ -483,6 +483,8 @@ $AMIClass('SearchCtrl', {
 						}
 					}
 
+					this.setOrReset(name, 0);
+
 					break;
 
 				/*---------------------------------------------------------*/
