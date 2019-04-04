@@ -454,6 +454,13 @@ $AMIClass('SearchCtrl', {
 						_this.setOrReset(name, 1);
 					});
 
+					el.find('input[type="checkbox"]').change(function(e) {
+
+						e.preventDefault();
+
+						_this.setOrReset(name, 0);
+					});
+
 					el.find('.timedate').daterangepicker({
 						timePicker: true,
 						timePicker24Hour: true,
