@@ -483,8 +483,6 @@ $AMIClass('SearchCtrl', {
 						}
 					}
 
-					this.setOrReset(name, 0);
-
 					break;
 
 				/*---------------------------------------------------------*/
@@ -617,6 +615,10 @@ $AMIClass('SearchCtrl', {
 
 			if(criteria.type === 4) {
 				this.toggle(name);
+			}
+			else if(criteria.type === 2 || criteria.type === 3)
+			{
+				this.setOrReset(name, 0);
 			}
 			else {
 				this.refresh(name);
