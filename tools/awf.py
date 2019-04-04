@@ -27,7 +27,7 @@ try:
 
 except ImportError:
 
-    import urllib as urllib_request
+    import urllib2 as urllib_request
 
 #############################################################################
 # MAIN                                                                      #
