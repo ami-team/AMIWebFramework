@@ -398,7 +398,7 @@ def createControl(verbose):
 
 		#####################################################################
 
-		z = re.match('^\\s*([a-zA-Z][a-zA-Z0-9]*)\\s*$', X):
+		z = re.match('^\\s*([a-zA-Z][a-zA-Z0-9]*)\\s*$', X)
 
 		if not z:
 
@@ -467,7 +467,7 @@ def createSubapp(verbose):
 
 		#####################################################################
 
-		z = re.match('^\\s*([a-zA-Z][a-zA-Z0-9]*)\\s*$', X):
+		z = re.match('^\\s*([a-zA-Z][a-zA-Z0-9]*)\\s*$', X)
 
 		if not z:
 
