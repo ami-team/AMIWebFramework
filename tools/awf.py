@@ -17,7 +17,7 @@ AWF_GIT_URL = 'https://github.com/ami-team/AMIWebFramework.git'
 
 #############################################################################
 
-import os, sys, glob, json, random, shutil, os.path, hashlib, argparse, tempfile, subprocess
+import os, re, sys, glob, json, random, shutil, os.path, hashlib, argparse, tempfile, subprocess
 
 #############################################################################
 
@@ -340,8 +340,11 @@ def createHomePage(verbose):
 		print('Page title:')
 
 		try:
+
 			TITLE = raw_input()
-		except:
+
+		except NameError as e:
+
 			TITLE = input()
 
 		#####################################################################
@@ -349,9 +352,17 @@ def createHomePage(verbose):
 		print('Service URL:')
 
 		try:
+
 			ENDPOINT = raw_input()
-		except:
+
+		except NameError as e:
+
 			ENDPOINT = input()
+
+		#####################################################################
+
+		TITLE    = TITLE   .strip()
+		ENDPOINT = ENDPOINT.strip()
 
 		#####################################################################
 
@@ -378,11 +389,22 @@ def createControl(verbose):
 		print('Control name ([a-zA-Z][a-zA-Z0-9]*):')
 
 		try:
+
 			X = raw_input()
-		except:
+
+		except NameError as e:
+
 			X = input()
 
-		X = X.strip()
+		#####################################################################
+
+		z = re.match('^\\s*([a-zA-Z][a-zA-Z0-9]*)\\s*$', X):
+
+		if not z:
+
+			raise Exception('invalid name')
+
+		X = z.group(1)
 
 		name = X[0].lower() + X[1: ]
 		NAME = X[0].upper() + X[1: ]
@@ -436,11 +458,22 @@ def createSubapp(verbose):
 		print('Subapp name ([a-zA-Z][a-zA-Z0-9]*):')
 
 		try:
+
 			X = raw_input()
-		except:
+
+		except NameError as e:
+
 			X = input()
 
-		X = X.strip()
+		#####################################################################
+
+		z = re.match('^\\s*([a-zA-Z][a-zA-Z0-9]*)\\s*$', X):
+
+		if not z:
+
+			raise Exception('invalid name')
+
+		X = z.group(1)
 
 		name = X[0].lower() + X[1: ]
 		NAME = X[0].upper() + X[1: ]
@@ -779,7 +812,7 @@ AWF_CONTROL_TWIG_TEMPLATE = '''<!--
  *
 -->
 
-<div></div>'''
+<div>{{NAME}}</div>'''
 
 #############################################################################
 
@@ -882,7 +915,7 @@ AWF_SUBAPP_TWIG_TEMPLATE = '''<!--
  *
 -->
 
-<div></div>'''
+<div>{{NAME}}</div>'''
 
 #############################################################################
 # MAIN                                                                      #
