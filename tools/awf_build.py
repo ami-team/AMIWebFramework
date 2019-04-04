@@ -57,7 +57,7 @@ def main():
 
         #####################################################################
 
-        with open('awf.b64', 'w') as f:
+        with open('awf.img', 'w') as f:
 
             f.write(image)
 
@@ -66,7 +66,7 @@ def main():
         return 0
 
     except Exception as e:
-        raise e
+
         print('error: %s' % e)
 
         return 1

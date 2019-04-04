@@ -13,7 +13,7 @@
 # http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
 #############################################################################
 
-AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/AMIWebFramework/master/tools/awf.b64'
+AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/AMIWebFramework/master/tools/awf.img'
 
 #############################################################################
 
