@@ -616,10 +616,6 @@ $AMIClass('SearchCtrl', {
 			if(criteria.type === 4) {
 				this.toggle(name);
 			}
-			else if(criteria.type === 2 || criteria.type === 3)
-			{
-				this.setOrReset(name, 0);
-			}
 			else {
 				this.refresh(name);
 			}
@@ -1100,6 +1096,8 @@ $AMIClass('SearchCtrl', {
 		/* FILL BOX                                                        */
 		/*-----------------------------------------------------------------*/
 
+		var _this = this
+
 		return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
 			if (!filter)
@@ -1109,6 +1107,8 @@ $AMIClass('SearchCtrl', {
 
 				$(predicate.selector + ' input.min').val(min);
 				$(predicate.selector + ' input.max').val(max);
+
+				_this.setOrReset(name, 0);
 			}
 
 		}).fail(function(data) {
