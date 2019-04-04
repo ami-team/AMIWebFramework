@@ -70,6 +70,7 @@ var _xqlRegions = {
 	'WHERE': 'WHERE',
 	'GROUP': 'GROUP',
 	'ORDER': 'ORDER',
+	'WAY': 'WAY',
 	'LIMIT': 'LIMIT',
 	'OFFSET': 'OFFSET',
 };
@@ -127,7 +128,14 @@ function xqlGetRegions(xql, fieldDescriptions, addCatalogInALiases)
 
 		else if(TOKEN !== 'BY')
 		{
-			tokens.push(token);
+			if(keyword === 'ORDER' && (TOKEN === 'ASC' || TOKEN === 'DESC'))
+			{
+				result['WAY'] = TOKEN;
+			}
+			else
+			{
+				tokens.push(token);
+			}
 		}
 
 		/*-----------------------------------------------------------------*/
