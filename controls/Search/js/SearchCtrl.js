@@ -1091,11 +1091,14 @@ $AMIClass('SearchCtrl', {
 
 		return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
-			var min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '';
-			var max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '';
+			if (!filter)
+			{
+				var min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '';
+				var max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '';
 
-			$(predicate.selector + ' input.min').val(min);
-			$(predicate.selector + ' input.max').val(max);
+				$(predicate.selector + ' input.min').val(min);
+				$(predicate.selector + ' input.max').val(max);
+			}
 
 		}).fail(function(data) {
 
