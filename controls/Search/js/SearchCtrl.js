@@ -1074,7 +1074,7 @@ $AMIClass('SearchCtrl', {
 		/* BUILD SQL QUERY                                                 */
 		/*-----------------------------------------------------------------*/
 
-		var mql = 'SELECT MIN(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + this.dumpConstraints(criteria) + ') AS `min`, MAX(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + + this.dumpConstraints(criteria) + ') AS `max`';
+		var mql = 'SELECT MIN(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + this.dumpConstraints(criteria) + ') AS `min`, MAX(`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + this.dumpConstraints(criteria) + ') AS `max`';
 
 		/*-----------------------------------------------------------------*/
 
