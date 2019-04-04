@@ -1111,9 +1111,9 @@ $AMIClass('SearchCtrl', {
 			$(predicate.selector + ' input.min').val(min);
 			$(predicate.selector + ' input.max').val(max);
 
-			if(false)
+			if(this.ctx.predicates[name].filter === '')
 			{
-				//_this.setOrReset(name, 0);
+				_this.setOrReset(name, 0);
 			}
 
 		}).fail(function(data) {
