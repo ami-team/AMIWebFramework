@@ -1101,7 +1101,7 @@ $AMIClass('SearchCtrl', {
 		/* FILL BOX                                                        */
 		/*-----------------------------------------------------------------*/
 
-		//var _this = this
+		var _this = this
 
 		return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criteria.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
@@ -1113,7 +1113,7 @@ $AMIClass('SearchCtrl', {
 				$(predicate.selector + ' input.min').val(min);
 				$(predicate.selector + ' input.max').val(max);
 
-				//_this.setOrReset(name, 0);
+				_this.setOrReset(name, 0);
 			}
 
 		}).fail(function(data) {
