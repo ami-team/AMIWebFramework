@@ -1617,7 +1617,7 @@ $AMIClass('SearchCtrl', {
 		}
 		else
 		{
-			$(predicate.selector + ' input[type="checkbox"]').prop('checked', true)
+			$(predicate.selector + ' input[type="checkbox"]').prop('checked', false)
 			predicate.filter = '';
 		}
 
