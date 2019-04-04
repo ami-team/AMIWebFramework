@@ -95,7 +95,7 @@ def loadJSON(fileName):
 
 	try:
 
-		with open(fileName, 'r') as f:  
+		with open(fileName, 'r') as f:
 
 			return json.load(f)
 
@@ -109,7 +109,7 @@ def saveJSON(fileName, data):
 
 	print('Saving `%s`...' % fileName)
 
-	with open(fileName, 'w') as f:  
+	with open(fileName, 'w') as f:
 
 		f.write(json.dumps(data, indent = 4, sort_keys = True))
 
@@ -121,7 +121,7 @@ def loadText(fileName):
 
 	try:
 
-		with open(fileName, 'r') as f:  
+		with open(fileName, 'r') as f:
 
 			return f.read()
 
@@ -135,7 +135,7 @@ def saveText(fileName, data):
 
 	print('Saving `%s`...' % fileName)
 
-	with open(fileName, 'w') as f:  
+	with open(fileName, 'w') as f:
 
 		f.write(data)
 
