@@ -618,6 +618,7 @@ $AMIClass('SearchCtrl', {
 			{
 			case 0:
 			case 1:
+				this.addPredicateInAST(name);
 				break;
 			case 2:
 			case 3:
