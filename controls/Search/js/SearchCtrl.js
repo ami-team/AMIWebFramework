@@ -427,19 +427,31 @@ $AMIClass('SearchCtrl', {
 						_this.viewMore(name);
 					});
 
+					var isDefaultEntity = this.ctx.defaultEntity === entity ? true : false;
+
 					if('select' in criteria)
 					{
+						var tmp = [];
+
 						for(var i in criteria.select)
 						{
 							select[criteria.select[i]] = true;
 
-							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + criteria.select[i].replace(/'/g, '\'\'') + '\'');
+							tmp.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + criteria.select[i].replace(/'/g, '\'\'') + '\'');
 						}
+
+						if (isDefaultEntity)
+						{
+							filter.push(tmp.join(' OR '));
+						}
+						else
+						{
+							filter.push('[' + tmp.join(' OR ') + ']');
+						}
+
 					}
 					else
 					{
-						var isDefaultEntity = this.ctx.defaultEntity === entity ? true : false;
-
 						if (isDefaultEntity)
 						{
 							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'%\'');
