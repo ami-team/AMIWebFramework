@@ -1621,6 +1621,8 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
+		var tmpFilter;
+
 		if(!reset)
 		{
 			var min = $(predicate.selector + ' input.min').val();
@@ -1628,20 +1630,20 @@ $AMIClass('SearchCtrl', {
 
 			if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 			{
-				predicate.filter = '[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' >= \'' + min + '\''
+				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' >= \'' + min + '\''
 				                   +
 				                   ' AND '
 				                   +
-				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' <= \'' + max + '\']'
+				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' <= \'' + max + '\''
 				;
 			}
 			else
 			{
-				predicate.filter = '[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' < \'' + min + '\''
+				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' < \'' + min + '\''
 				                   +
 				                   ' OR '
 				                   +
-				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' > \'' + max + '\']'
+				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' > \'' + max + '\''
 				;
 			}
 		}
@@ -1649,6 +1651,19 @@ $AMIClass('SearchCtrl', {
 		{
 			$(predicate.selector + ' input[type="checkbox"]').prop('checked', false)
 			predicate.filter = '';
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		var isDefaultEntity = this.ctx.defaultEntity === entity;
+
+		if(isDefaultEntity || tmpFilter === '')
+		{
+			predicate.filter = tmpFilter;
+		}
+		else
+		{
+			predicate.filter = '[' + tmpFilter + ']'
 		}
 
 		/*-----------------------------------------------------------------*/
