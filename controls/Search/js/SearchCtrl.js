@@ -1134,7 +1134,7 @@ $AMIClass('SearchCtrl', {
 			var min = amiWebApp.jspath('..field{.@name==="min"}.$', data)[0] || '@NULL';
 			var max = amiWebApp.jspath('..field{.@name==="max"}.$', data)[0] || '@NULL';
 
-			if (min !== '@NULL' && max !== '@NULL' && $(predicate.selector + ' input.min').val() !== '' && $(predicate.selector + ' input.max').val() !== '')
+			if (min !== '@NULL' && max !== '@NULL' && $(predicate.selector + ' input.min').val() === '' && $(predicate.selector + ' input.max').val() === '')
 			{
 				$(predicate.selector + ' input.min').val(min);
 				$(predicate.selector + ' input.max').val(max);
