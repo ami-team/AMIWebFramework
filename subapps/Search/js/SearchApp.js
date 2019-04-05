@@ -24,7 +24,6 @@ $AMIClass('SearchApp', {
 
 		amiWebApp.loadResources([
 			'subapps/Search/twig/SearchApp.twig',
-			'subapps/Search/css/SearchApp.css',
 		], {context: this}).done(function(data) {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
