@@ -1676,20 +1676,35 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
+		var tmpFilter;
+
 		if($(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 		{
-			predicate.filter = '[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + new String(criteria.states.on).replace(/'/g, '\'\'') + '\']';
+			tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + new String(criteria.states.on).replace(/'/g, '\'\'') + '\'';
 		}
 		else
 		{
 			if(!criteria.inclusive)
 			{
-				predicate.filter = '[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + new String(criteria.states.off).replace(/'/g, '\'\'') + '\']';
+				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = \'' + new String(criteria.states.off).replace(/'/g, '\'\'') + '\'';
 			}
 			else
 			{
-				predicate.filter = '[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'%\']';
+				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'%\'';
 			}
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		var isDefaultEntity = this.ctx.defaultEntity === entity;
+
+		if(isDefaultEntity)
+		{
+			predicate.filter = tmpFilter;
+		}
+		else
+		{
+			predicate.filter = '[' + tmpFilter + ']'
 		}
 
 		/*-----------------------------------------------------------------*/
