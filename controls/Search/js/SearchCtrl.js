@@ -1666,7 +1666,7 @@ $AMIClass('SearchCtrl', {
 			}
 			else
 			{
-				predicate.filter = '';
+				predicate.filter = '[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'%\']';
 			}
 		}
 
