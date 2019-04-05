@@ -1,17 +1,21 @@
+#!/usr/bin/env python3
+# -*- coding:utf-8 -*-
 #############################################################################
 
-import csv, json, os.path, urllib2
+import csv, json, os.path, urllib.request
+
+#############################################################################
 
 urls = [
-	'http://www.iana.org/assignments/media-types/application.csv',
-	'http://www.iana.org/assignments/media-types/audio.csv',
-	'http://www.iana.org/assignments/media-types/font.csv',
-	'http://www.iana.org/assignments/media-types/image.csv',
-	'http://www.iana.org/assignments/media-types/message.csv',
-	'http://www.iana.org/assignments/media-types/model.csv',
-	'http://www.iana.org/assignments/media-types/multipart.csv',
-	'http://www.iana.org/assignments/media-types/text.csv',
-	'http://www.iana.org/assignments/media-types/video.csv',
+    'http://www.iana.org/assignments/media-types/application.csv',
+    'http://www.iana.org/assignments/media-types/audio.csv',
+    'http://www.iana.org/assignments/media-types/font.csv',
+    'http://www.iana.org/assignments/media-types/image.csv',
+    'http://www.iana.org/assignments/media-types/message.csv',
+    'http://www.iana.org/assignments/media-types/model.csv',
+    'http://www.iana.org/assignments/media-types/multipart.csv',
+    'http://www.iana.org/assignments/media-types/text.csv',
+    'http://www.iana.org/assignments/media-types/video.csv',
 ]
 
 #############################################################################
@@ -20,17 +24,20 @@ D = {}
 
 for url in urls:
 
-	rows = csv.reader(urllib2.urlopen(url))
+    resp = urllib.request.urlopen(url)
 
-	for row in rows:
+    rows = csv.reader(resp.read().decode("utf-8"))
 
-		if len(row) == 3 and row[0] != 'Name':
+    for row in rows:
 
-			D[row[1]] = row[0]
+        if len(row) == 3 and row[0] != 'Name':
+
+            D[row[1]] = row[0]
 
 #############################################################################
 
-with open(os.path.dirname(os.path.realpath(__file__)) + '/../../controls/Schema/json/datatype.json', 'wb') as f:
+with open(os.path.dirname(os.path.realpath(__file__)) + '/../../controls/Schema/json/datatype.json', 'w') as f:
+
     json.dump(D, f)
 
 #############################################################################
