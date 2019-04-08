@@ -454,11 +454,11 @@ $AMIClass('SearchCtrl', {
 					{
 						if (isDefaultEntity)
 						{
-							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'%\'');
+							filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = ' + '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria));
 						}
 						else
 						{
-							filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'%\']');
+							filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = ' + '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ']');
 						}
 					}
 
@@ -773,24 +773,6 @@ $AMIClass('SearchCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
-
-		/*-----------------------------------------------------------------*/
-
-		var el = $(predicate.selector + ' input[type="checkbox"]');
-
-		if(el.length > 0 && predicate.filter)
-		{
-			var mode = el.prop('checked') ? ' AND ' : ' OR ';
-
-			if(filter)
-			{
-				filter += ' AND (' + predicate.filter + mode + ' [`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + ' LIKE \'%\'])';
-			}
-			else
-			{
-				filter = predicate.filter + mode + ' [`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + ' LIKE \'%\']';
-			}
-		}
 
 		/*-----------------------------------------------------------------*/
 
@@ -1136,8 +1118,24 @@ $AMIClass('SearchCtrl', {
 
 			if (min !== '@NULL' && max !== '@NULL')
 			{
-				$(predicate.selector + ' input.min').val(min);
-				$(predicate.selector + ' input.max').val(max);
+				if ($(predicate.selector + ' input.min').val() !== '' && $(predicate.selector + ' input.max').val() !== '')
+				{
+					if (predicate.select.min === '' && predicate.select.max === '')
+					{
+						$(predicate.selector + ' input.min').val(min);
+						$(predicate.selector + ' input.max').val(max);
+					}
+					else
+					{
+						$(predicate.selector + ' input.min').val(predicate.select.min);
+						$(predicate.selector + ' input.max').val(predicate.select.max);
+					}
+				}
+				else
+				{
+					$(predicate.selector + ' input.min').val(min);
+					$(predicate.selector + ' input.max').val(max);
+				}
 			}
 
 			if(this.ctx.predicates[name].filter === '')
@@ -1176,7 +1174,7 @@ $AMIClass('SearchCtrl', {
 
 		var isDefaultEntity = this.ctx.defaultEntity === entity ? true : false;
 
-		if($(predicate.selector + ' option[value="::any::"]:selected').length == 0)
+		if($(predicate.selector + ' option[value="::any::"]:selected').length === 0)
 		{
 			var _this = this;
 
@@ -1206,15 +1204,15 @@ $AMIClass('SearchCtrl', {
 
 			if (isDefaultEntity)
 			{
-				L.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'%\'');
+				L.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = `' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria));
 			}
 			else
 			{
-				L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'%\']');
+				L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = `' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ']');
 			}
 
 			predicate.filter = L
-			.join(!$(predicate.selector + ' input[type="checkbox"]').prop('checked') ? ' OR ' : ' AND ');
+				.join(!$(predicate.selector + ' input[type="checkbox"]').prop('checked') ? ' OR ' : ' AND ');
 			predicate.select = S;
 
 			/*-------------------------------------------------------------*/
@@ -1628,6 +1626,9 @@ $AMIClass('SearchCtrl', {
 			var min = $(predicate.selector + ' input.min').val();
 			var max = $(predicate.selector + ' input.max').val();
 
+			predicate.select.min = $(predicate.selector + ' input.min').val();
+			predicate.select.max = $(predicate.selector + ' input.max').val();
+
 			if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 			{
 				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' >= \'' + min + '\''
@@ -1650,7 +1651,10 @@ $AMIClass('SearchCtrl', {
 		else
 		{
 			$(predicate.selector + ' input[type="checkbox"]').prop('checked', false)
-			predicate.filter = '';
+			//predicate.filter = '';
+			predicate.select.min = '';
+			predicate.select.max = '';
+			tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) +' = `' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria);
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -1705,7 +1709,7 @@ $AMIClass('SearchCtrl', {
 			}
 			else
 			{
-				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'%\'';
+				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = `' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria);
 			}
 		}
 
