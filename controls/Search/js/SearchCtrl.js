@@ -689,7 +689,7 @@ $AMIClass('SearchCtrl', {
 			switch(predicate.criteria.type)
 			{
 				case 0:
-					this.fillStringBox(name, true, false);
+					this.fillStringBox(name, false, false);
 					break;
 
 				case 1:
