@@ -778,17 +778,21 @@ $AMIClass('SearchCtrl', {
 
 		var el = $(predicate.selector + ' input[type="checkbox"]');
 
-		if(el.length > 0 && predicate.filter)
+		if($.isEmptyObject(predicate.select))
+		{
+			filter = predicate.filter;
+		}
+		else
 		{
 			var mode = el.prop('checked') ? ' AND ' : ' OR ';
 
 			if(filter)
 			{
-				filter += ' AND (' + predicate.filter + mode + ' [`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + ' LIKE \'%\'])';
+				filter += ' AND (' + predicate.filter + mode + ' `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + ' LIKE \'%\')';
 			}
 			else
 			{
-				filter = predicate.filter + mode + ' [`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + ' LIKE \'%\']';
+				filter = predicate.filter + mode + ' `' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`' + ' LIKE \'%\'';
 			}
 		}
 
