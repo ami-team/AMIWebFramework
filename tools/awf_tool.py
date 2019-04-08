@@ -43,7 +43,7 @@ def gitClone(tempPath, git_commit_id):
 
     if git_commit_id == 'HEAD':
 
-        subprocess.check_call(['git', 'push'], cwd = tempPath)
+        subprocess.check_call(['git', 'pull'], cwd = tempPath)
 
     else:
 
