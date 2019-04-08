@@ -17,7 +17,7 @@ AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/AMIWebFramework/mast
 
 #############################################################################
 
-import ssl, zlib, base64
+import ssl, sys, zlib, base64
 
 #############################################################################
 
@@ -35,7 +35,19 @@ except ImportError:
 
 if __name__ == '__main__':
 
-    request = urllib_request.urlopen(AWF_IMAGE_URL, context = hasattr(ssl, '_create_unverified_context') and ssl._create_unverified_context() or None)
+	#########################################################################
+
+	try:
+
+	    request = urllib_request.urlopen(AWF_IMAGE_URL, context = hasattr(ssl, '_create_unverified_context') and ssl._create_unverified_context() or None)
+
+	except Exception as e:
+
+		print(e)
+
+		sys.exit(1)
+
+	#########################################################################
 
     try:
 
