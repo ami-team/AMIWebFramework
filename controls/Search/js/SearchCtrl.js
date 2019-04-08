@@ -1120,8 +1120,16 @@ $AMIClass('SearchCtrl', {
 			{
 				if ($(predicate.selector + ' input.min').val() !== '' && $(predicate.selector + ' input.max').val() !== '')
 				{
-					$(predicate.selector + ' input.min').val(predicate.select.min);
-					$(predicate.selector + ' input.max').val(predicate.select.max);
+					if (predicate.select.min === '' && predicate.select.max === '')
+					{
+						$(predicate.selector + ' input.min').val(min);
+						$(predicate.selector + ' input.max').val(max);
+					}
+					else
+					{
+						$(predicate.selector + ' input.min').val(predicate.select.min);
+						$(predicate.selector + ' input.max').val(predicate.select.max);
+					}
 				}
 				else
 				{
@@ -1643,7 +1651,10 @@ $AMIClass('SearchCtrl', {
 		else
 		{
 			$(predicate.selector + ' input[type="checkbox"]').prop('checked', false)
-			predicate.filter = '';
+			//predicate.filter = '';
+			predicate.select.min = '';
+			predicate.select.max = '';
+			tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) +' = `' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria);
 		}
 
 		/*-----------------------------------------------------------------*/
