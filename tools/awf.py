@@ -35,19 +35,19 @@ except ImportError:
 
 if __name__ == '__main__':
 
-	#########################################################################
+    #########################################################################
 
-	try:
+    try:
 
-	    request = urllib_request.urlopen(AWF_IMAGE_URL, context = hasattr(ssl, '_create_unverified_context') and ssl._create_unverified_context() or None)
+        request = urllib_request.urlopen(AWF_IMAGE_URL, context = hasattr(ssl, '_create_unverified_context') and ssl._create_unverified_context() or None)
 
-	except Exception as e:
+    except Exception as e:
 
-		print(e)
+        print(e)
 
-		sys.exit(1)
+        sys.exit(1)
 
-	#########################################################################
+    #########################################################################
 
     try:
 
