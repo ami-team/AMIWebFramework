@@ -1118,8 +1118,16 @@ $AMIClass('SearchCtrl', {
 
 			if (min !== '@NULL' && max !== '@NULL')
 			{
-				$(predicate.selector + ' input.min').val(min);
-				$(predicate.selector + ' input.max').val(max);
+				if ($(predicate.selector + ' input.min').val() !== '' && $(predicate.selector + ' input.max').val() !== '')
+				{
+					$(predicate.selector + ' input.min').val(predicate.select.min);
+					$(predicate.selector + ' input.max').val(predicate.select.max);
+				}
+				else
+				{
+					$(predicate.selector + ' input.min').val(min);
+					$(predicate.selector + ' input.max').val(max);
+				}
 			}
 
 			if(this.ctx.predicates[name].filter === '')
@@ -1609,6 +1617,9 @@ $AMIClass('SearchCtrl', {
 		{
 			var min = $(predicate.selector + ' input.min').val();
 			var max = $(predicate.selector + ' input.max').val();
+
+			predicate.select.min = $(predicate.selector + ' input.min').val();
+			predicate.select.max = $(predicate.selector + ' input.max').val();
 
 			if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 			{
