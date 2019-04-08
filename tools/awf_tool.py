@@ -33,11 +33,21 @@ def shutil_makedirs(path, ignore_errors = True):
 
 def gitClone(tempPath, git_commit_id):
 
+    #########################################################################
+
     if not os.path.isdir(tempPath):
 
-        subprocess.check_call(['git', 'clone', AWF_GIT_URL, tempPath], cwd = ((None)))
+        subprocess.check_call(['git', 'clone', AWF_GIT_URL, tempPath])
 
-    subprocess.check_call(['git', 'reset', '--hard', git_commit_id], cwd = tempPath)
+    #########################################################################
+
+    if git_commit_id == 'HEAD':
+
+        subprocess.check_call(['git', 'push'], cwd = tempPath)
+
+    else:
+
+        subprocess.check_call(['git', 'reset', '--hard', git_commit_id], cwd = tempPath)
 
 #############################################################################
 
