@@ -1687,7 +1687,7 @@ $AMIClass('SearchCtrl', {
 			}
 			else
 			{
-				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' LIKE \'%\'';
+				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria) + ' = `' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criteria);
 			}
 		}
 
