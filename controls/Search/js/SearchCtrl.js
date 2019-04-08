@@ -1164,14 +1164,14 @@ $AMIClass('SearchCtrl', {
 
 			$(predicate.selector + ' option:selected').each(function() {
 
-				/*if (isDefaultEntity)
+				if (isDefaultEntity)
 				{
 					L.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\'');
 				}
 				else
-				{*/
+				{
 					L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + _this.dumpConstraints(criteria) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\']');
-				/*}*/
+				}
 
 				S[this.value] = true;
 			});
