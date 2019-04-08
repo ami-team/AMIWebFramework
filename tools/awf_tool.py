@@ -33,7 +33,7 @@ def shutil_makedirs(path, ignore_errors = True):
 
 def gitClone(tempPath, git_commit_id):
 
-	print(tempPath)
+    print(tempPath)
 
     if not os.path.isdir(tempPath):
 
