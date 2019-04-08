@@ -31,15 +31,13 @@ def shutil_makedirs(path, ignore_errors = True):
 
 #############################################################################
 
-def gitClone(tempPath, ignore_errors = True):
+def gitClone(tempPath, git_commit_id):
 
-    if os.path.isdir(tempPath):
-
-        subprocess.check_call(['git', 'pull'], cwd = tempPath)
-
-    else:
+    if not os.path.isdir(tempPath):
 
         subprocess.check_call(['git', 'clone', AWF_GIT_URL, tempPath])
+
+    subprocess.check_call(['git', 'reset', '--hard', git_commit_id], cwd = tempPath)
 
 #############################################################################
 
@@ -141,7 +139,7 @@ def saveText(fileName, data):
 
 #############################################################################
 
-def updateAWF(inDebugMode, verbose):
+def updateAWF(inDebugMode, git_commit_id, verbose):
 
     ignore = [
         '.DS_Store', '.DS_Store?',
@@ -159,7 +157,7 @@ def updateAWF(inDebugMode, verbose):
         print('# DOWNLOADING AWF...                                                         #')
         print('##############################################################################')
 
-        gitClone(tempPath)
+        gitClone(tempPath, git_commit_id)
 
         #####################################################################
 
@@ -291,7 +289,7 @@ def updateAWF(inDebugMode, verbose):
 
 #############################################################################
 
-def updateTool(verbose):
+def updateTool(git_commit_id, verbose):
 
     tempPath = tempfile.gettempdir() + os.sep + hashlib.md5(os.path.realpath(__file__).encode()).hexdigest()
 
@@ -303,7 +301,7 @@ def updateTool(verbose):
         print('# DOWNLOADING AWF...                                                         #')
         print('##############################################################################')
 
-        gitClone(tempPath)
+        gitClone(tempPath, git_commit_id)
 
         #####################################################################
 
@@ -616,6 +614,8 @@ def main():
     parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
     parser.add_argument('--update-this-tool', help = 'update this tool (awf.py)', action = 'store_true')
 
+    parser.add_argument('--git-commit-id', help = 'git commit id', type = str, default = 'HEAD')
+
     parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
 
     args = parser.parse_args()
@@ -638,13 +638,13 @@ def main():
         return lintSubapps(args.verbose)
 
     elif args.update_prod:
-        return updateAWF(False, args.verbose)
+        return updateAWF(False, args.git_commit_id, args.verbose)
 
     elif args.update_debug:
-        return updateAWF(True, args.verbose)
+        return updateAWF(True, args.git_commit_id, args.verbose)
 
     elif args.update_this_tool:
-        return updateTool(args.verbose)
+        return updateTool(args.git_commit_id, args.verbose)
 
     #########################################################################
 
