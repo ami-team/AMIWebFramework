@@ -185,6 +185,8 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
         nb = 0
 
+        print('Copying files...')
+
         nb += copyFiles(tempPath, 'css', None, 'css', '*.css', verbose, True)
         nb += copyFiles(tempPath, 'css', None, 'css', '3rd-party' + os.sep + '*', verbose, True)
 
@@ -230,6 +232,8 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
         nb = 0
 
+        print('Copying files...')
+
         for control in DEFAULT_CONTROLS_JSON:
 
             #################################################################
@@ -266,6 +270,8 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
         #####################################################################
 
         nb = 0
+
+        print('Copying files...')
 
         for subapp in DEFAULT_SUBAPPS_JSON:
 
