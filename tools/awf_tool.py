@@ -188,10 +188,10 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
         nb += copyFiles(tempPath, 'images', 'images', '*', verbose, True)
         nb += copyFiles(tempPath, 'twig', 'twig', '*', verbose, True)
 
-        copyFiles(tempPath, '.', '.', 'favicon.ico', verbose, False)
-        copyFiles(tempPath, '.', '.', '.eslintrc.json', verbose, True)
+        copyFiles(tempPath, 'favicon.ico', '.', 'favicon.ico', verbose, False)
+        copyFiles(tempPath, '.eslintrc.json', '.', '.eslintrc.json', verbose, True)
 
-        copyFiles(tempPath, '.', 'tools', 'awf.py', verbose, True)
+        copyFiles(tempPath, 'awf.py', 'tools', 'awf_stub.py', verbose, True)
 
         print('-> %d files were copied.' % nb)
 
