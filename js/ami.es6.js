@@ -5690,7 +5690,7 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
 
 $AMINamespace('ami', {
 
-	version: '0.0.1-SNAPSHOT',
+	version: '0.0.1',
 	commit_id: '{{AMI_COMMIT_ID}}',
 });
 
