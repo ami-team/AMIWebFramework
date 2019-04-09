@@ -105,6 +105,18 @@ def copyFiles(tempPath, dstDir, dstName, srcDir, srcName, verbose = True, replac
 
 #############################################################################
 
+def replaceStringInFile(fileName, oldStr, newStr):
+
+    with open(fileName, 'r') as f:
+        txt = f.read()
+
+    txt = txt.replace(oldStr, newStr)
+
+    with open(fileName, 'w') as f:
+        f.write(txt)
+
+#############################################################################
+
 def loadJSON(fileName):
 
     print('Loading `%s`...' % fileName)
@@ -218,6 +230,11 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
             os.remove('css' + os.sep + 'ami.css')
             os.remove('js' + os.sep + 'ami.js')
             os.remove('js' + os.sep + 'ami.es6.js')
+
+        #####################################################################
+
+		replaceInFile('js' + os.sep + 'ami.js', '{{AMI_COMMIT}}', '?')
+		replaceInFile('js' + os.sep + 'ami.es6.js', '{{AMI_COMMIT}}', '?')
 
         #####################################################################
 
