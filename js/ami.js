@@ -7460,7 +7460,7 @@ $AMINamespace('amiLogin',
       dict['icon'] = icon;
       /*-------------------------------------------------------------*/
 
-      amiWebApp.replaceHTML('#ami_login_content', this.fragmentLogoutButton, {
+      amiWebApp.replaceHTML('#ami_login_menu_content', this.fragmentLogoutButton, {
         dict: dict
       }).done(function () {
         amiWebApp.triggerLogin().then(function () {
@@ -7472,7 +7472,7 @@ $AMINamespace('amiLogin',
       /*-------------------------------------------------------------*/
     } else {
       /*-------------------------------------------------------------*/
-      amiWebApp.replaceHTML('#ami_login_content', this.fragmentLoginButton, {
+      amiWebApp.replaceHTML('#ami_login_menu_content', this.fragmentLoginButton, {
         dict: dict
       }).done(function () {
         amiWebApp.triggerLogout().then(function () {

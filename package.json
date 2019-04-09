@@ -21,9 +21,11 @@
     "grunt-contrib-uglify-es": "^3.3.0",
     "grunt-eslint": "^21.0.0",
     "grunt-jsdoc": "^2.3.0",
+    "grunt-exec": "^3.0.0",
     "jsdoc": "git://github.com/jsdoc3/jsdoc.git"
   },
   "keywords": [
-    "ami"
+    "ami",
+    "awf"
   ]
 }

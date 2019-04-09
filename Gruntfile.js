@@ -181,6 +181,12 @@ module.exports = function(grunt) {
 					"js/ami.min.js": "js/ami.js"
 				}
 			}
+		},
+
+		/*-----------------------------------------------------------------*/
+
+		"exec": {
+			"awf_build": "python tools/awf_build.py"
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -199,9 +205,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-eslint");
 	grunt.loadNpmTasks("grunt-babel");
 
+	/**/
+
+	grunt.loadNpmTasks('grunt-exec');
+
 	/*---------------------------------------------------------------------*/
 
-	grunt.registerTask("build", ["jsdoc", "concat", "autoprefixer", "eslint", "babel", "cssmin", "uglify"]);
+	grunt.registerTask("build", ["jsdoc", "concat", "autoprefixer", "eslint", "babel", "cssmin", "uglify", "exec"]);
 
 	/*---------------------------------------------------------------------*/
 };

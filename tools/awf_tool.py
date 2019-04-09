@@ -690,7 +690,9 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 
 			amiWebApp.onRefresh = function(isAuth)
 			{
-				var menu =
+				/*---------------------------------------------------------*/
+
+				var main_menu =
 					'<li class="nav-item dropdown">' +
 					'	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
 					'		Search' +
@@ -715,7 +717,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 
 				if(amiLogin.hasRole('AMI_ADMIN'))
 				{
-					menu +=
+					main_menu +=
 						'<li class="nav-item dropdown">' +
 						'	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
 						'		<i class="fa fa-key"></i> Admin' +
@@ -730,7 +732,15 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 					;
 				}
 
-				$('#ami_menu_content').html(menu);
+				$('#ami_main_menu_content').html(main_menu);
+
+				/*----------------------------------------------------*/
+
+				var user_menu = '';
+
+				$('#ami_user_menu_content').html(user_menu);
+
+				/*---------------------------------------------------------*/
 			};
 
 			amiWebApp.onReady = function()

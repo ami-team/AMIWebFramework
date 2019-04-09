@@ -452,7 +452,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			amiWebApp.replaceHTML('#ami_login_content', this.fragmentLogoutButton, {dict: dict}).done(() => {
+			amiWebApp.replaceHTML('#ami_login_menu_content', this.fragmentLogoutButton, {dict: dict}).done(() => {
 
 				amiWebApp.triggerLogin().then(() => {
 
@@ -470,7 +470,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		{
 			/*-------------------------------------------------------------*/
 
-			amiWebApp.replaceHTML('#ami_login_content', this.fragmentLoginButton, {dict: dict}).done(() => {
+			amiWebApp.replaceHTML('#ami_login_menu_content', this.fragmentLoginButton, {dict: dict}).done(() => {
 
 				amiWebApp.triggerLogout().then(() => {
 
