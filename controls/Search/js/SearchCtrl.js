@@ -1132,7 +1132,7 @@ $AMIClass('SearchCtrl', {
 
 			if (min !== '@NULL' && max !== '@NULL')
 			{
-				if ($(predicate.selector + ' input.min').val() !== '' && $(predicate.selector + ' input.max').val() !== '')
+				if (($.isEmptyObject(predicate.select.min) || predicate.select.min === '') && ($.isEmptyObject(predicate.select.max) || predicate.select.max === ''))
 				{
 					if (predicate.select.min === '' && predicate.select.max === '')
 					{
@@ -1150,11 +1150,6 @@ $AMIClass('SearchCtrl', {
 					$(predicate.selector + ' input.min').val(min);
 					$(predicate.selector + ' input.max').val(max);
 				}
-			}
-
-			if(this.ctx.predicates[name].filter === '')
-			{
-				_this.setOrReset(name, 0);
 			}
 
 		}).fail(function(data) {
