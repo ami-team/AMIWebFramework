@@ -1134,7 +1134,7 @@ $AMIClass('SearchCtrl', {
 			{
 				if ($(predicate.selector + ' input.min').val() !== '' && $(predicate.selector + ' input.max').val() !== '')
 				{
-					if (predicate.select.min === '' && predicate.select.max === '')
+					if (($.isEmptyObject(predicate.select.min) || predicate.select.min === '') && ($.isEmptyObject(predicate.select.max) || predicate.select.max === ''))
 					{
 						$(predicate.selector + ' input.min').val(min);
 						$(predicate.selector + ' input.max').val(max);
