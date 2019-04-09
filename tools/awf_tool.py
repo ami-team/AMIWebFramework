@@ -598,7 +598,6 @@ def main():
 
     parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
     parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
-    parser.add_argument('--update-this-tool', help = 'update this tool (awf.py)', action = 'store_true')
 
     parser.add_argument('--git-commit-id', help = 'git commit id (default: HEAD)', type = str, default = 'HEAD')
 
