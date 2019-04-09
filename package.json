@@ -1,6 +1,6 @@
 {
   "name": "ami-web-framework",
-  "version": "0.0.1-SNAPSHOT",
+  "version": "0.0.1",
   "description": "AMI Web Framework",
   "author": "The AMI Team, Jerome Odier <jerome.odier@lpsc.in2p3.fr>",
   "license": "CECILL-C",
@@ -20,8 +20,8 @@
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-uglify-es": "^3.3.0",
     "grunt-eslint": "^21.0.0",
-    "grunt-jsdoc": "^2.3.0",
     "grunt-exec": "^3.0.0",
+    "grunt-jsdoc": "^2.3.0",
     "jsdoc": "git://github.com/jsdoc3/jsdoc.git"
   },
   "keywords": [
