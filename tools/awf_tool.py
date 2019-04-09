@@ -109,7 +109,7 @@ def copyFiles(tempPath, dstDir, dstName, srcDir, srcName, verbose = True, replac
 
 #############################################################################
 
-def replaceStringInFile(fileName, oldStr, newStr):
+def replaceStrInFile(fileName, oldStr, newStr):
 
     with open(fileName, 'r') as f:
         txt = f.read()
@@ -237,8 +237,8 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
         #####################################################################
 
-        replaceInFile('js' + os.sep + 'ami.js', '{{AMI_COMMIT_ID}}', commit_id)
-        replaceInFile('js' + os.sep + 'ami.es6.js', '{{AMI_COMMIT_ID}}', commit_id)
+        replaceStrInFile('js' + os.sep + 'ami.js', '{{AMI_COMMIT_ID}}', commit_id)
+        replaceStrInFile('js' + os.sep + 'ami.es6.js', '{{AMI_COMMIT_ID}}', commit_id)
 
         #####################################################################
 
