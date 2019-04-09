@@ -117,6 +117,8 @@ def copyFiles(tempPath, dstDir, dstName, srcDir, srcName, verbose = True, replac
 
 def replaceStrInFile(fileName, oldStr, newStr):
 
+    print('Patching `%s`...' % fileName)
+
     with open(fileName, 'rt') as f:
         txt = f.read()
 
