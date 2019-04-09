@@ -49,6 +49,10 @@ def gitClone(tempPath, git_commit_id):
 
         subprocess.check_call(['git', 'reset', '--hard', git_commit_id], cwd = tempPath)
 
+    #########################################################################
+
+	return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath)
+
 #############################################################################
 
 def copyFiles(tempPath, dstDir, dstName, srcDir, srcName, verbose = True, replace = True):
@@ -187,7 +191,7 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
         print('# DOWNLOADING AWF...                                                         #')
         print('##############################################################################')
 
-        gitClone(tempPath, git_commit_id)
+        commit_id = gitClone(tempPath, git_commit_id)
 
         #####################################################################
 
@@ -233,8 +237,8 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
         #####################################################################
 
-		replaceInFile('js' + os.sep + 'ami.js', '{{AMI_COMMIT_ID}}', '?')
-		replaceInFile('js' + os.sep + 'ami.es6.js', '{{AMI_COMMIT_ID}}', '?')
+		replaceInFile('js' + os.sep + 'ami.js', '{{AMI_COMMIT_ID}}', commit_id)
+		replaceInFile('js' + os.sep + 'ami.es6.js', '{{AMI_COMMIT_ID}}', commit_id)
 
         #####################################################################
 
