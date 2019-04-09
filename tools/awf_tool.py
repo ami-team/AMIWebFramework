@@ -51,7 +51,7 @@ def gitClone(tempPath, git_commit_id):
 
     #########################################################################
 
-	return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath)
+    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath)
 
 #############################################################################
 
