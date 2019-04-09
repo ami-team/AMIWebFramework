@@ -1,11 +1,15 @@
 module.exports = function(grunt) {
 	/*---------------------------------------------------------------------*/
 
-    var AMI_VERSION = grunt.file.readJSON("package.json")["version"];
+	var PACKAGE_JSON = grunt.file.readJSON("package.json");
 
 	/*---------------------------------------------------------------------*/
 
 	var CURRENT_YEAR = grunt.template.today("yyyy");
+
+	/*---------------------------------------------------------------------*/
+
+	var AMI_VERSION = PACKAGE_JSON["version"];
 
 	/*---------------------------------------------------------------------*/
 
@@ -47,7 +51,13 @@ module.exports = function(grunt) {
 	grunt.initConfig({
 		/*-----------------------------------------------------------------*/
 
-		"pkg": grunt.file.readJSON("package.json"),
+		"pkg": PACKAGE_JSON,
+
+		/*-----------------------------------------------------------------*/
+
+		"exec": {
+			"awf_build": "python tools/awf_build.py"
+		},
 
 		/*-----------------------------------------------------------------*/
 
@@ -80,8 +90,8 @@ module.exports = function(grunt) {
 
 						return src.replace(/\'use strict\'\s*;\n*/g, "")
 						          .replace(/\"use strict\"\s*;\n*/g, "")
-						          .replace(/{{AMI_VERSION}}/g, AMI_VERSION)
 						          .replace(/{{CURRENT_YEAR}}/g, CURRENT_YEAR)
+						          .replace(/{{AMI_VERSION}}/g, AMI_VERSION)
 						;
 					}
 				},
@@ -159,7 +169,7 @@ module.exports = function(grunt) {
 		"cssmin": {
 			"css": {
 				"options": {
-					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / IN2P3\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
+					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / CNRS\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
 					"compress": true
 				},
 				"files": {
@@ -173,7 +183,7 @@ module.exports = function(grunt) {
 		"uglify": {
 			"js": {
 				"options": {
-					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / IN2P3\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
+					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / CNRS\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
 					"compress": true
 				},
 				"files": {
@@ -181,12 +191,6 @@ module.exports = function(grunt) {
 					"js/ami.min.js": "js/ami.js"
 				}
 			}
-		},
-
-		/*-----------------------------------------------------------------*/
-
-		"exec": {
-			"awf_build": "python tools/awf_build.py"
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -194,24 +198,18 @@ module.exports = function(grunt) {
 
 	/*---------------------------------------------------------------------*/
 
+	grunt.loadNpmTasks("grunt-autoprefixer");
+	grunt.loadNpmTasks("grunt-babel");
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-cssmin");
 	grunt.loadNpmTasks("grunt-contrib-uglify-es");
-
-	/**/
-
-	grunt.loadNpmTasks("grunt-jsdoc");
-	grunt.loadNpmTasks("grunt-autoprefixer");
 	grunt.loadNpmTasks("grunt-eslint");
-	grunt.loadNpmTasks("grunt-babel");
-
-	/**/
-
 	grunt.loadNpmTasks('grunt-exec');
+	grunt.loadNpmTasks("grunt-jsdoc");
 
 	/*---------------------------------------------------------------------*/
 
-	grunt.registerTask("build", ["jsdoc", "concat", "autoprefixer", "eslint", "babel", "cssmin", "uglify", "exec"]);
+	grunt.registerTask("build", ["exec", "jsdoc", "concat", "autoprefixer", "eslint", "babel", "cssmin", "uglify"]);
 
 	/*---------------------------------------------------------------------*/
 };
