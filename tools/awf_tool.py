@@ -315,46 +315,6 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
 #############################################################################
 
-def updateTool(git_commit_id, verbose):
-
-    tempPath = tempfile.gettempdir() + os.sep + hashlib.md5(os.path.realpath(__file__).encode()).hexdigest()
-
-    try:
-
-        #####################################################################
-
-        print('##############################################################################')
-        print('# DOWNLOADING AWF...                                                         #')
-        print('##############################################################################')
-
-        gitClone(tempPath, git_commit_id)
-
-        #####################################################################
-
-        print('##############################################################################')
-        print('# UPDATING AWF.PY...                                                         #')
-        print('##############################################################################')
-
-        copyFiles(tempPath, '.', 'tools', 'awf.py', verbose, True)
-
-        print('-> done.')
-
-        #####################################################################
-
-        print('##############################################################################')
-
-        #####################################################################
-
-        return 0
-
-    except Exception as e:
-
-        print('error: %s' % e)
-
-        return 1
-
-#############################################################################
-
 def createHomePage(verbose):
 
     try:
@@ -640,7 +600,7 @@ def main():
     parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
     parser.add_argument('--update-this-tool', help = 'update this tool (awf.py)', action = 'store_true')
 
-    parser.add_argument('--git-commit-id', help = 'git commit id', type = str, default = 'HEAD')
+    parser.add_argument('--git-commit-id', help = 'git commit id (default: HEAD)', type = str, default = 'HEAD')
 
     parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
 
@@ -668,9 +628,6 @@ def main():
 
     elif args.update_debug:
         return updateAWF(True, args.git_commit_id, args.verbose)
-
-    elif args.update_this_tool:
-        return updateTool(args.git_commit_id, args.verbose)
 
     #########################################################################
 
