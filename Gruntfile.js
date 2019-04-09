@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 	/*---------------------------------------------------------------------*/
 
-    var AMI_VERSION = '0.0.1-SNAPSHOT';
+    var AMI_VERSION = grunt.file.readJSON("package.json")["version"];
 
 	/*---------------------------------------------------------------------*/
 
