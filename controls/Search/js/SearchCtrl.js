@@ -1152,6 +1152,11 @@ $AMIClass('SearchCtrl', {
 				}
 			}
 
+			if(this.ctx.predicates[name].filter === '')
+			{
+				_this.setOrReset(name, 0);
+			}
+
 		}).fail(function(data) {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
