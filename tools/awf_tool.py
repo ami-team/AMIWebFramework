@@ -51,17 +51,25 @@ def gitClone(tempPath, git_commit_id):
 
 #############################################################################
 
-def copyFiles(tempPath, dst, src, _filter, verbose = True, replace = True):
+def copyFiles(tempPath, dstDir, dstName, srcDir, srcName, verbose = True, replace = True):
 
     result = 0
 
-    idx = len(tempPath) + len(src) + 2
+    idx = len(tempPath) + 1 + len(srcDir) + 1
 
-    for SRC in glob.glob(tempPath + os.sep + src + os.sep + _filter):
+    for SRC in glob.glob(tempPath + os.sep + srcDir + os.sep + srcName):
 
         #####################################################################
 
-        DST = dst + os.sep + SRC[idx: ]
+        DST = dstDir + os.sep + SRC[idx: ]
+
+        DSTDir = os.path.dirname(DST)
+
+        #####################################################################
+
+        if dstName is not None:
+
+            DST = DSTDir + os.sep + dstName
 
         #####################################################################
 
@@ -77,7 +85,7 @@ def copyFiles(tempPath, dst, src, _filter, verbose = True, replace = True):
 
             if not os.path.isdir(SRC):
 
-                shutil_makedirs(os.path.dirname(DST), ignore_errors = True)
+                shutil_makedirs(DSTDir, ignore_errors = True)
 
                 shutil.copy(SRC, DST)
 
@@ -177,23 +185,23 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
         nb = 0
 
-        nb += copyFiles(tempPath, 'css', 'css', '*.css', verbose, True)
-        nb += copyFiles(tempPath, 'css', 'css', '3rd-party' + os.sep + '*', verbose, True)
+        nb += copyFiles(tempPath, 'css', None, 'css', '*.css', verbose, True)
+        nb += copyFiles(tempPath, 'css', None, 'css', '3rd-party' + os.sep + '*', verbose, True)
 
-        nb += copyFiles(tempPath, 'js', 'js', '*.js', verbose, True)
-        nb += copyFiles(tempPath, 'js', 'js', '3rd-party' + os.sep + '*', verbose, True)
+        nb += copyFiles(tempPath, 'js', None, 'js', '*.js', verbose, True)
+        nb += copyFiles(tempPath, 'js', None, 'js', '3rd-party' + os.sep + '*', verbose, True)
 
-        nb += copyFiles(tempPath, 'docs', 'docs', '*', verbose, False)
-        nb += copyFiles(tempPath, 'fonts', 'fonts', '*', verbose, True)
-        nb += copyFiles(tempPath, 'images', 'images', '*', verbose, True)
-        nb += copyFiles(tempPath, 'twig', 'twig', '*', verbose, True)
+        nb += copyFiles(tempPath, 'docs', None, 'docs', '*', verbose, False)
+        nb += copyFiles(tempPath, 'fonts', None, 'fonts', '*', verbose, True)
+        nb += copyFiles(tempPath, 'images', None, 'images', '*', verbose, True)
+        nb += copyFiles(tempPath, 'twig', None, 'twig', '*', verbose, True)
 
-        copyFiles(tempPath, 'favicon.ico', '.', 'favicon.ico', verbose, False)
-        copyFiles(tempPath, '.eslintrc.json', '.', '.eslintrc.json', verbose, True)
+        nb += copyFiles(tempPath, '.', None, '.', 'favicon.ico', verbose, False)
+        nb += copyFiles(tempPath, '.', None, '.', '.eslintrc.json', verbose, True)
 
-        copyFiles(tempPath, 'awf.py', 'tools', 'awf_stub.py', verbose, True)
+        nb += copyFiles(tempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
 
-        print('-> %d files were copied.' % nb)
+        print('-> %d files copied.' % nb)
 
         #####################################################################
 
@@ -220,6 +228,8 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
         #####################################################################
 
+        nb = 0
+
         for control in DEFAULT_CONTROLS_JSON:
 
             #################################################################
@@ -234,9 +244,11 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
             if idx > 0:
 
-                copyFiles(tempPath, 'controls', 'controls', JS[9: idx], verbose)
+                nb += copyFiles(tempPath, 'controls', None, 'controls', JS[9: idx], verbose)
 
                 ignore.append('/controls/' + JS[9: idx])
+
+        print('-> %d files copied.' % nb)
 
         #####################################################################
 
@@ -253,6 +265,8 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
         #####################################################################
 
+        nb = 0
+
         for subapp in DEFAULT_SUBAPPS_JSON:
 
             #################################################################
@@ -267,9 +281,11 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
             if idx > 0:
 
-                copyFiles(tempPath, 'subapps', 'subapps', JS[8: idx], verbose)
+                nb += copyFiles(tempPath, 'subapps', None, 'subapps', JS[8: idx], verbose)
 
                 ignore.append('/subapps/' + JS[8: idx])
+
+        print('-> %d files copied.' % nb)
 
         #####################################################################
 
