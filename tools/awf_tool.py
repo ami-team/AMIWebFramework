@@ -51,7 +51,13 @@ def gitClone(tempPath, git_commit_id):
 
     #########################################################################
 
-    return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath)
+    if sys.version_info < (3, 0):
+
+        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath).strip()
+
+    else:
+
+        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath).decode('utf-8').strip()
 
 #############################################################################
 
@@ -111,12 +117,12 @@ def copyFiles(tempPath, dstDir, dstName, srcDir, srcName, verbose = True, replac
 
 def replaceStrInFile(fileName, oldStr, newStr):
 
-    with open(fileName, 'r') as f:
+    with open(fileName, 'rt') as f:
         txt = f.read()
 
-    txt = txt.replace(oldStr, newStr)
+    txt = txt.replace(oldStr, newStr, 1)
 
-    with open(fileName, 'w') as f:
+    with open(fileName, 'wt') as f:
         f.write(txt)
 
 #############################################################################
@@ -127,7 +133,7 @@ def loadJSON(fileName):
 
     try:
 
-        with open(fileName, 'r') as f:
+        with open(fileName, 'rt') as f:
 
             return json.load(f)
 
@@ -141,7 +147,7 @@ def saveJSON(fileName, data):
 
     print('Saving `%s`...' % fileName)
 
-    with open(fileName, 'w') as f:
+    with open(fileName, 'wt') as f:
 
         f.write(json.dumps(data, indent = 4, sort_keys = True))
 
@@ -153,7 +159,7 @@ def loadText(fileName):
 
     try:
 
-        with open(fileName, 'r') as f:
+        with open(fileName, 'rt') as f:
 
             return f.read()
 
@@ -167,7 +173,7 @@ def saveText(fileName, data):
 
     print('Saving `%s`...' % fileName)
 
-    with open(fileName, 'w') as f:
+    with open(fileName, 'wt') as f:
 
         f.write(data)
 
@@ -191,7 +197,7 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
         print('# DOWNLOADING AWF...                                                         #')
         print('##############################################################################')
 
-        commit_id = gitClone(tempPath, git_commit_id)
+        git_short_commit_id = gitClone(tempPath, git_commit_id)
 
         #####################################################################
 
@@ -237,8 +243,8 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
         #####################################################################
 
-        replaceStrInFile('js' + os.sep + 'ami.min.js', '{{AMI_COMMIT_ID}}', commit_id)
-        replaceStrInFile('js' + os.sep + 'ami.es6.min.js', '{{AMI_COMMIT_ID}}', commit_id)
+        replaceStrInFile('js' + os.sep + 'ami.min.js', '{{AMI_COMMIT_ID}}', git_short_commit_id)
+        replaceStrInFile('js' + os.sep + 'ami.es6.min.js', '{{AMI_COMMIT_ID}}', git_short_commit_id)
 
         #####################################################################
 
