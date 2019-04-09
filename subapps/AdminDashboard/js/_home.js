@@ -38,6 +38,10 @@ $AMIClass('AdminDashboardHome', {
 
 					$('#D9C3541F_3534_1312_4C08_F22962C05347').text(JSPath.version);
 
+					$('#E15C9F8C-A955-2643-196B-BBF3317D1616').text(ami.version);
+
+					$('#A47094A8-3D38-666B-E542-2C88AC486E1D').text(ami.commit_id);
+
 					/*-----------------------------------------------------*/
 
 					var options1 = {

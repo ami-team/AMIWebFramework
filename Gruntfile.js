@@ -1,7 +1,11 @@
 module.exports = function(grunt) {
 	/*---------------------------------------------------------------------*/
 
-	var year = grunt.template.today("yyyy");
+    var AMI_VERSION = '0.0.1-SNAPSHOT';
+
+	/*---------------------------------------------------------------------*/
+
+	var CURRENT_YEAR = grunt.template.today("yyyy");
 
 	/*---------------------------------------------------------------------*/
 
@@ -76,7 +80,8 @@ module.exports = function(grunt) {
 
 						return src.replace(/\'use strict\'\s*;\n*/g, "")
 						          .replace(/\"use strict\"\s*;\n*/g, "")
-						          .replace(/{{YEAR}}/g, year)
+						          .replace(/{{AMI_VERSION}}/g, AMI_VERSION)
+						          .replace(/{{CURRENT_YEAR}}/g, CURRENT_YEAR)
 						;
 					}
 				},
@@ -154,7 +159,7 @@ module.exports = function(grunt) {
 		"cssmin": {
 			"css": {
 				"options": {
-					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + year + " The AMI Team / LPSC / IN2P3\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
+					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / IN2P3\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
 					"compress": true
 				},
 				"files": {
@@ -168,7 +173,7 @@ module.exports = function(grunt) {
 		"uglify": {
 			"js": {
 				"options": {
-					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + year + " The AMI Team / LPSC / IN2P3\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
+					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / IN2P3\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
 					"compress": true
 				},
 				"files": {
