@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 		"Opera >= 30"
 	];
 
-	grunt.log.writeln('Building AWF for: ' + browserslist.join(', '));
+	grunt.log.writeln("Building AWF for: " + browserslist.join(", "));
 
 	/*---------------------------------------------------------------------*/
 
@@ -37,9 +37,9 @@ module.exports = function(grunt) {
 
 		paths.forEach(function(path) {
 
-			grunt.file.expand(path + '/*.es6.js').forEach(function(file) {
+			grunt.file.expand(path + "/*.es6.js").forEach(function(file) {
 
-				result[file.substring(0, file.length - 6) + 'js'] = file;
+				result[file.substring(0, file.length - 6) + "js"] = file;
 			});
 		});
 
@@ -157,9 +157,9 @@ module.exports = function(grunt) {
 					}]]
 				},
 				"files": findES6Files([
-					'./js',
-					'./controls/**',
-					'./subapps/**'
+					"./js",
+					"./controls/**",
+					"./subapps/**"
 				])
 			}
 		},
@@ -204,7 +204,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-cssmin");
 	grunt.loadNpmTasks("grunt-contrib-uglify-es");
 	grunt.loadNpmTasks("grunt-eslint");
-	grunt.loadNpmTasks('grunt-exec');
+	grunt.loadNpmTasks("grunt-exec");
 	grunt.loadNpmTasks("grunt-jsdoc");
 
 	/*---------------------------------------------------------------------*/
