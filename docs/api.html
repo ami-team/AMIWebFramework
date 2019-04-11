@@ -47,7 +47,7 @@
 
 		<pre class="ami-code"><code><i class="line-number"></i>mkdir myapp</code>
 <code><i class="line-number"></i>cd myapp</code>
-<code><i class="line-number"></i>curl https://rawgit.com/ami-team/AMIWebFramework/master/tools/build.xml &gt; build.xml</code>
+<code><i class="line-number"></i>curl https://rawgit.com/ami-team/AMIWebFramework/master/tools/awf_tool.py &gt; awf.py</code>
 <code><i class="line-number"></i>ant setup-prod    # setup AWF in prod. mode</code>
 <code><i class="line-number"></i># or:</code>
 <code><i class="line-number"></i>ant setup-debug   # setup AWF in debug mode</code>
@@ -123,13 +123,13 @@
 
 		<h3>Creating a new application</h3>
 
-		<pre class="ami-code"><code><i class="line-number"></i>ant make-subapp</code>
+		<pre class="ami-code"><code><i class="line-number"></i>./awf.py --create-subapp</code>
 </pre>
 		You are asked to specify the application's name.
 
 		<h3>Creating a new control</h3>
 
-		<pre class="ami-code"><code><i class="line-number"></i>ant make-control</code>
+		<pre class="ami-code"><code><i class="line-number"></i>./awf.py --create-control</code>
 </pre>
 		You are asked to specify the control's name.
 
