@@ -4,12 +4,10 @@
 .settings
 .classpath
 
-berk
+__pycache__
 
 node_modules
 
 package-lock.json
-
-tools/awf/target
 
 tools/bootstrap/bootstrap-*
