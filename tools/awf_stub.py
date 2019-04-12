@@ -39,15 +39,15 @@ if __name__ == '__main__':
 
     try:
 
-        request = urllib_request.urlopen(AWF_IMAGE_URL, context = hasattr(ssl, '_create_unverified_context') and ssl._create_unverified_context() or None)
+        f = urllib_request.urlopen(AWF_IMAGE_URL, context = hasattr(ssl, '_create_unverified_context') and ssl._create_unverified_context() or None)
 
         try:
 
-            code = zlib.decompress(base64.b64decode(request.read()))
+            code = zlib.decompress(base64.b64decode(f.read()))
 
         finally:
 
-            request.close()
+            f.close()
 
     except Exception as e:
 

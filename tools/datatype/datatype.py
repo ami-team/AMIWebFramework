@@ -2,7 +2,25 @@
 # -*- coding:utf-8 -*-
 #############################################################################
 
-import csv, json, os.path, urllib.request
+import io, os, csv, sys, json, tqdm
+
+#############################################################################
+
+try:
+
+    import urllib.request as urllib_request
+
+except ImportError:
+
+    import urllib2 as urllib_request
+
+#############################################################################
+
+if sys.version_info < (3, 0):
+
+    reload(sys)
+
+    sys.setdefaultencoding('utf8')
 
 #############################################################################
 
@@ -22,12 +40,22 @@ urls = [
 
 D = {}
 
-for url in urls:
+for url in tqdm.tqdm(urls):
 
-    resp = urllib.request.urlopen(url)
+    #########################################################################
 
-    rows = csv.reader(resp.read().decode("utf-8"))
+    f = urllib_request.urlopen(url)
 
+    try:
+
+        rows = csv.reader(io.StringIO(f.read().decode('utf-8')), delimiter = ',')
+
+    finally:
+
+        f.close()
+
+    #########################################################################
+ 
     for row in rows:
 
         if len(row) == 3 and row[0] != 'Name':
@@ -36,8 +64,8 @@ for url in urls:
 
 #############################################################################
 
-with open(os.path.dirname(os.path.realpath(__file__)) + '/../../controls/Schema/json/datatype.json', 'w') as f:
+with open(os.path.dirname(os.path.realpath(__file__)) + '/../../controls/Schema/json/datatype.json', 'wt') as f:
 
-    json.dump(D, f)
+    f.write(json.dumps(D, indent = 4, sort_keys = True))
 
 #############################################################################
