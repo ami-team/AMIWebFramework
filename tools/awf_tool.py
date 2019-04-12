@@ -17,7 +17,7 @@ AWF_GIT_URL = 'https://github.com/ami-team/AMIWebFramework.git'
 
 #############################################################################
 
-import os, re, sys, glob, json, random, shutil, os.path, hashlib, argparse, tempfile, subprocess
+import os, re, sys, glob, json, random, shutil, hashlib, argparse, tempfile, subprocess
 
 #############################################################################
 
