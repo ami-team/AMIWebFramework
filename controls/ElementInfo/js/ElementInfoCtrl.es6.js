@@ -56,12 +56,6 @@ $AMIClass('ElementInfoCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		this.ctx = {
-			isEmbedded: amiWebApp.isEmbedded(),
-
-			endpoint: amiCommand.endpoint,
-
-			/**/
-
 			catalog: catalog,
 			entity: entity,
 			primaryFieldName: primaryFieldName,

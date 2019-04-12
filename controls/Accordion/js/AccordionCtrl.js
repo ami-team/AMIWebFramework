@@ -75,7 +75,7 @@ $AMIClass('AccordionCtrl', {
 			toolbar: this._toolbar,
 		};
 
-		this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {context: this, dict: dict}).done(function(){
+		this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {context: this, dict: dict}).done(function() {
 
 			var _this = this;
 

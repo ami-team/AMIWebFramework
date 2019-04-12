@@ -9,4 +9,10 @@
  *
 -->
 
-<div>MediaViewer</div>
+<figure class="figure">
+	{% if mime.startsWith('image/')  %}
+	<img class="figure-img img-fluid" src="data:{{mime|e}};base64,{{data}}" alt="{{field|e}}" />
+	{% else %}
+	<object type="{{mime|e}}" data="data:base64{{data}}">{{field|e}}</object>
+    {% endif %}
+</figure>
