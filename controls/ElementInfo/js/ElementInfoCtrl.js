@@ -229,6 +229,7 @@ $AMIClass('ElementInfoCtrl', {
 
         /**/
         showToolBar: _this4.ctx.showToolBar,
+        primaryFieldName: _this4.ctx.primaryFieldName,
         primaryFieldValue: _this4.ctx.primaryFieldValue,
 
         /**/

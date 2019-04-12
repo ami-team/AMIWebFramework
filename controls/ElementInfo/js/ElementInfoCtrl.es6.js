@@ -290,6 +290,7 @@ $AMIClass('ElementInfoCtrl', {
 				expandedLinkedElements: expandedLinkedElements,
 				/**/
 				showToolBar: this.ctx.showToolBar,
+				primaryFieldName: this.ctx.primaryFieldName,
 				primaryFieldValue: this.ctx.primaryFieldValue,
 				/**/
 				showEmptyFields: $(this.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).prop('checked'),
