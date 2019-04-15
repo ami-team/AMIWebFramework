@@ -2161,7 +2161,121 @@ $AMIClass('SearchCtrl', {
 		});
 
 		return constraintTab.length !== 0 ? '{' + constraintTab.join() + '}' : '';
-	}
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	_dumpFilterAST: function(predicate, node, predicates)
+	{
+		var ast = null;
+		var predicateFound = false;
+
+		var astL = null;
+		var astR = null;
+		var predicateFoundL = false;
+		var predicateFoundR = false;
+
+	/*---------------------------------------------------------------------*/
+
+		if(node.nodeLeft === null && node.nodeRight === null)
+		{
+			ast = new amiTwig.expr.Node(amiTwig.expr.tokens.TERMINAL, node.nodeValue);
+
+			if(predicates[predicate] && predicates[node.nodeValue].criteria.name === predicates[predicate].criteria.name)
+			{
+				predicateFound = true;
+			}
+
+			return {'ast' : ast, 'predicateFound' : predicateFound};
+		}
+
+		if (node.nodeLeft !== null )
+		{
+			var tmp = this._dumpFilterAST(predicate, node.nodeLeft, predicates);
+			astL = tmp.ast;
+			predicateFoundL = tmp.predicateFound;
+		}
+
+		if (node.nodeRight !== null )
+		{
+			var tmp = this._dumpFilterAST(predicate,node.nodeRight, predicates);
+			astR = tmp.ast;
+			predicateFoundR = tmp.predicateFound;
+		}
+
+		/**/ if(node.nodeValue === 'and')
+		{
+			ast = new amiTwig.expr.Node(amiTwig.expr.tokens.LOGICAL_AND, 'and');
+
+			ast.nodeLeft = astL;
+			ast.nodeRight = astR;
+
+			predicateFound = predicateFoundL || predicateFoundR;
+
+			return {'ast' : ast, 'predicateFound' : predicateFound};
+		}
+		else if(node.nodeValue === 'or')
+		{
+
+			if(predicateFoundL === false && predicateFoundR === false)
+			{
+				ast = null;
+			}
+			else
+			{
+				/**/ if(predicateFoundL === true && predicateFoundR === true)
+				{
+					ast = new amiTwig.expr.Node(amiTwig.expr.tokens.LOGICAL_AND, 'or');
+
+					ast.nodeLeft = astL;
+					ast.nodeRight = astR;
+				}
+				else if(predicateFoundL === true)
+				{
+					ast = astL;
+				}
+				else if(predicateFoundR === true)
+				{
+					ast = astR;
+				}
+			}
+
+			predicateFound = predicateFoundL || predicateFoundR;
+
+			return {'ast' : ast, 'predicateFound' : predicateFound};;
+		}
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	dumpFilterAST: function(predicate)
+	{
+		var tmp = this._dumpFilterAST(predicate, this.ctx.ast, this.ctx.predicates)
+		var result = '';
+
+		/*-----------------------------------------------------------------*/
+
+		if (tmp.predicateFound)
+		{
+			if((result = this._dumpAST(tmp.ast, this.ctx.predicates)))
+			{
+				if(result.startsWith('(')
+				   &&
+				   result.endsWith(')')
+				 ) {
+					result = result.substring(1, result.length - 1);
+				}
+			}
+			else
+			{
+				result = '';
+			}
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		return result;
+	},
 
 	/*---------------------------------------------------------------------*/
 });
