@@ -268,17 +268,24 @@ $AMIClass('SearchCtrl', {
 
 				/*---------------------------------------------------------*/
 
+				var doRefresh = true;
+
 				for(var idx in this.ctx.criterias)
 				{
 					if(this.ctx.criterias[idx].auto_open === true)
 					{
 						this.openBox(idx);
+
+						doRefresh = false;
 					}
 				}
 
 				/*---------------------------------------------------------*/
 
-				this.refresh();
+				if(doRefresh)
+				{
+					this.refresh();
+				}
 
 				/*---------------------------------------------------------*/
 			});
@@ -786,7 +793,7 @@ $AMIClass('SearchCtrl', {
 		/* ADD FILTER                                                      */
 		/*-----------------------------------------------------------------*/
 
-		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
+		var filter = this.dumpFilterAST(name);
 
 		/*-----------------------------------------------------------------*/
 
@@ -874,7 +881,7 @@ $AMIClass('SearchCtrl', {
 				break;
 		}
 
-		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
+		var filter = this.dumpFilterAST(name);
 
 		if(filter)
 		{
@@ -987,7 +994,7 @@ $AMIClass('SearchCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
+			var filter = this.dumpFilterAST(name);
 
 			if(filter)
 			{
@@ -1112,7 +1119,7 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		var filter = this.dumpAST(this.ctx.predicates);
+		var filter = this.dumpFilterAST(name);
 
 		if(filter)
 		{
@@ -1154,7 +1161,7 @@ $AMIClass('SearchCtrl', {
 
 			if(this.ctx.predicates[name].filter === '')
 			{
-				_this.setOrReset(name, 0);
+				//_this.setOrReset(name, 0);
 			}
 
 		}).fail(function(data) {
@@ -2181,7 +2188,7 @@ $AMIClass('SearchCtrl', {
 		{
 			ast = new amiTwig.expr.Node(amiTwig.expr.tokens.TERMINAL, node.nodeValue);
 
-			if(predicates[predicate] && predicates[node.nodeValue].criteria.name === predicates[predicate].criteria.name)
+			if(node.nodeValue === predicate)
 			{
 				predicateFound = true;
 			}
