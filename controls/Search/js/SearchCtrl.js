@@ -874,7 +874,7 @@ $AMIClass('SearchCtrl', {
 				break;
 		}
 
-		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
+		var filter = this.dumpFilterAST(name);
 
 		if(filter)
 		{
@@ -987,7 +987,7 @@ $AMIClass('SearchCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
+			var filter = this.dumpFilterAST(name);
 
 			if(filter)
 			{
@@ -1112,7 +1112,7 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		var filter = this.dumpAST(this.ctx.predicates);
+		var filter = this.dumpFilterAST(name);
 
 		if(filter)
 		{
@@ -2181,7 +2181,8 @@ $AMIClass('SearchCtrl', {
 		{
 			ast = new amiTwig.expr.Node(amiTwig.expr.tokens.TERMINAL, node.nodeValue);
 
-			if(predicates[predicate] && predicates[node.nodeValue].criteria.name === predicates[predicate].criteria.name)
+			//if(predicates[node.nodeValue].criteria.name === predicates[predicate].criteria.name)
+			if(node.nodeValue === predicate)
 			{
 				predicateFound = true;
 			}
