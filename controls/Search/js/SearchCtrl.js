@@ -786,7 +786,7 @@ $AMIClass('SearchCtrl', {
 		/* ADD FILTER                                                      */
 		/*-----------------------------------------------------------------*/
 
-		var filter = this.dumpAST(this.ctx.predicates, applyFilter ? null : name);
+		var filter = this.dumpFilterAST(name);
 
 		/*-----------------------------------------------------------------*/
 
