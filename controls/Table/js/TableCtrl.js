@@ -81,7 +81,7 @@ $AMIClass('TableCtrl', {
       return 'RemoveElements -catalog="' + _this2.ctx.catalog + '" -entity="' + _this2.ctx.entity + '" -separator="§" -keyFields="' + _this2.ctx.primaryField + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
     };
 
-    var _amiWebApp$setup = amiWebApp.setup(['context', 'appendCommandFunc', 'deleteCommandFunc', 'enableCache', 'enableCount', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'catalog', 'entity', 'primaryField', 'rowset', 'start', 'stop', 'orderBy', 'orderWay', 'card'], [result, fn1, fn2, false, true, true, false, true, false, '', '', '', '', 1, 10, '', '', false], settings),
+    var _amiWebApp$setup = amiWebApp.setup(['context', 'appendCommandFunc', 'deleteCommandFunc', 'enableCache', 'enableCount', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'catalog', 'entity', 'primaryField', 'rowset', 'start', 'stop', 'orderBy', 'orderWay', 'maxCellLength', 'card'], [result, fn1, fn2, false, true, true, false, true, false, '', '', '', '', 1, 10, '', '', 64, false], settings),
         context = _amiWebApp$setup[0],
         appendCommandFunc = _amiWebApp$setup[1],
         deleteCommandFunc = _amiWebApp$setup[2],
@@ -99,7 +99,8 @@ $AMIClass('TableCtrl', {
         stop = _amiWebApp$setup[14],
         orderBy = _amiWebApp$setup[15],
         orderWay = _amiWebApp$setup[16],
-        card = _amiWebApp$setup[17];
+        maxCellLength = _amiWebApp$setup[17],
+        card = _amiWebApp$setup[18];
 
     this.ctx.appendCommandFunc = appendCommandFunc;
     this.ctx.deleteCommandFunc = deleteCommandFunc;
@@ -117,6 +118,7 @@ $AMIClass('TableCtrl', {
     this.ctx.stop = stop;
     this.ctx.orderBy = orderBy;
     this.ctx.orderWay = orderWay;
+    this.ctx.maxCellLength = maxCellLength;
     this.ctx.card = card;
     /*-----------------------------------------------------------------*/
 
@@ -471,11 +473,18 @@ $AMIClass('TableCtrl', {
         catalog: _this5.ctx.catalog,
         entity: _this5.ctx.entity,
         primaryField: _this5.ctx.primaryField,
+
+        /**/
         fieldDescriptions: _this5.ctx.fieldDescriptions,
         rows: rows,
+
+        /**/
         showToolBar: _this5.ctx.showToolBar,
         showDetails: _this5.ctx.showDetails,
-        showTools: _this5.ctx.showTools
+        showTools: _this5.ctx.showTools,
+
+        /**/
+        maxCellLength: _this5.ctx.maxCellLength
       };
 
       _this5.replaceHTML(_this5.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), _this5.fragmentTable, {
