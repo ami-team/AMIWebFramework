@@ -101,8 +101,8 @@
 					<a href="#" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('js')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('js')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('js')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('js')|e('html')}}&quot;,&quot;{{field['@name']|e('js')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('js')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('js')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i> {{fieldDescriptions[loop.index0]['@mime']|e}}</a>
 					{% else %}
 				     data-val="{{field.$|e}}">
-					{%   if (field.$|length) > 64 %}
-					<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('js')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, 64)|e}}…
+					{%   if (field.$|length) > maxCellLength %}
+					<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('js')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
 					{%   else %}
 					{{field.$|e}}
 					{%   endif %}

@@ -69,7 +69,8 @@ $AMIClass('ElementInfoCtrl', {
 			elementInfoCommandFunc,
 			expandedLinkedElements,
 			enableCache, showToolBar, showDetails, showTools, canEdit,
-			start, stop, orderBy, orderWay,
+			start, stop,
+			maxCellLength,
 			card
 		] = amiWebApp.setup(
 			[
@@ -78,6 +79,7 @@ $AMIClass('ElementInfoCtrl', {
 				'expandedLinkedElements',
 				'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'start', 'stop',
+				'maxCellLength',
 				'card',
 			],
 			[
@@ -86,6 +88,7 @@ $AMIClass('ElementInfoCtrl', {
 				[],
 				false, true, false, true, false,
 				1, 10,
+				64,
 				false,
 			],
 			settings
@@ -103,6 +106,8 @@ $AMIClass('ElementInfoCtrl', {
 
 		this.ctx.start = start;
 		this.ctx.stop = stop;
+
+		this.ctx.maxCellLength = maxCellLength;
 
 		this.ctx.card = card;
 
@@ -294,6 +299,8 @@ $AMIClass('ElementInfoCtrl', {
 				primaryFieldValue: this.ctx.primaryFieldValue,
 				/**/
 				showEmptyFields: $(this.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).prop('checked'),
+				/**/
+				maxCellLength: this.ctx.maxCellLength,
 			};
 
 			/*-------------------------------------------------------------*/
