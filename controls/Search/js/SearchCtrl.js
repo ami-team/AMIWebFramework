@@ -2181,7 +2181,6 @@ $AMIClass('SearchCtrl', {
 		{
 			ast = new amiTwig.expr.Node(amiTwig.expr.tokens.TERMINAL, node.nodeValue);
 
-			//if(predicates[node.nodeValue].criteria.name === predicates[predicate].criteria.name)
 			if(node.nodeValue === predicate)
 			{
 				predicateFound = true;
