@@ -268,17 +268,24 @@ $AMIClass('SearchCtrl', {
 
 				/*---------------------------------------------------------*/
 
+				var doRefresh = true;
+
 				for(var idx in this.ctx.criterias)
 				{
 					if(this.ctx.criterias[idx].auto_open === true)
 					{
 						this.openBox(idx);
+
+						doRefresh = false;
 					}
 				}
 
 				/*---------------------------------------------------------*/
 
-				this.refresh();
+				if(doRefresh)
+				{
+					this.refresh();
+				}
 
 				/*---------------------------------------------------------*/
 			});
@@ -1154,7 +1161,7 @@ $AMIClass('SearchCtrl', {
 
 			if(this.ctx.predicates[name].filter === '')
 			{
-				_this.setOrReset(name, 0);
+				//_this.setOrReset(name, 0);
 			}
 
 		}).fail(function(data) {
