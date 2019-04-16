@@ -207,7 +207,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         '/.eslintrc.json', '/.settings'
     ]
 
-    tempPath = tempfile.gettempdir() + os.sep + hashlib.md5(os.path.realpath(__file__).encode()).hexdigest()
+    baseTempPath = tempfile.gettempdir() + os.sep + hashlib.md5(os.path.realpath(__file__).encode()).hexdigest()
 
     try:
 
@@ -219,7 +219,9 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         print('Package `%s`:' % 'AWF')
 
-        awfGITCommitId = gitClone(tempPath, AWF_GIT_URL, awfGITCommitId)
+	    awfTempPath = baseTempPath + '_' + 'AWF'
+
+        awfGITCommitId = gitClone(awfTempPath, AWF_GIT_URL, awfGITCommitId)
 
         print('-> using git release id: %s' % awfGITCommitId)
 
@@ -227,9 +229,9 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         PACKAGES = [{
             'name': 'AWF',
-            'path': tempPath,
-            'controls_json': loadJSON(tempPath + os.sep + 'controls' + os.sep + 'CONTROLS.json'),
-            'subapps_json': loadJSON(tempPath + os.sep + 'subapps' + os.sep + 'SUBAPPS.json'),
+            'path': awfTempPath,
+            'controls_json': loadJSON(awfTempPath + os.sep + 'controls' + os.sep + 'CONTROLS.json'),
+            'subapps_json': loadJSON(awfTempPath + os.sep + 'subapps' + os.sep + 'SUBAPPS.json'),
         }]
 
         #####################################################################
@@ -252,13 +254,17 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
                 for package in EXT_JSON['packages']:
 
+                    #########################################################
+
                     print('Package `%s`:' % package['name'])
 
-                    packageTempPath = tempPath + '_' + package['name']
+                    packageTempPath = baseTempPath + '_' + package['name']
 
                     packageGITCommitId = gitClone(packageTempPath, package['url'], package['commit_id'] if 'commit_id' in package else 'HEAD')
 
                     print('-> using git release id: %s' % packageGITCommitId)
+
+                    #########################################################
 
                     PACKAGES.append({
                         'name': package['name'],
@@ -279,21 +285,21 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         print('Copying files...')
 
-        nb += copyFiles(tempPath, 'css', None, 'css', '*.css', verbose, True)
-        nb += copyFiles(tempPath, 'css', None, 'css', '3rd-party' + os.sep + '*', verbose, True)
+        nb += copyFiles(awfTempPath, 'css', None, 'css', '*.css', verbose, True)
+        nb += copyFiles(awfTempPath, 'css', None, 'css', '3rd-party' + os.sep + '*', verbose, True)
 
-        nb += copyFiles(tempPath, 'js', None, 'js', '*.js', verbose, True)
-        nb += copyFiles(tempPath, 'js', None, 'js', '3rd-party' + os.sep + '*', verbose, True)
+        nb += copyFiles(awfTempPath, 'js', None, 'js', '*.js', verbose, True)
+        nb += copyFiles(awfTempPath, 'js', None, 'js', '3rd-party' + os.sep + '*', verbose, True)
 
-        nb += copyFiles(tempPath, 'docs', None, 'docs', '*', verbose, False)
-        nb += copyFiles(tempPath, 'fonts', None, 'fonts', '*', verbose, True)
-        nb += copyFiles(tempPath, 'images', None, 'images', '*', verbose, True)
-        nb += copyFiles(tempPath, 'twig', None, 'twig', '*', verbose, True)
+        nb += copyFiles(awfTempPath, 'docs', None, 'docs', '*', verbose, False)
+        nb += copyFiles(awfTempPath, 'fonts', None, 'fonts', '*', verbose, True)
+        nb += copyFiles(awfTempPath, 'images', None, 'images', '*', verbose, True)
+        nb += copyFiles(awfTempPath, 'twig', None, 'twig', '*', verbose, True)
 
-        nb += copyFiles(tempPath, '.', None, '.', 'favicon.ico', verbose, False)
-        nb += copyFiles(tempPath, '.', None, '.', '.eslintrc.json', verbose, True)
+        nb += copyFiles(awfTempPath, '.', None, '.', 'favicon.ico', verbose, False)
+        nb += copyFiles(awfTempPath, '.', None, '.', '.eslintrc.json', verbose, True)
 
-        nb += copyFiles(tempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
+        nb += copyFiles(awfTempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
 
         print('-> %d files copied.' % nb)
 
