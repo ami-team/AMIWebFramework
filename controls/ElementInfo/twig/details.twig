@@ -28,12 +28,12 @@
 								{% else %}
 								<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
 								     {% if field['properties'] is defined %}
-								     {%   if field['properties']['@id'] is not empty %}id="{{field['properties']['@id']|e}}"{% endif %}
-								     {%   if field['properties']['@class'] is not empty %}class="{{field['properties']['@class']|e}}"{% endif %}
-								     {%   if field['properties']['@unitName'] is not empty %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
-								     {%   if field['properties']['@unitFactor'] is not empty %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
-								     {%   if field['properties']['@unitBase'] is not empty %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
-								     {%   if field['properties']['@humanReadable'] is not empty %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
+								     {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
+								     {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
+								     {%   if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
+								     {%   if field['properties']['@unitFactor'] %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
+								     {%   if field['properties']['@unitBase'] %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
+								     {%   if field['properties']['@humanReadable'] %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
 								     {% endif %}
 								     data-action="edit" data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
 								     data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}"
@@ -56,15 +56,15 @@
 								{%     for link in field['links'] %}
 								{%       if not loop.first %} - {% endif %}
 								<a href="{{link['@href']|e}}"
-								   {% if link['@target'] is not empty %}target="{{link['@target']|e}}"{% endif %}
-								   {% if link['@id'] is not empty %}id="{{link['@id']|e}}"{% endif %}
-								   {% if link['@class'] is not empty %}class="{{link['@class']|e}}"{% endif %}
-								   {% if link['@data-ctrl'] is not empty %}data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}
-								   {% if link['@data-ctrl-location'] is not empty %}data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}
-								   {% if link['@data-params'] is not empty %}data-params="{{link['@data-params']|e}}"{% endif %}
-								   {% if link['@data-settings'] is not empty %}data-settings="{{link['@data-settings']|e}}"{% endif %}
-								   {% if link['@data-icon'] is not empty %}data-icon="{{link['@data-icon']|e}}"{% endif %}
-								   {% if link['@data-title'] is not empty %}data-title="{{link['@data-title']|e}}"{% endif %}>
+								   {% if link['@target'] %}target="{{link['@target']|e}}"{% endif %}
+								   {% if link['@id'] %}id="{{link['@id']|e}}"{% endif %}
+								   {% if link['@class'] %}class="{{link['@class']|e}}"{% endif %}
+								   {% if link['@data-ctrl'] %}data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}
+								   {% if link['@data-ctrl-location'] %}data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}
+								   {% if link['@data-params'] %}data-params="{{link['@data-params']|e}}"{% endif %}
+								   {% if link['@data-settings'] %}data-settings="{{link['@data-settings']|e}}"{% endif %}
+								   {% if link['@data-icon'] %}data-icon="{{link['@data-icon']|e}}"{% endif %}
+								   {% if link['@data-title'] %}data-title="{{link['@data-title']|e}}"{% endif %}>
 									{{link['@label']|e}}
 								</a>
 								{%     endfor %}
