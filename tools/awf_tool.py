@@ -219,7 +219,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         print('Package `%s`:' % 'AWF')
 
-	    awfTempPath = baseTempPath + '_' + 'AWF'
+        awfTempPath = baseTempPath + '_' + 'AWF'
 
         awfGITCommitId = gitClone(awfTempPath, AWF_GIT_URL, awfGITCommitId)
 
