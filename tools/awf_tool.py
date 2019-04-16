@@ -49,23 +49,23 @@ def shutil_makedirs(path, ignore_errors = True):
 
 #############################################################################
 
-def gitClone(tempPath, git_commit_id):
+def gitClone(tempPath, url, commit_id):
 
     #########################################################################
 
     if not os.path.isdir(tempPath):
 
-        subprocess.check_call(['git', 'clone', AWF_GIT_URL, tempPath])
+        subprocess.check_call(['git', 'clone', url, tempPath])
 
     #########################################################################
 
-    if git_commit_id == 'HEAD':
+    if commit_id == 'HEAD':
 
         subprocess.check_call(['git', 'pull'], cwd = tempPath)
 
     else:
 
-        subprocess.check_call(['git', 'reset', '--hard', git_commit_id], cwd = tempPath)
+        subprocess.check_call(['git', 'reset', '--hard', commit_id], cwd = tempPath)
 
     #########################################################################
 
@@ -199,7 +199,7 @@ def saveText(fileName, data):
 
 #############################################################################
 
-def updateAWF(inDebugMode, git_commit_id, verbose):
+def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
     ignore = [
         '.DS_Store', '.DS_Store?',
@@ -217,13 +217,63 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
         print('# DOWNLOADING AWF...                                                         #')
         print('##############################################################################')
 
-        git_short_commit_id = gitClone(tempPath, git_commit_id)
+        print('Package `%s`:' % 'AWF')
+
+        awfGITCommitId = gitClone(tempPath, AWF_GIT_URL, awfGITCommitId)
+
+        print('-> using git release id: %s' % awfGITCommitId)
+
+        #####################################################################
+
+        PACKAGES = [{
+            'name': 'AWF',
+            'path': tempPath,
+            'controls_json': loadJSON(tempPath + os.sep + 'controls' + os.sep + 'CONTROLS.json'),
+            'subapps_json': loadJSON(tempPath + os.sep + 'subapps' + os.sep + 'SUBAPPS.json'),
+        }]
 
         #####################################################################
 
         print('##############################################################################')
-        print('# INSTALLING CORE FILES...                                                   #')
+        print('# DOWNLOADING ADDITIONAL PACKAGES...                                         #')
         print('##############################################################################')
+
+        #####################################################################
+
+        if os.path.exists('ext.json'):
+
+            #################################################################
+
+            EXT_JSON = loadJSON('ext.json')
+
+            #################################################################
+
+            if 'packages' in EXT_JSON:
+
+                for package in EXT_JSON['packages']:
+
+                    print('Package `%s`:' % package['name'])
+
+                    packageTempPath = tempPath + os.sep + package['name']
+
+                    packageGITCommitId = gitClone(packageTempPath, package['url'], package['commit_id'])
+
+                    print('-> using git release id: %s' % packageGITCommitId)
+
+                    PACKAGES.append({
+                        'name': package['name'],
+                        'path': packageTempPath,
+                        'controls_json': loadJSON(packageTempPath + os.sep + 'controls' + os.sep + 'CONTROLS.json'),
+                        'subapps_json': loadJSON(packageTempPath + os.sep + 'subapps' + os.sep + 'SUBAPPS.json'),
+                    })
+
+        #####################################################################
+
+        print('##############################################################################')
+        print('# INSTALLING AWF CORE FILES...                                               #')
+        print('##############################################################################')
+
+        #####################################################################
 
         nb = 0
 
@@ -263,43 +313,48 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
 
         #####################################################################
 
-        replaceStrInFile('js' + os.sep + 'ami.min.js', '{{AMI_COMMIT_ID}}', git_short_commit_id)
-        replaceStrInFile('js' + os.sep + 'ami.es6.min.js', '{{AMI_COMMIT_ID}}', git_short_commit_id)
+        replaceStrInFile('js' + os.sep + 'ami.min.js', '{{AMI_COMMIT_ID}}', awfGITCommitId)
+        replaceStrInFile('js' + os.sep + 'ami.es6.min.js', '{{AMI_COMMIT_ID}}', awfGITCommitId)
 
         #####################################################################
 
         print('##############################################################################')
-        print('# INSTALLING DEFAULT CONTROLS...                                             #')
+        print('# INSTALLING CONTROLS...                                                     #')
         print('##############################################################################')
 
-        DEFAULT_CONTROLS_JSON = loadJSON(tempPath + os.sep + 'controls' + os.sep + 'CONTROLS.json')
         USER_CONTROLS_JSON = loadJSON('controls' + os.sep + 'CONTROLS.json')
 
         #####################################################################
 
-        nb = 0
-
         print('Copying files...')
 
-        for control in DEFAULT_CONTROLS_JSON:
+        for package in PACKAGES:
 
-            #################################################################
+            nb = 0
 
-            USER_CONTROLS_JSON[control] = DEFAULT_CONTROLS_JSON[control]
+            print('Package `%s`:' % package['name'])
 
-            #################################################################
+            for control in package['controls_json']:
 
-            JS = DEFAULT_CONTROLS_JSON[control]['file']
+                #############################################################
 
-            idx = JS.find('/js/')
+                USER_CONTROLS_JSON[control] = package['controls_json'][control]
 
-            if idx > 0:
+                #############################################################
 
-                nb += copyFiles(tempPath, 'controls', None, 'controls', JS[9: idx], verbose)
+                JS = package['controls_json'][control]['file']
 
-                ignore.append('/controls/' + JS[9: idx])
+                idx = JS.find('/js/')
 
-        print('-> %d files copied.' % nb)
+                if idx > 0:
+
+                    nb += copyFiles(package['path'], 'controls', None, 'controls', JS[9: idx], verbose)
+
+                    ignore.append('/controls/' + JS[9: idx])
+
+                #############################################################
+
+            print('-> %d files copied.' % nb)
 
         #####################################################################
 
@@ -308,37 +363,42 @@ def updateAWF(inDebugMode, git_commit_id, verbose):
         #####################################################################
 
         print('##############################################################################')
-        print('# INSTALLING DEFAULT SUBAPPS...                                              #')
+        print('# INSTALLING SUBAPPS...                                                      #')
         print('##############################################################################')
 
-        DEFAULT_SUBAPPS_JSON = loadJSON(tempPath + os.sep + 'subapps' + os.sep + 'SUBAPPS.json')
         USER_SUBAPPS_JSON = loadJSON('subapps' + os.sep + 'SUBAPPS.json')
 
         #####################################################################
 
-        nb = 0
-
         print('Copying files...')
 
-        for subapp in DEFAULT_SUBAPPS_JSON:
+        for package in PACKAGES:
 
-            #################################################################
+            nb = 0
 
-            USER_SUBAPPS_JSON[subapp] = DEFAULT_SUBAPPS_JSON[subapp]
+            print('Package `%s`:' % package['name'])
 
-            #################################################################
+            for subapp in package['subapps_json']:
 
-            JS = DEFAULT_SUBAPPS_JSON[subapp]['file']
+                #################################################################
 
-            idx = JS.find('/js/')
+                USER_SUBAPPS_JSON[subapp] = package['subapps_json'][subapp]
 
-            if idx > 0:
+                #################################################################
 
-                nb += copyFiles(tempPath, 'subapps', None, 'subapps', JS[8: idx], verbose)
+                JS = package['subapps_json'][subapp]['file']
 
-                ignore.append('/subapps/' + JS[8: idx])
+                idx = JS.find('/js/')
 
-        print('-> %d files copied.' % nb)
+                if idx > 0:
+
+                    nb += copyFiles(package['path'], 'subapps', None, 'subapps', JS[8: idx], verbose)
+
+                    ignore.append('/subapps/' + JS[8: idx])
+
+                #############################################################
+
+            print('-> %d files copied.' % nb)
 
         #####################################################################
 
