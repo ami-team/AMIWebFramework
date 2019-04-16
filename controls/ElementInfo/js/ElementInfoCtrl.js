@@ -51,7 +51,7 @@ $AMIClass('ElementInfoCtrl', {
       return 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"';
     };
 
-    var _amiWebApp$setup = amiWebApp.setup(['context', 'elementInfoCommandFunc', 'expandedLinkedElements', 'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'start', 'stop', 'card'], [result, fn, [], false, true, false, true, false, 1, 10, false], settings),
+    var _amiWebApp$setup = amiWebApp.setup(['context', 'elementInfoCommandFunc', 'expandedLinkedElements', 'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'start', 'stop', 'maxCellLength', 'card'], [result, fn, [], false, true, false, true, false, 1, 10, 64, false], settings),
         context = _amiWebApp$setup[0],
         elementInfoCommandFunc = _amiWebApp$setup[1],
         expandedLinkedElements = _amiWebApp$setup[2],
@@ -62,9 +62,8 @@ $AMIClass('ElementInfoCtrl', {
         canEdit = _amiWebApp$setup[7],
         start = _amiWebApp$setup[8],
         stop = _amiWebApp$setup[9],
-        orderBy = _amiWebApp$setup[10],
-        orderWay = _amiWebApp$setup[11],
-        card = _amiWebApp$setup[12];
+        maxCellLength = _amiWebApp$setup[10],
+        card = _amiWebApp$setup[11];
 
     this.ctx.elementInfoCommandFunc = elementInfoCommandFunc;
     this.ctx.expandedLinkedElements = expandedLinkedElements;
@@ -75,6 +74,7 @@ $AMIClass('ElementInfoCtrl', {
     this.ctx.canEdit = canEdit;
     this.ctx.start = start;
     this.ctx.stop = stop;
+    this.ctx.maxCellLength = maxCellLength;
     this.ctx.card = card;
     /*-----------------------------------------------------------------*/
 
@@ -233,7 +233,10 @@ $AMIClass('ElementInfoCtrl', {
         primaryFieldValue: _this4.ctx.primaryFieldValue,
 
         /**/
-        showEmptyFields: $(_this4.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).prop('checked')
+        showEmptyFields: $(_this4.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).prop('checked'),
+
+        /**/
+        maxCellLength: _this4.ctx.maxCellLength
       };
       /*-------------------------------------------------------------*/
 
