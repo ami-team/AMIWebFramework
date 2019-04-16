@@ -256,7 +256,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
                     packageTempPath = tempPath + os.sep + package['name']
 
-                    packageGITCommitId = gitClone(packageTempPath, package['url'], package['commit_id'])
+                    packageGITCommitId = gitClone(packageTempPath, package['url'], package['commit_id'] if 'commit_id' in package else 'HEAD')
 
                     print('-> using git release id: %s' % packageGITCommitId)
 
