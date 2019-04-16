@@ -493,17 +493,9 @@ $AMIClass('TableCtrl', {
         var parent = $(_this5.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
         /*---------------------------------------------------------*/
 
-        /* SET MODE                                                */
-
-        /*---------------------------------------------------------*/
-
-        _this5.setMode();
-        /*---------------------------------------------------------*/
-
         /* COLUMN TOOLS                                            */
 
         /*---------------------------------------------------------*/
-
 
         parent.find('a[data-orderway="DESC"]').click(function (e) {
           e.preventDefault();
@@ -591,6 +583,8 @@ $AMIClass('TableCtrl', {
         _this5.fieldEditor.setup(_this5.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), _this5.ctx.primaryField, _this5.ctx);
 
         _this5.unitEditor.setup(_this5.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
+
+        _this5.setMode();
         /*---------------------------------------------------------*/
 
         /* UPDATE JAVASCRIPT                                       */
