@@ -693,12 +693,6 @@ $AMIClass('TableCtrl', {
 				const parent = $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
 
 				/*---------------------------------------------------------*/
-				/* SET MODE                                                */
-				/*---------------------------------------------------------*/
-
-				this.setMode();
-
-				/*---------------------------------------------------------*/
 				/* COLUMN TOOLS                                            */
 				/*---------------------------------------------------------*/
 
@@ -820,6 +814,8 @@ $AMIClass('TableCtrl', {
 				this.fieldEditor.setup(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'),
 																		this.ctx.primaryField, this.ctx);
 				this.unitEditor.setup(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
+
+				this.setMode();
 
 				/*---------------------------------------------------------*/
 				/* UPDATE JAVASCRIPT                                       */
