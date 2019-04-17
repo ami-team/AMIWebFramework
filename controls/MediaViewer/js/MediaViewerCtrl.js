@@ -121,7 +121,7 @@ $AMIClass('MediaViewerCtrl', {
         $('<img />').attr({
           alt: _this4.ctx.field,
           src: 'data:' + _this4.ctx.mime + ';base64,' + text,
-          height: '600',
+          height: 'auto',
           width: '800'
         }).appendTo(_this4.patchId('#D25C9390_A722_9C48_BC81_5C8875CAAC95'));
         /*---------------------------------------------------------*/

@@ -159,7 +159,7 @@ $AMIClass('MediaViewerCtrl', {
 
 					src: 'data:' + this.ctx.mime + ';base64,' + text,
 
-					height: '600',
+					height: 'auto',
 					width: '800',
 
 				}).appendTo(this.patchId('#D25C9390_A722_9C48_BC81_5C8875CAAC95'));
