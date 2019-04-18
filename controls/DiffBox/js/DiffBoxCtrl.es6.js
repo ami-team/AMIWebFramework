@@ -56,7 +56,7 @@ $AMIClass('DiffBoxCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	show: function(text1, text3, settings)
+	render: function(text1, text3, settings)
 	{
 		const deferred = $.Deferred();
 
@@ -110,10 +110,10 @@ $AMIClass('DiffBoxCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	render: function(text1, text3, settings)
+	show: function(text1, text3, settings)
 	{
-		return this.show(text1, text3, settings);
-	}
+		return this.render(text1, text3, settings);
+	},
 
 	/*---------------------------------------------------------------------*/
 });

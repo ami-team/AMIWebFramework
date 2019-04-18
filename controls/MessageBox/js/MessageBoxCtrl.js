@@ -1,5 +1,3 @@
-var _$AMIClass;
-
 /*!
  * AMI Web Framework
  *
@@ -14,7 +12,7 @@ var _$AMIClass;
  */
 
 /*-------------------------------------------------------------------------*/
-$AMIClass('MessageBoxCtrl', (_$AMIClass = {
+$AMIClass('MessageBoxCtrl', {
   /*---------------------------------------------------------------------*/
   $extends: ami.Control,
 
@@ -62,8 +60,13 @@ $AMIClass('MessageBoxCtrl', (_$AMIClass = {
 
     return deferred.promise();
     /*-----------------------------------------------------------------*/
+  },
+
+  /*---------------------------------------------------------------------*/
+  show: function show(text, settings) {
+    return this.render(text, settings);
   }
-}, _$AMIClass["render"] = function render(text, settings) {
-  return this.show(text, settings);
-}, _$AMIClass));
+  /*---------------------------------------------------------------------*/
+
+});
 /*-------------------------------------------------------------------------*/

@@ -67,7 +67,7 @@ $AMIClass('EditBoxCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	show: function(text, settings)
+	render: function(text, settings)
 	{
 		const deferred = $.Deferred();
 
@@ -101,10 +101,10 @@ $AMIClass('EditBoxCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	render: function(text, settings)
+	show: function(text, settings)
 	{
-		return this.show(text, settings);
-	}
+		return this.render(text, settings);
+	},
 
 	/*---------------------------------------------------------------------*/
 });
