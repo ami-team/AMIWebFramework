@@ -6072,7 +6072,7 @@ $AMINamespace('amiWebApp',
       var instance = new constructor(parent, owner);
 
       _ami_internal_then(constructor.prototype.render.apply(instance, params), function () {
-        result.resolveWith(context, Array.prototype.slice.call(arguments));
+        result.resolveWith(context, [instance].concat(arguments));
       }, function (message) {
         result.rejectWith(context, [message]);
       });

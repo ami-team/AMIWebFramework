@@ -305,7 +305,7 @@ $AMIClass('TableCtrl', {
       /*-------------------------------------------------------------*/
 
       $(_this4.patchId('#C8CB30DC_414F_7559_B618_42B7CC04F993')).click(function () {
-        amiWebApp.createControl(_this4.getParent(), _this4, 'editBox', [_this4.ctx.command], {}).done(function (command) {
+        amiWebApp.createControl(_this4.getParent(), _this4, 'editBox', [_this4.ctx.command], {}).done(function (instance, command) {
           /*-----------------------------------------------------*/
           _this4.ctx.command = command;
           /*-----------------------------------------------------*/

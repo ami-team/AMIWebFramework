@@ -1552,7 +1552,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			_ami_internal_then(constructor.prototype.render.apply(instance, params), function() {
 
-				result.resolveWith(context, Array.prototype.slice.call(arguments));
+				result.resolveWith(context, [instance].concat(arguments));
 
 			}, (message) => {
 
