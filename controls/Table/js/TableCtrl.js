@@ -306,9 +306,19 @@ $AMIClass('TableCtrl', {
 
       $(_this4.patchId('#C8CB30DC_414F_7559_B618_42B7CC04F993')).click(function () {
         amiWebApp.createControl(_this4.getParent(), _this4, 'editBox', [_this4.ctx.command], {}).done(function (command) {
+          /*-----------------------------------------------------*/
           _this4.ctx.command = command;
+          /*-----------------------------------------------------*/
 
-          _this4.refresh();
+          amiWebApp.lock();
+
+          _this4.refresh().done(function () {
+            amiWebApp.unlock();
+          }).fail(function (message) {
+            amiWebApp.error(message, true);
+          });
+          /*-----------------------------------------------------*/
+
         });
       });
       /*-------------------------------------------------------------*/
