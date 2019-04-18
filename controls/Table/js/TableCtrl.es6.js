@@ -498,8 +498,8 @@ $AMIClass('TableCtrl', {
 	{
 		const modulo = this.ctx.totalNumberOfRows % range;
 
-		return this.ctx.totalNumberOfRows > modulo ? this.ctx.totalNumberOfRows - modulo
-		                                           : 0x0000000000000000000000000000000001
+		return this.ctx.totalNumberOfRows > modulo ? this.ctx.totalNumberOfRows - modulo + 1
+		                                           : 0x0000000000000000000000000000000000001
 		;
 	},
 
