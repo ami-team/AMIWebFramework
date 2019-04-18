@@ -56,7 +56,7 @@
 			{% if showDetails %}
 			<td class="text-center xxxxxxxxx">
 				{% if primaryIdx >= 0 %}
-				<a href="#" class="text-secondary" data-ctrl="elementInfo" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('js')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('js')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('js')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('js')|e('html')}}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescriptions[primaryIdx]['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
+				<a href="#" class="text-secondary" data-ctrl="elementInfo" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescriptions[primaryIdx]['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
 				{% endif %}
 			</td>
 			{% endif %}
@@ -98,12 +98,12 @@
 				     {% endif %}
 					{% if fieldDescriptions[loop.index0]['@displayable'] === 'true' %}
 				>
-					<a href="#" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('js')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('js')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('js')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('js')|e('html')}}&quot;,&quot;{{field['@name']|e('js')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('js')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('js')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
+					<a href="#" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
 					{% else %}
 				     data-val="{{field.$|e}}"
 				>
 					{%   if (field.$|length) > maxCellLength %}
-					<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('js')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
+					<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
 					{%   else %}
 					{{field.$|e}}
 					{%   endif %}
