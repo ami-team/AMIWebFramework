@@ -68,6 +68,7 @@ $AMIClass('DiffBoxCtrl', {
     $('#C604C636_346F_64A8_3EBE_ADCDE2AEB343').html(html3);
     /*-----------------------------------------------------------------*/
 
+    amiWebApp.unlock();
     $('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').modal('show');
     this.$class.deferred = deferred;
     this.$class.context = context;

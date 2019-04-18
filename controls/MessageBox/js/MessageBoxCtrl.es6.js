@@ -72,6 +72,8 @@ $AMIClass('MessageBoxCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
+		amiWebApp.unlock();
+
 		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(text || '');
 
 		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').modal('show');

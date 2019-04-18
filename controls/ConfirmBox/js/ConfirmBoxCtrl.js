@@ -64,6 +64,7 @@ $AMIClass('ConfirmBoxCtrl', {
     /*-----------------------------------------------------------------*/
 
 
+    amiWebApp.unlock();
     $('#DF8EBE84_FA77_2711_8EB5_4B3213739A54').html(title);
     $('#DCDB367E_FB67_A957_68AC_B54038F860DB .modal-body').text(text || '');
     $('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('show');
