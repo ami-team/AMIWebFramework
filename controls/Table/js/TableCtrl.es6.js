@@ -518,9 +518,10 @@ $AMIClass('TableCtrl', {
 		const range = oldStop - oldStart + 1;
 
 		const newStart = 0x00000000000000000000000000001;
+		const newStop = newStart + range - 1;
 
 		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
-		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
+		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStop);
 
 		return this.refresh();
 	},
@@ -540,9 +541,10 @@ $AMIClass('TableCtrl', {
 		const range = oldStop - oldStart + 1;
 
 		const newStart = this.getOffsetOfLastPage(range);
+		const newStop = newStart + range - 1;
 
 		$(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
-		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
+		$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStop);
 
 		return this.refresh();
 	},

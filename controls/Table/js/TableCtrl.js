@@ -368,8 +368,9 @@ $AMIClass('TableCtrl', {
     var oldStop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     var range = oldStop - oldStart + 1;
     var newStart = 0x00000000000000000000000000001;
+    var newStop = newStart + range - 1;
     $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
-    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
+    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStop);
     return this.refresh();
   },
 
@@ -379,8 +380,9 @@ $AMIClass('TableCtrl', {
     var oldStop = this.parsePageNumber($(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop);
     var range = oldStop - oldStart + 1;
     var newStart = this.getOffsetOfLastPage(range);
+    var newStop = newStart + range - 1;
     $(this.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).val(newStart);
-    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStart + range - 1);
+    $(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(newStop);
     return this.refresh();
   },
 
