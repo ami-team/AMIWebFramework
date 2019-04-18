@@ -414,14 +414,26 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(() => {
+			$(this.patchId('#C8CB30DC_414F_7559_B618_42B7CC04F993')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.mql], {});
+				amiWebApp.createControl(this.getParent(), this, 'editBox', [this.ctx.command], {}).done((command) => {
+
+					this.ctx.command = command;
+
+					this.refresh();
+				});
 			});
+
+			/*-------------------------------------------------------------*/
 
 			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(() => {
 
 				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.sql], {});
+			});
+
+			$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(() => {
+
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.mql], {});
 			});
 
 			$(this.patchId('#EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92')).click(() => {

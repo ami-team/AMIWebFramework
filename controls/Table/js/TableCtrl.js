@@ -304,11 +304,20 @@ $AMIClass('TableCtrl', {
       });
       /*-------------------------------------------------------------*/
 
-      $(_this4.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(function () {
-        amiWebApp.createControl(_this4.getParent(), _this4, 'messageBox', [_this4.ctx.mql], {});
+      $(_this4.patchId('#C8CB30DC_414F_7559_B618_42B7CC04F993')).click(function () {
+        amiWebApp.createControl(_this4.getParent(), _this4, 'editBox', [_this4.ctx.command], {}).done(function (command) {
+          _this4.ctx.command = command;
+
+          _this4.refresh();
+        });
       });
+      /*-------------------------------------------------------------*/
+
       $(_this4.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(function () {
         amiWebApp.createControl(_this4.getParent(), _this4, 'messageBox', [_this4.ctx.sql], {});
+      });
+      $(_this4.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(function () {
+        amiWebApp.createControl(_this4.getParent(), _this4, 'messageBox', [_this4.ctx.mql], {});
       });
       $(_this4.patchId('#EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92')).click(function () {
         amiWebApp.createControl(_this4.getParent(), _this4, 'messageBox', [_this4.ctx.command2.startsWith('BrowseQuery') ? 'SearchQuery' + _this4.ctx.command2.substring(11) : _this4.ctx.command2], {});

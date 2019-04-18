@@ -7223,9 +7223,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			let instance = new constructor(parent, owner);
 
-			_ami_internal_then(constructor.prototype.render.apply(instance, params), () => {
+			_ami_internal_then(constructor.prototype.render.apply(instance, params), function() {
 
-				result.resolveWith(context, [instance]);
+				result.resolveWith(context, Array.prototype.slice.call(arguments));
 
 			}, (message) => {
 
@@ -7293,9 +7293,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*-------------------------------------------------------------*/
 
-			this.createControl(parent, owner, control, PARAMS).done((instance) => {
+			this.createControl(parent, owner, control, PARAMS).done(function() {
 
-				result.resolveWith(context, [instance]);
+				result.resolveWith(context, Array.prototype.slice.call(arguments));
 
 			}).fail((message) => {
 
@@ -7369,9 +7369,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				/*---------------------------------------------------------*/
 
-				this.createControl(parent, owner, control, PARAMS).done((instance) => {
+				this.createControl(parent, owner, control, PARAMS).done(function() {
 
-					result.resolveWith(context, [instance]);
+					result.resolveWith(context, Array.prototype.slice.call(arguments));
 
 				}).fail((message) => {
 

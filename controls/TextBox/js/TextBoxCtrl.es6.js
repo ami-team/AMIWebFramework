@@ -36,7 +36,20 @@ $AMIClass('TextBoxCtrl', {
 
 			amiWebApp.appendHTML('body', data[0]).done(() => {
 
+				const _class = this.$class;
+
+				/*---------------------------------------------------------*/
+
+				$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').on('hidden.bs.modal', () => {
+
+					_class.deferred.resolveWith(_class.context || _class.deferred);
+				});
+
+				/*---------------------------------------------------------*/
+
 				new ClipboardJS('#B8927006_7FCE_87BD_FC8D_C7575D69C362 .btn[data-clipboard-target]');
+
+				/*---------------------------------------------------------*/
 			});
 		});
 	},
@@ -45,23 +58,42 @@ $AMIClass('TextBoxCtrl', {
 
 	show: function(text)
 	{
+		const deferred = $.Deferred();
+
+		/*-----------------------------------------------------------------*/
+
+		const [
+			context, title
+		] = amiWebApp.setup(
+			['context', 'title'],
+			[deferred, 'Edit box'],
+			settings
+		);
+
+		/*-----------------------------------------------------------------*/
+
 		const html = text ? '<i class="line-number"></i>' + amiWebApp.textToHtml(text).replace(/\n/g, '\n<i class="line-number"></i>') : '';
 
 		$('#B8927006_7FCE_87BD_FC8D_C7575D69C362 code').html(html);
 
 		$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').modal('show');
+
+		this.$class.deferred = deferred;
+		this.$class.context = context;
+
+		/*-----------------------------------------------------------------*/
+
+		return deferred.promise();
+
+		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
 
 	render: function(text)
 	{
-		const html = text ? '<i class="line-number"></i>' + amiWebApp.textToHtml(text).replace(/\n/g, '\n<i class="line-number"></i>') : '';
-
-		$('#B8927006_7FCE_87BD_FC8D_C7575D69C362 code').html(html);
-
-		$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').modal('show');
-	},
+		return this.show(text);
+	}
 
 	/*---------------------------------------------------------------------*/
 });

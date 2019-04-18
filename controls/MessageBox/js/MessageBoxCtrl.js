@@ -1,3 +1,5 @@
+var _$AMIClass;
+
 /*!
  * AMI Web Framework
  *
@@ -12,7 +14,7 @@
  */
 
 /*-------------------------------------------------------------------------*/
-$AMIClass('MessageBoxCtrl', {
+$AMIClass('MessageBoxCtrl', (_$AMIClass = {
   /*---------------------------------------------------------------------*/
   $extends: ami.Control,
 
@@ -23,25 +25,45 @@ $AMIClass('MessageBoxCtrl', {
 
   /*---------------------------------------------------------------------*/
   onReady: function onReady() {
+    var _this = this;
+
     return amiWebApp.loadResources([amiWebApp.originURL + '/controls/MessageBox/twig/MessageBoxCtrl.twig', amiWebApp.originURL + '/js/3rd-party/clipboard.min.js']).done(function (data) {
       amiWebApp.appendHTML('body', data[0]).done(function () {
+        var _class = _this.$class;
+        /*---------------------------------------------------------*/
+
+        $('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').on('hidden.bs.modal', function () {
+          _class.deferred.resolveWith(_class.context || _class.deferred);
+        });
+        /*---------------------------------------------------------*/
+
         new ClipboardJS('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .btn[data-clipboard-target]');
+        /*---------------------------------------------------------*/
       });
     });
   },
 
   /*---------------------------------------------------------------------*/
-  show: function show(text) {
-    $('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(text || '');
-    $('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').modal('show');
-  },
-
-  /*---------------------------------------------------------------------*/
   render: function render(text) {
+    var deferred = $.Deferred();
+    /*-----------------------------------------------------------------*/
+
+    var _amiWebApp$setup = amiWebApp.setup(['context', 'title'], [deferred, 'Edit box'], settings),
+        context = _amiWebApp$setup[0],
+        title = _amiWebApp$setup[1];
+    /*-----------------------------------------------------------------*/
+
+
     $('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(text || '');
     $('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').modal('show');
-  }
-  /*---------------------------------------------------------------------*/
+    this.$class.deferred = deferred;
+    this.$class.context = context;
+    /*-----------------------------------------------------------------*/
 
-});
+    return deferred.promise();
+    /*-----------------------------------------------------------------*/
+  }
+}, _$AMIClass["render"] = function render(text) {
+  return this.show(text);
+}, _$AMIClass));
 /*-------------------------------------------------------------------------*/

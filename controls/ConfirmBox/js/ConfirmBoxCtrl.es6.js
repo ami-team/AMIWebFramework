@@ -40,20 +40,20 @@ $AMIClass('ConfirmBoxCtrl', {
 
 				/*---------------------------------------------------------*/
 
-				$('#C6245DA9_A1AB_D28C_B4A3_C6279EEF41DE').click(() => {
+				$('#DCDB367E_FB67_A957_68AC_B54038F860DB').on('hidden.bs.modal', () => {
 
-					$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
+					//$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
 
-					_class.deferred.rejectWith(_class.context || _class.context, [true]);
+					_class.deferred.rejectWith(_class.context || _class.deferred, [false]);
 				});
 
 				/*---------------------------------------------------------*/
 
-				$('#E5435D68_FE3D_C90F_FC41_DEFF400CE4AE').click(() => {
+				$('#E5435D68_FE3D_C90F_FC41_DEFF400CE4AE').on(/*-*/'click'/*-*/, () => {
 
 					$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
 
-					_class.deferred.resolveWith(_class.context || _class.deferred, [false]);
+					_class.deferred.resolveWith(_class.context || _class.deferred, [true]);
 				});
 
 				/*---------------------------------------------------------*/
@@ -98,6 +98,13 @@ $AMIClass('ConfirmBoxCtrl', {
 
 		/*-----------------------------------------------------------------*/
 	},
+
+	/*---------------------------------------------------------------------*/
+
+	render: function(text, settings)
+	{
+		return this.show(text, settings);
+	}
 
 	/*---------------------------------------------------------------------*/
 });

@@ -30,14 +30,17 @@ $AMIClass('EditBoxCtrl', {
         var _class = _this.$class;
         /*---------------------------------------------------------*/
 
-        $('#A642C648_39A9_FF50_0E1C_C1A8E6435C0C').click(function () {
-          $('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('hide');
-
+        $('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').on('hidden.bs.modal', function () {
+          //$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('hide');
           _class.deferred.rejectWith(_class.context || _class.deferred, [$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val()]);
         });
         /*---------------------------------------------------------*/
 
-        $('#CB99273A_B731_0289_8D87_D0549A1944FB').click(function () {
+        $('#CB99273A_B731_0289_8D87_D0549A1944FB').on(
+        /*-*/
+        'click'
+        /*-*/
+        , function () {
           $('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('hide');
 
           _class.deferred.resolveWith(_class.context || _class.deferred, [$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val()]);
@@ -70,6 +73,11 @@ $AMIClass('EditBoxCtrl', {
 
     return deferred.promise();
     /*-----------------------------------------------------------------*/
+  },
+
+  /*---------------------------------------------------------------------*/
+  render: function render(text, settings) {
+    return this.show(text, settings);
   }
   /*---------------------------------------------------------------------*/
 

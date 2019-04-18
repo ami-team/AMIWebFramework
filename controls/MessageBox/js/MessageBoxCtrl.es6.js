@@ -36,28 +36,62 @@ $AMIClass('MessageBoxCtrl', {
 
 			amiWebApp.appendHTML('body', data[0]).done(() => {
 
+				const _class = this.$class;
+
+				/*---------------------------------------------------------*/
+
+				$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').on('hidden.bs.modal', () => {
+
+					_class.deferred.resolveWith(_class.context || _class.deferred);
+				});
+
+				/*---------------------------------------------------------*/
+
 				new ClipboardJS('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .btn[data-clipboard-target]');
+
+				/*---------------------------------------------------------*/
 			});
 		});
 	},
 
 	/*---------------------------------------------------------------------*/
 
-	show: function(text)
+	render: function(text)
 	{
+		const deferred = $.Deferred();
+
+		/*-----------------------------------------------------------------*/
+
+		const [
+			context, title
+		] = amiWebApp.setup(
+			['context', 'title'],
+			[deferred, 'Edit box'],
+			settings
+		);
+
+		/*-----------------------------------------------------------------*/
+
 		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(text || '');
 
 		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').modal('show');
+
+		this.$class.deferred = deferred;
+		this.$class.context = context;
+
+		/*-----------------------------------------------------------------*/
+
+		return deferred.promise();
+
+		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
 
 	render: function(text)
 	{
-		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(text || '');
-
-		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').modal('show');
-	},
+		return this.show(text);
+	}
 
 	/*---------------------------------------------------------------------*/
 });

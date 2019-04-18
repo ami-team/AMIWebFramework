@@ -27,14 +27,31 @@ $AMIClass('DiffBoxCtrl', {
 
     return amiWebApp.loadResources([amiWebApp.originURL + '/controls/DiffBox/twig/DiffBoxCtrl.twig', amiWebApp.originURL + '/js/3rd-party/diff_match_patch.min.js']).done(function (data) {
       amiWebApp.appendHTML('body', data[0]).done(function () {
+        var _class = _this.$class;
+        /*---------------------------------------------------------*/
+
+        $('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').on('hidden.bs.modal', function () {
+          _class.deferred.resolveWith(_class.context || _class.deferred);
+        });
+        /*---------------------------------------------------------*/
+
         _this.dmp = new diff_match_patch();
+        /*---------------------------------------------------------*/
       });
     });
   },
 
   /*---------------------------------------------------------------------*/
   show: function show(text1, text3) {
+    var deferred = $.Deferred();
     /*-----------------------------------------------------------------*/
+
+    var _amiWebApp$setup = amiWebApp.setup(['context', 'title'], [deferred, 'Edit box'], settings),
+        context = _amiWebApp$setup[0],
+        title = _amiWebApp$setup[1];
+    /*-----------------------------------------------------------------*/
+
+
     var d = this.dmp.diff_main(text1, text3);
     this.dmp.diff_cleanupEfficiency(d);
     /*-----------------------------------------------------------------*/
@@ -52,7 +69,17 @@ $AMIClass('DiffBoxCtrl', {
     /*-----------------------------------------------------------------*/
 
     $('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').modal('show');
+    this.$class.deferred = deferred;
+    this.$class.context = context;
     /*-----------------------------------------------------------------*/
+
+    return deferred.promise();
+    /*-----------------------------------------------------------------*/
+  },
+
+  /*---------------------------------------------------------------------*/
+  render: function render(text1, text3) {
+    return this.show(text1, text3);
   }
   /*---------------------------------------------------------------------*/
 

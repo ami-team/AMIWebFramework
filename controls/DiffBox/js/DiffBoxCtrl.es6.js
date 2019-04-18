@@ -36,7 +36,20 @@ $AMIClass('DiffBoxCtrl', {
 
 			amiWebApp.appendHTML('body', data[0]).done(() => {
 
+				const _class = this.$class;
+
+				/*---------------------------------------------------------*/
+
+				$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').on('hidden.bs.modal', () => {
+
+					_class.deferred.resolveWith(_class.context || _class.deferred);
+				});
+
+				/*---------------------------------------------------------*/
+
 				this.dmp = new diff_match_patch();
+
+				/*---------------------------------------------------------*/
 			});
 		});
 	},
@@ -45,6 +58,18 @@ $AMIClass('DiffBoxCtrl', {
 
 	show: function(text1, text3)
 	{
+		const deferred = $.Deferred();
+
+		/*-----------------------------------------------------------------*/
+
+		const [
+			context, title
+		] = amiWebApp.setup(
+			['context', 'title'],
+			[deferred, 'Edit box'],
+			settings
+		);
+
 		/*-----------------------------------------------------------------*/
 
 		const d = this.dmp.diff_main(text1, text3);
@@ -73,8 +98,22 @@ $AMIClass('DiffBoxCtrl', {
 
 		$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').modal('show');
 
+		this.$class.deferred = deferred;
+		this.$class.context = context;
+
+		/*-----------------------------------------------------------------*/
+
+		return deferred.promise();
+
 		/*-----------------------------------------------------------------*/
 	},
+
+	/*---------------------------------------------------------------------*/
+
+	render: function(text1, text3)
+	{
+		return this.show(text1, text3);
+	}
 
 	/*---------------------------------------------------------------------*/
 });

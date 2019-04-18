@@ -6072,7 +6072,7 @@ $AMINamespace('amiWebApp',
       var instance = new constructor(parent, owner);
 
       _ami_internal_then(constructor.prototype.render.apply(instance, params), function () {
-        result.resolveWith(context, [instance]);
+        result.resolveWith(context, Array.prototype.slice.call(arguments));
       }, function (message) {
         result.rejectWith(context, [message]);
       });
@@ -6125,8 +6125,8 @@ $AMINamespace('amiWebApp',
       PARAMS.push(SETTINGS);
       /*-------------------------------------------------------------*/
 
-      this.createControl(parent, owner, control, PARAMS).done(function (instance) {
-        result.resolveWith(context, [instance]);
+      this.createControl(parent, owner, control, PARAMS).done(function () {
+        result.resolveWith(context, Array.prototype.slice.call(arguments));
       }).fail(function (message) {
         result.rejectWith(context, [message]);
       });
@@ -6186,8 +6186,8 @@ $AMINamespace('amiWebApp',
         PARAMS.push(SETTINGS);
         /*---------------------------------------------------------*/
 
-        _this8.createControl(parent, owner, control, PARAMS).done(function (instance) {
-          result.resolveWith(context, [instance]);
+        _this8.createControl(parent, owner, control, PARAMS).done(function () {
+          result.resolveWith(context, Array.prototype.slice.call(arguments));
         }).fail(function (message) {
           result.rejectWith(context, [message]);
         });
