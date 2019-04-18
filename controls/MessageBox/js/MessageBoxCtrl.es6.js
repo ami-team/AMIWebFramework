@@ -56,7 +56,7 @@ $AMIClass('MessageBoxCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	render: function(text)
+	render: function(text, settings)
 	{
 		const deferred = $.Deferred();
 
@@ -88,9 +88,9 @@ $AMIClass('MessageBoxCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	render: function(text)
+	render: function(text, settings)
 	{
-		return this.show(text);
+		return this.show(text, settings);
 	}
 
 	/*---------------------------------------------------------------------*/

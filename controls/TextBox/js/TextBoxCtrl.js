@@ -42,7 +42,7 @@ $AMIClass('TextBoxCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  show: function show(text) {
+  show: function show(text, settings) {
     var deferred = $.Deferred();
     /*-----------------------------------------------------------------*/
 
@@ -64,8 +64,8 @@ $AMIClass('TextBoxCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  render: function render(text) {
-    return this.show(text);
+  render: function render(text, settings) {
+    return this.show(text, settings);
   }
   /*---------------------------------------------------------------------*/
 
