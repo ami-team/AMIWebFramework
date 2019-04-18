@@ -418,9 +418,24 @@ $AMIClass('TableCtrl', {
 
 				amiWebApp.createControl(this.getParent(), this, 'editBox', [this.ctx.command], {}).done((command) => {
 
+					/*-----------------------------------------------------*/
+
 					this.ctx.command = command;
 
-					this.refresh();
+					/*-----------------------------------------------------*/
+
+					amiWebApp.lock();
+
+					this.refresh().done(() => {
+
+						amiWebApp.unlock();
+
+					}).fail((message) => {
+
+						amiWebApp.error(message, true);
+					});
+
+					/*-----------------------------------------------------*/
 				});
 			});
 
