@@ -1552,7 +1552,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			_ami_internal_then(constructor.prototype.render.apply(instance, params), function() {
 
-				result.resolveWith(context, [instance].concat(arguments));
+				result.resolveWith(context, [instance].concat([...arguments]));
 
 			}, (message) => {
 
@@ -1622,7 +1622,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			this.createControl(parent, owner, control, PARAMS).done(function() {
 
-				result.resolveWith(context, Array.prototype.slice.call(arguments));
+				result.resolveWith(context, [...arguments]);
 
 			}).fail((message) => {
 
@@ -1698,7 +1698,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				this.createControl(parent, owner, control, PARAMS).done(function() {
 
-					result.resolveWith(context, Array.prototype.slice.call(arguments));
+					result.resolveWith(context, [...arguments]);
 
 				}).fail((message) => {
 

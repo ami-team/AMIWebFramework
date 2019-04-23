@@ -6081,7 +6081,7 @@ $AMINamespace('amiWebApp',
       var instance = new constructor(parent, owner);
 
       _ami_internal_then(constructor.prototype.render.apply(instance, params), function () {
-        result.resolveWith(context, [instance].concat(arguments));
+        result.resolveWith(context, [instance].concat(Array.prototype.slice.call(arguments)));
       }, function (message) {
         result.rejectWith(context, [message]);
       });
