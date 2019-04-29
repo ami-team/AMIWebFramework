@@ -135,7 +135,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			var userdata = amiWebApp.args['userdata'] || '';
+			let userdata = amiWebApp.args['userdata'] || '';
 
 			/*-------------------------------------------------------------*/
 
