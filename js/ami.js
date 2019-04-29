@@ -7242,11 +7242,16 @@ $AMINamespace('amiLogin',
       _ami_internal_then(amiWebApp.onReady(userdata), function () {
         amiWebApp.lock();
         amiWebApp._isReady = true;
-        amiCommand.certLogin().always(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
+        amiCommand.certLogin().done(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
           _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function () {
             amiWebApp.unlock();
             result.resolve();
           }, function (message) {
+            amiWebApp.unlock();
+            result.reject(message);
+          });
+        }).fail(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
+          _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function () {
             amiWebApp.unlock();
             result.reject(message);
           });
@@ -7706,11 +7711,9 @@ $AMINamespace('amiLogin',
         _this16._error1(_message);
       }
     }, function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-      _this16._update(userInfo, roleInfo, udpInfo, ssoInfo).fail(function (message) {
-        amiWebApp.error(message);
+      _this16._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function () {
+        _this16._error1(message);
       });
-
-      _this16._error1(message);
     });
     /*-----------------------------------------------------------------*/
   },
