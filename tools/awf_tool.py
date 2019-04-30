@@ -49,8 +49,10 @@ def shutil_makedirs(path, ignore_errors = True):
 
 #############################################################################
 
-def gitClone(tempPath, url, commit_id):
+def gitClone(tempPath, url, commit_id, retry = True):
 
+    #########################################################################
+    # CLONE REPOSITORY                                                      #
     #########################################################################
 
     if not os.path.isdir(tempPath):
@@ -58,24 +60,48 @@ def gitClone(tempPath, url, commit_id):
         subprocess.check_call(['git', 'clone', url, tempPath])
 
     #########################################################################
-
-    if commit_id == 'HEAD':
-
-        subprocess.check_call(['git', 'pull'], cwd = tempPath)
-
-    else:
-
-        subprocess.check_call(['git', 'reset', '--hard', commit_id], cwd = tempPath)
-
+    # UPDATE REPOSITORY                                                     #
     #########################################################################
 
-    if sys.version_info < (3, 0):
+    try:
 
-        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath).strip()
+        #####################################################################
 
-    else:
+        if commit_id == 'HEAD':
 
-        return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath).decode('utf-8').strip()
+            subprocess.check_call(['git', 'pull'], cwd = tempPath)
+
+        else:
+
+            subprocess.check_call(['git', 'reset', '--hard', commit_id], cwd = tempPath)
+
+        #####################################################################
+
+        if sys.version_info < (3, 0):
+
+            return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath).strip()
+
+        else:
+
+            return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'], cwd = tempPath).decode('utf-8').strip()
+
+        #####################################################################
+
+    except CalledProcessError as e:
+
+        #####################################################################
+
+        if retry:
+
+            print('Trying re-cloning...')
+
+            shutil.rmtree(tempPath, ignore_errors = True)
+
+            gitClone(tempPath, url, commit_id, retry = False)
+
+        else:
+
+            raise
 
 #############################################################################
 
@@ -202,7 +228,7 @@ def saveText(fileName, data):
 def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
     ignore = [
-        '.DS_Store', '.DS_Store?',
+        '*~', '.DS_Store', '.DS_Store?',
         '/css', '/docs/api.html', '/docs/info.html', '/fonts', '/images', '/js', '/twig',
         '/.eslintrc.json', '/.settings'
     ]
