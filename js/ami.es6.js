@@ -8645,7 +8645,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			var userdata = amiWebApp.args['userdata'] || '';
+			let userdata = amiWebApp.args['userdata'] || '';
 
 			/*-------------------------------------------------------------*/
 
@@ -8655,15 +8655,24 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				amiWebApp._isReady = true;
 
-				amiCommand.certLogin().always((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+				amiCommand.certLogin().done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
 					this._update(userInfo, roleInfo, udpInfo, ssoInfo).then(() => {
 
 						amiWebApp.unlock();
 
-						result.resolve();
+						result.resolve(/*---*/);
 
 					}, (message) => {
+
+						amiWebApp.unlock();
+
+						result.reject(message);
+					});
+
+				}).fail((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+
+					this._update(userInfo, roleInfo, udpInfo, ssoInfo).always(() => {
 
 						amiWebApp.unlock();
 
@@ -9249,12 +9258,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		}, (data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-			this._update(userInfo, roleInfo, udpInfo, ssoInfo).fail((message) => {
+			this._update(userInfo, roleInfo, udpInfo, ssoInfo).always(() => {
 
-				amiWebApp.error(message);
+				this._error1(message);
 			});
-
-			this._error1(message);
 		});
 
 		/*-----------------------------------------------------------------*/
