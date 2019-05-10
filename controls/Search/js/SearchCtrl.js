@@ -2183,14 +2183,19 @@ $AMIClass('SearchCtrl', {
 		var predicateFoundR = false;
 
 	/*---------------------------------------------------------------------*/
+	/* RECURSION                                                           */
+	/*---------------------------------------------------------------------*/
 
 		if(node.nodeLeft === null && node.nodeRight === null)
 		{
-			ast = new amiTwig.expr.Node(amiTwig.expr.tokens.TERMINAL, node.nodeValue);
-
 			if(node.nodeValue === predicate)
 			{
+				ast = null;
 				predicateFound = true;
+			}
+			else
+			{
+				ast = new amiTwig.expr.Node(amiTwig.expr.tokens.TERMINAL, node.nodeValue);
 			}
 
 			return {'ast' : ast, 'predicateFound' : predicateFound};
@@ -2210,12 +2215,32 @@ $AMIClass('SearchCtrl', {
 			predicateFoundR = tmp.predicateFound;
 		}
 
+		/*-----------------------------------------------------------------*/
+		/* AND/OR NODE TREATMENT                                           */
+		/*-----------------------------------------------------------------*/
+
 		/**/ if(node.nodeValue === 'and')
 		{
-			ast = new amiTwig.expr.Node(amiTwig.expr.tokens.LOGICAL_AND, 'and');
 
-			ast.nodeLeft = astL;
-			ast.nodeRight = astR;
+			/**/ if(astL !== null && astR !== null)
+			{
+				ast = new amiTwig.expr.Node(amiTwig.expr.tokens.LOGICAL_AND, 'and');
+
+				ast.nodeLeft = astL;
+				ast.nodeRight = astR;
+			}
+			else if(astL !== null)
+			{
+				ast = astL;
+			}
+			else if(astR !== null)
+			{
+				ast = astR;
+			}
+			else
+			{
+				ast = null;
+			}
 
 			predicateFound = predicateFoundL || predicateFoundR;
 
@@ -2226,13 +2251,31 @@ $AMIClass('SearchCtrl', {
 
 			if(predicateFoundL === false && predicateFoundR === false)
 			{
-				ast = null;
+				/**/ if(astL !== null && astR !== null)
+				{
+					ast = new amiTwig.expr.Node(amiTwig.expr.tokens.LOGICAL_OR, 'or');
+
+					ast.nodeLeft = astL;
+					ast.nodeRight = astR;
+				}
+				else if(astL !== null)
+				{
+					ast = astL;
+				}
+				else if(astR !== null)
+				{
+					ast = astR;
+				}
+				else
+				{
+					ast = null;
+				}
 			}
 			else
 			{
 				/**/ if(predicateFoundL === true && predicateFoundR === true)
 				{
-					ast = new amiTwig.expr.Node(amiTwig.expr.tokens.LOGICAL_AND, 'or');
+					ast = new amiTwig.expr.Node(amiTwig.expr.tokens.LOGICAL_OR, 'or');
 
 					ast.nodeLeft = astL;
 					ast.nodeRight = astR;
@@ -2251,6 +2294,9 @@ $AMIClass('SearchCtrl', {
 
 			return {'ast' : ast, 'predicateFound' : predicateFound};;
 		}
+
+		/*-----------------------------------------------------------------*/
+
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -2258,11 +2304,12 @@ $AMIClass('SearchCtrl', {
 	dumpFilterAST: function(predicate)
 	{
 		var tmp = this._dumpFilterAST(predicate, this.ctx.ast, this.ctx.predicates)
+
 		var result = '';
 
 		/*-----------------------------------------------------------------*/
 
-		if (tmp.predicateFound)
+		if (tmp.ast !== null)
 		{
 			if((result = this._dumpAST(tmp.ast, this.ctx.predicates)))
 			{
@@ -2285,6 +2332,7 @@ $AMIClass('SearchCtrl', {
 	},
 
 	/*---------------------------------------------------------------------*/
+
 });
 
 /*-------------------------------------------------------------------------*/
