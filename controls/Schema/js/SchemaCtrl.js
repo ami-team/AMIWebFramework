@@ -459,8 +459,8 @@ $AMIClass('SchemaCtrl', {
       var rank = amiWebApp.jspath('..field{.@name==="rank"}.$', data)[0] || '999';
       var description = amiWebApp.jspath('..field{.@name==="description"}.$', data)[0] || 'N/A';
       var webLinkScript = amiWebApp.jspath('..field{.@name==="webLinkScript"}.$', data)[0] || '@NULL';
-      var adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
       var hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', data)[0] || 'false';
+      var adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
       var crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', data)[0] || 'false';
       var primary = amiWebApp.jspath('..field{.@name==="primary"}.$', data)[0] || 'false';
       var readable = amiWebApp.jspath('..field{.@name==="readable"}.$', data)[0] || 'false';
