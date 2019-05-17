@@ -160,16 +160,8 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		if(!this.ctx.primaryField
-		   &&
-		   (
-			this.ctx.showDetails
-			||
-			this.ctx.showTools
-			||
-			this.ctx.canEdit
-		   )
-		 ) {
+		if(this.ctx.canEdit || ((this.ctx.showDetails || this.ctx.showTools) && !this.ctx.primaryField))
+		{
 			amiCommand.execute('GetEntityInfo -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '"').done((data) => {
 
 				const rows = amiWebApp.jspath('..{.@type==="fields"}.row', data);
@@ -188,7 +180,10 @@ $AMIClass('TableCtrl', {
 
 					if(primary === 'true')
 					{
-						this.ctx.primaryField = field;
+						if(!this.ctx.primaryField)
+						{
+							this.ctx.primaryField = field;
+						}
 					}
 					else
 					{
@@ -209,29 +204,27 @@ $AMIClass('TableCtrl', {
 					}
 				}
 
-				if(!this.ctx.primaryField)
-				{
-					this.ctx.showDetails = false;
-					this.ctx.showTools = false;
-					this.ctx.canEdit = false;
-				}
+				this.ctx.showDetails = !!this.ctx.primaryField;
+				this.ctx.showTools = !!this.ctx.primaryField;
+				this.ctx.canEdit = !!this.ctx.primaryField;
 
 				this._render(result, selector);
 
 			}).fail(() => {
 
-				if(/*----*/ true /*----*/)
-				{
-					this.ctx.showDetails = false;
-					this.ctx.showTools = false;
-					this.ctx.canEdit = false;
-				}
+				this.ctx.showDetails = !!this.ctx.primaryField;
+				this.ctx.showTools = !!this.ctx.primaryField;
+				this.ctx.canEdit = /*----*/ false /*----*/;
 
 				this._render(result, selector);
 			});
 		}
 		else
 		{
+			this.ctx.showDetails = !!this.ctx.primaryField;
+			this.ctx.showTools = !!this.ctx.primaryField;
+			this.ctx.canEdit = /*----*/ false /*----*/;
+
 			this._render(result, selector);
 		}
 

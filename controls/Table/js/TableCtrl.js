@@ -126,7 +126,7 @@ $AMIClass('TableCtrl', {
     this.unitEditor = new this.fieldUnitCtor(this, this);
     /*-----------------------------------------------------------------*/
 
-    if (!this.ctx.primaryField && (this.ctx.showDetails || this.ctx.showTools || this.ctx.canEdit)) {
+    if (this.ctx.canEdit || (this.ctx.showDetails || this.ctx.showTools) && !this.ctx.primaryField) {
       amiCommand.execute('GetEntityInfo -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '"').done(function (data) {
         var rows = amiWebApp.jspath('..{.@type==="fields"}.row', data);
 
@@ -142,7 +142,9 @@ $AMIClass('TableCtrl', {
           var modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', rows[i])[0] || '';
 
           if (primary === 'true') {
-            _this2.ctx.primaryField = _field;
+            if (!_this2.ctx.primaryField) {
+              _this2.ctx.primaryField = _field;
+            }
           } else {
             if (created === 'false' && createdBy === 'false' && modified === 'false' && modifiedBy === 'false') {
               _this2.ctx.fieldInfo.push({
@@ -154,27 +156,31 @@ $AMIClass('TableCtrl', {
           }
         }
 
-        if (!_this2.ctx.primaryField) {
-          _this2.ctx.showDetails = false;
-          _this2.ctx.showTools = false;
-          _this2.ctx.canEdit = false;
-        }
+        _this2.ctx.showDetails = !!_this2.ctx.primaryField;
+        _this2.ctx.showTools = !!_this2.ctx.primaryField;
+        _this2.ctx.canEdit = !!_this2.ctx.primaryField;
 
         _this2._render(result, selector);
       }).fail(function () {
-        if (
+        _this2.ctx.showDetails = !!_this2.ctx.primaryField;
+        _this2.ctx.showTools = !!_this2.ctx.primaryField;
+        _this2.ctx.canEdit =
         /*----*/
-        true
+        false
         /*----*/
-        ) {
-            _this2.ctx.showDetails = false;
-            _this2.ctx.showTools = false;
-            _this2.ctx.canEdit = false;
-          }
+        ;
 
         _this2._render(result, selector);
       });
     } else {
+      this.ctx.showDetails = !!this.ctx.primaryField;
+      this.ctx.showTools = !!this.ctx.primaryField;
+      this.ctx.canEdit =
+      /*----*/
+      false
+      /*----*/
+      ;
+
       this._render(result, selector);
     }
     /*-----------------------------------------------------------------*/
