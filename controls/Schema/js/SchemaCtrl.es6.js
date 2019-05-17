@@ -585,8 +585,8 @@ $AMIClass('SchemaCtrl', {
 			const description = amiWebApp.jspath('..field{.@name==="description"}.$', data)[0] || 'N/A';
 			const webLinkScript = amiWebApp.jspath('..field{.@name==="webLinkScript"}.$', data)[0] || '@NULL';
 
-			const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
 			const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', data)[0] || 'false';
+			const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
 			const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', data)[0] || 'false';
 			const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', data)[0] || 'false';
 			const readable = amiWebApp.jspath('..field{.@name==="readable"}.$', data)[0] || 'false';
