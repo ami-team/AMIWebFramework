@@ -610,8 +610,8 @@ $AMIClass('SchemaCtrl', {
 			$('#C6CA88FD_548A_FE30_9871_AFE55362439B').val(rank);
 			$('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val(description);
 
-			$('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked', adminOnly === 'true');
-			$('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked', hidden === 'true');
+			$('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked', hidden === 'true');
+			$('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked', adminOnly === 'true');
 			$('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked', crypted === 'true');
 			$('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked', primary === 'true');
 			$('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked', readable === 'true');
