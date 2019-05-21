@@ -146,7 +146,7 @@ $AMIClass('TableCtrl', {
               _this2.ctx.primaryField = _field;
             }
           } else {
-            if (created === 'false' && createdBy === 'false' && modified === 'false' && modifiedBy === 'false') {
+            if (created !== 'true' && createdBy !== 'true' && modified !== 'true' && modifiedBy !== 'true') {
               _this2.ctx.fieldInfo.push({
                 field: _field,
                 type: type,

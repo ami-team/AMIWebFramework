@@ -187,13 +187,13 @@ $AMIClass('TableCtrl', {
 					}
 					else
 					{
-						if(created === 'false'
+						if(created !== 'true'
 						   &&
-						   createdBy === 'false'
+						   createdBy !== 'true'
 						   &&
-						   modified === 'false'
+						   modified !== 'true'
 						   &&
-						   modifiedBy === 'false'
+						   modifiedBy !== 'true'
 						 ) {
 							this.ctx.fieldInfo.push({
 								field: field,
