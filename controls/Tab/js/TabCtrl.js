@@ -52,6 +52,7 @@ $AMIClass('TabCtrl', {
 		this._context = result;
 		this._card = true;
 		this._closable = true;
+		this._firstVisible = true;
 
 		if(settings)
 		{
@@ -65,6 +66,10 @@ $AMIClass('TabCtrl', {
 
 			if('closable' in settings) {
 				this._closable = settings['closable'];
+			}
+
+			if('firstVisible' in settings) {
+				this._firstVisible = settings['firstVisible'];
 			}
 		}
 
@@ -111,6 +116,7 @@ $AMIClass('TabCtrl', {
 		var height = 'auto';
 		var active = true;
 		var closable = this._closable;
+		var firstVisible = this._firstVisible;
 
 		if(settings)
 		{
@@ -128,6 +134,10 @@ $AMIClass('TabCtrl', {
 
 			if('closable' in settings) {
 				closable = settings['closable'];
+			}
+
+			if('firstVisible' in settings) {
+				firstVisible = settings['firstVisible'];
 			}
 		}
 
@@ -151,6 +161,17 @@ $AMIClass('TabCtrl', {
 
 		this.prependHTML(this._selector + ' > ' + tabSelector, this.fragmentNavItem, {context: this, dict: dict}).done(function() {
 			this.prependHTML(this._selector + ' > ' + contentSelector, this.fragmentTabPane, {context: this, dict: dict}).done(function() {
+
+				/*---------------------------------------------------------*/
+
+				var els = $(this._selector + ' > ' + tabSelector);
+
+				if(els.length === 0 && firstVisible === false) {
+					els.hide();
+				}
+				else {
+					els.show();
+				}
 
 				/*---------------------------------------------------------*/
 
@@ -198,6 +219,7 @@ $AMIClass('TabCtrl', {
 		var height = 'auto';
 		var active = true;
 		var closable = this._closable;
+		var firstVisible = this._firstVisible;
 
 		if(settings)
 		{
@@ -215,6 +237,10 @@ $AMIClass('TabCtrl', {
 
 			if('closable' in settings) {
 				closable = settings['closable'];
+			}
+
+			if('firstVisible' in settings) {
+				firstVisible = settings['firstVisible'];
 			}
 		}
 
@@ -238,6 +264,17 @@ $AMIClass('TabCtrl', {
 
 		this.appendHTML(this._selector + ' > ' + tabSelector, this.fragmentNavItem, {context: this, dict: dict}).done(function() {
 			this.appendHTML(this._selector + ' > ' + contentSelector, this.fragmentTabPane, {context: this, dict: dict}).done(function() {
+
+				/*---------------------------------------------------------*/
+
+				var els = $(this._selector + ' > ' + tabSelector);
+
+				if(els.length === 0 && firstVisible === false) {
+					els.hide();
+				}
+				else {
+					els.show();
+				}
 
 				/*---------------------------------------------------------*/
 
