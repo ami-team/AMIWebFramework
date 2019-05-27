@@ -6626,6 +6626,14 @@ $AMIClass('ami.Control',
   },
 
   /*---------------------------------------------------------------------*/
+  setSelector: function setSelector(selector) {
+    return this._selector = selector || '';
+  },
+  getSelector: function getSelector() {
+    return this._selector;
+  },
+
+  /*---------------------------------------------------------------------*/
   patchId: function patchId(identifier) {
     return identifier + '_instance' + this.instanceSuffix;
   },

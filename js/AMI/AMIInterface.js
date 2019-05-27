@@ -185,6 +185,18 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*---------------------------------------------------------------------*/
 
+	setSelector: function(selector)
+	{
+		return this._selector = (selector || '');
+	},
+
+	getSelector: function()
+	{
+		return this._selector;
+	},
+
+	/*---------------------------------------------------------------------*/
+
 	patchId: function(identifier)
 	{
 		return identifier + '_instance' + this.instanceSuffix;
