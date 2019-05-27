@@ -149,7 +149,7 @@ $AMIClass('ElementInfoCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem('<i class="fa fa-arrows-alt"></i> ' + this.ctx.entity, {closable: false}).done((selector) => {
+				tab.appendItem('<i class="fa fa-arrows-alt"></i> ' + this.ctx.entity, {closable: false, firstVisible: false}).done((selector) => {
 
 					this.setParent(tab);
 
