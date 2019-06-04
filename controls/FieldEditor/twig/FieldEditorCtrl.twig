@@ -2,26 +2,54 @@
 
 <style type="text/css">
 
-.field-edit [data-action="edit"]:hover {
+.field-edit [data-action="edit-row"]:hover {
 
 	background-color: rgb(248, 215, 218);
 	border-radius: 0.25rem;
 	cursor: pointer;
 }
 
+#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F {
+
+	text-align: center;
+}
+
 </style>
 
 <!-- ******************************************************************** -->
 
-<div class="modal fade" role="dialog" id="F44687A3_036C_9C77_3284_DD495D9F4D7D">
-	<form class="modal-dialog modal-lg" role="document" id="E2E8670D_2BAE_B181_79E5_C8A170BD3981">
+<div class="modal fade" role="dialog" id="A8572167_6898_AD6F_8EAD_9D4E2AEB3550">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title"><i class="fa fa-window-maximize"></i> Field editor</h4>
+				<h4 class="modal-title"><i class="fa fa-window-maximize"></i> Row editor</h4>
 			</div>
-			<div class="modal-body">
+			<form class="modal-body" id="B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1">
 
-				<div class="alert alert-success text-center" id="D3CE601F_C7BA_5C8E_2564_491FED4C5D6F"></div>
+				<div id="B4CF70FC_14C8_FC57_DEF0_05144415DB6A"></div>
+				<div id="F2E58136_73F5_D2E2_A0B7_2F810830AD98"></div>
+
+			</form>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+				<button type="reset" form="B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1" class="btn btn-danger" id="FBAEFEFD_2B3B_9E95_09B3_57F008ADE8E0">Empty</button>
+				<button type="submit" form="B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1" class="btn btn-primary" id="E23242A4_0B6D_8184_B163_86C98AC5DA51">Append</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ******************************************************************** -->
+
+<div class="modal fade" role="dialog" id="F44687A3_036C_9C77_3284_DD495D9F4D7D">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title"><i class="fa fa-window-maximize"></i> Field editor: <small id="D3CE601F_C7BA_5C8E_2564_491FED4C5D6F"></small></h4>
+			</div>
+			<form class="modal-body" id="E2E8670D_2BAE_B181_79E5_C8A170BD3981">
+
+				<div id="B9B74CAB_E87A_4B68_A866_793E9C70EEF1"></div>
 
 				<div class="accordion" id="A4A7E040_7F01_C1BD_7180_2327E5244805">
 					<div class="card">
@@ -98,14 +126,14 @@
 					</div>
 				</div>
 
-			</div>
+			</form>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-				<button type="reset" class="btn btn-danger" id="FBAEFEFD_2B3B_9E95_09B3_57F008ADE8E0">Empty</button>
-				<button type="submit" class="btn btn-primary" id="E23242A4_0B6D_8184_B163_86C98AC5DA51">Change</button>
+				<button type="reset" form="E2E8670D_2BAE_B181_79E5_C8A170BD3981" class="btn btn-danger" id="FBAEFEFD_2B3B_9E95_09B3_57F008ADE8E0">Empty</button>
+				<button type="submit" form="E2E8670D_2BAE_B181_79E5_C8A170BD3981" class="btn btn-primary" id="E23242A4_0B6D_8184_B163_86C98AC5DA51">Change</button>
 			</div>
 		</div>
-	</form>
+	</div>
 </div>
 
 <!-- ******************************************************************** -->

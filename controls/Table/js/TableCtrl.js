@@ -28,7 +28,7 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
     return amiWebApp.loadResources([amiWebApp.originURL + '/controls/Table/twig/TableCtrl.twig',
     /**/
-    amiWebApp.originURL + '/controls/Table/twig/refineModal.twig', amiWebApp.originURL + '/controls/Table/twig/addModal.twig',
+    amiWebApp.originURL + '/controls/Table/twig/refineModal.twig',
     /**/
     amiWebApp.originURL + '/controls/Table/twig/fieldList.twig', amiWebApp.originURL + '/controls/Table/twig/table.twig', amiWebApp.originURL + '/controls/Table/twig/js.twig',
     /**/
@@ -38,15 +38,13 @@ $AMIClass('TableCtrl', {
     /**/
     'ctrl:fieldEditor', 'ctrl:unitEditor', 'ctrl:tab']).done(function (data) {
       amiWebApp.appendHTML('body', data[1]).done(function () {
-        amiWebApp.appendHTML('body', data[2]).done(function () {
-          _this.fragmentTableCtrl = data[0];
-          _this.fragmentFieldList = data[3];
-          _this.fragmentTable = data[4];
-          _this.fragmentJS = data[5];
-          _this.fieldEditorCtor = data[8];
-          _this.fieldUnitCtor = data[9];
-          _this.tabCtor = data[10];
-        });
+        _this.fragmentTableCtrl = data[0];
+        _this.fragmentFieldList = data[2];
+        _this.fragmentTable = data[3];
+        _this.fragmentJS = data[4];
+        _this.fieldEditorCtor = data[7];
+        _this.fieldUnitCtor = data[8];
+        _this.tabCtor = data[9];
       });
     });
     /*-----------------------------------------------------------------*/
@@ -73,37 +71,25 @@ $AMIClass('TableCtrl', {
       totalNumberOfRows: Number.NaN
     };
 
-    var fn1 = function fn1(fields, values) {
-      return 'AddElement -catalog="' + _this2.ctx.catalog + '" -entity="' + _this2.ctx.entity + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"';
-    };
-
-    var fn2 = function fn2(primaryValue) {
-      return 'RemoveElements -catalog="' + _this2.ctx.catalog + '" -entity="' + _this2.ctx.entity + '" -separator="§" -keyFields="' + _this2.ctx.primaryField + '" -keyValues="' + amiWebApp.textToString(primaryValue) + '"';
-    };
-
-    var _amiWebApp$setup = amiWebApp.setup(['context', 'appendCommandFunc', 'deleteCommandFunc', 'enableCache', 'enableCount', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'catalog', 'entity', 'primaryField', 'rowset', 'start', 'stop', 'orderBy', 'orderWay', 'maxCellLength', 'card'], [result, fn1, fn2, false, true, true, false, true, false, '', '', '', '', 1, 10, '', '', 64, false], settings),
+    var _amiWebApp$setup = amiWebApp.setup(['context', 'enableCache', 'enableCount', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'catalog', 'entity', 'primaryField', 'rowset', 'start', 'stop', 'orderBy', 'orderWay', 'maxCellLength', 'card'], [result, false, true, true, false, true, false, '', '', '', '', 1, 10, '', '', 64, false], settings),
         context = _amiWebApp$setup[0],
-        appendCommandFunc = _amiWebApp$setup[1],
-        deleteCommandFunc = _amiWebApp$setup[2],
-        enableCache = _amiWebApp$setup[3],
-        enableCount = _amiWebApp$setup[4],
-        showToolBar = _amiWebApp$setup[5],
-        showDetails = _amiWebApp$setup[6],
-        showTools = _amiWebApp$setup[7],
-        canEdit = _amiWebApp$setup[8],
-        catalog = _amiWebApp$setup[9],
-        entity = _amiWebApp$setup[10],
-        primaryField = _amiWebApp$setup[11],
-        rowset = _amiWebApp$setup[12],
-        start = _amiWebApp$setup[13],
-        stop = _amiWebApp$setup[14],
-        orderBy = _amiWebApp$setup[15],
-        orderWay = _amiWebApp$setup[16],
-        maxCellLength = _amiWebApp$setup[17],
-        card = _amiWebApp$setup[18];
+        enableCache = _amiWebApp$setup[1],
+        enableCount = _amiWebApp$setup[2],
+        showToolBar = _amiWebApp$setup[3],
+        showDetails = _amiWebApp$setup[4],
+        showTools = _amiWebApp$setup[5],
+        canEdit = _amiWebApp$setup[6],
+        catalog = _amiWebApp$setup[7],
+        entity = _amiWebApp$setup[8],
+        primaryField = _amiWebApp$setup[9],
+        rowset = _amiWebApp$setup[10],
+        start = _amiWebApp$setup[11],
+        stop = _amiWebApp$setup[12],
+        orderBy = _amiWebApp$setup[13],
+        orderWay = _amiWebApp$setup[14],
+        maxCellLength = _amiWebApp$setup[15],
+        card = _amiWebApp$setup[16];
 
-    this.ctx.appendCommandFunc = appendCommandFunc;
-    this.ctx.deleteCommandFunc = deleteCommandFunc;
     this.ctx.enableCache = enableCache;
     this.ctx.enableCount = enableCount;
     this.ctx.showToolBar = showToolBar;
@@ -127,58 +113,21 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
     if (this.ctx.canEdit || (this.ctx.showDetails || this.ctx.showTools) && !this.ctx.primaryField) {
-      amiCommand.execute('GetEntityInfo -catalog="' + this.ctx.catalog + '" -entity="' + this.ctx.entity + '"').done(function (data) {
-        var rows = amiWebApp.jspath('..{.@type==="fields"}.row', data);
-
-        for (var i in rows) {
-          var _field = amiWebApp.jspath('..field{.@name==="field"}.$', rows[i])[0] || '';
-
-          var type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
-          var def = amiWebApp.jspath('..field{.@name==="def"}.$', rows[i])[0] || '';
-          var primary = amiWebApp.jspath('..field{.@name==="primary"}.$', rows[i])[0] || '';
-          var created = amiWebApp.jspath('..field{.@name==="created"}.$', rows[i])[0] || '';
-          var createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', rows[i])[0] || '';
-          var modified = amiWebApp.jspath('..field{.@name==="modified"}.$', rows[i])[0] || '';
-          var modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', rows[i])[0] || '';
-
-          if (primary === 'true') {
-            if (!_this2.ctx.primaryField) {
-              _this2.ctx.primaryField = _field;
-            }
-          } else {
-            if (created !== 'true' && createdBy !== 'true' && modified !== 'true' && modifiedBy !== 'true') {
-              _this2.ctx.fieldInfo.push({
-                field: _field,
-                type: type,
-                def: def
-              });
-            }
-          }
-        }
-
-        _this2.ctx.showDetails = !!_this2.ctx.primaryField;
-        _this2.ctx.showTools = !!_this2.ctx.primaryField;
-        _this2.ctx.canEdit = !!_this2.ctx.primaryField;
-
-        _this2._render(result, selector);
-      }).fail(function () {
-        _this2.ctx.showDetails = !!_this2.ctx.primaryField;
-        _this2.ctx.showTools = !!_this2.ctx.primaryField;
-        _this2.ctx.canEdit =
-        /*----*/
-        false
-        /*----*/
-        ;
+      this.fieldEditor.getInfo(catalog, entity, primaryField).done(function (primaryField) {
+        _this2.ctx.primaryField = primaryField;
+        _this2.ctx.showDetails = _this2.ctx.showDetails && primaryField;
+        _this2.ctx.showTools = _this2.ctx.showTools && primaryField;
+        _this2.ctx.canEdit = _this2.ctx.canEdit && primaryField;
 
         _this2._render(result, selector);
       });
     } else {
-      this.ctx.showDetails = !!this.ctx.primaryField;
-      this.ctx.showTools = !!this.ctx.primaryField;
-      this.ctx.canEdit =
-      /*----*/
+      this.ctx.showDetails = this.ctx.showDetails && primaryField;
+      this.ctx.showTools = this.ctx.showTools && primaryField;
+      this.ctx.canEdit = this.ctx.canEdit &&
+      /**/
       false
-      /*----*/
+      /**/
       ;
 
       this._render(result, selector);
@@ -293,7 +242,7 @@ $AMIClass('TableCtrl', {
         _this4.setMode();
       });
       $(_this4.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850')).click(function () {
-        _this4.showEditModal();
+        _this4.showRowModal();
       });
       /*-------------------------------------------------------------*/
 
@@ -564,24 +513,6 @@ $AMIClass('TableCtrl', {
         });
         /*---------------------------------------------------------*/
 
-        /* ROW TOOLS                                               */
-
-        /*---------------------------------------------------------*/
-
-        parent.find('a[data-action="clone"]').click(function (e) {
-          e.preventDefault();
-
-          _this5.showEditModal(e.currentTarget.getAttribute('data-row'));
-        });
-        /*---------------------------------------------------------*/
-
-        parent.find('a[data-action="delete"]').click(function (e) {
-          e.preventDefault();
-
-          _this5.deleteRow(e.currentTarget.getAttribute('data-row'));
-        });
-        /*---------------------------------------------------------*/
-
         /* DETAILS                                                 */
 
         /*---------------------------------------------------------*/
@@ -608,7 +539,7 @@ $AMIClass('TableCtrl', {
 
         /*---------------------------------------------------------*/
 
-        _this5.fieldEditor.setup(_this5.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), _this5.ctx.primaryField, _this5.ctx);
+        _this5.fieldEditor.setup(_this5.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), _this5.ctx);
 
         _this5.unitEditor.setup(_this5.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'));
 
@@ -721,107 +652,8 @@ $AMIClass('TableCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  showEditModal: function showEditModal(primaryValue) {
-    var _this6 = this;
-
-    /*-----------------------------------------------------------------*/
-    var values = {};
-
-    if (primaryValue) {
-      $(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61') + ' div[data-row="' + primaryValue + '"]').each(function (idx, val) {
-        field = $(val).attr('data-field');
-        value = $(val).attr('data-val');
-        values[field] = value;
-      });
-    }
-    /*-----------------------------------------------------------------*/
-
-
-    var dict = {
-      values: values,
-      fieldInfo: this.ctx.fieldInfo
-    };
-    /*-----------------------------------------------------------------*/
-
-    amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {
-      dict: dict
-    }).done(function () {
-      var el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
-      var el2 = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1');
-      el2.off().submit(function (e) {
-        e.preventDefault();
-
-        _this6.appendRow();
-      });
-      el1.modal('show');
-    });
-    /*-----------------------------------------------------------------*/
-  },
-
-  /*---------------------------------------------------------------------*/
-  _formToArray: function _formToArray() {
-    var form = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1').serializeArray();
-    var fieldList = [];
-    var valueList = [];
-
-    for (var i in form) {
-      fieldList.push(form[i].name);
-      valueList.push(form[i].value);
-    }
-
-    return [fieldList, valueList];
-  },
-
-  /*---------------------------------------------------------------------*/
-  appendRow: function appendRow() {
-    var _this7 = this;
-
-    var result = confirm('Please confirm!');
-
-    if (result) {
-      amiWebApp.lock();
-      amiCommand.execute(this.ctx.appendCommandFunc.apply(this, this._formToArray())).done(function () {
-        $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
-
-        _this7.refresh().done(function () {
-          amiWebApp.unlock();
-        }).fail(function (message) {
-          amiWebApp.error(message, true);
-        });
-      }).fail(function (data, message) {
-        amiWebApp.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
-      });
-    }
-
-    return result;
-  },
-
-  /*---------------------------------------------------------------------*/
-  deleteRow: function deleteRow() {
-    var _this8 = this;
-
-    var result = confirm('Please confirm!');
-
-    if (result) {
-      amiWebApp.lock();
-      amiCommand.execute(this.ctx.deleteCommandFunc.apply(this, arguments)).done(function () {
-        $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
-
-        _this8.refresh().done(function () {
-          amiWebApp.unlock();
-        }).fail(function (message) {
-          amiWebApp.error(message, true);
-        });
-      }).fail(function (data, message) {
-        amiWebApp.error(message, true,
-        /*-------------*/
-        null
-        /*-------------*/
-        );
-      });
-    }
-
-    return result;
+  showRowModal: function showRowModal() {
+    this.fieldEditor.showRowModal(this.ctx.catalog, this.ctx.entity);
   },
 
   /*---------------------------------------------------------------------*/
@@ -845,7 +677,7 @@ $AMIClass('TableCtrl', {
 
   /*---------------------------------------------------------------------*/
   showRefineModal: function showRefineModal(catalog, entity, field) {
-    var _this9 = this;
+    var _this6 = this;
 
     /*-----------------------------------------------------------------*/
     var isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
@@ -865,7 +697,7 @@ $AMIClass('TableCtrl', {
     el2.off().submit(function (e) {
       e.preventDefault();
 
-      _this9.refineResult();
+      _this6.refineResult();
     });
     el1.modal('show');
     /*-----------------------------------------------------------------*/
