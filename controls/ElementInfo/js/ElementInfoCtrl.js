@@ -245,7 +245,7 @@ $AMIClass('ElementInfoCtrl', {
         dict: dict
       }).done(function () {
         /*---------------------------------------------------------*/
-        _this4.fieldEditor.setup(_this4.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), _this4.ctx.primaryFieldName, _this4.ctx);
+        _this4.fieldEditor.setup(_this4.patchId('#BBD391C7_759D_01DD_E234_488D46504638'), _this4.ctx);
 
         _this4.unitEditor.setup(_this4.patchId('#BBD391C7_759D_01DD_E234_488D46504638'));
         /*---------------------------------------------------------*/

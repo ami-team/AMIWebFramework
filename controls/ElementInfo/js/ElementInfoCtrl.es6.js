@@ -310,7 +310,7 @@ $AMIClass('ElementInfoCtrl', {
 				/*---------------------------------------------------------*/
 
 				this.fieldEditor.setup(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'),
-																		this.ctx.primaryFieldName, this.ctx);
+																						this.ctx);
 				this.unitEditor.setup(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'));
 
 				/*---------------------------------------------------------*/

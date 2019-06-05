@@ -218,7 +218,7 @@ $AMIClass('FieldEditorCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F').text('Field `' + field + '` for `' + catalog + '`.`' + entity + '`.`' + primaryField + '` = ' + primaryValue);
+    $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F').text('`' + field + '` for `' + catalog + '`.`' + entity + '`.`' + primaryField + '` = ' + primaryValue);
     /*-----------------------------------------------------------------*/
 
     $('#E2E8670D_2BAE_B181_79E5_C8A170BD3981')[0].reset();
