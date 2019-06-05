@@ -36,7 +36,6 @@ $AMIClass('TableCtrl', {
 			/**/
 			amiWebApp.originURL + '/controls/Table/twig/refineModal.twig',
 			/**/
-			amiWebApp.originURL + '/controls/Table/twig/fieldList.twig',
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/js.twig',
 			/**/
@@ -52,13 +51,12 @@ $AMIClass('TableCtrl', {
 			amiWebApp.appendHTML('body', data[1]).done(() => {
 
 				this.fragmentTableCtrl = data[0];
-				this.fragmentFieldList = data[2];
-				this.fragmentTable = data[3];
-				this.fragmentJS = data[4];
+				this.fragmentTable = data[2];
+				this.fragmentJS = data[3];
 
-				this.fieldEditorCtor = data[7];
-				this.fieldUnitCtor = data[8];
-				this.tabCtor = data[9];
+				this.fieldEditorCtor = data[6];
+				this.fieldUnitCtor = data[7];
+				this.tabCtor = data[8];
 			});
 		});
 
@@ -773,15 +771,15 @@ $AMIClass('TableCtrl', {
 				let numbers = [];
 
 				if(!Number.isNaN(this.ctx.maxNumberOfRows)) {
-					numbers.push('#max showable: ' + this.ctx.maxNumberOfRows);
+					numbers.push('max showable: ' + this.ctx.maxNumberOfRows);
 				}
 
 				if(!Number.isNaN(this.ctx.totalNumberOfRows)) {
-					numbers.push('#total: ' + this.ctx.totalNumberOfRows);
+					numbers.push('total: ' + this.ctx.totalNumberOfRows);
 				}
 
 				if(!Number.isNaN(rows.length)) {
-					numbers.push('#shown: ' + rows.length);
+					numbers.push('shown: ' + rows.length);
 				}
 
 				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text(numbers.join(', '));
@@ -896,6 +894,9 @@ $AMIClass('TableCtrl', {
 	},
 
 	/*---------------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
+	/*---------------------------------------------------------------------*/
+
 
 	_buildColumnName: function(catalog, entity, field)
 	{

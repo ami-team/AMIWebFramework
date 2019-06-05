@@ -172,21 +172,6 @@ $AMIClass('FieldEditorCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  primaryCatalog: function primaryCatalog() {
-    return this.ctx.primaryCatalog;
-  },
-
-  /*---------------------------------------------------------------------*/
-  getPrimaryEntity: function getPrimaryEntity() {
-    return this.ctx.primaryEntity;
-  },
-
-  /*---------------------------------------------------------------------*/
-  getPrimaryField: function getPrimaryField() {
-    return this.ctx.primaryField;
-  },
-
-  /*---------------------------------------------------------------------*/
   isInEditMode: function isInEditMode() {
     return this.ctx.inEditMode();
   },

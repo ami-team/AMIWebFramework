@@ -41,7 +41,7 @@ $AMIClass('AdminDashboardRoles', {
 
 	onLogin: function()
 	{
-		this.table.render('#D3C9F8B8_4EAF_B108_267E_066F064F7EF3', 'SearchQuery -catalog="self" -entity="router_role" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity: 'router_role', primaryField: 'id', start: 1, stop: 25});
+		this.table.render('#D3C9F8B8_4EAF_B108_267E_066F064F7EF3', 'BrowseQuery -catalog="self" -entity="router_role" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity: 'router_role', primaryField: 'id', start: 1, stop: 25});
 	}
 
 	/*---------------------------------------------------------------------*/

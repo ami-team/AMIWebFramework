@@ -30,7 +30,7 @@ $AMIClass('TableCtrl', {
     /**/
     amiWebApp.originURL + '/controls/Table/twig/refineModal.twig',
     /**/
-    amiWebApp.originURL + '/controls/Table/twig/fieldList.twig', amiWebApp.originURL + '/controls/Table/twig/table.twig', amiWebApp.originURL + '/controls/Table/twig/js.twig',
+    amiWebApp.originURL + '/controls/Table/twig/table.twig', amiWebApp.originURL + '/controls/Table/twig/js.twig',
     /**/
     amiWebApp.originURL + '/controls/Table/js/libxql.js',
     /**/
@@ -39,12 +39,11 @@ $AMIClass('TableCtrl', {
     'ctrl:fieldEditor', 'ctrl:unitEditor', 'ctrl:tab']).done(function (data) {
       amiWebApp.appendHTML('body', data[1]).done(function () {
         _this.fragmentTableCtrl = data[0];
-        _this.fragmentFieldList = data[2];
-        _this.fragmentTable = data[3];
-        _this.fragmentJS = data[4];
-        _this.fieldEditorCtor = data[7];
-        _this.fieldUnitCtor = data[8];
-        _this.tabCtor = data[9];
+        _this.fragmentTable = data[2];
+        _this.fragmentJS = data[3];
+        _this.fieldEditorCtor = data[6];
+        _this.fieldUnitCtor = data[7];
+        _this.tabCtor = data[8];
       });
     });
     /*-----------------------------------------------------------------*/
@@ -561,15 +560,15 @@ $AMIClass('TableCtrl', {
         var numbers = [];
 
         if (!Number.isNaN(_this5.ctx.maxNumberOfRows)) {
-          numbers.push('#max showable: ' + _this5.ctx.maxNumberOfRows);
+          numbers.push('max showable: ' + _this5.ctx.maxNumberOfRows);
         }
 
         if (!Number.isNaN(_this5.ctx.totalNumberOfRows)) {
-          numbers.push('#total: ' + _this5.ctx.totalNumberOfRows);
+          numbers.push('total: ' + _this5.ctx.totalNumberOfRows);
         }
 
         if (!Number.isNaN(rows.length)) {
-          numbers.push('#shown: ' + rows.length);
+          numbers.push('shown: ' + rows.length);
         }
 
         $(_this5.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text(numbers.join(', '));
@@ -655,6 +654,10 @@ $AMIClass('TableCtrl', {
   showRowModal: function showRowModal() {
     this.fieldEditor.showRowModal(this.ctx.catalog, this.ctx.entity);
   },
+
+  /*---------------------------------------------------------------------*/
+
+  /*---------------------------------------------------------------------*/
 
   /*---------------------------------------------------------------------*/
   _buildColumnName: function _buildColumnName(catalog, entity, field) {

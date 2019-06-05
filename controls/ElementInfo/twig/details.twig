@@ -27,30 +27,36 @@
 								<div class="font-italic text-danger">admin only</div>
 								{% else %}
 								<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
-								     {% if field['properties'] is defined %}
-								     {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
-								     {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
-								     {%   if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
-								     {%   if field['properties']['@unitFactor'] %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
-								     {%   if field['properties']['@unitBase'] %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
-								     {%   if field['properties']['@humanReadable'] %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
-								     {% endif %}
-								     data-action="edit" data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
+									{% if fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
+								     {%   if field['properties'] is defined %}
+								     {%     if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
+								     {%     if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
+								     {%     if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
+								     {%     if field['properties']['@unitFactor'] %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
+								     {%     if field['properties']['@unitBase'] %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
+								     {%     if field['properties']['@humanReadable'] %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
+								     {%   endif %}
+								     {%   if fieldDescriptions[loop.index0]['@automatic'] !== 'true' and fieldDescriptions[loop.index0]['@created'] !== 'true' and fieldDescriptions[loop.index0]['@createdBy'] !== 'true' and fieldDescriptions[loop.index0]['@modified'] !== 'true' and fieldDescriptions[loop.index0]['@modifiedBy'] !== 'true' %}
+								     data-action="edit-row"
+								     data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
 								     data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}"
 								     data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
+								     data-value="{{field.$|e}}"
 								     data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
-								     data-row="{{primaryFieldValue|e}}"
-									{% if fieldDescriptions[loop.index0]['@displayable'] === 'true' %}
-								>
-									<a href="#" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[loop.index0]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@entity']|e('json')|e('html')}}&quot;,&quot;{{primaryFieldName|e('json')|e('html')}}&quot;,&quot;{{primaryFieldValue|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
-									{% else %}
-								     data-val="{{field.$|e}}"
+								     data-primary-catalog="{{catalog|e}}"
+								     data-primary-entity="{{entity|e}}"
+								     data-primary-field="{{primaryFieldName|e}}"
+								     data-primary-value="{{primaryFieldValue|e}}"
+								     {%   endif %}
 								>
 									{%   if (field.$|length) > maxCellLength %}
 									<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
 									{%   else %}
 									{{field.$|e}}
 									{%   endif %}
+									{% else %}
+								>
+									<a href="#" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
 									{% endif %}
 								</div>
 								{%   if field['links'] is defined %}

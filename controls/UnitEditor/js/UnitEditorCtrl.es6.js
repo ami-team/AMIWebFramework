@@ -77,7 +77,7 @@ $AMIClass('UnitEditorCtrl', {
 			/* GET UNIT INFO                                               */
 			/*-------------------------------------------------------------*/
 
-			const unitVal = el.attr('data-val');
+			const unitVal = el.attr('data-value');
 			const unitName = el.attr('data-unit-name');
 			const unitFactor = el.attr('data-unit-factor');
 			const unitBase = el.attr('data-unit-base');
