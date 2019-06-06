@@ -10,6 +10,43 @@
  */
 
 /*-------------------------------------------------------------------------*/
+var _fieldEditor_internal_numberRegex = /^.*(?:BIT|INT|FLOAT|DOUBLE|SERIAL|DECIMAL|NUMBER).*$/;
+var _fieldEditor_internal_timestampRegex = /^.*(?:TIMESTAMP).*$/;
+var _fieldEditor_internal_datetimeRegex = /^.*(?:DATETIME).*$/;
+var _fieldEditor_internal_dateRegex = /^.*(?:DATE).*$/;
+var _fieldEditor_internal_timeRegex = /^.*(?:TIME).*$/;
+var _fieldEditor_internal_textRegex = /^.*(?:TEXT|CLOB|BLOB).*$/;
+/*---------------------------------------------------------------------*/
+
+function _fieldEditor_internal_getSQLType(rawValue, rawType) {
+  rawValue = rawValue.toUpperCase();
+  rawType = rawType.toUpperCase();
+  /**/
+
+  if (rawValue === '@NULL') {
+    return '@NULL';
+  } else if (rawType.match(_fieldEditor_internal_numberRegex)) {
+    return 'NUMBER';
+  } else if (rawType.match(_fieldEditor_internal_timestampRegex)) {
+    return 'TIMESTAMP';
+  } else if (rawType.match(_fieldEditor_internal_datetimeRegex)) {
+    return 'DATETIME';
+  } else if (rawType.match(_fieldEditor_internal_dateRegex)) {
+    return 'DATE';
+  } else if (rawType.match(_fieldEditor_internal_timeRegex)) {
+    return 'TIME';
+  } else if (rawType.match(_fieldEditor_internal_textRegex)) {
+    return 'LONG_TEXT';
+  } else {
+    return 'SHORT_TEXT';
+  }
+}
+/*-------------------------------------------------------------------------*/
+
+
+amiTwig.stdlib.getSQLType = _fieldEditor_internal_getSQLType;
+/*-------------------------------------------------------------------------*/
+
 $AMIClass('FieldEditorCtrl', {
   /*---------------------------------------------------------------------*/
   $extends: ami.Control,
@@ -33,8 +70,6 @@ $AMIClass('FieldEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   getInfo: function getInfo(primaryCatalog, primaryEntity, primaryField) {
-    var _this2 = this;
-
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
@@ -51,6 +86,7 @@ $AMIClass('FieldEditorCtrl', {
       var rows = amiWebApp.jspath('..{.@type==="fields"}.row', data);
 
       for (var i in rows) {
+        /*---------------------------------------------------------*/
         var field = amiWebApp.jspath('..field{.@name==="field"}.$', rows[i])[0] || '';
         var type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
         var def = amiWebApp.jspath('..field{.@name==="def"}.$', rows[i])[0] || '';
@@ -59,20 +95,23 @@ $AMIClass('FieldEditorCtrl', {
         var createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', rows[i])[0] || '';
         var modified = amiWebApp.jspath('..field{.@name==="modified"}.$', rows[i])[0] || '';
         var modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', rows[i])[0] || '';
+        /*---------------------------------------------------------*/
 
         if (primary === 'true') {
-          if (!_this2.primaryField) {
-            primaryField = field;
-          }
-        } else {
-          if (created !== 'true' && createdBy !== 'true' && modified !== 'true' && modifiedBy !== 'true') {
-            fieldInfo.push({
-              field: field,
-              type: type,
-              def: def
-            });
-          }
+          primaryField = field;
         }
+        /*---------------------------------------------------------*/
+
+
+        if (created !== 'true' && createdBy !== 'true' && modified !== 'true' && modifiedBy !== 'true') {
+          fieldInfo.push({
+            field: field,
+            type: type,
+            def: def
+          });
+        }
+        /*---------------------------------------------------------*/
+
       }
 
       result.resolve(primaryField, fieldInfo);
@@ -108,7 +147,7 @@ $AMIClass('FieldEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   setup: function setup(selector, settings) {
-    var _this3 = this;
+    var _this2 = this;
 
     /*-----------------------------------------------------------------*/
     var fn1 = function fn1(catalog, entity, fields, values) {
@@ -146,8 +185,8 @@ $AMIClass('FieldEditorCtrl', {
     this.el.find('div[data-action="edit-row"]').click(function (e) {
       e.preventDefault();
 
-      if (_this3.ctx.inEditMode) {
-        _this3.showFieldModal(e.currentTarget.getAttribute('data-primary-catalog'), e.currentTarget.getAttribute('data-primary-entity'), e.currentTarget.getAttribute('data-primary-field'), e.currentTarget.getAttribute('data-primary-value'), e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-value'), e.currentTarget.getAttribute('data-type'));
+      if (_this2.ctx.inEditMode) {
+        _this2.showFieldModal(e.currentTarget.getAttribute('data-primary-catalog'), e.currentTarget.getAttribute('data-primary-entity'), e.currentTarget.getAttribute('data-primary-field'), e.currentTarget.getAttribute('data-primary-value'), e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-value'), e.currentTarget.getAttribute('data-type'));
       }
     });
     /*-----------------------------------------------------------------*/
@@ -155,8 +194,8 @@ $AMIClass('FieldEditorCtrl', {
     this.el.find('[data-action="clone-row"]').click(function (e) {
       e.preventDefault();
 
-      if (_this3.ctx.inEditMode) {
-        _this3.showRowModal(e.currentTarget.getAttribute('data-primary-catalog'), e.currentTarget.getAttribute('data-primary-entity'), e.currentTarget.getAttribute('data-primary-field'), e.currentTarget.getAttribute('data-primary-value'));
+      if (_this2.ctx.inEditMode) {
+        _this2.showRowModal(e.currentTarget.getAttribute('data-primary-catalog'), e.currentTarget.getAttribute('data-primary-entity'), e.currentTarget.getAttribute('data-primary-field'), e.currentTarget.getAttribute('data-primary-value'));
       }
     });
     /*-----------------------------------------------------------------*/
@@ -164,8 +203,8 @@ $AMIClass('FieldEditorCtrl', {
     this.el.find('[data-action="delete-row"]').click(function (e) {
       e.preventDefault();
 
-      if (_this3.ctx.inEditMode) {
-        _this3.removeRow(e.currentTarget.getAttribute('data-primary-catalog'), e.currentTarget.getAttribute('data-primary-entity'), [e.currentTarget.getAttribute('data-primary-field')], [e.currentTarget.getAttribute('data-primary-value')]);
+      if (_this2.ctx.inEditMode) {
+        _this2.removeRow(e.currentTarget.getAttribute('data-primary-catalog'), e.currentTarget.getAttribute('data-primary-entity'), [e.currentTarget.getAttribute('data-primary-field')], [e.currentTarget.getAttribute('data-primary-value')]);
       }
     });
     /*-----------------------------------------------------------------*/
@@ -188,81 +227,93 @@ $AMIClass('FieldEditorCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  dateRegex: /^.*(?:DATE|TIME).*$/,
-  textRegex: /^.*(?:TEXT|CLOB|BLOB).*$/,
-  numberRegex: /^.*(?:BIT|INT|FLOAT|DOUBLE|SERIAL|DECIMAL|NUMBER).*$/,
-
-  /*---------------------------------------------------------------------*/
   showFieldModal: function showFieldModal(primaryCatalog, primaryEntity, primaryField, primaryValue, catalog, entity, field, value, type) {
-    var _this4 = this;
+    var _this3 = this;
 
     /*-----------------------------------------------------------------*/
-    if (primaryCatalog !== catalog || primaryEntity != entity) {
+    var values = {};
+
+    if (primaryCatalog === catalog && primaryEntity === entity) {
+      values[field] = value;
+    } else {
       return;
     }
     /*-----------------------------------------------------------------*/
 
 
-    $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F').text('`' + field + '` for `' + catalog + '`.`' + entity + '`.`' + primaryField + '` = ' + primaryValue);
-    /*-----------------------------------------------------------------*/
+    this.getInfo(primaryCatalog, primaryEntity, primaryField).done(function (primaryField, fieldInfo) {
+      /*-------------------------------------------------------------*/
+      var dict = {
+        primaryField: primaryField,
+        fieldInfo: fieldInfo,
+        values: values,
+        filter: field
+      };
+      amiWebApp.replaceHTML('#C2C43049_4CD6_73C3_597B_F0399A220610', _this3.fragmentFieldList, {
+        dict: dict
+      }).done(function () {
+        /*---------------------------------------------------------*/
+        var el1 = $('#F44687A3_036C_9C77_3284_DD495D9F4D7D');
+        var el2 = $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F');
+        var el3 = $('#C2C43049_4CD6_73C3_597B_F0399A220610');
+        /*---------------------------------------------------------*/
 
-    $('#E2E8670D_2BAE_B181_79E5_C8A170BD3981')[0].reset();
-    /*-----------------------------------------------------------------*/
+        el2.text(catalog + '.' + entity + '.' + primaryField + ' = ' + primaryValue);
+        /*---------------------------------------------------------*/
 
-    type = type.toUpperCase();
-    /**/
+        el3.off().on('submit', function (e) {
+          /*-----------------------------------------------------*/
+          e.preventDefault();
+          /*-----------------------------------------------------*/
 
-    if (value === '@NULL') {
-      $('#A70927B4_918F_07BC_2C91_B48CFCB812C6').collapse('show');
-    } else if (type.match(this.textRegex)) {
-      $('#EDD0ABD2_4AF8_4F27_AECD_D537F2695E67').collapse('show').find('textarea').val(value);
-    } else if (type.match(this.numberRegex)) {
-      $('#D20E11D2_1E45_B4B7_219A_9D9F490666D4').collapse('show').find('input').val(value);
-    } else if (type.match(this.dateRegex)) {
-      $('#F0389A55_B680_9D33_8D06_3D51CF4A3934').collapse('show').find('input').val(value);
-    } else
-      /*------------------------*/
-      {
-        $('#D22BDDA1_B582_6958_2EED_701D853D3B4D').collapse('show').find('input').val(value);
-      }
-    /*-----------------------------------------------------------------*/
+          var value = $('#A27F3F33_2EED_56A7_15EB_7994CE59C2ED .show > :input').val();
+          /*-----------------------------------------------------*/
 
+          _this3.updateRow(catalog, entity, [field], [value], [primaryField], [primaryValue]);
+          /*-----------------------------------------------------*/
 
-    $('#E2E8670D_2BAE_B181_79E5_C8A170BD3981').off().on('submit', function (e) {
-      e.preventDefault();
-      var value = $('#A4A7E040_7F01_C1BD_7180_2327E5244805 .show').find('input, textarea').val();
+        });
+        /*---------------------------------------------------------*/
 
-      _this4.updateRow(catalog, entity, [field], [value], [primaryField], [primaryValue]);
+        el1.modal('show');
+        /*---------------------------------------------------------*/
+      });
+      /*-------------------------------------------------------------*/
     });
-    /*-----------------------------------------------------------------*/
-
-    $('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('show');
-    /*-----------------------------------------------------------------*/
   },
 
   /*---------------------------------------------------------------------*/
   showRowModal: function showRowModal(primaryCatalog, primaryEntity, primaryField, primaryValue) {
-    var _this5 = this;
+    var _this4 = this;
 
     this.getInfo(primaryCatalog, primaryEntity, primaryField).done(function (primaryField, fieldInfo) {
-      _this5.getValues(primaryCatalog, primaryEntity, primaryField, primaryValue).done(function (values) {
+      _this4.getValues(primaryCatalog, primaryEntity, primaryField, primaryValue).done(function (values) {
         var dict = {
+          primaryField: primaryField,
           fieldInfo: fieldInfo,
-          values: values
+          values: values,
+          filter: ''
         };
-        amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', _this5.fragmentFieldList, {
+        amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', _this4.fragmentFieldList, {
           dict: dict
         }).done(function () {
+          /*-----------------------------------------------------*/
           var el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
-          var el2 = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1');
-          el2.off().submit(function (e) {
+          var el2 = $('#E44B299D_96B3_9C00_C91C_555C549BF87B');
+          var el3 = $('#F2E58136_73F5_D2E2_A0B7_2F810830AD98');
+          /*-----------------------------------------------------*/
+
+          el2.text(primaryCatalog + '.' + primaryEntity);
+          /*-----------------------------------------------------*/
+
+          el3.off().submit(function (e) {
             /*-------------------------------------------------*/
             e.preventDefault();
             /*-------------------------------------------------*/
 
             var fields = [];
             var values = [];
-            var form = el2.serializeArray();
+            var form = el3.find('.show > :input').serializeArray();
 
             for (var i in form) {
               fields.push(form[i].name);
@@ -271,11 +322,14 @@ $AMIClass('FieldEditorCtrl', {
             /*-------------------------------------------------*/
 
 
-            _this5.appendRow(primaryCatalog, primaryEntity, fields, values);
+            _this4.appendRow(primaryCatalog, primaryEntity, fields, values);
             /*-------------------------------------------------*/
 
           });
+          /*-----------------------------------------------------*/
+
           el1.modal('show');
+          /*-----------------------------------------------------*/
         });
       });
     });
@@ -283,7 +337,7 @@ $AMIClass('FieldEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   appendRow: function appendRow(catalog, entity, fields, values) {
-    var _this6 = this;
+    var _this5 = this;
 
     var result = confirm('Please confirm!');
 
@@ -292,13 +346,13 @@ $AMIClass('FieldEditorCtrl', {
       amiCommand.execute(this.ctx.appendCommandFunc(catalog, entity, fields, values)).done(function (data, message) {
         $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
-        _this6.success(message, true,
+        _this5.success(message, true,
         /*------------*/
         null
         /*------------*/
         );
       }).fail(function (data, message) {
-        _this6.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+        _this5.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
       });
     }
 
@@ -307,7 +361,7 @@ $AMIClass('FieldEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   updateRow: function updateRow(catalog, entity, fields, values, primaryFields, primaryValues) {
-    var _this7 = this;
+    var _this6 = this;
 
     var result = confirm('Please confirm!');
 
@@ -316,13 +370,13 @@ $AMIClass('FieldEditorCtrl', {
       amiCommand.execute(this.ctx.updateCommandFunc(catalog, entity, fields, values, primaryFields, primaryValues)).done(function (data, message) {
         $('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('hide');
 
-        _this7.success(message, true,
+        _this6.success(message, true,
         /*------------*/
         null
         /*------------*/
         );
       }).fail(function (data, message) {
-        _this7.error(message, true, '#B9B74CAB_E87A_4B68_A866_793E9C70EEF1');
+        _this6.error(message, true, '#B9B74CAB_E87A_4B68_A866_793E9C70EEF1');
       });
     }
 
@@ -331,16 +385,16 @@ $AMIClass('FieldEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   removeRow: function removeRow(primaryCatalog, primaryEntity, primaryFields, primaryValues) {
-    var _this8 = this;
+    var _this7 = this;
 
     var result = confirm('Please confirm!');
 
     if (result) {
       amiWebApp.lock();
       amiCommand.execute(this.ctx.removeCommandFunc(primaryCatalog, primaryEntity, primaryFields, primaryValues)).done(function (data, message) {
-        _this8.success(message, true);
+        _this7.success(message, true);
       }).fail(function (data, message) {
-        _this8.error(message, true);
+        _this7.error(message, true);
       });
     }
 

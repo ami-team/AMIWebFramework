@@ -11,6 +11,60 @@
 
 /*-------------------------------------------------------------------------*/
 
+const _fieldEditor_internal_numberRegex = /^.*(?:BIT|INT|FLOAT|DOUBLE|SERIAL|DECIMAL|NUMBER).*$/;
+const _fieldEditor_internal_timestampRegex = /^.*(?:TIMESTAMP).*$/;
+const _fieldEditor_internal_datetimeRegex = /^.*(?:DATETIME).*$/;
+const _fieldEditor_internal_dateRegex = /^.*(?:DATE).*$/;
+const _fieldEditor_internal_timeRegex = /^.*(?:TIME).*$/;
+const _fieldEditor_internal_textRegex = /^.*(?:TEXT|CLOB|BLOB).*$/;
+
+/*---------------------------------------------------------------------*/
+
+function _fieldEditor_internal_getSQLType(rawValue, rawType)
+{
+	rawValue = rawValue.toUpperCase();
+	rawType = rawType.toUpperCase();
+
+	/**/ if(rawValue === '@NULL')
+	{
+		return '@NULL';
+	}
+	else if(rawType.match(_fieldEditor_internal_numberRegex))
+	{
+		return 'NUMBER';
+	}
+	else if(rawType.match(_fieldEditor_internal_timestampRegex))
+	{
+		return 'TIMESTAMP';
+	}
+	else if(rawType.match(_fieldEditor_internal_datetimeRegex))
+	{
+		return 'DATETIME';
+	}
+	else if(rawType.match(_fieldEditor_internal_dateRegex))
+	{
+		return 'DATE';
+	}
+	else if(rawType.match(_fieldEditor_internal_timeRegex))
+	{
+		return 'TIME';
+	}
+	else if(rawType.match(_fieldEditor_internal_textRegex))
+	{
+		return 'LONG_TEXT';
+	}
+	else
+	{
+		return 'SHORT_TEXT';
+	}
+}
+
+/*-------------------------------------------------------------------------*/
+
+amiTwig.stdlib.getSQLType = _fieldEditor_internal_getSQLType;
+
+/*-------------------------------------------------------------------------*/
+
 $AMIClass('FieldEditorCtrl', {
 	/*---------------------------------------------------------------------*/
 
@@ -70,6 +124,8 @@ $AMIClass('FieldEditorCtrl', {
 
 			for(let i in rows)
 			{
+				/*---------------------------------------------------------*/
+
 				const field = amiWebApp.jspath('..field{.@name==="field"}.$', rows[i])[0] || '';
 				const type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
 				const def = amiWebApp.jspath('..field{.@name==="def"}.$', rows[i])[0] || '';
@@ -80,30 +136,31 @@ $AMIClass('FieldEditorCtrl', {
 				const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', rows[i])[0] || '';
 				const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', rows[i])[0] || '';
 
+				/*---------------------------------------------------------*/
+
 				if(primary === 'true')
 				{
-					if(!this.primaryField)
-					{
-						primaryField = field;
-					}
+					primaryField = field;
 				}
-				else
-				{
-					if(created !== 'true'
-					   &&
-					   createdBy !== 'true'
-					   &&
-					   modified !== 'true'
-					   &&
-					   modifiedBy !== 'true'
-					 ) {
-						fieldInfo.push({
-							field: field,
-							type: type,
-							def: def,
-						});
-					}
+
+				/*---------------------------------------------------------*/
+
+				if(created !== 'true'
+				   &&
+				   createdBy !== 'true'
+				   &&
+				   modified !== 'true'
+				   &&
+				   modifiedBy !== 'true'
+				 ) {
+					fieldInfo.push({
+						field: field,
+						type: type,
+						def: def,
+					});
 				}
+
+				/*---------------------------------------------------------*/
 			}
 
 			result.resolve(primaryField, fieldInfo);
@@ -285,72 +342,75 @@ $AMIClass('FieldEditorCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	dateRegex: /^.*(?:DATE|TIME).*$/,
-	textRegex: /^.*(?:TEXT|CLOB|BLOB).*$/,
-	numberRegex: /^.*(?:BIT|INT|FLOAT|DOUBLE|SERIAL|DECIMAL|NUMBER).*$/,
-
-	/*---------------------------------------------------------------------*/
-
 	showFieldModal: function(primaryCatalog, primaryEntity, primaryField, primaryValue, catalog, entity, field, value, type)
 	{
 		/*-----------------------------------------------------------------*/
 
-		if(primaryCatalog !== catalog
-		   ||
-		   primaryEntity != entity
+		const values = {};
+
+		if(primaryCatalog === catalog
+		   &&
+		   primaryEntity === entity
 		 ) {
+			values[field] = value;
+		}
+		else {
 			return;
 		}
 
 		/*-----------------------------------------------------------------*/
 
-		$('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F').text('`' + field + '` for `' + catalog + '`.`' + entity + '`.`' + primaryField + '` = ' + primaryValue);
+		this.getInfo(primaryCatalog, primaryEntity, primaryField).done((primaryField, fieldInfo) => {
 
-		/*-----------------------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 
-		$('#E2E8670D_2BAE_B181_79E5_C8A170BD3981')[0].reset();
+			const dict = {
+				primaryField: primaryField,
+				fieldInfo: fieldInfo,
+				values: values,
+				filter: field,
+			};
 
-		/*-----------------------------------------------------------------*/
+			amiWebApp.replaceHTML('#C2C43049_4CD6_73C3_597B_F0399A220610', this.fragmentFieldList, {dict: dict}).done(() => {
 
-		type = type.toUpperCase();
+				/*---------------------------------------------------------*/
 
-		/**/ if(value === '@NULL')
-		{
-			$('#A70927B4_918F_07BC_2C91_B48CFCB812C6').collapse('show');
-		}
-		else if(type.match(this.textRegex))
-		{
-			$('#EDD0ABD2_4AF8_4F27_AECD_D537F2695E67').collapse('show').find('textarea').val(value);
-		}
-		else if(type.match(this.numberRegex))
-		{
-			$('#D20E11D2_1E45_B4B7_219A_9D9F490666D4').collapse('show').find('input').val(value);
-		}
-		else if(type.match(this.dateRegex))
-		{
-			$('#F0389A55_B680_9D33_8D06_3D51CF4A3934').collapse('show').find('input').val(value);
-		}
-		else /*------------------------*/
-		{
-			$('#D22BDDA1_B582_6958_2EED_701D853D3B4D').collapse('show').find('input').val(value);
-		}
+				const el1 = $('#F44687A3_036C_9C77_3284_DD495D9F4D7D');
+				const el2 = $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F');
+				const el3 = $('#C2C43049_4CD6_73C3_597B_F0399A220610');
 
-		/*-----------------------------------------------------------------*/
+				/*---------------------------------------------------------*/
 
-		$('#E2E8670D_2BAE_B181_79E5_C8A170BD3981').off().on('submit', (e) => {
+				el2.text(catalog + '.' + entity + '.' + primaryField + ' = ' + primaryValue);
 
-			e.preventDefault();
+				/*---------------------------------------------------------*/
 
-			const value = $('#A4A7E040_7F01_C1BD_7180_2327E5244805 .show').find('input, textarea').val();
+				el3.off().on('submit', (e) => {
 
-			this.updateRow(catalog, entity, [field], [value], [primaryField], [primaryValue]);
+					/*-----------------------------------------------------*/
+
+					e.preventDefault();
+
+					/*-----------------------------------------------------*/
+
+					const value = $('#A27F3F33_2EED_56A7_15EB_7994CE59C2ED .show > :input').val();
+
+					/*-----------------------------------------------------*/
+
+					this.updateRow(catalog, entity, [field], [value], [primaryField], [primaryValue]);
+
+					/*-----------------------------------------------------*/
+				});
+
+				/*---------------------------------------------------------*/
+
+				el1.modal('show');
+
+				/*---------------------------------------------------------*/
+			});
+
+			/*-------------------------------------------------------------*/
 		});
-
-		/*-----------------------------------------------------------------*/
-
-		$('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('show');
-
-		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -362,16 +422,27 @@ $AMIClass('FieldEditorCtrl', {
 			this.getValues(primaryCatalog, primaryEntity, primaryField, primaryValue).done((values) => {
 
 				const dict = {
+					primaryField: primaryField,
 					fieldInfo: fieldInfo,
 					values: values,
+					filter: '',
 				};
 
 				amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {dict: dict}).done(() => {
 
-					const el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
-					const el2 = $('#B85AC8DB_E3F9_AB6D_D51F_0B103205F2B1');
+					/*-----------------------------------------------------*/
 
-					el2.off().submit((e) => {
+					const el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
+					const el2 = $('#E44B299D_96B3_9C00_C91C_555C549BF87B');
+					const el3 = $('#F2E58136_73F5_D2E2_A0B7_2F810830AD98');
+
+					/*-----------------------------------------------------*/
+
+					el2.text(primaryCatalog + '.' + primaryEntity);
+
+					/*-----------------------------------------------------*/
+
+					el3.off().submit((e) => {
 
 						/*-------------------------------------------------*/
 
@@ -382,7 +453,7 @@ $AMIClass('FieldEditorCtrl', {
 						const fields = [];
 						const values = [];
 
-						const form = el2.serializeArray();
+						const form = el3.find('.show > :input').serializeArray();
 
 						for(let i in form)
 						{
@@ -397,7 +468,11 @@ $AMIClass('FieldEditorCtrl', {
 						/*-------------------------------------------------*/
 					});
 
+					/*-----------------------------------------------------*/
+
 					el1.modal('show');
+
+					/*-----------------------------------------------------*/
 				});
 			});
 		});
