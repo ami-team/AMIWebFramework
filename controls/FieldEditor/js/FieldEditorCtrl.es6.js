@@ -393,7 +393,7 @@ $AMIClass('FieldEditorCtrl', {
 
 					/*-----------------------------------------------------*/
 
-					const value = $('#A27F3F33_2EED_56A7_15EB_7994CE59C2ED .show > :input').val();
+					const value = el3.find('.show > :input').val();
 
 					/*-----------------------------------------------------*/
 

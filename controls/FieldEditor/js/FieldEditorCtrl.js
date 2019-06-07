@@ -266,7 +266,7 @@ $AMIClass('FieldEditorCtrl', {
           e.preventDefault();
           /*-----------------------------------------------------*/
 
-          var value = $('#A27F3F33_2EED_56A7_15EB_7994CE59C2ED .show > :input').val();
+          var value = el3.find('.show > :input').val();
           /*-----------------------------------------------------*/
 
           _this3.updateRow(catalog, entity, [field], [value], [primaryField], [primaryValue]);
