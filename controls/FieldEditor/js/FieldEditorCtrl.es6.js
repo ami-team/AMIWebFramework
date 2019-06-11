@@ -437,8 +437,6 @@ $AMIClass('FieldEditorCtrl', {
 
 		this.getInfo(primaryCatalog, primaryEntity, primaryField).done((primaryField, fieldInfo) => {
 
-			/*-------------------------------------------------------------*/
-
 			const dict = {
 				primaryField: primaryField,
 				fieldInfo: fieldInfo,
@@ -501,7 +499,9 @@ $AMIClass('FieldEditorCtrl', {
 				/*---------------------------------------------------------*/
 			});
 
-			/*-------------------------------------------------------------*/
+		}).fail((message) => {
+
+			this.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
 		});
 	},
 
@@ -583,7 +583,15 @@ $AMIClass('FieldEditorCtrl', {
 
 					/*-----------------------------------------------------*/
 				});
+
+			}).fail((message) => {
+
+				this.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
 			});
+
+		}).fail((message) => {
+
+			this.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
 		});
 	},
 
