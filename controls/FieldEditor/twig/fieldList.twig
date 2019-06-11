@@ -6,65 +6,49 @@
 
 {%     set rand = random() %}
 {%     set name = info.field %}
+{%     set type = getSQLType(info.type) %}
 {%     set value = values[info.field] or info.def %}
-{%     set sqlType = getSQLType(values[info.field] or info.def, info.type) %}
 
 <ul class="nav nav-tabs" role="tablist">
 	<li class="nav-item ml-auto">
-		<a class="nav-link{% if sqlType === '@NULL' %} active{% endif %}" href="#B7915963_3000_D943_8729_F41EDD577886_{{rand}}" role="tab" data-toggle="tab" id="A70927B4_918F_07BC_2C91_B48CFCB812C6_{{rand}}">NULL</a>
+		<a class="nav-link{% if value === '@NULL' %} active{% endif %} xxxxxxxx-xxxxxx" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="@NULL">NULL</a>
 	</li>
-	<li class="nav-item ml-xxxx">
-		<a class="nav-link{% if sqlType === 'NUMBER' %} active{% endif %}" href="#CDCBC2A4_59CB_E766_7E93_D32F9D154F3F_{{rand}}" role="tab" data-toggle="tab" id="D20E11D2_1E45_B4B7_219A_9D9F490666D4_{{rand}}">Number</a>
-	</li>
-	<li class="nav-item ml-xxxx">
-		<a class="nav-link{% if sqlType === 'TIMESTAMP' %} active{% endif %}" href="#FC856A9D_1F01_73D5_FEA2_83AB9FFB7635_{{rand}}" role="tab" data-toggle="tab" id="F0389A55_B680_9D33_8D06_3D51CF4A3934_{{rand}}">TimeStamp</a>
-	</li>
-	<li class="nav-item ml-xxxx">
-		<a class="nav-link{% if sqlType === 'DATETIME' %} active{% endif %}" href="#DD42783E_EBB6_C1D2_11E3_76399EB56288_{{rand}}" role="tab" data-toggle="tab" id="EE118848_975C_36FB_C8C8_BB84344B046B_{{rand}}">DateTime</a>
-	</li>
-	<li class="nav-item ml-xxxx">
-		<a class="nav-link{% if sqlType === 'DATE' %} active{% endif %}" href="#B930ACE6_F338_6E95_5745_0BBF2D0D6BE1_{{rand}}" role="tab" data-toggle="tab" id="E2AA7C32_051F_9AC1_EC3B_FDDC517BF6AB_{{rand}}">Date</a>
-	</li>
-	<li class="nav-item ml-xxxx">
-		<a class="nav-link{% if sqlType === 'TIME' %} active{% endif %}" href="#CAB919D6_9479_0C74_9BFB_F4D9D9537479_{{rand}}" role="tab" data-toggle="tab" id="EC397B5B_1E17_31FB_5FC4_6BE34C61F285_{{rand}}">Time</a>
-	</li>
-	<li class="nav-item ml-xxxx">
-		<a class="nav-link{% if sqlType === 'LONG_TEXT' %} active{% endif %}" href="#A8087F20_36CD_272D_1953_9221B5C0E786_{{rand}}" role="tab" data-toggle="tab" id="EDD0ABD2_4AF8_4F27_AECD_D537F2695E67_{{rand}}">Long text</a>
-	</li>
-	<li class="nav-item ml-xxxx">
-		<a class="nav-link{% if sqlType === 'SHORT_TEXT' %} active{% endif %}" href="#EE2685F5_5C62_9127_1951_B585B637E7D2_{{rand}}" role="tab" data-toggle="tab" id="D22BDDA1_B582_6958_2EED_701D853D3B4D_{{rand}}">Short text</a>
+	<li class="nav-item dropdown" data-toggle="dropdown">
+		<a class="nav-link{% if value !== '@NULL' %} active{% endif %} dropdown-toggle" href="#" role="button" data-toggle="dropdown">Types</a>
+		<div class="dropdown-menu">
+			<a class="dropdown-item{% if type === 'NUMBER' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="NUMBER">Number{% if type === 'NUMBER' %}<sup>default</sup>{% endif %}</a>
+			<a class="dropdown-item{% if type === 'TIMESTAMP' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="TIMESTAMP">TimeStamp{% if type === 'TIMESTAMP' %}<sup>default</sup>{% endif %}</a>
+			<a class="dropdown-item{% if type === 'DATETIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="DATETIME">DateTime{% if type === 'DATETIME' %}<sup>default</sup>{% endif %}</a>
+			<a class="dropdown-item{% if type === 'DATE' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="DATE">Date{% if type === 'DATE' %}<sup>default</sup>{% endif %}</a>
+			<a class="dropdown-item{% if type === 'TIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="TIME">Time{% if type === 'TIME' %}<sup>default</sup>{% endif %}</a>
+			<a class="dropdown-item{% if type === 'LONG_TEXT' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="LONG_TEXT">Long text{% if type === 'LONG_TEXT' %}<sup>default</sup>{% endif %}</a>
+			<a class="dropdown-item{% if type === 'SHORT_TEXT' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="SHORT_TEXT">Short text{% if type === 'SHORT_TEXT' %}<sup>default</sup>{% endif %}</a>
+		</div>
 	</li>
 </ul>
 
-<div class="form-group mb-1 row">
+<div class="form-group row">
 
-	<label id="A9CB52E0_045A_4188_42FE_8022C4CFD5BA_{{rand}}" class="col-sm-3 col-form-label">{{name|e}}</label>
+	<label class="col-sm-3 col-form-label" for="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{name|e}}</label>
 
-	<div class="col-sm-9 tab-content" id="A27F3F33_2EED_56A7_15EB_7994CE59C2ED_{{rand}}">
-		<div class="tab-pane fade{% if sqlType === '@NULL' %} active show{% endif %}" role="tabpanel" id="B7915963_3000_D943_8729_F41EDD577886_{{rand}}">
-			<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="@NULL" readonly="readonly" placeholder="{{sqlType|e}} expected" />
-		</div>
-		<div class="tab-pane fade{% if sqlType === 'NUMBER' %} active show{% endif %}" role="tabpanel" id="CDCBC2A4_59CB_E766_7E93_D32F9D154F3F_{{rand}}">
-			<input class="form-control form-control-sm" type="number" name="{{name|e}}" value="{% if sqlType === 'NUMBER' %}{{value|e}}{% endif %}" step="any" placeholder="{{sqlType|e}} expected" />
-		</div>
-		<div class="tab-pane fade{% if sqlType === 'TIMESTAMP' %} active show{% endif %}" role="tabpanel" id="FC856A9D_1F01_73D5_FEA2_83AB9FFB7635_{{rand}}">
-			<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{% if sqlType === 'TIMESTAMP' %}{{value|e}}{% endif %}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" placeholder="{{sqlType|e}} expected" />
-		</div>
-		<div class="tab-pane fade{% if sqlType === 'DATETIME' %} active show{% endif %}" role="tabpanel" id="DD42783E_EBB6_C1D2_11E3_76399EB56288_{{rand}}">
-			<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{% if sqlType === 'DATETIME' %}{{value|e}}{% endif %}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" placeholder="{{sqlType|e}} expected" />
-		</div>
-		<div class="tab-pane fade{% if sqlType === 'DATE' %} active show{% endif %}" role="tabpanel" id="B930ACE6_F338_6E95_5745_0BBF2D0D6BE1_{{rand}}">
-			<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{% if sqlType === 'DATE' %}{{value|e}}{% endif %}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" placeholder="{{sqlType|e}} expected" />
-		</div>
-		<div class="tab-pane fade{% if sqlType === 'TIME' %} active show{% endif %}" role="tabpanel" id="CAB919D6_9479_0C74_9BFB_F4D9D9537479_{{rand}}">
-			<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{% if sqlType === 'TIME' %}{{value|e}}{% endif %}" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" placeholder="{{sqlType|e}} expected" />
-		</div>
-		<div class="tab-pane fade{% if sqlType === 'LONG_TEXT' %} active show{% endif %}" role="tabpanel" id="A8087F20_36CD_272D_1953_9221B5C0E786_{{rand}}">
-			<textarea class="form-control form-control-sm" name="{{name|e}}" rows="6" placeholder="{{sqlType|e}} expected">{% if sqlType === 'LONG_TEXT' %}{{value|e}}{% endif %}</textarea>
-		</div>
-		<div class="tab-pane fade{% if sqlType === 'SHORT_TEXT' %} active show{% endif %}" role="tabpanel" id="EE2685F5_5C62_9127_1951_B585B637E7D2_{{rand}}">
-			<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{% if sqlType === 'SHORT_TEXT' %}{{value|e}}{% endif %}" placeholder="{{sqlType|e}} expected" />
-		</div>
+	<div class="col-sm-9">
+		{% if value === '@NULL' %}
+		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" readonly="readonly" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		{% elseif type === 'NUMBER' %}
+		<input class="form-control form-control-sm" type="number" name="{{name|e}}" value="{{value|e}}" step="any" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		{% elseif type === 'TIMESTAMP' %}
+		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />
+		{% elseif type === 'DATETIME' %}
+		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />
+		{% elseif type === 'DATE' %}
+		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" />
+		{% elseif type === 'TIME' %}
+		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />
+		{% elseif type === 'LONG_TEXT' %}
+		<textarea class="form-control form-control-sm" name="{{name|e}}" rows="6" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{value|e}}</textarea>
+		{% elseif type === 'SHORT_TEXT' %}
+		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		{% endif %}
 	</div>
 
 </div>

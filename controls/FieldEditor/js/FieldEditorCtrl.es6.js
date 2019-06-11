@@ -18,50 +18,32 @@ const _fieldEditor_internal_dateRegex = /^.*(?:DATE).*$/;
 const _fieldEditor_internal_timeRegex = /^.*(?:TIME).*$/;
 const _fieldEditor_internal_textRegex = /^.*(?:TEXT|CLOB|BLOB).*$/;
 
-/*---------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
 
-function _fieldEditor_internal_getSQLType(rawValue, rawType)
+amiTwig.stdlib.getSQLType = function(rawType)
 {
-	rawValue = rawValue.toUpperCase();
-	rawType = rawType.toUpperCase();
-
-	/**/ if(rawValue === '@NULL')
-	{
-		return '@NULL';
-	}
-	else if(rawType.match(_fieldEditor_internal_numberRegex))
-	{
+	/**/ if(rawType.match(_fieldEditor_internal_numberRegex)) {
 		return 'NUMBER';
 	}
-	else if(rawType.match(_fieldEditor_internal_timestampRegex))
-	{
+	else if(rawType.match(_fieldEditor_internal_timestampRegex)) {
 		return 'TIMESTAMP';
 	}
-	else if(rawType.match(_fieldEditor_internal_datetimeRegex))
-	{
+	else if(rawType.match(_fieldEditor_internal_datetimeRegex)) {
 		return 'DATETIME';
 	}
-	else if(rawType.match(_fieldEditor_internal_dateRegex))
-	{
+	else if(rawType.match(_fieldEditor_internal_dateRegex)) {
 		return 'DATE';
 	}
-	else if(rawType.match(_fieldEditor_internal_timeRegex))
-	{
+	else if(rawType.match(_fieldEditor_internal_timeRegex)) {
 		return 'TIME';
 	}
-	else if(rawType.match(_fieldEditor_internal_textRegex))
-	{
+	else if(rawType.match(_fieldEditor_internal_textRegex)) {
 		return 'LONG_TEXT';
 	}
-	else
-	{
+	else 	{
 		return 'SHORT_TEXT';
 	}
 }
-
-/*-------------------------------------------------------------------------*/
-
-amiTwig.stdlib.getSQLType = _fieldEditor_internal_getSQLType;
 
 /*-------------------------------------------------------------------------*/
 
@@ -220,8 +202,8 @@ $AMIClass('FieldEditorCtrl', {
 			'UpdateElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
 		;
 
-		const fn3 = (primaryCatalog, primaryEntity, primaryFields, primaryValues) =>
-			'RemoveElements' + ' -catalog="' + amiWebApp.textToString(primaryCatalog) + '" -entity="' + amiWebApp.textToString(primaryEntity) + '" -separator="§" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
+		const fn3 = (catalog, entity, primaryFields, primaryValues) =>
+			'RemoveElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
 		;
 
 		/*-----------------------------------------------------------------*/
@@ -285,9 +267,9 @@ $AMIClass('FieldEditorCtrl', {
 			if(this.ctx.inEditMode)
 			{
 				this.showRowModal(
-					e.currentTarget.getAttribute('data-primary-catalog')
+					e.currentTarget.getAttribute('data-catalog')
 					,
-					e.currentTarget.getAttribute('data-primary-entity')
+					e.currentTarget.getAttribute('data-entity')
 					,
 					e.currentTarget.getAttribute('data-primary-field')
 					,
@@ -305,9 +287,9 @@ $AMIClass('FieldEditorCtrl', {
 			if(this.ctx.inEditMode)
 			{
 				this.removeRow(
-					e.currentTarget.getAttribute('data-primary-catalog')
+					e.currentTarget.getAttribute('data-catalog')
 					,
-					e.currentTarget.getAttribute('data-primary-entity')
+					e.currentTarget.getAttribute('data-entity')
 					,
 					[e.currentTarget.getAttribute('data-primary-field')]
 					,
@@ -338,6 +320,51 @@ $AMIClass('FieldEditorCtrl', {
 		}
 
 		this.ctx.inEditMode = inEditMode;
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	changeFormInputType: function(selector, sqlType)
+	{
+		$(selector).replaceWith(function() {
+
+			/*-------------------------------------------------------------*/
+
+			let result;
+
+			const id = selector.substring(1);
+
+			/**/ if(sqlType === '@NULL') {
+				result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" readonly="readonly" />');
+			}
+			else if(sqlType === 'NUMBER') {
+				result = $('<input class="form-control form-control-sm" type="number" id="' + id + '" step="any" />');
+			}
+			else if(sqlType === 'TIMESTAMP') {
+				result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />');
+			}
+			else if(sqlType === 'DATETIME') {
+				result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />');
+			}
+			else if(sqlType === 'DATE') {
+				result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" />');
+			}
+			else if(sqlType === 'TIME') {
+				result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />');
+			}
+			else if(sqlType === 'LONG_TEXT') {
+				result = $('<textarea class="form-control form-control-sm" rows="6" id="' + id + '"></textarea>');
+			}
+			else if(sqlType === 'SHORT_TEXT') {
+				result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" />');
+			}
+
+			/*-------------------------------------------------------------*/
+
+			return result.val(sqlType !== '@NULL' ? $(selector).val() : '@NULL');
+
+			/*-------------------------------------------------------------*/
+		});
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -385,6 +412,23 @@ $AMIClass('FieldEditorCtrl', {
 
 				/*---------------------------------------------------------*/
 
+				el3.find('[data-action="changesqltype"]').click((e) => {
+
+					e.preventDefault();
+
+					$(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
+					$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active');
+					$(e.currentTarget).addClass('active');
+
+					this.changeFormInputType(
+						e.currentTarget.getAttribute('href')
+						,
+						e.currentTarget.getAttribute('data-sql-type')
+					);
+				});
+
+				/*---------------------------------------------------------*/
+
 				el3.off().on('submit', (e) => {
 
 					/*-----------------------------------------------------*/
@@ -393,7 +437,7 @@ $AMIClass('FieldEditorCtrl', {
 
 					/*-----------------------------------------------------*/
 
-					const value = $('#A27F3F33_2EED_56A7_15EB_7994CE59C2ED .show > :input').val();
+					const value = el3.find(':input').val();
 
 					/*-----------------------------------------------------*/
 
@@ -442,6 +486,23 @@ $AMIClass('FieldEditorCtrl', {
 
 					/*-----------------------------------------------------*/
 
+					el3.find('[data-action="changesqltype"]').click((e) => {
+
+						e.preventDefault();
+
+						$(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
+						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active');
+						$(e.currentTarget).addClass('active');
+
+						this.changeFormInputType(
+							e.currentTarget.getAttribute('href')
+							,
+							e.currentTarget.getAttribute('data-sql-type')
+						);
+					});
+
+					/*-----------------------------------------------------*/
+
 					el3.off().submit((e) => {
 
 						/*-------------------------------------------------*/
@@ -453,7 +514,7 @@ $AMIClass('FieldEditorCtrl', {
 						const fields = [];
 						const values = [];
 
-						const form = el3.find('.show > :input').serializeArray();
+						const form = el3.serializeArray();
 
 						for(let i in form)
 						{
