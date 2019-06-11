@@ -301,11 +301,7 @@ $AMIClass('FieldEditorCtrl', {
           e.preventDefault();
           /*-----------------------------------------------------*/
 
-<<<<<<< HEAD
           var value = el3.find(':input').val();
-=======
-          var value = el3.find('.show > :input').val();
->>>>>>> ff442b44e12a2632c97212b03223ac6d01da9000
           /*-----------------------------------------------------*/
 
           _this3.updateRow(catalog, entity, [field], [value], [primaryField], [primaryValue]);
