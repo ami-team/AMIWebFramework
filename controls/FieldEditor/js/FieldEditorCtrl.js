@@ -15,6 +15,7 @@ var _fieldEditor_internal_timestampRegex = /^.*(?:TIMESTAMP).*$/;
 var _fieldEditor_internal_datetimeRegex = /^.*(?:DATETIME).*$/;
 var _fieldEditor_internal_dateRegex = /^.*(?:DATE).*$/;
 var _fieldEditor_internal_timeRegex = /^.*(?:TIME).*$/;
+var _fieldEditor_internal_enumRegex = /^.*(?:ENUM).*$/;
 var _fieldEditor_internal_textRegex = /^.*(?:TEXT|CLOB|BLOB).*$/;
 /*-------------------------------------------------------------------------*/
 
@@ -30,11 +31,38 @@ amiTwig.stdlib.getSQLType = function (rawType) {
     return 'DATE';
   } else if (rawType.match(_fieldEditor_internal_timeRegex)) {
     return 'TIME';
+  } else if (rawType.match(_fieldEditor_internal_enumRegex)) {
+    return 'ENUM';
   } else if (rawType.match(_fieldEditor_internal_textRegex)) {
     return 'LONG_TEXT';
   } else {
     return 'SHORT_TEXT';
   }
+};
+/*-------------------------------------------------------------------------*/
+
+
+amiTwig.stdlib.getSQLTypeToEnumOptions = function (rawType) {
+  /*---------------------------------------------------------------------*/
+  var idx1 = rawType.indexOf('(');
+  var idx2 = rawType.indexOf(')');
+
+  if (idx1 < 0 || idx2 < 0 || idx1 > idx2) {
+    return '';
+  }
+  /*---------------------------------------------------------------------*/
+
+
+  var values = rawType.substring(idx1 + 1, idx2 - 0).split(',');
+  /*---------------------------------------------------------------------*/
+
+  var result = [];
+  values.forEach(function (value) {
+    value = amiWebApp.textToHtml(value.trim());
+    result.push('<option value="' + value + '"' > +value + '</select>');
+  });
+  return result.join('');
+  /*---------------------------------------------------------------------*/
 };
 /*-------------------------------------------------------------------------*/
 
@@ -238,6 +266,8 @@ $AMIClass('FieldEditorCtrl', {
         result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" />');
       } else if (sqlType === 'TIME') {
         result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />');
+      } else if (sqlType === 'ENUM') {
+        result = $('<select class="custom-select custom-select-sm" id="' + id + '">' + amiTwig.stdlib.getSQLTypeToEnumOptions(sqlType) + '</select>');
       } else if (sqlType === 'LONG_TEXT') {
         result = $('<textarea class="form-control form-control-sm" rows="6" id="' + id + '"></textarea>');
       } else if (sqlType === 'SHORT_TEXT') {
@@ -246,7 +276,9 @@ $AMIClass('FieldEditorCtrl', {
       /*-------------------------------------------------------------*/
 
 
-      return result.val(sqlType !== '@NULL' ? $(selector).val() : '@NULL');
+      var name = $(selector).prop('name');
+      var val = $(selector).val();
+      return result.prop('name', name).val(sqlType === '@NULL' ? '@NULL' : val);
       /*-------------------------------------------------------------*/
     });
   },
