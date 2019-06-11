@@ -27,7 +27,7 @@
 								<div class="font-italic text-danger">admin only</div>
 								{% else %}
 								<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
-								     {% if field['properties'] is defined %}
+								     {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
 								     {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
 								     {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
 								     {%   if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
@@ -55,7 +55,7 @@
 									{{field.$|e}}
 									{%   endif %}
 									{% else %}
-									<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
+									<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[loop.index0]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[loop.index0].$|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
 									{% endif %}
 								</div>
 								{%   if field['links'] is defined %}
