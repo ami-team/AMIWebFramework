@@ -136,7 +136,7 @@ $AMIClass('FieldEditorCtrl', {
 
       result.resolve(primaryField, fieldInfo);
     }).fail(function () {
-      result.resolve(primaryField, fieldInfo);
+      result.reject(primaryField, fieldInfo);
     });
     /*-----------------------------------------------------------------*/
 
@@ -158,7 +158,7 @@ $AMIClass('FieldEditorCtrl', {
 
       result.resolve(values);
     }).fail(function () {
-      result.resolve(values);
+      result.reject(values);
     });
     /*-----------------------------------------------------------------*/
 
@@ -345,7 +345,7 @@ $AMIClass('FieldEditorCtrl', {
         /*---------------------------------------------------------*/
       });
     }).fail(function (message) {
-      _this3.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+      _this3.error(message, true);
     });
   },
 
@@ -409,10 +409,10 @@ $AMIClass('FieldEditorCtrl', {
           /*-----------------------------------------------------*/
         });
       }).fail(function (message) {
-        _this4.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+        _this4.error(message, true);
       });
     }).fail(function (message) {
-      _this4.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+      _this4.error(message, true);
     });
   },
 
