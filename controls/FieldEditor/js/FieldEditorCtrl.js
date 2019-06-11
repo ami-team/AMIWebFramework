@@ -299,7 +299,6 @@ $AMIClass('FieldEditorCtrl', {
 
 
     this.getInfo(primaryCatalog, primaryEntity, primaryField).done(function (primaryField, fieldInfo) {
-      /*-------------------------------------------------------------*/
       var dict = {
         primaryField: primaryField,
         fieldInfo: fieldInfo,
@@ -345,7 +344,8 @@ $AMIClass('FieldEditorCtrl', {
         el1.modal('show');
         /*---------------------------------------------------------*/
       });
-      /*-------------------------------------------------------------*/
+    }).fail(function (message) {
+      _this3.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
     });
   },
 
@@ -408,7 +408,11 @@ $AMIClass('FieldEditorCtrl', {
           el1.modal('show');
           /*-----------------------------------------------------*/
         });
+      }).fail(function (message) {
+        _this4.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
       });
+    }).fail(function (message) {
+      _this4.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
     });
   },
 
