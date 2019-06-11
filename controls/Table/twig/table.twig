@@ -54,14 +54,14 @@
 		<tr>
 			<!-- ******************************************************** -->
 			{% if showDetails %}
-			<td class="text-center xxxxxxxxx">
+			<td class="text-center align-middle xxxxxxxxx">
 				{% if primaryIdx >= 0 %}
 				<a href="#" class="text-secondary" data-ctrl="elementInfo" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescriptions[primaryIdx]['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
 				{% endif %}
 			</td>
 			{% endif %}
 			<!-- ******************************************************** -->
-			<td class="text-center edit-mode">
+			<td class="text-center align-middle edit-mode">
 				{% if primaryIdx >= 0 %}
 				<a href="#" class="text-info" data-action="clone-row" data-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}" data-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}" data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}" data-primary-value="{{row.field[primaryIdx].$|e}}"><i class="fa fa-files-o"></i></a>
 				&nbsp;
