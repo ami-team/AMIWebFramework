@@ -191,7 +191,7 @@ $AMIClass('FieldEditorCtrl', {
 
 		}).fail(() => {
 
-			result.resolve(primaryField, fieldInfo);
+			result.reject(primaryField, fieldInfo);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -222,7 +222,7 @@ $AMIClass('FieldEditorCtrl', {
 
 		}).fail(() => {
 
-			result.resolve(values);
+			result.reject(values);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -501,7 +501,7 @@ $AMIClass('FieldEditorCtrl', {
 
 		}).fail((message) => {
 
-			this.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+			this.error(message, true);
 		});
 	},
 
@@ -586,12 +586,12 @@ $AMIClass('FieldEditorCtrl', {
 
 			}).fail((message) => {
 
-				this.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+				this.error(message, true);
 			});
 
 		}).fail((message) => {
 
-			this.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+			this.error(message, true);
 		});
 	},
 
