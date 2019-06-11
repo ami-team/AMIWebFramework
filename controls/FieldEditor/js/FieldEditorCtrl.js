@@ -206,7 +206,7 @@ $AMIClass('FieldEditorCtrl', {
       e.preventDefault();
 
       if (_this2.ctx.inEditMode) {
-        _this2.showFieldModal(e.currentTarget.getAttribute('data-primary-catalog'), e.currentTarget.getAttribute('data-primary-entity'), e.currentTarget.getAttribute('data-primary-field'), e.currentTarget.getAttribute('data-primary-value'), e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-value'), e.currentTarget.getAttribute('data-type'));
+        _this2.showFieldModal(e.currentTarget.getAttribute('data-primary-catalog'), e.currentTarget.getAttribute('data-primary-entity'), e.currentTarget.getAttribute('data-primary-field'), e.currentTarget.getAttribute('data-primary-value'), e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'), e.currentTarget.getAttribute('data-type'));
       }
     });
     /*-----------------------------------------------------------------*/
@@ -284,65 +284,65 @@ $AMIClass('FieldEditorCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  showFieldModal: function showFieldModal(primaryCatalog, primaryEntity, primaryField, primaryValue, catalog, entity, field, value, type) {
+  showFieldModal: function showFieldModal(primaryCatalog, primaryEntity, primaryField, primaryValue, catalog, entity, field, type) {
     var _this3 = this;
 
-    /*-----------------------------------------------------------------*/
-    var values = {};
-
-    if (primaryCatalog === catalog && primaryEntity === entity) {
-      values[field] = value;
-    } else {
+    if (primaryCatalog !== catalog || primaryEntity !== entity) {
       return;
+      /* METTRE DANS LE TWIG */
     }
-    /*-----------------------------------------------------------------*/
+    /**/
 
 
     this.getInfo(primaryCatalog, primaryEntity, primaryField).done(function (primaryField, fieldInfo) {
-      var dict = {
-        primaryField: primaryField,
-        fieldInfo: fieldInfo,
-        values: values,
-        filter: field
-      };
-      amiWebApp.replaceHTML('#C2C43049_4CD6_73C3_597B_F0399A220610', _this3.fragmentFieldList, {
-        dict: dict
-      }).done(function () {
-        /*---------------------------------------------------------*/
-        var el1 = $('#F44687A3_036C_9C77_3284_DD495D9F4D7D');
-        var el2 = $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F');
-        var el3 = $('#C2C43049_4CD6_73C3_597B_F0399A220610');
-        /*---------------------------------------------------------*/
+      _this3.getValues(primaryCatalog, primaryEntity, primaryField, primaryValue).done(function (values) {
+        var dict = {
+          primaryField: primaryField,
+          fieldInfo: fieldInfo,
+          values: values,
+          filter: field
+        };
+        amiWebApp.replaceHTML('#C2C43049_4CD6_73C3_597B_F0399A220610', _this3.fragmentFieldList, {
+          dict: dict
+        }).done(function () {
+          /*-----------------------------------------------------*/
+          var el1 = $('#F44687A3_036C_9C77_3284_DD495D9F4D7D');
+          var el2 = $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F');
+          var el3 = $('#C2C43049_4CD6_73C3_597B_F0399A220610');
+          /*-----------------------------------------------------*/
 
-        el2.text(catalog + '.' + entity + '.' + primaryField + ' = ' + primaryValue);
-        /*---------------------------------------------------------*/
+          el2.text(catalog + '.' + entity + '.' + primaryField + ' = ' + primaryValue);
+          /*-----------------------------------------------------*/
 
-        el3.find('[data-action="changesqltype"]').click(function (e) {
-          e.preventDefault();
-          $(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
-          $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active');
-          $(e.currentTarget).addClass('active');
+          el3.find('[data-action="changesqltype"]').click(function (e) {
+            e.preventDefault();
+            $(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
+            $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active');
+            $(e.currentTarget).addClass('active');
 
-          _this3.changeFormInputType(e.currentTarget.getAttribute('href'), e.currentTarget.getAttribute('data-sql-type'));
+            _this3.changeFormInputType(e.currentTarget.getAttribute('href'), e.currentTarget.getAttribute('data-sql-type'));
+          });
+          /*-----------------------------------------------------*/
+
+          el3.off().on('submit', function (e) {
+            /*-------------------------------------------------*/
+            e.preventDefault();
+            /*-------------------------------------------------*/
+
+            var value = el3.find(':input').val();
+            /*-------------------------------------------------*/
+
+            _this3.updateRow(catalog, entity, [field], [value], [primaryField], [primaryValue]);
+            /*-------------------------------------------------*/
+
+          });
+          /*-----------------------------------------------------*/
+
+          el1.modal('show');
+          /*-----------------------------------------------------*/
         });
-        /*---------------------------------------------------------*/
-
-        el3.off().on('submit', function (e) {
-          /*-----------------------------------------------------*/
-          e.preventDefault();
-          /*-----------------------------------------------------*/
-
-          var value = el3.find(':input').val();
-          /*-----------------------------------------------------*/
-
-          _this3.updateRow(catalog, entity, [field], [value], [primaryField], [primaryValue]);
-          /*-----------------------------------------------------*/
-
-        });
-        /*---------------------------------------------------------*/
-
-        el1.modal('show');
-        /*---------------------------------------------------------*/
+      }).fail(function (message) {
+        _this3.error(message, true);
       });
     }).fail(function (message) {
       _this3.error(message, true);

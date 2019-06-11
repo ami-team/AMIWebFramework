@@ -293,8 +293,6 @@ $AMIClass('FieldEditorCtrl', {
 					,
 					e.currentTarget.getAttribute('data-field')
 					,
-					e.currentTarget.getAttribute('data-value')
-					,
 					e.currentTarget.getAttribute('data-type')
 				);
 			}
@@ -417,86 +415,86 @@ $AMIClass('FieldEditorCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	showFieldModal: function(primaryCatalog, primaryEntity, primaryField, primaryValue, catalog, entity, field, value, type)
+	showFieldModal: function(primaryCatalog, primaryEntity, primaryField, primaryValue, catalog, entity, field, type)
 	{
-		/*-----------------------------------------------------------------*/
-
-		const values = {};
-
-		if(primaryCatalog === catalog
-		   &&
-		   primaryEntity === entity
+		if(primaryCatalog !== catalog
+		   ||
+		   primaryEntity !== entity
 		 ) {
-			values[field] = value;
-		}
-		else {
-			return;
+			return;	/* METTRE DANS LE TWIG */
 		}
 
-		/*-----------------------------------------------------------------*/
+		/**/
 
 		this.getInfo(primaryCatalog, primaryEntity, primaryField).done((primaryField, fieldInfo) => {
 
-			const dict = {
-				primaryField: primaryField,
-				fieldInfo: fieldInfo,
-				values: values,
-				filter: field,
-			};
+			this.getValues(primaryCatalog, primaryEntity, primaryField, primaryValue).done((values) => {
 
-			amiWebApp.replaceHTML('#C2C43049_4CD6_73C3_597B_F0399A220610', this.fragmentFieldList, {dict: dict}).done(() => {
+				const dict = {
+					primaryField: primaryField,
+					fieldInfo: fieldInfo,
+					values: values,
+					filter: field,
+				};
 
-				/*---------------------------------------------------------*/
+				amiWebApp.replaceHTML('#C2C43049_4CD6_73C3_597B_F0399A220610', this.fragmentFieldList, {dict: dict}).done(() => {
 
-				const el1 = $('#F44687A3_036C_9C77_3284_DD495D9F4D7D');
-				const el2 = $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F');
-				const el3 = $('#C2C43049_4CD6_73C3_597B_F0399A220610');
+					/*-----------------------------------------------------*/
 
-				/*---------------------------------------------------------*/
+					const el1 = $('#F44687A3_036C_9C77_3284_DD495D9F4D7D');
+					const el2 = $('#D3CE601F_C7BA_5C8E_2564_491FED4C5D6F');
+					const el3 = $('#C2C43049_4CD6_73C3_597B_F0399A220610');
 
-				el2.text(catalog + '.' + entity + '.' + primaryField + ' = ' + primaryValue);
+					/*-----------------------------------------------------*/
 
-				/*---------------------------------------------------------*/
+					el2.text(catalog + '.' + entity + '.' + primaryField + ' = ' + primaryValue);
 
-				el3.find('[data-action="changesqltype"]').click((e) => {
+					/*-----------------------------------------------------*/
 
-					e.preventDefault();
+					el3.find('[data-action="changesqltype"]').click((e) => {
 
-					$(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
-					$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active');
-					$(e.currentTarget).addClass('active');
+						e.preventDefault();
 
-					this.changeFormInputType(
-						e.currentTarget.getAttribute('href')
-						,
-						e.currentTarget.getAttribute('data-sql-type')
-					);
+						$(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
+						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active');
+						$(e.currentTarget).addClass('active');
+
+						this.changeFormInputType(
+							e.currentTarget.getAttribute('href')
+							,
+							e.currentTarget.getAttribute('data-sql-type')
+						);
+					});
+
+					/*-----------------------------------------------------*/
+
+					el3.off().on('submit', (e) => {
+
+						/*-------------------------------------------------*/
+
+						e.preventDefault();
+
+						/*-------------------------------------------------*/
+
+						const value = el3.find(':input').val();
+
+						/*-------------------------------------------------*/
+
+						this.updateRow(catalog, entity, [field], [value], [primaryField], [primaryValue]);
+
+						/*-------------------------------------------------*/
+					});
+
+					/*-----------------------------------------------------*/
+
+					el1.modal('show');
+
+					/*-----------------------------------------------------*/
 				});
 
-				/*---------------------------------------------------------*/
+			}).fail((message) => {
 
-				el3.off().on('submit', (e) => {
-
-					/*-----------------------------------------------------*/
-
-					e.preventDefault();
-
-					/*-----------------------------------------------------*/
-
-					const value = el3.find(':input').val();
-
-					/*-----------------------------------------------------*/
-
-					this.updateRow(catalog, entity, [field], [value], [primaryField], [primaryValue]);
-
-					/*-----------------------------------------------------*/
-				});
-
-				/*---------------------------------------------------------*/
-
-				el1.modal('show');
-
-				/*---------------------------------------------------------*/
+				this.error(message, true);
 			});
 
 		}).fail((message) => {

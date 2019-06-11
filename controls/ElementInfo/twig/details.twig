@@ -35,13 +35,13 @@
 								     {%     if field['properties']['@unitFactor'] %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
 								     {%     if field['properties']['@unitBase'] %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
 								     {%     if field['properties']['@humanReadable'] %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
+								     data-val="{{field.$|e}}"
 								     {%   endif %}
 								     {%   if fieldDescriptions[loop.index0]['@automatic'] !== 'true' and fieldDescriptions[loop.index0]['@created'] !== 'true' and fieldDescriptions[loop.index0]['@createdBy'] !== 'true' and fieldDescriptions[loop.index0]['@modified'] !== 'true' and fieldDescriptions[loop.index0]['@modifiedBy'] !== 'true' %}
 								     data-action="edit-row"
 								     data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
 								     data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}"
 								     data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
-								     data-value="{{field.$|e}}"
 								     data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
 								     data-primary-catalog="{{catalog|e}}"
 								     data-primary-entity="{{entity|e}}"
