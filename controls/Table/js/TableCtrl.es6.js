@@ -147,7 +147,7 @@ $AMIClass('TableCtrl', {
 
 		if(this.ctx.canEdit || ((this.ctx.showDetails || this.ctx.showTools) && !this.ctx.primaryField))
 		{
-			this.fieldEditor.getInfo(catalog, entity, primaryField).done((primaryField) => {
+			this.fieldEditor.getInfo(catalog, entity, primaryField).always((primaryField) => {
 
 				this.ctx.primaryField = primaryField;
 
