@@ -634,17 +634,20 @@ $AMIClass('TableCtrl', {
     var tags2 = $(this.patchId('#CDE5AD14_1268_8FA7_F5D8_0D690F3FB850'));
     var tags3 = tags1.find('.edit-mode');
     var tags4 = tags1.find('.view-more');
+    var tags5 = tags1.find('.view-media');
 
     if ($(this.patchId('#DDC32238_DD25_8354_AC6C_F6E27CA6E18D')).prop('checked')) {
       tags2.show();
       tags3.show();
       tags4.hide();
+      tags5.hide();
       this.fieldEditor.setInEditMode(true);
       this.unitEditor.setInEditMode(true);
     } else {
       tags2.hide();
       tags3.hide();
       tags4.show();
+      tags5.show();
       this.fieldEditor.setInEditMode(false);
       this.unitEditor.setInEditMode(false);
     }

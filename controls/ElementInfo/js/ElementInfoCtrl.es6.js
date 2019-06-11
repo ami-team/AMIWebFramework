@@ -353,10 +353,12 @@ $AMIClass('ElementInfoCtrl', {
 		const tags1 = $(this.patchId('#BBD391C7_759D_01DD_E234_488D46504638'));
 
 		const tags2 = tags1.find('.view-more');
+		const tags3 = tags1.find('.view-media');
 
 		if($(this.patchId('#AB84A8CC_5E70_EBE7_8766_317FEE71EFE8')).prop('checked'))
 		{
 			tags2.hide();
+			tags3.hide();
 
 			this.fieldEditor.setInEditMode(true);
 			this.unitEditor.setInEditMode(true);
@@ -364,6 +366,7 @@ $AMIClass('ElementInfoCtrl', {
 		else
 		{
 			tags2.show();
+			tags3.show();
 
 			this.fieldEditor.setInEditMode(false);
 			this.unitEditor.setInEditMode(false);
