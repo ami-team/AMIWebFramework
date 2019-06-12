@@ -55,7 +55,7 @@
 									{{field.$|e}}
 									{%   endif %}
 									{% else %}
-									<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[loop.index0]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[loop.index0].$|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
+									<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{catalog|e('json')|e('html')}}&quot;,&quot;{{entity|e('json')|e('html')}}&quot;,&quot;{{primaryFieldName|e('json')|e('html')}}&quot;,&quot;{{primaryFieldValue|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
 									{% endif %}
 								</div>
 								{%   if field['links'] is defined %}
