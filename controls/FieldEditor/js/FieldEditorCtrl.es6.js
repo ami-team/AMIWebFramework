@@ -189,9 +189,9 @@ $AMIClass('FieldEditorCtrl', {
 
 			result.resolve(primaryField, fieldInfo);
 
-		}).fail(() => {
+		}).fail((data, message) => {
 
-			result.reject(primaryField, fieldInfo);
+			result.reject(message);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -209,7 +209,7 @@ $AMIClass('FieldEditorCtrl', {
 
 		const values = {};
 
-		amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(primaryCatalog) + '" -entity="' + amiWebApp.textToString(primaryEntity) + '" -mql="SELECT * WHERE `' + amiWebApp.textToString(primaryField) + '` = \'' + amiWebApp.textToString(primaryValue) + '\'"').done((data) => {
+		amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(primaryCatalog) + '" -entity="' + amiWebApp.textToString(primaryEntity) + '" -sql="SELECT * FROM `' + amiWebApp.textToString(primaryEntity) + '` WHERE `' + amiWebApp.textToString(primaryField) + '` = \'' + amiWebApp.textToString(primaryValue) + '\'"').done((data) => {
 
 			const fields = amiWebApp.jspath('..{.@type==="query"}..field', data);
 
@@ -220,9 +220,9 @@ $AMIClass('FieldEditorCtrl', {
 
 			result.resolve(values);
 
-		}).fail(() => {
+		}).fail((data, message) => {
 
-			result.reject(values);
+			result.reject(message);
 		});
 
 		/*-----------------------------------------------------------------*/

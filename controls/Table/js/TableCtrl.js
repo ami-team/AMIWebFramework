@@ -97,7 +97,6 @@ $AMIClass('TableCtrl', {
     this.ctx.canEdit = canEdit;
     this.ctx.catalog = catalog;
     this.ctx.entity = entity;
-    this.ctx.primaryField = primaryField;
     this.ctx.rowset = rowset;
     this.ctx.start = start;
     this.ctx.stop = stop;
@@ -112,21 +111,33 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
     if (this.ctx.canEdit || (this.ctx.showDetails || this.ctx.showTools) && !this.ctx.primaryField) {
-      this.fieldEditor.getInfo(catalog, entity, primaryField).always(function (primaryField) {
+      this.fieldEditor.getInfo(catalog, entity, primaryField).done(function (primaryField) {
         _this2.ctx.primaryField = primaryField;
         _this2.ctx.showDetails = _this2.ctx.showDetails && primaryField;
         _this2.ctx.showTools = _this2.ctx.showTools && primaryField;
         _this2.ctx.canEdit = _this2.ctx.canEdit && primaryField;
 
         _this2._render(result, selector);
+      }).fail(function () {
+        _this2.ctx.primaryField = primaryField;
+        _this2.ctx.showDetails = _this2.ctx.showDetails && primaryField;
+        _this2.ctx.showTools = _this2.ctx.showTools && primaryField;
+        _this2.ctx.canEdit =
+        /***********/
+        false
+        /***********/
+        ;
+
+        _this2._render(result, selector);
       });
     } else {
+      this.ctx.primaryField = primaryField;
       this.ctx.showDetails = this.ctx.showDetails && primaryField;
       this.ctx.showTools = this.ctx.showTools && primaryField;
-      this.ctx.canEdit = this.ctx.canEdit &&
-      /**/
+      this.ctx.canEdit =
+      /***********/
       false
-      /**/
+      /***********/
       ;
 
       this._render(result, selector);

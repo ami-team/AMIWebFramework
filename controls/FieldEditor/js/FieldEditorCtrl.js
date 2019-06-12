@@ -135,8 +135,8 @@ $AMIClass('FieldEditorCtrl', {
       }
 
       result.resolve(primaryField, fieldInfo);
-    }).fail(function () {
-      result.reject(primaryField, fieldInfo);
+    }).fail(function (data, message) {
+      result.reject(message);
     });
     /*-----------------------------------------------------------------*/
 
@@ -149,7 +149,7 @@ $AMIClass('FieldEditorCtrl', {
     /*-----------------------------------------------------------------*/
 
     var values = {};
-    amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(primaryCatalog) + '" -entity="' + amiWebApp.textToString(primaryEntity) + '" -mql="SELECT * WHERE `' + amiWebApp.textToString(primaryField) + '` = \'' + amiWebApp.textToString(primaryValue) + '\'"').done(function (data) {
+    amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(primaryCatalog) + '" -entity="' + amiWebApp.textToString(primaryEntity) + '" -sql="SELECT * FROM `' + amiWebApp.textToString(primaryEntity) + '` WHERE `' + amiWebApp.textToString(primaryField) + '` = \'' + amiWebApp.textToString(primaryValue) + '\'"').done(function (data) {
       var fields = amiWebApp.jspath('..{.@type==="query"}..field', data);
 
       for (var i in fields) {
@@ -157,8 +157,8 @@ $AMIClass('FieldEditorCtrl', {
       }
 
       result.resolve(values);
-    }).fail(function () {
-      result.reject(values);
+    }).fail(function (data, message) {
+      result.reject(message);
     });
     /*-----------------------------------------------------------------*/
 
