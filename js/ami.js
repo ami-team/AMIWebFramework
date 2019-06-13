@@ -4936,8 +4936,7 @@ $AMINamespace('amiWebApp',
 
     if (this._noBootstrap === false && typeof jQuery.fn.modal !== 'function') {
       this.loadSheets([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-tempusdominus.min.css', this.originURL + '/css/select2.min.css']);
-      this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/moment.min.js', this.originURL + '/js/bootstrap.min.js', //this.originURL + '/js/bootstrap-tempusdominus.min.js',
-      'https://tempusdominus.github.io/bootstrap-4/theme/js/tempusdominus-bootstrap-4.js', this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
+      this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/moment.min.js', this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-tempusdominus.min.js', this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
       this.originURL + '/js/select2.min.js']).done(function () {
         $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
           format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
@@ -5500,48 +5499,34 @@ $AMINamespace('amiWebApp',
     /*-----------------------------------------------------------------*/
 
 
-    var html;
-
-    if (this.typeOf(twig) === 'String') {
-      if (suffix) {
-        twig = twig.replace(this._idRegExp, function (id) {
-          return id + '_instance' + suffix;
-        });
-      }
-
-      html = this.formatTWIG(twig, dict);
-    } else {
-      html = twig;
+    if (suffix) {
+      twig = twig.replace(this._idRegExp, function (id) {
+        return id + '_instance' + suffix;
+      });
     }
+
+    var html = this.formatTWIG(twig, dict);
     /*-----------------------------------------------------------------*/
-
-
-    var target = $(selector);
-    /*-----------------------------------------------------------------*/
-
-    if (jQuery.fn.datetimepicker) {
-      target.find('.form-datetime,.form-date,.form-time').datetimepicker('destroy');
-    }
-    /*-----------------------------------------------------------------*/
-
 
     var promise;
 
     switch (mode) {
       case 0:
-        promise = target.html(html).promise();
+        promise = $(selector).html(html).promise();
         break;
 
       case 1:
-        promise = target.prepend(html).promise();
+        promise = $(selector).prepend(html).promise();
         break;
 
       case 2:
-        promise = target.append(html).promise();
+        promise = $(selector).append(html).promise();
         break;
 
       case 3:
-        promise = target.replaceWith(html).promise();
+        promise = $(selector).replaceWith(function () {
+          return $(html).attr('id', $(selector).attr('id'));
+        }).promise();
         break;
 
       default:
@@ -5552,8 +5537,11 @@ $AMINamespace('amiWebApp',
 
     promise.done(function () {
       /*-------------------------------------------------------------*/
+      var el = $(selector);
+      /*-------------------------------------------------------------*/
+
       if (jQuery.fn.tooltip) {
-        target.find('[data-toggle="tooltip"]').tooltip({
+        el.find('[data-toggle="tooltip"]').tooltip({
           html: false,
           delay: {
             show: 500,
@@ -5565,7 +5553,7 @@ $AMINamespace('amiWebApp',
 
 
       if (jQuery.fn.popover) {
-        target.find('[data-toggle="popover"]').popover({
+        el.find('[data-toggle="popover"]').popover({
           html: true,
           delay: {
             show: 500,
@@ -5576,25 +5564,21 @@ $AMINamespace('amiWebApp',
       /*-------------------------------------------------------------*/
 
 
-      if (jQuery.fn.datetimepicker) {}
-      /*
-      target.find('.form-datetime').datetimepicker('destroy');
-      target.find('.form-datetime').datetimepicker({
-      	format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
-      });
-      	target.find('.form-date').datetimepicker('destroy');
-      target.find('.form-date').datetimepicker({
-      	format: 'YYYY-MM-DD'
-      });
-      	target.find('.form-time').datetimepicker('destroy');
-      target.find('.form-time').datetimepicker({
-      	format: 'HH:mm:ss'
-      });*/
-
+      if (jQuery.fn.datetimepicker) {
+        el.find('.form-datetime').datetimepicker({
+          format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
+        });
+        el.find('.form-date').datetimepicker({
+          format: 'YYYY-MM-DD'
+        });
+        el.find('.form-time').datetimepicker({
+          format: 'HH:mm:ss'
+        });
+      }
       /*-------------------------------------------------------------*/
 
 
-      result.resolveWith(context, [target]);
+      result.resolveWith(context, [el]);
       /*-------------------------------------------------------------*/
     });
     /*-----------------------------------------------------------------*/

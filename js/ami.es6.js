@@ -5861,8 +5861,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/js/popper.min.js',
 				this.originURL + '/js/moment.min.js',
 				this.originURL + '/js/bootstrap.min.js',
-				//this.originURL + '/js/bootstrap-tempusdominus.min.js',
-				'https://tempusdominus.github.io/bootstrap-4/theme/js/tempusdominus-bootstrap-4.js',
+				this.originURL + '/js/bootstrap-tempusdominus.min.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
 				this.originURL + '/js/select2.min.js',
 			]).done(() => {
@@ -6550,35 +6549,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		let html;
-
-		if(this.typeOf(twig) === 'String')
+		if(suffix)
 		{
-			if(suffix)
-			{
-				twig = twig.replace(this._idRegExp, function(id) {
+			twig = twig.replace(this._idRegExp, function(id) {
 
-					return id + '_instance' + suffix;
-				});
-			}
-
-			html = this.formatTWIG(twig, dict);
-		}
-		else
-		{
-			html = twig;
+				return id + '_instance' + suffix;
+			});
 		}
 
-		/*-----------------------------------------------------------------*/
-
-		const target = $(selector);
-
-		/*-----------------------------------------------------------------*/
-
-		if(jQuery.fn.datetimepicker)
-		{
-			target.find('.form-datetime,.form-date,.form-time').datetimepicker('destroy');
-		}
+		const html = this.formatTWIG(twig, dict);
 
 		/*-----------------------------------------------------------------*/
 
@@ -6587,19 +6566,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		switch(mode)
 		{
 			case 0:
-				promise = target.html(html).promise();
+				promise = $(selector).html(html).promise();
 				break;
 
 			case 1:
-				promise = target.prepend(html).promise();
+				promise = $(selector).prepend(html).promise();
 				break;
 
 			case 2:
-				promise = target.append(html).promise();
+				promise = $(selector).append(html).promise();
 				break;
 
 			case 3:
-				promise = target.replaceWith(html).promise();
+				promise = $(selector).replaceWith(() => $(html).attr('id', $(selector).attr('id'))).promise();
 				break;
 
 			default:
@@ -6612,9 +6591,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*-------------------------------------------------------------*/
 
+			const el = $(selector);
+
+			/*-------------------------------------------------------------*/
+
 			if(jQuery.fn.tooltip)
 			{
-				target.find('[data-toggle="tooltip"]').tooltip({
+				el.find('[data-toggle="tooltip"]').tooltip({
 					html: false,
 					delay: {
 						show: 500,
@@ -6627,7 +6610,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(jQuery.fn.popover)
 			{
-				target.find('[data-toggle="popover"]').popover({
+				el.find('[data-toggle="popover"]').popover({
 					html: true,
 					delay: {
 						show: 500,
@@ -6639,26 +6622,23 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			/*-------------------------------------------------------------*/
 
 			if(jQuery.fn.datetimepicker)
-			{/*
-				target.find('.form-datetime').datetimepicker('destroy');
-				target.find('.form-datetime').datetimepicker({
+			{
+				el.find('.form-datetime').datetimepicker({
 					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
 				});
 
-				target.find('.form-date').datetimepicker('destroy');
-				target.find('.form-date').datetimepicker({
+				el.find('.form-date').datetimepicker({
 					format: 'YYYY-MM-DD'
 				});
 
-				target.find('.form-time').datetimepicker('destroy');
-				target.find('.form-time').datetimepicker({
+				el.find('.form-time').datetimepicker({
 					format: 'HH:mm:ss'
-				});*/
+				});
 			}
 
 			/*-------------------------------------------------------------*/
 
-			result.resolveWith(context, [target]);
+			result.resolveWith(context, [el]);
 
 			/*-------------------------------------------------------------*/
 		});
