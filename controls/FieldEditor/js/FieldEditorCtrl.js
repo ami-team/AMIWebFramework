@@ -58,7 +58,7 @@ amiTwig.stdlib.getSQLTypeToEnumOptions = function (rawType, defaultValue) {
 
   var result = [];
   values.forEach(function (value) {
-    value = amiWebApp.textToHtml(value.replace('\'', '').trim());
+    value = amiWebApp.textToHtml(value.replace(/'/g, '').trim());
 
     if (value === defaultValue) {
       result.push('<option value="' + value + '" selected="selected">' + value + '</option>');
