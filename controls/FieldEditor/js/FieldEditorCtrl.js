@@ -317,8 +317,7 @@ $AMIClass('FieldEditorCtrl', {
           el3.find('[data-action="changesqltype"]').click(function (e) {
             e.preventDefault();
             $(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
-            $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active');
-            $(e.currentTarget).addClass('active');
+            $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().text($(e.currentTarget).text().replace('default', ''));
 
             _this3.changeFormInputType(e.currentTarget.getAttribute('href'), e.currentTarget.getAttribute('data-sql-type'));
           });
@@ -376,8 +375,7 @@ $AMIClass('FieldEditorCtrl', {
           el3.find('[data-action="changesqltype"]').click(function (e) {
             e.preventDefault();
             $(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
-            $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active');
-            $(e.currentTarget).addClass('active');
+            $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().text($(e.currentTarget).text().replace('default', ''));
 
             _this4.changeFormInputType(e.currentTarget.getAttribute('href'), e.currentTarget.getAttribute('data-sql-type'));
           });

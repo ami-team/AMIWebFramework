@@ -456,8 +456,7 @@ $AMIClass('FieldEditorCtrl', {
 						e.preventDefault();
 
 						$(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
-						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active');
-						$(e.currentTarget).addClass('active');
+						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().text($(e.currentTarget).text().replace('default', ''));
 
 						this.changeFormInputType(
 							e.currentTarget.getAttribute('href')
@@ -537,8 +536,7 @@ $AMIClass('FieldEditorCtrl', {
 						e.preventDefault();
 
 						$(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
-						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active');
-						$(e.currentTarget).addClass('active');
+						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().text($(e.currentTarget).text().replace('default', ''));
 
 						this.changeFormInputType(
 							e.currentTarget.getAttribute('href')

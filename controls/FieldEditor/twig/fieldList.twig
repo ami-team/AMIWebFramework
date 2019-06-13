@@ -11,19 +11,44 @@
 
 <ul class="nav nav-tabs" role="tablist">
 	<li class="nav-item ml-auto">
-		<a class="nav-link{% if value === '@NULL' %} active{% endif %} xxxxxxxx-xxxxxx" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="@NULL">NULL</a>
+		<div class="nav-link{% if value === '@NULL' %} active{% endif %}" role="tab">
+			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changesqltype" data-sql-type="@NULL">
+				NULL
+			</a>
+		</div>
 	</li>
-	<li class="nav-item dropdown" data-toggle="dropdown">
-		<a class="nav-link{% if value !== '@NULL' %} active{% endif %} dropdown-toggle" href="#" role="button" data-toggle="dropdown">Types</a>
-		<div class="dropdown-menu">
-			<a class="dropdown-item{% if type === 'NUMBER' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="NUMBER">Number{% if type === 'NUMBER' %}<sup>default</sup>{% endif %}</a>
-			<a class="dropdown-item{% if type === 'TIMESTAMP' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="TIMESTAMP">TimeStamp{% if type === 'TIMESTAMP' %}<sup>default</sup>{% endif %}</a>
-			<a class="dropdown-item{% if type === 'DATETIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="DATETIME">DateTime{% if type === 'DATETIME' %}<sup>default</sup>{% endif %}</a>
-			<a class="dropdown-item{% if type === 'DATE' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="DATE">Date{% if type === 'DATE' %}<sup>default</sup>{% endif %}</a>
-			<a class="dropdown-item{% if type === 'TIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="TIME">Time{% if type === 'TIME' %}<sup>default</sup>{% endif %}</a>
-			<a class="dropdown-item{% if type === 'ENUM' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="ENUM">Enum{% if type === 'ENUM' %}<sup>default</sup>{% endif %}</a>
-			<a class="dropdown-item{% if type === 'LONG_TEXT' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="LONG_TEXT">Long text{% if type === 'LONG_TEXT' %}<sup>default</sup>{% endif %}</a>
-			<a class="dropdown-item{% if type === 'SHORT_TEXT' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="SHORT_TEXT">Short text{% if type === 'SHORT_TEXT' %}<sup>default</sup>{% endif %}</a>
+	<li class="nav-item ml-xxxx">
+		<div class="nav-link{% if value !== '@NULL' %} active{% endif %}" role="tab">
+			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changesqltype" data-sql-type="{{type}}">
+				{% if     type === 'NUMBER' %}
+				Number
+				{% elseif type === 'TIMESTAMP' %}
+				TimeStamp
+				{% elseif type === 'DATETIME' %}
+				DateTime
+				{% elseif type === 'DATE' %}
+				Date
+				{% elseif type === 'TIME' %}
+				Time
+				{% elseif type === 'ENUM' %}
+				Enum
+				{% elseif type === 'LONG_TEXT' %}
+				Long text
+				{% elseif type === 'SHORT_TEXT' %}
+				Short text
+				{% endif %}
+			</a>
+			<a class="dropdown-toggle" href="#" data-toggle="dropdown"></a>
+			<div class="dropdown-menu">
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="NUMBER">Number{% if type === 'NUMBER' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="TIMESTAMP">TimeStamp{% if type === 'TIMESTAMP' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="DATETIME">DateTime{% if type === 'DATETIME' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="DATE">Date{% if type === 'DATE' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="TIME">Time{% if type === 'TIME' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="ENUM">Enum{% if type === 'ENUM' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="LONG_TEXT">Long text{% if type === 'LONG_TEXT' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="SHORT_TEXT">Short text{% if type === 'SHORT_TEXT' %}<sup>default</sup>{% endif %}</a>
+			</div>
 		</div>
 	</li>
 </ul>
