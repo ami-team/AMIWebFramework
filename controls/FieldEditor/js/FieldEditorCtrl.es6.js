@@ -79,7 +79,7 @@ amiTwig.stdlib.getSQLTypeToEnumOptions = function(rawType)
 
 		value = amiWebApp.textToHtml(value.trim());
 
-		result.push('<option value="' + value + '"'> + value + '</select>');
+		result.push('<option value="' + value + '"'> + value + '</option>');
 	});
 
 	return result.join('');
