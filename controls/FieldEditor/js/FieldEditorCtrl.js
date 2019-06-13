@@ -19,21 +19,21 @@ var _fieldEditor_internal_enumRegex = /^.*(?:ENUM).*$/;
 var _fieldEditor_internal_textRegex = /^.*(?:TEXT|CLOB|BLOB).*$/;
 /*-------------------------------------------------------------------------*/
 
-amiTwig.stdlib.getSQLType = function (rawType) {
+amiTwig.stdlib.getAMIType = function (sqlType) {
   /**/
-  if (rawType.match(_fieldEditor_internal_numberRegex)) {
+  if (sqlType.match(_fieldEditor_internal_numberRegex)) {
     return 'NUMBER';
-  } else if (rawType.match(_fieldEditor_internal_timestampRegex)) {
+  } else if (sqlType.match(_fieldEditor_internal_timestampRegex)) {
     return 'TIMESTAMP';
-  } else if (rawType.match(_fieldEditor_internal_datetimeRegex)) {
+  } else if (sqlType.match(_fieldEditor_internal_datetimeRegex)) {
     return 'DATETIME';
-  } else if (rawType.match(_fieldEditor_internal_dateRegex)) {
+  } else if (sqlType.match(_fieldEditor_internal_dateRegex)) {
     return 'DATE';
-  } else if (rawType.match(_fieldEditor_internal_timeRegex)) {
+  } else if (sqlType.match(_fieldEditor_internal_timeRegex)) {
     return 'TIME';
-  } else if (rawType.match(_fieldEditor_internal_enumRegex)) {
+  } else if (sqlType.match(_fieldEditor_internal_enumRegex)) {
     return 'ENUM';
-  } else if (rawType.match(_fieldEditor_internal_textRegex)) {
+  } else if (sqlType.match(_fieldEditor_internal_textRegex)) {
     return 'LONG_TEXT';
   } else {
     return 'SHORT_TEXT';
@@ -42,10 +42,10 @@ amiTwig.stdlib.getSQLType = function (rawType) {
 /*-------------------------------------------------------------------------*/
 
 
-amiTwig.stdlib.getSQLTypeToEnumOptions = function (rawType, defaultValue) {
+amiTwig.stdlib.getAMITypeToEnumOptions = function (sqlType, defaultValue) {
   /*---------------------------------------------------------------------*/
-  var idx1 = rawType.indexOf('(');
-  var idx2 = rawType.indexOf(')');
+  var idx1 = sqlType.indexOf('(');
+  var idx2 = sqlType.indexOf(')');
 
   if (idx1 < 0 || idx2 < 0 || idx1 > idx2) {
     return '';
@@ -53,7 +53,7 @@ amiTwig.stdlib.getSQLTypeToEnumOptions = function (rawType, defaultValue) {
   /*---------------------------------------------------------------------*/
 
 
-  var values = rawType.substring(idx1 + 1, idx2 - 0).split(',');
+  var values = sqlType.substring(idx1 + 1, idx2 - 0).split(',');
   /*---------------------------------------------------------------------*/
 
   var result = [];
@@ -252,38 +252,39 @@ $AMIClass('FieldEditorCtrl', {
   },
 
   /*---------------------------------------------------------------------*/
-  changeFormInputType: function changeFormInputType(selector, sqlType) {
+  changeFormInputType: function changeFormInputType(selector, amiType, sqlType) {
     $(selector).replaceWith(function () {
+      var name = $(selector).prop('name');
+      var value = $(selector).val();
       /*-------------------------------------------------------------*/
+
       var result;
       var id = selector.substring(1);
       /**/
 
-      if (sqlType === '@NULL') {
+      if (amiType === '@NULL') {
         result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" readonly="readonly" />');
-      } else if (sqlType === 'NUMBER') {
+      } else if (amiType === 'NUMBER') {
         result = $('<input class="form-control form-control-sm" type="number" id="' + id + '" step="any" />');
-      } else if (sqlType === 'TIMESTAMP') {
+      } else if (amiType === 'TIMESTAMP') {
         result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />');
-      } else if (sqlType === 'DATETIME') {
+      } else if (amiType === 'DATETIME') {
         result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />');
-      } else if (sqlType === 'DATE') {
+      } else if (amiType === 'DATE') {
         result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" />');
-      } else if (sqlType === 'TIME') {
+      } else if (amiType === 'TIME') {
         result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />');
-      } else if (sqlType === 'ENUM') {
-        result = $('<select class="custom-select custom-select-sm" id="' + id + '">' + amiTwig.stdlib.getSQLTypeToEnumOptions(sqlType) + '</select>');
-      } else if (sqlType === 'LONG_TEXT') {
+      } else if (amiType === 'ENUM') {
+        result = $('<select class="custom-select custom-select-sm" id="' + id + '">' + amiTwig.stdlib.getAMITypeToEnumOptions(sqlType, value) + '</select>');
+      } else if (amiType === 'LONG_TEXT') {
         result = $('<textarea class="form-control form-control-sm" rows="6" id="' + id + '"></textarea>');
-      } else if (sqlType === 'SHORT_TEXT') {
+      } else if (amiType === 'SHORT_TEXT') {
         result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" />');
       }
       /*-------------------------------------------------------------*/
 
 
-      var name = $(selector).prop('name');
-      var val = $(selector).val();
-      return result.prop('name', name).val(sqlType === '@NULL' ? '@NULL' : val);
+      return result.prop('name', name).val(amiType === '@NULL' ? '@NULL' : value);
       /*-------------------------------------------------------------*/
     });
   },
@@ -319,12 +320,12 @@ $AMIClass('FieldEditorCtrl', {
           el2.text(catalog + '.' + entity + '.' + primaryField + ' = ' + primaryValue);
           /*-----------------------------------------------------*/
 
-          el3.find('[data-action="changesqltype"]').click(function (e) {
+          el3.find('[data-action="changeamitype"]').click(function (e) {
             e.preventDefault();
             $(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
-            $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().attr('data-sql-type', $(e.currentTarget).attr('data-sql-type')).text($(e.currentTarget).text().replace('default', ''));
+            $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().attr('data-ami-type', $(e.currentTarget).attr('data-ami-type')).attr('data-sql-type', $(e.currentTarget).attr('data-sql-type')).text($(e.currentTarget).text().replace('default', ''));
 
-            _this3.changeFormInputType(e.currentTarget.getAttribute('href'), e.currentTarget.getAttribute('data-sql-type'));
+            _this3.changeFormInputType(e.currentTarget.getAttribute('href'), e.currentTarget.getAttribute('data-ami-type'), e.currentTarget.getAttribute('data-sql-type'));
           });
           /*-----------------------------------------------------*/
 
@@ -377,12 +378,12 @@ $AMIClass('FieldEditorCtrl', {
           el2.text(primaryCatalog + '.' + primaryEntity);
           /*-----------------------------------------------------*/
 
-          el3.find('[data-action="changesqltype"]').click(function (e) {
+          el3.find('[data-action="changeamitype"]').click(function (e) {
             e.preventDefault();
             $(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
-            $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().attr('data-sql-type', $(e.currentTarget).attr('data-sql-type')).text($(e.currentTarget).text().replace('default', ''));
+            $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().attr('data-ami-type', $(e.currentTarget).attr('data-ami-type')).attr('data-sql-type', $(e.currentTarget).attr('data-sql-type')).text($(e.currentTarget).text().replace('default', ''));
 
-            _this4.changeFormInputType(e.currentTarget.getAttribute('href'), e.currentTarget.getAttribute('data-sql-type'));
+            _this4.changeFormInputType(e.currentTarget.getAttribute('href'), e.currentTarget.getAttribute('data-ami-type'), e.currentTarget.getAttribute('data-sql-type'));
           });
           /*-----------------------------------------------------*/
 

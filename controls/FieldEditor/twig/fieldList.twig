@@ -6,20 +6,20 @@
 
 {%     set rand = random() %}
 {%     set name = info.field %}
-{%     set type = getSQLType(info.type) %}
+{%     set type = getAMIType(info.type) %}
 {%     set value = values[info.field] or info.def %}
 
 <ul class="nav nav-tabs" role="tablist">
 	<li class="nav-item ml-auto">
 		<div class="nav-link{% if value === '@NULL' %} active{% endif %}" role="tab">
-			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changesqltype" data-sql-type="@NULL">
+			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changeamitype" data-ami-type="@NULL" data-sql-type="{{info.type|e}}">
 				NULL
 			</a>
 		</div>
 	</li>
 	<li class="nav-item ml-xxxx">
 		<div class="nav-link{% if value !== '@NULL' %} active{% endif %}" role="tab">
-			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changesqltype" data-sql-type="{{type}}">
+			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changeamitype" data-ami-type="{{type}}" data-sql-type="{{info.type|e}}">
 				{% if     type === 'NUMBER' %}
 				Number
 				{% elseif type === 'TIMESTAMP' %}
@@ -40,14 +40,14 @@
 			</a>
 			<a class="dropdown-toggle" href="#" data-toggle="dropdown"></a>
 			<div class="dropdown-menu">
-				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="NUMBER">Number{% if type === 'NUMBER' %}<sup>default</sup>{% endif %}</a>
-				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="TIMESTAMP">TimeStamp{% if type === 'TIMESTAMP' %}<sup>default</sup>{% endif %}</a>
-				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="DATETIME">DateTime{% if type === 'DATETIME' %}<sup>default</sup>{% endif %}</a>
-				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="DATE">Date{% if type === 'DATE' %}<sup>default</sup>{% endif %}</a>
-				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="TIME">Time{% if type === 'TIME' %}<sup>default</sup>{% endif %}</a>
-				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="ENUM">Enum{% if type === 'ENUM' %}<sup>default</sup>{% endif %}</a>
-				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="LONG_TEXT">Long text{% if type === 'LONG_TEXT' %}<sup>default</sup>{% endif %}</a>
-				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changesqltype" data-sql-type="SHORT_TEXT">Short text{% if type === 'SHORT_TEXT' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="NUMBER" data-sql-type="{{info.type|e}}">Number{% if type === 'NUMBER' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TIMESTAMP" data-sql-type="{{info.type|e}}">TimeStamp{% if type === 'TIMESTAMP' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="DATETIME" data-sql-type="{{info.type|e}}">DateTime{% if type === 'DATETIME' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="DATE" data-sql-type="{{info.type|e}}">Date{% if type === 'DATE' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TIME" data-sql-type="{{info.type|e}}">Time{% if type === 'TIME' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="ENUM" data-sql-type="{{info.type|e}}">Enum{% if type === 'ENUM' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="LONG_TEXT" data-sql-type="{{info.type|e}}">Long text{% if type === 'LONG_TEXT' %}<sup>default</sup>{% endif %}</a>
+				<a class="dropdown-item" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="SHORT_TEXT" data-sql-type="{{info.type|e}}">Short text{% if type === 'SHORT_TEXT' %}<sup>default</sup>{% endif %}</a>
 			</div>
 		</div>
 	</li>
@@ -71,7 +71,7 @@
 		{% elseif type === 'TIME' %}
 		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />
 		{% elseif type === 'ENUM' %}
-		<select class="custom-select custom-select-sm" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{ getSQLTypeToEnumOptions(info.type, value) }}</select>
+		<select class="custom-select custom-select-sm" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{ getAMITypeToEnumOptions(info.type, value) }}</select>
 		{% elseif type === 'LONG_TEXT' %}
 		<textarea class="form-control form-control-sm" name="{{name|e}}" rows="6" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{value|e}}</textarea>
 		{% elseif type === 'SHORT_TEXT' %}
