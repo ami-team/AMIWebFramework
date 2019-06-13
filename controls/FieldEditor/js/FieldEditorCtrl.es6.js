@@ -461,7 +461,9 @@ $AMIClass('FieldEditorCtrl', {
 						e.preventDefault();
 
 						$(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
-						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().text($(e.currentTarget).text().replace('default', ''));
+						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().attr('data-sql-type', $(e.currentTarget).attr('data-sql-type'))
+						                                                                                               .text($(e.currentTarget).text().replace('default', ''))
+						;
 
 						this.changeFormInputType(
 							e.currentTarget.getAttribute('href')
@@ -541,7 +543,9 @@ $AMIClass('FieldEditorCtrl', {
 						e.preventDefault();
 
 						$(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
-						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().text($(e.currentTarget).text().replace('default', ''));
+						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().attr('data-sql-type', $(e.currentTarget).attr('data-sql-type'))
+						                                                                                               .text($(e.currentTarget).text().replace('default', ''))
+						;
 
 						this.changeFormInputType(
 							e.currentTarget.getAttribute('href')
