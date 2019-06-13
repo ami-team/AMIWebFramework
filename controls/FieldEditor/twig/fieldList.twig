@@ -22,8 +22,6 @@
 			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changeamitype" data-ami-type="{{type}}" data-sql-type="{{info.type|e}}">
 				{% if     type === 'NUMBER' %}
 				Number
-				{% elseif type === 'TIMESTAMP' %}
-				TimeStamp
 				{% elseif type === 'DATETIME' %}
 				DateTime
 				{% elseif type === 'DATE' %}
@@ -41,7 +39,6 @@
 			<a class="dropdown-toggle" href="#" data-toggle="dropdown"></a>
 			<div class="dropdown-menu">
 				<a class="dropdown-item{% if type === 'NUMBER' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="NUMBER" data-sql-type="{{info.type|e}}">Number</a>
-				<a class="dropdown-item{% if type === 'TIMESTAMP' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TIMESTAMP" data-sql-type="{{info.type|e}}">TimeStamp</a>
 				<a class="dropdown-item{% if type === 'DATETIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="DATETIME" data-sql-type="{{info.type|e}}">DateTime</a>
 				<a class="dropdown-item{% if type === 'DATE' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="DATE" data-sql-type="{{info.type|e}}">Date</a>
 				<a class="dropdown-item{% if type === 'TIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TIME" data-sql-type="{{info.type|e}}">Time</a>
@@ -62,8 +59,6 @@
 		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" readonly="readonly" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'NUMBER' %}
 		<input class="form-control form-control-sm" type="number" name="{{name|e}}" value="{{value|e}}" step="any" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
-		{% elseif type === 'TIMESTAMP' %}
-		<input class="form-control form-control-sm form-timestamp" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-toggle="datetimepicker" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'DATETIME' %}
 		<input class="form-control form-control-sm form-datetime" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-toggle="datetimepicker" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'DATE' %}

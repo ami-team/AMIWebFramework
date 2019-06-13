@@ -6627,12 +6627,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(jQuery.fn.datetimepicker)
 			{
-				target.find('.form-timestamp').datetimepicker({
-					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
-				});
-
 				target.find('.form-datetime').datetimepicker({
-					format: 'YYYY-MM-DD HH:mm:ss'
+					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
 				});
 
 				target.find('.form-date').datetimepicker({

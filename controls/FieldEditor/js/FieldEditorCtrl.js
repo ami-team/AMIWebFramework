@@ -11,8 +11,7 @@
 
 /*-------------------------------------------------------------------------*/
 var _fieldEditor_internal_numberRegex = /^.*(?:BIT|INT|FLOAT|DOUBLE|SERIAL|DECIMAL|NUMBER).*$/;
-var _fieldEditor_internal_timestampRegex = /^.*(?:TIMESTAMP).*$/;
-var _fieldEditor_internal_datetimeRegex = /^.*(?:DATETIME).*$/;
+var _fieldEditor_internal_datetimeRegex = /^.*(?:TIMESTAMP|DATETIME).*$/;
 var _fieldEditor_internal_dateRegex = /^.*(?:DATE).*$/;
 var _fieldEditor_internal_timeRegex = /^.*(?:TIME).*$/;
 var _fieldEditor_internal_enumRegex = /^.*(?:ENUM).*$/;
@@ -23,8 +22,6 @@ amiTwig.stdlib.getAMIType = function (sqlType) {
   /**/
   if (sqlType.match(_fieldEditor_internal_numberRegex)) {
     return 'NUMBER';
-  } else if (sqlType.match(_fieldEditor_internal_timestampRegex)) {
-    return 'TIMESTAMP';
   } else if (sqlType.match(_fieldEditor_internal_datetimeRegex)) {
     return 'DATETIME';
   } else if (sqlType.match(_fieldEditor_internal_dateRegex)) {
@@ -266,14 +263,12 @@ $AMIClass('FieldEditorCtrl', {
       result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" readonly="readonly" />');
     } else if (amiType === 'NUMBER') {
       result = $('<input class="form-control form-control-sm" type="number" id="' + id + '" step="any" />');
-    } else if (amiType === 'TIMESTAMP') {
-      result = $('<input class="form-control form-control-sm form-timestamp" type="text" id="' + id + '" />');
     } else if (amiType === 'DATETIME') {
-      result = $('<input class="form-control form-control-sm form-datetime" type="text" id="' + id + '" />');
+      result = $('<input class="form-control form-control-sm form-datetime" type="text" id="' + id + '" data-toggle="datetimepicker" data-target="' + selector + '" />');
     } else if (amiType === 'DATE') {
-      result = $('<input class="form-control form-control-sm form-date" type="text" id="' + id + '" />');
+      result = $('<input class="form-control form-control-sm form-date" type="text" id="' + id + '" data-toggle="datetimepicker" data-target="' + selector + '" />');
     } else if (amiType === 'TIME') {
-      result = $('<input class="form-control form-control-sm form-time" type="text" id="' + id + '" />');
+      result = $('<input class="form-control form-control-sm form-time" type="text" id="' + id + '" data-toggle="datetimepicker" data-target="' + selector + '" />');
     } else if (amiType === 'ENUM') {
       result = $('<select class="custom-select custom-select-sm" id="' + id + '">' + amiTwig.stdlib.getAMITypeToEnumOptions(sqlType, value) + '</select>');
     } else if (amiType === 'LONG_TEXT') {
