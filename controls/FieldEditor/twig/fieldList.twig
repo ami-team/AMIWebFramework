@@ -23,7 +23,7 @@
 				{% if     type === 'NUMBER' %}
 				Number
 				{% elseif type === 'DATETIME' %}
-				DateTime
+				Date & time
 				{% elseif type === 'DATE' %}
 				Date
 				{% elseif type === 'TIME' %}
@@ -39,7 +39,7 @@
 			<a class="dropdown-toggle" href="#" data-toggle="dropdown"></a>
 			<div class="dropdown-menu">
 				<a class="dropdown-item{% if type === 'NUMBER' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="NUMBER" data-sql-type="{{info.type|e}}">Number</a>
-				<a class="dropdown-item{% if type === 'DATETIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="DATETIME" data-sql-type="{{info.type|e}}">DateTime</a>
+				<a class="dropdown-item{% if type === 'DATETIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="DATETIME" data-sql-type="{{info.type|e}}">Date & time</a>
 				<a class="dropdown-item{% if type === 'DATE' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="DATE" data-sql-type="{{info.type|e}}">Date</a>
 				<a class="dropdown-item{% if type === 'TIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TIME" data-sql-type="{{info.type|e}}">Time</a>
 				<a class="dropdown-item{% if type === 'ENUM' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="ENUM" data-sql-type="{{info.type|e}}">Enum</a>
