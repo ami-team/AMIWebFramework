@@ -182,7 +182,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/js/bootstrap-tempusdominus.min.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
 				this.originURL + '/js/select2.min.js',
-			]);
+			]).done(() => {
+
+				$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
+					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS',
+					autoclose: true,
+				});
+			});
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -945,18 +951,20 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(jQuery.fn.datetimepicker)
 			{
-/*				target.find('.form-datetime').datetimepicker({
+				target.find('.form-datetime').addClass('datetimepicker-input').datetimepicker({
 					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
 				});
 
-				target.find('.form-date').datetimepicker({
+				target.find('.form-date').addClass('datetimepicker-input').datetimepicker({
 					format: 'YYYY-MM-DD'
 				});
 
-				target.find('.form-time').datetimepicker({
+if(target.find('.form-time').length > 0) alert('treter');
+
+				target.find('.form-time').addClass('datetimepicker-input').datetimepicker({
 					format: 'HH:mm:ss'
 				});
-*/			}
+			}
 
 			/*-------------------------------------------------------------*/
 
