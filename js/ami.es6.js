@@ -5861,14 +5861,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/js/popper.min.js',
 				this.originURL + '/js/moment.min.js',
 				this.originURL + '/js/bootstrap.min.js',
-				this.originURL + '/js/bootstrap-tempusdominus.min.js',
+				//this.originURL + '/js/bootstrap-tempusdominus.min.js',
+				'https://tempusdominus.github.io/bootstrap-4/theme/js/tempusdominus-bootstrap-4.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
 				this.originURL + '/js/select2.min.js',
 			]).done(() => {
 
 				$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS',
-					autoclose: true,
+					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
 				});
 			});
 		}
@@ -6575,6 +6575,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
+		if(jQuery.fn.datetimepicker)
+		{
+			target.find('.form-datetime,.form-date,.form-time').datetimepicker('destroy');
+		}
+
+		/*-----------------------------------------------------------------*/
+
 		let promise;
 
 		switch(mode)
@@ -6632,23 +6639,26 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			/*-------------------------------------------------------------*/
 
 			if(jQuery.fn.datetimepicker)
-			{
-				target.find('.form-datetime').addClass('datetimepicker-input').datetimepicker({
+			{/*
+				target.find('.form-datetime').datetimepicker('destroy');
+				target.find('.form-datetime').datetimepicker({
 					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
 				});
 
-				target.find('.form-date').addClass('datetimepicker-input').datetimepicker({
+				target.find('.form-date').datetimepicker('destroy');
+				target.find('.form-date').datetimepicker({
 					format: 'YYYY-MM-DD'
 				});
 
-				target.find('.form-time').addClass('datetimepicker-input').datetimepicker({
+				target.find('.form-time').datetimepicker('destroy');
+				target.find('.form-time').datetimepicker({
 					format: 'HH:mm:ss'
-				});
+				});*/
 			}
 
 			/*-------------------------------------------------------------*/
 
-			result.resolveWith(context, [target.html()]);
+			result.resolveWith(context, [target]);
 
 			/*-------------------------------------------------------------*/
 		});
