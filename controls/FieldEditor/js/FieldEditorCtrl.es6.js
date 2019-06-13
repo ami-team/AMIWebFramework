@@ -79,7 +79,7 @@ amiTwig.stdlib.getSQLTypeToEnumOptions = function(rawType, defaultValue)
 
 		value = amiWebApp.textToHtml(value.replace(/'/g, '').trim());
 
-		if(value === defaultValue) {
+		if(value.toUpperCase() === defaultValue.toUpperCase()) {
 			result.push('<option value="' + value + '" selected="selected">' + value + '</option>');
 		}
 		else {
