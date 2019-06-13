@@ -253,40 +253,40 @@ $AMIClass('FieldEditorCtrl', {
 
   /*---------------------------------------------------------------------*/
   changeFormInputType: function changeFormInputType(selector, amiType, sqlType) {
-    $(selector).replaceWith(function () {
-      var name = $(selector).prop('name');
-      var value = $(selector).val();
-      /*-------------------------------------------------------------*/
+    /*-----------------------------------------------------------------*/
+    var name = $(selector).prop('name');
+    var value = $(selector).val();
+    /*-----------------------------------------------------------------*/
 
-      var result;
-      var id = selector.substring(1);
-      /**/
+    var result;
+    var id = selector.substring(1);
+    /**/
 
-      if (amiType === '@NULL') {
-        result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" readonly="readonly" />');
-      } else if (amiType === 'NUMBER') {
-        result = $('<input class="form-control form-control-sm" type="number" id="' + id + '" step="any" />');
-      } else if (amiType === 'TIMESTAMP') {
-        result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />');
-      } else if (amiType === 'DATETIME') {
-        result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />');
-      } else if (amiType === 'DATE') {
-        result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" />');
-      } else if (amiType === 'TIME') {
-        result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*" />');
-      } else if (amiType === 'ENUM') {
-        result = $('<select class="custom-select custom-select-sm" id="' + id + '">' + amiTwig.stdlib.getAMITypeToEnumOptions(sqlType, value) + '</select>');
-      } else if (amiType === 'LONG_TEXT') {
-        result = $('<textarea class="form-control form-control-sm" rows="6" id="' + id + '"></textarea>');
-      } else if (amiType === 'SHORT_TEXT') {
-        result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" />');
-      }
-      /*-------------------------------------------------------------*/
+    if (amiType === '@NULL') {
+      result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" readonly="readonly" />');
+    } else if (amiType === 'NUMBER') {
+      result = $('<input class="form-control form-control-sm" type="number" id="' + id + '" step="any" />');
+    } else if (amiType === 'TIMESTAMP') {
+      result = $('<input class="form-control form-control-sm form-timestamp" type="text" id="' + id + '" />');
+    } else if (amiType === 'DATETIME') {
+      result = $('<input class="form-control form-control-sm form-datetime" type="text" id="' + id + '" />');
+    } else if (amiType === 'DATE') {
+      result = $('<input class="form-control form-control-sm form-date" type="text" id="' + id + '" />');
+    } else if (amiType === 'TIME') {
+      result = $('<input class="form-control form-control-sm form-time" type="text" id="' + id + '" />');
+    } else if (amiType === 'ENUM') {
+      result = $('<select class="custom-select custom-select-sm" id="' + id + '">' + amiTwig.stdlib.getAMITypeToEnumOptions(sqlType, value) + '</select>');
+    } else if (amiType === 'LONG_TEXT') {
+      result = $('<textarea class="form-control form-control-sm" rows="6" id="' + id + '"></textarea>');
+    } else if (amiType === 'SHORT_TEXT') {
+      result = $('<input class="form-control form-control-sm" type="text" id="' + id + '" />');
+    }
+    /*-----------------------------------------------------------------*/
 
 
-      return result.prop('name', name).val(amiType === '@NULL' ? '@NULL' : value);
-      /*-------------------------------------------------------------*/
-    });
+    amiWebApp._xxxHTML(selector, result.prop('name', name).val(amiType === '@NULL' ? '@NULL' : value), 3);
+    /*-----------------------------------------------------------------*/
+
   },
 
   /*---------------------------------------------------------------------*/
@@ -322,7 +322,6 @@ $AMIClass('FieldEditorCtrl', {
 
           el3.find('[data-action="changeamitype"]').click(function (e) {
             e.preventDefault();
-            $(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
             $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().attr('data-ami-type', $(e.currentTarget).attr('data-ami-type')).attr('data-sql-type', $(e.currentTarget).attr('data-sql-type')).text($(e.currentTarget).text().replace('default', ''));
 
             _this3.changeFormInputType(e.currentTarget.getAttribute('href'), e.currentTarget.getAttribute('data-ami-type'), e.currentTarget.getAttribute('data-sql-type'));
@@ -380,7 +379,6 @@ $AMIClass('FieldEditorCtrl', {
 
           el3.find('[data-action="changeamitype"]').click(function (e) {
             e.preventDefault();
-            $(e.currentTarget).closest('.nav-tabs').find('.nav-link,.dropdown-item').removeClass('active');
             $(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().attr('data-ami-type', $(e.currentTarget).attr('data-ami-type')).attr('data-sql-type', $(e.currentTarget).attr('data-sql-type')).text($(e.currentTarget).text().replace('default', ''));
 
             _this4.changeFormInputType(e.currentTarget.getAttribute('href'), e.currentTarget.getAttribute('data-ami-type'), e.currentTarget.getAttribute('data-sql-type'));

@@ -5853,12 +5853,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		 ) {
 			this.loadSheets([
 				this.originURL + '/css/bootstrap.min.css',
+				this.originURL + '/css/bootstrap-tempusdominus.min.css',
 				this.originURL + '/css/select2.min.css',
 			]);
 
 			this.loadScripts([
 				this.originURL + '/js/popper.min.js',
+				this.originURL + '/js/moment.min.js',
 				this.originURL + '/js/bootstrap.min.js',
+				this.originURL + '/js/bootstrap-tempusdominus.min.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
 				this.originURL + '/js/select2.min.js',
 			]);
@@ -6541,15 +6544,24 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		if(suffix)
+		let html;
+
+		if(this.typeOf(twig) === 'String')
 		{
-			twig = twig.replace(this._idRegExp, function(id) {
+			if(suffix)
+			{
+				twig = twig.replace(this._idRegExp, function(id) {
 
-				return id + '_instance' + suffix;
-			});
+					return id + '_instance' + suffix;
+				});
+			}
+
+			html = this.formatTWIG(twig, dict);
 		}
-
-		let html = this.formatTWIG(twig, dict);
+		else
+		{
+			html = twig;
+		}
 
 		/*-----------------------------------------------------------------*/
 
@@ -6573,6 +6585,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				promise = target.append(html).promise();
 				break;
 
+			case 3:
+				promise = target.replaceWith(html).promise();
+				break;
+
 			default:
 				throw 'internal error';
 		}
@@ -6580,6 +6596,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/*-----------------------------------------------------------------*/
 
 		promise.done(() => {
+
 			/*-------------------------------------------------------------*/
 
 			if(jQuery.fn.tooltip)
@@ -6608,7 +6625,29 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*-------------------------------------------------------------*/
 
-			result.resolveWith(context, [html]);
+			if(jQuery.fn.datetimepicker)
+			{
+				target.find('.form-timestamp').datetimepicker({
+					format: 'YYYY-MM-D HH:mm:ss'
+				});
+
+				target.find('.form-datetime').datetimepicker({
+					format: 'YYYY-MM-D HH:mm:ss'
+
+				});
+
+				target.find('.form-date').datetimepicker({
+					format: 'YYYY-MM-D'
+				});
+
+				target.find('.form-time').datetimepicker({
+					format: 'HH:mm:ss'
+				});
+			}
+
+			/*-------------------------------------------------------------*/
+
+			result.resolveWith(context, [target.html()]);
 
 			/*-------------------------------------------------------------*/
 		});
