@@ -943,18 +943,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*-------------------------------------------------------------*/
 
-			target.find('.form-timestamp').attr('pattern', '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*');
-
-			/*-------------------------------------------------------------*/
-
 			if(jQuery.fn.datetimepicker)
 			{
-				target.find('.form-datetime').datetimepicker({
-					format: 'YYYY-MM-D HH:mm:ss'
+				target.find('.form-timestamp,.form-datetime').datetimepicker({
+					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
 				});
 
 				target.find('.form-date').datetimepicker({
-					format: 'YYYY-MM-D'
+					format: 'YYYY-MM-DD'
 				});
 
 				target.find('.form-time').datetimepicker({

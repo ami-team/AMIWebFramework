@@ -5555,15 +5555,15 @@ $AMINamespace('amiWebApp',
       /*-------------------------------------------------------------*/
 
 
-      target.find('.form-timestamp').attr('pattern', '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]*');
-      /*-------------------------------------------------------------*/
-
       if (jQuery.fn.datetimepicker) {
+        target.find('.form-timestamp').datetimepicker({
+          format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
+        });
         target.find('.form-datetime').datetimepicker({
-          format: 'YYYY-MM-D HH:mm:ss'
+          format: 'YYYY-MM-DD HH:mm:ss'
         });
         target.find('.form-date').datetimepicker({
-          format: 'YYYY-MM-D'
+          format: 'YYYY-MM-DD'
         });
         target.find('.form-time').datetimepicker({
           format: 'HH:mm:ss'
