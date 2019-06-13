@@ -47,11 +47,11 @@ amiTwig.stdlib.getSQLType = function(rawType)
 	else 	{
 		return 'SHORT_TEXT';
 	}
-}
+};
 
 /*-------------------------------------------------------------------------*/
 
-amiTwig.stdlib.getSQLTypeToEnumOptions = function(rawType)
+amiTwig.stdlib.getSQLTypeToEnumOptions = function(rawType, defaultValue)
 {
 	/*---------------------------------------------------------------------*/
 
@@ -79,13 +79,18 @@ amiTwig.stdlib.getSQLTypeToEnumOptions = function(rawType)
 
 		value = amiWebApp.textToHtml(value.trim());
 
-		result.push('<option value="' + value + '"'> + value + '</option>');
+		if(value === defaultValue) {
+			result.push('<option value="' + value + '" selected="selected">' + value + '</option>');
+		}
+		else {
+			result.push('<option value="' + value + '" xxxxxxx="xxxxxxxxx">' + value + '</option>');
+		}
 	});
 
 	return result.join('');
 
 	/*---------------------------------------------------------------------*/
-}
+};
 
 /*-------------------------------------------------------------------------*/
 
