@@ -5535,6 +5535,9 @@ $AMINamespace('amiWebApp',
         break;
 
       case 3:
+        el.tooltip('dispose');
+        el.popover('dispose');
+        el.datetimepicker('destroy');
         promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, '$1 id="' + el.attr('id') + '"') : html).promise();
         break;
 
