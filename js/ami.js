@@ -4934,10 +4934,8 @@ $AMINamespace('amiWebApp',
     /*-----------------------------------------------------------------*/
 
     if (this._noBootstrap === false && typeof jQuery.fn.modal !== 'function') {
-      this.loadSheets([this.originURL + '/css/bootstrap.min.css', //this.originURL + '/css/bootstrap-tempusdominus.min.css',
-      this.originURL + '/css/bootstrap-datetimepicker.min.css', this.originURL + '/css/select2.min.css']);
-      this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/moment.min.js', this.originURL + '/js/bootstrap.min.js', //this.originURL + '/js/bootstrap-tempusdominus.min.js',
-      this.originURL + '/js/bootstrap-datetimepicker.min.js', this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
+      this.loadSheets([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-datetimepicker.min.css', this.originURL + '/css/select2.min.css']);
+      this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/moment.min.js', this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-datetimepicker.min.js', this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
       this.originURL + '/js/select2.min.js']);
     }
     /*-----------------------------------------------------------------*/
