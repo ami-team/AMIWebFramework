@@ -1179,24 +1179,27 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/* MESSAGES                                                            */
 	/*---------------------------------------------------------------------*/
 
-	_publishAlert: function(html, fadeOut, target)
+	_publishAlert: function(clazz, title, message, fadeOut)
 	{
 		/*-----------------------------------------------------------------*/
 
-		const el = $(target || '#ami_alert_content');
+		console.log('AMI ' + title.toUpperCase() + ': ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
 
 		/*-----------------------------------------------------------------*/
 
-		el.html(html.replace(this._linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
+		const html = '<div class="toast" role="alert" ' + (fadeOut ? 'data-delay="60000"' : 'data-autohide="false"') + '><div class="toast-header"><strong class="mr-auto ' + clazz + '">' + title + '</strong><small>' + this.textToHtml(window.moment().format('YYYY-MM-DD HH:mm:ss')) + '</small><button type="button" class="ml-2 mb-1 close" data-dismiss="toast"><span>&times;</span></button></div><div class="toast-body">' + this.textToHtml(message) + '</div></div>';
+
+		/*-----------------------------------------------------------------*/
+
+		const el = $('#ami_alert_content');
+
+		el.append(html.replace(this._linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
+
+			el.find('.toast:last-child').toast('show');
 
 			$(document).scrollTop(0);
 
 			this.unlock();
-
-			if(fadeOut)
-			{
-				el.find('.alert').fadeOut(60000);
-			}
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -1208,19 +1211,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Shows an 'info' message
 	  * @param {String|Array} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	  * @param {String} [id=null] the target id
 	  */
 
-	info: function(message, fadeOut, target)
+	info: function(message, fadeOut)
 	{
 		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
 
-		console.log('AMI INFO: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
-
-		this._publishAlert('<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Info!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
+		this._publishAlert('text-info', 'Info', message, fadeOut);
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -1229,19 +1229,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Shows a 'success' message
 	  * @param {String|Array} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	  * @param {String} [id=null] the target id
 	  */
 
-	success: function(message, fadeOut, target)
+	success: function(message, fadeOut)
 	{
 		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
 
-		console.log('AMI SUCCESS: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
-
-		this._publishAlert('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Success!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
+		this._publishAlert('text-success', 'Success', message, fadeOut);
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -1250,19 +1247,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Shows a 'warning' message
 	  * @param {String|Array} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	  * @param {String} [id=null] the target id
 	  */
 
-	warning: function(message, fadeOut, target)
+	warning: function(message, fadeOut)
 	{
 		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
 
-		console.log('AMI WARNING: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
-
-		this._publishAlert('<div class="alert alert-warning alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Warning!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
+		this._publishAlert('text-warning', 'Warning', message, fadeOut);
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -1271,19 +1265,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Shows an 'error' message
 	  * @param {String|Array} message the message
 	  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	  * @param {String} [id=null] the target id
 	  */
 
-	error: function(message, fadeOut, target)
+	error: function(message, fadeOut)
 	{
 		if(this.typeOf(message) === 'Array')
 		{
 			message = message.join('. ');
 		}
 
-		console.log('AMI ERROR: ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
-
-		this._publishAlert('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert"><span>&times;</span><span class="sr-only">Close</span></button><strong>Error!</strong> ' + this.textToHtml(message) + '</div>', fadeOut, target);
+		this._publishAlert('text-danger', 'Error', message, fadeOut);
 	},
 
 	/*---------------------------------------------------------------------*/
