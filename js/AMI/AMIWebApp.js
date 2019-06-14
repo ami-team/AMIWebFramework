@@ -173,7 +173,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		 ) {
 			this.loadSheets([
 				this.originURL + '/css/bootstrap.min.css',
-				this.originURL + '/css/bootstrap-tempusdominus.min.css',
+				//this.originURL + '/css/bootstrap-tempusdominus.min.css',
+				this.originURL + '/css/bootstrap-datetimepicker.min.css',
 				this.originURL + '/css/select2.min.css',
 			]);
 
@@ -181,14 +182,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/js/popper.min.js',
 				this.originURL + '/js/moment.min.js',
 				this.originURL + '/js/bootstrap.min.js',
-				this.originURL + '/js/bootstrap-tempusdominus.min.js',
+				//this.originURL + '/js/bootstrap-tempusdominus.min.js',
+				this.originURL + '/js/bootstrap-datetimepicker.min.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
 				this.originURL + '/js/select2.min.js',
 			]).done(() => {
 
 				$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS',
-					defaultDate: window.moment(),
+					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
 				});
 			});
 		}
@@ -901,13 +902,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				break;
 
 			case 3:
-
-				el.   tooltip    ('dispose');
-				el.   popover    ('dispose');
-				el.datetimepicker('destroy');
-
 				promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, '$1 id="' + el.attr('id') + '"') : html).promise();
-
 				break;
 
 			default:
@@ -958,15 +953,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(jQuery.fn.datetimepicker)
 			{
-				_find('.form-datetime').attr('data-toggle', 'datetimepicker').datetimepicker({
+				_find('.form-datetime').datetimepicker({
 					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
 				});
 
-				_find('.form-date').attr('data-toggle', 'datetimepicker').datetimepicker({
+				_find('.form-date').datetimepicker({
 					format: 'YYYY-MM-DD'
 				});
 
-				_find('.form-time').attr('data-toggle', 'datetimepicker').datetimepicker({
+				_find('.form-time').datetimepicker({
 					format: 'HH:mm:ss'
 				});
 			}
