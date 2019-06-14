@@ -5877,12 +5877,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/js/bootstrap-datetimepicker.min.js',
 				this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
 				this.originURL + '/js/select2.min.js',
-			]).done(() => {
-
-				$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
-				});
-			});
+			]);
 		}
 
 		/*-----------------------------------------------------------------*/

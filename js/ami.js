@@ -4902,17 +4902,7 @@ $AMINamespace('amiWebApp',
   /* STATIC CONSTRUCTOR                                                  */
 
   /*---------------------------------------------------------------------*/
-  $: function (_$) {
-    function $() {
-      return _$.apply(this, arguments);
-    }
-
-    $.toString = function () {
-      return _$.toString();
-    };
-
-    return $;
-  }(function () {
+  $: function $() {
     /*-----------------------------------------------------------------*/
 
     /* GET FLAGS                                                       */
@@ -4948,18 +4938,14 @@ $AMINamespace('amiWebApp',
       this.originURL + '/css/bootstrap-datetimepicker.min.css', this.originURL + '/css/select2.min.css']);
       this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/moment.min.js', this.originURL + '/js/bootstrap.min.js', //this.originURL + '/js/bootstrap-tempusdominus.min.js',
       this.originURL + '/js/bootstrap-datetimepicker.min.js', this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
-      this.originURL + '/js/select2.min.js']).done(function () {
-        $.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-          format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
-        });
-      });
+      this.originURL + '/js/select2.min.js']);
     }
     /*-----------------------------------------------------------------*/
 
 
     this.loadSheets([this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css']);
     /*-----------------------------------------------------------------*/
-  }),
+  },
 
   /*---------------------------------------------------------------------*/
 
