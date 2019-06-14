@@ -255,32 +255,31 @@ $AMIClass('FieldEditorCtrl', {
     var value = $(selector).val();
     /*-----------------------------------------------------------------*/
 
-    var result;
-    var id = selector.substring(1);
+    var html;
     /**/
 
     if (amiType === '@NULL') {
-      result = '<input class="form-control form-control-sm" type="text" readonly="readonly" />';
+      html = '<input class="form-control form-control-sm" type="text" readonly="readonly" />';
     } else if (amiType === 'NUMBER') {
-      result = '<input class="form-control form-control-sm" type="number" step="any" />';
+      html = '<input class="form-control form-control-sm" type="number" step="any" />';
     } else if (amiType === 'DATETIME') {
-      result = '<input class="form-control form-control-sm form-datetime datetimepicker-input" type="text" data-toggle="datetimepicker" data-target="' + selector + '" />';
+      html = '<input class="form-control form-control-sm form-datetime" type="text" data-target="' + selector + '" />';
     } else if (amiType === 'DATE') {
-      result = '<input class="form-control form-control-sm form-date datetimepicker-input" type="text" data-toggle="datetimepicker" data-target="' + selector + '" />';
+      html = '<input class="form-control form-control-sm form-date" type="text" data-target="' + selector + '" />';
     } else if (amiType === 'TIME') {
-      result = '<input class="form-control form-control-sm form-time datetimepicker-input" type="text" data-toggle="datetimepicker" data-target="' + selector + '" />';
+      html = '<input class="form-control form-control-sm form-time" type="text" data-target="' + selector + '" />';
     } else if (amiType === 'ENUM') {
-      result = '<select class="custom-select custom-select-sm">' + amiTwig.stdlib.getAMITypeToEnumOptions(sqlType, value) + '</select>';
+      html = '<select class="custom-select custom-select-sm">' + amiTwig.stdlib.getAMITypeToEnumOptions(sqlType, value) + '</select>';
     } else if (amiType === 'LONG_TEXT') {
-      result = '<textarea class="form-control form-control-sm" rows="6"></textarea>';
-    } else if (amiType === 'SHORT_TEXT') {
-      result = '<input class="form-control form-control-sm" type="text" />';
+      html = '<textarea class="form-control form-control-sm" rows="6"></textarea>';
+    } else {
+      html = '<input class="form-control form-control-sm" type="text" />';
     }
     /*-----------------------------------------------------------------*/
 
 
-    amiWebApp._xxxHTML(selector, result, 3).done(function (el) {
-      el.prop('name', name).val(amiType === '@NULL' ? '@NULL' : value);
+    amiWebApp._xxxHTML(selector, html, 3).done(function (el) {
+      el.attr('name', name).val(amiType !== '@NULL' ? value !== '@NULL' ? value : '' : '@NULL');
     });
     /*-----------------------------------------------------------------*/
 

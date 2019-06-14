@@ -96,6 +96,15 @@ jQuery.ajax = function(settings)
 };
 
 /*-------------------------------------------------------------------------*/
+
+jQuery.fn.extend({
+	findWithSelf: function(selector)
+	{
+		return this.find(selector).addBack(selector);
+	}
+});
+
+/*-------------------------------------------------------------------------*/
 /* BOOTSTRAP EXTENSIONS                                                    */
 /*-------------------------------------------------------------------------*/
 

@@ -60,11 +60,11 @@
 		{% elseif type === 'NUMBER' %}
 		<input class="form-control form-control-sm" type="number" name="{{name|e}}" value="{{value|e}}" step="any" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'DATETIME' %}
-		<input class="form-control form-control-sm form-datetime datetimepicker-input" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-toggle="datetimepicker" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		<input class="form-control form-control-sm form-datetime" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'DATE' %}
-		<input class="form-control form-control-sm form-date datetimepicker-input" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-toggle="datetimepicker" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		<input class="form-control form-control-sm form-date" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'TIME' %}
-		<input class="form-control form-control-sm form-time datetimepicker-input" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-toggle="datetimepicker" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		<input class="form-control form-control-sm form-time" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'ENUM' %}
 		<select class="custom-select custom-select-sm" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{ getAMITypeToEnumOptions(info.type, value) }}</select>
 		{% elseif type === 'LONG_TEXT' %}

@@ -5026,6 +5026,15 @@ jQuery.ajax = function(settings)
 };
 
 /*-------------------------------------------------------------------------*/
+
+jQuery.fn.extend({
+	findWithSelf: function(selector)
+	{
+		return this.find(selector).addBack(selector);
+	}
+});
+
+/*-------------------------------------------------------------------------*/
 /* BOOTSTRAP EXTENSIONS                                                    */
 /*-------------------------------------------------------------------------*/
 
@@ -5691,6 +5700,8 @@ $AMINamespace('amiRouter', /** @lends amiRouter */ {
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
+ * @global moment
+ *
  */
 
 /*-------------------------------------------------------------------------*/
@@ -5867,7 +5878,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			]).done(() => {
 
 				$.fn.datetimepicker.Constructor.Default = $.extend({}, $.fn.datetimepicker.Constructor.Default, {
-					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
+					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS',
+					defaultDate: window.moment(),
 				});
 			});
 		}
@@ -6563,22 +6575,24 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		let promise;
 
+		let el = $(selector);
+
 		switch(mode)
 		{
 			case 0:
-				promise = $(selector).html(html).promise();
+				promise = el.html(html).promise();
 				break;
 
 			case 1:
-				promise = $(selector).prepend(html).promise();
+				promise = el.prepend(html).promise();
 				break;
 
 			case 2:
-				promise = $(selector).append(html).promise();
+				promise = el.append(html).promise();
 				break;
 
 			case 3:
-				promise = $(selector).replaceWith(() => $(html).attr('id', $(selector).attr('id'))).promise();
+				promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, '$1 id="' + el.attr('id') + '"') : html).promise();
 				break;
 
 			default:
@@ -6591,13 +6605,19 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*-------------------------------------------------------------*/
 
-			const el = $(selector);
+			let el = $(selector);
+
+			/*-------------------------------------------------------------*/
+
+			const _find = mode === 3 ? (_selector) => el.findWithSelf(_selector)
+			                         : (_selector) => el.    find    (_selector)
+			;
 
 			/*-------------------------------------------------------------*/
 
 			if(jQuery.fn.tooltip)
 			{
-				el.find('[data-toggle="tooltip"]').tooltip({
+				_find('[data-toggle="tooltip"]').tooltip({
 					html: false,
 					delay: {
 						show: 500,
@@ -6610,7 +6630,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(jQuery.fn.popover)
 			{
-				el.find('[data-toggle="popover"]').popover({
+				_find('[data-toggle="popover"]').popover({
 					html: true,
 					delay: {
 						show: 500,
@@ -6623,15 +6643,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(jQuery.fn.datetimepicker)
 			{
-				el.find('.form-datetime').datetimepicker({
+				_find('.form-datetime').attr('data-toggle', 'datetimepicker').datetimepicker({
 					format: 'YYYY-MM-DD HH:mm:ss.SSSSSS'
 				});
 
-				el.find('.form-date').datetimepicker({
+				_find('.form-date').attr('data-toggle', 'datetimepicker').datetimepicker({
 					format: 'YYYY-MM-DD'
 				});
 
-				el.find('.form-time').datetimepicker({
+				_find('.form-time').attr('data-toggle', 'datetimepicker').datetimepicker({
 					format: 'HH:mm:ss'
 				});
 			}
