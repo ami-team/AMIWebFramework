@@ -1060,11 +1060,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				result.push(render(twig, dict));
 			}
 		}
-		catch(message)
+		catch(error)
 		{
 			result.length = 0;
 
-			this.error(message);
+			this.error('TWIG parsing error: ' + error.message);
 		}
 
 		/*-----------------------------------------------------------------*/
