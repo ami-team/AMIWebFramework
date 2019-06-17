@@ -5714,7 +5714,7 @@ $AMINamespace('amiWebApp',
   /*---------------------------------------------------------------------*/
 
   /**
-    * Locks the web application
+    * Locks the Web application
     */
   lock: function lock() {
     var lines = this.getStack().split('\n');
@@ -5726,7 +5726,7 @@ $AMINamespace('amiWebApp',
 
 
     if (this._lockCnt <= 0) {
-      $('#ami_locker').css('display', 'block');
+      $('#ami_locker').css('display', 'flex');
       this._lockCnt = 1;
     } else {
       this._lockCnt++;
@@ -5736,7 +5736,7 @@ $AMINamespace('amiWebApp',
   /*---------------------------------------------------------------------*/
 
   /**
-    * Unlocks the web application
+    * Unlocks the Web application
     */
   unlock: function unlock() {
     if (this._lockCnt <= 1) {
@@ -5894,7 +5894,7 @@ $AMINamespace('amiWebApp',
   /*---------------------------------------------------------------------*/
 
   /**
-    * This method must be overloaded and is called when the web application starts
+    * This method must be overloaded and is called when the Web application starts
     * @event amiWebApp#onReady
     * @param {String} userData
     */
@@ -5920,7 +5920,7 @@ $AMINamespace('amiWebApp',
   /*---------------------------------------------------------------------*/
 
   /**
-    * Starts the web application
+    * Starts the Web application
     * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url)
     */
   start: function start(settings) {
@@ -8559,11 +8559,11 @@ var amiDoc = {
       }]
     }, {
       "name": "lock",
-      "desc": "Locks the web application",
+      "desc": "Locks the Web application",
       "params": []
     }, {
       "name": "unlock",
-      "desc": "Unlocks the web application",
+      "desc": "Unlocks the Web application",
       "params": []
     }, {
       "name": "canLeave",
@@ -8662,7 +8662,7 @@ var amiDoc = {
       }]
     }, {
       "name": "start",
-      "desc": "Starts the web application",
+      "desc": "Starts the Web application",
       "params": [{
         "name": "settings",
         "type": "Object",
@@ -8961,7 +8961,7 @@ var amiDoc = {
     }],
     "events": [{
       "name": "onReady",
-      "desc": "This method must be overloaded and is called when the web application starts",
+      "desc": "This method must be overloaded and is called when the Web application starts",
       "params": [{
         "name": "userData",
         "type": "String",

@@ -1118,7 +1118,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Locks the web application
+	  * Locks the Web application
 	  */
 
 	lock: function()
@@ -1134,7 +1134,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(this._lockCnt <= 0)
 		{
-			$('#ami_locker').css('display', 'block');
+			$('#ami_locker').css('display', 'flex');
 
 			this._lockCnt = 1;
 		}
@@ -1147,7 +1147,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Unlocks the web application
+	  * Unlocks the Web application
 	  */
 
 	unlock: function()
@@ -1331,7 +1331,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * This method must be overloaded and is called when the web application starts
+	  * This method must be overloaded and is called when the Web application starts
 	  * @event amiWebApp#onReady
 	  * @param {String} userData
 	  */
@@ -1363,7 +1363,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*---------------------------------------------------------------------*/
 
 	/**
-	  * Starts the web application
+	  * Starts the Web application
 	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url)
 	  */
 
