@@ -442,11 +442,11 @@ $AMIClass('TaskServerAdminApp', {
 					this._tableCtrlOneShotTasks.refresh();
 				}
 
-			amiWebApp.success(message, true, /*------------*/ null /*------------*/);
+			amiWebApp.success(message, true);
 
 		}).fail(function(data, message) {
 
-			amiWebApp.error(message, true, '#E7300D7E_F671_4DF0_08B2_6AD0B9DC5C1F');
+			amiWebApp.error(message, true);
 		});
 
 		/*-----------------------------------------------------------------*/

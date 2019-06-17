@@ -88,6 +88,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	_canLeave: true,
 
+	_lockCnt: 0,
+
 	/*---------------------------------------------------------------------*/
 
 	_currentSubAppInstance: new function()
@@ -1121,15 +1123,24 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	lock: function()
 	{
-		$('#ami_locker').css('display', 'block');
-
-		/**/
-
 		let lines = this.getStack().split('\n');
 
 		if(lines.length > 2)
 		{
-			console.log('lock@' + lines[2]); // eslint-disable-line no-console
+			console.log('lock[' + this._lockCnt + ']@' + lines[2]); // eslint-disable-line no-console
+		}
+
+		/**/
+
+		if(this._lockCnt <= 0)
+		{
+			$('#ami_locker').css('display', 'block');
+
+			this._lockCnt = 1;
+		}
+		else
+		{
+			this._lockCnt++;
 		}
 	},
 
@@ -1141,7 +1152,16 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	unlock: function()
 	{
-		$('#ami_locker').css('display', 'none');
+		if(this._lockCnt <= 1)
+		{
+			$('#ami_locker').css('display', 'none');
+
+			this._lockCnt = 0;
+		}
+		else
+		{
+			this._lockCnt--;
+		}
 
 		/**/
 
@@ -1149,7 +1169,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(lines.length > 2)
 		{
-			console.log('unlock@' + lines[2]); // eslint-disable-line no-console
+			console.log('unlock[' + this._lockCnt + ']@' + lines[2]); // eslint-disable-line no-console
 		}
 	},
 

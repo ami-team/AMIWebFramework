@@ -611,11 +611,11 @@ $AMIClass('FieldEditorCtrl', {
 
 				$('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
-				this.success(message, true, /*------------*/ null /*------------*/);
+				this.success(message, true);
 
 			}).fail((data, message) => {
 
-				this.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+				this.error(message, true);
 			});
 		}
 
@@ -636,11 +636,11 @@ $AMIClass('FieldEditorCtrl', {
 
 				$('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('hide');
 
-				this.success(message, true, /*------------*/ null /*------------*/);
+				this.success(message, true);
 
 			}).fail((data, message) => {
 
-				this.error(message, true, '#B9B74CAB_E87A_4B68_A866_793E9C70EEF1');
+				this.error(message, true);
 			});
 		}
 

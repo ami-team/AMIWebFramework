@@ -425,13 +425,9 @@ $AMIClass('FieldEditorCtrl', {
       amiCommand.execute(this.ctx.appendCommandFunc(catalog, entity, fields, values)).done(function (data, message) {
         $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550').modal('hide');
 
-        _this5.success(message, true,
-        /*------------*/
-        null
-        /*------------*/
-        );
+        _this5.success(message, true);
       }).fail(function (data, message) {
-        _this5.error(message, true, '#B4CF70FC_14C8_FC57_DEF0_05144415DB6A');
+        _this5.error(message, true);
       });
     }
 
@@ -449,13 +445,9 @@ $AMIClass('FieldEditorCtrl', {
       amiCommand.execute(this.ctx.updateCommandFunc(catalog, entity, fields, values, primaryFields, primaryValues)).done(function (data, message) {
         $('#F44687A3_036C_9C77_3284_DD495D9F4D7D').modal('hide');
 
-        _this6.success(message, true,
-        /*------------*/
-        null
-        /*------------*/
-        );
+        _this6.success(message, true);
       }).fail(function (data, message) {
-        _this6.error(message, true, '#B9B74CAB_E87A_4B68_A866_793E9C70EEF1');
+        _this6.error(message, true);
       });
     }
 

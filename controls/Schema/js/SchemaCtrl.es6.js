@@ -671,16 +671,16 @@ SchemaCtrl.resetEntity = function()
 
 			$('#B7852284_B6C4_8ED5_502D_B8EA22689D2A').modal('hide');
 
-			amiWebApp.success(message + ', please reload the page', true /*---------*/);
+			amiWebApp.success(message + ', please reload the page', true);
 
 		}).fail((data, message) => {
 
-			amiWebApp.error(message, true, '#C3F91880_2CD8_96B3_1093_65CD7AD615C4');
+			amiWebApp.error(message, true);
 		});
 
 	}).fail((data, message) => {
 
-		amiWebApp.error(message, true, '#C3F91880_2CD8_96B3_1093_65CD7AD615C4');
+		amiWebApp.error(message, true);
 	});
 
 	/*---------------------------------------------------------------------*/
@@ -707,21 +707,21 @@ SchemaCtrl.applyEntity = function()
 
 				$('#B7852284_B6C4_8ED5_502D_B8EA22689D2A').modal('hide');
 
-				amiWebApp.success(message + ', please reload the page', true /*---------*/);
+				amiWebApp.success(message + ', please reload the page', true);
 
 			}).fail((data, message) => {
 
-				amiWebApp.error(message, true, '#C3F91880_2CD8_96B3_1093_65CD7AD615C4');
+				amiWebApp.error(message, true);
 			});
 
 		}).fail((data, message) => {
 
-			amiWebApp.error(message, true, '#C3F91880_2CD8_96B3_1093_65CD7AD615C4');
+			amiWebApp.error(message, true);
 		});
 
 	}).fail((data, message) => {
 
-		amiWebApp.error(message, true, '#C3F91880_2CD8_96B3_1093_65CD7AD615C4');
+		amiWebApp.error(message, true);
 	});
 
 	/*---------------------------------------------------------------------*/
@@ -750,16 +750,16 @@ SchemaCtrl.resetField = function()
 
 			$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('hide');
 
-			amiWebApp.success(message + ', please reload the page', true /*---------*/);
+			amiWebApp.success(message + ', please reload the page', true);
 
 		}).fail((data, message) => {
 
-			amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+			amiWebApp.error(message, true);
 		});
 
 	}).fail((data, message) => {
 
-		amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+		amiWebApp.error(message, true);
 	});
 
 	/*---------------------------------------------------------------------*/
@@ -786,21 +786,21 @@ SchemaCtrl.applyField = function()
 
 				$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('hide');
 
-				amiWebApp.success(message + ', please reload the page', true /*---------*/);
+				amiWebApp.success(message + ', please reload the page', true);
 
 			}).fail((data, message) => {
 
-				amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+				amiWebApp.error(message, true);
 			});
 
 		}).fail((data, message) => {
 
-			amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+			amiWebApp.error(message, true);
 		});
 
 	}).fail((data, message) => {
 
-		amiWebApp.error(message, true, '#F7A1EF6C_34F4_9A58_EEAD_F0DB92DCB886');
+		amiWebApp.error(message, true);
 	});
 
 	/*---------------------------------------------------------------------*/
