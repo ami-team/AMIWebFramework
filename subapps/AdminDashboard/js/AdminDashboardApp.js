@@ -60,7 +60,7 @@ $AMIClass('AdminDashboardApp', {
 				}
 
 				this.subsubapp._init().done(function() {
-
+console.log('onReady');
 					result.resolve();
 
 				}).fail(function(data) {
@@ -69,9 +69,9 @@ $AMIClass('AdminDashboardApp', {
 				});
 			});
 
-		}).fail(function(data) {
+		}).fail(function(message) {
 
-			result.reject(data);
+			result.reject(message);
 		});
 
 		return result;
@@ -98,6 +98,7 @@ $AMIClass('AdminDashboardApp', {
 			$('#C54485C3_44F8_CE8E_0F54_BF847CEECE11').show();
 			$('#CB6036B7_5971_41C2_1194_F5A051B21EA0').show();
 
+console.log('onLogin');
 			if(this.subsubapp.onLogin)
 			{
 				return this.subsubapp.onLogin();
