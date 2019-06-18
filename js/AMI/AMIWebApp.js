@@ -1852,6 +1852,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
+		console.log('triggerLogin :: ' + this._isReady);
+
 		if(this._isReady)
 		{
 			_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
