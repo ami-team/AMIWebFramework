@@ -337,15 +337,15 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
             shutil.move('css' + os.sep + 'ami.css', 'css' + os.sep + 'ami.min.css')
             shutil.move('css' + os.sep + 'ami.css.map', 'css' + os.sep + 'ami.min.css.map')
-			replaceStrInFile('css' + os.sep + 'ami.css', 'ami.css.map', 'ami.min.css.map')
+            replaceStrInFile('css' + os.sep + 'ami.css', 'ami.css.map', 'ami.min.css.map')
 
             shutil.move('js' + os.sep + 'ami.js', 'js' + os.sep + 'ami.min.js')
             shutil.move('js' + os.sep + 'ami.js.map', 'js' + os.sep + 'ami.min.js.map')
-			replaceStrInFile('js' + os.sep + 'ami.js', 'ami.js.map', 'ami.min.js.map')
+            replaceStrInFile('js' + os.sep + 'ami.js', 'ami.js.map', 'ami.min.js.map')
 
             shutil.move('js' + os.sep + 'ami.es6.js', 'js' + os.sep + 'ami.es6.min.js')
             shutil.move('js' + os.sep + 'ami.es6.js.map', 'js' + os.sep + 'ami.es6.min.js.map')
-			replaceStrInFile('js' + os.sep + 'ami.es6.js', 'ami.es6.js.map', 'ami.min.es6.js.map')
+            replaceStrInFile('js' + os.sep + 'ami.es6.js', 'ami.es6.js.map', 'ami.min.es6.js.map')
 
         else:
 
