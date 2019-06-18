@@ -166,7 +166,7 @@ $AMIClass('AdminDashboardConfig', {
 		for(var j in this.paramDel)
 		{
 			name = this.paramDel[j];
-			value = ((('::null::')));
+			value = /*-*/'@NULL'/*-*/;
 
 			names.push(amiWebApp.textToString(name));
 			values.push(amiWebApp.textToString(value));
