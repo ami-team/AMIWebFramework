@@ -1444,7 +1444,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 								amiLogin._start().done((message) => {
 
-									this.success(message);
+									if(!message) {
+										this.unlock();
+									}
+									else {
+										this.warning(message);
+									}
 
 								}).fail((message) => {
 
@@ -1850,13 +1855,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		console.log('triggerLogin');
-
-		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
+		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), (message) => {
 
 			_ami_internal_always(this.onRefresh(true), () => {
 
-				result.resolve();
+				result.resolve(message);
 			});
 
 		}, (message) => {
@@ -1880,13 +1883,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		console.log('triggerLogout');
-
-		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
+		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), (message) => {
 
 			_ami_internal_always(this.onRefresh(false), () => {
 
-				result.resolve();
+				result.resolve(message);
 			});
 
 		}, (message) => {

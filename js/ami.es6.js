@@ -5005,10 +5005,28 @@ jQuery.ajax = function(settings)
 /*-------------------------------------------------------------------------*/
 
 jQuery.fn.extend({
+	/*---------------------------------------------------------------------*/
+
 	findWithSelf: function(selector)
 	{
 		return this.find(selector).addBack(selector);
-	}
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	serializeObject: function()
+	{
+		const result = {};
+
+		this.serializeArray().forEach((item) => {
+
+			result[item.name] = item.value;
+		});
+
+		return result;
+	},
+
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/
@@ -7079,7 +7097,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 								amiLogin._start().done((message) => {
 
-									this.success(message);
+									if(!message) {
+										this.unlock();
+									}
+									else {
+										this.warning(message);
+									}
 
 								}).fail((message) => {
 
@@ -7485,13 +7508,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		console.log('triggerLogin');
-
-		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
+		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), (message) => {
 
 			_ami_internal_always(this.onRefresh(true), () => {
 
-				result.resolve();
+				result.resolve(message);
 			});
 
 		}, (message) => {
@@ -7515,13 +7536,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		console.log('triggerLogout');
-
-		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
+		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), (message) => {
 
 			_ami_internal_always(this.onRefresh(false), () => {
 
-				result.resolve();
+				result.resolve(message);
 			});
 
 		}, (message) => {
@@ -8541,55 +8560,60 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			this.fragmentLoginButton = data[0];
 			this.fragmentLogoutButton = data[1];
 
-			amiWebApp.appendHTML('body', data[2]);
-
 			/*-------------------------------------------------------------*/
 
-			$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit((e) => {
+			amiWebApp.appendHTML('body', data[2]).done(() => {
 
-				this.form_login(e);
-			});
+				/*---------------------------------------------------------*/
 
-			$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit((e) => {
+				$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit((e) => {
 
-				this.form_addUser(e);
-			});
+					this.form_login(e);
+				});
 
-			$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit((e) => {
+				$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit((e) => {
 
-				this.form_remindPass(e);
-			});
+					this.form_addUser(e);
+				});
 
-			$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit((e) => {
+				$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit((e) => {
 
-				this.form_changeInfo(e);
-			});
+					this.form_remindPass(e);
+				});
 
-			$('#E92A1097_983B_4857_875F_07E4659B41B0').submit((e) => {
+				$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit((e) => {
 
-				this.form_changePass(e);
-			});
+					this.form_changeInfo(e);
+				});
 
-			/*-------------------------------------------------------------*/
+				$('#E92A1097_983B_4857_875F_07E4659B41B0').submit((e) => {
 
-			$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
+					this.form_changePass(e);
+				});
 
-				const pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
-				const pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
+				/*---------------------------------------------------------*/
 
-				$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(
-					pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
-				);
-			});
+				$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
 
-			$('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(() => {
+					const pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
+					const pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
 
-				const pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
-				const pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
+					$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(
+						pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
+					);
+				});
 
-				$('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').get(0).setCustomValidity(
-					pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
-				);
+				$('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(() => {
+
+					const pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
+					const pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
+
+					$('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').get(0).setCustomValidity(
+						pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
+					);
+				});
+
+				/*---------------------------------------------------------*/
 			});
 
 			/*-------------------------------------------------------------*/
@@ -8677,6 +8701,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		this._clean();
 	},
 
+	_unlock: function()
+	{
+		amiWebApp.unlock();
+		this._clean();
+	},
+
 	/*---------------------------------------------------------------------*/
 
 	_clean: function()
@@ -8722,6 +8752,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		const dict = {
 			sso_label: ssoInfo.label || 'SSO',
 			sso_url: ssoInfo.url || '@NULL',
+			user: user
 		};
 
 		if(user !== guest)
@@ -8777,8 +8808,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			for(let role in roleInfo)
 			{
 				table.push('<tr>');
-				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || '') + '</td>');
-				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || '') + '</td>');
+				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || 'N/A') + '</td>');
+				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || 'N/A') + '</td>');
 				table.push('</tr>');
 			}
 
@@ -8788,8 +8819,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* CHECK USER STATUS                                           */
 			/*-------------------------------------------------------------*/
 
-			let color = '';
-			let message = '';
+			let warnMessage = '';
+			let errorMessage = '';
 
 			if(valid !== 'false')
 			{
@@ -8803,7 +8834,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					   ||
 					   !issuerDNInSession
 					 ) {
-						message = 'You should provide a certificate to use this AMI web application.';
+						warnMessage = 'You should provide a certificate to use this AMI web application.';
 					}
 					else
 					{
@@ -8811,14 +8842,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 						   ||
 						   issuerDNInAMI !== issuerDNInSession
 						 ) {
-							message = 'The certificate in your session is not the one registered in AMI.';
+							warnMessage = 'The certificate in your session is not the one registered in AMI.';
 						}
 					}
 				}
 
-				$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(
-					message ? '<span class="fa fa-info-circle" style="color: orange;"></span> ' + message : ''
-				);
+				/*---------------------------------------------------------*/
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#B8D49B url("' + amiWebApp.originURL + '/images/certificate-green.png") no-repeat center center')
 				                                                   .css('background-size', 'cover')
@@ -8829,8 +8858,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				;
 
 				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
-
-				color = 'orange';
 
 				/*---------------------------------------------------------*/
 			}
@@ -8846,21 +8873,19 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					   ||
 					   !issuerDNInAMI
 					 ) {
-						message = 'Register a valid certificate.';
+						errorMessage = 'Register a valid certificate.';
 					}
 					else
 					{
-						message = 'Check your VO roles.';
+						errorMessage = 'Check your VO roles.';
 					}
 				}
 				else
 				{
-					message = 'Contact the AMI team.';
+					errorMessage = 'Contact the AMI team.';
 				}
 
-				$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(
-					message ? '<span class="fa fa-info-circle" style="color: red;"></span> ' + message : ''
-				);
+				/*---------------------------------------------------------*/
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#E8C8CF url("' + amiWebApp.originURL + '/images/certificate-pink.png") no-repeat center center')
 				                                                   .css('background-size', 'cover')
@@ -8872,41 +8897,38 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
 
-				color = 'red';
-
 				/*---------------------------------------------------------*/
 			}
-
-			/*-------------------------------------------------------------*/
-			/* UPDATE NOTIFICATION BAR                                     */
-			/*-------------------------------------------------------------*/
-
-			const icon = message ? '<a class="nav-link" href="javascript:amiLogin.accountStatus();" style="color: ' + color + ';">'
-			                       +
-			                       '<i class="fa fa-info-circle"></i>'
-			                       +
-			                       '</a>'
-			                     : ''
-			;
 
 			/*-------------------------------------------------------------*/
 			/* UPDATE MENU BAR                                             */
 			/*-------------------------------------------------------------*/
 
-			dict['user'] = user;
-			dict['icon'] = icon;
-
-			/*-------------------------------------------------------------*/
-
 			amiWebApp.replaceHTML('#ami_login_menu_content', this.fragmentLogoutButton, {dict: dict}).done(() => {
 
-				amiWebApp.triggerLogin().then(() => {
+				amiWebApp.triggerLogin().then((message) => {
 
-					result.resolve('Welcome ' + user);
+					/**/ if(warnMessage) {
+						result.resolve(warnMessage);
+					}
+					else if(errorMessage) {
+						result.reject(errorMessage);
+					}
+					else {
+						result.resolve(message);
+					}
 
 				}, (message) => {
 
-					result.reject(message);
+					/**/ if(warnMessage) {
+						result.resolve(warnMessage);
+					}
+					else if(errorMessage) {
+						result.reject(errorMessage);
+					}
+					else {
+						result.reject(message);
+					}
 				});
 			});
 
@@ -8918,9 +8940,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			amiWebApp.replaceHTML('#ami_login_menu_content', this.fragmentLoginButton, {dict: dict}).done(() => {
 
-				amiWebApp.triggerLogout().then(() => {
+				amiWebApp.triggerLogout().then((message) => {
 
-					result.resolve('Welcome ' + user);
+					result.resolve(message);
 
 				}, (message) => {
 
@@ -9090,29 +9112,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			this._update(userInfo, roleInfo, udpInfo, ssoInfo).then(() => {
 
-				this._clean();
-				amiWebApp.unlock();
+				this._unlock();
 
 			}, (message) => {
 
-				this._clean();
-				amiWebApp.error(message);
+				this._error(message);
 			});
 		});
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	_serializeForm: function(form)
-	{
-		const result = {};
-
-		form.serializeArray().forEach((item) => {
-
-			result[item.name.trim()] = item.value.trim();
-		});
-
-		return result;
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -9121,7 +9127,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		e.preventDefault();
 
-		const values = this._serializeForm($(e.target));
+		const values = $(e.target).serializeObject();
 
 		return this.form_login2(values['user'], values['pass']);
 	},
@@ -9132,8 +9138,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		/*-----------------------------------------------------------------*/
 
-		const promise = (user && pass) ? amiCommand.passLogin(user, pass)
-		                               : amiCommand.certLogin(/*------*/)
+		const promise = (user && pass) ? amiCommand.passLogin(user.trim(), pass.trim())
+		                               : amiCommand.certLogin(/*--------------------*/)
 		;
 
 		/*-----------------------------------------------------------------*/
@@ -9148,8 +9154,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				{
 					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-					this._clean();
-					amiWebApp.unlock();
+					this._unlock();
 				}
 
 			}, (message) => {
@@ -9158,8 +9163,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				{
 					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-					this._clean();
-					amiWebApp.error(message);
+					this._error(message);
 				}
 			});
 
@@ -9261,7 +9265,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*-----------------------------------------------------------------*/
 
-		const values = this._serializeForm($(e.target));
+		const values = $(e.target).serializeObject();
 
 		/*-----------------------------------------------------------------*/
 
@@ -9287,7 +9291,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*-----------------------------------------------------------------*/
 
-		const values = this._serializeForm($(e.target));
+		const values = $(e.target).serializeObject();
 
 		/*-----------------------------------------------------------------*/
 
@@ -9313,7 +9317,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*-----------------------------------------------------------------*/
 
-		const values = this._serializeForm($(e.target));
+		const values = $(e.target).serializeObject();
 
 		/*-----------------------------------------------------------------*/
 
@@ -9339,7 +9343,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*-----------------------------------------------------------------*/
 
-		const values = this._serializeForm($(e.target));
+		const values = $(e.target).serializeObject();
 
 		/*-----------------------------------------------------------------*/
 

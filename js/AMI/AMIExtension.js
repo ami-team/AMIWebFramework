@@ -98,10 +98,28 @@ jQuery.ajax = function(settings)
 /*-------------------------------------------------------------------------*/
 
 jQuery.fn.extend({
+	/*---------------------------------------------------------------------*/
+
 	findWithSelf: function(selector)
 	{
 		return this.find(selector).addBack(selector);
-	}
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	serializeObject: function()
+	{
+		const result = {};
+
+		this.serializeArray().forEach((item) => {
+
+			result[item.name] = item.value;
+		});
+
+		return result;
+	},
+
+	/*---------------------------------------------------------------------*/
 });
 
 /*-------------------------------------------------------------------------*/
