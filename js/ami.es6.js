@@ -8653,8 +8653,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			console.log('A');
-
 			amiCommand.certLogin().fail((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
 				this._update(userInfo, roleInfo, udpInfo, ssoInfo).always(() => {
@@ -8664,15 +8662,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			}).done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-				console.log('B');
-
 				this._update(userInfo, roleInfo, udpInfo, ssoInfo).then((message) => {
 
-					console.log('C');
-
 					_ami_internal_then(amiWebApp.onReady(userdata), () => {
-
-						console.log('D');
 
 						result.resolve(message);
 

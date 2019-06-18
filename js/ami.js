@@ -7219,19 +7219,13 @@ $AMINamespace('amiLogin',
       var userdata = amiWebApp.args['userdata'] || '';
       /*-------------------------------------------------------------*/
 
-      console.log('A');
       amiCommand.certLogin().fail(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
         _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function () {
           result.reject(message);
         });
       }).done(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-        console.log('B');
-
         _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function (message) {
-          console.log('C');
-
           _ami_internal_then(amiWebApp.onReady(userdata), function () {
-            console.log('D');
             result.resolve(message);
           }, function (message) {
             result.reject(message);
