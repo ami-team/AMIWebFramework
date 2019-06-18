@@ -139,16 +139,18 @@ $AMIClass('TaskServerAdminApp', {
 		}, 10000);
 
 		/*-----------------------------------------------------------------*/
-/*
-		if(amiLogin.hasRole('AMI_administrator_role'))
-		{
+
+		if(amiLogin.hasRole(/*--*/'AMI_ADMIN'/*--*/)
+		   ||
+		   amiLogin.hasRole('AMI_administrator_role')
+		 ) {
 			$('#A4E89C31_F65A_D4CD_DE10_60564C7D8DD6').show();
 		}
 		else
 		{
 			$('#A4E89C31_F65A_D4CD_DE10_60564C7D8DD6').hide();
 		}
-*/
+
 		/*-----------------------------------------------------------------*/
 
 		return result;
@@ -167,7 +169,7 @@ $AMIClass('TaskServerAdminApp', {
 	{
 		var result = $.Deferred();
 
-		amiCommand.execute('SearchQuery -catalog="tasks" -sql="SELECT name, description, endpoint FROM router_task_server"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="tasks" -sql="SELECT name, description, endpoint FROM router_task_server"', {context: this}).done(function(data, message) {
 
 			/*-------------------------------------------------------------*/
 
@@ -203,11 +205,11 @@ $AMIClass('TaskServerAdminApp', {
 
 			/*-------------------------------------------------------------*/
 
-			result.resolve(data);
+			result.resolve(message);
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			result.reject(data);
+			result.reject(message);
 		});
 
 		return result;
