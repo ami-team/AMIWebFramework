@@ -6263,7 +6263,7 @@ $AMINamespace('amiWebApp',
           result.resolve();
         });
       }, function (message) {
-        _ami_internal_always(_this10.onRefresh(true), function () {
+        _ami_internal_always(_this10.onRefresh(true), function (message) {
           result.reject(message);
         });
       });
@@ -6289,7 +6289,7 @@ $AMINamespace('amiWebApp',
           result.resolve();
         });
       }, function (message) {
-        _ami_internal_always(_this11.onRefresh(false), function () {
+        _ami_internal_always(_this11.onRefresh(false), function (message) {
           result.reject(message);
         });
       });
@@ -7147,7 +7147,6 @@ $AMINamespace('amiLogin',
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
-    amiWebApp.lock();
     amiWebApp.loadTWIGs([amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig', amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig', amiWebApp.originURL + '/twig/AMI/Modal/login.twig']).done(function (data) {
       /*-------------------------------------------------------------*/
       _this14.fragmentLoginButton = data[0];

@@ -1863,7 +1863,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (message) => {
 
-				_ami_internal_always(this.onRefresh(true), () => {
+				_ami_internal_always(this.onRefresh(true), (message) => {
 
 					result.reject(message);
 				});
@@ -1898,7 +1898,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (message) => {
 
-				_ami_internal_always(this.onRefresh(false), () => {
+				_ami_internal_always(this.onRefresh(false), (message) => {
 
 					result.reject(message);
 				});

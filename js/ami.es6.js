@@ -7498,7 +7498,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (message) => {
 
-				_ami_internal_always(this.onRefresh(true), () => {
+				_ami_internal_always(this.onRefresh(true), (message) => {
 
 					result.reject(message);
 				});
@@ -7533,7 +7533,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			}, (message) => {
 
-				_ami_internal_always(this.onRefresh(false), () => {
+				_ami_internal_always(this.onRefresh(false), (message) => {
 
 					result.reject(message);
 				});
@@ -8541,8 +8541,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		const result = $.Deferred();
 
 		/*-----------------------------------------------------------------*/
-
-		amiWebApp.lock();
 
 		amiWebApp.loadTWIGs([
 			amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig',
