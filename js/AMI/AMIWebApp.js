@@ -178,9 +178,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			this.loadScripts([
 				this.originURL + '/js/popper.min.js',
 				this.originURL + '/js/moment.min.js',
+				/**/
 				this.originURL + '/js/bootstrap.min.js',
 				this.originURL + '/js/bootstrap-datetimepicker.min.js',
-				this.originURL + '/js/bootstrap-typeahead.min.js', // BERK
 				this.originURL + '/js/select2.min.js',
 			]);
 		}
