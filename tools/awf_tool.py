@@ -312,9 +312,11 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         print('Copying files...')
 
         nb += copyFiles(awfTempPath, 'css', None, 'css', '*.css', verbose, True)
+        nb += copyFiles(awfTempPath, 'css', None, 'css', '*.css.map', verbose, True)
         nb += copyFiles(awfTempPath, 'css', None, 'css', '3rd-party' + os.sep + '*', verbose, True)
 
         nb += copyFiles(awfTempPath, 'js', None, 'js', '*.js', verbose, True)
+        nb += copyFiles(awfTempPath, 'js', None, 'js', '*.js.map', verbose, True)
         nb += copyFiles(awfTempPath, 'js', None, 'js', '3rd-party' + os.sep + '*', verbose, True)
 
         nb += copyFiles(awfTempPath, 'docs', None, 'docs', '*', verbose, False)
