@@ -84,6 +84,9 @@ module.exports = function(grunt) {
 		"concat": {
 			"js": {
 				"options": {
+					"sourceMap": true,
+					"stripBanners": true,
+
 					"banner": "'use strict';\n\n",
 
 					"process": function(src) {

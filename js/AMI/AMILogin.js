@@ -1,4 +1,4 @@
-/*!
+/*
  * AMI Web Framework - AMILogin.js
  *
  * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
@@ -145,15 +145,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				amiCommand.certLogin().done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-					this._update(userInfo, roleInfo, udpInfo, ssoInfo).then(() => {
+					this._update(userInfo, roleInfo, udpInfo, ssoInfo).then((message) => {
 
-						amiWebApp.unlock();
-
-						result.resolve(/*---*/);
+						result.resolve(message);
 
 					}, (message) => {
-
-						amiWebApp.unlock();
 
 						result.reject(message);
 					});
@@ -162,15 +158,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 					this._update(userInfo, roleInfo, udpInfo, ssoInfo).always(() => {
 
-						amiWebApp.unlock();
-
 						result.reject(message);
 					});
 				});
 
 			}, (message) => {
-
-				amiWebApp.unlock();
 
 				result.reject(message);
 			});
@@ -178,8 +170,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/*-------------------------------------------------------------*/
 
 		}).fail((message) => {
-
-			amiWebApp.unlock();
 
 			result.reject(message);
 		});
@@ -303,8 +293,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			for(let role in roleInfo)
 			{
 				table.push('<tr>');
-				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || 'N∕A') + '</td>');
-				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || 'N∕A') + '</td>');
+				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || '') + '</td>');
+				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || '') + '</td>');
 				table.push('</tr>');
 			}
 
@@ -428,7 +418,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				amiWebApp.triggerLogin().then(() => {
 
-					result.resolve();
+					result.resolve('Welcome ' + user);
 
 				}, (message) => {
 
@@ -446,7 +436,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				amiWebApp.triggerLogout().then(() => {
 
-					result.resolve();
+					result.resolve('Welcome ' + user);
 
 				}, (message) => {
 

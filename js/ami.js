@@ -2892,18 +2892,6 @@ amiTwig.expr.interpreter = {
 };
 /*-------------------------------------------------------------------------*/
 
-/**
-* JSPath
-*
-* Copyright (c) 2012 Filatov Dmitry (dfilatov@yandex-team.ru)
-* With parts by Marat Dulin (mdevils@gmail.com)
-* Dual licensed under the MIT and GPL licenses:
-* http://www.opensource.org/licenses/mit-license.php
-* http://www.gnu.org/licenses/gpl.html
-*
-* @version 0.4.0
-*/
-
 (function () {
   var SYNTAX = {
     PATH: 1,
@@ -4102,17 +4090,6 @@ amiTwig.expr.interpreter = {
     window.JSPath = decl;
   }
 })();
-/*!
- * AMI Web Framework - AMIExtension.js
- *
- * Copyright (c) 2014-2019 The AMI Team / LPSC / IN2P3
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-
 /*-------------------------------------------------------------------------*/
 
 /* ES6 EXTENSIONS                                                          */
@@ -4211,20 +4188,9 @@ $(document).on('show.bs.modal', '.modal', function () {
 });
 /*-------------------------------------------------------------------------*/
 
-/*!
- * AMI Web Framework - AMIObject.js
- *
- * Copyright (c) 2014-2019 The AMI Team / LPSC / IN2P3
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-
 /*-------------------------------------------------------------------------*/
 
-/* HELPERS                                                                 */
+/* NAMESPACE HELPERS                                                       */
 
 /*-------------------------------------------------------------------------*/
 
@@ -4496,17 +4462,6 @@ if (typeof jQuery !== 'undefined') {
 }
 /*-------------------------------------------------------------------------*/
 
-/*!
- * AMI Web Framework - AMIRouter.js
- *
- * Copyright (c) 2014-2019 The AMI Team / LPSC / IN2P3
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-
 /*-------------------------------------------------------------------------*/
 
 /**
@@ -4774,19 +4729,6 @@ $AMINamespace('amiRouter',
 
 });
 /*-------------------------------------------------------------------------*/
-
-/*!
- * AMI Web Framework - AMIWebApp.js
- *
- * Copyright (c) 2014-2019 The AMI Team / LPSC / IN2P3
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- * @global moment
- *
- */
 
 /*-------------------------------------------------------------------------*/
 
@@ -6001,7 +5943,11 @@ $AMINamespace('amiWebApp',
               dataType: 'text'
             }).then(function (data4) {
               $('body').append(_this7.formatTWIG(data3, dict) + data4).promise().done(function () {
-                amiLogin._start().fail(function (message) {
+                amiWebApp.lock();
+
+                amiLogin._start().done(function (message) {
+                  _this7.success(message);
+                }).fail(function (message) {
                   _this7.error(message);
                 });
               });
@@ -6496,17 +6442,6 @@ $AMINamespace('amiWebApp',
 });
 /*-------------------------------------------------------------------------*/
 
-/*!
- * AMI Web Framework - AMIInterface.js
- *
- * Copyright (c) 2014-2019 The AMI Team / LPSC / IN2P3
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-
 /*-------------------------------------------------------------------------*/
 
 /* ami.IControl                                                            */
@@ -6761,17 +6696,6 @@ $AMIClass('ami.SubApp',
 
 });
 /*-------------------------------------------------------------------------*/
-
-/*!
- * AMI Web Framework - AMICommand.js
- *
- * Copyright (c) 2014-2019 The AMI Team / LPSC / IN2P3
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 /*-------------------------------------------------------------------------*/
 
@@ -7181,17 +7105,6 @@ $AMINamespace('amiCommand',
 });
 /*-------------------------------------------------------------------------*/
 
-/*!
- * AMI Web Framework - AMILogin.js
- *
- * Copyright (c) 2014-2019 The AMI Team / LPSC / IN2P3
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-
 /*-------------------------------------------------------------------------*/
 
 /* amiLogin                                                                */
@@ -7291,27 +7204,22 @@ $AMINamespace('amiLogin',
       _ami_internal_then(amiWebApp.onReady(userdata), function () {
         amiWebApp._isReady = true;
         amiCommand.certLogin().done(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-          _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function () {
-            amiWebApp.unlock();
-            result.resolve();
+          _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function (message) {
+            result.resolve(message);
           }, function (message) {
-            amiWebApp.unlock();
             result.reject(message);
           });
         }).fail(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
           _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function () {
-            amiWebApp.unlock();
             result.reject(message);
           });
         });
       }, function (message) {
-        amiWebApp.unlock();
         result.reject(message);
       });
       /*-------------------------------------------------------------*/
 
     }).fail(function (message) {
-      amiWebApp.unlock();
       result.reject(message);
     });
     /*-----------------------------------------------------------------*/
@@ -7414,8 +7322,8 @@ $AMINamespace('amiLogin',
 
       for (var role in roleInfo) {
         table.push('<tr>');
-        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || 'N∕A') + '</td>');
-        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || 'N∕A') + '</td>');
+        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || '') + '</td>');
+        table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || '') + '</td>');
         table.push('</tr>');
       }
 
@@ -7496,7 +7404,7 @@ $AMINamespace('amiLogin',
         dict: dict
       }).done(function () {
         amiWebApp.triggerLogin().then(function () {
-          result.resolve();
+          result.resolve('Welcome ' + user);
         }, function (message) {
           result.reject(message);
         });
@@ -7508,7 +7416,7 @@ $AMINamespace('amiLogin',
         dict: dict
       }).done(function () {
         amiWebApp.triggerLogout().then(function () {
-          result.resolve();
+          result.resolve('Welcome ' + user);
         }, function (message) {
           result.reject(message);
         });

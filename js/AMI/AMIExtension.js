@@ -1,4 +1,4 @@
-/*!
+/*
  * AMI Web Framework - AMIExtension.js
  *
  * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3

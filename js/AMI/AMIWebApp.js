@@ -1,4 +1,4 @@
-/*!
+/*
  * AMI Web Framework - AMIWebApp.js
  *
  * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
@@ -6,8 +6,6 @@
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- * @global moment
  *
  */
 
@@ -1444,7 +1442,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-								amiLogin._start().fail((message) => {
+								amiWebApp.lock();
+
+								amiLogin._start().done((message) => {
+
+									this.success(message);
+
+								}).fail((message) => {
 
 									this.error(message);
 								});

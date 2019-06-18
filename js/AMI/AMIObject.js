@@ -1,4 +1,4 @@
-/*!
+/*
  * AMI Web Framework - AMIObject.js
  *
  * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
@@ -12,7 +12,7 @@
 'use strict';
 
 /*-------------------------------------------------------------------------*/
-/* HELPERS                                                                 */
+/* NAMESPACE HELPERS                                                       */
 /*-------------------------------------------------------------------------*/
 
 function _$createNamespace($name, x)
