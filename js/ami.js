@@ -4171,7 +4171,15 @@ jQuery.fn.extend({
   serializeObject: function serializeObject() {
     var result = {};
     this.serializeArray().forEach(function (item) {
-      result[item.name] = item.value;
+      if (item.name in result) {
+        if (Object.prototype.toString.call(result[item.name]) === '[object String]') {
+          result[item.name] = [result[item.name]];
+        }
+
+        result[item.name].push(item.value || '');
+      } else {
+        result[item.name] = item.value || '';
+      }
     });
     return result;
   }
