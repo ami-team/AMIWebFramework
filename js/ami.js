@@ -4795,7 +4795,6 @@ $AMINamespace('amiWebApp',
   _scripts: [],
   _controls: {},
   _subapps: {},
-  _isReady: false,
   _canLeave: true,
   _lockCnt: 0,
 
@@ -6257,21 +6256,17 @@ $AMINamespace('amiWebApp',
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
-    console.log('triggerLogin :: ' + this._isReady);
+    console.log('triggerLogin');
 
-    if (this._isReady) {
-      _ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), function () {
-        _ami_internal_always(_this10.onRefresh(true), function () {
-          result.resolve();
-        });
-      }, function (message) {
-        _ami_internal_always(_this10.onRefresh(true), function (message) {
-          result.reject(message);
-        });
+    _ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), function () {
+      _ami_internal_always(_this10.onRefresh(true), function () {
+        result.resolve();
       });
-    } else {
-      result.resolve();
-    }
+    }, function (message) {
+      _ami_internal_always(_this10.onRefresh(true), function () {
+        result.reject(message);
+      });
+    });
     /*-----------------------------------------------------------------*/
 
 
@@ -6285,19 +6280,17 @@ $AMINamespace('amiWebApp',
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
-    if (this._isReady) {
-      _ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), function () {
-        _ami_internal_always(_this11.onRefresh(false), function () {
-          result.resolve();
-        });
-      }, function (message) {
-        _ami_internal_always(_this11.onRefresh(false), function (message) {
-          result.reject(message);
-        });
+    console.log('triggerLogout');
+
+    _ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), function () {
+      _ami_internal_always(_this11.onRefresh(false), function () {
+        result.resolve();
       });
-    } else {
-      result.resolve();
-    }
+    }, function (message) {
+      _ami_internal_always(_this11.onRefresh(false), function () {
+        result.reject(message);
+      });
+    });
     /*-----------------------------------------------------------------*/
 
 
@@ -7202,24 +7195,28 @@ $AMINamespace('amiLogin',
       var userdata = amiWebApp.args['userdata'] || '';
       /*-------------------------------------------------------------*/
 
-      _ami_internal_then(amiWebApp.onReady(userdata), function () {
-        amiWebApp._isReady = true;
-        amiCommand.certLogin().done(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-          _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function (message) {
+      console.log('A');
+      amiCommand.certLogin().fail(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
+        _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function () {
+          result.reject(message);
+        });
+      }).done(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
+        console.log('B');
+
+        _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function (message) {
+          console.log('C');
+
+          _ami_internal_then(amiWebApp.onReady(userdata), function () {
+            console.log('D');
             result.resolve(message);
           }, function (message) {
             result.reject(message);
           });
-        }).fail(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-          _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function () {
-            result.reject(message);
-          });
+        }, function (message) {
+          result.reject(message);
         });
-      }, function (message) {
-        result.reject(message);
       });
       /*-------------------------------------------------------------*/
-
     }).fail(function (message) {
       result.reject(message);
     });

@@ -82,8 +82,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_controls: {},
 	_subapps: {},
 
-	_isReady: false,
-
 	_canLeave: true,
 
 	_lockCnt: 0,
@@ -1852,29 +1850,22 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		console.log('triggerLogin :: ' + this._isReady);
+		console.log('triggerLogin');
 
-		if(this._isReady)
-		{
-			_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
+		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
 
-				_ami_internal_always(this.onRefresh(true), () => {
+			_ami_internal_always(this.onRefresh(true), () => {
 
-					result.resolve();
-				});
-
-			}, (message) => {
-
-				_ami_internal_always(this.onRefresh(true), (message) => {
-
-					result.reject(message);
-				});
+				result.resolve();
 			});
-		}
-		else
-		{
-			result.resolve();
-		}
+
+		}, (message) => {
+
+			_ami_internal_always(this.onRefresh(true), () => {
+
+				result.reject(message);
+			});
+		});
 
 		/*-----------------------------------------------------------------*/
 
@@ -1889,27 +1880,22 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		if(this._isReady)
-		{
-			_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
+		console.log('triggerLogout');
 
-				_ami_internal_always(this.onRefresh(false), () => {
+		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
 
-					result.resolve();
-				});
+			_ami_internal_always(this.onRefresh(false), () => {
 
-			}, (message) => {
-
-				_ami_internal_always(this.onRefresh(false), (message) => {
-
-					result.reject(message);
-				});
+				result.resolve();
 			});
-		}
-		else
-		{
-			result.resolve();
-		}
+
+		}, (message) => {
+
+			_ami_internal_always(this.onRefresh(false), () => {
+
+				result.reject(message);
+			});
+		});
 
 		/*-----------------------------------------------------------------*/
 

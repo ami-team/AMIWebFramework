@@ -5717,8 +5717,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_controls: {},
 	_subapps: {},
 
-	_isReady: false,
-
 	_canLeave: true,
 
 	_lockCnt: 0,
@@ -7487,29 +7485,22 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		console.log('triggerLogin :: ' + this._isReady);
+		console.log('triggerLogin');
 
-		if(this._isReady)
-		{
-			_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
+		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), () => {
 
-				_ami_internal_always(this.onRefresh(true), () => {
+			_ami_internal_always(this.onRefresh(true), () => {
 
-					result.resolve();
-				});
-
-			}, (message) => {
-
-				_ami_internal_always(this.onRefresh(true), (message) => {
-
-					result.reject(message);
-				});
+				result.resolve();
 			});
-		}
-		else
-		{
-			result.resolve();
-		}
+
+		}, (message) => {
+
+			_ami_internal_always(this.onRefresh(true), () => {
+
+				result.reject(message);
+			});
+		});
 
 		/*-----------------------------------------------------------------*/
 
@@ -7524,27 +7515,22 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		if(this._isReady)
-		{
-			_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
+		console.log('triggerLogout');
 
-				_ami_internal_always(this.onRefresh(false), () => {
+		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), () => {
 
-					result.resolve();
-				});
+			_ami_internal_always(this.onRefresh(false), () => {
 
-			}, (message) => {
-
-				_ami_internal_always(this.onRefresh(false), (message) => {
-
-					result.reject(message);
-				});
+				result.resolve();
 			});
-		}
-		else
-		{
-			result.resolve();
-		}
+
+		}, (message) => {
+
+			_ami_internal_always(this.onRefresh(false), () => {
+
+				result.reject(message);
+			});
+		});
 
 		/*-----------------------------------------------------------------*/
 
@@ -8631,13 +8617,26 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			_ami_internal_then(amiWebApp.onReady(userdata), () => {
+			console.log('A');
 
-				amiWebApp._isReady = true;
+			amiCommand.certLogin().fail((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-				amiCommand.certLogin().done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+				this._update(userInfo, roleInfo, udpInfo, ssoInfo).always(() => {
 
-					this._update(userInfo, roleInfo, udpInfo, ssoInfo).then((message) => {
+					result.reject(message);
+				});
+
+			}).done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+
+				console.log('B');
+
+				this._update(userInfo, roleInfo, udpInfo, ssoInfo).then((message) => {
+
+					console.log('C');
+
+					_ami_internal_then(amiWebApp.onReady(userdata), () => {
+
+						console.log('D');
 
 						result.resolve(message);
 
@@ -8646,17 +8645,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 						result.reject(message);
 					});
 
-				}).fail((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+				}, (message) => {
 
-					this._update(userInfo, roleInfo, udpInfo, ssoInfo).always(() => {
-
-						result.reject(message);
-					});
+					result.reject(message);
 				});
-
-			}, (message) => {
-
-				result.reject(message);
 			});
 
 			/*-------------------------------------------------------------*/

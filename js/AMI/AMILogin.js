@@ -137,13 +137,26 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			_ami_internal_then(amiWebApp.onReady(userdata), () => {
+			console.log('A');
 
-				amiWebApp._isReady = true;
+			amiCommand.certLogin().fail((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-				amiCommand.certLogin().done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+				this._update(userInfo, roleInfo, udpInfo, ssoInfo).always(() => {
 
-					this._update(userInfo, roleInfo, udpInfo, ssoInfo).then((message) => {
+					result.reject(message);
+				});
+
+			}).done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+
+				console.log('B');
+
+				this._update(userInfo, roleInfo, udpInfo, ssoInfo).then((message) => {
+
+					console.log('C');
+
+					_ami_internal_then(amiWebApp.onReady(userdata), () => {
+
+						console.log('D');
 
 						result.resolve(message);
 
@@ -152,17 +165,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 						result.reject(message);
 					});
 
-				}).fail((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+				}, (message) => {
 
-					this._update(userInfo, roleInfo, udpInfo, ssoInfo).always(() => {
-
-						result.reject(message);
-					});
+					result.reject(message);
 				});
-
-			}, (message) => {
-
-				result.reject(message);
 			});
 
 			/*-------------------------------------------------------------*/
