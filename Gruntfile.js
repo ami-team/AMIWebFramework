@@ -113,6 +113,10 @@ module.exports = function(grunt) {
 				"dest": "js/ami.es6.js"
 			},
 			"css": {
+				"options": {
+					"sourceMap": true,
+					"stripBanners": true,
+				},
 				"src": [
 					"css/AMI/general.css",
 					"css/AMI/bootstrap.css",
@@ -149,7 +153,7 @@ module.exports = function(grunt) {
 		"babel": {
 			"js": {
 				"options": {
-					"sourceMap": false,
+					"sourceMap": true,
 					"presets": [["@babel/preset-env", {
 						"debug": false,
 						"loose": true,
@@ -173,7 +177,8 @@ module.exports = function(grunt) {
 			"css": {
 				"options": {
 					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / CNRS\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
-					"compress": true
+					"compress": true,
+					"sourceMap": true
 				},
 				"files": {
 					"css/ami.min.css": "css/ami.css"
@@ -187,7 +192,8 @@ module.exports = function(grunt) {
 			"js": {
 				"options": {
 					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / CNRS\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
-					"compress": true
+					"compress": true,
+					"sourceMap": true
 				},
 				"files": {
 					"js/ami.es6.min.js": "js/ami.es6.js",

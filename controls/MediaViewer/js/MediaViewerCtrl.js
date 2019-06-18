@@ -151,3 +151,4 @@ $AMIClass('MediaViewerCtrl', {
 
 });
 /*-------------------------------------------------------------------------*/
+//# sourceMappingURL=MediaViewerCtrl.js.map

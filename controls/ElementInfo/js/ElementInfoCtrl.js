@@ -297,3 +297,4 @@ $AMIClass('ElementInfoCtrl', {
 
 });
 /*-------------------------------------------------------------------------*/
+//# sourceMappingURL=ElementInfoCtrl.js.map

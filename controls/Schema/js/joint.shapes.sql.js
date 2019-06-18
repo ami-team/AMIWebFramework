@@ -392,3 +392,4 @@ joint.dia.Graph.prototype.newForeignKey = function (fkEntityId, pkEntityId) {
   return result;
 };
 /*-------------------------------------------------------------------------*/
+//# sourceMappingURL=joint.shapes.sql.js.map
