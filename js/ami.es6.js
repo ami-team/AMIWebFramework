@@ -5739,6 +5739,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_embedded: false,
 	_noBootstrap: false,
 
+	_globalDeferred: $.Deferred(),
+
 	/*---------------------------------------------------------------------*/
 
 	_sheets: [],
@@ -5748,8 +5750,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_subapps: {},
 
 	_canLeave: true,
-
-	_lockCnt: 0,
+	_lockCnt: 0x00,
 
 	/*---------------------------------------------------------------------*/
 
@@ -5799,6 +5800,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	$: function()
 	{
+		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
+		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
+		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
+		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
+		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
+
 		/*-----------------------------------------------------------------*/
 		/* GET FLAGS                                                       */
 		/*-----------------------------------------------------------------*/
@@ -5834,28 +5841,37 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		   &&
 		   (typeof jQuery.fn.modal) !== 'function'
 		 ) {
-			this.loadSheets([
+			this.loadResources([
 				this.originURL + '/css/bootstrap.min.css',
 				this.originURL + '/css/bootstrap-datetimepicker.min.css',
 				this.originURL + '/css/select2.min.css',
-			]);
-
-			this.loadScripts([
+				/**/
 				this.originURL + '/js/popper.min.js',
 				this.originURL + '/js/moment.min.js',
 				/**/
 				this.originURL + '/js/bootstrap.min.js',
 				this.originURL + '/js/bootstrap-datetimepicker.min.js',
 				this.originURL + '/js/select2.min.js',
-			]);
+				/**/
+				this.originURL + '/css/font-awesome.min.css',
+				this.originURL + '/css/ami.min.css',
+
+			]).done(() => {
+
+				this._globalDeferred.resolve();
+			});
 		}
+		else
+		{
+			this.loadResources([
+				this.originURL + '/css/font-awesome.min.css',
+				this.originURL + '/css/ami.min.css',
 
-		/*-----------------------------------------------------------------*/
+			]).done(() => {
 
-		this.loadSheets([
-			this.originURL + '/css/font-awesome.min.css',
-			this.originURL + '/css/ami.min.css',
-		]);
+				this._globalDeferred.resolve();
+			});
+		}
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -6235,6 +6251,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
+		console.log('loading: ' + url);
+
+		/*-----------------------------------------------------------------*/
+
 		switch(dataTYPE)
 		{
 			/*-------------------------------------------------------------*/
@@ -6296,7 +6316,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 						crossDomain: true,
 						dataType: dataTYPE,
 					}).then(() => {
-
+console.log('[' + url + ' loaded]');
 						result.push(true);
 
 						this._sheets.push(url);
@@ -6332,7 +6352,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 						crossDomain: true,
 						dataType: dataTYPE,
 					}).then(() => {
-
+console.log('[' + url + ' loaded]');
 						result.push(true);
 
 						this._scripts.push(url);
@@ -6360,7 +6380,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 					crossDomain: true,
 					dataType: dataTYPE,
 				}).then((data) => {
-
+console.log('[' + url + ' loaded]');
 					result.push(data);
 
 					this.__loadXXX(deferred, result, urls, dataType, context);
@@ -7030,6 +7050,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	start: function(settings)
 	{
+		console.log('///////////////////////////////////////////////////////////////');
+		console.log('///////////////////////////////////////////////////////////////');
+		console.log('///////////////////////////////////////////////////////////////');
+		console.log('///////////////////////////////////////////////////////////////');
+
 		const [logo_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url] = this.setup(
 			['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'],
 			[
@@ -7105,15 +7130,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-								amiWebApp.lock();
+								this.lock();
 
 								amiLogin._start().done((message) => {
 
-									if(!message) {
-										this.unlock();
+									if(message) {
+										this.warning(message);
 									}
 									else {
-										this.warning(message);
+										this.unlock(message);
 									}
 
 								}).fail((message) => {
@@ -8649,13 +8674,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			let userdata = amiWebApp.args['userdata'] || '';
+			const userdata = amiWebApp.args['userdata'] || '';
 
 			/*-------------------------------------------------------------*/
 
 			amiCommand.certLogin().fail((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-				this._update(userInfo, roleInfo, udpInfo, ssoInfo).always(() => {
+				this._update(userInfo, roleInfo, udpInfo, ssoInfo).always((MESSAGE) => {
 
 					result.reject(message);
 				});
@@ -8729,6 +8754,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*-----------------------------------------------------------------*/
 
+		/*-----------------------------------------------------------------*/
+
 		const user = this.user = userInfo.AMIUser || '';
 		const guest = this.guest = userInfo.guestUser || '';
 
@@ -8742,8 +8769,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
 
-		$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
-		$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+		//$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+		//$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
 
 		/*-----------------------------------------------------------------*/
 

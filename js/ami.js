@@ -4809,6 +4809,7 @@ $AMINamespace('amiWebApp',
   /*---------------------------------------------------------------------*/
   _embedded: false,
   _noBootstrap: false,
+  _globalDeferred: $.Deferred(),
 
   /*---------------------------------------------------------------------*/
   _sheets: [],
@@ -4816,7 +4817,7 @@ $AMINamespace('amiWebApp',
   _controls: {},
   _subapps: {},
   _canLeave: true,
-  _lockCnt: 0,
+  _lockCnt: 0x00,
 
   /*---------------------------------------------------------------------*/
   _currentSubAppInstance: new function () {
@@ -4865,11 +4866,19 @@ $AMINamespace('amiWebApp',
 
   /*---------------------------------------------------------------------*/
   $: function $() {
+    var _this3 = this;
+
+    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
+    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
+    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
+    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
+    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
     /*-----------------------------------------------------------------*/
 
     /* GET FLAGS                                                       */
 
     /*-----------------------------------------------------------------*/
+
     var url = amiRouter.getScriptURL();
     var idx = url.indexOf('?');
 
@@ -4896,16 +4905,22 @@ $AMINamespace('amiWebApp',
     /*-----------------------------------------------------------------*/
 
     if (this._noBootstrap === false && typeof jQuery.fn.modal !== 'function') {
-      this.loadSheets([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-datetimepicker.min.css', this.originURL + '/css/select2.min.css']);
-      this.loadScripts([this.originURL + '/js/popper.min.js', this.originURL + '/js/moment.min.js',
+      this.loadResources([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-datetimepicker.min.css', this.originURL + '/css/select2.min.css',
       /**/
-      this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-datetimepicker.min.js', this.originURL + '/js/select2.min.js']);
+      this.originURL + '/js/popper.min.js', this.originURL + '/js/moment.min.js',
+      /**/
+      this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-datetimepicker.min.js', this.originURL + '/js/select2.min.js',
+      /**/
+      this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css']).done(function () {
+        _this3._globalDeferred.resolve();
+      });
+    } else {
+      this.loadResources([this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css']).done(function () {
+        _this3._globalDeferred.resolve();
+      });
     }
     /*-----------------------------------------------------------------*/
 
-
-    this.loadSheets([this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css']);
-    /*-----------------------------------------------------------------*/
   },
 
   /*---------------------------------------------------------------------*/
@@ -5193,7 +5208,7 @@ $AMINamespace('amiWebApp',
 
   /*---------------------------------------------------------------------*/
   __loadXXX: function __loadXXX(deferred, result, urls, dataType, context) {
-    var _this3 = this;
+    var _this4 = this;
 
     if (urls.length === 0) {
       return deferred.resolveWith(context, [result]);
@@ -5208,6 +5223,9 @@ $AMINamespace('amiWebApp',
     /*-----------------------------------------------------------------*/
 
 
+    console.log('loading: ' + url);
+    /*-----------------------------------------------------------------*/
+
     switch (dataTYPE) {
       /*-------------------------------------------------------------*/
 
@@ -5218,7 +5236,7 @@ $AMINamespace('amiWebApp',
         this.loadControl(url).then(function (data) {
           result.push(data);
 
-          _this3.__loadXXX(deferred, result, urls, dataType, context);
+          _this4.__loadXXX(deferred, result, urls, dataType, context);
         }, function (message) {
           deferred.rejectWith(context, [message]);
         });
@@ -5234,7 +5252,7 @@ $AMINamespace('amiWebApp',
         this.loadSubApp(url).then(function (data) {
           result.push(data);
 
-          _this3.__loadXXX(deferred, result, urls, dataType, context);
+          _this4.__loadXXX(deferred, result, urls, dataType, context);
         }, function (message) {
           deferred.rejectWith(context, [message]);
         });
@@ -5259,11 +5277,12 @@ $AMINamespace('amiWebApp',
             crossDomain: true,
             dataType: dataTYPE
           }).then(function () {
+            console.log('[' + url + ' loaded]');
             result.push(true);
 
-            _this3._sheets.push(url);
+            _this4._sheets.push(url);
 
-            _this3.__loadXXX(deferred, result, urls, dataType, context);
+            _this4.__loadXXX(deferred, result, urls, dataType, context);
           }, function () {
             deferred.rejectWith(context, ['could not load `' + url + '`']);
           });
@@ -5290,11 +5309,12 @@ $AMINamespace('amiWebApp',
             crossDomain: true,
             dataType: dataTYPE
           }).then(function () {
+            console.log('[' + url + ' loaded]');
             result.push(true);
 
-            _this3._scripts.push(url);
+            _this4._scripts.push(url);
 
-            _this3.__loadXXX(deferred, result, urls, dataType, context);
+            _this4.__loadXXX(deferred, result, urls, dataType, context);
           }, function () {
             deferred.rejectWith(context, ['could not load `' + url + '`']);
           });
@@ -5316,9 +5336,10 @@ $AMINamespace('amiWebApp',
           crossDomain: true,
           dataType: dataTYPE
         }).then(function (data) {
+          console.log('[' + url + ' loaded]');
           result.push(data);
 
-          _this3.__loadXXX(deferred, result, urls, dataType, context);
+          _this4.__loadXXX(deferred, result, urls, dataType, context);
         }, function () {
           deferred.rejectWith(context, ['could not load `' + url + '`']);
         });
@@ -5601,18 +5622,18 @@ $AMINamespace('amiWebApp',
     * @returns {String} The Interpreted TWIG string
     */
   formatTWIG: function formatTWIG(twig, dict) {
-    var _this4 = this;
+    var _this5 = this;
 
     var result = [];
     /*-----------------------------------------------------------------*/
 
     var render = function render(twig, dict) {
-      if (_this4.typeOf(dict) !== 'Object') {
+      if (_this5.typeOf(dict) !== 'Object') {
         dict = {};
       }
 
-      dict['ORIGIN_URL'] = _this4.originURL;
-      dict['WEBAPP_URL'] = _this4.webAppURL;
+      dict['ORIGIN_URL'] = _this5.originURL;
+      dict['WEBAPP_URL'] = _this5.webAppURL;
       return amiTwig.engine.render(twig, dict);
     };
     /*-----------------------------------------------------------------*/
@@ -5741,7 +5762,7 @@ $AMINamespace('amiWebApp',
 
   /*---------------------------------------------------------------------*/
   _publishAlert: function _publishAlert(clazz, title, message, fadeOut) {
-    var _this5 = this;
+    var _this6 = this;
 
     /*-----------------------------------------------------------------*/
     console.log('AMI ' + title.toUpperCase() + ': ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
@@ -5756,7 +5777,7 @@ $AMINamespace('amiWebApp',
       el.find('.toast:last-child').toast('show');
       $(document).scrollTop(0);
 
-      _this5.unlock();
+      _this6.unlock();
     });
     /*-----------------------------------------------------------------*/
   },
@@ -5841,10 +5862,10 @@ $AMINamespace('amiWebApp',
     * @param {Array} items the array of items (HTML format)
     */
   fillBreadcrumb: function fillBreadcrumb(items) {
-    var _this6 = this;
+    var _this7 = this;
 
     var s = this.typeOf(items) === 'Array' ? items.map(function (item) {
-      return '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, _this6.webAppURL) + '</li>';
+      return '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, _this7.webAppURL) + '</li>';
     }).join('') : '';
     $('#ami_breadcrumb_content').html(s);
   },
@@ -5886,7 +5907,12 @@ $AMINamespace('amiWebApp',
     * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url)
     */
   start: function start(settings) {
-    var _this7 = this;
+    var _this8 = this;
+
+    console.log('///////////////////////////////////////////////////////////////');
+    console.log('///////////////////////////////////////////////////////////////');
+    console.log('///////////////////////////////////////////////////////////////');
+    console.log('///////////////////////////////////////////////////////////////');
 
     var _this$setup3 = this.setup(['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'], [this.originURL + '/images/logo.png', this.webAppURL, 'ami@lpsc.in2p3.fr', 'http://cern.ch/ami/', this.originURL + '/twig/AMI/Theme/blue.twig', this.originURL + '/twig/AMI/Fragment/locker.twig', this.originURL + '/AMI/FrontEnd'], settings),
         logo_url = _this$setup3[0],
@@ -5903,7 +5929,7 @@ $AMINamespace('amiWebApp',
     /*-----------------------------------------------------------------*/
 
     window.onbeforeunload = function (e) {
-      if (!_this7._canLeave) {
+      if (!_this8._canLeave) {
         var f = e || window.event;
 
         if (f) {
@@ -5933,14 +5959,14 @@ $AMINamespace('amiWebApp',
         dataType: 'json'
       }).then(function (data2) {
         for (var name in data1) {
-          _this7._controls[name.toLowerCase()] = data1[name];
+          _this8._controls[name.toLowerCase()] = data1[name];
         }
 
         for (var _name3 in data2) {
-          _this7._subapps[_name3.toLowerCase()] = data2[_name3];
+          _this8._subapps[_name3.toLowerCase()] = data2[_name3];
         }
 
-        if (!_this7._embedded) {
+        if (!_this8._embedded) {
           /*-----------------------------------------------------*/
           var dict = {
             LOGO_URL: logo_url,
@@ -5962,17 +5988,17 @@ $AMINamespace('amiWebApp',
               crossDomain: true,
               dataType: 'text'
             }).then(function (data4) {
-              $('body').append(_this7.formatTWIG(data3, dict) + data4).promise().done(function () {
-                amiWebApp.lock();
+              $('body').append(_this8.formatTWIG(data3, dict) + data4).promise().done(function () {
+                _this8.lock();
 
                 amiLogin._start().done(function (message) {
-                  if (!message) {
-                    _this7.unlock();
+                  if (message) {
+                    _this8.warning(message);
                   } else {
-                    _this7.warning(message);
+                    _this8.unlock(message);
                   }
                 }).fail(function (message) {
-                  _this7.error(message);
+                  _this8.error(message);
                 });
               });
             }, function () {
@@ -5992,7 +6018,7 @@ $AMINamespace('amiWebApp',
           }).done(function (data3) {
             $('body').append(data3).promise().done(function () {
               amiLogin._start().fail(function (message) {
-                _this7.error(message);
+                _this8.error(message);
               });
             });
           });
@@ -6176,7 +6202,7 @@ $AMINamespace('amiWebApp',
     * @returns {$.Deferred} A JQuery deferred object
     */
   createControlInContainer: function createControlInContainer(parent, owner, control, controlParamsWithoutSettings, controlSettings, parentSettings, icon, title, settings) {
-    var _this8 = this;
+    var _this9 = this;
 
     var result = $.Deferred();
 
@@ -6206,7 +6232,7 @@ $AMINamespace('amiWebApp',
         PARAMS.push(SETTINGS);
         /*---------------------------------------------------------*/
 
-        _this8.createControl(parent, owner, control, PARAMS).done(function () {
+        _this9.createControl(parent, owner, control, PARAMS).done(function () {
           result.resolveWith(context, Array.prototype.slice.call(arguments));
         }).fail(function (message) {
           result.rejectWith(context, [message]);
@@ -6235,7 +6261,7 @@ $AMINamespace('amiWebApp',
     * @returns {$.Deferred} A JQuery deferred object
     */
   createControlFromWebLink: function createControlFromWebLink(parent, owner, el, parentSettings, settings) {
-    var _this9 = this;
+    var _this10 = this;
 
     /*-----------------------------------------------------------------*/
     var dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl') : '';
@@ -6255,15 +6281,15 @@ $AMINamespace('amiWebApp',
 
     if (dataCtrlLocation === 'body') {
       return this.createControlInBody(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, settings).done(function () {
-        _this9.unlock();
+        _this10.unlock();
       }).fail(function (message) {
-        _this9.error(message);
+        _this10.error(message);
       });
     } else {
       return this.createControlInContainer(parent, owner, dataCtrl, dataParams, dataSettings, parentSettings, dataIcon, dataTitle, settings).done(function () {
-        _this9.unlock();
+        _this10.unlock();
       }).fail(function (message) {
-        _this9.error(message);
+        _this10.error(message);
       });
     }
     /*-----------------------------------------------------------------*/
@@ -6276,17 +6302,17 @@ $AMINamespace('amiWebApp',
 
   /*---------------------------------------------------------------------*/
   triggerLogin: function triggerLogin() {
-    var _this10 = this;
+    var _this11 = this;
 
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
     _ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), function (message) {
-      _ami_internal_always(_this10.onRefresh(true), function () {
+      _ami_internal_always(_this11.onRefresh(true), function () {
         result.resolve(message);
       });
     }, function (message) {
-      _ami_internal_always(_this10.onRefresh(true), function () {
+      _ami_internal_always(_this11.onRefresh(true), function () {
         result.reject(message);
       });
     });
@@ -6298,17 +6324,17 @@ $AMINamespace('amiWebApp',
 
   /*---------------------------------------------------------------------*/
   triggerLogout: function triggerLogout() {
-    var _this11 = this;
+    var _this12 = this;
 
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
     _ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), function (message) {
-      _ami_internal_always(_this11.onRefresh(false), function () {
+      _ami_internal_always(_this12.onRefresh(false), function () {
         result.resolve(message);
       });
     }, function (message) {
-      _ami_internal_always(_this11.onRefresh(false), function () {
+      _ami_internal_always(_this12.onRefresh(false), function () {
         result.reject(message);
       });
     });
@@ -6328,7 +6354,7 @@ $AMINamespace('amiWebApp',
     * @returns {$.Deferred} A JQuery deferred object
     */
   loadSubApp: function loadSubApp(subapp, userdata, settings) {
-    var _this12 = this;
+    var _this13 = this;
 
     var result = $.Deferred();
 
@@ -6339,7 +6365,7 @@ $AMINamespace('amiWebApp',
 
     this.lock();
     result.always(function () {
-      _this12.unlock();
+      _this13.unlock();
     });
     /*-----------------------------------------------------------------*/
 
@@ -6354,13 +6380,13 @@ $AMINamespace('amiWebApp',
     if (descr) {
       this.loadScripts(this.originURL + '/' + descr.file).then(function (loaded) {
         try {
-          _this12._currentSubAppInstance.onExit(userdata);
+          _this13._currentSubAppInstance.onExit(userdata);
 
           var instance = window[descr.instance];
-          _this12._currentSubAppInstance = instance;
+          _this13._currentSubAppInstance = instance;
           /**/
 
-          _this12.fillBreadcrumb(descr.breadcrumb);
+          _this13.fillBreadcrumb(descr.breadcrumb);
 
           var promise = loaded[0] ? instance.onReady(userdata) :
           /*------*/
@@ -6369,7 +6395,7 @@ $AMINamespace('amiWebApp',
           ;
 
           _ami_internal_then(promise, function () {
-            var promise = amiLogin.isAuthenticated() ? _this12.triggerLogin() : _this12.triggerLogout();
+            var promise = amiLogin.isAuthenticated() ? _this13.triggerLogin() : _this13.triggerLogout();
             promise.then(function () {
               result.resolveWith(context, [
               /*------------------*/
@@ -6406,18 +6432,18 @@ $AMINamespace('amiWebApp',
     * @returns {$.Deferred} A JQuery deferred object
     */
   loadSubAppByURL: function loadSubAppByURL(defaultSubApp, defaultUserData) {
-    var _this13 = this;
+    var _this14 = this;
 
     var result = $.Deferred();
 
     if (this.args['v']) {
       amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['v']) + '"').fail(function (data) {
-        result.reject(_this13.jspath('..error.$', data));
+        result.reject(_this14.jspath('..error.$', data));
       }).done(function (data) {
         var json;
 
         try {
-          json = JSON.parse(_this13.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
+          json = JSON.parse(_this14.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
         } catch (message) {
           json = {
             /* EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON */
@@ -6429,7 +6455,7 @@ $AMINamespace('amiWebApp',
         var subapp = json['subapp'] || defaultSubApp;
         var userdata = json['userdata'] || defaultUserData;
 
-        _this13.loadSubApp(subapp, userdata).then(function () {
+        _this14.loadSubApp(subapp, userdata).then(function () {
           result.resolve();
         }, function (message) {
           result.reject(message);
@@ -7158,33 +7184,33 @@ $AMINamespace('amiLogin',
 
   /*---------------------------------------------------------------------*/
   _start: function _start() {
-    var _this14 = this;
+    var _this15 = this;
 
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
     amiWebApp.loadTWIGs([amiWebApp.originURL + '/twig/AMI/Fragment/login_button.twig', amiWebApp.originURL + '/twig/AMI/Fragment/logout_button.twig', amiWebApp.originURL + '/twig/AMI/Modal/login.twig']).done(function (data) {
       /*-------------------------------------------------------------*/
-      _this14.fragmentLoginButton = data[0];
-      _this14.fragmentLogoutButton = data[1];
+      _this15.fragmentLoginButton = data[0];
+      _this15.fragmentLogoutButton = data[1];
       /*-------------------------------------------------------------*/
 
       amiWebApp.appendHTML('body', data[2]).done(function () {
         /*---------------------------------------------------------*/
         $('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit(function (e) {
-          _this14.form_login(e);
+          _this15.form_login(e);
         });
         $('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit(function (e) {
-          _this14.form_addUser(e);
+          _this15.form_addUser(e);
         });
         $('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit(function (e) {
-          _this14.form_remindPass(e);
+          _this15.form_remindPass(e);
         });
         $('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit(function (e) {
-          _this14.form_changeInfo(e);
+          _this15.form_changeInfo(e);
         });
         $('#E92A1097_983B_4857_875F_07E4659B41B0').submit(function (e) {
-          _this14.form_changePass(e);
+          _this15.form_changePass(e);
         });
         /*---------------------------------------------------------*/
 
@@ -7203,12 +7229,12 @@ $AMINamespace('amiLogin',
       /*-------------------------------------------------------------*/
 
       window.addEventListener('message', function (e) {
-        if (_this14.ssoInfo.url.startsWith(e.origin)) {
+        if (_this15.ssoInfo.url.startsWith(e.origin)) {
           var user = e.data.user;
           var pass = e.data.pass;
 
           if (user && pass) {
-            _this14.form_login2(user, pass);
+            _this15.form_login2(user, pass);
           }
 
           e.source.close();
@@ -7220,11 +7246,11 @@ $AMINamespace('amiLogin',
       /*-------------------------------------------------------------*/
 
       amiCommand.certLogin().fail(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-        _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function () {
+        _this15._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function (MESSAGE) {
           result.reject(message);
         });
       }).done(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-        _this14._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function (message) {
+        _this15._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function (message) {
           _ami_internal_then(amiWebApp.onReady(userdata), function () {
             result.resolve(message);
           }, function (message) {
@@ -7273,6 +7299,8 @@ $AMINamespace('amiLogin',
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
+    /*-----------------------------------------------------------------*/
+
     var user = this.user = userInfo.AMIUser || '';
     var guest = this.guest = userInfo.guestUser || '';
     var notBefore = this.notBefore = userInfo.notBefore || '';
@@ -7281,9 +7309,9 @@ $AMINamespace('amiLogin',
     var issuerDNInSession = this.issuerDN = userInfo.issuerDNInSession || '';
     /*-----------------------------------------------------------------*/
 
-    $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
-    $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
-    $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+    $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession); //$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+    //$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+
     /*-----------------------------------------------------------------*/
 
     this.roleInfo = roleInfo;
@@ -7580,14 +7608,14 @@ $AMINamespace('amiLogin',
     * Signs out
     */
   signOut: function signOut() {
-    var _this15 = this;
+    var _this16 = this;
 
     amiWebApp.lock();
     return amiCommand.logout().always(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-      _this15._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function () {
-        _this15._unlock();
+      _this16._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function () {
+        _this16._unlock();
       }, function (message) {
-        _this15._error(message);
+        _this16._error(message);
       });
     });
   },
@@ -7601,7 +7629,7 @@ $AMINamespace('amiLogin',
 
   /*---------------------------------------------------------------------*/
   form_login2: function form_login2(user, pass) {
-    var _this16 = this;
+    var _this17 = this;
 
     /*-----------------------------------------------------------------*/
     var promise = user && pass ? amiCommand.passLogin(user.trim(), pass.trim()) : amiCommand.certLogin();
@@ -7609,17 +7637,17 @@ $AMINamespace('amiLogin',
 
     amiWebApp.lock();
     promise.then(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-      _this16._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function () {
+      _this17._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function () {
         if (userInfo.AMIUser !== userInfo.guestUser) {
           $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-          _this16._unlock();
+          _this17._unlock();
         }
       }, function (message) {
         if (userInfo.AMIUser !== userInfo.guestUser) {
           $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-          _this16._error(message);
+          _this17._error(message);
         }
       });
 
@@ -7630,11 +7658,11 @@ $AMINamespace('amiLogin',
           _message += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.' + ' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.';
         }
 
-        _this16._error(_message);
+        _this17._error(_message);
       }
     }, function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-      _this16._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function () {
-        _this16._error(message);
+      _this17._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function () {
+        _this17._error(message);
       });
     });
     /*-----------------------------------------------------------------*/
@@ -7642,31 +7670,6 @@ $AMINamespace('amiLogin',
 
   /*---------------------------------------------------------------------*/
   form_attachCert: function form_attachCert() {
-    var _this17 = this;
-
-    /*-----------------------------------------------------------------*/
-    var user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
-    var pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
-
-    if (!user || !pass) {
-      this._error('Please, fill all fields with a red star.');
-
-      return;
-    }
-    /*-----------------------------------------------------------------*/
-
-
-    amiWebApp.lock();
-    amiCommand.attachCert(user, pass).then(function (data, message) {
-      _this17._success(message);
-    }, function (data, message) {
-      _this17._error(message);
-    });
-    /*-----------------------------------------------------------------*/
-  },
-
-  /*---------------------------------------------------------------------*/
-  form_detachCert: function form_detachCert() {
     var _this18 = this;
 
     /*-----------------------------------------------------------------*/
@@ -7682,7 +7685,7 @@ $AMINamespace('amiLogin',
 
 
     amiWebApp.lock();
-    amiCommand.detachCert(user, pass).then(function (data, message) {
+    amiCommand.attachCert(user, pass).then(function (data, message) {
       _this18._success(message);
     }, function (data, message) {
       _this18._error(message);
@@ -7691,17 +7694,23 @@ $AMINamespace('amiLogin',
   },
 
   /*---------------------------------------------------------------------*/
-  form_addUser: function form_addUser(e) {
+  form_detachCert: function form_detachCert() {
     var _this19 = this;
 
-    e.preventDefault();
+    /*-----------------------------------------------------------------*/
+    var user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
+    var pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+
+    if (!user || !pass) {
+      this._error('Please, fill all fields with a red star.');
+
+      return;
+    }
     /*-----------------------------------------------------------------*/
 
-    var values = $(e.target).serializeObject();
-    /*-----------------------------------------------------------------*/
 
     amiWebApp.lock();
-    amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values, 'agree' in values).then(function (data, message) {
+    amiCommand.detachCert(user, pass).then(function (data, message) {
       _this19._success(message);
     }, function (data, message) {
       _this19._error(message);
@@ -7710,7 +7719,7 @@ $AMINamespace('amiLogin',
   },
 
   /*---------------------------------------------------------------------*/
-  form_remindPass: function form_remindPass(e) {
+  form_addUser: function form_addUser(e) {
     var _this20 = this;
 
     e.preventDefault();
@@ -7720,7 +7729,7 @@ $AMINamespace('amiLogin',
     /*-----------------------------------------------------------------*/
 
     amiWebApp.lock();
-    amiCommand.resetPass(values['user']).then(function (data, message) {
+    amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values, 'agree' in values).then(function (data, message) {
       _this20._success(message);
     }, function (data, message) {
       _this20._error(message);
@@ -7729,7 +7738,7 @@ $AMINamespace('amiLogin',
   },
 
   /*---------------------------------------------------------------------*/
-  form_changeInfo: function form_changeInfo(e) {
+  form_remindPass: function form_remindPass(e) {
     var _this21 = this;
 
     e.preventDefault();
@@ -7739,7 +7748,7 @@ $AMINamespace('amiLogin',
     /*-----------------------------------------------------------------*/
 
     amiWebApp.lock();
-    amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).then(function (data, message) {
+    amiCommand.resetPass(values['user']).then(function (data, message) {
       _this21._success(message);
     }, function (data, message) {
       _this21._error(message);
@@ -7748,7 +7757,7 @@ $AMINamespace('amiLogin',
   },
 
   /*---------------------------------------------------------------------*/
-  form_changePass: function form_changePass(e) {
+  form_changeInfo: function form_changeInfo(e) {
     var _this22 = this;
 
     e.preventDefault();
@@ -7758,10 +7767,29 @@ $AMINamespace('amiLogin',
     /*-----------------------------------------------------------------*/
 
     amiWebApp.lock();
-    amiCommand.changePass(this.user, values['old_pass'], values['new_pass']).then(function (data, message) {
+    amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).then(function (data, message) {
       _this22._success(message);
     }, function (data, message) {
       _this22._error(message);
+    });
+    /*-----------------------------------------------------------------*/
+  },
+
+  /*---------------------------------------------------------------------*/
+  form_changePass: function form_changePass(e) {
+    var _this23 = this;
+
+    e.preventDefault();
+    /*-----------------------------------------------------------------*/
+
+    var values = $(e.target).serializeObject();
+    /*-----------------------------------------------------------------*/
+
+    amiWebApp.lock();
+    amiCommand.changePass(this.user, values['old_pass'], values['new_pass']).then(function (data, message) {
+      _this23._success(message);
+    }, function (data, message) {
+      _this23._error(message);
     });
     /*-----------------------------------------------------------------*/
   }

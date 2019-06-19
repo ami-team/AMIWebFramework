@@ -10,6 +10,9 @@
 
 		<title>AMI</title>
 
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
+		<link rel="stylesheet" type="text/css" href="css/ami.min.css"></link>
+
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/ami.es6.js"></script>
 
@@ -71,10 +74,13 @@
 
 		<script type="text/javascript">
 
-			amiWebApp.start({
-				logo_url: 'images/logo.png',
-				theme_url: 'twig/AMI/Theme/blue.twig',
-				endpoint_url: 'https://localhost:8443/AMI/FrontEnd',
+			amiWebApp._globalDeferred.done(function() {
+
+				amiWebApp.start({
+					logo_url: 'images/logo.png',
+					theme_url: 'twig/AMI/Theme/blue.twig',
+					endpoint_url: 'https://localhost:8443/AMI/FrontEnd',
+				});
 			});
 
 		</script>
