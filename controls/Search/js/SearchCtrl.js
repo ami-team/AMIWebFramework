@@ -82,7 +82,6 @@ $AMIClass('SearchCtrl', {
 			amiWebApp.originURL + '/controls/Search/twig/criteria_bool.twig',
 			amiWebApp.originURL + '/controls/Search/twig/js.twig',
 			/**/
-			amiWebApp.originURL + '/controls/Search/js/moment.min.js',
 			amiWebApp.originURL + '/controls/Search/js/daterangepicker.js',
 			amiWebApp.originURL + '/controls/Search/js/daterangepicker.css',
 			/**/
@@ -99,7 +98,7 @@ $AMIClass('SearchCtrl', {
 			this.fragmentCriteriaBool = data[7];
 			this.fragmentJS = data[8];
 
-			this.tabCtor = data[12];
+			this.tabCtor = data[11];
 		});
 	},
 
@@ -185,7 +184,10 @@ $AMIClass('SearchCtrl', {
 
 		return this.tabCtrl.render(selector, {context: this}).done(function() {
 
-			this.renderForm();
+			this.renderForm().done(function() {
+
+				amiWebApp.unlock();
+			});
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -195,6 +197,8 @@ $AMIClass('SearchCtrl', {
 
 	renderForm: function()
 	{
+		var result = $.Deferred();
+
 		this.tabCtrl.appendItem(this.ctx.name, {context: this}).done(function(selector) {
 
 			this.replaceHTML(selector, this.fragmentSearchCtrl, {context: this, dict: this.ctx}).done(function() {
@@ -288,10 +292,16 @@ $AMIClass('SearchCtrl', {
 				}
 
 				/*---------------------------------------------------------*/
+
+				return result.resolve();
+
+				/*---------------------------------------------------------*/
 			});
 
 			/*-------------------------------------------------------------*/
 		});
+
+		return result;
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -769,9 +779,9 @@ $AMIClass('SearchCtrl', {
 
 			amiWebApp.unlock();
 
-		}).fail(function(data) {
+		}).fail(function(data, message) {
 
-			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+			amiWebApp.error(message);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -1184,6 +1194,8 @@ $AMIClass('SearchCtrl', {
 		var entity = criteria.entity;
 		var field = criteria.field;
 
+		/*-----------------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		/*-----------------------------------------------------------------*/
@@ -1248,6 +1260,7 @@ $AMIClass('SearchCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		this.refresh();
+		amiWebApp.unlock();
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -1438,6 +1451,7 @@ $AMIClass('SearchCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		this.refresh();
+		amiWebApp.unlock();
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -1534,6 +1548,7 @@ $AMIClass('SearchCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		this.refresh();
+		amiWebApp.unlock();
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -1603,6 +1618,7 @@ $AMIClass('SearchCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		this.refresh();
+		amiWebApp.unlock();
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -1725,6 +1741,7 @@ $AMIClass('SearchCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		this.refresh();
+		amiWebApp.unlock();
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -1781,6 +1798,7 @@ $AMIClass('SearchCtrl', {
 		/*-----------------------------------------------------------------*/
 
 		this.refresh();
+		amiWebApp.unlock();
 
 		/*-----------------------------------------------------------------*/
 	},
@@ -1869,6 +1887,7 @@ $AMIClass('SearchCtrl', {
 				this.ctx.ast = fix(new amiTwig.expr.Compiler(expression, 1).rootNode);
 
 				this.refresh();
+				amiWebApp.unlock();
 			}
 			catch(e)
 			{
