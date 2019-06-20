@@ -5975,12 +5975,8 @@ $AMINamespace('amiWebApp',
               $('body').append(_this8.formatTWIG(data3, dict) + data4).promise().done(function () {
                 _this8.lock();
 
-                amiLogin._start().done(function (message) {
-                  if (message) {
-                    _this8.warning(message);
-                  } else {
-                    _this8.unlock(message);
-                  }
+                amiLogin._start().done(function () {
+                  _this8.unlock();
                 }).fail(function (message) {
                   _this8.error(message);
                 });
@@ -6003,12 +5999,8 @@ $AMINamespace('amiWebApp',
             $('body').append(data3).promise().done(function () {
               _this8.lock();
 
-              amiLogin._start().done(function (message) {
-                if (message) {
-                  _this8.warning(message);
-                } else {
-                  _this8.unlock(message);
-                }
+              amiLogin._start().done(function () {
+                _this8.unlock();
               }).fail(function (message) {
                 _this8.error(message);
               });
@@ -7326,8 +7318,7 @@ $AMINamespace('amiLogin',
 
     var dict = {
       sso_label: ssoInfo.label || 'SSO',
-      sso_url: ssoInfo.url || '@NULL',
-      user: user
+      sso_url: ssoInfo.url || '@NULL'
     };
 
     if (user !== guest) {
@@ -7389,8 +7380,8 @@ $AMINamespace('amiLogin',
 
       /*-------------------------------------------------------------*/
 
-      var warnMessage = '';
-      var errorMessage = '';
+      var icon = '';
+      var message = '';
 
       if (valid !== 'false') {
         /*---------------------------------------------------------*/
@@ -7400,12 +7391,19 @@ $AMINamespace('amiLogin',
         /*---------------------------------------------------------*/
         if (certEnabled !== 'false' && clientDNInAMI && issuerDNInAMI) {
           if (!clientDNInSession || !issuerDNInSession) {
-            warnMessage = 'You should provide a certificate to use this AMI web application.';
+            message = 'You should provide a certificate to use this AMI web application.';
           } else {
             if (clientDNInAMI !== clientDNInSession || issuerDNInAMI !== issuerDNInSession) {
-              warnMessage = 'The certificate in your session is not the one registered in AMI.';
+              message = 'The certificate in your session is not the one registered in AMI.';
             }
           }
+        }
+        /*---------------------------------------------------------*/
+
+
+        if (message) {
+          $('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<span class="fa fa-info-circle text-warning"></span> ' + message);
+          icon = '<a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">' + '<i class="fa fa-info-circle"></i>' + '</a>';
         }
         /*---------------------------------------------------------*/
 
@@ -7422,12 +7420,19 @@ $AMINamespace('amiLogin',
         /*---------------------------------------------------------*/
         if (vomsEnabled !== 'false') {
           if (!clientDNInAMI || !issuerDNInAMI) {
-            errorMessage = 'Register a valid certificate.';
+            message = 'Register a valid certificate.';
           } else {
-            errorMessage = 'Check your VO roles.';
+            message = 'Check your VO roles.';
           }
         } else {
-          errorMessage = 'Contact the AMI team.';
+          message = 'Contact the AMI team.';
+        }
+        /*---------------------------------------------------------*/
+
+
+        if (message) {
+          $('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<span class="fa fa-info-circle text-danger"></span> ' + message);
+          icon = '<a class="nav-link text-danger" href="javascript:amiLogin.accountStatus();">' + '<i class="fa fa-info-circle"></i>' + '</a>';
         }
         /*---------------------------------------------------------*/
 
@@ -7444,27 +7449,17 @@ $AMINamespace('amiLogin',
       /*-------------------------------------------------------------*/
 
 
+      dict['user'] = user;
+      dict['icon'] = icon;
+      /*-------------------------------------------------------------*/
+
       amiWebApp.replaceHTML('#ami_login_menu_content', this.fragmentLogoutButton, {
         dict: dict
       }).done(function () {
-        amiWebApp.triggerLogin().then(function (message) {
-          /**/
-          if (warnMessage) {
-            result.resolve(warnMessage);
-          } else if (errorMessage) {
-            result.reject(errorMessage);
-          } else {
-            result.resolve(message);
-          }
+        amiWebApp.triggerLogin().then(function () {
+          result.resolve();
         }, function (message) {
-          /**/
-          if (warnMessage) {
-            result.resolve(warnMessage);
-          } else if (errorMessage) {
-            result.reject(errorMessage);
-          } else {
-            result.reject(message);
-          }
+          result.reject(message);
         });
       });
       /*-------------------------------------------------------------*/
@@ -7473,8 +7468,8 @@ $AMINamespace('amiLogin',
       amiWebApp.replaceHTML('#ami_login_menu_content', this.fragmentLoginButton, {
         dict: dict
       }).done(function () {
-        amiWebApp.triggerLogout().then(function (message) {
-          result.resolve(message);
+        amiWebApp.triggerLogout().then(function () {
+          result.resolve();
         }, function (message) {
           result.reject(message);
         });

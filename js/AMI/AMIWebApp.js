@@ -1451,14 +1451,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 								this.lock();
 
-								amiLogin._start().done((message) => {
+								amiLogin._start().done(() => {
 
-									if(message) {
-										this.info(message);
-									}
-									else {
-										this.unlock(message);
-									}
+									this.unlock();
 
 								}).fail((message) => {
 
@@ -1488,14 +1483,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 							this.lock();
 
-							amiLogin._start().done((message) => {
+							amiLogin._start().done(() => {
 
-								if(message) {
-									this.info(message);
-								}
-								else {
-									this.unlock(message);
-								}
+								this.unlock();
 
 							}).fail((message) => {
 

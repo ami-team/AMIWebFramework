@@ -7116,14 +7116,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 								this.lock();
 
-								amiLogin._start().done((message) => {
+								amiLogin._start().done(() => {
 
-									if(message) {
-										this.warning(message);
-									}
-									else {
-										this.unlock(message);
-									}
+									this.unlock();
 
 								}).fail((message) => {
 
@@ -7153,14 +7148,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 							this.lock();
 
-							amiLogin._start().done((message) => {
+							amiLogin._start().done(() => {
 
-								if(message) {
-									this.warning(message);
-								}
-								else {
-									this.unlock(message);
-								}
+								this.unlock();
 
 							}).fail((message) => {
 
@@ -8796,7 +8786,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		const dict = {
 			sso_label: ssoInfo.label || 'SSO',
 			sso_url: ssoInfo.url || '@NULL',
-			user: user
 		};
 
 		if(user !== guest)
@@ -8863,8 +8852,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* CHECK USER STATUS                                           */
 			/*-------------------------------------------------------------*/
 
-			let warnMessage = '';
-			let errorMessage = '';
+			let icon = '';
+			let message = '';
 
 			if(valid !== 'false')
 			{
@@ -8878,7 +8867,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					   ||
 					   !issuerDNInSession
 					 ) {
-						warnMessage = 'You should provide a certificate to use this AMI web application.';
+						message = 'You should provide a certificate to use this AMI web application.';
 					}
 					else
 					{
@@ -8886,9 +8875,23 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 						   ||
 						   issuerDNInAMI !== issuerDNInSession
 						 ) {
-							warnMessage = 'The certificate in your session is not the one registered in AMI.';
+							message = 'The certificate in your session is not the one registered in AMI.';
 						}
 					}
+				}
+
+				/*---------------------------------------------------------*/
+
+				if(message)
+				{
+					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<span class="fa fa-info-circle text-warning"></span> ' + message);
+
+					icon = '<a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">'
+					       +
+					       '<i class="fa fa-info-circle"></i>'
+					       +
+					       '</a>'
+					;
 				}
 
 				/*---------------------------------------------------------*/
@@ -8917,16 +8920,30 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					   ||
 					   !issuerDNInAMI
 					 ) {
-						errorMessage = 'Register a valid certificate.';
+						message = 'Register a valid certificate.';
 					}
 					else
 					{
-						errorMessage = 'Check your VO roles.';
+						message = 'Check your VO roles.';
 					}
 				}
 				else
 				{
-					errorMessage = 'Contact the AMI team.';
+					message = 'Contact the AMI team.';
+				}
+
+				/*---------------------------------------------------------*/
+
+				if(message)
+				{
+					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<span class="fa fa-info-circle text-danger"></span> ' + message);
+
+					icon = '<a class="nav-link text-danger" href="javascript:amiLogin.accountStatus();">'
+					       +
+					       '<i class="fa fa-info-circle"></i>'
+					       +
+					       '</a>'
+					;
 				}
 
 				/*---------------------------------------------------------*/
@@ -8948,31 +8965,20 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			/* UPDATE MENU BAR                                             */
 			/*-------------------------------------------------------------*/
 
+			dict['user'] = user;
+			dict['icon'] = icon;
+
+			/*-------------------------------------------------------------*/
+
 			amiWebApp.replaceHTML('#ami_login_menu_content', this.fragmentLogoutButton, {dict: dict}).done(() => {
 
-				amiWebApp.triggerLogin().then((message) => {
+				amiWebApp.triggerLogin().then(() => {
 
-					/**/ if(warnMessage) {
-						result.resolve(warnMessage);
-					}
-					else if(errorMessage) {
-						result.reject(errorMessage);
-					}
-					else {
-						result.resolve(message);
-					}
+					result.resolve();
 
 				}, (message) => {
 
-					/**/ if(warnMessage) {
-						result.resolve(warnMessage);
-					}
-					else if(errorMessage) {
-						result.reject(errorMessage);
-					}
-					else {
-						result.reject(message);
-					}
+					result.reject(message);
 				});
 			});
 
@@ -8984,9 +8990,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			amiWebApp.replaceHTML('#ami_login_menu_content', this.fragmentLoginButton, {dict: dict}).done(() => {
 
-				amiWebApp.triggerLogout().then((message) => {
+				amiWebApp.triggerLogout().then(() => {
 
-					result.resolve(message);
+					result.resolve();
 
 				}, (message) => {
 
