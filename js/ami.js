@@ -7244,14 +7244,16 @@ $AMINamespace('amiLogin',
           result.reject(message);
         });
       }).done(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-        _this15._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function (message) {
-          _ami_internal_then(amiWebApp.onReady(userdata), function () {
-            amiWebApp._isReady = true;
+        _ami_internal_then(amiWebApp.onReady(userdata), function () {
+          amiWebApp._isReady = true;
+
+          _this15._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function (message) {
             result.resolve(message);
           }, function (message) {
             result.reject(message);
           });
         }, function (message) {
+          amiWebApp._isReady = true;
           result.reject(message);
         });
       });

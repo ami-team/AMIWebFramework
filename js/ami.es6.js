@@ -8685,11 +8685,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			}).done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-				this._update(userInfo, roleInfo, udpInfo, ssoInfo).then((message) => {
+				_ami_internal_then(amiWebApp.onReady(userdata), () => {
 
-					_ami_internal_then(amiWebApp.onReady(userdata), () => {
+					amiWebApp._isReady = true;
 
-						amiWebApp._isReady = true;
+					this._update(userInfo, roleInfo, udpInfo, ssoInfo).then((message) => {
 
 						result.resolve(message);
 
@@ -8699,6 +8699,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					});
 
 				}, (message) => {
+
+					amiWebApp._isReady = true;
 
 					result.reject(message);
 				});
