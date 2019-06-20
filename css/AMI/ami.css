@@ -29,7 +29,7 @@
 /*-------------------------------------------------------------------------*/
 
 #ami_alert_content {
-	display: none;
+	display: flex;
 	position: absolute;
 
 	align-items: flex-end;
