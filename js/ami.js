@@ -7391,7 +7391,7 @@ $AMINamespace('amiLogin',
         /*---------------------------------------------------------*/
         if (certEnabled !== 'false' && clientDNInAMI && issuerDNInAMI) {
           if (!clientDNInSession || !issuerDNInSession) {
-            message = 'You should provide a certificate to use this AMI web application.';
+            message = 'It is recommended to connect to AMI with a X.509 certificate.';
           } else {
             if (clientDNInAMI !== clientDNInSession || issuerDNInAMI !== issuerDNInSession) {
               message = 'The certificate in your session is not the one registered in AMI.';

@@ -332,7 +332,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					   ||
 					   !issuerDNInSession
 					 ) {
-						message = 'You should provide a certificate to use this AMI web application.';
+						message = 'It is recommended to connect to AMI with a X.509 certificate.';
 					}
 					else
 					{
