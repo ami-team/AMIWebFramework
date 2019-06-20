@@ -13,7 +13,6 @@
 		<link rel="stylesheet" href="../css/bootstrap.min.css" />
 
 		<script type="text/javascript" src="../js/jquery.min.js"></script>
-		<script type="text/javascript" src="../js/ami.min.js?nobootstrap"></script>
 
 	</head>
 	<body class="p-2">
@@ -32,9 +31,18 @@
 
 		<script type="text/javascript">
 
-			var url = amiRouter.getOriginURL();
+			/*-------------------------------------------------------------*/
 
-			$('#BFC76577_E618_0494_47D0_E495DD8C5AF0').attr('href', url).text(url);
+			var url = parent.amiRouter.getOriginURL();
+
+			/*-------------------------------------------------------------*/
+
+			var el = document.getElementById('BFC76577_E618_0494_47D0_E495DD8C5AF0');
+
+			el.setAttribute('href', url);
+			el.textContent = url;
+
+			/*-------------------------------------------------------------*/
 
 		</script>
 
