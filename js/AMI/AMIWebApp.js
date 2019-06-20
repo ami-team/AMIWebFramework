@@ -1454,7 +1454,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 								amiLogin._start().done((message) => {
 
 									if(message) {
-										this.warning(message);
+										this.info(message);
 									}
 									else {
 										this.unlock(message);
@@ -1491,7 +1491,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 							amiLogin._start().done((message) => {
 
 								if(message) {
-									this.warning(message);
+									this.info(message);
 								}
 								else {
 									this.unlock(message);
