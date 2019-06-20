@@ -8884,7 +8884,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				if(message)
 				{
-					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<br /><i class="fa fa-info-circle text-warning"></i> ' + message);
+					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<i class="fa fa-info-circle text-warning"></i> ' + message);
 
 					icon = '<a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">'
 					       +
@@ -8936,7 +8936,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				if(message)
 				{
-					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<br /><i class="fa fa-info-circle text-danger"></i> ' + message);
+					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<i class="fa fa-info-circle text-danger"></i> ' + message);
 
 					icon = '<a class="nav-link text-danger" href="javascript:amiLogin.accountStatus();">'
 					       +
