@@ -6001,7 +6001,15 @@ $AMINamespace('amiWebApp',
             dataType: 'text'
           }).done(function (data3) {
             $('body').append(data3).promise().done(function () {
-              amiLogin._start().fail(function (message) {
+              _this8.lock();
+
+              amiLogin._start().done(function (message) {
+                if (message) {
+                  _this8.warning(message);
+                } else {
+                  _this8.unlock(message);
+                }
+              }).fail(function (message) {
                 _this8.error(message);
               });
             });

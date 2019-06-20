@@ -1486,7 +1486,18 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 						$('body').append(data3).promise().done(() => {
 
-							amiLogin._start().fail((message) => {
+							this.lock();
+
+							amiLogin._start().done((message) => {
+
+								if(message) {
+									this.warning(message);
+								}
+								else {
+									this.unlock(message);
+								}
+
+							}).fail((message) => {
 
 								this.error(message);
 							});
