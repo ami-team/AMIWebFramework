@@ -4868,17 +4868,11 @@ $AMINamespace('amiWebApp',
   $: function $() {
     var _this3 = this;
 
-    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-    console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
     /*-----------------------------------------------------------------*/
 
     /* GET FLAGS                                                       */
 
     /*-----------------------------------------------------------------*/
-
     var url = amiRouter.getScriptURL();
     var idx = url.indexOf('?');
 
@@ -5223,9 +5217,6 @@ $AMINamespace('amiWebApp',
     /*-----------------------------------------------------------------*/
 
 
-    console.log('loading: ' + url);
-    /*-----------------------------------------------------------------*/
-
     switch (dataTYPE) {
       /*-------------------------------------------------------------*/
 
@@ -5277,7 +5268,6 @@ $AMINamespace('amiWebApp',
             crossDomain: true,
             dataType: dataTYPE
           }).then(function () {
-            console.log('[' + url + ' loaded]');
             result.push(true);
 
             _this4._sheets.push(url);
@@ -5309,7 +5299,6 @@ $AMINamespace('amiWebApp',
             crossDomain: true,
             dataType: dataTYPE
           }).then(function () {
-            console.log('[' + url + ' loaded]');
             result.push(true);
 
             _this4._scripts.push(url);
@@ -5336,7 +5325,6 @@ $AMINamespace('amiWebApp',
           crossDomain: true,
           dataType: dataTYPE
         }).then(function (data) {
-          console.log('[' + url + ' loaded]');
           result.push(data);
 
           _this4.__loadXXX(deferred, result, urls, dataType, context);
@@ -5703,7 +5691,7 @@ $AMINamespace('amiWebApp',
     var lines = this.getStack().split('\n');
 
     if (lines.length > 2) {
-      console.log('lock[' + this._lockCnt + ']@' + lines[2]); // eslint-disable-line no-console
+      console.log('lock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
     }
     /**/
 
@@ -5734,7 +5722,7 @@ $AMINamespace('amiWebApp',
     var lines = this.getStack().split('\n');
 
     if (lines.length > 2) {
-      console.log('unlock[' + this._lockCnt + ']@' + lines[2]); // eslint-disable-line no-console
+      console.log('unlock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
     }
   },
 
@@ -5908,11 +5896,6 @@ $AMINamespace('amiWebApp',
     */
   start: function start(settings) {
     var _this8 = this;
-
-    console.log('///////////////////////////////////////////////////////////////');
-    console.log('///////////////////////////////////////////////////////////////');
-    console.log('///////////////////////////////////////////////////////////////');
-    console.log('///////////////////////////////////////////////////////////////');
 
     var _this$setup3 = this.setup(['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'], [this.originURL + '/images/logo.png', this.webAppURL, 'ami@lpsc.in2p3.fr', 'http://cern.ch/ami/', this.originURL + '/twig/AMI/Theme/blue.twig', this.originURL + '/twig/AMI/Fragment/locker.twig', this.originURL + '/AMI/FrontEnd'], settings),
         logo_url = _this$setup3[0],
@@ -7246,7 +7229,9 @@ $AMINamespace('amiLogin',
       /*-------------------------------------------------------------*/
 
       amiCommand.certLogin().fail(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
-        _this15._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function (MESSAGE) {
+        _this15._update(userInfo, roleInfo, udpInfo, ssoInfo).always(function ()
+        /*---*/
+        {
           result.reject(message);
         });
       }).done(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
@@ -7309,9 +7294,9 @@ $AMINamespace('amiLogin',
     var issuerDNInSession = this.issuerDN = userInfo.issuerDNInSession || '';
     /*-----------------------------------------------------------------*/
 
-    $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession); //$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
-    //$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
-
+    $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
+    $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+    $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
     /*-----------------------------------------------------------------*/
 
     this.roleInfo = roleInfo;

@@ -5800,12 +5800,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	$: function()
 	{
-		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-
 		/*-----------------------------------------------------------------*/
 		/* GET FLAGS                                                       */
 		/*-----------------------------------------------------------------*/
@@ -6251,10 +6245,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		console.log('loading: ' + url);
-
-		/*-----------------------------------------------------------------*/
-
 		switch(dataTYPE)
 		{
 			/*-------------------------------------------------------------*/
@@ -6316,7 +6306,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 						crossDomain: true,
 						dataType: dataTYPE,
 					}).then(() => {
-console.log('[' + url + ' loaded]');
+
 						result.push(true);
 
 						this._sheets.push(url);
@@ -6352,7 +6342,7 @@ console.log('[' + url + ' loaded]');
 						crossDomain: true,
 						dataType: dataTYPE,
 					}).then(() => {
-console.log('[' + url + ' loaded]');
+
 						result.push(true);
 
 						this._scripts.push(url);
@@ -6380,7 +6370,7 @@ console.log('[' + url + ' loaded]');
 					crossDomain: true,
 					dataType: dataTYPE,
 				}).then((data) => {
-console.log('[' + url + ' loaded]');
+
 					result.push(data);
 
 					this.__loadXXX(deferred, result, urls, dataType, context);
@@ -6808,7 +6798,7 @@ console.log('[' + url + ' loaded]');
 
 		if(lines.length > 2)
 		{
-			console.log('lock[' + this._lockCnt + ']@' + lines[2]); // eslint-disable-line no-console
+			console.log('lock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
 		}
 
 		/**/
@@ -6850,7 +6840,7 @@ console.log('[' + url + ' loaded]');
 
 		if(lines.length > 2)
 		{
-			console.log('unlock[' + this._lockCnt + ']@' + lines[2]); // eslint-disable-line no-console
+			console.log('unlock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
 		}
 	},
 
@@ -7050,11 +7040,6 @@ console.log('[' + url + ' loaded]');
 
 	start: function(settings)
 	{
-		console.log('///////////////////////////////////////////////////////////////');
-		console.log('///////////////////////////////////////////////////////////////');
-		console.log('///////////////////////////////////////////////////////////////');
-		console.log('///////////////////////////////////////////////////////////////');
-
 		const [logo_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url] = this.setup(
 			['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'],
 			[
@@ -8680,7 +8665,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			amiCommand.certLogin().fail((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
-				this._update(userInfo, roleInfo, udpInfo, ssoInfo).always((MESSAGE) => {
+				this._update(userInfo, roleInfo, udpInfo, ssoInfo).always((/*---*/) => {
 
 					result.reject(message);
 				});
@@ -8769,8 +8754,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
 
-		//$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
-		//$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+		$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+		$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', udpInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
 
 		/*-----------------------------------------------------------------*/
 

@@ -135,12 +135,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	$: function()
 	{
-		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-		console.log('£££££££££££££££££££££££££££££££££££££££££££££££££££££');
-
 		/*-----------------------------------------------------------------*/
 		/* GET FLAGS                                                       */
 		/*-----------------------------------------------------------------*/
@@ -586,10 +580,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		console.log('loading: ' + url);
-
-		/*-----------------------------------------------------------------*/
-
 		switch(dataTYPE)
 		{
 			/*-------------------------------------------------------------*/
@@ -651,7 +641,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 						crossDomain: true,
 						dataType: dataTYPE,
 					}).then(() => {
-console.log('[' + url + ' loaded]');
+
 						result.push(true);
 
 						this._sheets.push(url);
@@ -687,7 +677,7 @@ console.log('[' + url + ' loaded]');
 						crossDomain: true,
 						dataType: dataTYPE,
 					}).then(() => {
-console.log('[' + url + ' loaded]');
+
 						result.push(true);
 
 						this._scripts.push(url);
@@ -715,7 +705,7 @@ console.log('[' + url + ' loaded]');
 					crossDomain: true,
 					dataType: dataTYPE,
 				}).then((data) => {
-console.log('[' + url + ' loaded]');
+
 					result.push(data);
 
 					this.__loadXXX(deferred, result, urls, dataType, context);
@@ -1143,7 +1133,7 @@ console.log('[' + url + ' loaded]');
 
 		if(lines.length > 2)
 		{
-			console.log('lock[' + this._lockCnt + ']@' + lines[2]); // eslint-disable-line no-console
+			console.log('lock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
 		}
 
 		/**/
@@ -1185,7 +1175,7 @@ console.log('[' + url + ' loaded]');
 
 		if(lines.length > 2)
 		{
-			console.log('unlock[' + this._lockCnt + ']@' + lines[2]); // eslint-disable-line no-console
+			console.log('unlock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
 		}
 	},
 
@@ -1385,11 +1375,6 @@ console.log('[' + url + ' loaded]');
 
 	start: function(settings)
 	{
-		console.log('///////////////////////////////////////////////////////////////');
-		console.log('///////////////////////////////////////////////////////////////');
-		console.log('///////////////////////////////////////////////////////////////');
-		console.log('///////////////////////////////////////////////////////////////');
-
 		const [logo_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url] = this.setup(
 			['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'],
 			[
