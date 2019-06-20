@@ -307,6 +307,25 @@ pre {
 }
 
 /*-------------------------------------------------------------------------*/
+
+#ami_alert_content {
+	position: absolute;
+	display: -ms-flexbox;
+	display: flex;
+
+	-ms-flex-align: end;
+
+	    align-items: flex-end;
+	-ms-flex-direction: column;
+	    flex-direction: column;
+
+	z-index: 99999999;
+
+	top: 8px;
+	right: 8px;
+}
+
+/*-------------------------------------------------------------------------*/
 /* CODEMIRROR                                                              */
 /*-------------------------------------------------------------------------*/
 

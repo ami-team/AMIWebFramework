@@ -84,6 +84,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	_controls: {},
 	_subapps: {},
 
+	_isReady: false,
 	_canLeave: true,
 	_lockCnt: 0x00,
 
@@ -1863,20 +1864,27 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), (message) => {
+		if(this._isReady)
+		{
+			_ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), (message) => {
 
-			_ami_internal_always(this.onRefresh(true), () => {
+				_ami_internal_always(this.onRefresh(true), () => {
 
-				result.resolve(message);
+					result.resolve(message);
+				});
+
+			}, (message) => {
+
+				_ami_internal_always(this.onRefresh(true), () => {
+
+					result.reject(message);
+				});
 			});
-
-		}, (message) => {
-
-			_ami_internal_always(this.onRefresh(true), () => {
-
-				result.reject(message);
-			});
-		});
+		}
+		else
+		{
+			result.resolve();
+		}
 
 		/*-----------------------------------------------------------------*/
 
@@ -1891,20 +1899,27 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*-----------------------------------------------------------------*/
 
-		_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), (message) => {
+		if(this._isReady)
+		{
+			_ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), (message) => {
 
-			_ami_internal_always(this.onRefresh(false), () => {
+				_ami_internal_always(this.onRefresh(false), () => {
 
-				result.resolve(message);
+					result.resolve(message);
+				});
+
+			}, (message) => {
+
+				_ami_internal_always(this.onRefresh(false), () => {
+
+					result.reject(message);
+				});
 			});
-
-		}, (message) => {
-
-			_ami_internal_always(this.onRefresh(false), () => {
-
-				result.reject(message);
-			});
-		});
+		}
+		else
+		{
+			result.resolve();
+		}
 
 		/*-----------------------------------------------------------------*/
 

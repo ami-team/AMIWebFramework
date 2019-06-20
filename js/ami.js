@@ -4816,6 +4816,7 @@ $AMINamespace('amiWebApp',
   _scripts: [],
   _controls: {},
   _subapps: {},
+  _isReady: false,
   _canLeave: true,
   _lockCnt: 0x00,
 
@@ -6290,15 +6291,19 @@ $AMINamespace('amiWebApp',
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
-    _ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), function (message) {
-      _ami_internal_always(_this11.onRefresh(true), function () {
-        result.resolve(message);
+    if (this._isReady) {
+      _ami_internal_then(this._currentSubAppInstance.onLogin(this.args['userdata']), function (message) {
+        _ami_internal_always(_this11.onRefresh(true), function () {
+          result.resolve(message);
+        });
+      }, function (message) {
+        _ami_internal_always(_this11.onRefresh(true), function () {
+          result.reject(message);
+        });
       });
-    }, function (message) {
-      _ami_internal_always(_this11.onRefresh(true), function () {
-        result.reject(message);
-      });
-    });
+    } else {
+      result.resolve();
+    }
     /*-----------------------------------------------------------------*/
 
 
@@ -6312,15 +6317,19 @@ $AMINamespace('amiWebApp',
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
-    _ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), function (message) {
-      _ami_internal_always(_this12.onRefresh(false), function () {
-        result.resolve(message);
+    if (this._isReady) {
+      _ami_internal_then(this._currentSubAppInstance.onLogout(this.args['userdata']), function (message) {
+        _ami_internal_always(_this12.onRefresh(false), function () {
+          result.resolve(message);
+        });
+      }, function (message) {
+        _ami_internal_always(_this12.onRefresh(false), function () {
+          result.reject(message);
+        });
       });
-    }, function (message) {
-      _ami_internal_always(_this12.onRefresh(false), function () {
-        result.reject(message);
-      });
-    });
+    } else {
+      result.resolve();
+    }
     /*-----------------------------------------------------------------*/
 
 
@@ -7237,6 +7246,7 @@ $AMINamespace('amiLogin',
       }).done(function (data, message, userInfo, roleInfo, udpInfo, ssoInfo) {
         _this15._update(userInfo, roleInfo, udpInfo, ssoInfo).then(function (message) {
           _ami_internal_then(amiWebApp.onReady(userdata), function () {
+            amiWebApp._isReady = true;
             result.resolve(message);
           }, function (message) {
             result.reject(message);

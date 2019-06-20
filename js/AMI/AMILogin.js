@@ -155,6 +155,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 					_ami_internal_then(amiWebApp.onReady(userdata), () => {
 
+						amiWebApp._isReady = true;
+
 						result.resolve(message);
 
 					}, (message) => {
