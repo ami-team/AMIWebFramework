@@ -309,9 +309,8 @@ pre {
 /*-------------------------------------------------------------------------*/
 
 #ami_alert_content {
+	display: none;
 	position: absolute;
-	display: -ms-flexbox;
-	display: flex;
 
 	-ms-flex-align: end;
 

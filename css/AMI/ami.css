@@ -29,8 +29,8 @@
 /*-------------------------------------------------------------------------*/
 
 #ami_alert_content {
+	display: none;
 	position: absolute;
-	display: flex;
 
 	align-items: flex-end;
 	flex-direction: column;
