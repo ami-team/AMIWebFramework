@@ -67,6 +67,12 @@ $AMIClass('TableCtrl', {
 
 	render: function(selector, command, settings)
 	{
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
 		const result = $.Deferred();
 
 		/*-----------------------------------------------------------------*/
@@ -180,7 +186,12 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		return result;
+		return result.always(() => {
+
+			amiWebApp.unlock();
+		});
+
+		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -217,13 +228,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570')).click(() => {
 
-				amiWebApp.lock();
-
-				this.firstPage().done(() => {
-
-					amiWebApp.unlock();
-
-				}).fail((message) => {
+				this.firstPage().fail((message) => {
 
 					amiWebApp.error(message, true);
 				});
@@ -231,13 +236,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(() => {
 
-				amiWebApp.lock();
-
-				this.prevPage().done(() => {
-
-					amiWebApp.unlock();
-
-				}).fail((message) => {
+				this.prevPage().fail((message) => {
 
 					amiWebApp.error(message, true);
 				});
@@ -245,13 +244,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#E7FDF4C8_ECD2_3FE0_8C75_541E511239C2')).click(() => {
 
-				amiWebApp.lock();
-
-				this.nextPage().done(() => {
-
-					amiWebApp.unlock();
-
-				}).fail((message) => {
+				this.nextPage().fail((message) => {
 
 					amiWebApp.error(message, true);
 				});
@@ -259,13 +252,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).click(() => {
 
-				amiWebApp.lock();
-
-				this.lastPage().done(() => {
-
-					amiWebApp.unlock();
-
-				}).fail((message) => {
+				this.lastPage().fail((message) => {
 
 					amiWebApp.error(message, true);
 				});
@@ -277,13 +264,7 @@ $AMIClass('TableCtrl', {
 
 				if(e.keyCode == 13)
 				{
-					amiWebApp.lock();
-
-					this.refresh().done(() => {
-
-						amiWebApp.unlock();
-
-					}).fail((message) => {
+					this.refresh().fail((message) => {
 
 						amiWebApp.error(message, true);
 					});
@@ -294,13 +275,7 @@ $AMIClass('TableCtrl', {
 
 				if(e.keyCode == 13)
 				{
-					amiWebApp.lock();
-
-					this.refresh().done(() => {
-
-						amiWebApp.unlock();
-
-					}).fail((message) => {
+					this.refresh().fail((message) => {
 
 						amiWebApp.error(message, true);
 					});
@@ -309,13 +284,7 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#D809166F_A40B_2376_C8A5_977AA0C8C408')).click(() => {
 
-				amiWebApp.lock();
-
-				this.refresh().done(() => {
-
-					amiWebApp.unlock();
-
-				}).fail((message) => {
+				this.refresh().fail((message) => {
 
 					amiWebApp.error(message, true);
 				});
@@ -367,13 +336,7 @@ $AMIClass('TableCtrl', {
 
 					/*-----------------------------------------------------*/
 
-					amiWebApp.lock();
-
-					this.refresh().done(() => {
-
-						amiWebApp.unlock();
-
-					}).fail((message) => {
+					this.refresh().fail((message) => {
 
 						amiWebApp.error(message, true);
 					});
@@ -558,6 +521,12 @@ $AMIClass('TableCtrl', {
 
 	refresh: function(settings)
 	{
+		/*-----------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		/*-----------------------------------------------------------------*/
+
 		const result = $.Deferred();
 
 		/*-----------------------------------------------------------------*/
@@ -797,12 +766,16 @@ $AMIClass('TableCtrl', {
 
 				/*---------------------------------------------------------*/
 
+				amiWebApp.unlock();
+
 				result.resolveWith(context, [this.ctx.fieldDescriptions, rows, this.ctx.sql, this.ctx.mql, this.ctx.ast, this.ctx.totalNumberOfRows]);
 
 				/*---------------------------------------------------------*/
 			});
 
 		}).fail((data, message) => {
+
+			amiWebApp.unlock();
 
 			result.rejectWith(context, [message]);
 		});
