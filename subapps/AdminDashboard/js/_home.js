@@ -170,13 +170,15 @@ $AMIClass('AdminDashboardHome', {
 
 				/*---------------------------------------------------------*/
 
-				var buildVersion = amiWebApp.jspath('..field{.@name==="buildVersion"}.$', data)[0] || 'N/A';
-				var commitIdAbbrev = amiWebApp.jspath('..field{.@name==="commitIdAbbrev"}.$', data)[0] || 'N/A';
+				var javaBuildVersion = amiWebApp.jspath('..rowset{.@type==="java"}..field{.@name==="buildVersion"}.$', data)[0] || 'N/A';
+				var amiBuildVersion = amiWebApp.jspath('..rowset{.@type==="ami"}..field{.@name==="buildVersion"}.$', data)[0] || 'N/A';
+				var amiCommitIdAbbrev = amiWebApp.jspath('..rowset{.@type==="ami"}..field{.@name==="commitIdAbbrev"}.$', data)[0] || 'N/A';
 
 				/*---------------------------------------------------------*/
 
-				$('#F1FA8298_F283_E0C4_A9F6_74C8EB2E4762').text(buildVersion);
-				$('#A8F46B0F_4657_09B7_BB0D_6B4434FD79A3').text(commitIdAbbrev);
+				$('#F10C1A82_4C46_C08F_F56A_7B9A90416B68').text(javaBuildVersion);
+				$('#F1FA8298_F283_E0C4_A9F6_74C8EB2E4762').text(amiBuildVersion);
+				$('#A8F46B0F_4657_09B7_BB0D_6B4434FD79A3').text(amiCommitIdAbbrev);
 
 				/*---------------------------------------------------------*/
 
