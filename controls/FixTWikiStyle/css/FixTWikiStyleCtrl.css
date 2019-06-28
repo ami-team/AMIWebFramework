@@ -11,10 +11,10 @@
 
 /*-------------------------------------------------------------------------*/
 
-.navbar-nav > li > a,
-.dropdown-menu > li > a,
-.navbar-nav > li > a:hover,
-.dropdown-menu > li > a:hover {
+.navbar-nav a,
+.dropdown-menu a,
+.navbar-nav a:hover,
+.dropdown-menu a:hover {
 	border: none !important;
 	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
 	font-size: 15px;
@@ -41,9 +41,11 @@
 /*-------------------------------------------------------------------------*/
 
 .row a,
+.card a,
 .table a,
-.modal-dialog a {
-	text-decoration: none;
+.modal-dialog a,
+#ami_login_menu_content a {
+	text-decoration: none !important;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -81,15 +83,9 @@
 	display: flex;
 	position: absolute;
 	top: 33px;
-	left: 200px;
+	right: 508px;
 	list-style: none;
 	z-index: 9999;
-}
-
-/*-------------------------------------------------------------------------*/
-
-#ami_login_menu_content a {
-	text-decoration: none;
 }
 
 /*-------------------------------------------------------------------------*/
