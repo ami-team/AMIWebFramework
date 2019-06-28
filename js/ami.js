@@ -5996,7 +5996,7 @@ $AMINamespace('amiWebApp',
             crossDomain: true,
             dataType: 'text'
           }).done(function (data3) {
-            $('body').append(data3).promise().done(function () {
+            $('body').prepend('<div id="ami_login_menu_content"></div>' + data3).promise().done(function () {
               _this8.lock();
 
               amiLogin._start().done(function () {
