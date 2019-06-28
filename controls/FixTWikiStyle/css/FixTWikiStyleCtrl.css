@@ -16,6 +16,10 @@
 .card a,
 .table a,
 .modal-dialog a,
+.navbar-nav a,
+.dropdown-menu a,
+.navbar-nav a:hover,
+.dropdown-menu a:hover,
 #ami_login_menu_content a {
 	border: none !important;
 	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
