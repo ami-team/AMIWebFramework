@@ -77,10 +77,13 @@
 
 /*-------------------------------------------------------------------------*/
 
-#ami_login_content {
+#ami_login_menu_content {
+	display: flex;
 	position: absolute;
-	z-index: 100;
-	top: 0.5px;
+	top: 33px;
+	left: 200px;
+	list-style: none;
+	z-index: 9999;
 }
 
 /*-------------------------------------------------------------------------*/
