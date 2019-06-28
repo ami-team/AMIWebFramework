@@ -7144,7 +7144,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).done((data3) => {
 
-						$('body').prepend('<div id="ami_login_menu_content"></div>' + data3).promise().done(() => {
+						$('body').prepend('<div id="ami_login_menu_content"></div><div id="ami_alert_content"></div>' + data3).promise().done(() => {
 
 							this.lock();
 
