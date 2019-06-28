@@ -117,9 +117,9 @@ $AMIClass('TableCtrl', {
     if (this.ctx.canEdit || (this.ctx.showDetails || this.ctx.showTools) && !this.ctx.primaryField) {
       this.fieldEditor.getInfo(catalog, entity, primaryField).done(function (primaryField) {
         _this2.ctx.primaryField = primaryField;
-        _this2.ctx.showDetails = _this2.ctx.showDetails && primaryField;
-        _this2.ctx.showTools = _this2.ctx.showTools && primaryField;
-        _this2.ctx.canEdit = _this2.ctx.canEdit && primaryField;
+        _this2.ctx.showDetails = _this2.ctx.showDetails && !!primaryField;
+        _this2.ctx.showTools = _this2.ctx.showTools && !!primaryField;
+        _this2.ctx.canEdit = _this2.ctx.canEdit && !!primaryField;
 
         _this2._render(result, selector);
       }).fail(function () {
