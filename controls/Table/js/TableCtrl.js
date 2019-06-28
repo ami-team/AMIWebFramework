@@ -549,19 +549,24 @@ $AMIClass('TableCtrl', {
 
         var numbers = [];
 
-        if (!Number.isNaN(_this5.ctx.maxNumberOfRows)) {
-          numbers.push('max showable: ' + _this5.ctx.maxNumberOfRows);
+        if (!Number.isNaN(rows.length)) {
+          numbers.push('shown: ' + rows.length);
         }
 
         if (!Number.isNaN(_this5.ctx.totalNumberOfRows)) {
           numbers.push('total: ' + _this5.ctx.totalNumberOfRows);
         }
+        /*---------------------------------------------------------*/
 
-        if (!Number.isNaN(rows.length)) {
-          numbers.push('shown: ' + rows.length);
+
+        var span = $(_this5.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A'));
+
+        if (!Number.isNaN(_this5.ctx.maxNumberOfRows)) {
+          var tooltip = 'maximum number of showable rows: ' + _this5.ctx.maxNumberOfRows;
+          span.attr('data-toggle', 'tooltip').attr('data-title', tooltip).tooltip('dispose').tooltip();
         }
 
-        $(_this5.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text(numbers.join(', '));
+        span.text(numbers.join(', '));
         /*---------------------------------------------------------*/
 
         amiWebApp.unlock();

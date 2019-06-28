@@ -748,21 +748,32 @@ $AMIClass('TableCtrl', {
 				/* FILL NUMBERS                                            */
 				/*---------------------------------------------------------*/
 
-				let numbers = [];
+				const numbers = [];
 
-				if(!Number.isNaN(this.ctx.maxNumberOfRows)) {
-					numbers.push('max showable: ' + this.ctx.maxNumberOfRows);
+				if(!Number.isNaN(rows.length)) {
+					numbers.push('shown: ' + rows.length);
 				}
 
 				if(!Number.isNaN(this.ctx.totalNumberOfRows)) {
 					numbers.push('total: ' + this.ctx.totalNumberOfRows);
 				}
 
-				if(!Number.isNaN(rows.length)) {
-					numbers.push('shown: ' + rows.length);
+				/*---------------------------------------------------------*/
+
+				const span = $(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A'));
+
+				if(!Number.isNaN(this.ctx.maxNumberOfRows))
+				{
+					const tooltip = 'maximum number of showable rows: ' + this.ctx.maxNumberOfRows;
+
+					span.attr('data-toggle', 'tooltip')
+					    .attr('data-title', tooltip)
+					    .tooltip('dispose')
+					    .tooltip()
+					;
 				}
 
-				$(this.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text(numbers.join(', '));
+				span.text(numbers.join(', '));
 
 				/*---------------------------------------------------------*/
 
