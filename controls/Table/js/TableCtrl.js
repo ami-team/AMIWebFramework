@@ -124,24 +124,24 @@ $AMIClass('TableCtrl', {
         _this2._render(result, selector);
       }).fail(function () {
         _this2.ctx.primaryField = primaryField;
-        _this2.ctx.showDetails = _this2.ctx.showDetails && primaryField;
-        _this2.ctx.showTools = _this2.ctx.showTools && primaryField;
+        _this2.ctx.showDetails = _this2.ctx.showDetails && !!primaryField;
+        _this2.ctx.showTools = _this2.ctx.showTools && !!primaryField;
         _this2.ctx.canEdit =
-        /***********/
+        /*----------*/
         false
-        /***********/
+        /*----------*/
         ;
 
         _this2._render(result, selector);
       });
     } else {
       this.ctx.primaryField = primaryField;
-      this.ctx.showDetails = this.ctx.showDetails && primaryField;
-      this.ctx.showTools = this.ctx.showTools && primaryField;
+      this.ctx.showDetails = this.ctx.showDetails && !!primaryField;
+      this.ctx.showTools = this.ctx.showTools && !!primaryField;
       this.ctx.canEdit =
-      /***********/
+      /*----------*/
       false
-      /***********/
+      /*----------*/
       ;
 
       this._render(result, selector);
