@@ -156,9 +156,9 @@ $AMIClass('TableCtrl', {
 
 				this.ctx.primaryField = primaryField;
 
-				this.ctx.showDetails = this.ctx.showDetails && primaryField;
-				this.ctx.showTools = this.ctx.showTools && primaryField;
-				this.ctx.canEdit = this.ctx.canEdit && primaryField;
+				this.ctx.showDetails = this.ctx.showDetails && !!primaryField;
+				this.ctx.showTools = this.ctx.showTools && !!primaryField;
+				this.ctx.canEdit = this.ctx.canEdit && !!primaryField;
 
 				this._render(result, selector);
 
