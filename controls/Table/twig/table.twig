@@ -12,9 +12,10 @@
 			<!-- ******************************************************** -->
 			{% if fieldDescriptions is not empty %}
 			{%   for fieldDescription in fieldDescriptions %}
-			{%     if fieldDescription['@field'] === primaryField %}
-			{%       set primaryIdx = loop.index0 %}
-			{%     endif %}
+			{%     if fieldDescription['@field'] !== 'ORACLE_ROWNUM' and fieldDescription['@field'] !== 'PROJECT' and fieldDescription['@field'] !== 'PROCESS' and fieldDescription['@field'] !== 'AMIENTITYNAME' and fieldDescription['@field'] !== 'AMIELEMENTID' and fieldDescription['@field'] !== 'AMICREATED' and fieldDescription['@field'] !== 'AMILASTMODIFIED' and fieldDescription['@field'] !== 'AMISYSDATE' %}
+			{%       if fieldDescription['@field'] === primaryField %}
+			{%         set primaryIdx = loop.index0 %}
+			{%       endif %}
 			<th class="text-center">
 				<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{fieldDescription['@field']|e}}"><i class="fa fa-chevron-down"></i></a>
 				<span class="text-primary"{% if fieldDescription['$'] is not empty and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{fieldDescription['@label']|e}}</span>
@@ -32,11 +33,12 @@
 				{%   endif %}
 				{% endif %}
 			</th>
+			{%     endif %}
 			{%   endfor %}
 			{% else %}
 			{%   if rows is not empty %}
 			{%     for field in rows[0].field %}
-			{%       if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
+			{%       if field['@name'] !== 'ORACLE_ROWNUM' and field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
 			<th class="text-center">
 				<span class="text-primary">{{field['@name']|e}}</span>
 			</th>
@@ -70,7 +72,7 @@
 			</td>
 			<!-- ******************************************************** -->
 			{% for field in row.field %}
-			{%   if field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
+			{%   if field['@name'] !== 'ORACLE_ROWNUM' and field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE' %}
 			<td class="text-center">
 				{% if field.$ starts with '@OWNER::' %}
 				<a href="#" data-action="filter" data-filter-def="{{field.$|slice(8)|e}}">

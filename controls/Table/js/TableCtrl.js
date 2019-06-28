@@ -53,6 +53,10 @@ $AMIClass('TableCtrl', {
   render: function render(selector, command, settings) {
     var _this2 = this;
 
+    /*-----------------------------------------------------------------*/
+    amiWebApp.lock();
+    /*-----------------------------------------------------------------*/
+
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
@@ -145,7 +149,10 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
 
-    return result;
+    return result.always(function () {
+      amiWebApp.unlock();
+    });
+    /*-----------------------------------------------------------------*/
   },
 
   /*---------------------------------------------------------------------*/
@@ -178,38 +185,22 @@ $AMIClass('TableCtrl', {
     }).done(function () {
       /*-------------------------------------------------------------*/
       $(_this4.patchId('#BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570')).click(function () {
-        amiWebApp.lock();
-
-        _this4.firstPage().done(function () {
-          amiWebApp.unlock();
-        }).fail(function (message) {
+        _this4.firstPage().fail(function (message) {
           amiWebApp.error(message, true);
         });
       });
       $(_this4.patchId('#BB126294_FFC2_24B8_8765_CF653EB950F7')).click(function () {
-        amiWebApp.lock();
-
-        _this4.prevPage().done(function () {
-          amiWebApp.unlock();
-        }).fail(function (message) {
+        _this4.prevPage().fail(function (message) {
           amiWebApp.error(message, true);
         });
       });
       $(_this4.patchId('#E7FDF4C8_ECD2_3FE0_8C75_541E511239C2')).click(function () {
-        amiWebApp.lock();
-
-        _this4.nextPage().done(function () {
-          amiWebApp.unlock();
-        }).fail(function (message) {
+        _this4.nextPage().fail(function (message) {
           amiWebApp.error(message, true);
         });
       });
       $(_this4.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).click(function () {
-        amiWebApp.lock();
-
-        _this4.lastPage().done(function () {
-          amiWebApp.unlock();
-        }).fail(function (message) {
+        _this4.lastPage().fail(function (message) {
           amiWebApp.error(message, true);
         });
       });
@@ -217,32 +208,20 @@ $AMIClass('TableCtrl', {
 
       $(_this4.patchId('#DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB')).keypress(function (e) {
         if (e.keyCode == 13) {
-          amiWebApp.lock();
-
-          _this4.refresh().done(function () {
-            amiWebApp.unlock();
-          }).fail(function (message) {
+          _this4.refresh().fail(function (message) {
             amiWebApp.error(message, true);
           });
         }
       });
       $(_this4.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).keypress(function (e) {
         if (e.keyCode == 13) {
-          amiWebApp.lock();
-
-          _this4.refresh().done(function () {
-            amiWebApp.unlock();
-          }).fail(function (message) {
+          _this4.refresh().fail(function (message) {
             amiWebApp.error(message, true);
           });
         }
       });
       $(_this4.patchId('#D809166F_A40B_2376_C8A5_977AA0C8C408')).click(function () {
-        amiWebApp.lock();
-
-        _this4.refresh().done(function () {
-          amiWebApp.unlock();
-        }).fail(function (message) {
+        _this4.refresh().fail(function (message) {
           amiWebApp.error(message, true);
         });
       });
@@ -276,11 +255,7 @@ $AMIClass('TableCtrl', {
           _this4.ctx.command = command;
           /*-----------------------------------------------------*/
 
-          amiWebApp.lock();
-
-          _this4.refresh().done(function () {
-            amiWebApp.unlock();
-          }).fail(function (message) {
+          _this4.refresh().fail(function (message) {
             amiWebApp.error(message, true);
           });
           /*-----------------------------------------------------*/
@@ -393,6 +368,10 @@ $AMIClass('TableCtrl', {
   /*---------------------------------------------------------------------*/
   refresh: function refresh(settings) {
     var _this5 = this;
+
+    /*-----------------------------------------------------------------*/
+    amiWebApp.lock();
+    /*-----------------------------------------------------------------*/
 
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
@@ -585,10 +564,12 @@ $AMIClass('TableCtrl', {
         $(_this5.patchId('#C57C824B_166C_4C23_F349_8B0C8E94114A')).text(numbers.join(', '));
         /*---------------------------------------------------------*/
 
+        amiWebApp.unlock();
         result.resolveWith(context, [_this5.ctx.fieldDescriptions, rows, _this5.ctx.sql, _this5.ctx.mql, _this5.ctx.ast, _this5.ctx.totalNumberOfRows]);
         /*---------------------------------------------------------*/
       });
     }).fail(function (data, message) {
+      amiWebApp.unlock();
       result.rejectWith(context, [message]);
     });
     /*-----------------------------------------------------------------*/
