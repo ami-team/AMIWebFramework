@@ -12,7 +12,6 @@
 			<!-- ******************************************************** -->
 			{% if fieldDescriptions is not empty %}
 			{%   for fieldDescription in fieldDescriptions %}
-			{{fieldDescription['@field']}}
 			{%     if fieldDescription['@field'] !== 'ORACLE_ROWNUM' and fieldDescription['@field'] !== 'PROJECT' and fieldDescription['@field'] !== 'PROCESS' and fieldDescription['@field'] !== 'AMIENTITYNAME' and fieldDescription['@field'] !== 'AMIELEMENTID' and fieldDescription['@field'] !== 'AMICREATED' and fieldDescription['@field'] !== 'AMILASTMODIFIED' and fieldDescription['@field'] !== 'AMISYSDATE' %}
 			{%       if fieldDescription['@field'] === primaryField %}
 			{%         set primaryIdx = loop.index0 %}
