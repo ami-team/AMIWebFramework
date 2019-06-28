@@ -11,14 +11,16 @@
 
 /*-------------------------------------------------------------------------*/
 
-.navbar-nav a,
-.dropdown-menu a,
-.navbar-nav a:hover,
-.dropdown-menu a:hover {
+.nav a,
+.row a,
+.card a,
+.table a,
+.modal-dialog a,
+#ami_login_menu_content a {
 	border: none !important;
 	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
 	font-size: 15px;
-	text-decoration: none;
+	text-decoration: none !important;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -36,16 +38,6 @@
 .modal-dialog span, .modal-dialog div, .modal-dialog p, .modal-dialog a {
 	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
 	font-size: 15px;
-}
-
-/*-------------------------------------------------------------------------*/
-
-.row a,
-.card a,
-.table a,
-.modal-dialog a,
-#ami_login_menu_content a {
-	text-decoration: none !important;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -85,7 +77,7 @@
 	top: 33px;
 	right: 508px;
 	list-style: none;
-	z-index: 9999;
+	z-index: 999;
 }
 
 /*-------------------------------------------------------------------------*/
