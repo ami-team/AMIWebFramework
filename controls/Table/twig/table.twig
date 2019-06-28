@@ -12,9 +12,10 @@
 			<!-- ******************************************************** -->
 			{% if fieldDescriptions is not empty %}
 			{%   for fieldDescription in fieldDescriptions %}
-			{%     if fieldDescription['@field'] === primaryField %}
-			{%       set primaryIdx = loop.index0 %}
-			{%     endif %}
+			{%     if fieldDescription['@field'] !== 'ORACLE_ROWNUM' and fieldDescription['@field'] !== 'PROJECT' and fieldDescription['@field'] !== 'PROCESS' and fieldDescription['@field'] !== 'AMIENTITYNAME' and fieldDescription['@field'] !== 'AMIELEMENTID' and fieldDescription['@field'] !== 'AMICREATED' and fieldDescription['@field'] !== 'AMILASTMODIFIED' and fieldDescription['@field'] !== 'AMISYSDATE' %}
+			{%       if fieldDescription['@field'] === primaryField %}
+			{%         set primaryIdx = loop.index0 %}
+			{%       endif %}
 			<th class="text-center">
 				<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{fieldDescription['@field']|e}}"><i class="fa fa-chevron-down"></i></a>
 				<span class="text-primary"{% if fieldDescription['$'] is not empty and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{fieldDescription['@label']|e}}</span>
@@ -32,6 +33,7 @@
 				{%   endif %}
 				{% endif %}
 			</th>
+			{%     endif %}
 			{%   endfor %}
 			{% else %}
 			{%   if rows is not empty %}
