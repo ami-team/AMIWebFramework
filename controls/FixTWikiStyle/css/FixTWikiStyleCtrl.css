@@ -65,22 +65,16 @@
 
 /*-------------------------------------------------------------------------*/
 
-.row a,
-.card a,
-.table a,
-.navbar a,
-.nav-item a,
-.modal-dialog a,
+.row a:not(.nav-tabs .nav-link),
+.card a:not(.nav-tabs .nav-link),
+.table a:not(.nav-tabs .nav-link),
+.navbar a:not(.nav-tabs .nav-link),
+.nav-item a:not(.nav-tabs .nav-link),
+.modal-dialog a:not(.nav-tabs .nav-link),
 .nav-item a:hover,
 .dropdown-menu a:hover {
 	border: none !important;
 	text-decoration: none !important;
-}
-
-/*-------------------------------------------------------------------------*/
-
-.nav-tabs .nav-link {
-	border: 1px solid transparent !important !important;
 }
 
 /*-------------------------------------------------------------------------*/
