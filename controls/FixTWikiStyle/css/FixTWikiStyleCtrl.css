@@ -11,6 +11,17 @@
 
 /*-------------------------------------------------------------------------*/
 
+.nav span, .nav div, .nav p, .nav a,
+.row span, .row div, .row p, .row a,
+.card span, .card div, .card p, .card a,
+.table span, .table div, .table p, .table a,
+.modal-dialog span, .modal-dialog div, .modal-dialog p, .modal-dialog a {
+	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+	font-size: 15px;
+}
+
+/*-------------------------------------------------------------------------*/
+
 .nav a,
 .row a,
 .card a,
@@ -22,8 +33,6 @@
 .dropdown-menu a:hover,
 #ami_login_menu_content a {
 	border: none !important;
-	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
-	font-size: 15px;
 	text-decoration: none !important;
 }
 
@@ -33,15 +42,6 @@
 .checkbox,
 .form-group {
 	text-align: left;
-}
-
-/*-------------------------------------------------------------------------*/
-
-.row span, .row div, .row p, .row a,
-.table span, .table div, .table p, .table a,
-.modal-dialog span, .modal-dialog div, .modal-dialog p, .modal-dialog a {
-	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
-	font-size: 15px;
 }
 
 /*-------------------------------------------------------------------------*/
