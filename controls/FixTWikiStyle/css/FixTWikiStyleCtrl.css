@@ -81,6 +81,7 @@
 
 .row h1, .row h2, .row h3, .row h4, .row h5, .row h6,
 .modal-dialog h1, .modal-dialog h2, .modal-dialog h3, .modal-dialog h4, .modal-dialog h5, .modal-dialog h6 {
+	border: none;
 	font-family: "Open Sans Light", "sans-serif";
 }
 
