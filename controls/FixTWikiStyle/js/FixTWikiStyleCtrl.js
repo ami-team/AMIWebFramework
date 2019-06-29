@@ -11,6 +11,10 @@
 
 /*-------------------------------------------------------------------------*/
 
+$('meta[http-equiv="Content-Type"]').attr('content', 'text/html; charset=utf-8');
+
+/*-------------------------------------------------------------------------*/
+
 $AMIClass('FixTWikiStyleCtrl', {
 	/*---------------------------------------------------------------------*/
 
@@ -27,8 +31,6 @@ $AMIClass('FixTWikiStyleCtrl', {
 
 	onReady: function()
 	{
-		$('meta[http-equiv="Content-Type"]').attr('content', 'text/html; charset=utf-8');
-
 		$('body').append('<link rel="stylesheet" type="text/css" href="' + amiWebApp.originURL + '/controls/FixTWikiStyle/css/FixTWikiStyleCtrl.css"></link>');
 	},
 
