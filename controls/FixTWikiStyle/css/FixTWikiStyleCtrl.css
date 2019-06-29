@@ -16,8 +16,10 @@
 .table span, .table div, .table p, .table a,
 .nav-item span, .nav-item div, .nav-item p, .nav-item a,
 .modal-dialog span, .modal-dialog div, .modal-dialog p, .modal-dialog a {
-	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
-	font-size: 15px;
+	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif" !important;
+	font-size: 0.9375rem !important;
+	font-weight: 400 !important;
+	line-height: 1.5 !important;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -36,13 +38,13 @@
 }
 
 /*-------------------------------------------------------------------------*/
-
+/*
 .radio,
 .checkbox,
 .form-group {
 	text-align: left;
 }
-
+*/
 /*-------------------------------------------------------------------------*/
 
 .row h1, .row h2, .row h3, .row h4, .row h5, .row h6,
@@ -63,7 +65,7 @@
 #ami_login_menu_content {
 	display: flex;
 	position: absolute;
-	top: 33px;
+	top: 32px;
 	right: 508px;
 	list-style: none;
 	z-index: 999;
