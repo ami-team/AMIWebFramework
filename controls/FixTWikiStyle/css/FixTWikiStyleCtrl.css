@@ -11,10 +11,10 @@
 
 /*-------------------------------------------------------------------------*/
 
-.nav span, .nav div, .nav p, .nav a,
 .row span, .row div, .row p, .row a,
 .card span, .card div, .card p, .card a,
 .table span, .table div, .table p, .table a,
+.nav-item span, .nav-item div, .nav-item p, .nav-item a,
 .modal-dialog span, .modal-dialog div, .modal-dialog p, .modal-dialog a {
 	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
 	font-size: 15px;
@@ -22,14 +22,13 @@
 
 /*-------------------------------------------------------------------------*/
 
-.nav a,
 .row a,
 .card a,
 .table a,
 .modal-dialog a,
-.navbar-nav a,
+.nav-item a,
 .dropdown-menu a,
-.navbar-nav a:hover,
+.nav-item a:hover,
 .dropdown-menu a:hover,
 #ami_login_menu_content a {
 	border: none !important;
