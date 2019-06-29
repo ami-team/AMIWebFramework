@@ -27,30 +27,9 @@ $AMIClass('FixTWikiStyleCtrl', {
 
 	onReady: function()
 	{
-		var el = $('#jumpFormField');
-		{
-			/*-------------------------------------------------------------*/
+		$('meta[http-equiv="Content-Type"]').attr('content', 'text/html; charset=utf-8');
 
-			var right = $(document).width() - el.position().left + 4;
-
-			/*-------------------------------------------------------------*/
-
-			$('body').append('<link rel="stylesheet" type="text/css" href="' + amiWebApp.originURL + '/controls/FixTWikiStyle/css/FixTWikiStyleCtrl.css"></link>');
-
-			/*-------------------------------------------------------------*/
-
-			$('#ami_login_content').prepend('<li><a href="https://ami.in2p3.fr/" target="_blank"><i class="fa fa-external-link"></i> AMI</a></li>');
-
-			$('#ami_login_content').appendTo('body');
-
-			/*-------------------------------------------------------------*/
-
-			$('#ami_login_content').css('right', right + 'px');
-
-			/*-------------------------------------------------------------*/
-		}
-
-		/*-----------------------------------------------------------------*/
+		$('body').append('<link rel="stylesheet" type="text/css" href="' + amiWebApp.originURL + '/controls/FixTWikiStyle/css/FixTWikiStyleCtrl.css"></link>');
 	},
 
 	/*---------------------------------------------------------------------*/
