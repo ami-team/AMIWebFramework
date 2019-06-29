@@ -74,7 +74,7 @@
 .nav-item a:hover,
 .dropdown-menu a:hover {
 	border: none;
-	text-decoration: none;
+	text-decoration: none !important;
 }
 
 /*-------------------------------------------------------------------------*/
