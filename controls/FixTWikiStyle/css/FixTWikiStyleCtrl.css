@@ -72,7 +72,8 @@
 .nav-item a,
 .modal-dialog a,
 .nav-item a:hover,
-.dropdown-menu a:hover {
+.dropdown-menu a:hover,
+#ami_login_menu_content a {
 	border: none !important;
 	text-decoration: none !important;
 }
