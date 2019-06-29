@@ -58,13 +58,21 @@
 .navbar span, .navbar div, .navbar p, .navbar a,
 .nav-item span, .nav-item div, .nav-item p, .nav-item a,
 .modal-dialog span, .modal-dialog div, .modal-dialog p, .modal-dialog a,
-.nav-item a:hover,
-.dropdown-menu a:hover,
 #ami_login_menu_content a {
 	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
 	font-size: 0.9375rem;
-	font-weight: 400;
-	line-height: 1.5;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.row a,
+.card a,
+.table a,
+.navbar a,
+.nav-item a,
+.modal-dialog a,
+.nav-item a:hover,
+.dropdown-menu a:hover {
 	border: none !important;
 	text-decoration: none !important;
 }
@@ -73,9 +81,7 @@
 
 .row h1, .row h2, .row h3, .row h4, .row h5, .row h6,
 .modal-dialog h1, .modal-dialog h2, .modal-dialog h3, .modal-dialog h4, .modal-dialog h5, .modal-dialog h6 {
-	border: none;
 	font-family: "Open Sans Light", "sans-serif";
-	text-align: left;
 }
 
 /*-------------------------------------------------------------------------*/
