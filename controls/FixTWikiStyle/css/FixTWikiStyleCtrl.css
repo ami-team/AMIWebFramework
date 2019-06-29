@@ -73,14 +73,14 @@
 .modal-dialog a,
 .nav-item a:hover,
 .dropdown-menu a:hover {
-	border: none;
+	border: none !important;
 	text-decoration: none !important;
 }
 
 /*-------------------------------------------------------------------------*/
 
 .nav-tabs .nav-link {
-	border: 1px solid transparent;
+	border: 1px solid transparent !important !important;
 }
 
 /*-------------------------------------------------------------------------*/
