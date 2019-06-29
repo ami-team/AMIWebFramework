@@ -65,12 +65,12 @@
 
 /*-------------------------------------------------------------------------*/
 
-.row :not(.nav-tabs) a,
-.card :not(.nav-tabs) a,
-.table :not(.nav-tabs) a,
-.navbar :not(.nav-tabs) a,
-.nav-item :not(.nav-tabs) a,
-.modal-dialog :not(.nav-tabs) a,
+.row a,
+.card a,
+.table a,
+.navbar a,
+.nav-item a,
+.modal-dialog a,
 .nav-item a:hover,
 .dropdown-menu a:hover {
 	border: none !important;

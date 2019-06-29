@@ -366,7 +366,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				;
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400')
-				                                          .text('❧ valid ❧')
+				                                          .html('<i class="fa fa-leaf"></i> valid <i class="fa fa-leaf"></i>')
 				;
 
 				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
@@ -418,7 +418,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				;
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#8B0000')
-				                                          .text('❧ invalid ❧')
+				                                          .html('<i class="fa fa-leaf"></i> invalid <i class="fa fa-leaf"></i>')
 				;
 
 				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
