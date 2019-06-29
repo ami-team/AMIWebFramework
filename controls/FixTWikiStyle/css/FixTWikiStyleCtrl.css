@@ -55,37 +55,20 @@
 .row span, .row div, .row p, .row a,
 .card span, .card div, .card p, .card a,
 .table span, .table div, .table p, .table a,
+.navbar span, .navbar div, .navbar p, .navbar a,
 .nav-item span, .nav-item div, .nav-item p, .nav-item a,
-.modal-dialog span, .modal-dialog div, .modal-dialog p, .modal-dialog a {
-	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif" !important;
-	font-size: 0.9375rem !important;
-	font-weight: 400 !important;
-	line-height: 1.5 !important;
-}
-
-/*-------------------------------------------------------------------------*/
-
-.row a,
-.card a,
-.table a,
-.modal-dialog a,
-.nav-item a,
-.dropdown-menu a,
+.modal-dialog span, .modal-dialog div, .modal-dialog p, .modal-dialog a,
 .nav-item a:hover,
 .dropdown-menu a:hover,
 #ami_login_menu_content a {
+	font-family: "Open Sans", "Helvetica Neue", "Helvetica", "Arial", "sans-serif";
+	font-size: 0.9375rem;
+	font-weight: 400;
+	line-height: 1.5;
 	border: none !important;
 	text-decoration: none !important;
 }
 
-/*-------------------------------------------------------------------------*/
-/*
-.radio,
-.checkbox,
-.form-group {
-	text-align: left;
-}
-*/
 /*-------------------------------------------------------------------------*/
 
 .row h1, .row h2, .row h3, .row h4, .row h5, .row h6,
