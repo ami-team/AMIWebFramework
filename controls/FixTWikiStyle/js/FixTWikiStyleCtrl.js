@@ -27,7 +27,7 @@ $AMIClass('FixTWikiStyleCtrl', {
 
 	onReady: function()
 	{
-		$('body').append('<link rel="stylesheet" type="text/css" href="' + amiWebApp.originURL + '/controls/FixTWikiStyle/css/FixTWikiStyleCtrl.css"></link>');
+		$('body').append('<link rel="stylesheet" type="text/css" href="' + amiWebApp.originURL + '/controls/FixTWikiStyle/css/FixTWikiStyleCtrl.css?_=' + Math.floor(Math.random() * Math.floor(65535)) + '"></link>');
 	},
 
 	/*---------------------------------------------------------------------*/
