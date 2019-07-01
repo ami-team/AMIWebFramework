@@ -31,7 +31,20 @@ $AMIClass('FixTWikiStyleCtrl', {
 
 	onReady: function()
 	{
+		/*-----------------------------------------------------------------*/
+
 		$('body').append('<link rel="stylesheet" type="text/css" href="' + amiWebApp.originURL + '/controls/FixTWikiStyle/css/FixTWikiStyleCtrl.css"></link>');
+
+		/*-----------------------------------------------------------------*/
+
+		var left = $('#jumpFormField').offset().left;
+
+		if(left)
+		{
+			$('#ami_login_menu_content').css('right', (left - 24) + 'px');
+		}
+
+		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/
