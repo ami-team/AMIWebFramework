@@ -100,7 +100,7 @@
 	display: flex;
 	position: absolute;
 	top: 32px;
-	right: 508px;
+	right: 50%;
 	list-style: none;
 	z-index: 999;
 }

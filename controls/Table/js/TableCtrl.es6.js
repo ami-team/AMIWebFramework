@@ -93,12 +93,13 @@ $AMIClass('TableCtrl', {
 			mql: 'N/A',
 			ast: 'N/A',
 
+			maxNumberOfRows: Number.NaN,
 			totalNumberOfRows: Number.NaN,
 		};
 
 		const [
 			context,
-			enableCache, enableCount, showToolBar, showDetails, showTools, canEdit,
+			enableCache, enableCount, showPrimaryField, showToolBar, showDetails, showTools, canEdit,
 			catalog, entity, primaryField, rowset,
 			start, stop, orderBy, orderWay,
 			maxCellLength,
@@ -106,7 +107,7 @@ $AMIClass('TableCtrl', {
 		] = amiWebApp.setup(
 			[
 				'context',
-				'enableCache', 'enableCount', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
+				'enableCache', 'enableCount', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
 				'start', 'stop', 'orderBy', 'orderWay',
 				'maxCellLength',
@@ -114,7 +115,7 @@ $AMIClass('TableCtrl', {
 			],
 			[
 				result,
-				false, true, true, false, true, false,
+				false, true, true, true, false, true, false,
 				'', '', '', '',
 				1, 10, '', '',
 				64,
@@ -125,6 +126,8 @@ $AMIClass('TableCtrl', {
 
 		this.ctx.enableCache = enableCache;
 		this.ctx.enableCount = enableCount;
+
+		this.ctx.showPrimaryField = showPrimaryField;
 		this.ctx.showToolBar = showToolBar;
 		this.ctx.showDetails = showDetails;
 		this.ctx.showTools = showTools;
@@ -142,6 +145,19 @@ $AMIClass('TableCtrl', {
 		this.ctx.maxCellLength = maxCellLength;
 
 		this.ctx.card = card;
+
+		/*-----------------------------------------------------------------*/
+
+		this.ctx.ignoredFields = {
+			'ORACLE_ROWNUM': '',
+			'PROJECT': '',
+			'PROCESS': '',
+			'AMIENTITYNAME': '',
+			'AMIELEMENTID': '',
+			'AMICREATED': '',
+			'AMILASTMODIFIED': '',
+			'AMISYSDATE': ''
+		};
 
 		/*-----------------------------------------------------------------*/
 
@@ -567,8 +583,10 @@ $AMIClass('TableCtrl', {
 
 		amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '')).done((data) => {
 
-			this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
-			                                             : amiWebApp.jspath('..fieldDescription'                                                        , data)
+			/*-------------------------------------------------------------*/
+
+			const fieldDescriptions = this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
+			                                                                       : amiWebApp.jspath('..fieldDescription'                                                        , data)
 			;
 
 			const rowset = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)
@@ -584,7 +602,7 @@ $AMIClass('TableCtrl', {
 			this.ctx.maxNumberOfRows = parseInt(amiWebApp.jspath('..@maxNumberOfRows', rowset)[0] || '');
 			this.ctx.totalNumberOfRows = parseInt(amiWebApp.jspath('..@totalNumberOfRows', rowset)[0] || '');
 
-			/**/
+			/*-------------------------------------------------------------*/
 
 			if(this.ctx.sql === 'N/A') {
 				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).hide();
@@ -614,20 +632,27 @@ $AMIClass('TableCtrl', {
 				$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', false);
 			}
 
+			/*-------------------------------------------------------------*/
+
 			const dict = {
 				catalog: this.ctx.catalog,
 				entity: this.ctx.entity,
 				primaryField: this.ctx.primaryField,
+				ignoredFields: this.ctx.ignoredFields,
 				/**/
-				fieldDescriptions: this.ctx.fieldDescriptions,
+				fieldDescriptions: fieldDescriptions,
 				rows: rows,
 				/**/
+				showPrimaryField: this.ctx.showPrimaryField,
 				showToolBar: this.ctx.showToolBar,
 				showDetails: this.ctx.showDetails,
 				showTools: this.ctx.showTools,
+				canEdit: this.ctx.canEdit,
 				/**/
 				maxCellLength: this.ctx.maxCellLength,
 			};
+
+			/*-------------------------------------------------------------*/
 
 			this.replaceHTML(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.fragmentTable, {dict: dict}).done(() => {
 
@@ -783,6 +808,8 @@ $AMIClass('TableCtrl', {
 
 				/*---------------------------------------------------------*/
 			});
+
+			/*-------------------------------------------------------------*/
 
 		}).fail((data, message) => {
 
