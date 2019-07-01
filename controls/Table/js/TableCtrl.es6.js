@@ -93,6 +93,7 @@ $AMIClass('TableCtrl', {
 			mql: 'N/A',
 			ast: 'N/A',
 
+			maxNumberOfRows: Number.NaN,
 			totalNumberOfRows: Number.NaN,
 		};
 
@@ -144,6 +145,19 @@ $AMIClass('TableCtrl', {
 		this.ctx.maxCellLength = maxCellLength;
 
 		this.ctx.card = card;
+
+		/*-----------------------------------------------------------------*/
+
+		this.ctx.ignoredFields = {
+			'ORACLE_ROWNUM': '',
+			'PROJECT': '',
+			'PROCESS': '',
+			'AMIENTITYNAME': '',
+			'AMIELEMENTID': '',
+			'AMICREATED': '',
+			'AMILASTMODIFIED': '',
+			'AMISYSDATE': ''
+		};
 
 		/*-----------------------------------------------------------------*/
 
@@ -569,6 +583,8 @@ $AMIClass('TableCtrl', {
 
 		amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '')).done((data) => {
 
+			/*-------------------------------------------------------------*/
+
 			const fieldDescriptions = this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
 			                                                                       : amiWebApp.jspath('..fieldDescription'                                                        , data)
 			;
@@ -586,7 +602,7 @@ $AMIClass('TableCtrl', {
 			this.ctx.maxNumberOfRows = parseInt(amiWebApp.jspath('..@maxNumberOfRows', rowset)[0] || '');
 			this.ctx.totalNumberOfRows = parseInt(amiWebApp.jspath('..@totalNumberOfRows', rowset)[0] || '');
 
-			/**/
+			/*-------------------------------------------------------------*/
 
 			if(this.ctx.sql === 'N/A') {
 				$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).hide();
@@ -616,11 +632,13 @@ $AMIClass('TableCtrl', {
 				$(this.patchId('#B7979619_196F_F39D_A893_17E5EDAA8628')).prop('disabled', false);
 			}
 
+			/*-------------------------------------------------------------*/
+
 			const dict = {
 				catalog: this.ctx.catalog,
 				entity: this.ctx.entity,
 				primaryField: this.ctx.primaryField,
-				ignoredFields: {'ORACLE_ROWNUM': '', 'PROJECT': '', 'PROCESS': '', 'AMIENTITYNAME': '', 'AMIELEMENTID': '', 'AMICREATED': '', 'AMILASTMODIFIED': '', 'AMISYSDATE': ''},
+				ignoredFields: this.ctx.ignoredFields,
 				/**/
 				fieldDescriptions: fieldDescriptions,
 				rows: rows,
@@ -633,6 +651,8 @@ $AMIClass('TableCtrl', {
 				/**/
 				maxCellLength: this.ctx.maxCellLength,
 			};
+
+			/*-------------------------------------------------------------*/
 
 			this.replaceHTML(this.patchId('#FEF9E8D8_D4AB_B545_B394_C12DD5817D61'), this.fragmentTable, {dict: dict}).done(() => {
 
@@ -788,6 +808,8 @@ $AMIClass('TableCtrl', {
 
 				/*---------------------------------------------------------*/
 			});
+
+			/*-------------------------------------------------------------*/
 
 		}).fail((data, message) => {
 
