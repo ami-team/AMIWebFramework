@@ -98,7 +98,7 @@ $AMIClass('TableCtrl', {
 
 		const [
 			context,
-			enableCache, enableCount, showToolBar, showDetails, showTools, canEdit,
+			enableCache, enableCount, showPrimaryField, showToolBar, showDetails, showTools, canEdit,
 			catalog, entity, primaryField, rowset,
 			start, stop, orderBy, orderWay,
 			maxCellLength,
@@ -106,7 +106,7 @@ $AMIClass('TableCtrl', {
 		] = amiWebApp.setup(
 			[
 				'context',
-				'enableCache', 'enableCount', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
+				'enableCache', 'enableCount', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
 				'start', 'stop', 'orderBy', 'orderWay',
 				'maxCellLength',
@@ -114,7 +114,7 @@ $AMIClass('TableCtrl', {
 			],
 			[
 				result,
-				false, true, true, false, true, false,
+				false, true, true, true, false, true, false,
 				'', '', '', '',
 				1, 10, '', '',
 				64,
@@ -125,6 +125,8 @@ $AMIClass('TableCtrl', {
 
 		this.ctx.enableCache = enableCache;
 		this.ctx.enableCount = enableCount;
+
+		this.ctx.showPrimaryField = showPrimaryField;
 		this.ctx.showToolBar = showToolBar;
 		this.ctx.showDetails = showDetails;
 		this.ctx.showTools = showTools;
@@ -567,8 +569,8 @@ $AMIClass('TableCtrl', {
 
 		amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '')).done((data) => {
 
-			this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
-			                                             : amiWebApp.jspath('..fieldDescription'                                                        , data)
+			const fieldDescriptions = this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
+			                                                                       : amiWebApp.jspath('..fieldDescription'                                                        , data)
 			;
 
 			const rowset = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)
@@ -618,13 +620,16 @@ $AMIClass('TableCtrl', {
 				catalog: this.ctx.catalog,
 				entity: this.ctx.entity,
 				primaryField: this.ctx.primaryField,
+				ignoredFields: {'ORACLE_ROWNUM': '', 'PROJECT': '', 'PROCESS': '', 'AMIENTITYNAME': '', 'AMIELEMENTID': '', 'AMICREATED': '', 'AMILASTMODIFIED': '', 'AMISYSDATE': ''},
 				/**/
-				fieldDescriptions: this.ctx.fieldDescriptions,
+				fieldDescriptions: fieldDescriptions,
 				rows: rows,
 				/**/
+				showPrimaryField: this.ctx.showPrimaryField,
 				showToolBar: this.ctx.showToolBar,
 				showDetails: this.ctx.showDetails,
 				showTools: this.ctx.showTools,
+				canEdit: this.ctx.canEdit,
 				/**/
 				maxCellLength: this.ctx.maxCellLength,
 			};

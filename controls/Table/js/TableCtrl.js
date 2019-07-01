@@ -74,27 +74,29 @@ $AMIClass('TableCtrl', {
       totalNumberOfRows: Number.NaN
     };
 
-    var _amiWebApp$setup = amiWebApp.setup(['context', 'enableCache', 'enableCount', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'catalog', 'entity', 'primaryField', 'rowset', 'start', 'stop', 'orderBy', 'orderWay', 'maxCellLength', 'card'], [result, false, true, true, false, true, false, '', '', '', '', 1, 10, '', '', 64, false], settings),
+    var _amiWebApp$setup = amiWebApp.setup(['context', 'enableCache', 'enableCount', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'catalog', 'entity', 'primaryField', 'rowset', 'start', 'stop', 'orderBy', 'orderWay', 'maxCellLength', 'card'], [result, false, true, true, true, false, true, false, '', '', '', '', 1, 10, '', '', 64, false], settings),
         context = _amiWebApp$setup[0],
         enableCache = _amiWebApp$setup[1],
         enableCount = _amiWebApp$setup[2],
-        showToolBar = _amiWebApp$setup[3],
-        showDetails = _amiWebApp$setup[4],
-        showTools = _amiWebApp$setup[5],
-        canEdit = _amiWebApp$setup[6],
-        catalog = _amiWebApp$setup[7],
-        entity = _amiWebApp$setup[8],
-        primaryField = _amiWebApp$setup[9],
-        rowset = _amiWebApp$setup[10],
-        start = _amiWebApp$setup[11],
-        stop = _amiWebApp$setup[12],
-        orderBy = _amiWebApp$setup[13],
-        orderWay = _amiWebApp$setup[14],
-        maxCellLength = _amiWebApp$setup[15],
-        card = _amiWebApp$setup[16];
+        showPrimaryField = _amiWebApp$setup[3],
+        showToolBar = _amiWebApp$setup[4],
+        showDetails = _amiWebApp$setup[5],
+        showTools = _amiWebApp$setup[6],
+        canEdit = _amiWebApp$setup[7],
+        catalog = _amiWebApp$setup[8],
+        entity = _amiWebApp$setup[9],
+        primaryField = _amiWebApp$setup[10],
+        rowset = _amiWebApp$setup[11],
+        start = _amiWebApp$setup[12],
+        stop = _amiWebApp$setup[13],
+        orderBy = _amiWebApp$setup[14],
+        orderWay = _amiWebApp$setup[15],
+        maxCellLength = _amiWebApp$setup[16],
+        card = _amiWebApp$setup[17];
 
     this.ctx.enableCache = enableCache;
     this.ctx.enableCount = enableCount;
+    this.ctx.showPrimaryField = showPrimaryField;
     this.ctx.showToolBar = showToolBar;
     this.ctx.showDetails = showDetails;
     this.ctx.showTools = showTools;
@@ -401,7 +403,7 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
     amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '')).done(function (data) {
-      _this5.ctx.fieldDescriptions = _this5.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + _this5.ctx.rowset + '"}.fieldDescription', data) : amiWebApp.jspath('..fieldDescription', data);
+      var fieldDescriptions = _this5.ctx.fieldDescriptions = _this5.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + _this5.ctx.rowset + '"}.fieldDescription', data) : amiWebApp.jspath('..fieldDescription', data);
       var rowset = _this5.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + _this5.ctx.rowset + '"}"', data) : amiWebApp.jspath('..rowset', data);
       var rows = amiWebApp.jspath('.row', rowset);
       _this5.ctx.sql = amiWebApp.jspath('.@sql', rowset)[0] || 'N/A';
@@ -439,15 +441,27 @@ $AMIClass('TableCtrl', {
         catalog: _this5.ctx.catalog,
         entity: _this5.ctx.entity,
         primaryField: _this5.ctx.primaryField,
+        ignoredFields: {
+          'ORACLE_ROWNUM': '',
+          'PROJECT': '',
+          'PROCESS': '',
+          'AMIENTITYNAME': '',
+          'AMIELEMENTID': '',
+          'AMICREATED': '',
+          'AMILASTMODIFIED': '',
+          'AMISYSDATE': ''
+        },
 
         /**/
-        fieldDescriptions: _this5.ctx.fieldDescriptions,
+        fieldDescriptions: fieldDescriptions,
         rows: rows,
 
         /**/
+        showPrimaryField: _this5.ctx.showPrimaryField,
         showToolBar: _this5.ctx.showToolBar,
         showDetails: _this5.ctx.showDetails,
         showTools: _this5.ctx.showTools,
+        canEdit: _this5.ctx.canEdit,
 
         /**/
         maxCellLength: _this5.ctx.maxCellLength
