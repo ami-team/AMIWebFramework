@@ -585,10 +585,10 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			const fieldDescriptions = this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
-			                                                                       : amiWebApp.jspath('..fieldDescription'                                                        , data)
+			const fieldDescriptions = this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}[0].fieldDescription', data)
+			                                                                       : amiWebApp.jspath('..fieldDescriptions[0].fieldDescription'                                      , data)
 			;
-alert(JSON.stringify(fieldDescriptions));
+
 			const rowset = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)
 			                               : amiWebApp.jspath('..rowset'                                     , data)
 			;
