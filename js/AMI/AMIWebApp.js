@@ -1477,9 +1477,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				{
 					/*-----------------------------------------------------*/
 
-					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).done((data3) => {
+					let data3 = '';
 
-						$('body').prepend('<div id="ami_login_menu_content"></div><div id="ami_alert_content"></div>' + data3).promise().done(() => {
+					if($('#ami_alert_content').length === 0) {
+						data3 += '<div id="ami_alert_content"></div>';
+					}
+
+					if($('#ami_login_menu_content').length === 0) {
+						data3 += '<div id="ami_login_menu_content"></div>';
+					}
+
+					/*-----------------------------------------------------*/
+
+					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).done((data4) => {
+
+						$('body').prepend(data3 + data4).promise().done(() => {
 
 							this.lock();
 
