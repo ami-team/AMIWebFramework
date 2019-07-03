@@ -585,8 +585,8 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			const fieldDescriptions = this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)
-			                                                                       : amiWebApp.jspath('..fieldDescription'                                                        , data)
+			const fieldDescriptions = this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}.fieldDescription', data)[0] || []
+			                                                                       : amiWebApp.jspath('..fieldDescription'                                                        , data)[0] || []
 			;
 
 			const rowset = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)

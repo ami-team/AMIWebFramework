@@ -417,7 +417,7 @@ $AMIClass('TableCtrl', {
 
     amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '')).done(function (data) {
       /*-------------------------------------------------------------*/
-      var fieldDescriptions = _this5.ctx.fieldDescriptions = _this5.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + _this5.ctx.rowset + '"}.fieldDescription', data) : amiWebApp.jspath('..fieldDescription', data);
+      var fieldDescriptions = _this5.ctx.fieldDescriptions = _this5.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + _this5.ctx.rowset + '"}.fieldDescription', data)[0] || [] : amiWebApp.jspath('..fieldDescription', data)[0] || [];
       var rowset = _this5.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + _this5.ctx.rowset + '"}"', data) : amiWebApp.jspath('..rowset', data);
       var rows = amiWebApp.jspath('.row', rowset);
       _this5.ctx.sql = amiWebApp.jspath('.@sql', rowset)[0] || 'N/A';
