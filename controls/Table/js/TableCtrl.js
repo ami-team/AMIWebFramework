@@ -425,7 +425,7 @@ $AMIClass('TableCtrl', {
         return x['fieldDescription'] || [];
       });
       var listOfRowSetName = rowSet.map(function (x) {
-        return rowSet['@type'] || 'result';
+        return x['@type'] || 'result';
       });
       var listOfRows = rowSet.map(function (x) {
         return x['row'] || [];
@@ -484,9 +484,6 @@ $AMIClass('TableCtrl', {
       var dict = {
         primaryField: _this5.ctx.primaryField,
         ignoredFields: _this5.ctx.ignoredFields,
-
-        /**/
-        numberOfRowSets: Math.min(listOfFieldDescriptions.length, listOfRows.length),
 
         /**/
         listOfFieldDescriptions: listOfFieldDescriptions,

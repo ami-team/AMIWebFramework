@@ -597,11 +597,10 @@ $AMIClass('TableCtrl', {
 
 			const listOfFieldDescriptions = fieldDescriptionSet.map(x => x['fieldDescription'] || []);
 
-			const listOfRowSetName = rowSet.map(x => rowSet['@type'] || 'result');
+			const listOfRowSetName = rowSet.map(x => x['@type'] || 'result');
 
 			const listOfRows = rowSet.map(x => x['row'] || []);
 
-alert(JSON.stringify(listOfRowSetName));
 			/*-------------------------------------------------------------*/
 
 			this.ctx.sql = amiWebApp.jspath('.@sql', rowSet)[0] || 'N/A';
