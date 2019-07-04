@@ -1,5 +1,5 @@
+<table class="table table-sm table-striped table-bordered">
 {% for i in range(0, numberOfRowSets - 1) %}
-	{# --------------------------------------------------------------------#}
 
 	{% set fieldDescriptions = listOfFieldDescriptions[i] %}
 
@@ -13,9 +13,6 @@
 	{%   endif %}
 	{% endfor %}
 
-	{# --------------------------------------------------------------------#}
-
-<table class="table table-sm table-striped table-bordered">
 	<!-- **************************************************************** -->
 	<thead>
 		<tr>
@@ -161,7 +158,5 @@
 		{% endif %}
 	</tbody>
 	<!-- **************************************************************** -->
-</table>
-
-	{# --------------------------------------------------------------------#}
 {% endfor %}
+</table>
