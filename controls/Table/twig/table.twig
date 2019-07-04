@@ -1,12 +1,12 @@
 {% if listOfRowSetName.length > 1 %}
 <ul class="nav nav-tabs" role="tablist" style="margin-bottom: -1px;">
-	{% for i in range(0, numberOfRowSets - 1) %}
-	<li class="nav-item"><a class="nav-link px-2 py-1 {% if loop.first%}active{% else %}xxxxx{% endif %}" href="#CC05FC77_9364_97FB_E575_BE8190DCC295_{{i}}" role="tab" data-toggle="tab">{{numberOfRowSets[i]|e}}</a></li>
+	{% for rowSetName in listOfRowSetName %}
+	<li class="nav-item"><a class="nav-link px-2 py-1 {% if loop.first%}active{% else %}xxxxx{% endif %}" href="#CC05FC77_9364_97FB_E575_BE8190DCC295_{{loop.index0}}" role="tab" data-toggle="tab">{{rowSetName|e}}</a></li>
 	{% endfor %}
 </ul>
 {% endif %}
 <div class="tab-content">
-{% for i in range(0, numberOfRowSets - 1) %}
+{% for i in range(0, listOfRows.length - 1) %}
 
 	{% set fieldDescriptions = listOfFieldDescriptions[i] %}
 

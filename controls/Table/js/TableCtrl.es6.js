@@ -651,7 +651,7 @@ $AMIClass('TableCtrl', {
 				primaryField: this.ctx.primaryField,
 				ignoredFields: this.ctx.ignoredFields,
 				/**/
-				numberOfRowSets: Math.min(listOfFieldDescriptions.length, listOfRows.length),
+				numberOfRowSets: Math.min(listOfFieldDescriptions.length, listOfRowSetName.length, listOfRows.length),
 				/**/
 				listOfFieldDescriptions: listOfFieldDescriptions,
 				listOfRowSetName: listOfRowSetName,
