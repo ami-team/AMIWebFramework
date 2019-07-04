@@ -23,7 +23,7 @@
 								<a href="#" data-action="filter" data-filter-def="{{field.$|slice(8)|e}}">
 									<i class="fa fa-link"></i>
 								</a>
-								{% elseif field.$ === '@NOGO' %}
+								{% elseif field.$ starts with '@NOGO' %}
 								<div class="font-italic text-danger">admin only</div>
 								{% else %}
 								<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"

@@ -585,22 +585,34 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			const fieldDescriptions = this.ctx.fieldDescriptions = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}[0].fieldDescription', data)
-			                                                                       : amiWebApp.jspath('..fieldDescriptions[0].fieldDescription'                                      , data)
+			const fieldDescriptionSet = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}', data)
+			                                            : amiWebApp.jspath('..fieldDescriptions'                                      , data)
 			;
 
-			const rowset = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)
+			const rowSet = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)
 			                               : amiWebApp.jspath('..rowset'                                     , data)
 			;
 
-			const rows = amiWebApp.jspath('.row', rowset);
+			/*-------------------------------------------------------------*/
 
-			this.ctx.sql = amiWebApp.jspath('.@sql', rowset)[0] || 'N/A';
-			this.ctx.mql = amiWebApp.jspath('.@mql', rowset)[0] || 'N/A';
-			this.ctx.ast = amiWebApp.jspath('.@ast', rowset)[0] || 'N/A';
+			const listOfFieldDescriptions = fieldDescriptionSet.map(x => x.fieldDescription);
 
-			this.ctx.maxNumberOfRows = parseInt(amiWebApp.jspath('..@maxNumberOfRows', rowset)[0] || '');
-			this.ctx.totalNumberOfRows = parseInt(amiWebApp.jspath('..@totalNumberOfRows', rowset)[0] || '');
+			const /*---*/listOfRows/*---*/ = /*---*/rowSet/*---*/.map(x => x./*--*/row/*--*/);
+
+			/*-------------------------------------------------------------*/
+
+			this.ctx.sql = amiWebApp.jspath('.@sql', rowSet)[0] || 'N/A';
+			this.ctx.mql = amiWebApp.jspath('.@mql', rowSet)[0] || 'N/A';
+			this.ctx.ast = amiWebApp.jspath('.@ast', rowSet)[0] || 'N/A';
+
+
+			this.ctx.numberOfRows = listOfRows.map(x => x.length).reduce((x, y) => x + y, 0);
+			this.ctx.maxNumberOfRows = amiWebApp.jspath('..@maxNumberOfRows', rowSet).map(x => parseInt(x)).reduce((x, y) => x + y, 0);
+			this.ctx.totalNumberOfRows = amiWebApp.jspath('..@totalNumberOfRows', rowSet).map(x => parseInt(x)).reduce((x, y) => x + y, 0);
+
+			/*-------------------------------------------------------------*/
+
+			this.ctx.fieldDescriptions = listOfFieldDescriptions;
 
 			/*-------------------------------------------------------------*/
 
@@ -635,13 +647,13 @@ $AMIClass('TableCtrl', {
 			/*-------------------------------------------------------------*/
 
 			const dict = {
-				catalog: this.ctx.catalog,
-				entity: this.ctx.entity,
 				primaryField: this.ctx.primaryField,
 				ignoredFields: this.ctx.ignoredFields,
 				/**/
-				fieldDescriptions: fieldDescriptions,
-				rows: rows,
+				numberOfRowSets: Math.min(listOfFieldDescriptions.length, listOfRows.length),
+				/**/
+				listOfFieldDescriptions: listOfFieldDescriptions,
+				listOfRows: listOfRows,
 				/**/
 				showPrimaryField: this.ctx.showPrimaryField,
 				showToolBar: this.ctx.showToolBar,
@@ -775,8 +787,8 @@ $AMIClass('TableCtrl', {
 
 				const numbers = [];
 
-				if(!Number.isNaN(rows.length)) {
-					numbers.push('shown: ' + rows.length);
+				if(!Number.isNaN(this.ctx.numberOfRows)) {
+					numbers.push('shown: ' + this.ctx.numberOfRows);
 				}
 
 				if(!Number.isNaN(this.ctx.totalNumberOfRows)) {
@@ -804,7 +816,7 @@ $AMIClass('TableCtrl', {
 
 				amiWebApp.unlock();
 
-				result.resolveWith(context, [this.ctx.fieldDescriptions, rows, this.ctx.sql, this.ctx.mql, this.ctx.ast, this.ctx.totalNumberOfRows]);
+				result.resolveWith(context, [listOfFieldDescriptions, listOfRows, this.ctx.sql, this.ctx.mql, this.ctx.ast, this.ctx.totalNumberOfRows]);
 
 				/*---------------------------------------------------------*/
 			});

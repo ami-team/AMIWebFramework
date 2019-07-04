@@ -1,10 +1,19 @@
-{% set primaryIdx = -1 %}
+{% for i in range(0, numberOfRowSets - 1) %}
+	{# --------------------------------------------------------------------#}
 
-{% for fieldDescription in fieldDescriptions %}
-{%   if fieldDescription['@field'] === primaryField %}
-{%     set primaryIdx = loop.index0 %}
-{%   endif %}
-{% endfor %}
+	{% set fieldDescriptions = listOfFieldDescriptions[i] %}
+
+	{% set rows = listOfRows[i] %}
+
+	{% set primaryIdx = -1 %}
+
+	{% for fieldDescription in fieldDescriptions %}
+	{%   if fieldDescription['@field'] === primaryField %}
+	{%     set primaryIdx = loop.index0 %}
+	{%   endif %}
+	{% endfor %}
+
+	{# --------------------------------------------------------------------#}
 
 <table class="table table-sm table-striped table-bordered">
 	<!-- **************************************************************** -->
@@ -82,30 +91,30 @@
 				<a href="#" data-action="filter" data-filter-def="{{field.$|slice(8)|e}}">
 					<i class="fa fa-link"></i>
 				</a>
-				{% elseif field.$ === '@NOGO' %}
+				{% elseif field.$ starts with '@NOGO' %}
 				<div class="font-italic text-danger">admin only</div>
 				{% else %}
 				<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
-				     {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
-				     {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
-				     {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
-				     {%   if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
-				     {%   if field['properties']['@unitFactor'] %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
-				     {%   if field['properties']['@unitBase'] %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
-				     {%   if field['properties']['@humanReadable'] %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
-				     data-val="{{field.$|e}}"
-				     {% endif %}
-				     {% if primaryIdx >= 0 and fieldDescriptions[loop.index0]['@automatic'] !== 'true' and fieldDescriptions[loop.index0]['@created'] !== 'true' and fieldDescriptions[loop.index0]['@createdBy'] !== 'true' and fieldDescriptions[loop.index0]['@modified'] !== 'true' and fieldDescriptions[loop.index0]['@modifiedBy'] !== 'true' %}
-				     data-action="edit-row"
-				     data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
-				     data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}"
-				     data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
-				     data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
-				     data-primary-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}"
-				     data-primary-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}"
-				     data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}"
-				     data-primary-value="{{row.field[primaryIdx].$|e}}"
-				     {% endif %}
+					 {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
+					 {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
+					 {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
+					 {%   if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
+					 {%   if field['properties']['@unitFactor'] %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
+					 {%   if field['properties']['@unitBase'] %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
+					 {%   if field['properties']['@humanReadable'] %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
+					 data-val="{{field.$|e}}"
+					 {% endif %}
+					 {% if primaryIdx >= 0 and fieldDescriptions[loop.index0]['@automatic'] !== 'true' and fieldDescriptions[loop.index0]['@created'] !== 'true' and fieldDescriptions[loop.index0]['@createdBy'] !== 'true' and fieldDescriptions[loop.index0]['@modified'] !== 'true' and fieldDescriptions[loop.index0]['@modifiedBy'] !== 'true' %}
+					 data-action="edit-row"
+					 data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
+					 data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}"
+					 data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
+					 data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
+					 data-primary-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}"
+					 data-primary-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}"
+					 data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}"
+					 data-primary-value="{{row.field[primaryIdx].$|e}}"
+					 {% endif %}
 				>
 					{% if fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
 					{%   if (field.$|length) > maxCellLength %}
@@ -119,7 +128,7 @@
 					{%   else %}
 					<i class="fa fa-search-plus text-danger"></i> {{fieldDescriptions[loop.index0]['@mime']|e}}
 					{%   endif %}
-				     {% endif %}
+					 {% endif %}
 				</div>
 				{%   if field['links'] is defined %}
 				{%     for link in field['links'] %}
@@ -147,9 +156,12 @@
 		{%   endfor %}
 		{% else %}
 		<tr>
-			<td class="text-center text-warning" colspan="100">empty table</td>
+			<td class="text-center text-warning" colspan="999">empty table</td>
 		</tr>
 		{% endif %}
 	</tbody>
 	<!-- **************************************************************** -->
 </table>
+
+	{# --------------------------------------------------------------------#}
+{% endfor %}

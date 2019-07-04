@@ -417,14 +417,51 @@ $AMIClass('TableCtrl', {
 
     amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '')).done(function (data) {
       /*-------------------------------------------------------------*/
-      var fieldDescriptions = _this5.ctx.fieldDescriptions = _this5.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + _this5.ctx.rowset + '"}[0].fieldDescription', data) : amiWebApp.jspath('..fieldDescriptions[0].fieldDescription', data);
-      var rowset = _this5.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + _this5.ctx.rowset + '"}"', data) : amiWebApp.jspath('..rowset', data);
-      var rows = amiWebApp.jspath('.row', rowset);
-      _this5.ctx.sql = amiWebApp.jspath('.@sql', rowset)[0] || 'N/A';
-      _this5.ctx.mql = amiWebApp.jspath('.@mql', rowset)[0] || 'N/A';
-      _this5.ctx.ast = amiWebApp.jspath('.@ast', rowset)[0] || 'N/A';
-      _this5.ctx.maxNumberOfRows = parseInt(amiWebApp.jspath('..@maxNumberOfRows', rowset)[0] || '');
-      _this5.ctx.totalNumberOfRows = parseInt(amiWebApp.jspath('..@totalNumberOfRows', rowset)[0] || '');
+      var fieldDescriptionSet = _this5.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + _this5.ctx.rowset + '"}', data) : amiWebApp.jspath('..fieldDescriptions', data);
+      var rowSet = _this5.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + _this5.ctx.rowset + '"}"', data) : amiWebApp.jspath('..rowset', data);
+      /*-------------------------------------------------------------*/
+
+      var listOfFieldDescriptions = fieldDescriptionSet.map(function (x) {
+        return x.fieldDescription;
+      });
+      var
+      /*---*/
+      listOfRows
+      /*---*/
+      =
+      /*---*/
+      rowSet
+      /*---*/
+      .map(function (x) {
+        return x.
+        /*--*/
+        row;
+      }
+      /*--*/
+      );
+      /*-------------------------------------------------------------*/
+
+      _this5.ctx.sql = amiWebApp.jspath('.@sql', rowSet)[0] || 'N/A';
+      _this5.ctx.mql = amiWebApp.jspath('.@mql', rowSet)[0] || 'N/A';
+      _this5.ctx.ast = amiWebApp.jspath('.@ast', rowSet)[0] || 'N/A';
+      _this5.ctx.numberOfRows = listOfRows.map(function (x) {
+        return x.length;
+      }).reduce(function (x, y) {
+        return x + y;
+      }, 0);
+      _this5.ctx.maxNumberOfRows = amiWebApp.jspath('..@maxNumberOfRows', rowSet).map(function (x) {
+        return parseInt(x);
+      }).reduce(function (x, y) {
+        return x + y;
+      }, 0);
+      _this5.ctx.totalNumberOfRows = amiWebApp.jspath('..@totalNumberOfRows', rowSet).map(function (x) {
+        return parseInt(x);
+      }).reduce(function (x, y) {
+        return x + y;
+      }, 0);
+      /*-------------------------------------------------------------*/
+
+      _this5.ctx.fieldDescriptions = listOfFieldDescriptions;
       /*-------------------------------------------------------------*/
 
       if (_this5.ctx.sql === 'N/A') {
@@ -454,14 +491,15 @@ $AMIClass('TableCtrl', {
 
 
       var dict = {
-        catalog: _this5.ctx.catalog,
-        entity: _this5.ctx.entity,
         primaryField: _this5.ctx.primaryField,
         ignoredFields: _this5.ctx.ignoredFields,
 
         /**/
-        fieldDescriptions: fieldDescriptions,
-        rows: rows,
+        numberOfRowSets: Math.min(listOfFieldDescriptions.length, listOfRows.length),
+
+        /**/
+        listOfFieldDescriptions: listOfFieldDescriptions,
+        listOfRows: listOfRows,
 
         /**/
         showPrimaryField: _this5.ctx.showPrimaryField,
@@ -571,8 +609,8 @@ $AMIClass('TableCtrl', {
 
         var numbers = [];
 
-        if (!Number.isNaN(rows.length)) {
-          numbers.push('shown: ' + rows.length);
+        if (!Number.isNaN(_this5.ctx.numberOfRows)) {
+          numbers.push('shown: ' + _this5.ctx.numberOfRows);
         }
 
         if (!Number.isNaN(_this5.ctx.totalNumberOfRows)) {
@@ -592,7 +630,7 @@ $AMIClass('TableCtrl', {
         /*---------------------------------------------------------*/
 
         amiWebApp.unlock();
-        result.resolveWith(context, [_this5.ctx.fieldDescriptions, rows, _this5.ctx.sql, _this5.ctx.mql, _this5.ctx.ast, _this5.ctx.totalNumberOfRows]);
+        result.resolveWith(context, [listOfFieldDescriptions, listOfRows, _this5.ctx.sql, _this5.ctx.mql, _this5.ctx.ast, _this5.ctx.totalNumberOfRows]);
         /*---------------------------------------------------------*/
       });
       /*-------------------------------------------------------------*/
