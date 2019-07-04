@@ -1,6 +1,6 @@
 <ul class="nav nav-tabs" role="tablist" style="margin-bottom: -1px;">
 {% for i in range(0, numberOfRowSets - 1) %}
-	<li class="nav-item"><a class="nav-link active" href="#CC05FC77_9364_97FB_E575_BE8190DCC295_{{i}}" role="tab" data-toggle="tab">???</a></li>
+	<li class="nav-item"><a class="nav-link {% if loop.first%}active{% else %}xxxxx{% endif %}" href="#CC05FC77_9364_97FB_E575_BE8190DCC295_{{i}}" role="tab" data-toggle="tab">???</a></li>
 {% endfor %}
 </ul>
 <div class="tab-content">
