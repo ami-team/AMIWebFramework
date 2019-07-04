@@ -1,7 +1,7 @@
 {% if listOfRowSetName.length > 1 %}
 <ul class="nav nav-tabs" role="tablist" style="margin-bottom: -1px;">
 	{% for rowSetName in listOfRowSetName %}
-	<li class="nav-item"><a class="nav-link px-2 py-1 {% if loop.first%}active{% else %}xxxxx{% endif %}" href="#CC05FC77_9364_97FB_E575_BE8190DCC295_{{loop.index0}}" role="tab" data-toggle="tab">{{rowSetName|e}}</a></li>
+	<li class="nav-item"><a class="nav-link px-2 py-1 {% if loop.index0 === currentTabIndex %}active{% else %}xxxxx{% endif %}" href="#CC05FC77_9364_97FB_E575_BE8190DCC295_{{loop.index0}}" role="tab" data-toggle="tab" data-tab-index="{{loop.index0}}">{{rowSetName|e}}</a></li>
 	{% endfor %}
 </ul>
 {% endif %}
@@ -21,7 +21,7 @@
 	{% endfor %}
 
 	<!-- **************************************************************** -->
-	<table class="table table-sm table-striped table-bordered tab-pane {% if loop.first%}active show{% else %}xxxxx xxxx{% endif %}" id="CC05FC77_9364_97FB_E575_BE8190DCC295_{{i}}">
+	<table class="table table-sm table-striped table-bordered tab-pane {% if loop.index0 === currentTabIndex %}active show{% else %}xxxxx xxxx{% endif %}" id="CC05FC77_9364_97FB_E575_BE8190DCC295_{{i}}">
 		<thead>
 			<tr>
 				<!-- **************************************************** -->

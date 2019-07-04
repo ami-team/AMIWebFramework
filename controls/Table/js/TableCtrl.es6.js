@@ -86,15 +86,11 @@ $AMIClass('TableCtrl', {
 
 			/**/
 
-			fieldInfo: [],
-			fieldDescriptions: [],
-
 			sql: 'N/A',
 			mql: 'N/A',
 			ast: 'N/A',
 
-			maxNumberOfRows: Number.NaN,
-			totalNumberOfRows: Number.NaN,
+			currentTabIndex: 0,
 		};
 
 		const [
@@ -613,7 +609,7 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			this.ctx.fieldDescriptions = listOfFieldDescriptions;
+			this.ctx.listOfFieldDescriptions = listOfFieldDescriptions;
 
 			/*-------------------------------------------------------------*/
 
@@ -655,13 +651,15 @@ $AMIClass('TableCtrl', {
 				listOfRowSetName: listOfRowSetName,
 				listOfRows: listOfRows,
 				/**/
+				currentTabIndex: this.ctx.currentTabIndex,
+				/**/
+				maxCellLength: this.ctx.maxCellLength,
+				/**/
 				showPrimaryField: this.ctx.showPrimaryField,
 				showToolBar: this.ctx.showToolBar,
 				showDetails: this.ctx.showDetails,
 				showTools: this.ctx.showTools,
 				canEdit: this.ctx.canEdit,
-				/**/
-				maxCellLength: this.ctx.maxCellLength,
 			};
 
 			/*-------------------------------------------------------------*/
@@ -739,6 +737,15 @@ $AMIClass('TableCtrl', {
 						,
 						e.currentTarget.getAttribute('data-field')
 					);
+				});
+
+				/*---------------------------------------------------------*/
+				/* ROWSETS                                                 */
+				/*---------------------------------------------------------*/
+
+				parent.find('[data-tab-index]').click((e) => {
+
+					this.currentTabIndex = e.currentTarget.getAttribute('data-tab-index');
 				});
 
 				/*---------------------------------------------------------*/
@@ -962,7 +969,7 @@ $AMIClass('TableCtrl', {
 
 		const isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
 
-		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
+		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.listOfFieldDescriptions[this.ctx.currentTabIndex], isMQL);
 
 		const column = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
 
@@ -1078,7 +1085,7 @@ $AMIClass('TableCtrl', {
 
 		const isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
 
-		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
+		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.listOfFieldDescriptions[this.ctx.currentTabIndex], isMQL);
 
 		/*-----------------------------------------------------------------*/
 
@@ -1124,7 +1131,7 @@ $AMIClass('TableCtrl', {
 
 		const isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
 
-		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
+		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.listOfFieldDescriptions[this.ctx.currentTabIndex], isMQL);
 
 		const columnName = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
 
@@ -1178,7 +1185,7 @@ $AMIClass('TableCtrl', {
 
 		const isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
 
-		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
+		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.listOfFieldDescriptions[this.ctx.currentTabIndex], isMQL);
 
 		const columnName = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
 

@@ -66,13 +66,10 @@ $AMIClass('TableCtrl', {
       command: command.trim(),
 
       /**/
-      fieldInfo: [],
-      fieldDescriptions: [],
       sql: 'N/A',
       mql: 'N/A',
       ast: 'N/A',
-      maxNumberOfRows: Number.NaN,
-      totalNumberOfRows: Number.NaN
+      currentTabIndex: 0
     };
 
     var _amiWebApp$setup = amiWebApp.setup(['context', 'enableCache', 'enableCount', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit', 'catalog', 'entity', 'primaryField', 'rowset', 'start', 'stop', 'orderBy', 'orderWay', 'maxCellLength', 'card'], [result, false, true, true, true, false, true, false, '', '', '', '', 1, 10, '', '', 64, false], settings),
@@ -452,7 +449,7 @@ $AMIClass('TableCtrl', {
       }, 0);
       /*-------------------------------------------------------------*/
 
-      _this5.ctx.fieldDescriptions = listOfFieldDescriptions;
+      _this5.ctx.listOfFieldDescriptions = listOfFieldDescriptions;
       /*-------------------------------------------------------------*/
 
       if (_this5.ctx.sql === 'N/A') {
@@ -491,14 +488,17 @@ $AMIClass('TableCtrl', {
         listOfRows: listOfRows,
 
         /**/
+        currentTabIndex: _this5.ctx.currentTabIndex,
+
+        /**/
+        maxCellLength: _this5.ctx.maxCellLength,
+
+        /**/
         showPrimaryField: _this5.ctx.showPrimaryField,
         showToolBar: _this5.ctx.showToolBar,
         showDetails: _this5.ctx.showDetails,
         showTools: _this5.ctx.showTools,
-        canEdit: _this5.ctx.canEdit,
-
-        /**/
-        maxCellLength: _this5.ctx.maxCellLength
+        canEdit: _this5.ctx.canEdit
       };
       /*-------------------------------------------------------------*/
 
@@ -548,6 +548,15 @@ $AMIClass('TableCtrl', {
           e.preventDefault();
 
           _this5.showGroupTab(e.currentTarget.getAttribute('data-catalog'), e.currentTarget.getAttribute('data-entity'), e.currentTarget.getAttribute('data-field'));
+        });
+        /*---------------------------------------------------------*/
+
+        /* ROWSETS                                                 */
+
+        /*---------------------------------------------------------*/
+
+        parent.find('[data-tab-index]').click(function (e) {
+          _this5.currentTabIndex = e.currentTarget.getAttribute('data-tab-index');
         });
         /*---------------------------------------------------------*/
 
@@ -735,7 +744,7 @@ $AMIClass('TableCtrl', {
 
     /*-----------------------------------------------------------------*/
     var isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
-    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
+    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.listOfFieldDescriptions[this.ctx.currentTabIndex], isMQL);
 
     var column = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
     /*-----------------------------------------------------------------*/
@@ -837,7 +846,7 @@ $AMIClass('TableCtrl', {
     /*-----------------------------------------------------------------*/
 
     var isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
-    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
+    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.listOfFieldDescriptions[this.ctx.currentTabIndex], isMQL);
     /*-----------------------------------------------------------------*/
 
     if (regions['WHERE']) {
@@ -873,7 +882,7 @@ $AMIClass('TableCtrl', {
   showStatsTab: function showStatsTab(catalog, entity, field) {
     /*-----------------------------------------------------------------*/
     var isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
-    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
+    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.listOfFieldDescriptions[this.ctx.currentTabIndex], isMQL);
 
     var columnName = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
     /*-----------------------------------------------------------------*/
@@ -911,7 +920,7 @@ $AMIClass('TableCtrl', {
   showGroupTab: function showGroupTab(catalog, entity, field) {
     /*-----------------------------------------------------------------*/
     var isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
-    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.fieldDescriptions, isMQL);
+    var regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.listOfFieldDescriptions[this.ctx.currentTabIndex], isMQL);
 
     var columnName = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
     /*-----------------------------------------------------------------*/
