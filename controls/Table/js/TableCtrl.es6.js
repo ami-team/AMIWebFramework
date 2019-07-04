@@ -595,16 +595,17 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			const listOfFieldDescriptions = fieldDescriptionSet.map(x => x.fieldDescription);
+			const listOfFieldDescriptions = fieldDescriptionSet.map(x => x['fieldDescription'] || []);
 
-			const /*---*/listOfRows/*---*/ = /*---*/rowSet/*---*/.map(x => x./*--*/row/*--*/);
+			const listOfRowSetName = rowSet.map(x => rowSet['@type'] || 'result');
+
+			const listOfRows = rowSet.map(x => x['row'] || []);
 
 			/*-------------------------------------------------------------*/
 
 			this.ctx.sql = amiWebApp.jspath('.@sql', rowSet)[0] || 'N/A';
 			this.ctx.mql = amiWebApp.jspath('.@mql', rowSet)[0] || 'N/A';
 			this.ctx.ast = amiWebApp.jspath('.@ast', rowSet)[0] || 'N/A';
-
 
 			this.ctx.numberOfRows = listOfRows.map(x => x.length).reduce((x, y) => x + y, 0);
 			this.ctx.maxNumberOfRows = amiWebApp.jspath('..@maxNumberOfRows', rowSet).map(x => parseInt(x)).reduce((x, y) => x + y, 0);
@@ -653,6 +654,7 @@ $AMIClass('TableCtrl', {
 				numberOfRowSets: Math.min(listOfFieldDescriptions.length, listOfRows.length),
 				/**/
 				listOfFieldDescriptions: listOfFieldDescriptions,
+				listOfRowSetName: listOfRowSetName,
 				listOfRows: listOfRows,
 				/**/
 				showPrimaryField: this.ctx.showPrimaryField,

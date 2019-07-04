@@ -422,23 +422,14 @@ $AMIClass('TableCtrl', {
       /*-------------------------------------------------------------*/
 
       var listOfFieldDescriptions = fieldDescriptionSet.map(function (x) {
-        return x.fieldDescription;
+        return x['fieldDescription'] || [];
       });
-      var
-      /*---*/
-      listOfRows
-      /*---*/
-      =
-      /*---*/
-      rowSet
-      /*---*/
-      .map(function (x) {
-        return x.
-        /*--*/
-        row;
-      }
-      /*--*/
-      );
+      var listOfRowSetName = rowSet.map(function (x) {
+        return rowSet['@type'] || 'result';
+      });
+      var listOfRows = rowSet.map(function (x) {
+        return x['row'] || [];
+      });
       /*-------------------------------------------------------------*/
 
       _this5.ctx.sql = amiWebApp.jspath('.@sql', rowSet)[0] || 'N/A';
@@ -499,6 +490,7 @@ $AMIClass('TableCtrl', {
 
         /**/
         listOfFieldDescriptions: listOfFieldDescriptions,
+        listOfRowSetName: listOfRowSetName,
         listOfRows: listOfRows,
 
         /**/

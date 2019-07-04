@@ -6441,8 +6441,8 @@ $AMINamespace('amiWebApp',
     var result = $.Deferred();
 
     if (this.args['v']) {
-      amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['v']) + '"').fail(function (data) {
-        result.reject(_this14.jspath('..error.$', data));
+      amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['v']) + '"').fail(function (data, message) {
+        result.reject(message);
       }).done(function (data) {
         var json;
 

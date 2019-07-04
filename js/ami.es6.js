@@ -7719,9 +7719,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(this.args['v'])
 		{
-			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['v']) + '"').fail((data) => {
+			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['v']) + '"').fail((data, message) => {
 
-				result.reject(this.jspath('..error.$', data));
+				result.reject(message);
 
 			}).done((data) => {
 
