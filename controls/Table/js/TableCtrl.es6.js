@@ -601,6 +601,7 @@ $AMIClass('TableCtrl', {
 
 			const listOfRows = rowSet.map(x => x['row'] || []);
 
+alert(JSON.stringify(listOfRowSetName));
 			/*-------------------------------------------------------------*/
 
 			this.ctx.sql = amiWebApp.jspath('.@sql', rowSet)[0] || 'N/A';
@@ -650,8 +651,6 @@ $AMIClass('TableCtrl', {
 			const dict = {
 				primaryField: this.ctx.primaryField,
 				ignoredFields: this.ctx.ignoredFields,
-				/**/
-				numberOfRowSets: Math.min(listOfFieldDescriptions.length, listOfRowSetName.length, listOfRows.length),
 				/**/
 				listOfFieldDescriptions: listOfFieldDescriptions,
 				listOfRowSetName: listOfRowSetName,
