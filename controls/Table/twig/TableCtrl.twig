@@ -31,8 +31,10 @@
 {% if showToolBar %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top border mb-1" style="padding: 0.1rem 0.75rem 0.1rem 1.0rem;">
 
-	<span class="navbar-brand" data-toggle="tooltip" data-placement="bottom" data-title="{{catalog|e}}::{{entity|e}}">
-		<i class="fa fa-info-circle"></i>
+	<span class="navbar-brand">
+		<a href="#" class="text-secondary" id="C8CB30DC_414F_7559_B618_42B7CC04F993" data-toggle="tooltip" data-placement="bottom" data-title="{{catalog|e}}::{{entity|e}}">
+			<i class="fa fa-info-circle"></i>
+		</a>
 	</span>
 
 	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#F4B10C5C_47BC_2093_5269_EA03881409FA">
@@ -100,8 +102,6 @@
 			<li class="nav-item dropdown">
 				<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">More</a>
 				<div class="dropdown-menu">
-					<a href="#" class="dropdown-item" id="C8CB30DC_414F_7559_B618_42B7CC04F993">Edit command</a>
-					<div class="dropdown-divider"></div>
 					<a href="#" class="dropdown-item" id="CD458FEC_9AD9_30E8_140F_263F119961BE">View SQL query</a>
 					<a href="#" class="dropdown-item" id="F4F0EB6C_6535_7714_54F7_4BC28C254872">View MQL query</a>
 					<a href="#" class="dropdown-item" id="EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92">View command (with paging)</a>
