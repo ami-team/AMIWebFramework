@@ -744,7 +744,7 @@ $AMIClass('TableCtrl', {
 				/*---------------------------------------------------------*/
 
 				parent.find('[data-tab-index]').click((e) => {
-alert(e.currentTarget.getAttribute('data-tab-index'));
+
 					this.ctx.currentTabIndex = e.currentTarget.getAttribute('data-tab-index');
 				});
 
