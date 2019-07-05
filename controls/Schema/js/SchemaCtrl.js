@@ -29,9 +29,9 @@ $AMIClass('SchemaCtrl', {
     /**/
     amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
     /**/
-    amiWebApp.originURL + '/js/3rd-party/jointjs/lodash.min.js', amiWebApp.originURL + '/js/3rd-party/jointjs/backbone-min.js',
+    amiWebApp.originURL + '/js/3rd-party/lodash.min.js', amiWebApp.originURL + '/js/3rd-party/backbone-min.js',
     /**/
-    amiWebApp.originURL + '/css/3rd-party/jointjs/joint.min.css', amiWebApp.originURL + '/js/3rd-party/jointjs/joint.min.js',
+    amiWebApp.originURL + '/css/3rd-party/joint.min.css', amiWebApp.originURL + '/js/3rd-party/joint.min.js',
     /**/
     amiWebApp.originURL + '/controls/Schema/js/joint.shapes.sql.js']).done(function (data) {
       amiWebApp.appendHTML('body', data[1]).done(function () {

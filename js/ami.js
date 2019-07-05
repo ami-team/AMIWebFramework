@@ -4900,13 +4900,13 @@ $AMINamespace('amiWebApp',
     /*-----------------------------------------------------------------*/
 
     if (this._noBootstrap === false && typeof jQuery.fn.modal !== 'function') {
-      this.loadResources([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-datetimepicker.min.css', this.originURL + '/css/select2.min.css', this.originURL + '/css/gridstack.min.css',
+      this.loadResources([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-datetimepicker.min.css', this.originURL + '/css/select2.min.css',
       /**/
       this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css',
       /**/
       this.originURL + '/js/popper.min.js', this.originURL + '/js/moment.min.js',
       /**/
-      this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-datetimepicker.min.js', this.originURL + '/js/select2.min.js', this.originURL + '/js/gridstack.min.js']).done(function () {
+      this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-datetimepicker.min.js', this.originURL + '/js/select2.min.js']).done(function () {
         _this3._globalDeferred.resolve();
       });
     } else {
