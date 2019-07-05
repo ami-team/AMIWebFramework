@@ -14,7 +14,7 @@ BOOTSTRAP_VERSION=4.3.1
 # 3RD PARTY                                                                 #
 #############################################################################
 
-JQUERY_UI_VERSION=1.12.1
+JQUERYUI_VERSION=1.12.1
 
 BACKBONE_VERSION=1.4.0
 LOADASH_VERSION=4.17.11
@@ -85,11 +85,11 @@ core:
 	# JQUERY-UI                                                             #
 	#########################################################################
 
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/jqueryui/$(JQUERY_UI_VERSION)/jquery-ui.min.css > ../../css/3rd-party/jquery-ui.min.css
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/jqueryui/$(JQUERY_UI_VERSION)/jquery-ui.min.js > ../../js/3rd-party/jquery-ui.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/jqueryui/$(JQUERYUI_VERSION)/jquery-ui.min.css > ../../css/3rd-party/jquery-ui.min.css
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/jqueryui/$(JQUERYUI_VERSION)/jquery-ui.min.js > ../../js/3rd-party/jquery-ui.min.js
 
 	#########################################################################
-	# BACKBONE + LODASH + JOINT                                             #
+	# BACKBONE + LODASH + JOINTJS                                           #
 	#########################################################################
 
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/backbone.js/$(BACKBONE_VERSION)/backbone-min.js > ../../js/3rd-party/backbone-min.js
@@ -106,6 +106,8 @@ core:
 
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/d3-geo/$(D3_GEO_VERSION)/d3-geo.min.js > ../../js/3rd-party/d3-geo.min.js
 
+	#########################################################################
+	# MISCELLANEOUS                                                         #
 	#########################################################################
 
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js > ../../js/3rd-party/jscolor.min.js
