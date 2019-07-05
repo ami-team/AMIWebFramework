@@ -16,13 +16,28 @@ BOOTSTRAP_VERSION=4.3.1
 
 JQUERYUI_VERSION=1.12.1
 
+#############################################################################
+
 BACKBONE_VERSION=1.4.0
 LOADASH_VERSION=4.17.11
 
 JOINTJS_VERSION=3.0.2
 
+#############################################################################
+
 D3_VERSION=5.9.7
 D3_GEO_VERSION=1.9.1
+
+#############################################################################
+
+JSCOLOR_VERSION=2.0.4
+
+CLIPBOARD_VERSION=2.0.4
+FILESAVER_VERSION=1.3.8
+
+CHARTJS_VERSION=2.8.0
+
+DIFF_MATCH_PATCH_VERSION=20121119
 
 #############################################################################
 
@@ -110,14 +125,14 @@ core:
 	# MISCELLANEOUS                                                         #
 	#########################################################################
 
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/jscolor/2.0.4/jscolor.min.js > ../../js/3rd-party/jscolor.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/jscolor/$(JSCOLOR_VERSION)/jscolor.min.js > ../../js/3rd-party/jscolor.min.js
 
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js > ../../js/3rd-party/clipboard.min.js
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.min.js > ../../js/3rd-party/filesaver.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/$(CLIPBOARD_VERSION)/clipboard.min.js > ../../js/3rd-party/clipboard.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/$(FILESAVER_VERSION)/FileSaver.min.js > ../../js/3rd-party/filesaver.min.js
 
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js > ../../js/3rd-party/chart.bundle.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$(CHARTJS_VERSION)/Chart.bundle.min.js > ../../js/3rd-party/chart.bundle.min.js
 
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/20121119/diff_match_patch.js > ../../js/3rd-party/diff_match_patch.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/$(DIFF_MATCH_PATCH_VERSION)/diff_match_patch.js > ../../js/3rd-party/diff_match_patch.min.js
 
 	#########################################################################
 
