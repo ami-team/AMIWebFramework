@@ -175,6 +175,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/css/bootstrap.min.css',
 				this.originURL + '/css/bootstrap-datetimepicker.min.css',
 				this.originURL + '/css/select2.min.css',
+				this.originURL + '/css/gridstack.min.css',
 				/**/
 				this.originURL + '/css/font-awesome.min.css',
 				this.originURL + '/css/ami.min.css',
@@ -185,6 +186,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/js/bootstrap.min.js',
 				this.originURL + '/js/bootstrap-datetimepicker.min.js',
 				this.originURL + '/js/select2.min.js',
+				this.originURL + '/js/gridstack.min.js',
 			]).done(() => {
 
 				this._globalDeferred.resolve();
