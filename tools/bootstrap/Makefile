@@ -2,6 +2,8 @@ JQUERY_VERSION=3.4.1
 POPPER_VERSION=1.14.7
 MOMENT_VERSION=2.24.0
 
+JQUERY_UI_VERSION=1.12.1
+
 SELECT2_VERSION=4.0.7
 
 BOOTSTRAP_VERSION=4.3.1
@@ -16,6 +18,13 @@ all: clean
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/popper.js/$(POPPER_VERSION)/umd/popper.min.js > ../../js/popper.min.js
 
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/moment.js/$(MOMENT_VERSION)/moment.min.js > ../../js/moment.min.js
+
+	#########################################################################
+	# JQUERY-UI                                                             #
+	#########################################################################
+
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/jqueryui/$(JQUERY_UI_VERSION)/jquery-ui.min.js > ../../js/3rd-party/jquery-ui.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/jqueryui/$(JQUERY_UI_VERSION)/jquery-ui.min.css > ../../js/3rd-party/jquery-ui.min.css
 
 	#########################################################################
 	# SELECT2                                                               #
