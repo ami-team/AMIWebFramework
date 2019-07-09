@@ -4809,6 +4809,10 @@ $AMINamespace('amiWebApp',
   /*---------------------------------------------------------------------*/
   _embedded: false,
   _noBootstrap: false,
+  _noDateTimePicker: false,
+  _noSelect2: false,
+
+  /*---------------------------------------------------------------------*/
   _globalDeferred: $.Deferred(),
 
   /*---------------------------------------------------------------------*/
@@ -4881,6 +4885,8 @@ $AMINamespace('amiWebApp',
       var flags = url.substring(idx).toLowerCase();
       this._embedded = flags.indexOf('embedded') >= 0;
       this._noBootstrap = flags.indexOf('nobootstrap') >= 0;
+      this._noDateTimePicker = flags.indexOf('nodatetimepicker') >= 0;
+      this._noSelect2 = flags.indexOf('noselect2') >= 0;
     }
     /*-----------------------------------------------------------------*/
 
@@ -4899,23 +4905,37 @@ $AMINamespace('amiWebApp',
 
     /*-----------------------------------------------------------------*/
 
-    if (this._noBootstrap === false && typeof jQuery.fn.modal !== 'function') {
-      this.loadResources([this.originURL + '/css/bootstrap.min.css', this.originURL + '/css/bootstrap-datetimepicker.min.css', this.originURL + '/css/select2.min.css',
-      /**/
-      this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css',
-      /**/
-      this.originURL + '/js/popper.min.js', this.originURL + '/js/moment.min.js',
-      /**/
-      this.originURL + '/js/bootstrap.min.js', this.originURL + '/js/bootstrap-datetimepicker.min.js', this.originURL + '/js/select2.min.js']).done(function () {
-        _this3._globalDeferred.resolve();
-      });
-    } else {
-      this.loadResources([this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css']).done(function () {
-        _this3._globalDeferred.resolve();
-      });
+    var resources = [this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css'];
+
+    if (!window.Popper) {
+      resources.push(this.originURL + '/js/popper.min.js');
+    }
+
+    if (!window.moment) {
+      resources.push(this.originURL + '/js/moment.min.js');
+    }
+
+    if (!this._noBootstrap && typeof jQuery.fn.modal !== 'function') {
+      resources.push(this.originURL + '/css/bootstrap.min.css');
+      resources.push(this.originURL + '/js/bootstrap.min.js');
+    }
+
+    if (!this._noDateTimePicker && typeof jQuery.fn.datetimepicker !== 'function') {
+      resources.push(this.originURL + '/css/bootstrap-datetimepicker.min.css');
+      resources.push(this.originURL + '/js/bootstrap-datetimepicker.min.js');
+    }
+
+    if (!this._noSelect2 && typeof jQuery.fn.select2 !== 'function') {
+      resources.push(this.originURL + '/css/select2.min.css');
+      resources.push(this.originURL + '/js/select2.min.js');
     }
     /*-----------------------------------------------------------------*/
 
+
+    this.loadResources(resources).done(function () {
+      _this3._globalDeferred.resolve();
+    });
+    /*-----------------------------------------------------------------*/
   },
 
   /*---------------------------------------------------------------------*/
