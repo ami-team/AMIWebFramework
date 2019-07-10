@@ -1,15 +1,20 @@
 /*-------------------------------------------------------------------------*/
 
-$switch-height: calc(#{$input-height} * .8) !default;
 $switch-height-sm: calc(#{$input-height-sm} * .8) !default;
+$switch-height: calc(#{$input-height} * .8) !default;
 $switch-height-lg: calc(#{$input-height-lg} * .8) !default;
+
 $switch-border-radius: $switch-height !default;
+
 $switch-disabled-bg: $custom-control-indicator-disabled-bg !default;
 $switch-disabled-color: $custom-control-label-disabled-color !default;
+
 $switch-thumb-bg: $white !default;
 $switch-thumb-border-radius: 50% !default;
 $switch-thumb-padding: 2px !default;
+
 $switch-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba(map-get($theme-colors, 'primary'), .25);
+
 $switch-transition: .2s all !default;
 
 /*-------------------------------------------------------------------------*/
@@ -108,7 +113,7 @@ $switch-transition: .2s all !default;
 		//-------------------------------------------------------------------
 	}
 
-	//-----------------------------------------------------------------------
+	/*---------------------------------------------------------------------*/
 
 	&.switch-off-primary input + label::before {
 		background-color: map-get($theme-colors, 'primary');
@@ -142,7 +147,7 @@ $switch-transition: .2s all !default;
 		background-color: map-get($theme-colors, 'dark');
 	}
 
-	//-----------------------------------------------------------------------
+	/*---------------------------------------------------------------------*/
 
 	&.switch-on-primary input:checked + label::before {
 		background-color: map-get($theme-colors, 'primary');
@@ -176,7 +181,7 @@ $switch-transition: .2s all !default;
 		background-color: map-get($theme-colors, 'dark');
 	}
 
-	//-----------------------------------------------------------------------
+	/*---------------------------------------------------------------------*/
 
 	&.switch-sm {
 		font-size: $font-size-sm;
@@ -204,7 +209,7 @@ $switch-transition: .2s all !default;
 		}
 	}
 
-	//-----------------------------------------------------------------------
+	/*---------------------------------------------------------------------*/
 
 	&.switch-lg {
 		font-size: $font-size-lg;
@@ -232,7 +237,7 @@ $switch-transition: .2s all !default;
 		}
 	}
 
-	//-----------------------------------------------------------------------
+	/*---------------------------------------------------------------------*/
 }
 
 /*-------------------------------------------------------------------------*/
