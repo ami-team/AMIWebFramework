@@ -1,0 +1,32 @@
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+.grid-stack-item-content {
+	background-color: rgba(231, 242, 250, 0.4);
+	border-radius: 8px;
+}
+
+.grid-stack-item-content .card {
+	background: none transparent;
+	border-radius: 8px;
+}
+
+.grid-stack-item-content .card-header {
+	background: none rgba(255, 255, 255, 0.2);
+	border-radius-top-left: 8px;
+	border-radius-top-right: 8px;
+}
+
+.grid-stack-item-content .card-body {
+	background: none rgba(255, 255, 255, 0.0);
+	border-radius-bottom-left: 8px;
+	border-radius-bottom-right: 8px;
+}

@@ -3,20 +3,21 @@
 /* GENERAL THEME                                                           */
 /*-------------------------------------------------------------------------*/
 
+html,
 body {
-	background: white url('{{ORIGIN_URL}}/images/stripe2.png') fixed;
+	background: url('{{ORIGIN_URL}}/images/cloud.png') #B9D5EC bottom fixed;
+	background-size: cover;
+	height: 100%;
 }
 
 /*-------------------------------------------------------------------------*/
 /* AMI THEME                                                               */
 /*-------------------------------------------------------------------------*/
 
-#ami_main_center {
-	background-color: white;
+#ami_main_content {
+	height: calc(100% - 60px);
 	margin: 0;
 	padding: 8px 16px;
-	overflow-x: hidden;
-	overflow-y: auto;
 }
 
 /*-------------------------------------------------------------------------*/
@@ -24,7 +25,7 @@ body {
 
 <div role="alert" id="ami_alert_content" style="top: 80px;"></div>
 
-<nav class="navbar navbar-light navbar-expand-lg border-bottom bg-light" id="ami_top_menu">
+<nav class="navbar navbar-light navbar-expand-lg bg-light" id="ami_top_menu">
 
 	<a class="navbar-brand py-0" href="{{HOME_URL}}">
 		<img src="{{LOGO_URL}}" alt="Logo" style="height: 38px;" />
@@ -43,31 +44,4 @@ body {
 
 </nav>
 
-<div id="ami_main_center">
-
-	<ul class="breadcrumb" id="ami_breadcrumb_content">&nbsp;</ul>
-
-	<div role="main" id="ami_main_content"></div>
-
-</div>
-
-<nav class="navbar navbar-expand-lg navbar-light border-top xx-xxxxx" id="ami_bottom_menu">
-
-	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#B06DBB00_43B5_3128_B476_F7D3BAE1B15C">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-
-	<div class="collapse navbar-collapse" id="B06DBB00_43B5_3128_B476_F7D3BAE1B15C">
-
-		<ul class="navbar-nav" style="margin-left: auto;">
-			<li class="nav-item">
-				<a class="nav-link" href="mailto:{{CONTACT_EMAIL}}"><i class="fa fa-envelope-o"></i> Contact</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="{{ABOUT_URL}}" target="_blank"><i class="fa fa-external-link"></i> About</a>
-			</li>
-		</ul>
-
-	</div>
-
-</nav>
+<div role="main" id="ami_main_content"></div>
