@@ -39,7 +39,7 @@ $AMIClass('UserDashboardApp', {
         /*---------------------------------------------------------*/
 
         el.on('change', function (e, items) {
-          if (_this.lock === false) {
+          if (items && !_this.lock) {
             items.forEach(function (item) {
               _this._serialize(item);
             });
@@ -82,11 +82,10 @@ $AMIClass('UserDashboardApp', {
   },
 
   /*---------------------------------------------------------------------*/
-  __reload: function __reload(result, rows, idx) {
+  _reload: function _reload(result, rows, idx) {
     var _this3 = this;
 
     if (idx === rows.length) {
-      this.changed = false;
       return result.resolve();
     }
     /*-----------------------------------------------------------------*/
@@ -106,7 +105,7 @@ $AMIClass('UserDashboardApp', {
 
     this.gridstack.addWidget($('<div data-gs-id="' + id + '"><div class="grid-stack-item-content" id="EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx + '"></div></div>'), x, y, width, height).promise().done(function () {
       amiWebApp.createControl(_this3, _this3, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), {}).done(function (control) {
-        _this3.__reload(result, rows, idx + 1);
+        _this3._reload(result, rows, idx + 1);
 
         _this3.controls.push(control);
       }).fail(function (message) {
@@ -119,34 +118,29 @@ $AMIClass('UserDashboardApp', {
   },
 
   /*---------------------------------------------------------------------*/
-  _reload: function _reload(rows) {
-    var _this4 = this;
-
-    this.lock = true;
-    return this.__reload($.Deferred(), rows, 0).always(function () {
-      _this4.lock = false;
-    });
-  },
-
-  /*---------------------------------------------------------------------*/
   reload: function reload() {
-    var _this5 = this;
+    var _this4 = this;
 
     var result = $.Deferred();
     /*-----------------------------------------------------------------*/
 
     amiCommand.execute('GetDashboardInfo').done(function (data) {
       /*-------------------------------------------------------------*/
-      _this5.gridstack.removeAll();
+      _this4.gridstack.removeAll();
 
-      _this5.controls = [];
+      _this4.controls = [];
+      _this4.lock = true;
       /*-------------------------------------------------------------*/
 
-      _this5._reload(amiWebApp.jspath('..row', data)).done(function () {
-        _this5.refresh();
+      _this4._reload($.Deferred(), amiWebApp.jspath('..row', data), 0).done(function () {
+        _this4.refresh();
 
+        _this4.lock = false;
         result.resolve();
       }).fail(function (message) {
+        _this4.refresh();
+
+        _this4.lock = false;
         result.reject(message);
       });
     }).fail(function (data, message) {

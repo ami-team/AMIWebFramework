@@ -53,12 +53,11 @@ $AMIClass('UserDashboardApp', {
 
 				el.on('change', (e, items) => {
 
-					if(this.lock === false)
+					if(items && !this.lock)
 					{
 						items.forEach((item) => {
 
 							this._serialize(item);
-
 						});
 					}
 				});
@@ -121,12 +120,10 @@ $AMIClass('UserDashboardApp', {
 
 	/*---------------------------------------------------------------------*/
 
-	__reload: function(result, rows, idx)
+	_reload: function(result, rows, idx)
 	{
 		if(idx === rows.length)
 		{
-			this.changed = false;
-
 			return result.resolve();
 		}
 
@@ -150,7 +147,7 @@ $AMIClass('UserDashboardApp', {
 
 			amiWebApp.createControl(this, this, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), {}).done((control) => {
 
-				this.__reload(result, rows, idx + 1);
+				this._reload(result, rows, idx + 1);
 
 				this.controls.push(control);
 
@@ -163,18 +160,6 @@ $AMIClass('UserDashboardApp', {
 		/*-----------------------------------------------------------------*/
 
 		return result;
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	_reload: function(rows)
-	{
-		this.lock = true;
-
-		return this.__reload($.Deferred(), rows, 0).always(() => {
-
-			this.lock = false;
-		})
 	},
 
 	/*---------------------------------------------------------------------*/
@@ -193,15 +178,23 @@ $AMIClass('UserDashboardApp', {
 
 			this.controls = [];
 
+			this.lock = true;
+
 			/*-------------------------------------------------------------*/
 
-			this._reload(amiWebApp.jspath('..row', data)).done(() => {
+			this._reload($.Deferred(), amiWebApp.jspath('..row', data), 0).done(() => {
 
 				this.refresh();
+
+				this.lock = false;
 
 				result.resolve(/*----*/);
 
 			}).fail((message) => {
+
+				this.refresh();
+
+				this.lock = false;
 
 				result.reject(message);
 			});
