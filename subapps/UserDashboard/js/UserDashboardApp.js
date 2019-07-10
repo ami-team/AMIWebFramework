@@ -41,7 +41,7 @@ $AMIClass('UserDashboardApp', {
         el.on('change', function (e, items) {
           if (_this.lock === false) {
             items.forEach(function (item) {
-              _this._serialize(items);
+              _this._serialize(item);
             });
           }
         });
