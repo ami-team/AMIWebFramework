@@ -57,7 +57,7 @@ $AMIClass('UserDashboardApp', {
 					{
 						items.forEach((item) => {
 
-							this._serialize(items);
+							this._serialize(item);
 
 						});
 					}
