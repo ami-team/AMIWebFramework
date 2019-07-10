@@ -197,14 +197,9 @@ $AMIClass('UserDashboardApp', {
 
 			this._reload(amiWebApp.jspath('..row', data)).done(() => {
 
-				this.refresh().done(() => {
+				this.refresh();
 
-					result.resolve();
-
-				}).fail((message) => {
-
-					result.reject(message);
-				});
+				result.resolve(/*----*/);
 
 			}).fail((message) => {
 
@@ -248,7 +243,7 @@ $AMIClass('UserDashboardApp', {
 	{
 		amiWebApp.lock();
 
-		amiCommand.execute('SetDashboardData -id="' + amiWebApp.textToString(item.id) + '" -x="' + item.x + '" -y="' + item.y + '" -width="' + item.width + '" -height="' + item.height + '"').done(() => {
+		amiCommand.execute('SetWidgetProperties -id="' + amiWebApp.textToString(item.id) + '" -x="' + item.x + '" -y="' + item.y + '" -width="' + item.width + '" -height="' + item.height + '"').done(() => {
 
 			amiWebApp.unlock();
 

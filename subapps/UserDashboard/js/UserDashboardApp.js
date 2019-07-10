@@ -143,11 +143,9 @@ $AMIClass('UserDashboardApp', {
       /*-------------------------------------------------------------*/
 
       _this5._reload(amiWebApp.jspath('..row', data)).done(function () {
-        _this5.refresh().done(function () {
-          result.resolve();
-        }).fail(function (message) {
-          result.reject(message);
-        });
+        _this5.refresh();
+
+        result.resolve();
       }).fail(function (message) {
         result.reject(message);
       });
@@ -176,7 +174,7 @@ $AMIClass('UserDashboardApp', {
   /*---------------------------------------------------------------------*/
   _serialize: function _serialize(item) {
     amiWebApp.lock();
-    amiCommand.execute('SetDashboardData -id="' + amiWebApp.textToString(item.id) + '" -x="' + item.x + '" -y="' + item.y + '" -width="' + item.width + '" -height="' + item.height + '"').done(function () {
+    amiCommand.execute('SetWidgetProperties -id="' + amiWebApp.textToString(item.id) + '" -x="' + item.x + '" -y="' + item.y + '" -width="' + item.width + '" -height="' + item.height + '"').done(function () {
       amiWebApp.unlock();
     }).fail(function (data, message) {
       amiWebApp.error(message);
