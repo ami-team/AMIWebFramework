@@ -82,5 +82,10 @@
         ],
         "file": "subapps/TaskServerAdmin/js/TaskServerAdminApp.js",
         "instance": "taskServerAdminApp"
+    },
+    "userDashboard": {
+        "breadcrumb": [],
+        "file": "subapps/UserDashboard/js/UserDashboardApp.js",
+        "instance": "userDashboardApp"
     }
 }
