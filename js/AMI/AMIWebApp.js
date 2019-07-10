@@ -175,40 +175,47 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		/* LOAD SHEETS AND SCRIPTS                                         */
 		/*-----------------------------------------------------------------*/
 
-		const resources = [
-			this.originURL + '/css/font-awesome.min.css',
-			this.originURL + '/css/ami.min.css',
-		];
+		const resourcesCSS = [];
+		const resourcesJS = [];
+
+		/*-----------------------------------------------------------------*/
 
 		if(!window.Popper) {
-			resources.push(this.originURL + '/js/popper.min.js');
+			resourcesJS.push(this.originURL + '/js/popper.min.js');
 		}
 
 		if(!window.moment) {
-			resources.push(this.originURL + '/js/moment.min.js');
-		}
-
-		if(!this._noBootstrap && (typeof jQuery.fn.modal) !== 'function')
-		{
-			resources.push(this.originURL + '/css/bootstrap.min.css');
-			resources.push(this.originURL + '/js/bootstrap.min.js');
-		}
-
-		if(!this._noDateTimePicker && (typeof jQuery.fn.datetimepicker) !== 'function')
-		{
-			resources.push(this.originURL + '/css/bootstrap-datetimepicker.min.css');
-			resources.push(this.originURL + '/js/bootstrap-datetimepicker.min.js');
-		}
-
-		if(!this._noSelect2 && (typeof jQuery.fn.select2) !== 'function')
-		{
-			resources.push(this.originURL + '/css/select2.min.css');
-			resources.push(this.originURL + '/js/select2.min.js');
+			resourcesJS.push(this.originURL + '/js/moment.min.js');
 		}
 
 		/*-----------------------------------------------------------------*/
 
-		this.loadResources(resources).done(() => {
+		if(!this._noBootstrap && (typeof jQuery.fn.modal) !== 'function')
+		{
+			resourcesCSS.push(this.originURL + '/css/bootstrap.min.css');
+			resourcesJS.push(this.originURL + '/js/bootstrap.min.js');
+		}
+
+		if(!this._noDateTimePicker && (typeof jQuery.fn.datetimepicker) !== 'function')
+		{
+			resourcesCSS.push(this.originURL + '/css/bootstrap-datetimepicker.min.css');
+			resourcesJS.push(this.originURL + '/js/bootstrap-datetimepicker.min.js');
+		}
+
+		if(!this._noSelect2 && (typeof jQuery.fn.select2) !== 'function')
+		{
+			resourcesCSS.push(this.originURL + '/css/select2.min.css');
+			resourcesJS.push(this.originURL + '/js/select2.min.js');
+		}
+
+		/*-----------------------------------------------------------------*/
+
+		this.loadResources([
+			...resourcesCSS,
+			this.originURL + '/css/font-awesome.min.css',
+			this.originURL + '/css/ami.min.css',
+			...resourcesJS,
+		]).done(() => {
 
 			this._globalDeferred.resolve();
 		});
