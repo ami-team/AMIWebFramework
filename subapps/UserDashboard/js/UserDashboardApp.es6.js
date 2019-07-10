@@ -89,9 +89,9 @@ $AMIClass('UserDashboardApp', {
 		$('#ami_user_menu_content').html(
 			'<div class="dropdown-divider"></div>'
 			+
-			'<a class="dropdown-item" href="javascript:(function() { amiWebApp.lock(); userDashboardApp.reload().done(function() { amiWebApp.unlock(); }).fail(function(message) { amiWebApp.error(message); }); return; })();">Reload User Dashboard</a>'
+			'<a class="dropdown-item" href="javascript:(function() { amiWebApp.lock(); userDashboardApp.reload().done(function() { amiWebApp.unlock(); }).fail(function(message) { amiWebApp.error(message); }); return; })();">Reload Dashboard</a>'
 			+
-			'<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=dashboardAdmin" target="_blank">Edit User Dashboard</a>'
+			'<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=dashboardAdmin" target="_blank">Edit Dashboard</a>'
 		);
 
 		/*-----------------------------------------------------------------*/
