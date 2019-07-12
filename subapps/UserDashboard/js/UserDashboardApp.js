@@ -96,7 +96,8 @@ $AMIClass('UserDashboardApp', {
 
     var id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
     var control = amiWebApp.jspath('..field{.@name==="control"}.$', row)[0] || '';
-    var params = amiWebApp.jspath('..field{.@name==="params"}.$', row)[0] || '';
+    var params = amiWebApp.jspath('..field{.@name==="params"}.$', row)[0] || '[]';
+    var settings = amiWebApp.jspath('..field{.@name==="settings"}.$', row)[0] || '{}';
     var x = amiWebApp.jspath('..field{.@name==="x"}.$', row)[0] || '0';
     var y = amiWebApp.jspath('..field{.@name==="y"}.$', row)[0] || '0';
     var width = amiWebApp.jspath('..field{.@name==="width"}.$', row)[0] || '0';
@@ -104,7 +105,7 @@ $AMIClass('UserDashboardApp', {
     /*-----------------------------------------------------------------*/
 
     this.gridstack.addWidget($('<div data-gs-id="' + id + '"><div class="grid-stack-item-content" id="EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx + '"></div></div>'), x, y, width, height).promise().done(function () {
-      amiWebApp.createControl(_this3, _this3, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), {}).done(function (control) {
+      amiWebApp.createControl(_this3, _this3, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), JSON.parse(settings)).done(function (control) {
         _this3._reload(result, rows, idx + 1);
 
         _this3.controls.push(control);
