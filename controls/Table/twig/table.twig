@@ -21,151 +21,153 @@
 	{% endfor %}
 
 	<!-- **************************************************************** -->
-	<table class="table table-sm table-striped table-bordered tab-pane {% if loop.index0 === currentTabIndex %}active show{% else %}xxxxx xxxx{% endif %}" id="CC05FC77_9364_97FB_E575_BE8190DCC295_{{i}}">
-		<thead>
-			<tr>
-				<!-- **************************************************** -->
-				{%   if showDetails and primaryIdx >= 0 %}
-				<th class="text-center align-middle xxxxxxxxx">details</th>
-				{%   endif %}
-				<!-- **************************************************** -->
-				{% if canEdit and primaryIdx >= 0 %}
-				<th class="text-center align-middle edit-mode"> tools </th>
-				{%   endif %}
-				<!-- **************************************************** -->
-				{% if fieldDescriptions is not empty %}
-				{%   for fieldDescription in fieldDescriptions %}
-				{%     if not fieldDescription['@field'] in ignoredFields %}
-				<th class="text-center">
-					<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{fieldDescription['@field']|e}}"><i class="fa fa-chevron-down"></i></a>
-					<span class="text-primary"{% if fieldDescription['$'] is not empty and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{fieldDescription['@label']|e}}</span>
-					<a href="#" class="text-secondary" data-orderway="ASC" data-row="{{fieldDescription['@field']|e}}"><i class="fa fa-chevron-up"></i></a>
-					{% if showTools %}
-					<br />
-					{%   if fieldDescription['@field'] is not empty %}
-					<a href="#" class="text-secondary mx-1" data-action="refine" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-filter"></i></a>
+	<div class="tab-pane {% if loop.index0 === currentTabIndex %}active show{% else %}xxxxx xxxx{% endif %}" id="CC05FC77_9364_97FB_E575_BE8190DCC295_{{i}}">
+		<table class="table table-sm table-striped table-bordered">
+			<thead>
+				<tr>
+					<!-- **************************************************** -->
+					{%   if showDetails and primaryIdx >= 0 %}
+					<th class="text-center align-middle xxxxxxxxx">details</th>
 					{%   endif %}
-					{%   if fieldDescription['@statable'] === 'true' %}
-					<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-bar-chart"></i></a>
+					<!-- **************************************************** -->
+					{% if canEdit and primaryIdx >= 0 %}
+					<th class="text-center align-middle edit-mode"> tools </th>
 					{%   endif %}
-					{%   if fieldDescription['@groupable'] === 'true' %}
-					<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-slack"></i></a>
-					{%   endif %}
-					{% endif %}
-				</th>
-				{%     endif %}
-				{%   endfor %}
-				{% else %}
-				{%   if rows is not empty %}
-				{%     for field in rows[0].field %}
-				{%       if not field['@name'] in ignoredFields %}
-				<th class="text-center">
-					<span class="text-primary">{{field['@name']|e}}</span>
-				</th>
-				{%       endif %}
-				{%     endfor %}
-				{%   endif %}
-				<!-- **************************************************** -->
-				{% endif %}
-			</tr>
-		</thead>
-		<!-- ************************************************************ -->
-		<tbody>
-			{% if rows is not empty %}
-			{%   for row in rows %}
-			<tr>
-				<!-- **************************************************** -->
-				{% if showDetails and primaryIdx >= 0 %}
-				<td class="text-center align-middle xxxxxxxxx">
-					<a href="#" class="text-secondary" data-ctrl="elementInfo" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescriptions[primaryIdx]['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
-				</td>
-				{% endif %}
-				<!-- **************************************************** -->
-				{% if canEdit and primaryIdx >= 0 %}
-				<td class="text-center align-middle edit-mode">
-					<a href="#" class="text-info" data-action="clone-row" data-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}" data-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}" data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}" data-primary-value="{{row.field[primaryIdx].$|e}}"><i class="fa fa-files-o"></i></a>
-					&nbsp;
-					<a href="#" class="text-danger" data-action="delete-row" data-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}" data-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}" data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}" data-primary-value="{{row.field[primaryIdx].$|e}}"><i class="fa fa-trash"></i></a>
-				</td>
-				{% endif %}
-				<!-- **************************************************** -->
-				{% for field in row.field %}
-				{%   if not field['@name'] in ignoredFields %}
-				<td class="text-center">
-					{% if field.$ starts with '@OWNER::' %}
-					<a href="#" data-action="filter" data-filter-def="{{field.$|slice(8)|e}}">
-						<i class="fa fa-link"></i>
-					</a>
-					{% elseif field.$ starts with '@NOGO' %}
-					<div class="font-italic text-danger">admin only</div>
+					<!-- **************************************************** -->
+					{% if fieldDescriptions is not empty %}
+					{%   for fieldDescription in fieldDescriptions %}
+					{%     if not fieldDescription['@field'] in ignoredFields %}
+					<th class="text-center">
+						<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{fieldDescription['@field']|e}}"><i class="fa fa-chevron-down"></i></a>
+						<span class="text-primary"{% if fieldDescription['$'] is not empty and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{fieldDescription['@label']|e}}</span>
+						<a href="#" class="text-secondary" data-orderway="ASC" data-row="{{fieldDescription['@field']|e}}"><i class="fa fa-chevron-up"></i></a>
+						{% if showTools %}
+						<br />
+						{%   if fieldDescription['@field'] is not empty %}
+						<a href="#" class="text-secondary mx-1" data-action="refine" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-filter"></i></a>
+						{%   endif %}
+						{%   if fieldDescription['@statable'] === 'true' %}
+						<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-bar-chart"></i></a>
+						{%   endif %}
+						{%   if fieldDescription['@groupable'] === 'true' %}
+						<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-slack"></i></a>
+						{%   endif %}
+						{% endif %}
+					</th>
+					{%     endif %}
+					{%   endfor %}
 					{% else %}
-					<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
-						 {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
-						 {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
-						 {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
-						 {%   if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
-						 {%   if field['properties']['@unitFactor'] %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
-						 {%   if field['properties']['@unitBase'] %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
-						 {%   if field['properties']['@humanReadable'] %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
-						 data-val="{{field.$|e}}"
-						 {% endif %}
-						 {% if primaryIdx >= 0 and fieldDescriptions[loop.index0]['@automatic'] !== 'true' and fieldDescriptions[loop.index0]['@created'] !== 'true' and fieldDescriptions[loop.index0]['@createdBy'] !== 'true' and fieldDescriptions[loop.index0]['@modified'] !== 'true' and fieldDescriptions[loop.index0]['@modifiedBy'] !== 'true' %}
-						 data-action="edit-row"
-						 data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
-						 data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}"
-						 data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
-						 data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
-						 data-primary-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}"
-						 data-primary-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}"
-						 data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}"
-						 data-primary-value="{{row.field[primaryIdx].$|e}}"
-						 {% endif %}
-					>
-						{% if fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
-						{%   if (field.$|length) > maxCellLength %}
-						<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
-						{%   else %}
-						{{field.$|e}}
-						{%   endif %}
-						{% else %}
-						{%   if primaryIdx >= 0 %}
-						<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
-						{%   else %}
-						<i class="fa fa-search-plus text-danger"></i> {{fieldDescriptions[loop.index0]['@mime']|e}}
-						{%   endif %}
-						 {% endif %}
-					</div>
-					{%   if field['links'] is defined %}
-					{%     for link in field['links'] %}
-					{%       if not loop.first %} - {% endif %}
-					<a href="{{link['@href']|e}}"
-					   {% if link['@target'] %}target="{{link['@target']|e}}"{% endif %}
-					   {% if link['@id'] %}id="{{link['@id']|e}}"{% endif %}
-					   {% if link['@class'] %}class="{{link['@class']|e}}"{% endif %}
-					   {% if link['@data-ctrl'] %}data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}
-					   {% if link['@data-ctrl-location'] %}data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}
-					   {% if link['@data-params'] %}data-params="{{link['@data-params']|e}}"{% endif %}
-					   {% if link['@data-settings'] %}data-settings="{{link['@data-settings']|e}}"{% endif %}
-					   {% if link['@data-icon'] %}data-icon="{{link['@data-icon']|e}}"{% endif %}
-					   {% if link['@data-title'] %}data-title="{{link['@data-title']|e}}"{% endif %}>
-						{{link['@label']|e}}
-					</a>
+					{%   if rows is not empty %}
+					{%     for field in rows[0].field %}
+					{%       if not field['@name'] in ignoredFields %}
+					<th class="text-center">
+						<span class="text-primary">{{field['@name']|e}}</span>
+					</th>
+					{%       endif %}
 					{%     endfor %}
 					{%   endif %}
+					<!-- **************************************************** -->
 					{% endif %}
-				</td>
-				{%   endif %}
-				{% endfor %}
-				<!-- **************************************************** -->
-			</tr>
-			{%   endfor %}
-			{% else %}
-			<tr>
-				<td class="text-center text-warning" colspan="999">empty table</td>
-			</tr>
-			{% endif %}
-		</tbody>
-	</table>
+				</tr>
+			</thead>
+			<!-- ************************************************************ -->
+			<tbody>
+				{% if rows is not empty %}
+				{%   for row in rows %}
+				<tr>
+					<!-- **************************************************** -->
+					{% if showDetails and primaryIdx >= 0 %}
+					<td class="text-center align-middle xxxxxxxxx">
+						<a href="#" class="text-secondary" data-ctrl="elementInfo" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescriptions[primaryIdx]['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
+					</td>
+					{% endif %}
+					<!-- **************************************************** -->
+					{% if canEdit and primaryIdx >= 0 %}
+					<td class="text-center align-middle edit-mode">
+						<a href="#" class="text-info" data-action="clone-row" data-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}" data-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}" data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}" data-primary-value="{{row.field[primaryIdx].$|e}}"><i class="fa fa-files-o"></i></a>
+						&nbsp;
+						<a href="#" class="text-danger" data-action="delete-row" data-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}" data-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}" data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}" data-primary-value="{{row.field[primaryIdx].$|e}}"><i class="fa fa-trash"></i></a>
+					</td>
+					{% endif %}
+					<!-- **************************************************** -->
+					{% for field in row.field %}
+					{%   if not field['@name'] in ignoredFields %}
+					<td class="text-center">
+						{% if field.$ starts with '@OWNER::' %}
+						<a href="#" data-action="filter" data-filter-def="{{field.$|slice(8)|e}}">
+							<i class="fa fa-link"></i>
+						</a>
+						{% elseif field.$ starts with '@NOGO' %}
+						<div class="font-italic text-danger">admin only</div>
+						{% else %}
+						<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
+							 {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
+							 {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
+							 {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
+							 {%   if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
+							 {%   if field['properties']['@unitFactor'] %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
+							 {%   if field['properties']['@unitBase'] %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
+							 {%   if field['properties']['@humanReadable'] %}data-human-readable="{{field['properties']['@humanReadable']|e}}"{% endif %}
+							 data-val="{{field.$|e}}"
+							 {% endif %}
+							 {% if primaryIdx >= 0 and fieldDescriptions[loop.index0]['@automatic'] !== 'true' and fieldDescriptions[loop.index0]['@created'] !== 'true' and fieldDescriptions[loop.index0]['@createdBy'] !== 'true' and fieldDescriptions[loop.index0]['@modified'] !== 'true' and fieldDescriptions[loop.index0]['@modifiedBy'] !== 'true' %}
+							 data-action="edit-row"
+							 data-catalog="{{fieldDescriptions[loop.index0]['@catalog']|e}}"
+							 data-entity="{{fieldDescriptions[loop.index0]['@entity']|e}}"
+							 data-field="{{fieldDescriptions[loop.index0]['@field']|e}}"
+							 data-type="{{fieldDescriptions[loop.index0]['@type']|e}}"
+							 data-primary-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}"
+							 data-primary-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}"
+							 data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}"
+							 data-primary-value="{{row.field[primaryIdx].$|e}}"
+							 {% endif %}
+						>
+							{% if fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
+							{%   if (field.$|length) > maxCellLength %}
+							<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
+							{%   else %}
+							{{field.$|e}}
+							{%   endif %}
+							{% else %}
+							{%   if primaryIdx >= 0 %}
+							<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
+							{%   else %}
+							<i class="fa fa-search-plus text-danger"></i> {{fieldDescriptions[loop.index0]['@mime']|e}}
+							{%   endif %}
+							 {% endif %}
+						</div>
+						{%   if field['links'] is defined %}
+						{%     for link in field['links'] %}
+						{%       if not loop.first %} - {% endif %}
+						<a href="{{link['@href']|e}}"
+						   {% if link['@target'] %}target="{{link['@target']|e}}"{% endif %}
+						   {% if link['@id'] %}id="{{link['@id']|e}}"{% endif %}
+						   {% if link['@class'] %}class="{{link['@class']|e}}"{% endif %}
+						   {% if link['@data-ctrl'] %}data-ctrl="{{link['@data-ctrl']|e}}"{% endif %}
+						   {% if link['@data-ctrl-location'] %}data-ctrl-location="{{link['@data-ctrl-location']|e}}"{% endif %}
+						   {% if link['@data-params'] %}data-params="{{link['@data-params']|e}}"{% endif %}
+						   {% if link['@data-settings'] %}data-settings="{{link['@data-settings']|e}}"{% endif %}
+						   {% if link['@data-icon'] %}data-icon="{{link['@data-icon']|e}}"{% endif %}
+						   {% if link['@data-title'] %}data-title="{{link['@data-title']|e}}"{% endif %}>
+							{{link['@label']|e}}
+						</a>
+						{%     endfor %}
+						{%   endif %}
+						{% endif %}
+					</td>
+					{%   endif %}
+					{% endfor %}
+					<!-- **************************************************** -->
+				</tr>
+				{%   endfor %}
+				{% else %}
+				<tr>
+					<td class="text-center text-warning" colspan="999">empty table</td>
+				</tr>
+				{% endif %}
+			</tbody>
+		</table>
+	</div>
 	<!-- **************************************************************** -->
 {% endfor %}
 </div>
