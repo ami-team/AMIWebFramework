@@ -152,7 +152,7 @@ $AMIClass('FieldEditorCtrl', {
 
     var values = {};
     amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(primaryCatalog) + '" -entity="' + amiWebApp.textToString(primaryEntity) + '" -sql="SELECT * FROM `' + amiWebApp.textToString(primaryEntity) + '` WHERE `' + amiWebApp.textToString(primaryField) + '` = \'' + amiWebApp.textToString(primaryValue) + '\'"').done(function (data) {
-      var fields = amiWebApp.jspath('..{.@type==="query"}..field', data);
+      var fields = amiWebApp.jspath('..{.@type==="' + primaryCatalog + '"}..field', data);
 
       for (var i in fields) {
         values[fields[i]['@name']] = fields[i]['$'];
