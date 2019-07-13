@@ -137,6 +137,7 @@ $AMIClass('UserDashboardApp', {
 		const control = amiWebApp.jspath('..field{.@name==="control"}.$', row)[0] || '';
 		const params = amiWebApp.jspath('..field{.@name==="params"}.$', row)[0] || '[]';
 		const settings = amiWebApp.jspath('..field{.@name==="settings"}.$', row)[0] || '{}';
+		const autoRefresh = amiWebApp.jspath('..field{.@name==="autoRefresh"}.$', row)[0] || '1';
 		const x = amiWebApp.jspath('..field{.@name==="x"}.$', row)[0] || '0';
 		const y = amiWebApp.jspath('..field{.@name==="y"}.$', row)[0] || '0';
 		const width = amiWebApp.jspath('..field{.@name==="width"}.$', row)[0] || '0';
@@ -149,6 +150,8 @@ $AMIClass('UserDashboardApp', {
 			amiWebApp.createControl(this, this, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), JSON.parse(settings)).done((control) => {
 
 				this._reload(result, rows, idx + 1);
+
+				control.autoRefresh = autoRefresh;
 
 				this.controls.push(control);
 
@@ -218,8 +221,10 @@ $AMIClass('UserDashboardApp', {
 
 		this.controls.forEach((control) => {
 
-			if(control.refresh)
-			{
+			if(control.autoRefresh
+			   &&
+			   control.refresh
+			 ) {
 				control.refresh();
 			}
 		});

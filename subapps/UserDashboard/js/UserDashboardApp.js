@@ -98,6 +98,7 @@ $AMIClass('UserDashboardApp', {
     var control = amiWebApp.jspath('..field{.@name==="control"}.$', row)[0] || '';
     var params = amiWebApp.jspath('..field{.@name==="params"}.$', row)[0] || '[]';
     var settings = amiWebApp.jspath('..field{.@name==="settings"}.$', row)[0] || '{}';
+    var autoRefresh = amiWebApp.jspath('..field{.@name==="autoRefresh"}.$', row)[0] || '1';
     var x = amiWebApp.jspath('..field{.@name==="x"}.$', row)[0] || '0';
     var y = amiWebApp.jspath('..field{.@name==="y"}.$', row)[0] || '0';
     var width = amiWebApp.jspath('..field{.@name==="width"}.$', row)[0] || '0';
@@ -107,6 +108,8 @@ $AMIClass('UserDashboardApp', {
     this.gridstack.addWidget($('<div data-gs-id="' + id + '"><div class="grid-stack-item-content" id="EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx + '"></div></div>'), x, y, width, height).promise().done(function () {
       amiWebApp.createControl(_this3, _this3, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), JSON.parse(settings)).done(function (control) {
         _this3._reload(result, rows, idx + 1);
+
+        control.autoRefresh = autoRefresh;
 
         _this3.controls.push(control);
       }).fail(function (message) {
@@ -156,7 +159,7 @@ $AMIClass('UserDashboardApp', {
   refresh: function refresh() {
     /*-----------------------------------------------------------------*/
     this.controls.forEach(function (control) {
-      if (control.refresh) {
+      if (control.autoRefresh && control.refresh) {
         control.refresh();
       }
     });
