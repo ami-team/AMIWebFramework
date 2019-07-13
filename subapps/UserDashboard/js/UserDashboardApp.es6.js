@@ -221,10 +221,8 @@ $AMIClass('UserDashboardApp', {
 
 		this.controls.forEach((control) => {
 
-			if(control.autoRefresh !== 0
-			   &&
-			   control.refresh
-			 ) {
+			if(control.autoRefresh !== 0 && control.refresh)
+			{
 				control.refresh();
 			}
 		});
