@@ -107,9 +107,9 @@ $AMIClass('UserDashboardApp', {
 
     this.gridstack.addWidget($('<div data-gs-id="' + id + '"><div class="grid-stack-item-content" id="EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx + '"></div></div>'), x, y, width, height).promise().done(function () {
       amiWebApp.createControl(_this3, _this3, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), JSON.parse(settings)).done(function (control) {
-        _this3._reload(result, rows, idx + 1);
+        control.autoRefresh = parseInt(autoRefresh);
 
-        control.autoRefresh = autoRefresh;
+        _this3._reload(result, rows, idx + 1);
 
         _this3.controls.push(control);
       }).fail(function (message) {
@@ -159,7 +159,7 @@ $AMIClass('UserDashboardApp', {
   refresh: function refresh() {
     /*-----------------------------------------------------------------*/
     this.controls.forEach(function (control) {
-      if (control.autoRefresh && control.refresh) {
+      if (control.autoRefresh !== 0 && control.refresh) {
         control.refresh();
       }
     });

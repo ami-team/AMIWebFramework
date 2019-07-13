@@ -149,9 +149,9 @@ $AMIClass('UserDashboardApp', {
 
 			amiWebApp.createControl(this, this, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), JSON.parse(settings)).done((control) => {
 
-				this._reload(result, rows, idx + 1);
+				control.autoRefresh = parseInt(autoRefresh);
 
-				control.autoRefresh = autoRefresh;
+				this._reload(result, rows, idx + 1);
 
 				this.controls.push(control);
 
@@ -221,7 +221,7 @@ $AMIClass('UserDashboardApp', {
 
 		this.controls.forEach((control) => {
 
-			if(control.autoRefresh
+			if(control.autoRefresh !== 0
 			   &&
 			   control.refresh
 			 ) {
