@@ -5815,7 +5815,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(idx > 0)
 		{
+			/*-------------------------------------------------------------*/
+
 			const flags = url.substring(idx).toLowerCase();
+
+			/*-------------------------------------------------------------*/
 
 			this._embedded = (flags.indexOf('embedded') >= 0);
 
@@ -5824,6 +5828,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			this._noDateTimePicker = (flags.indexOf('nodatetimepicker') >= 0);
 
 			this._noSelect2 = (flags.indexOf('noselect2') >= 0);
+
+			/*-------------------------------------------------------------*/
 		}
 
 		/*-----------------------------------------------------------------*/
@@ -5880,9 +5886,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			this.originURL + '/css/font-awesome.min.css',
 			this.originURL + '/css/ami.min.css',
 			...resourcesJS,
-		]).done(() => {
+		]).done((/*---*/) => {
 
-			this._globalDeferred.resolve();
+			this._globalDeferred.resolve(/*---*/);
+
+		}).fail((message) => {
+
+			this._globalDeferred.reject(message);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -7058,80 +7068,128 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	start: function(settings)
 	{
-		const [logo_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url] = this.setup(
-			['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'],
-			[
-				this.originURL
-					+ '/images/logo.png',
-				this.webAppURL,
-				'ami@lpsc.in2p3.fr',
-				'http://cern.ch/ami/',
-				this.originURL + '/twig/AMI/Theme/blue.twig',
-				this.originURL + '/twig/AMI/Fragment/locker.twig',
-				this.originURL + '/AMI/FrontEnd',
-			],
-			settings
-		);
+		this._globalDeferred.done(() => {
 
-		/*-----------------------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 
-		amiCommand.endpoint = endpoint_url;
+			const [logo_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url] = this.setup(
+				['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'],
+				[
+					this.originURL
+						+ '/images/logo.png',
+					this.webAppURL,
+					'ami@lpsc.in2p3.fr',
+					'http://cern.ch/ami/',
+					this.originURL + '/twig/AMI/Theme/blue.twig',
+					this.originURL + '/twig/AMI/Fragment/locker.twig',
+					this.originURL + '/AMI/FrontEnd',
+				],
+				settings
+			);
 
-		/*-----------------------------------------------------------------*/
+			/*-------------------------------------------------------------*/
 
-		window.onbeforeunload = (e) => {
+			amiCommand.endpoint = endpoint_url;
 
-			if(!this._canLeave)
-			{
-				const f = e || window.event;
+			/*-------------------------------------------------------------*/
 
-				if(f)
+			window.onbeforeunload = (e) => {
+
+				if(!this._canLeave)
 				{
-					f.returnValue = 'Confirm that you want to leave this page?';
+					const f = e || window.event;
+
+					if(f)
+					{
+						f.returnValue = 'Confirm that you want to leave this page?';
+					}
+
+					return 'Confirm that you want to leave this page?';
 				}
+			};
 
-				return 'Confirm that you want to leave this page?';
-			}
-		};
+			/*-------------------------------------------------------------*/
 
-		/*-----------------------------------------------------------------*/
+			const controls_url = this.originURL + '/controls/CONTROLS.json';
 
-		const controls_url = this.originURL + '/controls/CONTROLS.json';
+			const subapps_url = this.originURL + '/subapps/SUBAPPS.json';
 
-		const subapps_url = this.originURL + '/subapps/SUBAPPS.json';
+			/*-------------------------------------------------------------*/
 
-		/*-----------------------------------------------------------------*/
+			$.ajax({url: controls_url, cache: false, crossDomain: true, dataType: 'json'}).then((data1) => {
 
-		$.ajax({url: controls_url, cache: false, crossDomain: true, dataType: 'json'}).then((data1) => {
+				$.ajax({url: subapps_url, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
 
-			$.ajax({url: subapps_url, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
+					for(const name in data1) {
+						this._controls[name.toLowerCase()] = data1[name];
+					}
 
-				for(const name in data1) {
-					this._controls[name.toLowerCase()] = data1[name];
-				}
+					for(const name in data2) {
+						this._subapps[name.toLowerCase()] = data2[name];
+					}
 
-				for(const name in data2) {
-					this._subapps[name.toLowerCase()] = data2[name];
-				}
+					if(!this._embedded)
+					{
+						/*-------------------------------------------------*/
 
-				if(!this._embedded)
-				{
-					/*-----------------------------------------------------*/
+						const dict = {
+							LOGO_URL: logo_url,
+							HOME_URL: home_url,
+							CONTACT_EMAIL: contact_email,
+							ABOUT_URL: about_url,
+						};
 
-					const dict = {
-						LOGO_URL: logo_url,
-						HOME_URL: home_url,
-						CONTACT_EMAIL: contact_email,
-						ABOUT_URL: about_url,
-					};
+						/*-------------------------------------------------*/
 
-					/*-----------------------------------------------------*/
+						$.ajax({url: theme_url, cache: true, crossDomain: true, dataType: 'text'}).then((data3) => {
 
-					$.ajax({url: theme_url, cache: true, crossDomain: true, dataType: 'text'}).then((data3) => {
+							$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
 
-						$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
+								$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
+									this.lock();
+
+									amiLogin._start().done(() => {
+
+										this.unlock();
+
+									}).fail((message) => {
+
+										this.error(message);
+									});
+								});
+
+							}, () => {
+
+								alert('could not open `' + locker_url + '`, please reload the page...'); // eslint-disable-line no-alert
+							});
+
+						}, () => {
+
+							alert('could not open `' + theme_url + '`, please reload the page...'); // eslint-disable-line no-alert
+						});
+
+						/*-------------------------------------------------*/
+					}
+					else
+					{
+						/*-------------------------------------------------*/
+
+						let data3 = '';
+
+						if($('#ami_alert_content').length === 0) {
+							data3 += '<div id="ami_alert_content"></div>';
+						}
+
+						if($('#ami_login_menu_content').length === 0) {
+							data3 += '<div id="ami_login_menu_content"></div>';
+						}
+
+						/*-------------------------------------------------*/
+
+						$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).done((data4) => {
+
+							$('body').prepend(data3 + data4).promise().done(() => {
 
 								this.lock();
 
@@ -7144,66 +7202,27 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 									this.error(message);
 								});
 							});
-
-						}, () => {
-
-							alert('could not open `' + locker_url + '`, please reload the page...'); // eslint-disable-line no-alert
 						});
 
-					}, () => {
-
-						alert('could not open `' + theme_url + '`, please reload the page...'); // eslint-disable-line no-alert
-					});
-
-					/*-----------------------------------------------------*/
-				}
-				else
-				{
-					/*-----------------------------------------------------*/
-
-					let data3 = '';
-
-					if($('#ami_alert_content').length === 0) {
-						data3 += '<div id="ami_alert_content"></div>';
+						/*-------------------------------------------------*/
 					}
 
-					if($('#ami_login_menu_content').length === 0) {
-						data3 += '<div id="ami_login_menu_content"></div>';
-					}
+				}, () => {
 
-					/*-----------------------------------------------------*/
-
-					$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).done((data4) => {
-
-						$('body').prepend(data3 + data4).promise().done(() => {
-
-							this.lock();
-
-							amiLogin._start().done(() => {
-
-								this.unlock();
-
-							}).fail((message) => {
-
-								this.error(message);
-							});
-						});
-					});
-
-					/*-----------------------------------------------------*/
-				}
+					alert('could not open `' + subapps_url + '`, please reload the page...'); // eslint-disable-line no-alert
+				});
 
 			}, () => {
 
-				alert('could not open `' + subapps_url + '`, please reload the page...'); // eslint-disable-line no-alert
+				alert('could not open `' + controls_url + '`, please reload the page...'); // eslint-disable-line no-alert
 			});
 
-		}, () => {
+			/*-------------------------------------------------------------*/
 
-			alert('could not open `' + controls_url + '`, please reload the page...'); // eslint-disable-line no-alert
+		}).fail((message) => {
+
+			alert(message); // eslint-disable-line no-alert
 		});
-
-		/*-----------------------------------------------------------------*/
 	},
 
 	/*---------------------------------------------------------------------*/

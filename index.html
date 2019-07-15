@@ -74,13 +74,15 @@
 
 		<script type="text/javascript">
 
-			amiWebApp._globalDeferred.done(function() {
+			var subapp = amiWebApp.args['subapp'];
 
-				amiWebApp.start({
-					logo_url: 'images/logo.png',
-					theme_url: 'twig/AMI/Theme/blue.twig',
-					endpoint_url: 'https://localhost:8443/AMI/FrontEnd',
-				});
+			var theme_url = !subapp || subapp.toLowerCase() !== 'userdashboard' ? 'twig/AMI/Theme/blue.twig'
+					                                                            : 'twig/AMI/Theme/cloud.twig'
+			;
+
+			amiWebApp.start({
+				theme_url: theme_url,
+				endpoint_url: 'https://localhost:8443/AMI/FrontEnd',
 			});
 
 		</script>

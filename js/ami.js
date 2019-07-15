@@ -4882,11 +4882,15 @@ $AMINamespace('amiWebApp',
     var idx = url.indexOf('?');
 
     if (idx > 0) {
+      /*-------------------------------------------------------------*/
       var flags = url.substring(idx).toLowerCase();
+      /*-------------------------------------------------------------*/
+
       this._embedded = flags.indexOf('embedded') >= 0;
       this._noBootstrap = flags.indexOf('nobootstrap') >= 0;
       this._noDateTimePicker = flags.indexOf('nodatetimepicker') >= 0;
       this._noSelect2 = flags.indexOf('noselect2') >= 0;
+      /*-------------------------------------------------------------*/
     }
     /*-----------------------------------------------------------------*/
 
@@ -4936,8 +4940,12 @@ $AMINamespace('amiWebApp',
     /*-----------------------------------------------------------------*/
 
 
-    this.loadResources([].concat(resourcesCSS, [this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css'], resourcesJS)).done(function () {
+    this.loadResources([].concat(resourcesCSS, [this.originURL + '/css/font-awesome.min.css', this.originURL + '/css/ami.min.css'], resourcesJS)).done(function ()
+    /*---*/
+    {
       _this3._globalDeferred.resolve();
+    }).fail(function (message) {
+      _this3._globalDeferred.reject(message);
     });
     /*-----------------------------------------------------------------*/
   },
@@ -5922,81 +5930,119 @@ $AMINamespace('amiWebApp',
   start: function start(settings) {
     var _this8 = this;
 
-    var _this$setup3 = this.setup(['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'], [this.originURL + '/images/logo.png', this.webAppURL, 'ami@lpsc.in2p3.fr', 'http://cern.ch/ami/', this.originURL + '/twig/AMI/Theme/blue.twig', this.originURL + '/twig/AMI/Fragment/locker.twig', this.originURL + '/AMI/FrontEnd'], settings),
-        logo_url = _this$setup3[0],
-        home_url = _this$setup3[1],
-        contact_email = _this$setup3[2],
-        about_url = _this$setup3[3],
-        theme_url = _this$setup3[4],
-        locker_url = _this$setup3[5],
-        endpoint_url = _this$setup3[6];
-    /*-----------------------------------------------------------------*/
+    this._globalDeferred.done(function () {
+      /*-------------------------------------------------------------*/
+      var _this8$setup = _this8.setup(['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'], [_this8.originURL + '/images/logo.png', _this8.webAppURL, 'ami@lpsc.in2p3.fr', 'http://cern.ch/ami/', _this8.originURL + '/twig/AMI/Theme/blue.twig', _this8.originURL + '/twig/AMI/Fragment/locker.twig', _this8.originURL + '/AMI/FrontEnd'], settings),
+          logo_url = _this8$setup[0],
+          home_url = _this8$setup[1],
+          contact_email = _this8$setup[2],
+          about_url = _this8$setup[3],
+          theme_url = _this8$setup[4],
+          locker_url = _this8$setup[5],
+          endpoint_url = _this8$setup[6];
+      /*-------------------------------------------------------------*/
 
 
-    amiCommand.endpoint = endpoint_url;
-    /*-----------------------------------------------------------------*/
+      amiCommand.endpoint = endpoint_url;
+      /*-------------------------------------------------------------*/
 
-    window.onbeforeunload = function (e) {
-      if (!_this8._canLeave) {
-        var f = e || window.event;
+      window.onbeforeunload = function (e) {
+        if (!_this8._canLeave) {
+          var f = e || window.event;
 
-        if (f) {
-          f.returnValue = 'Confirm that you want to leave this page?';
+          if (f) {
+            f.returnValue = 'Confirm that you want to leave this page?';
+          }
+
+          return 'Confirm that you want to leave this page?';
         }
-
-        return 'Confirm that you want to leave this page?';
-      }
-    };
-    /*-----------------------------------------------------------------*/
+      };
+      /*-------------------------------------------------------------*/
 
 
-    var controls_url = this.originURL + '/controls/CONTROLS.json';
-    var subapps_url = this.originURL + '/subapps/SUBAPPS.json';
-    /*-----------------------------------------------------------------*/
+      var controls_url = _this8.originURL + '/controls/CONTROLS.json';
+      var subapps_url = _this8.originURL + '/subapps/SUBAPPS.json';
+      /*-------------------------------------------------------------*/
 
-    $.ajax({
-      url: controls_url,
-      cache: false,
-      crossDomain: true,
-      dataType: 'json'
-    }).then(function (data1) {
       $.ajax({
-        url: subapps_url,
+        url: controls_url,
         cache: false,
         crossDomain: true,
         dataType: 'json'
-      }).then(function (data2) {
-        for (var name in data1) {
-          _this8._controls[name.toLowerCase()] = data1[name];
-        }
+      }).then(function (data1) {
+        $.ajax({
+          url: subapps_url,
+          cache: false,
+          crossDomain: true,
+          dataType: 'json'
+        }).then(function (data2) {
+          for (var name in data1) {
+            _this8._controls[name.toLowerCase()] = data1[name];
+          }
 
-        for (var _name3 in data2) {
-          _this8._subapps[_name3.toLowerCase()] = data2[_name3];
-        }
+          for (var _name3 in data2) {
+            _this8._subapps[_name3.toLowerCase()] = data2[_name3];
+          }
 
-        if (!_this8._embedded) {
-          /*-----------------------------------------------------*/
-          var dict = {
-            LOGO_URL: logo_url,
-            HOME_URL: home_url,
-            CONTACT_EMAIL: contact_email,
-            ABOUT_URL: about_url
-          };
-          /*-----------------------------------------------------*/
+          if (!_this8._embedded) {
+            /*-------------------------------------------------*/
+            var dict = {
+              LOGO_URL: logo_url,
+              HOME_URL: home_url,
+              CONTACT_EMAIL: contact_email,
+              ABOUT_URL: about_url
+            };
+            /*-------------------------------------------------*/
 
-          $.ajax({
-            url: theme_url,
-            cache: true,
-            crossDomain: true,
-            dataType: 'text'
-          }).then(function (data3) {
+            $.ajax({
+              url: theme_url,
+              cache: true,
+              crossDomain: true,
+              dataType: 'text'
+            }).then(function (data3) {
+              $.ajax({
+                url: locker_url,
+                cache: true,
+                crossDomain: true,
+                dataType: 'text'
+              }).then(function (data4) {
+                $('body').append(_this8.formatTWIG(data3, dict) + data4).promise().done(function () {
+                  _this8.lock();
+
+                  amiLogin._start().done(function () {
+                    _this8.unlock();
+                  }).fail(function (message) {
+                    _this8.error(message);
+                  });
+                });
+              }, function () {
+                alert('could not open `' + locker_url + '`, please reload the page...'); // eslint-disable-line no-alert
+              });
+            }, function () {
+              alert('could not open `' + theme_url + '`, please reload the page...'); // eslint-disable-line no-alert
+            });
+            /*-------------------------------------------------*/
+          } else {
+            /*-------------------------------------------------*/
+            var data3 = '';
+
+            if ($('#ami_alert_content').length === 0) {
+              data3 += '<div id="ami_alert_content"></div>';
+            }
+
+            if ($('#ami_login_menu_content').length === 0) {
+              data3 += '<div id="ami_login_menu_content"></div>';
+            }
+            /*-------------------------------------------------*/
+
+
             $.ajax({
               url: locker_url,
               cache: true,
               crossDomain: true,
               dataType: 'text'
-            }).then(function (data4) {
-              $('body').append(_this8.formatTWIG(data3, dict) + data4).promise().done(function () {
+            }).done(function (data4) {
+              $('body').prepend(data3 + data4).promise().done(function () {
                 _this8.lock();
 
                 amiLogin._start().done(function () {
@@ -6005,52 +6051,19 @@ $AMINamespace('amiWebApp',
                   _this8.error(message);
                 });
               });
-            }, function () {
-              alert('could not open `' + locker_url + '`, please reload the page...'); // eslint-disable-line no-alert
             });
-          }, function () {
-            alert('could not open `' + theme_url + '`, please reload the page...'); // eslint-disable-line no-alert
-          });
-          /*-----------------------------------------------------*/
-        } else {
-          /*-----------------------------------------------------*/
-          var data3 = '';
-
-          if ($('#ami_alert_content').length === 0) {
-            data3 += '<div id="ami_alert_content"></div>';
+            /*-------------------------------------------------*/
           }
-
-          if ($('#ami_login_menu_content').length === 0) {
-            data3 += '<div id="ami_login_menu_content"></div>';
-          }
-          /*-----------------------------------------------------*/
-
-
-          $.ajax({
-            url: locker_url,
-            cache: true,
-            crossDomain: true,
-            dataType: 'text'
-          }).done(function (data4) {
-            $('body').prepend(data3 + data4).promise().done(function () {
-              _this8.lock();
-
-              amiLogin._start().done(function () {
-                _this8.unlock();
-              }).fail(function (message) {
-                _this8.error(message);
-              });
-            });
-          });
-          /*-----------------------------------------------------*/
-        }
+        }, function () {
+          alert('could not open `' + subapps_url + '`, please reload the page...'); // eslint-disable-line no-alert
+        });
       }, function () {
-        alert('could not open `' + subapps_url + '`, please reload the page...'); // eslint-disable-line no-alert
+        alert('could not open `' + controls_url + '`, please reload the page...'); // eslint-disable-line no-alert
       });
-    }, function () {
-      alert('could not open `' + controls_url + '`, please reload the page...'); // eslint-disable-line no-alert
+      /*-------------------------------------------------------------*/
+    }).fail(function (message) {
+      alert(message); // eslint-disable-line no-alert
     });
-    /*-----------------------------------------------------------------*/
   },
 
   /*---------------------------------------------------------------------*/
@@ -6068,8 +6081,8 @@ $AMINamespace('amiWebApp',
   loadControl: function loadControl(control, settings) {
     var result = $.Deferred();
 
-    var _this$setup4 = this.setup(['context'], [result], settings),
-        context = _this$setup4[0];
+    var _this$setup3 = this.setup(['context'], [result], settings),
+        context = _this$setup3[0];
     /*-----------------------------------------------------------------*/
 
 
@@ -6129,8 +6142,8 @@ $AMINamespace('amiWebApp',
   createControl: function createControl(parent, owner, control, params, settings) {
     var result = $.Deferred();
 
-    var _this$setup5 = this.setup(['context'], [result], settings),
-        context = _this$setup5[0];
+    var _this$setup4 = this.setup(['context'], [result], settings),
+        context = _this$setup4[0];
     /*-----------------------------------------------------------------*/
 
 
@@ -6166,8 +6179,8 @@ $AMINamespace('amiWebApp',
   createControlInBody: function createControlInBody(parent, owner, control, controlParamsWithoutSettings, controlSettings, parentSettings, settings) {
     var result = $.Deferred();
 
-    var _this$setup6 = this.setup(['context'], [result], settings),
-        context = _this$setup6[0];
+    var _this$setup5 = this.setup(['context'], [result], settings),
+        context = _this$setup5[0];
     /*-----------------------------------------------------------------*/
 
 
@@ -6226,8 +6239,8 @@ $AMINamespace('amiWebApp',
 
     var result = $.Deferred();
 
-    var _this$setup7 = this.setup(['context'], [result], settings),
-        context = _this$setup7[0];
+    var _this$setup6 = this.setup(['context'], [result], settings),
+        context = _this$setup6[0];
     /*-----------------------------------------------------------------*/
 
 
@@ -6386,8 +6399,8 @@ $AMINamespace('amiWebApp',
 
     var result = $.Deferred();
 
-    var _this$setup8 = this.setup(['context'], [result], settings),
-        context = _this$setup8[0];
+    var _this$setup7 = this.setup(['context'], [result], settings),
+        context = _this$setup7[0];
     /*-----------------------------------------------------------------*/
 
 

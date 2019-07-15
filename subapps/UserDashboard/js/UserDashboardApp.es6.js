@@ -26,7 +26,7 @@ $AMIClass('UserDashboardApp', {
 			'subapps/UserDashboard/css/UserDashboardApp.css',
 			'subapps/UserDashboard/twig/UserDashboardApp.twig',
 			/**/
-			amiWebApp.originURL + '/js/3rd-party/jquery-ui.min.js',
+			'subapps/UserDashboard/js/jquery-ui.min.js',
 			/**/
 			amiWebApp.originURL + '/subapps/UserDashboard/js/gridstack.min.css',
 			amiWebApp.originURL + '/subapps/UserDashboard/js/gridstack.all.js',
