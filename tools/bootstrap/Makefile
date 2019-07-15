@@ -14,10 +14,6 @@ BOOTSTRAP_VERSION=4.3.1
 # 3RD PARTY                                                                 #
 #############################################################################
 
-JQUERYUI_VERSION=1.12.1
-
-#############################################################################
-
 BACKBONE_VERSION=1.4.0
 LOADASH_VERSION=4.17.11
 
@@ -96,13 +92,6 @@ core:
 	#########################################################################
 
 3rd-party:
-	#########################################################################
-	# JQUERY-UI                                                             #
-	#########################################################################
-
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/jqueryui/$(JQUERYUI_VERSION)/jquery-ui.min.css > ../../css/3rd-party/jquery-ui.min.css
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/jqueryui/$(JQUERYUI_VERSION)/jquery-ui.min.js > ../../js/3rd-party/jquery-ui.min.js
-
 	#########################################################################
 	# BACKBONE + LODASH + JOINTJS                                           #
 	#########################################################################
