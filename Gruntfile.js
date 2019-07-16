@@ -33,11 +33,11 @@ module.exports = function(grunt) {
 
 	function findES6Files(paths)
 	{
-		var result = {};
+		let result = {};
 
-		paths.forEach(function(path) {
+		paths.forEach((path) => {
 
-			grunt.file.expand(path + "/*.es6.js").forEach(function(file) {
+			grunt.file.expand(path + "/*.es6.js").forEach((file) => {
 
 				result[file.substring(0, file.length - 6) + "js"] = file;
 			});
@@ -82,6 +82,19 @@ module.exports = function(grunt) {
 		/*-----------------------------------------------------------------*/
 
 		"concat": {
+			"css": {
+				"options": {
+					"sourceMap": true,
+					"sourceMapStyle": "inline"
+				},
+				"src": [
+					"css/AMI/general.css",
+					"css/AMI/bootstrap.css",
+					"css/AMI/jsdoc.css",
+					"css/AMI/ami.css"
+				],
+				"dest": "css/ami.css"
+			},
 			"js": {
 				"options": {
 					"sourceMap": true,
@@ -112,19 +125,6 @@ module.exports = function(grunt) {
 					"js/AMI/AMIDoc.js"
 				],
 				"dest": "js/ami.es6.js"
-			},
-			"css": {
-				"options": {
-					"sourceMap": true,
-					"sourceMapStyle": "inline"
-				},
-				"src": [
-					"css/AMI/general.css",
-					"css/AMI/bootstrap.css",
-					"css/AMI/jsdoc.css",
-					"css/AMI/ami.css"
-				],
-				"dest": "css/ami.css"
 			}
 		},
 
@@ -133,11 +133,12 @@ module.exports = function(grunt) {
 		"autoprefixer": {
 			"options": {
 				"browserslist": browserslist,
+				"cascade": false,
 				"map": "inline"
 			},
 			"build": {
 				"files": {
-					"css/ami.css": "css/ami.css"
+					"<%= concat.css.dest %>": "<%= concat.css.dest %>"
 				}
 			}
 		},
@@ -146,7 +147,7 @@ module.exports = function(grunt) {
 
 		"eslint": {
 			"target": [
-				"js/ami.es6.js"
+				"<%= concat.js.dest %>"
 			]
 		},
 
@@ -191,11 +192,10 @@ module.exports = function(grunt) {
 		/*-----------------------------------------------------------------*/
 
 		"uglify": {
-			"js": {
+			"s": {
 				"options": {
 					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / CNRS\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
-					"compress": true,
-					"sourceMap": true
+					"compress": true
 				},
 				"files": {
 					"js/ami.es6.min.js": "js/ami.es6.js",
