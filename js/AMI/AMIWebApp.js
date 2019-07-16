@@ -1398,7 +1398,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Starts the Web application
-	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, change_passord_allowed, change_user_info_allowed, change_passord_allowed)
+	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, change_passord_allowed, change_info_allowed, change_passord_allowed)
 	  */
 
 	start: function(settings)
@@ -1410,11 +1410,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			const [
 				logoURL, homeURL, contactEmail,
 				aboutURL, themeURL, lockerURL, endpointURL,
-				createAccountAllowed, changeUserInfoAllowed, changePassordAllowed,
+				createAccountAllowed, changeInfoAllowed, changePassordAllowed,
 			] = this.setup([
 				'logo_url', 'home_url', 'contact_email',
 				'about_url', 'theme_url', 'locker_url', 'endpoint_url',
-				'create_account_allowed', 'change_user_info_allowed', 'reset_passord_allowed',
+				'create_account_allowed', 'change_info_allowed', 'change_passord_allowed',
 			], [
 				this.originURL
 					+ '/images/logo.png',
@@ -1491,7 +1491,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 									amiLogin._start(
 										createAccountAllowed,
-										changeUserInfoAllowed,
+										changeInfoAllowed,
 										changePassordAllowed
 									).done(() => {
 
@@ -1539,7 +1539,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 								amiLogin._start(
 									createAccountAllowed,
-									changeUserInfoAllowed,
+									changeInfoAllowed,
 									changePassordAllowed
 								).done(() => {
 

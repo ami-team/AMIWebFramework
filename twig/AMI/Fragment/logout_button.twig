@@ -6,6 +6,8 @@
 		<i class="fa fa-user"></i> {{user}}
 	</a>
 	<div class="dropdown-menu">
+	{{changeUserInfoAllowed}}
+	{{changePassordAllowed}}
 {% if changeUserInfoAllowed %}
 		<a class="dropdown-item" href="javascript:amiLogin.changeInfo();">Change Information</a>
 {% endif %}
