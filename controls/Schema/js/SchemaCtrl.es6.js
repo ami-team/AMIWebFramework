@@ -699,9 +699,15 @@ SchemaCtrl.applyEntity = function()
 
 	/*---------------------------------------------------------------------*/
 
+	const json = {
+		'bridge': $('#E1B8F5B1_9BDD_D4A5_56B1_540534E17B09').prop('checked'),
+	};
+
+	/*---------------------------------------------------------------------*/
+
 	amiCommand.execute('RemoveElements -separator="|" -catalog="self" -entity="router_entity" -keyFields="catalog|entity" -keyValues="' + amiWebApp.textToString($('#D10E4EFD_E2C2_849A_E80A_C5CDF370199C').val()) + '|' + amiWebApp.textToString($('#E1E8A4D4_0F83_39C4_EFDF_D687479C6B25').val()) + '"').done((data, message) => {
 
-		amiCommand.execute(/**/'AddElement -separator="|" -catalog="self" -entity="router_entity" -fields="catalog|entity|rank|description|isBridge" -values="' + amiWebApp.textToString($('#D10E4EFD_E2C2_849A_E80A_C5CDF370199C').val()) + '|' + amiWebApp.textToString($('#E1E8A4D4_0F83_39C4_EFDF_D687479C6B25').val()) + '|' + amiWebApp.textToString($('#F03DA19A_40CE_5C11_9712_A82917FB07AF').val()) + '|' + amiWebApp.textToString($('#E831834E_1D7C_A0F7_B266_E5F5F9CB4F16').val()) + '|' + ($('#E1B8F5B1_9BDD_D4A5_56B1_540534E17B09').prop('checked') ? '1' : '0') + '"').done((data, message) => {
+		amiCommand.execute(/**/'AddElement -separator="|" -catalog="self" -entity="router_entity" -fields="catalog|entity|rank|json|description" -values="' + amiWebApp.textToString($('#D10E4EFD_E2C2_849A_E80A_C5CDF370199C').val()) + '|' + amiWebApp.textToString($('#E1E8A4D4_0F83_39C4_EFDF_D687479C6B25').val()) + '|' + amiWebApp.textToString($('#F03DA19A_40CE_5C11_9712_A82917FB07AF').val()) + '|' + amiWebApp.textToString(JSON.stringify(json)) + '|' + amiWebApp.textToString($('#E831834E_1D7C_A0F7_B266_E5F5F9CB4F16').val()) + '"').done((data, message) => {
 
 			amiCommand.execute('FlushServerCaches').done(() => {
 
@@ -778,9 +784,43 @@ SchemaCtrl.applyField = function()
 
 	/*---------------------------------------------------------------------*/
 
+	const json = {
+		'hidden': $('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked'),
+		'adminOnly': $('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked'),
+		'crypted': $('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked'),
+		'primary': $('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked'),
+		'readable': $('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked'),
+		'automatic': $('#E747BF02_031E_A70D_9327_7A974FDF7E96').prop('checked'),
+		'created': $('#BC7E5CA1_09C8_BB5C_20E2_C0CFE3204224').prop('checked'),
+		'createdBy': $('#FB998C28_1E59_12A0_1B34_2C2C0A44A6AD').prop('checked'),
+		'modified': $('#AADC020E_E1CB_BA8E_E870_27B63666C988').prop('checked'),
+		'modifiedBy': $('#FACFE443_72F3_8917_2F08_934D88E55DDC').prop('checked'),
+		'statable': $('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked'),
+		'groupable': $('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked'),
+		'displayable': $('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked'),
+		'base64': $('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked'),
+		'mime': $('#CE54048D_702D_0132_4659_9E558BE2AC11').val(),
+		'ctrl': $('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val(),
+		'webLinkScript': $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').getValue(),
+	};
+
+	if(!json.mime || json.mime.toUpperCase() === '@NULL') {
+		json.mime = null;
+	}
+
+	if(!json.ctrl || json.ctrl.toUpperCase() === '@NULL') {
+		json.ctrl = null;
+	}
+
+	if(!json.webLinkScript || json.webLinkScript.toUpperCase() === '@NULL') {
+		json.webLinkScript = null;
+	}
+
+	/*---------------------------------------------------------------------*/
+
 	amiCommand.execute('RemoveElements -separator="|" -catalog="self" -entity="router_field" -keyFields="catalog|entity|field" -keyValues="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '"').done((data, message) => {
 
-		amiCommand.execute(/**/'AddElement -separator="|" -catalog="self" -entity="router_field" -fields="catalog|entity|field|rank|isHidden|isAdminOnly|isCrypted|isPrimary|isReadable|isAutomatic|isCreated|isCreatedBy|isModified|isModifiedBy|isStatable|isGroupable|isDisplayable|isBase64|mime|ctrl|description|webLinkScript" -values="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '|' + amiWebApp.textToString($('#C6CA88FD_548A_FE30_9871_AFE55362439B').val()) + '|' + ($('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked') ? '1' : '0') + '|' + ($('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked') ? '1' : '0') + '|' + ($('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked') ? '1' : '0') + '|' + ($('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked') ? '1' : '0') + '|' + ($('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked') ? '1' : '0') + '|' + ($('#E747BF02_031E_A70D_9327_7A974FDF7E96').prop('checked') ? '1' : '0') + '|' + ($('#BC7E5CA1_09C8_BB5C_20E2_C0CFE3204224').prop('checked') ? '1' : '0') + '|' + ($('#FB998C28_1E59_12A0_1B34_2C2C0A44A6AD').prop('checked') ? '1' : '0') + '|' + ($('#AADC020E_E1CB_BA8E_E870_27B63666C988').prop('checked') ? '1' : '0') + '|' + ($('#FACFE443_72F3_8917_2F08_934D88E55DDC').prop('checked') ? '1' : '0') + '|' + ($('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked') ? '1' : '0') + '|' + ($('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked') ? '1' : '0') + '|' + ($('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked') ? '1' : '0') + '|' + ($('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked') ? '1' : '0') + '|' + amiWebApp.textToString($('#CE54048D_702D_0132_4659_9E558BE2AC11').val()) + '|' + amiWebApp.textToString($('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val()) + '|' + amiWebApp.textToString($('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val()) + '|' + amiWebApp.textToString($('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').getValue()) + '"').done((data, message) => {
+		amiCommand.execute(/**/'AddElement -separator="|" -catalog="self" -entity="router_field" -fields="catalog|entity|field|rank|json|description" -values="' + amiWebApp.textToString($('#C78B630C_9805_7D15_C14F_4C7C276E9E2C').val()) + '|' + amiWebApp.textToString($('#B495FF2B_45A2_F3CA_C810_55FC054872D2').val()) + '|' + amiWebApp.textToString($('#C3E221A6_6B33_6A52_B7D1_57CB0228BB07').val()) + '|' + amiWebApp.textToString($('#C6CA88FD_548A_FE30_9871_AFE55362439B').val()) + '|' + amiWebApp.textToString(JSON.stringify(json)) + '|' + amiWebApp.textToString($('#E9801316_0EC6_D6F2_0BC9_E1E1DC3ABA00').val()) + '"').done((data, message) => {
 
 			amiCommand.execute('FlushServerCaches').done(() => {
 
