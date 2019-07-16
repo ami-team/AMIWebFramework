@@ -85,8 +85,9 @@ module.exports = function(grunt) {
 			"js": {
 				"options": {
 					"sourceMap": true,
-					"stripBanners": true,
+					"sourceMapStyle": "inline",
 
+					"stripBanners": true,
 					"banner": "'use strict';\n\n",
 
 					"process": function(src) {
@@ -115,7 +116,7 @@ module.exports = function(grunt) {
 			"css": {
 				"options": {
 					"sourceMap": true,
-					"stripBanners": true,
+					"sourceMapStyle": "inline"
 				},
 				"src": [
 					"css/AMI/general.css",
@@ -131,7 +132,8 @@ module.exports = function(grunt) {
 
 		"autoprefixer": {
 			"options": {
-				"browserslist": browserslist
+				"browserslist": browserslist,
+				"map": "inline"
 			},
 			"build": {
 				"files": {
@@ -153,7 +155,8 @@ module.exports = function(grunt) {
 		"babel": {
 			"js": {
 				"options": {
-					"sourceMap": true,
+					"inputSourceMap": true,
+					"sourceMaps": "inline",
 					"presets": [["@babel/preset-env", {
 						"debug": false,
 						"loose": true,
@@ -177,8 +180,7 @@ module.exports = function(grunt) {
 			"css": {
 				"options": {
 					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / CNRS\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
-					"compress": true,
-					"sourceMap": true
+					"compress": true
 				},
 				"files": {
 					"css/ami.min.css": "css/ami.css"
@@ -192,8 +194,7 @@ module.exports = function(grunt) {
 			"js": {
 				"options": {
 					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / CNRS\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
-					"compress": true,
-					"sourceMap": true
+					"compress": true
 				},
 				"files": {
 					"js/ami.es6.min.js": "js/ami.es6.js",
