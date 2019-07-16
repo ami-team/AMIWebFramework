@@ -82,8 +82,8 @@ core:
 
 	#########################################################################
 
-	cp bootstrap-$(BOOTSTRAP_VERSION)/dist/css/bootstrap.min.css ../../css
-	cp bootstrap-$(BOOTSTRAP_VERSION)/dist/js/bootstrap.min.js ../../js
+	sed '/sourceMappingURL/d' bootstrap-$(BOOTSTRAP_VERSION)/dist/css/bootstrap.min.css > ../../css/bootstrap.min.css
+	sed '/sourceMappingURL/d' bootstrap-$(BOOTSTRAP_VERSION)/dist/js/bootstrap.min.js > ../../js/bootstrap.min.js
 
 	#########################################################################
 
