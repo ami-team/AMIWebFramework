@@ -6,8 +6,12 @@
 		<i class="fa fa-user"></i> {{user}}
 	</a>
 	<div class="dropdown-menu">
+{% if changeUserInfoAllowed %}
 		<a class="dropdown-item" href="javascript:amiLogin.changeInfo();">Change Information</a>
+{% endif %}
+{% if changePassordAllowed %}
 		<a class="dropdown-item" href="javascript:amiLogin.changePass();">Change Password</a>
+{% endif %}
 		<a class="dropdown-item" href="javascript:amiLogin.accountStatus();">Account Status</a>
 		<div id="ami_user_menu_content"></div>
 	</div>

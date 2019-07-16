@@ -1398,7 +1398,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Starts the Web application
-	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url)
+	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, change_passord_allowed, change_user_info_allowed, change_passord_allowed)
 	  */
 
 	start: function(settings)
@@ -1407,24 +1407,29 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*-------------------------------------------------------------*/
 
-			const [logo_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url] = this.setup(
-				['logo_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url'],
-				[
-					this.originURL
-						+ '/images/logo.png',
-					this.webAppURL,
-					'ami@lpsc.in2p3.fr',
-					'http://cern.ch/ami/',
-					this.originURL + '/twig/AMI/Theme/blue.twig',
-					this.originURL + '/twig/AMI/Fragment/locker.twig',
-					this.originURL + '/AMI/FrontEnd',
-				],
-				settings
-			);
+			const [
+				logoURL, homeURL, contactEmail,
+				aboutURL, themeURL, lockerURL, endpointURL,
+				createAccountAllowed, changeUserInfoAllowed, changePassordAllowed,
+			] = this.setup([
+				'logo_url', 'home_url', 'contact_email',
+				'about_url', 'theme_url', 'locker_url', 'endpoint_url',
+				'create_account_allowed', 'change_user_info_allowed', 'reset_passord_allowed',
+			], [
+				this.originURL
+					+ '/images/logo.png',
+				this.webAppURL,
+				'ami@lpsc.in2p3.fr',
+				'http://cern.ch/ami/',
+				this.originURL + '/twig/AMI/Theme/blue.twig',
+				this.originURL + '/twig/AMI/Fragment/locker.twig',
+				this.originURL + '/AMI/FrontEnd',
+				true, true, true,
+			], settings);
 
 			/*-------------------------------------------------------------*/
 
-			amiCommand.endpoint = endpoint_url;
+			amiCommand.endpoint = endpointURL;
 
 			/*-------------------------------------------------------------*/
 
@@ -1445,15 +1450,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*-------------------------------------------------------------*/
 
-			const controls_url = this.originURL + '/controls/CONTROLS.json';
+			const controlsURL = this.originURL + '/controls/CONTROLS.json';
 
-			const subapps_url = this.originURL + '/subapps/SUBAPPS.json';
+			const subappsURL = this.originURL + '/subapps/SUBAPPS.json';
 
 			/*-------------------------------------------------------------*/
 
-			$.ajax({url: controls_url, cache: false, crossDomain: true, dataType: 'json'}).then((data1) => {
+			$.ajax({url: controlsURL, cache: false, crossDomain: true, dataType: 'json'}).then((data1) => {
 
-				$.ajax({url: subapps_url, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
+				$.ajax({url: subappsURL, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
 
 					for(const name in data1) {
 						this._controls[name.toLowerCase()] = data1[name];
@@ -1468,23 +1473,27 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 						/*-------------------------------------------------*/
 
 						const dict = {
-							LOGO_URL: logo_url,
-							HOME_URL: home_url,
-							CONTACT_EMAIL: contact_email,
-							ABOUT_URL: about_url,
+							LOGO_URL: logoURL,
+							HOME_URL: homeURL,
+							CONTACT_EMAIL: contactEmail,
+							ABOUT_URL: aboutURL,
 						};
 
 						/*-------------------------------------------------*/
 
-						$.ajax({url: theme_url, cache: true, crossDomain: true, dataType: 'text'}).then((data3) => {
+						$.ajax({url: themeURL, cache: true, crossDomain: true, dataType: 'text'}).then((data3) => {
 
-							$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
+							$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
 
 								$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
 									this.lock();
 
-									amiLogin._start().done(() => {
+									amiLogin._start(
+										createAccountAllowed,
+										changeUserInfoAllowed,
+										changePassordAllowed
+									).done(() => {
 
 										this.unlock();
 
@@ -1496,12 +1505,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 							}, () => {
 
-								alert('could not open `' + locker_url + '`, please reload the page...'); // eslint-disable-line no-alert
+								alert('could not open `' + lockerURL + '`, please reload the page...'); // eslint-disable-line no-alert
 							});
 
 						}, () => {
 
-							alert('could not open `' + theme_url + '`, please reload the page...'); // eslint-disable-line no-alert
+							alert('could not open `' + themeURL + '`, please reload the page...'); // eslint-disable-line no-alert
 						});
 
 						/*-------------------------------------------------*/
@@ -1522,13 +1531,17 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 						/*-------------------------------------------------*/
 
-						$.ajax({url: locker_url, cache: true, crossDomain: true, dataType: 'text'}).done((data4) => {
+						$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).done((data4) => {
 
 							$('body').prepend(data3 + data4).promise().done(() => {
 
 								this.lock();
 
-								amiLogin._start().done(() => {
+								amiLogin._start(
+									createAccountAllowed,
+									changeUserInfoAllowed,
+									changePassordAllowed
+								).done(() => {
 
 									this.unlock();
 
@@ -1544,12 +1557,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 				}, () => {
 
-					alert('could not open `' + subapps_url + '`, please reload the page...'); // eslint-disable-line no-alert
+					alert('could not open `' + subappsURL + '`, please reload the page...'); // eslint-disable-line no-alert
 				});
 
 			}, () => {
 
-				alert('could not open `' + controls_url + '`, please reload the page...'); // eslint-disable-line no-alert
+				alert('could not open `' + controlsURL + '`, please reload the page...'); // eslint-disable-line no-alert
 			});
 
 			/*-------------------------------------------------------------*/

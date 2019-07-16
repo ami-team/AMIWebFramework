@@ -25,6 +25,12 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/* PUBLIC MEMBERS                                                      */
 	/*---------------------------------------------------------------------*/
 
+	createAccountAllowed: true,
+	changeUserInfoAllowed: true,
+	changePassordAllowed: true,
+
+	/*---------------------------------------------------------------------*/
+
 	user: 'guest',
 	guest: 'guest',
 
@@ -44,7 +50,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/* PRIVATE METHODS                                                     */
 	/*---------------------------------------------------------------------*/
 
-	_start: function()
+	_start: function(createAccountAllowed, changeUserInfoAllowed, changePassordAllowed)
 	{
 		const result = $.Deferred();
 
@@ -63,7 +69,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*-------------------------------------------------------------*/
 
-			amiWebApp.appendHTML('body', data[2]).done(() => {
+			const dict = {
+				createAccountAllowed: this.createAccountAllowed = createAccountAllowed,
+				changeUserInfoAllowed: this.changeUserInfoAllowed = changeUserInfoAllowed,
+				changePassordAllowed: this.changePassordAllowed = changePassordAllowed,
+			};
+
+			/*-------------------------------------------------------------*/
+
+			amiWebApp.appendHTML('body', data[2], {dict: dict}).done(() => {
 
 				/*---------------------------------------------------------*/
 
@@ -249,6 +263,10 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		/*-----------------------------------------------------------------*/
 
 		const dict = {
+			createAccountAllowed: this.createAccountAllowed,
+			changeUserInfoAllowed: this.changeUserInfoAllowed,
+			changePassordAllowed: this.changePassordAllowed,
+			/**/
 			sso_label: ssoInfo.label || 'SSO',
 			sso_url: ssoInfo.url || '@NULL',
 		};
@@ -294,10 +312,6 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			$('#C76805D7_1E86_4231_9071_1D04783423BB').val(clientDNInSession);
 			$('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
 			$('#FE2F6232_C256_4B80_939C_EBEC90320308').val(issuerDNInSession);
-
-			/*-------------------------------------------------------------*/
-
-			$('#C587486B_62C0_4B6E_9288_D8F9F89D157B').prop('disabled', vomsEnabled !== 'false');
 
 			/*-------------------------------------------------------------*/
 
