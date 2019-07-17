@@ -798,6 +798,9 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 
 		<title>{{TITLE}}</title>
 
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"></link>
+		<link rel="stylesheet" type="text/css" href="css/ami.min.css"></link>
+
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 		<script type="text/javascript" src="js/ami.min.js"></script>
 
@@ -805,57 +808,53 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 
 			amiWebApp.onRefresh = function(isAuth)
 			{
-				/*---------------------------------------------------------*/
-
-				var main_menu =
-					'<li class="nav-item dropdown">' +
-					'	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
-					'		Search' +
-					'	</a>' +
-					'	<div class="dropdown-menu">' +
-					'		<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=search">Search</a>' +
-					'		<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=simpleSearch">Simple Search</a>' +
-					'		<div class="dropdown-divider"></div>' +
-					'		<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=schemaViewer">Schema Viewer</a>' +
-					'	</div>' +
+				var menu =
+					'<li class="nav-item">' +
+					'  <a href="' + amiWebApp.webAppURL + '?subapp=userDashboard" class="nav-link">' +
+					'    Dashboard' +
+					'  </a>' +
 					'</li>' +
 					'<li class="nav-item dropdown">' +
-					'	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
-					'		Tools' +
-					'	</a>' +
-					'	<div class="dropdown-menu">' +
-					'		<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=command">Command</a>' +
-					'		<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=emergency">Emergency</a>' +
-					'	</div>' +
+					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+					'    Search' +
+					'  </a>' +
+					'  <div class="dropdown-menu">' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=search">Search Engine</a>' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=simpleSearch">Simple Search Engine</a>' +
+					'    <div class="dropdown-divider"></div>' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=schemaViewer">Schema Viewer</a>' +
+					'  </div>' +
+					'</li>' +
+					'<li class="nav-item dropdown">' +
+					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+					'    Tools' +
+					'  </a>' +
+					'  <div class="dropdown-menu">' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=command">Command</a>' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=emergency">Emergency</a>' +
+					'    <div class="dropdown-divider"></div>' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=api.html">AMI Web Framework API</a>' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=info.html">AMI Web Framework Info</a>' +
+					'  </div>' +
 					'</li>'
 				;
 
 				if(amiLogin.hasRole('AMI_ADMIN'))
 				{
-					main_menu +=
+					menu +=
 						'<li class="nav-item dropdown">' +
-						'	<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
-						'		<i class="fa fa-key"></i> Admin' +
-						'	</a>' +
-						'	<div class="dropdown-menu">' +
-						'		<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=adminDashboard">Admin Dashboard</a>' +
-						'		<div class="dropdown-divider"></div>' +
-						'		<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=api.html">AMI Web Framework API</a>' +
-						'		<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=info.html">AMI Web Framework Info</a>' +
-						'	</div>' +
+						'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+						'    <i class="fa fa-key"></i> Admin' +
+						'  </a>' +
+						'  <div class="dropdown-menu">' +
+						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=adminDashboard">Admin Dashboard</a>' +
+						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=searchModeler">Search Modeler</a>' +
+						'  </div>' +
 						'</li>'
 					;
 				}
 
-				$('#ami_main_menu_content').html(main_menu);
-
-				/*----------------------------------------------------*/
-
-				var user_menu = '';
-
-				$('#ami_user_menu_content').html(user_menu);
-
-				/*---------------------------------------------------------*/
+				$('#ami_main_menu_content').html(menu);
 			};
 
 			amiWebApp.onReady = function()
@@ -869,9 +868,14 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 
 		<script type="text/javascript">
 
+			var subapp = amiWebApp.args['subapp'];
+
+			var theme_url = !subapp || subapp.toLowerCase() !== 'userdashboard' ? 'twig/AMI/Theme/blue.twig'
+					                                                            : 'twig/AMI/Theme/cloud.twig'
+			;
+
 			amiWebApp.start({
-				logo_url: 'images/logo.png',
-				theme_url: 'twig/AMI/Theme/blue.twig',
+				theme_url: theme_url,
 				endpoint_url: '{{ENDPOINT}}',
 			});
 

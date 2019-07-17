@@ -14,13 +14,18 @@
 		<link rel="stylesheet" type="text/css" href="css/ami.min.css"></link>
 
 		<script type="text/javascript" src="js/jquery.min.js"></script>
-		<script type="text/javascript" src="js/ami.es6.js"></script>
+		<script type="text/javascript" src="js/ami.min.js"></script>
 
 		<script type="text/javascript">
 
 			amiWebApp.onRefresh = function(isAuth)
 			{
 				var menu =
+					'<li class="nav-item">' +
+					'  <a href="' + amiWebApp.webAppURL + '?subapp=userDashboard" class="nav-link">' +
+					'    Dashboard' +
+					'  </a>' +
+					'</li>' +
 					'<li class="nav-item dropdown">' +
 					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
 					'    Search' +
@@ -39,6 +44,9 @@
 					'  <div class="dropdown-menu">' +
 					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=command">Command</a>' +
 					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=emergency">Emergency</a>' +
+					'    <div class="dropdown-divider"></div>' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=api.html">AMI Web Framework API</a>' +
+					'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=info.html">AMI Web Framework Info</a>' +
 					'  </div>' +
 					'</li>'
 				;
@@ -52,9 +60,7 @@
 						'  </a>' +
 						'  <div class="dropdown-menu">' +
 						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=adminDashboard">Admin Dashboard</a>' +
-						'    <div class="dropdown-divider"></div>' +
-						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=api.html">AMI Web Framework API</a>' +
-						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=info.html">AMI Web Framework Info</a>' +
+						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=searchModeler">Search Modeler</a>' +
 						'  </div>' +
 						'</li>'
 					;
