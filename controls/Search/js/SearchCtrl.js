@@ -911,11 +911,18 @@ $AMIClass('SearchCtrl', {
 				case 'json':
 					$.each(fields, function(idx, field) {
 
-						var t = JSON.parse(field.$ || '[]');
+						if (field.$ === '@NULL')
+						{
+							m[field.$] = field.$;
+						}
+						else
+						{
+							var t = JSON.parse(field.$ || '[]');
 
-						t.forEach(function(key){
-							m[key] = key;
-						})
+							t.forEach(function(key){
+								m[key] = key;
+							})
+						}
 					});
 					break;
 
@@ -1380,11 +1387,25 @@ $AMIClass('SearchCtrl', {
 					case 'json':
 						if (isDefaultEntity)
 						{
-							L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`' + _this.dumpConstraints(criteria) + ',\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+							if(param === '@NULL')
+							{
+								L.push('`' + catalog + '`.`' + entity + '`.`' + criteria.field + '` IS NULL');
+							}
+							else
+							{
+								L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`' + _this.dumpConstraints(criteria) + ',\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+							}
 						}
 						else
 						{
-							L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`' + _this.dumpConstraints(criteria) + ',\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+							if(param === '@NULL')
+							{
+								L.push('[`' + catalog + '`.`' + entity + '`.`' + criteria.field + '` IS NULL]');
+							}
+							else
+							{
+								L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criteria.field + '`' + _this.dumpConstraints(criteria) + ',\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+							}
 						}
 						break;
 
@@ -2196,6 +2217,11 @@ $AMIClass('SearchCtrl', {
 		var ast = null;
 		var predicateFound = false;
 
+		if(node === null)
+		{
+			return {'ast' : ast, 'predicateFound' : predicateFound};
+		}
+
 		var astL = null;
 		var astR = null;
 		var predicateFoundL = false;
@@ -2311,7 +2337,7 @@ $AMIClass('SearchCtrl', {
 
 			predicateFound = predicateFoundL || predicateFoundR;
 
-			return {'ast' : ast, 'predicateFound' : predicateFound};;
+			return {'ast' : ast, 'predicateFound' : predicateFound};
 		}
 
 		/*-----------------------------------------------------------------*/

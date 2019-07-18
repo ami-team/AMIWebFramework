@@ -338,27 +338,14 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         if inDebugMode:
 
             shutil.move('css' + os.sep + 'ami.css', 'css' + os.sep + 'ami.min.css')
-            replaceStrInFile('css' + os.sep + 'ami.css', 'ami.css.map', 'ami.min.css.map')
-            shutil.move('css' + os.sep + 'ami.css.map', 'css' + os.sep + 'ami.min.css.map')
-
             shutil.move('js' + os.sep + 'ami.js', 'js' + os.sep + 'ami.min.js')
-            replaceStrInFile('js' + os.sep + 'ami.js', 'ami.js.map', 'ami.min.js.map')
-            shutil.move('js' + os.sep + 'ami.js.map', 'js' + os.sep + 'ami.min.js.map')
-
             shutil.move('js' + os.sep + 'ami.es6.js', 'js' + os.sep + 'ami.es6.min.js')
-            replaceStrInFile('js' + os.sep + 'ami.es6.js', 'ami.es6.js.map', 'ami.min.es6.js.map')
-            shutil.move('js' + os.sep + 'ami.es6.js.map', 'js' + os.sep + 'ami.es6.min.js.map')
 
         else:
 
             os.remove('css' + os.sep + 'ami.css')
-            os.remove('css' + os.sep + 'ami.css.map')
-
             os.remove('js' + os.sep + 'ami.js')
-            os.remove('js' + os.sep + 'ami.js.map')
-
             os.remove('js' + os.sep + 'ami.es6.js')
-            os.remove('js' + os.sep + 'ami.es6.js.map')
 
         #####################################################################
 
