@@ -394,6 +394,55 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
+			$(this.patchId('#F1C79246_17B2_B9B0_3ABF_8C10FA0852DD')).click(() => {
+
+				/*---------------------------------------------------------*/
+
+				const params = [
+					this.ctx.command
+				];
+
+				const settings = {
+					enableCache: this.ctx.enableCache,
+					enableCount: this.ctx.enableCount,
+					showToolBar: this.ctx.showToolBar,
+					showDetails: this.ctx.showDetails,
+					showTools: this.ctx.showTools,
+					canEdit: this.ctx.canEdit,
+					catalog: this.ctx.catalog,
+					entity: this.ctx.entity,
+					primaryField: this.ctx.primaryField,
+					rowset: this.ctx.rowset,
+					start: this.ctx.start,
+					stop: this.ctx.stop,
+					orderBy: this.ctx.orderBy,
+					orderWay: this.ctx.orderWay,
+					maxCellLength: this.ctx.maxCellLength,
+					card: this.ctx.card,
+				};
+
+				/*---------------------------------------------------------*/
+
+				const autoRefresh = confirm('Auto-refresh new widget?');
+
+				/*---------------------------------------------------------*/
+
+				amiWebApp.lock();
+
+				amiCommand.execute('AddWidget -control="table" -params="' + amiWebApp.textToString(JSON.stringify(params)) + '" -settings="' + amiWebApp.textToString(JSON.stringify(settings)) + '"' + (autoRefresh ? ' -autoRefresh' : '')).done((data, message) => {
+
+					amiWebApp.success(message);
+
+				}).fail((data, message) => {
+
+					amiWebApp.error(message);
+				});
+
+				/*---------------------------------------------------------*/
+			});
+
+			/*-------------------------------------------------------------*/
+
 			this.refresh().done((fieldDescriptions, rows, sql, mql, ast, totalNumberOfRows) => {
 
 				result.resolveWith(this.ctx.context, [fieldDescriptions, rows, sql, mql, ast, totalNumberOfRows]);
