@@ -154,36 +154,63 @@ $AMIClass('UserDashboardApp', {
 			'</div>'
 		), x, y, width, height).promise().done(() => {
 
-			amiWebApp.createControl(this, this, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), JSON.parse(settings)).done((control) => {
+			/*-------------------------------------------------------------*/
 
-				/*---------------------------------------------------------*/
+			$('#D08B4F35_49D8_4844_D9D2_FB951948AF17_' + idx).click((e) => {
 
-				$('#D08B4F35_49D8_4844_D9D2_FB951948AF17_' + idx).click((e) => {
+				const el = $(e.currentTarget).parent();
 
-					const el = $(e.currentTarget).parent();
+				this.removeWidget(el.data('_gridstack_node')).done(() => {
 
-					this.removeWidget(el.data('_gridstack_node')).done(() => {
-
-						el.remove();
-					});
+					el.remove();
 				});
+			});
 
+			/*-------------------------------------------------------------*/
+
+			try
+			{
+				amiWebApp.createControl(this, this, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), JSON.parse(settings)).done((control) => {
+
+					/*-----------------------------------------------------*/
+
+					control.autoRefresh = parseInt(autoRefresh);
+
+					this.controls.push(control);
+
+					/*-----------------------------------------------------*/
+
+					this._reload(result, rows, idx + 1);
+
+					/*-----------------------------------------------------*/
+
+				}).fail((message) => {
+
+					/*-----------------------------------------------------*/
+
+					amiWebApp.error('For widget `' + id + '`: ' + message);
+
+					/*-----------------------------------------------------*/
+
+					this._reload(result, rows, idx + 1);
+
+					/*-----------------------------------------------------*/
+				});
+			}
+			catch(e)
+			{
 				/*---------------------------------------------------------*/
 
-				control.autoRefresh = parseInt(autoRefresh);
-
-				this.controls.push(control);
+				amiWebApp.error('For widget `' + id + '`: ' + e.message);
 
 				/*---------------------------------------------------------*/
 
 				this._reload(result, rows, idx + 1);
 
 				/*---------------------------------------------------------*/
+			}
 
-			}).fail((message) => {
-
-				result.reject(message);
-			});
+			/*-------------------------------------------------------------*/
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -213,20 +240,15 @@ $AMIClass('UserDashboardApp', {
 
 			this._reload($.Deferred(), amiWebApp.jspath('..row', data), 0).done(() => {
 
-				this.refresh();
+				this.refresh().done(() => {
 
-				this.lock = false;
+					this.lock = false;
 
-				result.resolve(/*----*/);
-
-			}).fail((message) => {
-
-				this.refresh();
-
-				this.lock = false;
-
-				result.reject(message);
+					result.resolve();
+				});
 			});
+
+			/*-------------------------------------------------------------*/
 
 		}).fail((data, message) => {
 
