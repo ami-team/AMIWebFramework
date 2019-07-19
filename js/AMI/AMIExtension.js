@@ -142,9 +142,9 @@ var _ami_internal_modalZIndex = 1050;
 
 /*-------------------------------------------------------------------------*/
 
-$(document).on('show.bs.modal', '.modal', function() {
+$(document).on('show.bs.modal', '.modal', (e) => {
 
-	const el = $(this);
+	const el = $(e.currentTarget);
 
 	setTimeout(() => {
 
@@ -152,6 +152,13 @@ $(document).on('show.bs.modal', '.modal', function() {
 		/*-----------*/el/*-----------*/.css('z-index', _ami_internal_modalZIndex++);
 
 	}, 10);
+});
+
+/*-------------------------------------------------------------------------*/
+
+$(document).on('show.bs.dropdown', '.dropdown', (e) => {
+
+	const el = $(e.currentTarget);
 });
 
 /*-------------------------------------------------------------------------*/

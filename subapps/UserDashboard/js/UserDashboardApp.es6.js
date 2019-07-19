@@ -139,6 +139,7 @@ $AMIClass('UserDashboardApp', {
 		const control = amiWebApp.jspath('..field{.@name==="control"}.$', row)[0] || '';
 		const params = amiWebApp.jspath('..field{.@name==="params"}.$', row)[0] || '[]';
 		const settings = amiWebApp.jspath('..field{.@name==="settings"}.$', row)[0] || '{}';
+		const transparent = amiWebApp.jspath('..field{.@name==="transparent"}.$', row)[0] || '0';
 		const autoRefresh = amiWebApp.jspath('..field{.@name==="autoRefresh"}.$', row)[0] || '1';
 		const x = amiWebApp.jspath('..field{.@name==="x"}.$', row)[0] || '0';
 		const y = amiWebApp.jspath('..field{.@name==="y"}.$', row)[0] || '0';
@@ -147,9 +148,15 @@ $AMIClass('UserDashboardApp', {
 
 		/*-----------------------------------------------------------------*/
 
+		const item_content_clazz = parseInt(transparent) ? 'grid-stack-item-content grid-stack-item-transparent-content'
+		                                                 : 'grid-stack-item-content grid-stack-item-translucent-content'
+		;
+
+		/*-----------------------------------------------------------------*/
+
 		this.gridstack.addWidget($(
 			'<div data-gs-id="' + id + '">' +
-			'  <div class="grid-stack-item-content" id="EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx + '"></div>' +
+			'  <div class="' +  item_content_clazz  + '" id="EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx + '"></div>' +
 			'  <div class="grid-stack-item-close-handle" id="D08B4F35_49D8_4844_D9D2_FB951948AF17_' + idx + '"></div>' +
 			'</div>'
 		), x, y, width, height).promise().done(() => {

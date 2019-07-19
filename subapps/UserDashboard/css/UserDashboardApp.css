@@ -12,7 +12,6 @@
 /*-------------------------------------------------------------------------*/
 
 .grid-stack-item-content {
-	background-color: rgba(231, 242, 250, 0.4);
 	border-radius: 8px;
 }
 
@@ -22,15 +21,41 @@
 }
 
 .grid-stack-item-content .card-header {
-	background: none rgba(255, 255, 255, 0.2);
 	border-radius-top-left: 8px;
 	border-radius-top-right: 8px;
 }
 
 .grid-stack-item-content .card-body {
-	background: none rgba(255, 255, 255, 0.0);
 	border-radius-bottom-left: 8px;
 	border-radius-bottom-right: 8px;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.grid-stack-item-transparent-content {
+	background-color: transparent;
+}
+
+.grid-stack-item-transparent-content .card-header {
+	background: none transparent;
+}
+
+.grid-stack-item-transparent-content .card-body {
+	background: none transparent;
+}
+
+/*-------------------------------------------------------------------------*/
+
+.grid-stack-item-translucent-content {
+	background: none rgba(231, 242, 250, 0.4);
+}
+
+.grid-stack-item-translucent-content .card-header {
+	background: none rgba(255, 255, 255, 0.2);
+}
+
+.grid-stack-item-translucent-content .card-body {
+	background: none rgba(255, 255, 255, 0.0);
 }
 
 /*-------------------------------------------------------------------------*/
