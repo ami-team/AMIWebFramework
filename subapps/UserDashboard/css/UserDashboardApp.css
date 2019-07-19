@@ -9,6 +9,8 @@
  *
  */
 
+/*-------------------------------------------------------------------------*/
+
 .grid-stack-item-content {
 	background-color: rgba(231, 242, 250, 0.4);
 	border-radius: 8px;
@@ -30,3 +32,22 @@
 	border-radius-bottom-left: 8px;
 	border-radius-bottom-right: 8px;
 }
+
+/*-------------------------------------------------------------------------*/
+
+.grid-stack-item-close-handle::before {
+	color: rgb(108, 117, 125);
+	content: "\f05c";
+	font-family: FontAwesome;
+}
+
+.grid-stack-item-close-handle {
+	cursor: pointer;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 4px;
+	top: -11px;
+}
+
+/*-------------------------------------------------------------------------*/

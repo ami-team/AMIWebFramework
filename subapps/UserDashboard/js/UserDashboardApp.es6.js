@@ -57,7 +57,7 @@ $AMIClass('UserDashboardApp', {
 					{
 						items.forEach((item) => {
 
-							this._serialize(item);
+							this.updateWidget(item);
 						});
 					}
 				});
@@ -88,7 +88,9 @@ $AMIClass('UserDashboardApp', {
 		$('#ami_user_menu_content').html(
 			'<div class="dropdown-divider"></div>'
 			+
-			'<a class="dropdown-item" href="javascript:(function() { amiWebApp.lock(); userDashboardApp.reload().done(function() { amiWebApp.unlock(); }).fail(function(message) { amiWebApp.error(message); }); return; })();">Reload Dashboard</a>'
+			'<a class="dropdown-item" href="javascript:userDashboardApp.reload2();">Reload Dashboard</a>'
+			+
+			'<a class="dropdown-item" href="javascript:userDashboardApp.refresh2();">Refresh Dashboard</a>'
 			+
 			'<a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=dashboardAdmin" target="_blank">Edit Dashboard</a>'
 		);
@@ -101,7 +103,7 @@ $AMIClass('UserDashboardApp', {
 
 				this.refresh();
 
-			}, 5000);
+			}, 10000);
 		});
 
 		/*-----------------------------------------------------------------*/
@@ -145,15 +147,38 @@ $AMIClass('UserDashboardApp', {
 
 		/*-----------------------------------------------------------------*/
 
-		this.gridstack.addWidget($('<div data-gs-id="' + id + '"><div class="grid-stack-item-content" id="EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx + '"></div></div>'), x, y, width, height).promise().done(() => {
+		this.gridstack.addWidget($(
+			'<div data-gs-id="' + id + '">' +
+			'  <div class="grid-stack-item-content" id="EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx + '"></div>' +
+			'  <div class="grid-stack-item-close-handle" id="D08B4F35_49D8_4844_D9D2_FB951948AF17_' + idx + '"></div>' +
+			'</div>'
+		), x, y, width, height).promise().done(() => {
 
 			amiWebApp.createControl(this, this, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), JSON.parse(settings)).done((control) => {
 
+				/*---------------------------------------------------------*/
+
+				$('#D08B4F35_49D8_4844_D9D2_FB951948AF17_' + idx).click((e) => {
+
+					const el = $(e.currentTarget).parent();
+
+					this.removeWidget(el.data('_gridstack_node')).done(() => {
+
+						el.remove();
+					});
+				});
+
+				/*---------------------------------------------------------*/
+
 				control.autoRefresh = parseInt(autoRefresh);
+
+				this.controls.push(control);
+
+				/*---------------------------------------------------------*/
 
 				this._reload(result, rows, idx + 1);
 
-				this.controls.push(control);
+				/*---------------------------------------------------------*/
 
 			}).fail((message) => {
 
@@ -215,6 +240,22 @@ $AMIClass('UserDashboardApp', {
 
 	/*---------------------------------------------------------------------*/
 
+	reload2: function()
+	{
+		amiWebApp.lock();
+
+		this.reload().done(() => {
+
+			amiWebApp.unlock(/*---*/);
+
+		}).fail((message) => {
+
+			amiWebApp.error(message);
+		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
 	refresh: function()
 	{
 		/*-----------------------------------------------------------------*/
@@ -236,11 +277,43 @@ $AMIClass('UserDashboardApp', {
 
 	/*---------------------------------------------------------------------*/
 
-	_serialize: function(item)
+	refresh2: function()
 	{
 		amiWebApp.lock();
 
-		amiCommand.execute('SetWidgetProperties -id="' + amiWebApp.textToString(item.id) + '" -x="' + item.x + '" -y="' + item.y + '" -width="' + item.width + '" -height="' + item.height + '"').done(() => {
+		this.refresh().done(() => {
+
+			amiWebApp.unlock(/*---*/);
+
+		}).fail((message) => {
+
+			amiWebApp.error(message);
+		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	updateWidget: function(item)
+	{
+		amiWebApp.lock();
+
+		return amiCommand.execute('UpdateWidget -id="' + amiWebApp.textToString(item.id) + '" -x="' + item.x + '" -y="' + item.y + '" -width="' + item.width + '" -height="' + item.height + '"').done(() => {
+
+			amiWebApp.unlock();
+
+		}).fail((data, message) => {
+
+			amiWebApp.error(message);
+		});
+	},
+
+	/*---------------------------------------------------------------------*/
+
+	removeWidget: function(item)
+	{
+		amiWebApp.lock();
+
+		return amiCommand.execute('RemoveWidget -id="' + amiWebApp.textToString(item.id) + '"').done(() => {
 
 			amiWebApp.unlock();
 
