@@ -429,7 +429,7 @@ $AMIClass('TableCtrl', {
 
 				amiWebApp.lock();
 
-				amiCommand.execute('AddWidget -control="table" -params="' + amiWebApp.textToString(JSON.stringify(params)) + '" -settings="' + amiWebApp.textToString(JSON.stringify(settings)) + '"' + (autoRefresh ? ' -autoRefresh' : '')).done((data, message) => {
+				amiCommand.execute('AddWidget -control="table" -params="' + amiWebApp.textToString(JSON.stringify(params)) + '" -settings="' + amiWebApp.textToString(JSON.stringify(settings)) + '" -transparent' + (autoRefresh ? ' -autoRefresh' : '')).done((data, message) => {
 
 					amiWebApp.success(message);
 
