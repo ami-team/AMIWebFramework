@@ -405,19 +405,25 @@ $AMIClass('TableCtrl', {
 				const settings = {
 					enableCache: this.ctx.enableCache,
 					enableCount: this.ctx.enableCount,
+					/**/
+					showPrimaryField: this.ctx.showPrimaryField,
 					showToolBar: this.ctx.showToolBar,
 					showDetails: this.ctx.showDetails,
 					showTools: this.ctx.showTools,
 					canEdit: this.ctx.canEdit,
+					/**/
 					catalog: this.ctx.catalog,
 					entity: this.ctx.entity,
 					primaryField: this.ctx.primaryField,
 					rowset: this.ctx.rowset,
+					/**/
 					start: this.ctx.start,
 					stop: this.ctx.stop,
 					orderBy: this.ctx.orderBy,
 					orderWay: this.ctx.orderWay,
+					/**/
 					maxCellLength: this.ctx.maxCellLength,
+					/**/
 					card: this.ctx.card,
 				};
 
@@ -429,7 +435,7 @@ $AMIClass('TableCtrl', {
 
 				amiWebApp.lock();
 
-				amiCommand.execute('AddWidget -control="table" -params="' + amiWebApp.textToString(JSON.stringify(params)) + '" -settings="' + amiWebApp.textToString(JSON.stringify(settings)) + '" -transparent' + (autoRefresh ? ' -autoRefresh' : '')).done((data, message) => {
+				amiCommand.execute('AddWidget -control="Table" -params="' + amiWebApp.textToString(JSON.stringify(params)) + '" -settings="' + amiWebApp.textToString(JSON.stringify(settings)) + '" -transparent' + (autoRefresh ? ' -autoRefresh' : '')).done((data, message) => {
 
 					amiWebApp.success(message);
 

@@ -5,9 +5,9 @@
 			<!-- ******************************************************** -->
 
 			<div class="card">
-				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
+				<h5 class="card-header text-center p-1">
 					Metadata
-				</div>
+				</h5>
 				<div class="card-body p-0">
 					<table class="table table-sm table-striped table-bordered mb-0">
 						{% if elementRowset is not empty %}
@@ -101,10 +101,10 @@
 			<!-- ******************************************************** -->
 
 			<div class="card">
-				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
+				<h5 class="card-header text-center p-1">
 					Linked Entities
-				</div>
-				<div class="card-body p-0" id="B8275C83_776D_57AC_5379_70DC7391AD5A">
+				</h5>
+				<div class="card-body p-0">
 					<table class="table table-sm table-striped table-bordered mb-0">
 						{% if linkedElementRowset is not empty %}
 						{%   for row in linkedElementRowset %}
@@ -145,9 +145,9 @@
 			{%   for expandedLinkedElement in expandedLinkedElements %}
 			{%     if expandedLinkedElement.rows is not empty %}
 			<div class="card mt-1">
-				<div class="card-header text-center" style="font-family: 'Open Sans Light'; font-size: 14pt; padding: 3px;">
+				<h5 class="card-header text-center p-1">
 					{{expandedLinkedElement.entity}}
-				</div>
+				</h5>
 			</div>
 			<div class="card-body p-0">
 				<table class="table table-sm table-striped table-bordered mb-0">

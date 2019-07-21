@@ -68,8 +68,7 @@ $AMIClass('ElementInfoCtrl', {
 			context,
 			elementInfoCommandFunc,
 			expandedLinkedElements,
-			enableCache, showToolBar, showDetails, showTools, canEdit,
-			start, stop,
+			enableCache, enableCount, showPrimaryField, showToolBar, showDetails, showTools, canEdit,
 			maxCellLength,
 			card
 		] = amiWebApp.setup(
@@ -77,8 +76,7 @@ $AMIClass('ElementInfoCtrl', {
 				'context',
 				'elementInfoCommandFunc',
 				'expandedLinkedElements',
-				'enableCache', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
-				'start', 'stop',
+				'enableCache', 'enableCount', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'maxCellLength',
 				'card',
 			],
@@ -86,8 +84,7 @@ $AMIClass('ElementInfoCtrl', {
 				result,
 				fn,
 				[],
-				false, true, false, true, false,
-				1, 10,
+				false, true, true, true, false, true, false,
 				64,
 				false,
 			],
@@ -99,13 +96,13 @@ $AMIClass('ElementInfoCtrl', {
 		this.ctx.expandedLinkedElements = expandedLinkedElements;
 
 		this.ctx.enableCache = enableCache;
+		this.ctx.enableCount = enableCount;
+
+		this.ctx.showPrimaryField = showPrimaryField;
 		this.ctx.showToolBar = showToolBar;
 		this.ctx.showDetails = showDetails;
 		this.ctx.showTools = showTools;
 		this.ctx.canEdit = canEdit;
-
-		this.ctx.start = start;
-		this.ctx.stop = stop;
 
 		this.ctx.maxCellLength = maxCellLength;
 
@@ -218,6 +215,59 @@ $AMIClass('ElementInfoCtrl', {
 			$(this.patchId('#F1232710_45E2_92BF_7378_1BCD05FBF131')).click(() => {
 
 				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js], {});
+			});
+
+			/*-------------------------------------------------------------*/
+
+			$(this.patchId('#C28C33B1_9BCE_808C_0E57_4C8704359932')).click(() => {
+
+				/*---------------------------------------------------------*/
+
+				const params = [
+					this.ctx.catalog,
+					this.ctx.entity,
+					this.ctx.primaryFieldName,
+					this.ctx.primaryFieldValue,
+				];
+
+				const settings = {
+					enableCache: this.ctx.enableCache,
+					enableCount: this.ctx.enableCount,
+					/**/
+					showPrimaryField: this.ctx.showPrimaryField,
+					showToolBar: this.ctx.showToolBar,
+					showDetails: this.ctx.showDetails,
+					showTools: this.ctx.showTools,
+					canEdit: this.ctx.canEdit,
+					/**/
+					catalog: this.ctx.catalog,
+					entity: this.ctx.entity,
+					primaryField: this.ctx.primaryField,
+					rowset: this.ctx.rowset,
+					/**/
+					maxCellLength: this.ctx.maxCellLength,
+					/**/
+					card: this.ctx.card,
+				};
+
+				/*---------------------------------------------------------*/
+
+				const autoRefresh = confirm('Auto-refresh new widget?');
+
+				/*---------------------------------------------------------*/
+
+				amiWebApp.lock();
+
+				amiCommand.execute('AddWidget -control="ElementInfo" -params="' + amiWebApp.textToString(JSON.stringify(params)) + '" -settings="' + amiWebApp.textToString(JSON.stringify(settings)) + '" -transparent' + (autoRefresh ? ' -autoRefresh' : '')).done((data, message) => {
+
+					amiWebApp.success(message);
+
+				}).fail((data, message) => {
+
+					amiWebApp.error(message);
+				});
+
+				/*---------------------------------------------------------*/
 			});
 
 			/*-------------------------------------------------------------*/
