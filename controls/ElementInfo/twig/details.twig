@@ -13,7 +13,7 @@
 						{% if elementRowset is not empty %}
 						{%   for row in elementRowset %}
 						{%     for field in row.field %}
-						{%       if (showEmptyFields or (field.$ is not empty and field.$ != '@NULL' and field.$ != 'N/A')) and (field['@name'] !== 'PROJECT' and field['@name'] !== 'PROCESS' and field['@name'] !== 'AMIENTITYNAME' and field['@name'] !== 'AMIELEMENTID' and field['@name'] !== 'AMICREATED' and field['@name'] !== 'AMILASTMODIFIED' and field['@name'] !== 'AMISYSDATE') %}
+						{%       if (showEmptyFields or (field.$ is not empty and field.$ != '@NULL' and field.$ != 'N/A')) and (not field['@name'] in ignoredFields) %}
 						<tr>
 							<td class="text-left">
 								<strong>{{field['@name']|e}}</strong>

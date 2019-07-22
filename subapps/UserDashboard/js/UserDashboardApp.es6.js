@@ -177,7 +177,7 @@ $AMIClass('UserDashboardApp', {
 
 			try
 			{
-				amiWebApp.createControl(this, this, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params)), JSON.parse(settings)).done((control) => {
+				amiWebApp.createControl(this, this, control, ['#EB4DF671_2C31_BED0_6BED_44790525F28F_' + idx].concat(JSON.parse(params), JSON.parse(settings))).done((control) => {
 
 					/*-----------------------------------------------------*/
 
