@@ -7082,7 +7082,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			const [
 				logoURL, homeURL, contactEmail,
 				aboutURL, themeURL, lockerURL, endpointURL,
-				createAccountAllowed, changeInfoAllowed, changePassordAllowed,
+				createAccountAllowed, changeInfoAllowed, changePassordAllowed
 			] = this.setup([
 				'logo_url', 'home_url', 'contact_email',
 				'about_url', 'theme_url', 'locker_url', 'endpoint_url',
