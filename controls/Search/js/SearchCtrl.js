@@ -2269,7 +2269,7 @@ $AMIClass('SearchCtrl', {
 		}
 
 		/*-----------------------------------------------------------------*/
-		/* AND/OR NODE TREATMENT                                           */
+		/* AND/OR/NOT NODE TREATMENT                                       */
 		/*-----------------------------------------------------------------*/
 
 		/**/ if(node.nodeValue === 'and')
@@ -2341,6 +2341,28 @@ $AMIClass('SearchCtrl', {
 				{
 					ast = astR;
 				}
+			}
+
+			predicateFound = predicateFoundL || predicateFoundR;
+
+			return {'ast' : ast, 'predicateFound' : predicateFound};
+		} 
+		else if(node.nodeValue === 'not')
+		{
+		
+			ast = new amiTwig.expr.Node(amiTwig.expr.tokens.NOT, 'not');
+			
+			/**/ if(astL !== null)
+			{
+				ast.nodeLeft = astL;
+			}
+			else if(astR !== null)
+			{
+				ast.nodeRight = astR;
+			}
+			else
+			{
+				ast = null;
 			}
 
 			predicateFound = predicateFoundL || predicateFoundR;
