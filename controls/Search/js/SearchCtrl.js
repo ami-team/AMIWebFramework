@@ -714,7 +714,7 @@ $AMIClass('SearchCtrl', {
 		try
 		{
 			var predicate;
-	
+			console.debug('?');
 			$.each(this.ctx.predicates, function(name) {
 	
 				predicate = this.ctx.predicates[name];
@@ -722,37 +722,47 @@ $AMIClass('SearchCtrl', {
 				switch(predicate.criteria.type)
 				{
 					case 0:
+						console.debug('0');
 						this.fillStringBox(name, false, false);
+						console.debug('0');
 						break;
 	
 					case 1:
+						console.debug('1');
 						this.fillStringBox(name, true, true);
+						console.debug('1');
 						break;
 	
 					case 5:
 					case 6:
+						console.debug('56');
 						this.fillParamBoxKey(name); this.fillParamBoxVal(name);
+						console.debug('56');
 						break;
 	
 					case 2:
+						console.debug('2');
 						this.fillNumberBox(name);
+						console.debug('2');
 						break;
 	
 					case 3:
+						console.debug('3');
 						this.fillNumberBox(name);
+						console.debug('3');
 						break;
 				}
 	
 			}, this);
 	
 			/*-------------------------------------------------------------*/
-			console.debug('1');
+	
 			$(this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val(this.dumpAST());
-			console.debug('2');
+	
 			/*-------------------------------------------------------------*/
 	
 			var filter = this.dumpAST(this.ctx.predicates);
-			console.debug('3');
+	
 			/*-------------------------------------------------------------*/
 	
 			var mql = 'SELECT COUNT(' + this.ctx.defaultPrimaryField + ') AS `nb`';
@@ -770,7 +780,7 @@ $AMIClass('SearchCtrl', {
 			/*-------------------------------------------------------------*/
 	
 			this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
-			console.debug('4');
+	
 			/*-------------------------------------------------------------*/
 	
 			return amiCommand.execute('BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
