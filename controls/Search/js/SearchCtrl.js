@@ -714,7 +714,6 @@ $AMIClass('SearchCtrl', {
 		try
 		{
 			var predicate;
-			console.debug('?');
 			$.each(this.ctx.predicates, function(name) {
 	
 				predicate = this.ctx.predicates[name];
@@ -722,34 +721,24 @@ $AMIClass('SearchCtrl', {
 				switch(predicate.criteria.type)
 				{
 					case 0:
-						console.debug('0');
 						this.fillStringBox(name, false, false);
-						console.debug('0');
 						break;
 	
 					case 1:
-						console.debug('1');
 						this.fillStringBox(name, true, true);
-						console.debug('1');
 						break;
 	
 					case 5:
 					case 6:
-						console.debug('56');
 						this.fillParamBoxKey(name); this.fillParamBoxVal(name);
-						console.debug('56');
 						break;
 	
 					case 2:
-						console.debug('2');
 						this.fillNumberBox(name);
-						console.debug('2');
 						break;
 	
 					case 3:
-						console.debug('3');
 						this.fillNumberBox(name);
-						console.debug('3');
 						break;
 				}
 	
@@ -819,9 +808,9 @@ $AMIClass('SearchCtrl', {
 		/*-----------------------------------------------------------------*/
 		/* ADD FILTER                                                      */
 		/*-----------------------------------------------------------------*/
-
+		console.debug('rr');
 		var filter = this.dumpFilterAST(name);
-
+		console.debug('rr');
 		/*-----------------------------------------------------------------*/
 
 		if(filter)
