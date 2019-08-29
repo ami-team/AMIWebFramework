@@ -746,13 +746,13 @@ $AMIClass('SearchCtrl', {
 			}, this);
 	
 			/*-------------------------------------------------------------*/
-	
+			console.debug('1');
 			$(this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val(this.dumpAST());
-	
+			console.debug('2');
 			/*-------------------------------------------------------------*/
 	
 			var filter = this.dumpAST(this.ctx.predicates);
-	
+			console.debug('3');
 			/*-------------------------------------------------------------*/
 	
 			var mql = 'SELECT COUNT(' + this.ctx.defaultPrimaryField + ') AS `nb`';
@@ -770,7 +770,7 @@ $AMIClass('SearchCtrl', {
 			/*-------------------------------------------------------------*/
 	
 			this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
-	
+			console.debug('4');
 			/*-------------------------------------------------------------*/
 	
 			return amiCommand.execute('BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
