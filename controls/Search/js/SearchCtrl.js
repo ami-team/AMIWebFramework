@@ -710,81 +710,88 @@ $AMIClass('SearchCtrl', {
 		amiWebApp.lock();
 
 		/*-----------------------------------------------------------------*/
-
-		var predicate;
-
-		$.each(this.ctx.predicates, function(name) {
-
-			predicate = this.ctx.predicates[name];
-
-			switch(predicate.criteria.type)
-			{
-				case 0:
-					this.fillStringBox(name, false, false);
-					break;
-
-				case 1:
-					this.fillStringBox(name, true, true);
-					break;
-
-				case 5:
-				case 6:
-					this.fillParamBoxKey(name); this.fillParamBoxVal(name);
-					break;
-
-				case 2:
-					this.fillNumberBox(name);
-					break;
-
-				case 3:
-					this.fillNumberBox(name);
-					break;
-			}
-
-		}, this);
-
-		/*-----------------------------------------------------------------*/
-
-		$(this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val(this.dumpAST());
-
-		/*-----------------------------------------------------------------*/
-
-		var filter = this.dumpAST(this.ctx.predicates);
-
-		/*-----------------------------------------------------------------*/
-
-		var mql = 'SELECT COUNT(' + this.ctx.defaultPrimaryField + ') AS `nb`';
-
-		this.ctx.mql = 'SELECT ' + this.ctx.defaultSelect;
-
-		if(filter)
+		
+		try
 		{
-			mql += ' WHERE ';
-			mql += filter;
-			this.ctx.mql += ' WHERE ';
-			this.ctx.mql += filter;
+			var predicate;
+	
+			$.each(this.ctx.predicates, function(name) {
+	
+				predicate = this.ctx.predicates[name];
+	
+				switch(predicate.criteria.type)
+				{
+					case 0:
+						this.fillStringBox(name, false, false);
+						break;
+	
+					case 1:
+						this.fillStringBox(name, true, true);
+						break;
+	
+					case 5:
+					case 6:
+						this.fillParamBoxKey(name); this.fillParamBoxVal(name);
+						break;
+	
+					case 2:
+						this.fillNumberBox(name);
+						break;
+	
+					case 3:
+						this.fillNumberBox(name);
+						break;
+				}
+	
+			}, this);
+	
+			/*-------------------------------------------------------------*/
+	
+			$(this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).val(this.dumpAST());
+	
+			/*-------------------------------------------------------------*/
+	
+			var filter = this.dumpAST(this.ctx.predicates);
+	
+			/*-------------------------------------------------------------*/
+	
+			var mql = 'SELECT COUNT(' + this.ctx.defaultPrimaryField + ') AS `nb`';
+	
+			this.ctx.mql = 'SELECT ' + this.ctx.defaultSelect;
+	
+			if(filter)
+			{
+				mql += ' WHERE ';
+				mql += filter;
+				this.ctx.mql += ' WHERE ';
+				this.ctx.mql += filter;
+			}
+	
+			/*-------------------------------------------------------------*/
+	
+			this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
+	
+			/*-------------------------------------------------------------*/
+	
+			return amiCommand.execute('BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
+	
+				var nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
+	
+				$(this.patchId('#D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA')).text(nb);
+	
+				amiWebApp.unlock();
+	
+			}).fail(function(data, message) {
+	
+				amiWebApp.error(message);
+			});
+	
+			/*-------------------------------------------------------------*/
 		}
-
-		/*-----------------------------------------------------------------*/
-
-		this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
-
-		/*-----------------------------------------------------------------*/
-
-		return amiCommand.execute('BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
-
-			var nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
-
-			$(this.patchId('#D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA')).text(nb);
-
-			amiWebApp.unlock();
-
-		}).fail(function(data, message) {
-
-			amiWebApp.error(message);
-		});
-
-		/*-----------------------------------------------------------------*/
+		catch(e)
+		{
+			amiWebApp.error(e, true);
+		}
 	},
 
 	/*---------------------------------------------------------------------*/
