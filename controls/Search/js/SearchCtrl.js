@@ -808,9 +808,9 @@ $AMIClass('SearchCtrl', {
 		/*-----------------------------------------------------------------*/
 		/* ADD FILTER                                                      */
 		/*-----------------------------------------------------------------*/
-		console.debug('rr');
+
 		var filter = this.dumpFilterAST(name);
-		console.debug('rr');
+
 		/*-----------------------------------------------------------------*/
 
 		if(filter)
@@ -2228,6 +2228,8 @@ $AMIClass('SearchCtrl', {
 			return {'ast' : ast, 'predicateFound' : predicateFound};
 		}
 
+		console.debug(JSON.stringify(node.nodeValue));
+		
 		var astL = null;
 		var astR = null;
 		var predicateFoundL = false;
