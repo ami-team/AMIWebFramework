@@ -30,14 +30,12 @@ $AMIClass('SimpleSearchCtrl', {
 	{
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/SimpleSearch/twig/SimpleSearchCtrl.twig',
-			'ctrl:table',
 			'ctrl:tab',
 		], {context: this}).done(function(data) {
 
 			this.fragmentSimpleSearch = data[0];
 
-			this.tableCtrl = data[1];
-			this.tabCtrl = data[2];
+			this.tabCtrl = data[1];
 		});
 	},
 
@@ -50,25 +48,28 @@ $AMIClass('SimpleSearchCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const fn = (catalog, entity, field, value) =>
-			'BrowseQuery' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT * WHERE `' + field + '` = \'' + value + '\'"'
+			'BrowseQuery' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT * WHERE `' + field + '` = \'' + value+ '\'"'
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const [
 			context,
+			placeholder,
 			catalog, entity, field,
 			searchCommandFunc,
 			card
 		] = amiWebApp.setup(
 			[
 				'context',
+				'placeholder',
 				'catalog', 'entity', 'field',
 				'searchCommandFunc',
 				'card',
 			],
 			[
 				result,
+				'',
 				'', '', '',
 				fn,
 				false,
@@ -92,6 +93,8 @@ $AMIClass('SimpleSearchCtrl', {
 		this.ctx.endpoint = amiCommand.endpoint;
 
 		this.ctx.context = context;
+
+		this.ctx.placeholder = placeholder;
 
 		this.ctx.catalog = catalog;
 		this.ctx.entity = entity;
@@ -120,7 +123,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem('<i class="fa fa-table"></i> ' + this.ctx.entity, {closable: false, firstVisible: false}).done((selector) => {
+				tab.appendItem('<i class="fa fa-search"></i> ' + this.ctx.entity, {closable: false, firstVisible: false}).done((selector) => {
 
 					this.setParent(tab);
 
@@ -138,7 +141,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 	__render: function(result, selector)
 	{
-		this.replaceHTML(selector, this.fragmentSimpleSearch).done(() => {
+		this.replaceHTML(selector, this.fragmentSimpleSearch, {dict: this.ctx}).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -161,7 +164,9 @@ $AMIClass('SimpleSearchCtrl', {
 
 	search: function()
 	{
-		return new this.tableCtrl(parent, this).render(selector, this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.field, this.patchId('#F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6')), this.ctx);
+		const value = $(this.patchId('#F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6')).val().trim();
+
+		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.field, value)], {}, this.ctx, 'table', this.ctx.entity);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
