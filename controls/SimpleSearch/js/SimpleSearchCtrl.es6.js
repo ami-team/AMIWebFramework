@@ -149,7 +149,12 @@ $AMIClass('SimpleSearchCtrl', {
 
 				e.preventDefault();
 
-				this.search($(this.patchId('#F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6')).val());
+				const value = $(this.patchId('#F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6')).val().trim();
+
+				if(value)
+				{
+					this.search();
+				}
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
