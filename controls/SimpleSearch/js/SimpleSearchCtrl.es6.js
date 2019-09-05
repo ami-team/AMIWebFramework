@@ -149,7 +149,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 				e.preventDefault();
 
-				this.search();
+				this.search($(this.patchId('#F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6')).val());
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -162,11 +162,9 @@ $AMIClass('SimpleSearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	search: function()
+	search: function(value)
 	{
-		const value = $(this.patchId('#F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6')).val().trim();
-
-		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.field, value)], {}, this.ctx, 'table', this.ctx.entity);
+		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.field, value.trim())], {}, this.ctx, 'table', this.ctx.entity);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
