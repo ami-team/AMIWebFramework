@@ -138,7 +138,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 	__render: function(result, selector)
 	{
-		this.replaceHTML(selector, this.fragmentSimpleSearch, settings).done(() => {
+		this.replaceHTML(selector, this.fragmentSimpleSearch).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
