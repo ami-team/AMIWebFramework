@@ -76,12 +76,18 @@ $AMIClass('SimpleSearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		this.ctx = {};
+
 		for(let key in settings)
 		{
 		    this.ctx[key] = settings[key];
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
+
+		this.ctx.isEmbedded = amiWebApp.isEmbedded();
+
+		this.ctx.endpoint = amiCommand.endpoint;
 
 		this.ctx.context = context;
 
