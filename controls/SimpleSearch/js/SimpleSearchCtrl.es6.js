@@ -50,7 +50,7 @@ $AMIClass('SimpleSearchCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const fn = (catalog, entity, field, value) =>
-			'BrowseQuery' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT * WHERE `' + field + '` = \'' + value+ '\'"'
+			'BrowseQuery' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT * WHERE `' + field + '` = \'' + value + '\'"'
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -161,7 +161,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 	search: function()
 	{
-		return new this.tableCtrl(parent, this).render(selector, this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.field), this.ctx);
+		return new this.tableCtrl(parent, this).render(selector, this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.field, this.patchId('#F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6')), this.ctx);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
