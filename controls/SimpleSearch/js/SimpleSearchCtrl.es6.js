@@ -31,11 +31,13 @@ $AMIClass('SimpleSearchCtrl', {
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/SimpleSearch/twig/SimpleSearchCtrl.twig',
 			'ctrl:table',
+			'ctrl:tab',
 		], {context: this}).done(function(data) {
 
 			this.fragmentSimpleSearch = data[0];
 
-			this._tableCtrl = data[1];
+			this.tableCtrl = data[1];
+			this.tabCtrl = data[2];
 		});
 	},
 
@@ -114,7 +116,7 @@ $AMIClass('SimpleSearchCtrl', {
 	{
 		if(this.getParent().$name !== 'TabCtrl')
 		{
-			const tab = new this.tabCtor(null, this);
+			const tab = new this.tabCtrl(null, this);
 
 			tab.render(selector, this.ctx).done(() => {
 
@@ -159,7 +161,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 	search: function()
 	{
-		return new this._tableCtrl(parent, this).render(selector, this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.field), this.ctx);
+		return new this.tableCtrl(parent, this).render(selector, this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.field), this.ctx);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
