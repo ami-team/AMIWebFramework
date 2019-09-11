@@ -198,10 +198,9 @@ $AMIClass('TaskServerAdminApp', {
 
 			$('#CEA0E2BE_4C71_ACA3_7525_0D7AC734BEED').html(html.join(''));
 
-			$('#E81F70B5_422A_A17C_F608_845B8A9E73FB').typeahead('destroy').typeahead({
-				source: Object.keys(this.servers),
-				items: 100,
-			});
+			$('#E81F70B5_422A_A17C_F608_845B8A9E73FB').html(html.join(''))
+			                                          .select2()
+			;
 
 			/*-------------------------------------------------------------*/
 

@@ -110,12 +110,25 @@ $AMIClass('ElementInfoCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
+		this.ctx.ignoredFields = {
+			'ORACLE_ROWNUM': '',
+			'PROJECT': '',
+			'PROCESS': '',
+			'AMIENTITYNAME': '',
+			'AMIELEMENTID': '',
+			'AMICREATED': '',
+			'AMILASTMODIFIED': '',
+			'AMISYSDATE': ''
+		};
+
+		/*-----------------------------------------------------------------*/
+
 		const L = [];
 
 		this.ctx.expandedLinkedElements.forEach((expandedLinkedElement) => {
 
-			let catalog = expandedLinkedElement.catalog;
-			let entity = expandedLinkedElement.entity;
+			let catalog = amiWebApp.textToString(expandedLinkedElement.catalog);
+			let entity = amiWebApp.textToString(expandedLinkedElement.entity);
 
 			L.push(catalog + '.' + entity);
 		});
@@ -337,6 +350,8 @@ $AMIClass('ElementInfoCtrl', {
 			const dict = {
 				catalog: this.ctx.catalog,
 				entity: this.ctx.entity,
+				primaryFieldName: this.ctx.primaryFieldName,
+				primaryFieldValue: this.ctx.primaryFieldValue,
 				/**/
 				fieldDescriptions: fieldDescriptions,
 				/**/
@@ -345,9 +360,7 @@ $AMIClass('ElementInfoCtrl', {
 				expandedLinkedElements: expandedLinkedElements,
 				/**/
 				showToolBar: this.ctx.showToolBar,
-				primaryFieldName: this.ctx.primaryFieldName,
-				primaryFieldValue: this.ctx.primaryFieldValue,
-				/**/
+				ignoredFields: this.ctx.ignoredFields,
 				showEmptyFields: $(this.patchId('#D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73')).prop('checked'),
 				/**/
 				maxCellLength: this.ctx.maxCellLength,
@@ -374,7 +387,7 @@ $AMIClass('ElementInfoCtrl', {
 
 				/*---------------------------------------------------------*/
 
-				result.resolveWith(context, [elementRowset, linkedElementRowset, expandedLinkedElements]);
+				result.resolveWith(context, [fieldDescriptions, elementRowset, linkedElementRowset, expandedLinkedElements]);
 			});
 
 			/*-------------------------------------------------------------*/
