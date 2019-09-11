@@ -777,7 +777,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
