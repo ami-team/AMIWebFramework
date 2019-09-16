@@ -153,7 +153,7 @@ $AMIClass('ElementInfoCtrl', {
 
 	_render: function(result, selector)
 	{
-		if(this.getParent() == null || this.getParent().$name !== 'TabCtrl')
+		if(this.getParent().$name !== 'TabCtrl')
 		{
 			const tab = new this.tabCtor(null, this);
 
