@@ -89,7 +89,7 @@ def gitClone(tempPath, url, commit_id, retry = True):
 
         #####################################################################
 
-    except CalledProcessError as e:
+    except Exception as e:
 
         #####################################################################
 

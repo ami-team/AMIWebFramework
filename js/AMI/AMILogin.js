@@ -346,7 +346,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					   ||
 					   !issuerDNInSession
 					 ) {
-						message = 'It is recommended to connect to AMI with a X.509 certificate.';
+						message = 'It is recommended to connect with a X.509 certificate.';
 					}
 					else
 					{
