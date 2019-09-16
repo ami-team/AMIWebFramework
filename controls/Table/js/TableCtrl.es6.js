@@ -322,7 +322,7 @@ $AMIClass('TableCtrl', {
 
 			amiCommand.execute('ListConverters').done((data, message) => {
 				
-				var xslts = amiWebApp.jspath('..field{.@name==="xslt" && .$!==="AMIXmlToXml.xsl" && .$!=="AMIXmlToJson.xsl" && .$!=="AMIXmlToCsv.xsl" && .$!=="AMIXmlToText.xsl" }.$', data) || [];
+				var xslts = amiWebApp.jspath('..field{.@name==="xslt" && .$!=="AMIXmlToXml.xsl" && .$!=="AMIXmlToJson.xsl" && .$!=="AMIXmlToCsv.xsl" && .$!=="AMIXmlToText.xsl" }.$', data) || [];
 
 				this.replaceHTML(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05'), this.fragmentExport, {dict: this.ctx, xslts : xslts}).done(() => {
 					
