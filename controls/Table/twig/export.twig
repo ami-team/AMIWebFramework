@@ -1,0 +1,14 @@
+{% if xslts %}
+    {% for xslt in xslts %}
+<a href="#" class="dropdown-item" xslt="{{ xslt }}">{{ xslt.replace(/AMIXmlTo(.*)\.xsl/g, $1) }}</a>
+    {% endfor %}
+<div class="dropdown-divider"></div>	
+{% endif %}
+
+<!-- **************************************************************** -->
+
+<a href="#" class="dropdown-item" xslt="AMIXmlToXml.xsl">XML</a>
+<a href="#" class="dropdown-item" xslt="AMIXmlToJson.xsl">JSON</a>
+<a href="#" class="dropdown-item" xslt="AMIXmlToCsv.xsl">CSV</a>
+<div class="dropdown-divider"></div>
+<a href="#" class="dropdown-item" xslt="AMIXmlToText.xsl">Text</a>

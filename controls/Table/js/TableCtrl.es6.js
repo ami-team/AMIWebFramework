@@ -38,6 +38,7 @@ $AMIClass('TableCtrl', {
 			/**/
 			amiWebApp.originURL + '/controls/Table/twig/table.twig',
 			amiWebApp.originURL + '/controls/Table/twig/js.twig',
+			amiWebApp.originURL + '/controls/Table/twig/export.twig',
 			/**/
 			amiWebApp.originURL + '/controls/Table/js/libxql.js',
 			/**/
@@ -53,10 +54,11 @@ $AMIClass('TableCtrl', {
 				this.fragmentTableCtrl = data[0];
 				this.fragmentTable = data[2];
 				this.fragmentJS = data[3];
+				this.fragmentExport = data[4];
 
-				this.fieldEditorCtor = data[6];
-				this.fieldUnitCtor = data[7];
-				this.tabCtor = data[8];
+				this.fieldEditorCtor = data[7];
+				this.fieldUnitCtor = data[8];
+				this.tabCtor = data[9];
 			});
 		});
 
@@ -316,25 +318,47 @@ $AMIClass('TableCtrl', {
 
 			/*-------------------------------------------------------------*/
 
-			$(this.patchId('#C9F4DBE7_EF4F_09F1_C31D_97581978BD13')).click(() => {
+			amiWebApp.lock();
 
-				this.exportResult('AMIXmlToXml.xsl');
+			amiCommand.execute('ListConverters').done((data, message) => {
+				
+				var xslts = amiWebApp.jspath('..field{.@name==="xslt" && .$!==="AMIXmlToXml.xsl" && .$!==="AMIXmlToJson.xsl" && .$!==="AMIXmlToCsv.xsl" && .$!==="AMIXmlToText.xsl" }.$', data) || [];
+
+				this.replaceHTML(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05'), this.fragmentExport, {dict: this.ctx, xslts : xslts}).done(() => {
+					
+					$(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05') + ' a').click((e) => {
+
+						this.exportResult(e.currentTarget.getAttribute('xslt'));
+					});
+					
+				});
+				
+				amiWebApp.unlock();
+
+			}).fail((data, message) => {
+
+				amiWebApp.error(message);
 			});
-
-			$(this.patchId('#A4B03239_52F9_5FBB_0799_C932B9E95FCD')).click(() => {
-
-				this.exportResult('AMIXmlToJson.xsl');
-			});
-
-			$(this.patchId('#C6182164_9432_FA0C_5273_EFF56376660E')).click(() => {
-
-				this.exportResult('AMIXmlToCsv.xsl');
-			});
-
-			$(this.patchId('#B8CCCCA1_9829_3EA5_280E_ED47FCD33ADE')).click(() => {
-
-				this.exportResult('AMIXmlToText.xsl');
-			});
+			
+//			$(this.patchId('#C9F4DBE7_EF4F_09F1_C31D_97581978BD13')).click(() => {
+//
+//				this.exportResult('AMIXmlToXml.xsl');
+//			});
+//
+//			$(this.patchId('#A4B03239_52F9_5FBB_0799_C932B9E95FCD')).click(() => {
+//
+//				this.exportResult('AMIXmlToJson.xsl');
+//			});
+//
+//			$(this.patchId('#C6182164_9432_FA0C_5273_EFF56376660E')).click(() => {
+//
+//				this.exportResult('AMIXmlToCsv.xsl');
+//			});
+//
+//			$(this.patchId('#B8CCCCA1_9829_3EA5_280E_ED47FCD33ADE')).click(() => {
+//
+//				this.exportResult('AMIXmlToText.xsl');
+//			});
 
 			/*-------------------------------------------------------------*/
 
