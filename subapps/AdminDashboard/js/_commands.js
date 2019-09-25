@@ -66,6 +66,13 @@ $AMIClass('AdminDashboardCommands', {
 		return amiCommand.execute('SearchQuery -catalog="self" -entity="router_role" -mql="SELECT `router_role`.`role`"', {context: this}).done(function(data) {
 
 			this.roles = amiWebApp.jspath('..field{.@name==="role"}.$', data);
+
+			if('filter' in amiWebApp.args)
+			{
+				$('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').val(amiWebApp.args['filter']);
+
+				adminDashboardApp.subsubapp.find(amiWebApp.args['filter']);
+			}
 		});
 	},
 
