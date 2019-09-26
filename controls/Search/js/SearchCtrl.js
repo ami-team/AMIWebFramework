@@ -714,6 +714,7 @@ $AMIClass('SearchCtrl', {
 		try
 		{
 			var predicate;
+	
 			$.each(this.ctx.predicates, function(name) {
 	
 				predicate = this.ctx.predicates[name];
@@ -721,24 +722,39 @@ $AMIClass('SearchCtrl', {
 				switch(predicate.criteria.type)
 				{
 					case 0:
-						this.fillStringBox(name, false, false);
+						amiWebApp.lock();
+						this.fillStringBox(name, false, false).always(function() {
+							amiWebApp.unlock();
+						});
 						break;
 	
 					case 1:
-						this.fillStringBox(name, true, true);
+						amiWebApp.lock();
+						this.fillStringBox(name, true, true).always(function() {
+							amiWebApp.unlock();
+						});
 						break;
 	
 					case 5:
 					case 6:
-						this.fillParamBoxKey(name); this.fillParamBoxVal(name);
+						amiWebApp.lock();
+						this.fillParamBoxKey(name); this.fillParamBoxVal(name).always(function() {
+							amiWebApp.unlock();
+						});
 						break;
 	
 					case 2:
-						this.fillNumberBox(name);
+						amiWebApp.lock();
+						this.fillNumberBox(name).always(function() {
+							amiWebApp.unlock();
+						});
 						break;
 	
 					case 3:
-						this.fillNumberBox(name);
+						amiWebApp.lock();
+						this.fillNumberBox(name).always(function() {
+							amiWebApp.unlock();
+						});
 						break;
 				}
 	
@@ -2228,8 +2244,6 @@ $AMIClass('SearchCtrl', {
 			return {'ast' : ast, 'predicateFound' : predicateFound};
 		}
 
-		console.debug(JSON.stringify(node.nodeValue));
-		
 		var astL = null;
 		var astR = null;
 		var predicateFoundL = false;
@@ -2269,7 +2283,7 @@ $AMIClass('SearchCtrl', {
 		}
 
 		/*-----------------------------------------------------------------*/
-		/* AND/OR/NOT NODE TREATMENT                                       */
+		/* AND/OR NODE TREATMENT                                           */
 		/*-----------------------------------------------------------------*/
 
 		/**/ if(node.nodeValue === 'and')
@@ -2341,28 +2355,6 @@ $AMIClass('SearchCtrl', {
 				{
 					ast = astR;
 				}
-			}
-
-			predicateFound = predicateFoundL || predicateFoundR;
-
-			return {'ast' : ast, 'predicateFound' : predicateFound};
-		} 
-		else if(node.nodeValue === 'not')
-		{
-		
-			ast = new amiTwig.expr.Node(amiTwig.expr.tokens.NOT, 'not');
-			
-			/**/ if(astL !== null)
-			{
-				ast.nodeLeft = astL;
-			}
-			else if(astR !== null)
-			{
-				ast.nodeRight = astR;
-			}
-			else
-			{
-				ast = null;
 			}
 
 			predicateFound = predicateFoundL || predicateFoundR;
