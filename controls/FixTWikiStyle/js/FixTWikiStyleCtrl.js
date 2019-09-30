@@ -41,7 +41,7 @@ $AMIClass('FixTWikiStyleCtrl', {
 		}
 
 		/*-----------------------------------------------------------------*/
-
+/*
 		$.ajax({
 			url: 'https://ami-protected.web.cern.ch/sso2.php',
 			dataType: 'jsonp',
@@ -50,12 +50,12 @@ $AMIClass('FixTWikiStyleCtrl', {
 
 				amiLogin.form_login2(data.tmpUser, data.tmpPass);
 			},
-			error: function(/**/) {
+			error: function(**) {
 
 				amiLogin.form_login2('guest', 'guest');
 			},
 		});
-
+*/
 		/*-----------------------------------------------------------------*/
 	},
 
