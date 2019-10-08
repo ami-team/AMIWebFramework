@@ -10,8 +10,8 @@
   },
   "homepage": "https://github.com/ami-team/AMIWebFramework/",
   "devDependencies": {
-    "@babel/core": "^7.4.3",
-    "@babel/preset-env": "^7.4.3",
+    "@babel/core": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
     "eslint-plugin-ami": "^1.0.6",
     "grunt": "^1.0.4",
     "grunt-autoprefixer": "^3.0.4",
@@ -19,10 +19,10 @@
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-uglify-es": "^3.3.0",
-    "grunt-eslint": "^21.0.0",
+    "grunt-eslint": "^22.0.0",
     "grunt-exec": "^3.0.0",
-    "grunt-jsdoc": "^2.3.0",
-    "jsdoc": "git://github.com/jsdoc3/jsdoc.git"
+    "grunt-jsdoc": "^2.4.0",
+    "jsdoc": "^3.6.3"
   },
   "keywords": [
     "ami",

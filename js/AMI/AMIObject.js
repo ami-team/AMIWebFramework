@@ -187,13 +187,13 @@ function $AMIClass($name, $descr)
 
 		for(const i in this.$implements)
 		{
-			if(this.$implements.hasOwnProperty(i))
+			if(this.$implements.hasOwnProperty(i)) // eslint-disable-line no-prototype-builtins
 			{
 				const $interface = this.$implements[i];
 
 				for(const j in $interface.$members)
 				{
-					if($interface.$members.hasOwnProperty(j))
+					if($interface.$members.hasOwnProperty(j)) // eslint-disable-line no-prototype-builtins
 					{
 						const $member = $interface.$members[j];
 
@@ -217,7 +217,7 @@ function $AMIClass($name, $descr)
 
 		for(const name in _super)
 		{
-			if(_super.hasOwnProperty(name))
+			if(_super.hasOwnProperty(name)) // eslint-disable-line no-prototype-builtins
 			{
 				this.$super[name] = ((_super, name, that) => function() {
 
@@ -233,7 +233,7 @@ function $AMIClass($name, $descr)
 
 		for(const name in _added)
 		{
-			if(_added.hasOwnProperty(name))
+			if(_added.hasOwnProperty(name)) // eslint-disable-line no-prototype-builtins
 			{
 				this.$added[name] = ((_added, name, that) => function() {
 
@@ -266,7 +266,7 @@ function $AMIClass($name, $descr)
 		   ||
 		   name.charAt(0) !== '$'
 		   ||
-		   $super.hasOwnProperty(name)
+		   $super.hasOwnProperty(name) // eslint-disable-line no-prototype-builtins
 		 ) {
 			$class._internal_super[name] = $super[name];
 
@@ -280,7 +280,7 @@ function $AMIClass($name, $descr)
 		   ||
 		   name.charAt(0) !== '$'
 		   ||
-		   $descr.hasOwnProperty(name)
+		   $descr.hasOwnProperty(name) // eslint-disable-line no-prototype-builtins
 		 ) {
 			$class._internal_added[name] = $descr[name];
 

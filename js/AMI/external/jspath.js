@@ -1383,7 +1383,7 @@ decl.params = function(_params) {
     }
 
     for(var name in _params) {
-        if(_params.hasOwnProperty(name)) {
+        if(_params.hasOwnProperty(name)) { // eslint-disable-line no-prototype-builtins
             setParamsHooks[name] && setParamsHooks[name](params[name], _params[name]);
             params[name] = _params[name];
         }
