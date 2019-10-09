@@ -31,14 +31,17 @@
 
 			/*-------------------------------------------------------------*/
 
-			var url = parent.amiRouter.getOriginURL();
+			var amiRouter = parent.amiRouter;
 
-			/*-------------------------------------------------------------*/
+			if(amiRouter)
+			{
+				var el = document.getElementById('BFC76577_E618_0494_47D0_E495DD8C5AF0');
 
-			var el = document.getElementById('BFC76577_E618_0494_47D0_E495DD8C5AF0');
+				var url = parent.amiRouter.getOriginURL();
 
-			el.setAttribute('href', url);
-			el.textContent = url;
+				el.setAttribute('href', url);
+				el.textContent = url;
+			}
 
 			/*-------------------------------------------------------------*/
 

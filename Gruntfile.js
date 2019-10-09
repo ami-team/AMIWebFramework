@@ -158,6 +158,7 @@ module.exports = function(grunt) {
 				"options": {
 					"inputSourceMap": true,
 					"sourceMaps": "inline",
+					"compact": false,
 					"presets": [["@babel/preset-env", {
 						"debug": false,
 						"loose": true,
