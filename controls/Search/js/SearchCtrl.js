@@ -788,7 +788,7 @@ $AMIClass('SearchCtrl', {
 	
 			/*-------------------------------------------------------------*/
 	
-			return amiCommand.execute('BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
+			return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 	
 				var nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
 	
