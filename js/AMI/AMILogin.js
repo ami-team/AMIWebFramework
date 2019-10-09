@@ -346,7 +346,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					   ||
 					   !issuerDNInSession
 					 ) {
-						message = 'It is recommended to connect with a X.509 certificate.';
+						message = 'It is recommended to authenticate with a X.509 certificate.';
 					}
 					else
 					{
@@ -354,7 +354,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 						   ||
 						   issuerDNInAMI !== issuerDNInSession
 						 ) {
-							message = 'The certificate in your session is not the one registered in AMI.';
+							message = 'The X.509 certificate in the session differs from the one in AMI.';
 						}
 					}
 				}
@@ -399,16 +399,16 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 					   ||
 					   !issuerDNInAMI
 					 ) {
-						message = 'Register a valid certificate.';
+						message = 'Register a valid X.509 certificate.';
 					}
 					else
 					{
-						message = 'Check your VO roles.';
+						message = 'Check your virtual organization roles.';
 					}
 				}
 				else
 				{
-					message = 'Contact the AMI team.';
+					message = 'Unexpected issue, contact the AMI team.';
 				}
 
 				/*---------------------------------------------------------*/
