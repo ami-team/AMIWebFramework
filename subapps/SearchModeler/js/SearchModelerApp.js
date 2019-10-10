@@ -131,7 +131,7 @@ $AMIClass('SearchModelerApp', {
 		amiCommand.execute('ListCatalogs').done((data) => {
 
 			const s = [
-				'<option value="" style="display: none;">--select--</option>'
+				'<option value="" style="display: none;">-- select a catalog --</option>'
 			];
 
 			amiWebApp.jspath('..row', data).forEach((row) => {
@@ -179,7 +179,7 @@ $AMIClass('SearchModelerApp', {
 		amiCommand.execute('ListEntities -catalog="' + amiWebApp.textToString(catalog) + '"').done((data) => {
 
 			const s = [
-				'<option value="" style="display: none;">--select--</option>'
+				'<option value="" style="display: none;">-- select an entity --</option>'
 			];
 
 			amiWebApp.jspath('..row', data).forEach((row) => {
@@ -229,7 +229,7 @@ $AMIClass('SearchModelerApp', {
 		amiCommand.execute('ListFields -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '"').done((data) => {
 
 			const s = [
-				'<option value="" style="display: none;">--select--</option>'
+				'<option value="" style="display: none;">-- select a field --</option>'
 			];
 
 			amiWebApp.jspath('..row', data).forEach((row) => {
