@@ -324,11 +324,6 @@ $AMIClass('SearchModelerApp', {
 
 	addCriteria: function(catalog)
 	{
-		if(!catalog)
-		{
-			return;
-		}
-
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		amiWebApp.lock();
@@ -344,7 +339,7 @@ $AMIClass('SearchModelerApp', {
 
 			dict.criterias.forEach((criteria) => {
 
-				this.getCatalogs('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_' + this.cnt, criteria.catalog);
+				this.getCatalogs('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_' + this.cnt, catalog);
 
 				this.cnt++;
 			});
