@@ -1,0 +1,40 @@
+#ami_search_modeler_interface_list > div {
+	background-color: rgb(255, 255, 255);
+	cursor: pointer;
+	display: table;
+	line-height: 22px;
+}
+
+#ami_search_modeler_interface_list > div:hover {
+	background-color: rgb(245, 245, 245);
+}
+
+#ami_search_modeler_interface_list > div > div {
+	display: table-cell;
+}
+
+#ami_search_modeler_interface_list > div > :first-child {
+	width: 100%;
+}
+
+#ami_search_modeler_interface_list .popover {
+	max-width: 760px;
+	width: 760px;
+}
+
+#ami_search_modeler_paths select,
+#ami_search_modeler_paths input {
+	background-color: rgb(250, 250, 250);
+	border: none;
+	border-radius: 6px;
+	height: 26px;
+	width: 98%;
+}
+
+@-moz-document url-prefix() {
+	#ami_search_modeler_paths select {
+		-moz-appearance: none;
+		text-indent: 0.01px;
+		text-overflow: '';
+	}
+}

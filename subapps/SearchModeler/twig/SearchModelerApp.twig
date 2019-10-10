@@ -1,0 +1,254 @@
+<!-- ******************************************************************** -->
+
+<style type="text/css">
+
+@media only screen and (min-width: 768px) {
+
+	#D847C44B_D28F_49B3_AF79_7A68B3305ED2 {
+
+		height: 325px;
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+}
+
+</style>
+
+<!-- ******************************************************************** -->
+
+<div class="row">
+
+	<div class="col-md-3">
+
+		<div class="card">
+			<div class="card-header py-2">
+				Search interfaces
+			</div>
+
+			<div class="card-body py-2" id="CFB6CA12_2D42_3111_3183_EC1006F7E039"></div>
+
+		</div>
+
+	</div>
+
+	<div class="col-md-9">
+
+		<div class="ami-callout" style="margin-top: 0px;">
+
+			<div class="row">
+
+				<div class="col-md-2 text-center">
+					<img src="images/glass.png" alt="" height="90" wigth="90" />
+				</div>
+
+				<div class="col-md-10">
+
+					<input type="hidden" id="A9A04006_FEE1_1501_EAEB_49ED8F99A5EE" />
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="B08B0D55_227C_8AB2_DD3F_B9E783E606F8">Group<span class="text-danger">*</span></label>
+								<input type="text" class="form-control form-control-sm" id="B08B0D55_227C_8AB2_DD3F_B9E783E606F8" placeholder="Type the search interface group..." />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16">Name<span class="text-danger">*</span></label>
+								<input type="text" class="form-control form-control-sm" id="BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16" placeholder="Type the search interface name..." />
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="A2C54F33_AC45_3553_86D6_4A479D10CD54">Archived<span class="text-danger">*</span></label>
+								<div class="switch switch-sm switch-off-primary switch-on-danger">
+									<input type="checkbox" id="A2C54F33_AC45_3553_86D6_4A479D10CD54">
+									<label for="A2C54F33_AC45_3553_86D6_4A479D10CD54">
+										<span class="text-primary">no</span>
+										/
+										<span class="text-danger">yes</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="ECAE118F_BBFB_6F69_590F_C6F38611F8C3">Catalog<span class="text-danger">*</span></label>
+								<select type="text" class="custom-select custom-select-sm" id="ECAE118F_BBFB_6F69_590F_C6F38611F8C3" onchange="searchModelerApp.getEntities('#F71D1452_8613_5FB5_27D3_C1540573F450', $('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val());"></select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="F71D1452_8613_5FB5_27D3_C1540573F450">Entity<span class="text-danger">*</span></label>
+								<select type="text" class="custom-select custom-select-sm" id="F71D1452_8613_5FB5_27D3_C1540573F450" onchange="searchModelerApp.getFields('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E', $('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val(), $('#F71D1452_8613_5FB5_27D3_C1540573F450').val());"></select>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="form-group">
+								<label for="BB89A473_0842_CB8F_E146_A6CCD8D3F15E">Primary field<span class="text-danger">*</span></label>
+								<select type="text" class="custom-select custom-select-sm" id="BB89A473_0842_CB8F_E146_A6CCD8D3F15E"></select>
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+			<label>
+				Criteria (name, catalog, entity, field, type, rank)
+				<a href="javascript:searchModelerApp.addCriteria($('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val());">
+					<i class="fa fa-plus-circle"></i> Add criteria
+				</a>
+			</label>
+
+			<form class="form-group" id="FEC360FA_EC1D_90DC_FFD5_8A498CF60305">
+				<table class="w-100">
+					<tbody id="DD89D783_6F39_7B3B_3F3F_D875737A5E68"></tbody>
+				</table>
+            </form>
+
+			<hr />
+
+			<div class="text-right" style="margin-top: 4px;">
+				<button class="btn btn-outline-secondary" onclick="searchModelerApp.clear();" style="width: 80px;">Clear</button>
+				-
+				<button class="btn btn-outline-danger" onclick="searchModelerApp.remove();" style="width: 80px;">Remove</button>
+				<button class="btn btn-outline-primary" onclick="searchModelerApp.apply();" style="width: 80px;">Apply</button>
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<div class="modal fade" id="modal_ami_search_modeler_options">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button class="close" data-dismiss="modal">×</button>
+        <h4 class="modal-title">Options</h4>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="row">
+
+          <div class="col-md-7">
+
+            <div class="radio">
+              <label>
+                <input type="radio" name="modal_ami_search_modeler_options_form_mode" id="modal_ami_search_modeler_options_form_mode1" checked="checked" />
+                Visible
+              </label>
+            </div>
+
+            <div class="radio">
+              <label>
+                <input type="radio" name="modal_ami_search_modeler_options_form_mode" id="modal_ami_search_modeler_options_form_mode2" xxxxxxx="xxxxxxx" />
+                Hidden
+              </label>
+            </div>
+
+            <div class="radio">
+              <label>
+                <input type="radio" name="modal_ami_search_modeler_options_form_mode" id="modal_ami_search_modeler_options_form_mode3" xxxxxxx="xxxxxxx" />
+                Visible, default value
+              </label>
+            </div>
+
+            <div class="radio">
+              <label>
+                <input type="radio" name="modal_ami_search_modeler_options_form_mode" id="modal_ami_search_modeler_options_form_mode4" xxxxxxx="xxxxxxx" />
+                Hidden, default value
+              </label>
+            </div>
+
+            <div style="height: 8px;"></div>
+
+            <div class="form-group">
+              <label for="modal_ami_search_modeler_options_form_default_value">Default value</label>
+              <input type="text" class="form-control" id="modal_ami_search_modeler_options_form_defaultValue" placeholder="Default value" />
+            </div>
+
+          </div>
+
+          <div class="col-md-5">
+
+            <div class="radio">
+              <label>
+                <input type="radio" name="modal_ami_search_modeler_options_form_order" id="modal_ami_search_modeler_options_form_order1" checked="checked" />
+                Order <i class="fa fa-circle-o"></i>
+              </label>
+            </div>
+
+            <div class="radio">
+              <label>
+                <input type="radio" name="modal_ami_search_modeler_options_form_order" id="modal_ami_search_modeler_options_form_order2" xxxxxxx="xxxxxxx" />
+                Order <i class="fa fa-arrow-circle-o-up"></i>
+              </label>
+            </div>
+
+            <div class="radio">
+              <label>
+                <input type="radio" name="modal_ami_search_modeler_options_form_order" id="modal_ami_search_modeler_options_form_order3" xxxxxxx="xxxxxxx" />
+                Order <i class="fa fa-arrow-circle-o-down"></i>
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="modal_ami_search_modeler_options_form_sum" />
+                Sum
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="modal_ami_search_modeler_options_form_count" />
+                Count
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="modal_ami_search_modeler_options_form_distinct" />
+                Distinct
+              </label>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" id="modal_ami_search_modeler_options_form_inclusive" />
+                Inclusive
+              </label>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" id="modal_ami_search_modeler_options_form_simple_search" />
+            Simple search
+          </label>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-default" data-dismiss="modal">Close</button>
+        <button class="btn btn-primary" onclick="searchModelerApp.setOptions();">Ok.</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ******************************************************************** -->
