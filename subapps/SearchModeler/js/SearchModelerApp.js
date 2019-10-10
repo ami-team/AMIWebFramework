@@ -290,9 +290,15 @@ $AMIClass('SearchModelerApp', {
 
 		this.getCatalogs('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3', searchInterface.json.defaultCatalog);
 
-		this.getEntities('#F71D1452_8613_5FB5_27D3_C1540573F450', searchInterface.json.defaultCatalog, searchInterface.json.defaultEntity);
+		if(searchInterface.json.defaultCatalog)
+		{
+			this.getEntities('#F71D1452_8613_5FB5_27D3_C1540573F450', searchInterface.json.defaultCatalog, searchInterface.json.defaultEntity);
 
-		this.getFields('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E', searchInterface.json.defaultCatalog, searchInterface.json.defaultEntity, searchInterface.json.defaultPrimaryField);
+			if(searchInterface.json.defaultEntity)
+			{
+				this.getFields('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E', searchInterface.json.defaultCatalog, searchInterface.json.defaultEntity, searchInterface.json.defaultPrimaryField);
+			}
+		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -307,9 +313,15 @@ $AMIClass('SearchModelerApp', {
 
 				this.getCatalogs('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_' + this.cnt, criteria.catalog);
 
-				this.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_' + this.cnt, criteria.catalog, criteria.entity);
+				if(criteria.catalog)
+				{
+					this.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_' + this.cnt, criteria.catalog, criteria.entity);
 
-				this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, criteria.catalog, criteria.entity, criteria.field);
+					if(criteria.entity)
+					{
+						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, criteria.catalog, criteria.entity, criteria.field);
+					}
+				}
 
 				this.cnt++;
 			});
@@ -340,6 +352,11 @@ $AMIClass('SearchModelerApp', {
 			dict.criterias.forEach((criteria) => {
 
 				this.getCatalogs('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_' + this.cnt, catalog);
+
+				if(catalog)
+				{
+					this.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_' + this.cnt, catalog);
+				}
 
 				this.cnt++;
 			});
