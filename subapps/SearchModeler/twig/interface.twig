@@ -1,7 +1,7 @@
 {% for interface in interfaces %}
 <div style="position: relative;">
 
-	<div style="cursor: pointer;git " onclick="searchModelerApp.select('{{interface.id|e}}');">
+	<div style="cursor: pointer;" onclick="searchModelerApp.select('{{interface.id|e}}');">
 		{% if interface.archived === '0' %}
 		<span>{{interface.group|e}} :: {{interface.name|e}}</span>
 		{% else%}
