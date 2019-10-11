@@ -107,11 +107,11 @@ $AMIClass('SearchModelerApp', {
 
 			rows.forEach((row) => {
 
-				const id = amiWebApp.jspath('..field{.@name==="router.router_search_interface.id"}.$', row)[0] || '';
-				const group = amiWebApp.jspath('..field{.@name==="router.router_search_interface.group"}.$', row)[0] || '';
-				const name = amiWebApp.jspath('..field{.@name==="router.router_search_interface.name"}.$', row)[0] || '';
-				const json = amiWebApp.jspath('..field{.@name==="router.router_search_interface.json"}.$', row)[0] || '';
-				const archived = amiWebApp.jspath('..field{.@name==="router.router_search_interface.archived"}.$', row)[0] || '';
+				const id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
+				const group = amiWebApp.jspath('..field{.@name==="group"}.$', row)[0] || '';
+				const name = amiWebApp.jspath('..field{.@name==="name"}.$', row)[0] || '';
+				const json = amiWebApp.jspath('..field{.@name==="json"}.$', row)[0] || '';
+				const archived = amiWebApp.jspath('..field{.@name==="archived"}.$', row)[0] || '';
 
 				try
 				{
