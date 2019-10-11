@@ -1,0 +1,23 @@
+{% for interface in interfaces %}
+<div style="position: relative;">
+
+	<div style="cursor: pointer;" onclick="searchModelerApp.select('{{interface.id|e}}');">
+		{% if interface.archived === '0' %}
+		<span>{{interface.group|e}} :: {{interface.name|e}}</span>
+		{% else%}
+		<strike>{{interface.group|e}} :: {{interface.name|e}}</strike>
+		{% endif %}
+	</div>
+
+	<div class="dropdown" style="position: absolute; top: -7px; right: 0px;">
+		<button type="button" class="btn btn-sm btn-link dropdown-toggle" data-toggle="dropdown">
+			<i class="fa fa-arrow-circle-right"></i> goto
+		</button>
+		<div class="dropdown-menu">
+			<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=search&userdata={{interface.id|e}}" target="_blank">Search</a>
+			<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=simpleSearch&userdata={{interface.id|e}}" target="_blank">Simple Search</a>
+		</div>
+	</div>
+
+</div>
+{% endfor %}
