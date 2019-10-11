@@ -242,6 +242,17 @@ $AMIClass('SearchCtrl', {
 
 					_this.updateExpression();
 				});
+				
+				/*---------------------------------------------------------*/
+
+				$(this.patchId('#CA15011B_EECA_E9AB_63EE_7A2A467025A5')).keypress(function(e) {
+					
+					if(e.keyCode == 13)
+					{
+						e.preventDefault();
+						_this.updateExpression();
+					}
+				});
 
 				/*---------------------------------------------------------*/
 
@@ -870,9 +881,9 @@ $AMIClass('SearchCtrl', {
 				var value = amiWebApp.textToHtml(amiWebApp.jspath('..field.$', row)[0] || '');
 
 				if(value in predicate.select) {
-					L.push('<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>');
+					L.push('<option value="' + value + '" selected="selected">' + value + '</option>');
 				} else {
-					L.push('<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>');
+					L.push('<option value="' + value + '" xxxxxxxx="xxxxxxxx">' + value + '</option>');
 				}
 			});
 
