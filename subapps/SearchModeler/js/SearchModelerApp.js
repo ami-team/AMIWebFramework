@@ -23,20 +23,48 @@ $AMIClass('SearchModelerApp', {
 		var result = $.Deferred();
 
 		amiWebApp.loadResources([
-			'subapps/UserDashboard/js/jquery-ui.min.js',
 			'subapps/SearchModeler/twig/SearchModelerApp.twig',
-			'subapps/SearchModeler/css/SearchModelerApp.css',
 			'subapps/SearchModeler/twig/interface.twig',
 			'subapps/SearchModeler/twig/input.twig',
 			/**/
 		]).done((data) => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[1]).done(() => {
+			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
 
-				$('#DD89D783_6F39_7B3B_3F3F_D875737A5E68').sortable();
+				/*----------------------------------------------------------------------------------------------------*/
 
-				this.fragmentInterface = data[3];
-				this.fragmentInput = data[4];
+				amiWebApp.loadResources([
+					'subapps/UserDashboard/js/jquery-ui.min.js',
+					'js/3rd-party/codemirror/lib/codemirror.css',
+					'js/3rd-party/codemirror/lib/codemirror.js',
+					'js/3rd-party/codemirror/addon/edit/matchbrackets.js',
+					'js/3rd-party/codemirror/mode/javascript/javascript.js',
+				]).done(() => {
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					const editor = CodeMirror.fromTextArea(document.getElementById('A78C0694_128B_1AD8_2596_C321DAA4690B'), {
+						lineNumbers: true,
+						matchBrackets: true,
+						mode: 'application/json',
+					});
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					$('#DD89D783_6F39_7B3B_3F3F_D875737A5E68').sortable();
+
+					$('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor', editor);
+
+					$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').on('shown.bs.modal', () => {
+
+						editor.refresh();
+					});
+
+					/*------------------------------------------------------------------------------------------------*/
+				});
+
+				this.fragmentInterface = data[1];
+				this.fragmentInput = data[2];
 
 				this.searchInterfaces = {};
 
@@ -371,14 +399,14 @@ $AMIClass('SearchModelerApp', {
 
 	editOptions: function(inputCnt)
 	{
-
+		$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').modal();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	setOptions: function()
 	{
-
+		alert('TODO');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
