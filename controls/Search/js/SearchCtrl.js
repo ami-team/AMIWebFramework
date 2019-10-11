@@ -118,7 +118,9 @@ $AMIClass('SearchCtrl', {
 			defaultEntity: 'router_user',
 			defaultField: 'AMIUser',
 			defaultPrimaryField: 'identifier',
-			defaultSelect : '*',
+			defaultSelect: '*',
+			defaultOrderBy: 'created',
+			defaultOrderWay: 'DESC',
 			criterias: [
 				{name: 'Id', catalog: 'self', entity: 'router_user', field: 'id', type: 2},
 				{name: 'User1', catalog: 'self', entity: 'router_user', field: 'AMIUser', type: 0},
@@ -161,6 +163,14 @@ $AMIClass('SearchCtrl', {
 
 			if('defaultSelect' in settings) {
 				this.ctx.defaultSelect = settings['defaultSelect'];
+			}
+			
+			if('defaultOrderBy' in settings) {
+				this.ctx.defaultOrderBy = settings['defaultOrderBy'];
+			}
+			
+			if('defaultOrderWay' in settings) {
+				this.ctx.defaultOrderWay = settings['defaultOrderWay'];
 			}
 
 			if('criterias' in settings) {
@@ -1878,7 +1888,7 @@ $AMIClass('SearchCtrl', {
 
 	viewSelection: function()
 	{
-		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', ['BrowseQuery -GUI -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"'], {showDetails: true, canEdit: this.ctx.canEdit, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField}, this.ctx, 'table', this.ctx.defaultEntity);
+		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', ['BrowseQuery -GUI -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"'], {showDetails: true, canEdit: this.ctx.canEdit, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField, orderBy: this.ctx.defaultOrderBy, orderWay: this.ctx.defaultOrderWay}, this.ctx, 'table', this.ctx.defaultEntity);
 
 		/* À VERIFIER !!! */
 	},
