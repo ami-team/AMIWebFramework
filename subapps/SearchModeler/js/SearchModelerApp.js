@@ -450,12 +450,12 @@ $AMIClass('SearchModelerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const id = $('#A9A04006_FEE1_1501_EAEB_49ED8F99A5EE').val();
-		const group = $('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val();
-		const name = $('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val();
-		const defaultCatalog = $('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val();
-		const defaultEntity = $('#F71D1452_8613_5FB5_27D3_C1540573F450').val();
-		const defaultPrimaryField = $('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E').val();
+		const id = $('#A9A04006_FEE1_1501_EAEB_49ED8F99A5EE').val().trim();
+		const group = $('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val().trim();
+		const name = $('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val().trim();
+		const defaultCatalog = $('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val().trim();
+		const defaultEntity = $('#F71D1452_8613_5FB5_27D3_C1540573F450').val().trim();
+		const defaultPrimaryField = $('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E').val().trim();
 		const archived = $('#A2C54F33_AC45_3553_86D6_4A479D10CD54').prop('checked') ? '1' : '0';
 
 		if(!group
