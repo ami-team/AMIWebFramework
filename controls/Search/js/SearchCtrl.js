@@ -878,12 +878,13 @@ $AMIClass('SearchCtrl', {
 
 			$.each(rows, function(idx, row) {
 
-				var value = amiWebApp.textToHtml(amiWebApp.jspath('..field.$', row)[0] || '');
+				var value = amiWebApp.jspath('..field.$', row)[0] || '';
+				var valuehtml = amiWebApp.textToHtml(value);
 
 				if(value in predicate.select) {
-					L.push('<option value="' + value + '" selected="selected">' + value + '</option>');
+					L.push('<option value="' + valuehtml + '" selected="selected">' + valuehtml + '</option>');
 				} else {
-					L.push('<option value="' + value + '" xxxxxxxx="xxxxxxxx">' + value + '</option>');
+					L.push('<option value="' + valuehtml + '" xxxxxxxx="xxxxxxxx">' + valuehtml + '</option>');
 				}
 			});
 
