@@ -44,9 +44,9 @@
 									<input type="text" class="form-control form-control-sm" id="BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16" placeholder="Type the search interface name..." />
 								</div>
 							</div>
-							<div class="col-md-4">
+							<div class="col-md-2">
 								<div class="form-group">
-									<label for="A2C54F33_AC45_3553_86D6_4A479D10CD54">Archived<span class="text-danger">*</span></label>
+									<label for="A2C54F33_AC45_3553_86D6_4A479D10CD54">Archived</label>
 									<div class="switch switch-sm switch-off-primary switch-on-danger">
 										<input type="checkbox" id="A2C54F33_AC45_3553_86D6_4A479D10CD54">
 										<label for="A2C54F33_AC45_3553_86D6_4A479D10CD54">
@@ -56,6 +56,12 @@
 										</label>
 									</div>
 								</div>
+							</div>
+							<div class="col-md-2">
+								<label for="B1786DE7_BCD6_F336_D811_9CBB6ECB583F">Flags</label>
+								<button type="button" class="btn btn-sm btn-outline-primary w-100" id="B1786DE7_BCD6_F336_D811_9CBB6ECB583F">
+									<i class="fa fa-flag"></i>
+								</button>
 							</div>
 						</div>
 
@@ -110,6 +116,44 @@
 
 	</div>
 
+</div>
+
+<!-- *************************************************************************************************************** -->
+
+<div class="modal" role="dialog" id="AAC55FA7_4919_DF1A_F194_30DF6435B539">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h4 class="modal-title">
+					<i class="fa fa-flag"></i> Options
+				</h4>
+				<button class="close" data-dismiss="modal">×</button>
+			</div>
+
+			<div class="modal-body">
+
+				<div class="row">
+
+					<div class="col-md-6">
+					</div>
+
+					<div class="col-md-6">
+					</div>
+
+				</div>
+
+				<textarea id="A3D83B42_4FBF_5DAE_6A38_12F1F53493B5"></textarea>
+
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+				<button class="btn btn-primary" onclick="searchModelerApp.setOptions1();">Apply</button>
+			</div>
+
+		</div>
+	</div>
 </div>
 
 <!-- *************************************************************************************************************** -->
@@ -200,7 +244,7 @@
 
 			<div class="modal-footer">
 				<button class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
-				<button class="btn btn-primary" onclick="searchModelerApp.setOptions();">Apply</button>
+				<button class="btn btn-primary" onclick="searchModelerApp.setOptions2();">Apply</button>
 			</div>
 
 		</div>

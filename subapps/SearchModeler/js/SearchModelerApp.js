@@ -43,21 +43,43 @@ $AMIClass('SearchModelerApp', {
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					const editor = CodeMirror.fromTextArea(document.getElementById('A78C0694_128B_1AD8_2596_C321DAA4690B'), {
+					$('#DD89D783_6F39_7B3B_3F3F_D875737A5E68').sortable();
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					const editor1 = CodeMirror.fromTextArea(document.getElementById('A3D83B42_4FBF_5DAE_6A38_12F1F53493B5'), {
 						lineNumbers: true,
 						matchBrackets: true,
 						mode: 'application/json',
 					});
 
+					$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor', editor1);
+
+					$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').on('shown.bs.modal', () => {
+
+						editor1.refresh();
+					});
+
 					/*------------------------------------------------------------------------------------------------*/
 
-					$('#DD89D783_6F39_7B3B_3F3F_D875737A5E68').sortable();
+					const editor2 = CodeMirror.fromTextArea(document.getElementById('A78C0694_128B_1AD8_2596_C321DAA4690B'), {
+						lineNumbers: true,
+						matchBrackets: true,
+						mode: 'application/json',
+					});
 
-					$('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor', editor);
+					$('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor', editor2);
 
 					$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').on('shown.bs.modal', () => {
 
-						editor.refresh();
+						editor2.refresh();
+					});
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					$('#B1786DE7_BCD6_F336_D811_9CBB6ECB583F').click(() => {
+
+						this.editOptions1();
 					});
 
 					/*------------------------------------------------------------------------------------------------*/
@@ -397,14 +419,28 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	editOptions: function(inputCnt)
+	editOptions1: function(inputCnt)
+	{
+		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal();
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	setOptions1: function()
+	{
+		alert('TODO');
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	editOptions2: function(inputCnt)
 	{
 		$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').modal();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setOptions: function()
+	setOptions2: function()
 	{
 		alert('TODO');
 	},
