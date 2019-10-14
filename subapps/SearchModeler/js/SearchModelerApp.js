@@ -328,11 +328,9 @@ $AMIClass('SearchModelerApp', {
 
 		const searchInterface = this.searchInterfaces[id];
 
-		$('#A9A04006_FEE1_1501_EAEB_49ED8F99A5EE').val(searchInterface.id);
+		$('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val(searchInterface.group);
 
-		$('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val(searchInterface.group);
-
-		$('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val(searchInterface.name);
+		$('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val(searchInterface.name);
 
 		$('#A2C54F33_AC45_3553_86D6_4A479D10CD54').prop('checked', searchInterface.archived !== '0');
 
@@ -456,8 +454,6 @@ $AMIClass('SearchModelerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#A9A04006_FEE1_1501_EAEB_49ED8F99A5EE').val('');
-
 		$('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val('');
 		$('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val('');
 		$('#A2C54F33_AC45_3553_86D6_4A479D10CD54').val('');
@@ -482,10 +478,13 @@ $AMIClass('SearchModelerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const id = $('#A9A04006_FEE1_1501_EAEB_49ED8F99A5EE').val();
+		const group = $('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val().trim();
+		const name = $('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val().trim();
 
-		if(!id)
-		{
+		if(!group
+		   ||
+		   !name
+		 ) {
 			return;
 		}
 
@@ -493,11 +492,17 @@ $AMIClass('SearchModelerApp', {
 
 		amiWebApp.lock();
 
-		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="," -keyFields="id" -keyValues="' + amiWebApp.textToString(id) + '"').always(() => {
+		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) +'"').done((data, message) => {
 
 			this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
 
-			amiWebApp.success('Done with success', true);
+			amiWebApp.success(message, true);
+
+		}).fail((data, message) => {
+
+			this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
+
+			amiWebApp.error(message, true);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -514,7 +519,6 @@ $AMIClass('SearchModelerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const id = $('#A9A04006_FEE1_1501_EAEB_49ED8F99A5EE').val().trim();
 		const group = $('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val().trim();
 		const name = $('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val().trim();
 		const defaultCatalog = $('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val().trim();
@@ -574,7 +578,7 @@ $AMIClass('SearchModelerApp', {
 			criterias: keys.map(key => criterias[key]),
 		};
 
-		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="id" -keyValues="' + amiWebApp.textToString(id) + '"').done((/*---------*/) => {
+		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) +'"').done((/*---------*/) => {
 
 			amiCommand.execute('AddElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£json£archived" -values="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '£' + amiWebApp.textToString(JSON.stringify(json)) + '£' + amiWebApp.textToString(archived) + '"').done((data, message) => {
 
