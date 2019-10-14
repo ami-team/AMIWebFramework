@@ -334,6 +334,8 @@ $AMIClass('SearchModelerApp', {
 
 		$('#A2C54F33_AC45_3553_86D6_4A479D10CD54').prop('checked', searchInterface.archived !== '0');
 
+		$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').setValue(JSON.stringify(searchInterface.more || {}, null, 2));
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.getCatalogs('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3', searchInterface.json.defaultCatalog);
@@ -382,7 +384,7 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	addCriteria: function(catalog)
+	addCriteria: function(catalog, entity, field, criterias)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -392,7 +394,7 @@ $AMIClass('SearchModelerApp', {
 
 		var dict = {
 			cnt: this.cnt,
-			criterias: [{type: 0}],
+			criterias: criterias || [{type: 0}],
 		};
 
 		amiWebApp.appendHTML('#DD89D783_6F39_7B3B_3F3F_D875737A5E68', this.fragmentInput, {dict: dict}).done(() => {
@@ -403,7 +405,12 @@ $AMIClass('SearchModelerApp', {
 
 				if(catalog)
 				{
-					this.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_' + this.cnt, catalog);
+					this.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_' + this.cnt, catalog, entity);
+
+					if(entity)
+					{
+						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, catalog, entity, field);
+					}
 				}
 
 				this.cnt++;
@@ -417,30 +424,38 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	editOptions1: function(inputCnt)
+	editOptions1: function()
 	{
-		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal();
+		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal('show');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	setOptions1: function()
 	{
-		alert('TODO');
+		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal('hide');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	editOptions2: function(inputCnt)
 	{
-		$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').modal();
+		$('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor').setValue($('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val());
+
+		$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').modal('show');
+
+		this.currentInputCnt = inputCnt;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	setOptions2: function()
 	{
-		alert('TODO');
+		$('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + this.currentInputCnt).val($('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor').getValue());
+
+		$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').modal('hide');
+
+		this.currentInputCnt = 0xFFFFFFFF;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -525,6 +540,7 @@ $AMIClass('SearchModelerApp', {
 		const defaultEntity = $('#F71D1452_8613_5FB5_27D3_C1540573F450').val().trim();
 		const defaultPrimaryField = $('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E').val().trim();
 		const archived = $('#A2C54F33_AC45_3553_86D6_4A479D10CD54').prop('checked') ? '1' : '0';
+		const more = $('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').getValue().trim();
 
 		if(!group
 		   ||
@@ -565,9 +581,32 @@ $AMIClass('SearchModelerApp', {
 					criterias[key1] = {};
 				}
 
-				criterias[key1][key2] = item.value;
+				if(key2 === 'more')
+				{
+					try {
+						criterias[key1][key2] = JSON.parse(moreitem.value);
+					}
+					catch(e) {
+						criterias[key1][key2] = {/*--------------------*/};
+					}
+				}
+				else
+				{
+					criterias[key1][key2] = item.value;
+				}
 			}
 		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		let MORE;
+
+		try {
+			MORE = JSON.parse(more);
+		}
+		catch(e) {
+			MORE = {/*----------*/};
+		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -575,6 +614,7 @@ $AMIClass('SearchModelerApp', {
 			defaultCatalog: defaultCatalog,
 			defaultEntity: defaultEntity,
 			defaultPrimaryField: defaultPrimaryField,
+			more: MORE,
 			criterias: keys.map(key => criterias[key]),
 		};
 

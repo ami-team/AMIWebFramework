@@ -32,5 +32,8 @@
 			<i class="fa fa-trash text-danger"></i>
 		</button>
 	</td>
+
+	<input type="hidden" name="more_{{cnt + loop.index0}}" value="{{(criteria.more or {})|json_encode()|e}}" id="C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_{{cnt + loop.index0}}" />
+
 </tr>
 {% endfor %}
