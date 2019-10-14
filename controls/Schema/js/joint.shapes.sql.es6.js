@@ -350,21 +350,21 @@ joint.dia.Element.define('sql.Entity', {
 
 			let text = field.field + ': ' + field.type;
 
-			/**/ if(field.hidden) {
+			if(field.hidden) {
 				text = '❌' + text;
 			}
-			else if(field.adminOnly) {
+			if(field.adminOnly) {
 				text = '🚫' + text;
 			}
-			else if(field.crypted) {
+			if(field.crypted) {
 				text = '🔐' + text;
 			}
-			else if(field.primary) {
+			if(field.primary) {
 				text = '🔑' + text;
 			}
-			else if(field.created || field.createdBy
-			        ||
-			        field.modified || field.modifiedBy
+			if(field.created || field.createdBy
+			   ||
+			   field.modified || field.modifiedBy
 			 ) {
 				text = '⚙️' + text;
 			}
