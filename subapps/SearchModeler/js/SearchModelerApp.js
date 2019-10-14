@@ -484,6 +484,18 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	_trim: function(s)
+	{
+		if(s) {
+			return s.trim();
+		}
+		else {
+			return '';
+		}
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	remove: function()
 	{
 		if(confirm('Please confirm...') == false)
@@ -493,8 +505,8 @@ $AMIClass('SearchModelerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const group = $('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val().trim();
-		const name = $('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val().trim();
+		const group = this._trim($('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val());
+		const name = this._trim($('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val());
 
 		if(!group
 		   ||
@@ -525,7 +537,7 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	apply: function()
+	apply: function(clone)
 	{
 		if(confirm('Please confirm...') == false)
 		{
@@ -534,21 +546,23 @@ $AMIClass('SearchModelerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const group = $('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val().trim();
-		const name = $('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val().trim();
-		const defaultCatalog = $('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val().trim();
-		const defaultEntity = $('#F71D1452_8613_5FB5_27D3_C1540573F450').val().trim();
-		const defaultPrimaryField = $('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E').val().trim();
+		const group = this._trim($('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val());
+		const name = this._trim($('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val());
+		const defaultCatalog = this._trim($('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val());
+		const defaultEntity = this._trim($('#F71D1452_8613_5FB5_27D3_C1540573F450').val());
+		const defaultPrimaryField = this._trim($('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E').val());
 		const archived = $('#A2C54F33_AC45_3553_86D6_4A479D10CD54').prop('checked') ? '1' : '0';
-		const more = $('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').getValue().trim();
+		const more = $('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').getValue();
+
+		const defaultCATALOG = this._trim(clone ? window.prompt('New default catalog', defaultCatalog) : defaultCatalog);
 
 		if(!group
 		   ||
 		   !name
 		   ||
-		   !archived
-		   ||
 		   !defaultCatalog
+		   ||
+		   !defaultCATALOG
 		   ||
 		   !defaultEntity
 		   ||
@@ -592,7 +606,9 @@ $AMIClass('SearchModelerApp', {
 				}
 				else
 				{
-					criterias[key1][key2] = item.value;
+					criterias[key1][key2] = (clone && key2  == 'catalog' && item.value === defaultCatalog) ? defaultCATALOG
+					                                                                                       : ((item.value))
+					;
 				}
 			}
 		});
@@ -611,7 +627,7 @@ $AMIClass('SearchModelerApp', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const json = {
-			defaultCatalog: defaultCatalog,
+			defaultCatalog: defaultCATALOG,
 			defaultEntity: defaultEntity,
 			defaultPrimaryField: defaultPrimaryField,
 			more: MORE,

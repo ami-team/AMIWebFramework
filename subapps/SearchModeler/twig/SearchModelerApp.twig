@@ -104,10 +104,21 @@
 			</div>
 
 			<div class="card-footer text-right">
-				<button class="btn btn-sm btn-outline-secondary" onclick="searchModelerApp.clear();" style="width: 80px;">Clear</button>
+
+				<button type="button" class="btn btn-sm btn-outline-secondary" onclick="searchModelerApp.clear();" style="width: 80px;">Clear</button>
 				-
-				<button class="btn btn-sm btn-outline-danger" onclick="searchModelerApp.remove();" style="width: 80px;">Remove</button>
-				<button class="btn btn-sm btn-outline-primary" onclick="searchModelerApp.apply();" style="width: 80px;">Apply</button>
+				<button type="button" class="btn btn-sm btn-outline-danger" onclick="searchModelerApp.remove();" style="width: 80px;">Remove</button>
+
+				<div class="btn-group" role="group" style="width: 80px;">
+					<button type="button" class="btn btn-sm btn-outline-primary" onclick="searchModelerApp.apply(false);">Apply</button>
+					<button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle-split dropdown-toggle" data-toggle="dropdown">
+						<span class="sr-only">Toggle Dropdown</span>
+					</button>
+					<div class="dropdown-menu dropdown-menu-right">
+						<button class="dropdown-item" type="button" onclick="searchModelerApp.apply(true);">Change default catalog</button>
+					</div>
+				</div>
+
 			</div>
 
 		</div>
@@ -141,7 +152,7 @@
 
 				</div>
 
-				<textarea id="A3D83B42_4FBF_5DAE_6A38_12F1F53493B5"></textarea>
+				<textarea id="A3D83B42_4FBF_5DAE_6A38_12F1F53493B5">{}</textarea>
 
 			</div>
 

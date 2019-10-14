@@ -17,11 +17,11 @@
 	</td>
 	<td>
 		<select class="custom-select custom-select-sm" name="type_{{cnt + loop.index0}}" id="F591F5A7_76BD_C010_8A37_3BD869CF0BB4_{{cnt + loop.index0}}">
-			<option value="0">text (few results)</option>
-			<option value="1">text (many results)</option>
-			<option value="2">number</option>
-			<option value="3">date</option>
-			<option value="4">boolean</option>
+			<option value="0"{% if criteria.type === '0'%} selected="selected"{% endif %}>text (few results)</option>
+			<option value="1"{% if criteria.type === '1'%} selected="selected"{% endif %}>text (many results)</option>
+			<option value="2"{% if criteria.type === '2'%} selected="selected"{% endif %}>number</option>
+			<option value="3"{% if criteria.type === '3'%} selected="selected"{% endif %}>date</option>
+			<option value="4"{% if criteria.type === '4'%} selected="selected"{% endif %}>boolean</option>
 		</select>
 	</td>
 	<td style="text-align: center; width: 80px;">
