@@ -209,7 +209,7 @@ $AMIClass('SearchCtrl', {
 	{
 		var result = $.Deferred();
 
-		this.tabCtrl.appendItem(this.ctx.name, {context: this}).done(function(selector) {
+		this.tabCtrl.appendItem('<i class="fa fa-search"></i> ' + this.ctx.name, {context: this}).done(function(selector) {
 
 			this.replaceHTML(selector, this.fragmentSearchCtrl, {context: this, dict: this.ctx}).done(function() {
 
@@ -1888,7 +1888,7 @@ $AMIClass('SearchCtrl', {
 
 	viewSelection: function()
 	{
-		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', ['BrowseQuery -GUI -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"'], {showDetails: true, canEdit: this.ctx.canEdit, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField, orderBy: this.ctx.defaultOrderBy, orderWay: this.ctx.defaultOrderWay}, this.ctx, 'table', this.ctx.defaultEntity);
+		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', ['BrowseQuery -GUI -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"'], {showDetails: true, canEdit: this.ctx.canEdit, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField/*, orderBy: this.ctx.defaultOrderBy, orderWay: this.ctx.defaultOrderWay*/}, this.ctx, 'table', this.ctx.defaultEntity);
 
 		/* À VERIFIER !!! */
 	},
