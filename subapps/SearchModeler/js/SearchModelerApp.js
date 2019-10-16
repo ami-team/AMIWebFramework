@@ -506,6 +506,10 @@ $AMIClass('SearchModelerApp', {
 
 	editOptions1: function()
 	{
+		this.jsonToForm1(this._parseJson($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val()));
+
+ 		/**/
+
 		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal('show');
 	},
 
@@ -513,6 +517,10 @@ $AMIClass('SearchModelerApp', {
 
 	setOptions1: function()
 	{
+		/*-------------------------------------------------------------------------------*/;
+
+		/**/
+
 		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal('hide');
 	},
 
