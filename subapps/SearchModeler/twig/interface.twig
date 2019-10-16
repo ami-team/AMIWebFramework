@@ -2,10 +2,10 @@
 <div style="position: relative;">
 
 	<div style="cursor: pointer;" onclick="searchModelerApp.select('{{interface.id|e}}');">
-		{% if interface.archived === '0' %}
-		<span>{{interface.group|e}} :: {{interface.name|e}}</span>
-		{% else%}
+		{% if interface.archived %}
 		<strike>{{interface.group|e}} :: {{interface.name|e}}</strike>
+		{% else%}
+		<span>{{interface.group|e}} :: {{interface.name|e}}</span>
 		{% endif %}
 	</div>
 
