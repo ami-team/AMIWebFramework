@@ -553,7 +553,7 @@ $AMIClass('SearchModelerApp', {
 
 		if('init_value' in more)
 		{
-			$('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val(more.init_value);
+			$('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val(more.init_value !== null ? more.init_value : '@NULL');
 
 			$('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').prop('checked', true);
 		}
@@ -582,9 +582,14 @@ $AMIClass('SearchModelerApp', {
 		more.inclusive = $('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('checked');
 		more.simple_search = $('#B6671716_EA4E_E4A6_454B_79140FFC1532').prop('checked');
 
-		if($('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').prop('checked')) {
-			more.init_value = $('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val();
-		} else {
+		if($('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').prop('checked'))
+		{
+			const init_value = $('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val();
+
+			more.init_value = init_value !== '@NULL' ? init_value : null;
+		}
+		else
+		{
 			delete more.init_value;
 		}
 
