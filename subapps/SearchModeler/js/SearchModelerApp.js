@@ -84,6 +84,19 @@ $AMIClass('SearchModelerApp', {
 
 					/*------------------------------------------------------------------------------------------------*/
 
+					const f1 = () => {
+
+						const more = this._parseJson($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').getValue());
+
+						this.formToJson1(more);
+
+						$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').setValue(this._dumpJson(more));
+					};
+
+					$('#C0C96727_4B54_3EF2_97BF_39F6193CEDAB').change(f1);
+
+					/*------------------------------------------------------------------------------------------------*/
+
 					const f2 = () => {
 
 						const more = this._parseJson($('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor').getValue());
@@ -104,7 +117,6 @@ $AMIClass('SearchModelerApp', {
 					$('#A10FF5C5_4D17_36BB_A18F_4E2C4EB05A3B').change(f2);
 
 					/*------------------------------------------------------------------------------------------------*/
-
 				});
 
 				this.fragmentInterface = data[1];
@@ -506,7 +518,17 @@ $AMIClass('SearchModelerApp', {
 
 	editOptions1: function()
 	{
-		this.jsonToForm1(this._parseJson($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val()));
+		$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val(
+			this._dumpJson(
+				this.formToJson1(
+					this.jsonToForm1(
+						this._parseJson(
+							$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val()
+						)
+					)
+				)
+			)
+		);
 
  		/**/
 
@@ -517,10 +539,6 @@ $AMIClass('SearchModelerApp', {
 
 	setOptions1: function()
 	{
-		/*-------------------------------------------------------------------------------*/;
-
-		/**/
-
 		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal('hide');
 	},
 
@@ -551,6 +569,8 @@ $AMIClass('SearchModelerApp', {
         } else {
         	$('#BB6ADE31_B629_DB15_9319_DAFAAD9999CF').prop('checked', true);
         }
+
+		return more;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -575,13 +595,25 @@ $AMIClass('SearchModelerApp', {
 		} else if($('#BB6ADE31_B629_DB15_9319_DAFAAD9999CF').prop('checked')) {
 			delete more.order;
 		}
+
+		return more;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	editOptions2: function(inputCnt)
 	{
-		this.jsonToForm2(this._parseJson($('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val()));
+		$('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val(
+			this._dumpJson(
+				this.formToJson2(
+					this.jsonToForm2(
+						this._parseJson(
+							$('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val()
+						)
+					)
+				)
+			)
+		);
 
  		/**/
 
@@ -596,10 +628,6 @@ $AMIClass('SearchModelerApp', {
 
 	setOptions2: function(inputCnt)
 	{
-		/*-------------------------------------------------------------------------------------------*/;
-
-		/**/
-
 		$('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val($('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor').getValue());
 
 		$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').modal('hide');
