@@ -9,14 +9,14 @@
  *
  */
 
-/*-------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('SimpleSearchApp', {
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	$extends: ami.SubApp,
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onReady: function(userdata)
 	{
@@ -24,14 +24,64 @@ $AMIClass('SimpleSearchApp', {
 
 		amiWebApp.loadResources([
 			'subapps/SimpleSearch/twig/SimpleSearchApp.twig',
-		], {context: this}).done(function(data) {
+			'subapps/SimpleSearch/twig/interface.twig',
+			'ctrl:search',
+			'ctrl:tab',
+		]).done((data) => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(function() {
+			this.searchCtor = data[2];
 
-				result.resolve();
+			this.tabCtrl = new data[3]();
+
+			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
+
+				this.tabCtrl.render('#D76D32CB_F57C_B3DD_0C6C_6C45BFE15572', {card: false}).done(() => {
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					this.fragmentInterface = data[1];
+
+					this.searchInterfaces = {};
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					this.groups1 = [];
+					this.groups2 = [];
+
+					userdata.split(',').forEach((item) => {
+
+						const parts = item.split(':');
+
+						/**/
+
+						if(parts.length > 0)
+						{
+							const group = parts[0].trim();
+
+							if(this.groups1.indexOf(group) < 0)
+							{
+								this.groups1.push(group);
+							}
+
+							if(parts.length > 1)
+							{
+								const name = parts[1].trim();
+
+								if(this.groups2.indexOf(group + ':' + name) < 0)
+								{
+									this.groups2.push((group + ':' + name));
+								}
+							}
+						}
+					});
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					result.resolve();
+				});
 			});
 
-		}).fail(function(data) {
+		}).fail((data) => {
 
 			result.reject(data);
 		});
@@ -39,25 +89,114 @@ $AMIClass('SimpleSearchApp', {
 		return result;
 	},
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogin: function()
 	{
+		this.getInterfaceList();
 	},
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogout: function()
 	{
 	},
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	getInterfaceList: function()
+	{
+		amiWebApp.lock();
+
+		const sql = 'SELECT `id`, `group`, `name`, `json` FROM `router_search_interface` WHERE `archived` = 0 AND `group` IN (' + this.groups1.map(group => '\'' + group + '\'').join(', ') + ')';
+
+		amiCommand.execute('SearchQuery -catalog="self" -entity="router_search_interface" -sql="' + sql + '"').done((data) => {
+
+			const rows = amiWebApp.jspath('..row', data);
+
+			const dict = {
+				groups: {},
+			};
+
+			const auto_open = [];
+
+			rows.forEach((row) => {
+
+				const id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
+				const group = amiWebApp.jspath('..field{.@name==="group"}.$', row)[0] || '';
+				const name = amiWebApp.jspath('..field{.@name==="name"}.$', row)[0] || '';
+				const json = amiWebApp.jspath('..field{.@name==="json"}.$', row)[0] || '';
+
+				try
+				{
+					if(!(group in dict.groups))
+					{
+						dict.groups[group] = [];
+					}
+
+					const interface = {
+						id: id,
+						name: name,
+						json: JSON.parse(json),
+					};
+
+					dict.groups[group].push(interface);
+
+					this.searchInterfaces[id] = interface;
+
+					if(this.groups2.indexOf(group + ':' + name) >= 0)
+					{
+						auto_open.push(id);
+					}
+				}
+				catch(e)
+				{
+					/* IGNORE */
+				}
+			});
+
+			amiWebApp.replaceHTML('#DF5986EA_9773_14A1_DA62_82F21B5062CB', this.fragmentInterface, {dict: dict}).done(() => {
+
+				auto_open.forEach((item) => {
+
+					this.select(item);
+				});
+
+				amiWebApp.unlock();
+			});
+
+		}).fail((data, message) => {
+
+			amiWebApp.error(message, true);
+		});
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	select: function(id)
+	{
+		amiWebApp.lock();
+
+		const interface = this.searchInterfaces[id];
+
+		this.tabCtrl.appendItem(interface.name, {context: this, closable: true}).done((sel) => {
+
+			interface.json.name = interface.name;
+
+			new this.searchCtor(this.tabCtrl).render(sel, interface.json).always(() => {
+
+				amiWebApp.unlock();
+			});
+		});
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 });
 
-/*-------------------------------------------------------------------------*/
-/* GLOBAL INSTANCE                                                         */
-/*-------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* GLOBAL INSTANCE                                                                                                    */
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 var simpleSearchApp = new SimpleSearchApp();
 
-/*-------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/

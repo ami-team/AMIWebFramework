@@ -18,7 +18,7 @@ $AMIClass('SearchApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	onReady: function()
+	onReady: function(userdata)
 	{
 		var result = $.Deferred();
 
@@ -37,9 +37,45 @@ $AMIClass('SearchApp', {
 
 				this.tabCtrl.render('#FE8BB925_A267_F972_060E_CC9C70D0C6D2', {card: false}).done(() => {
 
+					/*------------------------------------------------------------------------------------------------*/
+
 					this.fragmentInterface = data[1];
 
 					this.searchInterfaces = {};
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					this.groups1 = [];
+					this.groups2 = [];
+
+					userdata.split(',').forEach((item) => {
+
+						const parts = item.split(':');
+
+						/**/
+
+						if(parts.length > 0)
+						{
+							const group = parts[0].trim();
+
+							if(this.groups1.indexOf(group) < 0)
+							{
+								this.groups1.push(group);
+							}
+
+							if(parts.length > 1)
+							{
+								const name = parts[1].trim();
+
+								if(this.groups2.indexOf(group + ':' + name) < 0)
+								{
+									this.groups2.push((group + ':' + name));
+								}
+							}
+						}
+					});
+
+					/*------------------------------------------------------------------------------------------------*/
 
 					result.resolve();
 				});
@@ -55,9 +91,9 @@ $AMIClass('SearchApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	onLogin: function(userdata)
+	onLogin: function()
 	{
-		this.getInterfaceList(userdata.split(','));
+		this.getInterfaceList();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -68,19 +104,21 @@ $AMIClass('SearchApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	getInterfaceList: function(groups)
+	getInterfaceList: function()
 	{
 		amiWebApp.lock();
 
-		const sql = 'SELECT `id`, `group`, `name`, `json` FROM `router_search_interface` WHERE `archived` = 0 AND `group` IN (' + groups.map(group => '\'' + group + '\'').join(', ') + ')';
+		const sql = 'SELECT `id`, `group`, `name`, `json` FROM `router_search_interface` WHERE `archived` = 0 AND `group` IN (' + this.groups1.map(group => '\'' + group + '\'').join(', ') + ')';
 
 		amiCommand.execute('SearchQuery -catalog="self" -entity="router_search_interface" -sql="' + sql + '"').done((data) => {
 
-			var rows = amiWebApp.jspath('..row', data);
+			const rows = amiWebApp.jspath('..row', data);
 
-			var dict = {
+			const dict = {
 				groups: {},
 			};
+
+			const auto_open = [];
 
 			rows.forEach((row) => {
 
@@ -105,6 +143,11 @@ $AMIClass('SearchApp', {
 					dict.groups[group].push(interface);
 
 					this.searchInterfaces[id] = interface;
+
+					if(this.groups2.indexOf(group + ':' + name) >= 0)
+					{
+						auto_open.push(id);
+					}
 				}
 				catch(e)
 				{
@@ -113,6 +156,11 @@ $AMIClass('SearchApp', {
 			});
 
 			amiWebApp.replaceHTML('#CCFE77D9_5798_A236_8108_E59AE44FB242', this.fragmentInterface, {dict: dict}).done(() => {
+
+				auto_open.forEach((item) => {
+
+					this.select(item);
+				});
 
 				amiWebApp.unlock();
 			});
@@ -127,17 +175,18 @@ $AMIClass('SearchApp', {
 
 	select: function(id)
 	{
+		amiWebApp.lock();
+
 		const interface = this.searchInterfaces[id];
 
 		this.tabCtrl.appendItem(interface.name, {context: this, closable: true}).done((sel) => {
 
-			var search = new this.searchCtor(this.tabCtrl);
-
 			interface.json.name = interface.name;
 
-			console.debug(JSON.stringify(interface.json));
+			new this.searchCtor(this.tabCtrl).render(sel, interface.json).always(() => {
 
-			search.render(sel, interface.json);
+				amiWebApp.unlock();
+			});
 		});
 	},
 
