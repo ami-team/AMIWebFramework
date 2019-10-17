@@ -26,7 +26,6 @@ $AMIClass('SearchModelerApp', {
 			'subapps/SearchModeler/twig/SearchModelerApp.twig',
 			'subapps/SearchModeler/twig/interface.twig',
 			'subapps/SearchModeler/twig/input.twig',
-			/**/
 		]).done((data) => {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
@@ -120,9 +119,20 @@ $AMIClass('SearchModelerApp', {
 					$('#A10FF5C5_4D17_36BB_A18F_4E2C4EB05A3B').change(f2);
 
 					/*------------------------------------------------------------------------------------------------*/
-				});
 
-				$('#B06166B2_2DE1_255D_7350_9C21370DB32F').val(',');
+					const f3 = () => {
+
+						$('#B06166B2_2DE1_255D_7350_9C21370DB32F').attr('size', $('#B06166B2_2DE1_255D_7350_9C21370DB32F').val().length);
+					};
+
+					$('#B06166B2_2DE1_255D_7350_9C21370DB32F').keyup(f3);
+
+					$('#B06166B2_2DE1_255D_7350_9C21370DB32F').val(',');
+
+					f3();
+
+					/*------------------------------------------------------------------------------------------------*/
+				});
 
 				this.fragmentInterface = data[1];
 				this.fragmentInput = data[2];
