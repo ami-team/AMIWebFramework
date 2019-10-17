@@ -93,7 +93,7 @@ $AMIClass('SearchModelerApp', {
 						$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').setValue(this._dumpJson(more));
 					};
 
-					$('#C0C96727_4B54_3EF2_97BF_39F6193CEDAB').change(f1);
+					$('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').change(f1);
 
 					/*------------------------------------------------------------------------------------------------*/
 
@@ -106,10 +106,9 @@ $AMIClass('SearchModelerApp', {
 						$('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor').setValue(this._dumpJson(more));
 					};
 
-					$('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').change(f2);
 					$('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').change(f2);
 					$('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').keyup (f2);
-					$('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').change(f2);
+					$('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').change(f2);
 					$('#D6089F83_363A_F322_1E92_25567D89BD3B').change(f2);
 					$('#B6671716_EA4E_E4A6_454B_79140FFC1532').change(f2);
 					$('#C1F5D43B_000E_F867_ABA5_13EA519F55CA').change(f2);
@@ -118,6 +117,8 @@ $AMIClass('SearchModelerApp', {
 
 					/*------------------------------------------------------------------------------------------------*/
 				});
+
+				$('#B06166B2_2DE1_255D_7350_9C21370DB32F').val(',');
 
 				this.fragmentInterface = data[1];
 				this.fragmentInput = data[2];
@@ -504,14 +505,22 @@ $AMIClass('SearchModelerApp', {
 
 	jsonToForm1: function(more)
 	{
+		$('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').prop('checked', !!more.distinct);
+
 		/* TODO */
+
+		return more;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	formToJson1: function(more)
 	{
+		more.distinct = $('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').prop('checked');
+
 		/* TODO */
+
+		return more;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -532,6 +541,8 @@ $AMIClass('SearchModelerApp', {
 
  		/**/
 
+		$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').setValue($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val());
+
 		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal('show');
 	},
 
@@ -539,6 +550,8 @@ $AMIClass('SearchModelerApp', {
 
 	setOptions1: function()
 	{
+		$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').getValue());
+
 		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal('hide');
 	},
 
@@ -546,14 +559,9 @@ $AMIClass('SearchModelerApp', {
 
 	jsonToForm2: function(more)
 	{
-		$('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('checked', !!more.auto_open);
-		$('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').prop('checked', !!more.distinct);
-		$('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('checked', !!more.inclusive);
-		$('#B6671716_EA4E_E4A6_454B_79140FFC1532').prop('checked', !!more.simple_search);
-
 		if('init_value' in more)
 		{
-			$('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val(more.init_value !== null ? more.init_value : '@NULL');
+			$('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val((more.init_value !== null) ? more.init_value.join($('#B06166B2_2DE1_255D_7350_9C21370DB32F').val()) : '@NULL');
 
 			$('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').prop('checked', true);
 		}
@@ -561,6 +569,10 @@ $AMIClass('SearchModelerApp', {
 		{
 			$('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').prop('checked', false);
 		}
+
+		$('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('checked', !!more.auto_open);
+		$('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('checked', !!more.inclusive);
+		$('#B6671716_EA4E_E4A6_454B_79140FFC1532').prop('checked', !!more.simple_search);
 
 		/*--*/ if(more.order === 'ASC') {
 			$('#C1F5D43B_000E_F867_ABA5_13EA519F55CA').prop('checked', true);
@@ -577,21 +589,20 @@ $AMIClass('SearchModelerApp', {
 
 	formToJson2: function(more)
 	{
-		more.auto_open = $('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('checked');
-		more.distinct = $('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').prop('checked');
-		more.inclusive = $('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('checked');
-		more.simple_search = $('#B6671716_EA4E_E4A6_454B_79140FFC1532').prop('checked');
-
 		if($('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').prop('checked'))
 		{
 			const init_value = $('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val();
 
-			more.init_value = init_value !== '@NULL' ? init_value : null;
+			more.init_value = (init_value !== '@NULL') ? init_value.split($('#B06166B2_2DE1_255D_7350_9C21370DB32F').val()) : null;
 		}
 		else
 		{
-			delete more.init_value;
+			more.init_value = null;
 		}
+
+		more.auto_open = $('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('checked');
+		more.inclusive = $('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('checked');
+		more.simple_search = $('#B6671716_EA4E_E4A6_454B_79140FFC1532').prop('checked');
 
 		/*--*/ if($('#C1F5D43B_000E_F867_ABA5_13EA519F55CA').prop('checked')) {
 			more.order = 'ASC';
