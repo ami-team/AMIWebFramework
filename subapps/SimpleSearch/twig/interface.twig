@@ -1,0 +1,9 @@
+{% for group in groups %}
+<div>
+	<span class="badge badge-primary px-3">{{group}}</span>
+	<i class="fa fa-angle-double-right"></i>
+	{% for interface in groups[group] %}
+		<a class="badge badge-secondary px-3" href="javascript: simpleSearchApp.select('{{interface.id|e}}');">{{interface.name}}</a>
+	{% endfor %}
+</div>
+{% endfor %}
