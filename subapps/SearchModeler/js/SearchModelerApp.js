@@ -108,6 +108,10 @@ $AMIClass('SearchModelerApp', {
 
 					$('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').change(f2);
 					$('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').keyup (f2);
+					$('#C1788970_4C94_D98F_4199_5A185B4D97A3').keyup (f2);
+					$('#D580EF7E_AD6A_BC51_FFAB_41782CC3F2CF').keyup (f2);
+					$('#ED6493B8_63FC_96F1_48AA_F2D670E63836').keyup (f2);
+					$('#A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33').keyup (f2);
 					$('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').change(f2);
 					$('#D6089F83_363A_F322_1E92_25567D89BD3B').change(f2);
 					$('#B6671716_EA4E_E4A6_454B_79140FFC1532').change(f2);
@@ -570,6 +574,11 @@ $AMIClass('SearchModelerApp', {
 			$('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').prop('checked', false);
 		}
 
+		$('#C1788970_4C94_D98F_4199_5A185B4D97A3').val(more.min !== null ? more.min : '@NULL');
+		$('#D580EF7E_AD6A_BC51_FFAB_41782CC3F2CF').val(more.max !== null ? more.max : '@NULL');
+		$('#ED6493B8_63FC_96F1_48AA_F2D670E63836').val(more.off !== null ? more.off : '@NULL');
+		$('#A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33').val(more.on  !== null ? more.on  : '@NULL');
+
 		$('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('checked', !!more.auto_open);
 		$('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('checked', !!more.inclusive);
 		$('#B6671716_EA4E_E4A6_454B_79140FFC1532').prop('checked', !!more.simple_search);
@@ -598,6 +607,34 @@ $AMIClass('SearchModelerApp', {
 		else
 		{
 			more.init_value = null;
+		}
+
+		const min = $('#C1788970_4C94_D98F_4199_5A185B4D97A3').val();
+		if(min && min !== '@NULL') {
+			more.min = min;
+		} else {
+			delete more.min;
+		}
+
+		const max = $('#D580EF7E_AD6A_BC51_FFAB_41782CC3F2CF').val();
+		if(max && max !== '@NULL') {
+			more.max = max;
+		} else {
+			delete more.max;
+		}
+
+		const off = $('#ED6493B8_63FC_96F1_48AA_F2D670E63836').val();
+		if(off && off !== '@NULL') {
+			more.off = off;
+		} else {
+			delete more.off;
+		}
+
+		const on = $('#A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33').val();
+		if(on && on !== '@NULL') {
+			more.on = on;
+		} else {
+			delete more.on;
 		}
 
 		more.auto_open = $('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('checked');
