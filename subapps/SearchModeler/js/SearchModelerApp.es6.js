@@ -20,7 +20,7 @@ $AMIClass('SearchModelerApp', {
 
 	onReady: function()
 	{
-		var result = $.Deferred();
+		const result = $.Deferred();
 
 		amiWebApp.loadResources([
 			'subapps/SearchModeler/twig/SearchModelerApp.twig',
@@ -214,9 +214,9 @@ $AMIClass('SearchModelerApp', {
 
 		amiCommand.execute('SearchQuery -catalog="self" -entity="router_search_interface" -sql="SELECT `id`, `group`, `name`, `json`, `archived` FROM `router_search_interface` ORDER BY `group`, `name`"').done((data) => {
 
-			var rows = amiWebApp.jspath('..row', data);
+			const rows = amiWebApp.jspath('..row', data);
 
-			var dict = {
+			const dict = {
 				searchInterfaces: [],
 			};
 
@@ -377,7 +377,7 @@ $AMIClass('SearchModelerApp', {
 
 			amiWebApp.jspath('..row', data).forEach((row) => {
 
-				var field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
+				const field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
 
 				if(field.toLowerCase() !== defaultField.toLowerCase()) {
 					s.push('<option value="' + amiWebApp.textToHtml(field) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(field) + '</option>');
@@ -485,7 +485,7 @@ $AMIClass('SearchModelerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		var dict = {
+		const dict = {
 			cnt: this.cnt,
 			criterias: criterias || [{type: 0}],
 		};
