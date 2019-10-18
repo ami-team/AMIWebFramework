@@ -10,20 +10,26 @@
 		<select class="custom-select custom-select-sm" name="catalog_{{cnt + loop.index0}}" id="E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_{{cnt + loop.index0}}" onchange="searchModelerApp.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_{{cnt + loop.index0}}', $('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_{{cnt + loop.index0}}').val());"></select>
 	</td>
 	<td>
-		<select class="custom-select custom-select-sm" name="entity_{{cnt + loop.index0}}" id="A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_{{cnt + loop.index0}}" onchange="searchModelerApp.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_{{cnt + loop.index0}}', $('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_{{cnt + loop.index0}}').val(), $('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_{{cnt + loop.index0}}').val());"></select>
+		<select class="custom-select custom-select-sm" name="entity_{{cnt + loop.index0}}" id="A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_{{cnt + loop.index0}}" onchange="searchModelerApp.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_{{cnt + loop.index0}},#A45F0216_6C35_19F3_2CEC_103A8536914F_{{cnt + loop.index0}}', $('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_{{cnt + loop.index0}}').val(), $('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_{{cnt + loop.index0}}').val());"></select>
 	</td>
 	<td>
+		{% if isKeyVal %}
+		<select class="custom-select custom-select-sm" name="key_field_{{cnt + loop.index0}}" id="F83CE4BB_3851_3C40_242E_F7384C68A1A5_{{cnt + loop.index0}}"></select>
+		{% endif %}
 		<select class="custom-select custom-select-sm" name="field_{{cnt + loop.index0}}" id="A45F0216_6C35_19F3_2CEC_103A8536914F_{{cnt + loop.index0}}"></select>
 	</td>
 	<td>
 		<select class="custom-select custom-select-sm" name="type_{{cnt + loop.index0}}" id="F591F5A7_76BD_C010_8A37_3BD869CF0BB4_{{cnt + loop.index0}}">
+			{% if isKeyVal %}
+			<option value="4"{% if criteria.type === 5 %} selected="selected"{% endif %}>key/val (few results)</option>
+			<option value="4"{% if criteria.type === 6 %} selected="selected"{% endif %}>key/val (many results)</option>
+			{% else %}
 			<option value="0"{% if criteria.type === 0 %} selected="selected"{% endif %}>text (few results)</option>
 			<option value="1"{% if criteria.type === 1 %} selected="selected"{% endif %}>text (many results)</option>
 			<option value="2"{% if criteria.type === 2 %} selected="selected"{% endif %}>number</option>
 			<option value="3"{% if criteria.type === 3 %} selected="selected"{% endif %}>date</option>
 			<option value="4"{% if criteria.type === 4 %} selected="selected"{% endif %}>boolean</option>
-			<option value="4"{% if criteria.type === 5 %} selected="selected"{% endif %}>key/val (few results)</option>
-			<option value="4"{% if criteria.type === 6 %} selected="selected"{% endif %}>key/val (many results)</option>
+			{% endif %}
 		</select>
 	</td>
 	<td style="text-align: center; width: 80px;">

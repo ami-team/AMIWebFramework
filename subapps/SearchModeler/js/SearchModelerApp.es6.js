@@ -445,8 +445,13 @@ $AMIClass('SearchModelerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		const isKeyVal = false;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		const dict = {
 			cnt: this.cnt,
+			isKeyVal: isKeyVal,
 			criterias: searchInterface.json.criterias,
 		};
 
@@ -463,6 +468,11 @@ $AMIClass('SearchModelerApp', {
 					if(criteria.entity)
 					{
 						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, criteria.catalog, criteria.entity, criteria.field);
+
+						if(isKeyVal)
+						{
+							this.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_' + this.cnt, criteria.catalog, criteria.entity, criteria.key_field);
+						}
 					}
 				}
 
@@ -477,7 +487,7 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	addCriteria: function(catalog, entity, field, criterias)
+	addCriteria: function(catalog, entity, field, criterias, isKeyVal)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -487,6 +497,7 @@ $AMIClass('SearchModelerApp', {
 
 		const dict = {
 			cnt: this.cnt,
+			isKeyVal: isKeyVal,
 			criterias: criterias || [{type: 0}],
 		};
 
@@ -503,6 +514,11 @@ $AMIClass('SearchModelerApp', {
 					if(entity)
 					{
 						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, catalog, entity, field);
+
+						if(isKeyVal)
+						{
+							this.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_' + this.cnt, catalog, entity, field);
+						}
 					}
 				}
 
