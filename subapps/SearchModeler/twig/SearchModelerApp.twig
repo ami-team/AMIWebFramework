@@ -114,12 +114,12 @@
 				<button type="button" class="btn btn-sm btn-outline-danger" onclick="searchModelerApp.remove();" style="width: 80px;">Remove</button>
 
 				<div class="btn-group" role="group" style="width: 80px;">
-					<button type="button" class="btn btn-sm btn-outline-primary" onclick="searchModelerApp.apply(false);">Apply</button>
+					<button type="button" class="btn btn-sm btn-outline-primary" onclick="searchModelerApp.save(false);">Save</button>
 					<button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle-split dropdown-toggle" data-toggle="dropdown">
 						<span class="sr-only">Toggle Dropdown</span>
 					</button>
 					<div class="dropdown-menu dropdown-menu-right">
-						<button class="dropdown-item" type="button" onclick="searchModelerApp.apply(true);">Change default catalog</button>
+						<button class="dropdown-item" type="button" onclick="searchModelerApp.save(true);">Change default catalog</button>
 					</div>
 				</div>
 
@@ -206,7 +206,7 @@
 					<div class="col-md-6">
 
 						<div class="form-group">
-							<label for="B302D100_DDD0_904F_5B50_E0E85FB0C4D3">Init values and separator</label>
+							<label for="B302D100_DDD0_904F_5B50_E0E85FB0C4D3">Init values, separator: <input type="text" class="text-monospace rounded border border-top-0 border-bottom-0" id="B06166B2_2DE1_255D_7350_9C21370DB32F" placeholder="Separator" style="line-height: 14pt;" /></label>
 							<div class="input-group">
 								<div class="input-group-prepend">
 									<div class="input-group-text">
@@ -214,7 +214,6 @@
 									</div>
 								 </div>
 								<input type="text" class="form-control form-control-sm" id="B302D100_DDD0_904F_5B50_E0E85FB0C4D3" placeholder="Default value" />
-								<input type="text" class="form-control form-control-sm" id="B06166B2_2DE1_255D_7350_9C21370DB32F" placeholder="Separator" />
 							</div>
 						</div>
 

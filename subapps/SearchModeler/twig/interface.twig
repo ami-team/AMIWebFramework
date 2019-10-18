@@ -1,11 +1,11 @@
-{% for interface in interfaces %}
+{% for searchInterface in searchInterfaces %}
 <div style="position: relative;">
 
-	<div style="cursor: pointer;" onclick="searchModelerApp.select('{{interface.id|e}}');">
-		{% if interface.archived %}
-		<strike>{{interface.group|e}} :: {{interface.name|e}}</strike>
+	<div style="cursor: pointer;" onclick="searchModelerApp.select('{{searchInterface.id|e}}');">
+		{% if searchInterface.archived %}
+		<strike>{{searchInterface.group|e}} :: {{searchInterface.name|e}}</strike>
 		{% else%}
-		<span>{{interface.group|e}} :: {{interface.name|e}}</span>
+		<span>{{searchInterface.group|e}} :: {{searchInterface.name|e}}</span>
 		{% endif %}
 	</div>
 
@@ -14,8 +14,8 @@
 			<i class="fa fa-link"></i> goto
 		</button>
 		<div class="dropdown-menu">
-			<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=search&userdata={{interface.group|e}}:{{interface.name|e}}" target="_blank">Search</a>
-			<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=simpleSearch&userdata={{interface.group|e}}:{{interface.name|e}}" target="_blank">Simple Search</a>
+			<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=search&userdata={{searchInterface.group|e}}:{{searchInterface.name|e}}" target="_blank">Search</a>
+			<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=simpleSearch&userdata={{searchInterface.group|e}}:{{searchInterface.name|e}}" target="_blank">Simple Search</a>
 		</div>
 	</div>
 

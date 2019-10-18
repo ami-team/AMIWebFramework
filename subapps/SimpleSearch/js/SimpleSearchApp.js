@@ -25,7 +25,7 @@ $AMIClass('SimpleSearchApp', {
 		amiWebApp.loadResources([
 			'subapps/SimpleSearch/twig/SimpleSearchApp.twig',
 			'subapps/SimpleSearch/twig/interface.twig',
-			'ctrl:search',
+			'ctrl:simpleSearch',
 			'ctrl:tab',
 		]).done((data) => {
 
@@ -48,32 +48,35 @@ $AMIClass('SimpleSearchApp', {
 					this.groups1 = [];
 					this.groups2 = [];
 
-					userdata.split(',').forEach((item) => {
+					if(userdata)
+					{
+						userdata.split(',').forEach((item) => {
 
-						const parts = item.split(':');
+							const parts = item.split(':');
 
-						/**/
+							/**/
 
-						if(parts.length > 0)
-						{
-							const group = parts[0].trim();
-
-							if(this.groups1.indexOf(group) < 0)
+							if(parts.length > 0)
 							{
-								this.groups1.push(group);
-							}
+								const group = parts[0].trim();
 
-							if(parts.length > 1)
-							{
-								const name = parts[1].trim();
-
-								if(this.groups2.indexOf(group + ':' + name) < 0)
+								if(this.groups1.indexOf(group) < 0)
 								{
-									this.groups2.push((group + ':' + name));
+									this.groups1.push(group);
+								}
+
+								if(parts.length > 1)
+								{
+									const name = parts[1].trim();
+
+									if(this.groups2.indexOf(group + ':' + name) < 0)
+									{
+										this.groups2.push((group + ':' + name));
+									}
 								}
 							}
-						}
-					});
+						});
+					}
 
 					/*------------------------------------------------------------------------------------------------*/
 
@@ -108,7 +111,9 @@ $AMIClass('SimpleSearchApp', {
 	{
 		amiWebApp.lock();
 
-		const sql = 'SELECT `id`, `group`, `name`, `json` FROM `router_search_interface` WHERE `archived` = 0 AND `group` IN (' + this.groups1.map(group => '\'' + group + '\'').join(', ') + ')';
+		const sql = (this.groups1.length === 0) ? 'SELECT `id`, `group`, `name`, `json` FROM `router_search_interface` WHERE `archived` = 0'
+		                                        : 'SELECT `id`, `group`, `name`, `json` FROM `router_search_interface` WHERE `archived` = 0 AND `group` IN (' + this.groups1.map(group => '\'' + amiWebApp.textToSQL(group) + '\'').join(', ') + ')'
+		;
 
 		amiCommand.execute('SearchQuery -catalog="self" -entity="router_search_interface" -sql="' + sql + '"').done((data) => {
 
