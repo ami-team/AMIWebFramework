@@ -25,7 +25,7 @@ $AMIClass('SimpleSearchApp', {
 		amiWebApp.loadResources([
 			'subapps/SimpleSearch/twig/SimpleSearchApp.twig',
 			'subapps/SimpleSearch/twig/interface.twig',
-			'ctrl:search',
+			'ctrl:simpleSearch',
 			'ctrl:tab',
 		]).done((data) => {
 

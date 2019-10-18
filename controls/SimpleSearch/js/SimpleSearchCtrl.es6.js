@@ -47,30 +47,42 @@ $AMIClass('SimpleSearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const fn = (catalog, entity, field, value) =>
-			'BrowseQuery' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT * WHERE `' + field + '` = \'' + value+ '\'"'
-		;
+		const fn = (catalog, entity, fields, value) => {
+
+			const select = fields.length === 0 ? ['0 = 1']
+			                                   : (value.indexOf('%') < 0) ? fields.map(field => field + ' = \'' + amiWebApp.textToSQL(value) + '\'')
+			                                                              : fields.map(field => field + ' LIKE \'' + amiWebApp.textToSQL(value) + '\'')
+			;
+
+			return 'BrowseQuery' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT * WHERE ' + select.join(' OR ') + '"';
+		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const [
 			context,
 			placeholder,
-			catalog, entity, field,
+			catalog, defaultCatalog,
+			entity, defaultEntity,
+			fields, criterias,
 			searchCommandFunc,
 			card
 		] = amiWebApp.setup(
 			[
 				'context',
 				'placeholder',
-				'catalog', 'entity', 'field',
+				'catalog', 'defaultCatalog',
+				'entity', 'defaultEntity',
+				'fields', 'criterias',
 				'searchCommandFunc',
 				'card',
 			],
 			[
 				result,
 				'',
-				'', '', '',
+				'', '',
+				'', '',
+				[], [],
 				fn,
 				false,
 			],
@@ -96,9 +108,12 @@ $AMIClass('SimpleSearchCtrl', {
 
 		this.ctx.placeholder = placeholder;
 
-		this.ctx.catalog = catalog;
-		this.ctx.entity = entity;
-		this.ctx.field = field;
+		this.ctx.catalog = defaultCatalog ? defaultCatalog : catalog;
+		this.ctx.entity = defaultEntity ? defaultEntity : entity;
+
+		this.ctx.fields = criterias.length > 0 ? criterias.filter(criteria => criteria.more.simple_search).map(criteria => '`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`')
+		                                       : fields
+		;
 
 		this.ctx.searchCommandFunc = searchCommandFunc;
 
@@ -153,7 +168,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 				if(value)
 				{
-					this.search();
+					this.search(value);
 				}
 			});
 
@@ -169,7 +184,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 	search: function(value)
 	{
-		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.field, value.trim())], {}, this.ctx, 'table', this.ctx.entity);
+		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.fields, value)], {}, this.ctx, 'table', this.ctx.entity);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
