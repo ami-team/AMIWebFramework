@@ -1,10 +1,10 @@
-{% for criteria in criterias %}
+{% for criterion in criteria %}
 <tr class="mb-1 p-0">
 	<td>
 		<i class="fa fa-hand-o-up text-secondary" style="cursor: grab;"></i>
 	</td>
 	<td>
-		<input type="text" class="form-control form-control-sm" name="name::{{cnt + loop.index0}}" value="{{criteria.name|e}}" id="A0B9B9D6_F2DF_ECB3_D40F_E832BF6ECF28_{{cnt + loop.index0}}" placeholder="Alias" />
+		<input type="text" class="form-control form-control-sm" name="name::{{cnt + loop.index0}}" value="{{criterion.name|e}}" id="A0B9B9D6_F2DF_ECB3_D40F_E832BF6ECF28_{{cnt + loop.index0}}" placeholder="Alias" />
 	</td>
 	<td>
 		<select class="custom-select custom-select-sm" name="catalog::{{cnt + loop.index0}}" id="E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_{{cnt + loop.index0}}" onchange="searchModelerApp.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_{{cnt + loop.index0}}', $('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_{{cnt + loop.index0}}').val());"></select>
@@ -13,26 +13,26 @@
 		<select class="custom-select custom-select-sm" name="entity::{{cnt + loop.index0}}" id="A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_{{cnt + loop.index0}}" onchange="searchModelerApp.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_{{cnt + loop.index0}},#A45F0216_6C35_19F3_2CEC_103A8536914F_{{cnt + loop.index0}}', $('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_{{cnt + loop.index0}}').val(), $('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_{{cnt + loop.index0}}').val());"></select>
 	</td>
 	<td>
-		{% if criteria.type > 6 %}
+		{% if criterion.type > 6 %}
 		<select class="custom-select custom-select-sm" name="key_field::{{cnt + loop.index0}}" id="F83CE4BB_3851_3C40_242E_F7384C68A1A5_{{cnt + loop.index0}}"></select>
 		{% endif %}
 		<select class="custom-select custom-select-sm" name="field::{{cnt + loop.index0}}" id="A45F0216_6C35_19F3_2CEC_103A8536914F_{{cnt + loop.index0}}"></select>
 	</td>
 	<td>
 		<select class="custom-select custom-select-sm" name="type::{{cnt + loop.index0}}" id="F591F5A7_76BD_C010_8A37_3BD869CF0BB4_{{cnt + loop.index0}}">
-			{% if criteria.type > 6 %}
-			<option value="7"{% if criteria.type === 7 %} selected="selected"{% endif %}>simple key/val (few results)</option>
-			<option value="8"{% if criteria.type === 8 %} selected="selected"{% endif %}>simple key/val (many results)</option>
-			<option value="9"{% if criteria.type === 9 %} selected="selected"{% endif %}>multiple type key/val (few results)</option>
-			<option value="10"{% if criteria.type === 10 %} selected="selected"{% endif %}>multiple type key/val (many results)</option>
+			{% if criterion.type > 6 %}
+			<option value="7"{% if criterion.type === 7 %} selected="selected"{% endif %}>simple key/val (few results)</option>
+			<option value="8"{% if criterion.type === 8 %} selected="selected"{% endif %}>simple key/val (many results)</option>
+			<option value="9"{% if criterion.type === 9 %} selected="selected"{% endif %}>multiple type key/val (few results)</option>
+			<option value="10"{% if criterion.type === 10 %} selected="selected"{% endif %}>multiple type key/val (many results)</option>
 			{% else %}
-			<option value="0"{% if criteria.type === 0 %} selected="selected"{% endif %}>text (few results)</option>
-			<option value="1"{% if criteria.type === 1 %} selected="selected"{% endif %}>text (many results)</option>
-			<option value="2"{% if criteria.type === 2 %} selected="selected"{% endif %}>number</option>
-			<option value="3"{% if criteria.type === 3 %} selected="selected"{% endif %}>date</option>
-			<option value="4"{% if criteria.type === 4 %} selected="selected"{% endif %}>boolean</option>
-			<option value="5"{% if criteria.type === 5 %} selected="selected"{% endif %}>json key/val (few results)</option>
-			<option value="6"{% if criteria.type === 6 %} selected="selected"{% endif %}>json key/val (many results)</option>
+			<option value="0"{% if criterion.type === 0 %} selected="selected"{% endif %}>text (few results)</option>
+			<option value="1"{% if criterion.type === 1 %} selected="selected"{% endif %}>text (many results)</option>
+			<option value="2"{% if criterion.type === 2 %} selected="selected"{% endif %}>number</option>
+			<option value="3"{% if criterion.type === 3 %} selected="selected"{% endif %}>date</option>
+			<option value="4"{% if criterion.type === 4 %} selected="selected"{% endif %}>boolean</option>
+			<option value="5"{% if criterion.type === 5 %} selected="selected"{% endif %}>json key/val (few results)</option>
+			<option value="6"{% if criterion.type === 6 %} selected="selected"{% endif %}>json key/val (many results)</option>
 			{% endif %}
 		</select>
 	</td>
@@ -45,7 +45,7 @@
 		</button>
 	</td>
 
-	<input type="hidden" name="more::{{cnt + loop.index0}}" value="{{(criteria.more or {})|json_encode()|e}}" id="C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_{{cnt + loop.index0}}" />
+	<input type="hidden" name="more::{{cnt + loop.index0}}" value="{{(criterion.more or {})|json_encode()|e}}" id="C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_{{cnt + loop.index0}}" />
 
 </tr>
 {% endfor %}

@@ -64,7 +64,7 @@ $AMIClass('SimpleSearchCtrl', {
 			placeholder,
 			catalog, defaultCatalog,
 			entity, defaultEntity,
-			fields, criterias,
+			fields, criteria,
 			searchCommandFunc,
 			card
 		] = amiWebApp.setup(
@@ -73,7 +73,7 @@ $AMIClass('SimpleSearchCtrl', {
 				'placeholder',
 				'catalog', 'defaultCatalog',
 				'entity', 'defaultEntity',
-				'fields', 'criterias',
+				'fields', 'criteria',
 				'searchCommandFunc',
 				'card',
 			],
@@ -111,8 +111,8 @@ $AMIClass('SimpleSearchCtrl', {
 		this.ctx.catalog = defaultCatalog ? defaultCatalog : catalog;
 		this.ctx.entity = defaultEntity ? defaultEntity : entity;
 
-		this.ctx.fields = criterias.length > 0 ? criterias.filter(criteria => criteria.more.simple_search).map(criteria => '`' + criteria.catalog + '`.`' + criteria.entity + '`.`' + criteria.field + '`')
-		                                       : fields
+		this.ctx.fields = criteria.length > 0 ? criteria.filter(criterion => criterion.more.simple_search).map(criterion => '`' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '`')
+		                                      : fields
 		;
 
 		this.ctx.searchCommandFunc = searchCommandFunc;

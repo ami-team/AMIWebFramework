@@ -447,26 +447,26 @@ $AMIClass('SearchModelerApp', {
 
 		const dict = {
 			cnt: this.cnt,
-			criterias: searchInterface.json.criterias,
+			criteria: searchInterface.json.criteria,
 		};
 
 		amiWebApp.replaceHTML('#DD89D783_6F39_7B3B_3F3F_D875737A5E68', this.fragmentInput, {dict: dict}).done(() => {
 
-			dict.criterias.forEach((criteria) => {
+			dict.criteria.forEach((criterion) => {
 
-				this.getCatalogs('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_' + this.cnt, criteria.catalog);
+				this.getCatalogs('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_' + this.cnt, criterion.catalog);
 
-				if(criteria.catalog)
+				if(criterion.catalog)
 				{
-					this.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_' + this.cnt, criteria.catalog, criteria.entity);
+					this.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_' + this.cnt, criterion.catalog, criterion.entity);
 
-					if(criteria.entity)
+					if(criterion.entity)
 					{
-						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, criteria.catalog, criteria.entity, criteria.field);
+						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, criterion.catalog, criterion.entity, criterion.field);
 
-						if(criteria.type > 6)
+						if(criterion.type > 6)
 						{
-							this.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_' + this.cnt, criteria.catalog, criteria.entity, criteria.key_field);
+							this.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_' + this.cnt, criterion.catalog, criterion.entity, criterion.key_field);
 						}
 					}
 				}
@@ -482,7 +482,7 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	addCriteria: function(catalog, entity, field, criterias, isKeyVal)
+	addCriterion: function(catalog, entity, field, criteria, isKeyVal)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -492,12 +492,12 @@ $AMIClass('SearchModelerApp', {
 
 		const dict = {
 			cnt: this.cnt,
-			criterias: criterias || [{type: isKeyVal ? 7 : 0}],
+			criteria: criteria || [{type: isKeyVal ? 7 : 0}],
 		};
 
 		amiWebApp.appendHTML('#DD89D783_6F39_7B3B_3F3F_D875737A5E68', this.fragmentInput, {dict: dict}).done(() => {
 
-			dict.criterias.forEach((criteria) => {
+			dict.criteria.forEach((criterion) => {
 
 				this.getCatalogs('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_' + this.cnt, catalog);
 
@@ -509,7 +509,7 @@ $AMIClass('SearchModelerApp', {
 					{
 						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, catalog, entity, field);
 
-						if(criteria.type > 6)
+						if(criterion.type > 6)
 						{
 							this.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_' + this.cnt, catalog, entity, field);
 						}
@@ -829,7 +829,7 @@ $AMIClass('SearchModelerApp', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const keys = [];
-		const criterias = {};
+		const criteria = {};
 
 		$('#FEC360FA_EC1D_90DC_FFD5_8A498CF60305').serializeArray().forEach((item) => {
 
@@ -840,23 +840,23 @@ $AMIClass('SearchModelerApp', {
 				const key1 = parts[1];
 				const key2 = parts[0];
 
-				if(!(key1 in criterias))
+				if(!(key1 in criteria))
 				{
 					keys.push(key1);
-					criterias[key1] = {};
+					criteria[key1] = {};
 				}
 
 				/**/ if(key2 === 'type')
 				{
-					criterias[key1][key2] = parseInt(item.value);
+					criteria[key1][key2] = parseInt(item.value);
 				}
 				else if(key2 === 'more')
 				{
-					criterias[key1][key2] = this._parseJson(item.value);
+					criteria[key1][key2] = this._parseJson(item.value);
 				}
 				else
 				{
-					criterias[key1][key2] = (clone && key2  == 'catalog' && item.value === defaultCatalog) ? defaultCATALOG
+					criteria[key1][key2] = (clone && key2  == 'catalog' && item.value === defaultCatalog) ? defaultCATALOG
 					                                                                                       : ((item.value))
 					;
 				}
@@ -881,7 +881,7 @@ $AMIClass('SearchModelerApp', {
 			defaultEntity: defaultEntity,
 			defaultPrimaryField: defaultPrimaryField,
 			more: MORE,
-			criterias: keys.map(key => criterias[key]),
+			criteria: keys.map(key => criteria[key]),
 		};
 
 		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) +'"').done((/*---------*/) => {
