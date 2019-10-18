@@ -573,14 +573,20 @@ $AMIClass('SearchModelerApp', {
 
 	jsonToForm2: function(more)
 	{
-		if('init_value' in more)
-		{
-			$('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val((more.init_value !== null) ? more.init_value.join($('#B06166B2_2DE1_255D_7350_9C21370DB32F').val()) : '@NULL');
+		if('init_value' in more
+		   &&
+		   more.init_value !== null
+		   &&
+		   more.init_value !== '@NULL'
+		 ) {
+			$('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val(more.init_value.join($('#B06166B2_2DE1_255D_7350_9C21370DB32F').val()));
 
 			$('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').prop('checked', true);
 		}
 		else
 		{
+			$('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val(/*--------------------------*/ '@NULL' /*--------------------------*/);
+
 			$('#F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7').prop('checked', false);
 		}
 
@@ -597,9 +603,9 @@ $AMIClass('SearchModelerApp', {
 			$('#C1F5D43B_000E_F867_ABA5_13EA519F55CA').prop('checked', true);
 		} else if(more.order === 'DESC') {
 			$('#A10FF5C5_4D17_36BB_A18F_4E2C4EB05A3B').prop('checked', true);
-        } else {
-        	$('#BB6ADE31_B629_DB15_9319_DAFAAD9999CF').prop('checked', true);
-        }
+		} else {
+			$('#BB6ADE31_B629_DB15_9319_DAFAAD9999CF').prop('checked', true);
+		}
 
 		return more;
 	},
@@ -612,11 +618,18 @@ $AMIClass('SearchModelerApp', {
 		{
 			const init_value = $('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val();
 
-			more.init_value = (init_value !== '@NULL') ? init_value.split($('#B06166B2_2DE1_255D_7350_9C21370DB32F').val()) : null;
+			if(init_value !== '@NULL')
+			{
+				more.init_value = init_value.split($('#B06166B2_2DE1_255D_7350_9C21370DB32F').val());
+			}
+			else
+			{
+				delete more.init_value;
+			}
 		}
 		else
 		{
-			more.init_value = null;
+			delete more.init_value;
 		}
 
 		const min = $('#C1788970_4C94_D98F_4199_5A185B4D97A3').val();
@@ -765,7 +778,7 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	apply: function(clone)
+	save: function(clone)
 	{
 		if(confirm('Please confirm...') == false)
 		{
