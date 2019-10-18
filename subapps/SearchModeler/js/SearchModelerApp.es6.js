@@ -445,13 +445,8 @@ $AMIClass('SearchModelerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const isKeyVal = false;
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		const dict = {
 			cnt: this.cnt,
-			isKeyVal: isKeyVal,
 			criterias: searchInterface.json.criterias,
 		};
 
@@ -469,7 +464,7 @@ $AMIClass('SearchModelerApp', {
 					{
 						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, criteria.catalog, criteria.entity, criteria.field);
 
-						if(isKeyVal)
+						if(criteria.type > 6)
 						{
 							this.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_' + this.cnt, criteria.catalog, criteria.entity, criteria.key_field);
 						}
@@ -497,8 +492,7 @@ $AMIClass('SearchModelerApp', {
 
 		const dict = {
 			cnt: this.cnt,
-			isKeyVal: isKeyVal,
-			criterias: criterias || [{type: 0}],
+			criterias: criterias || [{type: isKeyVal ? 7 : 0}],
 		};
 
 		amiWebApp.appendHTML('#DD89D783_6F39_7B3B_3F3F_D875737A5E68', this.fragmentInput, {dict: dict}).done(() => {
@@ -515,7 +509,7 @@ $AMIClass('SearchModelerApp', {
 					{
 						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, catalog, entity, field);
 
-						if(isKeyVal)
+						if(criteria.type > 6)
 						{
 							this.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_' + this.cnt, catalog, entity, field);
 						}
@@ -839,7 +833,7 @@ $AMIClass('SearchModelerApp', {
 
 		$('#FEC360FA_EC1D_90DC_FFD5_8A498CF60305').serializeArray().forEach((item) => {
 
-			const parts = item.name.split('_');
+			const parts = item.name.split('::');
 
 			if(parts.length === 2)
 			{
