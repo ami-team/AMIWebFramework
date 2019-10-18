@@ -79,7 +79,7 @@ $AMIClass('SimpleSearchCtrl', {
 			],
 			[
 				result,
-				'',
+				'% for wildcarding',
 				'', '',
 				'', '',
 				[], [],
