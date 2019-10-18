@@ -1,8 +1,8 @@
-<div style="position: relative;">
-	<div onclick="commandApp.select('{{proto|e}}');">
+<div class="d-flex">
+	<span class="w-100" style="cursor: pointer;" onclick="commandApp.select('{{proto|e}}');">
 		{{command|e}}
-	</div>
-	<button class="btn btn-link" data-toggle="popover" data-boundary="window" data-placement="right" data-trigger="focus" data-html="true" data-title="{{command|e}}" data-content="&lt;pre&gt;{{help|e}}&lt;/pre&gt;" style="padding-right: 0; position: absolute; top: -7px; right: 0px;">
+	</span>
+	<a class="flex-shrink-1" href="#" data-toggle="popover" data-boundary="window" data-placement="right" data-trigger="focus" data-html="true" data-title="{{command|e}}" data-content="&lt;pre&gt;{{help|e}}&lt;/pre&gt;">
 		<i class="fa fa-question-circle"></i>
-	</button>
+	</a>
 </div>
