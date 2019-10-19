@@ -687,7 +687,7 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	editOptions2: function(inputCnt)
+	editOptions2: function(inputCnt, inputType)
 	{
 		$('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val(
 			this._dumpJson(
@@ -708,6 +708,7 @@ $AMIClass('SearchModelerApp', {
 		$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').modal('show');
 
 		this.currentInputCnt = inputCnt;
+		this.currentInputType = inputType;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -719,6 +720,7 @@ $AMIClass('SearchModelerApp', {
 		$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').modal('hide');
 
 		this.currentInputCnt = 0xFFFFFFFF;
+		this.currentInputType = 0xFFFFFFFF;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
