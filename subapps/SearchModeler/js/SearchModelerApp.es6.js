@@ -751,7 +751,7 @@ $AMIClass('SearchModelerApp', {
 
 	remove: function()
 	{
-		if(confirm('Please confirm...') == false)
+		if(!confirm('Please confirm...'))
 		{
 			return;
 		}
@@ -790,11 +790,14 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	save: function(clone)
+	save: function(mode) // 0: STD, 1: CLONE, 2: SHOW
 	{
-		if(confirm('Please confirm...') == false)
+		if(mode !== 2)
 		{
-			return;
+			if(!confirm('Please confirm...'))
+			{
+				return;
+			}
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -807,7 +810,7 @@ $AMIClass('SearchModelerApp', {
 		const archived = $('#A2C54F33_AC45_3553_86D6_4A479D10CD54').prop('checked') ? '1' : '0';
 		const more = $('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').getValue();
 
-		const defaultCATALOG = this._trim(clone ? window.prompt('New default catalog', defaultCatalog) : defaultCatalog);
+		const defaultCATALOG = this._trim(mode === 1 ? window.prompt('New default catalog', defaultCatalog) : defaultCatalog);
 
 		if(!group
 		   ||
@@ -858,8 +861,8 @@ $AMIClass('SearchModelerApp', {
 				}
 				else
 				{
-					criteria[key1][key2] = (clone && key2  == 'catalog' && item.value === defaultCatalog) ? defaultCATALOG
-					                                                                                       : ((item.value))
+					criteria[key1][key2] = (mode === 1 && key2 === 'catalog' && item.value === defaultCatalog) ? defaultCATALOG
+					                                                                                           : ((item.value))
 					;
 				}
 			}
@@ -886,13 +889,29 @@ $AMIClass('SearchModelerApp', {
 			criteria: keys.map(key => criteria[key]),
 		};
 
-		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) +'"').done((/*---------*/) => {
+		if(mode === 2)
+		{
+			amiWebApp.createControl(null, null, 'textBox', [this._dumpJson(json, null, 2)], {}).done(() => {
 
-			amiCommand.execute('AddElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£json£archived" -values="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '£' + amiWebApp.textToString(JSON.stringify(json)) + '£' + amiWebApp.textToString(archived) + '"').done((data, message) => {
+				amiWebApp.unlock();
+			})
+		}
+		else
+		{
+			amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) +'"').done((/*---------*/) => {
 
-				this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
+				amiCommand.execute('AddElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£json£archived" -values="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '£' + amiWebApp.textToString(JSON.stringify(json)) + '£' + amiWebApp.textToString(archived) + '"').done((data, message) => {
 
-				amiWebApp.success(message, true);
+					this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
+
+					amiWebApp.success(message, true);
+
+				}).fail((data, message) => {
+
+					this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
+
+					amiWebApp.error(message, true);
+				});
 
 			}).fail((data, message) => {
 
@@ -900,13 +919,7 @@ $AMIClass('SearchModelerApp', {
 
 				amiWebApp.error(message, true);
 			});
-
-		}).fail((data, message) => {
-
-			this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
-
-			amiWebApp.error(message, true);
-		});
+		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	},
