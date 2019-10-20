@@ -689,6 +689,26 @@ $AMIClass('SearchModelerApp', {
 
 	editOptions2: function(inputCnt, inputType)
 	{
+		if(inputType === 2 || inputType === 3) {
+			$('#C1788970_4C94_D98F_4199_5A185B4D97A3').prop('disabled', false);
+			$('#D580EF7E_AD6A_BC51_FFAB_41782CC3F2CF').prop('disabled', false);
+		}
+		else {
+			$('#C1788970_4C94_D98F_4199_5A185B4D97A3').prop('disabled', true);
+			$('#D580EF7E_AD6A_BC51_FFAB_41782CC3F2CF').prop('disabled', true);
+		}
+
+		if(inputType === 4) {
+			$('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('disabled', false);
+			$('#ED6493B8_63FC_96F1_48AA_F2D670E63836').prop('disabled', false);
+			$('#A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33').prop('disabled', false);
+		}
+		else {
+			$('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('disabled', true);
+			$('#ED6493B8_63FC_96F1_48AA_F2D670E63836').prop('disabled', true);
+			$('#A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33').prop('disabled', true);
+		}
+
 		$('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val(
 			this._dumpJson(
 				this.formToJson2(

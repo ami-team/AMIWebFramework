@@ -37,7 +37,7 @@
 		</select>
 	</td>
 	<td style="text-align: center; width: 80px;">
-		<button type="button" class="btn btn-sm btn-outline-secondary" onclick="searchModelerApp.editOptions2({{cnt + loop.index0}}, $('#F591F5A7_76BD_C010_8A37_3BD869CF0BB4_{{cnt + loop.index0}}').val());">
+		<button type="button" class="btn btn-sm btn-outline-secondary" onclick="searchModelerApp.editOptions2({{cnt + loop.index0}}, parseInt($('#F591F5A7_76BD_C010_8A37_3BD869CF0BB4_{{cnt + loop.index0}}').val()));">
 			<i class="fa fa-flag text-primary"></i>
 		</button>
 		<button type="button" class="btn btn-sm btn-outline-secondary" onclick="if(confirm('Please confirm...')) { $(this).parent().parent().remove(); }">
