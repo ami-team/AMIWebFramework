@@ -670,9 +670,26 @@ $AMIClass('SearchModelerApp', {
 			delete more.on;
 		}
 
-		more.auto_open = $('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('checked');
-		more.inclusive = $('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('checked');
-		more.simple_search = $('#B6671716_EA4E_E4A6_454B_79140FFC1532').prop('checked');
+		if(!$('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('disabled')) {
+			more.  auto_open   = $('#E3951FA5_8B76_3C9E_CFC2_EC3749451226').prop('checked');
+		}
+		else {
+			delete more.  auto_open  ;
+		}
+
+		if(!$('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('disabled')) {
+			more.  inclusive   = $('#D6089F83_363A_F322_1E92_25567D89BD3B').prop('checked');
+		}
+		else {
+			delete more.  inclusive  ;
+		}
+
+		if(!$('#B6671716_EA4E_E4A6_454B_79140FFC1532').prop('disabled')) {
+			more.simple_search = $('#B6671716_EA4E_E4A6_454B_79140FFC1532').prop('checked');
+		}
+		else {
+			delete more.simple_search;
+		}
 
 		/*--*/ if($('#C1F5D43B_000E_F867_ABA5_13EA519F55CA').prop('checked')) {
 			more.order = 'ASC';
