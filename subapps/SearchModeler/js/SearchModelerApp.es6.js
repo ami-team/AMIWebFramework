@@ -891,7 +891,7 @@ $AMIClass('SearchModelerApp', {
 
 		if(mode === 2)
 		{
-			amiWebApp.createControl(null, null, 'textBox', [this._dumpJson(json, null, 2)], {}).done(() => {
+			amiWebApp.createControl(null, null, 'textBox', [this._dumpJson(json)], {}).done(() => {
 
 				amiWebApp.unlock();
 			})
