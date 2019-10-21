@@ -604,8 +604,6 @@ $AMIClass('SearchModelerApp', {
 		if('constraints' in more
 		   &&
 		   more.constraints !== null
-		   &&
-		   more.constraints.toUpperCase() !== '@NULL'
 		 ) {
 			$('#F87B8D4A_BE3E_6C93_B432_9195DD1E5A15').val(more.constraints.join($('#C64EE3C9_DB38_DDA5_20C2_B3B2E8140637').val()));
 
@@ -621,8 +619,6 @@ $AMIClass('SearchModelerApp', {
 		if('init_value' in more
 		   &&
 		   more.init_value !== null
-		   &&
-		   more.init_value.toUpperCase() !== '@NULL'
 		 ) {
 			$('#B302D100_DDD0_904F_5B50_E0E85FB0C4D3').val(more.init_value.join($('#B06166B2_2DE1_255D_7350_9C21370DB32F').val()));
 
