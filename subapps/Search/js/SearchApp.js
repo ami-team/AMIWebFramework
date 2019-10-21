@@ -111,8 +111,8 @@ $AMIClass('SearchApp', {
 	{
 		amiWebApp.lock();
 
-		const sql = (this.groups1.length === 0) ? 'SELECT `id`, `group`, `name`, `json` FROM `router_search_interface` WHERE `archived` = 0'
-		                                        : 'SELECT `id`, `group`, `name`, `json` FROM `router_search_interface` WHERE `archived` = 0 AND `group` IN (' + this.groups1.map(group => '\'' + amiWebApp.textToSQL(group) + '\'').join(', ') + ')'
+		const sql = (this.groups1.length === 0) ? 'SELECT `id`, `group`, `name`, `json` FROM `router_search_interface` WHERE `archived` = 0 ORDER BY `group` ASC, `name` ASC'
+		                                        : 'SELECT `id`, `group`, `name`, `json` FROM `router_search_interface` WHERE `archived` = 0 AND `group` IN (' + this.groups1.map(group => '\'' + amiWebApp.textToSQL(group) + '\'').join(', ') + ') ORDER BY `group` ASC, `name` ASC'
 		;
 
 		amiCommand.execute('SearchQuery -catalog="self" -entity="router_search_interface" -sql="' + sql + '"').done((data) => {

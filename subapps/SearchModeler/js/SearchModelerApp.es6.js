@@ -212,7 +212,7 @@ $AMIClass('SearchModelerApp', {
 	{
 		amiWebApp.lock();
 
-		amiCommand.execute('SearchQuery -catalog="self" -entity="router_search_interface" -sql="SELECT `id`, `group`, `name`, `json`, `archived` FROM `router_search_interface` ORDER BY `group`, `name`"').done((data) => {
+		amiCommand.execute('SearchQuery -catalog="self" -entity="router_search_interface" -sql="SELECT `id`, `group`, `name`, `json`, `archived` FROM `router_search_interface` ORDER BY `group` ASC, `name` ASC"').done((data) => {
 
 			const rows = amiWebApp.jspath('..row', data);
 
