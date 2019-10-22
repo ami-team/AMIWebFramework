@@ -542,6 +542,8 @@ $AMIClass('SchemaCtrl', {
 			const description = amiWebApp.jspath('..field{.@name==="description"}.$', data)[0] || 'N/A';
 
 			const bridge = amiWebApp.jspath('..field{.@name==="bridge"}.$', data)[0] || 'false';
+			const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', data)[0] || 'false';
+			const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
 
 			/**/
 
@@ -549,6 +551,9 @@ $AMIClass('SchemaCtrl', {
 			$('#E831834E_1D7C_A0F7_B266_E5F5F9CB4F16').val(description);
 
 			$('#E1B8F5B1_9BDD_D4A5_56B1_540534E17B09').prop('checked', bridge === 'true');
+
+			$('#A7C3FA85_FE03_FC4F_04FB_D8F9C09430F1').prop('checked', hidden === 'true');
+			$('#BFFD13C4_EAE9_D440_15AB_6005A941FB23').prop('checked', adminOnly === 'true');
 
 			/**/
 
@@ -701,6 +706,8 @@ SchemaCtrl.applyEntity = function()
 
 	const json = {
 		'bridge': $('#E1B8F5B1_9BDD_D4A5_56B1_540534E17B09').prop('checked'),
+		'hidden': $('#A7C3FA85_FE03_FC4F_04FB_D8F9C09430F1').prop('checked'),
+		'adminOnly': $('#BFFD13C4_EAE9_D440_15AB_6005A941FB23').prop('checked'),
 	};
 
 	/*---------------------------------------------------------------------*/
