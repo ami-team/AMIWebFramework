@@ -1,5 +1,12 @@
 {% for searchInterface in searchInterfaces %}
 <div class="d-flex">
+
+	<span class="flex-shrink-1" style="cursor: grab;">
+		<span class="text-secondary mr-2">
+			<i class="fa fa-hand-o-up"></i>
+		</span>
+	</span>
+
 	<span class="w-100" style="cursor: pointer;" onclick="searchModelerApp.select('{{searchInterface.id|e}}');">
 		{% if searchInterface.archived %}
 		<strike>{{searchInterface.group|e}} :: {{searchInterface.name|e}}</strike>
@@ -7,14 +14,18 @@
 		<span>{{searchInterface.group|e}} :: {{searchInterface.name|e}}</span>
 		{% endif %}
 	</span>
-	<span class="flex-shrink-1 dropdown">
-		<a class="dropdown-toggle" href="#" data-toggle="dropdown">
-			<i class="fa fa-link"></i> goto
-		</a>
-		<span class="dropdown-menu">
-			<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=search&userdata={{searchInterface.group|e}}:{{searchInterface.name|e}}" target="_blank">Search</a>
-			<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=simpleSearch&userdata={{searchInterface.group|e}}:{{searchInterface.name|e}}" target="_blank">Simple Search</a>
+
+	<span class="flex-shrink-1" style="cursor: pointer;">
+		<span class="dropdown ml-2">
+			<a class="dropdown-toggle" href="#" data-toggle="dropdown">
+				<i class="fa fa-link"></i> goto
+			</a>
+			<span class="dropdown-menu">
+				<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=search&userdata={{searchInterface.group|e}}:{{searchInterface.name|e}}" target="_blank">Search</a>
+				<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=simpleSearch&userdata={{searchInterface.group|e}}:{{searchInterface.name|e}}" target="_blank">Simple Search</a>
+			</span>
 		</span>
 	</span>
+
 </div>
 {% endfor %}
