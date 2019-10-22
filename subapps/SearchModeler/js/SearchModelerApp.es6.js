@@ -42,7 +42,19 @@ $AMIClass('SearchModelerApp', {
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					$('#CFB6CA12_2D42_3111_3183_EC1006F7E039').sortable();
+					$('#CFB6CA12_2D42_3111_3183_EC1006F7E039').sortable({
+						start: (e, ui) => {
+							ui.item.startPos = ui.item.index();
+						},
+						update: (e, ui) => {
+							ui.item.stopPos = ui.item.index();
+
+							this.swap(
+								$('#CFB6CA12_2D42_3111_3183_EC1006F7E039 > div').eq(ui.item.startPos).attr('data-id'),
+								$('#CFB6CA12_2D42_3111_3183_EC1006F7E039 > div').eq(ui.item.stopPos).attr('data-id')
+							);
+						},
+					});
 
 					$('#DD89D783_6F39_7B3B_3F3F_D875737A5E68').sortable();
 
@@ -277,6 +289,13 @@ $AMIClass('SearchModelerApp', {
 
 			amiWebApp.error(message, true);
 		});
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	swap: function(fromId, toId):
+	{
+		console.log(fromId + '<>' + toId);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
