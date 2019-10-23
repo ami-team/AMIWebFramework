@@ -45,14 +45,20 @@ $AMIClass('SearchModelerApp', {
 					$('#CFB6CA12_2D42_3111_3183_EC1006F7E039').sortable({
 						start: (e, ui) => {
 
+							/*----------------------------------------------------------------------------------------*/
+
 							ui.item.ranks1 = {};
 
 							$('#CFB6CA12_2D42_3111_3183_EC1006F7E039 > div[data-id]').each((indx, item) => {
 
 								ui.item.ranks1[$(item).attr('data-id')] = indx;
 							});
+
+							/*----------------------------------------------------------------------------------------*/
 						},
 						update: (e, ui) => {
+
+							/*----------------------------------------------------------------------------------------*/
 
 							ui.item.ranks2 = {};
 
@@ -60,6 +66,8 @@ $AMIClass('SearchModelerApp', {
 
 								ui.item.ranks2[$(item).attr('data-id')] = indx;
 							});
+
+							/*----------------------------------------------------------------------------------------*/
 
 							this.swap(
 								ui.item.ranks1,
@@ -611,8 +619,6 @@ $AMIClass('SearchModelerApp', {
 	{
 		$('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').prop('checked', !!more.distinct);
 
-		/* TODO */
-
 		return more;
 	},
 
@@ -621,8 +627,6 @@ $AMIClass('SearchModelerApp', {
 	formToJson1: function(more)
 	{
 		more.distinct = $('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').prop('checked');
-
-		/* TODO */
 
 		return more;
 	},
