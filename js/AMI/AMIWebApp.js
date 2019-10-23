@@ -620,11 +620,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					result.push(data);
 
-					this.__loadXXX(deferred, result, urls, dataType, context);
+					return this.__loadXXX(deferred, result, urls, dataType, context);
 
 				}, (message) => {
 
-					deferred.rejectWith(context, [message]);
+					return deferred.rejectWith(context, [message]);
 				});
 
 				break;
@@ -639,11 +639,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					result.push(data);
 
-					this.__loadXXX(deferred, result, urls, dataType, context);
+					return this.__loadXXX(deferred, result, urls, dataType, context);
 
 				}, (message) => {
 
-					deferred.rejectWith(context, [message]);
+					return deferred.rejectWith(context, [message]);
 				});
 
 				break;
@@ -658,7 +658,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				{
 					result.push(false);
 
-					this.__loadXXX(deferred, result, urls, dataType, context);
+					return this.__loadXXX(deferred, result, urls, dataType, context);
 				}
 				else
 				{
@@ -674,11 +674,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 						this._sheets.push(url);
 
-						this.__loadXXX(deferred, result, urls, dataType, context);
+						return this.__loadXXX(deferred, result, urls, dataType, context);
 
 					}, () => {
 
-						deferred.rejectWith(context, ['could not load `' + url + '`']);
+						return deferred.rejectWith(context, ['could not load `' + url + '`']);
 					});
 				}
 
@@ -694,7 +694,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				{
 					result.push(false);
 
-					this.__loadXXX(deferred, result, urls, dataType, context);
+					return this.__loadXXX(deferred, result, urls, dataType, context);
 				}
 				else
 				{
@@ -710,11 +710,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 						this._scripts.push(url);
 
-						this.__loadXXX(deferred, result, urls, dataType, context);
+						return this.__loadXXX(deferred, result, urls, dataType, context);
 
 					}, () => {
 
-						deferred.rejectWith(context, ['could not load `' + url + '`']);
+						return deferred.rejectWith(context, ['could not load `' + url + '`']);
 					});
 				}
 
@@ -736,11 +736,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 					result.push(data);
 
-					this.__loadXXX(deferred, result, urls, dataType, context);
+					return this.__loadXXX(deferred, result, urls, dataType, context);
 
 				}, () => {
 
-					deferred.rejectWith(context, ['could not load `' + url + '`']);
+					return deferred.rejectWith(context, ['could not load `' + url + '`']);
 				});
 
 				break;

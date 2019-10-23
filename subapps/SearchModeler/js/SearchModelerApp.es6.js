@@ -44,17 +44,31 @@ $AMIClass('SearchModelerApp', {
 
 					$('#CFB6CA12_2D42_3111_3183_EC1006F7E039').sortable({
 						start: (e, ui) => {
-							ui.item.startPos = ui.item.index();
+
+							ui.item.ranks1 = {};
+
+							$('#CFB6CA12_2D42_3111_3183_EC1006F7E039 > div[data-id]').each((indx, item) => {
+
+								ui.item.ranks1[$(item).attr('data-id')] = indx;
+							});
 						},
 						update: (e, ui) => {
-							ui.item.stopPos = ui.item.index();
+
+							ui.item.ranks2 = {};
+
+							$('#CFB6CA12_2D42_3111_3183_EC1006F7E039 > div[data-id]').each((indx, item) => {
+
+								ui.item.ranks2[$(item).attr('data-id')] = indx;
+							});
 
 							this.swap(
-								$('#CFB6CA12_2D42_3111_3183_EC1006F7E039 > div').eq(ui.item.startPos).attr('data-id'),
-								$('#CFB6CA12_2D42_3111_3183_EC1006F7E039 > div').eq(ui.item.stopPos).attr('data-id')
+								ui.item.ranks1,
+								ui.item.ranks2
 							);
 						},
 					});
+
+					/*------------------------------------------------------------------------------------------------*/
 
 					$('#DD89D783_6F39_7B3B_3F3F_D875737A5E68').sortable();
 
@@ -244,7 +258,7 @@ $AMIClass('SearchModelerApp', {
 	{
 		amiWebApp.lock();
 
-		amiCommand.execute('SearchQuery -catalog="self" -entity="router_search_interface" -sql="SELECT `id`, `group`, `name`, `json`, `archived` FROM `router_search_interface` ORDER BY `group` ASC, `name` ASC"').done((data) => {
+		amiCommand.execute('SearchQuery -catalog="self" -entity="router_search_interface" -sql="SELECT `id`, `group`, `name`, `rank`, `json`, `archived` FROM `router_search_interface` ORDER BY `rank` ASC, `group` ASC, `name` ASC"').done((data) => {
 
 			const rows = amiWebApp.jspath('..row', data);
 
@@ -257,6 +271,7 @@ $AMIClass('SearchModelerApp', {
 				const id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
 				const group = amiWebApp.jspath('..field{.@name==="group"}.$', row)[0] || '';
 				const name = amiWebApp.jspath('..field{.@name==="name"}.$', row)[0] || '';
+				const rank = amiWebApp.jspath('..field{.@name==="rank"}.$', row)[0] || '';
 				const json = amiWebApp.jspath('..field{.@name==="json"}.$', row)[0] || '';
 				const archived = amiWebApp.jspath('..field{.@name==="archived"}.$', row)[0] || '';
 
@@ -266,6 +281,7 @@ $AMIClass('SearchModelerApp', {
 						id: id,
 						group: group,
 						name: name,
+						rank: /*-*/ parseInt(rank),
 						json: this._parseJson(json),
 						archived: (archived !== '0'),
 					};
@@ -293,9 +309,32 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	swap: function(fromId, toId):
+	swap: function(ranks1, ranks2)
 	{
-		console.log(fromId + '<>' + toId);
+		for(const id in this.searchInterfaces)
+		{
+			if(ranks1[id] !== ranks2[id])
+			{
+				/*----------------------------------------------------------------------------------------------------*/
+
+				const command = 'UpdateElements -catalog="self" -entity="router_search_interface" -fields="rank" -values="' + ranks2[id] + '" -keyFields="id" -keyValues="' + id + '"';
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				amiWebApp.lock();
+
+				amiCommand.execute(command).done(() => {
+
+					amiWebApp.unlock();
+
+				}).fail((data, message) => {
+
+					amiWebApp.error(message, true);
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+			}
+		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -463,6 +502,8 @@ $AMIClass('SearchModelerApp', {
 		$('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val(searchInterface.group);
 
 		$('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val(searchInterface.name);
+
+		$('#E7C7B106_876A_4B8A_2CE2_084A9E89BF3E').val(searchInterface.rank);
 
 		$('#A2C54F33_AC45_3553_86D6_4A479D10CD54').prop('checked', searchInterface.archived);
 
@@ -911,6 +952,7 @@ $AMIClass('SearchModelerApp', {
 
 		const group = this._trim($('#B08B0D55_227C_8AB2_DD3F_B9E783E606F8').val());
 		const name = this._trim($('#BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16').val());
+		const rank = this._trim($('#E7C7B106_876A_4B8A_2CE2_084A9E89BF3E').val());
 		const defaultCatalog = this._trim($('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val());
 		const defaultEntity = this._trim($('#F71D1452_8613_5FB5_27D3_C1540573F450').val());
 		const defaultPrimaryField = this._trim($('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E').val());
@@ -1007,7 +1049,7 @@ $AMIClass('SearchModelerApp', {
 		{
 			amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) +'"').done((/*---------*/) => {
 
-				amiCommand.execute('AddElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£json£archived" -values="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '£' + amiWebApp.textToString(JSON.stringify(json)) + '£' + amiWebApp.textToString(archived) + '"').done((data, message) => {
+				amiCommand.execute('AddElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£rank£json£archived" -values="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '£' + amiWebApp.textToString(rank) + '£' + amiWebApp.textToString(JSON.stringify(json)) + '£' + amiWebApp.textToString(archived) + '"').done((data, message) => {
 
 					this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
 
