@@ -1048,6 +1048,8 @@ $AMIClass('SearchModelerApp', {
 			criteria: keys.map(key => { if(!criteria[key].name) criteria[key].name = criteria[key].field; return criteria[key]; }),
 		};
 
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		if(mode === 2)
 		{
 			amiWebApp.createControl(null, null, 'textBox', [this._dumpJson(json)], {}).done(() => {
