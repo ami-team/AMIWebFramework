@@ -729,7 +729,7 @@ $AMIClass('SearchModelerApp', {
 
 			if(constraints.toUpperCase() !== '@NULL')
 			{
-				more.constraints = constraints.split($('#C64EE3C9_DB38_DDA5_20C2_B3B2E8140637').val());
+				more.constraints = constraints.split($('#C64EE3C9_DB38_DDA5_20C2_B3B2E8140637').val()).map(x => x.trim());
 			}
 			else
 			{
@@ -747,7 +747,7 @@ $AMIClass('SearchModelerApp', {
 
 			if(init_value.toUpperCase() !== '@NULL')
 			{
-				more.init_value = init_value.split($('#B06166B2_2DE1_255D_7350_9C21370DB32F').val());
+				more.init_value = init_value.split($('#B06166B2_2DE1_255D_7350_9C21370DB32F').val()).map(x => x.trim());
 			}
 			else
 			{
