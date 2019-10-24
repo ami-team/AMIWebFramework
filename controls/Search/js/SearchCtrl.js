@@ -1356,11 +1356,11 @@ $AMIClass('SearchCtrl', {
 				{
 					if (isDefaultEntity)
 					{
-						L.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + _this.dumpConstraints(criterion) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+						L.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\'');
 					}
 					else
 					{
-						L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + _this.dumpConstraints(criterion) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+						L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\']');
 					}
 				}
 
@@ -1540,7 +1540,14 @@ $AMIClass('SearchCtrl', {
 							}
 							else
 							{
-								L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\'');
+								if(this.value === '@NULL')
+								{
+									L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') IS NULL');
+								}
+								else
+								{
+									L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(this.value) + '\'');
+								}
 							}
 						}
 						else
@@ -1551,7 +1558,14 @@ $AMIClass('SearchCtrl', {
 							}
 							else
 							{
-								L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + this.value.replace(/'/g, '\'\'') + '\']');
+								if(this.value === '@NULL')
+								{
+									L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') IS NULL]');
+								}
+								else
+								{
+									L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(this.value) + '\']');
+								}
 							}
 						}
 						break;
@@ -1560,11 +1574,11 @@ $AMIClass('SearchCtrl', {
 					case 8:
 						if (isDefaultEntity)
 						{
-							L.push('(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.valueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\')');
+							L.push('(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.valueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')');
 						}
 						else
 						{
-							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.valueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\')]');
+							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.valueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')]');
 						}
 						break;
 
@@ -1572,11 +1586,11 @@ $AMIClass('SearchCtrl', {
 					case 10:
 						if (isDefaultEntity)
 						{
-							L.push('(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\')');
+							L.push('(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')');
 						}
 						else
 						{
-							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + this.value.replace(/'/g, '\'\'') + '\')]');
+							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')]');
 						}
 						break;
 				}
@@ -2357,14 +2371,7 @@ $AMIClass('SearchCtrl', {
 
 	dumpConstraints: function(criterion)
 	{
-		var constraintTab = [];
-
-		$.each(criterion.constraints, function(idx, constraint){
-
-			constraintTab.push(constraint.operator + ' `' + constraint.catalog + '`.`' + constraint.entity + '`.`' + constraint.field + '`');
-		});
-
-		return constraintTab.length !== 0 ? '{' + constraintTab.join() + '}' : '';
+		return criterion.more.constraints && criterion.more.constraints.length > 0 ? '{' + criterion.more.constraints.join() + '}' : '';
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
