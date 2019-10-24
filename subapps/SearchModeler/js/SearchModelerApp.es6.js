@@ -1045,7 +1045,7 @@ $AMIClass('SearchModelerApp', {
 			defaultEntity: defaultEntity,
 			defaultPrimaryField: defaultPrimaryField,
 			more: MORE,
-			criteria: keys.map(key => criteria[key]),
+			criteria: keys.map(key => { if(!criteria[key].name) criteria[key].name = criteria[key].field; return criteria[key]; }),
 		};
 
 		if(mode === 2)
