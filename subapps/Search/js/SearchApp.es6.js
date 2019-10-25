@@ -103,6 +103,7 @@ $AMIClass('SearchApp', {
 
 	onLogout: function()
 	{
+		this.maskInterfaceList();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -162,6 +163,8 @@ $AMIClass('SearchApp', {
 
 			amiWebApp.replaceHTML('#CCFE77D9_5798_A236_8108_E59AE44FB242', this.fragmentInterface, {dict: dict}).done(() => {
 
+				$('#FE8BB925_A267_F972_060E_CC9C70D0C6D2').show();
+
 				auto_open.forEach((item) => {
 
 					this.select(item);
@@ -173,6 +176,16 @@ $AMIClass('SearchApp', {
 		}).fail((data, message) => {
 
 			amiWebApp.error(message, true);
+		});
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	maskInterfaceList: function()
+	{
+		amiWebApp.replaceHTML('#CCFE77D9_5798_A236_8108_E59AE44FB242', 'Please log-in.').done(() => {
+
+			$('#FE8BB925_A267_F972_060E_CC9C70D0C6D2').hide();
 		});
 	},
 

@@ -210,12 +210,19 @@ $AMIClass('SearchModelerApp', {
 
 	onLogin: function()
 	{
-		if(!$('#CFB6CA12_2D42_3111_3183_EC1006F7E039').html().trim())
-		{
-			this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
+		this.getInterfaceList();
 
+		if($('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3 option').length === 0)
+		{
 			this.getCatalogs('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3');
 		}
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onLogout: function()
+	{
+		this.maskInterfaceList();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -306,7 +313,11 @@ $AMIClass('SearchModelerApp', {
 				}
 			});
 
-			amiWebApp.replaceHTML(dst, this.fragmentInterface, {dict: dict}).done(() => {
+			amiWebApp.replaceHTML('#CFB6CA12_2D42_3111_3183_EC1006F7E039', this.fragmentInterface, {dict: dict}).done(() => {
+
+				$('#DA22E4F4_323E_0AFA_AA7D_0E9F21A3D20D button').prop('disabled', false);
+
+				$('#E8799895_7169_41DA_189F_ACEFE120C72F').show();
 
 				amiWebApp.unlock();
 			});
@@ -314,6 +325,18 @@ $AMIClass('SearchModelerApp', {
 		}).fail((data, message) => {
 
 			amiWebApp.error(message, true);
+		});
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	maskInterfaceList: function()
+	{
+		amiWebApp.replaceHTML('#CFB6CA12_2D42_3111_3183_EC1006F7E039', 'Please log-in.').done(() => {
+
+			$('#DA22E4F4_323E_0AFA_AA7D_0E9F21A3D20D button').prop('disabled', true);
+
+			$('#E8799895_7169_41DA_189F_ACEFE120C72F').hide();
 		});
 	},
 

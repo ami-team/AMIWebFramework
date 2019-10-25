@@ -103,6 +103,7 @@ $AMIClass('SimpleSearchApp', {
 
 	onLogout: function()
 	{
+		this.maskInterfaceList();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -162,6 +163,8 @@ $AMIClass('SimpleSearchApp', {
 
 			amiWebApp.replaceHTML('#DF5986EA_9773_14A1_DA62_82F21B5062CB', this.fragmentInterface, {dict: dict}).done(() => {
 
+				$('#D76D32CB_F57C_B3DD_0C6C_6C45BFE15572').show();
+
 				auto_open.forEach((item) => {
 
 					this.select(item);
@@ -173,6 +176,16 @@ $AMIClass('SimpleSearchApp', {
 		}).fail((data, message) => {
 
 			amiWebApp.error(message, true);
+		});
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	maskInterfaceList: function()
+	{
+		amiWebApp.replaceHTML('#DF5986EA_9773_14A1_DA62_82F21B5062CB', 'Please log-in.').done(() => {
+
+			$('#D76D32CB_F57C_B3DD_0C6C_6C45BFE15572').hide();
 		});
 	},
 
