@@ -6,45 +6,42 @@
  *
  */
 
-/*-------------------------------------------------------------------------*/
-/* AdminDashboardRoles                                                     */
-/*-------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/
 
+/* AdminDashboardRoles                                                                                                */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 $AMIClass('AdminDashboardRoles', {
-	/*---------------------------------------------------------------------*/
+  /*----------------------------------------------------------------------------------------------------------------*/
+  _init: function _init() {
+    var _this = this;
 
-	_init: function()
-	{
-		var result = $.Deferred();
+    var result = $.Deferred();
+    amiWebApp.loadResources(['subapps/AdminDashboard/twig/roles/roles.twig', 'ctrl:table']).done(function (data) {
+      amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0]).done(function () {
+        _this.table = new data[1]();
+        result.resolve();
+      });
+    }).fail(function (message) {
+      result.reject(message);
+    });
+    return result;
+  },
 
-		amiWebApp.loadResources([
-			'subapps/AdminDashboard/twig/roles/roles.twig',
-			'ctrl:table',
-		], {context: this}).done(function(data) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+  onLogin: function onLogin() {
+    this.table.render('#D3C9F8B8_4EAF_B108_267E_066F064F7EF3', 'BrowseQuery -catalog="self" -entity="router_role" -mql="SELECT `*`"', {
+      showDetails: true,
+      canEdit: amiLogin.hasRole('AMI_ADMIN'),
+      catalog: 'self',
+      entity: 'router_role',
+      primaryField: 'id',
+      start: 1,
+      stop: 25
+    });
+  }
+  /*----------------------------------------------------------------------------------------------------------------*/
 
-			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0], {context: this}).done(function() {
-
-				this.table = new data[1]();
-
-				result.resolve();
-			});
-
-		}).fail(function(message) {
-
-			result.reject(message);
-		});
-
-		return result;
-	},
-
-	/*---------------------------------------------------------------------*/
-
-	onLogin: function()
-	{
-		this.table.render('#D3C9F8B8_4EAF_B108_267E_066F064F7EF3', 'BrowseQuery -catalog="self" -entity="router_role" -mql="SELECT `*`"', {showDetails: true, canEdit: amiLogin.hasRole('AMI_ADMIN'), catalog: 'self', entity: 'router_role', primaryField: 'id', start: 1, stop: 25});
-	}
-
-	/*---------------------------------------------------------------------*/
 });
-
-/*-------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIl9yb2xlcy5lczYuanMiXSwibmFtZXMiOlsiJEFNSUNsYXNzIiwiX2luaXQiLCJyZXN1bHQiLCIkIiwiRGVmZXJyZWQiLCJhbWlXZWJBcHAiLCJsb2FkUmVzb3VyY2VzIiwiZG9uZSIsImRhdGEiLCJyZXBsYWNlSFRNTCIsInRhYmxlIiwicmVzb2x2ZSIsImZhaWwiLCJtZXNzYWdlIiwicmVqZWN0Iiwib25Mb2dpbiIsInJlbmRlciIsInNob3dEZXRhaWxzIiwiY2FuRWRpdCIsImFtaUxvZ2luIiwiaGFzUm9sZSIsImNhdGFsb2ciLCJlbnRpdHkiLCJwcmltYXJ5RmllbGQiLCJzdGFydCIsInN0b3AiXSwibWFwcGluZ3MiOiJBQUFBOzs7Ozs7OztBQVFBOztBQUNBOztBQUNBO0FBRUFBLFNBQVMsQ0FBQyxxQkFBRCxFQUF3QjtBQUNoQztBQUVBQyxFQUFBQSxLQUFLLEVBQUUsaUJBQ1A7QUFBQTs7QUFDQyxRQUFNQyxNQUFNLEdBQUdDLENBQUMsQ0FBQ0MsUUFBRixFQUFmO0FBRUFDLElBQUFBLFNBQVMsQ0FBQ0MsYUFBVixDQUF3QixDQUN2Qiw4Q0FEdUIsRUFFdkIsWUFGdUIsQ0FBeEIsRUFHR0MsSUFISCxDQUdRLFVBQUNDLElBQUQsRUFBVTtBQUVqQkgsTUFBQUEsU0FBUyxDQUFDSSxXQUFWLENBQXNCLHVDQUF0QixFQUErREQsSUFBSSxDQUFDLENBQUQsQ0FBbkUsRUFBd0VELElBQXhFLENBQTZFLFlBQU07QUFFbEYsUUFBQSxLQUFJLENBQUNHLEtBQUwsR0FBYSxJQUFJRixJQUFJLENBQUMsQ0FBRCxDQUFSLEVBQWI7QUFFQU4sUUFBQUEsTUFBTSxDQUFDUyxPQUFQO0FBQ0EsT0FMRDtBQU9BLEtBWkQsRUFZR0MsSUFaSCxDQVlRLFVBQUNDLE9BQUQsRUFBYTtBQUVwQlgsTUFBQUEsTUFBTSxDQUFDWSxNQUFQLENBQWNELE9BQWQ7QUFDQSxLQWZEO0FBaUJBLFdBQU9YLE1BQVA7QUFDQSxHQXpCK0I7O0FBMkJoQztBQUVBYSxFQUFBQSxPQUFPLEVBQUUsbUJBQ1Q7QUFDQyxTQUFLTCxLQUFMLENBQVdNLE1BQVgsQ0FBa0IsdUNBQWxCLEVBQTJELHFFQUEzRCxFQUFrSTtBQUFDQyxNQUFBQSxXQUFXLEVBQUUsSUFBZDtBQUFvQkMsTUFBQUEsT0FBTyxFQUFFQyxRQUFRLENBQUNDLE9BQVQsQ0FBaUIsV0FBakIsQ0FBN0I7QUFBNERDLE1BQUFBLE9BQU8sRUFBRSxNQUFyRTtBQUE2RUMsTUFBQUEsTUFBTSxFQUFFLGFBQXJGO0FBQW9HQyxNQUFBQSxZQUFZLEVBQUUsSUFBbEg7QUFBd0hDLE1BQUFBLEtBQUssRUFBRSxDQUEvSDtBQUFrSUMsTUFBQUEsSUFBSSxFQUFFO0FBQXhJLEtBQWxJO0FBQ0E7QUFFRDs7QUFsQ2dDLENBQXhCLENBQVQ7QUFxQ0EiLCJzb3VyY2VzQ29udGVudCI6WyIvKiFcbiAqIEFNSSBXZWIgRnJhbWV3b3JrXG4gKlxuICogQ29weXJpZ2h0IChjKSAyMDE0IFRoZSBBTUkgVGVhbVxuICogaHR0cDovL3d3dy5jZWNpbGwuaW5mby9saWNlbmNlcy9MaWNlbmNlX0NlQ0lMTC1DX1YxLWVuLmh0bWxcbiAqXG4gKi9cblxuLyotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSovXG4vKiBBZG1pbkRhc2hib2FyZFJvbGVzICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKi9cbi8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0qL1xuXG4kQU1JQ2xhc3MoJ0FkbWluRGFzaGJvYXJkUm9sZXMnLCB7XG5cdC8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSovXG5cblx0X2luaXQ6IGZ1bmN0aW9uKClcblx0e1xuXHRcdGNvbnN0IHJlc3VsdCA9ICQuRGVmZXJyZWQoKTtcblxuXHRcdGFtaVdlYkFwcC5sb2FkUmVzb3VyY2VzKFtcblx0XHRcdCdzdWJhcHBzL0FkbWluRGFzaGJvYXJkL3R3aWcvcm9sZXMvcm9sZXMudHdpZycsXG5cdFx0XHQnY3RybDp0YWJsZScsXG5cdFx0XSkuZG9uZSgoZGF0YSkgPT4ge1xuXG5cdFx0XHRhbWlXZWJBcHAucmVwbGFjZUhUTUwoJyNDQjYwMzZCN181OTcxXzQxQzJfMTE5NF9GNUEwNTFCMjFFQTAnLCBkYXRhWzBdKS5kb25lKCgpID0+IHtcblxuXHRcdFx0XHR0aGlzLnRhYmxlID0gbmV3IGRhdGFbMV0oKTtcblxuXHRcdFx0XHRyZXN1bHQucmVzb2x2ZSgpO1xuXHRcdFx0fSk7XG5cblx0XHR9KS5mYWlsKChtZXNzYWdlKSA9PiB7XG5cblx0XHRcdHJlc3VsdC5yZWplY3QobWVzc2FnZSk7XG5cdFx0fSk7XG5cblx0XHRyZXR1cm4gcmVzdWx0O1xuXHR9LFxuXG5cdC8qLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSovXG5cblx0b25Mb2dpbjogZnVuY3Rpb24oKVxuXHR7XG5cdFx0dGhpcy50YWJsZS5yZW5kZXIoJyNEM0M5RjhCOF80RUFGX0IxMDhfMjY3RV8wNjZGMDY0RjdFRjMnLCAnQnJvd3NlUXVlcnkgLWNhdGFsb2c9XCJzZWxmXCIgLWVudGl0eT1cInJvdXRlcl9yb2xlXCIgLW1xbD1cIlNFTEVDVCBgKmBcIicsIHtzaG93RGV0YWlsczogdHJ1ZSwgY2FuRWRpdDogYW1pTG9naW4uaGFzUm9sZSgnQU1JX0FETUlOJyksIGNhdGFsb2c6ICdzZWxmJywgZW50aXR5OiAncm91dGVyX3JvbGUnLCBwcmltYXJ5RmllbGQ6ICdpZCcsIHN0YXJ0OiAxLCBzdG9wOiAyNX0pO1xuXHR9XG5cblx0LyotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKi9cbn0pO1xuXG4vKi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tKi9cbiJdfQ==

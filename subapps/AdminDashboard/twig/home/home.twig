@@ -1,5 +1,5 @@
 <div class="row">
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
 
 	<div class="col-xl-3">
 		<div class="card mb-4">
@@ -21,7 +21,7 @@
 		</div>
 	</div>
 
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
 
 	<div class="col-xl-3">
 		<div class="card mb-4">
@@ -43,7 +43,7 @@
 		</div>
 	</div>
 
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
 
 	<div class="col-xl-3">
 		<div class="card mb-4">
@@ -65,7 +65,7 @@
 		</div>
 	</div>
 
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
 
 	<div class="col-xl-3">
 		<div class="card mb-4">
@@ -87,11 +87,11 @@
 		</div>
 	</div>
 
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
 </div>
 
 <div class="row">
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
 
 	<div class="col-xl-3">
 		<div class="card mb-4">
@@ -113,14 +113,14 @@
 		</div>
 	</div>
 
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
 
 	<div class="col-xl-3">
 		<div class="card mb-4">
 			<div class="card-body pr-2">
 				<div class="row">
 					<div class="col-4">
-						<i class="fa fa-search fa-4x text-secondary"></i>
+						<i class="fa fa-search fa-4x text-success"></i>
 					</div>
 					<div class="col-8 text-xs-right">
 						Schema Viewer
@@ -135,7 +135,29 @@
 		</div>
 	</div>
 
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
+
+	<div class="col-xl-3">
+		<div class="card mb-4">
+			<div class="card-body pr-2">
+				<div class="row">
+					<div class="col-4">
+						<i class="fa fa-search fa-4x text-success"></i>
+					</div>
+					<div class="col-8 text-xs-right">
+						Search Modeler
+						<br />
+						<small>external tool</small>
+					</div>
+				</div>
+			</div>
+			<a class="card-footer text-right" href="{{WEBAPP_URL}}?subapp=searchModeler" target="_blank">
+				<i class="fa fa-link fa-2x"></i>
+			</a>
+		</div>
+	</div>
+
+	<!-- *********************************************************************************************************** -->
 
 	<div class="col-xl-3">
 		<div class="card mb-4">
@@ -151,35 +173,19 @@
 					</div>
 				</div>
 			</div>
-			<a class="card-footer text-right" href="{{WEBAPP_URL}}?subapp=monitoring" target="_blank">
-				<i class="fa fa-link fa-2x"></i>
-			</a>
-		</div>
-	</div>
-
-	<!-- **************************************************************** -->
-
-	<div class="col-xl-3">
-		<div class="card mb-4">
-			<div class="card-body pr-2">
-				<div class="row">
-					<div class="col-4">
-						<i class="fa fa-clock-o fa-4x text-secondary"></i>
-					</div>
-					<div class="col-8 text-xs-right">
-						Task Servers
-						<br />
-						<small>external tool</small>
+			<div class="card-footer text-right">
+				<div class="dropdown">
+					<a class="d-block" href="#" data-toggle="dropdown"><i class="fa fa-link fa-2x"></i></a>
+					<div class="dropdown-menu">
+						<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=monitoring" target="_blank"><i class="fa fa-server"></i> AMI Servers</a>
+						<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=taskServerAdmin" target="_blank"><i class="fa fa-clock-o"></i> Task Servers</a>
 					</div>
 				</div>
 			</div>
-			<a class="card-footer text-right" href="{{WEBAPP_URL}}?subapp=taskServerAdmin" target="_blank">
-				<i class="fa fa-link fa-2x"></i>
-			</a>
 		</div>
 	</div>
 
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
 </div>
 
 <div class="alert alert-info p-2 mb-4">
@@ -212,7 +218,7 @@
 
 		<div class="row">
 			<div class="col-md-1 text-left align-middle">
-				<!-- ************************************************************************************************************* -->
+				<span class="badge badge-info" style="cursor: pointer;" onclick="adminDashboardApp.subsubapp.reflesh()">refresh</span>
 			</div>
 			<div class="col-md-10 text-center align-middle">
 				host name: <strong id="B2BE4D58_BE5D_F374_BE74_BE6C4384B125">N/A</strong>,
