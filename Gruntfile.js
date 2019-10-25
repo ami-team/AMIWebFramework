@@ -1,19 +1,19 @@
 module.exports = function(grunt) {
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-	var PACKAGE_JSON = grunt.file.readJSON("package.json");
+	const PACKAGE_JSON = grunt.file.readJSON("package.json");
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-	var CURRENT_YEAR = grunt.template.today("yyyy");
+	const CURRENT_YEAR = grunt.template.today("yyyy");
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-	var AMI_VERSION = PACKAGE_JSON["version"];
+	const AMI_VERSION = PACKAGE_JSON["version"];
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-	var browserslist = [
+	const browserslist = [
 		">= 1%",
 		"last 1 major version",
 		"not dead",
@@ -29,7 +29,7 @@ module.exports = function(grunt) {
 
 	grunt.log.writeln("Building AWF for: " + browserslist.join(", "));
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	function findES6Files(paths)
 	{
@@ -46,7 +46,7 @@ module.exports = function(grunt) {
 		return result;
 	}
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	grunt.initConfig({
 		/*-----------------------------------------------------------------*/
@@ -154,11 +154,13 @@ module.exports = function(grunt) {
 		/*-----------------------------------------------------------------*/
 
 		"babel": {
-			"js": {
+			"js1": {
 				"options": {
 					"inputSourceMap": true,
 					"sourceMaps": "inline",
 					"compact": false,
+					"minified": false,
+					"shouldPrintComment": (txt) => /Copyright/.test(txt),
 					"presets": [["@babel/preset-env", {
 						"debug": false,
 						"loose": true,
@@ -169,9 +171,28 @@ module.exports = function(grunt) {
 					}]]
 				},
 				"files": findES6Files([
-					"./js",
-					"./controls/**",
-					"./subapps/**"
+					"./js/"
+				])
+			},
+			"js2": {
+				"options": {
+					"inputSourceMap": true,
+					"sourceMaps": "inline",
+					"compact": true,
+					"minified": true,
+					"shouldPrintComment": (txt) => /Copyright/.test(txt),
+					"presets": [["@babel/preset-env", {
+						"debug": false,
+						"loose": true,
+						"modules": false,
+						"targets": {
+							"browsers": browserslist
+						}
+					}]]
+				},
+				"files": findES6Files([
+					"./controls/**/",
+					"./subapps/**/"
 				])
 			}
 		},
@@ -208,7 +229,7 @@ module.exports = function(grunt) {
 		/*-----------------------------------------------------------------*/
 	});
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	grunt.loadNpmTasks("grunt-autoprefixer");
 	grunt.loadNpmTasks("grunt-babel");
@@ -219,9 +240,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-exec");
 	grunt.loadNpmTasks("grunt-jsdoc");
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	grunt.registerTask("build", ["exec", "jsdoc", "concat", "autoprefixer", "eslint", "babel", "cssmin", "uglify"]);
 
-	/*---------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 };
