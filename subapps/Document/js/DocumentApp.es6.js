@@ -22,14 +22,14 @@ $AMIClass('DocumentApp', {
 
 	onReady: function(userdata)
 	{
-		this._load(userdata || 'home.html');
+		this.loadPage(userdata || 'home.html');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_load: function(page)
+	loadPage: function(page)
 	{
-		var url = amiWebApp.originURL + '/docs/' + page;
+		const url = amiWebApp.originURL + '/docs/' + page;
 
 		$.ajax({
 			url: url,
@@ -49,7 +49,7 @@ $AMIClass('DocumentApp', {
 
 			if(page !== '404.html')
 			{
-				this._load('404.html');
+				this.loadPage('404.html');
 			}
 		});
 	},
@@ -61,6 +61,6 @@ $AMIClass('DocumentApp', {
 /* GLOBAL INSTANCE                                                                                                    */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-documentApp = new DocumentApp();
+const documentApp = new DocumentApp();
 
 /*--------------------------------------------------------------------------------------------------------------------*/
