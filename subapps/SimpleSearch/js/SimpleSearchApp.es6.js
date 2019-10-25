@@ -20,7 +20,7 @@ $AMIClass('SimpleSearchApp', {
 
 	onReady: function(userdata)
 	{
-		var result = $.Deferred();
+		const result = $.Deferred();
 
 		amiWebApp.loadResources([
 			'subapps/SimpleSearch/twig/SimpleSearchApp.twig',
@@ -215,6 +215,6 @@ $AMIClass('SimpleSearchApp', {
 /* GLOBAL INSTANCE                                                                                                    */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-var simpleSearchApp = new SimpleSearchApp();
+const simpleSearchApp = new SimpleSearchApp();
 
 /*--------------------------------------------------------------------------------------------------------------------*/
