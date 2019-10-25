@@ -1,4 +1,5 @@
-{% for group in groups %}
+{% if groups is not empty %}
+{%   for group in groups %}
 <div>
 	<span class="badge badge-primary px-3">{{group}}</span>
 	<i class="fa fa-angle-double-right"></i>
@@ -6,4 +7,9 @@
 		<a class="badge badge-secondary px-3" href="javascript: simpleSearchApp.select('{{interface.id|e}}');">{{interface.name}}</a>
 	{% endfor %}
 </div>
-{% endfor %}
+{%   endfor %}
+{% else %}
+<div class="alert alert-warning" role="alert">
+	No search interfaces defined yet!
+</div>
+{% endif %}
