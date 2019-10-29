@@ -332,7 +332,7 @@ $AMIClass('SearchModelerApp', {
 
 	maskInterfaceList: function()
 	{
-		amiWebApp.replaceHTML('#CFB6CA12_2D42_3111_3183_EC1006F7E039', 'Please log-in.').done(() => {
+		amiWebApp.replaceHTML('#CFB6CA12_2D42_3111_3183_EC1006F7E039', 'Please sign-in.').done(() => {
 
 			$('#DA22E4F4_323E_0AFA_AA7D_0E9F21A3D20D button').prop('disabled', true);
 

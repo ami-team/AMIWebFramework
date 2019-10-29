@@ -183,7 +183,7 @@ $AMIClass('SearchApp', {
 
 	maskInterfaceList: function()
 	{
-		amiWebApp.replaceHTML('#CCFE77D9_5798_A236_8108_E59AE44FB242', 'Please log-in.').done(() => {
+		amiWebApp.replaceHTML('#CCFE77D9_5798_A236_8108_E59AE44FB242', 'Please sign-in.').done(() => {
 
 			$('#FE8BB925_A267_F972_060E_CC9C70D0C6D2').hide();
 		});
