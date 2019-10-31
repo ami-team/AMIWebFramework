@@ -127,12 +127,12 @@ $AMIClass('AccordionCtrl', {
 				clazz = settings['clazz'];
 			}
 
-			if('closable' in settings) {
-				closable = settings['closable'];
-			}
-
 			if('extraTitle' in settings) {
 				extraTitle = settings['extraTitle'];
+			}
+
+			if('closable' in settings) {
+				closable = settings['closable'];
 			}
 		}
 
@@ -144,6 +144,7 @@ $AMIClass('AccordionCtrl', {
 			id: id,
 			clazz: clazz,
 			title: title,
+			extraTitle: extraTitle,
 			closable: closable,
 		};
 
@@ -203,12 +204,12 @@ $AMIClass('AccordionCtrl', {
 				clazz = settings['clazz'];
 			}
 
-			if('closable' in settings) {
-				closable = settings['closable'];
-			}
-
 			if('extraTitle' in settings) {
 				extraTitle = settings['extraTitle'];
+			}
+
+			if('closable' in settings) {
+				closable = settings['closable'];
 			}
 		}
 
@@ -219,6 +220,7 @@ $AMIClass('AccordionCtrl', {
 		var dict = {
 			id: id,
 			title: title,
+			extraTitle: extraTitle,
 			clazz: clazz,
 			closable: closable,
 		};
