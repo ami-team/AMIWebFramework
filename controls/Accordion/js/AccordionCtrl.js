@@ -110,8 +110,8 @@ $AMIClass('AccordionCtrl', {
 		var context = result;
 		var show = false;
 		var clazz = this._clazz;
-		var closable = this._closable;
 		var extraTitle = '';
+		var closable = this._closable;
 
 		if(settings)
 		{
@@ -187,8 +187,8 @@ $AMIClass('AccordionCtrl', {
 		var context = result;
 		var show = false;
 		var clazz = this._clazz;
-		var closable = this._closable;
 		var extraTitle = '';
+		var closable = this._closable;
 
 		if(settings)
 		{
