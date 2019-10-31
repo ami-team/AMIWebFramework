@@ -1,18 +1,26 @@
 <div class="card" id="{{id}}">
 	<div class="card-header{% if clazz %} {{ clazz|e }}{% endif %}" style="padding-left: 0px; padding-top: 1px; padding-bottom: 1px;">
-		<button class="btn btn-link" data-toggle="collapse" data-target="#{{id}}_collapse" style="min-width: 66.6666%;">
-			{{title}}
-		</button>
-		{% if extraTitle %}
-		<span>
-			{{extraTitle}}
-		</span>
-		{% endif %}
-		{% if closable %}
-		<button type="button" class="close" style="position: relative; padding-top: 6.5px;">
-			&times;
-		</button>
-		{% endif %}
+		<div class="row align-items-center">
+			<div class="col-md-6">
+				<button class="btn btn-link text-left w-100" data-toggle="collapse" data-target="#{{id}}_collapse">
+					{{title}}
+				</button>
+			</div>
+			{% if extraTitle or closable%}
+			<div class="col-md-6">
+				<div class="d-flex justify-content-between w-100">
+					{% if extraTitle %}
+					{{extraTitle}}
+					{% endif %}
+					{% if closable %}
+					<button type="button" class="close">
+						&times;
+					</button>
+					{% endif %}
+				</div>
+			</div>
+			{% endif %}
+		</div>
 	</div>
 	<div class="card-body collapse p-1" id="{{id}}_collapse"></div>
 </div>
