@@ -1,8 +1,11 @@
 <div class="card" id="{{id}}">
 	<div class="card-header{% if clazz %} {{ clazz|e }}{% endif %}" style="padding-left: 0px; padding-top: 1px; padding-bottom: 1px;">
-		<button class="btn btn-link" data-toggle="collapse" data-target="#{{id}}_collapse">
+		<button class="btn btn-link" data-toggle="collapse" data-target="#{{id}}_collapse" style="min-width: 66.6666%;">
 			{{title}}
 		</button>
+		{% if extraTitle %}
+			{{extraTitle}}
+		{% endif %}
 		{% if closable %}
 		<button type="button" class="close" style="position: relative; padding-top: 6.5px;">
 			&times;

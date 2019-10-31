@@ -51,6 +51,7 @@ $AMIClass('AccordionCtrl', {
 		this._toolbar = false;
 		this._clazz = null;
 		this._closable = true;
+		this._extraTitle = null;
 
 		if(settings)
 		{
@@ -68,6 +69,10 @@ $AMIClass('AccordionCtrl', {
 
 			if('closable' in settings) {
 				this._closable = settings['closable'];
+			}
+
+			if('extraTitle' in settings) {
+				this._extraTitle = settings['extraTitle'];
 			}
 		}
 
@@ -111,6 +116,7 @@ $AMIClass('AccordionCtrl', {
 		var show = false;
 		var clazz = this._clazz;
 		var closable = this._closable;
+		var extraTitle = this._extraTitle;
 
 		if(settings)
 		{
@@ -128,6 +134,10 @@ $AMIClass('AccordionCtrl', {
 
 			if('closable' in settings) {
 				closable = settings['closable'];
+			}
+
+			if('extraTitle' in settings) {
+				extraTitle = settings['extraTitle'];
 			}
 		}
 
@@ -182,7 +192,7 @@ $AMIClass('AccordionCtrl', {
 		var show = false;
 		var clazz = this._clazz;
 		var closable = this._closable;
-
+		var extraTitle = this._extraTitle;
 
 		if(settings)
 		{
@@ -200,6 +210,10 @@ $AMIClass('AccordionCtrl', {
 
 			if('closable' in settings) {
 				closable = settings['closable'];
+			}
+
+			if('extraTitle' in settings) {
+				extraTitle = settings['extraTitle'];
 			}
 		}
 
