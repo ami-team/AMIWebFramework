@@ -487,8 +487,8 @@
                     this.startDate.minute(Math.floor(this.startDate.minute() / this.timePickerIncrement) * this.timePickerIncrement);
             }
 
-            if (!this.isShowing)
-                this.updateElement();
+            //if (!this.isShowing)
+                //this.updateElement();
 
             this.updateMonthsInView();
         },
@@ -517,8 +517,8 @@
 
             this.previousRightTime = this.endDate.clone();
 
-            if (!this.isShowing)
-                this.updateElement();
+            //if (!this.isShowing)
+            //    this.updateElement();
 
             this.updateMonthsInView();
         },
