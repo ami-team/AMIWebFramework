@@ -130,7 +130,7 @@ $AMIClass('SearchCtrl', {
 			],
 
 			/**/
-
+			more: {},
 			cnt: 1,
 			ast: null,
 			predicates: {},
@@ -175,6 +175,9 @@ $AMIClass('SearchCtrl', {
 
 			if('criteria' in settings) {
 				this.ctx.criteria = settings['criteria'];
+			}
+			if('more' in settings) {
+				this.ctx.more = settings['more'];
 			}
 
 			if('canEdit' in settings) {
@@ -564,17 +567,19 @@ $AMIClass('SearchCtrl', {
 						},
 					});
 
+					precision = '6';
+
 					if('more' in criterion)
 					{
 						if('min' in criterion.more)
 						{
 							if (isDefaultEntity)
 							{
-								filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= \'' + new String(criterion.more.min).replace(/'/g, '\'\'') + '\'');
+								filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= TIMESTAMP(\'' + new String(criterion.more.min).replace(/'/g, '\'\'') + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')');
 							}
 							else
 							{
-								filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= \'' + new String(criterion.more.min).replace(/'/g, '\'\'') + '\']');
+								filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= TIMESTAMP(\'' + new String(criterion.more.min).replace(/'/g, '\'\'') + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')]');
 							}
 						}
 
@@ -582,11 +587,11 @@ $AMIClass('SearchCtrl', {
 						{
 							if (isDefaultEntity)
 							{
-								filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= \'' + new String(criterion.more.max).replace(/'/g, '\'\'') + '\'');
+								filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= TIMESTAMP(\'' + new String(criterion.more.max).replace(/'/g, '\'\'') + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')');
 							}
 							else
 							{
-								filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= \'' + new String(criterion.more.max).replace(/'/g, '\'\'') + '\']');
+								filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= TIMESTAMP(\'' + new String(criterion.more.max).replace(/'/g, '\'\'') + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')]');
 							}
 						}
 					}
@@ -854,6 +859,8 @@ $AMIClass('SearchCtrl', {
 				$(this.patchId('#D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA')).text(nb);
 	
 				amiWebApp.unlock();
+
+				this._loadSummary([], 0);
 	
 			}).fail(function(data, message) {
 	
@@ -865,6 +872,75 @@ $AMIClass('SearchCtrl', {
 		catch(e)
 		{
 			amiWebApp.error(e, true);
+		}
+	},
+
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+
+	_loadSummary: function(res, idx)
+	{
+		if(this.ctx.more.summary && this.ctx.more.summary.length > 0)
+		{
+			if(idx < this.ctx.more.summary.length)
+			{
+				var filter = this.dumpAST(this.ctx.predicates);
+
+				var mql = '';
+
+				switch(this.ctx.more.summary[idx].type)
+				{
+				case 0:
+
+					mql = 'SELECT COUNT(DISTINCT `' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`) AS RES';
+					if(filter)
+					{
+						mql += ' WHERE ';
+						mql += filter;
+					}
+					break;
+				case 1:
+					mql = 'SELECT SUM(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`) AS RES';
+					if(filter)
+					{
+						mql += ' WHERE ';
+						mql += filter;
+					}
+					break;
+				case 2:
+					mql = 'SELECT ROUND(AVG(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`)) AS RES';
+					if(filter)
+					{
+						mql += ' WHERE ';
+						mql += filter;
+					}
+					break;
+				}
+
+				var command ='SearchQuery -catalog="' + this.ctx.more.summary[idx].catalog + '" -entity="' + this.ctx.more.summary[idx].entity + '" -mql="' + mql + '" ';
+
+				amiCommand.execute(command, {context: this}).done(function(data) {
+
+					var summaryValue = amiWebApp.jspath('..field{.@name==="RES"}.$', data)[0] || 'N/A';
+
+					tmp = this.ctx.more.summary[idx].name + ': ' + summaryValue;
+
+					//alert(tmp);
+
+					res.push(tmp);
+
+					this._loadSummary(res, idx + 1);
+
+				}).fail(function(data, message) {
+
+					amiWebApp.error(message, true);
+				});
+			}
+			else
+			{
+				$(this.patchId('#FB83961B_D88B_C24C_E8C5_6B3DCC2AAE2F')).text(res.join(', '));
+			}
 		}
 	},
 
@@ -1882,24 +1958,51 @@ $AMIClass('SearchCtrl', {
 			predicate.select.min = $(predicate.selector + ' input.min').val();
 			predicate.select.max = $(predicate.selector + ' input.max').val();
 
-			if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
+			if(predicate.criterion.type === 3)
 			{
-				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= \'' + min + '\''
-				                   +
-				                   ' AND '
-				                   +
-				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= \'' + max + '\''
-				;
+				precision = '6';
+
+				if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
+				{
+					tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= TIMESTAMP(\'' + min + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')'
+					                   +
+					                   ' AND '
+					                   +
+					                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= TIMESTAMP(\'' + max + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')'
+					;
+				}
+				else
+				{
+					tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' < TIMESTAMP(\'' + min + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')'
+					                   +
+					                   ' OR '
+					                   +
+					                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' > TIMESTAMP(\'' + max + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')'
+					;
+				}
 			}
 			else
 			{
-				tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' < \'' + min + '\''
-				                   +
-				                   ' OR '
-				                   +
-				                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' > \'' + max + '\''
-				;
-			}
+				if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
+				{
+					tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= \'' + min + '\''
+					                   +
+					                   ' AND '
+					                   +
+					                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= \'' + max + '\''
+					;
+				}
+				else
+				{
+					tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' < \'' + min + '\''
+					                   +
+					                   ' OR '
+					                   +
+					                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' > \'' + max + '\''
+					;
+				}
+			}	
+			
 		}
 		else
 		{
