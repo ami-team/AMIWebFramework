@@ -567,7 +567,7 @@ $AMIClass('SearchCtrl', {
 						},
 					});
 
-					precision = '6';
+					timeFormat = 'YYYY-MM-DD HH24:MI:SS.FF6';
 
 					if('more' in criterion)
 					{
@@ -575,11 +575,11 @@ $AMIClass('SearchCtrl', {
 						{
 							if (isDefaultEntity)
 							{
-								filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= TIMESTAMP(\'' + new String(criterion.more.min).replace(/'/g, '\'\'') + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')');
+								filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= TIMESTAMP(\'' + new String(criterion.more.min).replace(/'/g, '\'\'') + '\',\''+timeFormat+'\')');
 							}
 							else
 							{
-								filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= TIMESTAMP(\'' + new String(criterion.more.min).replace(/'/g, '\'\'') + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')]');
+								filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= TIMESTAMP(\'' + new String(criterion.more.min).replace(/'/g, '\'\'') + '\',\''+timeFormat+'\')]');
 							}
 						}
 
@@ -587,11 +587,11 @@ $AMIClass('SearchCtrl', {
 						{
 							if (isDefaultEntity)
 							{
-								filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= TIMESTAMP(\'' + new String(criterion.more.max).replace(/'/g, '\'\'') + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')');
+								filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= TIMESTAMP(\'' + new String(criterion.more.max).replace(/'/g, '\'\'') + '\',\''+timeFormat+'\')');
 							}
 							else
 							{
-								filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= TIMESTAMP(\'' + new String(criterion.more.max).replace(/'/g, '\'\'') + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')]');
+								filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= TIMESTAMP(\'' + new String(criterion.more.max).replace(/'/g, '\'\'') + '\',\''+timeFormat+'\')]');
 							}
 						}
 					}
@@ -1966,24 +1966,25 @@ $AMIClass('SearchCtrl', {
 
 			if(predicate.criterion.type === 3)
 			{
-				precision = '6';
+
+				timeFormat = 'YYYY-MM-DD HH24:MI:SS.FF6';
 
 				if(!$(predicate.selector + ' input[type="checkbox"]').prop('checked'))
 				{
-					tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= TIMESTAMP(\'' + min + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')'
+					tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= TIMESTAMP(\'' + min + '\',\''+timeFormat+'\')'
 					                   +
 					                   ' AND '
 					                   +
-					                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= TIMESTAMP(\'' + max + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')'
+					                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= TIMESTAMP(\'' + max + '\',\''+timeFormat+'\')'
 					;
 				}
 				else
 				{
-					tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' < TIMESTAMP(\'' + min + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')'
+					tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' < TIMESTAMP(\'' + min + '\',\''+timeFormat+'\')'
 					                   +
 					                   ' OR '
 					                   +
-					                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' > TIMESTAMP(\'' + max + '\',\'YYYY-MM-DD HH24:MI:SS.FF'+precision+'\')'
+					                   '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' > TIMESTAMP(\'' + max + '\',\''+timeFormat+'\')'
 					;
 				}
 			}
