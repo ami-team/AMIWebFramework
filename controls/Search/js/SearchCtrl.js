@@ -881,6 +881,7 @@ $AMIClass('SearchCtrl', {
 
 	_loadSummary: function(res, idx)
 	{
+
 		if(this.ctx.more.summary && this.ctx.more.summary.length > 0)
 		{
 			if(idx < this.ctx.more.summary.length)
@@ -929,6 +930,8 @@ $AMIClass('SearchCtrl', {
 					//alert(tmp);
 
 					res.push(tmp);
+
+					$(this.patchId('#FB83961B_D88B_C24C_E8C5_6B3DCC2AAE2F')).text("");
 
 					this._loadSummary(res, idx + 1);
 
