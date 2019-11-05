@@ -860,7 +860,12 @@ $AMIClass('SearchCtrl', {
 	
 				amiWebApp.unlock();
 
-				this._loadSummary([], 0);
+				$(this.patchId('#FB83961B_D88B_C24C_E8C5_6B3DCC2AAE2F')).text("");
+
+				if(nb != 0)
+				{
+					this._loadSummary([], 0);
+				}
 	
 			}).fail(function(data, message) {
 	
@@ -930,8 +935,6 @@ $AMIClass('SearchCtrl', {
 					//alert(tmp);
 
 					res.push(tmp);
-
-					$(this.patchId('#FB83961B_D88B_C24C_E8C5_6B3DCC2AAE2F')).text("");
 
 					this._loadSummary(res, idx + 1);
 
