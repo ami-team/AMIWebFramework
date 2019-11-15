@@ -951,7 +951,7 @@ $AMIClass('SearchModelerApp', {
 
 		amiWebApp.lock();
 
-		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) +'"').done((data, message) => {
+		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '"').done((data, message) => {
 
 			this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
 
@@ -1082,20 +1082,11 @@ $AMIClass('SearchModelerApp', {
 		}
 		else
 		{
-			amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) +'"').done((/*---------*/) => {
+			amiCommand.execute('AddUpdateElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£rank£json£archived" -values="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '£' + amiWebApp.textToString(rank) + '£' + amiWebApp.textToString(JSON.stringify(json)) + '£' + amiWebApp.textToString(archived) + '" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '"').done((data, message) => {
 
-				amiCommand.execute('AddElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£rank£json£archived" -values="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '£' + amiWebApp.textToString(rank) + '£' + amiWebApp.textToString(JSON.stringify(json)) + '£' + amiWebApp.textToString(archived) + '"').done((data, message) => {
+				this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
 
-					this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
-
-					amiWebApp.success(message, true);
-
-				}).fail((data, message) => {
-
-					this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
-
-					amiWebApp.error(message, true);
-				});
+				amiWebApp.success(message, true);
 
 			}).fail((data, message) => {
 
