@@ -110,6 +110,7 @@ $AMIClass('AccordionCtrl', {
 		var context = result;
 		var show = false;
 		var clazz = this._clazz;
+		var extraTitle = '<span class="extraTitle"></span>';
 		var closable = this._closable;
 
 		if(settings)
@@ -126,6 +127,10 @@ $AMIClass('AccordionCtrl', {
 				clazz = settings['clazz'];
 			}
 
+			if('extraTitle' in settings) {
+				extraTitle = settings['extraTitle'];
+			}
+
 			if('closable' in settings) {
 				closable = settings['closable'];
 			}
@@ -139,6 +144,7 @@ $AMIClass('AccordionCtrl', {
 			id: id,
 			clazz: clazz,
 			title: title,
+			extraTitle: extraTitle,
 			closable: closable,
 		};
 
@@ -181,8 +187,8 @@ $AMIClass('AccordionCtrl', {
 		var context = result;
 		var show = false;
 		var clazz = this._clazz;
+		var extraTitle = '<span class="extraTitle"></span>';
 		var closable = this._closable;
-
 
 		if(settings)
 		{
@@ -198,6 +204,10 @@ $AMIClass('AccordionCtrl', {
 				clazz = settings['clazz'];
 			}
 
+			if('extraTitle' in settings) {
+				extraTitle = settings['extraTitle'];
+			}
+
 			if('closable' in settings) {
 				closable = settings['closable'];
 			}
@@ -210,6 +220,7 @@ $AMIClass('AccordionCtrl', {
 		var dict = {
 			id: id,
 			title: title,
+			extraTitle: extraTitle,
 			clazz: clazz,
 			closable: closable,
 		};
