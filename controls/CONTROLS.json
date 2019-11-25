@@ -39,6 +39,10 @@
         "clazz": "MessageBoxCtrl",
         "file": "controls/MessageBox/js/MessageBoxCtrl.js"
     },
+    "root": {
+        "clazz": "RootCtrl",
+        "file": "controls/Root/js/RootCtrl.js"
+    },
     "schema": {
         "clazz": "SchemaCtrl",
         "file": "controls/Schema/js/SchemaCtrl.js"
