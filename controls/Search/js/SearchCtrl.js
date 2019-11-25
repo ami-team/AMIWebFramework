@@ -1054,7 +1054,7 @@ $AMIClass('SearchCtrl', {
 			case 8:
 			case 9:
 			case 10:
-				mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.keyField + '`' + this.dumpConstraints(criterion);
+				mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion);
 				break;
 		}
 
@@ -1184,11 +1184,11 @@ $AMIClass('SearchCtrl', {
 					break;
 				case 7:
 				case 8:
-					mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.valueField + '`' + this.dumpConstraints(criterion) + ' WHERE `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.keyField + '`' + this.dumpConstraints(criterion) + ' = \'' + selectedParam + '\'';
+					mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ' WHERE `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + selectedParam + '\'';
 					break;
 				case 9:
 				case 10:
-					mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + this.ctx.predicates[name].selectedValueField + '`' + this.dumpConstraints(criterion) + ' WHERE `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.keyField + '`' + this.dumpConstraints(criterion) + ' = \'' + selectedParam + '\'';
+					mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + this.ctx.predicates[name].selectedValueField + '`' + this.dumpConstraints(criterion) + ' WHERE `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + selectedParam + '\'';
 					break;
 			}
 
@@ -1225,7 +1225,7 @@ $AMIClass('SearchCtrl', {
 						break;
 					case 7:
 					case 8:
-						mql += ' ORDER BY `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.valueField + '` ' + criterion.more.order;
+						mql += ' ORDER BY `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '` ' + criterion.more.order;
 						break;
 					case 9:
 					case 10:
@@ -1518,7 +1518,7 @@ $AMIClass('SearchCtrl', {
 		{
 			if (this.ctx.predicates[name].criterion.type === 9 || this.ctx.predicates[name].criterion.type === 10)
 			{
-				var mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.valueField + '`' + this.dumpConstraints(criterion) + ' WHERE `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.keyField + '`' + this.dumpConstraints(criterion) + ' = \'' + this.ctx.predicates[name].selectedParam + '\'';
+				var mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ' WHERE `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + this.ctx.predicates[name].selectedParam + '\'';
 
 				amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criterion.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
@@ -1656,11 +1656,11 @@ $AMIClass('SearchCtrl', {
 					case 8:
 						if (isDefaultEntity)
 						{
-							L.push('(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.valueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')');
+							L.push('(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')');
 						}
 						else
 						{
-							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.valueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')]');
+							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')]');
 						}
 						break;
 
@@ -1668,11 +1668,11 @@ $AMIClass('SearchCtrl', {
 					case 10:
 						if (isDefaultEntity)
 						{
-							L.push('(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')');
+							L.push('(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')');
 						}
 						else
 						{
-							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')]');
+							L.push('[(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + _this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + _this.ctx.predicates[name].selectedValueField + '`' + _this.dumpConstraints(criterion) + ' = \'' + amiWebApp.textToSQL(this.value) + '\')]');
 						}
 						break;
 				}
@@ -1855,18 +1855,18 @@ $AMIClass('SearchCtrl', {
 			case 7:
 			case 8:
 				if(filter.indexOf('%') < 0) {
-					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.valueField + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
+					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.field + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
 				} else {
-					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.valueField + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
+					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.field + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
 				}
 				break;
 
 			case 9:
 			case 10:
 				if(filter.indexOf('%') < 0) {
-					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
+					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
 				} else {
-					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.keyField + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
+					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
 				}
 				break;
 		}
