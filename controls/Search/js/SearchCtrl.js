@@ -895,11 +895,15 @@ $AMIClass('SearchCtrl', {
 
 				var mql = '';
 
+				var constraints = '';
+				if(this.ctx.more.summary[idx].constraints)
+					constraints = this.ctx.more.summary[idx].constraints;
+
 				switch(this.ctx.more.summary[idx].type)
 				{
 				case 0:
 
-					mql = 'SELECT COUNT(DISTINCT `' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`) AS RES';
+					mql = 'SELECT COUNT(DISTINCT `' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ') AS RES';
 					if(filter)
 					{
 						mql += ' WHERE ';
@@ -907,7 +911,7 @@ $AMIClass('SearchCtrl', {
 					}
 					break;
 				case 1:
-					mql = 'SELECT SUM(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`) AS RES';
+					mql = 'SELECT SUM(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ') AS RES';
 					if(filter)
 					{
 						mql += ' WHERE ';
@@ -915,7 +919,7 @@ $AMIClass('SearchCtrl', {
 					}
 					break;
 				case 2:
-					mql = 'SELECT ROUND(AVG(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`)) AS RES';
+					mql = 'SELECT ROUND(AVG(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ')) AS RES';
 					if(filter)
 					{
 						mql += ' WHERE ';
@@ -924,7 +928,7 @@ $AMIClass('SearchCtrl', {
 					break;
 				}
 
-				var command ='SearchQuery -catalog="' + this.ctx.more.summary[idx].catalog + '" -entity="' + this.ctx.more.summary[idx].entity + '" -mql="' + mql + '" ';
+				var command ='SearchQuery -catalog="' + this.ctx.more.summary[idx].catalog + '" -entity="' + this.ctx.defaultEntity + '" -mql="' + mql + '" ';
 
 				amiCommand.execute(command, {context: this}).done(function(data) {
 
@@ -934,7 +938,8 @@ $AMIClass('SearchCtrl', {
 
 					//alert(tmp);
 
-					res.push(tmp);
+					if(summaryValue !== '@NULL')
+						res.push(tmp);
 
 					this._loadSummary(res, idx + 1);
 
