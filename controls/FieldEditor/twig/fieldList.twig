@@ -1,8 +1,5 @@
 {% for info in fieldInfo %}
-{%   if ((filter is not empty) and (info.field === (((filter)))))
-        or
-        ((filter   is   empty) and (info.field !== primaryField))
-%}
+{%   if ((filter is not empty) and (info.field === filter)) or ((filter is empty) and (info.field !== primaryField)) %}
 
 {%     set rand = random() %}
 {%     set name = info.field %}
