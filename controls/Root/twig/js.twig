@@ -1,0 +1,36 @@
+<script type="text/javascript" src="{{ORIGIN_URL}}/js/ami.min.js?embedded"></script>
+
+<script type="text/javascript">
+
+	var myHist;
+
+	amiWebApp.onRefresh = function(isAuth) {
+
+		if(isAuth)
+		{
+			myHist.render('#myHist', '{{commandOrJson|e('js')}}', {
+				height: {{height}},
+				width: {{width}},
+			});
+		}
+		else
+		{
+			$('#myHist').empty();
+		}
+	};
+
+	amiWebApp.onReady = function() {
+
+		return amiWebApp.loadResources(['ctrl:root']).done(function(ctrls) {
+
+			myHist = new ctrls[0];
+		});
+	};
+
+	amiWebApp.start({
+		endpoint_url: '{{endpoint}}'
+	});
+
+</script>
+
+<div id="myHist"></div>
