@@ -858,7 +858,7 @@ $AMIClass('TableCtrl', {
 
 					e.preventDefault();
 
-					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx);
+					this.createControlFromWebLink(this.getParent(), e.currentTarget, {});
 				});
 
 				/*---------------------------------------------------------*/
