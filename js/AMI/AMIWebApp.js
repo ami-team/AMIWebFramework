@@ -993,6 +993,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				_find('.form-time').datetimepicker({
 					format: 'HH:mm:ss'
 				});
+
+				_find('.form-time-hm').datetimepicker({
+					format: 'HH:mm'
+				});
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
