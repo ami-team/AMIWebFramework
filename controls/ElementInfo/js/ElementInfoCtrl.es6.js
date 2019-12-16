@@ -84,7 +84,7 @@ $AMIClass('ElementInfoCtrl', {
 				result,
 				fn,
 				[],
-				false, true, true, true, false, true, false,
+				false, true, true, true, true, true, false,
 				64,
 				false,
 			],
