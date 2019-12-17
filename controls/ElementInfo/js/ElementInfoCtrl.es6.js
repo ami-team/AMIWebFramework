@@ -62,7 +62,7 @@ $AMIClass('ElementInfoCtrl', {
 			primaryFieldValue: primaryFieldValue,
 		};
 
-		const fn = (catalog, entity, primaryFieldName, primaryFieldValue) => 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"';
+		const fn = (catalog, entity, primaryFieldName, primaryFieldValue) => 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '" -disallowBigContent';
 
 		const [
 			context,
@@ -84,7 +84,7 @@ $AMIClass('ElementInfoCtrl', {
 				result,
 				fn,
 				[],
-				false, true, true, true, false, true, false,
+				false, true, true, true, true, true, false,
 				64,
 				false,
 			],
@@ -382,7 +382,7 @@ $AMIClass('ElementInfoCtrl', {
 
 					e.preventDefault();
 
-					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx);
+					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx, {});
 				});
 
 				/*---------------------------------------------------------*/
