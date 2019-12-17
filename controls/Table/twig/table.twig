@@ -101,11 +101,10 @@
 						{% elseif field.$ starts with '@NOGO' %}
 						<div class="font-italic text-danger">admin only</div>
 						{% else %}
-						<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
+						<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;{% if field['properties']['@style'] %}{{field['properties']['@style']|e}}{% endif %}"
 							 {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
 							 {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
 							 {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
-							 {%   if field['properties']['@style'] %}style="{{field['properties']['@style']|e}}"{% endif %}
 							 {%   if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
 							 {%   if field['properties']['@unitFactor'] %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
 							 {%   if field['properties']['@unitBase'] %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
