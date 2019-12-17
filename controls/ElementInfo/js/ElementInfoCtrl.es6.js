@@ -382,7 +382,7 @@ $AMIClass('ElementInfoCtrl', {
 
 					e.preventDefault();
 
-					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx, this.settings);
+					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx, {});
 				});
 
 				/*---------------------------------------------------------*/
