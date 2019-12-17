@@ -47,8 +47,8 @@
 						<a href="#" class="text-secondary mx-1" data-action="refine" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-filter"></i></a>
 						{%   endif %}
 						{%   if fieldDescription['@statable'] === 'true' %}
-						<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}" data-type="{{fieldDescription['@type']|e}}"><i class="fa fa-superscript"></i></a>
-						<a href="#" class="text-secondary mx-1" data-action="hist" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}" data-type="{{fieldDescription['@type']|e}}"><i class="fa fa-bar-chart"></i></a>
+						<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-superscript"></i></a>
+						<a href="#" class="text-secondary mx-1" data-action="hist" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-bar-chart"></i></a>
 						{%   endif %}
 						{%   if fieldDescription['@groupable'] === 'true' %}
 						<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-slack"></i></a>
@@ -101,7 +101,7 @@
 						{% elseif field.$ starts with '@NOGO' %}
 						<div class="font-italic text-danger">admin only</div>
 						{% else %}
-						<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;{% if field['properties']['@style'] %}{{field['properties']['@style']|e}}{% endif %}"
+						<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
 							 {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
 							 {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
 							 {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
