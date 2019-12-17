@@ -47,8 +47,8 @@
 						<a href="#" class="text-secondary mx-1" data-action="refine" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-filter"></i></a>
 						{%   endif %}
 						{%   if fieldDescription['@statable'] === 'true' %}
-						<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-superscript"></i></a>
-						<a href="#" class="text-secondary mx-1" data-action="hist" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-bar-chart"></i></a>
+						<a href="#" class="text-secondary mx-1" data-action="stats" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}" data-type="{{fieldDescription['@type']|e}}"><i class="fa fa-superscript"></i></a>
+						<a href="#" class="text-secondary mx-1" data-action="hist" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}" data-type="{{fieldDescription['@type']|e}}"><i class="fa fa-bar-chart"></i></a>
 						{%   endif %}
 						{%   if fieldDescription['@groupable'] === 'true' %}
 						<a href="#" class="text-secondary mx-1" data-action="group" data-catalog="{{fieldDescription['@catalog']|e}}" data-entity="{{fieldDescription['@entity']|e}}" data-field="{{fieldDescription['@field']|e}}"><i class="fa fa-slack"></i></a>

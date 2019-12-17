@@ -156,6 +156,27 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			setInterval(() => {
+
+				if(amiWebApp._isReady)
+				{
+					amiCommand.certLogin().fail((data, message) => {
+
+						amiWebApp.error(message, true);
+
+					}).done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+
+						if((userInfo.AMIUser || '') === (userInfo.guestUser || ''))
+						{
+							this._update(userInfo, roleInfo, udpInfo, ssoInfo);
+						}
+					});
+				}
+
+			}, 30 * 1000);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
 			amiCommand.certLogin().fail((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
 
 				this._update(userInfo, roleInfo, udpInfo, ssoInfo).always((/*---*/) => {

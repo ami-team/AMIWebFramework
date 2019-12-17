@@ -1280,7 +1280,7 @@ $AMIClass('TableCtrl', {
 
 	/*---------------------------------------------------------------------*/
 
-	showHistTab: function(catalog, entity, field)
+	showHistTab: function(catalog, entity, field, type)
 	{
 		/*-----------------------------------------------------------------*/
 
