@@ -214,7 +214,7 @@ module.exports = function(grunt) {
 		/*-----------------------------------------------------------------*/
 
 		"uglify": {
-			"s": {
+			"js": {
 				"options": {
 					"banner": "/*!\n * AMI Web Framework\n *\n * Copyright (c) 2014-" + CURRENT_YEAR + " The AMI Team / LPSC / CNRS\n *\n * This file must be used under the terms of the CeCILL-C:\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html\n * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html\n *\n */\n",
 					"compress": true
