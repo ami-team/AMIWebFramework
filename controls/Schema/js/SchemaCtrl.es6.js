@@ -504,8 +504,6 @@ $AMIClass('SchemaCtrl', {
 
 		w.document.write('<html><head><style>body { margin: 10px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap, .sql-entity-link { display: none; } .connection { fill: none; }</style></head><body>' + $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').html() + '</body></html>');
 
-		$(w.document).find('svg').css('background-image', 'none');
-
 		w.print();
 		w.close();
 
