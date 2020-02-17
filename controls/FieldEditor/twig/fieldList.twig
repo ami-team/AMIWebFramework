@@ -29,7 +29,7 @@
 				Date
 				{% elseif type === 'TIME' %}
 				Time
-				{% elseif type === 'ENUM' %}
+				{% elseif type starts with 'ENUM' %}
 				Enum
 				{% elseif type === 'LONGTEXT' %}
 				Long text
@@ -45,7 +45,7 @@
 				<a class="dropdown-item{% if type === 'TIMESTAMP' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TIMESTAMP" data-sql-type="{{info.type|e}}">Timestamp</a>
 				<a class="dropdown-item{% if type === 'DATE' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="DATE" data-sql-type="{{info.type|e}}">Date</a>
 				<a class="dropdown-item{% if type === 'TIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TIME" data-sql-type="{{info.type|e}}">Time</a>
-				<a class="dropdown-item{% if type === 'ENUM' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="ENUM" data-sql-type="{{info.type|e}}">Enum</a>
+				<a class="dropdown-item{% if type starts with 'ENUM' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="ENUM" data-sql-type="{{info.type|e}}">Enum</a>
 				<a class="dropdown-item{% if type === 'LONGTEXT' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="LONGTEXT" data-sql-type="{{info.type|e}}">Long text</a>
 				<a class="dropdown-item{% if type === 'TEXT' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TEXT" data-sql-type="{{info.type|e}}">Short text</a>
 			</div>
@@ -75,7 +75,7 @@
 		<input class="form-control form-control-sm form-date" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'TIME' %}
 		<input class="form-control form-control-sm form-time" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
-		{% elseif type === 'ENUM' %}
+		{% elseif type starts with 'ENUM' %}
 		<select class="custom-select custom-select-sm" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{ getAMITypeToEnumOptions(info.type, value) }}</select>
 		{% elseif type === 'LONGTEXT' %}
 		<textarea class="form-control form-control-sm" name="{{name|e}}" rows="6" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{value|e}}</textarea>
