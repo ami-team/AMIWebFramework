@@ -27,7 +27,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	createAccountAllowed: true,
 	changeInfoAllowed: true,
-	changePassordAllowed: true,
+	changePasswordAllowed: true,
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -50,7 +50,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/* PRIVATE METHODS                                                                                                */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_start: function(createAccountAllowed, changeInfoAllowed, changePassordAllowed)
+	_start: function(createAccountAllowed, changeInfoAllowed, changePasswordAllowed)
 	{
 		const result = $.Deferred();
 
@@ -72,7 +72,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			const dict = {
 				createAccountAllowed: this.createAccountAllowed = createAccountAllowed,
 				changeInfoAllowed: this.changeInfoAllowed = changeInfoAllowed,
-				changePassordAllowed: this.changePassordAllowed = changePassordAllowed,
+				changePasswordAllowed: this.changePasswordAllowed = changePasswordAllowed,
 			};
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -284,7 +284,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		const dict = {
 			createAccountAllowed: this.createAccountAllowed,
 			changeInfoAllowed: this.changeInfoAllowed,
-			changePassordAllowed: this.changePassordAllowed,
+			changePasswordAllowed: this.changePasswordAllowed,
 			/**/
 			sso_label: ssoInfo.label || 'SSO',
 			sso_url: ssoInfo.url || '@NULL',
