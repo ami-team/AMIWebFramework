@@ -90,7 +90,7 @@ $AMIClass('AdminDashboardUsers', {
 
 		amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`id`, `router_role`.`role` WHERE `router_user`.`AMIUser` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\'"').done((data2) => {
 
-			amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `id`, `AMIUser`, `clientDN`, `issuerDN`, `firstName`, `lastName`, `email`, `valid` WHERE `AMIUser` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' ORDER BY `AMIUser`"').done((data1) => {
+			amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `id`, `AMIUser`, `clientDN`, `issuerDN`, `firstName`, `lastName`, `email`, `valid` WHERE `AMIUser` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' ORDER BY `AMIUser` LIMIT 50"').done((data1) => {
 
 				const rows1 = amiWebApp.jspath('..rowset.row', data1);
 				const rows2 = amiWebApp.jspath('..rowset.row', data2);
@@ -129,7 +129,10 @@ $AMIClass('AdminDashboardUsers', {
 					const id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
 					const role = amiWebApp.jspath('..field{.@name==="self.router_role.role"}.$', row)[0] || '';
 
-					users[id].roles.push(role);
+					if(id in users)
+					{
+						users[id].roles.push(role);
+					}
 				});
 
 				const dict = {
