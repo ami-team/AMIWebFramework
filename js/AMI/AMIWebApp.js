@@ -1402,7 +1402,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Starts the Web application
-	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, create_account_allowed, change_info_allowed, change_passord_allowed)
+	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, create_account_allowed, change_info_allowed, change_password_allowed)
 	  */
 
 	start: function(settings)
@@ -1544,7 +1544,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 								amiLogin._start(
 									createAccountAllowed,
 									changeInfoAllowed,
-									changePassordAllowed
+									changePasswordAllowed
 								).done(() => {
 
 									this.unlock();
