@@ -140,7 +140,7 @@ joint.dia.Element.define('sql.Entity', {
 			'text-anchor': 'middle',
 			'fill': 'white',
 			'font-family': 'Courier New',
-			'font-weight': 'normal',
+			'font-weight': 'bold',
 			'font-size': 14,
 		},
 		'.sql-entity-edit-text': {
