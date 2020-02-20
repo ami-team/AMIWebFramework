@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">AMI authentication</h4>
+				<h4 class="modal-title">Authentication</h4>
 				<button class="close" type="button" data-dismiss="modal">×</button>
 			</div>
 			<div class="modal-body">
@@ -38,6 +38,7 @@
 					<div class="modal-footer">
 						<button class="btn btn-outline-secondary" type="button" data-dismiss="modal">Close</button>
 						<button class="btn btn-primary" type="submit">Password Login</button>
+{% if changeCertificateAllowed %}
 						<div class="btn-group">
 							<button class="btn btn-primary" type="button" onclick="amiLogin.form_login2();">Certificate Login</button>
 							<span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -48,6 +49,9 @@
 								<a class="dropdown-item" href="javascript:amiLogin.form_detachCert();">Detach Certificate</a>
 							</div>
 						</div>
+{% else %}
+						<button class="btn btn-primary" type="button" onclick="amiLogin.form_login2();">Certificate Login</button>
+{% endif %}
 					</div>
 				</form>
 				<form class="tab-pane xxxxxx" role="tabpanel" id="EE055CD4_E58F_4834_8020_986AE3F8D67D">

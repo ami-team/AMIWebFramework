@@ -1402,7 +1402,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Starts the Web application
-	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, create_account_allowed, change_info_allowed, change_password_allowed)
+	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed)
 	  */
 
 	start: function(settings)
@@ -1414,11 +1414,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			const [
 				logoURL, homeURL, contactEmail,
 				aboutURL, themeURL, lockerURL, endpointURL,
-				createAccountAllowed, changeInfoAllowed, changePasswordAllowed
+				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed
 			] = this.setup([
 				'logo_url', 'home_url', 'contact_email',
 				'about_url', 'theme_url', 'locker_url', 'endpoint_url',
-				'create_account_allowed', 'change_info_allowed', 'change_password_allowed',
+				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
 			], [
 				this.originURL
 					+ '/images/logo.png',
@@ -1428,7 +1428,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/twig/AMI/Theme/blue.twig',
 				this.originURL + '/twig/AMI/Fragment/locker.twig',
 				this.originURL + '/AMI/FrontEnd',
-				true, true, true,
+				true, true, true, true,
 			], settings);
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -1496,7 +1496,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 									amiLogin._start(
 										createAccountAllowed,
 										changeInfoAllowed,
-										changePasswordAllowed
+										changePasswordAllowed,
+										changeCertificateAllowed
 									).done(() => {
 
 										this.unlock();
