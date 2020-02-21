@@ -3,12 +3,12 @@
 ########################################################################################################################
 
 JQUERY_VERSION=3.4.1
-POPPER_VERSION=1.15.0
+POPPER_VERSION=1.16.0
 MOMENT_VERSION=2.24.0
 
-SELECT2_VERSION=4.0.10
+SELECT2_VERSION=4.0.12
 
-BOOTSTRAP_VERSION=4.3.1
+BOOTSTRAP_VERSION=4.4.1
 
 ########################################################################################################################
 # 3RD PARTY                                                                                                            #
@@ -17,11 +17,11 @@ BOOTSTRAP_VERSION=4.3.1
 BACKBONE_VERSION=1.4.0
 LOADASH_VERSION=4.17.15
 
-JOINTJS_VERSION=3.0.4
+JOINTJS_VERSION=3.1.1
 
 ########################################################################################################################
 
-D3_VERSION=5.12.0
+D3_VERSION=5.15.0
 D3_GEO_VERSION=1.9.1
 
 ########################################################################################################################
@@ -31,7 +31,7 @@ JSCOLOR_VERSION=2.0.4
 CLIPBOARD_VERSION=2.0.4
 FILESAVER_VERSION=1.3.8
 
-CHARTJS_VERSION=2.8.0
+CHARTJS_VERSION=2.9.3
 
 DIFF_MATCH_PATCH_VERSION=20121119
 

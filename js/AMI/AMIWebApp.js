@@ -275,7 +275,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		const name = Object.prototype.toString.call(x);
 
 		return name.startsWith('[object ') ? name.substring(8, name.length - 1)
-		                                   : ''
+		                                   : /*-----------*/ '' /*-----------*/
 		;
 	},
 
@@ -948,8 +948,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const _find = mode === 3 ? (_selector) => el.findWithSelf(_selector)
-			                         : (_selector) => el.    find    (_selector)
+			const _find = (mode === 3) ? (_selector) => el.findWithSelf(_selector)
+			                           : (_selector) => el.    find    (_selector)
 			;
 
 			/*--------------------------------------------------------------------------------------------------------*/
