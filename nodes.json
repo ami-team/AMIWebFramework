@@ -32,7 +32,7 @@
 								},
 								{
 									"@name": "endpoint",
-									"$": "https://localhost:8443/AMI/FrontEnd"
+									"$": "https://localhost2:8443/AMI/FrontEnd"
 								}
 							]
 						},
