@@ -37,8 +37,11 @@
 					</div>
 					<div class="modal-footer">
 						<button class="btn btn-outline-secondary" type="button" data-dismiss="modal">Close</button>
+{% if passwordAuthenticationAllowed %}
 						<button class="btn btn-primary" type="submit">Password Login</button>
-{% if changeCertificateAllowed %}
+{% endif %}
+{% if certificateAuthenticationAllowed %}
+{%   if changeCertificateAllowed %}
 						<div class="btn-group">
 							<button class="btn btn-primary" type="button" onclick="amiLogin.form_login2();">Certificate Login</button>
 							<span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -49,8 +52,9 @@
 								<a class="dropdown-item" href="javascript:amiLogin.form_detachCert();">Detach Certificate</a>
 							</div>
 						</div>
-{% else %}
+{%   else %}
 						<button class="btn btn-primary" type="button" onclick="amiLogin.form_login2();">Certificate Login</button>
+{%   endif %}
 {% endif %}
 					</div>
 				</form>
