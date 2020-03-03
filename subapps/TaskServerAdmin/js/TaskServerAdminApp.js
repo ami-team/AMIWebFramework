@@ -169,7 +169,7 @@ $AMIClass('TaskServerAdminApp', {
 	{
 		var result = $.Deferred();
 
-		amiCommand.execute('SearchQuery -catalog="tasks" -entity="router_task" -sql="SELECT name, description, endpoint FROM router_task_server"', {context: this}).done(function(data, message) {
+		amiCommand.execute('SearchQuery -catalog="tasks" -entity="router_task_server" -sql="SELECT name, description, endpoint FROM router_task_server"', {context: this}).done(function(data, message) {
 
 			/*-------------------------------------------------------------*/
 
