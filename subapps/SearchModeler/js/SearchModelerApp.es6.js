@@ -541,7 +541,7 @@ $AMIClass('SearchModelerApp', {
 
 		$('#A2C54F33_AC45_3553_86D6_4A479D10CD54').prop('checked', searchInterface.archived);
 
-		$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').setValue(this._dumpJson(searchInterface.more));
+		$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val(this._dumpJson(searchInterface.json.more));
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
