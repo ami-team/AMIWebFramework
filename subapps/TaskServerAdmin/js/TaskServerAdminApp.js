@@ -43,7 +43,7 @@ $AMIClass('TaskServerAdminApp', {
 
 							tab2.appendItem('<i class="fa fa-clock-o"></i> tasks', {context: this, closable: false}).done(function(tabSel2) {
 
-								/*-----------------------------------------*/
+								/*------------------------------------------------------------------------------------*/
 
 								this._tableCtrlRecurrentTasks = new data[2](tab1);
 								this._tableCtrlOneShotTasks = new data[2](tab2);
@@ -51,7 +51,7 @@ $AMIClass('TaskServerAdminApp', {
 								this.tabSel1 = tabSel1;
 								this.tabSel2 = tabSel2;
 
-								/*-----------------------------------------*/
+								/*------------------------------------------------------------------------------------*/
 
 								$('#D567A5FD_6C12_EEA6_4E74_FDB678BE483B:checkbox').change(function() {
 
