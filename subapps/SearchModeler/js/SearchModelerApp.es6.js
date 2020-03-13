@@ -131,6 +131,7 @@ $AMIClass('SearchModelerApp', {
 					};
 
 					$('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').change(f1);
+					$('#C7E2B53C_AE06_57AF_C7EC_57336E7013A0').change(f1);
 
 					/*------------------------------------------------------------------------------------------------*/
 
@@ -643,6 +644,7 @@ $AMIClass('SearchModelerApp', {
 	jsonToForm1: function(more)
 	{
 		$('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').prop('checked', !!more.distinct);
+		$('#C7E2B53C_AE06_57AF_C7EC_57336E7013A0').prop('checked', !!more.canEdit);
 
 		return more;
 	},
@@ -652,6 +654,7 @@ $AMIClass('SearchModelerApp', {
 	formToJson1: function(more)
 	{
 		more.distinct = $('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').prop('checked');
+		more.canEdit = $('#C7E2B53C_AE06_57AF_C7EC_57336E7013A0').prop('checked');
 
 		return more;
 	},
