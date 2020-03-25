@@ -15,8 +15,8 @@ amiTwig.stdlib.getAMITypeToEnumOptions = function(sqlType, defaultValue)
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	const idx1 = sqlType.indexOf('(');
-	const idx2 = sqlType.indexOf(')');
+	const idx1 = sqlType.  indexOf  ('(');
+	const idx2 = sqlType.lastIndexOf(')');
 
 	if(idx1 < 0
 	   ||
