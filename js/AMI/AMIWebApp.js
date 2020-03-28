@@ -1581,6 +1581,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			alert(message); // eslint-disable-line no-alert
 		});
+
+		return this;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
