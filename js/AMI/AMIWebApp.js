@@ -1548,9 +1548,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 								this.lock();
 
 								amiLogin._start(
+									passwordAuthenticationAllowed,
+									certificateAuthenticationAllowed,
 									createAccountAllowed,
 									changeInfoAllowed,
-									changePasswordAllowed
+									changePasswordAllowed,
+									changeCertificateAllowed
 								).done(() => {
 
 									this.unlock();
