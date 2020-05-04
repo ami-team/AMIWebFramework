@@ -19,7 +19,7 @@ module.exports = function(grunt) {
 		"Opera >= 30"
 	];
 
-	grunt.log.writeln("Building AWF for: " + browserslist.join(", "));
+	grunt.log.writeln("Building AWF for: " + BROWSER_LIST.join(", "));
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
