@@ -232,7 +232,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
     ignore = [
         '*~', '.DS_Store', '.DS_Store?',
         '/css', '/docs/api.html', '/docs/info.html', '/fonts', '/images', '/js', '/twig',
-        '/.eslintrc.json', '/.settings'
+        '/.eslintrc.json', '/.settings', '/.idea'
     ]
 
     baseTempPath = tempfile.gettempdir() + os.sep + hashlib.md5(os.path.realpath(__file__).encode()).hexdigest()
