@@ -1,7 +1,7 @@
 module.exports = function(grunt) {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-    const PACKAGE_JSON = grunt.file.readJSON("package.json");
+	const PACKAGE_JSON = grunt.file.readJSON("package.json");
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -57,10 +57,10 @@ module.exports = function(grunt) {
 		"babel": {
 			"js": {
 				"options": {
-					"sourceMap": true,
-                    "sourceMaps": "inline",
-                    "compact": true,
-                    "minified": true,
+					"inputSourceMap": true,
+					"sourceMaps": "inline",
+					"compact": true,
+					"minified": true,
 					"shouldPrintComment": (txt) => /Copyright/.test(txt),
 					"presets": [["@babel/preset-env", {
 						"debug": false,
