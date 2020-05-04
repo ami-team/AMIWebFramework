@@ -29,6 +29,8 @@ $AMIClass('TableViewerApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
 
+				let json;
+
 				try
 				{
 					json = JSON.parse(userdata || '{}');
