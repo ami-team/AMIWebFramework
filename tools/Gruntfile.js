@@ -1,16 +1,7 @@
 module.exports = function(grunt) {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	var PACKAGE_JSON = {
-	  "devDependencies": {
-		"@babel/core": "^7.6.3",
-		"@babel/preset-env": "^7.6.3",
-		"eslint-plugin-ami": "^1.0.6",
-		"grunt": "^1.0.4",
-		"grunt-babel": "^8.0.0",
-		"grunt-eslint": "^22.0.0",
-	  }
-	};
+    const PACKAGE_JSON = grunt.file.readJSON("package.json");
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -68,6 +59,9 @@ module.exports = function(grunt) {
 			"js": {
 				"options": {
 					"sourceMap": true,
+                    "sourceMaps": "inline",
+                    "compact": true,
+                    "minified": true,
 					"presets": [["@babel/preset-env", {
 						"debug": false,
 						"loose": true,
