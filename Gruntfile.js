@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	const browserslist = [
+	const BROWSER_LIST = [
 		">= 1%",
 		"last 1 major version",
 		"not dead",
@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 		"Opera >= 30"
 	];
 
-	grunt.log.writeln("Building AWF for: " + browserslist.join(", "));
+	grunt.log.writeln("Building AWF for: " + BROWSER_LIST.join(", "));
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -132,7 +132,7 @@ module.exports = function(grunt) {
 
 		"autoprefixer": {
 			"options": {
-				"browserslist": browserslist,
+				"browserslist": BROWSER_LIST,
 				"cascade": false,
 				"map": "inline"
 			},
@@ -166,7 +166,7 @@ module.exports = function(grunt) {
 						"loose": true,
 						"modules": false,
 						"targets": {
-							"browsers": browserslist
+							"browsers": BROWSER_LIST
 						}
 					}]]
 				},
@@ -186,7 +186,7 @@ module.exports = function(grunt) {
 						"loose": true,
 						"modules": false,
 						"targets": {
-							"browsers": browserslist
+							"browsers": BROWSER_LIST
 						}
 					}]]
 				},
