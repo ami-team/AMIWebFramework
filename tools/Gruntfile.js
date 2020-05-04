@@ -49,7 +49,6 @@ module.exports = function(grunt) {
 
 		"eslint": {
 			"target": [
-				"js/ami.es6.js"
 			]
 		},
 
@@ -62,6 +61,7 @@ module.exports = function(grunt) {
                     "sourceMaps": "inline",
                     "compact": true,
                     "minified": true,
+					"shouldPrintComment": (txt) => /Copyright/.test(txt),
 					"presets": [["@babel/preset-env", {
 						"debug": false,
 						"loose": true,
