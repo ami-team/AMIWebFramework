@@ -3,6 +3,10 @@
         "clazz": "AccordionCtrl",
         "file": "controls/Accordion/js/AccordionCtrl.js"
     },
+    "adder": {
+        "clazz": "AdderCtrl",
+        "file": "controls/Adder/js/AdderCtrl.js"
+    },
     "confirmBox": {
         "clazz": "ConfirmBoxCtrl",
         "file": "controls/ConfirmBox/js/ConfirmBoxCtrl.js"

@@ -1,4 +1,9 @@
 {
+    "adder": {
+        "breadcrumb": [],
+        "file": "subapps/Adder/js/AdderApp.js",
+        "instance": "adderApp"
+    },
     "adminDashboard": {
         "breadcrumb": [
             "Admin",
