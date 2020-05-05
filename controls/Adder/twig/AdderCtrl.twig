@@ -11,10 +11,6 @@
 
 <!--------------------------------------------------------------------------------------------------------------------->
 
-<div id="A0BFC339_C1EA_9A5D_E3D4_4C6761C9A970"></div>
-
-<!--------------------------------------------------------------------------------------------------------------------->
-
 <div class="row">
 
     <!----------------------------------------------------------------------------------------------------------------->
@@ -27,18 +23,18 @@
                         <i class="fa fa-search fa-4x text-success"></i>
                     </div>
                     <div class="col-8 text-xs-right">
-                        Search {{ entity }}
+                        Search {{ entity|e }}
                         <br/>
-                        <i class="fa fa-slack"></i> <span>by {{ field }}</span>
+                        <i class="fa fa-slack"></i> <span>by {{ field|e }}</span>
                     </div>
                 </div>
             </div>
             <a class="card-footer text-right" href="#">
-                <div class="row">
-                    <div class="col-11">
-                        <input class="form-control" type="text" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Search {{ entity }} by {{ field }}">
+                <div class="row m-0">
+                    <div class="col-md-11">
+                        <input type="text" class="form-control form-control-sm" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Search {{ entity|e }} by {{ field|e }}">
                     </div>
-                    <div class="col-1" id="EBB91625_148B_1606_0D40_30BF170B11EE">
+                    <div class="col-md-1" id="EBB91625_148B_1606_0D40_30BF170B11EE">
                         <i class="fa fa-arrow-circle-right fa-2x"></i>
                     </div>
                 </div>
@@ -51,12 +47,12 @@
     <div class="col-xl-2">
         <div class="card mb-4">
             <div class="card-body pr-2">
-                <div class="row">
-                    <div class="col-4">
+                <div class="row m-0">
+                    <div class="col-md-4">
                         <i class="fa fa-plus fa-4x text-primary"></i>
                     </div>
-                    <div class="col-8 text-xs-right">
-                        Add {{ entity }}
+                    <div class="col-md-8 text-xs-right">
+                        Add {{ entity|e }}
                     </div>
                 </div>
             </div>
@@ -80,7 +76,7 @@
 
     <div class="col-xl-12">
         <div>
-            <h2>{{ entity }}</h2>
+            <h2>{{ entity|e }}</h2>
             <div id="D6FDA711_E893_7CB9_9B97_4161B2CDE139"></div>
         </div>
     </div>
