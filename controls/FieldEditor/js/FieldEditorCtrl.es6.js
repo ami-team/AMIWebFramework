@@ -352,7 +352,7 @@ $AMIClass('FieldEditorCtrl', {
 		else if(amiType === 'REAL') {
 			html = '<input class="form-control form-control-sm" type="number" step="any" />';
 		}
-		else if(amiType === 'DATETIME') {
+		else if(amiType === 'TIMESTAMP') {
 			html = '<input class="form-control form-control-sm form-datetime" type="text" data-target="' + selector + '" />';
 		}
 		else if(amiType === 'DATE') {
