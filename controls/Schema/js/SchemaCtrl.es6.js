@@ -283,6 +283,7 @@ $AMIClass('SchemaCtrl', {
 					const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', value)[0] || '';
 					const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', value)[0] || '';
 					const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0] || '';
+					const automatic = amiWebApp.jspath('..field{.@name==="automatic"}.$', value)[0] || '';
 					const created = amiWebApp.jspath('..field{.@name==="created"}.$', value)[0] || '';
 					const createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', value)[0] || '';
 					const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', value)[0] || '';
@@ -331,6 +332,7 @@ $AMIClass('SchemaCtrl', {
 							adminOnly: adminOnly === 'true',
 							crypted: crypted === 'true',
 							primary: primary === 'true',
+							automatic: automatic === 'true',
 							created: created === 'true',
 							createdBy: createdBy === 'true',
 							modified: modified === 'true',

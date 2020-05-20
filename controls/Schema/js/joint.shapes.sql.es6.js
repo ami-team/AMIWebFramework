@@ -362,7 +362,9 @@ joint.dia.Element.define('sql.Entity', {
 			if(field.primary) {
 				text = '🔑' + text;
 			}
-			if(field.created || field.createdBy
+			if(field.automatic
+			   ||
+			   field.created || field.createdBy
 			   ||
 			   field.modified || field.modifiedBy
 			 ) {
