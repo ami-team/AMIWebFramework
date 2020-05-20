@@ -1374,27 +1374,57 @@ $AMIClass('SearchCtrl', {
 					{
 						case 5:
 						case 6:
-							value = (field.$ || '').trim();
+
+							var values = [];
+							var value = (field.$ || '').trim();
+
 							if(value.startsWith('"') && value.endsWith('"'))
 							{
 								value = amiWebApp.stringToText(value.substring(1, value.length - 1));
 							}
+
+							/*----------------------------------------------------------------------------------------*/
+
+							if(value.startsWith('[') && value.endsWith(']'))
+							{
+							    values = JSON.parse(value);
+							}
+							else
+							{
+							    values.push(value);
+							}
+
+							/*----------------------------------------------------------------------------------------*/
+
+							values.forEach(function(v)
+                            {
+                                if (v !== '')
+                                {
+                                    if(v in predicate.select) {
+                                        L.push('<option value="' + amiWebApp.textToHtml(v) + '" selected="selected">' + amiWebApp.textToHtml(v) + '</option>');
+                                    } else {
+                                        L.push('<option value="' + amiWebApp.textToHtml(v) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(v) + '</option>');
+                                    }
+                                }
+                            });
+
+							/*----------------------------------------------------------------------------------------*/
+
 							break;
 						case 7:
 						case 8:
 						case 9:
 						case 10:
 							value = field.$ || '';
+							if (value !== '')
+                            {
+                                if(value in predicate.select) {
+                                    L.push('<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>');
+                                } else {
+                                    L.push('<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>');
+                                }
+                            }
 							break;
-					}
-
-					if (value !== '')
-					{
-						if(value in predicate.select) {
-							L.push('<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>');
-						} else {
-							L.push('<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>');
-						}
 					}
 				});
 
@@ -1740,7 +1770,11 @@ $AMIClass('SearchCtrl', {
 								}
 								else
 								{
-									L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(this.value) + '\'');
+									L.push(
+									'(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(this.value) + '\''
+									+ ' OR ' +
+									'JSON_SEARCH(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\'), \'one\', \'' + amiWebApp.textToSQL(this.value) + '\') IS NOT NULL)'
+									);
 								}
 							}
 						}
@@ -1758,7 +1792,11 @@ $AMIClass('SearchCtrl', {
 								}
 								else
 								{
-									L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(this.value) + '\']');
+									L.push(
+                                    '[(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(this.value) + '\''
+                                    + ' OR ' +
+                                    'JSON_SEARCH(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\'), \'one\', \'' + amiWebApp.textToSQL(this.value) + '\') IS NOT NULL)]'
+                                    );
 								}
 							}
 						}
