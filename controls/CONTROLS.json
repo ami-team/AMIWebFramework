@@ -71,6 +71,10 @@
         "clazz": "TextBoxCtrl",
         "file": "controls/TextBox/js/TextBoxCtrl.js"
     },
+    "treeBox": {
+        "clazz": "TreeBoxCtrl",
+        "file": "controls/TreeBox/js/TreeBoxCtrl.js"
+    },
     "unitEditor": {
         "clazz": "UnitEditorCtrl",
         "file": "controls/UnitEditor/js/UnitEditorCtrl.js"
