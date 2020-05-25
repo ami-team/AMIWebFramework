@@ -680,6 +680,28 @@ def createSubapp(verbose):
 
 ########################################################################################################################
 
+def transpile(verbose):
+
+    try:
+
+        ################################################################################################################
+
+        subprocess.check_call(['grunt', 'build'])
+
+        ################################################################################################################
+
+        return 0
+
+    except Exception as e:
+
+        print('error: %s' % e)
+
+        print('Try executing `npm install`')
+
+        return 1
+
+########################################################################################################################
+
 def lintControls(verbose):
 
     try:
@@ -695,6 +717,8 @@ def lintControls(verbose):
     except Exception as e:
 
         print('error: %s' % e)
+
+        print('Try executing `npm install`')
 
         return 1
 
@@ -715,6 +739,8 @@ def lintSubapps(verbose):
     except Exception as e:
 
         print('error: %s' % e)
+
+        print('Try executing `npm install`')
 
         return 1
 
@@ -757,6 +783,7 @@ def main():
     parser.add_argument('--create-home-page', help = 'create a new home page', action = 'store_true')
     parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
+    parser.add_argument('--es5-to-es6', help = 'ES5 to ES6', action = 'store_true')
     parser.add_argument('--lint-controls', help = 'lint controls', action = 'store_true')
     parser.add_argument('--lint-subapps', help = 'lint subapps', action = 'store_true')
     parser.add_argument('--create-id', help = 'create a new id', action = 'store_true')
@@ -780,6 +807,9 @@ def main():
 
     elif args.create_subapp:
         return createSubapp(args.verbose)
+
+    elif args.es5_to_es6:
+        return transpile(args.verbose)
 
     elif args.lint_controls:
         return lintControls(args.verbose)
