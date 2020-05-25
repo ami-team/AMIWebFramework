@@ -702,35 +702,13 @@ def transpile(verbose):
 
 ########################################################################################################################
 
-def lintControls(verbose):
+def lint(verbose):
 
     try:
 
         ################################################################################################################
 
-        subprocess.check_call(['eslint', 'controls/**/js/*.js'])
-
-        ################################################################################################################
-
-        return 0
-
-    except Exception as e:
-
-        print('error: %s' % e)
-
-        print('Try executing `npm install`')
-
-        return 1
-
-########################################################################################################################
-
-def lintSubapps(verbose):
-
-    try:
-
-        ################################################################################################################
-
-        subprocess.check_call(['eslint', 'subapps/**/js/*.js'])
+        subprocess.check_call(['grunt', 'lint'])
 
         ################################################################################################################
 
@@ -783,9 +761,8 @@ def main():
     parser.add_argument('--create-home-page', help = 'create a new home page', action = 'store_true')
     parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
-    parser.add_argument('--es5-to-es6', help = 'ES5 to ES6', action = 'store_true')
-    parser.add_argument('--lint-controls', help = 'lint controls', action = 'store_true')
-    parser.add_argument('--lint-subapps', help = 'lint subapps', action = 'store_true')
+    parser.add_argument('--transpile', help = 'transpile controls and subapps', action = 'store_true')
+    parser.add_argument('--lint', help = 'lint controls and subapps', action = 'store_true')
     parser.add_argument('--create-id', help = 'create a new id', action = 'store_true')
 
     parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
@@ -808,14 +785,11 @@ def main():
     elif args.create_subapp:
         return createSubapp(args.verbose)
 
-    elif args.es5_to_es6:
+    elif args.transpile:
         return transpile(args.verbose)
 
-    elif args.lint_controls:
-        return lintControls(args.verbose)
-
-    elif args.lint_subapps:
-        return lintSubapps(args.verbose)
+    elif args.lint:
+        return lint(args.verbose)
 
     elif args.update_prod:
         return updateAWF(False, args.git_commit_id, args.verbose)
