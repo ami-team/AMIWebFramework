@@ -1072,8 +1072,9 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criterion.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
+		amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criterion.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
 
+            var that = this;
 			var fields = amiWebApp.jspath('..field', data);
 
 			var m = {};
@@ -1082,6 +1083,10 @@ $AMIClass('SearchCtrl', {
 			{
 				case 5:
 				case 6:
+
+				    var keys = {};
+				    var keyArray = [];
+
 					$.each(fields, function(idx, field) {
 
 						if (field.$ === '@NULL')
@@ -1093,10 +1098,25 @@ $AMIClass('SearchCtrl', {
 							var t = JSON.parse(field.$ || '[]');
 
 							t.forEach(function(key){
-								m[key] = key;
-							})
+                                keys[key] = key;
+                            })
 						}
 					});
+
+					$.each(keys, function(idx, key) {
+					    keyArray.push(key);
+					});
+
+                    amiWebApp.lock();
+
+					that._fillJSONKeys(name, keyArray).done(function(data){
+
+					    m = Object.assign(m, data);
+					    this._fillParamBoxKey(m,predicate);
+					    amiWebApp.unlock();
+
+					});
+
 					break;
 
 				case 7:
@@ -1107,52 +1127,139 @@ $AMIClass('SearchCtrl', {
 
 						m[field.$] = field.$
 					});
+
+					this._fillParamBoxKey(m,predicate);
 					break;
-			}
-
-			if($.isEmptyObject(m) === false)
-			{
-
-				var L = [];
-				var selected = false;
-
-				if('::any::' === predicate.selectedParam) {
-					selected = true;
-					L.push('<option value="::any::" selected="selected">« reset filter »</option>');
-				}
-				else {
-					L.push('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
-				}
-
-				for(var key in m)
-				{
-					if(key === predicate.selectedParam) {
-						selected = true;
-						L.push('<option value="' + amiWebApp.textToHtml(key) + '" selected="selected">' + amiWebApp.textToHtml(key) + '</option>');
-					} else {
-						L.push('<option value="' + amiWebApp.textToHtml(key) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(key) + '</option>');
-					}
-				}
-
-				$(predicate.selector + ' select:first').html(L.join(''));
-
-				if (!selected)
-				{
-					$(predicate.selector + ' select:last').html('');
-					$(predicate.selector + ' select:last').attr('disabled','disabled');
-				}
-			}
-			else
-			{
-				$(predicate.selector + ' select:first').html('');
-				$(predicate.selector + ' select:last').html('');
-				$(predicate.selector + ' select:last').attr('disabled','disabled');
 			}
 
 		}).fail(function(data) {
 
 			amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
 		});
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	_fillParamBoxKey: function(m, predicate)
+    {
+        if($.isEmptyObject(m) === false)
+        {
+
+            var L = [];
+            var selected = false;
+
+            if('::any::' === predicate.selectedParam) {
+                selected = true;
+                L.push('<option value="::any::" selected="selected">« reset filter »</option>');
+            }
+            else {
+                L.push('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
+            }
+
+            for(var key in m)
+            {
+                if(key === predicate.selectedParam) {
+                    selected = true;
+                    L.push('<option value="' + amiWebApp.textToHtml(key) + '" selected="selected">' + amiWebApp.textToHtml(key) + '</option>');
+                } else {
+                    L.push('<option value="' + amiWebApp.textToHtml(key) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(key) + '</option>');
+                }
+            }
+
+            $(predicate.selector + ' select:first').html(L.join(''));
+
+            if (!selected)
+            {
+                $(predicate.selector + ' select:last').html('');
+                $(predicate.selector + ' select:last').attr('disabled','disabled');
+            }
+        }
+        else
+        {
+            $(predicate.selector + ' select:first').html('');
+            $(predicate.selector + ' select:last').html('');
+            $(predicate.selector + ' select:last').attr('disabled','disabled');
+        }
+    },
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	_fillJSONKeys: function(name, keys)
+    {
+
+        var deferred = $.Deferred();
+
+        this.__fillJSONKeys(deferred, {}, name, keys);
+
+        return deferred.promise();
+    },
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	__fillJSONKeys: function(deferred, result, name, keys)
+	{
+	    /*------------------------------------------------------------------------------------------------------------*/
+
+        if(keys.length === 0)
+        {
+            deferred.resolveWith(this, [result]);
+
+            return;
+        }
+
+        /*------------------------------------------------------------------------------------------------------------*/
+
+        var key = keys.shift().trim();
+
+        /*------------------------------------------------------------------------------------------------------------*/
+
+	    var predicate = this.ctx.predicates[name], criterion = predicate.criterion;
+
+	    mql = 'SELECT DISTINCT JSON_KEYS(`' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ', \'$.' + key + '\')';
+
+        amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criterion.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"', {context: this}).done(function(data) {
+
+            var fields = amiWebApp.jspath('..field', data);
+
+            var subkeys = {};
+            var subkeyArray = [];
+
+			$.each(fields, function(idx, field) {
+
+                if (field.$ !== '@NULL' )
+                {
+                    var t = JSON.parse(field.$ || '[]');
+
+                    t.forEach(function(subkey)
+                    {
+                        subkeys[key + '.' + subkey] = key + '.' + subkey;
+                    });
+                }
+            });
+
+            if(Object.keys(subkeys).length > 0)
+            {
+               $.each(subkeys, function(idx, subkey) {
+                   keys.push(subkey);
+               });
+             }
+             else
+             {
+                result[key] = key;
+             };
+
+             /*-------------------------------------------------------------------------------------------------------*/
+
+             this.__fillJSONKeys(deferred, result, name, keys)  ;
+
+             /*-------------------------------------------------------------------------------------------------------*/
+
+        }).fail(function(data) {
+
+        	amiWebApp.error(amiWebApp.jspath('..error.$', data), true);
+            deferred.rejectWith(this, [result]);
+        	return ;
+        });
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -1267,27 +1374,57 @@ $AMIClass('SearchCtrl', {
 					{
 						case 5:
 						case 6:
-							value = (field.$ || '').trim();
+
+							var values = [];
+							var value = (field.$ || '').trim();
+
 							if(value.startsWith('"') && value.endsWith('"'))
 							{
 								value = amiWebApp.stringToText(value.substring(1, value.length - 1));
 							}
+
+							/*----------------------------------------------------------------------------------------*/
+
+							if(value.startsWith('[') && value.endsWith(']'))
+							{
+							    values = JSON.parse(value);
+							}
+							else
+							{
+							    values.push(value);
+							}
+
+							/*----------------------------------------------------------------------------------------*/
+
+							values.forEach(function(v)
+                            {
+                                if (v !== '')
+                                {
+                                    if(v in predicate.select) {
+                                        L.push('<option value="' + amiWebApp.textToHtml(v) + '" selected="selected">' + amiWebApp.textToHtml(v) + '</option>');
+                                    } else {
+                                        L.push('<option value="' + amiWebApp.textToHtml(v) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(v) + '</option>');
+                                    }
+                                }
+                            });
+
+							/*----------------------------------------------------------------------------------------*/
+
 							break;
 						case 7:
 						case 8:
 						case 9:
 						case 10:
 							value = field.$ || '';
+							if (value !== '')
+                            {
+                                if(value in predicate.select) {
+                                    L.push('<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>');
+                                } else {
+                                    L.push('<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>');
+                                }
+                            }
 							break;
-					}
-
-					if (value !== '')
-					{
-						if(value in predicate.select) {
-							L.push('<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>');
-						} else {
-							L.push('<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>');
-						}
 					}
 				});
 
@@ -1633,7 +1770,11 @@ $AMIClass('SearchCtrl', {
 								}
 								else
 								{
-									L.push('JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(this.value) + '\'');
+									L.push(
+									'(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(this.value) + '\''
+									+ ' OR ' +
+									'JSON_SEARCH(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\'), \'one\', \'' + amiWebApp.textToSQL(this.value) + '\') IS NOT NULL)'
+									);
 								}
 							}
 						}
@@ -1651,7 +1792,11 @@ $AMIClass('SearchCtrl', {
 								}
 								else
 								{
-									L.push('[JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(this.value) + '\']');
+									L.push(
+                                    '[(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(this.value) + '\''
+                                    + ' OR ' +
+                                    'JSON_SEARCH(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + _this.dumpConstraints(criterion) + ',\'$.' + param + '\'), \'one\', \'' + amiWebApp.textToSQL(this.value) + '\') IS NOT NULL)]'
+                                    );
 								}
 							}
 						}
