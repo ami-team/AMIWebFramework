@@ -106,7 +106,6 @@ $AMIClass('SchemaCtrl', {
 
 					$('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor', editor1);
 
-					
 					/*-----------------------------------------------------*/
 
 					const editor2 = CodeMirror.fromTextArea(document.getElementById('F822CBCC_35AA_146C_7DEF_F80A00E8FFFA'), {
@@ -123,7 +122,8 @@ $AMIClass('SchemaCtrl', {
 
 					$('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', () => {
 
-						editor.refresh();
+						editor1.refresh();
+						editor2.refresh();
 					});
 
 					/*-----------------------------------------------------*/
