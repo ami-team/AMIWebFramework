@@ -125,8 +125,16 @@
 						>
 							{% if fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
 							{%   if (field.$|length) > maxCellLength %}
-							<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
+							{%     if field['properties'] is defined and field['properties']['@class'] === 'json' %}
+							<a href="#" class="json" data-ctrl="treeBox" data-ctrl-location="body" data-params="[{{field.$|e}}]" data-settings="{}"><i class="fa fa-search-plus"></i></a>
+							{%     else %}
+							<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a>
+							{%     endif %}
+							{{field.$|slice(0, maxCellLength)|e}}…
 							{%   else %}
+                            {%     if field['properties'] is defined and field['properties']['@class'] === 'json' %}
+                            <a href="#" class="json" data-ctrl="treeBox" data-ctrl-location="body" data-params="[{{field.$|e}}]" data-settings="{}"><i class="fa fa-search-plus"></i></a>
+                            {%     endif %}
 							{{field.$|e}}
 							{%   endif %}
 							{% else %}
