@@ -96,7 +96,7 @@ $AMIClass('SchemaCtrl', {
 
 					/*-----------------------------------------------------*/
 
-					const editor = CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
+					const editor1 = CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
 						lineNumbers: true,
 						matchBrackets: true,
 						mode: 'text/x-groovy',
@@ -104,7 +104,20 @@ $AMIClass('SchemaCtrl', {
 
 					/*-----------------------------------------------------*/
 
-					$('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor', editor);
+					$('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor', editor1);
+
+					
+					/*-----------------------------------------------------*/
+
+					const editor2 = CodeMirror.fromTextArea(document.getElementById('F822CBCC_35AA_146C_7DEF_F80A00E8FFFA'), {
+						lineNumbers: true,
+						matchBrackets: false,
+						mode: 'text/x-sql',
+					});
+
+					/*-----------------------------------------------------*/
+
+					$('#F822CBCC_35AA_146C_7DEF_F80A00E8FFFA').data('editor', editor2);
 
 					/*-----------------------------------------------------*/
 
@@ -588,7 +601,6 @@ $AMIClass('SchemaCtrl', {
 
 			const rank = amiWebApp.jspath('..field{.@name==="rank"}.$', data)[0] || '999';
 			const description = amiWebApp.jspath('..field{.@name==="description"}.$', data)[0] || 'N/A';
-			const webLinkScript = amiWebApp.jspath('..field{.@name==="webLinkScript"}.$', data)[0] || '@NULL';
 
 			const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', data)[0] || 'false';
 			const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
@@ -605,7 +617,11 @@ $AMIClass('SchemaCtrl', {
 			const statable = amiWebApp.jspath('..field{.@name==="statable"}.$', data)[0] || 'false';
 			const groupable = amiWebApp.jspath('..field{.@name==="groupable"}.$', data)[0] || 'false';
 
-			const displayable = amiWebApp.jspath('..field{.@name==="displayable"}.$', data)[0] || 'false';
+			const displayQuery = amiWebApp.jspath('..field{.@name==="displayQuery"}.$', data)[0] || '@NULL';
+
+			const webLinkScript = amiWebApp.jspath('..field{.@name==="webLinkScript"}.$', data)[0] || '@NULL';
+
+			const media = amiWebApp.jspath('..field{.@name==="media"}.$', data)[0] || 'false';
 			const base64 = amiWebApp.jspath('..field{.@name==="base64"}.$', data)[0] || 'false';
 			const mime = amiWebApp.jspath('..field{.@name==="mime"}.$', data)[0] || '@NULL';
 			const ctrl = amiWebApp.jspath('..field{.@name==="ctrl"}.$', data)[0] || '@NULL';
@@ -631,14 +647,15 @@ $AMIClass('SchemaCtrl', {
 			$('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked', statable === 'true');
 			$('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked', groupable === 'true');
 
-			$('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked', displayable === 'true');
+			$('#F822CBCC_35AA_146C_7DEF_F80A00E8FFFA').data('editor').setValue(displayQuery);
+
+			$('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').setValue(webLinkScript);
+
+			$('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked', media === 'true');
 			$('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked', base64 === 'true');
 			$('#CE54048D_702D_0132_4659_9E558BE2AC11').val(mime).trigger('change.select2');
 			$('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val(ctrl).trigger('change.select2');
 
-			/**/
-
-			$('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').setValue(webLinkScript);
 
 			/**/
 
@@ -804,11 +821,12 @@ SchemaCtrl.applyField = function()
 		'modifiedBy': $('#FACFE443_72F3_8917_2F08_934D88E55DDC').prop('checked'),
 		'statable': $('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked'),
 		'groupable': $('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked'),
-		'displayable': $('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked'),
+		'displayQuery': $('#F822CBCC_35AA_146C_7DEF_F80A00E8FFFA').data('editor').getValue(),
+		'webLinkScript': $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').getValue(),
+		'media': $('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked'),
 		'base64': $('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked'),
 		'mime': $('#CE54048D_702D_0132_4659_9E558BE2AC11').val(),
 		'ctrl': $('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val(),
-		'webLinkScript': $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').getValue(),
 	};
 
 	if(!json.mime || json.mime.toUpperCase() === '@NULL') {
