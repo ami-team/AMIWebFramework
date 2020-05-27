@@ -606,7 +606,7 @@ $AMIClass('SchemaCtrl', {
 			const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
 			const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', data)[0] || 'false';
 			const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', data)[0] || 'false';
-			const readable = amiWebApp.jspath('..field{.@name==="readable"}.$', data)[0] || 'false';
+			const json = amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || 'false';
 
 			const automatic = amiWebApp.jspath('..field{.@name==="automatic"}.$', data)[0] || 'false';
 			const created = amiWebApp.jspath('..field{.@name==="created"}.$', data)[0] || 'false';
@@ -635,7 +635,7 @@ $AMIClass('SchemaCtrl', {
 			$('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked', adminOnly === 'true');
 			$('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked', crypted === 'true');
 			$('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked', primary === 'true');
-			$('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked', readable === 'true');
+			$('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked', json === 'true');
 
 			$('#EDEB0864_76FC_5FCC_C951_4F59AC5B54D2').prop('checked', /*--*/ true /*--*/);
 			$('#E747BF02_031E_A70D_9327_7A974FDF7E96').prop('checked', automatic === 'true');
@@ -813,7 +813,7 @@ SchemaCtrl.applyField = function()
 		'adminOnly': $('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked'),
 		'crypted': $('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked'),
 		'primary': $('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked'),
-		'readable': $('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked'),
+		'json': $('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked'),
 		'automatic': $('#E747BF02_031E_A70D_9327_7A974FDF7E96').prop('checked'),
 		'created': $('#BC7E5CA1_09C8_BB5C_20E2_C0CFE3204224').prop('checked'),
 		'createdBy': $('#FB998C28_1E59_12A0_1B34_2C2C0A44A6AD').prop('checked'),
