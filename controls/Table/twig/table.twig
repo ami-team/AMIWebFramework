@@ -26,7 +26,7 @@
 			<thead>
 				<tr>
 					<!-- **************************************************** -->
-					{%   if showDetails and primaryIdx >= 0 %}
+					{% if showDetails and primaryIdx >= 0 %}
 					<th class="text-center align-middle xxxxxxxxx">details</th>
 					{%   endif %}
 					<!-- **************************************************** -->
@@ -105,6 +105,7 @@
 							 {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
 							 {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
 							 {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
+							 {%   if field['properties']['@onclick'] %}class="{{field['properties']['@onclick']|e}}"{% endif %}
 							 {%   if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
 							 {%   if field['properties']['@unitFactor'] %}data-unit-factor="{{field['properties']['@unitFactor']|e}}"{% endif %}
 							 {%   if field['properties']['@unitBase'] %}data-unit-base="{{field['properties']['@unitBase']|e}}"{% endif %}
