@@ -763,7 +763,7 @@ $AMIClass('TableCtrl', {
 
 					e.preventDefault();
 
-					this.ctx.orderBy = e.currentTarget.getAttribute('data-row');
+					this.ctx.orderBy = e.currentTarget.getAttribute('data-row-label');
 					this.ctx.orderWay = 'DESC';
 
 					this.refresh();
@@ -775,7 +775,7 @@ $AMIClass('TableCtrl', {
 
 					e.preventDefault();
 
-					this.ctx.orderBy = e.currentTarget.getAttribute('data-row');
+					this.ctx.orderBy = e.currentTarget.getAttribute('data-row-label');
 					this.ctx.orderWay = 'ASC';
 
 					this.refresh();

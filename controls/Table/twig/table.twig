@@ -38,9 +38,9 @@
 					{%   for fieldDescription in fieldDescriptions %}
 					{%     if not (fieldDescription['@field'] in ignoredFields) and not (fieldDescription['@hidden'] === 'true') %}
 					<th class="text-center">
-						<a href="#" class="text-secondary" data-orderway="DESC" data-row="{{fieldDescription['@field']|e}}" data-row-label="{{fieldDescription['@label']|e}}"><i class="fa fa-chevron-down"></i></a>
+						<a href="#" class="text-secondary" data-orderway="DESC" data-row-name="{{fieldDescription['@field']|e}}" data-row-label="{{fieldDescription['@label']|e}}"><i class="fa fa-chevron-down"></i></a>
 						<span class="text-primary"{% if fieldDescription['$'] is not empty and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{fieldDescription['@label']|e}}</span>
-						<a href="#" class="text-secondary" data-orderway="ASC" data-row="{{fieldDescription['@field']|e}}" data-row-label="{{fieldDescription['@label']|e}}"><i class="fa fa-chevron-up"></i></a>
+						<a href="#" class="text-secondary" data-orderway="ASC" data-row-name="{{fieldDescription['@field']|e}}" data-row-label="{{fieldDescription['@label']|e}}"><i class="fa fa-chevron-up"></i></a>
 						{% if showTools %}
 						<br />
 						{%   if fieldDescription['@field'] is not empty %}
