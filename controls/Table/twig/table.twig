@@ -102,7 +102,7 @@
 						<div class="font-italic text-danger">admin only</div>
 						{% else %}
 						<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
-							 {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
+							 {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@media'] !== 'true' %}
 							 {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
 							 {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
 							 {%   if field['properties']['@onclick'] %}class="{{field['properties']['@onclick']|e}}"{% endif %}
@@ -124,7 +124,7 @@
 							 data-primary-value="{{row.field[primaryIdx].$|e}}"
 							 {% endif %}
 						>
-							{% if fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
+							{% if fieldDescriptions[loop.index0]['@media'] !== 'true' %}
 							{%   if (field.$|length) > maxCellLength %}
 							{%     if field['properties'] is defined and field['properties']['@class'] === 'json' %}
 							<a href="#" class="view-more" data-ctrl="treeBox" data-ctrl-location="body" data-params="[{{field.$|e}}]" data-settings="{}"><i class="fa fa-search-plus"></i></a>
