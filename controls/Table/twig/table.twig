@@ -92,7 +92,7 @@
 					{% endif %}
 					<!-- **************************************************** -->
 					{% for field in row.field %}
-					{%   if not (field['@name'] in ignoredFields) and not (fieldDescriptions|length > loop.index0 and fieldDescriptions[loop.index0]['@hidden'] === 'true') %}
+					{%   if not (field['@name'] in ignoredFields) and not (fieldDescriptions is not empty and fieldDescriptions[loop.index0]['@hidden'] === 'true') %}
 					<td class="text-center">
 						{% if field.$ starts with '@OWNER::' %}
 						<a href="#" data-action="filter" data-filter-def="{{field.$|slice(8)|e}}">
