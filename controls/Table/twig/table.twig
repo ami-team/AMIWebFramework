@@ -12,7 +12,6 @@
 
 	{% set rows = listOfRows[i] %}
 
-
 	{% set primaryIdx = -1 %}
 
 	{% for fieldDescription in fieldDescriptions %}
@@ -21,20 +20,20 @@
 	{%   endif %}
 	{% endfor %}
 
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
 	<div class="tab-pane {% if loop.index0 === currentTabIndex %}active show{% else %}xxxxx xxxx{% endif %}" id="CC05FC77_9364_97FB_E575_BE8190DCC295_{{i}}">
 		<table class="table table-sm table-hover table-striped table-bordered">
 			<thead>
 				<tr>
-					<!-- **************************************************** -->
+					<!-- ******************************************************************************************* -->
 					{% if showDetails and primaryIdx >= 0 %}
 					<th class="text-center align-middle xxxxxxxxx">details</th>
 					{%   endif %}
-					<!-- **************************************************** -->
+					<!-- ******************************************************************************************* -->
 					{% if canEdit and primaryIdx >= 0 %}
 					<th class="text-center align-middle edit-mode"> tools </th>
 					{%   endif %}
-					<!-- **************************************************** -->
+					<!-- ******************************************************************************************* -->
 					{% if fieldDescriptions is not empty %}
 					{%   for fieldDescription in fieldDescriptions %}
 					{%     if not (fieldDescription['@field'] in ignoredFields) and not (fieldDescription['@hidden'] === 'true') %}
@@ -68,23 +67,23 @@
 					{%       endif %}
 					{%     endfor %}
 					{%   endif %}
-					<!-- **************************************************** -->
+					<!-- ******************************************************************************************* -->
 					{% endif %}
 				</tr>
 			</thead>
-			<!-- ************************************************************ -->
+			<!-- *************************************************************************************************** -->
 			<tbody>
 				{% if rows is not empty %}
 				{%   for row in rows %}
 				{%     set hasFieldDescriptions = fieldDescriptions.length === row.field.length %}
 				<tr>
-					<!-- **************************************************** -->
+					<!-- ******************************************************************************************* -->
 					{% if showDetails and primaryIdx >= 0 and hasFieldDescriptions %}
 					<td class="text-center align-middle xxxxxxxxx">
 						<a href="#" class="text-secondary" data-ctrl="elementInfo" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="arrows-alt" data-title="{{fieldDescriptions[primaryIdx]['@entity']|e}}"><i class="fa fa-arrows-alt"></i></a>
 					</td>
 					{% endif %}
-					<!-- **************************************************** -->
+					<!-- ******************************************************************************************* -->
 					{% if canEdit and primaryIdx >= 0 and hasFieldDescriptions %}
 					<td class="text-center align-middle edit-mode">
 						<a href="#" class="text-info" data-action="clone-row" data-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}" data-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}" data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}" data-primary-value="{{row.field[primaryIdx].$|e}}"><i class="fa fa-files-o"></i></a>
@@ -92,7 +91,7 @@
 						<a href="#" class="text-danger" data-action="delete-row" data-catalog="{{fieldDescriptions[primaryIdx]['@catalog']|e}}" data-entity="{{fieldDescriptions[primaryIdx]['@entity']|e}}" data-primary-field="{{fieldDescriptions[primaryIdx]['@field']|e}}" data-primary-value="{{row.field[primaryIdx].$|e}}"><i class="fa fa-trash"></i></a>
 					</td>
 					{% endif %}
-					<!-- **************************************************** -->
+					<!-- ******************************************************************************************* -->
 					{% for field in row.field %}
 					{%   if not (field['@name'] in ignoredFields) and not (hasFieldDescriptions and fieldDescriptions[loop.index0]['@hidden'] === 'true') %}
 					<td class="text-center">
@@ -126,25 +125,19 @@
 							 data-primary-value="{{row.field[primaryIdx].$|e}}"
 							 {% endif %}
 						>
-							{% if hasFieldDescriptions and fieldDescriptions[loop.index0]['@media'] !== 'true' %}
-							{%   if (field.$|length) > maxCellLength %}
-							{%     if field['properties'] is defined and field['properties']['@class'] === 'json' %}
-							<a href="#" class="view-more" data-ctrl="treeBox" data-ctrl-location="body" data-params="[{{field.$|e}}]" data-settings="{}"><i class="fa fa-search-plus"></i></a>
-							{%     else %}
-							<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a>
-							{%     endif %}
-							{{field.$|slice(0, maxCellLength)|e}}…
-							{%   else %}
-                            {%     if field['properties'] is defined and field['properties']['@class'] === 'json' %}
-                            <a href="#" class="view-more" data-ctrl="treeBox" data-ctrl-location="body" data-params="[{{field.$|e}}]" data-settings="{}"><i class="fa fa-search-plus"></i></a>
-                            {%     endif %}
-							{{field.$|e}}
-							{%   endif %}
-							{% else %}
-							{%   if primaryIdx >= 0 and hasFieldDescriptions %}
+							{% if hasFieldDescriptions and fieldDescriptions[loop.index0]['@media'] === 'true' %}
+							{%   if primaryIdx >= 0 %}
 							<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
 							{%   else %}
 							<i class="fa fa-search-plus text-danger"></i> {{fieldDescriptions[loop.index0]['@mime']|e}}
+							{%   endif %}
+							{% elseif hasFieldDescriptions and fieldDescriptions[loop.index0]['@json'] === 'true' %}
+							<a href="#" class="view-more" data-ctrl="treeBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
+							{% else %}
+							{%   if (field.$|length) > maxCellLength %}
+							<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
+							{%   else %}
+							{{field.$|e}}
 							{%   endif %}
 							{% endif %}
 						</div>
@@ -169,7 +162,7 @@
 					</td>
 					{%   endif %}
 					{% endfor %}
-					<!-- **************************************************** -->
+					<!-- ******************************************************************************************* -->
 				</tr>
 				{%   endfor %}
 				{% else %}
@@ -180,6 +173,6 @@
 			</tbody>
 		</table>
 	</div>
-	<!-- **************************************************************** -->
+	<!-- *********************************************************************************************************** -->
 {% endfor %}
 </div>
