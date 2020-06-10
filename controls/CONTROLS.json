@@ -35,6 +35,10 @@
         "clazz": "GraphCtrl",
         "file": "controls/Graph/js/GraphCtrl.js"
     },
+    "jsonBox": {
+        "clazz": "JsonBoxCtrl",
+        "file": "controls/JsonBox/js/JsonBoxCtrl.js"
+    },
     "mediaViewer": {
         "clazz": "MediaViewerCtrl",
         "file": "controls/MediaViewer/js/MediaViewerCtrl.js"
@@ -70,10 +74,6 @@
     "textBox": {
         "clazz": "TextBoxCtrl",
         "file": "controls/TextBox/js/TextBoxCtrl.js"
-    },
-    "treeBox": {
-        "clazz": "TreeBoxCtrl",
-        "file": "controls/TreeBox/js/TreeBoxCtrl.js"
     },
     "unitEditor": {
         "clazz": "UnitEditorCtrl",

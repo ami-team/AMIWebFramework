@@ -11,7 +11,7 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-$AMIClass('TreeBoxCtrl', {
+$AMIClass('JsonBoxCtrl', {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	$extends: ami.Control,
@@ -28,7 +28,7 @@ $AMIClass('TreeBoxCtrl', {
 	onReady: function()
 	{
 		return amiWebApp.loadResources([
-			amiWebApp.originURL + '/controls/TreeBox/twig/TreeBoxCtrl.twig',
+			amiWebApp.originURL + '/controls/JsonBox/twig/JsonBoxCtrl.twig',
 			amiWebApp.originURL + '/css/3rd-party/jsonview.bundle.css',
 			amiWebApp.originURL + '/js/3rd-party/jsonview.bundle.js',
 		]).done((data) => {
@@ -63,7 +63,7 @@ $AMIClass('TreeBoxCtrl', {
 			context, title
 		] = amiWebApp.setup(
 			['context', 'title'],
-			[deferred, 'Tree box'],
+			[deferred, 'JSON box'],
 			settings
 		);
 
