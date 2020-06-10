@@ -71,7 +71,7 @@ $AMIClass('JsonBoxCtrl', {
 
 		$('#FA090573_9E6B_72F6_2431_AFB1F104EFB7').text(title);
 	
-		JsonView.renderJSON(json, $('#E262C0A2_6C07_3B1A_9774_8AE41B7C4CA6').empty()[0]);
+		JsonView.renderJSON(json !== '@NULL' ? json : null, $('#E262C0A2_6C07_3B1A_9774_8AE41B7C4CA6').empty()[0]);
 
 		$('#E5A34976_AC6F_5B5F_770F_F26DD1A2AB96').modal('show');
 
