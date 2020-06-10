@@ -29,8 +29,8 @@ $AMIClass('TreeBoxCtrl', {
 	{
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/TreeBox/twig/TreeBoxCtrl.twig',
-			amiWebApp.originURL + '/css/3rd-party/jsonview.css',
-			amiWebApp.originURL + '/js/3rd-party/jsonview.js',
+			amiWebApp.originURL + '/css/3rd-party/jsonview.bundle.css',
+			amiWebApp.originURL + '/js/3rd-party/jsonview.bundle.js',
 		]).done((data) => {
 
 			amiWebApp.appendHTML('body', data[0]).done(() => {
@@ -71,7 +71,7 @@ $AMIClass('TreeBoxCtrl', {
 
 		$('#FA090573_9E6B_72F6_2431_AFB1F104EFB7').text(title);
 
-		jsonView.format(json, '#E262C0A2_6C07_3B1A_9774_8AE41B7C4CA6');
+		JsonView.render(JsonView.createTree(json), document.querySelector('#E262C0A2_6C07_3B1A_9774_8AE41B7C4CA6'));
 
 		$('#E5A34976_AC6F_5B5F_770F_F26DD1A2AB96').modal('show');
 
