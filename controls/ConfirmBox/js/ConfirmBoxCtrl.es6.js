@@ -40,18 +40,18 @@ $AMIClass('ConfirmBoxCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#DCDB367E_FB67_A957_68AC_B54038F860DB').on('hidden.bs.modal', () => {
+				$('#DAB9DB06_3398_251D_E7CC_2C0BF2E4D75F').on('click', () => {
 
 					amiWebApp.modalLock();
 
-					//$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
+					$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
 
 					_class.deferred.rejectWith(_class.context || _class.deferred, [false]);
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#E5435D68_FE3D_C90F_FC41_DEFF400CE4AE').on(/*-*/'click'/*-*/, () => {
+				$('#E5435D68_FE3D_C90F_FC41_DEFF400CE4AE').on('click', () => {
 
 					amiWebApp.modalLock();
 

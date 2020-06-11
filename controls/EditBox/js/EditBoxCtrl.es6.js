@@ -40,18 +40,18 @@ $AMIClass('EditBoxCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').on('hidden.bs.modal', () => {
+				$('#B6014C3E_BD4F_09EB_51EF_F7CBC1E57725').on('click', () => {
 
 					amiWebApp.modalLock();
 
-					//$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('hide');
+					$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('hide');
 
-					_class.deferred.rejectWith(_class.context || _class.deferred, [$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val()]);
+					_class.deferred.rejectWith(_class.context || _class.deferred, [/*----------------*/ _class.origText /*----------------*/]);
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#CB99273A_B731_0289_8D87_D0549A1944FB').on(/*-*/'click'/*-*/, () => {
+				$('#CB99273A_B731_0289_8D87_D0549A1944FB').on('click', () => {
 
 					amiWebApp.modalLock();
 
@@ -89,7 +89,7 @@ $AMIClass('EditBoxCtrl', {
 
 		$('#D042A24A_4F19_BEF9_A843_15391EAD26A1').html(title);
 
-		$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val(text || '');
+		$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val(this.$class.origText = text || '');
 
 		$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('show');
 
