@@ -1213,6 +1213,30 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	modaleDisableLock: function()
+	{
+		this._tmpLockCnt = this._lockCnt;
+
+		if(this._lockCnt > 0)
+		{
+			$('#ami_locker').css('display', 'none');
+		}
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	modaleEnableLock: function()
+	{
+		this._lockCnt = this._tmpLockCnt;
+
+		if(this._lockCnt > 0)
+		{
+			$('#ami_locker').css('display', 'flex');
+		}
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	/**
 	  * Enables the message in a confirmation dialog box to inform that the user is about to leave the current page.
 	  */

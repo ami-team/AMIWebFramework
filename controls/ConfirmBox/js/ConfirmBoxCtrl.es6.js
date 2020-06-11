@@ -42,7 +42,7 @@ $AMIClass('ConfirmBoxCtrl', {
 
 				$('#DCDB367E_FB67_A957_68AC_B54038F860DB').on('hidden.bs.modal', () => {
 
-					amiWebApp.lock();
+					amiWebApp.modaleEnableLock();
 
 					//$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
 
@@ -53,7 +53,7 @@ $AMIClass('ConfirmBoxCtrl', {
 
 				$('#E5435D68_FE3D_C90F_FC41_DEFF400CE4AE').on(/*-*/'click'/*-*/, () => {
 
-					amiWebApp.lock();
+					amiWebApp.modaleEnableLock();
 
 					$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('hide');
 
@@ -98,7 +98,7 @@ $AMIClass('ConfirmBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.unlock();
+		amiWebApp.modaleDisableLock();
 
 		return deferred.promise();
 

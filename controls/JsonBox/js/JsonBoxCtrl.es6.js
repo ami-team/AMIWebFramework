@@ -41,7 +41,7 @@ $AMIClass('JsonBoxCtrl', {
 
 				$('#E5A34976_AC6F_5B5F_770F_F26DD1A2AB96').on('hidden.bs.modal', () => {
 
-					amiWebApp.lock();
+					amiWebApp.modaleEnableLock();
 
 					_class.deferred.resolveWith(_class.context || _class.deferred);
 				});
@@ -80,7 +80,7 @@ $AMIClass('JsonBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.unlock();
+		amiWebApp.modaleDisableLock();
 
 		return deferred.promise();
 
