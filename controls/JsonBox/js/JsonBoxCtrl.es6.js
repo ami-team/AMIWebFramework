@@ -59,6 +59,32 @@ $AMIClass('JsonBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		let a;
+		let b;
+
+		if(amiWebApp.typeOf(json) !== 'String')
+		{
+			a = /*------*/(json);
+			b = JSON.stringify(a, null, 2);
+		}
+		else
+		{
+			json = json.trim();
+
+			if(json && json.toUpperCase() !== '@NULL')
+			{
+				a = JSON.parse(json);
+				b = JSON.stringify(a, null, 2);
+			}
+			else
+			{
+				a = null;
+				b = 'null';
+			}
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		const [
 			context, title
 		] = amiWebApp.setup(
@@ -70,8 +96,10 @@ $AMIClass('JsonBoxCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		$('#FA090573_9E6B_72F6_2431_AFB1F104EFB7').text(title);
-	
-		JsonView.renderJSON(json.toUpperCase().trim() !== '@NULL' ? json : null, $('#E262C0A2_6C07_3B1A_9774_8AE41B7C4CA6').empty()[0]);
+
+		JsonView.render(JsonView.createTree(a), $('#B28C3528_0A98_27A9_ADEC_C0678ACE0426 div').empty()[0]);
+
+		$('#CB4CDCFF_8B4A_F4D6_CFD5_E0C69BB4C2E0 code').html('<i class="line-number"></i>' + amiWebApp.textToHtml(b).replace(/\n/g, '\n<i class="line-number"></i>'));
 
 		$('#E5A34976_AC6F_5B5F_770F_F26DD1A2AB96').modal('show');
 
