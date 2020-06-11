@@ -42,7 +42,7 @@ $AMIClass('DiffBoxCtrl', {
 
 				$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').on('hidden.bs.modal', () => {
 
-					amiWebApp.modaleEnableLock();
+					amiWebApp.modalLock();
 
 					_class.deferred.resolveWith(_class.context || _class.deferred);
 				});
@@ -105,7 +105,7 @@ $AMIClass('DiffBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.modaleDisableLock();
+		amiWebApp.modalUnlock();
 
 		return deferred.promise();
 

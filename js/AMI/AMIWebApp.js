@@ -1213,35 +1213,35 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	modaleDisableLock: function()
+	modalLock: function()
 	{
 		let lines = this.getStack().split('\n');
 
 		if(lines.length > 2)
 		{
-			console.log('lock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
+			console.log('modalLock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
 		}
 
 		/**/
 
-		this._tmpLockCnt = this._lockCnt;
-
-		if(this._lockCnt > 0)
-		{
-			$('#ami_locker').css('display', 'none');
-		}
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	modaleEnableLock: function()
-	{
 		this._lockCnt = this._tmpLockCnt;
 
 		if(this._lockCnt > 0)
 		{
 			$('#ami_locker').css('display', 'flex');
 		}
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	modalUnlock: function()
+	{
+		this._tmpLockCnt = this._lockCnt;
+
+		if(this._lockCnt > 0)
+		{
+			$('#ami_locker').css('display', 'none');
+		}
 
 		/**/
 
@@ -1249,7 +1249,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		if(lines.length > 2)
 		{
-			console.log('lock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
+			console.log('modalUnlock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
 		}
 	},
 
