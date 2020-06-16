@@ -37,14 +37,15 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	user: 'guest',
 	guest: 'guest',
 
-	clientDN: '',
-	issuerDN: '',
+	clientDN: '', // faire disparaitre ces variables et les getter
+	issuerDN: '', // faire disparaitre ces variables et les getter
 
-	notBefore: '',
-	notAfter: '',
+	notBefore: '', // faire disparaitre ces variables et les getter
+	notAfter: '', // faire disparaitre ces variables et les getter
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	userInfo: {},
 	roleInfo: {},
 	udpInfo: {},
 	ssoInfo: {},
@@ -281,6 +282,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		this.userInfo = userInfo;
 		this.roleInfo = roleInfo;
 		this.udpInfo = udpInfo;
 		this.ssoInfo = ssoInfo;
@@ -515,6 +517,54 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* PUBLIC METHODS                                                                                                 */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	  * Gets the user information
+	  * @returns {String} The current user information
+	  */
+
+	getUserInfo: function()
+	{
+		return this.userInfo;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	  * Gets the role information
+	  * @returns {String} The current role information
+	  */
+
+	getRoleInfo: function()
+	{
+		return this.roleInfo;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	  * Gets the user data protection information
+	  * @returns {String} The current user data protection information
+	  */
+
+	getUPDInfo: function()
+	{
+		return this.udpInfo;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	  * Gets the single sign on information
+	  * @returns {String} The current single sign on information
+	  */
+
+	getSSOInfo: function()
+	{
+		return this.ssoInfo;
+	},
+
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
