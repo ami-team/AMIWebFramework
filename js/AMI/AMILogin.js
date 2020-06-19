@@ -37,11 +37,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	user: 'guest',
 	guest: 'guest',
 
-	clientDN: '', // faire disparaitre ces variables et les getter
-	issuerDN: '', // faire disparaitre ces variables et les getter
+	clientDN: '', // faire disparaitre ces variables et les getters
+	issuerDN: '', // faire disparaitre ces variables et les getters
 
-	notBefore: '', // faire disparaitre ces variables et les getter
-	notAfter: '', // faire disparaitre ces variables et les getter
+	notBefore: '', // faire disparaitre ces variables et les getters
+	notAfter: '', // faire disparaitre ces variables et les getters
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
