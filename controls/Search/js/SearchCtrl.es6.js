@@ -305,16 +305,6 @@ $AMIClass('SearchCtrl', {
 					}
 				})
 
-				/*for(var idx in this.ctx.criteria)
-				{
-					if(this.ctx.criteria[idx].more.auto_open === true)
-					{
-						this.openBox(idx);
-
-						doRefresh = false;
-					}
-				}*/
-
 				/*----------------------------------------------------------------------------------------------------*/
 
 				if(doRefresh)
