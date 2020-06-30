@@ -1768,6 +1768,7 @@ $AMIClass('SearchCtrl', {
 
             predicate.filter = L
                 .join(!$(predicate.selector + ' input[type="checkbox"]').prop('checked') ? ' OR ' : ' AND ');
+            predicate.select = S;
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
