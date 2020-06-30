@@ -1825,11 +1825,11 @@ $AMIClass('SearchCtrl', {
                     else
                     {
                         let sel = $(predicate.selector + ' select:last option:not(:first)');
-                        let parts = filter.toLowerCase().split('%');
+                        let parts = filter.split('%');
                         let L = [];
 
                         sel.each( (i, el) => {
-                            if(filter && this._wildcard(parts, el.value.toLowerCase()))
+                            if(filter && this._wildcard(parts, el.value))
                             {
                                 L.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = \'' + el.value.trim() + '\'');
                             }
@@ -1920,10 +1920,10 @@ $AMIClass('SearchCtrl', {
 
         if(filter.includes('%'))
         {
-            let parts = filter.toLowerCase().split('%');
+            let parts = filter.split('%');
 
             sel.each( (i, el) => {
-                if(filter && this._wildcard(parts, el.value.toLowerCase()))
+                if(filter && this._wildcard(parts, el.value))
                 {
                     predicate.select[el.value.trim()] = true;
                 }
@@ -1933,7 +1933,7 @@ $AMIClass('SearchCtrl', {
         else
         {
             sel.each( (i, el) => {
-                if(filter && filter.toLowerCase() === el.value.toLowerCase())
+                if(filter && filter === el.value)
                 {
                     predicate.select[el.value.trim()] = true;
                 }
@@ -1968,8 +1968,7 @@ $AMIClass('SearchCtrl', {
 		this.fillStringBox(name, true, true).always(() => {
 
             let filter = $(predicate.selector + ' .filter').val()
-            		                                       .trim()
-                    		                               .toLowerCase();
+            		                                       .trim();
 
             if(filter && filter !== '')
             {
@@ -2001,8 +2000,7 @@ $AMIClass('SearchCtrl', {
 		this.fillStringBox(name, true, true).always(() => {
 
             let filter = $(predicate.selector + ' .filter').val()
-                                                           .trim()
-                                                           .toLowerCase();
+                                                           .trim();
 
             if(filter && filter !== '')
             {
