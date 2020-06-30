@@ -1831,7 +1831,7 @@ $AMIClass('SearchCtrl', {
                         sel.each( (i, el) => {
                             if(filter && this._wildcard(parts, el.value))
                             {
-                                L.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = \'' + el.value.trim() + '\'');
+                                L.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = \'' + el.value.trim() + '\']');
                             }
                         });
 
@@ -1899,15 +1899,13 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-
-
 		if(isDefaultEntity)
 		{
 			predicate.filter = tmpFilter;
 		}
 		else
 		{
-			predicate.filter = '[' + tmpFilter + ']';
+		    criterion.type === 0 ? predicate.filter =  tmpFilter : predicate.filter = '[' + tmpFilter + ']' ;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
