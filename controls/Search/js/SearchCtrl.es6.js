@@ -346,6 +346,8 @@ $AMIClass('SearchCtrl', {
 		let entity = criterion.entity;
 		let field = criterion.field;
 
+		criterion.isDefaultEntity = this.ctx.defaultEntity === entity
+
 		switch(criterion.type)
 		{
 			case 0:
@@ -493,24 +495,6 @@ $AMIClass('SearchCtrl', {
 						{
 							filter.push('[' + tmp.join(' OR ') + ']');
 						}
-
-					}
-					else
-					{
-						/*--------------------------------------------------------------------------------------------*/
-						/* TEXT BOX WITH NO INIT VALUE                                                                */
-						/*--------------------------------------------------------------------------------------------*/
-
-						if (isDefaultEntity)
-						{
-							//filter.push('(`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = `' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' OR `' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' IS NULL)' );
-						}
-						else
-						{
-							//filter.push('[(`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = `' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' OR `' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' IS NULL)]');
-						}
-
-						/*--------------------------------------------------------------------------------------------*/
 
 					}
 
@@ -1813,6 +1797,8 @@ $AMIClass('SearchCtrl', {
 
 		let param = predicate.selectedParam;
 
+		let isDefaultEntity = this.ctx.defaultEntity === entity;
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		amiWebApp.lock();
@@ -1828,14 +1814,44 @@ $AMIClass('SearchCtrl', {
 		{
 
 		    case 0:
+
+                if(filter.includes('%'))
+                {
+                    if(isDefaultEntity)
+                    {
+                        /* or/and has no meaning in this case, keep the % */
+                        tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' LIKE \'' + filter.replace(/'/g, '\'\'') + '\'';
+                    }
+                    else
+                    {
+                        let sel = $(predicate.selector + ' select:last option:not(:first)');
+                        let parts = filter.toLowerCase().split('%');
+                        let L = [];
+
+                        sel.each( (i, el) => {
+                            if(filter && this._wildcard(parts, el.value.toLowerCase()))
+                            {
+                                L.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = \'' + el.value.trim() + '\'');
+                            }
+                        });
+
+                        tmpFilter = L.join(!$(predicate.selector + ' input[type="checkbox"]').prop('checked') ? ' OR ' : ' AND ');
+                    }
+                }
+                else
+                {
+                    tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = \'' + filter.replace(/'/g, '\'\'') + '\'';
+                }
+
+                break;
 		    case 1:
-				if(filter.indexOf('%') < 0)
+				if(filter.includes('%'))
         		{
-        			tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = \'' + filter.replace(/'/g, '\'\'') + '\'';
+        			tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' LIKE \'' + filter.replace(/'/g, '\'\'') + '\'';
         		}
         		else
         		{
-        			tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' LIKE \'' + filter.replace(/'/g, '\'\'') + '\'';
+        			tmpFilter = '`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = \'' + filter.replace(/'/g, '\'\'') + '\'';
         		}
         		break;
 			case 5:
@@ -1847,15 +1863,15 @@ $AMIClass('SearchCtrl', {
                 }
                 else
                 {
-                    if(filter.indexOf('%') < 0)
+                    if(filter.includes('%'))
                     {
-                        tmpFilter = '(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(filter) + '\''
+                        tmpFilter = '(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ',\'$.' + param + '\') LIKE \'' + amiWebApp.textToSQL(filter) + '\''
                                     + ' OR ' +
                                     'JSON_SEARCH(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ',\'$.' + param + '\'), \'one\', \'' + amiWebApp.textToSQL(filter) + '\') IS NOT NULL)';
                     }
                     else
                     {
-                        tmpFilter = '(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ',\'$.' + param + '\') LIKE \'' + amiWebApp.textToSQL(filter) + '\''
+                        tmpFilter = '(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ',\'$.' + param + '\') = \'' + amiWebApp.textToSQL(filter) + '\''
                                     + ' OR ' +
                                     'JSON_SEARCH(JSON_EXTRACT(`' + catalog + '`.`' + entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ',\'$.' + param + '\'), \'one\', \'' + amiWebApp.textToSQL(filter) + '\') IS NOT NULL)';
                     }
@@ -1864,26 +1880,26 @@ $AMIClass('SearchCtrl', {
 
 			case 7:
 			case 8:
-				if(filter.indexOf('%') < 0) {
-					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.field + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
-				} else {
+				if(filter.includes('%')) {
 					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.field + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
+				} else {
+					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + criterion.field + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
 				}
 				break;
 
 			case 9:
 			case 10:
-				if(filter.indexOf('%') < 0) {
-					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
-				} else {
+				if(filter.includes('%')) {
 					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` LIKE \'' + filter.replace(/'/g, '\'\'') + '\')';
+				} else {
+					tmpFilter = '(`' + catalog + '`.`' + entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion) + ' = \'' + param + '\' AND `' + catalog + '`.`' + entity + '`.`' + this.ctx.predicates[name].selectedValueField  + '` = \'' + filter.replace(/'/g, '\'\'') + '\')';
 				}
 				break;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		var isDefaultEntity = this.ctx.defaultEntity === entity;
+
 
 		if(isDefaultEntity)
 		{
@@ -1895,15 +1911,16 @@ $AMIClass('SearchCtrl', {
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
+		/* SELECT IN THE HTML BOX VALUES                                                                              */
+		/*------------------------------------------------------------------------------------------------------------*/
 
         predicate.select = {};
-        filter = filter.toLowerCase();
 
         let sel = $(predicate.selector + ' select:last option:not(:first)');
 
         if(filter.includes('%'))
         {
-            let parts = filter.split('%');
+            let parts = filter.toLowerCase().split('%');
 
             sel.each( (i, el) => {
                 if(filter && this._wildcard(parts, el.value.toLowerCase()))
@@ -1916,7 +1933,7 @@ $AMIClass('SearchCtrl', {
         else
         {
             sel.each( (i, el) => {
-                if(filter && filter === el.value.toLowerCase())
+                if(filter && filter.toLowerCase() === el.value.toLowerCase())
                 {
                     predicate.select[el.value.trim()] = true;
                 }
