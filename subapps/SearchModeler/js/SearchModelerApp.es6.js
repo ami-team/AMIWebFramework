@@ -7,6 +7,8 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
+ * @global CodeMirror
+ *
  */
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -272,7 +274,7 @@ $AMIClass('SearchModelerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	getInterfaceList: function(dst)
+	getInterfaceList: function()
 	{
 		amiWebApp.lock();
 
@@ -956,13 +958,13 @@ $AMIClass('SearchModelerApp', {
 
 		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '"').done((data, message) => {
 
-			this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
+			this.getInterfaceList();
 
 			amiWebApp.success(message, true);
 
 		}).fail((data, message) => {
 
-			this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
+			this.getInterfaceList();
 
 			amiWebApp.error(message, true);
 		});
@@ -1087,13 +1089,13 @@ $AMIClass('SearchModelerApp', {
 		{
 			amiCommand.execute('AddUpdateElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£rank£json£archived" -values="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '£' + amiWebApp.textToString(rank) + '£' + amiWebApp.textToString(JSON.stringify(json)) + '£' + amiWebApp.textToString(archived) + '" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '"').done((data, message) => {
 
-				this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
+				this.getInterfaceList();
 
 				amiWebApp.success(message, true);
 
 			}).fail((data, message) => {
 
-				this.getInterfaceList('#CFB6CA12_2D42_3111_3183_EC1006F7E039');
+				this.getInterfaceList();
 
 				amiWebApp.error(message, true);
 			});

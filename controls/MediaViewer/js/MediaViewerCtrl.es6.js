@@ -53,9 +53,9 @@ $AMIClass('MediaViewerCtrl', {
 			mime: mime,
 		};
 
-		const [
-			context,
-			card
+		[
+			this.ctx.context,
+			this.ctx.card
 		] = amiWebApp.setup(
 			[
 				'context',
@@ -67,8 +67,6 @@ $AMIClass('MediaViewerCtrl', {
 			],
 			settings
 		);
-
-		this.ctx.card = card;
 
 		/*-----------------------------------------------------------------*/
 

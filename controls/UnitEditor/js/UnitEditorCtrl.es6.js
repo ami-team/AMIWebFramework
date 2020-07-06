@@ -123,7 +123,7 @@ $AMIClass('UnitEditorCtrl', {
 
 			el.attr('data-raw-unit-val', rawVal);
 			el.attr('data-raw-unit-name', unitName);
-			el.attr('data-raw-unit-factor', (((""))));
+			el.attr('data-raw-unit-factor', (((''))));
 			el.attr('data-raw-unit-base', unitBase);
 
 			/*-------------------------------------------------------------*/
@@ -321,10 +321,10 @@ $AMIClass('UnitEditorCtrl', {
 		let result;
 
 		/**/ if(base === 1000.0) {
-			result = this.factor2Unit_1000.hasOwnProperty(factor) ? this.factor2Unit_1000[factor] : '?';
+			result = 'factor' in this.factor2Unit_1000 ? this.factor2Unit_1000[factor] : '?';
 		}
 		else if(base == 1024.0) {
-			result = this.factor2Unit_1024.hasOwnProperty(factor) ? this.factor2Unit_1024[factor] : '?';
+			result = 'factor' in this.factor2Unit_1024 ? this.factor2Unit_1024[factor] : '?';
 		}
 		else {
 			result = '?';
@@ -374,10 +374,10 @@ $AMIClass('UnitEditorCtrl', {
 		let result;
 
 		/**/ if(base === 1000.0) {
-			result = this.unit2Factor_1000.hasOwnProperty(unit) ? this.unit2Factor_1000[unit] : 1.0;
+			result = 'unit' in this.unit2Factor_1000 ? this.unit2Factor_1000[unit] : 1.0;
 		}
 		else if(base == 1024.0) {
-			result = this.unit2Factor_1024.hasOwnProperty(unit) ? this.unit2Factor_1024[unit] : 1.0;
+			result = 'unit' in this.unit2Factor_1024 ? this.unit2Factor_1024[unit] : 1.0;
 		}
 		else {
 			result = 1.0;

@@ -7,7 +7,7 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global xqlGetRegions
+ * @global xqlGetRegions, saveAs
  *
  */
 
@@ -95,13 +95,13 @@ $AMIClass('TableCtrl', {
 			currentTabIndex: 0,
 		};
 
-		const [
-			context,
-			enableCache, enableCount, showPrimaryField, showToolBar, showDetails, showTools, canEdit,
-			catalog, entity, primaryField, rowset,
-			start, stop, orderBy, orderWay,
-			maxCellLength,
-			card
+		[
+			this.ctx.context,
+			this.ctx.enableCache, this.ctx.enableCount, this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.canEdit,
+			this.ctx.catalog, this.ctx.entity, this.ctx.primaryField, this.ctx.rowset,
+			this.ctx.start, this.ctx.stop, this.ctx.orderBy, this.ctx.orderWay,
+			this.ctx.maxCellLength,
+			this.ctx.card
 		] = amiWebApp.setup(
 			[
 				'context',
@@ -121,28 +121,6 @@ $AMIClass('TableCtrl', {
 			],
 			settings
 		);
-
-		this.ctx.enableCache = enableCache;
-		this.ctx.enableCount = enableCount;
-
-		this.ctx.showPrimaryField = showPrimaryField;
-		this.ctx.showToolBar = showToolBar;
-		this.ctx.showDetails = showDetails;
-		this.ctx.showTools = showTools;
-		this.ctx.canEdit = canEdit;
-
-		this.ctx.catalog = catalog;
-		this.ctx.entity = entity;
-		this.ctx.rowset = rowset;
-
-		this.ctx.start = start;
-		this.ctx.stop = stop;
-		this.ctx.orderBy = orderBy;
-		this.ctx.orderWay = orderWay;
-
-		this.ctx.maxCellLength = maxCellLength;
-
-		this.ctx.card = card;
 
 		/*-----------------------------------------------------------------*/
 
@@ -166,7 +144,7 @@ $AMIClass('TableCtrl', {
 
 		if(this.ctx.canEdit || ((this.ctx.showDetails || this.ctx.showTools) && !this.ctx.primaryField))
 		{
-			this.fieldEditor.getInfo(catalog, entity, primaryField).done((primaryField) => {
+			this.fieldEditor.getInfo(this.ctx.catalog, this.ctx.entity, this.ctx.primaryField).done((primaryField) => {
 
 				this.ctx.primaryField = primaryField;
 
@@ -178,22 +156,18 @@ $AMIClass('TableCtrl', {
 
 			}).fail(() => {
 
-				this.ctx.primaryField = primaryField;
-
-				this.ctx.showDetails = this.ctx.showDetails && !!primaryField;
-				this.ctx.showTools = this.ctx.showTools && !!primaryField;
-				this.ctx.canEdit = /*----------*/ false /*----------*/;
+				this.ctx.showDetails = this.ctx.showDetails && !!this.ctx.primaryField;
+				this.ctx.showTools = this.ctx.showTools && !!this.ctx.primaryField;
+				this.ctx.canEdit = /*-------------*/ false /*-------------*/;
 
 				this._render(result, selector);
 			});
 		}
 		else
 		{
-			this.ctx.primaryField = primaryField;
-
-			this.ctx.showDetails = this.ctx.showDetails && !!primaryField;
-			this.ctx.showTools = this.ctx.showTools && !!primaryField;
-			this.ctx.canEdit = /*----------*/ false /*----------*/;
+			this.ctx.showDetails = this.ctx.showDetails && !!this.ctx.primaryField;
+			this.ctx.showTools = this.ctx.showTools && !!this.ctx.primaryField;
+			this.ctx.canEdit = /*-------------*/ false /*-------------*/;
 
 			this._render(result, selector);
 		}
@@ -320,7 +294,7 @@ $AMIClass('TableCtrl', {
 
 			amiWebApp.lock();
 
-			amiCommand.execute('ListConverters').done((data, message) => {
+			amiCommand.execute('ListConverters').done((data) => {
 				
 				var xslts = amiWebApp.jspath('..field{.@name==="xslt" && .$!=="AMIXmlToXml.xsl" && .$!=="AMIXmlToJson.xsl" && .$!=="AMIXmlToCsv.xsl" && .$!=="AMIXmlToText.xsl" }.$', data) || [];
 
@@ -950,7 +924,7 @@ $AMIClass('TableCtrl', {
 	{
 		amiWebApp.lock();
 
-		amiCommand.execute(this.ctx.command, {converter: converter}).done(function(data, message) {
+		amiCommand.execute(this.ctx.command, {converter: converter}).done(function(data) {
 
 			/*---------------------------------------------------------*/
 
