@@ -126,19 +126,20 @@ $AMIClass('SearchCtrl', {
 			this.ctx.name,
 			this.ctx.defaultCatalog, this.ctx.defaultEntity, this.ctx.defaultField, this.ctx.defaultPrimaryField,
 			this.ctx.defaultSelect, this.ctx.defaultOrderBy, this.ctx.defaultOrderWay,
-			this.ctx.criteria, this.ctx.more, this.ctx.canEdit
+			this.ctx.criteria, this.ctx.more,
+			this.ctx.canEdit
 		] = amiWebApp.setup(
 			[
 				'name',
 				'defaultCatalog', 'defaultEntity', 'defaultField', 'defaultPrimaryField',
-				'*', 'created', 'DESC',
+				'defaultSelect', 'defaultOrderBy', 'defaultOrderWay',
 				'criteria', 'more',
 				'canEdit',
 			],
 			[
 				'N/A',
-				'N/A', 'N/A', 'N/A', 'N/A',
-				'N/A', 'N/A', 'N/A',
+				'', '', '', '',
+				'*', '', '',
 				[], {},
 				false,
 			],
