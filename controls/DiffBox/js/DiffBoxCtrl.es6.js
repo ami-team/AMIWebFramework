@@ -68,7 +68,7 @@ $AMIClass('DiffBoxCtrl', {
 			context, title
 		] = amiWebApp.setup(
 			['context', 'title'],
-			[deferred, 'Edit box'],
+			[deferred, 'Diff box'],
 			settings
 		);
 
@@ -97,6 +97,8 @@ $AMIClass('DiffBoxCtrl', {
 		$('#C604C636_346F_64A8_3EBE_ADCDE2AEB343').html(html3);
 
 		/*------------------------------------------------------------------------------------------------------------*/
+
+		$('#D12ACA0D_8E47_F13D_0DCD_E7D1ED5CA4AA').text(title);
 
 		$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').modal('show');
 

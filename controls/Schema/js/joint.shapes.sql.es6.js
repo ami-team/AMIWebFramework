@@ -7,7 +7,7 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global _, joint
+ * @global _, V, joint
  *
  */
 

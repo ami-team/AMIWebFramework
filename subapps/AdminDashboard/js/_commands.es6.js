@@ -56,7 +56,7 @@ $AMIClass('AdminDashboardCommands', {
 
 		}).fail(() => {
 
-			result.reject(e);
+			result.reject();
 		});
 
 		return result;

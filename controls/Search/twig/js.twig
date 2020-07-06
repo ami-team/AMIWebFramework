@@ -12,7 +12,14 @@
 				name: '{{name|e('js')}}',
 				defaultCatalog: '{{defaultCatalog|e('js')}}',
 				defaultEntity: '{{defaultEntity|e('js')}}',
-				criteria: {{criterias|json_encode(0)}},
+				defaultField: '{{defaultField|e('js')}}',
+				defaultPrimaryField: '{{defaultPrimaryField|e('js')}}',
+				defaultSelect: '{{defaultSelect|e('js')}}',
+				defaultOrderBy: '{{defaultOrderBy|e('js')}}',
+				defaultOrderWay: '{{defaultOrderWay|e('js')}}',
+				criteria: {{criteria|json_encode(0)}},
+				more: {{more|json_encode(0)}},
+				canEdit: {{canEdit}},
 			});
 		}
 		else

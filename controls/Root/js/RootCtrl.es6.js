@@ -7,6 +7,8 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
+ * @global JSROOT
+ *
  */
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -76,7 +78,7 @@ $AMIClass('RootCtrl', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute(commandOrJson).done((data, message) => {
+			amiCommand.execute(commandOrJson).done((data) => {
 
 				const rows = amiWebApp.jspath('..rowset{.@type==="hist" }.row', data) || [];
 
@@ -144,8 +146,6 @@ $AMIClass('RootCtrl', {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			JSROOT.draw(this.patchId('#E65240C8_73B7_B44C_52BB_388FFEEE01BD'), JSON, 'hist');
-
-			console.log($(this.patchId('#E65240C8_73B7_B44C_52BB_388FFEEE01BD')).data());
 
 			/*--------------------------------------------------------------------------------------------------------*/
 

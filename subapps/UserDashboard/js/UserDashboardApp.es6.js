@@ -18,7 +18,7 @@ $AMIClass('UserDashboardApp', {
 
 	/*---------------------------------------------------------------------*/
 
-	onReady: function(userdata)
+	onReady: function()
 	{
 		const result = $.Deferred();
 

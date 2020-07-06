@@ -49,9 +49,9 @@ $AMIClass('AdderCtrl', {
 
 		/**/
 
-		const [
-			context,
-			catalog, entity, field,
+		[
+			this.ctx.context,
+			this.ctx.catalog, this.ctx.entity, this.ctx.field,
 		] = amiWebApp.setup(
 			[
 				'context',
@@ -64,12 +64,6 @@ $AMIClass('AdderCtrl', {
 			settings
 		);
 
-		this.ctx.context = context;
-
-		this.ctx.catalog = catalog;
-		this.ctx.entity = entity;
-		this.ctx.field = field;
-
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.table = new this.tableCtor(this, this);
@@ -80,14 +74,14 @@ $AMIClass('AdderCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this.patchId('#F8A7229A_60B1_0D37_BA18_807B7E29C818')).click((e) => {
+			$(this.patchId('#F8A7229A_60B1_0D37_BA18_807B7E29C818')).click(() => {
 
 				this.table.fieldEditor.showRowModal(this.ctx.catalog, this.ctx.entity);
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this.patchId('#EBB91625_148B_1606_0D40_30BF170B11EE')).click((e) => {
+			$(this.patchId('#EBB91625_148B_1606_0D40_30BF170B11EE')).click(() => {
 
 					let mql = 'SELECT *';
 
