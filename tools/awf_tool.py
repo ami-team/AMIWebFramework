@@ -761,9 +761,10 @@ def main():
     parser.add_argument('--create-home-page', help = 'create a new home page', action = 'store_true')
     parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
-    parser.add_argument('--transpile', help = 'transpile controls and subapps', action = 'store_true')
-    parser.add_argument('--lint', help = 'lint controls and subapps', action = 'store_true')
     parser.add_argument('--create-id', help = 'create a new id', action = 'store_true')
+
+    parser.add_argument('--lint', help = 'lint controls and subapps', action = 'store_true')
+    parser.add_argument('--transpile', help = 'transpile controls and subapps', action = 'store_true')
 
     parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
     parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
@@ -785,11 +786,11 @@ def main():
     elif args.create_subapp:
         return createSubapp(args.verbose)
 
-    elif args.transpile:
-        return transpile(args.verbose)
-
     elif args.lint:
         return lint(args.verbose)
+
+    elif args.transpile:
+        return transpile(args.verbose)
 
     elif args.update_prod:
         return updateAWF(False, args.git_commit_id, args.verbose)
