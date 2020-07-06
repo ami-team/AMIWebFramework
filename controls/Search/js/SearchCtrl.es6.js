@@ -148,6 +148,15 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		if('canEdit' in this.ctx.more && this.ctx.more.canEdit)
+		{
+			delete this.ctx.more.canEdit;
+
+			this.ctx.canEdit = true;
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		amiWebApp.lock();
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -2145,7 +2154,7 @@ $AMIClass('SearchCtrl', {
 
 	viewSelection: function()
 	{
-		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', ['BrowseQuery -GUI -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"'], {showDetails: true, canEdit: this.ctx.canEdit || this.ctx.more.canEdit, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField}, this.ctx, 'table', this.ctx.defaultEntity);
+		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', ['BrowseQuery -GUI -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"'], {showDetails: true, canEdit: this.ctx.canEdit, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField}, this.ctx, 'table', this.ctx.defaultEntity);
 
 		/* À VERIFIER !!! */
 	},
