@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	var BROWSER_LIST = [
+	const BROWSER_LIST = [
 		">= 1%",
 		"last 1 major version",
 		"not dead",
@@ -25,11 +25,11 @@ module.exports = function(grunt) {
 
 	function findES6Files(paths)
 	{
-		var result = {};
+		const result = {};
 
-		paths.forEach(function(path) {
+		paths.forEach((path) => {
 
-			grunt.file.expand(path + "/*.es6.js").forEach(function(file) {
+			grunt.file.expand(path + "/*.es6.js").forEach((file) => {
 
 				result[file.substring(0, file.length - 6) + "js"] = file;
 			});

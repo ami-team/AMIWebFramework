@@ -19,7 +19,7 @@
     "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-cssmin": "^3.0.0",
     "grunt-contrib-uglify-es": "^3.3.0",
-    "grunt-eslint": "^22.0.0",
+    "grunt-eslint": "^23.0.0",
     "grunt-exec": "^3.0.0",
     "grunt-jsdoc": "^2.4.1",
     "jsdoc": "^3.6.3"

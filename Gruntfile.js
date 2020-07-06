@@ -33,7 +33,7 @@ module.exports = function(grunt) {
 
 	function findES6Files(paths)
 	{
-		let result = {};
+		const result = {};
 
 		paths.forEach((path) => {
 
@@ -146,9 +146,25 @@ module.exports = function(grunt) {
 		/*-----------------------------------------------------------------*/
 
 		"eslint": {
-			"target": [
-				"<%= concat.js.dest %>"
-			]
+			"js1": {
+				"options": {
+					"configFile": ".eslintrc.json",
+					"failOnError": true,
+				},
+				"src": [
+					"<%= concat.js.dest %>"
+				]
+			},
+			"js2": {
+				"options": {
+					"configFile": ".eslintrc.json",
+					"failOnError": false,
+				},
+				"src": Object.values(findES6Files([
+					"./controls/**/",
+					"./subapps/**/"
+				]))
+			}
 		},
 
 		/*-----------------------------------------------------------------*/
@@ -242,7 +258,9 @@ module.exports = function(grunt) {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	grunt.registerTask("build", ["exec", "jsdoc", "concat", "autoprefixer", "eslint", "babel", "cssmin", "uglify"]);
+	grunt.registerTask("lint", ["eslint:js2"]);
+
+	grunt.registerTask("build", ["exec", "jsdoc", "concat", "autoprefixer", "eslint:js1", "babel", "cssmin", "uglify"]);
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 };
