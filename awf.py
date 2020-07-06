@@ -32,8 +32,7 @@ def main():
     parser.add_argument('--create-home-page', help = 'create a new home page', action = 'store_true')
     parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
-    parser.add_argument('--lint-controls', help = 'lint controls', action = 'store_true')
-    parser.add_argument('--lint-subapps', help = 'lint subapps', action = 'store_true')
+    parser.add_argument('--lint', help = 'lint both controls and subapps', action = 'store_true')
     parser.add_argument('--create-id', help = 'create a new id', action = 'store_true')
 
     parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
@@ -51,11 +50,8 @@ def main():
     elif args.create_subapp:
         return awf_tool.createSubapp(args.verbose)
 
-    elif args.lint_controls:
-        return awf_tool.lintControls(args.verbose)
-
-    elif args.lint_subapps:
-        return awf_tool.lintSubapps(args.verbose)
+    elif args.lint:
+        return awf_tool.lint(args.verbose)
 
     ####################################################################################################################
 
