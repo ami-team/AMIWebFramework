@@ -125,7 +125,7 @@
 							 data-primary-value="{{row.field[primaryIdx].$|e}}"
 							 {% endif %}
 						>
-							{% if field.$ !== '@NULL' %}
+							{% if field.$ === '@NULL' %}
 							{%   if hasFieldDescriptions and fieldDescriptions[loop.index0]['@media'] === 'true' %}
 							{%     if primaryIdx >= 0 %}
 							<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
@@ -140,7 +140,8 @@
 							{%     else %}
 							{{field.$|e}}
 							{%     endif %}
-							{%   else %}
+							{%   endif %}
+							{% else %}
 							@NULL
 							{% endif %}
 						</div>
