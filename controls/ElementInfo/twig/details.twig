@@ -14,7 +14,7 @@
 						{%   for row in elementRowset %}
 						{%     set hasFieldDescriptions = fieldDescriptions.length === row.field.length %}
 						{%     for field in row.field %}
-						{%       if (showEmptyFields or (field.$ is not empty and field.$ != '@NULL' and field.$ != 'N/A')) and (not field['@name'] in ignoredFields) and not (hasFieldDescriptions and fieldDescriptions[loop.index0]['@hidden'] === 'true') %}
+						{%       if (showEmptyFields or (field.$ is not empty and field.$ !== '@NULL' and field.$ !== 'N/A')) and (not field['@name'] in ignoredFields) and not (hasFieldDescriptions and fieldDescriptions[loop.index0]['@hidden'] === 'true') %}
 						<tr>
 							<td class="text-left">
 								<strong>{{field['@name']|e}}</strong>
