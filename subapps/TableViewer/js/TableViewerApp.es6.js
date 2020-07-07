@@ -67,7 +67,7 @@ $AMIClass('TableViewerApp', {
 		                amiLogin.hasRole('AMI_WRITER')
 		;
 
-		this.table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', 'BrowseQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*` WHERE ' + this.expression + '" -hideBigContent', {
+		this.table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', 'BrowseQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*` WHERE ' + this.expression + '"', {
 			showDetails: true,
 			canEdit: canEdit,
 			catalog: this.catalog,
