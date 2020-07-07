@@ -99,8 +99,10 @@
 						<a href="#" data-action="filter" data-filter-def="{{field.$|slice(8)|e}}">
 							<i class="fa fa-link"></i>
 						</a>
-						{% elseif field.$ starts with '@NOGO' %}
+						{% elseif field.$ === '@NOGO' %}
 						<div class="font-italic text-danger">admin only</div>
+						{% elseif field.$ === '@NULL' %}
+						<div class="font-italic text-secondary">null value</div>
 						{% else %}
 						<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
 							 {% if field['properties'] is defined and not (hasFieldDescriptions and fieldDescriptions[loop.index0]['@media'] === 'true') %}
@@ -125,24 +127,20 @@
 							 data-primary-value="{{row.field[primaryIdx].$|e}}"
 							 {% endif %}
 						>
-							{% if field.$ === '@NULL' %}
-							{%   if hasFieldDescriptions and fieldDescriptions[loop.index0]['@media'] === 'true' %}
-							{%     if primaryIdx >= 0 %}
+							{% if hasFieldDescriptions and fieldDescriptions[loop.index0]['@media'] === 'true' %}
+							{%   if primaryIdx >= 0 %}
 							<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{fieldDescriptions[primaryIdx]['@catalog']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@entity']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[primaryIdx]['@field']|e('json')|e('html')}}&quot;,&quot;{{row.field[primaryIdx].$|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
-							{%     else %}
-							<i class="fa fa-search-plus text-danger"></i> {{fieldDescriptions[loop.index0]['@mime']|e}}
-							{%     endif %}
-							{%   elseif hasFieldDescriptions and fieldDescriptions[loop.index0]['@json'] === 'true' %}
-							<a href="#" class="view-more" data-ctrl="jsonBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
 							{%   else %}
-							{%     if (field.$|length) > maxCellLength %}
-							<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('js')|e}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
-							{%     else %}
-							{{field.$|e}}
-							{%     endif %}
+							<i class="fa fa-search-plus text-danger"></i> {{fieldDescriptions[loop.index0]['@mime']|e}}
 							{%   endif %}
+							{% elseif hasFieldDescriptions and fieldDescriptions[loop.index0]['@json'] === 'true' %}
+							<a href="#" class="view-more" data-ctrl="jsonBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
 							{% else %}
-							@NULL
+							{%   if (field.$|length) > maxCellLength %}
+							<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('js')|e}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
+							{%   else %}
+							{{field.$|e}}
+							{%   endif %}
 							{% endif %}
 						</div>
 						{%   if field['links'] is defined %}
