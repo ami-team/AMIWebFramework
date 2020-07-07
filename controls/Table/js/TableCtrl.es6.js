@@ -97,7 +97,7 @@ $AMIClass('TableCtrl', {
 
 		[
 			this.ctx.context,
-			this.ctx.enableCache, this.ctx.enableCount, this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.canEdit,
+			this.ctx.enableCache, this.ctx.enableCount, this.ctx.hideBigContent, this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.canEdit,
 			this.ctx.catalog, this.ctx.entity, this.ctx.primaryField, this.ctx.rowset,
 			this.ctx.start, this.ctx.stop, this.ctx.orderBy, this.ctx.orderWay,
 			this.ctx.maxCellLength,
@@ -105,7 +105,7 @@ $AMIClass('TableCtrl', {
 		] = amiWebApp.setup(
 			[
 				'context',
-				'enableCache', 'enableCount', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
+				'enableCache', 'enableCount', 'hideBigContent', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
 				'start', 'stop', 'orderBy', 'orderWay',
 				'maxCellLength',
@@ -113,7 +113,7 @@ $AMIClass('TableCtrl', {
 			],
 			[
 				result,
-				false, true, true, true, true, true, false,
+				false, true, true, true, true, true, true, false,
 				'', '', '', '',
 				1, 10, '', '',
 				64,
@@ -638,7 +638,7 @@ $AMIClass('TableCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '')).done((data) => {
+		amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '') + (this.ctx.hideBigContent ? ' -hideBigContent' : '')).done((data) => {
 
 			/*-------------------------------------------------------------*/
 

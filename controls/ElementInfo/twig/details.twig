@@ -2,7 +2,7 @@
 	<tr>
 		<td class="align-top">
 
-			<!-- ******************************************************** -->
+			<!-- *************************************************************************************************** -->
 
 			<div class="card">
 				<h5 class="card-header text-center p-1">
@@ -12,8 +12,9 @@
 					<table class="table table-sm table-striped table-bordered mb-0">
 						{% if elementRowset is not empty %}
 						{%   for row in elementRowset %}
+						{%     set hasFieldDescriptions = fieldDescriptions.length === row.field.length %}
 						{%     for field in row.field %}
-						{%       if (showEmptyFields or (field.$ is not empty and field.$ != '@NULL' and field.$ != 'N/A')) and (not field['@name'] in ignoredFields) %}
+						{%       if (showEmptyFields or (field.$ is not empty and field.$ != '@NULL' and field.$ != 'N/A')) and (not field['@name'] in ignoredFields) and not (hasFieldDescriptions and fieldDescriptions[loop.index0]['@hidden'] === 'true') %}
 						<tr>
 							<td class="text-left">
 								<strong>{{field['@name']|e}}</strong>
@@ -23,11 +24,13 @@
 								<a href="#" data-action="filter" data-filter-def="{{field.$|slice(8)|e}}">
 									<i class="fa fa-link"></i>
 								</a>
-								{% elseif field.$ starts with '@NOGO' %}
+								{% elseif field.$ === '@NOGO' %}
 								<div class="font-italic text-danger">admin only</div>
+								{% elseif field.$ === '@NULL' %}
+								<div class="font-italic text-secondary">null value</div>
 								{% else %}
 								<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
-								     {% if field['properties'] is defined and fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
+								     {% if field['properties'] is defined and not (hasFieldDescriptions and fieldDescriptions[loop.index0]['@media'] === 'true') %}
 								     {%   if field['properties']['@id'] %}id="{{field['properties']['@id']|e}}"{% endif %}
 								     {%   if field['properties']['@class'] %}class="{{field['properties']['@class']|e}}"{% endif %}
 								     {%   if field['properties']['@unitName'] %}data-unit-name="{{field['properties']['@unitName']|e}}"{% endif %}
@@ -48,14 +51,20 @@
 								     data-primary-value="{{primaryFieldValue|e}}"
 								     {% endif %}
 								>
-									{% if fieldDescriptions[loop.index0]['@displayable'] !== 'true' %}
+									{% if hasFieldDescriptions and fieldDescriptions[loop.index0]['@media'] === 'true' %}
+									<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{catalog|e('json')|e('html')}}&quot;,&quot;{{entity|e('json')|e('html')}}&quot;,&quot;{{primaryFieldName|e('json')|e('html')}}&quot;,&quot;{{primaryFieldValue|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
+									{% elseif hasFieldDescriptions and fieldDescriptions[loop.index0]['@json'] === 'true' %}
+									<a href="#" class="view-more" data-ctrl="jsonBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
+									{% else %}
 									{%   if (field.$|length) > maxCellLength %}
 									<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('json')|e('html')}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
 									{%   else %}
+									{%     if field.$ === '@LONG' %}
+									<div class="font-italic text-secondary">long value</div>
+									{%     else %}
 									{{field.$|e}}
+									{%     endif %}
 									{%   endif %}
-									{% else %}
-									<a href="#" class="view-media" data-ctrl="{{fieldDescriptions[loop.index0]['@ctrl']}}" data-ctrl-location="container" data-params="[&quot;{{catalog|e('json')|e('html')}}&quot;,&quot;{{entity|e('json')|e('html')}}&quot;,&quot;{{primaryFieldName|e('json')|e('html')}}&quot;,&quot;{{primaryFieldValue|e('json')|e('html')}}&quot;,&quot;{{field['@name']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@base64']|e('json')|e('html')}}&quot;,&quot;{{fieldDescriptions[loop.index0]['@mime']|e('json')|e('html')}}&quot;]" data-settings="{}" data-icon="picture-o" data-title="media"><i class="fa fa-search-plus"></i></a> {{fieldDescriptions[loop.index0]['@mime']|e}}
 									{% endif %}
 								</div>
 								{%   if field['links'] is defined %}
@@ -90,7 +99,7 @@
 				</div>
 			</div>
 
-			<!-- ******************************************************** -->
+			<!-- *************************************************************************************************** -->
 
 		</td>
 
@@ -98,7 +107,7 @@
 
 		<td class="align-top">
 
-			<!-- ******************************************************** -->
+			<!-- *************************************************************************************************** -->
 
 			<div class="card">
 				<h5 class="card-header text-center p-1">
@@ -139,7 +148,7 @@
 				</div>
 			</div>
 
-			<!-- ******************************************************** -->
+			<!-- *************************************************************************************************** -->
 
 			{% if expandedLinkedElements is not empty %}
 			{%   for expandedLinkedElement in expandedLinkedElements %}
@@ -175,7 +184,7 @@
 			{%   endfor %}
 			{% endif %}
 
-			<!-- ******************************************************** -->
+			<!-- *************************************************************************************************** -->
 		</td>
 	</tr>
 </table>

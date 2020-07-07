@@ -62,13 +62,13 @@ $AMIClass('ElementInfoCtrl', {
 			primaryFieldValue: primaryFieldValue,
 		};
 
-		const fn = (catalog, entity, primaryFieldName, primaryFieldValue) => 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '" -hideBigContent';
+		const fn = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) => 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"' + (this.ctx.hideBigContent ? ' -hideBigContent' : '');
 
 		[
 			this.ctx.context,
 			this.ctx.elementInfoCommandFunc,
 			this.ctx.expandedLinkedElements,
-			this.ctx.enableCache, this.ctx.enableCount, this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.canEdit,
+			this.ctx.enableCache, this.ctx.enableCount, this.ctx.hideBigContent, this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.canEdit,
 			this.ctx.maxCellLength,
 			this.ctx.card
 		] = amiWebApp.setup(
@@ -76,7 +76,7 @@ $AMIClass('ElementInfoCtrl', {
 				'context',
 				'elementInfoCommandFunc',
 				'expandedLinkedElements',
-				'enableCache', 'enableCount', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
+				'enableCache', 'enableCount', 'hideBigContent', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'maxCellLength',
 				'card',
 			],
@@ -84,7 +84,7 @@ $AMIClass('ElementInfoCtrl', {
 				result,
 				fn,
 				[],
-				false, true, true, true, true, true, false,
+				false, true, true, true, true, true, true, false,
 				64,
 				false,
 			],
@@ -230,6 +230,8 @@ $AMIClass('ElementInfoCtrl', {
 					enableCache: this.ctx.enableCache,
 					enableCount: this.ctx.enableCount,
 					/**/
+					hideBigContent: this.ctx.hideBigContent,
+					/**/
 					showPrimaryField: this.ctx.showPrimaryField,
 					showToolBar: this.ctx.showToolBar,
 					showDetails: this.ctx.showDetails,
@@ -297,7 +299,7 @@ $AMIClass('ElementInfoCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		this.ctx.command = this.ctx.elementInfoCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.primaryFieldName, this.ctx.primaryFieldValue);
+		this.ctx.command = this.ctx.elementInfoCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.primaryFieldName, this.ctx.primaryFieldValue, this.ctx.hideBigContent);
 
 		/*-----------------------------------------------------------------*/
 

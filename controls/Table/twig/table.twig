@@ -139,7 +139,11 @@
 							{%   if (field.$|length) > maxCellLength %}
 							<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('js')|e}}&quot;]" data-settings="{}"><i class="fa fa-search-plus"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
 							{%   else %}
+							{%     if field.$ === '@LONG' %}
+							<div class="font-italic text-secondary">long value</div>
+							{%     else %}
 							{{field.$|e}}
+							{%     endif %}
 							{%   endif %}
 							{% endif %}
 						</div>
