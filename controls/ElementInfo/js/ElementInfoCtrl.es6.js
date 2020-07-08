@@ -62,7 +62,7 @@ $AMIClass('ElementInfoCtrl', {
 			primaryFieldValue: primaryFieldValue,
 		};
 
-		const fn = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) => 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"' + (this.ctx.hideBigContent ? ' -hideBigContent' : '');
+		const fn = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) => 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"' + (hideBigContent ? ' -hideBigContent' : '');
 
 		[
 			this.ctx.context,
