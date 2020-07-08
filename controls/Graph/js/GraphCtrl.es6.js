@@ -90,7 +90,7 @@ $AMIClass('GraphCtrl', {
 
 			svg.find('a[data-title-icon]').each((i, el) => {
 
-				$('<tspan font-family="FontAwesome">' + String.fromCharCode('0x' + el.attr('data-title-icon')) + '</tspan><tspan> </tspan>').prependTo(el.find('text'));
+				$('<tspan font-family="FontAwesome">' + String.fromCharCode('0x' + $(el).attr('data-title-icon')) + '</tspan><tspan> </tspan>').prependTo($(el).find('text'));
 			});
 
 			dict.graph = doc.documentElement.outerHTML;
