@@ -139,7 +139,7 @@ $AMIClass('RootCtrl', {
 
 		return this.replaceHTML(this._selector = selector, this.fragmentRootCtrl, {dict: this.ctx}).done(() => {
 
-			/*------------------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			const js = amiWebApp.formatTWIG(this.fragmentJS, this.ctx);
 
