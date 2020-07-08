@@ -65,7 +65,7 @@ $AMIClass('GraphCtrl', {
 			/* GRAPH POST TREATMENT                                                                                   */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			dict.graph = dict.graph.replace(/xlink:href="([^"]*)"/g, function(x, json) {
+			dict.graph = dict.graph.replace(/xlink:href='([^"]*)'/g, (x, json) => {
 
 				let jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
 
