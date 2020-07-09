@@ -310,7 +310,7 @@ $AMIClass('FieldEditorCtrl', {
 
 	isInEditMode: function()
 	{
-		return this.ctx.inEditMode();
+		return this.ctx.inEditMode;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
