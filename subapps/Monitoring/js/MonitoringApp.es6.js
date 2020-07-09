@@ -339,9 +339,9 @@ $AMIClass('MonitoringApp', {
 
 			rows.forEach((row) => {
 
-				const node = amiWebApp.jspath('..field{.@name==="node"}.$', row)[0] || '';
-				const service = amiWebApp.jspath('..field{.@name==="service"}.$', row)[0] || '';
-				const endpoint = amiWebApp.jspath('..field{.@name==="endpoint"}.$', row)[0] || '';
+				let node = amiWebApp.jspath('..field{.@name==="node"}.$', row)[0] || '';
+				let service = amiWebApp.jspath('..field{.@name==="service"}.$', row)[0] || '';
+				let endpoint = amiWebApp.jspath('..field{.@name==="endpoint"}.$', row)[0] || '';
 
 				/**/ if(service === 'front') {
 					numberOfFronts++;
@@ -603,8 +603,8 @@ $AMIClass('MonitoringApp', {
 
 			rows.forEach((row) => {
 
-				const code = /*----*/(amiWebApp.jspath('..field{.@name==="code"}.$', row)[0] || 'N/A');
-				const z    = parseInt(amiWebApp.jspath('..field{.@name==="z"   }.$', row)[0] || '0x0');
+				let code = /*----*/(amiWebApp.jspath('..field{.@name==="code"}.$', row)[0] || 'N/A');
+				let z    = parseInt(amiWebApp.jspath('..field{.@name==="z"   }.$', row)[0] || '0x0');
 
 				score[code] = z;
 
