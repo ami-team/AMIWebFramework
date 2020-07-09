@@ -28,7 +28,7 @@ $AMIClass('TaskServerAdminApp', {
 			'ctrl:table',
 		]).done((data) => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(() => {
+			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
 
 				const tab1 = new data[1](this);
 				const tab2 = new data[1](this);
