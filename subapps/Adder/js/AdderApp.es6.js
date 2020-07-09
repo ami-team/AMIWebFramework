@@ -27,26 +27,25 @@ $AMIClass('AdderApp', {
             userdata.split(',').forEach((item) => {
 
                  this.qId.push(item.trim());
-
             });
         }
 
-		var result = $.Deferred();
+		const result = $.Deferred();
 
 		amiWebApp.loadResources([
 			'subapps/Adder/css/AdderApp.css',
 			'subapps/Adder/twig/AdderApp.twig',
 			'ctrl:adder'
-		], {context: this}).done(function(data) {
+		], {context: this}).done((data) => {
 
 		    this.adderCtrl = data[2];
 
-			amiWebApp.replaceHTML('#ami_main_content', data[1], {context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[1], {context: this}).done(() => {
 
 				result.resolve();
 			});
 
-		}).fail(function(data) {
+		}).fail((data) => {
 
 			result.reject(data);
 		});
@@ -66,7 +65,7 @@ $AMIClass('AdderApp', {
 	{
         const result = $.Deferred();
 
-        var enable = amiLogin.hasRole('AMI_ADMIN') === true || amiLogin.hasRole('AMI_WRITER') === true;
+        const enable = amiLogin.hasRole('AMI_ADMIN') === true || amiLogin.hasRole('AMI_WRITER') === true;
 
         if(enable)
         {

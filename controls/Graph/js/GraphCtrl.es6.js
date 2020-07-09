@@ -55,9 +55,9 @@ $AMIClass('GraphCtrl', {
 
 		amiCommand.execute(command).done((data) => {
 
-			let dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
+			const dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
 
-			let dict = {
+			const dict = {
 				graph : typeof Viz !== 'undefined' ?  Viz(dotString, 'svg') : '',
 			};
 
@@ -67,9 +67,9 @@ $AMIClass('GraphCtrl', {
 
 			dict.graph = dict.graph.replace(/xlink:href="([^"]*)"/g, (x, json) => {
 
-				let jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
+				const jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
 
-				let attrs = [];
+				const attrs = [];
 
 				attrs.push('data-ctrl="' + amiWebApp.textToHtml(jsonbObj['data-ctrl']) + '"');
 				attrs.push('data-ctrl-location="' + amiWebApp.textToHtml(jsonbObj['data-ctrl-location']) + '"');
@@ -84,9 +84,9 @@ $AMIClass('GraphCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			let doc = new DOMParser().parseFromString(dict.graph, 'image/svg+xml');
+			const doc = new DOMParser().parseFromString(dict.graph, 'image/svg+xml');
 
-			let svg = $(doc.documentElement);
+			const svg = $(doc.documentElement);
 
 			svg.find('a[data-title-icon]').each((i, el) => {
 

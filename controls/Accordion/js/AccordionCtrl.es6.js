@@ -72,7 +72,7 @@ $AMIClass('AccordionCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let dict = {
+		const dict = {
 			toolbar: this._toolbar,
 		};
 
@@ -134,9 +134,9 @@ $AMIClass('AccordionCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt++;
+		const id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt++;
 
-		let dict = {
+		const dict = {
 			id: id,
 			clazz: clazz,
 			title: title,
@@ -210,9 +210,9 @@ $AMIClass('AccordionCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt++;
+		const id = this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711') + '_' + this._cnt++;
 
-		let dict = {
+		const dict = {
 			id: id,
 			title: title,
 			extraTitle: extraTitle,
