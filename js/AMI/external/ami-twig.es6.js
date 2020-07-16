@@ -3135,7 +3135,7 @@ amiTwig.expr.interpreter = {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				L = [];
-	
+
 				for(const i in node.dict)
 				{
 					L.push(i + ':' + this._getJS(node.dict[i]));
