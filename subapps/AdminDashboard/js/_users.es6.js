@@ -86,11 +86,11 @@ $AMIClass('AdminDashboardUsers', {
 	{
 		amiWebApp.lock();
 
-		filter = filter.trim();
+		filter = filter.trim().toLowerCase();
 
-		amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`id`, `router_role`.`role` WHERE `router_user`.`AMIUser` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\'"').done((data2) => {
+		amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `router_user`.`id`, `router_role`.`role` WHERE LOWER(`router_user`.`AMIUser`) LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' OR LOWER(`router_user`.`email`) LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\'"').done((data2) => {
 
-			amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `id`, `AMIUser`, `clientDN`, `issuerDN`, `firstName`, `lastName`, `email`, `valid` WHERE `AMIUser` LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' ORDER BY `AMIUser` LIMIT 50"').done((data1) => {
+			amiCommand.execute('SearchQuery -catalog="self" -entity="router_user" -mql="SELECT `id`, `AMIUser`, `clientDN`, `issuerDN`, `firstName`, `lastName`, `email`, `valid` WHERE LOWER(`router_user`.`AMIUser`) LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' OR LOWER(`router_user`.`email`) LIKE \'%' + amiWebApp.textToString(amiWebApp.textToSQL(filter)) + '%\' ORDER BY `AMIUser` LIMIT 50"').done((data1) => {
 
 				const rows1 = amiWebApp.jspath('..rowset.row', data1);
 				const rows2 = amiWebApp.jspath('..rowset.row', data2);
