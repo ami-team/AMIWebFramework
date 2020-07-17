@@ -68,13 +68,13 @@ $AMIClass('SchemaViewerApp', {
 				this.schema = new data[3]();
 
 				this.schema.render('#C6DDFAF6_9E75_41C5_87BD_0896B5299559', {
-					onFocus: function(cell) {
+					onFocus: (cell) => {
 
 						if(cell) {
 							this.colorPicker.fromString(cell.getColor());
 						}
 					},
-					onBlur: function() {
+					onBlur: () => {
 						/**/
 							this.colorPicker.fromString(((('#0066CC'))));
 					},
