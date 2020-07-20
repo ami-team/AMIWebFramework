@@ -75,8 +75,10 @@ $AMIClass('SchemaViewerApp', {
 						}
 					},
 					onBlur: () => {
-						/**/
+
+						/*----*/ {
 							this.colorPicker.fromString(((('#0066CC'))));
+						}
 					},
 				}).done(() => {
 

@@ -118,6 +118,7 @@ $AMIClass('FieldEditorCtrl', {
 				const field = amiWebApp.jspath('..field{.@name==="field"}.$', rows[i])[0] || '';
 				const type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
 				const def = amiWebApp.jspath('..field{.@name==="def"}.$', rows[i])[0] || '';
+				const media = amiWebApp.jspath('..field{.@name==="media"}.$', rows[i])[0] || '';
 
 				const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', rows[i])[0] || '';
 				const created = amiWebApp.jspath('..field{.@name==="created"}.$', rows[i])[0] || '';
@@ -146,6 +147,7 @@ $AMIClass('FieldEditorCtrl', {
 						field: field,
 						type: type,
 						def: def,
+						media: media,
 					});
 				}
 
