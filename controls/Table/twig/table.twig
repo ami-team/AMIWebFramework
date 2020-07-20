@@ -73,9 +73,8 @@
 			</thead>
 			<!-- *************************************************************************************************** -->
 			<tbody>
-				{% if rows is not empty %}
-				{%   for row in rows %}
-				{%     set hasFieldDescriptions = fieldDescriptions.length === row.field.length %}
+				{% for row in rows %}
+				{%   set hasFieldDescriptions = fieldDescriptions.length === row.field.length %}
 				<tr>
 					<!-- ******************************************************************************************* -->
 					{% if showDetails and primaryIdx >= 0 and hasFieldDescriptions %}
@@ -170,12 +169,11 @@
 					{% endfor %}
 					<!-- ******************************************************************************************* -->
 				</tr>
-				{%   endfor %}
 				{% else %}
 				<tr>
 					<td class="text-center text-warning" colspan="999">empty table</td>
 				</tr>
-				{% endif %}
+				{% endfor %}
 			</tbody>
 		</table>
 	</div>
