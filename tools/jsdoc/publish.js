@@ -472,11 +472,12 @@ exports.publish = function(data, opts)
 		'',
 		'/* eslint-disable */',
 		'',
-		'var amiDoc = ' + JSON.stringify(root) + ';',
+		'const amiDoc = ' + JSON.stringify(root) + ';',
 		'',
 		'/* eslint-enable */',
 		'',
 		'/*--------------------------------------------------------------------------------------------------------------------*/',
+		'',
 
 	].join('\n');
 
