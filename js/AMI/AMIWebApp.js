@@ -1219,6 +1219,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	/**
+	  * Locks the modal window
+	  */
+
 	modalLock: function()
 	{
 		let lines = this.getStack().split('\n');
@@ -1239,6 +1243,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	  * Unlocks the modal window
+	  */
 
 	modalUnlock: function()
 	{
