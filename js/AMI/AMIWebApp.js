@@ -1062,10 +1062,11 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}
 	  * @param {String} twig the TWIG string
 	  * @param {Object|Array} [dict] the dictionary
+	  * @param {Object} [twigs] dictionary of fragments
 	  * @returns {String} The Interpreted TWIG string
 	  */
 
-	formatTWIG: function(twig, dict)
+	formatTWIG: function(twig, dict = {}, twigs = {})
 	{
 		const result = [];
 
@@ -1078,10 +1079,15 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				dict = {};
 			}
 
+			if(this.typeOf(twigs) !== 'Object')
+			{
+				twigs = {};
+			}
+
 			dict['ORIGIN_URL'] = this.originURL;
 			dict['WEBAPP_URL'] = this.webAppURL;
 
-			return amiTwig.engine.render(twig, dict);
+			return amiTwig.engine.render(twig, dict, twigs);
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -1092,12 +1098,12 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			{
 				dict.forEach((DICT) => {
 
-					result.push(render(twig, DICT));
+					result.push(render(twig, DICT, twigs));
 				});
 			}
 			else
 			{
-				result.push(render(twig, dict));
+				result.push(render(twig, dict, twigs));
 			}
 		}
 		catch(error)
