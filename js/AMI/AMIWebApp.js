@@ -1769,7 +1769,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	  * Asynchronously create a control in a container
+	  * Asynchronously create a control in the body
 	  * @param {Object} [parent] ???
 	  * @param {Object} [owner] ???
 	  * @param {String} control ???
