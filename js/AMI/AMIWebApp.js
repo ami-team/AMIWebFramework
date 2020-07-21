@@ -892,9 +892,9 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		const result = $.Deferred();
 
-		const [context, suffix, dict] = this.setup(
-			['context', 'suffix', 'dict'],
-			[result, null, null],
+		const [context, suffix, dict, twigs] = this.setup(
+			['context', 'suffix', 'dict', 'twigs'],
+			[result, null, null, null],
 			settings
 		);
 
@@ -908,7 +908,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			});
 		}
 
-		const html = this.formatTWIG(twig, dict);
+		const html = this.formatTWIG(twig, dict, twigs);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -1017,7 +1017,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
-	  * @param {Object} [settings] dictionary of settings (context, dict)
+	  * @param {Object} [settings] dictionary of settings (context, suffix, dict, twigs)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
@@ -1032,7 +1032,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
-	  * @param {Object} [settings] dictionary of settings (context, dict)
+	  * @param {Object} [settings] dictionary of settings (context, suffix, dict, twigs)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
@@ -1047,7 +1047,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
 	  * @param {String} selector the target selector
 	  * @param {String} twig the TWIG fragment
-	  * @param {Object} [settings] dictionary of settings (context, dict)
+	  * @param {Object} [settings] dictionary of settings (context, suffix, dict, twigs)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
