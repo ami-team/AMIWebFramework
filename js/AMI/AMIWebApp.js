@@ -194,6 +194,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			resourcesJS.push(this.originURL + '/js/moment.min.js');
 		}
 
+		if(!window.QRious) {
+			resourcesJS.push(this.originURL + '/js/qrious.min.js');
+		}
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(!this._noBootstrap && (typeof jQuery.fn.modal) !== 'function')
