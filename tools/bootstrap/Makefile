@@ -8,6 +8,8 @@ MOMENT_VERSION=2.24.0
 
 SELECT2_VERSION=4.0.12
 
+QRIOUS_VERSION=4.0.2
+
 BOOTSTRAP_VERSION=4.5.0
 
 ########################################################################################################################
@@ -35,8 +37,6 @@ CHARTJS_VERSION=2.9.3
 
 DIFF_MATCH_PATCH_VERSION=20121119
 
-QRIOUS_VERSION=4.0.2
-
 ########################################################################################################################
 
 all: clean core 3rd-party
@@ -60,6 +60,12 @@ core:
 
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/select2/$(SELECT2_VERSION)/css/select2.min.css > ../../css/select2.min.css
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/select2/$(SELECT2_VERSION)/js/select2.min.js > ../../js/select2.min.js
+
+	####################################################################################################################
+	# QRIOUS                                                                                                           #
+	####################################################################################################################
+
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/qrious/$(QRIOUS_VERSION)/qrious.min.js > ../../js/qrious.min.js
 
 	####################################################################################################################
 	# BOOTSTRAP                                                                                                        #
@@ -124,8 +130,6 @@ core:
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$(CHARTJS_VERSION)/Chart.bundle.min.js > ../../js/3rd-party/chart.bundle.min.js
 
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/$(DIFF_MATCH_PATCH_VERSION)/diff_match_patch.js > ../../js/3rd-party/diff_match_patch.min.js
-
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/qrious/$(QRIOUS_VERSION)/qrious.min.js > ../../js/3rd-party/qrious.min.js
 
 	####################################################################################################################
 
