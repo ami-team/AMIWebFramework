@@ -2,13 +2,13 @@
 # AMI CORE                                                                                                             #
 ########################################################################################################################
 
-JQUERY_VERSION=3.4.1
+JQUERY_VERSION=3.5.1
 POPPER_VERSION=1.16.0
 MOMENT_VERSION=2.24.0
 
 SELECT2_VERSION=4.0.12
 
-BOOTSTRAP_VERSION=4.4.1
+BOOTSTRAP_VERSION=4.5.0
 
 ########################################################################################################################
 # 3RD PARTY                                                                                                            #
@@ -34,6 +34,8 @@ FILESAVER_VERSION=1.3.8
 CHARTJS_VERSION=2.9.3
 
 DIFF_MATCH_PATCH_VERSION=20121119
+
+QRIOUS_VERSION=4.0.2
 
 ########################################################################################################################
 
@@ -122,6 +124,8 @@ core:
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$(CHARTJS_VERSION)/Chart.bundle.min.js > ../../js/3rd-party/chart.bundle.min.js
 
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/diff_match_patch/$(DIFF_MATCH_PATCH_VERSION)/diff_match_patch.js > ../../js/3rd-party/diff_match_patch.min.js
+
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/qrious/$(QRIOUS_VERSION)/qrious.min.js > ../../js/3rd-party/qrious.min.js
 
 	####################################################################################################################
 
