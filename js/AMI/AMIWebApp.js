@@ -186,16 +186,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		if(!window.Popper) {
+		if(!window.Popper)
+		{
 			resourcesJS.push(this.originURL + '/js/popper.min.js');
 		}
 
-		if(!window.moment) {
+		if(!window.moment)
+		{
 			resourcesJS.push(this.originURL + '/js/moment.min.js');
 		}
 
-		if(!window.QRious) {
-			resourcesJS.push(this.originURL + '/js/qrious.min.js');
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		if((typeof jQuery.fn.qrcode) !== 'function')
+		{
+			resourcesJS.push(this.originURL + '/js/jquery-qrcode.min.js');
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/

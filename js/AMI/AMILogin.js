@@ -403,8 +403,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#B8D49B url("' + amiWebApp.originURL + '/images/certificate-green.png") no-repeat center center')
-				                                                   .css('background-size', 'cover')
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', '#B8D49B url("' + amiWebApp.originURL + '/images/certificate-green.png") no-repeat center center')
+				                                                              .css('background-size', 'cover')
 				;
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400')
@@ -455,8 +455,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').parent().css('background', '#E8C8CF url("' + amiWebApp.originURL + '/images/certificate-pink.png") no-repeat center center')
-				                                                   .css('background-size', 'cover')
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', '#E8C8CF url("' + amiWebApp.originURL + '/images/certificate-pink.png") no-repeat center center')
+				                                                              .css('background-size', 'cover')
 				;
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#8B0000')
@@ -467,6 +467,21 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 				/*----------------------------------------------------------------------------------------------------*/
 			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* UPDATE QRCODE                                                                                          */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#EC948084_8C0A_CEBF_58C9_086046AB2456').qrcode({
+				render: 'canvas',
+				ecLevel: 'H',
+				size: 150,
+				fill: 'rgba(000, 100, 000, 0.9)',
+				background: 'rgba(000, 100, 000, 0.15)',
+				text: user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI,
+				radius: 0,
+				quiet: 1,
+			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* UPDATE MENU BAR                                                                                        */

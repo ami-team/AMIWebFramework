@@ -5,10 +5,9 @@
 JQUERY_VERSION=3.5.1
 POPPER_VERSION=1.16.0
 MOMENT_VERSION=2.24.0
+QRCODE_VERSION=0.17.0
 
 SELECT2_VERSION=4.0.12
-
-QRIOUS_VERSION=4.0.2
 
 BOOTSTRAP_VERSION=4.5.0
 
@@ -45,7 +44,7 @@ all: clean core 3rd-party
 
 core:
 	####################################################################################################################
-	# JQUERY + POPPER + MOMENT                                                                                         #
+	# JQUERY + POPPER + MOMENT + QRIOUS                                                                                #
 	####################################################################################################################
 
 	curl -L https://code.jquery.com/jquery-$(JQUERY_VERSION).min.js > ../../js/jquery.min.js
@@ -54,18 +53,14 @@ core:
 
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/moment.js/$(MOMENT_VERSION)/moment.min.js > ../../js/moment.min.js
 
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/lrsjng.jquery-qrcode/$(QRCODE_VERSION)/jquery-qrcode.min.js > ../../js/jquery-qrcode.min.js
+
 	####################################################################################################################
 	# SELECT2                                                                                                          #
 	####################################################################################################################
 
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/select2/$(SELECT2_VERSION)/css/select2.min.css > ../../css/select2.min.css
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/select2/$(SELECT2_VERSION)/js/select2.min.js > ../../js/select2.min.js
-
-	####################################################################################################################
-	# QRIOUS                                                                                                           #
-	####################################################################################################################
-
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/qrious/$(QRIOUS_VERSION)/qrious.min.js > ../../js/qrious.min.js
 
 	####################################################################################################################
 	# BOOTSTRAP                                                                                                        #
