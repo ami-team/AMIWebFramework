@@ -180,7 +180,7 @@ $AMIClass('SearchCtrl', {
 
 	renderForm: function()
 	{
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		this.tabCtrl.appendItem('<i class="fa fa-search"></i> ' + this.ctx.name).done((selector) => {
 
@@ -267,6 +267,7 @@ $AMIClass('SearchCtrl', {
 				let doRefresh = true;
 
 				[...this.ctx.criteria].forEach((criterion,idx) => {
+
 					if(criterion.more.auto_open === true)
 					{
 						this.openBox(idx);
@@ -305,16 +306,16 @@ $AMIClass('SearchCtrl', {
 
 		let promise;
 
-		let select = {};
-		let filter = [];
+		const select = {};
+		const filter = [];
 
-		let criterion = this.ctx.criteria[idx];
+		const criterion = this.ctx.criteria[idx];
 
-		let selector = this.patchId('#CF445396_19BE_7A34_902E_7F63B53CAEC8');
+		const selector = this.patchId('#CF445396_19BE_7A34_902E_7F63B53CAEC8');
 
-		let catalog = criterion.catalog;
-		let entity = criterion.entity;
-		let field = criterion.field;
+		const catalog = criterion.catalog;
+		const entity = criterion.entity;
+		const field = criterion.field;
 
 		criterion.isDefaultEntity = this.ctx.defaultEntity === entity
 
@@ -347,7 +348,7 @@ $AMIClass('SearchCtrl', {
 
 
 			/*--------------------------------------------------------------------------------------------------------*/
-			/* KEY/VAL																								*/
+			/* KEY / VAL                                                                                              */
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			case 5:
@@ -376,18 +377,18 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			let selector = this.patchId('#C12133EC_2A38_3545_0685_974260DCC950') + '_' + name;
+			const selector = this.patchId('#C12133EC_2A38_3545_0685_974260DCC950') + '_' + name;
 
-			let el = $(selector);
+			const el = $(selector);
 
-			let isDefaultEntity = this.ctx.defaultEntity === entity;
+			const isDefaultEntity = this.ctx.defaultEntity === entity;
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			switch(criterion.type)
 			{
 				/*----------------------------------------------------------------------------------------------------*/
-				/* TEXT BOX																						   */
+				/* TEXT BOX                                                                                           */
 				/*----------------------------------------------------------------------------------------------------*/
 
 				case 0:
@@ -440,9 +441,9 @@ $AMIClass('SearchCtrl', {
 
 					if('init_value' in criterion.more)
 					{
-						let tmp = [];
+						const tmp = [];
 
-						for(var i in criterion.more.init_value)
+						for(let i in criterion.more.init_value)
 						{
 							select[criterion.more.init_value[i]] = true;
 
@@ -454,7 +455,6 @@ $AMIClass('SearchCtrl', {
 							{
 								tmp.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = \'' + criterion.more.init_value[i].replace(/'/g, '\'\'') + '\'');
 							}
-
 						}
 
 						if (isDefaultEntity)
@@ -740,7 +740,7 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			let filter = this.dumpAST(this.ctx.predicates);
+			const filter = this.dumpAST(this.ctx.predicates);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -764,7 +764,7 @@ $AMIClass('SearchCtrl', {
 
 			return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"').done((data) => {
 
-				let nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
+				const nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
 
 				$(this.patchId('#D7F429C8_E45C_57A3_6BCC_C74BAE4B0DDA')).text(nb);
 
@@ -790,65 +790,62 @@ $AMIClass('SearchCtrl', {
 		}
 	},
 
-
 	/*----------------------------------------------------------------------------------------------------------------*/
-
 
 	_loadSummary: function(res, idx)
 	{
-
 		if(this.ctx.more.summary && this.ctx.more.summary.length > 0)
 		{
 			if(idx < this.ctx.more.summary.length)
 			{
-				let filter = this.dumpAST(this.ctx.predicates);
+				const filter = this.dumpAST(this.ctx.predicates);
 
 				let mql = '';
 
-				let constraints = '';
-				if(this.ctx.more.summary[idx].constraints)
-					constraints = this.ctx.more.summary[idx].constraints;
+				let constraints = this.ctx.more.summary[idx].constraints ? this.ctx.more.summary[idx].constraints : '';
 
 				switch(this.ctx.more.summary[idx].type)
 				{
-				case 0:
+					case 0:
+						mql = 'SELECT COUNT(DISTINCT `' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ') AS RES';
+						if(filter)
+						{
+							mql += ' WHERE ';
+							mql += filter;
+						}
+						break;
 
-					mql = 'SELECT COUNT(DISTINCT `' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ') AS RES';
-					if(filter)
-					{
-						mql += ' WHERE ';
-						mql += filter;
-					}
-					break;
-				case 1:
-					mql = 'SELECT SUM(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ') AS RES';
-					if(filter)
-					{
-						mql += ' WHERE ';
-						mql += filter;
-					}
-					break;
-				case 2:
-					mql = 'SELECT ROUND(AVG(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ')) AS RES';
-					if(filter)
-					{
-						mql += ' WHERE ';
-						mql += filter;
-					}
-					break;
+					case 1:
+						mql = 'SELECT SUM(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ') AS RES';
+						if(filter)
+						{
+							mql += ' WHERE ';
+							mql += filter;
+						}
+						break;
+
+					case 2:
+						mql = 'SELECT ROUND(AVG(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ')) AS RES';
+						if(filter)
+						{
+							mql += ' WHERE ';
+							mql += filter;
+						}
+						break;
 				}
 
-				let command ='SearchQuery -catalog="' + this.ctx.more.summary[idx].catalog + '" -entity="' + this.ctx.defaultEntity + '" -mql="' + mql + '" ';
+				const command ='SearchQuery -catalog="' + this.ctx.more.summary[idx].catalog + '" -entity="' + this.ctx.defaultEntity + '" -mql="' + mql + '" ';
 
 				amiCommand.execute(command).done((data) => {
 
-					let summaryValue = amiWebApp.jspath('..field{.@name==="RES"}.$', data)[0] || 'N/A';
+					const summaryValue = amiWebApp.jspath('..field{.@name==="RES"}.$', data)[0] || 'N/A';
 
-					let tmp = this.ctx.more.summary[idx].name + ': ' + summaryValue;
-
+					const tmp = this.ctx.more.summary[idx].name + ': ' + summaryValue;
 
 					if(summaryValue !== '@NULL')
+					{
 						res.push(tmp);
+					}
 
 					this._loadSummary(res, idx + 1);
 
@@ -868,19 +865,19 @@ $AMIClass('SearchCtrl', {
 
 	fillStringBox: function(name, applyFilter, applyLimit)
 	{
-		let predicate = this.ctx.predicates[name], criterion = predicate.criterion;
+		const predicate = this.ctx.predicates[name], criterion = predicate.criterion;
 
 		/*------------------------------------------------------------------------------------------------------------*/
-		/* BUILD SQL QUERY																							*/
+		/* BUILD SQL QUERY                                                                                            */
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		let mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion);
 
 		/*------------------------------------------------------------------------------------------------------------*/
-		/* ADD FILTER																								 */
+		/* ADD FILTER                                                                                                 */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let filter = this.dumpFilterAST(name);
+		const filter = this.dumpFilterAST(name);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -909,9 +906,9 @@ $AMIClass('SearchCtrl', {
 
 		return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criterion.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"').done((data) => {
 
-			let L = [];
+			const L = [];
 
-			let rows = amiWebApp.jspath('..row', data);
+			const rows = amiWebApp.jspath('..row', data);
 
 			if('::any::' in predicate.select) {
 				L.push('<option value="::any::" selected="selected">« reset filter »</option>');
@@ -922,8 +919,8 @@ $AMIClass('SearchCtrl', {
 
 			$.each(rows, (idx, row) => {
 
-				let value = amiWebApp.jspath('..field.$', row)[0] || '';
-				let valuehtml = amiWebApp.textToHtml(value);
+				const value = amiWebApp.jspath('..field.$', row)[0] || '';
+				const valuehtml = amiWebApp.textToHtml(value);
 
 				if(value in predicate.select) {
 					L.push('<option value="' + valuehtml + '" selected="selected">' + valuehtml + '</option>');
@@ -972,7 +969,7 @@ $AMIClass('SearchCtrl', {
 				break;
 		}
 
-		let filter = this.dumpFilterAST(name);
+		const filter = this.dumpFilterAST(name);
 
 		if(filter)
 		{
@@ -983,10 +980,11 @@ $AMIClass('SearchCtrl', {
 
 		amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criterion.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"').done((data) => {
 
-			let fields = amiWebApp.jspath('..field', data);
+			const fields = amiWebApp.jspath('..field', data);
+
 			let m = {};
-			let keys = {};
-			let keyArray = [];
+			const keys = {};
+			const keyArray = [];
 
 			switch(criterion.type)
 			{
@@ -1000,9 +998,7 @@ $AMIClass('SearchCtrl', {
 						}
 						else
 						{
-							let t = JSON.parse(field.$ || '[]');
-
-							t.forEach((key) => {
+							JSON.parse(field.$ || '[]').forEach((key) => {
 								keys[key] = key;
 							})
 						}
@@ -1016,10 +1012,9 @@ $AMIClass('SearchCtrl', {
 
 					this._fillJSONKeys(name, keyArray).done((data) => {
 
-						m = Object.assign(m, data);
-						this._fillParamBoxKey(m,predicate);
-						amiWebApp.unlock();
+						this._fillParamBoxKey(m = Object.assign(m, data), predicate);
 
+						amiWebApp.unlock();
 					});
 
 					break;
@@ -1049,8 +1044,8 @@ $AMIClass('SearchCtrl', {
 	{
 		if($.isEmptyObject(m) === false)
 		{
+			const L = [];
 
-			let L = [];
 			let selected = false;
 
 			if('::any::' === predicate.selectedParam) {
@@ -1061,7 +1056,7 @@ $AMIClass('SearchCtrl', {
 				L.push('<option value="::any::" xxxxxxxx="xxxxxxxx">« reset filter »</option>');
 			}
 
-			for(let key in m)
+			for(const key in m)
 			{
 				if(key === predicate.selectedParam) {
 					selected = true;
@@ -1073,7 +1068,7 @@ $AMIClass('SearchCtrl', {
 
 			$(predicate.selector + ' select:first').html(L.join(''));
 
-			if (!selected)
+			if(!selected)
 			{
 				$(predicate.selector + ' select:last').html('');
 				$(predicate.selector + ' select:last').attr('disabled','disabled');
@@ -1092,7 +1087,7 @@ $AMIClass('SearchCtrl', {
 	_fillJSONKeys: function(name, keys)
 	{
 
-		let deferred = $.Deferred();
+		const deferred = $.Deferred();
 
 		this.__fillJSONKeys(deferred, {}, name, keys);
 
@@ -1114,19 +1109,19 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let key = keys.shift().trim();
+		const key = keys.shift().trim();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let predicate = this.ctx.predicates[name], criterion = predicate.criterion;
+		const predicate = this.ctx.predicates[name], criterion = predicate.criterion;
 
-		let mql = 'SELECT DISTINCT JSON_KEYS(`' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ', \'$.' + key + '\')';
+		const mql = 'SELECT DISTINCT JSON_KEYS(`' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ', \'$.' + key + '\')';
 
 		amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criterion.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"').done((data) => {
 
-			let fields = amiWebApp.jspath('..field', data);
+			const fields = amiWebApp.jspath('..field', data);
 
-			let subkeys = {};
+			const subkeys = {};
 
 			$.each(fields, (idx, field) => {
 
@@ -1176,13 +1171,13 @@ $AMIClass('SearchCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let predicate = this.ctx.predicates[name], criterion = predicate.criterion;
+		const predicate = this.ctx.predicates[name], criterion = predicate.criterion;
 
-		let selectedParam = this.ctx.predicates[name].selectedParam || '';
+		const selectedParam = this.ctx.predicates[name].selectedParam || '';
 
 		if (selectedParam !== '')
 		{
@@ -1210,7 +1205,7 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			let filter = this.dumpFilterAST(name);
+			const filter = this.dumpFilterAST(name);
 
 			if(filter)
 			{
@@ -1231,7 +1226,7 @@ $AMIClass('SearchCtrl', {
 				mql += filter;
 			}
 
-			if (criterion.more.order)
+			if(criterion.more.order)
 			{
 				switch(criterion.type)
 				{
@@ -1259,9 +1254,9 @@ $AMIClass('SearchCtrl', {
 
 			amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criterion.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"').done((data) => {
 
-				let L = [];
+				const L = [];
 
-				let fields = amiWebApp.jspath('..field', data);
+				const fields = amiWebApp.jspath('..field', data);
 
 				if('::any::' in predicate.select) {
 					L.push('<option value="::any::" selected="selected">« reset filter »</option>');
@@ -1279,7 +1274,6 @@ $AMIClass('SearchCtrl', {
 					{
 						case 5:
 						case 6:
-
 							value = (field.$ || '').trim();
 
 							if(value.startsWith('"') && value.endsWith('"'))
@@ -1373,7 +1367,7 @@ $AMIClass('SearchCtrl', {
 
 	fillNumberBox: function(name)
 	{
-		let predicate = this.ctx.predicates[name], criterion = predicate.criterion;
+		const predicate = this.ctx.predicates[name], criterion = predicate.criterion;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* BUILD SQL QUERY																							*/
@@ -1383,7 +1377,7 @@ $AMIClass('SearchCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		let filter = this.dumpFilterAST(name);
+		const filter = this.dumpFilterAST(name);
 
 		if(filter)
 		{

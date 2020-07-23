@@ -267,7 +267,7 @@ joint.dia.Element.define('sql.Entity', {
 
 	appendField: function(field)
 	{
-		let fields = _.clone(this.get('fields'));
+		const fields = _.clone(this.get('fields'));
 		fields.push(field);
 		this.set('fields', fields);
 	},
@@ -449,7 +449,7 @@ joint.shapes.sql.EntityView = joint.dia.ElementView.extend({
 
 		this.model.get('fields').forEach((field) => {
 
-			let clone = this.src.clone().addClass(field.selector);
+			const clone = this.src.clone().addClass(field.selector);
 
 			clone.attr('transform', 'translate(0, ' + field.offset + ')');
 
@@ -476,7 +476,7 @@ joint.shapes.sql.EntityView = joint.dia.ElementView.extend({
 
 joint.dia.Graph.prototype.newEntity = function(entity)
 {
-	let result = new joint.shapes.sql.Entity(entity);
+	const result = new joint.shapes.sql.Entity(entity);
 
 	this.addCell(result);
 
@@ -487,7 +487,7 @@ joint.dia.Graph.prototype.newEntity = function(entity)
 
 joint.dia.Graph.prototype.newForeignKey = function(fkEntityId, pkEntityId)
 {
-	let result = new joint.dia.Link({
+	const result = new joint.dia.Link({
 		source: {id: fkEntityId},
 		target: {id: pkEntityId},
 		attrs: {

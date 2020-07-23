@@ -49,29 +49,26 @@ $AMIClass('TabCtrl', {
 	{
 		const result = $.Deferred();
 
-		this._context = result;
-		this._card = true;
-		this._closable = true;
-		this._firstVisible = true;
-
-		if(settings)
-		{
-			if('context' in settings) {
-				this._context = settings['context'];
-			}
-
-			if('card' in settings) {
-				this._card = settings['card'];
-			}
-
-			if('closable' in settings) {
-				this._closable = settings['closable'];
-			}
-
-			if('firstVisible' in settings) {
-				this._firstVisible = settings['firstVisible'];
-			}
-		}
+		[
+			this._context,
+			this._card,
+			this._closable,
+			this._firstVisible,
+		] = amiWebApp.setup(
+			[
+				'context',
+				'card',
+				'closable',
+				'firstVisible',
+			],
+			[
+				result,
+				true,
+				true,
+				true,
+			],
+			settings
+		);
 
 		const dict = {
 			'card': this._card
@@ -112,36 +109,31 @@ $AMIClass('TabCtrl', {
 	{
 		const result = $.Deferred();
 
-		let context = result;
-		let height = 'auto';
-		let active = true;
-		let closable = this._closable;
-		let firstVisible = this._firstVisible;
+		const [
+			context,
+			height,
+			active,
+			closable,
+			firstVisible
+		] = amiWebApp.setup(
+			[
+				'context',
+				'height',
+				'active',
+				'closable',
+				'firstVisible',
+			],
+			[
+				result,
+				'auto',
+				true,
+				this._closable,
+				this._firstVisible,
+			],
+			settings
+		);
 
-		if(settings)
-		{
-			if('context' in settings) {
-	  			context = settings['context'];
-			}
-
-			if('height' in settings) {
-				height = settings['height'];
-			}
-
-			if('active' in settings) {
-				active = settings['active'];
-			}
-
-			if('closable' in settings) {
-				closable = settings['closable'];
-			}
-
-			if('firstVisible' in settings) {
-				firstVisible = settings['firstVisible'];
-			}
-		}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		const tabId = this.patchId('F3EF6D3D_723B_F5FB_F299_E0AA9CA0914D') + '_' + this._cnt;
 
@@ -213,34 +205,29 @@ $AMIClass('TabCtrl', {
 	{
 		const result = $.Deferred();
 
-		let context = result;
-		let height = 'auto';
-		let active = true;
-		let closable = this._closable;
-		let firstVisible = this._firstVisible;
-
-		if(settings)
-		{
-			if('context' in settings) {
-	  			context = settings['context'];
-			}
-
-			if('height' in settings) {
-				height = settings['height'];
-			}
-
-			if('active' in settings) {
-				active = settings['active'];
-			}
-
-			if('closable' in settings) {
-				closable = settings['closable'];
-			}
-
-			if('firstVisible' in settings) {
-				firstVisible = settings['firstVisible'];
-			}
-		}
+		const [
+			context,
+			height,
+			active,
+			closable,
+			firstVisible
+		] = amiWebApp.setup(
+			[
+				'context',
+				'height',
+				'active',
+				'closable',
+				'firstVisible',
+			],
+			[
+				result,
+				'auto',
+				true,
+				this._closable,
+				this._firstVisible,
+			],
+			settings
+		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

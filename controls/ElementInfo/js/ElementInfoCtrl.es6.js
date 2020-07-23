@@ -111,8 +111,8 @@ $AMIClass('ElementInfoCtrl', {
 
 		this.ctx.expandedLinkedElements.forEach((expandedLinkedElement) => {
 
-			let catalog = amiWebApp.textToString(expandedLinkedElement.catalog);
-			let entity = amiWebApp.textToString(expandedLinkedElement.entity);
+			const catalog = amiWebApp.textToString(expandedLinkedElement.catalog);
+			const entity = amiWebApp.textToString(expandedLinkedElement.entity);
 
 			L.push(catalog + '.' + entity);
 		});

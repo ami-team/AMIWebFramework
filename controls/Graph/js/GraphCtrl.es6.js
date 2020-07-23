@@ -58,7 +58,7 @@ $AMIClass('GraphCtrl', {
 			const dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
 
 			const dict = {
-				graph : typeof Viz !== 'undefined' ?  Viz(dotString, 'svg') : '',
+				graph : typeof Viz !== 'undefined' ? Viz(dotString, 'svg') : '',
 			};
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -69,15 +69,15 @@ $AMIClass('GraphCtrl', {
 
 				const jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
 
-				const attrs = [];
-
-				attrs.push('data-ctrl="' + amiWebApp.textToHtml(jsonbObj['data-ctrl']) + '"');
-				attrs.push('data-ctrl-location="' + amiWebApp.textToHtml(jsonbObj['data-ctrl-location']) + '"');
-				attrs.push('data-params="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params'])) + '"');
-				attrs.push('data-settings="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings'])) + '"');
-				attrs.push('data-icon="' + amiWebApp.textToHtml(jsonbObj['data-icon']) + '"');
-				attrs.push('data-title="' + amiWebApp.textToHtml(jsonbObj['data-title']) + '"');
-				attrs.push('data-title-icon="' + amiWebApp.textToHtml(jsonbObj['data-title-icon']) + '"');
+				const attrs = [
+					'data-ctrl="' + amiWebApp.textToHtml(jsonbObj['data-ctrl']) + '"',
+					'data-ctrl-location="' + amiWebApp.textToHtml(jsonbObj['data-ctrl-location']) + '"',
+					'data-params="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params'])) + '"',
+					'data-settings="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings'])) + '"',
+					'data-icon="' + amiWebApp.textToHtml(jsonbObj['data-icon']) + '"',
+					'data-title="' + amiWebApp.textToHtml(jsonbObj['data-title']) + '"',
+					'data-title-icon="' + amiWebApp.textToHtml(jsonbObj['data-title-icon']) + '"',
+				];
 
 				return 'xlink:href="#" ' + attrs.join(' ');
 			});

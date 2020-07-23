@@ -114,23 +114,23 @@ $AMIClass('AccordionCtrl', {
 			clazz,
 			extraTitle,
 			closable,
-			] = amiWebApp.setup(
-				[
-					'context',
-					'show',
-					'clazz',
-					'extraTitle',
-					'closable',
-				],
-				[
-					result,
-					false,
-					this._clazz,
-					'<span class="extraTitle"></span>',
-					this._closable,
-				],
-				settings
-			);
+		] = amiWebApp.setup(
+			[
+				'context',
+				'show',
+				'clazz',
+				'extraTitle',
+				'closable',
+			],
+			[
+				result,
+				false,
+				this._clazz,
+				'<span class="extraTitle"></span>',
+				this._closable,
+			],
+			settings
+		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -182,31 +182,29 @@ $AMIClass('AccordionCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-
-		const
+		const [
+			context,
+			show,
+			clazz,
+			extraTitle,
+			closable,
+		] = amiWebApp.setup(
 			[
-				context,
-				show,
-				clazz,
-				extraTitle,
-				closable,
-			] = amiWebApp.setup(
-				[
-					'context',
-					'show',
-					'clazz',
-					'extraTitle',
-					'closable',
-				],
-				[
-					result,
-					false,
-					this._clazz,
-					'<span class="extraTitle"></span>',
-					this._closable,
-				],
-				settings
-			);
+				'context',
+				'show',
+				'clazz',
+				'extraTitle',
+				'closable',
+			],
+			[
+				result,
+				false,
+				this._clazz,
+				'<span class="extraTitle"></span>',
+				this._closable,
+			],
+			settings
+		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

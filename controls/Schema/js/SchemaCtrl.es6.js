@@ -57,9 +57,9 @@ $AMIClass('SchemaCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				let L = ['<option value="@NULL">NONE</option>'];
+				const L = ['<option value="@NULL">NONE</option>'];
 
-				for(let dataType in data[2])
+				for(const dataType in data[2])
 				{
 					L.push('<option value="' + amiWebApp.textToHtml(dataType) + '">' + amiWebApp.textToHtml(data[2][dataType]) + '</option>');
 				}
@@ -72,9 +72,9 @@ $AMIClass('SchemaCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				let M = ['<option value="@NULL">NONE</option>'];
+				const M = ['<option value="@NULL">NONE</option>'];
 
-				for(let controlName in amiWebApp._controls)
+				for(const controlName in amiWebApp._controls)
 				{
 					M.push('<option value="' + amiWebApp.textToHtml(controlName) + '">' + amiWebApp.textToHtml(controlName) + '</option>');
 				}
@@ -283,7 +283,7 @@ $AMIClass('SchemaCtrl', {
 
 			let cnt = 0;
 
-			let entities = {};
+			const entities = {};
 
 			this._fields.forEach((value) => {
 
@@ -436,7 +436,7 @@ $AMIClass('SchemaCtrl', {
 
 	refresh: function(catalog, settings)
 	{
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		amiCommand.execute('GetSchemas').always((data) => {
 
@@ -492,7 +492,7 @@ $AMIClass('SchemaCtrl', {
 		{
 			const json = JSON.stringify(this.getJSON(), null, 4);
 
-			let blob = new Blob([json], {
+			const blob = new Blob([json], {
 				type: 'application/json',
 				endings : 'native',
 			});
@@ -511,11 +511,11 @@ $AMIClass('SchemaCtrl', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let svg = $(this._selector + ' svg');
+		const svg = $(this._selector + ' svg');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let w = window.open('', '', 'height=' + svg.height() + ', width=' + svg.width() + ', toolbar=no');
+		const w = window.open('', '', 'height=' + svg.height() + ', width=' + svg.width() + ', toolbar=no');
 
 		w.document.write('<html><head><style>body { margin: 10px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap, .sql-entity-link { display: none; } .connection { fill: none; }</style></head><body>' + $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').html() + '</body></html>');
 

@@ -93,7 +93,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 		this.ctx = {};
 
-		for(let key in settings)
+		for(const key in settings)
 		{
 		    this.ctx[key] = settings[key];
 		}
