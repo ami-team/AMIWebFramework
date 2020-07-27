@@ -64,25 +64,33 @@ $AMIClass('JsonBoxCtrl', {
 		let a;
 		let b;
 
-		if(amiWebApp.typeOf(json) !== 'String')
+		try
 		{
-			a = /*------*/(json);
-			b = JSON.stringify(a, null, 2);
-		}
-		else
-		{
-			json = json.trim();
-
-			if(json && json.toUpperCase() !== '@NULL')
+			if(amiWebApp.typeOf(json) !== 'String')
 			{
-				a = JSON.parse(json);
+				a = /*------*/(json);
 				b = JSON.stringify(a, null, 2);
 			}
 			else
 			{
-				a = null;
-				b = 'null';
+				json = json.trim();
+
+				if(json && json.toUpperCase() !== '@NULL')
+				{
+					a = JSON.parse(json);
+					b = JSON.stringify(a, null, 2);
+				}
+				else
+				{
+					a = null;
+					b = 'null';
+				}
 			}
+		}
+		catch(e)
+		{
+			a = null;
+			b = 'null';
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
