@@ -93,7 +93,7 @@ $AMIClass('JsonBoxCtrl', {
 		}
 		catch(e)
 		{
-			amiWebApp.error(e, true);
+			amiWebApp.error('invalid JSON string', true);
 
 			a = null;
 			b = 'null';
