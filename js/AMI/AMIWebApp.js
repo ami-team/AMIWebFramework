@@ -1229,7 +1229,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	  * Locks the modal window
+	  * Leave the modal window
 	  */
 
 	modalLock: function()
@@ -1254,7 +1254,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	  * Unlocks the modal window
+	  * Enter the modal window
 	  */
 
 	modalUnlock: function()
