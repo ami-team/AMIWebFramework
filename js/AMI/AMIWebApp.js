@@ -1038,6 +1038,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 						const wrap = textarea.attr('data-wrap') || 'false';
 						const readOnly = textarea.attr('data-read-only') || 'false';
 						const showGutter = textarea.attr('data-show-gutter') || 'true';
+						const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
 
 						/*--------------------------------------------------------------------------------------------*/
 
@@ -1054,6 +1055,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 							wrap: 'true' === wrap,
 							readOnly: 'true' === readOnly,
 							showGutter: 'true' === showGutter,
+							highlightActiveLine: 'true' === highlightActiveLine,
 							/**/
 							minLines: 0x000001,
 							maxLines: Infinity,
