@@ -7,7 +7,7 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global joint, saveAs, CodeMirror
+ * @global joint, saveAs
  *
  */
 
@@ -35,6 +35,8 @@ $AMIClass('SchemaCtrl', {
 			amiWebApp.originURL + '/controls/Schema/json/datatype.json',
 			/**/
 			amiWebApp.originURL + '/js/3rd-party/filesaver.min.js',
+			amiWebApp.originURL + '/js/3rd-party/ace/ace.min.js',
+
 			/**/
 			amiWebApp.originURL + '/js/3rd-party/lodash.min.js',
 			amiWebApp.originURL + '/js/3rd-party/backbone-min.js',
@@ -83,50 +85,6 @@ $AMIClass('SchemaCtrl', {
 					allowClear: true,
 					placeholder: 'Choose a control',
 					dropdownParent: $('#B0BEB5C7_8978_7433_F076_A55D2091777C .modal-body')
-				});
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				amiWebApp.loadResources([
-					amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.css',
-					amiWebApp.originURL + '/js/3rd-party/codemirror/lib/codemirror.js',
-					amiWebApp.originURL + '/js/3rd-party/codemirror/addon/edit/matchbrackets.js',
-					amiWebApp.originURL + '/js/3rd-party/codemirror/mode/groovy/groovy.js',
-				]).done(() => {
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					const editor1 = CodeMirror.fromTextArea(document.getElementById('E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F'), {
-						lineNumbers: true,
-						matchBrackets: true,
-						mode: 'text/x-groovy',
-					});
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					$('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor', editor1);
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					const editor2 = CodeMirror.fromTextArea(document.getElementById('F822CBCC_35AA_146C_7DEF_F80A00E8FFFA'), {
-						lineNumbers: true,
-						matchBrackets: false,
-						mode: 'text/x-sql',
-					});
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					$('#F822CBCC_35AA_146C_7DEF_F80A00E8FFFA').data('editor', editor2);
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					$('#B0BEB5C7_8978_7433_F076_A55D2091777C').on('shown.bs.modal', () => {
-
-						editor1.refresh();
-						editor2.refresh();
-					});
-
-					/*------------------------------------------------------------------------------------------------*/
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -647,15 +605,13 @@ $AMIClass('SchemaCtrl', {
 			$('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked', statable === 'true');
 			$('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked', groupable === 'true');
 
-			$('#F822CBCC_35AA_146C_7DEF_F80A00E8FFFA').data('editor').setValue(displayQuery);
-
-			$('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').setValue(webLinkScript);
+			$('#F822CBCC_35AA_146C_7DEF_F80A00E8FFFA').val(displayQuery);
+			$('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').val(webLinkScript);
 
 			$('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked', media === 'true');
 			$('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked', base64 === 'true');
 			$('#CE54048D_702D_0132_4659_9E558BE2AC11').val(mime).trigger('change.select2');
 			$('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').val(ctrl).trigger('change.select2');
-
 
 			/**/
 
@@ -821,8 +777,8 @@ SchemaCtrl.applyField = function()
 		'modifiedBy': $('#FACFE443_72F3_8917_2F08_934D88E55DDC').prop('checked'),
 		'statable': $('#F26C0D3D_B516_06EA_90F6_0E3B17D2AF5D').prop('checked'),
 		'groupable': $('#BA08505D_C468_5602_9745_12369E1F6318').prop('checked'),
-		'displayQuery': $('#F822CBCC_35AA_146C_7DEF_F80A00E8FFFA').data('editor').getValue(),
-		'webLinkScript': $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').data('editor').getValue(),
+		'displayQuery': $('#F822CBCC_35AA_146C_7DEF_F80A00E8FFFA').val(),
+		'webLinkScript': $('#E4FE4DF4_F171_1467_07ED_8BB7E0FFC15F').val(),
 		'media': $('#B3F6E369_A7E4_26B6_C1EB_B2FC855C1B7A').prop('checked'),
 		'base64': $('#F592275B_2199_7962_D270_CBEE38B82DAF').prop('checked'),
 		'mime': $('#CE54048D_702D_0132_4659_9E558BE2AC11').val(),

@@ -7,13 +7,13 @@
 					<strong class="fa-stack-1x" style="color: #999;">URL</strong>
 				</span>
 			</button>
-			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.copy($(this).parent().parent().parent().find('code').text());">
+			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.copy($(this).parent().parent().parent().find('.form-editor').text());">
 				<span class="fa-stack">
 					<i class="fa fa-clipboard fa-stack-2x"></i>
 					<strong class="fa-stack-1x" style="color: #999;">TXT</strong>
 				</span>
 			</button>
-			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.save($(this).parent().parent().parent().find('code').text());">
+			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.save($(this).parent().parent().parent().find('.form-editor').text());">
 				<span class="fa-stack">
 					<i class="fa fa-download fa-stack-2x"></i>
 					<strong class="fa-stack-1x" style="color: #999;"></strong>
@@ -27,6 +27,6 @@
 			</button>
 		</div>
 	</div>
-	<pre class="ami-code" style="border-top-right-radius: 0; margin-top: -1px;"><code><i class="line-number"></i>{{data|escape|replace({'\n': '\n<i class="line-number"></i>'})}}</code></pre>
+	<textarea class="form-editor" data-mode="{{type|e}}" data-read-only="true" style="border-top-right-radius: 0 !important;">{{data|e}}</textarea>
 	<url class="d-none">{{url|e}}</url>
 </div>

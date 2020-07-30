@@ -29,6 +29,7 @@ $AMIClass('CommandApp', {
 			'subapps/Command/twig/command.twig',
 			'subapps/Command/twig/result.twig',
 			'js/3rd-party/filesaver.min.js',
+			'js/3rd-party/ace/ace.min.js',
 		]).done((data) => {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {dict: {command: userdata}}).done(() => {
@@ -140,6 +141,11 @@ $AMIClass('CommandApp', {
 
 				const dict = {
 					data: (converter === 'AMIXmlToJson.xsl') ? JSON.stringify(data, undefined, 2) : data,
+					type: (converter !== 'AMIXmlToJson.xsl') ? (
+					            (converter !== 'AMIXmlToXml.xsl') ? (
+					                  'text'
+					            ) : 'xml'
+					      ) : 'json',
 					url: url,
 				};
 

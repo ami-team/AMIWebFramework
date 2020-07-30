@@ -7,8 +7,6 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global CodeMirror
- *
  */
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -28,6 +26,8 @@ $AMIClass('SearchModelerApp', {
 			'subapps/SearchModeler/twig/SearchModelerApp.twig',
 			'subapps/SearchModeler/twig/interface.twig',
 			'subapps/SearchModeler/twig/input.twig',
+			/**/
+			'js/3rd-party/ace/ace.min.js',
 		]).done((data) => {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
@@ -36,10 +36,6 @@ $AMIClass('SearchModelerApp', {
 
 				amiWebApp.loadResources([
 					'subapps/UserDashboard/js/jquery-ui.min.js',
-					'js/3rd-party/codemirror/lib/codemirror.css',
-					'js/3rd-party/codemirror/lib/codemirror.js',
-					'js/3rd-party/codemirror/addon/edit/matchbrackets.js',
-					'js/3rd-party/codemirror/mode/javascript/javascript.js',
 				]).done(() => {
 
 					/*------------------------------------------------------------------------------------------------*/
@@ -86,36 +82,6 @@ $AMIClass('SearchModelerApp', {
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					const editor1 = CodeMirror.fromTextArea(document.getElementById('A3D83B42_4FBF_5DAE_6A38_12F1F53493B5'), {
-						lineNumbers: true,
-						matchBrackets: true,
-						mode: 'application/json',
-					});
-
-					$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor', editor1);
-
-					$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').on('shown.bs.modal', () => {
-
-						editor1.refresh();
-					});
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					const editor2 = CodeMirror.fromTextArea(document.getElementById('A78C0694_128B_1AD8_2596_C321DAA4690B'), {
-						lineNumbers: true,
-						matchBrackets: true,
-						mode: 'application/json',
-					});
-
-					$('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor', editor2);
-
-					$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').on('shown.bs.modal', () => {
-
-						editor2.refresh();
-					});
-
-					/*------------------------------------------------------------------------------------------------*/
-
 					$('#B1786DE7_BCD6_F336_D811_9CBB6ECB583F').click(() => {
 
 						this.editOptions1();
@@ -125,11 +91,11 @@ $AMIClass('SearchModelerApp', {
 
 					const f1 = () => {
 
-						const more = this._parseJson($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').getValue());
+						const more = this._parseJson($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val());
 
 						this.formToJson1(more);
 
-						$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').setValue(this._dumpJson(more));
+						$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val(this._dumpJson(more));
 					};
 
 					$('#CECEF559_7DC7_1AE7_AE83_81C19AFB8A06').change(f1);
@@ -139,11 +105,11 @@ $AMIClass('SearchModelerApp', {
 
 					const f2 = () => {
 
-						const more = this._parseJson($('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor').getValue());
+						const more = this._parseJson($('#A78C0694_128B_1AD8_2596_C321DAA4690B').val());
 
 						this.formToJson2(more);
 
-						$('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor').setValue(this._dumpJson(more));
+						$('#A78C0694_128B_1AD8_2596_C321DAA4690B').val(this._dumpJson(more));
 					};
 
 					$('#F9931091_31DD_A960_2AD0_C08417FE8484').change(f2);
@@ -679,7 +645,7 @@ $AMIClass('SearchModelerApp', {
 
  		/**/
 
-		$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').setValue($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val());
+		$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val());
 
 		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal('show');
 	},
@@ -688,7 +654,7 @@ $AMIClass('SearchModelerApp', {
 
 	setOptions1: function()
 	{
-		$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').getValue());
+		$('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val($('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val());
 
 		$('#AAC55FA7_4919_DF1A_F194_30DF6435B539').modal('hide');
 	},
@@ -885,7 +851,7 @@ $AMIClass('SearchModelerApp', {
 
  		/**/
 
-		$('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor').setValue($('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val());
+		$('#A78C0694_128B_1AD8_2596_C321DAA4690B').val($('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val());
 
 		$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').modal('show');
 
@@ -897,7 +863,7 @@ $AMIClass('SearchModelerApp', {
 
 	setOptions2: function(inputCnt)
 	{
-		$('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val($('#A78C0694_128B_1AD8_2596_C321DAA4690B').data('editor').getValue());
+		$('#C4AAADBC_C3B5_6DDC_851B_F06430CB4F6E_' + inputCnt).val($('#A78C0694_128B_1AD8_2596_C321DAA4690B').val());
 
 		$('#E78A17C0_799E_8E34_4986_322B9EA80D9F').modal('hide');
 
@@ -993,7 +959,7 @@ $AMIClass('SearchModelerApp', {
 		const defaultEntity = this._trim($('#F71D1452_8613_5FB5_27D3_C1540573F450').val());
 		const defaultPrimaryField = this._trim($('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E').val());
 		const archived = $('#A2C54F33_AC45_3553_86D6_4A479D10CD54').prop('checked') ? '1' : '0';
-		const more = $('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').data('editor').getValue();
+		const more = $('#A3D83B42_4FBF_5DAE_6A38_12F1F53493B5').val();
 
 		const defaultCATALOG = this._trim(mode === 1 ? window.prompt('New default catalog', defaultCatalog) : defaultCatalog);
 

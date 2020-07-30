@@ -14,26 +14,61 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-var jsDoc = {
+const jsDoc = {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_linkRe: /(?:\[\s*([^\s\]]+)\s*\])?{@link\s+([^\s}]+)\s*}/g,
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_textToHtmlDict: {
-		'&': '&amp;',
-		'"': '&quot;',
-		'<': '&lt;',
-		'>': '&gt;',
+	_replace: function(s, oldStrs, newStrs)
+	{
+		const result = [];
+
+		const l = (((s))).length;
+		const m = oldStrs.length;
+		const n = newStrs.length;
+
+		if(m != n)
+		{
+			throw 'internal error';
+		}
+
+__l0:	for(let i = 0; i < l; i += 0)
+		{
+			const p = s.substring(i);
+
+			for(let j = 0; j < m; j += 1)
+			{
+				if(p.indexOf(oldStrs[j]) === 0)
+				{
+					result.push(newStrs[j]);
+
+					i += oldStrs[j].length;
+
+					continue __l0;
+				}
+			}
+
+			result.push(s.charAt(i++));
+		}
+
+		return result.join('');
 	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	_textToHtmlX: ['&'    , '"'     , '<'   , '>'   ],
+	_textToHtmlY: ['&amp;', '&quot;', '&lt;', '&gt;'],
 
 	textToHtml: function(s)
 	{
-		return (s || '').replace(/&|"|<|>/g, function(x) {
+		return this._replace(s || '', this._textToHtmlX, this._textToHtmlY);
+	},
 
-			return jsDoc._textToHtmlDict[x];
-		});
+	htmlToText: function(s)
+	{
+		return this._replace(s || '', this._textToHtmlY, this._textToHtmlX);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -49,7 +84,7 @@ var jsDoc = {
 
 	makeMenu: function()
 	{
-		var s = '<a class="list-group-item list-group-item-action p-2" href=""><i class="fa fa-home"></i> Home</a>';
+		let s = '<a class="list-group-item list-group-item-action p-2" href=""><i class="fa fa-home"></i> Home</a>';
 
 		s += '<div class="list-group-item list-group-item-action p-2">';
 
@@ -67,11 +102,11 @@ var jsDoc = {
 
 	makeSubMenu: function(title, cat)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		var items;
+		let items;
 
 		if(cat === 'global')
 		{
@@ -94,7 +129,7 @@ var jsDoc = {
 
 		if(items && items.length > 0)
 		{
-			var id = 'jsdoc_menu_' + title.toLowerCase();
+			const id = 'jsdoc_menu_' + title.toLowerCase();
 
 			result += '<div>';
 
@@ -102,7 +137,7 @@ var jsDoc = {
 
 			result += '<ul class="collapse mb-0" id="' +  id + '">';
 
-			for(var i in items)
+			for(const i in items)
 			{
 				result += '<li><a href="javascript:jsDoc.makeContent(\'' + title + '\',\'' + cat + '\',\'' + items[i].name + '\');">' + items[i].name + '</a></li>';
 			}
@@ -121,11 +156,11 @@ var jsDoc = {
 
 	makeContent: function(title, cat, name)
 	{
-		var s = '';
+		let s = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		var item;
+		let item;
 
 		if(cat === 'global')
 		{
@@ -156,8 +191,6 @@ var jsDoc = {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		var i;
-
 		if(item.konstructor)
 		{
 			s += '<h3 class="mt-3">Constructor</h3>';
@@ -169,7 +202,7 @@ var jsDoc = {
 		{
 			s += '<h3 class="mt-3">Members</h3>';
 
-			for(i in item.variables)
+			for(const i in item.variables)
 			{
 				s += this.makeVariable(item.variables[i]);
 			}
@@ -179,7 +212,7 @@ var jsDoc = {
 		{
 			s += '<h3 class="mt-3">Methods</h3>';
 
-			for(i in item.functions)
+			for(const i in item.functions)
 			{
 				s += this.makeFunction(item.functions[i]);
 			}
@@ -189,7 +222,7 @@ var jsDoc = {
 		{
 			s += '<h3 class="mt-3">Events</h3>';
 
-			for(i in item.events)
+			for(const i in item.events)
 			{
 				s += this.makeFunction(item.events[i]);
 			}
@@ -206,7 +239,7 @@ var jsDoc = {
 
 	makeVariable: function(variable)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -227,7 +260,7 @@ var jsDoc = {
 
 	makeVariableSignature: function(variable)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -244,7 +277,7 @@ var jsDoc = {
 
 	makeFunction: function(method)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -273,7 +306,7 @@ var jsDoc = {
 
 	makeFunctionSignature: function(method)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -281,11 +314,11 @@ var jsDoc = {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		var L = [];
+		const L = [];
 
-		for(var i in method.params)
+		for(const i in method.params)
 		{
-			var s = method.params[i].name;
+			let s = method.params[i].name;
 
 			if(method.params[i].optional === true)
 			{
@@ -301,9 +334,9 @@ var jsDoc = {
 
 		if(method.returns)
 		{
-			var M = [];
+			const M = [];
 
-			for(var j in method.returns)
+			for(const j in method.returns)
 			{
 				M.push(this.makeType(method.returns[j]));
 			}
@@ -320,23 +353,21 @@ var jsDoc = {
 
 	makeFunctionParameters: function(method)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(method.params.length > 0)
 		{
-			var i;
-
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			var L1 = [], L2 = [], L3 = [], L4 = [], L5 = [], L6 = [];
+			const L1 = [], L2 = [], L3 = [], L4 = [], L5 = [], L6 = [];
 
-			var cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0, cnt6 = 0;
+			let cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0, cnt6 = 0;
 
-			for(i in method.params)
+			for(const i in method.params)
 			{
-				var parameter = method.params[i];
+				const parameter = method.params[i];
 
 				L1.push(parameter['name']);
 				L2.push(this.makeType(parameter));
@@ -398,7 +429,7 @@ var jsDoc = {
 
 			result += '<tbody>';
 
-			for(i in method.params)
+			for(const i in method.params)
 			{
 				result += '<tr>';
 
@@ -440,11 +471,11 @@ var jsDoc = {
 
 	makeFunctionExceptions: function(method)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		for(var i in method.exceptions)
+		for(const i in method.exceptions)
 		{
 			result += '<h5><strong>Throws:</strong></h5>';
 
@@ -462,11 +493,11 @@ var jsDoc = {
 
 	makeFunctionReturn: function(method)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		for(var i in method.returns)
+		for(const i in method.returns)
 		{
 			result += '<h5><strong>Returns:</strong></h5>';
 
@@ -484,7 +515,7 @@ var jsDoc = {
 
 	makeDesc: function(x)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -505,7 +536,7 @@ var jsDoc = {
 
 	makeType: function(x)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -530,7 +561,7 @@ var jsDoc = {
 
 	makeDetails: function(x)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -546,10 +577,9 @@ var jsDoc = {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		var version = '';
-		var author = '';
-		var see = '';
-		var i;
+		let version = '';
+		let author = '';
+		let see = '';
 
 		if(x.version)
 		{
@@ -558,7 +588,7 @@ var jsDoc = {
 
 		if(x.author)
 		{
-			for(i in x.author)
+			for(const i in x.author)
 			{
 				author += '<dt>Author:</dt><dd>' + x.author[i] + '</dd>';
 			}
@@ -566,7 +596,7 @@ var jsDoc = {
 
 		if(x.see)
 		{
-			for(i in x.see)
+			for(const i in x.see)
 			{
 				see += '<dt>See:</dt><dd>' + x.see[i] + '</dd>';
 			}
@@ -592,15 +622,15 @@ var jsDoc = {
 
 	makeExamples: function(x)
 	{
-		var result = '';
+		let result = '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		for(var i in x.examples)
+		for(const i in x.examples)
 		{
 			result += '<h5><strong>Example:</strong></h5>';
 
-			//result += '<pre class="ami-code"><code>' + highlight.highlight(x.examples[i], 'js') + '</code></pre>';
+			result += '<textarea class="form-editor" data-mode="javascript">' + this.textToHtml(x.examples[i]) + '</textarea>';
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/

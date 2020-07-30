@@ -41,15 +41,8 @@ if(!String.prototype.endsWith)
 /* JQUERY EXTENSIONS                                                                                                  */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-var _ami_internal_jQueryEach = jQuery.each;
-var _ami_internal_jQueryAjax = jQuery.ajax;
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-jQuery.each = function(el, callback, context)
-{
-	return _ami_internal_jQueryEach(el, context ? (index, value) => callback.call(context, index, value) : callback);
-};
+const _ami_internal_jQueryAjax = jQuery.ajax;
+const _ami_internal_jQueryVal = jQuery.fn.val;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -132,13 +125,39 @@ jQuery.fn.extend({
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
+	val: function()
+	{
+		/**/ if(arguments.length === 0) // getter
+		{
+			if(this.hasClass('form-editor-hidden'))
+			{
+				const session = this.data('session');
+
+				return session ? session.getValue(/*--------*/) : '';
+			}
+		}
+		else if(arguments.length === 1) // setter
+		{
+			if(this.hasClass('form-editor-hidden'))
+			{
+				const session = this.data('session');
+
+				return session ? session.setValue(arguments[0]) : '';
+			}
+		}
+
+		return _ami_internal_jQueryVal.apply(this, arguments);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BOOTSTRAP EXTENSIONS                                                                                               */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-var _ami_internal_modalZIndex = 1050;
+let _ami_internal_modalZIndex = 1050;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 

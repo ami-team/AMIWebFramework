@@ -35,10 +35,6 @@
         "clazz": "GraphCtrl",
         "file": "controls/Graph/js/GraphCtrl.js"
     },
-    "jsonBox": {
-        "clazz": "JsonBoxCtrl",
-        "file": "controls/JsonBox/js/JsonBoxCtrl.js"
-    },
     "mediaViewer": {
         "clazz": "MediaViewerCtrl",
         "file": "controls/MediaViewer/js/MediaViewerCtrl.js"

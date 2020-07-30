@@ -15,6 +15,10 @@ BOOTSTRAP_VERSION=4.5.0
 # 3RD PARTY                                                                                                            #
 ########################################################################################################################
 
+ACE_VERSION=1.4.12
+
+########################################################################################################################
+
 BACKBONE_VERSION=1.4.0
 LOADASH_VERSION=4.17.15
 
@@ -95,6 +99,29 @@ core:
 	####################################################################################################################
 
 3rd-party:
+	####################################################################################################################
+	# ACE                                                                                                              #
+	####################################################################################################################
+
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/ace.min.js > ../../js/3rd-party/ace/ace.min.js
+
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/ext-language_tools.min.js > ../../js/3rd-party/ace/ext-language_tools.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/ext-static_highlight.min.js > ../../js/3rd-party/ace/ext-static_highlight.min.js
+
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-sql.min.js > ../../js/3rd-party/ace/mode-sql.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-xml.min.js > ../../js/3rd-party/ace/mode-xml.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-json.min.js > ../../js/3rd-party/ace/mode-json.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-text.min.js > ../../js/3rd-party/ace/mode-text.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-groovy.min.js > ../../js/3rd-party/ace/mode-groovy.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-javascript.min.js > ../../js/3rd-party/ace/mode-javascript.min.js
+
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/theme-github.min.js > ../../js/3rd-party/ace/theme-github.min.js
+
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/worker-base.min.js > ../../js/3rd-party/ace/worker-base.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/worker-xml.min.js > ../../js/3rd-party/ace/worker-xml.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/worker-json.min.js > ../../js/3rd-party/ace/worker-json.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/worker-javascript.min.js > ../../js/3rd-party/ace/worker-javascript.min.js
+
 	####################################################################################################################
 	# BACKBONE + LODASH + JOINTJS                                                                                      #
 	####################################################################################################################
