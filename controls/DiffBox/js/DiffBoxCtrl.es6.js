@@ -80,19 +80,19 @@ $AMIClass('DiffBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html1 = '<i class="line-number"></i>' + amiWebApp.textToHtml(text1).replace(/\n/g, '\n<i class="line-number"></i>');
+		const html1 = amiWebApp.textToHtml(text1);
 
 		$('#E94A7FE7_FEBC_AE12_0C13_E625FC2ADFE6').html(html1);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html2 = '<i class="line-number"></i>' + this.dmp.diff_prettyHtml(d).replace(/\n/g, '\n<i class="line-number"></i>');
+		const html2 = this.dmp.diff_prettyHtml(d);
 
 		$('#AF0BD692_6F09_4527_2684_AAF623658767').html(html2);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html3 = '<i class="line-number"></i>' + amiWebApp.textToHtml(text3).replace(/\n/g, '\n<i class="line-number"></i>');
+		const html3 = amiWebApp.textToHtml(text3);
 
 		$('#C604C636_346F_64A8_3EBE_ADCDE2AEB343').html(html3);
 
