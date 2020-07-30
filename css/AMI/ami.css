@@ -15,6 +15,34 @@
 	right: 8px;
 }
 
+/*-------------------------------------------------------------------------*/
+/* AMI                                                                     */
+/*-------------------------------------------------------------------------*/
+
+.ami-code {
+	border-left: 6px solid rgb(85, 138, 187);
+	counter-reset: listing;
+	text-align: left;
+}
+
+.ami-code,
+.ami-code code {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.ami-code code .line-number {
+	counter-increment: listing;
+	display: inline-block;
+	width: 26px;
+}
+
+.ami-code code .line-number:before {
+	color: rgb(128, 128, 128);
+	content: counter(listing) ". ";
+	font: 800 65% / 1.5 sans-serif;
+}
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* ACE                                                                                                                */
 /*--------------------------------------------------------------------------------------------------------------------*/
