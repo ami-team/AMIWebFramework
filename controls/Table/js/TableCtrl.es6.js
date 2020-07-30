@@ -295,25 +295,25 @@ $AMIClass('TableCtrl', {
 			amiWebApp.lock();
 
 			amiCommand.execute('ListConverters').done((data) => {
-				
+
 				var xslts = amiWebApp.jspath('..field{.@name==="xslt" && .$!=="AMIXmlToXml.xsl" && .$!=="AMIXmlToJson.xsl" && .$!=="AMIXmlToCsv.xsl" && .$!=="AMIXmlToText.xsl" }.$', data) || [];
 
 				this.replaceHTML(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05'), this.fragmentExport, {dict: this.ctx, xslts : xslts}).done(() => {
-					
+
 					$(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05') + ' a').click((e) => {
 
 						this.exportResult(e.currentTarget.getAttribute('xslt'));
 					});
-					
+
 				});
-				
+
 				amiWebApp.unlock();
 
 			}).fail((data, message) => {
 
 				amiWebApp.error(message);
 			});
-			
+
 //			$(this.patchId('#C9F4DBE7_EF4F_09F1_C31D_97581978BD13')).click(() => {
 //
 //				this.exportResult('AMIXmlToXml.xsl');
@@ -367,27 +367,27 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.sql], {});
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.sql, {mode: 'sql'}]);
 			});
 
 			$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.mql], {});
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.mql, {mode: 'sql'}]);
 			});
 
 			$(this.patchId('#EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command2.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command2.substring(11) : this.ctx.command2], {});
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command2.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command2.substring(11) : this.ctx.command2]);
 			});
 
 			$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command.substring(11) : this.ctx.command], {});
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command.substring(11) : this.ctx.command]);
 			});
 
 			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js], {});
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js, {mode: 'javascript'}]);
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/

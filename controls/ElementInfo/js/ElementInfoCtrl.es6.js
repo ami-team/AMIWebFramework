@@ -206,12 +206,12 @@ $AMIClass('ElementInfoCtrl', {
 
 			$(this.patchId('#BF7E7885_DB34_7993_9F17_37990DDD4BF3')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command], {});
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command]);
 			});
 
 			$(this.patchId('#F1232710_45E2_92BF_7378_1BCD05FBF131')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js], {});
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js, {mode: 'javascript'}]);
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/

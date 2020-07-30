@@ -33,12 +33,6 @@ $AMIClass('TextBoxCtrl', {
 			amiWebApp.originURL + '/controls/TextBox/twig/TextBoxCtrl.twig',
 			amiWebApp.originURL + '/js/3rd-party/clipboard.min.js',
 			amiWebApp.originURL + '/js/3rd-party/ace/ace.min.js',
-			amiWebApp.originURL + '/js/3rd-party/ace/mode-sql.min.js',
-			amiWebApp.originURL + '/js/3rd-party/ace/mode-xml.min.js',
-			amiWebApp.originURL + '/js/3rd-party/ace/mode-json.min.js',
-			amiWebApp.originURL + '/js/3rd-party/ace/mode-text.min.js',
-			amiWebApp.originURL + '/js/3rd-party/ace/mode-groovy.min.js',
-			amiWebApp.originURL + '/js/3rd-party/ace/mode-javascript.min.js',
 		]).done((data) => {
 
 			amiWebApp.appendHTML('body', data[0]).done(() => {

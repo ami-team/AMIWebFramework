@@ -134,7 +134,7 @@ jQuery.fn.extend({
 			{
 				const session = this.data('session');
 
-				return session ? session.getValue(/*--------*/) : '';
+				return session ? session.getValue() : '';
 			}
 		}
 		else if(arguments.length === 1) // setter

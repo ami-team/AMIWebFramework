@@ -1012,56 +1012,69 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			if(window.ace)
 			{
-				_find('.form-editor').each((indx, item) => {
+				_find('.form-editor:not(.form-editor-hidden)').each((indx, item) => {
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					const textarea = $(item);
+					const textarea = $(item).addClass('form-editor-hidden');
 
 					/*------------------------------------------------------------------------------------------------*/
 
 					const div = $('<div>', {
+						'class': textarea.attr('class')
+						                 .replace('form-editor', '').replace('form-editor-hidden', ''),
 						'style': textarea.attr('style'),
-						'class': textarea.attr('class').replace('form-editor', ''),
-					}).insertBefore(textarea.addClass('form-editor-hidden'));
+					}).insertBefore(textarea);
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					const mode = textarea.attr('data-mode') || 'text';
-					const theme = textarea.attr('data-theme') || 'chrome';
-					const readOnly = textarea.attr('data-read-only') || 'false';
-					const showGutter = textarea.attr('data-show-gutter') || 'true';
+					div.promise().done(() => {
 
-					/*------------------------------------------------------------------------------------------------*/
+						/*--------------------------------------------------------------------------------------------*/
 
-					ace.config.set('suffix', '.min.js');
+						const mode = textarea.attr('data-mode') || 'text';
+						const theme = textarea.attr('data-theme') || 'chrome';
 
-					ace.config.set('basePath', this.originURL + '/js/3rd-party/ace');
+						const wrap = textarea.attr('data-wrap') || 'false';
+						const readOnly = textarea.attr('data-read-only') || 'false';
+						const showGutter = textarea.attr('data-show-gutter') || 'true';
 
-					/*------------------------------------------------------------------------------------------------*/
+						/*--------------------------------------------------------------------------------------------*/
 
-					const editor = ace.edit(div[0], {
-						mode: 'ace/mode/' + mode,
-						theme: 'ace/theme/' + theme,
-						readOnly: 'true' === readOnly,
-						showGutter: 'true' === showGutter,
-						minLines: 0x000001,
-						maxLines: Infinity,
+						ace.config.set('suffix', '.min.js');
+
+						ace.config.set('basePath', this.originURL + '/js/3rd-party/ace');
+
+						/*--------------------------------------------------------------------------------------------*/
+
+						const editor = ace.edit(div[0], {
+							mode: 'ace/mode/' + mode,
+							theme: 'ace/theme/' + theme,
+							/**/
+							wrap: 'true' === wrap,
+							readOnly: 'true' === readOnly,
+							showGutter: 'true' === showGutter,
+							/**/
+							minLines: 0x000001,
+							maxLines: Infinity,
+						});
+
+						const session = editor.getSession();
+
+						textarea.data('editor', editor);
+						textarea.data('session', session);
+
+						/*--------------------------------------------------------------------------------------------*/
+
+						session.on('change', () => {
+
+							item.value = session.getValue();
+						});
+
+						session.setValue(item.value);
+
+						/*--------------------------------------------------------------------------------------------*/
 					});
-
-					const session = editor.getSession();
-
-					textarea.data('editor', editor);
-					textarea.data('session', session);
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					session.on('change', () => {
-
-						item.value = session.getValue();
-					});
-
-					session.setValue(item.value);
 
 					/*------------------------------------------------------------------------------------------------*/
 				});

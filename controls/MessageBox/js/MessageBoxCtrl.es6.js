@@ -68,7 +68,7 @@ $AMIClass('MessageBoxCtrl', {
 			context, title
 		] = amiWebApp.setup(
 			['context', 'title'],
-			[deferred, 'Edit box'],
+			[deferred, 'Message box'],
 			settings
 		);
 
