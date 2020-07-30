@@ -143,7 +143,7 @@ jQuery.fn.extend({
 			{
 				const session = this.data('session');
 
-				return session ? session.setValue(arguments[0]) : '';
+				if(session) session.setValue(arguments[0]); return this;
 			}
 		}
 
