@@ -2148,23 +2148,23 @@ $AMIClass('SearchCtrl', {
 
 	viewSelection: function()
 	{
-		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', ['BrowseQuery -GUI -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"'], {showDetails: true, canEdit: this.ctx.canEdit, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField}, this.ctx, 'table', this.ctx.defaultEntity);
-
 		/* À VERIFIER !!! */
+
+		amiWebApp.createControlInContainer(this.tabCtrl, this, 'table', ['BrowseQuery -GUI -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(this.ctx.mql) + '"'], {showDetails: true, canEdit: this.ctx.canEdit, catalog: this.ctx.defaultCatalog, entity: this.ctx.defaultEntity, primaryField: this.ctx.defaultPrimaryField}, this.ctx, 'table', this.ctx.defaultEntity);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	showMQL: function()
 	{
-		amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.mql], {});
+		amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.mql, {mode: 'sql'}]);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	showJS: function()
 	{
-		amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js], {});
+		amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js, {mode: 'javascript'}]);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

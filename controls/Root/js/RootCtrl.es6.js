@@ -179,12 +179,12 @@ $AMIClass('RootCtrl', {
 
 				$(this.patchId('#B22DE562_B7D4_00D9_605D_544911057E50')).click(() => {
 
-					amiWebApp.createControl(this.getParent(), this, 'textBox', [command], {});
+					amiWebApp.createControl(this.getParent(), this, 'messageBox', [command]);
 				});
 
 				$(this.patchId('#BA26C452_5152_0114_7324_0F7F9EFA7E72')).click(() => {
 
-					amiWebApp.createControl(this.getParent(), this, 'textBox', [js], {});
+					amiWebApp.createControl(this.getParent(), this, 'textBox', [js, {mode: 'javascript'}]);
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
