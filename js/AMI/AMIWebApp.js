@@ -1028,7 +1028,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 					/*------------------------------------------------------------------------------------------------*/
 
 					const mode = textarea.attr('data-mode') || 'text';
-					const theme = textarea.attr('data-theme') || 'github';
+					const theme = textarea.attr('data-theme') || 'chrome';
 					const readOnly = textarea.attr('data-read-only') || 'false';
 					const showGutter = textarea.attr('data-show-gutter') || 'true';
 

@@ -115,7 +115,7 @@ core:
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-groovy.min.js > ../../js/3rd-party/ace/mode-groovy.min.js
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-javascript.min.js > ../../js/3rd-party/ace/mode-javascript.min.js
 
-	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/theme-github.min.js > ../../js/3rd-party/ace/theme-github.min.js
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/theme-chrome.min.js > ../../js/3rd-party/ace/theme-chrome.min.js
 
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/worker-base.min.js > ../../js/3rd-party/ace/worker-base.min.js
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/worker-xml.min.js > ../../js/3rd-party/ace/worker-xml.min.js
