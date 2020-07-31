@@ -42,7 +42,7 @@ $AMIClass('EditBoxCtrl', {
 
 				$('#B6014C3E_BD4F_09EB_51EF_F7CBC1E57725').on('click', () => {
 
-					amiWebApp.modalLock();
+					amiWebApp.modalLeave();
 
 					$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('hide');
 
@@ -53,7 +53,7 @@ $AMIClass('EditBoxCtrl', {
 
 				$('#CB99273A_B731_0289_8D87_D0549A1944FB').on('click', () => {
 
-					amiWebApp.modalLock();
+					amiWebApp.modalLeave();
 
 					$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('hide');
 
@@ -98,7 +98,7 @@ $AMIClass('EditBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.modalUnlock();
+		amiWebApp.modalEnter();
 
 		return deferred.promise();
 

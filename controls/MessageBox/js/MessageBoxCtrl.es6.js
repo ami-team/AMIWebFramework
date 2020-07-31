@@ -42,7 +42,7 @@ $AMIClass('MessageBoxCtrl', {
 
 				$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').on('hidden.bs.modal', () => {
 
-					amiWebApp.modalLock();
+					amiWebApp.modalLeave();
 
 					_class.deferred.resolveWith(_class.context || _class.deferred);
 				});
@@ -85,7 +85,7 @@ $AMIClass('MessageBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.modalUnlock();
+		amiWebApp.modalEnter();
 
 		return deferred.promise();
 

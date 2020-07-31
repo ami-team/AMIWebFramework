@@ -1306,7 +1306,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Leave the modal window
 	  */
 
-	modalLock: function()
+	modalLeave: function()
 	{
 		let lines = this.getStack().split('\n');
 
@@ -1331,7 +1331,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	  * Enter the modal window
 	  */
 
-	modalUnlock: function()
+	modalEnter: function()
 	{
 		this._tmpLockCnt = this._lockCnt;
 

@@ -43,7 +43,7 @@ $AMIClass('TextBoxCtrl', {
 
 				$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').on('hidden.bs.modal', () => {
 
-					amiWebApp.modalLock();
+					amiWebApp.modalLeave();
 
 					_class.deferred.resolveWith(_class.context || _class.deferred);
 				});
@@ -118,7 +118,7 @@ $AMIClass('TextBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.modalUnlock();
+		amiWebApp.modalEnter();
 
 		return deferred.promise();
 
