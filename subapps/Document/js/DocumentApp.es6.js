@@ -26,7 +26,7 @@ $AMIClass('DocumentApp', {
 
 		amiWebApp.loadResources([
 			'js/3rd-party/ace/ace.min.js',
-		]).done((data) => {
+		]).done(() => {
 
 			this.loadPage(userdata || 'home.html');
 
