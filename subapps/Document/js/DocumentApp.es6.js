@@ -22,7 +22,22 @@ $AMIClass('DocumentApp', {
 
 	onReady: function(userdata)
 	{
-		this.loadPage(userdata || 'home.html');
+		const result = $.Deferred();
+
+		amiWebApp.loadResources([
+			'js/3rd-party/ace/ace.min.js',
+		]).done((data) => {
+
+			this.loadPage(userdata || 'home.html');
+
+			result.resolve();
+
+		}).fail((message) => {
+
+			result.reject(message);
+		});
+
+		return result;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

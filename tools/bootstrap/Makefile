@@ -108,6 +108,7 @@ core:
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/ext-language_tools.min.js > ../../js/3rd-party/ace/ext-language_tools.min.js
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/ext-static_highlight.min.js > ../../js/3rd-party/ace/ext-static_highlight.min.js
 
+	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-sh.min.js > ../../js/3rd-party/ace/mode-sh.min.js
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-sql.min.js > ../../js/3rd-party/ace/mode-sql.min.js
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-xml.min.js > ../../js/3rd-party/ace/mode-xml.min.js
 	curl -L https://cdnjs.cloudflare.com/ajax/libs/ace/$(ACE_VERSION)/mode-json.min.js > ../../js/3rd-party/ace/mode-json.min.js
