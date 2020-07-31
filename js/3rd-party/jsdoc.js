@@ -8,17 +8,17 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global highlight
- *
  */
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 const jsDoc = {
 	/*----------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_linkRe: /(?:\[\s*([^\s\]]+)\s*\])?{@link\s+([^\s}]+)\s*}/g,
 
+	/*----------------------------------------------------------------------------------------------------------------*/
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_replace: function(s, oldStrs, newStrs)
@@ -72,6 +72,7 @@ __l0:	for(let i = 0; i < l; i += 0)
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeDoc: function(json)
 	{
@@ -84,25 +85,27 @@ __l0:	for(let i = 0; i < l; i += 0)
 
 	makeMenu: function()
 	{
-		let s = '<a class="list-group-item list-group-item-action p-2" href=""><i class="fa fa-home"></i> Home</a>';
+		const s = [];
 
-		s += '<div class="list-group-item list-group-item-action p-2">';
+		s.push('<a class="list-group-item list-group-item-action p-2" href=""><i class="fa fa-home"></i> Home</a>');
 
-		s += this.makeSubMenu('Global', 'global');
-		s += this.makeSubMenu('Namespace', 'namespaces');
-		s += this.makeSubMenu('Interface', 'interfaces');
-		s += this.makeSubMenu('Class', 'classes');
+		s.push('<div class="list-group-item list-group-item-action p-2">');
 
-		s += '</div>';
+		s.push(this.makeSubMenu('Global', 'global'));
+		s.push(this.makeSubMenu('Namespace', 'namespaces'));
+		s.push(this.makeSubMenu('Interface', 'interfaces'));
+		s.push(this.makeSubMenu('Class', 'classes'));
 
-		$('#jsdoc_menu').html(s);
+		s.push('</div>');
+
+		$('#jsdoc_menu').html(s.join(''));
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeSubMenu: function(title, cat)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -131,32 +134,32 @@ __l0:	for(let i = 0; i < l; i += 0)
 		{
 			const id = 'jsdoc_menu_' + title.toLowerCase();
 
-			result += '<div>';
+			result.push('<div>');
 
-			result += '<a href="#' + id + '" data-toggle="collapse"><i class="fa fa-book"></i> ' + title + '</a>';
+			result.push('<a href="#' + id + '" data-toggle="collapse"><i class="fa fa-book"></i> ' + title + '</a>');
 
-			result += '<ul class="collapse mb-0" id="' +  id + '">';
+			result.push('<ul class="collapse mb-0" id="' +  id + '">');
 
 			for(const i in items)
 			{
-				result += '<li><a href="javascript:jsDoc.makeContent(\'' + title + '\',\'' + cat + '\',\'' + items[i].name + '\');">' + items[i].name + '</a></li>';
+				result.push('<li><a href="javascript:jsDoc.makeContent(\'' + title + '\',\'' + cat + '\',\'' + items[i].name + '\');">' + items[i].name + '</a></li>');
 			}
 
-			result += '</ul>';
+			result.push('</ul>');
 
-			result += '</div>';
+			result.push('</div>');
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeContent: function(title, cat, name)
 	{
-		let s = '';
+		const s = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -181,56 +184,56 @@ __l0:	for(let i = 0; i < l; i += 0)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		s += '<div class="card">';
-		s += '<div class="card-body bg-light">';
-		s += '<h1>' + title + ': ' + item.name + '</h1>';
-		s += '<div>' + this.makeDesc(item) + '</div>';
-		s += this.makeDetails(item);
-		s += '</div>';
-		s += '</div>';
+		s.push('<div class="card">');
+		s.push('<div class="card-body bg-light">');
+		s.push('<h1>' + title + ': ' + item.name + '</h1>');
+		s.push('<div>' + this.makeDesc(item) + '</div>');
+		s.push(this.makeDetails(item));
+		s.push('</div>');
+		s.push('</div>');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(item.konstructor)
 		{
-			s += '<h3 class="mt-3">Constructor</h3>';
+			s.push('<h3 class="mt-3">Constructor</h3>');
 
-			s += this.makeFunction(item.konstructor);
+			s.push(this.makeFunction(item.konstructor));
 		}
 
 		if(item.variables)
 		{
-			s += '<h3 class="mt-3">Members</h3>';
+			s.push('<h3 class="mt-3">Members</h3>');
 
 			for(const i in item.variables)
 			{
-				s += this.makeVariable(item.variables[i]);
+				s.push(this.makeVariable(item.variables[i]));
 			}
 		}
 
 		if(item.functions)
 		{
-			s += '<h3 class="mt-3">Methods</h3>';
+			s.push('<h3 class="mt-3">Methods</h3>');
 
 			for(const i in item.functions)
 			{
-				s += this.makeFunction(item.functions[i]);
+				s.push(this.makeFunction(item.functions[i]));
 			}
 		}
 
 		if(item.events)
 		{
-			s += '<h3 class="mt-3">Events</h3>';
+			s.push('<h3 class="mt-3">Events</h3>');
 
 			for(const i in item.events)
 			{
-				s += this.makeFunction(item.events[i]);
+				s.push(this.makeFunction(item.events[i]));
 			}
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#jsdoc_content').html(s);
+		$('#jsdoc_content').html(s.join(''));
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	},
@@ -239,78 +242,78 @@ __l0:	for(let i = 0; i < l; i += 0)
 
 	makeVariable: function(variable)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		result += '<hr id="jsdoc_variable_' + variable.name + '" />';
+		result.push('<hr id="jsdoc_variable_' + variable.name + '" />');
 
-		result += this.makeVariableSignature(variable);
+		result.push(this.makeVariableSignature(variable));
 
-		result += '<div>' + this.makeDesc(variable) + '</div>';
+		result.push('<div>' + this.makeDesc(variable) + '</div>');
 
-		result += this.makeDetails(variable);
+		result.push(this.makeDetails(variable));
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeVariableSignature: function(variable)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		result += '<span class="signature-name">' + variable.name + '</span>';
+		result.push('<span class="signature-name">' + variable.name + '</span>');
 
-		result += '<span class="signature-attrs">: {' + this.makeType(variable) + '}</span>';
+		result.push('<span class="signature-attrs">: {' + this.makeType(variable) + '}</span>');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeFunction: function(method)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		result += '<hr id="jsdoc_method_' + method.name + '" />';
+		result.push('<hr id="jsdoc_method_' + method.name + '" />');
 
-		result += this.makeFunctionSignature(method);
+		result.push(this.makeFunctionSignature(method));
 
-		result += '<div>' + this.makeDesc(method) + '</div>';
+		result.push('<div>' + this.makeDesc(method) + '</div>');
 
-		result += this.makeFunctionParameters(method);
+		result.push(this.makeFunctionParameters(method));
 
-		result += this.makeDetails(method);
+		result.push(this.makeDetails(method));
 
-		result += this.makeFunctionExceptions(method);
+		result.push(this.makeFunctionExceptions(method));
 
-		result += this.makeFunctionReturn(method);
+		result.push(this.makeFunctionReturn(method));
 
-		result += this.makeExamples(method);
+		result.push(this.makeExamples(method), 'javascript');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeFunctionSignature: function(method)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		result += '<span class="signature-name">' + method.name + '</span>';
+		result.push('<span class="signature-name">' + method.name + '</span>');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -318,17 +321,17 @@ __l0:	for(let i = 0; i < l; i += 0)
 
 		for(const i in method.params)
 		{
-			let s = method.params[i].name;
+			const s = [method.params[i].name];
 
 			if(method.params[i].optional === true)
 			{
-				s += '<span class="signature-params-attrs">opt</span>';
+				s.push('<span class="signature-params-attrs">opt</span>');
 			}
 
 			L.push(s);
 		}
 
-		result += '<span class="signature-params">(' + L.join(', ') + ')</span>';
+		result.push('<span class="signature-params">(' + L.join(', ') + ')</span>');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -341,19 +344,19 @@ __l0:	for(let i = 0; i < l; i += 0)
 				M.push(this.makeType(method.returns[j]));
 			}
 
-			result += '<span class="signature-attrs"> &rarr; {' + M.join(' or ') + '}</span>';
+			result.push('<span class="signature-attrs"> &rarr; {' + M.join(' or ') + '}</span>');
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeFunctionParameters: function(method)
 	{
-		let result = '';
+		let result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -398,145 +401,145 @@ __l0:	for(let i = 0; i < l; i += 0)
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			result += '<h5><strong>Parameters:</strong></h5>';
+			result.push('<h5><strong>Parameters:</strong></h5>');
 
-			result += '<table class="table table-sm table-bordered" style="width: auto;">';
+			result.push('<table class="table table-sm table-bordered" style="width: auto;">');
 
-			result += '<thread>';
-			result += '<tr>';
+			result.push('<thread>');
+			result.push('<tr>');
 
 			if(cnt1 > 0) {
-				result += '<th>Name</th>';
+				result.push('<th>Name</th>');
 			}
 			if(cnt2 > 0) {
-				result += '<th>Type</th>';
+				result.push('<th>Type</th>');
 			}
 			if(cnt4 > 0) {
-				result += '<th>Default</th>';
+				result.push('<th>Default</th>');
 			}
 			if(cnt5 > 0) {
-				result += '<th>Optional</th>';
+				result.push('<th>Optional</th>');
 			}
 			if(cnt6 > 0) {
-				result += '<th>Nullable</th>';
+				result.push('<th>Nullable</th>');
 			}
 			if(cnt3 > 0) {
-				result += '<th>Description</th>';
+				result.push('<th>Description</th>');
 			}
 
-			result += '</tr>';
-			result += '</thread>';
+			result.push('</tr>');
+			result.push('</thread>');
 
-			result += '<tbody>';
+			result.push('<tbody>');
 
 			for(const i in method.params)
 			{
-				result += '<tr>';
+				result.push('<tr>');
 
 				if(cnt1 > 0) {
-					result += '<td><kbd>' + L1[i] + '</kbd></td>';
+					result.push('<td><kbd>' + L1[i] + '</kbd></td>');
 				}
 				if(cnt2 > 0) {
-					result += '<td>' + L2[i] + '</td>';
+					result.push('<td>' + L2[i] + '</td>');
 				}
 				if(cnt4 > 0) {
-					result += '<td>' + L4[i] + '</td>';
+					result.push('<td>' + L4[i] + '</td>');
 				}
 				if(cnt5 > 0) {
-					result += '<td>' + L5[i] + '</td>';
+					result.push('<td>' + L5[i] + '</td>');
 				}
 				if(cnt6 > 0) {
-					result += '<td>' + L6[i] + '</td>';
+					result.push('<td>' + L6[i] + '</td>');
 				}
 				if(cnt3 > 0) {
-					result += '<td>' + L3[i] + '</td>';
+					result.push('<td>' + L3[i] + '</td>');
 				}
 
-				result += '</tr>';
+				result.push('</tr>');
 			}
 
-			result += '</tbody>';
+			result.push('</tbody>');
 
-			result += '</table>';
+			result.push('</table>');
 
 			/*--------------------------------------------------------------------------------------------------------*/
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeFunctionExceptions: function(method)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		for(const i in method.exceptions)
 		{
-			result += '<h5><strong>Throws:</strong></h5>';
+			result.push('<h5><strong>Throws:</strong></h5>');
 
-			result += '<div>' + this.makeDesc(method.exceptions[i]) + '</div>';
+			result.push('<div>' + this.makeDesc(method.exceptions[i]) + '</div>');
 
-			result += '<div>Type: ' + this.makeType(method.exceptions[i]) + '</div>';
+			result.push('<div>Type: ' + this.makeType(method.exceptions[i]) + '</div>');
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeFunctionReturn: function(method)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		for(const i in method.returns)
 		{
-			result += '<h5><strong>Returns:</strong></h5>';
+			result.push('<h5><strong>Returns:</strong></h5>');
 
-			result += '<div>' + this.makeDesc(method.returns[i]) + '</div>';
+			result.push('<div>' + this.makeDesc(method.returns[i]) + '</div>');
 
-			result += '<div>Type: ' + this.makeType(method.returns[i]) + '</div>';
+			result.push('<div>Type: ' + this.makeType(method.returns[i]) + '</div>');
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('')
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeDesc: function(x)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(x.desc)
 		{
-			result += this.textToHtml(x.desc).replace(this._linkRe, function(x, y, z) {
+			result.push(this.textToHtml(x.desc).replace(this._linkRe, function(x, y, z) {
 
 				return '<a href="' + z + '">' + (y || z) + '</a>';
-			});
+			}));
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeType: function(x)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -544,53 +547,53 @@ __l0:	for(let i = 0; i < l; i += 0)
 		{
 			if(x.type instanceof Array)
 			{
-				result += this.textToHtml(x.type.join(' or '));
+				result.push(this.textToHtml(x.type.join(' or ')));
 			}
 			else
 			{
-				result += this.textToHtml(x.type);
+				result.push(this.textToHtml(x.type));
 			}
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	makeDetails: function(x)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(x.implements && x.implements.length > 0)
 		{
-			result += '<div>Implements: ' + x.implements.join(', ') + '</div>';
+			result.push('<div>Implements: ' + x.implements.join(', ') + '</div>');
 		}
 
 		if(x.inherits && x.inherits.length > 0)
 		{
-			result += '<div>Inherits: ' + x.inherits.join(', ') + '</div>';
+			result.push('<div>Inherits: ' + x.inherits.join(', ') + '</div>');
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let version = '';
-		let author = '';
-		let see = '';
+		const version = [];
+		const author = [];
+		const see = [];
 
 		if(x.version)
 		{
-			version += '<dt>Version:</dt><dd>' + x.version + '</dd>';
+			version.push('<dt>Version:</dt><dd>' + x.version + '</dd>');
 		}
 
 		if(x.author)
 		{
 			for(const i in x.author)
 			{
-				author += '<dt>Author:</dt><dd>' + x.author[i] + '</dd>';
+				author.push('<dt>Author:</dt><dd>' + x.author[i] + '</dd>');
 			}
 		}
 
@@ -598,19 +601,19 @@ __l0:	for(let i = 0; i < l; i += 0)
 		{
 			for(const i in x.see)
 			{
-				see += '<dt>See:</dt><dd>' + x.see[i] + '</dd>';
+				see.push('<dt>See:</dt><dd>' + x.see[i] + '</dd>');
 			}
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		if(author || version || see)
+		if(author.length > 0 || version.length > 0 || see.length > 0)
 		{
-			result += '<dl class="details">';
-			result += version;
-			result += author;
-			result += see;
-			result += '</dl>';
+			result.push('<dl class="details">');
+			result.push(version.join(''));
+			result.push(author.join(''));
+			result.push(see.join(''));
+			result.push('</dl>');
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -620,22 +623,22 @@ __l0:	for(let i = 0; i < l; i += 0)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	makeExamples: function(x)
+	makeExamples: function(x, mode)
 	{
-		let result = '';
+		const result = [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		for(const i in x.examples)
 		{
-			result += '<h5><strong>Example:</strong></h5>';
+			result.push('<h5><strong>Example:</strong></h5>');
 
-			result += '<textarea class="form-editor" data-mode="javascript">' + this.textToHtml(x.examples[i]) + '</textarea>';
+			result.push('<textarea class="form-editor" data-mode="' + mode + '">' + this.textToHtml(x.examples[i]) + '</textarea>');
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
