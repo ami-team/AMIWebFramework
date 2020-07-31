@@ -18,7 +18,6 @@
 /*-------------------------------------------------------------------------*/
 
 .ami-code {
-	border-left: 6px solid rgb(85, 138, 187);
 	counter-reset: listing;
 	text-align: left;
 }

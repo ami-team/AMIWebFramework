@@ -1061,6 +1061,10 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 							maxLines: Infinity,
 						});
 
+						editor.renderer.setScrollMargin(0, 2);
+
+						/*--------------------------------------------------------------------------------------------*/
+
 						const session = editor.getSession();
 
 						textarea.data('editor', editor);
