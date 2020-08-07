@@ -70,7 +70,7 @@ $AMIClass('AdderCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.replaceHTML(this._selector = selector, this.fragmentAddCtrl, {dict: settings}).done(() => {
+		this.replaceHTML(selector, this.fragmentAddCtrl, {dict: settings}).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 

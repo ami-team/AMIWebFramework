@@ -76,7 +76,7 @@ $AMIClass('AccordionCtrl', {
 			toolbar: this._toolbar,
 		};
 
-		this.replaceHTML(this._selector = selector, this.fragmentAccordionCtrl, {dict: dict}).done(() => {
+		this.replaceHTML(this.setSelector(selector), this.fragmentAccordionCtrl, {dict: dict}).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -146,7 +146,7 @@ $AMIClass('AccordionCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.prependHTML(this._selector, this.fragmentAccordionItem, {dict: dict}).done(() => {
+		this.prependHTML(this.getSelector(), this.fragmentAccordionItem, {dict: dict}).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -220,7 +220,7 @@ $AMIClass('AccordionCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.appendHTML(this._selector, this.fragmentAccordionItem, {dict: dict}).done(() => {
+		this.appendHTML(this.getSelector(), this.fragmentAccordionItem, {dict: dict}).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -252,7 +252,7 @@ $AMIClass('AccordionCtrl', {
 
 	removeAll: function()
 	{
-		$(this._selector + ' > .card').remove();
+		$(this.getSelector() + ' > .card').remove();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -261,7 +261,7 @@ $AMIClass('AccordionCtrl', {
 	{
 		this._collapsed = !this._collapsed;
 
-		$(this._selector + ' > .card > .collapse').collapse( this._collapsed ? 'hide' : 'show');
+		$(this.getSelector() + ' > .card > .collapse').collapse( this._collapsed ? 'hide' : 'show');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

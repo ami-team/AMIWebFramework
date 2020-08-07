@@ -97,7 +97,7 @@ $AMIClass('GraphCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this.replaceHTML(this._selector = selector, this.fragmentGraphCtrl, {dict: dict}).done(() => {
+			this.replaceHTML(selector, this.fragmentGraphCtrl, {dict: dict}).done(() => {
 
 				$(selector + ' a[data-ctrl]').click((e) => {
 

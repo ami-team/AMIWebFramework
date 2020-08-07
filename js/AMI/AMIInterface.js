@@ -76,6 +76,14 @@ $AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 	onReady: function() {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	  * Called when the control is removed
+	  */
+
+	onRemove: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -151,19 +159,19 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	$init: function(parent, owner)
+	$init: function(parent = this, owner = this)
 	{
-		this._parent = parent || this;
-		this._owner = owner || this;
+		this._parent = parent;
+		this._owner = owner;
 
 		this.instanceSuffix = ami.Control.instanceCnt++;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setParent: function(parent)
+	setParent: function(parent = this)
 	{
-		return this._parent = (parent || this);
+		return this._parent = parent;
 	},
 
 	getParent: function()
@@ -173,9 +181,9 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setOwner: function(owner)
+	setOwner: function(owner = this)
 	{
-		return this._owner = (owner || this);
+		return this._owner = owner;
 	},
 
 	getOwner: function()
@@ -185,9 +193,17 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setSelector: function(selector)
+	setSelector: function(selector = '')
 	{
-		return this._selector = (selector || '');
+		if(selector)
+		{
+			$(selector).on('remove', () => {
+
+				this.onRemove();
+			});
+		}
+
+		return this._selector = selector;
 	},
 
 	getSelector: function()
@@ -204,13 +220,8 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	replaceHTML: function(selector, twig, settings)
+	replaceHTML: function(selector, twig, settings = {})
 	{
-		if(!settings)
-		{
-			settings = {};
-		}
-
 		settings.suffix = this.instanceSuffix;
 
 		return amiWebApp.replaceHTML(selector, twig, settings);
@@ -218,13 +229,8 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	prependHTML: function(selector, twig, settings)
+	prependHTML: function(selector, twig, settings = {})
 	{
-		if(!settings)
-		{
-			settings = {};
-		}
-
 		settings.suffix = this.instanceSuffix;
 
 		return amiWebApp.prependHTML(selector, twig, settings);
@@ -232,13 +238,8 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	appendHTML: function(selector, twig, settings)
+	appendHTML: function(selector, twig, settings = {})
 	{
-		if(!settings)
-		{
-			settings = {};
-		}
-
 		settings.suffix = this.instanceSuffix;
 
 		return amiWebApp.appendHTML(selector, twig, settings);
@@ -271,6 +272,10 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 	{
 		return amiWebApp.createControlFromWebLink(parent, this, el, parentSettings, settings);
 	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onRemove: function() {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 });

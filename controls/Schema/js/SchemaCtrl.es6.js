@@ -109,7 +109,7 @@ $AMIClass('SchemaCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let el1 = $(this._selector = selector);
+		let el1 = $(this.setSelector(selector));
 
 		el1.css('box-shadow', '0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075)');
 		el1.css('border', '1px solid rgb(231, 231, 231)');
@@ -315,7 +315,7 @@ $AMIClass('SchemaCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this._selector + ' a.sql-entity-show-link').click((e) => {
+			$(this.getSelector() + ' a.sql-entity-show-link').click((e) => {
 
 				e.preventDefault();
 
@@ -328,7 +328,7 @@ $AMIClass('SchemaCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this._selector + ' a.sql-entity-edit-link').click((e) => {
+			$(this.getSelector() + ' a.sql-entity-edit-link').click((e) => {
 
 				e.preventDefault();
 
@@ -341,7 +341,7 @@ $AMIClass('SchemaCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this._selector + ' a.sql-field-link').click((e) => {
+			$(this.getSelector() + ' a.sql-field-link').click((e) => {
 
 				e.preventDefault();
 
@@ -469,7 +469,7 @@ $AMIClass('SchemaCtrl', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const svg = $(this._selector + ' svg');
+		const svg = $(this.getSelector() + ' svg');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

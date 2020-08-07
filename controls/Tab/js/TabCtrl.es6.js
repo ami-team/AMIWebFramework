@@ -74,7 +74,7 @@ $AMIClass('TabCtrl', {
 			'card': this._card
 		};
 
-		this.replaceHTML(this._selector = selector, this.fragmentTabCtrl, {dict: dict}).done(() => {
+		this.replaceHTML(this.setSelector(selector), this.fragmentTabCtrl, {dict: dict}).done(() => {
 
 			result.resolveWith(this._context);
 		});
@@ -86,21 +86,21 @@ $AMIClass('TabCtrl', {
 
 	_getTabEl: function(tabId)
 	{
-		return $(this._selector + ' .nav-link[href="#' + tabId + '"]:parent');
+		return $(this.getSelector() + ' .nav-link[href="#' + tabId + '"]:parent');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_getLinkEl: function(tabId)
 	{
-		return $(this._selector + ' .nav-link[href="#' + tabId + '"]');
+		return $(this.getSelector() + ' .nav-link[href="#' + tabId + '"]');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_getPaneEl: function(tabId)
 	{
-		return $(this._selector + ' #' + tabId);
+		return $(this.getSelector() + ' #' + tabId);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -149,8 +149,8 @@ $AMIClass('TabCtrl', {
 		const tabSelector = this._card ? '.card > .card-header > .nav-tabs' : '.nav-tabs';
 		const contentSelector = this._card ? '.card > .card-body > .tab-content' : '.tab-content';
 
-		this.prependHTML(this._selector + ' > ' + tabSelector, this.fragmentNavItem, {dict: dict}).done(() => {
-			this.prependHTML(this._selector + ' > ' + contentSelector, this.fragmentTabPane, {dict: dict}).done(() => {
+		this.prependHTML(this.getSelector() + ' > ' + tabSelector, this.fragmentNavItem, {dict: dict}).done(() => {
+			this.prependHTML(this.getSelector() + ' > ' + contentSelector, this.fragmentTabPane, {dict: dict}).done(() => {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -177,7 +177,7 @@ $AMIClass('TabCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				const els = $(this._selector + ' > ' + tabSelector);
+				const els = $(this.getSelector() + ' > ' + tabSelector);
 
 				if(els.length === 1 && firstVisible === false) {
 					els.hide();
@@ -245,8 +245,8 @@ $AMIClass('TabCtrl', {
 		const tabSelector = this._card ? '.card > .card-header > .nav-tabs' : '.nav-tabs';
 		const contentSelector = this._card ? '.card > .card-body > .tab-content' : '.tab-content';
 
-		this.appendHTML(this._selector + ' > ' + tabSelector, this.fragmentNavItem, {dict: dict}).done(() => {
-			this.appendHTML(this._selector + ' > ' + contentSelector, this.fragmentTabPane, {dict: dict}).done(() => {
+		this.appendHTML(this.getSelector() + ' > ' + tabSelector, this.fragmentNavItem, {dict: dict}).done(() => {
+			this.appendHTML(this.getSelector() + ' > ' + contentSelector, this.fragmentTabPane, {dict: dict}).done(() => {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -273,7 +273,7 @@ $AMIClass('TabCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				const els = $(this._selector + ' > ' + tabSelector);
+				const els = $(this.getSelector() + ' > ' + tabSelector);
 
 				if(els.length === 1 && firstVisible === false) {
 					els.hide();
@@ -309,7 +309,7 @@ $AMIClass('TabCtrl', {
 		}
 		else
 		{
-			$(this._selector + ' .nav-link:first').tab('show');
+			$(this.getSelector() + ' .nav-link:first').tab('show');
 		}
 	},
 
@@ -317,18 +317,18 @@ $AMIClass('TabCtrl', {
 
 	removeTabs: function()
 	{
-		$(this._selector + ' .nav-tabs').empty();
+		$(this.getSelector() + ' .nav-tabs').empty();
 
-		$(this._selector + ' .tab-content').empty();
+		$(this.getSelector() + ' .tab-content').empty();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	isEmpty: function()
 	{
-		return $(this._selector + ' .nav-tabs').is(':empty')
+		return $(this.getSelector() + ' .nav-tabs').is(':empty')
 		       ||
-		       $(this._selector + ' .nav-content').is(':empty')
+		       $(this.getSelector() + ' .nav-content').is(':empty')
 		;
 	},
 

@@ -137,7 +137,7 @@ $AMIClass('RootCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return this.replaceHTML(this._selector = selector, this.fragmentRootCtrl, {dict: this.ctx}).done(() => {
+		return this.replaceHTML(selector, this.fragmentRootCtrl, {dict: this.ctx}).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
