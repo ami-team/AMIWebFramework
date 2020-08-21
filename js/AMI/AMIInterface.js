@@ -159,19 +159,19 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	$init: function(parent = this, owner = this)
+	$init: function(parent, owner)
 	{
-		this._parent = parent;
-		this._owner = owner;
+		this._parent = parent | this;
+		this._owner = owner | this;
 
 		this.instanceSuffix = ami.Control.instanceCnt++;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setParent: function(parent = this)
+	setParent: function(parent)
 	{
-		return this._parent = parent;
+		return this._parent = parent | this;
 	},
 
 	getParent: function()
@@ -181,9 +181,9 @@ $AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setOwner: function(owner = this)
+	setOwner: function(owner)
 	{
-		return this._owner = owner;
+		return this._owner = owner | this;
 	},
 
 	getOwner: function()
