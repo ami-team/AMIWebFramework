@@ -96,7 +96,7 @@ $AMIClass('UnitEditorCtrl', {
 			{
 				if(rawVal !== 0.0)
 				{
-					scale = Math.log(rawVal) / Math.log(base);
+					scale = Math.log(Math.abs(rawVal)) / Math.log(base);
 
 					/**/ if(scale > 0.0) {
 						scale = Math.ceil(scale - 1);
