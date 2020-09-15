@@ -24,7 +24,7 @@ $AMIClass('AdminDashboardConfig', {
 			'subapps/AdminDashboard/twig/config/config.twig',
 			'subapps/AdminDashboard/twig/config/extra_menu.twig',
 			'subapps/AdminDashboard/twig/config/parameter.twig',
-		]).done(function(data) {
+		]).done((data) => {
 
 			amiWebApp.replaceHTML('#CB6036B7_5971_41C2_1194_F5A051B21EA0', data[0]).done(() => {
 				amiWebApp.replaceHTML('#C54485C3_44F8_CE8E_0F54_BF847CEECE11', data[1]).done(() => {
