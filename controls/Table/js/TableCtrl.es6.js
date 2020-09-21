@@ -101,7 +101,8 @@ $AMIClass('TableCtrl', {
 			this.ctx.catalog, this.ctx.entity, this.ctx.primaryField, this.ctx.rowset,
 			this.ctx.start, this.ctx.stop, this.ctx.orderBy, this.ctx.orderWay,
 			this.ctx.maxCellLength,
-			this.ctx.card
+			this.ctx.card,
+			this.ctx.onRefresh,
 		] = amiWebApp.setup(
 			[
 				'context',
@@ -110,6 +111,7 @@ $AMIClass('TableCtrl', {
 				'start', 'stop', 'orderBy', 'orderWay',
 				'maxCellLength',
 				'card',
+				'onRefresh',
 			],
 			[
 				result,
@@ -118,6 +120,7 @@ $AMIClass('TableCtrl', {
 				1, 10, '', '',
 				64,
 				false,
+				null,
 			],
 			settings
 		);
@@ -894,6 +897,13 @@ $AMIClass('TableCtrl', {
 				}
 
 				span.text(numbers.join(', '));
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				if(this.ctx.onRefresh)
+				{
+					this.ctx.onRefresh(this);
+				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
