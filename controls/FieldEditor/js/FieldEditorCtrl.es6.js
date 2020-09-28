@@ -118,13 +118,13 @@ $AMIClass('FieldEditorCtrl', {
 				const field = amiWebApp.jspath('..field{.@name==="field"}.$', rows[i])[0] || '';
 				const type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
 				const def = amiWebApp.jspath('..field{.@name==="def"}.$', rows[i])[0] || '';
-				const media = amiWebApp.jspath('..field{.@name==="media"}.$', rows[i])[0] || '';
 
-				const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', rows[i])[0] || '';
-				const created = amiWebApp.jspath('..field{.@name==="created"}.$', rows[i])[0] || '';
-				const createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', rows[i])[0] || '';
-				const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', rows[i])[0] || '';
-				const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', rows[i])[0] || '';
+				const media = amiWebApp.jspath('..field{.@name==="media"}.$', rows[i])[0] || 'false';
+				const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', rows[i])[0] || 'false';
+				const created = amiWebApp.jspath('..field{.@name==="created"}.$', rows[i])[0] || 'false';
+				const createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', rows[i])[0] || 'false';
+				const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', rows[i])[0] || 'false';
+				const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', rows[i])[0] || 'false';
 
 				/*----------------------------------------------------------------------------------------------------*/
 
