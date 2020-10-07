@@ -235,7 +235,7 @@ $AMIClass('GraphCtrl', {
 
      	/*------------------------------------------------------------------------------------------------------------*/
 
-		console.log(this.orientation);
+		console.log(orientation);
 
      	if(orientation === 'LR' )
      	{
