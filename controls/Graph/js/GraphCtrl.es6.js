@@ -214,6 +214,8 @@ $AMIClass('GraphCtrl', {
 
 				e.preventDefault();
 
+				console.log('change');
+
 				this.switchOrientation();
 			});
 
