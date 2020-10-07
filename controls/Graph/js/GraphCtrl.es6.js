@@ -123,7 +123,7 @@ $AMIClass('GraphCtrl', {
 
     render: function(selector, command, settings)
     {
-
+		console.debug(selector);
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
