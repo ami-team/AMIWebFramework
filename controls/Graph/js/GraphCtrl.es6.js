@@ -143,8 +143,6 @@ $AMIClass('GraphCtrl', {
 
 					e.preventDefault();
 
-					console.log('change');
-
 					this.switchOrientation();
 				});
 
@@ -239,8 +237,6 @@ $AMIClass('GraphCtrl', {
      	const regex = new RegExp('(.*\s*rankdir\s*=\s*")([L][R]|[T][B])("\s*.*)');
 
      	const orientation = this.dotString.match(regex)[2];
-
-     	console.debug(orientation);
 
      	/*------------------------------------------------------------------------------------------------------------*/
 
