@@ -136,7 +136,7 @@ $AMIClass('GraphCtrl', {
 
 			this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
 
-			display().done(() => {
+			this.display().done(() => {
 
 				$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).change((e) => {
 
@@ -244,7 +244,7 @@ $AMIClass('GraphCtrl', {
 
      	this.dotString = JSON.stringify(json);
 
-		display().done(() => {
+		this.display().done(() => {
 			result.resolveWith(context);
 		});
     }
