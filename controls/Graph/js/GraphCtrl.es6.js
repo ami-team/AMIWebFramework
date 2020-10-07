@@ -123,7 +123,6 @@ $AMIClass('GraphCtrl', {
 
     render: function(selector, command, settings)
     {
-		console.debug(selector);
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -137,13 +136,6 @@ $AMIClass('GraphCtrl', {
 			this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
 
 			this.display(selector).done(() => {
-
-				$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).change((e) => {
-
-					e.preventDefault();
-
-					this.switchOrientation(selector);
-				});
 
 				result.resolveWith(context, [data]);
 
@@ -210,6 +202,13 @@ $AMIClass('GraphCtrl', {
 		/*--------------------------------------------------------------------------------------------------------*/
 
 		this.replaceHTML(selector, this.fragmentGraphCtrl, {dict: dict}).done(() => {
+
+			$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).change((e) => {
+
+				e.preventDefault();
+
+				this.switchOrientation(selector);
+			});
 
 			$(selector + ' a[data-ctrl]').click((e) => {
 
