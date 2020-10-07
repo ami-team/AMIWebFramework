@@ -207,7 +207,11 @@ $AMIClass('GraphCtrl', {
 
 				e.preventDefault();
 
-				this.switchOrientation(selector);
+				this.switchOrientation(selector).done(() => {
+
+					$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).prop("checked");
+
+				});
 			});
 
 			$(selector + ' a[data-ctrl]').click((e) => {
@@ -239,7 +243,7 @@ $AMIClass('GraphCtrl', {
      	{
      		this.dotString = this.dotString.replace(regex, '$1TB$3');
      	}
-     	else
+     	else if(orientation === 'TB' )
      	{
 			this.dotString = this.dotString.replace(regex, '$1LR$3');
      	}
@@ -247,6 +251,8 @@ $AMIClass('GraphCtrl', {
 		this.display(selector).done(() => {
 			result.resolveWith(this, [result]);
 		});
+
+		return result.promise();
     }
 	/*----------------------------------------------------------------------------------------------------------------*/
 });
