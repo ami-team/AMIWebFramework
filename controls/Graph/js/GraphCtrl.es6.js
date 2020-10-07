@@ -209,7 +209,7 @@ $AMIClass('GraphCtrl', {
 
 				this.switchOrientation(selector).done(() => {
 
-					$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).prop("checked");
+					//$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).prop("checked");
 
 				});
 			});
