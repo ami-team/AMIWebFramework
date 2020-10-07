@@ -218,7 +218,7 @@ $AMIClass('GraphCtrl', {
 				this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx);
 			});
 
-			result.resolveWith(this, [result]);
+			return result.promise();
 		});
 
     },
