@@ -230,20 +230,20 @@ $AMIClass('GraphCtrl', {
     {
      	const result = $.Deferred();
 
+     	const regex = new RegExp('(.*\s*rankdir\s*=\s*")([L][R]|[T][B])("\s*.*)');
+
+     	const orientation = this.dotString.match()[2];
+
      	/*------------------------------------------------------------------------------------------------------------*/
 
-     	let json = JSON.parse(this.dotString);
-
-     	if(json.graph['rankdir'] === 'LR' )
+     	if(orientation === 'LR' )
      	{
-     		json.graph['rankdir'] = 'TB';
+     		this.dotString = this.dotString.replace(regex, '$1TB$3');
      	}
      	else
      	{
-     		json.graph['rankdir'] = 'LR';
+			this.dotString = this.dotString.replace(regex, '$1LR$3');
      	}
-
-     	this.dotString = JSON.stringify(json);
 
 		this.display(selector).done(() => {
 			result.resolveWith(this, [result]);
