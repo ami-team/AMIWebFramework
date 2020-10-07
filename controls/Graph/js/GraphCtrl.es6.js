@@ -231,11 +231,9 @@ $AMIClass('GraphCtrl', {
 
      	const regex = new RegExp('(.*\s*rankdir\s*=\s*")([L][R]|[T][B])("\s*.*)');
 
-     	const orientation = this.dotString.match()[2];
+     	const orientation = this.dotString.match(regex)[2];
 
      	/*------------------------------------------------------------------------------------------------------------*/
-
-		console.log(orientation);
 
      	if(orientation === 'LR' )
      	{
@@ -245,8 +243,6 @@ $AMIClass('GraphCtrl', {
      	{
 			this.dotString = this.dotString.replace(regex, '$1LR$3');
      	}
-
-     	console.log(this.dotString);
 
 		this.display(selector).done(() => {
 			result.resolveWith(this, [result]);
