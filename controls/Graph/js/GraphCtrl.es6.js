@@ -235,6 +235,8 @@ $AMIClass('GraphCtrl', {
 
      	/*------------------------------------------------------------------------------------------------------------*/
 
+		console.log(this.orientation);
+
      	if(orientation === 'LR' )
      	{
      		this.dotString = this.dotString.replace(regex, '$1TB$3');
