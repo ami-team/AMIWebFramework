@@ -139,14 +139,21 @@ $AMIClass('GraphCtrl', {
 
 			this.replaceHTML(selector, this.fragmentGraphCtrl).done(() => {
 
+				$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).change((e) => {
+
+					e.preventDefault();
+
+					console.log('change');
+
+					this.switchOrientation();
+				});
+
 				this.display().done(() => {
 
 					result.resolveWith(context, [data]);
 
 				});
 			});
-
-
 
 		}).fail((data) => {
 
@@ -209,15 +216,6 @@ $AMIClass('GraphCtrl', {
 		/*--------------------------------------------------------------------------------------------------------*/
 
 		this.replaceHTML(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487'), this.fragmentGraph, {dict: dict}).done(() => {
-
-			$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).change((e) => {
-
-				e.preventDefault();
-
-				console.log('change');
-
-				this.switchOrientation();
-			});
 
 			$(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487') + ' a[data-ctrl]').click((e) => {
 
