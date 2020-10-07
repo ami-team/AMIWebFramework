@@ -217,7 +217,7 @@ $AMIClass('GraphCtrl', {
 				this.switchOrientation();
 			});
 
-			$(selector + ' a[data-ctrl]').click((e) => {
+			$(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487') + ' a[data-ctrl]').click((e) => {
 
 				e.preventDefault();
 
