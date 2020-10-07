@@ -32,12 +32,14 @@ $AMIClass('GraphCtrl', {
 	{
 		return amiWebApp.loadResources([
 			amiWebApp.originURL + '/controls/Graph/twig/GraphCtrl.twig',
+			amiWebApp.originURL + '/controls/Graph/twig/graph.twig',
 			amiWebApp.originURL + '/js/3rd-party/viz.min.js',
 			amiWebApp.originURL + '/css/ami.min.css',
 			amiWebApp.originURL + '/css/font-awesome.min.css',
 		], {context: this}).done((data) => {
 
 			this.fragmentGraphCtrl = data[0];
+			this.fragmentGraph = data[1];
 		});
 	},
 
@@ -135,11 +137,16 @@ $AMIClass('GraphCtrl', {
 
 			this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
 
-			this.display(selector).done(() => {
+			this.replaceHTML(selector, this.fragmentGraphCtrl, {dict: dict}).done(() => {
 
-				result.resolveWith(context, [data]);
+				this.display().done(() => {
 
+					result.resolveWith(context, [data]);
+
+				});
 			});
+
+
 
 		}).fail((data) => {
 
@@ -153,7 +160,7 @@ $AMIClass('GraphCtrl', {
     },
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-    display: function(selector)
+    display: function()
     {
     	/*------------------------------------------------------------------------------------------------------------*/
 
@@ -201,17 +208,13 @@ $AMIClass('GraphCtrl', {
 
 		/*--------------------------------------------------------------------------------------------------------*/
 
-		this.replaceHTML(selector, this.fragmentGraphCtrl, {dict: dict}).done(() => {
+		this.replaceHTML($(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487')), this.fragmentGraph, {dict: dict}).done(() => {
 
 			$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).change((e) => {
 
 				e.preventDefault();
 
-				this.switchOrientation(selector).done(() => {
-
-					//$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).prop("checked");
-
-				});
+				this.switchOrientation();
 			});
 
 			$(selector + ' a[data-ctrl]').click((e) => {
@@ -229,7 +232,7 @@ $AMIClass('GraphCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	switchOrientation: function(selector)
+	switchOrientation: function()
     {
      	const result = $.Deferred();
 
@@ -248,7 +251,7 @@ $AMIClass('GraphCtrl', {
 			this.dotString = this.dotString.replace(regex, '$1LR$3');
      	}
 
-		this.display(selector).done(() => {
+		this.display().done(() => {
 			result.resolveWith(this, [result]);
 		});
 
