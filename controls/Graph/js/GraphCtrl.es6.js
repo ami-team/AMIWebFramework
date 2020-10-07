@@ -194,8 +194,6 @@ $AMIClass('GraphCtrl', {
 			return 'xlink:href="#" ' + attrs.join(' ');
 		});
 
-		console.log(dict.graph);
-
 		/*--------------------------------------------------------------------------------------------------------*/
 
 		const doc = new DOMParser().parseFromString(dict.graph, 'image/svg+xml');
@@ -246,6 +244,8 @@ $AMIClass('GraphCtrl', {
      	{
 			this.dotString = this.dotString.replace(regex, '$1LR$3');
      	}
+
+     	console.log(this.dotString);
 
 		this.display(selector).done(() => {
 			result.resolveWith(this, [result]);
