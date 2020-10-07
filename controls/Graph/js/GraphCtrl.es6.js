@@ -137,7 +137,7 @@ $AMIClass('GraphCtrl', {
 
 			this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
 
-			this.replaceHTML(selector, this.fragmentGraphCtrl, {dict: dict}).done(() => {
+			this.replaceHTML(selector, this.fragmentGraphCtrl).done(() => {
 
 				this.display().done(() => {
 
