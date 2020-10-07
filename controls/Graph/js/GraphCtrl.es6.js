@@ -194,6 +194,8 @@ $AMIClass('GraphCtrl', {
 			return 'xlink:href="#" ' + attrs.join(' ');
 		});
 
+		console.log(dict.graph);
+
 		/*--------------------------------------------------------------------------------------------------------*/
 
 		const doc = new DOMParser().parseFromString(dict.graph, 'image/svg+xml');
