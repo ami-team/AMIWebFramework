@@ -277,7 +277,7 @@ $AMIClass('GraphCtrl', {
 	{
 		const graph = Viz(this.dotString, { format: 'svg' });
 
-		const image = Viz.svgXmlToPngImageElement(graph)
+		const image = Viz.svgXmlToPngBase64(graph)
 
 		const blob = new Blob([image], {
 			type: 'image/png',
