@@ -111,6 +111,8 @@ $AMIClass('GraphCtrl', {
 
         const result = $.Deferred();
 
+        /*------------------------------------------------------------------------------------------------------------*/
+
         this.graph = typeof Viz !== 'undefined' ? Viz(this.dotString, 'svg') : '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -182,8 +184,6 @@ $AMIClass('GraphCtrl', {
     {
      	/*------------------------------------------------------------------------------------------------------------*/
 
-     	const result = $.Deferred();
-
      	const regex = new RegExp('(.*\s*rankdir\s*=\s*")([L][R]|[T][B])("\s*.*)');
 
      	const direction = this.dotString.match(regex)[2];
@@ -199,12 +199,7 @@ $AMIClass('GraphCtrl', {
 			this.dotString = this.dotString.replace(regex, '$1LR$3');
      	}
 
-		this.display().done(() => {
-
-			result.resolveWith(this, [result]);
-		});
-
-		return result.promise();
+		this.display();
     },
 
 	/*----------------------------------------------------------------------------------------------------------------*/
