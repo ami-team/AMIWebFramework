@@ -278,11 +278,11 @@ $AMIClass('GraphCtrl', {
 		const image = $(Viz(this.dotString, { format: 'svg' })).html();
 
 		const blob = new Blob([image], {
-			type: 'image/png',
+			type: 'image/svg',
 			endings : 'native',
 		});
 
-		saveAs(blob, 'graph.png');
+		saveAs(blob, 'graph.svg');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
