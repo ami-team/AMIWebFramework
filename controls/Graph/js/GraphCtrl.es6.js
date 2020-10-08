@@ -219,11 +219,14 @@ $AMIClass('GraphCtrl', {
 
 	test: function()
 	{
-		const image = Viz.svgXmlToPngImageElement(this.graph);
+		Viz.svgXmlToPngBase64(this.graph, 1, this.savePNG);
+	},
 
-		console.debug(image);
+	savePNG: function(err, data)
+    	{
+		console.debug(data);
 
-		const blob = new Blob([image], {
+		const blob = new Blob([data], {
 			type: 'image/png',
 			endings : 'native',
 		});
