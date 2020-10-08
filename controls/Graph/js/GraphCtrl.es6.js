@@ -67,7 +67,7 @@ $AMIClass('GraphCtrl', {
 
 					e.preventDefault();
 
-					this.switchOrientation();
+					this.switchDirection();
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -109,19 +109,12 @@ $AMIClass('GraphCtrl', {
         const result = $.Deferred();
 
         this.graph = typeof Viz !== 'undefined' ? Viz(this.dotString, 'svg') : '';
-        console.log(this.graph)
-
-        /*------------------------------------------------------------------------------------------------------------*/
-
-		const dict = {
-			graph : this.graph,
-		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GRAPH POST TREATMENT                                                                                       */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		dict.graph = dict.graph.replace(/xlink:href="([^"]*)"/g, (x, json) => {
+		this.graph = this.graph.replace(/xlink:href="([^"]*)"/g, (x, json) => {
 
 			const jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
 
@@ -140,7 +133,7 @@ $AMIClass('GraphCtrl', {
 
 		/*--------------------------------------------------------------------------------------------------------*/
 
-		const doc = new DOMParser().parseFromString(dict.graph, 'image/svg+xml');
+		const doc = new DOMParser().parseFromString(this.graph, 'image/svg+xml');
 
 		const svg = $(doc.documentElement);
 
@@ -149,7 +142,13 @@ $AMIClass('GraphCtrl', {
 			$('<tspan font-family="FontAwesome">' + String.fromCharCode('0x' + $(el).attr('data-title-icon')) + '</tspan><tspan> </tspan>').prependTo($(el).find('text'));
 		});
 
-		dict.graph = doc.documentElement.outerHTML;
+		this.graph = doc.documentElement.outerHTML;
+
+        /*------------------------------------------------------------------------------------------------------------*/
+
+		const dict = {
+			graph : this.graph,
+		};
 
 		/*--------------------------------------------------------------------------------------------------------*/
 
@@ -170,21 +169,21 @@ $AMIClass('GraphCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	switchOrientation: function()
+	switchDirection: function()
     {
      	const result = $.Deferred();
 
      	const regex = new RegExp('(.*\s*rankdir\s*=\s*")([L][R]|[T][B])("\s*.*)');
 
-     	const orientation = this.dotString.match(regex)[2];
+     	const direction = this.dotString.match(regex)[2];
 
      	/*------------------------------------------------------------------------------------------------------------*/
 
-     	if(orientation === 'LR' )
+     	if(direction === 'LR' )
      	{
      		this.dotString = this.dotString.replace(regex, '$1TB$3');
      	}
-     	else if(orientation === 'TB' )
+     	else if(direction === 'TB' )
      	{
 			this.dotString = this.dotString.replace(regex, '$1LR$3');
      	}
