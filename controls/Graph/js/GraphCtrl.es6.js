@@ -275,10 +275,10 @@ $AMIClass('GraphCtrl', {
 
 	exportGraph: function()
 	{
-		const image = $(Viz(this.dotString, { format: 'svg' })).html();
+		const image = Viz(this.dotString, {format: 'svg'});
 
 		const blob = new Blob([image], {
-			type: 'image/svg',
+			type: 'image/svg+xml',
 			endings : 'native',
 		});
 
