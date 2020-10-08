@@ -67,7 +67,10 @@ $AMIClass('GraphCtrl', {
 
 					e.preventDefault();
 
-					this.switchDirection();
+					this.switchDirection().done(() => {
+
+						result.resolveWith(context, [data]);
+					});
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -84,7 +87,6 @@ $AMIClass('GraphCtrl', {
 				this.display().done(() => {
 
 					result.resolveWith(context, [data]);
-
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -104,12 +106,6 @@ $AMIClass('GraphCtrl', {
 
     display: function()
     {
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		amiWebApp.lock();
-
-    	/*------------------------------------------------------------------------------------------------------------*/
-
         const result = $.Deferred();
 
         this.graph = typeof Viz !== 'undefined' ? Viz(this.dotString, 'svg') : '';
@@ -165,12 +161,6 @@ $AMIClass('GraphCtrl', {
 				this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx);
 			});
 
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			amiWebApp.unlock();
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
 			result.resolveWith(this, [result]);
 		});
 
@@ -181,6 +171,7 @@ $AMIClass('GraphCtrl', {
 
 	switchDirection: function()
     {
+
      	const result = $.Deferred();
 
      	const regex = new RegExp('(.*\s*rankdir\s*=\s*")([L][R]|[T][B])("\s*.*)');
@@ -199,6 +190,7 @@ $AMIClass('GraphCtrl', {
      	}
 
 		this.display().done(() => {
+
 			result.resolveWith(this, [result]);
 		});
 
