@@ -224,7 +224,7 @@ $AMIClass('GraphCtrl', {
 
 	savePNG: function(err, data)
     {
-		let binary_string = window.atob(base64);
+		let binary_string = window.atob(data);
 		let len = binary_string.length;
 		let bytes = new Uint8Array(len);
 		for (let i = 0; i < len; i++) {
