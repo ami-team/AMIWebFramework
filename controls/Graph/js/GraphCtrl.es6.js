@@ -109,6 +109,7 @@ $AMIClass('GraphCtrl', {
         const result = $.Deferred();
 
         this.graph = typeof Viz !== 'undefined' ? Viz(this.dotString, 'svg') : '';
+        console.log(this.graph)
 
         /*------------------------------------------------------------------------------------------------------------*/
 
