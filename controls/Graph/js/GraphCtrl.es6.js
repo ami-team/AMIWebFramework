@@ -8,7 +8,7 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
  *
- * @global Viz
+ * @global Viz, saveAs
  *
  */
 
@@ -139,6 +139,8 @@ $AMIClass('GraphCtrl', {
 
 			this.replaceHTML(selector, this.fragmentGraphCtrl).done(() => {
 
+				/*----------------------------------------------------------------------------------------------------*/
+
 				$(this.patchId('#A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15')).change((e) => {
 
 					e.preventDefault();
@@ -146,11 +148,24 @@ $AMIClass('GraphCtrl', {
 					this.switchOrientation();
 				});
 
+				/*----------------------------------------------------------------------------------------------------*/
+
+				$(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487')).click((e) => {
+
+					e.preventDefault();
+
+					this.exportGraph();
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+
 				this.display().done(() => {
 
 					result.resolveWith(context, [data]);
 
 				});
+
+				/*----------------------------------------------------------------------------------------------------*/
 			});
 
 		}).fail((data) => {
@@ -254,7 +269,22 @@ $AMIClass('GraphCtrl', {
 		});
 
 		return result.promise();
-    }
+    },
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	exportGraph: function()
+	{
+		const image = Viz(this.dotString, { format: 'png-image-element' });
+
+		const blob = new Blob([image], {
+			type: 'image/png',
+			endings : 'native',
+		});
+
+		saveAs(blob, 'graph.png');
+	},
+
 	/*----------------------------------------------------------------------------------------------------------------*/
 });
 
