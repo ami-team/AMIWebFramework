@@ -76,14 +76,14 @@ $AMIClass('GraphCtrl', {
 
 					e.preventDefault();
 
-					this._exportSVG();
+					this.exportSVG();
 				});
 
 				$(this.patchId('#D68E49F9_A0C7_C15D_8323_8BA215856428')).click((e) => {
 
 					e.preventDefault();
 
-					this._exportPNG();
+					this.exportPNG();
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -228,12 +228,16 @@ $AMIClass('GraphCtrl', {
 		Viz.svgXmlToPngBase64(this.graph, 1, this._exportPNG);
 	},
 
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	_exportPNG: function(err, data)
     {
 		let binary_string = window.atob(data);
 		let len = binary_string.length;
 		let bytes = new Uint8Array(len);
-		for (let i = 0; i < len; i++) {
+
+		for(let i = 0; i < len; i++)
+		{
 			bytes[i] = binary_string.charCodeAt(i);
 		}
 
