@@ -77,6 +77,7 @@ $AMIClass('GraphCtrl', {
 					e.preventDefault();
 
 					this.exportGraph();
+					this.test();
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -212,6 +213,22 @@ $AMIClass('GraphCtrl', {
 		});
 
 		saveAs(blob, 'graph.svg');
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	test: function()
+	{
+		const image = Viz.svgXmlToPngImageElement(this.graph);
+
+		console.debug(image);
+
+		const blob = new Blob([image], {
+			type: 'image/png',
+			endings : 'native',
+		});
+
+		saveAs(blob, 'graph.png');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
