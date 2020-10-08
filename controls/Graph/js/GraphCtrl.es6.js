@@ -275,6 +275,8 @@ $AMIClass('GraphCtrl', {
 
 	exportGraph: function()
 	{
+		console.log('exportGraph');
+
 		const image = Viz(this.dotString, { format: 'png-image-element' });
 
 		const blob = new Blob([image], {
