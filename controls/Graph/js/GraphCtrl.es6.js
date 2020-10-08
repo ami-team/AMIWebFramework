@@ -150,7 +150,7 @@ $AMIClass('GraphCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$(this.patchId('#A0F6763F_DE29_5185_35C1_DCAA81E8C487')).click((e) => {
+				$(this.patchId('#E90168C4_E4BD_ACC8_085F_9953D6CF789F')).click((e) => {
 
 					e.preventDefault();
 
