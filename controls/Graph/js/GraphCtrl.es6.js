@@ -223,10 +223,15 @@ $AMIClass('GraphCtrl', {
 	},
 
 	savePNG: function(err, data)
-    	{
-		console.debug(data);
+    {
+		let binary_string = window.atob(base64);
+		let len = binary_string.length;
+		let bytes = new Uint8Array(len);
+		for (let i = 0; i < len; i++) {
+			bytes[i] = binary_string.charCodeAt(i);
+		}
 
-		const blob = new Blob([data], {
+		const blob = new Blob([bytes.buffer], {
 			type: 'image/png',
 			endings : 'native',
 		});
