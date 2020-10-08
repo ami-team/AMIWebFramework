@@ -76,8 +76,14 @@ $AMIClass('GraphCtrl', {
 
 					e.preventDefault();
 
-					this.exportGraph();
-					this.test();
+					this._exportSVG();
+				});
+
+				$(this.patchId('#D68E49F9_A0C7_C15D_8323_8BA215856428')).click((e) => {
+
+					e.preventDefault();
+
+					this._exportPNG();
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -205,7 +211,7 @@ $AMIClass('GraphCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	exportGraph: function()
+	exportSVG: function()
 	{
 		const blob = new Blob([this.graph], {
 			type: 'image/svg+xml',
@@ -217,12 +223,12 @@ $AMIClass('GraphCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	test: function()
+	exportPNG: function()
 	{
-		Viz.svgXmlToPngBase64(this.graph, 1, this.savePNG);
+		Viz.svgXmlToPngBase64(this.graph, 1, this._exportPNG);
 	},
 
-	savePNG: function(err, data)
+	_exportPNG: function(err, data)
     {
 		let binary_string = window.atob(data);
 		let len = binary_string.length;
