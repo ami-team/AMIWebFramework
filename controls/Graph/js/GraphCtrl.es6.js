@@ -45,84 +45,6 @@ $AMIClass('GraphCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-//	render_old: function(selector, command, settings)
-//	{
-//		const result = $.Deferred();
-//
-//		/*------------------------------------------------------------------------------------------------------------*/
-//
-//		const [context] = amiWebApp.setup(['context'], [result], settings);
-//
-//		/*------------------------------------------------------------------------------------------------------------*/
-//
-//		amiCommand.execute(command).done((data) => {
-//
-//			const dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
-//
-//			const dict = {
-//				graph : typeof Viz !== 'undefined' ? Viz(dotString, 'svg') : '',
-//			};
-//
-//			/*--------------------------------------------------------------------------------------------------------*/
-//			/* GRAPH POST TREATMENT                                                                                   */
-//			/*--------------------------------------------------------------------------------------------------------*/
-//
-//			dict.graph = dict.graph.replace(/xlink:href="([^"]*)"/g, (x, json) => {
-//
-//				const jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
-//
-//				const attrs = [
-//					'data-ctrl="' + amiWebApp.textToHtml(jsonbObj['data-ctrl']) + '"',
-//					'data-ctrl-location="' + amiWebApp.textToHtml(jsonbObj['data-ctrl-location']) + '"',
-//					'data-params="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params'])) + '"',
-//					'data-settings="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings'])) + '"',
-//					'data-icon="' + amiWebApp.textToHtml(jsonbObj['data-icon']) + '"',
-//					'data-title="' + amiWebApp.textToHtml(jsonbObj['data-title']) + '"',
-//					'data-title-icon="' + amiWebApp.textToHtml(jsonbObj['data-title-icon']) + '"',
-//				];
-//
-//				return 'xlink:href="#" ' + attrs.join(' ');
-//			});
-//
-//			/*--------------------------------------------------------------------------------------------------------*/
-//
-//			const doc = new DOMParser().parseFromString(dict.graph, 'image/svg+xml');
-//
-//			const svg = $(doc.documentElement);
-//
-//			svg.find('a[data-title-icon]').each((i, el) => {
-//
-//				$('<tspan font-family="FontAwesome">' + String.fromCharCode('0x' + $(el).attr('data-title-icon')) + '</tspan><tspan> </tspan>').prependTo($(el).find('text'));
-//			});
-//
-//			dict.graph = doc.documentElement.outerHTML;
-//
-//			/*--------------------------------------------------------------------------------------------------------*/
-//
-//			this.replaceHTML(selector, this.fragmentGraphCtrl, {dict: dict}).done(() => {
-//
-//				$(selector + ' a[data-ctrl]').click((e) => {
-//
-//					e.preventDefault();
-//
-//					this.createControlFromWebLink(this.getParent(), e.currentTarget, this.ctx);
-//				});
-//
-//				result.resolveWith(context, [data]);
-//			});
-//
-//		}).fail((data) => {
-//
-//			result.rejectWith(context, [data]);
-//		});
-//
-//		/*------------------------------------------------------------------------------------------------------------*/
-//
-//		return result.promise();
-//	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
     render: function(selector, command, settings)
     {
 		const result = $.Deferred();
@@ -186,10 +108,12 @@ $AMIClass('GraphCtrl', {
 
         const result = $.Deferred();
 
+        this.graph = typeof Viz !== 'undefined' ? Viz(this.dotString, 'svg') : '';
+
         /*------------------------------------------------------------------------------------------------------------*/
 
 		const dict = {
-			graph : typeof Viz !== 'undefined' ? Viz(this.dotString, 'svg') : '',
+			graph : this.graph,
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -275,9 +199,7 @@ $AMIClass('GraphCtrl', {
 
 	exportGraph: function()
 	{
-		const image = Viz(this.dotString, {format: 'svg'});
-
-		const blob = new Blob([image], {
+		const blob = new Blob([this.graph], {
 			type: 'image/svg+xml',
 			endings : 'native',
 		});
