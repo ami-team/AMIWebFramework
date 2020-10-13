@@ -59,6 +59,8 @@ $AMIClass('GraphCtrl', {
 
 			this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
 
+			console.debug(this.dotString);
+
 			this.replaceHTML(selector, this.fragmentGraphCtrl).done(() => {
 
 				/*----------------------------------------------------------------------------------------------------*/
