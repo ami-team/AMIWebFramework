@@ -263,7 +263,7 @@ $AMIClass('GraphCtrl', {
 
 	jsonToDot: function(json)
     {
-		let nodes = amiWebApp.jspath('..rowset{.@type==="nodes"}.row', json)[0] || '';
+		let nodes = amiWebApp.jspath('..rowset{.@type==="node"}.row', json)[0] || '';
 		let edges = amiWebApp.jspath('..rowset{.@type==="edge"}.row', json)[0] || '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
