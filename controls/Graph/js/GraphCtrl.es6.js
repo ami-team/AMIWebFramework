@@ -65,7 +65,7 @@ $AMIClass('GraphCtrl', {
 			}
 			else
 			{
-				this.dotString = jsonToDot(data);
+				this.dotString = this.jsonToDot(data);
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
