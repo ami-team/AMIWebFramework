@@ -66,8 +66,9 @@ $AMIClass('GraphCtrl', {
 			else
 			{
 				this.dotString = this.jsonToDot(data);
-				console.log(this.dotString);
 			}
+
+			console.log(this.dotString);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -273,7 +274,6 @@ $AMIClass('GraphCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		[...nodes].forEach((node,idx) => {
-			console.debug(JSON.stringify(node));
     		dot += '"' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', node)[0] || '') + '" '
     			+ '[ '
     			+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '') + '", '
