@@ -291,9 +291,9 @@ $AMIClass('GraphCtrl', {
     	/*------------------------------------------------------------------------------------------------------------*/
 
     	[...edges].forEach((edge,idx) => {
-			dot += '"' + (amiWebApp.jspath('..field{.@name==="SOURCE"}.$', row)[0] || '') + '" '
+			dot += '"' + (amiWebApp.jspath('..field{.@name==="SOURCE"}.$', edge)[0] || '') + '" '
 				 + '-> '
-				 + '"' + (amiWebApp.jspath('..field{.@name==="DESTINATION"}.$', row)[0] || '') + '" '
+				 + '"' + (amiWebApp.jspath('..field{.@name==="DESTINATION"}.$', edge)[0] || '') + '" '
 		});
 
     	/*------------------------------------------------------------------------------------------------------------*/
