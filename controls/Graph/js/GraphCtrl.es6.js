@@ -262,14 +262,12 @@ $AMIClass('GraphCtrl', {
 
 	jsonToDot: function(json)
     {
-    	let dot;
-
 		let nodes = amiWebApp.jspath('..rowset{.@type==="nodes"}.row', json)[0] || '';
 		let edges = amiWebApp.jspath('..rowset{.@type==="edge"}.row', json)[0] || '';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-    	dot += 'digraph "provenance" {graph [rankdir="LR", ranksep="0.20"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0"];';
+    	let dot = 'digraph "provenance" {graph [rankdir="LR", ranksep="0.20"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0"];';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -295,6 +293,10 @@ $AMIClass('GraphCtrl', {
 				 + '-> '
 				 + '"' + (amiWebApp.jspath('..field{.@name==="DESTINATION"}.$', edge)[0] || '') + '" '
 		});
+
+    	/*------------------------------------------------------------------------------------------------------------*/
+
+    	dot += '}'
 
     	/*------------------------------------------------------------------------------------------------------------*/
 
