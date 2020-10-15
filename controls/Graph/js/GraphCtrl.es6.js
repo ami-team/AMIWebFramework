@@ -274,14 +274,16 @@ $AMIClass('GraphCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		[...nodes].forEach((node,idx) => {
-    		dot += '"' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', row)[0] || '') + '" '
+    		dot += '"' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', node)[0] || '') + '" '
     			+ '[ '
-    			+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', row)[0] || '') + '", '
-    			+ 'label="' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', row)[0] || '') + '" ';
+    			+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '') + '", '
+    			+ 'label="' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', node)[0] || '') + '" ';
 
-    			if((amiWebApp.jspath('..field{.@name==="URL"}.$', row)[0] || '') !== '')
+				let url = amiWebApp.jspath('..field{.@name==="URL"}.$', node)[0] || '';
+
+    			if(url !== '')
     			{
-    				dot	+= ', URL="' + getURL(node) + '" ';
+    				dot	+= ', URL="' + url + '" ';
     			}
     		dot += ']';
     	});
