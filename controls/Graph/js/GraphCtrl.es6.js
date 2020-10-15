@@ -51,13 +51,24 @@ $AMIClass('GraphCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [context] = amiWebApp.setup(['context'], [result], settings);
+		[context, this.mode] = amiWebApp.setup(['context', 'mode'], [result, 'dot'], settings);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		amiCommand.execute(command).done((data) => {
 
-			this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			if(this.mode === 'dot')
+			{
+				this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
+			}
+			else
+			{
+				this.dotString = jsonToDot(data);
+			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			this.replaceHTML(selector, this.fragmentGraphCtrl).done(() => {
 
@@ -248,6 +259,45 @@ $AMIClass('GraphCtrl', {
 
 		saveAs(blob, 'graph.png');
 	},
+
+	jsonToDot: function(json)
+    {
+    	let dot;
+
+		let nodes = amiWebApp.jspath('..rowset{.@type==="nodes"}.row', json)[0] || '';
+		let edges = amiWebApp.jspath('..rowset{.@type==="edge"}.row', json)[0] || '';
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+    	dot += 'digraph "provenance" {graph [rankdir="LR", ranksep="0.20"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0"];';
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		[...nodes].forEach((node,idx) => {
+    		dot += '"' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', row)[0] || '') + '" '
+    			+ '[ '
+    			+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', row)[0] || '') + '", '
+    			+ 'label="' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', row)[0] || '') + '" ';
+
+    			if((amiWebApp.jspath('..field{.@name==="URL"}.$', row)[0] || '') !== '')
+    			{
+    				dot	+= ', URL="' + getURL(node) + '" ';
+    			}
+    		dot += ']';
+    	});
+
+    	/*------------------------------------------------------------------------------------------------------------*/
+
+    	[...edges].forEach((edge,idx) => {
+			dot += '"' + (amiWebApp.jspath('..field{.@name==="SOURCE"}.$', row)[0] || '') + '" '
+				 + '-> '
+				 + '"' + (amiWebApp.jspath('..field{.@name==="DESTINATION"}.$', row)[0] || '') + '" '
+		});
+
+    	/*------------------------------------------------------------------------------------------------------------*/
+
+    	return dot;
+    },
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 });
