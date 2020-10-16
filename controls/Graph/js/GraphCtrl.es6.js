@@ -324,7 +324,7 @@ $AMIClass('GraphCtrl', {
 			 + '}]}, '
 			 + '&quot;data-icon&quot;: &quot;arrows-alt&quot;, '
 			 + '&quot;data-title&quot;: &quot;dataset&quot; '
-			 + (''.equals(icon) ? '' : ', &quot;data-title-icon&quot;: &quot;' + icon + '&quot;')
+			 + ('' === icon ? '' : ', &quot;data-title-icon&quot;: &quot;' + icon + '&quot;')
 			 + '}';
 	},
 
