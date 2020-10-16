@@ -279,16 +279,12 @@ $AMIClass('GraphCtrl', {
     			+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '') + '", '
     			+ 'label="' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', node)[0] || '') + '" ';
 
-				let url = amiWebApp.jspath('..field{.@name==="URL"}.$', node)[0] || '';
+				dot	+= ', URL="' + this.url(
+										(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
+										(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
+										(amiWebApp.jspath('..field{.@name==="ICON"}.$', node)[0] || ''),
+									  ) + '" ';
 
-    			if(url !== '')
-    			{
-    				dot	+= ', URL="' + this.url(
-    										(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
-    										(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
-    										(amiWebApp.jspath('..field{.@name==="ICON"}.$', node)[0] || ''),
-    									  ) + '" ';
-    			}
     		dot += ']';
     	});
 
