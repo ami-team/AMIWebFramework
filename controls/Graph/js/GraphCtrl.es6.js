@@ -283,7 +283,6 @@ $AMIClass('GraphCtrl', {
 
     			if(url !== '')
     			{
-    			//ici replace " par &quot;
     				dot	+= ', URL="' + this.url(
     										(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
     										(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
