@@ -267,7 +267,7 @@ $AMIClass('GraphCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-    	let dot = 'digraph "provenance" {graph [rankdir="LR", ranksep="0.20"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", style="filled"];';
+    	let dot = 'digraph "provenance" {graph [rankdir="LR", ranksep="0.20"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", shape="rectangle"];';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -276,6 +276,15 @@ $AMIClass('GraphCtrl', {
     			+ '[ '
     			+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '') + '", '
     			+ 'label="' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', node)[0] || '') + '" ';
+
+				if((amiWebApp.jspath('..field{.@name==="LEVEL"}.$', node)[0] || '') === 0)
+				{
+					dot += ', style ="filled, rounded"';
+				}
+				else
+				{
+					dot += ', style ="filled"';
+				}
 
 				dot	+= ', URL="' + this.url(
 										(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
