@@ -68,8 +68,6 @@ $AMIClass('GraphCtrl', {
 				this.dotString = this.jsonToDot(data);
 			}
 
-			console.log(this.dotString);
-
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			this.replaceHTML(selector, this.fragmentGraphCtrl).done(() => {
