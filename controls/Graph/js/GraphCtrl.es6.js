@@ -269,7 +269,7 @@ $AMIClass('GraphCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-    	let dot = 'digraph "provenance" {graph [rankdir="LR", ranksep="0.20"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0"];';
+    	let dot = 'digraph "provenance" {graph [rankdir="LR", ranksep="0.20"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", style="filled"];';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -283,7 +283,12 @@ $AMIClass('GraphCtrl', {
 
     			if(url !== '')
     			{
-    				dot	+= ', URL="' + url + '" ';
+    			//ici replace " par &quot;
+    				dot	+= ', URL="' + this.url(
+    										(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
+    										(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
+    										(amiWebApp.jspath('..field{.@name==="ICON"}.$', node)[0] || ''),
+    									  ) + '" ';
     			}
     		dot += ']';
     	});
@@ -304,6 +309,29 @@ $AMIClass('GraphCtrl', {
 
     	return dot;
     },
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	url: function(id, catalog, icon){
+		return '{&quot;data-ctrl&quot;:&quot;elementInfo&quot;, '
+			 + '&quot;data-params&quot;:[&quot;' + catalog + '&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;' + id + '&quot;], '
+			 + '&quot;data-settings&quot;: {'
+			 + '&quot;expandedLinkedElements&quot;: ['
+			 + '{&quot;catalog&quot;: &quot;'+ catalog + '&quot;, '
+			 + '&quot;entity&quot;: &quot;physicsParameterVals&quot;, '
+			 + '&quot;fields&quot;: [&quot;paramName&quot;, &quot;paramValue&quot;, &quot;units&quot;, &quot;physicsGroup&quot;], '
+			 + '&quot;keyValMode&quot;:true'
+			 + '}, {'
+			 + '&quot;catalog&quot;: &quot;' + catalog + '&quot;, '
+			 + '&quot;entity&quot;: &quot;dataset_extra&quot;, '
+			 + '&quot;fields&quot;: [&quot;field&quot;, &quot;value&quot;], '
+			 + '&quot;keyValMode&quot;:true'
+			 + '}]}, '
+			 + '&quot;data-icon&quot;: &quot;arrows-alt&quot;, '
+			 + '&quot;data-title&quot;: &quot;dataset&quot; '
+			 + (''.equals(icon) ? '' : ', &quot;data-title-icon&quot;: &quot;' + icon + '&quot;')
+			 + '}';
+	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 });
