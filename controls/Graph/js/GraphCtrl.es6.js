@@ -277,7 +277,7 @@ $AMIClass('GraphCtrl', {
     			+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '') + '", '
     			+ 'label="' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', node)[0] || '') + '" ';
 
-				if((amiWebApp.jspath('..field{.@name==="LEVEL"}.$', node)[0] || '') === 0)
+				if((amiWebApp.jspath('..field{.@name==="DISTANCE"}.$', node)[0] || '') === '0')
 				{
 					dot += ', style ="filled, rounded"';
 				}
