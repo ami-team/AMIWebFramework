@@ -36,7 +36,7 @@ $AMIClass('GraphCtrl', {
 			amiWebApp.originURL + '/js/3rd-party/viz.min.js',
 			amiWebApp.originURL + '/css/ami.min.css',
 			amiWebApp.originURL + '/css/font-awesome.min.css',
-		], {context: this}).done((data) => {
+		]).done((data) => {
 
 			this.fragmentGraphCtrl = data[0];
 			this.fragmentGraph = data[1];
@@ -51,7 +51,9 @@ $AMIClass('GraphCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		[context, this.mode] = amiWebApp.setup(['context', 'mode'], [result, 'dot'], settings);
+		const [context, mode] = amiWebApp.setup(['context', 'mode'], [result, 'dot'], settings);
+
+		this.mode = mode;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -314,7 +316,8 @@ $AMIClass('GraphCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	url: function(id, catalog, icon){
+	url: function(id, catalog, icon)
+	{
 		return '{&quot;data-ctrl&quot;:&quot;elementInfo&quot;, '
 			 + '&quot;data-params&quot;:[&quot;' + catalog + '&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;' + id + '&quot;], '
 			 + '&quot;data-settings&quot;: {'
