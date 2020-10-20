@@ -51,9 +51,9 @@ $AMIClass('GraphCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [context, mode] = amiWebApp.setup(['context', 'mode'], [result, 'dot'], settings);
+		const [context, direction] = amiWebApp.setup(['context', 'direction'], [result, 'LR'], settings);
 
-		this.mode = mode;
+		this.direction = direction;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -61,18 +61,20 @@ $AMIClass('GraphCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(this.mode === 'dot')
+			if((this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '') !== '')
 			{
-				this.dotString = amiWebApp.jspath('..rowset{.@type==="graph"}.row.field{.@name==="dot"}.$', data)[0] || '';
+				this.mode='dot';
 			}
 			else
 			{
-				this.dotString = this.jsonToDot(data);
+				this.json = data;
+				this.dotString = this.jsonToDot(this.json,'');
+				this.mode = 'json';
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this.replaceHTML(selector, this.fragmentGraphCtrl).done(() => {
+			this.replaceHTML(selector, this.fragmentGraphCtrl, {dict: {mode: this.mode}}).done(() => {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -97,6 +99,27 @@ $AMIClass('GraphCtrl', {
 					e.preventDefault();
 
 					this.exportPNG();
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+				/* FILTER                                                                                             */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				$(this.patchId('#EC45916B_DC77_AD27_8117_E84FC2598196')).click((e) => {
+
+					e.preventDefault();
+
+					this.dotString = this.jsonToDot(this.json,$('#' + this.patchId('D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
+					this.display();
+				});
+
+				$(this.patchId('#D9256B01_3DBE_6E51_AA91_B2F80944607D')).keypress((e) => {
+
+					if(e.keyCode == 13)
+					{
+						this.dotString = this.jsonToDot(this.json,$('#' + this.patchId('D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
+                        this.display();
+					}
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -213,10 +236,12 @@ $AMIClass('GraphCtrl', {
      	if(direction === 'LR' )
      	{
      		this.dotString = this.dotString.replace(regex, '$1TB$3');
+     		this.direction = 'TB';
      	}
      	else if(direction === 'TB' )
      	{
 			this.dotString = this.dotString.replace(regex, '$1LR$3');
+			this.direction = 'LR';
      	}
 
 		this.display();
@@ -262,52 +287,126 @@ $AMIClass('GraphCtrl', {
 		saveAs(blob, 'graph.png');
 	},
 
-	jsonToDot: function(json)
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	jsonToDot: function(json, filter)
     {
 		let nodes = amiWebApp.jspath('..rowset{.@type==="node"}.row', json) || [];
 		let edges = amiWebApp.jspath('..rowset{.@type==="edge"}.row', json) || [];
 
 		/*------------------------------------------------------------------------------------------------------------*/
+		/* INIT STRUCTURE                                                                                             */
+		/*------------------------------------------------------------------------------------------------------------*/
 
-    	let dot = 'digraph "provenance" {graph [rankdir="LR", ranksep="0.20"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", shape="rectangle"];';
+		let filteredGraph = new Map();
+
+		[...edges].forEach((edge) => {
+
+			let source = amiWebApp.jspath('..field{.@name==="SOURCE"}.$', edge)[0] || '';
+			let destination = amiWebApp.jspath('..field{.@name==="DESTINATION"}.$', edge)[0] || '';
+
+			let destinations;
+
+			if(filteredGraph.has(source))
+			{
+				destinations = filteredGraph.get(source);
+			}
+			else
+			{
+				destinations = [];
+			}
+
+			destinations.push(destination);
+			filteredGraph.set(source, destinations);
+		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		[...nodes].forEach((node,idx) => {
-    		dot += '"' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', node)[0] || '') + '" '
-    			+ '[ '
-    			+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '') + '", '
-    			+ 'label="' + (amiWebApp.jspath('..field{.@name==="LABEL"}.$', node)[0] || '') + '" ';
+    	let dot = 'digraph "provenance" {graph [rankdir="' + this.direction + '", ranksep="0.30"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", shape="rectangle"];';
 
-				if((amiWebApp.jspath('..field{.@name==="DISTANCE"}.$', node)[0] || '') === '0')
-				{
-					dot += ', style ="filled, rounded"';
-				}
-				else
-				{
-					dot += ', style ="filled"';
-				}
+		/*------------------------------------------------------------------------------------------------------------*/
 
-				dot	+= ', URL="' + this.url(
-										(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
-										(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
-										(amiWebApp.jspath('..field{.@name==="ICON"}.$', node)[0] || ''),
-									  ) + '" ';
+		const regex = new RegExp(filter);
 
-    		dot += ']';
+		[...nodes].forEach((node) => {
+
+			let label = amiWebApp.jspath('..field{.@name==="LABEL"}.$', node)[0] || '';
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* DO EDGE FILTERING                                                                                      */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			if(filter !== '' && !regex.test(label))
+			{
+				let substitution = filteredGraph.get(label) || '';
+				filteredGraph.delete(label);
+
+				filteredGraph.forEach((children, source) => {
+
+					[...children].forEach((child,idx) => {
+
+						if(child === label)
+						{
+							if(substitution === '')
+							{
+								filteredGraph.set(source, children.slice(0, idx).concat(children.slice(idx + 1)));
+							}
+							else
+							{
+								filteredGraph.set(source, children.slice(0, idx).concat(substitution).concat(children.slice(idx + 1)));
+							}
+						}
+					});
+                 });
+			}
+			else
+			{
+				/*----------------------------------------------------------------------------------------------------*/
+
+				dot += '"' + label + '" '
+					+ '[ '
+					+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '') + '", '
+					+ 'label="' + label + '" ';
+
+					if((amiWebApp.jspath('..field{.@name==="DISTANCE"}.$', node)[0] || '') === '0')
+					{
+						dot += ', style ="filled, rounded"';
+					}
+					else
+					{
+						dot += ', style ="filled"';
+					}
+
+					dot	+= ', URL="' + this.url(
+											(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
+											(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
+											(amiWebApp.jspath('..field{.@name==="ICON"}.$', node)[0] || ''),
+										  ) + '" ';
+
+				dot += ']';
+
+				/*----------------------------------------------------------------------------------------------------*/
+    		}
     	});
 
     	/*------------------------------------------------------------------------------------------------------------*/
 
-    	[...edges].forEach((edge,idx) => {
-			dot += '"' + (amiWebApp.jspath('..field{.@name==="SOURCE"}.$', edge)[0] || '') + '" '
-				 + '-> '
-				 + '"' + (amiWebApp.jspath('..field{.@name==="DESTINATION"}.$', edge)[0] || '') + '" '
+		filteredGraph.forEach((destinations,source) => {
+
+			[...destinations].forEach((destination) => {
+
+			let edge = (amiWebApp.jspath('..{.field{.@name === "SOURCE"}.$ === "'+ source +'" && .field{.@name === "DESTINATION"}.$ === "'+ destination +'"}', edges)[0] || '');
+
+			dot += '"' + source + '" '
+				+ '->'
+				+ '"' + destination + '" '
+				+ (edge === '' ? '[style="dashed"]' : '')
+			})
 		});
 
     	/*------------------------------------------------------------------------------------------------------------*/
 
-    	dot += '}'
+    	dot += '}';
 
     	/*------------------------------------------------------------------------------------------------------------*/
 
@@ -339,6 +438,7 @@ $AMIClass('GraphCtrl', {
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
