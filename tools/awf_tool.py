@@ -702,6 +702,46 @@ def transpile(verbose):
 
 ########################################################################################################################
 
+def run(verbose, port = 8000):
+
+    ####################################################################################################################
+
+    import webbrowser
+
+    ####################################################################################################################
+
+    try:
+
+        from http.server import HTTPServer
+        from http.server import SimpleHTTPRequestHandler
+
+    except ImportError:
+
+        from BaseHTTPServer import HTTPServer
+        from SimpleHTTPServer import SimpleHTTPRequestHandler
+
+    ####################################################################################################################
+
+    url = 'http://localhost:%d/' % port
+
+    ####################################################################################################################
+
+    server = HTTPServer(('0.0.0.0', port), SimpleHTTPRequestHandler)
+
+    print('%s\nUse Ctrl-C to stop this server.\n' % url)
+
+    webbrowser.open_new_tab(url)
+
+    try:
+
+        server.serve_forever()
+
+    except KeyboardInterrupt:
+
+        print('bye.')
+
+########################################################################################################################
+
 def lint(verbose):
 
     try:
@@ -763,6 +803,8 @@ def main():
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
     parser.add_argument('--create-id', help = 'create a new id', action = 'store_true')
 
+    parser.add_argument('--run', help = 'run a web server', action = 'store_true')
+
     parser.add_argument('--lint', help = 'lint controls and subapps', action = 'store_true')
     parser.add_argument('--transpile', help = 'transpile controls and subapps', action = 'store_true')
 
@@ -785,6 +827,9 @@ def main():
 
     elif args.create_subapp:
         return createSubapp(args.verbose)
+
+    elif args.run:
+        return run(args.verbose)
 
     elif args.lint:
         return lint(args.verbose)

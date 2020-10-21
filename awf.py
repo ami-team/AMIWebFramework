@@ -33,6 +33,7 @@ def main():
     parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
     parser.add_argument('--create-id', help = 'create a new id', action = 'store_true')
+    parser.add_argument('--run', help = 'run a web server', action = 'store_true')
     parser.add_argument('--lint', help = 'lint both controls and subapps', action = 'store_true')
 
     parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
@@ -49,6 +50,9 @@ def main():
 
     elif args.create_subapp:
         return awf_tool.createSubapp(args.verbose)
+
+    elif args.run:
+        return awf_tool.run(args.verbose)
 
     elif args.lint:
         return awf_tool.lint(args.verbose)
