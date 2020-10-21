@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top border mb-1" style="padding: 0.1rem 0.75rem 0.1rem 1.0rem;">
-	<div class="form-inline mr-sm-2 my-2 my-lg-0">
+	<div class="form-inline mr-2">
 		<span class="switch switch-sm switch-off-primary switch-on-secondary">
 			<input type="checkbox" id="A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15" />
 			<label for="A8E7C88D_7B78_B221_0BCB_6EF1F9CC3C15">
@@ -9,15 +9,25 @@
 			</label>
 		</span>
     </div>
-	<ul class="navbar-nav mr-sm-2 my-2 my-lg-0">
-		<li class="nav-item dropdown">
-			<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-boundary="viewport">Export</a>
+	<ul class="navbar-nav mr-auto">
+		<li class="nav-item dropdown mb-1">
+			<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" data-boundary="viewport">Export</a>
 			<div class="dropdown-menu">
-				<a href="#" class="dropdown-item" id="D68E49F9_A0C7_C15D_8323_8BA215856428">PNG</a>
-				<a href="#" class="dropdown-item" id="E90168C4_E4BD_ACC8_085F_9953D6CF789F">SVG</a>
+				<a class="dropdown-item" href="#" id="D68E49F9_A0C7_C15D_8323_8BA215856428">PNG</a>
+				<a class="dropdown-item" href="#" id="E90168C4_E4BD_ACC8_085F_9953D6CF789F">SVG</a>
 			</div>
 		</li>
     </ul>
+	{% if mode === 'json' %}
+	<div class="form-inline my-2 my-lg-0">
+		<div class="input-group input-group-sm mb-1">
+			<input class="form-control" type="text" id="D9256B01_3DBE_6E51_AA91_B2F80944607D" placeholder="Regex, e.g. EVNT|HITS|AOD" style="min-width: 400px;" />
+			<div class="input-group-append">
+				<button class="btn btn-primary" type="button" id="EC45916B_DC77_AD27_8117_E84FC2598196">Filter</button>
+			</div>
+		</div>
+	</div>
+	{% endif %}
 </nav>
-<div style="overflow: auto" id="A0F6763F_DE29_5185_35C1_DCAA81E8C487">
-</div>
+
+<div id="A0F6763F_DE29_5185_35C1_DCAA81E8C487" style="overflow: auto"></div>
