@@ -1386,24 +1386,64 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		console.log('AMI ' + title.toUpperCase() + ': ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
+		const hash = message.hashCode();
+
+		const date = moment().format('DD MMM, HH:mm:ss');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html = '<div class="toast" role="alert" ' + (fadeOut ? 'data-delay="60000"' : 'data-autohide="false"') + '><div class="toast-header"><strong class="mr-auto ' + clazz + '">' + title + '</strong><small>' + this.textToHtml(window.moment().format('DD MMM, HH:mm:ss')) + '</small><button type="button" class="ml-2 mb-1 close" data-dismiss="toast"><span>&times;</span></button></div><div class="toast-body">' + this.textToHtml(message) + '</div></div>';
+		const toast = $('#ami_alert_content > .toast[data-hash="' + hash + '"]');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const el = $('#ami_alert_content');
+		if(toast.length === 0)
+		{
+			/*--------------------------------------------------------------------------------------------------------*/
 
-		el.append(html.replace(this._linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
+			const html = [
+				'<div class="toast" role="alert" ' + (fadeOut ? 'data-delay="60000"' : 'data-autohide="false"') + ' data-hash="' + hash + '" data-cnt="1">',
+					'<div class="toast-header">',
+						'<strong class="mr-auto text-' + clazz + '">' + this.textToHtml(title) + '</strong>',
+						'<small>' + this.textToHtml(date) + '</small>',
+						'<button class="ml-2 mb-1 close" type="button" data-dismiss="toast">',
+							'&times;',
+						'</button>',
+					'</div>',
+					'<div class="toast-body">',
+						this.textToHtml(message),
+					'</div>',
+				'</div>',
+			];
 
-			el.find('.toast:last-child').toast('show');
+			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(document).scrollTop(0);
+			$('#ami_alert_content').append(html.join('').replace(this._messageLinkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
 
-			this.unlock();
-		});
+				$('#ami_alert_content > .toast[data-hash="' + hash + '"]').toast('show');
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+		}
+		else
+		{
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			toast.find('.toast-header > strong').html(this.textToHtml(title)
+					+ ' <span class="badge badge-' + clazz + '">' + toast.attr('data-cnt', parseInt(toast.attr('data-cnt')) + 1).attr('data-cnt') + '</span>');
+			toast.find('.toast-header > small').html(this.textToHtml(date));
+
+			toast.toast('show');
+
+			/*--------------------------------------------------------------------------------------------------------*/
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		console.log('AMI :: ' + title.toUpperCase() + ': ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
+
+		$(document).scrollTop(0);
+
+		this.unlock();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	},
@@ -1423,7 +1463,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this._publishAlert('text-info', 'Info', message, fadeOut);
+		this._publishAlert('info', 'Info', message, fadeOut);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -1441,7 +1481,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this._publishAlert('text-success', 'Success', message, fadeOut);
+		this._publishAlert('success', 'Success', message, fadeOut);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -1459,7 +1499,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this._publishAlert('text-warning', 'Warning', message, fadeOut);
+		this._publishAlert('warning', 'Warning', message, fadeOut);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -1477,7 +1517,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			message = message.join('. ');
 		}
 
-		this._publishAlert('text-danger', 'Error', message, fadeOut);
+		this._publishAlert('danger', 'Error', message, fadeOut);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
