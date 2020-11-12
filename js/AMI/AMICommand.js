@@ -197,8 +197,9 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
+			const bookmarkInfo = {};
 			const udpInfo = {};
-			const ssoInfo = {}
+			const ssoInfo = {};
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
@@ -213,6 +214,24 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
 
 				ssoInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="bookmark"}.row', data).forEach((row) => {
+
+				let hash = '';
+				const bookmark = {};
+
+				row.field.forEach((field) => {
+
+					bookmark[field['@name']] = field['$'];
+
+					if(field['@name'] === 'hash')
+					{
+						hash = field['$'];
+					}
+				});
+
+				bookmarkInfo[hash] = bookmark;
 			});
 
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach((row) => {
@@ -233,11 +252,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo]);
 
 		}, (data, message) => {
 
-			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, {}, {}]);
+			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, {}, {}, {}]);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -278,11 +297,6 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				userInfo[item['@name']] = item['$'];
 			});
 
-			JSPath.apply('..rowset{.@type==="bookmark"}.row.field', data).forEach((item) => {
-
-				bookmarkInfo[item['@name']] = item['$'];
-			});
-
 			JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
 
 				udpInfo[item['@name']] = item['$'];
@@ -291,6 +305,24 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
 
 				ssoInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="bookmark"}.row', data).forEach((row) => {
+
+				let hash = '';
+				const bookmark = {};
+
+				row.field.forEach((field) => {
+
+					bookmark[field['@name']] = field['$'];
+
+					if(field['@name'] === 'hash')
+					{
+						hash = field['$'];
+					}
+				});
+
+				bookmarkInfo[hash] = bookmark;
 			});
 
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach((row) => {
@@ -349,16 +381,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			const roleInfo = {};
 			const bookmarkInfo = {};
 			const udpInfo = {};
-			const ssoInfo = {}
+			const ssoInfo = {};
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
-			});
-
-			JSPath.apply('..rowset{.@type==="bookmark"}.row.field', data).forEach((item) => {
-
-				bookmarkInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
@@ -369,6 +396,24 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 			JSPath.apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
 
 				ssoInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="bookmark"}.row', data).forEach((row) => {
+
+				let hash = '';
+				const bookmark = {};
+
+				row.field.forEach((field) => {
+
+					bookmark[field['@name']] = field['$'];
+
+					if(field['@name'] === 'hash')
+					{
+						hash = field['$'];
+					}
+				});
+
+				bookmarkInfo[hash] = bookmark;
 			});
 
 			JSPath.apply('..rowset{.@type==="role"}.row', data).forEach((row) => {

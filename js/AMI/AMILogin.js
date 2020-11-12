@@ -289,6 +289,8 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 		this.udpInfo = udpInfo;
 		this.ssoInfo = ssoInfo;
 
+		alert(JSON.stringify(bookmarkInfo));
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const dict = {
@@ -297,6 +299,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			changePasswordAllowed: this.changePasswordAllowed,
 			changeCertificateAllowed: this.changeCertificateAllowed,
 			/**/
+			//bookmarkInfo: bookmarkInfo
 			sso_label: ssoInfo.label || 'SSO',
 			sso_url: ssoInfo.url || '@NULL',
 		};
@@ -487,6 +490,13 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* UPDATE MENU BAR                                                                                        */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			/*amiWebApp.replaceHTML('#ami_bookmark_menu_content', this.fragmentLogoutButton, {dict: dict}).done(() => {
+
+
+			});
+*/
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			dict['user'] = user;
