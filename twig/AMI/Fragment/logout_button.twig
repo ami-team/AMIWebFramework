@@ -11,6 +11,8 @@
 		<div class="dropdown-divider"></div>
 		{% for hash, bookmark in bookmarkInfo %}
 		<a class="dropdown-item" href="{{WEBAPP_URL}}?v={{hash}}">{{ bookmark.name|e }}</a>
+		{% else %}
+		<div class="dropdown-item">-- empty --</div>
 		{% endfor %}
 	</div>
 </li>
