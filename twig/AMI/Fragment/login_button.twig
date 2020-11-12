@@ -1,4 +1,16 @@
-<li class="nav-item">
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+		<i class="fa fa-paperclip"></i>
+	</a>
+	<div class="dropdown-menu">
+		<a class="dropdown-item disabled" href="{{WEBAPP_URL}}?subapp=BookmarkEditor" target="_blank">Edit bookmarks</a>
+		<div class="dropdown-divider"></div>
+		{% for hash, bookmark in bookmarkInfo %}
+		<a class="dropdown-item" href="{{WEBAPP_URL}}?v={{hash}}">{{ bookmark.name|e }}</a>
+		{% endfor %}
+	</div>
+</li>
+<li class="nav-item xxxxxxxx">
 {% if sso_url !== '@NULL' %}
 	<button class="btn btn-outline-secondary" type="button" onclick="amiLogin.sso()">
 		<i class="fa fa-sign-in"></i> {{sso_label}}
