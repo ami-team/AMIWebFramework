@@ -1587,7 +1587,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Starts the Web application
-	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, password_authentication_allowed, certificate_authentication_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed)
+	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, password_authentication_allowed, certificate_authentication_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, bookmarksAllowed)
 	  */
 
 	start: function(settings)
@@ -1600,12 +1600,14 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				logoURL, homeURL, contactEmail,
 				aboutURL, themeURL, lockerURL, endpointURL,
 				passwordAuthenticationAllowed, certificateAuthenticationAllowed,
-				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed
+				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
+				bookmarksAllowed,
 			] = this.setup([
 				'logo_url', 'home_url', 'contact_email',
 				'about_url', 'theme_url', 'locker_url', 'endpoint_url',
 				'password_authentication_allowed', 'certificate_authentication_allowed',
 				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
+				'bookmarksAllowed',
 			], [
 				this.originURL
 					+ '/images/logo.png',
@@ -1617,6 +1619,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 				this.originURL + '/AMI/FrontEnd',
 				true, true,
 				true, true, true, true,
+				true,
 			], settings);
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -1687,7 +1690,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 										createAccountAllowed,
 										changeInfoAllowed,
 										changePasswordAllowed,
-										changeCertificateAllowed
+										changeCertificateAllowed,
+										bookmarksAllowed,
 									).done(() => {
 
 										this.unlock();
@@ -1738,7 +1742,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 									createAccountAllowed,
 									changeInfoAllowed,
 									changePasswordAllowed,
-									changeCertificateAllowed
+									changeCertificateAllowed,
+									bookmarksAllowed,
 								).done(() => {
 
 									this.unlock();

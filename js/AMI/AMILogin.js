@@ -31,6 +31,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	changeInfoAllowed: true,
 	changePasswordAllowed: true,
 	changeCertificateAllowed: true,
+	bookmarksAllowed: true,
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -55,7 +56,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/* PRIVATE METHODS                                                                                                */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_start: function(passwordAuthenticationAllowed, certificateAuthenticationAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed)
+	_start: function(passwordAuthenticationAllowed, certificateAuthenticationAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, bookmarksAllowed)
 	{
 		const result = $.Deferred();
 
@@ -81,6 +82,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				changeInfoAllowed: this.changeInfoAllowed = changeInfoAllowed,
 				changePasswordAllowed: this.changePasswordAllowed = changePasswordAllowed,
 				changeCertificateAllowed: this.changeCertificateAllowed = changeCertificateAllowed,
+				bookmarksAllowed: this.bookmarksAllowed = bookmarksAllowed,
 			};
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -296,6 +298,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 			changeInfoAllowed: this.changeInfoAllowed,
 			changePasswordAllowed: this.changePasswordAllowed,
 			changeCertificateAllowed: this.changeCertificateAllowed,
+			bookmarksAllowed: this.bookmarksAllowed,
 			/**/
 			bookmarkInfo: this.bookmarkInfo,
 			/**/
