@@ -47,6 +47,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	userInfo: {},
 	roleInfo: {},
+	bookmarkInfo: {},
 	udpInfo: {},
 	ssoInfo: {},
 
@@ -171,11 +172,11 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 						amiWebApp.error(message, true);
 
-					}).done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+					}).done((data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
 
 						if((userInfo.AMIUser || '') === (userInfo.guestUser || ''))
 						{
-							this._update(userInfo, roleInfo, udpInfo, ssoInfo);
+							this._update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo);
 						}
 					});
 				}
@@ -184,20 +185,20 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			amiCommand.certLogin().fail((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+			amiCommand.certLogin().fail((data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
 
-				this._update(userInfo, roleInfo, udpInfo, ssoInfo).always((/*---*/) => {
+				this._update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).always((/*---*/) => {
 
 					result.reject(message);
 				});
 
-			}).done((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+			}).done((data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
 
 				_ami_internal_then(amiWebApp.onReady(userdata), () => {
 
 					amiWebApp._isReady = true;
 
-					this._update(userInfo, roleInfo, udpInfo, ssoInfo).then((message) => {
+					this._update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).then((message) => {
 
 						result.resolve(message);
 
@@ -258,7 +259,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_update: function(userInfo, roleInfo, udpInfo, ssoInfo)
+	_update: function(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo)
 	{
 		const result = $.Deferred();
 
@@ -284,6 +285,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		this.userInfo = userInfo;
 		this.roleInfo = roleInfo;
+		this.bookmarkInfo = bookmarkInfo;
 		this.udpInfo = udpInfo;
 		this.ssoInfo = ssoInfo;
 
@@ -547,13 +549,25 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	  * Gets the role information
+	  * Gets the user role information
 	  * @returns {String} The current role information
 	  */
 
 	getRoleInfo: function()
 	{
 		return this.roleInfo;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	  * Gets the user bookmark information
+	  * @returns {String} The current user data protection information
+	  */
+
+	getBookmarkInfo: function()
+	{
+		return this.bookmarkInfo;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -728,9 +742,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	{
 		amiWebApp.lock();
 
-		return amiCommand.logout().always((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+		return amiCommand.logout().always((data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
 
-			this._update(userInfo, roleInfo, udpInfo, ssoInfo).then(() => {
+			this._update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).then(() => {
 
 				this._unlock();
 
@@ -766,9 +780,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		promise.then((data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+		promise.then((data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
 
-			this._update(userInfo, roleInfo, udpInfo, ssoInfo).then(() => {
+			this._update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).then(() => {
 
 				if(userInfo.AMIUser !== userInfo.guestUser)
 				{
@@ -802,9 +816,9 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				this._error(message);
 			}
 
-		}, (data, message, userInfo, roleInfo, udpInfo, ssoInfo) => {
+		}, (data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
 
-			this._update(userInfo, roleInfo, udpInfo, ssoInfo).always(() => {
+			this._update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).always(() => {
 
 				this._error(message);
 			});

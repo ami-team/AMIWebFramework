@@ -269,12 +269,18 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
+			const bookmarkInfo = {};
 			const udpInfo = {};
 			const ssoInfo = {};
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="bookmark"}.row.field', data).forEach((item) => {
+
+				bookmarkInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
@@ -305,11 +311,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo]);
 
 		}, (data, message) => {
 
-			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, {}, {}]);
+			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, {}, {}, {}]);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -341,12 +347,18 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 
 			const userInfo = {};
 			const roleInfo = {};
+			const bookmarkInfo = {};
 			const udpInfo = {};
 			const ssoInfo = {}
 
 			JSPath.apply('..rowset{.@type==="user"}.row.field', data).forEach((item) => {
 
 				userInfo[item['@name']] = item['$'];
+			});
+
+			JSPath.apply('..rowset{.@type==="bookmark"}.row.field', data).forEach((item) => {
+
+				bookmarkInfo[item['@name']] = item['$'];
 			});
 
 			JSPath.apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
@@ -377,11 +389,11 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 				roleInfo[name] = role;
 			});
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, udpInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo]);
 
 		}, (data, message) => {
 
-			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, {}, {}]);
+			result.rejectWith(context, [data, message, {AMIUser: 'guest', guestUser: 'guest'}, {}, {}, {}, {}]);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
