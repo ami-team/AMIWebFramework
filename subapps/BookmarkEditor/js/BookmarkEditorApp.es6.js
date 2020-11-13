@@ -213,7 +213,7 @@ $AMIClass('BookmarkEditorApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute('UpdateBookmark -id="' + id + '" -name=" ' + name + ' " -shared="' + shared + '" -json="' + json + '"' ) => {
+		amiCommand.execute('UpdateBookmark -id="' + id + '" -name=" ' + name + ' " -shared="' + shared + '" -json="' + json + '"', () => {
 
 			this.getBookmarkList();
 
