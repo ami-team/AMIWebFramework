@@ -279,7 +279,7 @@ $AMIClass('BookmarkEditorApp', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const command = (id ? 'UpdateHash -id="' + amiWebApp.textToString(id) + '"' : 'AddHash2') + ' -name="' + amiWebApp.textToString(name) + '" -shared="' + amiWebApp.textToString(shared) + '" -json="' + amiWebApp.textToString(json) + '"';
+			const command = (id ? 'UpdateHash -id="' + amiWebApp.textToString(id) + '"' : 'AddHash') + ' -name="' + amiWebApp.textToString(name) + '" -shared="' + amiWebApp.textToString(shared) + '" -json="' + amiWebApp.textToString(json) + '"';
 
 			/*------------------------------------------------------------------------------------------------------------*/
 
