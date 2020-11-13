@@ -172,7 +172,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				{
 					amiCommand.certLogin().fail((data, message) => {
 
-						amiWebApp.error(message, true);
+						amiWebApp.lock(); amiWebApp.error(message, true);
 
 					}).done((data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
 
@@ -670,6 +670,26 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 	hasRole: function(roleName)
 	{
 		return roleName in this.roleInfo;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	  * Update the user information
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
+
+	update: function()
+	{
+		amiWebApp.lock();
+
+		return amiCommand.certLogin().done((data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
+
+			this._update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).always(() => {
+
+				amiWebApp.unlock();
+			});
+		});
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
