@@ -148,48 +148,70 @@ $AMIClass('BookmarkEditorApp', {
     {
     	/*------------------------------------------------------------------------------------------------------------*/
 
+		this_bookmarks = [];
+
 		this.bookmarks = {};
 
 		for(const x of Object.values(amiLogin.getBookmarkInfo()))
 		{
+			this_bookmarks.push(x);
+
 			this.bookmarks[x.id] = x;
         }
 
     	/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.replaceHTML('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1', this.fragmentBookmarks, {dict: {bookmarks: this.bookmarks}});
+		amiWebApp.replaceHTML('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1', this.fragmentBookmarks, {dict: {bookmarks: this_bookmarks}});
 
     	/*------------------------------------------------------------------------------------------------------------*/
     },
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	_swapNb: 0,
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	swap: function(ranks1, ranks2)
 	{
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		this._swapNb = Object.keys(this.bookmarks).length;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		for(const id in this.bookmarks)
 		{
 			if(ranks1[id] !== ranks2[id])
 			{
-				/*----------------------------------------------------------------------------------------------------*/
-
-				const command = 'UpdateHash -id="' + amiWebApp.textToString(id) + '" -rank="' + ranks2[id] + '"';
-
-				/*----------------------------------------------------------------------------------------------------*/
-
 				amiWebApp.lock();
 
-				amiCommand.execute(command).done(() => {
+				amiCommand.execute('UpdateHash -id="' + amiWebApp.textToString(id) + '" -rank="' + ranks2[id] + '"').done(() => {
 
 					amiWebApp.unlock();
 
 				}).fail((data, message) => {
 
 					amiWebApp.error(message, true);
-				});
 
-				/*----------------------------------------------------------------------------------------------------*/
+				}).always(() => {
+
+					if(--this._swapNb === 0)
+					{
+						amiLogin.update();
+					}
+				});
+			}
+			else
+			{
+				if(--this._swapNb === 0)
+				{
+					amiLogin.update();
+				}
 			}
 		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -222,9 +244,9 @@ $AMIClass('BookmarkEditorApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	clear: function()
+	clear: function(checked = true)
 	{
-		if(confirm('Please confirm...') == false)
+		if(checked && !confirm('Please confirm...'))
 		{
 			return;
 		}
@@ -275,21 +297,19 @@ $AMIClass('BookmarkEditorApp', {
 		{
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			amiWebApp.lock();
+			const command = (id ? 'UpdateHash -id="' + amiWebApp.textToString(id) + '"' : 'AddHash') + ' -name="' + amiWebApp.textToString(name) + '" -shared="' + amiWebApp.textToString(shared) + '" -json="' + amiWebApp.textToString(json) + '"';
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const command = (id ? 'UpdateHash -id="' + amiWebApp.textToString(id) + '"' : 'AddHash') + ' -name="' + amiWebApp.textToString(name) + '" -shared="' + amiWebApp.textToString(shared) + '" -json="' + amiWebApp.textToString(json) + '"';
+			amiWebApp.lock();
 
-			/*------------------------------------------------------------------------------------------------------------*/
-
-			amiCommand.execute(command, () => {
+			amiCommand.execute(command).done((data, message) => {
 
 				amiLogin.update().done(() => {
 
-					this.showBookmarkList();
+					this.clear(false);
 
-					this.setUpdateMode(true);
+					this.showBookmarkList();
 
 					amiWebApp.success(message, true);
 
@@ -328,17 +348,32 @@ $AMIClass('BookmarkEditorApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.lock();
+		if(id)
+		{
+			/*--------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute('RemoveHash -id="' + amiWebApp.textToString(id) + '"').done((data, message) => {
+			const command = 'RemoveHash -id="' + amiWebApp.textToString(id) + '"';
 
-			amiLogin.update().done(() => {
+			/*--------------------------------------------------------------------------------------------------------*/
 
-				this.showBookmarkList();
+			amiWebApp.lock();
 
-				this.setUpdateMode(false);
+			amiCommand.execute(command).done((data, message) => {
 
-				amiWebApp.success(message, true);
+				amiLogin.update().done(() => {
+
+					this.clear(false);
+
+					this.showBookmarkList();
+
+					amiWebApp.success(message, true);
+
+				}).fail((data, message) => {
+
+					this.showBookmarkList();
+
+					amiWebApp.error(message, true);
+				});
 
 			}).fail((data, message) => {
 
@@ -347,12 +382,8 @@ $AMIClass('BookmarkEditorApp', {
 				amiWebApp.error(message, true);
 			});
 
-		}).fail((data, message) => {
-
-			this.showBookmarkList();
-
-			amiWebApp.error(message, true);
-		});
+			/*--------------------------------------------------------------------------------------------------------*/
+		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	},
