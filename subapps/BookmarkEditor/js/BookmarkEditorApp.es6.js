@@ -167,7 +167,6 @@ $AMIClass('BookmarkEditorApp', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 			amiWebApp.unlock();
-		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	},
@@ -247,6 +246,7 @@ $AMIClass('BookmarkEditorApp', {
 
 		amiCommand.execute('RemoveBookmark -catalog="self" -id="' + id + '"').done((data, message) => {
 
+			amiLogin
 			this.getBookmarkList();
 
 			amiWebApp.success(message, true);
