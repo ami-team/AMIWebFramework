@@ -1,0 +1,95 @@
+<!--
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+-->
+
+<!-- *************************************************************************************************************** -->
+
+<div class="row">
+
+	<div class="col-md-3">
+
+		<div class="card mb-2">
+
+			<h5 class="card-header p-2">
+				Bookmarks
+			</h5>
+
+			<div class="card-body p-2" id="ACFE5A3E_2548_59BF_7EBB_32821C900AB1"></div>
+
+		</div>
+
+	</div>
+
+	<div class="col-md-9">
+
+		<div class="card">
+
+			<h5 class="card-header p-2">
+				Bookmark editor
+			</h5>
+
+			<div class="card-body" p-2 id="E0982BBF_06E2_5FD3_9C83_B71BD1010870">
+
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<!-- name editable -->
+							<label for="CA130E29_BDD4_CC8C_C71C_9472725DFE5A">Name<span class="text-danger">*</span></label>
+							<input type="text" class="form-control form-control-sm" id="CA130E29_BDD4_CC8C_C71C_9472725DFE5A" placeholder="Type the bookmark name..." />
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="form-group">
+							<label for="B0ECE244_6128_4BB1_569C_18225330963A">Share</label>
+							<div class="switch switch-sm switch-off-primary switch-on-danger">
+								<input type="checkbox" id="B0ECE244_6128_4BB1_569C_18225330963A">
+								<label for="B0ECE244_6128_4BB1_569C_18225330963A">
+									<span class="text-primary">no</span>
+									/
+									<span class="text-danger">yes</span>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6">
+					</div>
+				</div>
+
+				</div class="row">
+					<div class="col-md-12">
+						<div class="form-group">
+							<label for="CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17">json<span class="text-danger">*</span></label>
+							<textarea class="form-control form-control-sm" name="json" rows="6" id="CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17"></textarea>
+						</div>
+                	</div>
+				</div>
+
+			</div>
+
+			<div class="card-footer p-2" id="DA22E4F4_323E_0AFA_AA7D_0E9F21A3D20D">
+
+				<div class="text-right">
+
+					<button type="button" class="btn btn-sm btn-outline-secondary" onclick="bookmarkEditorApp.clear();" style="width: 80px;">Clear</button>
+					-
+					<button type="button" class="btn btn-sm btn-outline-danger" onclick="bookmarkEditorApp.remove();" style="width: 80px;">Remove</button>
+					-
+					<button type="button" class="btn btn-sm btn-outline-primary" onclick="bookmarkEditorApp.save();">Save</button>
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<!-- *************************************************************************************************************** -->
