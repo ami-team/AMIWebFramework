@@ -20,7 +20,7 @@ $AMIClass('BookmarkEditorApp', {
 
 	onReady: function(userdata)
 	{
-		var result = $.Deferred();
+		let result = $.Deferred();
 
 		amiWebApp.loadResources([
 			'subapps/BookmarkEditor/css/BookmarkEditorApp.css',
@@ -102,14 +102,27 @@ $AMIClass('BookmarkEditorApp', {
 
 	onLogin: function()
 	{
-		this.getBookmarkList();
+		this.showBookMarkList();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogout: function()
 	{
+		this.showBookMarkList();
 	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	showBookMarkList: function()
+    {
+		this.bookmarks = amiLogin.getBookmarkInfo().reduce((map, x) => {
+			map[x.id] = x;
+			return map;
+		});
+
+		alert(JSON.stringify(this.bookmarks));
+    },
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -215,13 +228,22 @@ $AMIClass('BookmarkEditorApp', {
 
 		amiCommand.execute('UpdateBookmark -id="' + id + '" -name=" ' + name + ' " -shared="' + shared + '" -json="' + json + '"', () => {
 
-			this.getBookmarkList();
+			amiLogin.update().done(() => {
 
-			amiWebApp.success(message, true);
+				this.showBookMarkList();
+
+				amiWebApp.success(message, true);
+
+			}).fail((data, message) => {
+
+				this.showBookMarkList();
+
+				amiWebApp.error(message, true);
+			});
 
 		}).fail((data, message) => {
 
-			this.getBookmarkList();
+			this.showBookMarkList();
 
 			amiWebApp.error(message, true);
 		});
@@ -246,14 +268,22 @@ $AMIClass('BookmarkEditorApp', {
 
 		amiCommand.execute('RemoveBookmark -catalog="self" -id="' + id + '"').done((data, message) => {
 
-			amiLogin
-			this.getBookmarkList();
+			amiLogin.update().done(() => {
 
-			amiWebApp.success(message, true);
+				this.showBookMarkList();
+
+				amiWebApp.success(message, true);
+
+			}).fail((data, message) => {
+
+				this.showBookMarkList();
+
+				amiWebApp.error(message, true);
+			});
 
 		}).fail((data, message) => {
 
-			this.getBookmarkList();
+			this.showBookMarkList();
 
 			amiWebApp.error(message, true);
 		});
