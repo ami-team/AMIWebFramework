@@ -20,17 +20,14 @@ $AMIClass('BookmarkEditorApp', {
 
 	onReady: function(userdata)
 	{
-		let result = $.Deferred();
+		const result = $.Deferred();
 
 		amiWebApp.loadResources([
-			'subapps/BookmarkEditor/css/BookmarkEditorApp.css',
 			'subapps/BookmarkEditor/twig/BookmarkEditorApp.twig',
-			'subapps/BookmarkEditor/twig/input.twig',
-		], {context: this}).done(function(data) {
+			'subapps/BookmarkEditor/twig/bookmarks.twig',
+		]).done((data) => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[1], {context: this}).done(function() {
-
-				/*----------------------------------------------------------------------------------------------------*/
+			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
 
 				amiWebApp.loadResources([
 					'subapps/UserDashboard/js/jquery-ui.min.js',
@@ -39,6 +36,7 @@ $AMIClass('BookmarkEditorApp', {
 					/*------------------------------------------------------------------------------------------------*/
 
 					$('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1').sortable({
+
 						start: (e, ui) => {
 
 							/*----------------------------------------------------------------------------------------*/
@@ -74,12 +72,18 @@ $AMIClass('BookmarkEditorApp', {
 
 							/*----------------------------------------------------------------------------------------*/
 						},
+
+						/*--------------------------------------------------------------------------------------------*/
 					});
 
-				this.bookmarks = {};
+					/*------------------------------------------------------------------------------------------------*/
+				});
 
 				/*----------------------------------------------------------------------------------------------------*/
-				});
+
+				this.fragmentBookmarks = data[1];
+
+				this.bookmarks = {};
 
 				result.resolve();
 			});
@@ -94,34 +98,28 @@ $AMIClass('BookmarkEditorApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	onExit: function()
-	{
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
 	onLogin: function()
 	{
-		this.showBookMarkList();
+		this.showBookmarkList();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogout: function()
 	{
-		this.showBookMarkList();
+		this.showBookmarkList();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	showBookMarkList: function()
+	showBookmarkList: function()
     {
-		this.bookmarks = amiLogin.getBookmarkInfo().reduce((map, x) => {
+		this.bookmarks = amiLogin.getBookmarkInfo();/*.reduce((map, x) => {
 			map[x.id] = x;
 			return map;
-		});
+		});*/
 
-		alert(JSON.stringify(this.bookmarks));
+		//alert(JSON.stringify(this.bookmarks));
     },
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -230,20 +228,20 @@ $AMIClass('BookmarkEditorApp', {
 
 			amiLogin.update().done(() => {
 
-				this.showBookMarkList();
+				this.showBookmarkList();
 
 				amiWebApp.success(message, true);
 
 			}).fail((data, message) => {
 
-				this.showBookMarkList();
+				this.showBookmarkList();
 
 				amiWebApp.error(message, true);
 			});
 
 		}).fail((data, message) => {
 
-			this.showBookMarkList();
+			this.showBookmarkList();
 
 			amiWebApp.error(message, true);
 		});
@@ -270,20 +268,20 @@ $AMIClass('BookmarkEditorApp', {
 
 			amiLogin.update().done(() => {
 
-				this.showBookMarkList();
+				this.showBookmarkList();
 
 				amiWebApp.success(message, true);
 
 			}).fail((data, message) => {
 
-				this.showBookMarkList();
+				this.showBookmarkList();
 
 				amiWebApp.error(message, true);
 			});
 
 		}).fail((data, message) => {
 
-			this.showBookMarkList();
+			this.showBookmarkList();
 
 			amiWebApp.error(message, true);
 		});
@@ -311,6 +309,6 @@ $AMIClass('BookmarkEditorApp', {
 /* GLOBAL INSTANCE                                                                                                    */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-var bookmarkEditorApp = new BookmarkEditorApp();
+const bookmarkEditorApp = new BookmarkEditorApp();
 
 /*--------------------------------------------------------------------------------------------------------------------*/
