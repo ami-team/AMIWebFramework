@@ -12,6 +12,11 @@
         "file": "subapps/AdminDashboard/js/AdminDashboardApp.js",
         "instance": "adminDashboardApp"
     },
+    "bookmarkEditor": {
+        "breadcrumb": [],
+        "file": "subapps/BookmarkEditor/js/BookmarkEditorApp.js",
+        "instance": "bookmarkEditorApp"
+    },
     "command": {
         "breadcrumb": [
             "Tools",

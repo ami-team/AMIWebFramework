@@ -1,0 +1,25 @@
+{% for bookmark in bookmarks %}
+{%   if bookmark.expire === '0' %}
+<div class="d-flex" data-id="{{bookmark.id|e}}">
+
+	<span class="flex-shrink-1" style="cursor: grab;">
+		<span class="text-secondary mr-2">
+			<i class="fa fa-hand-o-up"></i>
+		</span>
+	</span>
+
+	<span class="w-100" style="cursor: pointer;" onclick="bookmarkEditorApp.select('{{bookmark.id|e}}');">
+		<span>{{bookmark.name|e}}</span>
+	</span>
+
+	<span class="flex-shrink-1" style="cursor: pointer;">
+		<span class="dropdown ml-2">
+			<a class="dropdown-toggle" href="{{WEBAPP_URL}}?v={{bookmark.hash}|e}">
+				<i class="fa fa-link"></i> goto
+			</a>
+		</span>
+	</span>
+
+</div>
+{%   endif %}
+{% endfor %}
