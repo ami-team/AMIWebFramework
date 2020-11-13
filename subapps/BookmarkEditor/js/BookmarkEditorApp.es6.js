@@ -125,7 +125,12 @@ $AMIClass('BookmarkEditorApp', {
 
     	/*------------------------------------------------------------------------------------------------------------*/
 
-		alert(JSON.stringify(this.bookmarks));
+		const dict = {bookmarks: this.bookmarks};
+
+		amiWebApp.replaceHTML('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1', this.fragmentBookmarks, {dict: dict}).done(() => {
+
+		});
+
 
     	/*------------------------------------------------------------------------------------------------------------*/
     },
@@ -179,7 +184,7 @@ $AMIClass('BookmarkEditorApp', {
 
 		$('#CA130E29_BDD4_CC8C_C71C_9472725DFE5A').val(this.bookmarks[id].name);
 
-		$('#B0ECE244_6128_4BB1_569C_18225330963A').prop('checked', this.bookmarks[id].shared);
+		$('#B0ECE244_6128_4BB1_569C_18225330963A').prop('checked', this.bookmarks[id].shared !== '0');
 
 		$('#CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17').val(this.bookmarks[id].json);
 
@@ -203,7 +208,7 @@ $AMIClass('BookmarkEditorApp', {
 
 		$('#CA130E29_BDD4_CC8C_C71C_9472725DFE5A').val('');
 
-		$('#B0ECE244_6128_4BB1_569C_18225330963A').prop('checked', 0);
+		$('#B0ECE244_6128_4BB1_569C_18225330963A').prop('checked', false);
 
 		$('#CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17').val('');
 
