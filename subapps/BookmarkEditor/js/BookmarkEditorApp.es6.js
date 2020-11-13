@@ -114,12 +114,20 @@ $AMIClass('BookmarkEditorApp', {
 
 	showBookmarkList: function()
     {
-		this.bookmarks = amiLogin.getBookmarkInfo();/*.reduce((map, x) => {
-			map[x.id] = x;
-			return map;
-		});*/
+    	/*------------------------------------------------------------------------------------------------------------*/
 
-		//alert(JSON.stringify(this.bookmarks));
+		this.bookmarks = {};
+
+		for(const x of Object.values(amiLogin.getBookmarkInfo()))
+		{
+			this.bookmarks[x.id] = x;
+        }
+
+    	/*------------------------------------------------------------------------------------------------------------*/
+
+		alert(JSON.stringify(this.bookmarks));
+
+    	/*------------------------------------------------------------------------------------------------------------*/
     },
 
 	/*----------------------------------------------------------------------------------------------------------------*/
