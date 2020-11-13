@@ -13,7 +13,10 @@
         "instance": "adminDashboardApp"
     },
     "bookmarkEditor": {
-        "breadcrumb": [],
+        "breadcrumb": [
+            "User",
+            "<a href=\"{{WEBAPP_URL}}?subapp=bookmarkEditor\">Bookmark Editor</a>"
+        ],
         "file": "subapps/BookmarkEditor/js/BookmarkEditorApp.js",
         "instance": "bookmarkEditorApp"
     },
@@ -102,7 +105,10 @@
         "instance": "taskServerAdminApp"
     },
     "userDashboard": {
-        "breadcrumb": [],
+        "breadcrumb": [
+            "User",
+            "<a href=\"{{WEBAPP_URL}}?subapp=userDashboard\">User Dashboard</a>"
+        ],
         "file": "subapps/UserDashboard/js/UserDashboardApp.js",
         "instance": "userDashboardApp"
     }
