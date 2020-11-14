@@ -25,6 +25,7 @@ $AMIClass('BookmarkEditorApp', {
 		amiWebApp.loadResources([
 			'subapps/BookmarkEditor/twig/BookmarkEditorApp.twig',
 			'subapps/BookmarkEditor/twig/bookmarks.twig',
+			'js/3rd-party/ace/ace.min.js',
 		]).done((data) => {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
@@ -186,7 +187,7 @@ $AMIClass('BookmarkEditorApp', {
 			{
 				amiWebApp.lock();
 
-				amiCommand.execute('UpdateHash -id="' + amiWebApp.textToString(id) + '" -rank="' + ranks2[id] + '"').done(() => {
+				amiCommand.execute('UpdateHash -id="' + amiWebApp.textToString(id) + '" -rank="' + amiWebApp.textToString(ranks2[id]) + '"').done(() => {
 
 					amiWebApp.unlock();
 
