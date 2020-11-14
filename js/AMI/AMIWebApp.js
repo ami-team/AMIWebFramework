@@ -1040,6 +1040,18 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 						const showGutter = textarea.attr('data-show-gutter') || 'true';
 						const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
 
+						let minLines = parseInt(textarea.attr('data-minlines'));
+
+						if(isNaN(minLines)) {
+							minLines = 0x000001;
+						}
+
+						let maxLines = parseInt(textarea.attr('data-maxlines'));
+
+						if(isNaN(maxLines)) {
+							maxLines = Infinity;
+						}
+
 						/*--------------------------------------------------------------------------------------------*/
 
 						ace.config.set('suffix', '.min.js');
@@ -1057,8 +1069,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 							showGutter: 'true' === showGutter,
 							highlightActiveLine: 'true' === highlightActiveLine,
 							/**/
-							minLines: 0x000001,
-							maxLines: Infinity,
+							minLines: minLines,
+							maxLines: maxLines,
 						});
 
 						/*--------------------------------------------------------------------------------------------*/
