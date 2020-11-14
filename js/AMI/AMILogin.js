@@ -417,7 +417,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				                                                              .css('background-size', 'cover')
 				;
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400')
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#28A745')
 				                                          .html('<i class="fa fa-leaf"></i> valid <i class="fa fa-leaf"></i>')
 				;
 
@@ -426,7 +426,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				bgColor = '#B8D49B';
-				fgColor = '#006400';
+				fgColor = '#28A745';
 
 				/*----------------------------------------------------------------------------------------------------*/
 			}
