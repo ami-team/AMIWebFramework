@@ -5,7 +5,7 @@
 	</a>
 	<div class="dropdown-menu">
 		{% for hash, bookmark in bookmarkInfo %}
-		<a class="dropdown-item" href="{{WEBAPP_URL}}?v={{hash}}">{{ bookmark.name|e }}</a>
+		<a class="dropdown-item" href="{{WEBAPP_URL}}?v={{hash}}" target="_blank">{{ bookmark.name|e }}</a>
 		{% else %}
 		<div class="dropdown-item text-muted">-- empty --</div>
 		{% endfor %}
