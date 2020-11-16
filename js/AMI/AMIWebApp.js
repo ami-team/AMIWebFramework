@@ -1599,7 +1599,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	/**
 	  * Starts the Web application
-	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, contact_email, about_url, theme_url, locker_url, password_authentication_allowed, certificate_authentication_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, bookmarksAllowed)
+	  * @param {Object} [settings] dictionary of settings (logo_url, home_url, webapp_url, contact_email, about_url, theme_url, locker_url, password_authentication_allowed, certificate_authentication_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, bookmarksAllowed)
 	  */
 
 	start: function(settings)
@@ -1609,13 +1609,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			const [
-				logoURL, homeURL, contactEmail,
+				logoURL, homeURL, webAppURL, contactEmail,
 				aboutURL, themeURL, lockerURL, endpointURL,
 				passwordAuthenticationAllowed, certificateAuthenticationAllowed,
 				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 				bookmarksAllowed,
 			] = this.setup([
-				'logo_url', 'home_url', 'contact_email',
+				'logo_url', 'home_url', 'webapp_url', 'contact_email',
 				'about_url', 'theme_url', 'locker_url', 'endpoint_url',
 				'password_authentication_allowed', 'certificate_authentication_allowed',
 				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
@@ -1623,6 +1623,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			], [
 				this.originURL
 					+ '/images/logo.png',
+				this.webAppURL,
 				this.webAppURL,
 				'ami@lpsc.in2p3.fr',
 				'http://cern.ch/ami/',
@@ -1635,6 +1636,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 			], settings);
 
 			/*--------------------------------------------------------------------------------------------------------*/
+
+			amiWebApp.webAppURL = webAppURL;
 
 			amiCommand.endpoint = endpointURL;
 

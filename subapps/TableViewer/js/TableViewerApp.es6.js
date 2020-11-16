@@ -40,6 +40,7 @@ $AMIClass('TableViewerApp', {
 					json = {/*----------------------*/};
 				}
 
+				this.command = json.command || '';
 				this.catalog = json.catalog || '';
 				this.entity = json.entity || '';
 				this.expression = json.expression || '1=1';
@@ -67,7 +68,7 @@ $AMIClass('TableViewerApp', {
 		                amiLogin.hasRole('AMI_WRITER')
 		;
 
-		this.table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', 'BrowseQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*` WHERE ' + this.expression + '"', {
+		this.table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', this.command ? this.command : 'BrowseQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*` WHERE ' + amiWebApp.textToString(this.expression) + '"', {
 			showDetails: true,
 			canEdit: canEdit,
 			catalog: this.catalog,
