@@ -41,10 +41,19 @@ $AMIClass('TableViewerApp', {
 				}
 
 				this.command = json.command || '';
+				this.expression = json.expression || '1=1';
+				/**/
 				this.catalog = json.catalog || '';
 				this.entity = json.entity || '';
-				this.expression = json.expression || '1=1';
 				this.primaryField = json.primaryField || '';
+				this.rowset = json.rowset || '';
+				/**/
+				this.start = parseInt(json.start || '1');
+				this.stop = parseInt(json.stop || '10');
+				this.orderBy = json.orderBy || '';
+				this.orderWay = json.orderWay || '';
+				/**/
+				this.maxCellLength = parseInt(json.maxCellLength || '64');
 
 				this.table = new data[1]();
 
@@ -71,12 +80,20 @@ $AMIClass('TableViewerApp', {
 		this.table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', this.command ? this.command : 'BrowseQuery -catalog="' + amiWebApp.textToString(this.catalog) + '" -entity="' + amiWebApp.textToString(this.entity) + '" -mql="SELECT `*` WHERE ' + amiWebApp.textToString(this.expression) + '"', {
 			showDetails: true,
 			canEdit: canEdit,
+			/**/
 			catalog: this.catalog,
 			entity: this.entity,
 			primaryField: this.primaryField,
-			start: 1,
-			stop: 20,
-			card: true
+			rowset: this.rowset,
+			/**/
+			start: this.start,
+			stop: this.stop,
+			orderBy: this.orderBy,
+			orderWay: this.orderWay,
+			/**/
+			maxCellLength: this.maxCellLength,
+			/**/
+			card: true,
 		});
 	},
 

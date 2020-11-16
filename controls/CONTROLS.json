@@ -7,6 +7,10 @@
         "clazz": "AdderCtrl",
         "file": "controls/Adder/js/AdderCtrl.js"
     },
+    "BookmarkBox": {
+        "clazz": "BookmarkBoxCtrl",
+        "file": "controls/BookmarkBox/js/BookmarkBoxCtrl.js"
+    },
     "confirmBox": {
         "clazz": "ConfirmBoxCtrl",
         "file": "controls/ConfirmBox/js/ConfirmBoxCtrl.js"

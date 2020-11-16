@@ -368,6 +368,27 @@ $AMIClass('TableCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			$(this.patchId('#E830DA2D_A52E_8012_D358_100821361270')).click(() => {
+
+				const json = {
+					command: this.ctx.command2,
+					/**/
+					catalog: this.ctx.catalog,
+					entity: this.ctx.entity,
+					primaryField: this.ctx.primaryField,
+					rowset: this.ctx.rowset,
+					/**/
+					start: this.ctx.start,
+					stop: this.ctx.stop,
+					orderBy: this.ctx.orderBy,
+					orderWay: this.ctx.orderWay,
+					/**/
+					maxCellLength: this.ctx.maxCellLength,
+				};
+
+				amiWebApp.createControl(this.getParent(), this, 'bookmarkBox', ['TableViewer', json]);
+			});
+
 			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(() => {
 
 				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.sql, {mode: 'sql'}]);
