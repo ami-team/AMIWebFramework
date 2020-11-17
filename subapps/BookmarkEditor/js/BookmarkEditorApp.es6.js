@@ -187,7 +187,7 @@ $AMIClass('BookmarkEditorApp', {
 			{
 				amiWebApp.lock();
 
-				amiCommand.execute('UpdateHash -id="' + amiWebApp.textToString(id) + '" -rank="' + amiWebApp.textToString(ranks2[id]) + '"').done(() => {
+				amiCommand.execute('UpdateHash -id="' + amiWebApp.textToString(id) + '" -rank="' + ranks2[id].toString() + '"').done(() => {
 
 					amiWebApp.unlock();
 
