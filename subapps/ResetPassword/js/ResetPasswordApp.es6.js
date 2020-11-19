@@ -20,13 +20,13 @@ $AMIClass('ResetPasswordApp', {
 
 	onReady: function(userdata)
 	{
-		var result = $.Deferred();
+		const result = $.Deferred();
 
 		amiWebApp.loadResources([
 			'subapps/ResetPassword/twig/ResetPasswordApp.twig'
 		]).done((data) => {
 
-			var dict;
+			let dict;
 
 			try
 			{
@@ -37,9 +37,9 @@ $AMIClass('ResetPasswordApp', {
 				dict = /*-----------------*/{}/*-----------------*/;
 			}
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {dict: dict, context: this}).done(function() {
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {dict: dict}).done(() => {
 
-			$('#F956453E_2AB6_9397_4976_A11EE21B8FAB,#EB5C35F7_F6E0_9B1E_E356_9FB235003814').change(() => {
+				$('#F956453E_2AB6_9397_4976_A11EE21B8FAB,#EB5C35F7_F6E0_9B1E_E356_9FB235003814').change(() => {
 
 					const pass1 = $('#F956453E_2AB6_9397_4976_A11EE21B8FAB').val();
 					const pass2 = $('#EB5C35F7_F6E0_9B1E_E356_9FB235003814').val();
@@ -49,7 +49,7 @@ $AMIClass('ResetPasswordApp', {
 					);
 				});
 
-				$('#C12ED50C_4BF7_DAD3_C698_DE0DCBB3228C').submit(function(e) {
+				$('#C12ED50C_4BF7_DAD3_C698_DE0DCBB3228C').submit((e) => {
 
 						e.preventDefault();
 	
@@ -94,6 +94,6 @@ $AMIClass('ResetPasswordApp', {
 /* GLOBAL INSTANCE                                                                                                    */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-var resetPasswordApp = new ResetPasswordApp();
+const resetPasswordApp = new ResetPasswordApp();
 
 /*--------------------------------------------------------------------------------------------------------------------*/
