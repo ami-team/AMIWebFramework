@@ -2327,6 +2327,8 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['v']) + '"').fail((data, message) => {
 
+				alert(message);
+
 				result.reject(message);
 
 			}).done((data) => {
