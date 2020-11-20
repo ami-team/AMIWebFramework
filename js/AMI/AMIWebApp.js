@@ -1398,6 +1398,13 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		if(this.typeOf(message) === 'Array')
+		{
+			message = message.join('. ');
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		const hash = message.hashCode();
 
 		const date = moment().format('DD MMM, HH:mm:ss');
@@ -1429,7 +1436,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$('#ami_alert_content').append(html.join('').replace(this._messageLinkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
+			$('#ami_alert_content').append(html.join('').replace(this._linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
 
 				$('#ami_alert_content > .toast[data-hash="' + hash + '"]').toast('show');
 			});
@@ -1470,11 +1477,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	info: function(message, fadeOut)
 	{
-		if(this.typeOf(message) === 'Array')
-		{
-			message = message.join('. ');
-		}
-
 		this._publishAlert('info', 'Info', message, fadeOut);
 	},
 
@@ -1488,11 +1490,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	success: function(message, fadeOut)
 	{
-		if(this.typeOf(message) === 'Array')
-		{
-			message = message.join('. ');
-		}
-
 		this._publishAlert('success', 'Success', message, fadeOut);
 	},
 
@@ -1506,11 +1503,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	warning: function(message, fadeOut)
 	{
-		if(this.typeOf(message) === 'Array')
-		{
-			message = message.join('. ');
-		}
-
 		this._publishAlert('warning', 'Warning', message, fadeOut);
 	},
 
@@ -1524,11 +1516,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 	error: function(message, fadeOut)
 	{
-		if(this.typeOf(message) === 'Array')
-		{
-			message = message.join('. ');
-		}
-
 		this._publishAlert('danger', 'Error', message, fadeOut);
 	},
 
@@ -2326,8 +2313,6 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		if(this.args['v'])
 		{
 			amiCommand.execute('GetHashInfo -hash="' + this.textToString(this.args['v']) + '"').fail((data, message) => {
-
-				alert(message);
 
 				result.reject(message);
 
