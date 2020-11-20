@@ -54,6 +54,8 @@ $AMIClass('BookmarkBoxCtrl', {
 
 					const name = $('#DDE98A9F_46A2_F340_F7D8_74F2D1704714').val().trim();
 
+					const shared = $('#CEB66D23_8782_A96F_A8B6_139AC2A48875').prop('checked') ? '1' : '0';
+
 					if(name)
 					{
 						const json = {
@@ -63,7 +65,7 @@ $AMIClass('BookmarkBoxCtrl', {
 
 						amiWebApp.lock();
 
-						amiCommand.execute('AddHash -name="' + amiWebApp.textToString(name) + '" -json="' + amiWebApp.textToString(JSON.stringify(json)) + '"').done(() => {
+						amiCommand.execute('AddHash -name="' + amiWebApp.textToString(name) + '" -shared="' + amiWebApp.textToString(shared) + '" -json="' + amiWebApp.textToString(JSON.stringify(json)) + '"').done(() => {
 
 							amiLogin.update().always(() => {
 
