@@ -204,6 +204,24 @@ $AMIClass('ElementInfoCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			$(this.patchId('#A29F1487_C747_18BF_94B1_9F3C32DA838C')).click(() => {
+				const json = {
+					command: this.ctx.command,
+					/**/
+					catalog: this.ctx.catalog,
+					entity: this.ctx.entity,
+					primaryFieldName: this.ctx.primaryFieldName,
+					primaryFieldValue: this.ctx.primaryFieldValue,
+					/**/
+					maxCellLength: this.ctx.maxCellLength,
+					hideBigContent : this.ctx.hideBigContent,
+				};
+
+				amiWebApp.createControl(this.getParent(), this, 'bookmarkBox', ['ElementInfoViewer', json]);
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
 			$(this.patchId('#BF7E7885_DB34_7993_9F17_37990DDD4BF3')).click(() => {
 
 				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command]);

@@ -32,6 +32,11 @@
         "file": "subapps/Document/js/DocumentApp.js",
         "instance": "documentApp"
     },
+    "elementInfoViewer": {
+        "breadcrumb": [],
+        "file": "subapps/ElementInfoViewer/js/ElementInfoViewerApp.js",
+        "instance": "elementInfoViewerApp"
+    },
     "emergency": {
         "breadcrumb": [
             "Tools",
