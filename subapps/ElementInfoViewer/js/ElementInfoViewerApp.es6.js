@@ -27,7 +27,7 @@ $AMIClass('ElementInfoViewerApp', {
 			'ctrl:elementInfo',
 		]).done((data) => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {context: this}).done(() => {
+			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
 
 				let json;
 
@@ -66,12 +66,6 @@ $AMIClass('ElementInfoViewerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	onExit: function()
-	{
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
 	onLogin: function()
 	{
 		const canEdit = amiLogin.hasRole('AMI_ADMIN')
@@ -98,6 +92,7 @@ $AMIClass('ElementInfoViewerApp', {
 
 	onLogout: function()
 	{
+		amiWebApp.replaceHTML('#AAE69442_E2AB_D572_F662_A3F519B8E5AC', 'Please sign-in.');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -107,6 +102,6 @@ $AMIClass('ElementInfoViewerApp', {
 /* GLOBAL INSTANCE                                                                                                    */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-var elementInfoViewerApp = new ElementInfoViewerApp();
+const elementInfoViewerApp = new ElementInfoViewerApp();
 
 /*--------------------------------------------------------------------------------------------------------------------*/
