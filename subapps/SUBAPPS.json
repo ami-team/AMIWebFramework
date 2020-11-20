@@ -33,7 +33,10 @@
         "instance": "documentApp"
     },
     "elementInfoViewer": {
-        "breadcrumb": [],
+        "breadcrumb": [
+            "Metadata",
+            "<a href=\"{{WEBAPP_URL}}?subapp=elementInfoViewer\">Element Info Viewer</a>"
+		],
         "file": "subapps/ElementInfoViewer/js/ElementInfoViewerApp.js",
         "instance": "elementInfoViewerApp"
     },
