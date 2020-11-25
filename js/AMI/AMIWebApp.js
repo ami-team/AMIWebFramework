@@ -1405,7 +1405,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const hash = message.hashCode();
+		const hash = ('' + message).hashCode();
 
 		const date = moment().format('DD MMM, HH:mm:ss');
 
