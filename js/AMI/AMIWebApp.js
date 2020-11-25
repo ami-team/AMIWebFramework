@@ -1402,10 +1402,21 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 		{
 			message = message.join('. ');
 		}
+		else
+		{
+			if(message)
+			{
+				message = message.toString();
+			}
+			else
+			{
+				message = '';
+			}
+		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const hash = ('' + message).hashCode();
+		const hash = message.hashCode();
 
 		const date = moment().format('DD MMM, HH:mm:ss');
 
