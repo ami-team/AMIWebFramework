@@ -100,7 +100,7 @@
 						</a>
 						{% elseif field.$ === '@NOGO' %}
 						<div class="font-italic text-danger">admin only</div>
-						{% elseif field.$ === '@NULL' %}
+						{% elseif field.$ === '@NULL' and canEdit == false %}
 						<div class="font-italic text-secondary">null value</div>
 						{% else %}
 						<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
