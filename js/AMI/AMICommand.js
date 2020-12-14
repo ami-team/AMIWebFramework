@@ -485,15 +485,15 @@ $AMINamespace('amiCommand', /** @lends amiCommand */ {
 	  * @param {String} firstName the first name
 	  * @param {String} lastName the last name
 	  * @param {String} email the email
-	  * @param {Boolean} attach attach the current certificate
+	  * @param {Boolean} attachCert attach the current certificate
 	  * @param {Boolean} agree agree with the terms and conditions
 	  * @param {Object} [settings] dictionary of settings (context)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
 
-	addUser: function(user, pass, firstName, lastName, email, attach, agree, settings)
+	addUser: function(user, pass, firstName, lastName, email, attachCert, agree, settings)
 	{
-		return this.execute('AddUser -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '" -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"' + (attach ? ' -attach' : '') + (agree ? ' -agree' : ''), settings);
+		return this.execute('AddUser -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '" -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"' + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), settings);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

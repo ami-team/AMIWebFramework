@@ -943,7 +943,7 @@ $AMINamespace('amiLogin', /** @lends amiLogin */ {
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attach' in values, 'agree' in values).then((data, message) => {
+		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], 'attachCert' in values, 'agree' in values).then((data, message) => {
 
 			this._success(message);
 
