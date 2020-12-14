@@ -100,8 +100,6 @@
 						</a>
 						{% elseif field.$ === '@NOGO' %}
 						<div class="font-italic text-danger">admin only</div>
-						{% elseif field.$ === '@NULL' %}
-						<div class="font-italic text-secondary">null value</div>
 						{% else %}
 						<div style="min-height: 21px; padding-left: 6px; padding-right: 6px;"
 							 {% if field['properties'] is defined and not (hasFieldDescriptions and fieldDescriptions[loop.index0]['@media'] === 'true') %}
@@ -140,6 +138,8 @@
 							{%   else %}
 							{%     if field.$ === '@LONG' %}
 							<div class="font-italic text-secondary">long value</div>
+							{%     elseif field.$ === '@NULL' %}
+							<div class="font-italic text-secondary">null value</div>
 							{%     else %}
 							{{field.$|e}}
 							{%     endif %}
