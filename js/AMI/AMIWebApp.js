@@ -903,7 +903,7 @@ $AMINamespace('amiWebApp', /** @lends amiWebApp */ {
 
 		const [context, suffix, dict, twigs] = this.setup(
 			['context', 'suffix', 'dict', 'twigs'],
-			[result, null, null, null],
+			[result, null, {}, {}],
 			settings
 		);
 
