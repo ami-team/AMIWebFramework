@@ -117,6 +117,7 @@ $AMIClass('FieldEditorCtrl', {
 
 				const field = amiWebApp.jspath('..field{.@name==="field"}.$', rows[i])[0] || '';
 				const type = amiWebApp.jspath('..field{.@name==="type"}.$', rows[i])[0] || '';
+				const nullable = amiWebApp.jspath('..field{.@name==="nullable"}.$', rows[i])[0] || 'false';
 				const def = amiWebApp.jspath('..field{.@name==="def"}.$', rows[i])[0] || '';
 
 				const media = amiWebApp.jspath('..field{.@name==="media"}.$', rows[i])[0] || 'false';
@@ -146,6 +147,7 @@ $AMIClass('FieldEditorCtrl', {
 					fieldInfo.push({
 						field: field,
 						type: type,
+						nullable: nullable,
 						def: def,
 						media: media,
 					});
@@ -217,13 +219,16 @@ $AMIClass('FieldEditorCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [appendCommandFunc, updateCommandFunc, removeCommandFunc] = amiWebApp.setup(
-			['appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc'],
-			[fn1, fn2, fn3],
+		const [appendCommandFunc, updateCommandFunc, removeCommandFunc, customLabelsFragment, customInputsFragment] = amiWebApp.setup(
+			['appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc', 'customLabelsFragment', 'customInputsFragment'],
+			[fn1, fn2, fn3, null, null],
 			settings
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
+
+		const hasCustomLabels = !!(customLabelsFragment || '').trim();
+		const hasCustomInputs = !!(customInputsFragment || '').trim();
 
 		this.ctx = {
 			inEditMode: false,
@@ -231,6 +236,12 @@ $AMIClass('FieldEditorCtrl', {
 			appendCommandFunc: appendCommandFunc,
 			updateCommandFunc: updateCommandFunc,
 			removeCommandFunc: removeCommandFunc,
+
+			hasCustomLabels: hasCustomLabels,
+			customLabelsFragment: customLabelsFragment,
+
+			hasCustomInputs: hasCustomInputs,
+			customInputsFragment: customInputsFragment
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -405,9 +416,16 @@ $AMIClass('FieldEditorCtrl', {
 					fieldInfo: fieldInfo,
 					values: values,
 					filter: field,
+					hasCustomLabel: this.ctx.hasCustomLabels,
+					hasCustomInput: this.ctx.hasCustomInputs,
 				};
 
-				amiWebApp.replaceHTML('#C2C43049_4CD6_73C3_597B_F0399A220610', this.fragmentFieldList, {dict: dict}).done(() => {
+				const twigs = {
+					customLabels: this.ctx.customLabelsFragment,
+					customInputs: this.ctx.customInputsFragment,
+				};
+
+				amiWebApp.replaceHTML('#C2C43049_4CD6_73C3_597B_F0399A220610', this.fragmentFieldList, {dict: dict, twigs: twigs}).done(() => {
 
 					/*------------------------------------------------------------------------------------------------*/
 
@@ -489,9 +507,16 @@ $AMIClass('FieldEditorCtrl', {
 					fieldInfo: fieldInfo,
 					values: values,
 					filter: '',
+					hasCustomLabel: this.ctx.hasCustomLabels,
+					hasCustomInput: this.ctx.hasCustomInputs,
 				};
 
-				amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {dict: dict}).done(() => {
+				const twigs = {
+					customLabels: this.ctx.customLabelsFragment,
+					customInputs: this.ctx.customInputsFragment,
+				};
+
+				amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {dict: dict, twigs: twigs}).done(() => {
 
 					/*------------------------------------------------------------------------------------------------*/
 

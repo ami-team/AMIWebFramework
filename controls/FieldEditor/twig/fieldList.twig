@@ -4,10 +4,47 @@
 {%     set rand = random() %}
 {%     set name = info.field %}
 {%     set type = info.type %}
+{%     set nullable = (info.nullable === 'true') %}
+
 {%     set value = values[info.field] or info.def %}
 
-{%     if info.media === 'false' %}
+{#     -------------------------------------------------------------------------------------------------------------- #}
+{%     if info.media !== 'false' %}
+{#     -------------------------------------------------------------------------------------------------------------- #}
+media {{info.media}}
+{#     -------------------------------------------------------------------------------------------------------------- #}
+{%     else %}
+{#     -------------------------------------------------------------------------------------------------------------- #}
+
+{%       set ctx = {"doCustomLabel": false, "doCustomInput": false} %}
+
+{%       if hasCustomLabel %}
+{%         set _label = include('customLabels') %}
+{%       endif %}
+
+{%       if hasCustomInput %}
+{%         set _input = include('customInputs') %}
+{%       endif %}
+
+{#       ------------------------------------------------------------------------------------------------------------ #}
+{%       if ctx.doCustomInput %}
+{#       ------------------------------------------------------------------------------------------------------------ #}
+<div class="form-group mb-1 row">
+
+	{% if ctx.doCustomLabel %}
+	{{ _input }}
+	{% else %}
+	<label class="col-sm-3 col-form-label" for="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{name|e}}</label>
+	{% endif %}
+
+	{{ _input }}
+
+</div>
+{#       ------------------------------------------------------------------------------------------------------------ #}
+{%       else %}
+{#       ------------------------------------------------------------------------------------------------------------ #}
 <ul class="nav nav-tabs" role="tablist">
+    {% if nullable %}
 	<li class="nav-item ml-auto">
 		<div class="nav-link{% if value === '@NULL' %} active{% endif %}" role="tab">
 			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changeamitype" data-ami-type="@NULL" data-sql-type="{{info.type|e}}">
@@ -15,7 +52,8 @@
 			</a>
 		</div>
 	</li>
-	<li class="nav-item ml-xxxx">
+	{% endif %}
+	<li class="nav-item {% if nullable %}ml-xxxx{% else %}ml-auto{% endif %}">
 		<div class="nav-link{% if value !== '@NULL' %} active{% endif %}" role="tab">
 			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changeamitype" data-ami-type="{{type}}" data-sql-type="{{info.type|e}}">
 				{% if     type === 'BOOL'%}
@@ -56,10 +94,14 @@
 
 <div class="form-group mb-1 row">
 
+	{% if ctx.doCustomLabel %}
+	{{ _input }}
+	{% else %}
 	<label class="col-sm-3 col-form-label" for="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{name|e}}</label>
+	{% endif %}
 
 	<div class="col-sm-9">
-		{% if value === '@NULL' %}
+		{% if nullable and value === '@NULL' %}
 		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" readonly="readonly" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'BOOL' %}
 		<select class="custom-select custom-select-sm" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">
@@ -75,7 +117,7 @@
 		{% elseif type === 'DATE' %}
 		<input class="form-control form-control-sm form-date" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'TIME' %}
-		<input class="form-control form-control-sm form-time" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		<input class="form-control form-control-sm form-time" type="text" name="{{name|e}}" value="{{value|e}}"{% if not emptyableemptyable %} required="required"{% endif %} id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type starts with 'ENUM' %}
 		<select class="custom-select custom-select-sm" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{ getAMITypeToEnumOptions(info.type, value) }}</select>
 		{% elseif type === 'LONGTEXT' %}
@@ -85,10 +127,14 @@
 		{% endif %}
 	</div>
 
-</div>
-{%     else %}
-media {{info.media}}
-{%     endif %}
+{{nullable}}
 
+</div>
+{#       ------------------------------------------------------------------------------------------------------------ #}
+{%       endif %}
+{#       ------------------------------------------------------------------------------------------------------------ #}
+{#     -------------------------------------------------------------------------------------------------------------- #}
+{%     endif %}
+{#     -------------------------------------------------------------------------------------------------------------- #}
 {%   endif %}
 {% endfor %}
