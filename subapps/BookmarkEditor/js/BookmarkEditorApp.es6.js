@@ -149,7 +149,7 @@ $AMIClass('BookmarkEditorApp', {
     {
     	/*------------------------------------------------------------------------------------------------------------*/
 
-		this_bookmarks = [];
+		const this_bookmarks = [];
 
 		this.bookmarks = {};
 

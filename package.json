@@ -27,5 +27,6 @@
   "keywords": [
     "ami",
     "awf"
-  ]
+  ],
+  "dependencies": {}
 }
