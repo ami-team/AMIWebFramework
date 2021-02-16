@@ -63,11 +63,25 @@ $AMIClass('ElementInfoCtrl', {
 			endpoint: amiCommand.endpoint,
 		};
 
-		const fn = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) => 'GetElementInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"' + (hideBigContent ? ' -hideBigContent' : '');
+		const fn1 = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) =>
+			'GetElementInfo' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"' + (hideBigContent ? ' -hideBigContent' : '')
+		;
+
+		const fn2 = (catalog, entity, fields, values) =>
+			(('AddElement')) + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"'
+		;
+
+		const fn3 = (catalog, entity, fields, values, primaryFields, primaryValues) =>
+			'UpdateElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
+		;
+
+		const fn4 = (catalog, entity, primaryFields, primaryValues) =>
+			'RemoveElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
+		;
 
 		[
 			this.ctx.context,
-			this.ctx.elementInfoCommandFunc,
+			this.ctx.elementInfoCommandFunc, this.ctx.appendCommandFunc, this.ctx.updateCommandFunc, this.ctx.removeCommandFunc,
 			this.ctx.expandedLinkedElements,
 			this.ctx.enableCache, this.ctx.enableCount, this.ctx.hideBigContent, this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.canEdit,
 			this.ctx.maxCellLength,
@@ -75,7 +89,7 @@ $AMIClass('ElementInfoCtrl', {
 		] = amiWebApp.setup(
 			[
 				'context',
-				'elementInfoCommandFunc',
+				'elementInfoCommandFunc', 'appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc',
 				'expandedLinkedElements',
 				'enableCache', 'enableCount', 'hideBigContent', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'maxCellLength',
@@ -83,7 +97,7 @@ $AMIClass('ElementInfoCtrl', {
 			],
 			[
 				result,
-				fn,
+				fn1, fn2, fn3, fn4,
 				[],
 				false, true, true, true, true, true, true, false,
 				64,

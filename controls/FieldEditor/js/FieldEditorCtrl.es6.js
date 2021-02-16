@@ -205,23 +205,27 @@ $AMIClass('FieldEditorCtrl', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const fn1 = (catalog, entity, fields, values) =>
+		const fn1 = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) =>
+			'GetElementInfo' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"' + (hideBigContent ? ' -hideBigContent' : '')
+		;
+
+		const fn2 = (catalog, entity, fields, values) =>
 			(('AddElement')) + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"'
 		;
 
-		const fn2 = (catalog, entity, fields, values, primaryFields, primaryValues) =>
+		const fn3 = (catalog, entity, fields, values, primaryFields, primaryValues) =>
 			'UpdateElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
 		;
 
-		const fn3 = (catalog, entity, primaryFields, primaryValues) =>
+		const fn4 = (catalog, entity, primaryFields, primaryValues) =>
 			'RemoveElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [appendCommandFunc, updateCommandFunc, removeCommandFunc, customLabelsFragment, customInputsFragment] = amiWebApp.setup(
-			['appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc', 'customLabelsFragment', 'customInputsFragment'],
-			[fn1, fn2, fn3, null, null],
+		const [elementInfoCommandFunc, appendCommandFunc, updateCommandFunc, removeCommandFunc, customLabelsFragment, customInputsFragment] = amiWebApp.setup(
+			['elementInfoCommandFunc', 'appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc', 'customLabelsFragment', 'customInputsFragment'],
+			[fn1, fn2, fn3, fn4, null, null],
 			settings
 		);
 
@@ -233,6 +237,7 @@ $AMIClass('FieldEditorCtrl', {
 		this.ctx = {
 			inEditMode: false,
 
+			elementInfoCommandFunc: elementInfoCommandFunc,
 			appendCommandFunc: appendCommandFunc,
 			updateCommandFunc: updateCommandFunc,
 			removeCommandFunc: removeCommandFunc,
