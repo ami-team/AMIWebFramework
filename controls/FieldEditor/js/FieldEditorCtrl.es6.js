@@ -240,8 +240,8 @@ $AMIClass('FieldEditorCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const hasCustomLabels = !!(customLabelsFragment || '').trim();
-		const hasCustomInputs = !!(customInputsFragment || '').trim();
+		const hasCustomLabels = !!((customLabelsFragment || '').trim());
+		const hasCustomInputs = !!((customInputsFragment || '').trim());
 
 		this.ctx = {
 			inEditMode: false,
