@@ -223,9 +223,18 @@ $AMIClass('FieldEditorCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [elementInfoCommandFunc, appendCommandFunc, updateCommandFunc, removeCommandFunc, customLabelsFragment, customInputsFragment] = amiWebApp.setup(
-			['elementInfoCommandFunc', 'appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc', 'customLabelsFragment', 'customInputsFragment'],
-			[fn1, fn2, fn3, fn4, null, null],
+		const [
+			elementInfoCommandFunc, appendCommandFunc, updateCommandFunc, removeCommandFunc,
+			customLabelsFragment, customInputsFragment,
+		] = amiWebApp.setup(
+			[
+				'elementInfoCommandFunc', 'appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc',
+				'customLabelsFragment', 'customInputsFragment',
+			],
+			[
+				fn1, fn2, fn3, fn4,
+				null, null,
+			],
 			settings
 		);
 
