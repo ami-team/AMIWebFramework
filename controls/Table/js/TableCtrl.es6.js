@@ -115,6 +115,7 @@ $AMIClass('TableCtrl', {
 
 		[
 			this.ctx.context,
+			this.ctx.customLabelsFragment, this.ctx.customInputsFragment,
 			this.ctx.elementInfoCommandFunc, this.ctx.appendCommandFunc, this.ctx.updateCommandFunc, this.ctx.removeCommandFunc,
 			this.ctx.enableCache, this.ctx.enableCount, this.ctx.hideBigContent, this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.canEdit,
 			this.ctx.catalog, this.ctx.entity, this.ctx.primaryField, this.ctx.rowset,
@@ -125,6 +126,7 @@ $AMIClass('TableCtrl', {
 		] = amiWebApp.setup(
 			[
 				'context',
+				'customLabelsFragment', 'customInputsFragment',
 				'elementInfoCommandFunc', 'appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc',
 				'enableCache', 'enableCount', 'hideBigContent', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
@@ -135,6 +137,7 @@ $AMIClass('TableCtrl', {
 			],
 			[
 				result,
+				null, null,
 				fn1, fn2, fn3, fn4,
 				false, true, true, true, true, true, true, false,
 				'', '', '', '',
