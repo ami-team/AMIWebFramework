@@ -18,11 +18,11 @@ media {{info.media}}
 
 {%       set ctx = {"doCustomLabel": false, "doCustomInput": false} %}
 
-{%       if hasCustomLabel %}
+{%       if hasCustomLabels %}
 {%         set _label = include('customLabels') %}
 {%       endif %}
 
-{%       if hasCustomInput %}
+{%       if hasCustomInputs %}
 {%         set _input = include('customInputs') %}
 {%       endif %}
 
