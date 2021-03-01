@@ -430,8 +430,8 @@ $AMIClass('FieldEditorCtrl', {
 					fieldInfo: fieldInfo,
 					values: values,
 					filter: field,
-					hasCustomLabel: this.ctx.hasCustomLabels,
-					hasCustomInput: this.ctx.hasCustomInputs,
+					hasCustomLabels: this.ctx.hasCustomLabels,
+					hasCustomInputs: this.ctx.hasCustomInputs,
 				};
 
 				const twigs = {
@@ -521,8 +521,8 @@ $AMIClass('FieldEditorCtrl', {
 					fieldInfo: fieldInfo,
 					values: values,
 					filter: '',
-					hasCustomLabel: this.ctx.hasCustomLabels,
-					hasCustomInput: this.ctx.hasCustomInputs,
+					hasCustomLabels: this.ctx.hasCustomLabels,
+					hasCustomInputs: this.ctx.hasCustomInputs,
 				};
 
 				const twigs = {
