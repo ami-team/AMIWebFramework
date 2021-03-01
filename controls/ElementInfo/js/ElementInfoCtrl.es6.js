@@ -82,6 +82,7 @@ $AMIClass('ElementInfoCtrl', {
 		[
 			this.ctx.context,
 			this.ctx.elementInfoCommandFunc, this.ctx.appendCommandFunc, this.ctx.updateCommandFunc, this.ctx.removeCommandFunc,
+			this.ctx.customLabelsFragment, this.ctx.customInputsFragment, this.ctx.customHTMLsFragment,
 			this.ctx.expandedLinkedElements,
 			this.ctx.enableCache, this.ctx.enableCount, this.ctx.hideBigContent, this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.canEdit,
 			this.ctx.maxCellLength,
@@ -90,6 +91,7 @@ $AMIClass('ElementInfoCtrl', {
 			[
 				'context',
 				'elementInfoCommandFunc', 'appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc',
+				'customLabelsFragment', 'customInputsFragment', 'customHTMLsFragment',
 				'expandedLinkedElements',
 				'enableCache', 'enableCount', 'hideBigContent', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'maxCellLength',
@@ -98,6 +100,7 @@ $AMIClass('ElementInfoCtrl', {
 			[
 				result,
 				fn1, fn2, fn3, fn4,
+				null, null, null,
 				[],
 				false, true, true, true, true, true, true, false,
 				64,

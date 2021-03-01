@@ -225,15 +225,15 @@ $AMIClass('FieldEditorCtrl', {
 
 		const [
 			elementInfoCommandFunc, appendCommandFunc, updateCommandFunc, removeCommandFunc,
-			customLabelsFragment, customInputsFragment,
+			customLabelsFragment, customInputsFragment, customHTMLsFragment,
 		] = amiWebApp.setup(
 			[
 				'elementInfoCommandFunc', 'appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc',
-				'customLabelsFragment', 'customInputsFragment',
+				'customLabelsFragment', 'customInputsFragment', 'customHTMLsFragment',
 			],
 			[
 				fn1, fn2, fn3, fn4,
-				null, null,
+				null, null, null,
 			],
 			settings
 		);
@@ -242,6 +242,7 @@ $AMIClass('FieldEditorCtrl', {
 
 		const hasCustomLabels = !!((customLabelsFragment || '').trim());
 		const hasCustomInputs = !!((customInputsFragment || '').trim());
+		const hasCustomHTMLs = !!((customHTMLsFragment || '').trim());
 
 		this.ctx = {
 			inEditMode: false,
@@ -255,7 +256,10 @@ $AMIClass('FieldEditorCtrl', {
 			customLabelsFragment: customLabelsFragment,
 
 			hasCustomInputs: hasCustomInputs,
-			customInputsFragment: customInputsFragment
+			customInputsFragment: customInputsFragment,
+
+			hasCustomHTMLs: hasCustomHTMLs,
+			customHTMLsFragment: customHTMLsFragment,
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -432,11 +436,13 @@ $AMIClass('FieldEditorCtrl', {
 					filter: field,
 					hasCustomLabels: this.ctx.hasCustomLabels,
 					hasCustomInputs: this.ctx.hasCustomInputs,
+					hasCustomHTMLs: this.ctx.hasCustomHTMLs,
 				};
 
 				const twigs = {
 					customLabels: this.ctx.customLabelsFragment,
 					customInputs: this.ctx.customInputsFragment,
+					customHTMLs: this.ctx.customHTMLsFragment,
 				};
 
 				amiWebApp.replaceHTML('#C2C43049_4CD6_73C3_597B_F0399A220610', this.fragmentFieldList, {dict: dict, twigs: twigs}).done(() => {
@@ -523,11 +529,13 @@ $AMIClass('FieldEditorCtrl', {
 					filter: '',
 					hasCustomLabels: this.ctx.hasCustomLabels,
 					hasCustomInputs: this.ctx.hasCustomInputs,
+					hasCustomHTMLs: this.ctx.hasCustomHTMLs,
 				};
 
 				const twigs = {
 					customLabels: this.ctx.customLabelsFragment,
 					customInputs: this.ctx.customInputsFragment,
+					customHTMLs: this.ctx.customHTMLsFragment,
 				};
 
 				amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {dict: dict, twigs: twigs}).done(() => {

@@ -16,7 +16,7 @@ media {{info.media}}
 {%     else %}
 {#     -------------------------------------------------------------------------------------------------------------- #}
 
-{%       set ctx = {"doCustomLabel": false, "doCustomInput": false} %}
+{%       set ctx = {"doCustomLabel": false, "doCustomInput": false, "doCustomHTML": false} %}
 
 {%       if hasCustomLabels %}
 {%         set _label = include('customLabels') %}
@@ -24,6 +24,10 @@ media {{info.media}}
 
 {%       if hasCustomInputs %}
 {%         set _input = include('customInputs') %}
+{%       endif %}
+
+{%       if hasCustomHTMLs %}
+{%         set _html = include('customHTMLs') %}
 {%       endif %}
 
 {#       ------------------------------------------------------------------------------------------------------------ #}
@@ -38,6 +42,10 @@ media {{info.media}}
 	{% endif %}
 
 	{{ _input }}
+
+	{% if ctx.doCustomHTML %}
+	{{ _html }}
+	{% endif %}
 
 </div>
 {#       ------------------------------------------------------------------------------------------------------------ #}
@@ -126,6 +134,10 @@ media {{info.media}}
 		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% endif %}
 	</div>
+
+	{% if ctx.doCustomHTML %}
+	{{ _html }}
+	{% endif %}
 
 </div>
 {#       ------------------------------------------------------------------------------------------------------------ #}
