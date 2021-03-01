@@ -440,6 +440,8 @@ $AMIClass('FieldEditorCtrl', {
 				};
 
 				const twigs = {
+					primaryCatalog: primaryCatalog,
+					primaryEntity: primaryEntity,
 					customLabels: this.ctx.customLabelsFragment,
 					customInputs: this.ctx.customInputsFragment,
 					customHTMLs: this.ctx.customHTMLsFragment,
@@ -533,6 +535,8 @@ $AMIClass('FieldEditorCtrl', {
 				};
 
 				const twigs = {
+					primaryCatalog: primaryCatalog,
+					primaryEntity: primaryEntity,
 					customLabels: this.ctx.customLabelsFragment,
 					customInputs: this.ctx.customInputsFragment,
 					customHTMLs: this.ctx.customHTMLsFragment,
