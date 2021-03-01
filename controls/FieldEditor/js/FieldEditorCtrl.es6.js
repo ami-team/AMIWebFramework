@@ -430,6 +430,8 @@ $AMIClass('FieldEditorCtrl', {
 			this.getValues(primaryCatalog, primaryEntity, primaryField, primaryValue).done((values) => {
 
 				const dict = {
+					primaryCatalog: primaryCatalog,
+					primaryEntity: primaryEntity,
 					primaryField: primaryField,
 					fieldInfo: fieldInfo,
 					values: values,
@@ -440,8 +442,6 @@ $AMIClass('FieldEditorCtrl', {
 				};
 
 				const twigs = {
-					primaryCatalog: primaryCatalog,
-					primaryEntity: primaryEntity,
 					customLabels: this.ctx.customLabelsFragment,
 					customInputs: this.ctx.customInputsFragment,
 					customHTMLs: this.ctx.customHTMLsFragment,
@@ -525,6 +525,8 @@ $AMIClass('FieldEditorCtrl', {
 			this.getValues(primaryCatalog, primaryEntity, primaryField, primaryValue).done((values) => {
 
 				const dict = {
+					primaryCatalog: primaryCatalog,
+					primaryEntity: primaryEntity,
 					primaryField: primaryField,
 					fieldInfo: fieldInfo,
 					values: values,
@@ -535,8 +537,6 @@ $AMIClass('FieldEditorCtrl', {
 				};
 
 				const twigs = {
-					primaryCatalog: primaryCatalog,
-					primaryEntity: primaryEntity,
 					customLabels: this.ctx.customLabelsFragment,
 					customInputs: this.ctx.customInputsFragment,
 					customHTMLs: this.ctx.customHTMLsFragment,
