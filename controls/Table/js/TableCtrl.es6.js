@@ -117,7 +117,8 @@ $AMIClass('TableCtrl', {
 			this.ctx.context,
 			this.ctx.elementInfoCommandFunc, this.ctx.appendCommandFunc, this.ctx.updateCommandFunc, this.ctx.removeCommandFunc,
 			this.ctx.customLabelsFragment, this.ctx.customInputsFragment, this.ctx.customHTMLsFragment,
-			this.ctx.enableCache, this.ctx.enableCount, this.ctx.hideBigContent, this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.canEdit,
+			this.ctx.expandedLinkedElements,
+			this.ctx.enableCache, this.ctx.enableCount, this.ctx.enableEditMode, this.ctx.hideBigContent, this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.canEdit,
 			this.ctx.catalog, this.ctx.entity, this.ctx.primaryField, this.ctx.rowset,
 			this.ctx.start, this.ctx.stop, this.ctx.orderBy, this.ctx.orderWay,
 			this.ctx.maxCellLength,
@@ -128,7 +129,8 @@ $AMIClass('TableCtrl', {
 				'context',
 				'elementInfoCommandFunc', 'appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc',
 				'customLabelsFragment', 'customInputsFragment', 'customHTMLsFragment',
-				'enableCache', 'enableCount', 'hideBigContent', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
+				'expandedLinkedElements',
+				'enableCache', 'enableCount', 'enableEditMode', 'hideBigContent', 'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'canEdit',
 				'catalog', 'entity', 'primaryField', 'rowset',
 				'start', 'stop', 'orderBy', 'orderWay',
 				'maxCellLength',
@@ -139,7 +141,8 @@ $AMIClass('TableCtrl', {
 				result,
 				fn1, fn2, fn3, fn4,
 				null, null, null,
-				false, true, true, true, true, true, true, false,
+				[],
+				false, true, false, true, true, true, true, true, false,
 				'', '', '', '',
 				1, 10, '', '',
 				64,
@@ -449,8 +452,20 @@ $AMIClass('TableCtrl', {
 				];
 
 				const settings = {
+					elementInfoCommandFunc: this.ctx.elementInfoCommandFunc,
+					appendCommandFunc: this.ctx.appendCommandFunc,
+					updateCommandFunc: this.ctx.updateCommandFunc,
+					removeCommandFunc: this.ctx.removeCommandFunc,
+					/**/
+					customLabelsFragment: this.ctx.customLabelsFragment,
+					customInputsFragment: this.ctx.customInputsFragment,
+					customHTMLsFragment: this.ctx.customHTMLsFragment,
+					/**/
 					enableCache: this.ctx.enableCache,
 					enableCount: this.ctx.enableCount,
+					enableEditMode: this.ctx.enableEditMode,
+					/**/
+					hideBigContent: this.ctx.hideBigContent,
 					/**/
 					showPrimaryField: this.ctx.showPrimaryField,
 					showToolBar: this.ctx.showToolBar,

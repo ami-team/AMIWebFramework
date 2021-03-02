@@ -74,7 +74,7 @@
 		{% if canEdit and primaryField is not empty %}
 		<div class="form-inline mr-sm-2 my-2 my-lg-0">
 			<span class="switch switch-on-warning switch-off-secondary">
-				<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D" />
+				<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D"{% if enableEditMode and canEdit %} checked="checked"{% endif %} />
 				<label for="DDC32238_DD25_8354_AC6C_F6E27CA6E18D">
 					<span class="text-secondary">view</span>
 					/

@@ -9,17 +9,37 @@
 		if(isAuth)
 		{
 			myElementInfo.render('#myElementInfo', '{{catalog|e('js')}}', '{{entity|e('js')}}', '{{primaryFieldName|e('js')}}', '{{primaryFieldValue|e('js')}}', {
-				expandedLinkedElements: [{{expandedLinkedElements|join(', ')|e}}],
-				enableCache: {{enableCache}},
-				enableCount: {{enableCount}},
-				hideBigContent: {{hideBigContent}},
-				showPrimaryField: {{showPrimaryField}},
-				showToolBar: {{showToolBar}},
-				showDetails: {{showDetails}},
-				showTools: {{showTools}},
-				canEdit: {{canEdit}},
-				maxCellLength: {{maxCellLength}},
-				card: {{card}},
+				elementInfoCommandFunc: {{ elementInfoCommandFunc.toString() }},
+				appendCommandFunc: {{ appendCommandFunc.toString() }},
+				updateCommandFunc: {{ updateCommandFunc.toString() }},
+				removeCommandFunc: {{ removeCommandFunc.toString() }},
+				/**/
+				customLabelsFragment: '{{ customLabelsFragment|e('js') }}',
+				customInputsFragment: '{{ customInputsFragment|e('js') }}',
+				customHTMLsFragment: '{{ customHTMLsFragment|e('js') }}',
+				/**/
+				expandedLinkedElements: [{{ expandedLinkedElements|join(', ')|e('js') }}],
+				/**/
+				enableCache: {{ enableCache }},
+				enableCount: {{ enableCount }},
+				enableEditMode: {{ enableEditMode }},
+				/**/
+				hideBigContent: {{ hideBigContent }},
+				/**/
+				showPrimaryField: {{ showPrimaryField }},
+				showToolBar: {{ showToolBar }},
+				showDetails: {{ showDetails }},
+				showTools: {{ showTools }},
+				canEdit: {{ canEdit }},
+				/**/
+				start: {{ start }},
+				stop: {{ stop }},
+				orderBy: '{{ orderBy|e('js') }}',
+				orderWay: '{{ orderWay|e('js') }}',
+				/**/
+				maxCellLength: {{ maxCellLength }},
+				/**/
+				card: {{ card }},
 			});
 		}
 		else

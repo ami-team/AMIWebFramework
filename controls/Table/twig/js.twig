@@ -1,4 +1,4 @@
-<script type="text/javascript" src="{{ORIGIN_URL}}/js/ami.min.js?embedded"></script>
+<script type="text/javascript" src="{{ ORIGIN_URL }}/js/ami.min.js?embedded"></script>
 
 <script type="text/javascript">
 
@@ -8,25 +8,43 @@
 
 		if(isAuth)
 		{
-			myTable.render('#myTable', '{{command|e('js')}}', {
-				enableCache: {{enableCache}},
-				enableCount: {{enableCount}},
-				hideBigContent: {{hideBigContent}},
-				showPrimaryField: {{showPrimaryField}},
-				showToolBar: {{showToolBar}},
-				showDetails: {{showDetails}},
-				showTools: {{showTools}},
-				canEdit: {{canEdit}},
-				catalog: '{{catalog|e('js')}}',
-				entity: '{{entity|e('js')}}',
-				primaryField: '{{primaryField|e('js')}}',
-				rowset: '{{rowset|e('js')}}',
-				start: {{start}},
-				stop: {{stop}},
-				orderBy: '{{orderBy|e('js')}}',
-				orderWay: '{{orderWay|e('js')}}',
-				maxCellLength: {{maxCellLength}},
-				card: {{card}},
+			myTable.render('#myTable', '{{ command|e('js') }}', {
+				elementInfoCommandFunc: {{ elementInfoCommandFunc.toString() }},
+				appendCommandFunc: {{ appendCommandFunc.toString() }},
+				updateCommandFunc: {{ updateCommandFunc.toString() }},
+				removeCommandFunc: {{ removeCommandFunc.toString() }},
+				/**/
+				customLabelsFragment: '{{ customLabelsFragment|e('js') }}',
+				customInputsFragment: '{{ customInputsFragment|e('js') }}',
+				customHTMLsFragment: '{{ customHTMLsFragment|e('js') }}',
+				/**/
+				expandedLinkedElements: [{{ expandedLinkedElements|join(', ')|e('js') }}],
+				/**/
+				enableCache: {{ enableCache }},
+				enableCount: {{ enableCount }},
+				enableEditMode: {{ enableEditMode }},
+				/**/
+				hideBigContent: {{ hideBigContent }},
+				/**/
+				showPrimaryField: {{ showPrimaryField }},
+				showToolBar: {{ showToolBar }},
+				showDetails: {{ showDetails }},
+				showTools: {{ showTools }},
+				canEdit: {{ canEdit }},
+				/**/
+				catalog: '{{ catalog|e('js') }}',
+				entity: '{{ entity|e('js') }}',
+				primaryField: '{{ primaryField|e('js') }}',
+				rowset: '{{ rowset|e('js') }}',
+				/**/
+				start: {{ start }},
+				stop: {{ stop }},
+				orderBy: '{{ orderBy|e('js') }}',
+				orderWay: '{{ orderWay|e('js') }}',
+				/**/
+				maxCellLength: {{ maxCellLength }},
+				/**/
+				card: {{ card }},
 			});
 		}
 		else
@@ -44,7 +62,7 @@
 	};
 
 	amiWebApp.start({
-		endpoint_url: '{{endpoint}}'
+		endpoint_url: '{{ endpoint }}'
 	});
 
 </script>
