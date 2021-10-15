@@ -10,3 +10,4 @@ import AMIExtension from "./src/core/AMIExtension";
 import AMILogin from "./src/core/AMILogin";
 import AMIRouter from "./src/core/AMIRouter";
 import AMIWebapps from "./src/core/AMIWebApp";
+import AMIDoc from "./src/core/AMIDoc";
