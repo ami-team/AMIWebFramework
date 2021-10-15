@@ -1,0 +1,98 @@
+<style type="text/css">
+/*-------------------------------------------------------------------------*/
+/* GENERAL THEME                                                           */
+/*-------------------------------------------------------------------------*/
+
+body {
+	background: white url('{{ORIGIN_URL}}/images/background.jpg') fixed;
+	background-size: cover;
+}
+
+/*-------------------------------------------------------------------------*/
+/* AMI THEME                                                               */
+/*-------------------------------------------------------------------------*/
+
+#ami_main_container {
+	border-radius: 10px;
+	box-shadow: 00px 05px 15px rgba(19, 0, 0, 0.5);
+	margin: 12px 16px 24px 16px;
+	padding: 0;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#ami_main_center {
+	background-color: white;
+	margin: 0;
+	padding: 8px 16px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+/*-------------------------------------------------------------------------*/
+
+#ami_top_menu {
+	border-radius: 10px 10px 0 0;
+}
+
+#ami_bottom_menu {
+	border-radius: 0 0 10px 10px;
+}
+
+/*-------------------------------------------------------------------------*/
+</style>
+
+<div role="alert" id="ami_alert_content" style="top: 80px;"></div>
+
+<div id="ami_main_container">
+
+	<nav class="navbar navbar-light navbar-expand-lg border-bottom bg-light" id="ami_top_menu">
+
+ 		<a class="navbar-brand py-0" href="{{HOME_URL}}">
+			<img src="{{LOGO_URL}}" alt="Logo" style="height: 38px;" />
+		</a>
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#FCE61AFD_012B_2816_B9FD_C737908FAF72">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="FCE61AFD_012B_2816_B9FD_C737908FAF72">
+
+			<ul class="navbar-nav mr-xxxx" id="ami_main_menu_content"></ul>
+			<ul class="navbar-nav ml-auto" id="ami_ext_menu_content"></ul>
+			<ul class="navbar-nav ml-xxxx" id="ami_login_menu_content"></ul>
+
+		</div>
+
+	</nav>
+
+	<div id="ami_main_center">
+
+		<ol class="breadcrumb" id="ami_breadcrumb_content">&nbsp;</ol>
+
+		<div role="main" id="ami_main_content"></div>
+
+	</div>
+
+	<nav class="navbar navbar-expand-lg navbar-light bg-light2" id="ami_bottom_menu">
+
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#B06DBB00_43B5_3128_B476_F7D3BAE1B15C">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="B06DBB00_43B5_3128_B476_F7D3BAE1B15C">
+
+			<ul class="navbar-nav" style="margin-left: auto;">
+				<li class="nav-item">
+					<a class="nav-link" href="mailto:{{CONTACT_EMAIL}}"><i class="fa fa-envelope-o"></i> Contact</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="{{ABOUT_URL}}" target="_blank"><i class="fa fa-external-link"></i> About</a>
+				</li>
+			</ul>
+
+		</div>
+
+	</nav>
+
+</div>

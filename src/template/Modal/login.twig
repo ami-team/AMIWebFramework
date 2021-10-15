@@ -1,0 +1,347 @@
+<div class="modal fade" role="dialog" id="D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Authentication</h4>
+				<button class="close" type="button" data-dismiss="modal">×</button>
+			</div>
+			<div class="modal-body">
+				<ul class="nav nav-tabs mb-0">
+					<li class="nav-item"><a class="nav-link active" href="#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73" role="tab" data-toggle="tab">Sign In</a></li>
+{% if createAccountAllowed %}
+					<li class="nav-item"><a class="nav-link xxxxxx" href="#EE055CD4_E58F_4834_8020_986AE3F8D67D" role="tab" data-toggle="tab">Create an account</a></li>
+{% endif %}
+{% if changePasswordAllowed %}
+					<li class="nav-item"><a class="nav-link xxxxxx" href="#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F" role="tab" data-toggle="tab">Reset my password</a></li>
+{% endif %}
+				</ul>
+			</div>
+			<div class="tab-content">
+				<form class="tab-pane active" role="tabpanel" id="B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73">
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-md-2 text-center">
+								<img src="{{ORIGIN_URL}}/images/padlock.png" alt="" height="90" width="90" />
+							</div>
+							<div class="col-md-10">
+								<div class="form-group">
+									<label for="E64F24B2_33E6_4DED_9B24_28BE04219613">Login<span class="text-danger">*</span></label>
+									<input class="form-control form-control-sm" type="text" name="user" id="E64F24B2_33E6_4DED_9B24_28BE04219613" required="required" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type your login..." />
+								</div>
+								<div class="form-group">
+									<label for="A4DFD039_034F_4D10_9668_385AEF4FBBB9">Password<span class="text-danger">*</span></label>
+									<input class="form-control form-control-sm" type="password" name="pass" id="A4DFD039_034F_4D10_9668_385AEF4FBBB9" required="required" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Type your password..." />
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-outline-secondary" type="button" data-dismiss="modal">Close</button>
+{% if passwordAuthenticationAllowed %}
+						<button class="btn btn-primary" type="submit">Password Login</button>
+{% endif %}
+{% if certificateAuthenticationAllowed %}
+{%   if changeCertificateAllowed %}
+						<div class="btn-group">
+							<button class="btn btn-primary" type="button" onclick="amiLogin.form_login2();">Certificate Login</button>
+							<span class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+								<i class="fa fa-wrench"></i>
+							</span>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a class="dropdown-item" href="javascript:amiLogin.form_attachCert();">Attach Certificate</a>
+								<a class="dropdown-item" href="javascript:amiLogin.form_detachCert();">Detach Certificate</a>
+							</div>
+						</div>
+{%   else %}
+						<button class="btn btn-primary" type="button" onclick="amiLogin.form_login2();">Certificate Login</button>
+{%   endif %}
+{% endif %}
+					</div>
+				</form>
+				<form class="tab-pane xxxxxx" role="tabpanel" id="EE055CD4_E58F_4834_8020_986AE3F8D67D">
+					<div class="modal-body">
+{% if captchaAllowed %}
+						<input type="hidden" name="captcha_hash" id="FD95B3FA_C808_0E08_2D1E_0FE0E3871101" />
+{% endif %}
+						<div class="row">
+							<div class="col-md-2 text-center">
+								<img src="{{ORIGIN_URL}}/images/padlock.png" alt="" height="90" width="90" />
+							</div>
+							<div class="col-md-10">
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="D752CE80_49C3_4BDC_8B1A_8ED6BD57C538">First name<span class="text-danger">*</span></label>
+											<input class="form-control form-control-sm" type="text" name="first_name" id="D752CE80_49C3_4BDC_8B1A_8ED6BD57C538" tabindex="1" required="required" placeholder="Type your first name..." />
+										</div>
+										<div class="form-group">
+											<label for="A9A08864_6A32_45A4_8898_C167564DB8BB">Login<span class="text-danger">*</span></label>
+											<input class="form-control form-control-sm" type="text" name="login" id="A9A08864_6A32_45A4_8898_C167564DB8BB" tabindex="3" required="required" placeholder="Choose a login..." />
+										</div>
+										<div class="form-group">
+											<label for="E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388">Password<span class="text-danger">*</span></label>
+											<input class="form-control form-control-sm" type="password" name="pass" id="E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388" tabindex="5" required="required" placeholder="Choose a password..." />
+										</div>
+{% if captchaAllowed %}
+										<div class="form-group">
+											<label>Captcha</label>
+											<img class="form-control form-control-sm" alt="" src="" id="AC9836E6_2A20_8711_39D5_0E8340561078" />
+										</div>
+{% endif %}
+									</div>
+									<div class="col-md-6">
+										<div class="form-group ">
+											<label for="B3E6D18C_ABA3_402C_88A2_55FA99555A7A">Last name<span class="text-danger">*</span></label>
+											<input class="form-control form-control-sm" type="text" name="last_name" id="B3E6D18C_ABA3_402C_88A2_55FA99555A7A" tabindex="2" required="required" placeholder="Type your last name..." />
+										</div>
+										<div class="form-group">
+											<label for="D1007165_B40F_4DAE_BA50_853F2C9DA32D">Email<span class="text-danger">*</span></label>
+											<input type="email" class="form-control form-control-sm" name="email" id="D1007165_B40F_4DAE_BA50_853F2C9DA32D" tabindex="4" required="required" placeholder="Type your email..." />
+										</div>
+										<div class="form-group">
+											<label for="CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187">Password<span class="text-danger">*</span></label>
+											<input class="form-control form-control-sm" type="password" name="xxxx" id="CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187" tabindex="6" required="required" placeholder="Confirm the password..." />
+										</div>
+{% if captchaAllowed %}
+										<div class="form-group">
+											<label for="F36FED50_1ACC_CD15_ABEC_6E06247BE2DD">Captcha<span class="text-danger">*</span></label>
+											<input class="form-control form-control-sm" type="text" name="captcha_text" id="F36FED50_1ACC_CD15_ABEC_6E06247BE2DD" tabindex="7" required="required" placeholder="Confirm the captcha..." />
+										</div>
+{% endif %}
+									</div>
+								</div>
+								<div class="form-group text-left">
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" name="attachCert" id="A09AE316_7068_4BC1_96A9_6B87D28863FE" tabindex="8" checked="checked" />
+										<label class="custom-control-label" for="A09AE316_7068_4BC1_96A9_6B87D28863FE">Attach the current certificate</label>
+									</div>
+								</div>
+								<div class="form-group">
+									<iframe class="form-control" id="C3E94F6D_48E0_86C0_3534_691728E492F4" style="padding: 1px; height: 220px; width: 100%;"></iframe>
+								</div>
+								<div class="form-group text-right">
+									<div class="custom-control custom-checkbox">
+										<input type="checkbox" class="custom-control-input" name="agree" id="C443738D_16BD_469F_1430_84EC13924118" tabindex="9" xxxxxxx="xxxxxxx" />
+										<label class="custom-control-label" for="C443738D_16BD_469F_1430_84EC13924118">I agree with the terms and conditions</label>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-outline-secondary" type="button" data-dismiss="modal">Close</button>
+						<button class="btn btn-primary" type="submit">Create</button>
+					</div>
+				</form>
+				<form class="tab-pane xxxxxx" role="tabpanel" id="DA2047A2_9E5D_420D_B6E7_FA261D2EF10F">
+					<div class="modal-body">
+{% if captchaAllowed %}
+						<input type="hidden" name="captcha_hash" id="A63C0110_E591_6FCE_6D7A_02EEBC094199" />
+{% endif %}
+						<div class="row">
+							<div class="col-md-2 text-center">
+								<img src="{{ORIGIN_URL}}/images/padlock.png" alt="" height="90" width="90" />
+							</div>
+							<div class="col-md-10">
+								<div class="form-group">
+									<label for="F0B93AF7_6049_4271_B1C9_C494A012D6D0">Login<span class="text-danger">*</span></label>
+									<input class="form-control form-control-sm" type="text" name="user" id="F0B93AF7_6049_4271_B1C9_C494A012D6D0" required="required" placeholder="Type your login..." />
+								</div>
+{% if captchaAllowed %}
+								<div class="row">
+									<div class="col-md-6">
+										<div class="form-group">
+											<label>Captcha</label>
+											<img class="form-control form-control-sm" alt="" src="" id="EA79605C_6EFF_4C77_9D70_88254B00FD52" />
+										</div>
+									</div>
+									<div class="col-md-6">
+										<div class="form-group">
+											<label for="ECCBE7F1_1D33_169C_313E_C462B19DCDA0">Captcha<span class="text-danger">*</span></label>
+											<input class="form-control form-control-sm" type="text" name="captcha_text" id="ECCBE7F1_1D33_169C_313E_C462B19DCDA0" tabindex="7" required="required" placeholder="Confirm the captcha..." />
+										</div>
+									</div>
+								</div>
+{% endif %}
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button class="btn btn-outline-secondary" type="button" data-dismiss="modal">Close</button>
+						<button class="btn btn-primary" type="submit">Reset</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<form class="modal fade" role="dialog" id="D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Change Information</h4>
+				<button class="close" type="button" data-dismiss="modal">×</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-2 text-center">
+						<img src="{{ORIGIN_URL}}/images/padlock.png" alt="" height="90" width="90" />
+					</div>
+					<div class="col-md-10">
+						<div class="form-group">
+							<label for="E513F27D_5521_4B08_BF61_52AFB81356F7">First name<span class="text-danger">*</span></label>
+							<input class="form-control form-control-sm" type="text" name="first_name" id="E513F27D_5521_4B08_BF61_52AFB81356F7" required="required" placeholder="Type your first name..." />
+						</div>
+						<div class="form-group ">
+							<label for="AFF0B5C0_BEEC_4842_916D_DCBA7F589195">Last name<span class="text-danger">*</span></label>
+							<input class="form-control form-control-sm" type="text" name="last_name" id="AFF0B5C0_BEEC_4842_916D_DCBA7F589195" required="required" placeholder="Type your last name..." />
+						</div>
+						<div class="form-group">
+							<label for="C587486B_62C0_4B6E_9288_D8F9F89D157B">Email<span class="text-danger">*</span></label>
+							<input type="email" class="form-control form-control-sm" name="email" id="C587486B_62C0_4B6E_9288_D8F9F89D157B" required="required" placeholder="Type your email..." />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-outline-secondary" type="button" data-dismiss="modal">Close</button>
+				<button class="btn btn-primary" type="submit">Submit</button>
+			</div>
+		</div>
+	</div>
+</form>
+<form class="modal fade" role="dialog" id="E92A1097_983B_4857_875F_07E4659B41B0">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Change Password</h4>
+				<button class="close" type="button" data-dismiss="modal">×</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<div class="col-md-2 text-center">
+						<img src="{{ORIGIN_URL}}/images/padlock.png" alt="" height="90" width="90" />
+					</div>
+					<div class="col-md-10">
+						<div class="form-group">
+							<label for="F238E6EE_44BD_486A_B85D_C927A4D045D3">Old password<span class="text-danger">*</span></label>
+							<input class="form-control form-control-sm" type="password" name="old_pass" id="F238E6EE_44BD_486A_B85D_C927A4D045D3" required="required" placeholder="Type your old password..." />
+						</div>
+						<div class="form-group">
+							<label for="D487FE72_8D95_4048_BEA3_252274862AF4">New password<span class="text-danger">*</span></label>
+							<input class="form-control form-control-sm" type="password" name="new_pass" id="D487FE72_8D95_4048_BEA3_252274862AF4" required="required" placeholder="Choose a new password..." />
+						</div>
+						<div class="form-group">
+							<label for="EE1DA58C_3761_4734_A9C2_E808CDD7EE77">New password<span class="text-danger">*</span></label>
+							<input class="form-control form-control-sm" type="password" name="xxxxxxxx" id="EE1DA58C_3761_4734_A9C2_E808CDD7EE77" required="required" placeholder="Type your new password again..." />
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-outline-secondary" type="button" data-dismiss="modal">Close</button>
+				<button class="btn btn-primary" type="submit">Submit</button>
+			</div>
+		</div>
+	</div>
+</form>
+<div class="modal fade" role="dialog" id="AB1CB183_96EB_4116_8A9E_4409BE058F34">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Account Status</h4>
+				<button class="close" type="button" data-dismiss="modal">×</button>
+			</div>
+			<div class="modal-body">
+				<h5 id="D944B01D_2E8D_4EE9_9DCC_2691438BBA16"></h5>
+				<div class="tabbable">
+					<ul class="nav nav-tabs">
+						<li class="nav-item"><a class="nav-link active" href="#B89A9E2D_8969_41F4_B266_230B782FA17D" role="tab" data-toggle="tab">User account status</a></li>
+						<li class="nav-item"><a class="nav-link xxxxxx" href="#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC" role="tab" data-toggle="tab">User information</a></li>
+						<li class="nav-item"><a class="nav-link xxxxxx" href="#D827345F_6762_32F6_1D2D_DB40676804AE" role="tab" data-toggle="tab">User roles</a></li>
+					</ul>
+					<div class="tab-content">
+						<div class="tab-pane active" role="tabpanel" id="B89A9E2D_8969_41F4_B266_230B782FA17D">
+							<div class="text-center rounded mx-auto px-5 py-2 mb-2">
+								<div class="row">
+									<div class="col-xl-3 d-flex align-items-center justify-content-center">
+										<img src="{{ORIGIN_URL}}/images/logo.png" width="150" />
+									</div>
+									<div class="col-xl-6">
+										<br />
+										<div style="font-family: 'Open Sans Light'; font-size: 24pt;" id="D579A431_DBE4_6B30_1CF6_5E23761B4E1A">Your account is</div>
+										<div style="font-family:     'Trochut'    ; font-size: 36pt;" id="F3FF9F43_DE72_40BB_B1BA_B7B3C9002671">???????????????</div>
+										<div style="font-family: 'Open Sans Light'; font-size: 14pt;" id="E91280F6_E7C6_3E53_A457_646995C99317">???????????????</div>
+										<br />
+									</div>
+									<div class="col-xl-3 d-flex align-items-center justify-content-center">
+										<canvas id="EC948084_8C0A_CEBF_58C9_086046AB2456" width="150" height="150"></canvas>
+									</div>
+								</div>
+							</div>
+							<div class="text-center">
+								<a href="#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27" data-toggle="collapse">terms and conditions</a>
+								<iframe class="form-control collapse" id="E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27" style="padding: 1px; min-height: 350px; width: 100%;"></iframe>
+							</div>
+						</div>
+						<div class="tab-pane xxxxxx" role="tabpanel" id="F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC">
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label col-form-label-sm" for="ABEB0291_40B0_414A_A42B_E7EABB9B487E" style="font-weight: normal;">First name</label>
+								<div class="col-sm-9">
+									<input class="form-control form-control-sm" type="text" id="ABEB0291_40B0_414A_A42B_E7EABB9B487E" readonly="readonly" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label col-form-label-sm" for="A5AFDB62_1034_4F66_A3E6_9341B31FA290" style="font-weight: normal;">Last name</label>
+								<div class="col-sm-9">
+									<input class="form-control form-control-sm" type="text" id="A5AFDB62_1034_4F66_A3E6_9341B31FA290" readonly="readonly" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label col-form-label-sm" for="D730A774_05EA_47AB_A0C8_D92753802E3E" style="font-weight: normal;">Email</label>
+								<div class="col-sm-9">
+									<input class="form-control form-control-sm" type="text" id="D730A774_05EA_47AB_A0C8_D92753802E3E" readonly="readonly" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label col-form-label-sm" for="D1BEE3BF_9161_41DC_BC53_C44FFE4D2522" style="font-weight: normal;">Client certificate DN in account</label>
+								<div class="col-sm-9">
+									<input class="form-control form-control-sm" type="text" id="D1BEE3BF_9161_41DC_BC53_C44FFE4D2522" readonly="readonly" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label col-form-label-sm" for="C76805D7_1E86_4231_9071_1D04783423BB" style="font-weight: normal;">Client certificate DN in session</label>
+								<div class="col-sm-9">
+									<input class="form-control form-control-sm" type="text" id="C76805D7_1E86_4231_9071_1D04783423BB" readonly="readonly" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label col-form-label-sm" for="F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA" style="font-weight: normal;">Issuer certificate DN in account</label>
+								<div class="col-sm-9">
+									<input class="form-control form-control-sm" type="text" id="F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA" readonly="readonly" />
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-3 col-form-label col-form-label-sm" for="FE2F6232_C256_4B80_939C_EBEC90320308" style="font-weight: normal;">Issuer certificate DN in session</label>
+								<div class="col-sm-9">
+									<input class="form-control form-control-sm" type="text" id="FE2F6232_C256_4B80_939C_EBEC90320308" readonly="readonly" />
+								</div>
+							</div>
+						</div>
+						<div class="tab-pane xxxxxx" role="tabpanel" id="D827345F_6762_32F6_1D2D_DB40676804AE">
+							<table class="table table-sm table-striped">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Description</th>
+									</tr>
+								</thead>
+								<tbody id="BB07676B_EACA_9B42_ED51_477DB2976041"></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

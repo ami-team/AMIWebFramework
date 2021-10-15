@@ -1,0 +1,26 @@
+{% if bookmarksAllowed %}
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+		<i class="fa fa-star"></i>
+	</a>
+	<div class="dropdown-menu">
+		{% for hash, bookmark in bookmarkInfo %}
+		<a class="dropdown-item" href="{{WEBAPP_URL}}?v={{hash}}" target="_blank">{{ bookmark.name|e }}</a>
+		{% else %}
+		<div class="dropdown-item text-muted">-- empty --</div>
+		{% endfor %}
+	</div>
+</li>
+{% endif %}
+<li class="nav-item xxxxxxxx">
+{% if ssoAuthenticationAllowed %}
+	<button class="btn btn-outline-secondary" type="button" onclick="amiLogin.sso()">
+		<i class="fa fa-sign-in"></i> {{ssoInfo.label|default('Single Sign-On')|e}}
+	</button>
+{% endif %}
+{% if passwordAuthenticationAllowed or certificateAuthenticationAllowed %}
+	<button class="btn btn-outline-secondary" type="button" onclick="amiLogin.signIn()">
+		<i class="fa fa-sign-in"></i> Sign in
+	</button>
+{% endif %}
+</li>

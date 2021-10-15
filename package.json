@@ -1,0 +1,38 @@
+{
+  "name": "awfwebpack",
+  "version": "1.0.0",
+  "description": "AMI Web Framework",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm dist/awf.min.js",
+    "build-dev": "webpack --mode development",
+    "build-prod": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.in2p3.fr/ami-team/awfwebpack.git"
+  },
+  "author": "The AMI Team, Jerome Odier <jerome.odier@lpsc.in2p3.fr>",
+  "license": "CECILL-C",
+  "dependencies": {
+    "ami-http-client": "git+https://github.com/ami-team/AMIHTTPClientJS.git",
+    "ami-mqtt-client": "git+https://github.com/ami-team/AMIMQTTClientJS.git",
+    "ami-twig": "git+https://github.com/ami-team/AMITwigJS.git",
+    "bootstrap": "^4.6.0",
+    "jquery": "^3.6.0",
+    "jsdoc-json": "^2.0.2",
+    "popper.js": "^1.16.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.8",
+    "@babel/preset-env": "^7.15.8",
+    "babel-loader": "^8.2.2",
+    "css-loader": "^6.4.0",
+    "jsdoc-webpack-plugin": "^0.3.0",
+    "node-sass": "^6.0.1",
+    "sass-loader": "^12.2.0",
+    "style-loader": "^3.3.0",
+    "webpack": "^5.58.1",
+    "webpack-cli": "^4.9.0"
+  }
+}
