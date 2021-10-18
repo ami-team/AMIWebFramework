@@ -23,7 +23,7 @@ import HttpClient from "ami-http-client/src/client";
  */
 
 export default class amiCommand {
-	#httpClient = new HttpClient('');
+	static #httpClient = new HttpClient('');
 
 	/**
 	 * Executes an AMI command
@@ -31,7 +31,7 @@ export default class amiCommand {
 	 * @param {Object} [settings] dictionary of settings (endpoint, converter, context, timeout, extraParam, extraValue)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	execute = (command, settings) => this.#httpClient.execute(command, settings);
+	static execute = (command, settings) => this.#httpClient.execute(command, settings);
 
 	/**
 	 * Logs in by login/password
@@ -40,21 +40,21 @@ export default class amiCommand {
 	 * @param {Object} [settings] dictionary of settings (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	passLogin = (user, pass, settings) => this.#httpClient.signInByPassword(user, pass, settings);
+	static passLogin = (user, pass, settings) => this.#httpClient.signInByPassword(user, pass, settings);
 
 	/**
 	 * Logs in by certificate
 	 * @param {Object} [settings] dictionary of settings (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	certLogin = settings => this.#httpClient.signInByCertificate(settings);
+	static certLogin = settings => this.#httpClient.signInByCertificate(settings);
 
 	/**
 	 * Logs out
 	 * @param {Object} [settings] dictionary of settings (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	signOut = settings => this.#httpClient.signOut(settings);
+	static signOut = settings => this.#httpClient.signOut(settings);
 
 	/**
 	 * Attaches a certificate
@@ -63,7 +63,7 @@ export default class amiCommand {
 	 * @param {Object} [settings] dictionary of settings (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	attachCert = (user, pass, settings) => {
+	static attachCert = (user, pass, settings) => {
 		return this.execute('GetSessionInfo -attachCert -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '"', settings);
 	}
 
@@ -75,7 +75,7 @@ export default class amiCommand {
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	detachCert = (user, pass, settings) => {
+	static detachCert = (user, pass, settings) => {
 		return this.execute('GetSessionInfo -detachCert -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '"', settings);
 	}
 
@@ -94,7 +94,7 @@ export default class amiCommand {
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	addUser = (user, pass, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, settings) => {
+	static addUser = (user, pass, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, settings) => {
 		return this.execute('AddUser -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '" -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '" -captchaHash="' + amiWebApp.textToString(captchaHash) + '" -captchaText="' + amiWebApp.textToString(captchaText) + '" ' + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), settings);
 	}
 
@@ -107,7 +107,7 @@ export default class amiCommand {
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	changeInfo = (firstName, lastName, email, settings) => {
+	static changeInfo = (firstName, lastName, email, settings) => {
 		return this.execute('SetUserInfo -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"', settings);
 	}
 
@@ -120,7 +120,7 @@ export default class amiCommand {
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	changePass = (user, oldPass, newPass, settings) => {
+	static changePass = (user, oldPass, newPass, settings) => {
 		return this.execute('ChangePassword -amiLogin="' + amiWebApp.textToString(user) + '" -amiPasswordOld="' + amiWebApp.textToString(oldPass) + '" -amiPasswordNew="' + amiWebApp.textToString(newPass) + '"', settings);
 	}
 
@@ -133,7 +133,7 @@ export default class amiCommand {
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	resetPass = (user, captchaHash, captchaText, settings) => {
+	static resetPass = (user, captchaHash, captchaText, settings) => {
 		return this.execute('ResetPassword -amiLogin="' + amiWebApp.textToString(user) + '" -captchaHash="' + amiWebApp.textToString(captchaHash) + '" -captchaText="' + amiWebApp.textToString(captchaText) + '"', settings);
 	}
 }
