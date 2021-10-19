@@ -11,7 +11,8 @@
 
 'use strict';
 
-import HttpClient from "ami-http-client/src/client";
+import HttpClient from 'ami-http-client';
+import MqttClient from 'ami-mqtt-client';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* amiCommand                                                                                                         */
@@ -19,19 +20,44 @@ import HttpClient from "ami-http-client/src/client";
 
 /**
  * The AMI command subsystem
- * @namespace amiCommand
  */
 
-export default class amiCommand {
-	static #httpClient = new HttpClient('');
+class AMICommand {
+	#httpClient = null;
+	#mqttClient = null;
+
+	static init(httpEndpoint, mqttEndpoint)
+	{
+		this.#httpClient = new HttpClient(httpEndpoint);
+		this.#mqttClient = new MqttClient(mqttEndpoint);
+	}
 
 	/**
 	 * Executes an AMI command
 	 * @param {String} command the command
-	 * @param {Object} [settings] dictionary of settings (endpoint, converter, context, timeout, extraParam, extraValue)
+	 * @param {Object} [options] dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	static execute = (command, settings) => this.#httpClient.execute(command, settings);
+	static execute(command, options)
+	{
+		if(typeof options !== 'undefined' && options.mqtt) {
+			return this.#mqttClient.execute(command, options);
+		} else {
+			return this.#httpClient.execute(command, options);
+		}
+	 }
+
+	/**
+	 * Sign in by JWT token
+	 * @param {String} token the password
+	 * @param {String} serverName the server name
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+	 static signInByToken(token, serverName)
+	 {
+	 	return this.#mqttClient.signInByToken(token, serverName);
+	 }
+
 
 	/**
 	 * Logs in by login/password
@@ -40,7 +66,9 @@ export default class amiCommand {
 	 * @param {Object} [settings] dictionary of settings (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	static passLogin = (user, pass, settings) => this.#httpClient.signInByPassword(user, pass, settings);
+	static passLogin(user, pass, settings) {
+		this.#httpClient.signInByPassword(user, pass, settings);
+	}
 
 	/**
 	 * Logs in by certificate
@@ -75,7 +103,8 @@ export default class amiCommand {
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	static detachCert = (user, pass, settings) => {
+	static detachCert(user, pass, settings)
+	{
 		return this.execute('GetSessionInfo -detachCert -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '"', settings);
 	}
 
@@ -136,4 +165,11 @@ export default class amiCommand {
 	static resetPass = (user, captchaHash, captchaText, settings) => {
 		return this.execute('ResetPassword -amiLogin="' + amiWebApp.textToString(user) + '" -captchaHash="' + amiWebApp.textToString(captchaHash) + '" -captchaText="' + amiWebApp.textToString(captchaText) + '"', settings);
 	}
+}
+
+const amiCommand = new AMICommand();
+export default amiCommand;
+
+if(typeof window !== 'undefined') {
+	window.amiCommand = amiCommand;
 }

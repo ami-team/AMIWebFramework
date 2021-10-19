@@ -1,11 +1,12 @@
 const path = require("path");
 const JsDocPlugin = require("jsdoc-webpack-plugin");
+const webpack = require("webpack");
 
 const config = {
   entry: "./index.js",
   output: {
-    filename: "awf.min.js",
-    path: path.resolve(__dirname, "dist"),
+    filename: "ami.min.js",
+    path: path.resolve(__dirname, "js"),
   },
   module: {
     rules: [
@@ -35,6 +36,10 @@ const config = {
       cwd: '.',
       preserveTmpFile: false,
       recursive: true,
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
     })
   ]
 };
