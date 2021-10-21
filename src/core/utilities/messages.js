@@ -2,8 +2,6 @@
 /* MESSAGES                                                                                                           */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import moment from 'moment';
-
 import {textToHtml} from './text';
 
 import {getStack, unlock} from './locks';

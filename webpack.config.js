@@ -50,6 +50,7 @@ console.log('Building AMI HTTP Client for: ' + BROWSER_LIST.join(', '));
 
 const path = require('path');
 const webpack = require('webpack');
+const CopyPlugin = require("copy-webpack-plugin");
 const JsDocPlugin = require('jsdoc-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
@@ -63,7 +64,7 @@ const config = {
     module: {
         rules: [
             /*--------------------------------------------------------------------------------------------------------*/
-
+/*
             {
                 'test': /\.js$/,
                 'exclude': /node_modules/,
@@ -93,7 +94,7 @@ const config = {
                     }
                 ]
             },
-
+*/
             /*--------------------------------------------------------------------------------------------------------*/
 
             {
@@ -116,34 +117,20 @@ const config = {
                 }
             },
 
-			/*--------------------------------------------------------------------------------------------------------*/
-
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			{
-				'type': 'asset/resource',
-				'test': /\.css$/,
-				'include': [	path.resolve(__dirname, 'node_modules/bootstrap/dist/css],
-				'generator': {
-					'filename': '[name][ext]'
-				}
-			},
-
             /*--------------------------------------------------------------------------------------------------------*/
-/*
+
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader'],
             },
-*/
+
             /*--------------------------------------------------------------------------------------------------------*/
-/*
+
             {
                 test: /\.scss$/,
                 use: ['style-loader', 'css-loader', 'sass-loader'],
             },
-*/
+
             /*--------------------------------------------------------------------------------------------------------*/
 /*
             {
@@ -156,9 +143,58 @@ const config = {
         ],
     },
     'externals': {
-        '$': 'JQuery'
+        '$': 'jQuery',
+		'moment': 'moment',
+		'select2': 'select2'
     },
     'plugins': [
+		new CopyPlugin({
+			patterns: [
+				/*----------------------------------------------------------------------------------------------------*/
+				/* CSS                                                                                                */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				{
+					from: path.resolve(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
+					to: path.resolve(__dirname, 'js/assets/css/bootstrap.min.css')
+				},
+				{
+					from: path.resolve(__dirname, 'node_modules/select2/dist/css/select2.min.css'),
+					to: path.resolve(__dirname, 'js/assets/css/select2.min.css')
+				},
+
+				/*----------------------------------------------------------------------------------------------------*/
+				/* JS                                                                                                 */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				{
+					from: path.resolve(__dirname, 'node_modules/popper.js/dist/popper.min.js'),
+					to: path.resolve(__dirname, 'js/assets/js/popper.min.js')
+				},
+				{
+					from: path.resolve(__dirname, 'node_modules/moment/min/moment.min.js'),
+					to: path.resolve(__dirname, 'js/assets/js/moment.min.js')
+				},
+				{
+					from: path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
+					to: path.resolve(__dirname, 'js/assets/js/jquery.min.js')
+				},
+				{
+					from: path.resolve(__dirname, 'node_modules/jquery-qrcode/dist/jquery-qrcode.min.js'),
+					to: path.resolve(__dirname, 'js/assets/js/jquery-qrcode.min.js')
+				},
+				{
+					from: path.resolve(__dirname, 'node_modules/bootstrap/dist/js/bootstrap.min.js'),
+					to: path.resolve(__dirname, 'js/assets/js/bootstrap.min.js')
+				},
+				{
+					from: path.resolve(__dirname, 'node_modules/select2/dist/js/select2.min.js'),
+					to: path.resolve(__dirname, 'js/assets/js/select2.min.js')
+				},
+
+				/*----------------------------------------------------------------------------------------------------*/
+			],
+		}),
         new JsDocPlugin({
             conf: './src/conf/jsdoc.config.js',
             'cwd': '.',

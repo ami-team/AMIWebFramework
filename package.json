@@ -20,16 +20,20 @@
     "bootstrap": "^4.6.0",
     "bootstrap-icons": "^1.6.1",
     "jquery": "^3.6.0",
+    "jquery-qrcode": "github:lrsjng/jquery-qrcode",
     "jsdoc-json": "^2.0.2",
     "moment": "^2.29.1",
-    "popper.js": "^1.16.1"
+    "popper.js": "^1.16.1",
+    "select2": "^4.1.0-rc.0"
   },
   "devDependencies": {
     "@babel/core": "^7.15.8",
     "@babel/eslint-parser": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "babel-loader": "^8.2.2",
+    "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.4.0",
+    "eslint-plugin-ami": "^1.0.13",
     "eslint-webpack-plugin": "^3.0.1",
     "file-loader": "^6.2.0",
     "jsdoc-webpack-plugin": "^0.3.0",
@@ -38,7 +42,6 @@
     "string-replace-loader": "^3.0.3",
     "style-loader": "^3.3.0",
     "webpack": "^5.58.1",
-    "webpack-cli": "^4.9.0",
-	"eslint-plugin-ami": "^1.0.13"
+    "webpack-cli": "^4.9.0"
   }
 }

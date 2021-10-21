@@ -152,33 +152,32 @@ class AMIWebApp
 
 			if(!window.Popper)
 			{
-				resourcesJS.push(`${this.originURL}/js/popper.min.js`);
+				resourcesJS.push(`${this.originURL}/js/assets/js/popper.min.js`);
 			}
 
 			if(!window.moment)
 			{
-				resourcesJS.push(`${this.originURL}/js/moment.min.js`);
+				resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			if(!this._noBootstrap && (typeof jQuery.fn.modal) !== 'function')
 			{
-				require('../styles/bootstrap/ami-bootstrap.scss');
-
-				resourcesJS.push(`${this.originURL}/js/bootstrap.min.js`);
+				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap.min.css`);
+				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap.min.js`);
 			}
-
+/*
 			if(!this._noDateTimePicker && (typeof jQuery.fn.datetimepicker) !== 'function')
 			{
-				resourcesCSS.push(this.originURL + '/css/bootstrap-datetimepicker.min.css');
-				resourcesJS.push(this.originURL + '/js/bootstrap-datetimepicker.min.js');
+				resourcesCSS.push(`${this.originURL}/js/assets/css/bootstrap-datetimepicker.min.css`);
+				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap-datetimepicker.min.js');
 			}
-
+*/
 			if(!this._noSelect2 && (typeof jQuery.fn.select2) !== 'function')
 			{
-				resourcesCSS.push(this.originURL + '/css/select2.min.css');
-				resourcesJS.push(this.originURL + '/js/select2.min.js');
+				resourcesCSS.push(`${this.originURL}/js/assets/css/select2.min.css`);
+				resourcesJS.push(`${this.originURL}/js/assets/js/select2.min.js`);
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -264,14 +263,14 @@ class AMIWebApp
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-	/* STACK                                                                                                              */
-	/*--------------------------------------------------------------------------------------------------------------------*/
+	/* STACK                                                                                                          */
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	getStack = getStack;
 
-	/*--------------------------------------------------------------------------------------------------------------------*/
-	/* LOCK                                                                                                               */
-	/*--------------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* LOCK                                                                                                           */
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	lock = lock;
 	unlock = unlock;
@@ -293,8 +292,8 @@ class AMIWebApp
 
 	fillBreadcrumb(items)
 	{
-		let s = this.typeOf(items) === 'Array' ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
-			: ''
+		let s = Array.isArray(items) ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
+		                             : ''
 		;
 
 		$('#ami_breadcrumb_content').html(s);
@@ -489,30 +488,9 @@ class AMIWebApp
 
 							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-								// this.lock();
-
-								// amiLogin._start(
-								// 	ssoAutoAuthentication,
-								// 	ssoAuthenticationAllowed,
-								// 	passwordAuthenticationAllowed,
-								// 	certificateAuthenticationAllowed,
-								// 	logoutAllowed,
-								// 	createAccountAllowed,
-								// 	changeInfoAllowed,
-								// 	changePasswordAllowed,
-								// 	changeCertificateAllowed,
-								// 	captchaAllowed,
-								// 	bookmarksAllowed
-								// ).done(() => {
-								//
 								this.unlock();
 
-								this.success('test');
-								//
-								// }).fail((message) => {
-								//
-								// 	this.error(message);
-								// });
+								alert('Yes');
 							});
 
 						}, () => {
@@ -549,31 +527,9 @@ class AMIWebApp
 
 						$('body').prepend(data3 + data4).promise().done(() => {
 
-							// this.lock();
-
-							// amiLogin._start(
-							// 	ssoAutoAuthentication,
-							// 	ssoAuthenticationAllowed,
-							// 	passwordAuthenticationAllowed,
-							// 	certificateAuthenticationAllowed,
-							// 	logoutAllowed,
-							// 	createAccountAllowed,
-							// 	changeInfoAllowed,
-							// 	changePasswordAllowed,
-							// 	changeCertificateAllowed,
-							// 	captchaAllowed,
-							// 	bookmarksAllowed
-							// ).done(() => {
-							//
 							this.unlock();
-							//this.success('salut');
 
-							alert('dbehjbgjerkhgre')
-							//
-							// }).fail((message) => {
-							//
-							// 	this.error(message);
-							// });
+							alert('Yes');
 						});
 					});
 
