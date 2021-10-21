@@ -158,7 +158,7 @@ export let _canLeave = true;
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Enables the confirmation dialog box to inform that the user is about to leave the current page.
+ * Specify weather leaving the current page must be confirmed.
  * @param canLeave
  */
 
