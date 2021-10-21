@@ -150,14 +150,15 @@ export function modalEnter()
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+/* WINDOW                                                                                                             */
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 export let _canLeave = true;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-
 /**
- * Enables the message in a confirmation dialog box to inform that the user is about to leave the current page.
+ * Enables the confirmation dialog box to inform that the user is about to leave the current page.
  */
 
 export function canLeave()
@@ -168,7 +169,7 @@ export function canLeave()
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Disables the message in a confirmation dialog box to inform that the user is about to leave the current page.
+ * Disables the confirmation dialog box to inform that the user is about to leave the current page.
  */
 
 export function cannotLeave()

@@ -15,6 +15,11 @@
 /* TOOLS                                                                                                              */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * @param {*} x
+ * @returns {String}
+ */
+
 export function typeOf(x)
 {
 	const name = Object.prototype.toString.call(x);
@@ -26,6 +31,11 @@ export function typeOf(x)
 
 /*----------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * @param {*} x
+ * @returns {Array[*]}
+ */
+
 export function asArray(x)
 {
 	return typeOf(x) === 'Array' ? (x)
@@ -34,6 +44,13 @@ export function asArray(x)
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {Array<String>} optionNames
+ * @param {Array<*>} optionDefaults
+ * @param {Object} options
+ * @returns {Array<*>}
+ */
 
 export function setup(optionNames, optionDefaults, options)
 {

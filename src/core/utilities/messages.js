@@ -11,8 +11,6 @@
 
 'use strict';
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 import {textToHtml} from './text';
 
 import {getStack, unlock} from './locks';
@@ -27,9 +25,9 @@ const _linkExp = new RegExp('\\[([^\\]]*)]\\(([^\\)]*)\\)', 'g');
 
 /**
  *
- * @param {String} clazz
- * @param {String} title
- * @param {String|Array} message
+ * @param {String} clazz the class
+ * @param {String} title the title
+ * @param {String|Array<String>} message the messaage
  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
  * @private
  */
@@ -40,18 +38,11 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 	if(Array.isArray(message))
 	{
-		message = message.join('. ');
+		message = message.map(MESSAGE => (MESSAGE || '').toString()).join('. ');
 	}
 	else
 	{
-		if(message)
-		{
-			message = message.toString();
-		}
-		else
-		{
-			message = '';
-		}
+		message = (message || '').toString();
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -62,7 +53,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	const toast = $('#ami_alert_content > .toast[data-hash="' + hash + '"]');
+	const toast = $(`#ami_alert_content > .toast[data-hash="${hash}"]`);
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -89,7 +80,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 		$('#ami_alert_content').append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
 
-			$('#ami_alert_content > .toast[data-hash="' + hash + '"]').toast('show');
+			$(`#ami_alert_content > .toast[data-hash="${hash}"]`).toast('show');
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -99,7 +90,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		toast.find('.toast-header > strong').html(textToHtml(title)
-			+ ' <span class="badge badge-' + clazz + '">' + toast.attr('data-cnt', parseInt(toast.attr('data-cnt')) + 1).attr('data-cnt') + '</span>');
+			+ ` <span class="badge badge-${clazz}">${toast.attr('data-cnt', parseInt(toast.attr('data-cnt')) + 1).attr('data-cnt')}</span>`);
 		toast.find('.toast-header > small').html(textToHtml(date));
 
 		toast.toast('show');
@@ -109,7 +100,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	console.log('AMI :: ' + title.toUpperCase() + ': ' + message + '\n' + getStack()); // eslint-disable-line no-console
+	console.log(`AMI :: ${title.toUpperCase()}: ${message}\n${getStack()}`); // eslint-disable-line no-console
 
 	$(document).scrollTop(0);
 
@@ -122,7 +113,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 /**
  * Shows an 'info' message
- * @param {String|Array} message the message
+ * @param {String|Array<String>} message the message
  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
  */
 
@@ -135,7 +126,7 @@ export function info(message, fadeOut)
 
 /**
  * Shows a 'success' message
- * @param {String|Array} message the message
+ * @param {String|Array<String>} message the message
  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
  */
 
@@ -148,7 +139,7 @@ export function success(message, fadeOut)
 
 /**
  * Shows a 'warning' message
- * @param {String|Array} message the message
+ * @param {String|Array<String>} message the message
  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
  */
 
@@ -161,7 +152,7 @@ export function warning(message, fadeOut)
 
 /**
  * Shows an 'error' message
- * @param {String|Array} message the message
+ * @param {String|Array<String>} message the message
  * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
  */
 

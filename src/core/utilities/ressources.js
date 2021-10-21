@@ -11,8 +11,6 @@
 
 'use strict';
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 import {asArray, setup} from './tools';
 
 import {loadControl} from './controls';
@@ -28,9 +26,8 @@ const _scripts = [];
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- *
- * @param url
- * @returns {string|string}
+ * @param {String} url
+ * @returns {String}
  * @private
  */
 
@@ -45,9 +42,9 @@ function _getExtension(url)
 
 /**
  *
- * @param url
- * @param dataType
- * @returns {string}
+ * @param {String} url
+ * @param {String} dataType
+ * @returns {String}
  * @private
  */
 
@@ -102,13 +99,12 @@ function _getDataType(url, dataType)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- *
- * @param deferred
- * @param result
- * @param urls
- * @param dataType
- * @param context
- * @returns {*}
+ * @param {$.Deferred} deferred
+ * @param {Array<*>} result
+ * @param {Array<String>} urls
+ * @param {String} dataType
+ * @param {*} context
+ * @returns {$.Deferred}
  * @private
  */
 
@@ -279,21 +275,21 @@ function __loadXXX(deferred, result, urls, dataType, context)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- *
- * @param urls
- * @param dataType
- * @param settings
- * @returns {*}
+ * @param {Array<String>|String} urls
+ * @param {String} dataType
+ * @param {Object} [options]
+ * @returns {$.Deferred}
  * @private
  */
-function _loadXXX(urls, dataType, settings)
+
+function _loadXXX(urls, dataType, options)
 {
 	const deferred = $.Deferred();
 
 	const [context] = setup(
 		['context'],
 		[deferred],
-		settings
+		options
 	);
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -308,113 +304,113 @@ function _loadXXX(urls, dataType, settings)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Asynchronously loads resources by extension
- * @param {(Array|String)} urls the array of urls
- * @param {Object} [settings] dictionary of settings (context)
+ * Asynchronously loads resources by file extension
+ * @param {(Array<String>|String)} urls the array of urls
+ * @param {Object} [options] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
-export function loadResources(urls, settings)
+export function loadResources(urls, options)
 {
-	return _loadXXX(urls, 'auto', settings);
+	return _loadXXX(urls, 'auto', options);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
  * Asynchronously loads CSS sheets
- * @param {(Array|String)} urls the array of urls
- * @param {Object} [settings] dictionary of settings (context)
+ * @param {(Array<String>|String)} urls the array of urls
+ * @param {Object} [options] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
-export function loadSheets(urls, settings)
+export function loadSheets(urls, options)
 {
-	return _loadXXX(urls, 'sheet', settings);
+	return _loadXXX(urls, 'sheet', options);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
  * Asynchronously loads JS scripts
- * @param {(Array|String)} urls the array of urls
- * @param {Object} [settings] dictionary of settings (context)
+ * @param {(Array<String>|String)} urls the array of urls
+ * @param {Object} [options] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
-export function loadScripts(urls, settings)
+export function loadScripts(urls, options)
 {
-	return _loadXXX(urls, 'script', settings);
+	return _loadXXX(urls, 'script', options);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
  * Asynchronously loads JSON files
- * @param {(Array|String)} urls the array of urls
- * @param {Object} [settings] dictionary of settings (context)
+ * @param {(Array<String>|String)} urls the array of urls
+ * @param {Object} [options] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
-export function loadJSONs(urls, settings)
+export function loadJSONs(urls, options)
 {
-	return _loadXXX(urls, 'json', settings);
+	return _loadXXX(urls, 'json', options);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
  * Asynchronously loads XML files
- * @param {(Array|String)} urls the array of urls
- * @param {Object} [settings] dictionary of settings (context)
+ * @param {(Array<String>|String)} urls the array of urls
+ * @param {Object} [options] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
-export function loadXMLs(urls, settings)
+export function loadXMLs(urls, options)
 {
-	return _loadXXX(urls, 'xml', settings);
+	return _loadXXX(urls, 'xml', options);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
  * Asynchronously loads HTML files
- * @param {(Array|String)} urls the array of urls
- * @param {Object} [settings] dictionary of settings (context)
+ * @param {(Array<String>|String)} urls the array of urls
+ * @param {Object} [options] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
-export function loadHTMLs(urls, settings)
+export function loadHTMLs(urls, options)
 {
-	return _loadXXX(urls, 'text', settings);
+	return _loadXXX(urls, 'text', options);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
  * Asynchronously loads TWIG files
- * @param {(Array|String)} urls the array of urls
- * @param {Object} [settings] dictionary of settings (context)
+ * @param {(Array<String>|String)} urls the array of urls
+ * @param {Object} [options] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
-export function loadTWIGs(urls, settings)
+export function loadTWIGs(urls, options)
 {
-	return _loadXXX(urls, 'text', settings);
+	return _loadXXX(urls, 'text', options);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
  * Asynchronously loads text files
- * @param {(Array|String)} urls the array of urls
- * @param {Object} [settings] dictionary of settings (context)
+ * @param {(Array<String>|String)} urls the array of urls
+ * @param {Object} [options] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
-export function loadTexts(urls, settings)
+export function loadTexts(urls, options)
 {
-	return _loadXXX(urls, 'text', settings);
+	return _loadXXX(urls, 'text', options);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

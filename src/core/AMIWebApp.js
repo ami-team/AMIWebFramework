@@ -17,15 +17,17 @@ import amiRouter from './AMIRouter';
 
 import amiExtension from './AMIExtension';
 
-import {typeOf, asArray, setup} from './utilities/tools';
+import { typeOf, asArray, setup } from './utilities/tools';
 
 import { error, flush, info, success, warning } from './utilities/messages';
 
 import { getStack, lock, unlock, modalEnter, modalLeave, _canLeave, canLeave, cannotLeave } from './utilities/locks';
 
-import { loadHTMLs, loadJSONs, loadResources, loadScripts, loadSheets, loadTexts, loadTWIGs, loadXMLs } from './utilities/ressources';
+import { loadResources, loadSheets, loadScripts, loadJSONs, loadXMLs, loadHTMLs, loadTWIGs, loadTexts } from './utilities/ressources';
 
 import { textToHtml, htmlToText, textToString, stringToText, htmlToString, stringToHtml, textToSQL, sqlToText } from './utilities/text';
+
+import { formatTWIG } from './utilities/twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -271,65 +273,7 @@ class AMIWebApp
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	/**
-	 * Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}
-	 * @param {String} twig the TWIG string
-	 * @param {Object|Array} [dict] the dictionary
-	 * @param {Object} [twigs] dictionary of fragments
-	 * @returns {String} The Interpreted TWIG string
-	 */
 
-	formatTWIG(twig, dict = {}, twigs = {})
-	{
-		const result = [];
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		const render = (twig, dict) => {
-
-			if(this.typeOf(dict) !== 'Object')
-			{
-				dict = {};
-			}
-
-			if(this.typeOf(twigs) !== 'Object')
-			{
-				twigs = {};
-			}
-
-			dict['ORIGIN_URL'] = this.originURL;
-			dict['WEBAPP_URL'] = this.webAppURL;
-
-			return amiTwig.engine.render(twig, dict, twigs);
-		};
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		try
-		{
-			if(this.typeOf(dict) === 'Array')
-			{
-				dict.forEach((DICT) => {
-
-					result.push(render(twig, DICT, twigs));
-				});
-			}
-			else
-			{
-				result.push(render(twig, dict, twigs));
-			}
-		}
-		catch(error)
-		{
-			result.length = 0;
-
-			this.error('TWIG parsing error: ' + error.message);
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		return result.join('');
-	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* DYNAMIC RESOURCE LOADING                                                                                       */
@@ -454,11 +398,11 @@ class AMIWebApp
 
 							$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
 
-								$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
+								$('body').append(formatTWIG(data3, dict) + data4).promise().done(() => {
 
 									this.unlock();
 
-									alert('Yes');
+									success('Yes');
 								});
 
 							}, () => {
@@ -497,7 +441,7 @@ class AMIWebApp
 
 								this.unlock();
 
-								alert('Yes');
+								success('Yes');
 							});
 						});
 
