@@ -20,6 +20,24 @@ import amiRouter from '../AMIRouter';
 import amiTwig from 'ami-twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+/* BREADCRUMB                                                                                                         */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Fill the main breadcrumb
+ * @param {Array<String>} items the array of items (HTML format)
+ */
+
+export function fillBreadcrumb(items)
+{
+	const s = Array.isArray(items) ? items.map((item) => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL())}</li>`).join('')
+	                               : ''
+	;
+
+	$('#ami_breadcrumb_content').html(s);
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 /* TWIG                                                                                                               */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -57,19 +75,17 @@ export function formatTWIG(twig, dict = {}, twigs = {})
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	try
-	{
-		asArray(dict).forEach((DICT) => {
+	asArray(dict).forEach((DICT) => {
 
+		try
+		{
 			result.push(render(twig, DICT, twigs));
-		});
-	}
-	catch(e)
-	{
-		error(`TWIG parsing error: ${e.message}`);
-
-		result.length = 0;
-	}
+		}
+		catch(e)
+		{
+			error(`TWIG parsing error: ${e.message}`);
+		}
+	});
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 

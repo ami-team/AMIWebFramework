@@ -47,25 +47,23 @@ export default function amiExtension()
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	jQuery.ajax = function(settings) {
+	jQuery.ajax = function(options) {
 
-		console.log(settings);
-
-		if(typeof settings === 'object' && settings.dataType === 'sheet')
+		if(typeof options === 'object' && options.dataType === 'sheet')
 		{
 			const result = $.Deferred();
 
 			const [context, url] = setup(
 				['context', 'url'],
 				[result, ''],
-				settings
+				options
 			)
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			if(url)
 			{
-				$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(() => {
+				$('head').append(`<link rel="stylesheet" type="text/css" href="${url}"></link>`).promise().done(() => {
 
 					result.resolveWith(context);
 				});
@@ -135,8 +133,8 @@ export default function amiExtension()
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		val: function() {
-			/**/
-			if(arguments.length === 0) // getter
+
+			/**/ if(arguments.length === 0) // getter
 			{
 				if(this.hasClass('form-editor-hidden'))
 				{
@@ -151,8 +149,7 @@ export default function amiExtension()
 				{
 					const session = this.data('session');
 
-					if(session) session.setValue(arguments[0]);
-					return this;
+					if(session) session.setValue(arguments[0]); return this;
 				}
 			}
 
@@ -162,6 +159,7 @@ export default function amiExtension()
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		remove: function() {
+
 			$(this).trigger(_ami_internal_removeEvt);
 
 			return _ami_internal_jQueryRemove.apply(this, arguments);

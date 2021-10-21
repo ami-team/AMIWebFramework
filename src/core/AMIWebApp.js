@@ -17,27 +17,28 @@ import amiRouter from './AMIRouter';
 
 import amiExtension from './AMIExtension';
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+import { _subapps } from './utilities/subapps';
+
+import { _controls } from './utilities/controls';
+
 import { typeOf, asArray, setup } from './utilities/tools';
 
 import { error, flush, info, success, warning } from './utilities/messages';
 
-import { getStack, lock, unlock, modalEnter, modalLeave, _canLeave, canLeave, cannotLeave } from './utilities/locks';
+import { getStack, lock, unlock, modalEnter, modalLeave, _canLeave, canLeave } from './utilities/locks';
 
 import { loadResources, loadSheets, loadScripts, loadJSONs, loadXMLs, loadHTMLs, loadTWIGs, loadTexts } from './utilities/ressources';
 
 import { textToHtml, htmlToText, textToString, stringToText, htmlToString, stringToHtml, textToSQL, sqlToText } from './utilities/text';
 
-import { formatTWIG } from './utilities/twig';
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-import amiTwig from 'ami-twig';
+import { fillBreadcrumb, formatTWIG } from './utilities/twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 import logo from '../images/logo.png';
 import background from '../images/background.jpg';
-import {replace} from './utilities/text';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -237,26 +238,9 @@ class AMIWebApp
 	modalLeave = modalLeave;
 
 	canLeave = canLeave;
-	cannotLeave = cannotLeave;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-	/* BREADCRUMB                                                                                                     */
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Fill the main breadcrumb
-	 * @param {Array} items the array of items (HTML format)
-	 */
-
-	fillBreadcrumb(items)
-	{
-		let s = Array.isArray(items) ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
-		                             : ''
-		;
-
-		$('#ami_breadcrumb_content').html(s);
-	}
-
+	/* TEXT                                                                                                           */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	textToHtml = textToHtml;
@@ -270,10 +254,6 @@ class AMIWebApp
 
 	textToSQL = textToSQL;
 	sqlToText = sqlToText;
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* DYNAMIC RESOURCE LOADING                                                                                       */
@@ -295,6 +275,18 @@ class AMIWebApp
 	flush = flush;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+	/* BREADCRUMB                                                                                                     */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	fillBreadcrumb = fillBreadcrumb;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* BREADCRUMB                                                                                                     */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	formatTWIG = formatTWIG;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	start(options)
 	{
@@ -304,7 +296,7 @@ class AMIWebApp
 
 			const [
 				logoURL, backgroundURL, homeURL, webAppURL, contactEmail,
-				aboutURL, themeURL, lockerURL, endpointURL,
+				aboutURL, themeURL, lockerURL, httpEndpointURL, mqttEndpointURL,
 				ssoAutoAuthentication,
 				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
@@ -312,7 +304,7 @@ class AMIWebApp
 				bookmarksAllowed,
 			] = this.setup([
 				'logo_url', 'background_url', 'home_url', 'webapp_url', 'contact_email',
-				'about_url', 'theme_url', 'locker_url', 'endpoint_url',
+				'about_url', 'theme_url', 'locker_url', 'http_endpoint_url', 'mqtt_endpoint_url',
 				'sso_auto_authentication',
 				'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
 				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
@@ -324,10 +316,11 @@ class AMIWebApp
 				this.webAppURL,
 				this.webAppURL,
 				'ami@lpsc.in2p3.fr',
-				'http://cern.ch/ami/',
+				'https://cern.ch/ami/',
 				this.originURL + '/twig/Themes/blue.twig',
 				this.originURL + '/twig/Lockers/default.twig',
 				this.originURL + '/AMI/FrontEnd',
+				this.originURL + '/MQTT',
 				false,
 				false, true, true, true,
 				true, true, true, true,
@@ -339,7 +332,7 @@ class AMIWebApp
 
 			amiWebApp.webAppURL = webAppURL;
 
-			amiCommand.endpoint = endpointURL;
+			amiCommand.init(httpEndpointURL, mqttEndpointURL);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -360,9 +353,9 @@ class AMIWebApp
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const controlsURL = this.originURL + '/controls/CONTROLS.json';
+			const controlsURL = `${this.originURL}/controls/CONTROLS.json`;
 
-			const subappsURL = this.originURL + '/subapps/SUBAPPS.json';
+			const subappsURL = `${this.originURL}/subapps/SUBAPPS.json`;
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -372,12 +365,12 @@ class AMIWebApp
 
 					for(const name in data1)
 					{
-						this._controls[name.toLowerCase()] = data1[name];
+						_controls[name.toLowerCase()] = data1[name];
 					}
 
 					for(const name in data2)
 					{
-						this._subapps[name.toLowerCase()] = data2[name];
+						_subapps[name.toLowerCase()] = data2[name];
 					}
 
 					if(!this._embedded)
@@ -450,17 +443,17 @@ class AMIWebApp
 
 				}, () => {
 
-					alert('could not open `' + subappsURL + '`, please reload the page...'); // eslint-disable-line no-alert
+					alert(`cannot open '${subappsURL}', please reload the page...`); // eslint-disable-line no-alert
 				});
 
 			}, () => {
 
-				alert('could not open `' + controlsURL + '`, please reload the page...'); // eslint-disable-line no-alert
+				alert(`cannot open '${controlsURL}', please reload the page...`); // eslint-disable-line no-alert
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			}).fail((message) => {
+		}).fail((message) => {
 
 			alert(message); // eslint-disable-line no-alert
 		});

@@ -38,8 +38,8 @@ export function getStack()
 /* LOCK                                                                                                               */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-let _curLockCnt = 0x00;
-let _tmpLockCnt = 0x00;
+let _curLockCnt = 0;
+let _tmpLockCnt = 0;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -53,7 +53,7 @@ export function lock()
 
 	if(lines.length > 2)
 	{
-		console.log('lock[' + _curLockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
+		console.log(`lock[${_curLockCnt}] :: ${lines[2]}`); // eslint-disable-line no-console
 	}
 
 	/**/
@@ -95,7 +95,7 @@ export function unlock()
 
 	if(lines.length > 2)
 	{
-		console.log('unlock[' + _curLockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
+		console.log(`unlock[${_curLockCnt}] :: ${lines[2]}`); // eslint-disable-line no-console
 	}
 }
 
@@ -111,7 +111,7 @@ export function modalLeave()
 
 	if(lines.length > 2)
 	{
-		console.log('modalLock[' + _curLockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
+		console.log(`modalLock[${_curLockCnt}] :: ${lines[2]}`); // eslint-disable-line no-console
 	}
 
 	/**/
@@ -145,7 +145,7 @@ export function modalEnter()
 
 	if(lines.length > 2)
 	{
-		console.log('modalUnlock[' + _curLockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
+		console.log(`modalUnlock[${_curLockCnt}] :: ${lines[2]}`); // eslint-disable-line no-console
 	}
 }
 
@@ -159,22 +159,12 @@ export let _canLeave = true;
 
 /**
  * Enables the confirmation dialog box to inform that the user is about to leave the current page.
+ * @param canLeave
  */
 
-export function canLeave()
+export function canLeave(canLeave)
 {
-	_canLeave = true;
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Disables the confirmation dialog box to inform that the user is about to leave the current page.
- */
-
-export function cannotLeave()
-{
-	_canLeave = false;
+	_canLeave = canLeave;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

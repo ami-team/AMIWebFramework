@@ -199,7 +199,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 				}, () => {
 
-					return deferred.rejectWith(context, ['cannot load `' + url + '`']);
+					return deferred.rejectWith(context, [`cannot load '${url}'`]);
 				});
 			}
 
@@ -235,7 +235,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 				}, () => {
 
-					return deferred.rejectWith(context, ['cannot load `' + url + '`']);
+					return deferred.rejectWith(context, [`cannot load '${url}'`]);
 				});
 			}
 
@@ -261,7 +261,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 			}, () => {
 
-				return deferred.rejectWith(context, ['cannot load `' + url + '`']);
+				return deferred.rejectWith(context, [`cannot load '${url}'`]);
 			});
 
 			break;
