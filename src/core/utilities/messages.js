@@ -65,7 +65,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 <div class="toast" role="alert" ${fadeOut ? 'data-delay="60000"' : 'data-autohide="false"'} data-hash="${hash}" data-cnt="1">
 	<div class="toast-header">
 		<strong class="mr-auto text-${clazz}">${textToHtml(title)}</strong>
-		<small>${textToHtml(date)}</small>
+		<small class="ml-2">${textToHtml(date)}</small>
 		<button class="ml-2 mb-1 close" type="button" data-dismiss="toast">
 			&times;
 		</button>
