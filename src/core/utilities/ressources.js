@@ -1,5 +1,16 @@
-/*--------------------------------------------------------------------------------------------------------------------*/
-/* DYNAMIC RESOURCE LOADING                                                                                           */
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+'use strict';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 import {asArray, setup} from './tools';
@@ -8,9 +19,11 @@ import {loadControl} from './controls';
 import {loadSubApp} from './subapps';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+/* DYNAMIC RESOURCE LOADING                                                                                           */
+/*--------------------------------------------------------------------------------------------------------------------*/
 
-let _sheets = [];
-let _scripts = [];
+const _sheets = [];
+const _scripts = [];
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 

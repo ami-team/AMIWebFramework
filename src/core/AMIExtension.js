@@ -1,7 +1,7 @@
-/*
- * AMI Web Framework - AMIExtension.js
+/*!
+ * AMI Web Framework
  *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -13,7 +13,7 @@
 
 import {setup} from './utilities/tools';
 
-export default function init_ext()
+export default function amiExtension()
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* ES6 EXTENSIONS                                                                                                 */

@@ -1,7 +1,7 @@
-/*
- * AMI Web Framework - AMIWebApp.js
+/*!
+ * AMI Web Framework
  *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team / LPSC / IN2P3
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
  *
  * This file must be used under the terms of the CeCILL-C:
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
@@ -11,30 +11,38 @@
 
 'use strict';
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 import amiRouter from './AMIRouter';
-import amiTwig from 'ami-twig';
+
+import amiExtension from './AMIExtension';
 
 import {typeOf, asArray, setup} from './utilities/tools';
 
-import { getStack, lock, unlock, modalEnter, modalLeave, canLeave, cannotLeave } from './utilities/locks';
-
 import { error, flush, info, success, warning } from './utilities/messages';
+
+import { getStack, lock, unlock, modalEnter, modalLeave, _canLeave, canLeave, cannotLeave } from './utilities/locks';
 
 import { loadHTMLs, loadJSONs, loadResources, loadScripts, loadSheets, loadTexts, loadTWIGs, loadXMLs } from './utilities/ressources';
 
-import init_ext from './AMIExtension';
+import { textToHtml, htmlToText, textToString, stringToText, htmlToString, stringToHtml, textToSQL, sqlToText } from './utilities/text';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+import amiTwig from 'ami-twig';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 import logo from '../images/logo.png';
 import background from '../images/background.jpg';
+import {replace} from './utilities/text';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 class AMIWebApp
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* PRIVATE MEMBERS                                                                                                */
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	_idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g');
-
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_embedded = false;
@@ -48,15 +56,7 @@ class AMIWebApp
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_sheets = [];
-	_scripts = [];
-
-	_controls = {};
-	_subapps = {};
-
 	_isReady = false;
-	_canLeave = true;
-	_lockCnt = 0x00;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -105,12 +105,11 @@ class AMIWebApp
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* CONSTRUCTOR                                                                                                    */
-
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	constructor()
 	{
-		init_ext();
+		amiExtension();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GET FLAGS                                                                                                  */
@@ -190,20 +189,20 @@ class AMIWebApp
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		require('../styles/ami/ami.scss');
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		this.loadResources([
 			...resourcesCSS,
 			...resourcesJS,
-		]).done((/*---*/) => {
+		]).done((resources) => {
 
-			this._globalDeferred.resolve(/*---*/);
+			this._globalDeferred.resolve(resources);
 
 		}).fail((message) => {
 
 			this._globalDeferred.reject(message);
+
+		}).always(() => {
+
+			require('../styles/ami/ami.scss');
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -255,6 +254,20 @@ class AMIWebApp
 
 		$('#ami_breadcrumb_content').html(s);
 	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	textToHtml = textToHtml;
+	htmlToText = htmlToText;
+
+	textToString = textToString;
+	stringToText = stringToText;
+
+	htmlToString = htmlToString;
+	stringToHtml = stringToHtml;
+
+	textToSQL = textToSQL;
+	sqlToText = sqlToText;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -317,10 +330,6 @@ class AMIWebApp
 
 		return result.join('');
 	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* DYNAMIC RESOURCE LOADING                                                                                       */
@@ -392,7 +401,7 @@ class AMIWebApp
 
 			window.onbeforeunload = (e) => {
 
-				if(!this._canLeave)
+				if(!_canLeave)
 				{
 					const f = e || window.event;
 
