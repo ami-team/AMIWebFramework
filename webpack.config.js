@@ -54,6 +54,8 @@ const CopyPlugin = require("copy-webpack-plugin");
 const JsDocPlugin = require('jsdoc-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 const config = {
     entry: './index.js',
     output: {
@@ -196,7 +198,7 @@ const config = {
 			],
 		}),
         new JsDocPlugin({
-            conf: './src/conf/jsdoc.config.js',
+            conf: './src/jsdoc/config.js',
             'cwd': '.',
         }),
         new ESLintPlugin({
@@ -208,4 +210,8 @@ const config = {
     ]
 };
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 module.exports = config;
+
+/*--------------------------------------------------------------------------------------------------------------------*/
