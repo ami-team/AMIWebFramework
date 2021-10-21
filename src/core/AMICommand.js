@@ -11,129 +11,256 @@
 
 'use strict';
 
-import HttpClient from "ami-http-client/src/client";
+import AMIHttpClient from 'ami-http-client';
+import AMIMqttClient from 'ami-mqtt-client';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-/* amiCommand                                                                                                         */
+/* AMICommand                                                                                                         */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
  * The AMI command subsystem
- * @namespace amiCommand
  */
 
-export default class amiCommand {
-	#httpClient = new HttpClient('');
+class AMICommand
+{
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	#httpClient = null;
+	#mqttClient = null;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	init(httpEndpoint, mqttEndpoint)
+	{
+		this.#httpClient = new AMIHttpClient(httpEndpoint);
+		this.#mqttClient = new AMIMqttClient(mqttEndpoint);
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Executes an AMI command
 	 * @param {String} command the command
-	 * @param {Object} [settings] dictionary of settings (endpoint, converter, context, timeout, extraParam, extraValue)
+	 * @param {Object} [options] dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	execute = (command, settings) => this.#httpClient.execute(command, settings);
+
+	execute(command, options)
+	{
+		return (typeof options !== 'undefined' && 'mqtt' in options) ? this.#mqttClient.execute(command, options)
+			                                                         : this.#httpClient.execute(command, options)
+		;
+	 }
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Logs in by login/password
-	 * @param {String} user the user
-	 * @param {String} pass the password
-	 * @param {Object} [settings] dictionary of settings (context)
+	 * Signs in by JWT token (MQTT client)
+	 * @param {String} token the password
+	 * @param {String} serverName the server name
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	passLogin = (user, pass, settings) => this.#httpClient.signInByPassword(user, pass, settings);
+
+	 mqttSignInByToken(token, serverName)
+	 {
+	 	return this.#mqttClient.signInByToken(token, serverName);
+	 }
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Logs in by certificate
-	 * @param {Object} [settings] dictionary of settings (context)
+	 * Signs out (MQTT client)
+	 * @param {Object} [options] dictionary of options (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	certLogin = settings => this.#httpClient.signInByCertificate(settings);
+
+	mqttSignOut(options)
+	{
+		return this.#mqttClient.signOut(options);
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Logs out
-	 * @param {Object} [settings] dictionary of settings (context)
+	 * Signs in by login/password (HTTP client)
+	 * @param {String} username the username
+	 * @param {String} password the password
+	 * @param {Object} [options] dictionary of options (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	signOut = settings => this.#httpClient.signOut(settings);
+
+	signInByPassword(username, password, options)
+	{
+		this.#httpClient.signInByPassword(username, password, options);
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Signs in by certificate (HTTP client)
+	 * @param {Object} [options] dictionary of options (context)
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+
+	signInByCertificate(options)
+	{
+		return this.#httpClient.signInByCertificate(options);
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Signs out (HTTP client)
+	 * @param {Object} [options] dictionary of options (context)
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+
+	signOut(options)
+	{
+		return this.#httpClient.signOut(options).always(() => {
+
+			return this.#mqttClient.signOut(options).done(() => {
+
+				console.log('MQTT connection closed too');
+			});
+		});
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Attaches a certificate
-	 * @param {String} user the user
-	 * @param {String} pass the password
-	 * @param {Object} [settings] dictionary of settings (context)
+	 * @param {String} username the username
+	 * @param {String} password the password
+	 * @param {Object} [options] dictionary of options (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
-	attachCert = (user, pass, settings) => {
-		return this.execute('GetSessionInfo -attachCert -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '"', settings);
+
+	attachCertificate(username, password, options)
+	{
+		return this.execute('GetSessionInfo -attachCert -amiLogin=? -amiPassword=?', {
+			params: [username, password],
+			...(options || {}),
+		});
 	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Detaches a certificate
-	 * @param {String} user the user
-	 * @param {String} pass the password
-	 * @param {Object} [settings] dictionary of settings (context)
+	 * @param {String} username the username
+	 * @param {String} password the password
+	 * @param {Object} [options] dictionary of options (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	detachCert = (user, pass, settings) => {
-		return this.execute('GetSessionInfo -detachCert -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '"', settings);
+	detachCertificate(username, password, options)
+	{
+		return this.execute('GetSessionInfo -detachCert -amiLogin=? -amiPassword=?', {
+			params: [username, password],
+			...(options || {}),
+		});
 	}
 
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	/**
-	 * Adds a new user
-	 * @param {String} user the user
-	 * @param {String} pass the password
+	 * Adds a new username
+	 * @param {String} username the username
+	 * @param {String} password the password
 	 * @param {String} firstName the first name
 	 * @param {String} lastName the last name
 	 * @param {String} email the email
 	 * @param {String} captchaHash the captcha hash generated by AMI
-	 * @param {String} captchaText the captcha text entered by the user
+	 * @param {String} captchaText the captcha text entered by the username
 	 * @param {Boolean} attachCert attach the current certificate
 	 * @param {Boolean} agree agree with the terms and conditions
-	 * @param {Object} [settings] dictionary of settings (context)
+	 * @param {Object} [options] dictionary of options (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	addUser = (user, pass, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, settings) => {
-		return this.execute('AddUser -amiLogin="' + amiWebApp.textToString(user) + '" -amiPassword="' + amiWebApp.textToString(pass) + '" -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '" -captchaHash="' + amiWebApp.textToString(captchaHash) + '" -captchaText="' + amiWebApp.textToString(captchaText) + '" ' + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), settings);
+	addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options)
+	{
+		return this.execute('AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? ' + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), {
+			params: [username, password, firstName, lastName, email, captchaHash, captchaText],
+			...(options || {}),
+		});
 	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Changes the account information
 	 * @param {String} firstName the first name
 	 * @param {String} lastName the last name
 	 * @param {String} email the email
-	 * @param {Object} [settings] dictionary of settings (context)
+	 * @param {Object} [options] dictionary of options (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	changeInfo = (firstName, lastName, email, settings) => {
-		return this.execute('SetUserInfo -firstName="' + amiWebApp.textToString(firstName) + '" -lastName="' + amiWebApp.textToString(lastName) + '" -email="' + amiWebApp.textToString(email) + '"', settings);
+	changeInfo(firstName, lastName, email, options)
+	{
+		return this.execute('SetUserInfo -firstName=? -lastName=? -email=?', {
+			params: [firstName, lastName, email],
+			...(options || {}),
+		});
 	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Changes the account password
-	 * @param {String} user the user
-	 * @param {String} oldPass the old password
-	 * @param {String} newPass the new password
-	 * @param {Object} [settings] dictionary of settings (context)
+	 * @param {String} username the username
+	 * @param {String} oldPassword the old password
+	 * @param {String} newPassword the new password
+	 * @param {Object} [options] dictionary of options (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	changePass = (user, oldPass, newPass, settings) => {
-		return this.execute('ChangePassword -amiLogin="' + amiWebApp.textToString(user) + '" -amiPasswordOld="' + amiWebApp.textToString(oldPass) + '" -amiPasswordNew="' + amiWebApp.textToString(newPass) + '"', settings);
+	changePassword(username, oldPassword, newPassword, options)
+	{
+		return this.execute('ChangePassword -amiLogin=? -amiPasswordOld=? -amiPasswordNew=?', {
+			params: [username, oldPassword, newPassword],
+			...(options || {}),
+		});
 	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
 	 * Resets the account password
-	 * @param {String} user the user
+	 * @param {String} username the username
 	 * @param {String} captchaHash the captcha hash generated by AMI
-	 * @param {String} captchaText the captcha text entered by the user
-	 * @param {Object} [settings] dictionary of settings (context)
+	 * @param {String} captchaText the captcha text entered by the username
+	 * @param {Object} [options] dictionary of options (context)
 	 * @returns {$.Deferred} A JQuery deferred object
 	 */
 
-	resetPass = (user, captchaHash, captchaText, settings) => {
-		return this.execute('ResetPassword -amiLogin="' + amiWebApp.textToString(user) + '" -captchaHash="' + amiWebApp.textToString(captchaHash) + '" -captchaText="' + amiWebApp.textToString(captchaText) + '"', settings);
+	resetPassword(username, captchaHash, captchaText, options)
+	{
+		return this.execute('ResetPassword -amiLogin=? -captchaHash=? -captchaText=?', {
+			params: [username, captchaHash, captchaText],
+			...(options || {}),
+		});
 	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 }
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* amiCommand                                                                                                         */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+const amiCommand = new AMICommand();
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+if(typeof window !== 'undefined')
+{
+	window.amiCommand = amiCommand;
+}
+
+export default amiCommand;
+
+/*--------------------------------------------------------------------------------------------------------------------*/

@@ -18,287 +18,280 @@
  * @namespace amiRouter
  */
 
-$AMINamespace('amiRouter', /** @lends amiRouter */ {
-	/*----------------------------------------------------------------------------------------------------------------*/
-	/* PRIVATE MEMBERS                                                                                                */
-	/*----------------------------------------------------------------------------------------------------------------*/
+class AMIRouter {
 
-	_scriptURL: '',
-	_originURL: '',
-	_webAppURL: '',
+    constructor()
+    {
+        /*------------------------------------------------------------------------------------------------------------*/
 
-	_hash: '',
-	_args: [],
+        this.#args.length = 0;
+        this.#routes.length = 0;
 
-	/*----------------------------------------------------------------------------------------------------------------*/
+        /*------------------------------------------------------------------------------------------------------------*/
 
-	_routes: [],
+        const  href  = window.location. href .trim();
+        const  hash  = window.location. hash .trim();
+        const search = window.location.search.trim();
 
-	/*----------------------------------------------------------------------------------------------------------------*/
-	/* PRIVATE METHODS                                                                                                */
-	/*----------------------------------------------------------------------------------------------------------------*/
+        /*------------------------------------------------------------------------------------------------------------*/
 
-	_eatSlashes: function(url)
-	{
-		url = url.trim();
+        const scripts = document.getElementsByTagName('script');
 
-		while(url[url.length - 1] === '/')
-		{
-			url = url.substring(0, url.length - 1);
-		}
+        /*------------------------------------------------------------------------------------------------------------*/
+        /* SCRIPT_URL AND ORIGIN_URL                                                                                  */
+        /*------------------------------------------------------------------------------------------------------------*/
 
-		return url;
-	},
+        for(let idx, i = 0; i < scripts.length; i++)
+        {
+            idx = scripts[i].src.indexOf('js/ami.');
 
-	/*----------------------------------------------------------------------------------------------------------------*/
-	/* STATIC CONSTRUCTOR                                                                                             */
-	/*----------------------------------------------------------------------------------------------------------------*/
+            if(idx > 0)
+            {
+                this.#scriptURL = scripts[i].src;
+                this.#originURL = this._eatSlashes(
+                    this.#scriptURL.substring(0, idx)
+                );
 
-	$: function()
-	{
-		/*------------------------------------------------------------------------------------------------------------*/
+                break;
+            }
+        }
 
-		this._args.length = 0;
-		this._routes.length = 0;
+        /*------------------------------------------------------------------------------------------------------------*/
+        /* WEBAPP_URL                                                                                                 */
+        /*------------------------------------------------------------------------------------------------------------*/
 
-		/*------------------------------------------------------------------------------------------------------------*/
+        this.#webAppURL = this._eatSlashes(
+            href.replace(/(?:\#|\?).*$/, '')
+        );
 
-		const  href  = window.location. href .trim();
-		const  hash  = window.location. hash .trim();
-		const search = window.location.search.trim();
+        /*------------------------------------------------------------------------------------------------------------*/
+        /* HASH                                                                                                       */
+        /*------------------------------------------------------------------------------------------------------------*/
 
-		/*------------------------------------------------------------------------------------------------------------*/
+        this.#hash = this._eatSlashes(
+            hash.substring(1).replace(/\?.*$/, '')
+        );
 
-		const scripts = document.getElementsByTagName('script');
+        /*------------------------------------------------------------------------------------------------------------*/
+        /* ARGS                                                                                                       */
+        /*------------------------------------------------------------------------------------------------------------*/
 
-		/*------------------------------------------------------------------------------------------------------------*/
-		/* SCRIPT_URL AND ORIGIN_URL                                                                                  */
-		/*------------------------------------------------------------------------------------------------------------*/
+        if(search)
+        {
+            search.substring(1).split('&').forEach((param) => {
 
-		for(let idx, i = 0; i < scripts.length; i++)
-		{
-			idx = scripts[i].src.indexOf('js/ami.');
+                const parts = param.split('=');
 
-			if(idx > 0)
-			{
-				this._scriptURL = scripts[i].src;
+                /**/ if(parts.length === 1)
+                {
+                    this.#args[decodeURIComponent(parts[0])] = /*--------*/ '' /*--------*/;
+                }
+                else if(parts.length === 2)
+                {
+                    this.#args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+                }
+            });
+        }
 
-				this._originURL = this._eatSlashes(
-					this._scriptURL.substring(0, idx)
-				);
+        /*------------------------------------------------------------------------------------------------------------*/
+    }
 
-				break;
-			}
-		}
 
-		/*------------------------------------------------------------------------------------------------------------*/
-		/* WEBAPP_URL                                                                                                 */
-		/*------------------------------------------------------------------------------------------------------------*/
+    _eatSlashes(url)
+    {
+        url = url.trim();
 
-		this._webAppURL = this._eatSlashes(
-			href.replace(/(?:\#|\?).*$/, '')
-		);
+        while(url[url.length - 1] === '/')
+        {
+            url = url.substring(0, url.length - 1);
+        }
 
-		/*------------------------------------------------------------------------------------------------------------*/
-		/* HASH                                                                                                       */
-		/*------------------------------------------------------------------------------------------------------------*/
+        return url;
+    }
 
-		this._hash = this._eatSlashes(
-			hash.substring(1).replace(/\?.*$/, '')
-		);
+    /*----------------------------------------------------------------------------------------------------------------*/
+    /* PRIVATE MEMBERS                                                                                                */
+    /*----------------------------------------------------------------------------------------------------------------*/
 
-		/*------------------------------------------------------------------------------------------------------------*/
-		/* ARGS                                                                                                       */
-		/*------------------------------------------------------------------------------------------------------------*/
+    #scriptURL = '';
+    #originURL = '';
+    #webAppURL = '';
 
-		if(search)
-		{
-			search.substring(1).split('&').forEach((param) => {
+    #hash = '';
+    #args = [];
 
-				const parts = param.split('=');
+    /*----------------------------------------------------------------------------------------------------------------*/
 
-				/**/ if(parts.length === 1)
-				{
-					this._args[decodeURIComponent(parts[0])] = /*--------*/ '' /*--------*/;
-				}
-				else if(parts.length === 2)
-				{
-					this._args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
-				}
-			});
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-	/* PUBLIC METHODS                                                                                                 */
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	  * Gets the AWF's script URL
-	  * @returns {String} The AWF's script URL
-	  */
-
-	getScriptURL: function()
-	{
-		return this._scriptURL;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	  * Gets the origin URL
-	  * @returns {String} The origin URL
-	  */
-
-	getOriginURL: function()
-	{
-		return this._originURL;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	  * Gets the webapp URL
-	  * @returns {String} The webapp URL
-	  */
-
-	getWebAppURL: function()
-	{
-		return this._webAppURL;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	  * Gets the anchor part of the webapp URL
-	  * @returns {String} The anchor part of the webapp URL
-	  */
-
-	getHash: function()
-	{
-		return this._hash;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	  * Gets the arguments extracted from the webapp URL
-	  * @returns {Array<String>} The arguments extracted from the webapp URL
-	  */
-
-	getArgs: function()
-	{
-		return this._args;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	  * Appends a routing rule
-	  * @param {String} regExp the regExp
-	  * @param {Object} handler the handler
-	  * @returns {Namespace} The amiRouter singleton
-	  */
-
-	append: function(regExp, handler)
-	{
-		this._routes.unshift({
-			regExp: regExp,
-			handler: handler,
-		});
-
-		return this;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	  * Removes some routing rules
-	  * @param {String} regExp the regExp
-	  * @returns {Namespace} The amiRouter singleton
-	  */
-
-	remove: function(regExp)
-	{
-		this._routes = this._routes.filter((route) => {
-
-			return route.regExp.toString() !== regExp.toString();
-		});
-
-		return this;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	  * Checks whether the URL matches with a routing rule
-	  * @returns {Boolean}
-	  */
-
-	check: function()
-	{
-		let m;
-
-		for(let i = 0; i < this._routes.length; i++)
-		{
-			m = this._hash.match(this._routes[i].regExp);
-
-			if(m)
-			{
-				this._routes[i].handler.apply(amiRouter, m);
-
-				return true;
-			}
-		}
-
-		return false;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	  * Append a new history entry
-	  * @param {String} path the new path
-	  * @param {Object} [context=null] the new context
-	  * @returns {Boolean}
-	  */
-
-	appendHistoryEntry: function(path, context = null)
-	{
-		if(history.pushState)
-		{
-			history.pushState(context, null, this._webAppURL + this._eatSlashes(path));
-
-			return true;
-		}
-
-		return false;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	  * Replace the current history entry
-	  * @param {String} path the new path
-	  * @param {Object} [context=null] the new context
-	  * @returns {Boolean}
-	  */
-
-	replaceHistoryEntry: function(path, context = null)
-	{
-		if(history.replaceState)
-		{
-			history.replaceState(context, null, this._webAppURL + this._eatSlashes(path));
-
-			return true;
-		}
-
-		return false;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-});
-
-/*--------------------------------------------------------------------------------------------------------------------*/
+    #routes = [];
+
+    /**
+     * Gets the AWF's script URL
+     * @returns {String} The AWF's script URL
+     */
+
+    getScriptURL()
+    {
+        return this.#scriptURL;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Gets the origin URL
+     * @returns {String} The origin URL
+     */
+
+    getOriginURL()
+    {
+        return this.#originURL;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Gets the webapp URL
+     * @returns {String} The webapp URL
+     */
+
+    getWebAppURL()
+    {
+        return this.#webAppURL;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Gets the anchor part of the webapp URL
+     * @returns {String} The anchor part of the webapp URL
+     */
+
+    getHash()
+    {
+        return this.#hash;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Gets the arguments extracted from the webapp URL
+     * @returns {Object<String, String>} The arguments extracted from the webapp URL
+     */
+
+    getArgs()
+    {
+        return this.#args;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Appends a routing rule
+     * @param {String} regExp the regExp
+     * @param {Object} handler the handler
+     * @returns {Namespace} The amiRouter singleton
+     */
+
+    append(regExp, handler)
+    {
+        this.#routes.unshift({
+            regExp: regExp,
+            handler: handler,
+        });
+
+        return this;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Removes some routing rules
+     * @param {String} regExp the regExp
+     * @returns {Namespace} The amiRouter singleton
+     */
+
+    remove(regExp)
+    {
+        this.#routes = this.#routes.filter((route) => {
+
+            return route.regExp.toString() !== regExp.toString();
+        });
+
+        return this;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Checks whether the URL matches with a routing rule
+     * @returns {Boolean}
+     */
+
+    check()
+    {
+        let m;
+
+        for(let i = 0; i < this.#routes.length; i++)
+        {
+            m = this.#hash.match(this.#routes[i].regExp);
+
+            if(m)
+            {
+                this.#routes[i].handler.apply(amiRouter, m);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Append a new history entry
+     * @param {String} path the new path
+     * @param {Object} [context=null] the new context
+     * @returns {Boolean}
+     */
+
+    appendHistoryEntry(path, context = null)
+    {
+        if(history.pushState)
+        {
+            history.pushState(context, null, this.#webAppURL + this._eatSlashes(path));
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /*----------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Replace the current history entry
+     * @param {String} path the new path
+     * @param {Object} [context=null] the new context
+     * @returns {Boolean}
+     */
+
+    replaceHistoryEntry(path, context = null)
+    {
+        if(history.replaceState)
+        {
+            history.replaceState(context, null, this.#webAppURL + this._eatSlashes(path));
+
+            return true;
+        }
+
+        return false;
+    }
+}
+
+
+const amiRouter = new AMIRouter();
+export default amiRouter;
+
+if(typeof window !== 'undefined') {
+    window.amiRouter = amiRouter;
+}

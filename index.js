@@ -1,13 +1,19 @@
-// Load all the core functionalality
+/*--------------------------------------------------------------------------------------------------------------------*/
 
-import test from "ami-twig";
-import a from "ami-mqtt-client";
+import './src/core/AMIExtension';
 
-import AMIObject from "./src/core/AMIObject";
-import AMIInterface from "./src/core/AMIInterface";
-import AMICommand from "./src/core/AMICommand";
-import AMIExtension from "./src/core/AMIExtension";
-import AMILogin from "./src/core/AMILogin";
-import AMIRouter from "./src/core/AMIRouter";
-import AMIWebapps from "./src/core/AMIWebApp";
-import AMIDoc from "./src/core/AMIDoc";
+import { $AMIClass, $AMINamespace, $AMIInterface } from './src/core/AMIObject';
+import amiCommand from './src/core/AMICommand';
+import amiWebApp from './src/core/AMIWebApp';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+export default {
+	$AMIClass,
+	$AMINamespace,
+	$AMIInterface,
+	amiCommand,
+	amiWebApp
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
