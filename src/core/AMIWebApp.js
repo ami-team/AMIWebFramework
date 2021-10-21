@@ -12,19 +12,25 @@
 'use strict';
 
 import amiRouter from './AMIRouter';
-import moment from 'moment';
-import {  } from 'bootstrap';
+import amiTwig from 'ami-twig';
+
+import { getStack, lock, unlock, modalEnter, modalLeave, canLeave, cannotLeave } from './utilities/locks';
+
+import { error, flush, info, success, warning } from './utilities/messages';
+
+import { loadHTMLs, loadJSONs, loadResources, loadScripts, loadSheets, loadTexts, loadTWIGs, loadXMLs } from './utilities/ressources';
+
+import logo from '../images/logo.png';
+import background from '../images/background.jpg';
 
 class AMIWebApp
 {
-
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* PRIVATE MEMBERS                                                                                                */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g');
 
-	_linkExp = new RegExp('\\[([^\\]]*)\\]\\(([^\\)]*)\\)', 'g');
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -51,12 +57,15 @@ class AMIWebApp
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_currentSubAppInstance = new function()
-	{
-		this.onReady = function() {};
-		this.onExit = function() {};
-		this.onLogin = function() {};
-		this.onLogout = function() {};
+	_currentSubAppInstance = new function() {
+		this.onReady = function() {
+		};
+		this.onExit = function() {
+		};
+		this.onLogin = function() {
+		};
+		this.onLogout = function() {
+		};
 	};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -91,20 +100,132 @@ class AMIWebApp
 
 	args = {};
 
-	constructor() {
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* CONSTRUCTOR                                                                                                    */
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	constructor()
+	{
 		/*------------------------------------------------------------------------------------------------------------*/
-		/* GET URLS, HASH AND ARGS                                                                                    */
+		/* GET FLAGS                                                                                                  */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.originURL = amiRouter.getOriginURL();
-		this.webAppURL = amiRouter.getWebAppURL();
+		const url = amiRouter.getScriptURL();
 
-		console.log(this.originURL)
+		const idx = url.indexOf('?');
 
-		this.hash = amiRouter.getHash();
-		this.args = amiRouter.getArgs();
+		if(idx > 0)
+		{
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const flags = url.substring(idx).toLowerCase();
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this._embedded = (flags.indexOf('embedded') >= 0);
+
+			this._noBootstrap = (flags.indexOf('nobootstrap') >= 0);
+
+			this._noDateTimePicker = (flags.indexOf('nodatetimepicker') >= 0);
+
+			this._noSelect2 = (flags.indexOf('noselect2') >= 0);
+
+			/*------------------------------------------------------------------------------------------------------------*/
+			/* GET URLS, HASH AND ARGS                                                                                    */
+			/*------------------------------------------------------------------------------------------------------------*/
+
+			this.originURL = amiRouter.getOriginURL();
+			this.webAppURL = amiRouter.getWebAppURL();
+
+			this.hash = amiRouter.getHash();
+			this.args = amiRouter.getArgs();
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* LOAD SHEETS AND SCRIPTS                                                                                */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const resourcesCSS = [];
+			const resourcesJS = [];
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			if(!window.Popper)
+			{
+				resourcesJS.push(`${this.originURL}/js/popper.min.js`);
+			}
+
+			if(!window.moment)
+			{
+				resourcesJS.push(`${this.originURL}/js/moment.min.js`);
+			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			if(!this._noBootstrap && (typeof jQuery.fn.modal) !== 'function')
+			{
+				require('../styles/bootstrap/ami-bootstrap.scss');
+
+				resourcesJS.push(`${this.originURL}/js/bootstrap.min.js`);
+			}
+
+			if(!this._noDateTimePicker && (typeof jQuery.fn.datetimepicker) !== 'function')
+			{
+				resourcesCSS.push(this.originURL + '/css/bootstrap-datetimepicker.min.css');
+				resourcesJS.push(this.originURL + '/js/bootstrap-datetimepicker.min.js');
+			}
+
+			if(!this._noSelect2 && (typeof jQuery.fn.select2) !== 'function')
+			{
+				resourcesCSS.push(this.originURL + '/css/select2.min.css');
+				resourcesJS.push(this.originURL + '/js/select2.min.js');
+			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			require('../styles/ami/ami.scss');
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this.loadResources([
+				...resourcesCSS,
+				...resourcesJS,
+			]).done((/*---*/) => {
+
+				//this._globalDeferred.resolve(/*---*/);
+
+			}).fail((message) => {
+
+				//this._globalDeferred.reject(message);
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+		}
 	}
 
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* TOOLS                                                                                                          */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	typeOf(x)
+	{
+		const name = Object.prototype.toString.call(x);
+
+		return name.startsWith('[object ') ? name.substring(8, name.length - 1)
+		                                   : /*-----------*/ '' /*-----------*/
+		;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	asArray(x)
+	{
+		return this.typeOf(x) === 'Array' ? (x)
+		                                  : [x]
+		;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	setup(optionNames, optionDefaults, options)
 	{
@@ -122,14 +243,18 @@ class AMIWebApp
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		if(options) {
-			for(let i = 0; i < l; i++) {
+		if(options)
+		{
+			for(let i = 0; i < l; i++)
+			{
 				result.push(optionNames[i] in options ? options[optionNames[i]] : optionDefaults[i]);
 			}
 		}
-		else {
-			for(let i = 0; i < l; i++) {
-				result.push(/*---------------------------------------------------*/ optionDefaults[i]);
+		else
+		{
+			for(let i = 0; i < l; i++)
+			{
+				result.push(/*-------------------------------------------------*/ optionDefaults[i]);
 			}
 		}
 
@@ -139,87 +264,51 @@ class AMIWebApp
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-	/* STACK                                                                                                          */
-	/*----------------------------------------------------------------------------------------------------------------*/
+	/* STACK                                                                                                              */
+	/*--------------------------------------------------------------------------------------------------------------------*/
 
-	getStack()
-	{
-		try
-		{
-			throw Error();
-		}
-		catch(e1)
-		{
-			try
-			{
-				return e1.stack;
-			}
-			catch(e2)
-			{
-				return ((('')));
-			}
-		}
-	}
+	getStack = getStack;
+
+	/*--------------------------------------------------------------------------------------------------------------------*/
+	/* LOCK                                                                                                               */
+	/*--------------------------------------------------------------------------------------------------------------------*/
+
+	lock = lock;
+	unlock = unlock;
+
+	modalEnter = modalEnter;
+	modalLeave = modalLeave;
+
+	canLeave = canLeave;
+	cannotLeave = cannotLeave;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-	/* LOCK                                                                                                           */
+	/* BREADCRUMB                                                                                                     */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Locks the Web application
+	 * Fill the main breadcrumb
+	 * @param {Array} items the array of items (HTML format)
 	 */
 
-	lock()
+	fillBreadcrumb(items)
 	{
-		let lines = this.getStack().split('\n');
+		let s = this.typeOf(items) === 'Array' ? items.map((item) => '<li class="breadcrumb-item">' + item.replace(/{{WEBAPP_URL}}/g, this.webAppURL) + '</li>').join('')
+			: ''
+		;
 
-		if(lines.length > 2)
-		{
-			console.log('lock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
-		}
-
-		/**/
-
-		if(this._lockCnt <= 0)
-		{
-			$('#ami_locker').css('display', 'flex');
-
-			this._lockCnt = 1;
-		}
-		else
-		{
-			this._lockCnt++;
-		}
+		$('#ami_breadcrumb_content').html(s);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Unlocks the Web application
+	 * Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}
+	 * @param {String} twig the TWIG string
+	 * @param {Object|Array} [dict] the dictionary
+	 * @param {Object} [twigs] dictionary of fragments
+	 * @returns {String} The Interpreted TWIG string
 	 */
-
-	unlock()
-	{
-		if(this._lockCnt <= 1)
-		{
-			$('#ami_locker').css('display', 'none');
-
-			this._lockCnt = 0;
-		}
-		else
-		{
-			this._lockCnt--;
-		}
-
-		/**/
-
-		let lines = this.getStack().split('\n');
-
-		if(lines.length > 2)
-		{
-			console.log('unlock[' + this._lockCnt + '] :: ' + lines[2]); // eslint-disable-line no-console
-		}
-	}
 
 	formatTWIG(twig, dict = {}, twigs = {})
 	{
@@ -273,165 +362,132 @@ class AMIWebApp
 		return result.join('');
 	}
 
-	textToHtml(s)
-	{
-		return s;
-	}
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* DYNAMIC RESOURCE LOADING                                                                                       */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	loadResources = loadResources;
+	loadSheets = loadSheets;
+	loadScripts = loadScripts;
+	loadJSONs = loadJSONs;
+	loadXMLs = loadXMLs;
+	loadHTMLs = loadHTMLs;
+	loadTWIGs = loadTWIGs;
+	loadTexts = loadTexts;
+
+	error = error;
+	info = info;
+	success = success;
+	warning = warning;
+	flush = flush;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	start(options)
 	{
-			/*--------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
-			const [
-				logoURL, homeURL, webAppURL, contactEmail,
-				aboutURL, themeURL, lockerURL, endpointURL,
-				ssoAutoAuthentication,
-				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
-				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
-				captchaAllowed,
-				bookmarksAllowed,
-			] = this.setup([
-				'logo_url', 'home_url', 'webapp_url', 'contact_email',
-				'about_url', 'theme_url', 'locker_url', 'endpoint_url',
-				'sso_auto_authentication',
-				'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
-				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
-				'captcha_allowed',
-				'bookmarks_allowed',
-			], [
-				this.originURL
-				+ '/images/logo.png',
-				this.webAppURL,
-				this.webAppURL,
-				'ami@lpsc.in2p3.fr',
-				'http://cern.ch/ami/',
-				this.originURL + '/twig/AMI/Theme/blue.twig',
-				this.originURL + '/twig/AMI/Fragment/locker.twig',
-				this.originURL + '/AMI/FrontEnd',
-				false,
-				false, true, true, true,
-				true, true, true, true,
-				true,
-				true,
-			], options);
+		const [
+			logoURL, backgroundURL, homeURL, webAppURL, contactEmail,
+			aboutURL, themeURL, lockerURL, endpointURL,
+			ssoAutoAuthentication,
+			ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
+			createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
+			captchaAllowed,
+			bookmarksAllowed,
+		] = this.setup([
+			'logo_url', 'background_url', 'home_url', 'webapp_url', 'contact_email',
+			'about_url', 'theme_url', 'locker_url', 'endpoint_url',
+			'sso_auto_authentication',
+			'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
+			'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
+			'captcha_allowed',
+			'bookmarks_allowed',
+		], [
+			logo,
+			background,
+			this.webAppURL,
+			this.webAppURL,
+			'ami@lpsc.in2p3.fr',
+			'http://cern.ch/ami/',
+			this.originURL + '/twig/Themes/blue.twig',
+			this.originURL + '/twig/Lockers/default.twig',
+			this.originURL + '/AMI/FrontEnd',
+			false,
+			false, true, true, true,
+			true, true, true, true,
+			true,
+			true,
+		], options);
 
-			/*--------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
-			amiWebApp.webAppURL = webAppURL;
+		amiWebApp.webAppURL = webAppURL;
 
-			amiCommand.endpoint = endpointURL;
+		amiCommand.endpoint = endpointURL;
 
-			/*--------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
-			window.onbeforeunload = (e) => {
+		window.onbeforeunload = (e) => {
 
-				if(!this._canLeave)
+			if(!this._canLeave)
+			{
+				const f = e || window.event;
+
+				if(f)
 				{
-					const f = e || window.event;
-
-					if(f)
-					{
-						f.returnValue = 'Confirm that you want to leave this page?';
-					}
-
-					return 'Confirm that you want to leave this page?';
+					f.returnValue = 'Confirm that you want to leave this page?';
 				}
-			};
 
-			/*--------------------------------------------------------------------------------------------------------*/
+				return 'Confirm that you want to leave this page?';
+			}
+		};
 
-			const controlsURL = this.originURL + '/controls/CONTROLS.json';
+		/*------------------------------------------------------------------------------------------------------------*/
 
-			const subappsURL = this.originURL + '/subapps/SUBAPPS.json';
+		const controlsURL = this.originURL + '/controls/CONTROLS.json';
 
-			/*--------------------------------------------------------------------------------------------------------*/
+		const subappsURL = this.originURL + '/subapps/SUBAPPS.json';
 
-			$.ajax({url: controlsURL, cache: false, crossDomain: true, dataType: 'json'}).then((data1) => {
+		/*------------------------------------------------------------------------------------------------------------*/
 
-				$.ajax({url: subappsURL, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
+		$.ajax({url: controlsURL, cache: false, crossDomain: true, dataType: 'json'}).then((data1) => {
 
-					for(const name in data1) {
-						this._controls[name.toLowerCase()] = data1[name];
-					}
+			$.ajax({url: subappsURL, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
 
-					for(const name in data2) {
-						this._subapps[name.toLowerCase()] = data2[name];
-					}
+				for(const name in data1)
+				{
+					this._controls[name.toLowerCase()] = data1[name];
+				}
 
-					if(!this._embedded)
-					{
-						/*--------------------------------------------------------------------------------------------*/
+				for(const name in data2)
+				{
+					this._subapps[name.toLowerCase()] = data2[name];
+				}
 
-						const dict = {
-							LOGO_URL: logoURL,
-							HOME_URL: homeURL,
-							CONTACT_EMAIL: contactEmail,
-							ABOUT_URL: aboutURL,
-						};
+				if(!this._embedded)
+				{
+					/*------------------------------------------------------------------------------------------------*/
 
-						/*--------------------------------------------------------------------------------------------*/
+					const dict = {
+						LOGO_URL: logoURL,
+						BACKGROUND_URL: backgroundURL,
+						HOME_URL: homeURL,
+						CONTACT_EMAIL: contactEmail,
+						ABOUT_URL: aboutURL,
+					};
 
-						$.ajax({url: themeURL, cache: true, crossDomain: true, dataType: 'text'}).then((data3) => {
+					/*------------------------------------------------------------------------------------------------*/
 
-							$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
+					$.ajax({url: themeURL, cache: true, crossDomain: true, dataType: 'text'}).then((data3) => {
 
-								$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
+						$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
 
-									// this.lock();
-
-									// amiLogin._start(
-									// 	ssoAutoAuthentication,
-									// 	ssoAuthenticationAllowed,
-									// 	passwordAuthenticationAllowed,
-									// 	certificateAuthenticationAllowed,
-									// 	logoutAllowed,
-									// 	createAccountAllowed,
-									// 	changeInfoAllowed,
-									// 	changePasswordAllowed,
-									// 	changeCertificateAllowed,
-									// 	captchaAllowed,
-									// 	bookmarksAllowed
-									// ).done(() => {
-									//
-									// 	this.unlock();
-									//
-									// }).fail((message) => {
-									//
-									// 	this.error(message);
-									// });
-								});
-
-							}, () => {
-
-								alert('could not open `' + lockerURL + '`, please reload the page...'); // eslint-disable-line no-alert
-							});
-
-						}, () => {
-
-							alert('could not open `' + themeURL + '`, please reload the page...'); // eslint-disable-line no-alert
-						});
-
-						/*--------------------------------------------------------------------------------------------*/
-					}
-					else
-					{
-						/*--------------------------------------------------------------------------------------------*/
-
-						let data3 = '';
-
-						if($('#ami_alert_content').length === 0) {
-							data3 += '<div id="ami_alert_content"></div>';
-						}
-
-						if($('#ami_login_menu_content').length === 0) {
-							data3 += '<div id="ami_login_menu_content"></div>';
-						}
-
-						/*--------------------------------------------------------------------------------------------*/
-
-						$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).done((data4) => {
-
-							$('body').prepend(data3 + data4).promise().done(() => {
+							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
 								// this.lock();
 
@@ -449,196 +505,98 @@ class AMIWebApp
 								// 	bookmarksAllowed
 								// ).done(() => {
 								//
-								// 	this.unlock();
+								this.unlock();
+
+								this.success('test');
 								//
 								// }).fail((message) => {
 								//
 								// 	this.error(message);
 								// });
 							});
+
+						}, () => {
+
+							alert('could not open `' + lockerURL + '`, please reload the page...'); // eslint-disable-line no-alert
 						});
 
-						/*--------------------------------------------------------------------------------------------*/
+					}, () => {
+
+						alert('could not open `' + themeURL + '`, please reload the page...'); // eslint-disable-line no-alert
+					});
+
+					/*------------------------------------------------------------------------------------------------*/
+				}
+				else
+				{
+					/*------------------------------------------------------------------------------------------------*/
+
+					let data3 = '';
+
+					if($('#ami_alert_content').length === 0)
+					{
+						data3 += '<div id="ami_alert_content"></div>';
 					}
 
-				}, () => {
+					if($('#ami_login_menu_content').length === 0)
+					{
+						data3 += '<div id="ami_login_menu_content"></div>';
+					}
 
-					alert('could not open `' + subappsURL + '`, please reload the page...'); // eslint-disable-line no-alert
-				});
+					/*------------------------------------------------------------------------------------------------*/
+
+					$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).done((data4) => {
+
+						$('body').prepend(data3 + data4).promise().done(() => {
+
+							// this.lock();
+
+							// amiLogin._start(
+							// 	ssoAutoAuthentication,
+							// 	ssoAuthenticationAllowed,
+							// 	passwordAuthenticationAllowed,
+							// 	certificateAuthenticationAllowed,
+							// 	logoutAllowed,
+							// 	createAccountAllowed,
+							// 	changeInfoAllowed,
+							// 	changePasswordAllowed,
+							// 	changeCertificateAllowed,
+							// 	captchaAllowed,
+							// 	bookmarksAllowed
+							// ).done(() => {
+							//
+							this.unlock();
+							//this.success('salut');
+
+							alert('dbehjbgjerkhgre')
+							//
+							// }).fail((message) => {
+							//
+							// 	this.error(message);
+							// });
+						});
+					});
+
+					/*------------------------------------------------------------------------------------------------*/
+				}
 
 			}, () => {
 
-				alert('could not open `' + controlsURL + '`, please reload the page...'); // eslint-disable-line no-alert
+				alert('could not open `' + subappsURL + '`, please reload the page...'); // eslint-disable-line no-alert
 			});
 
-			/*--------------------------------------------------------------------------------------------------------*/
+		}, () => {
+
+			alert('could not open `' + controlsURL + '`, please reload the page...'); // eslint-disable-line no-alert
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		return this;
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-	/* MESSAGES                                                                                                       */
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	_publishAlert(clazz, title, message, fadeOut)
-{
-	/*------------------------------------------------------------------------------------------------------------*/
-
-	if(this.typeOf(message) === 'Array')
-	{
-		message = message.join('. ');
-	}
-	else
-	{
-		if(message)
-		{
-			message = message.toString();
-		}
-		else
-		{
-			message = '';
-		}
-	}
-
-	/*------------------------------------------------------------------------------------------------------------*/
-
-	const hash = message.hashCode();
-
-	const date = moment().format('DD MMM, HH:mm:ss');
-
-	/*------------------------------------------------------------------------------------------------------------*/
-
-	const toast = $('#ami_alert_content > .toast[data-hash="' + hash + '"]');
-
-	/*------------------------------------------------------------------------------------------------------------*/
-
-	if(toast.length === 0)
-	{
-		/*--------------------------------------------------------------------------------------------------------*/
-
-		const html = [
-			'<div class="toast" role="alert" ' + (fadeOut ? 'data-delay="60000"' : 'data-autohide="false"') + ' data-hash="' + hash + '" data-cnt="1">',
-			'<div class="toast-header">',
-			'<strong class="mr-auto text-' + clazz + '">' + this.textToHtml(title) + '</strong>',
-			'<small>' + this.textToHtml(date) + '</small>',
-			'<button class="ml-2 mb-1 close" type="button" data-dismiss="toast">',
-			'&times;',
-			'</button>',
-			'</div>',
-			'<div class="toast-body">',
-			this.textToHtml(message),
-			'</div>',
-			'</div>',
-		];
-
-		/*--------------------------------------------------------------------------------------------------------*/
-
-		$('#ami_alert_content').append(html.join('').replace(this._linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
-
-			$('#ami_alert_content > .toast[data-hash="' + hash + '"]').toast('show');
-		});
-
-		/*--------------------------------------------------------------------------------------------------------*/
-		}
-		else
-		{
-			/*--------------------------------------------------------------------------------------------------------*/
-			toast.find('.toast-header > strong').html(this.textToHtml(title)
-				+ ' <span class="badge badge-' + clazz + '">' + toast.attr('data-cnt', parseInt(toast.attr('data-cnt')) + 1).attr('data-cnt') + '</span>');
-			toast.find('.toast-header > small').html(this.textToHtml(date));
-
-			toast.toast('show');
-
-		/*--------------------------------------------------------------------------------------------------------*/
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		console.log('AMI :: ' + title.toUpperCase() + ': ' + message + '\n' + this.getStack()); // eslint-disable-line no-console
-
-		$(document).scrollTop(0);
-
-		this.unlock();
-
-	/*------------------------------------------------------------------------------------------------------------*/
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Shows an 'info' message
-	 * @param {String|Array} message the message
-	 * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	 */
-
-	info(message, fadeOut)
-	{
-		this._publishAlert('info', 'Info', message, fadeOut);
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Shows a 'success' message
-	 * @param {String|Array} message the message
-	 * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	 */
-
-	success(message, fadeOut)
-	{
-		this._publishAlert('success', 'Success', message, fadeOut);
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Shows a 'warning' message
-	 * @param {String|Array} message the message
-	 * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	 */
-
-	warning(message, fadeOut)
-	{
-		this._publishAlert('warning', 'Warning', message, fadeOut);
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Shows an 'error' message
-	 * @param {String|Array} message the message
-	 * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
-	 */
-
-	error(message, fadeOut)
-	{
-		this._publishAlert('danger', 'Error', message, fadeOut);
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Flushes messages
-	 */
-
-	flush()
-	{
-		$('#ami_alert_content').empty();
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-	/* TOOLS                                                                                                          */
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	typeOf(x)
-	{
-		const name = Object.prototype.toString.call(x);
-
-		return name.startsWith('[object ') ? name.substring(8, name.length - 1)
-			: /*-----------*/ '' /*-----------*/
-			;
-		}
-	}
+}
 
 const amiWebApp = new AMIWebApp();
 export default amiWebApp;

@@ -10,6 +10,8 @@
 
     <title>AMI</title>
 
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
     <script type="text/javascript" src="js/ami.min.js"></script>
 
     <script type="text/javascript">
@@ -78,8 +80,8 @@
 
     var subapp = amiWebApp.args['subapp'];
 
-    var theme_url = !subapp || subapp.toLowerCase() !== 'userdashboard' ? 'twig/AMI/Theme/blue.twig'
-        : 'twig/AMI/Theme/cloud.twig'
+    var theme_url = !subapp || subapp.toLowerCase() !== 'userdashboard' ? 'twig/Themes/blue.twig'
+        : 'twig/Themes/cloud.twig'
     ;
 
     amiWebApp.start({
