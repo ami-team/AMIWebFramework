@@ -14,6 +14,8 @@
 import amiRouter from './AMIRouter';
 import amiTwig from 'ami-twig';
 
+import {typeOf, asArray, setup} from './utilities/tools';
+
 import { getStack, lock, unlock, modalEnter, modalLeave, canLeave, cannotLeave } from './utilities/locks';
 
 import { error, flush, info, success, warning } from './utilities/messages';
@@ -207,61 +209,11 @@ class AMIWebApp
 	/* TOOLS                                                                                                          */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	typeOf(x)
-	{
-		const name = Object.prototype.toString.call(x);
+	typeOf = typeOf;
 
-		return name.startsWith('[object ') ? name.substring(8, name.length - 1)
-		                                   : /*-----------*/ '' /*-----------*/
-		;
-	}
+	asArray = asArray;
 
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	asArray(x)
-	{
-		return this.typeOf(x) === 'Array' ? (x)
-		                                  : [x]
-		;
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	setup(optionNames, optionDefaults, options)
-	{
-		const result = [];
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		const l = optionNames.length;
-		const m = optionDefaults.length;
-
-		if(l !== m)
-		{
-			throw 'internal error';
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		if(options)
-		{
-			for(let i = 0; i < l; i++)
-			{
-				result.push(optionNames[i] in options ? options[optionNames[i]] : optionDefaults[i]);
-			}
-		}
-		else
-		{
-			for(let i = 0; i < l; i++)
-			{
-				result.push(/*-------------------------------------------------*/ optionDefaults[i]);
-			}
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		return result;
-	}
+	setup = setup;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* STACK                                                                                                          */
