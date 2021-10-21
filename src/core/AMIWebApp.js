@@ -31,7 +31,6 @@ class AMIWebApp
 
 	_idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g');
 
-
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_embedded = false;
@@ -131,75 +130,77 @@ class AMIWebApp
 
 			this._noSelect2 = (flags.indexOf('noselect2') >= 0);
 
-			/*------------------------------------------------------------------------------------------------------------*/
-			/* GET URLS, HASH AND ARGS                                                                                    */
-			/*------------------------------------------------------------------------------------------------------------*/
-
-			this.originURL = amiRouter.getOriginURL();
-			this.webAppURL = amiRouter.getWebAppURL();
-
-			this.hash = amiRouter.getHash();
-			this.args = amiRouter.getArgs();
-
-			/*--------------------------------------------------------------------------------------------------------*/
-			/* LOAD SHEETS AND SCRIPTS                                                                                */
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			const resourcesCSS = [];
-			const resourcesJS = [];
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			if(!window.Popper)
-			{
-				resourcesJS.push(`${this.originURL}/js/assets/js/popper.min.js`);
-			}
-
-			if(!window.moment)
-			{
-				resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
-			}
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			if(!this._noBootstrap && (typeof jQuery.fn.modal) !== 'function')
-			{
-				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap.min.css`);
-				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap.min.js`);
-			}
-/*
-			if(!this._noDateTimePicker && (typeof jQuery.fn.datetimepicker) !== 'function')
-			{
-				resourcesCSS.push(`${this.originURL}/js/assets/css/bootstrap-datetimepicker.min.css`);
-				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap-datetimepicker.min.js');
-			}
-*/
-			if(!this._noSelect2 && (typeof jQuery.fn.select2) !== 'function')
-			{
-				resourcesCSS.push(`${this.originURL}/js/assets/css/select2.min.css`);
-				resourcesJS.push(`${this.originURL}/js/assets/js/select2.min.js`);
-			}
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			require('../styles/ami/ami.scss');
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			this.loadResources([
-				...resourcesCSS,
-				...resourcesJS,
-			]).done((/*---*/) => {
-
-				//this._globalDeferred.resolve(/*---*/);
-
-			}).fail((message) => {
-
-				//this._globalDeferred.reject(message);
-			});
-
 			/*--------------------------------------------------------------------------------------------------------*/
 		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* GET URLS, HASH AND ARGS                                                                                    */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		this.originURL = amiRouter.getOriginURL();
+		this.webAppURL = amiRouter.getWebAppURL();
+
+		this.hash = amiRouter.getHash();
+		this.args = amiRouter.getArgs();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* LOAD SHEETS AND SCRIPTS                                                                                    */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const resourcesCSS = [];
+		const resourcesJS = [];
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		if(!window.Popper)
+		{
+			resourcesJS.push(`${this.originURL}/js/assets/js/popper.min.js`);
+		}
+
+		if(!window.moment)
+		{
+			resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		if(!this._noBootstrap && (typeof jQuery.fn.modal) !== 'function')
+		{
+			resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap.min.css`);
+			resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap.min.js`);
+		}
+/*
+		if(!this._noDateTimePicker && (typeof jQuery.fn.datetimepicker) !== 'function')
+		{
+			resourcesCSS.push(`${this.originURL}/js/assets/css/bootstrap-datetimepicker.min.css`);
+			resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap-datetimepicker.min.js');
+		}
+*/
+		if(!this._noSelect2 && (typeof jQuery.fn.select2) !== 'function')
+		{
+			resourcesCSS.push(`${this.originURL}/js/assets/css/select2.min.css`);
+			resourcesJS.push(`${this.originURL}/js/assets/js/select2.min.js`);
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		require('../styles/ami/ami.scss');
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		this.loadResources([
+			...resourcesCSS,
+			...resourcesJS,
+		]).done((/*---*/) => {
+
+			//this._globalDeferred.resolve(/*---*/);
+
+		}).fail((message) => {
+
+			//this._globalDeferred.reject(message);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -554,9 +555,15 @@ class AMIWebApp
 	/*----------------------------------------------------------------------------------------------------------------*/
 }
 
-const amiWebApp = new AMIWebApp();
-export default amiWebApp;
+/*--------------------------------------------------------------------------------------------------------------------*/
 
-if(typeof window !== 'undefined') {
+const amiWebApp = new AMIWebApp();
+
+if(typeof window !== 'undefined')
+{
 	window.amiWebApp = amiWebApp;
 }
+
+export default amiWebApp;
+
+/*--------------------------------------------------------------------------------------------------------------------*/

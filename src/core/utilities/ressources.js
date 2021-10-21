@@ -2,6 +2,7 @@
 /* DYNAMIC RESOURCE LOADING                                                                                           */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+import amiWebApp from '../AMIWebApp';
 import {loadControl} from './controls';
 import {loadSubApp} from './subapps';
 
@@ -271,7 +272,7 @@ function _loadXXX(urls, dataType, settings)
 {
 	const deferred = $.Deferred();
 
-	const [context] = this.setup(
+	const [context] = amiWebApp.setup(
 		['context'],
 		[deferred],
 		settings
@@ -279,7 +280,7 @@ function _loadXXX(urls, dataType, settings)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	__loadXXX(deferred, [], this.asArray(urls), dataType, context);
+	__loadXXX(deferred, [], amiWebApp.asArray(urls), dataType, context);
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
