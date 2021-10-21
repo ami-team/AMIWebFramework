@@ -116,6 +116,9 @@ out
 .yarn/install-state.gz
 .pnp.*
 
+# npm
+package-lock.json
+
 # IntelliJ directory
 .idea
 

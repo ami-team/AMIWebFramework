@@ -110,6 +110,8 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 	const url = urls.shift().trim();
 
+	console.log(url);
+
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	const dataTYPE = _getDataType(url, dataType);

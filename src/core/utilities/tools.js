@@ -15,8 +15,8 @@ export function typeOf(x)
 
 export function asArray(x)
 {
-	return this.typeOf(x) === 'Array' ? (x)
-	                                  : [x]
+	return typeOf(x) === 'Array' ? (x)
+	                             : [x]
 	;
 }
 
