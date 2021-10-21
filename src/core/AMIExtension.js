@@ -11,186 +11,184 @@
 
 'use strict';
 
-import amiWebApp from './AMIWebApp';
+import {setup} from './utilities/tools';
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-/* ES6 EXTENSIONS                                                                                                     */
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-if(!String.prototype.hashCode)
+export default function init_ext()
 {
-	String.prototype.hashCode = function()
-	{
-		let hash = 0;
-
-		const length = this.length;
-
-		for(let i = 0; i < length; i++)
-		{
-			hash = ((hash << 5) - hash) + this.charCodeAt(i);
-
-			hash |= 0;
-		}
-
-		return hash < 0 ? -hash
-						: +hash
-		;
-	};
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-/* JQUERY EXTENSIONS                                                                                                  */
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-const _ami_internal_jQueryAjax = jQuery.ajax;
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-jQuery.ajax = function(settings)
-{
-	if(typeof settings === 'object'
-	   &&
-	   settings.dataType === 'sheet'
-	 ) {
-		const result = $.Deferred();
-
-		const [context, url] = amiWebApp.setup(
-			['context', 'url'],
-			[result, ''],
-			settings
-		)
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		if(url)
-		{
-			$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(() => {
-
-				result.resolveWith(context);
-			});
-		}
-		else
-		{
-			result.rejectWith(context);
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		return result.promise();
-	}
-	else
-	{
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		return _ami_internal_jQueryAjax.apply(this, arguments);
-
-		/*------------------------------------------------------------------------------------------------------------*/
-	}
-};
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-const _ami_internal_jQueryVal = jQuery.fn.val;
-const _ami_internal_jQueryRemove = jQuery.fn.remove;
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-const _ami_internal_removeEvt = new $.Event('remove');
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-jQuery.fn.extend({
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* ES6 EXTENSIONS                                                                                                 */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	findWithSelf: function(selector)
+	if(!String.prototype.hashCode)
 	{
-		return this.find(selector).addBack(selector);
-	},
+		String.prototype.hashCode = function() {
+			let hash = 0;
 
-	/*----------------------------------------------------------------------------------------------------------------*/
+			const length = this.length;
 
-	serializeObject: function()
-	{
-		const result = {};
-
-		this.serializeArray().forEach((item) => {
-
-			if(item.name in result)
+			for(let i = 0; i < length; i++)
 			{
-				if(Object.prototype.toString.call(result[item.name]) === '[object String]')
-				{
-					result[item.name] = [result[item.name]];
-				}
+				hash = ((hash << 5) - hash) + this.charCodeAt(i);
 
-				result[item.name].push(item.value || '');
+				hash |= 0;
+			}
+
+			return hash < 0 ? -hash
+				: +hash
+				;
+		};
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* JQUERY EXTENSIONS                                                                                              */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	const _ami_internal_jQueryAjax = jQuery.ajax;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	jQuery.ajax = function(settings) {
+
+		console.log(settings);
+
+		if(typeof settings === 'object' && settings.dataType === 'sheet')
+		{
+			const result = $.Deferred();
+
+			const [context, url] = setup(
+				['context', 'url'],
+				[result, ''],
+				settings
+			)
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			if(url)
+			{
+				$('head').append('<link rel="stylesheet" type="text/css" href="' + url + '"></link>').promise().done(() => {
+
+					result.resolveWith(context);
+				});
 			}
 			else
 			{
-				result[item.name] = item.value || '';
+				result.rejectWith(context);
 			}
-		});
 
-		return result;
-	},
+			/*--------------------------------------------------------------------------------------------------------*/
 
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	val: function()
-	{
-		/**/ if(arguments.length === 0) // getter
-		{
-			if(this.hasClass('form-editor-hidden'))
-			{
-				const session = this.data('session');
-
-				return session ? session.getValue() : '';
-			}
+			return result.promise();
 		}
-		else if(arguments.length === 1) // setter
+		else
 		{
-			if(this.hasClass('form-editor-hidden'))
-			{
-				const session = this.data('session');
+			/*--------------------------------------------------------------------------------------------------------*/
 
-				if(session) session.setValue(arguments[0]); return this;
-			}
+			return _ami_internal_jQueryAjax.apply(this, arguments);
+
+			/*--------------------------------------------------------------------------------------------------------*/
 		}
-
-		return _ami_internal_jQueryVal.apply(this, arguments);
-	},
+	};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	remove: function()
-	{
-		$(this).trigger(_ami_internal_removeEvt);
-
-		return _ami_internal_jQueryRemove.apply(this, arguments);
-	},
+	const _ami_internal_jQueryVal = jQuery.fn.val;
+	const _ami_internal_jQueryRemove = jQuery.fn.remove;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-});
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-/* BOOTSTRAP EXTENSIONS                                                                                               */
-/*--------------------------------------------------------------------------------------------------------------------*/
+	const _ami_internal_removeEvt = new $.Event('remove');
 
-let _ami_internal_modalZIndex = 1050;
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-/*--------------------------------------------------------------------------------------------------------------------*/
+	jQuery.fn.extend({
+		/*------------------------------------------------------------------------------------------------------------*/
 
-$(document).on('show.bs.modal', '.modal', (e) => {
+		findWithSelf: function(selector) {
+			return this.find(selector).addBack(selector);
+		},
 
-	const el = $(e.currentTarget);
+		/*------------------------------------------------------------------------------------------------------------*/
 
-	setTimeout(() => {
+		serializeObject: function() {
+			const result = {};
 
-		$('body > .modal-backdrop:last').css('z-index', _ami_internal_modalZIndex++);
-		/*-----------*/el/*-----------*/.css('z-index', _ami_internal_modalZIndex++);
+			this.serializeArray().forEach((item) => {
 
-	}, 10);
-});
+				if(item.name in result)
+				{
+					if(Object.prototype.toString.call(result[item.name]) === '[object String]')
+					{
+						result[item.name] = [result[item.name]];
+					}
 
-/*--------------------------------------------------------------------------------------------------------------------*/
+					result[item.name].push(item.value || '');
+				}
+				else
+				{
+					result[item.name] = item.value || '';
+				}
+			});
+
+			return result;
+		},
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		val: function() {
+			/**/
+			if(arguments.length === 0) // getter
+			{
+				if(this.hasClass('form-editor-hidden'))
+				{
+					const session = this.data('session');
+
+					return session ? session.getValue() : '';
+				}
+			}
+			else if(arguments.length === 1) // setter
+			{
+				if(this.hasClass('form-editor-hidden'))
+				{
+					const session = this.data('session');
+
+					if(session) session.setValue(arguments[0]);
+					return this;
+				}
+			}
+
+			return _ami_internal_jQueryVal.apply(this, arguments);
+		},
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		remove: function() {
+			$(this).trigger(_ami_internal_removeEvt);
+
+			return _ami_internal_jQueryRemove.apply(this, arguments);
+		},
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	});
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* BOOTSTRAP EXTENSIONS                                                                                           */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	let _ami_internal_modalZIndex = 1050;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$(document).on('show.bs.modal', '.modal', (e) => {
+
+		const el = $(e.currentTarget);
+
+		setTimeout(() => {
+
+			$('body > .modal-backdrop:last').css('z-index', _ami_internal_modalZIndex++);
+			/*-----------*/el/*-----------*/.css('z-index', _ami_internal_modalZIndex++);
+
+		}, 10);
+	});
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+}

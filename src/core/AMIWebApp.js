@@ -22,6 +22,8 @@ import { error, flush, info, success, warning } from './utilities/messages';
 
 import { loadHTMLs, loadJSONs, loadResources, loadScripts, loadSheets, loadTexts, loadTWIGs, loadXMLs } from './utilities/ressources';
 
+import init_ext from './AMIExtension';
+
 import logo from '../images/logo.png';
 import background from '../images/background.jpg';
 
@@ -108,6 +110,8 @@ class AMIWebApp
 
 	constructor()
 	{
+		init_ext();
+
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GET FLAGS                                                                                                  */
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -195,11 +199,11 @@ class AMIWebApp
 			...resourcesJS,
 		]).done((/*---*/) => {
 
-			//this._globalDeferred.resolve(/*---*/);
+			this._globalDeferred.resolve(/*---*/);
 
 		}).fail((message) => {
 
-			//this._globalDeferred.reject(message);
+			this._globalDeferred.reject(message);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -341,165 +345,172 @@ class AMIWebApp
 
 	start(options)
 	{
-		/*------------------------------------------------------------------------------------------------------------*/
+		this._globalDeferred.done(() => {
 
-		const [
-			logoURL, backgroundURL, homeURL, webAppURL, contactEmail,
-			aboutURL, themeURL, lockerURL, endpointURL,
-			ssoAutoAuthentication,
-			ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
-			createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
-			captchaAllowed,
-			bookmarksAllowed,
-		] = this.setup([
-			'logo_url', 'background_url', 'home_url', 'webapp_url', 'contact_email',
-			'about_url', 'theme_url', 'locker_url', 'endpoint_url',
-			'sso_auto_authentication',
-			'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
-			'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
-			'captcha_allowed',
-			'bookmarks_allowed',
-		], [
-			logo,
-			background,
-			this.webAppURL,
-			this.webAppURL,
-			'ami@lpsc.in2p3.fr',
-			'http://cern.ch/ami/',
-			this.originURL + '/twig/Themes/blue.twig',
-			this.originURL + '/twig/Lockers/default.twig',
-			this.originURL + '/AMI/FrontEnd',
-			false,
-			false, true, true, true,
-			true, true, true, true,
-			true,
-			true,
-		], options);
+			/*--------------------------------------------------------------------------------------------------------*/
 
-		/*------------------------------------------------------------------------------------------------------------*/
+			const [
+				logoURL, backgroundURL, homeURL, webAppURL, contactEmail,
+				aboutURL, themeURL, lockerURL, endpointURL,
+				ssoAutoAuthentication,
+				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
+				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
+				captchaAllowed,
+				bookmarksAllowed,
+			] = this.setup([
+				'logo_url', 'background_url', 'home_url', 'webapp_url', 'contact_email',
+				'about_url', 'theme_url', 'locker_url', 'endpoint_url',
+				'sso_auto_authentication',
+				'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
+				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
+				'captcha_allowed',
+				'bookmarks_allowed',
+			], [
+				logo,
+				background,
+				this.webAppURL,
+				this.webAppURL,
+				'ami@lpsc.in2p3.fr',
+				'http://cern.ch/ami/',
+				this.originURL + '/twig/Themes/blue.twig',
+				this.originURL + '/twig/Lockers/default.twig',
+				this.originURL + '/AMI/FrontEnd',
+				false,
+				false, true, true, true,
+				true, true, true, true,
+				true,
+				true,
+			], options);
 
-		amiWebApp.webAppURL = webAppURL;
+			/*--------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.endpoint = endpointURL;
+			amiWebApp.webAppURL = webAppURL;
 
-		/*------------------------------------------------------------------------------------------------------------*/
+			amiCommand.endpoint = endpointURL;
 
-		window.onbeforeunload = (e) => {
+			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(!this._canLeave)
-			{
-				const f = e || window.event;
+			window.onbeforeunload = (e) => {
 
-				if(f)
+				if(!this._canLeave)
 				{
-					f.returnValue = 'Confirm that you want to leave this page?';
+					const f = e || window.event;
+
+					if(f)
+					{
+						f.returnValue = 'Confirm that you want to leave this page?';
+					}
+
+					return 'Confirm that you want to leave this page?';
 				}
+			};
 
-				return 'Confirm that you want to leave this page?';
-			}
-		};
+			/*--------------------------------------------------------------------------------------------------------*/
 
-		/*------------------------------------------------------------------------------------------------------------*/
+			const controlsURL = this.originURL + '/controls/CONTROLS.json';
 
-		const controlsURL = this.originURL + '/controls/CONTROLS.json';
+			const subappsURL = this.originURL + '/subapps/SUBAPPS.json';
 
-		const subappsURL = this.originURL + '/subapps/SUBAPPS.json';
+			/*--------------------------------------------------------------------------------------------------------*/
 
-		/*------------------------------------------------------------------------------------------------------------*/
+			$.ajax({url: controlsURL, cache: false, crossDomain: true, dataType: 'json'}).then((data1) => {
 
-		$.ajax({url: controlsURL, cache: false, crossDomain: true, dataType: 'json'}).then((data1) => {
+				$.ajax({url: subappsURL, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
 
-			$.ajax({url: subappsURL, cache: false, crossDomain: true, dataType: 'json'}).then((data2) => {
+					for(const name in data1)
+					{
+						this._controls[name.toLowerCase()] = data1[name];
+					}
 
-				for(const name in data1)
-				{
-					this._controls[name.toLowerCase()] = data1[name];
-				}
+					for(const name in data2)
+					{
+						this._subapps[name.toLowerCase()] = data2[name];
+					}
 
-				for(const name in data2)
-				{
-					this._subapps[name.toLowerCase()] = data2[name];
-				}
+					if(!this._embedded)
+					{
+						/*--------------------------------------------------------------------------------------------*/
 
-				if(!this._embedded)
-				{
-					/*------------------------------------------------------------------------------------------------*/
+						const dict = {
+							LOGO_URL: logoURL,
+							BACKGROUND_URL: backgroundURL,
+							HOME_URL: homeURL,
+							CONTACT_EMAIL: contactEmail,
+							ABOUT_URL: aboutURL,
+						};
 
-					const dict = {
-						LOGO_URL: logoURL,
-						BACKGROUND_URL: backgroundURL,
-						HOME_URL: homeURL,
-						CONTACT_EMAIL: contactEmail,
-						ABOUT_URL: aboutURL,
-					};
+						/*--------------------------------------------------------------------------------------------*/
 
-					/*------------------------------------------------------------------------------------------------*/
+						$.ajax({url: themeURL, cache: true, crossDomain: true, dataType: 'text'}).then((data3) => {
 
-					$.ajax({url: themeURL, cache: true, crossDomain: true, dataType: 'text'}).then((data3) => {
+							$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
 
-						$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
+								$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-							$('body').append(this.formatTWIG(data3, dict) + data4).promise().done(() => {
+									this.unlock();
+
+									alert('Yes');
+								});
+
+							}, () => {
+
+								alert('could not open `' + lockerURL + '`, please reload the page...'); // eslint-disable-line no-alert
+							});
+
+						}, () => {
+
+							alert('could not open `' + themeURL + '`, please reload the page...'); // eslint-disable-line no-alert
+						});
+
+						/*--------------------------------------------------------------------------------------------*/
+					}
+					else
+					{
+						/*--------------------------------------------------------------------------------------------*/
+
+						let data3 = '';
+
+						if($('#ami_alert_content').length === 0)
+						{
+							data3 += '<div id="ami_alert_content"></div>';
+						}
+
+						if($('#ami_login_menu_content').length === 0)
+						{
+							data3 += '<div id="ami_login_menu_content"></div>';
+						}
+
+						/*--------------------------------------------------------------------------------------------*/
+
+						$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).done((data4) => {
+
+							$('body').prepend(data3 + data4).promise().done(() => {
 
 								this.unlock();
 
 								alert('Yes');
 							});
-
-						}, () => {
-
-							alert('could not open `' + lockerURL + '`, please reload the page...'); // eslint-disable-line no-alert
 						});
 
-					}, () => {
-
-						alert('could not open `' + themeURL + '`, please reload the page...'); // eslint-disable-line no-alert
-					});
-
-					/*------------------------------------------------------------------------------------------------*/
-				}
-				else
-				{
-					/*------------------------------------------------------------------------------------------------*/
-
-					let data3 = '';
-
-					if($('#ami_alert_content').length === 0)
-					{
-						data3 += '<div id="ami_alert_content"></div>';
+						/*--------------------------------------------------------------------------------------------*/
 					}
 
-					if($('#ami_login_menu_content').length === 0)
-					{
-						data3 += '<div id="ami_login_menu_content"></div>';
-					}
+				}, () => {
 
-					/*------------------------------------------------------------------------------------------------*/
-
-					$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).done((data4) => {
-
-						$('body').prepend(data3 + data4).promise().done(() => {
-
-							this.unlock();
-
-							alert('Yes');
-						});
-					});
-
-					/*------------------------------------------------------------------------------------------------*/
-				}
+					alert('could not open `' + subappsURL + '`, please reload the page...'); // eslint-disable-line no-alert
+				});
 
 			}, () => {
 
-				alert('could not open `' + subappsURL + '`, please reload the page...'); // eslint-disable-line no-alert
+				alert('could not open `' + controlsURL + '`, please reload the page...'); // eslint-disable-line no-alert
 			});
 
-		}, () => {
+			/*--------------------------------------------------------------------------------------------------------*/
 
-			alert('could not open `' + controlsURL + '`, please reload the page...'); // eslint-disable-line no-alert
+			}).fail((message) => {
+
+			alert(message); // eslint-disable-line no-alert
 		});
-
-		/*------------------------------------------------------------------------------------------------------------*/
 
 		return this;
 	}

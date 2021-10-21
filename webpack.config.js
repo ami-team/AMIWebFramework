@@ -168,7 +168,7 @@ const config = {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				{
-					from: path.resolve(__dirname, 'node_modules/popper.js/dist/popper.min.js'),
+					from: path.resolve(__dirname, 'node_modules/popper.js/dist/umd/popper.min.js'),
 					to: path.resolve(__dirname, 'js/assets/js/popper.min.js')
 				},
 				{

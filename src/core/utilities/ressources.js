@@ -108,6 +108,8 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	console.log(urls);
+
 	const url = urls.shift().trim();
 
 	console.log(url);
