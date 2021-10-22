@@ -124,13 +124,6 @@ export default function()
 	jQuery.fn.extend({
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		findWithSelf: function(selector)
-		{
-			return this.find(selector).addBack(selector);
-		},
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		serializeObject: function()
 		{
 			const result = {};

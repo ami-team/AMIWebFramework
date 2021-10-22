@@ -13,6 +13,8 @@
 
 import { $AMIInterface, $AMIClass } from './AMIObject';
 
+import amiCommand from './AMICommand';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 const ami = {};
@@ -23,6 +25,74 @@ if(typeof window !== 'undefined')
 }
 
 export default ami;
+
+/*----------------------------------------------------------------------------------------------------------------*/
+
+/**
+ *
+ * @param {Object<string, *>} ctxDefaults
+ * @param {Object<string, *>} ctxOptionals
+ * @param {Object<string, *>} ctxOptions
+ * @param {Object<string, *>} ctx
+ * @param {Object<string, *>} defaults
+ * @param {Object<string, *>} optionals
+ * @param {Object<string, *>} options
+ * @returns {Object<string, *>}
+ * @private
+ */
+
+function _setupCtx(ctxDefaults, ctxOptionals, ctxOptions, ctx, defaults, optionals, options)
+{
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	if(options)
+	{
+		for(let [key, val] of Object.entries(options))
+		{
+			ctxOptions[key] = val;
+			ctx[key] = val;
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	if(optionals)
+	{
+		for(let [key, val] of Object.entries(optionals))
+		{
+			if(!(key in ctx))
+			{
+				if(key !== 'context')
+				{
+					ctxOptionals[key] = val;
+				}
+
+				ctx[key] = val;
+			}
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	if(defaults)
+	{
+		for(let [key, val] of Object.entries(defaults))
+		{
+			ctxDefaults[key] = val;
+			ctx[key] = val;
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	ctx.httpEndpoint = amiCommand.getHTTPEndpoint();
+
+	ctx.mqttEndpoint = amiCommand.getMQTTEndpoint();
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	return ctx;
+}
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* ami.ISubApp                                                                                                        */
@@ -92,12 +162,12 @@ $AMIClass('ami.SubApp', /** @lends ami.SubApp */ {
 
 	ctxDefaults: {},
 	ctxOptionals: {},
-	ctxSettings: {},
+	ctxOptions: {},
 	ctx: {},
 
 	setupCtx: function(defaults, optionals, settings)
 	{
-		return amiWebApp.setupCtx(this.ctxDefaults, this.ctxOptionals, this.ctxSettings, this.ctx, defaults, optionals, settings);
+		return _setupCtx(this.ctxDefaults, this.ctxOptionals, this.ctxOptions, this.ctx, defaults, optionals, settings);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

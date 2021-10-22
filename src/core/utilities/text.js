@@ -27,7 +27,7 @@ const _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
 /**
  * Escapes the given string from text to HTML
  * @param {string} s the unescaped string
- * @returns {String} The escaped string
+ * @returns {string} The escaped string
  */
 
 export function textToHtml(s)
@@ -38,7 +38,7 @@ export function textToHtml(s)
 /**
  * Unescapes the given string from HTML to text
  * @param {string} s the escaped string
- * @returns {String} The unescaped string
+ * @returns {string} The unescaped string
  */
 
 export function htmlToText(s)
@@ -54,7 +54,7 @@ const _textToStringY = ['\\\\', '\\n', '\\"', '\\\''];
 /**
  * Escapes the given string from text to JavaScript string
  * @param {string} s the unescaped string
- * @returns {String} The escaped string
+ * @returns {string} The escaped string
  */
 
 export function textToString(s)
@@ -65,7 +65,7 @@ export function textToString(s)
 /**
  * Unescapes the given string from JavaScript string to text
  * @param {string} s the escaped string
- * @returns {String} The unescaped string
+ * @returns {string} The unescaped string
  */
 
 export function stringToText(s)
@@ -81,7 +81,7 @@ const _htmlToStringY = ['\\\\', '\\n', '\\&quot;', '\\\''];
 /**
  * Escapes the given string from HTML to JavaScript string
  * @param {string} s the unescaped string
- * @returns {String} The escaped string
+ * @returns {string} The escaped string
  */
 
 export function htmlToString(s)
@@ -92,7 +92,7 @@ export function htmlToString(s)
 /**
  * Unescapes the given string from JavaScript string to HTML
  * @param {string} s the escaped string
- * @returns {String} The unescaped string
+ * @returns {string} The unescaped string
  */
 
 export function stringToHtml(s)
@@ -108,7 +108,7 @@ const _textToSQLY = ['\'\''];
 /**
  * Escapes the given string from text to SQL
  * @param {string} s the unescaped string
- * @returns {String} The escaped string
+ * @returns {string} The escaped string
  */
 
 export function textToSQL(s)
@@ -119,7 +119,7 @@ export function textToSQL(s)
 /**
  * Unescapes the given string from SQL to text
  * @param {string} s the escaped string
- * @returns {String} The unescaped string
+ * @returns {string} The unescaped string
  */
 
 export function sqlToText(s)

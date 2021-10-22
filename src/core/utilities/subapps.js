@@ -167,6 +167,8 @@ export function loadSubApp(subapp, userdata, options)
 	{
 		loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
 
+			fillBreadcrumb(descr.breadcrumb);
+
 			try
 			{
 				_currentSubAppInstance.onExit(userdata);
@@ -176,8 +178,6 @@ export function loadSubApp(subapp, userdata, options)
 				_currentSubAppInstance = instance;
 
 				/**/
-
-				fillBreadcrumb(descr.breadcrumb);
 
 				const promise = loaded[0] ? instance.onReady(userdata)
 				                          : /*------*/ null /*------*/
@@ -227,8 +227,8 @@ export function loadSubApp(subapp, userdata, options)
 
 /**
  * Loads a subapp by URL
- * @param {string} defaultSubApp if 'amiWebApp.args["subapp"]' is null, the default subapp name
- * @param {*} [defaultUserData] if 'amiWebApp.args["userdata"]' is null, the default user data
+ * @param {string} defaultSubApp if 'amiRouter.getArgs()["subapp"]' is null, the default subapp
+ * @param {*} [defaultUserData] if 'amiRouter.getArgs()["userdata"]' is null, the default userdata
  * @returns {$.Deferred} A JQuery deferred object
  */
 

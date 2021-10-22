@@ -11,9 +11,8 @@
 
 'use strict';
 
-import {typeOf, asArray, setup } from './tools';
-
-import {error} from './messages';
+import { error } from './messages';
+import { asArray, setup } from './tools';
 
 import amiRouter from '../AMIRouter';
 
@@ -88,7 +87,7 @@ function _xxxHTML(selector, twig, mode, options)
 			break;
 
 		case 3:
-			promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, '$1 id="' + el.attr('id') + '"') : html).promise();
+			promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, `$1 id="${el.attr('id')}"`) : html).promise();
 			break;
 
 		default:
@@ -105,8 +104,9 @@ function _xxxHTML(selector, twig, mode, options)
 
 		/*--------------------------------------------------------------------------------------------------------*/
 
-		const _find = (mode === 3) ? (_selector) => el.findWithSelf(_selector)
-		                           : (_selector) => el.    find    (_selector)
+		const _find = (mode === 3) ? (_selector) => el.find(selector)
+		                                              .addBack(selector)
+		                           : (_selector) => el.find(_selector)
 		;
 
 		/*--------------------------------------------------------------------------------------------------------*/
@@ -216,13 +216,11 @@ export function formatTWIG(twig, dict, twigs)
 
 	const render = (twig, dict) => {
 
-		if(typeOf(dict) !== 'Object')
-		{
+		if(typeof dict !== 'object') {
 			dict = {};
 		}
 
-		if(typeOf(twigs) !== 'Object')
-		{
+		if(typeof dict !== 'object') {
 			twigs = {};
 		}
 
@@ -233,9 +231,6 @@ export function formatTWIG(twig, dict, twigs)
 	};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-
-	dict = dict || {};
-	twigs = twigs || {};
 
 	asArray(dict).forEach((DICT) => {
 

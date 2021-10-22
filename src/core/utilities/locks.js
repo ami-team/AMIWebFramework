@@ -158,7 +158,7 @@ export let _canLeave = true;
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Specify weather leaving the current page must be confirmed.
+ * Specify whether leaving the current page must be confirmed.
  * @param canLeave
  */
 

@@ -11,10 +11,11 @@
 
 'use strict';
 
-import {asArray, setup} from './tools';
+import {loadSubApp} from './subapps';
 
 import {loadControl} from './controls';
-import {loadSubApp} from './subapps';
+
+import {asArray, setup} from './tools';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* DYNAMIC RESOURCE LOADING                                                                                           */
@@ -103,7 +104,6 @@ function _getDataType(url, dataType)
  * @param {Array<String>} urls
  * @param {string} dataType
  * @param {*} context
- * @returns {$.Deferred}
  * @private
  */
 
@@ -111,7 +111,9 @@ function __loadXXX(deferred, result, urls, dataType, context)
 {
 	if(urls.length === 0)
 	{
-		return deferred.resolveWith(context, [result]);
+		deferred.resolveWith(context, [result]);
+
+		return;
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -136,11 +138,11 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 				result.push(data);
 
-				return __loadXXX(deferred, result, urls, dataType, context);
+				__loadXXX(deferred, result, urls, dataType, context);
 
 			}, (message) => {
 
-				return deferred.rejectWith(context, [message]);
+				deferred.rejectWith(context, [message]);
 			});
 
 			break;
@@ -155,11 +157,11 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 				result.push(data);
 
-				return __loadXXX(deferred, result, urls, dataType, context);
+				__loadXXX(deferred, result, urls, dataType, context);
 
 			}, (message) => {
 
-				return deferred.rejectWith(context, [message]);
+				deferred.rejectWith(context, [message]);
 			});
 
 			break;
@@ -174,7 +176,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
 			{
 				result.push(false);
 
-				return __loadXXX(deferred, result, urls, dataType, context);
+				__loadXXX(deferred, result, urls, dataType, context);
 			}
 			else
 			{
@@ -190,11 +192,11 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 					_sheets.push(url);
 
-					return __loadXXX(deferred, result, urls, dataType, context);
+					__loadXXX(deferred, result, urls, dataType, context);
 
 				}, () => {
 
-					return deferred.rejectWith(context, [`cannot load '${url}'`]);
+					deferred.rejectWith(context, [`cannot load '${url}'`]);
 				});
 			}
 
@@ -210,7 +212,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
 			{
 				result.push(false);
 
-				return __loadXXX(deferred, result, urls, dataType, context);
+				__loadXXX(deferred, result, urls, dataType, context);
 			}
 			else
 			{
@@ -226,11 +228,11 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 					_scripts.push(url);
 
-					return __loadXXX(deferred, result, urls, dataType, context);
+					__loadXXX(deferred, result, urls, dataType, context);
 
 				}, () => {
 
-					return deferred.rejectWith(context, [`cannot load '${url}'`]);
+					deferred.rejectWith(context, [`cannot load '${url}'`]);
 				});
 			}
 
@@ -252,11 +254,11 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 				result.push(data);
 
-				return __loadXXX(deferred, result, urls, dataType, context);
+				__loadXXX(deferred, result, urls, dataType, context);
 
 			}, () => {
 
-				return deferred.rejectWith(context, [`cannot load '${url}'`]);
+				deferred.rejectWith(context, [`cannot load '${url}'`]);
 			});
 
 			break;

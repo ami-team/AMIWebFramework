@@ -16,11 +16,9 @@
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * @param {$.Deferred} deferred
  * @callback doneCallback
  * @callback failCallback
- * @param {$.Deferred} deferred
- * @param doneFunc
- * @param failFunc
  * @private
  */
 
@@ -86,8 +84,8 @@ export function typeOf(x)
 
 export function asArray(x)
 {
-	return typeOf(x) === 'Array' ? (x)
-	                             : [x]
+	return Array.isArray(x) ? (x)
+	                        : [x]
 	;
 }
 

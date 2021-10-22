@@ -21,7 +21,7 @@ export const _controls = {};
 
 /**
  *
- * @param {String} url
+ * @param {string} url
  */
 
 export function loadControl(url)

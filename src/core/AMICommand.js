@@ -31,6 +31,11 @@ class AMICommand
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	/**
+	 * @param {string} httpEndpoint the HTTP endpoint
+	 * @param {string} mqttEndpoint the MQTT endpoint
+	 */
+
 	init(httpEndpoint, mqttEndpoint)
 	{
 		this.#httpClient = new AMIHttpClient(httpEndpoint);
@@ -125,6 +130,20 @@ class AMICommand
 				console.log('MQTT connection closed too');
 			});
 		});
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	getHTTPEndpoint()
+	{
+		return this.#httpClient;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	getMQTTEndpoint()
+	{
+		return this.#mqttClient;
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

@@ -8465,36 +8465,6 @@ if (typeof jQuery !== 'undefined') {
   jQuery.Interface = $AMIInterface;
   jQuery.Class = $AMIClass;
 }
-;// CONCATENATED MODULE: ./src/core/AMIInterface.js
-
-
-
-var ami = {};
-
-if (typeof window !== 'undefined') {
-  window.ami = ami;
-}
-
-/* harmony default export */ const AMIInterface = (ami);
-$AMIInterface('ami.ISubApp', {
-  onReady: function onReady() {},
-  onExit: function onExit() {},
-  onLogin: function onLogin() {},
-  onLogout: function onLogout() {}
-});
-$AMIClass('ami.SubApp', {
-  $implements: [ami.ISubApp],
-  ctxDefaults: {},
-  ctxOptionals: {},
-  ctxSettings: {},
-  ctx: {},
-  setupCtx: function setupCtx(defaults, optionals, settings) {
-    return amiWebApp.setupCtx(this.ctxDefaults, this.ctxOptionals, this.ctxSettings, this.ctx, defaults, optionals, settings);
-  },
-  onExit: function onExit() {},
-  onLogin: function onLogin() {},
-  onLogout: function onLogout() {}
-});
 // EXTERNAL MODULE: ./node_modules/jspath/index.js
 var jspath = __webpack_require__(915);
 var jspath_default = /*#__PURE__*/__webpack_require__.n(jspath);
@@ -9608,6 +9578,16 @@ var AMICommand = function () {
       });
     }
   }, {
+    key: "getHTTPEndpoint",
+    value: function getHTTPEndpoint() {
+      return _classPrivateFieldGet(this, _httpClient);
+    }
+  }, {
+    key: "getMQTTEndpoint",
+    value: function getMQTTEndpoint() {
+      return _classPrivateFieldGet(this, _mqttClient);
+    }
+  }, {
     key: "attachCertificate",
     value: function attachCertificate(username, password, options) {
       options = options || {};
@@ -9661,6 +9641,94 @@ if (typeof window !== 'undefined') {
 }
 
 /* harmony default export */ const core_AMICommand = (AMICommand_amiCommand);
+;// CONCATENATED MODULE: ./src/core/AMIInterface.js
+
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+var ami = {};
+
+if (typeof window !== 'undefined') {
+  window.ami = ami;
+}
+
+/* harmony default export */ const AMIInterface = (ami);
+
+function _setupCtx(ctxDefaults, ctxOptionals, ctxOptions, ctx, defaults, optionals, options) {
+  if (options) {
+    for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
+      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
+          key = _Object$entries$_i[0],
+          val = _Object$entries$_i[1];
+
+      ctxOptions[key] = val;
+      ctx[key] = val;
+    }
+  }
+
+  if (optionals) {
+    for (var _i2 = 0, _Object$entries2 = Object.entries(optionals); _i2 < _Object$entries2.length; _i2++) {
+      var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
+          _key = _Object$entries2$_i[0],
+          _val = _Object$entries2$_i[1];
+
+      if (!(_key in ctx)) {
+        if (_key !== 'context') {
+          ctxOptionals[_key] = _val;
+        }
+
+        ctx[_key] = _val;
+      }
+    }
+  }
+
+  if (defaults) {
+    for (var _i3 = 0, _Object$entries3 = Object.entries(defaults); _i3 < _Object$entries3.length; _i3++) {
+      var _Object$entries3$_i = _slicedToArray(_Object$entries3[_i3], 2),
+          _key2 = _Object$entries3$_i[0],
+          _val2 = _Object$entries3$_i[1];
+
+      ctxDefaults[_key2] = _val2;
+      ctx[_key2] = _val2;
+    }
+  }
+
+  ctx.httpEndpoint = core_AMICommand.getHTTPEndpoint();
+  ctx.mqttEndpoint = core_AMICommand.getMQTTEndpoint();
+  return ctx;
+}
+
+$AMIInterface('ami.ISubApp', {
+  onReady: function onReady() {},
+  onExit: function onExit() {},
+  onLogin: function onLogin() {},
+  onLogout: function onLogout() {}
+});
+$AMIClass('ami.SubApp', {
+  $implements: [ami.ISubApp],
+  ctxDefaults: {},
+  ctxOptionals: {},
+  ctxOptions: {},
+  ctx: {},
+  setupCtx: function setupCtx(defaults, optionals, settings) {
+    return _setupCtx(this.ctxDefaults, this.ctxOptionals, this.ctxOptions, this.ctx, defaults, optionals, settings);
+  },
+  onExit: function onExit() {},
+  onLogin: function onLogin() {},
+  onLogout: function onLogout() {}
+});
 ;// CONCATENATED MODULE: ./src/core/AMIRouter.js
 
 
@@ -9898,7 +9966,7 @@ function typeOf(x) {
   return name.startsWith('[object ') ? name.substring(8, name.length - 1) : '';
 }
 function asArray(x) {
-  return typeOf(x) === 'Array' ? x : [x];
+  return Array.isArray(x) ? x : [x];
 }
 function setup(optionNames, optionDefaults, options) {
   var result = [];
@@ -9975,17 +10043,17 @@ if (typeof window !== 'undefined') {
 ;// CONCATENATED MODULE: ./src/core/AMIExtension.js
 
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function AMIExtension_slicedToArray(arr, i) { return AMIExtension_arrayWithHoles(arr) || AMIExtension_iterableToArrayLimit(arr, i) || AMIExtension_unsupportedIterableToArray(arr, i) || AMIExtension_nonIterableRest(); }
 
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function AMIExtension_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function AMIExtension_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return AMIExtension_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return AMIExtension_arrayLikeToArray(o, minLen); }
 
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function AMIExtension_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function AMIExtension_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function AMIExtension_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function AMIExtension_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { AMIExtension_typeof = function _typeof(obj) { return typeof obj; }; } else { AMIExtension_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return AMIExtension_typeof(obj); }
 
@@ -10025,7 +10093,7 @@ function AMIExtension_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol
       var result = $.Deferred();
 
       var _setup = setup(['context', 'url'], [result, ''], options),
-          _setup2 = _slicedToArray(_setup, 2),
+          _setup2 = AMIExtension_slicedToArray(_setup, 2),
           context = _setup2[0],
           url = _setup2[1];
 
@@ -10049,9 +10117,6 @@ function AMIExtension_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol
   var _ami_internal_removeEvt = new $.Event('remove');
 
   jQuery.fn.extend({
-    findWithSelf: function findWithSelf(selector) {
-      return this.find(selector).addBack(selector);
-    },
     serializeObject: function serializeObject() {
       var result = {};
       this.serializeArray().forEach(function (item) {
@@ -10273,6 +10338,8 @@ function flush() {
 ;// CONCATENATED MODULE: ./src/core/utilities/twig.js
 
 
+function twig_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { twig_typeof = function _typeof(obj) { return typeof obj; }; } else { twig_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return twig_typeof(obj); }
+
 function twig_slicedToArray(arr, i) { return twig_arrayWithHoles(arr) || twig_iterableToArrayLimit(arr, i) || twig_unsupportedIterableToArray(arr, i) || twig_nonIterableRest(); }
 
 function twig_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -10332,7 +10399,7 @@ function _xxxHTML(selector, twig, mode, options) {
       break;
 
     case 3:
-      promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, '$1 id="' + el.attr('id') + '"') : html).promise();
+      promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, "$1 id=\"".concat(el.attr('id'), "\"")) : html).promise();
       break;
 
     default:
@@ -10343,7 +10410,7 @@ function _xxxHTML(selector, twig, mode, options) {
     var el = $(selector);
 
     var _find = mode === 3 ? function (_selector) {
-      return el.findWithSelf(_selector);
+      return el.find(selector).addBack(selector);
     } : function (_selector) {
       return el.find(_selector);
     };
@@ -10386,11 +10453,11 @@ function formatTWIG(twig, dict, twigs) {
   var result = [];
 
   var render = function render(twig, dict) {
-    if (typeOf(dict) !== 'Object') {
+    if (twig_typeof(dict) !== 'object') {
       dict = {};
     }
 
-    if (typeOf(twigs) !== 'Object') {
+    if (twig_typeof(dict) !== 'object') {
       twigs = {};
     }
 
@@ -10399,8 +10466,6 @@ function formatTWIG(twig, dict, twigs) {
     return ami_twig/* default.engine.render */.Z.engine.render(twig, dict, twigs);
   };
 
-  dict = dict || {};
-  twigs = twigs || {};
   asArray(dict).forEach(function (DICT) {
     try {
       result.push(render(twig, DICT, twigs));
@@ -10476,7 +10541,8 @@ function _getDataType(url, dataType) {
 
 function __loadXXX(deferred, result, urls, dataType, context) {
   if (urls.length === 0) {
-    return deferred.resolveWith(context, [result]);
+    deferred.resolveWith(context, [result]);
+    return;
   }
 
   var url = urls.shift().trim();
@@ -10487,25 +10553,28 @@ function __loadXXX(deferred, result, urls, dataType, context) {
     case 'control':
       loadControl(url).then(function (data) {
         result.push(data);
-        return __loadXXX(deferred, result, urls, dataType, context);
+
+        __loadXXX(deferred, result, urls, dataType, context);
       }, function (message) {
-        return deferred.rejectWith(context, [message]);
+        deferred.rejectWith(context, [message]);
       });
       break;
 
     case 'subapp':
       loadSubApp(url).then(function (data) {
         result.push(data);
-        return __loadXXX(deferred, result, urls, dataType, context);
+
+        __loadXXX(deferred, result, urls, dataType, context);
       }, function (message) {
-        return deferred.rejectWith(context, [message]);
+        deferred.rejectWith(context, [message]);
       });
       break;
 
     case 'sheet':
       if (_sheets.indexOf(url) >= 0) {
         result.push(false);
-        return __loadXXX(deferred, result, urls, dataType, context);
+
+        __loadXXX(deferred, result, urls, dataType, context);
       } else {
         $.ajax({
           url: url,
@@ -10518,9 +10587,9 @@ function __loadXXX(deferred, result, urls, dataType, context) {
 
           _sheets.push(url);
 
-          return __loadXXX(deferred, result, urls, dataType, context);
+          __loadXXX(deferred, result, urls, dataType, context);
         }, function () {
-          return deferred.rejectWith(context, ["cannot load '".concat(url, "'")]);
+          deferred.rejectWith(context, ["cannot load '".concat(url, "'")]);
         });
       }
 
@@ -10529,7 +10598,8 @@ function __loadXXX(deferred, result, urls, dataType, context) {
     case 'script':
       if (_scripts.indexOf(url) >= 0) {
         result.push(false);
-        return __loadXXX(deferred, result, urls, dataType, context);
+
+        __loadXXX(deferred, result, urls, dataType, context);
       } else {
         $.ajax({
           url: url,
@@ -10542,9 +10612,9 @@ function __loadXXX(deferred, result, urls, dataType, context) {
 
           _scripts.push(url);
 
-          return __loadXXX(deferred, result, urls, dataType, context);
+          __loadXXX(deferred, result, urls, dataType, context);
         }, function () {
-          return deferred.rejectWith(context, ["cannot load '".concat(url, "'")]);
+          deferred.rejectWith(context, ["cannot load '".concat(url, "'")]);
         });
       }
 
@@ -10559,9 +10629,10 @@ function __loadXXX(deferred, result, urls, dataType, context) {
         dataType: dataTYPE
       }).then(function (data) {
         result.push(data);
-        return __loadXXX(deferred, result, urls, dataType, context);
+
+        __loadXXX(deferred, result, urls, dataType, context);
       }, function () {
-        return deferred.rejectWith(context, ["cannot load '".concat(url, "'")]);
+        deferred.rejectWith(context, ["cannot load '".concat(url, "'")]);
       });
       break;
   }
@@ -10700,12 +10771,13 @@ function loadSubApp(subapp, userdata, options) {
 
   if (descr) {
     loadScripts("".concat(core_AMIRouter.getOriginURL(), "/").concat(descr.file)).then(function (loaded) {
+      fillBreadcrumb(descr.breadcrumb);
+
       try {
         _currentSubAppInstance.onExit(userdata);
 
         var instance = window[descr.instance];
         _currentSubAppInstance = instance;
-        fillBreadcrumb(descr.breadcrumb);
         var promise = loaded[0] ? instance.onReady(userdata) : null;
 
         _internal_then(promise, function () {
@@ -11001,7 +11073,7 @@ var AMIWebApp = function () {
             captchaAllowed = _this2$setup2[19],
             bookmarksAllowed = _this2$setup2[20];
 
-        AMIWebApp_amiWebApp.webAppURL = webAppURL;
+        amiWebApp.webAppURL = webAppURL;
         amiCommand.init(httpEndpointURL, mqttEndpointURL);
 
         window.onbeforeunload = function (e) {
@@ -11118,13 +11190,13 @@ var AMIWebApp = function () {
   return AMIWebApp;
 }();
 
-var AMIWebApp_amiWebApp = new AMIWebApp();
+var amiWebApp = new AMIWebApp();
 
 if (typeof window !== 'undefined') {
-  window.amiWebApp = AMIWebApp_amiWebApp;
+  window.amiWebApp = amiWebApp;
 }
 
-/* harmony default export */ const core_AMIWebApp = (AMIWebApp_amiWebApp);
+/* harmony default export */ const core_AMIWebApp = (amiWebApp);
 ;// CONCATENATED MODULE: ./src/core/AMIDoc.js
 
 
@@ -11139,6 +11211,24 @@ var amiDoc = {
       "params": []
     },
     "functions": [{
+      "name": "init",
+      "desc": "",
+      "params": [{
+        "name": "httpEndpoint",
+        "type": "string",
+        "desc": "the HTTP endpoint",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "mqttEndpoint",
+        "type": "string",
+        "desc": "the MQTT endpoint",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
       "name": "execute",
       "desc": "Executes an AMI command",
       "params": [{
@@ -11556,58 +11646,64 @@ var amiDoc = {
       }]
     }]
   }],
-  "interfaces": [{
-    "name": "ami.ISubApp",
-    "desc": "The AMI sub-application interface",
-    "implements": [],
-    "inherits": [],
-    "functions": [{
-      "name": "onReady",
-      "desc": "Called when the sub-application is ready to run",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "onExit",
-      "desc": "Called when the sub-application is about to exit",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "onLogin",
-      "desc": "Called when logging in",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "onLogout",
-      "desc": "Called when logging out",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }]
-  }],
   "functions": [{
+    "name": "_setupCtx",
+    "desc": "",
+    "params": [{
+      "name": "ctxDefaults",
+      "type": "Object.<string, *>",
+      "desc": "",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "ctxOptionals",
+      "type": "Object.<string, *>",
+      "desc": "",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "ctxOptions",
+      "type": "Object.<string, *>",
+      "desc": "",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "ctx",
+      "type": "Object.<string, *>",
+      "desc": "",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "defaults",
+      "type": "Object.<string, *>",
+      "desc": "",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "optionals",
+      "type": "Object.<string, *>",
+      "desc": "",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "options",
+      "type": "Object.<string, *>",
+      "desc": "",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }],
+    "returns": [{
+      "type": "Object.<string, *>",
+      "desc": ""
+    }]
+  }, {
     "name": "_$createNamespace",
     "desc": "",
     "params": [{
@@ -11696,6 +11792,57 @@ var amiDoc = {
       "default": "{}",
       "optional": true,
       "nullable": ""
+    }]
+  }],
+  "interfaces": [{
+    "name": "ami.ISubApp",
+    "desc": "The AMI sub-application interface",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "onReady",
+      "desc": "Called when the sub-application is ready to run",
+      "params": [{
+        "name": "userdata",
+        "type": "?",
+        "desc": "userdata",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "onExit",
+      "desc": "Called when the sub-application is about to exit",
+      "params": [{
+        "name": "userdata",
+        "type": "?",
+        "desc": "userdata",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "onLogin",
+      "desc": "Called when logging in",
+      "params": [{
+        "name": "userdata",
+        "type": "?",
+        "desc": "userdata",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "onLogout",
+      "desc": "Called when logging out",
+      "params": [{
+        "name": "userdata",
+        "type": "?",
+        "desc": "userdata",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
     }]
   }],
   "namespaces": [{

@@ -36,7 +36,7 @@ class AMIAuth
 
 			amiWebApp._isReady = true;
 
-			result.resolve();
+			result.resolve(/*---*/);
 
 		}, (message) => {
 
