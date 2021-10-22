@@ -132,7 +132,7 @@ class AMIRouter
 
     /**
      * Gets the AWF's script URL
-     * @returns {String} The AWF's script URL
+     * @returns {string} The AWF's script URL
      */
 
     getScriptURL()
@@ -144,7 +144,7 @@ class AMIRouter
 
     /**
      * Gets the origin URL
-     * @returns {String} The origin URL
+     * @returns {string} The origin URL
      */
 
     getOriginURL()
@@ -156,7 +156,7 @@ class AMIRouter
 
     /**
      * Gets the webapp URL
-     * @returns {String} The webapp URL
+     * @returns {string} The webapp URL
      */
 
     getWebAppURL()
@@ -168,7 +168,7 @@ class AMIRouter
 
     /**
      * Gets the anchor part of the webapp URL
-     * @returns {String} The anchor part of the webapp URL
+     * @returns {string} The anchor part of the webapp URL
      */
 
     getHash()
@@ -180,7 +180,7 @@ class AMIRouter
 
     /**
      * Gets the arguments extracted from the webapp URL
-     * @returns {Object<String, String>} The arguments extracted from the webapp URL
+     * @returns {Object<string, string>} The arguments extracted from the webapp URL
      */
 
     getArgs()
@@ -190,11 +190,13 @@ class AMIRouter
 
     /*----------------------------------------------------------------------------------------------------------------*/
 
+	/* !!! A VERIFIER LE TYPE DE `handler` !!! */
+
     /**
      * Appends a routing rule
-     * @param {String} regExp the regExp
+     * @param {string} regExp the regExp
      * @param {Object} handler the handler
-     * @returns {Namespace} The amiRouter singleton
+     * @returns {AMIRouter} The amiRouter singleton
      */
 
     append(regExp, handler)
@@ -211,8 +213,8 @@ class AMIRouter
 
     /**
      * Removes some routing rules
-     * @param {String} regExp the regExp
-     * @returns {Namespace} The amiRouter singleton
+     * @param {string} regExp the regExp
+     * @returns {AMIRouter} The amiRouter singleton
      */
 
     remove(regExp)
@@ -229,7 +231,7 @@ class AMIRouter
 
     /**
      * Checks whether the URL matches with a routing rule
-     * @returns {Boolean}
+     * @returns {boolean}
      */
 
     check()
@@ -255,9 +257,9 @@ class AMIRouter
 
     /**
      * Append a new history entry
-     * @param {String} path the new path
-     * @param {Object} [context=null] the new context
-     * @returns {Boolean}
+     * @param {string} path the new path
+     * @param {Object<string, *>} [context=null] the new context
+     * @returns {boolean}
      */
 
     appendHistoryEntry(path, context = null)
@@ -276,9 +278,9 @@ class AMIRouter
 
     /**
      * Replace the current history entry
-     * @param {String} path the new path
-     * @param {Object} [context=null] the new context
-     * @returns {Boolean}
+     * @param {string} path the new path
+     * @param {Object<string, *>} [context=null] the new context
+     * @returns {boolean}
      */
 
     replaceHistoryEntry(path, context = null)

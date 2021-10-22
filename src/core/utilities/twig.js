@@ -25,7 +25,7 @@ import amiTwig from 'ami-twig';
 
 /**
  * Fill the main breadcrumb
- * @param {Array<String>} items the array of items (HTML format)
+ * @param {Array<string>} items the array of items (HTML format)
  */
 
 export function fillBreadcrumb(items)
@@ -43,10 +43,10 @@ export function fillBreadcrumb(items)
 
 /**
  * Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}
- * @param {String} twig the TWIG string
- * @param {Object|Array<Object>} [dict] the dictionary
- * @param {Object} [twigs] dictionary of fragments
- * @returns {String} The Interpreted TWIG string
+ * @param {string} twig the TWIG string
+ * @param {Object<string, *>|Array<Object<string, *>>} [dict] the dictionary
+ * @param {Object<string, string>} [twigs] dictionary of fragments
+ * @returns {string} The Interpreted TWIG string
  */
 
 export function formatTWIG(twig, dict, twigs)

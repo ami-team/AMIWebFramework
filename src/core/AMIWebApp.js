@@ -317,6 +317,12 @@ class AMIWebApp
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	/**
+	 * Starts the Web application
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (logo_url, home_url, webapp_url, contact_email, about_url, theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)
+	 * @returns {AMIWebApp}
+	 */
+
 	start(options)
 	{
 		this._globalDeferred.done(() => {

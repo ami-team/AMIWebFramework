@@ -65,7 +65,7 @@ export function _internal_always(deferred, alwaysFunc)
 
 /**
  * @param {*} x
- * @returns {String}
+ * @returns {string}
  */
 
 export function typeOf(x)
@@ -96,7 +96,7 @@ export function asArray(x)
 /**
  * @param {Array<String>} optionNames
  * @param {Array<*>} optionDefaults
- * @param {Object} options
+ * @param {Object<String, *>} options
  * @returns {Array<*>}
  */
 

@@ -25,10 +25,10 @@ const _linkExp = new RegExp('\\[([^\\]]*)]\\(([^)]*)\\)', 'g');
 
 /**
  *
- * @param {String} clazz the class
- * @param {String} title the title
- * @param {String|Array<String>} message the messaage
- * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @param {string} clazz the class
+ * @param {string} title the title
+ * @param {string|Array<string>} message the messaage
+ * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
  * @private
  */
 
@@ -113,8 +113,8 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 /**
  * Shows an 'info' message
- * @param {String|Array<String>} message the message
- * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @param {string|Array<string>} message the message
+ * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
  */
 
 export function info(message, fadeOut)
@@ -126,8 +126,8 @@ export function info(message, fadeOut)
 
 /**
  * Shows a 'success' message
- * @param {String|Array<String>} message the message
- * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @param {string|Array<string>} message the message
+ * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
  */
 
 export function success(message, fadeOut)
@@ -139,8 +139,8 @@ export function success(message, fadeOut)
 
 /**
  * Shows a 'warning' message
- * @param {String|Array<String>} message the message
- * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @param {string|Array<string>} message the message
+ * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
  */
 
 export function warning(message, fadeOut)
@@ -152,8 +152,8 @@ export function warning(message, fadeOut)
 
 /**
  * Shows an 'error' message
- * @param {String|Array<String>} message the message
- * @param {Boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @param {string|Array<string>} message the message
+ * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
  */
 
 export function error(message, fadeOut)

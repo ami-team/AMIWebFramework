@@ -15,11 +15,12 @@ import { lock, unlock } from './locks';
 import { fillBreadcrumb } from './twig';
 import { loadScripts } from './ressources';
 import { _internal_then, _internal_always, setup } from './tools';
-import JSPath from 'jspath';
 
 import amiRouter from '../AMIRouter';
 import amiWebApp from '../AMIWebApp';
 import amiAuth from '../AMIAuth';
+
+import JSPath from 'jspath';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* SUBAPPS                                                                                                            */
@@ -45,7 +46,7 @@ let _currentUserdata = null;
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @returns {$.Deferred}
+ * @returns {$.Deferred} A JQuery deferred object
  * @private
  */
 
@@ -85,7 +86,7 @@ function triggerLogin()
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @returns {$.Deferred}
+ * @returns {$.Deferred} A JQuery deferred object
  * @private
  */
 
@@ -166,8 +167,6 @@ export function loadSubApp(subapp, userdata, options)
 	{
 		loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
 
-			alert('Yessss!');
-
 			try
 			{
 				_currentSubAppInstance.onExit(userdata);
@@ -216,7 +215,7 @@ export function loadSubApp(subapp, userdata, options)
 	}
 	else
 	{
-		result.rejectWith(context, [`could not load subapp '${subapp}'`]);
+		result.rejectWith(context, [`could not load subapp '${subapp}': undefined`]);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -228,7 +227,7 @@ export function loadSubApp(subapp, userdata, options)
 
 /**
  * Loads a subapp by URL
- * @param {String} defaultSubApp if 'amiWebApp.args["subapp"]' is null, the default subapp
+ * @param {string} defaultSubApp if 'amiWebApp.args["subapp"]' is null, the default subapp name
  * @param {*} [defaultUserData] if 'amiWebApp.args["userdata"]' is null, the default user data
  * @returns {$.Deferred} A JQuery deferred object
  */
@@ -255,7 +254,7 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 			}
 			catch(message)
 			{
-				json = {/* EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON   EMPTY JSON */};
+				json = {/*-----------------------------------------------------------------*/};
 			}
 
 			/*----------------------------------------------------------------------------------------------------*/

@@ -26,7 +26,7 @@ const _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
 
 /**
  * Escapes the given string from text to HTML
- * @param s {String} string the unescaped string
+ * @param {string} s the unescaped string
  * @returns {String} The escaped string
  */
 
@@ -37,7 +37,7 @@ export function textToHtml(s)
 
 /**
  * Unescapes the given string from HTML to text
- * @param s {String} string the escaped string
+ * @param {string} s the escaped string
  * @returns {String} The unescaped string
  */
 
@@ -53,7 +53,7 @@ const _textToStringY = ['\\\\', '\\n', '\\"', '\\\''];
 
 /**
  * Escapes the given string from text to JavaScript string
- * @param s {String} string the unescaped string
+ * @param {string} s the unescaped string
  * @returns {String} The escaped string
  */
 
@@ -64,7 +64,7 @@ export function textToString(s)
 
 /**
  * Unescapes the given string from JavaScript string to text
- * @param s {String} string the escaped string
+ * @param {string} s the escaped string
  * @returns {String} The unescaped string
  */
 
@@ -80,7 +80,7 @@ const _htmlToStringY = ['\\\\', '\\n', '\\&quot;', '\\\''];
 
 /**
  * Escapes the given string from HTML to JavaScript string
- * @param s {String} string the unescaped string
+ * @param {string} s the unescaped string
  * @returns {String} The escaped string
  */
 
@@ -91,7 +91,7 @@ export function htmlToString(s)
 
 /**
  * Unescapes the given string from JavaScript string to HTML
- * @param s {String} string the escaped string
+ * @param {string} s the escaped string
  * @returns {String} The unescaped string
  */
 
@@ -107,7 +107,7 @@ const _textToSQLY = ['\'\''];
 
 /**
  * Escapes the given string from text to SQL
- * @param s {String} string the unescaped string
+ * @param {string} s the unescaped string
  * @returns {String} The escaped string
  */
 
@@ -118,7 +118,7 @@ export function textToSQL(s)
 
 /**
  * Unescapes the given string from SQL to text
- * @param s {String} string the escaped string
+ * @param {string} s the escaped string
  * @returns {String} The unescaped string
  */
 

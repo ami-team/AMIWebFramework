@@ -26,8 +26,8 @@ const _scripts = [];
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @param {String} url
- * @returns {String}
+ * @param {string} url
+ * @returns {string}
  * @private
  */
 
@@ -41,10 +41,9 @@ function _getExtension(url)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- *
- * @param {String} url
- * @param {String} dataType
- * @returns {String}
+ * @param {string} url
+ * @param {string} dataType
+ * @returns {string}
  * @private
  */
 
@@ -102,7 +101,7 @@ function _getDataType(url, dataType)
  * @param {$.Deferred} deferred
  * @param {Array<*>} result
  * @param {Array<String>} urls
- * @param {String} dataType
+ * @param {string} dataType
  * @param {*} context
  * @returns {$.Deferred}
  * @private
@@ -272,8 +271,8 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 /**
  * @param {Array<String>|String} urls
- * @param {String} dataType
- * @param {Object} [options]
+ * @param {string} dataType
+ * @param {Object<string, *>} [options={}]
  * @returns {$.Deferred}
  * @private
  */
@@ -301,8 +300,8 @@ function _loadXXX(urls, dataType, options)
 
 /**
  * Asynchronously loads resources by file extension
- * @param {(Array<String>|String)} urls the array of urls
- * @param {Object} [options] dictionary of optional parameters (context)
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
@@ -315,8 +314,8 @@ export function loadResources(urls, options)
 
 /**
  * Asynchronously loads CSS sheets
- * @param {(Array<String>|String)} urls the array of urls
- * @param {Object} [options] dictionary of optional parameters (context)
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
@@ -329,8 +328,8 @@ export function loadSheets(urls, options)
 
 /**
  * Asynchronously loads JS scripts
- * @param {(Array<String>|String)} urls the array of urls
- * @param {Object} [options] dictionary of optional parameters (context)
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
@@ -343,8 +342,8 @@ export function loadScripts(urls, options)
 
 /**
  * Asynchronously loads JSON files
- * @param {(Array<String>|String)} urls the array of urls
- * @param {Object} [options] dictionary of optional parameters (context)
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
@@ -357,8 +356,8 @@ export function loadJSONs(urls, options)
 
 /**
  * Asynchronously loads XML files
- * @param {(Array<String>|String)} urls the array of urls
- * @param {Object} [options] dictionary of optional parameters (context)
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
@@ -371,8 +370,8 @@ export function loadXMLs(urls, options)
 
 /**
  * Asynchronously loads HTML files
- * @param {(Array<String>|String)} urls the array of urls
- * @param {Object} [options] dictionary of optional parameters (context)
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
@@ -385,8 +384,8 @@ export function loadHTMLs(urls, options)
 
 /**
  * Asynchronously loads TWIG files
- * @param {(Array<String>|String)} urls the array of urls
- * @param {Object} [options] dictionary of optional parameters (context)
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
@@ -399,8 +398,8 @@ export function loadTWIGs(urls, options)
 
 /**
  * Asynchronously loads text files
- * @param {(Array<String>|String)} urls the array of urls
- * @param {Object} [options] dictionary of optional parameters (context)
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 

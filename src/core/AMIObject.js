@@ -15,13 +15,34 @@
 /* NAMESPACE HELPERS                                                                                                  */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+let _base;
+
+/**/ if(typeof window !== 'undefined') {
+	_base = window;
+}
+else if(typeof global !== 'undefined') {
+	_base = global;
+}
+else {
+	throw 'Neither \'window\' nor \'global\' is defined';
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {string} $name
+ * @param {Object<string, *>} x
+ * @private
+ */
+
 function _$createNamespace($name, x)
 {
-	let parent = window;
+	let i;
+	let parent = _base;
 
 	const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
 
-	for(var i = 0; i < l; i++)
+	for(i = 0; i < l; i++)
 	{
 		if(parent[parts[i]])
 		{
@@ -38,13 +59,20 @@ function _$createNamespace($name, x)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * @param {string} $name
+ * @param {Object<string, *>} x
+ * @private
+ */
+
 function _$addToNamespace($name, x)
 {
-	let parent = window;
+	let i;
+	let parent = _base;
 
 	const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
 
-	for(var i = 0; i < l; i++)
+	for(i = 0; i < l; i++)
 	{
 		if(parent[parts[i]])
 		{
@@ -52,7 +80,7 @@ function _$addToNamespace($name, x)
 		}
 		else
 		{
-			throw '`' + $name + '` (`' + parts[i] + '`) not declared';
+			throw `'${$name}' ('${parts[i]}') not declared`;
 		}
 	}
 
@@ -65,8 +93,8 @@ function _$addToNamespace($name, x)
 
 /**
   * Create a new namespace
-  * @param {String} $name the namespace name
-  * @param {Object} [$descr] the namespace body
+  * @param {string} $name the namespace name
+  * @param {Object<string, *>} [$descr={}] the namespace body
   */
 
 export function $AMINamespace($name, $descr)
@@ -100,8 +128,8 @@ export function $AMINamespace($name, $descr)
 
 /**
   * Create a new interface
-  * @param {String} $name the interface name
-  * @param {Object} [$descr] the interface body
+  * @param {string} $name the interface name
+  * @param {Object<string, *>} [$descr={}] the interface body
   */
 
 export function $AMIInterface($name, $descr)
@@ -161,8 +189,8 @@ export function $AMIInterface($name, $descr)
 
 /**
   * Create a new class
-  * @param {String} $name the class name
-  * @param {Object} [$descr] the class body
+  * @param {string} $name the class name
+  * @param {Object<string, *>} [$descr={}] the class body
   */
 
 export function $AMIClass($name, $descr)
@@ -199,7 +227,7 @@ export function $AMIClass($name, $descr)
 
 						if(typeof(this[j]) !== typeof($member))
 						{
-							throw 'class `' + this.$name + '` with must implement `' + $interface.$name + '.' + j + '`';
+							throw `class '${this.$name}' with must implement '${$interface.$name}.${j}'`;
 						}
 					}
 				}
@@ -309,15 +337,12 @@ export function $AMIClass($name, $descr)
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-/* NodeJS EXTENSION                                                                                                   */
+/* BROWSER OR NODEJS EXTENSION                                                                                        */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-if(typeof exports !== 'undefined')
-{
-	module.exports.Namespace = $AMINamespace;
-	module.exports.Interface = $AMIInterface;
-	module.exports.  Class   =   $AMIClass  ;
-}
+_base.$AMINamespace = $AMINamespace;
+_base.$AMIInterface = $AMIInterface;
+_base.  $AMIClass   =   $AMIClass  ;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* JQUERY EXTENSION                                                                                                   */
