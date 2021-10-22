@@ -29,13 +29,13 @@ import {_subapps, loadSubApp, loadSubAppByURL} from './utilities/subapps';
 
 import { error, flush, info, success, warning } from './utilities/messages';
 
+import { fillBreadcrumb, replaceHTML, appendHTML, prependHTML, formatTWIG } from './utilities/twig';
+
 import { getStack, lock, unlock, modalEnter, modalLeave, _canLeave, canLeave } from './utilities/locks';
 
 import { loadResources, loadSheets, loadScripts, loadJSONs, loadXMLs, loadHTMLs, loadTWIGs, loadTexts } from './utilities/ressources';
 
 import { textToHtml, htmlToText, textToString, stringToText, htmlToString, stringToHtml, textToSQL, sqlToText } from './utilities/text';
-
-import { fillBreadcrumb, formatTWIG } from './utilities/twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -270,7 +270,15 @@ class AMIWebApp
 	fillBreadcrumb = fillBreadcrumb;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-	/* BREADCRUMB                                                                                                     */
+	/* HTML                                                                                                           */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	replaceHTML = replaceHTML;
+	prependHTML = prependHTML;
+	appendHTML = appendHTML;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* TWIG                                                                                                           */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	formatTWIG = formatTWIG;

@@ -10273,6 +10273,18 @@ function flush() {
 ;// CONCATENATED MODULE: ./src/core/utilities/twig.js
 
 
+function twig_slicedToArray(arr, i) { return twig_arrayWithHoles(arr) || twig_iterableToArrayLimit(arr, i) || twig_unsupportedIterableToArray(arr, i) || twig_nonIterableRest(); }
+
+function twig_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function twig_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return twig_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return twig_arrayLikeToArray(o, minLen); }
+
+function twig_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function twig_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function twig_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
 
 
 
@@ -10282,6 +10294,93 @@ function fillBreadcrumb(items) {
     return "<li class=\"breadcrumb-item\">".concat(item.replace(/{{ORIGIN_URL}}/g, core_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, core_AMIRouter.getWebAppURL()), "</li>");
   }).join('') : '';
   $('#ami_breadcrumb_content').html(s);
+}
+
+var _idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g');
+
+function _xxxHTML(selector, twig, mode, options) {
+  var result = $.Deferred();
+
+  var _setup = setup(['context', 'suffix', 'dict', 'twigs'], [result, null, {}, {}], options),
+      _setup2 = twig_slicedToArray(_setup, 4),
+      context = _setup2[0],
+      suffix = _setup2[1],
+      dict = _setup2[2],
+      twigs = _setup2[3];
+
+  if (suffix) {
+    twig = twig.replace(_idRegExp, function (id) {
+      return "".concat(id, "_instance").concat(suffix);
+    });
+  }
+
+  var html = formatTWIG(twig, dict, twigs);
+  var promise;
+  var el = $(selector);
+
+  switch (mode) {
+    case 0:
+      promise = el.html(html).promise();
+      break;
+
+    case 1:
+      promise = el.prepend(html).promise();
+      break;
+
+    case 2:
+      promise = el.append(html).promise();
+      break;
+
+    case 3:
+      promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, '$1 id="' + el.attr('id') + '"') : html).promise();
+      break;
+
+    default:
+      throw 'internal error';
+  }
+
+  promise.done(function () {
+    var el = $(selector);
+
+    var _find = mode === 3 ? function (_selector) {
+      return el.findWithSelf(_selector);
+    } : function (_selector) {
+      return el.find(_selector);
+    };
+
+    if (jQuery.fn.tooltip) {
+      _find('[data-toggle="tooltip"]').tooltip({
+        html: false,
+        delay: {
+          show: 500,
+          hide: 100
+        }
+      });
+    }
+
+    if (jQuery.fn.popover) {
+      _find('[data-toggle="popover"]').popover({
+        html: true,
+        delay: {
+          show: 500,
+          hide: 100
+        }
+      });
+    }
+
+    result.resolveWith(context, [el]);
+  });
+  return result.promise();
+}
+
+function replaceHTML(selector, twig, options) {
+  return _xxxHTML(selector, twig, 0, options);
+}
+function prependHTML(selector, twig, options) {
+  return _xxxHTML(selector, twig, 1, options);
+}
+function appendHTML(selector, twig, options) {
+  return _xxxHTML(selector, twig, 2, options);
 }
 function formatTWIG(twig, dict, twigs) {
   var result = [];
@@ -10799,6 +10898,12 @@ var AMIWebApp = function () {
     _defineProperty(this, "flush", flush);
 
     _defineProperty(this, "fillBreadcrumb", fillBreadcrumb);
+
+    _defineProperty(this, "replaceHTML", replaceHTML);
+
+    _defineProperty(this, "prependHTML", prependHTML);
+
+    _defineProperty(this, "appendHTML", appendHTML);
 
     _defineProperty(this, "formatTWIG", formatTWIG);
 

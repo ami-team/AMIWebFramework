@@ -11,7 +11,7 @@
 
 'use strict';
 
-import {typeOf, asArray} from './tools';
+import {typeOf, asArray, setup } from './tools';
 
 import {error} from './messages';
 
@@ -35,6 +35,165 @@ export function fillBreadcrumb(items)
 	;
 
 	$('#ami_breadcrumb_content').html(s);
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* HTML                                                                                                               */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+const _idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g');
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+function _xxxHTML(selector, twig, mode, options)
+{
+	const result = $.Deferred();
+
+	const [context, suffix, dict, twigs] = setup(
+		['context', 'suffix', 'dict', 'twigs'],
+		[result, null, {}, {}],
+		options
+	);
+
+	/*------------------------------------------------------------------------------------------------------------*/
+
+	if(suffix)
+	{
+		twig = twig.replace(_idRegExp, function(id) {
+
+			return `${id}_instance${suffix}`;
+		});
+	}
+
+	const html = formatTWIG(twig, dict, twigs);
+
+	/*------------------------------------------------------------------------------------------------------------*/
+
+	let promise;
+
+	let el = $(selector);
+
+	switch(mode)
+	{
+		case 0:
+			promise = el.html(html).promise();
+			break;
+
+		case 1:
+			promise = el.prepend(html).promise();
+			break;
+
+		case 2:
+			promise = el.append(html).promise();
+			break;
+
+		case 3:
+			promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, '$1 id="' + el.attr('id') + '"') : html).promise();
+			break;
+
+		default:
+			throw 'internal error';
+	}
+
+	/*------------------------------------------------------------------------------------------------------------*/
+
+	promise.done(() => {
+
+		/*--------------------------------------------------------------------------------------------------------*/
+
+		let el = $(selector);
+
+		/*--------------------------------------------------------------------------------------------------------*/
+
+		const _find = (mode === 3) ? (_selector) => el.findWithSelf(_selector)
+		                           : (_selector) => el.    find    (_selector)
+		;
+
+		/*--------------------------------------------------------------------------------------------------------*/
+
+		if(jQuery.fn.tooltip)
+		{
+			_find('[data-toggle="tooltip"]').tooltip({
+				html: false,
+				delay: {
+					show: 500,
+					hide: 100,
+				},
+			});
+		}
+
+		/*--------------------------------------------------------------------------------------------------------*/
+
+		if(jQuery.fn.popover)
+		{
+			_find('[data-toggle="popover"]').popover({
+				html: true,
+				delay: {
+					show: 500,
+					hide: 100,
+				},
+			});
+		}
+
+		/*--------------------------------------------------------------------------------------------------------*/
+
+		/* TODO */
+
+		/*--------------------------------------------------------------------------------------------------------*/
+
+		result.resolveWith(context, [el]);
+
+		/*--------------------------------------------------------------------------------------------------------*/
+	});
+
+	/*------------------------------------------------------------------------------------------------------------*/
+
+	return result.promise();
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+ * @param {string} selector the target selector
+ * @param {string} twig the TWIG fragment
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, suffix, dict, twigs)
+ * @returns {$.Deferred} A JQuery deferred object
+ */
+
+export function replaceHTML(selector, twig, options)
+{
+	return _xxxHTML(selector, twig, 0, options);
+}
+
+/*----------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+ * @param {string} selector the target selector
+ * @param {string} twig the TWIG fragment
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, suffix, dict, twigs)
+ * @returns {$.Deferred} A JQuery deferred object
+ */
+
+export function prependHTML(selector, twig, options)
+{
+	return _xxxHTML(selector, twig, 1, options);
+}
+
+/*----------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+ * @param {string} selector the target selector
+ * @param {string} twig the TWIG fragment
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, suffix, dict, twigs)
+ * @returns {$.Deferred} A JQuery deferred object
+ */
+
+export function appendHTML(selector, twig, options)
+{
+	return _xxxHTML(selector, twig, 2, options);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
