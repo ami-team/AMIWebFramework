@@ -22,6 +22,7 @@
     "jquery": "^3.6.0",
     "jquery-qrcode": "github:lrsjng/jquery-qrcode",
     "jsdoc-json": "^2.0.2",
+    "jspath": "^0.4.0",
     "moment": "^2.29.1",
     "popper.js": "^1.16.1",
     "select2": "^4.1.0-rc.0"

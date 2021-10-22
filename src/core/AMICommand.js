@@ -239,10 +239,11 @@ class AMICommand
 
 	resetPassword(username, captchaHash, captchaText, options)
 	{
-		return this.execute('ResetPassword -amiLogin=? -captchaHash=? -captchaText=?', {
-			params: [username, captchaHash, captchaText],
-			...(options || {}),
-		});
+		options = options || {};
+
+		options.params = [username, captchaHash, captchaText];
+
+		return this.execute('ResetPassword -amiLogin=? -captchaHash=? -captchaText=?', options);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

@@ -16,6 +16,54 @@
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * @callback doneCallback
+ * @callback failCallback
+ * @param {$.Deferred} deferred
+ * @param doneFunc
+ * @param failFunc
+ * @private
+ */
+
+export function _internal_then(deferred, doneFunc, failFunc)
+{
+	if(deferred && deferred.then)
+	{
+		deferred.then(
+			doneFunc,
+			failFunc
+		);
+	}
+	else
+	{
+		doneFunc();
+	}
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {$.Deferred} deferred
+ * @callback alwaysFunc
+ * @private
+ */
+
+export function _internal_always(deferred, alwaysFunc)
+{
+	if(deferred && deferred.always)
+	{
+		deferred.always(
+			alwaysFunc
+		);
+	}
+	else
+	{
+		alwaysFunc();
+	}
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
  * @param {*} x
  * @returns {String}
  */
@@ -33,7 +81,7 @@ export function typeOf(x)
 
 /**
  * @param {*} x
- * @returns {Array[*]}
+ * @returns {Array<*>}
  */
 
 export function asArray(x)

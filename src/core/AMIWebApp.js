@@ -13,17 +13,19 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+import amiAuth from './AMIAuth';
+
 import amiRouter from './AMIRouter';
 
 import amiExtension from './AMIExtension';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import { _subapps } from './utilities/subapps';
-
 import { _controls } from './utilities/controls';
 
 import { typeOf, asArray, setup } from './utilities/tools';
+
+import {_subapps, loadSubApp, loadSubAppByURL} from './utilities/subapps';
 
 import { error, flush, info, success, warning } from './utilities/messages';
 
@@ -60,19 +62,6 @@ class AMIWebApp
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_isReady = false;
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	_currentSubAppInstance = new function() {
-		this.onReady = function() {
-		};
-		this.onExit = function() {
-		};
-		this.onLogin = function() {
-		};
-		this.onLogout = function() {
-		};
-	};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* PUBLIC MEMBERS                                                                                                 */
@@ -287,6 +276,46 @@ class AMIWebApp
 	formatTWIG = formatTWIG;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+	/* WEB APPLICATION                                                                                                */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * This method must be overloaded and is called when the Web application starts
+	 * @event amiWebApp#onReady
+	 * @param {String} userData
+	 */
+
+	onReady()
+	{
+		if(!this._embedded)
+		{
+			alert('error: `amiWebApp.onReady()` must be overloaded!'); // eslint-disable-line no-alert
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * This method must be overloaded and is called when the toolbar needs to be updated
+	 * @event amiWebApp#onRefresh
+	 * @param {Boolean} isAuth
+	 */
+
+	onRefresh()
+	{
+		if(!this._embedded)
+		{
+			alert('error: `amiWebApp.onRefresh()` must be overloaded!'); // eslint-disable-line no-alert
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	loadSubApp = loadSubApp;
+
+	loadSubAppByURL = loadSubAppByURL;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	start(options)
 	{
@@ -393,9 +422,16 @@ class AMIWebApp
 
 								$('body').append(formatTWIG(data3, dict) + data4).promise().done(() => {
 
-									this.unlock();
+									this.lock();
 
-									success('Yes');
+									amiAuth.init().done(() => {
+
+										success('Yes');
+
+									}).fail((message) => {
+
+										this.error(message);
+									});
 								});
 
 							}, () => {
@@ -432,9 +468,16 @@ class AMIWebApp
 
 							$('body').prepend(data3 + data4).promise().done(() => {
 
-								this.unlock();
+								this.lock();
 
-								success('Yes');
+								amiAuth.init().done(() => {
+
+									success('Yes');
+
+								}).fail((message) => {
+
+									this.error(message);
+								});
 							});
 						});
 

@@ -708,7 +708,7 @@ eval("module.exports = __webpack_require__.p + \"assets/images/stripe2.png\";\n\
 /******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
 /******/ 		var installedChunks = {
-/******/ 			"ami.min": 0
+/******/ 			"ami": 0
 /******/ 		};
 /******/ 		
 /******/ 		// no chunk on demand loading
