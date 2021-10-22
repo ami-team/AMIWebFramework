@@ -29,17 +29,17 @@ knowledge of the CeCILL-C license and that you accept its terms.
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 const BROWSER_LIST = [
-    '>= 1%',
-    'last 1 major version',
-    'not dead',
-    'Chrome >= 45',
-    'Firefox >= 38',
-    'Edge >= 12',
-    'Explorer >= 10',
-    'iOS >= 9',
-    'Safari >= 9',
-    'Android >= 4.4',
-    'Opera >= 30'
+	'>= 1%',
+	'last 1 major version',
+	'not dead',
+	'Chrome >= 45',
+	'Firefox >= 38',
+	'Edge >= 12',
+	'Explorer >= 10',
+	'iOS >= 9',
+	'Safari >= 9',
+	'Android >= 4.4',
+	'Opera >= 30'
 ];
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -50,106 +50,110 @@ console.log('Building AMI HTTP Client for: ' + BROWSER_LIST.join(', '));
 
 const path = require('path');
 const webpack = require('webpack');
+
 const CopyPlugin = require("copy-webpack-plugin");
 const JsDocPlugin = require('jsdoc-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 const config = {
-    entry: './index.js',
-    output: {
-        filename: 'ami.min.js',
-        path: path.resolve(__dirname, 'js'),
-        clean: true
-    },
-    module: {
-        rules: [
-            /*--------------------------------------------------------------------------------------------------------*/
-/*
-            {
-                'test': /\.js$/,
-                'exclude': /node_modules/,
-                'use': [
-                    {
-                        'loader': 'string-replace-loader',
-                        'options': {
-                            'search': '{{VERSION}}',
-                            'replace': PACKAGE.version,
-                            'flags': 'g'
-                        }
-                    },
-                    {
-                        'loader': 'babel-loader',
-                        'options': {
-                            'comments': false,
-                            'compact': false,
-                            'minified': false,
-                            'presets': [
-                                ['@babel/preset-env', {
-                                    'targets': {
-                                        'browsers': BROWSER_LIST
-                                    }
-                                }]
-                            ]
-                        }
-                    }
-                ]
-            },
-*/
-            /*--------------------------------------------------------------------------------------------------------*/
+	'entry': {
+		'ami': path.resolve(__dirname, 'index.js'),
+		'ami.min': path.resolve(__dirname, 'index.js')
+	},
+	'output': {
+		'path': path.resolve(__dirname, 'js'),
+		'filename': '[name].js'
+	},
+	'module': {
+		'rules': [
+			/*--------------------------------------------------------------------------------------------------------*/
 
-            {
-                'type': 'asset/resource',
-                'test': /\.woff(2)?|eot|ttf|svg$/,
-                'include': [path.resolve(__dirname, 'src/fonts')],
-                'generator': {
-                    'filename': 'assets/fonts/[name][ext]'
-                }
-            },
+			{
+				'test': /\.js$/,
+				'exclude': /node_modules/,
+				'use': [
+					{
+						'loader': 'string-replace-loader',
+						'options': {
+							'search': '{{VERSION}}',
+							'replace': PACKAGE.version,
+							'flags': 'g'
+						}
+					},
+					{
+						'loader': 'babel-loader',
+						'options': {
+							'comments': false,
+							'compact': false,
+							'minified': false,
+							'presets': [
+								['@babel/preset-env', {
+									'targets': {
+										'browsers': BROWSER_LIST
+									}
+								}]
+							]
+						}
+					}
+				]
+			},
 
-            /*--------------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 
-            {
-                'type': 'asset/resource',
-                'test': /\.(gif|png|jpg|jpeg|svg)$/,
-                'include': [path.resolve(__dirname, 'src/images')],
-                'generator': {
-                    'filename': 'assets/images/[name][ext]'
-                }
-            },
+			{
+				'type': 'asset/resource',
+				'test': /\.woff(2)?|eot|ttf|svg$/,
+				'include': [path.resolve(__dirname, 'src/fonts')],
+				'generator': {
+					'filename': 'assets/fonts/[name][ext]'
+				}
+			},
 
-            /*--------------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 
-            {
-                test: /\.css$/,
-                use: ['style-loader', 'css-loader'],
-            },
+			{
+				'type': 'asset/resource',
+				'test': /\.(gif|png|jpg|jpeg|svg)$/,
+				'include': [path.resolve(__dirname, 'src/images')],
+				'generator': {
+					'filename': 'assets/images/[name][ext]'
+				}
+			},
 
-            /*--------------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 
-            {
-                test: /\.scss$/,
-                use: ['style-loader', 'css-loader', 'sass-loader'],
-            },
+			{
+				test: /\.css$/,
+				use: ['style-loader', 'css-loader'],
+			},
 
-            /*--------------------------------------------------------------------------------------------------------*/
-/*
-            {
-                test: /\.twig$/,
-                include: [path.resolve(__dirname, 'src/template')],
-                use: 'raw-loader',
-            }
-*/
-            /*--------------------------------------------------------------------------------------------------------*/
-        ],
-    },
-    'externals': {
-        '$': 'jQuery',
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			{
+				test: /\.scss$/,
+				use: ['style-loader', 'css-loader', 'sass-loader'],
+			},
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			{
+				test: /\.twig$/,
+				include: [path.resolve(__dirname, 'src/template')],
+				use: 'raw-loader',
+			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+		],
+	},
+	'externals': {
+		'$': 'jQuery',
 		'moment': 'moment',
 		'select2': 'select2'
-    },
-    'plugins': [
+	},
+	'plugins': [
 		new CopyPlugin({
 			patterns: [
 				/*----------------------------------------------------------------------------------------------------*/
@@ -157,12 +161,12 @@ const config = {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				{
-					from: path.resolve(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
-					to: path.resolve(__dirname, 'js/assets/css/bootstrap.min.css')
+					'from': path.resolve(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
+					'to': path.resolve(__dirname, 'js/assets/css/bootstrap.min.css')
 				},
 				{
-					from: path.resolve(__dirname, 'node_modules/select2/dist/css/select2.min.css'),
-					to: path.resolve(__dirname, 'js/assets/css/select2.min.css')
+					'from': path.resolve(__dirname, 'node_modules/select2/dist/css/select2.min.css'),
+					'to': path.resolve(__dirname, 'js/assets/css/select2.min.css')
 				},
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -170,44 +174,56 @@ const config = {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				{
-					from: path.resolve(__dirname, 'node_modules/popper.js/dist/umd/popper.min.js'),
-					to: path.resolve(__dirname, 'js/assets/js/popper.min.js')
+					'from': path.resolve(__dirname, 'node_modules/popper.js/dist/umd/popper.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/popper.min.js')
 				},
 				{
-					from: path.resolve(__dirname, 'node_modules/moment/min/moment.min.js'),
-					to: path.resolve(__dirname, 'js/assets/js/moment.min.js')
+					'from': path.resolve(__dirname, 'node_modules/moment/min/moment.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/moment.min.js')
 				},
 				{
-					from: path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
-					to: path.resolve(__dirname, 'js/assets/js/jquery.min.js')
+					'from': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/jquery.min.js')
 				},
 				{
-					from: path.resolve(__dirname, 'node_modules/jquery-qrcode/dist/jquery-qrcode.min.js'),
-					to: path.resolve(__dirname, 'js/assets/js/jquery-qrcode.min.js')
+					'from': path.resolve(__dirname, 'node_modules/jquery-qrcode/dist/jquery-qrcode.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/jquery-qrcode.min.js')
 				},
 				{
-					from: path.resolve(__dirname, 'node_modules/bootstrap/dist/js/bootstrap.min.js'),
-					to: path.resolve(__dirname, 'js/assets/js/bootstrap.min.js')
+					'from': path.resolve(__dirname, 'node_modules/bootstrap/dist/js/bootstrap.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/bootstrap.min.js')
 				},
 				{
-					from: path.resolve(__dirname, 'node_modules/select2/dist/js/select2.min.js'),
-					to: path.resolve(__dirname, 'js/assets/js/select2.min.js')
+					'from': path.resolve(__dirname, 'node_modules/select2/dist/js/select2.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/select2.min.js')
 				},
 
 				/*----------------------------------------------------------------------------------------------------*/
 			],
 		}),
-        new JsDocPlugin({
-            conf: './src/jsdoc/config.js',
-            'cwd': '.',
-        }),
-        new ESLintPlugin({
-            'failOnWarning': true
-        }),
-        new webpack.BannerPlugin({
-            'banner': BANNER
-        })
-    ]
+		new JsDocPlugin({
+			conf: './src/jsdoc/config.js',
+			'cwd': '.',
+		}),
+		new ESLintPlugin({
+			'failOnWarning': true
+		}),
+		new webpack.BannerPlugin({
+			'banner': BANNER
+		})
+	],
+	'optimization': {
+		'minimizer': [
+			new TerserPlugin({
+				'test': /\.min\.js$/,
+				'parallel': true,
+				'extractComments': false
+			})
+		]
+	},
+	'performance' : {
+		'hints': false
+	}
 };
 
 /*--------------------------------------------------------------------------------------------------------------------*/

@@ -49,7 +49,7 @@ export function fillBreadcrumb(items)
  * @returns {String} The Interpreted TWIG string
  */
 
-export function formatTWIG(twig, dict = {}, twigs = {})
+export function formatTWIG(twig, dict, twigs)
 {
 	const result = [];
 
@@ -74,6 +74,9 @@ export function formatTWIG(twig, dict = {}, twigs = {})
 	};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
+	dict = dict || {};
+	twigs = twigs || {};
 
 	asArray(dict).forEach((DICT) => {
 

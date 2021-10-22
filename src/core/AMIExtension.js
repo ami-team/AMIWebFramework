@@ -13,20 +13,43 @@
 
 import {setup} from './utilities/tools';
 
-export default function amiExtension()
+export default function()
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* ES6 EXTENSIONS                                                                                                 */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	if(!String.prototype.startsWith)
+	{
+		String.prototype.startsWith = function(s)
+		{
+			const base = 0x00000000000000000000;
+
+			return this.indexOf(s, base) === base;
+		};
+	}
+
+	/*--------------------------------------------------------------------------------------------------------------------*/
+
+	if(!String.prototype.endsWith)
+	{
+		String.prototype.endsWith = function(s)
+		{
+			const base = this.length - s.length;
+
+			return this.indexOf(s, base) === base;
+		};
+	}
+
+	/*--------------------------------------------------------------------------------------------------------------------*/
+
 	if(!String.prototype.hashCode)
 	{
 		String.prototype.hashCode = function() {
+
 			let hash = 0;
 
-			const length = this.length;
-
-			for(let i = 0; i < length; i++)
+			for(let i = 0; i < this.length; i++)
 			{
 				hash = ((hash << 5) - hash) + this.charCodeAt(i);
 
@@ -34,8 +57,8 @@ export default function amiExtension()
 			}
 
 			return hash < 0 ? -hash
-				: +hash
-				;
+			                : +hash
+			;
 		};
 	}
 
@@ -47,8 +70,8 @@ export default function amiExtension()
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	jQuery.ajax = function(options) {
-
+	jQuery.ajax = function(options)
+	{
 		if(typeof options === 'object' && options.dataType === 'sheet')
 		{
 			const result = $.Deferred();
@@ -101,13 +124,15 @@ export default function amiExtension()
 	jQuery.fn.extend({
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		findWithSelf: function(selector) {
+		findWithSelf: function(selector)
+		{
 			return this.find(selector).addBack(selector);
 		},
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		serializeObject: function() {
+		serializeObject: function()
+		{
 			const result = {};
 
 			this.serializeArray().forEach((item) => {
@@ -132,8 +157,8 @@ export default function amiExtension()
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		val: function() {
-
+		val: function()
+		{
 			/**/ if(arguments.length === 0) // getter
 			{
 				if(this.hasClass('form-editor-hidden'))
@@ -158,8 +183,8 @@ export default function amiExtension()
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		remove: function() {
-
+		remove: function()
+		{
 			$(this).trigger(_ami_internal_removeEvt);
 
 			return _ami_internal_jQueryRemove.apply(this, arguments);

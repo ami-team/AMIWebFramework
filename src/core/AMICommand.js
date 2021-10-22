@@ -48,8 +48,8 @@ class AMICommand
 
 	execute(command, options)
 	{
-		return (typeof options !== 'undefined' && 'mqtt' in options) ? this.#mqttClient.execute(command, options)
-			                                                         : this.#httpClient.execute(command, options)
+		return (typeof options === 'object' && 'mqtt' in options) ? this.#mqttClient.execute(command, options)
+			                                                      : this.#httpClient.execute(command, options)
 		;
 	 }
 
