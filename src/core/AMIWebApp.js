@@ -21,8 +21,6 @@ import amiExtension from './AMIExtension';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import { _controls } from './utilities/controls';
-
 import { typeOf, asArray, setup } from './utilities/tools';
 
 import {_subapps, loadSubApp, loadSubAppByURL} from './utilities/subapps';
@@ -36,6 +34,8 @@ import { getStack, lock, unlock, modalEnter, modalLeave, _canLeave, canLeave } f
 import { loadResources, loadSheets, loadScripts, loadJSONs, loadXMLs, loadHTMLs, loadTWIGs, loadTexts } from './utilities/ressources';
 
 import { textToHtml, htmlToText, textToString, stringToText, htmlToString, stringToHtml, textToSQL, sqlToText } from './utilities/text';
+
+import { _controls, loadControl, createControl, createControlInBody, createControlInContainer, createControlFromWebLink } from './utilities/controls';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -217,7 +217,7 @@ class AMIWebApp
 	getStack = getStack;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-	/* LOCK                                                                                                           */
+	/* LOCKS                                                                                                          */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	lock = lock;
@@ -227,6 +227,17 @@ class AMIWebApp
 	modalLeave = modalLeave;
 
 	canLeave = canLeave;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* MESSAGES                                                                                                       */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	error = error;
+	info = info;
+	success = success;
+	warning = warning;
+
+	flush = flush;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* TEXT                                                                                                           */
@@ -243,25 +254,6 @@ class AMIWebApp
 
 	textToSQL = textToSQL;
 	sqlToText = sqlToText;
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-	/* DYNAMIC RESOURCE LOADING                                                                                       */
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	loadResources = loadResources;
-	loadSheets = loadSheets;
-	loadScripts = loadScripts;
-	loadJSONs = loadJSONs;
-	loadXMLs = loadXMLs;
-	loadHTMLs = loadHTMLs;
-	loadTWIGs = loadTWIGs;
-	loadTexts = loadTexts;
-
-	error = error;
-	info = info;
-	success = success;
-	warning = warning;
-	flush = flush;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* BREADCRUMB                                                                                                     */
@@ -282,6 +274,38 @@ class AMIWebApp
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	formatTWIG = formatTWIG;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* DYNAMIC RESOURCE LOADING                                                                                       */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	loadResources = loadResources;
+	loadSheets = loadSheets;
+	loadScripts = loadScripts;
+	loadJSONs = loadJSONs;
+	loadXMLs = loadXMLs;
+	loadHTMLs = loadHTMLs;
+	loadTWIGs = loadTWIGs;
+	loadTexts = loadTexts;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* SUBAPPS                                                                                                        */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	loadSubApp = loadSubApp;
+
+	loadSubAppByURL = loadSubAppByURL;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* CONTROLS                                                                                                       */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	loadControl = loadControl;
+
+	createControl = createControl;
+	createControlInBody = createControlInBody;
+	createControlInContainer = createControlInContainer;
+	createControlFromWebLink = createControlFromWebLink;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* WEB APPLICATION                                                                                                */
@@ -316,12 +340,6 @@ class AMIWebApp
 			alert('error: `amiWebApp.onRefresh()` must be overloaded!'); // eslint-disable-line no-alert
 		}
 	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	loadSubApp = loadSubApp;
-
-	loadSubAppByURL = loadSubAppByURL;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 

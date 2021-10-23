@@ -9542,6 +9542,16 @@ var AMICommand = function () {
       _classPrivateFieldSet(this, _mqttClient, new ami_mqtt_client(mqttEndpoint));
     }
   }, {
+    key: "getHTTPEndpoint",
+    value: function getHTTPEndpoint() {
+      return _classPrivateFieldGet(this, _httpClient);
+    }
+  }, {
+    key: "getMQTTEndpoint",
+    value: function getMQTTEndpoint() {
+      return _classPrivateFieldGet(this, _mqttClient);
+    }
+  }, {
     key: "execute",
     value: function execute(command, options) {
       return AMICommand_typeof(options) === 'object' && 'mqtt' in options ? _classPrivateFieldGet(this, _mqttClient).execute(command, options) : _classPrivateFieldGet(this, _httpClient).execute(command, options);
@@ -9576,16 +9586,6 @@ var AMICommand = function () {
           console.log('MQTT connection closed too');
         });
       });
-    }
-  }, {
-    key: "getHTTPEndpoint",
-    value: function getHTTPEndpoint() {
-      return _classPrivateFieldGet(this, _httpClient);
-    }
-  }, {
-    key: "getMQTTEndpoint",
-    value: function getMQTTEndpoint() {
-      return _classPrivateFieldGet(this, _mqttClient);
     }
   }, {
     key: "attachCertificate",
@@ -10163,13 +10163,6 @@ function AMIExtension_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol
     }, 10);
   });
 }
-;// CONCATENATED MODULE: ./src/core/utilities/controls.js
-
-
-var _controls = {};
-function loadControl(url) {
-  return $.Deferred().resolve();
-}
 ;// CONCATENATED MODULE: ./src/core/utilities/locks.js
 
 
@@ -10474,6 +10467,186 @@ function formatTWIG(twig, dict, twigs) {
     }
   });
   return result.join('');
+}
+;// CONCATENATED MODULE: ./src/core/utilities/controls.js
+
+
+function controls_slicedToArray(arr, i) { return controls_arrayWithHoles(arr) || controls_iterableToArrayLimit(arr, i) || controls_unsupportedIterableToArray(arr, i) || controls_nonIterableRest(); }
+
+function controls_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function controls_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return controls_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return controls_arrayLikeToArray(o, minLen); }
+
+function controls_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function controls_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function controls_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+
+
+
+
+
+
+var _controls = {};
+function loadControl(control, options) {
+  var result = $.Deferred();
+
+  var _setup = setup(['context'], [result], options),
+      _setup2 = controls_slicedToArray(_setup, 1),
+      context = _setup2[0];
+
+  if (control.indexOf('ctrl:') === 0) {
+    control = control.substring(5);
+  }
+
+  var descr = _controls[control.toLowerCase()];
+
+  if (descr) {
+    loadScripts("".concat(core_AMIRouter.getOriginURL(), "/").concat(descr.file)).then(function (loaded) {
+      try {
+        var clazz = window[descr.clazz];
+        var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) : null;
+
+        _internal_then(promise, function () {
+          result.resolveWith(context, [clazz]);
+        }, function (message) {
+          result.rejectWith(context, ["cannot load control '".concat(control, "': ").concat(message)]);
+        });
+      } catch (message) {
+        result.rejectWith(context, ["cannot load control '".concat(control, "': ").concat(message)]);
+      }
+    }, function (message) {
+      result.rejectWith(context, ["cannot load control '".concat(control, "': ").concat(message)]);
+    });
+  } else {
+    result.rejectWith(context, ["cannot load control '".concat(control, "': undefined")]);
+  }
+
+  return result.promise();
+}
+function createControl(parent, owner, control, params, options) {
+  var result = $.Deferred();
+
+  var _setup3 = setup(['context'], [result], options),
+      _setup4 = controls_slicedToArray(_setup3, 1),
+      context = _setup4[0];
+
+  loadControl(control, options).done(function (constructor) {
+    var instance = new constructor(parent, owner);
+
+    _internal_then(constructor.prototype.render.apply(instance, params), function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
+      result.resolveWith(context, [instance].concat(args));
+    }, function (message) {
+      result.rejectWith(context, [message]);
+    });
+  }).fail(function (message) {
+    result.rejectWith(context, [message]);
+  });
+  return result.promise();
+}
+function createControlInBody(parent, owner, control, controlParamsWithoutOptions, controlOptions, parentOptions, options) {
+  var result = $.Deferred();
+
+  var _setup5 = setup(['context'], [result], options),
+      _setup6 = controls_slicedToArray(_setup5, 1),
+      context = _setup6[0];
+
+  try {
+    var PARAMS = [];
+    var SETTINGS = {};
+
+    for (var key in parentOptions) {
+      SETTINGS[key] = parentOptions[key];
+    }
+
+    for (var _key2 in controlOptions) {
+      SETTINGS[_key2] = controlOptions[_key2];
+    }
+
+    Array.prototype.push.apply(PARAMS, controlParamsWithoutOptions);
+    PARAMS.push(SETTINGS);
+    createControl(parent, owner, control, PARAMS).done(function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
+        args[_key3] = arguments[_key3];
+      }
+
+      result.resolveWith(context, args);
+    }).fail(function (message) {
+      result.rejectWith(context, [message]);
+    });
+  } catch (message) {
+    result.rejectWith(context, [message]);
+  }
+
+  return result.promise();
+}
+function createControlInContainer(parent, owner, control, controlParamsWithoutOptions, controlOptions, parentOptions, icon, title, options) {
+  var result = $.Deferred();
+
+  var _setup7 = setup(['context'], [result], options),
+      _setup8 = controls_slicedToArray(_setup7, 1),
+      context = _setup8[0];
+
+  try {
+    parent.appendItem("<i class=\"fa fa-".concat(textToHtml(icon), "\"></i> ").concat(textToHtml(title))).done(function (selector) {
+      var PARAMS = [];
+      var SETTINGS = {};
+
+      for (var key in parentOptions) {
+        SETTINGS[key] = parentOptions[key];
+      }
+
+      for (var _key4 in controlOptions) {
+        SETTINGS[_key4] = controlOptions[_key4];
+      }
+
+      PARAMS.push(selector);
+      Array.prototype.push.apply(PARAMS, controlParamsWithoutOptions);
+      PARAMS.push(SETTINGS);
+      createControl(parent, owner, control, PARAMS).done(function () {
+        for (var _len3 = arguments.length, args = new Array(_len3), _key5 = 0; _key5 < _len3; _key5++) {
+          args[_key5] = arguments[_key5];
+        }
+
+        result.resolveWith(context, args);
+      }).fail(function (message) {
+        result.rejectWith(context, [message]);
+      });
+    });
+  } catch (message) {
+    result.rejectWith(context, [message]);
+  }
+
+  return result.promise();
+}
+function createControlFromWebLink(parent, owner, el, parentOptions, options) {
+  var dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl') : '';
+  var dataCtrlLocation = el.hasAttribute('data-ctrl-location') ? el.getAttribute('data-ctrl-location') : '';
+  var dataParams = el.hasAttribute('data-params') ? JSON.parse(el.getAttribute('data-params')) : [];
+  var dataOptions = el.hasAttribute('data-settings') ? JSON.parse(el.getAttribute('data-settings')) : {};
+  var dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon') : 'question';
+  var dataTitle = el.hasAttribute('data-title') ? el.getAttribute('data-title') : 'Unknown';
+  lock();
+
+  if (dataCtrlLocation === 'body') {
+    return createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, parentOptions, options).done(function () {
+      unlock();
+    }).fail(function (message) {
+      error(message);
+    });
+  } else {
+    return createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, parentOptions, dataIcon, dataTitle, options).done(function () {
+      unlock();
+    }).fail(function (message) {
+      error(message);
+    });
+  }
 }
 ;// CONCATENATED MODULE: ./src/core/utilities/ressources.js
 
@@ -10785,19 +10958,19 @@ function loadSubApp(subapp, userdata, options) {
           promise.then(function () {
             result.resolveWith(context, [instance]);
           }, function (message) {
-            result.rejectWith(context, ["could not load subapp '".concat(subapp, "': ").concat(message)]);
+            result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': ").concat(message)]);
           });
         }, function (message) {
-          result.rejectWith(context, ["could not load subapp '".concat(subapp, "': ").concat(message)]);
+          result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': ").concat(message)]);
         });
       } catch (message) {
-        result.rejectWith(context, ["could not load subapp '".concat(subapp, "': ").concat(message)]);
+        result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': ").concat(message)]);
       }
     }, function (message) {
-      result.rejectWith(context, ["could not load subapp '".concat(subapp, "': ").concat(message)]);
+      result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': ").concat(message)]);
     });
   } else {
-    result.rejectWith(context, ["could not load subapp '".concat(subapp, "': undefined")]);
+    result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': undefined")]);
   }
 
   return result.promise();
@@ -10982,6 +11155,16 @@ var AMIWebApp = function () {
     _defineProperty(this, "loadSubApp", loadSubApp);
 
     _defineProperty(this, "loadSubAppByURL", loadSubAppByURL);
+
+    _defineProperty(this, "loadControl", loadControl);
+
+    _defineProperty(this, "createControl", createControl);
+
+    _defineProperty(this, "createControlInBody", createControlInBody);
+
+    _defineProperty(this, "createControlInContainer", createControlInContainer);
+
+    _defineProperty(this, "createControlFromWebLink", createControlFromWebLink);
 
     AMIExtension();
     var url = core_AMIRouter.getScriptURL();
@@ -11227,6 +11410,22 @@ var amiDoc = {
         "default": "",
         "optional": "",
         "nullable": ""
+      }]
+    }, {
+      "name": "getHTTPEndpoint",
+      "desc": "Get the HTTP endpoint",
+      "params": [],
+      "returns": [{
+        "type": "string",
+        "desc": ""
+      }]
+    }, {
+      "name": "getMQTTEndpoint",
+      "desc": "Get the MQTT endpoint",
+      "params": [],
+      "returns": [{
+        "type": "string",
+        "desc": ""
       }]
     }, {
       "name": "execute",

@@ -191,31 +191,31 @@ export function loadSubApp(subapp, userdata, options)
 
 					promise.then(() => {
 
-						result.resolveWith(context, [/*----------------*/ instance /*----------------*/]);
+						result.resolveWith(context, [/*---------------*/ instance /*---------------*/]);
 
 					}, (message) => {
 
-						result.rejectWith(context, [`could not load subapp '${subapp}': ${message}`]);
+						result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
 					});
 
 				}, (message) => {
 
-					result.rejectWith(context, [`could not load subapp '${subapp}': ${message}`]);
+					result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
 				});
 			}
 			catch(message)
 			{
-				result.rejectWith(context, [`could not load subapp '${subapp}': ${message}`]);
+				result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
 			}
 
 		}, (message) => {
 
-			result.rejectWith(context, [`could not load subapp '${subapp}': ${message}`]);
+			result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
 		});
 	}
 	else
 	{
-		result.rejectWith(context, [`could not load subapp '${subapp}': undefined`]);
+		result.rejectWith(context, [`cannot load subapp '${subapp}': undefined`]);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -227,8 +227,8 @@ export function loadSubApp(subapp, userdata, options)
 
 /**
  * Loads a subapp by URL
- * @param {string} defaultSubApp if 'amiRouter.getArgs()["subapp"]' is null, the default subapp
- * @param {*} [defaultUserData] if 'amiRouter.getArgs()["userdata"]' is null, the default userdata
+ * @param {string} defaultSubApp if 'amiRouter.getArgs()["subapp"]' is null, the default subapp name
+ * @param {*} [defaultUserData] if 'amiRouter.getArgs()["userdata"]' is null, the default user data
  * @returns {$.Deferred} A JQuery deferred object
  */
 
@@ -262,9 +262,9 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 			const subapp = json['subapp'] || defaultSubApp;
 			const userdata = json['userdata'] || defaultUserData;
 
-			loadSubApp(subapp, userdata).then(() => {
+			loadSubApp(subapp, userdata).then((/*---*/) => {
 
-				result.resolve();
+				result.resolve(/*---*/);
 
 			}, (message) => {
 
@@ -283,9 +283,9 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 			const subapp = args['subapp'] || defaultSubApp;
 			const userdata = args['userdata'] || defaultUserData;
 
-			loadSubApp(subapp, userdata).then(() => {
+			loadSubApp(subapp, userdata).then((/*---*/) => {
 
-				result.resolve();
+				result.resolve(/*---*/);
 
 			}, (message) => {
 

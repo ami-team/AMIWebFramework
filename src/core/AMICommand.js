@@ -45,6 +45,30 @@ class AMICommand
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
+	 * Get the HTTP endpoint
+	 * @returns {string}
+	 */
+
+	getHTTPEndpoint()
+	{
+		return this.#httpClient;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Get the MQTT endpoint
+	 * @returns {string}
+	 */
+
+	getMQTTEndpoint()
+	{
+		return this.#mqttClient;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
 	 * Executes an AMI command
 	 * @param {string} command the command
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)
@@ -130,20 +154,6 @@ class AMICommand
 				console.log('MQTT connection closed too');
 			});
 		});
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	getHTTPEndpoint()
-	{
-		return this.#httpClient;
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	getMQTTEndpoint()
-	{
-		return this.#mqttClient;
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
