@@ -1,6 +1,10 @@
 {
-	"document": {
-		"file": "subapps/Document/js/DocumentApp.js",
-		"instance": "documentApp"
-	}
+    "emergency": {
+        "breadcrumb": [
+            "Tools",
+            "<a href=\"{{WEBAPP_URL}}?subapp=emergency\">Emergency</a>"
+        ],
+        "file": "subapps/Emergency/js/EmergencyApp.js",
+        "instance": "emergencyApp"
+    }
 }

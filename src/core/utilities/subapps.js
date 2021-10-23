@@ -12,7 +12,7 @@
 'use strict';
 
 import { lock, unlock } from './locks';
-import { fillBreadcrumb } from './twig';
+import { fillBreadcrumb } from './view';
 import { loadScripts } from './ressources';
 import { _internal_then, _internal_always, setup } from './tools';
 
@@ -30,7 +30,7 @@ export const _subapps = {};
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-let _currentSubAppInstance = new function() {
+let _currentSubappInstance = new function() {
 	this.onReady = function() {
 	};
 	this.onExit = function() {
@@ -50,7 +50,7 @@ let _currentUserdata = null;
  * @private
  */
 
-function triggerLogin()
+export function triggerLogin()
 {
 	const result = $.Deferred();
 
@@ -58,7 +58,7 @@ function triggerLogin()
 
 	if(amiWebApp._isReady)
 	{
-		_internal_then(_currentSubAppInstance.onLogin(_currentUserdata), (message) => {
+		_internal_then(_currentSubappInstance.onLogin(_currentUserdata), (message) => {
 
 			_internal_always(amiWebApp.onRefresh(true), () => {
 
@@ -90,7 +90,7 @@ function triggerLogin()
  * @private
  */
 
-function triggerLogout()
+export function triggerLogout()
 {
 	const result = $.Deferred();
 
@@ -98,7 +98,7 @@ function triggerLogout()
 
 	if(amiWebApp._isReady)
 	{
-		_internal_then(_currentSubAppInstance.onLogout(_currentUserdata), (message) => {
+		_internal_then(_currentSubappInstance.onLogout(_currentUserdata), (message) => {
 
 			_internal_always(amiWebApp.onRefresh(false), () => {
 
@@ -171,11 +171,11 @@ export function loadSubApp(subapp, userdata, options)
 
 			try
 			{
-				_currentSubAppInstance.onExit(userdata);
+				_currentSubappInstance.onExit(userdata);
 
 				const instance = window[descr.instance];
 
-				_currentSubAppInstance = instance;
+				_currentSubappInstance = instance;
 
 				/**/
 

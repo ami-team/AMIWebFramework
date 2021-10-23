@@ -11,10 +11,12 @@
 
 'use strict';
 
+import { _internal_then } from './utilities/tools';
+
+import { triggerLogin, triggerLogout } from './utilities/subapps';
+
 import amiRouter from './AMIRouter';
 import amiWebApp from './AMIWebApp';
-
-import { _internal_then } from './utilities/tools';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -22,8 +24,13 @@ class AMIAuth
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	init()
-	{
+	init(
+		ssoAutoAuthentication,
+		ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
+		createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
+		captchaAllowed,
+		bookmarksAllowed
+	 ) {
 		const result = $.Deferred();
 
 		/*--------------------------------------------------------------------------------------------------------*/
@@ -36,11 +43,15 @@ class AMIAuth
 
 			amiWebApp._isReady = true;
 
+			triggerLogin();
+
 			result.resolve(/*---*/);
 
 		}, (message) => {
 
 			amiWebApp._isReady = true;
+
+			triggerLogin();
 
 			result.reject(message);
 		});
