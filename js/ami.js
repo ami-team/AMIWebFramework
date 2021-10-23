@@ -10166,9 +10166,13 @@ function AMIExtension_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol
 ;// CONCATENATED MODULE: ./src/core/utilities/locks.js
 
 
+function _throwError() {
+  throw Error();
+}
+
 function getStack() {
   try {
-    throw Error();
+    _throwError();
   } catch (e1) {
     try {
       return e1.stack;
@@ -11100,6 +11104,16 @@ var AMIWebApp = function () {
 
     _defineProperty(this, "canLeave", canLeave);
 
+    _defineProperty(this, "error", error);
+
+    _defineProperty(this, "info", info);
+
+    _defineProperty(this, "success", success);
+
+    _defineProperty(this, "warning", warning);
+
+    _defineProperty(this, "flush", flush);
+
     _defineProperty(this, "textToHtml", textToHtml);
 
     _defineProperty(this, "htmlToText", htmlToText);
@@ -11116,6 +11130,16 @@ var AMIWebApp = function () {
 
     _defineProperty(this, "sqlToText", sqlToText);
 
+    _defineProperty(this, "fillBreadcrumb", fillBreadcrumb);
+
+    _defineProperty(this, "replaceHTML", replaceHTML);
+
+    _defineProperty(this, "prependHTML", prependHTML);
+
+    _defineProperty(this, "appendHTML", appendHTML);
+
+    _defineProperty(this, "formatTWIG", formatTWIG);
+
     _defineProperty(this, "loadResources", loadResources);
 
     _defineProperty(this, "loadSheets", loadSheets);
@@ -11131,26 +11155,6 @@ var AMIWebApp = function () {
     _defineProperty(this, "loadTWIGs", loadTWIGs);
 
     _defineProperty(this, "loadTexts", loadTexts);
-
-    _defineProperty(this, "error", error);
-
-    _defineProperty(this, "info", info);
-
-    _defineProperty(this, "success", success);
-
-    _defineProperty(this, "warning", warning);
-
-    _defineProperty(this, "flush", flush);
-
-    _defineProperty(this, "fillBreadcrumb", fillBreadcrumb);
-
-    _defineProperty(this, "replaceHTML", replaceHTML);
-
-    _defineProperty(this, "prependHTML", prependHTML);
-
-    _defineProperty(this, "appendHTML", appendHTML);
-
-    _defineProperty(this, "formatTWIG", formatTWIG);
 
     _defineProperty(this, "loadSubApp", loadSubApp);
 

@@ -44,6 +44,7 @@ import background from '../images/background.jpg';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+// noinspection JSUnusedGlobalSymbols
 class AMIWebApp
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -314,10 +315,10 @@ class AMIWebApp
 	/**
 	 * This method must be overloaded and is called when the Web application starts
 	 * @event amiWebApp#onReady
-	 * @param {String} userData
+	 * @param {string} userdata
 	 */
 
-	onReady()
+	onReady(userdata)
 	{
 		if(!this._embedded)
 		{
@@ -330,10 +331,10 @@ class AMIWebApp
 	/**
 	 * This method must be overloaded and is called when the toolbar needs to be updated
 	 * @event amiWebApp#onRefresh
-	 * @param {Boolean} isAuth
+	 * @param {boolean} isAuth
 	 */
 
-	onRefresh()
+	onRefresh(isAuth)
 	{
 		if(!this._embedded)
 		{
