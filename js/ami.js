@@ -11218,14 +11218,14 @@ var AMIWebApp = function () {
 
   AMIWebApp_createClass(AMIWebApp, [{
     key: "onReady",
-    value: function onReady() {
+    value: function onReady(userdata) {
       if (!this._embedded) {
         alert('error: `amiWebApp.onReady()` must be overloaded!');
       }
     }
   }, {
     key: "onRefresh",
-    value: function onRefresh() {
+    value: function onRefresh(isAuth) {
       if (!this._embedded) {
         alert('error: `amiWebApp.onRefresh()` must be overloaded!');
       }
