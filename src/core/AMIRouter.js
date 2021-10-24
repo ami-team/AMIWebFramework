@@ -13,6 +13,7 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+// noinspection JSUnusedGlobalSymbols
 /**
  * The AMI url routing subsystem
  * @namespace amiRouter
@@ -24,12 +25,15 @@ class AMIRouter
 	/* PRIVATE MEMBERS                                                                                                */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	#scriptURL = '';
 	#originURL = '';
-	#webAppURL = '';
 
-	#hash = '';
-	#args = [];
+	#webAppURL = '';
+	#webAppArgs = {};
+	#webAppHash = '';
+
+	#scriptURL = '';
+	#scriptArgs = {};
+	#scriptHash = '';
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -41,78 +45,79 @@ class AMIRouter
     {
         /*------------------------------------------------------------------------------------------------------------*/
 
-        this.#args.length = 0;
-        this.#routes.length = 0;
+		const webappUrl = new URL(window.location);
 
-        /*------------------------------------------------------------------------------------------------------------*/
+		const scriptUrl = this._findThisJs('js/ami.min.js', 'js/ami.js');
 
-        const  href  = window.location. href .trim();
-        const  hash  = window.location. hash .trim();
-        const search = window.location.search.trim();
+		if(!scriptUrl)
+		{
+			throw 'cannot find neither \'js/ami.min.js\' nor \'js/ami.js\'';
+		}
 
-        /*------------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
-        const scripts = document.getElementsByTagName('script');
+		this.#webAppURL = webappUrl.protocol === 'file:' ? `file://${webappUrl.pathname}`
+		                                                 : webappUrl.origin
+		;
+		this.#webAppArgs = this._parseSearchString(webappUrl.search);
+		this.#webAppHash = webappUrl.hash.substring(1);
 
-        /*------------------------------------------------------------------------------------------------------------*/
-        /* SCRIPT_URL AND ORIGIN_URL                                                                                  */
-        /*------------------------------------------------------------------------------------------------------------*/
+		this.#scriptURL = scriptUrl.protocol === 'file:' ? `file://${scriptUrl.pathname}`
+		                                                 : scriptUrl.origin
+		;
+		this.#scriptArgs = this._parseSearchString(scriptUrl.search);
+		this.#scriptHash = scriptUrl.hash.substring(1);
 
-        for(let idx, i = 0; i < scripts.length; i++)
-        {
-            idx = scripts[i].src.indexOf('js/ami.');
+		/*------------------------------------------------------------------------------------------------------------*/
 
-            if(idx > 0)
-            {
-                this.#scriptURL = scripts[i].src;
+		this.#originURL = this._eatSlashes(this.#scriptURL.substring(0, this.#scriptURL.indexOf('js/ami.')));
 
-                this.#originURL = this._eatSlashes(
-                    this.#scriptURL.substring(0, idx)
-                );
+		/*------------------------------------------------------------------------------------------------------------*/
+	}
 
-				break;
-            }
-        }
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-        /*------------------------------------------------------------------------------------------------------------*/
-        /* WEBAPP_URL                                                                                                 */
-        /*------------------------------------------------------------------------------------------------------------*/
+	_findThisJs(prodJsFilename, devJsFilename)
+	{
+		const scripts = document.getElementsByTagName('script');
 
-        this.#webAppURL = this._eatSlashes(
-            href.replace(/(?:\#|\?).*$/, '')
-        );
+		for(let i = 0; i < scripts.length; i++)
+		{
+			const url = new URL(scripts[i].src);
 
-        /*------------------------------------------------------------------------------------------------------------*/
-        /* HASH                                                                                                       */
-        /*------------------------------------------------------------------------------------------------------------*/
+			if(url.pathname.endsWith(prodJsFilename) > 0
+			   ||
+			   url.pathname.endsWith(devJsFilename) > 0
+			 ) {
+				return url;
+			}
+		}
 
-        this.#hash = this._eatSlashes(
-            hash.substring(1).replace(/\?.*$/, '')
-        );
+		return null;
+	}
 
-        /*------------------------------------------------------------------------------------------------------------*/
-        /* ARGS                                                                                                       */
-        /*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-        if(search)
-        {
-            search.substring(1).split('&').forEach((param) => {
+	_parseSearchString(search)
+	{
+		const result = {};
 
-                const parts = param.split('=');
+		search.substring(1).split('&').forEach((param) => {
 
-                /**/ if(parts.length === 1)
-                {
-                    this.#args[decodeURIComponent(parts[0])] = /*--------*/ '' /*--------*/;
-                }
-                else if(parts.length === 2)
-                {
-                    this.#args[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
-                }
-            });
-        }
+			const parts = param.split('=');
 
-        /*------------------------------------------------------------------------------------------------------------*/
-    }
+			/**/ if(parts.length === 1)
+			{
+				result[decodeURIComponent(parts[0])] = /*--------*/ '' /*--------*/;
+			}
+			else if(parts.length === 2)
+			{
+				result[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+			}
+		});
+
+		return result;
+	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -126,30 +131,6 @@ class AMIRouter
         }
 
         return url;
-    }
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Gets the AWF's script URL
-     * @returns {string} The AWF's script URL
-     */
-
-    getScriptURL()
-    {
-        return this.#scriptURL;
-    }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Gets the origin URL
-     * @returns {string} The origin URL
-     */
-
-    getOriginURL()
-    {
-        return this.#originURL;
     }
 
     /*----------------------------------------------------------------------------------------------------------------*/
@@ -167,35 +148,81 @@ class AMIRouter
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Gets the anchor part of the webapp URL
-     * @returns {string} The anchor part of the webapp URL
-     */
-
-    getHash()
-    {
-        return this.#hash;
-    }
-
-    /*----------------------------------------------------------------------------------------------------------------*/
-
-    /**
      * Gets the arguments extracted from the webapp URL
      * @returns {Object<string, string>} The arguments extracted from the webapp URL
      */
 
-    getArgs()
+    getWebAppArgs()
     {
-        return this.#args;
+        return this.#webAppArgs;
     }
 
-    /*----------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-	/* !!! A VERIFIER LE TYPE DE `handler` !!! */
+	/**
+	 * Gets the hash extracted from the webapp URL
+	 * @returns {string} The hash extracted from the webapp URL
+	 */
+
+	getWebAppHash()
+	{
+		return this.#webAppHash;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the script URL
+	 * @returns {string} The script URL
+	 */
+
+	getScriptURL()
+	{
+		return this.#scriptURL;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the arguments extracted from the script URL
+	 * @returns {Object<string, string>} The arguments extracted from the script URL
+	 */
+
+	getScriptArgs()
+	{
+		return this.#scriptArgs;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the hash extracted from the script URL
+	 * @returns {string} The hash extracted from the script URL
+	 */
+
+	getWebappHash()
+	{
+		return this.#scriptHash;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the origin URL
+	 * @returns {string} The origin URL
+	 */
+
+	getOriginURL()
+	{
+		return this.#originURL;
+	}
+
+    /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
      * Appends a routing rule
      * @param {string} regExp the regExp
-     * @param {Object} handler the handler
+     * @param {function} handler the handler
      * @returns {AMIRouter} The amiRouter singleton
      */
 
@@ -240,7 +267,7 @@ class AMIRouter
 
         for(let i = 0; i < this.#routes.length; i++)
         {
-            m = this.#hash.match(this.#routes[i].regExp);
+            m = this.#webAppHash.match(this.#routes[i].regExp);
 
             if(m)
             {

@@ -236,7 +236,7 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 {
 	const result = $.Deferred();
 
-	const args = amiRouter.getArgs();
+	const args = amiRouter.getWebAppArgs();
 
 	if(args['v'])
 	{

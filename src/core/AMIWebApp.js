@@ -46,6 +46,11 @@ import defaultBackgroundURL from '../images/background.jpg';
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 // noinspection JSUnusedGlobalSymbols
+/**
+ * The AMI webapp subsystem
+ * @namespace amiWebApp
+ */
+
 class AMIWebApp
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -70,25 +75,25 @@ class AMIWebApp
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * The origin URL
-	 * @type {String}
-	 */
-
-	originURL = '/';
-
-	/**
 	 * The webapp URL
 	 * @type {String}
 	 */
 
-	webAppURL = '/';
+	webAppURL = '';
 
 	/**
-	 * The anchor part of the webapp URL
+	 * The script URL
 	 * @type {String}
 	 */
 
-	hash = '';
+	scriptURL = '';
+
+	/**
+	 * The origin URL
+	 * @type {String}
+	 */
+
+	originURL = '';
 
 	/**
 	 * The arguments extracted from the webapp URL
@@ -97,50 +102,51 @@ class AMIWebApp
 
 	args = {};
 
+	/**
+	 * The anchor part of the webapp URL
+	 * @type {String}
+	 */
+
+	hash = '';
+
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* CONSTRUCTOR                                                                                                    */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	constructor()
 	{
-		amiExtension();
-
 		/*------------------------------------------------------------------------------------------------------------*/
-		/* GET FLAGS                                                                                                  */
+		/* AMI EXTENSIONS                                                                                             */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const url = amiRouter.getScriptURL();
-
-		const idx = url.indexOf('?');
-
-		if(idx > 0)
-		{
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			const flags = url.substring(idx).toLowerCase();
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			this.#embedded = (flags.indexOf('embedded') >= 0);
-
-			this.#noBootstrap = (flags.indexOf('nobootstrap') >= 0);
-
-			this.#noDateTimePicker = (flags.indexOf('nodatetimepicker') >= 0);
-
-			this.#noSelect2 = (flags.indexOf('noselect2') >= 0);
-
-			/*--------------------------------------------------------------------------------------------------------*/
-		}
+		amiExtensions();
 
 		/*------------------------------------------------------------------------------------------------------------*/
-		/* GET URLS, HASH AND ARGS                                                                                    */
+		/* GET SCRIPT FLAGS                                                                                           */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.originURL = amiRouter.getOriginURL();
+		const scriptArgs = amiRouter.getScriptArgs();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		this.#embedded = scriptArgs.embedded || false;
+
+		this.#noBootstrap = scriptArgs.nobootstrap || false;
+
+		this.#noDateTimePicker = scriptArgs.nodatetimepicker || false;
+
+		this.#noSelect2 = scriptArgs.noselect2 || false;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* GET URLS, ARGS AND HASH                                                                                    */
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		this.webAppURL = amiRouter.getWebAppURL();
+		this.scriptURL = amiRouter.getScriptURL();
+		this.originURL = amiRouter.getOriginURL();
 
-		this.hash = amiRouter.getHash();
-		this.args = amiRouter.getArgs();
+		this.args = amiRouter.getWebAppArgs();
+		this.hash = amiRouter.getWebAppHash();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* LOAD SHEETS AND SCRIPTS                                                                                    */
