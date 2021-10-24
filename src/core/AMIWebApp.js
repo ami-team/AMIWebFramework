@@ -17,7 +17,7 @@ import amiAuth from './AMIAuth';
 
 import amiRouter from './AMIRouter';
 
-import amiExtension from './AMIExtension';
+import amiExtensions from './AMIExtension';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -327,10 +327,12 @@ class AMIWebApp
 
 	onReady(userdata)
 	{
-		if(!this._embedded)
+		if(!this.#embedded)
 		{
 			alert('error: `amiWebApp.onReady()` must be overloaded!'); // eslint-disable-line no-alert
 		}
+
+		return null;
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -343,10 +345,12 @@ class AMIWebApp
 
 	onRefresh(isAuth)
 	{
-		if(!this._embedded)
+		if(!this.#embedded)
 		{
 			alert('error: `amiWebApp.onRefresh()` must be overloaded!'); // eslint-disable-line no-alert
 		}
+
+		return null;
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -432,7 +436,7 @@ class AMIWebApp
 						_subapps[name.toLowerCase()] = data2[name];
 					}
 
-					if(!this._embedded)
+					if(!this.#embedded)
 					{
 						/*--------------------------------------------------------------------------------------------*/
 

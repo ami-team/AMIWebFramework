@@ -49,6 +49,8 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 	const hash = message.hashCode();
 
+	// noinspection TypeScriptUMDGlobal
+
 	const date = moment().format('DD MMM, HH:mm:ss');
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -78,7 +80,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#ami_alert_content').append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
+		$('#ami_alert_content').append(html.replace(_linkExp, '<a href="' + '$1' + '" target="_blank">$2</a>')).promise().done(() => {
 
 			$(`#ami_alert_content > .toast[data-hash="${hash}"]`).toast('show');
 		});

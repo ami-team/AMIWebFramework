@@ -128,7 +128,7 @@ export function triggerLogout()
 /**
  *
  * @param {string} subapp the subapp name
- * @param {*} userdata the user data
+ * @param {*} [userdata] the user data
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */

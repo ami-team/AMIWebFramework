@@ -17,23 +17,23 @@
 
 /**
  * @param {$.Deferred} deferred
- * @callback doneCallback
- * @callback failCallback
+ * @param {function} doneCallback
+ * @param {function} failCallback
  * @private
  */
 
-export function _internal_then(deferred, doneFunc, failFunc)
+export function _internal_then(deferred, doneCallback, failCallback)
 {
 	if(deferred && deferred.then)
 	{
 		deferred.then(
-			doneFunc,
-			failFunc
+			doneCallback,
+			failCallback
 		);
 	}
 	else
 	{
-		doneFunc();
+		doneCallback();
 	}
 }
 
@@ -41,21 +41,21 @@ export function _internal_then(deferred, doneFunc, failFunc)
 
 /**
  * @param {$.Deferred} deferred
- * @callback alwaysFunc
+ * @param {function} alwaysCallback
  * @private
  */
 
-export function _internal_always(deferred, alwaysFunc)
+export function _internal_always(deferred, alwaysCallback)
 {
 	if(deferred && deferred.always)
 	{
 		deferred.always(
-			alwaysFunc
+			alwaysCallback
 		);
 	}
 	else
 	{
-		alwaysFunc();
+		alwaysCallback();
 	}
 }
 

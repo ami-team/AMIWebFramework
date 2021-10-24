@@ -111,7 +111,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 	 * @param {?} userdata userdata
 	 */
 
-	onReady: function() {},
+	onReady: function(userdata) {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -120,7 +120,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 	 * @param {?} userdata userdata
 	 */
 
-	onExit: function() {},
+	onExit: function(userdata) {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -129,7 +129,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 	 * @param {?} userdata userdata
 	 */
 
-	onLogin: function() {},
+	onLogin: function(userdata) {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -138,7 +138,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 	 * @param {?} userdata userdata
 	 */
 
-	onLogout: function() {},
+	onLogout: function(userdata) {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 });

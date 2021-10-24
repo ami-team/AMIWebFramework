@@ -201,7 +201,7 @@ export function appendHTML(selector, twig, options)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Interpretes the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}
+ * Interprets the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}
  * @param {string} twig the TWIG string
  * @param {Object<string, *>|Array<Object<string, *>>} [dict] the dictionary
  * @param {Object<string, string>} [twigs] dictionary of fragments
