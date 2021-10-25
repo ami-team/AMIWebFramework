@@ -9966,8 +9966,6 @@ function AMIRouter_classExtractFieldDescriptor(receiver, privateMap, action) { i
 
 function AMIRouter_classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
 
-var _originURL = new WeakMap();
-
 var _webAppURL = new WeakMap();
 
 var _webAppArgs = new WeakMap();
@@ -9980,16 +9978,13 @@ var _scriptArgs = new WeakMap();
 
 var _scriptHash = new WeakMap();
 
+var _originURL = new WeakMap();
+
 var _routes = new WeakMap();
 
 var AMIRouter = function () {
   function AMIRouter(prodJsFilename, devJsFilename) {
     AMIRouter_classCallCheck(this, AMIRouter);
-
-    AMIRouter_classPrivateFieldInitSpec(this, _originURL, {
-      writable: true,
-      value: ''
-    });
 
     AMIRouter_classPrivateFieldInitSpec(this, _webAppURL, {
       writable: true,
@@ -10017,6 +10012,11 @@ var AMIRouter = function () {
     });
 
     AMIRouter_classPrivateFieldInitSpec(this, _scriptHash, {
+      writable: true,
+      value: ''
+    });
+
+    AMIRouter_classPrivateFieldInitSpec(this, _originURL, {
       writable: true,
       value: ''
     });
