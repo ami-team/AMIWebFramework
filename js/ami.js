@@ -9983,7 +9983,7 @@ var _scriptHash = new WeakMap();
 var _routes = new WeakMap();
 
 var AMIRouter = function () {
-  function AMIRouter() {
+  function AMIRouter(prodJsFilename, devJsFilename) {
     AMIRouter_classCallCheck(this, AMIRouter);
 
     AMIRouter_classPrivateFieldInitSpec(this, _originURL, {
@@ -10026,12 +10026,12 @@ var AMIRouter = function () {
       value: []
     });
 
-    var webappUrl = new URL(window.location.href);
+    var webappUrl = new URL(window.location);
 
-    var scriptUrl = this._findThisJs('js/ami.min.js', 'js/ami.js');
+    var scriptUrl = this._findThisJs(prodJsFilename, devJsFilename);
 
     if (!scriptUrl) {
-      throw 'cannot find neither \'js/ami.min.js\' nor \'js/ami.js\'';
+      throw "cannot find neither '".concat(prodJsFilename, "' nor '").concat(devJsFilename, "'");
     }
 
     AMIRouter_classPrivateFieldSet(this, _webAppURL, webappUrl.protocol === 'file:' ? "file://".concat(webappUrl.pathname) : "".concat(webappUrl.origin).concat(webappUrl.pathname));
@@ -10046,7 +10046,13 @@ var AMIRouter = function () {
 
     AMIRouter_classPrivateFieldSet(this, _scriptHash, scriptUrl.hash.substring(1));
 
-    AMIRouter_classPrivateFieldSet(this, _originURL, this._eatSlashes(AMIRouter_classPrivateFieldGet(this, _scriptURL).substring(0, AMIRouter_classPrivateFieldGet(this, _scriptURL).indexOf('js/ami.'))));
+    var idx;
+
+    if ((idx = AMIRouter_classPrivateFieldGet(this, _scriptURL).indexOf(prodJsFilename)) > 0) {
+      AMIRouter_classPrivateFieldSet(this, _originURL, this._eatSlashes(AMIRouter_classPrivateFieldGet(this, _scriptURL).substring(0, idx)));
+    } else if ((idx = AMIRouter_classPrivateFieldGet(this, _scriptURL).indexOf(devJsFilename)) > 0) {
+      AMIRouter_classPrivateFieldSet(this, _originURL, this._eatSlashes(AMIRouter_classPrivateFieldGet(this, _scriptURL).substring(0, idx)));
+    }
   }
 
   AMIRouter_createClass(AMIRouter, [{
@@ -10190,7 +10196,7 @@ var AMIRouter = function () {
   return AMIRouter;
 }();
 
-var amiRouter = new AMIRouter();
+var amiRouter = new AMIRouter('js/ami.min.js', 'js/ami.js');
 
 if (typeof window !== 'undefined') {
   window.amiRouter = amiRouter;
@@ -11247,7 +11253,6 @@ var AMIWebApp = function () {
 
     AMIExtension();
     var scriptArgs = core_AMIRouter.getScriptArgs();
-    alert(JSON.stringify(scriptArgs));
 
     AMIWebApp_classPrivateFieldSet(this, _embedded, 'embedded' in scriptArgs);
 

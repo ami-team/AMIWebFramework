@@ -41,17 +41,17 @@ class AMIRouter
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	constructor()
+	constructor(prodJsFilename, devJsFilename)
     {
         /*------------------------------------------------------------------------------------------------------------*/
 
-		const webappUrl = new URL(window.location.href);
+		const webappUrl = new URL(window.location);
 
-		const scriptUrl = this._findThisJs('js/ami.min.js', 'js/ami.js');
+		const scriptUrl = this._findThisJs(prodJsFilename, devJsFilename);
 
 		if(!scriptUrl)
 		{
-			throw 'cannot find neither \'js/ami.min.js\' nor \'js/ami.js\'';
+			throw `cannot find neither '${prodJsFilename}' nor '${devJsFilename}'`;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -70,7 +70,14 @@ class AMIRouter
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.#originURL = this._eatSlashes(this.#scriptURL.substring(0, this.#scriptURL.indexOf('js/ami.')));
+		let idx;
+
+		/**/ if((idx = this.#scriptURL.indexOf(prodJsFilename)) > 0) {
+			this.#originURL = this._eatSlashes(this.#scriptURL.substring(0, idx));
+		}
+		else if((idx = this.#scriptURL.indexOf(devJsFilename)) > 0) {
+			this.#originURL = this._eatSlashes(this.#scriptURL.substring(0, idx));
+		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	}
@@ -325,7 +332,7 @@ class AMIRouter
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const amiRouter = new AMIRouter();
+const amiRouter = new AMIRouter('js/ami.min.js', 'js/ami.js');
 
 if(typeof window !== 'undefined')
 {
