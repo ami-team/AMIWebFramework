@@ -9,7 +9,7 @@
  *               https://www.github.com/ami-team/AMIWebFramework/
  *
  * This software is a computer program whose purpose is to provide an
- * HTTP and JavaScript framework to the ATLAS Metadata Interface (AMI)
+ * HTTP / JavaScript framework to the ATLAS Metadata Interface (AMI)
  * ecosystem.
  *
  * This software is governed by the CeCILL-C license under French law and
