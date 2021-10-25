@@ -220,6 +220,7 @@ const config = {
 				'parallel': true,
 				'extractComments': false,
 				'terserOptions': {
+					'mangle': true,
 					'format': {
 						'comments': /AMI Web Framwork/,
 					}
