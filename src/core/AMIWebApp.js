@@ -126,16 +126,16 @@ class AMIWebApp
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const scriptArgs = amiRouter.getScriptArgs();
-
+alert(JSON.stringify(scriptArgs));
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.#embedded = scriptArgs.embedded || false;
+		this.#embedded = 'embedded' in scriptArgs;
 
-		this.#noBootstrap = scriptArgs.nobootstrap || false;
+		this.#noBootstrap = 'nobootstrap' in scriptArgs;
 
-		this.#noDateTimePicker = scriptArgs.nodatetimepicker || false;
+		this.#noDateTimePicker = 'nodatetimepicker' in scriptArgs;
 
-		this.#noSelect2 = scriptArgs.noselect2 || false;
+		this.#noSelect2 = 'noselect2' in scriptArgs;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GET URLS, ARGS AND HASH                                                                                    */

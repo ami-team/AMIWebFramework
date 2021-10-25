@@ -45,7 +45,7 @@ class AMIRouter
     {
         /*------------------------------------------------------------------------------------------------------------*/
 
-		const webappUrl = new URL(window.location);
+		const webappUrl = new URL(window.location.href);
 
 		const scriptUrl = this._findThisJs('js/ami.min.js', 'js/ami.js');
 
@@ -57,13 +57,13 @@ class AMIRouter
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.#webAppURL = webappUrl.protocol === 'file:' ? `file://${webappUrl.pathname}`
-		                                                 : webappUrl.origin
+		                                                 : `${webappUrl.origin}${webappUrl.pathname}`
 		;
 		this.#webAppArgs = this._parseSearchString(webappUrl.search);
 		this.#webAppHash = webappUrl.hash.substring(1);
 
 		this.#scriptURL = scriptUrl.protocol === 'file:' ? `file://${scriptUrl.pathname}`
-		                                                 : scriptUrl.origin
+		                                                 : `${scriptUrl.origin}${scriptUrl.pathname}`
 		;
 		this.#scriptArgs = this._parseSearchString(scriptUrl.search);
 		this.#scriptHash = scriptUrl.hash.substring(1);
@@ -108,11 +108,11 @@ class AMIRouter
 
 			/**/ if(parts.length === 1)
 			{
-				result[decodeURIComponent(parts[0])] = /*--------*/ '' /*--------*/;
+				result[decodeURIComponent(parts[0]).toLowerCase()] = /*--------*/ '' /*--------*/;
 			}
 			else if(parts.length === 2)
 			{
-				result[decodeURIComponent(parts[0])] = decodeURIComponent(parts[1]);
+				result[decodeURIComponent(parts[0]).toLowerCase()] = decodeURIComponent(parts[1]);
 			}
 		});
 
