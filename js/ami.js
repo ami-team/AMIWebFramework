@@ -1,15 +1,16 @@
 /*!
  * AMI Web Framwork (AWF) 1.0.0
  *
- * Copyright © 2014-2021 CNRS/LPSC
+ * Copyright (c) 2014-2021 CNRS/LPSC
  *
- * Author: TODO
+ * Author: Jérôme Odier (jerome.odier@lpsc.in2p3.fr)
  *
  * Repositories: https://gitlab.in2p3.fr/ami-team/AMIWebFramework/
  *               https://www.github.com/ami-team/AMIWebFramework/
  *
  * This software is a computer program whose purpose is to provide an
- * HTTP Client to the ATLAS Metadata Interface (AMI) ecosystem.
+ * HTTP and JavaScript framework to the ATLAS Metadata Interface (AMI)
+ * ecosystem.
  *
  * This software is governed by the CeCILL-C license under French law and
  * abiding by the rules of distribution of free software. You can use,

@@ -6,15 +6,16 @@ const PACKAGE = require('./package.json');
 
 const BANNER = `AMI Web Framwork (AWF) ${PACKAGE.version}
 
-Copyright © 2014-${new Date().getFullYear()} CNRS/LPSC
+Copyright (c) 2014-${new Date().getFullYear()} CNRS/LPSC
 
-Author: TODO
+Author: Jérôme Odier (jerome.odier@lpsc.in2p3.fr)
 
 Repositories: https://gitlab.in2p3.fr/ami-team/AMIWebFramework/
               https://www.github.com/ami-team/AMIWebFramework/
 
 This software is a computer program whose purpose is to provide an
-HTTP Client to the ATLAS Metadata Interface (AMI) ecosystem.
+HTTP and JavaScript framework to the ATLAS Metadata Interface (AMI)
+ecosystem.
 
 This software is governed by the CeCILL-C license under French law and
 abiding by the rules of distribution of free software. You can use,
@@ -217,7 +218,12 @@ const config = {
 			new TerserPlugin({
 				'test': /\.min\.js$/,
 				'parallel': true,
-				'extractComments': false
+				'extractComments': false,
+				'terserOptions': {
+					'format': {
+						'comments': /AMI Web Framwork/,
+					}
+				}
 			})
 		]
 	},
