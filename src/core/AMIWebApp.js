@@ -329,7 +329,7 @@ class AMIWebApp
 	{
 		if(!this.#embedded)
 		{
-			alert('error: `amiWebApp.onReady()` must be overloaded!'); // eslint-disable-line no-alert
+			alert('error: \'amiWebApp.onReady()\' must be overloaded!'); // eslint-disable-line no-alert
 		}
 
 		return null;
@@ -347,7 +347,7 @@ class AMIWebApp
 	{
 		if(!this.#embedded)
 		{
-			alert('error: `amiWebApp.onRefresh()` must be overloaded!'); // eslint-disable-line no-alert
+			alert('error: \'amiWebApp.onRefresh()\' must be overloaded!'); // eslint-disable-line no-alert
 		}
 
 		return null;
@@ -476,12 +476,12 @@ class AMIWebApp
 
 							}, () => {
 
-								alert('could not open `' + lockerURL + '`, please reload the page...'); // eslint-disable-line no-alert
+								alert(`could not open '${lockerURL}', please reload the page...`); // eslint-disable-line no-alert
 							});
 
 						}, () => {
 
-							alert('could not open `' + themeURL + '`, please reload the page...'); // eslint-disable-line no-alert
+							alert(`could not open '${themeURL}', please reload the page...`); // eslint-disable-line no-alert
 						});
 
 						/*--------------------------------------------------------------------------------------------*/

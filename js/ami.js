@@ -11302,7 +11302,7 @@ var AMIWebApp = function () {
     key: "onReady",
     value: function onReady(userdata) {
       if (!AMIWebApp_classPrivateFieldGet(this, _embedded)) {
-        alert('error: `amiWebApp.onReady()` must be overloaded!');
+        alert('error: \'amiWebApp.onReady()\' must be overloaded!');
       }
 
       return null;
@@ -11311,7 +11311,7 @@ var AMIWebApp = function () {
     key: "onRefresh",
     value: function onRefresh(isAuth) {
       if (!AMIWebApp_classPrivateFieldGet(this, _embedded)) {
-        alert('error: `amiWebApp.onRefresh()` must be overloaded!');
+        alert('error: \'amiWebApp.onRefresh()\' must be overloaded!');
       }
 
       return null;
@@ -11410,10 +11410,10 @@ var AMIWebApp = function () {
                     });
                   });
                 }, function () {
-                  alert('could not open `' + lockerURL + '`, please reload the page...');
+                  alert("could not open '".concat(lockerURL, "', please reload the page..."));
                 });
               }, function () {
-                alert('could not open `' + themeURL + '`, please reload the page...');
+                alert("could not open '".concat(themeURL, "', please reload the page..."));
               });
             } else {
               var data3 = '';
