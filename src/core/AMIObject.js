@@ -15,13 +15,13 @@
 /* NAMESPACE HELPERS                                                                                                  */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-let _base;
+export let $this;
 
 /**/ if(typeof window !== 'undefined') {
-	_base = window;
+	$this = window;
 }
 else if(typeof global !== 'undefined') {
-	_base = global;
+	$this = global;
 }
 else {
 	throw 'Neither \'window\' nor \'global\' is defined';
@@ -38,7 +38,7 @@ else {
 function _$createNamespace($name, x)
 {
 	let i;
-	let parent = _base;
+	let parent = $this;
 
 	const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
 
@@ -68,7 +68,7 @@ function _$createNamespace($name, x)
 function _$addToNamespace($name, x)
 {
 	let i;
-	let parent = _base;
+	let parent = $this;
 
 	const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
 
@@ -335,14 +335,6 @@ export function $AMIClass($name, $descr)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 }
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-/* BROWSER OR NODEJS EXTENSION                                                                                        */
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-_base.$AMINamespace = $AMINamespace;
-_base.$AMIInterface = $AMIInterface;
-_base.  $AMIClass   =   $AMIClass  ;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* JQUERY EXTENSION                                                                                                   */

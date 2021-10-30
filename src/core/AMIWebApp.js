@@ -555,13 +555,6 @@ class AMIWebApp
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const amiWebApp = new AMIWebApp();
-
-if(typeof window !== 'undefined')
-{
-	window.amiWebApp = amiWebApp;
-}
-
-export default amiWebApp;
+export default new AMIWebApp();
 
 /*--------------------------------------------------------------------------------------------------------------------*/

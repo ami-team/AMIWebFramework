@@ -470,13 +470,9 @@ exports.publish = function(data, opts)
 
 /* eslint-disable */
 
-const amiDoc = ${JSON.stringify(root)};
+export default ${JSON.stringify(root)};
 
 /* eslint-enable */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-export default amiDoc;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 `;

@@ -280,7 +280,7 @@ class AMIRouter
 
             if(m)
             {
-                this.#routes[i].handler.apply(amiRouter, m);
+                this.#routes[i].handler.apply(this, m);
 
                 return true;
             }
@@ -334,13 +334,6 @@ class AMIRouter
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const amiRouter = new AMIRouter('js/ami.min.js', 'js/ami.js');
-
-if(typeof window !== 'undefined')
-{
-    window.amiRouter = amiRouter;
-}
-
-export default amiRouter;
+export default new AMIRouter('js/ami.min.js', 'js/ami.js');
 
 /*--------------------------------------------------------------------------------------------------------------------*/

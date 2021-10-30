@@ -1,5 +1,5 @@
 /*!
- * AMI Web Framwork (AWF) 1.0.0
+ * AMI Web Framwork (AWF) 2.0.0
  *
  * Copyright (c) 2014-2021 CNRS/LPSC
  *
@@ -8278,26 +8278,24 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 
-// UNUSED EXPORTS: default
-
 ;// CONCATENATED MODULE: ./src/core/AMIObject.js
 
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var _base;
+var $this;
 
 if (typeof window !== 'undefined') {
-  _base = window;
+  $this = window;
 } else if (typeof __webpack_require__.g !== 'undefined') {
-  _base = __webpack_require__.g;
+  $this = __webpack_require__.g;
 } else {
   throw 'Neither \'window\' nor \'global\' is defined';
 }
 
 function _$createNamespace($name, x) {
   var i;
-  var parent = _base;
+  var parent = $this;
   var parts = $name.split(/\s*\.\s*/g),
       l = parts.length - 1;
 
@@ -8314,7 +8312,7 @@ function _$createNamespace($name, x) {
 
 function _$addToNamespace($name, x) {
   var i;
-  var parent = _base;
+  var parent = $this;
   var parts = $name.split(/\s*\.\s*/g),
       l = parts.length - 1;
 
@@ -8457,9 +8455,6 @@ function $AMIClass($name, $descr) {
     $descr.$.apply($class);
   }
 }
-_base.$AMINamespace = $AMINamespace;
-_base.$AMIInterface = $AMIInterface;
-_base.$AMIClass = $AMIClass;
 
 if (typeof jQuery !== 'undefined') {
   jQuery.Namespace = $AMINamespace;
@@ -9635,13 +9630,7 @@ var AMICommand = function () {
   return AMICommand;
 }();
 
-var AMICommand_amiCommand = new AMICommand();
-
-if (typeof window !== 'undefined') {
-  window.amiCommand = AMICommand_amiCommand;
-}
-
-/* harmony default export */ const core_AMICommand = (AMICommand_amiCommand);
+/* harmony default export */ const core_AMICommand = (new AMICommand());
 ;// CONCATENATED MODULE: ./src/core/AMIInterface.js
 
 
@@ -10160,7 +10149,7 @@ var AMIRouter = function () {
         m = AMIRouter_classPrivateFieldGet(this, _webAppHash).match(AMIRouter_classPrivateFieldGet(this, _routes)[i].regExp);
 
         if (m) {
-          AMIRouter_classPrivateFieldGet(this, _routes)[i].handler.apply(amiRouter, m);
+          AMIRouter_classPrivateFieldGet(this, _routes)[i].handler.apply(this, m);
 
           return true;
         }
@@ -10197,13 +10186,7 @@ var AMIRouter = function () {
   return AMIRouter;
 }();
 
-var amiRouter = new AMIRouter('js/ami.min.js', 'js/ami.js');
-
-if (typeof window !== 'undefined') {
-  window.amiRouter = amiRouter;
-}
-
-/* harmony default export */ const core_AMIRouter = (amiRouter);
+/* harmony default export */ const core_AMIRouter = (new AMIRouter('js/ami.min.js', 'js/ami.js'));
 ;// CONCATENATED MODULE: ./src/core/utilities/view.js
 
 
@@ -10935,13 +10918,7 @@ var AMIAuth = function () {
   return AMIAuth;
 }();
 
-var amiAuth = new AMIAuth();
-
-if (typeof window !== 'undefined') {
-  window.amiAuth = amiAuth;
-}
-
-/* harmony default export */ const core_AMIAuth = (amiAuth);
+/* harmony default export */ const core_AMIAuth = (new AMIAuth());
 ;// CONCATENATED MODULE: ./src/core/AMIExtension.js
 
 
@@ -11459,17 +11436,11 @@ var AMIWebApp = function () {
   return AMIWebApp;
 }();
 
-var amiWebApp = new AMIWebApp();
-
-if (typeof window !== 'undefined') {
-  window.amiWebApp = amiWebApp;
-}
-
-/* harmony default export */ const core_AMIWebApp = (amiWebApp);
+/* harmony default export */ const core_AMIWebApp = (new AMIWebApp());
 ;// CONCATENATED MODULE: ./src/core/AMIDoc.js
 
 
-var amiDoc = {
+/* harmony default export */ const AMIDoc = ({
   "classes": [{
     "name": "AMICommand",
     "desc": "",
@@ -12160,8 +12131,7 @@ var amiDoc = {
       }]
     }]
   }]
-};
-/* harmony default export */ const AMIDoc = (amiDoc);
+});
 ;// CONCATENATED MODULE: ./index.js
 
 
@@ -12169,16 +12139,14 @@ var amiDoc = {
 
 
 
-/* harmony default export */ const index = ({
-  $AMIClass: $AMIClass,
-  $AMINamespace: $AMINamespace,
-  $AMIInterface: $AMIInterface,
-  amiInterface: AMIInterface,
-  amiCommand: core_AMICommand,
-  amiWebApp: core_AMIWebApp,
-  amiAuth: core_AMIAuth,
-  amiDoc: AMIDoc
-});
+$this.$AMIClass = $AMIClass;
+$this.$AMINamespace = $AMINamespace;
+$this.$AMIInterface = $AMIInterface;
+$this.amiInterface = AMIInterface;
+$this.amiCommand = core_AMICommand;
+$this.amiWebApp = core_AMIWebApp;
+$this.amiAuth = core_AMIAuth;
+$this.amiDoc = AMIDoc;
 })();
 
 /******/ })()
