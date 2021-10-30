@@ -107,7 +107,7 @@ const config = {
 			{
 				'type': 'asset/source',
 				test: /\.twig$/,
-				include: [path.resolve(__dirname, 'src/template')],
+				include: [path.resolve(__dirname, 'src/twigs')],
 			},
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -162,8 +162,12 @@ const config = {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				{
-					'from': path.resolve(__dirname, 'node_modules/bootstrap/dist/css/bootstrap.min.css'),
-					'to': path.resolve(__dirname, 'js/assets/css/bootstrap.min.css')
+					'from': path.resolve(__dirname, 'node_modules/bootstrap4/dist/css/bootstrap.min.css'),
+					'to': path.resolve(__dirname, 'js/assets/css/bootstrap4.min.css')
+				},
+				{
+					'from': path.resolve(__dirname, 'node_modules/bootstrap5/dist/css/bootstrap.min.css'),
+					'to': path.resolve(__dirname, 'js/assets/css/bootstrap5.min.css')
 				},
 				{
 					'from': path.resolve(__dirname, 'node_modules/select2/dist/css/select2.min.css'),
@@ -191,8 +195,12 @@ const config = {
 					'to': path.resolve(__dirname, 'js/assets/js/jquery-qrcode.min.js')
 				},
 				{
-					'from': path.resolve(__dirname, 'node_modules/bootstrap/dist/js/bootstrap.min.js'),
-					'to': path.resolve(__dirname, 'js/assets/js/bootstrap.min.js')
+					'from': path.resolve(__dirname, 'node_modules/bootstrap4/dist/js/bootstrap.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/bootstrap4.min.js')
+				},
+				{
+					'from': path.resolve(__dirname, 'node_modules/bootstrap5/dist/js/bootstrap.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/bootstrap5.min.js')
 				},
 				{
 					'from': path.resolve(__dirname, 'node_modules/select2/dist/js/select2.min.js'),

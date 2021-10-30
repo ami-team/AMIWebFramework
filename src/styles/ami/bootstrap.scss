@@ -14,6 +14,7 @@
 
 .breadcrumb {
 	background: rgb(233, 236, 239) url("../../images/stripe2.png");
+	border-radius: 0.25rem;
 	padding: 0.25rem 0.5rem;
 }
 
@@ -50,17 +51,6 @@
 	border-top-right-radius: 0 !important;
 	border-bottom-right-radius: 0 !important;
 }
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* BUG FIX IN BOOTSTRAP 4 */
-
-.custom-select-sm {
-	font-size: 95%;
-	padding: 0 0.25rem;
-}
-
-/* BUG FIX IN BOOTSTRAP 4 */
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 

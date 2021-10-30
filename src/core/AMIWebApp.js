@@ -109,6 +109,13 @@ class AMIWebApp
 
 	hash = '';
 
+	/**
+	 * The Twitter Bootstrap's version (default, 'v4')
+	 * @type {String}
+	 */
+
+	bootstrap = 'v4';
+
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* CONSTRUCTOR                                                                                                    */
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -149,6 +156,10 @@ class AMIWebApp
 		this.hash = amiRouter.getWebAppHash();
 
 		/*------------------------------------------------------------------------------------------------------------*/
+
+		this.bootstrap = scriptArgs.bootstrap || 'v4';
+
+		/*------------------------------------------------------------------------------------------------------------*/
 		/* LOAD SHEETS AND SCRIPTS                                                                                    */
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -171,8 +182,16 @@ class AMIWebApp
 
 		if(!this.#noBootstrap && (typeof jQuery.fn.modal) !== 'function')
 		{
-			resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap.min.css`);
-			resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap.min.js`);
+			if(this.bootstrap === 'v5')
+			{
+				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap5.min.css`);
+				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.min.js`);
+			}
+			else
+			{
+				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap4.min.css`);
+				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.min.js`);
+			}
 		}
 /*
 		if(!this.#noDateTimePicker && (typeof jQuery.fn.datetimepicker) !== 'function')
@@ -385,7 +404,9 @@ class AMIWebApp
 				'bookmarks_allowed',
 			], [
 				defaultLogoURL, defaultBackgroundURL, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/',
-				this.originURL + '/twig/Themes/blue.twig', this.originURL + '/twig/Lockers/default.twig', this.originURL + '/AMI/FrontEnd', this.originURL + '/MQTT',
+				this.originURL + `/twig/${this.bootstrap}/Themes/blue.twig`,
+				this.originURL + `/twig/${this.bootstrap}/Lockers/default.twig`,
+				this.originURL + '/AMI/FrontEnd', this.originURL + '/MQTT',
 				false,
 				false, true, true, true,
 				true, true, true, true,

@@ -1,0 +1,10 @@
+<div class="toast" role="alert" {% if fadeOut %}data-delay="60000"{% else %}data-autohide="false"{% endif %} data-hash="{{ hash }}" data-cnt="1">
+	<div class="toast-header">
+		<strong class="mr-auto text-{{ clazz|e }}">{{ title|e }}</strong>
+		<small class="ml-2">{{ date|e }}</small>
+		<button class="ml-2 mr-0 close" type="button" data-dismiss="toast">&times;</button>
+	</div>
+	<div class="toast-body">
+		{{ message|e }}
+	</div>
+</div>

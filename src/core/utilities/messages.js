@@ -15,6 +15,10 @@ import {textToHtml} from './text';
 
 import {getStack, unlock} from './locks';
 
+import amiWebApp from '../AMIWebApp';
+
+import amiTwig from 'ami-twig';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* MESSAGES                                                                                                           */
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -63,20 +67,16 @@ function _publishAlert(clazz, title, message, fadeOut)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html = `
-<div class="toast" role="alert" ${fadeOut ? 'data-delay="60000"' : 'data-autohide="false"'} data-hash="${hash}" data-cnt="1">
-	<div class="toast-header">
-		<strong class="mr-auto text-${clazz}">${textToHtml(title)}</strong>
-		<small class="ml-2">${textToHtml(date)}</small>
-		<button class="ml-2 mb-1 close" type="button" data-dismiss="toast">
-			&times;
-		</button>
-	</div>
-	<div class="toast-body">
-		${textToHtml(message)}
-	</div>
-</div>
-`;
+		const twig = require('../../twigs/' + amiWebApp.bootstrap + '/message.twig');
+
+		const html = amiTwig.engine.render(twig, {
+			date: date,
+			hash: hash,
+			clazz: clazz,
+			title: title,
+			fadeOut: fadeOut,
+			message: message,
+		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
