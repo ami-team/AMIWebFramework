@@ -4,7 +4,7 @@ const PACKAGE = require('./package.json');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const BANNER = `AMI Web Framwork (AWF) ${PACKAGE.version}
+const BANNER = `AMI Web Framework (AWF) ${PACKAGE.version}
 
 Copyright (c) 2014-${new Date().getFullYear()} CNRS/LPSC
 

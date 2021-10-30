@@ -1,5 +1,5 @@
 /*!
- * AMI Web Framwork (AWF) 2.0.0
+ * AMI Web Framework (AWF) 2.0.0
  *
  * Copyright (c) 2014-2021 CNRS/LPSC
  *
