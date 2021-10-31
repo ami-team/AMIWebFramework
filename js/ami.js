@@ -631,7 +631,7 @@ eval("module.exports = \"<div class=\\\"toast\\\" role=\\\"alert\\\" {% if fadeO
 /***/ ((module) => {
 
 "use strict";
-eval("module.exports = \"<div class=\\\"toast\\\" role=\\\"alert\\\" {% if fadeOut %}data-delay=\\\"60000\\\"{% else %}data-autohide=\\\"false\\\"{% endif %} data-hash=\\\"{{ hash }}\\\" data-cnt=\\\"1\\\">\\n\\t<div class=\\\"toast-header\\\">\\n\\t\\t<strong class=\\\"me-auto text-{{ clazz|e }}\\\">{{ title|e }}</strong>\\n\\t\\t<small class=\\\"me-2\\\">{{ date|e }}</small>\\n\\t\\t<button class=\\\"ms-1 me-0 btn-close\\\" type=\\\"button\\\" data-dismiss=\\\"toast\\\"></button>\\n\\t</div>\\n\\t<div class=\\\"toast-body\\\">\\n\\t\\t{{ message|e }}\\n\\t</div>\\n</div>\\n\";\n\n//# sourceURL=webpack://awfwebpack/./src/twigs/v5/message.twig?");
+eval("module.exports = \"<div class=\\\"toast\\\" role=\\\"alert\\\" {% if fadeOut %}data-delay=\\\"60000\\\"{% else %}data-autohide=\\\"false\\\"{% endif %} data-hash=\\\"{{ hash }}\\\" data-cnt=\\\"1\\\">\\n\\t<div class=\\\"toast-header\\\">\\n\\t\\t<strong class=\\\"me-auto text-{{ clazz|e }}\\\">{{ title|e }}</strong>\\n\\t\\t<small class=\\\"me-2\\\">{{ date|e }}</small>\\n\\t\\t<button class=\\\"ms-1 me-0 btn-close\\\" type=\\\"button\\\" data-bs-dismiss=\\\"toast\\\"></button>\\n\\t</div>\\n\\t<div class=\\\"toast-body\\\">\\n\\t\\t{{ message|e }}\\n\\t</div>\\n</div>\\n\";\n\n//# sourceURL=webpack://awfwebpack/./src/twigs/v5/message.twig?");
 
 /***/ })
 
