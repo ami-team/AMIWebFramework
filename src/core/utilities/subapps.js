@@ -220,7 +220,7 @@ export function loadSubApp(subapp, userdata, options)
 	}
 	else
 	{
-		result.rejectWith(context, [`cannot load subapp '${subapp}': undefined`]);
+		result.rejectWith(context, [`cannot load subapp '${subapp}': not found`]);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

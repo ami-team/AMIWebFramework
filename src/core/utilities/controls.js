@@ -92,7 +92,7 @@ export function loadControl(control, options)
 	}
 	else
 	{
-		result.rejectWith(context, [`cannot load control '${control}': undefined`]);
+		result.rejectWith(context, [`cannot load control '${control}': not found`]);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
