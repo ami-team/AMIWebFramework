@@ -201,14 +201,10 @@ const config = {
 				{
 					'from': path.resolve(__dirname, 'node_modules/bootstrap5/dist/js/bootstrap.min.js'),
 					'to': path.resolve(__dirname, 'js/assets/js/bootstrap5.min.js')
-				},
-				{
-					'from': path.resolve(__dirname, 'node_modules/select2/dist/js/select2.min.js'),
-					'to': path.resolve(__dirname, 'js/assets/js/select2.min.js')
-				},
+				}
 
 				/*----------------------------------------------------------------------------------------------------*/
-			],
+			]
 		}),
 		new JsDocPlugin({
 			conf: './src/jsdoc/config.js',

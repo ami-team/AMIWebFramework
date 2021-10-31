@@ -140,10 +140,6 @@ class AMIWebApp
 
 		this.#noBootstrap = 'nobootstrap' in scriptArgs;
 
-		this.#noDateTimePicker = 'nodatetimepicker' in scriptArgs;
-
-		this.#noSelect2 = 'noselect2' in scriptArgs;
-
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GET URLS, ARGS AND HASH                                                                                    */
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -168,13 +164,11 @@ class AMIWebApp
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		if(!window.Popper)
-		{
+		if(!window.Popper) {
 			resourcesJS.push(`${this.originURL}/js/assets/js/popper.min.js`);
 		}
 
-		if(!window.moment)
-		{
+		if(!window.moment) {
 			resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
 		}
 
@@ -192,18 +186,6 @@ class AMIWebApp
 				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap4.min.css`);
 				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.min.js`);
 			}
-		}
-/*
-		if(!this.#noDateTimePicker && (typeof jQuery.fn.datetimepicker) !== 'function')
-		{
-			resourcesCSS.push(`${this.originURL}/js/assets/css/bootstrap-datetimepicker.min.css`);
-			resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap-datetimepicker.min.js');
-		}
-*/
-		if(!this.#noSelect2 && (typeof jQuery.fn.select2) !== 'function')
-		{
-			resourcesCSS.push(`${this.originURL}/js/assets/css/select2.min.css`);
-			resourcesJS.push(`${this.originURL}/js/assets/js/select2.min.js`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/

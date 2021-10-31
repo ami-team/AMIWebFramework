@@ -21,6 +21,12 @@ import amiWebApp from '../AMIWebApp';
 
 import amiTwig from 'ami-twig';
 
+import 'flatpickr/dist/flatpickr.min.css';
+import 'flatpickr/dist/flatpickr.min.js';
+
+import 'select2/dist/css/select2.min.css';
+import 'select2/dist/js/select2.min.js';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BREADCRUMB                                                                                                         */
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -148,6 +154,44 @@ function _xxxHTML(selector, twig, mode, options)
 				},
 			});
 		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		_find('.form-datetime').flatpickr({
+			time_24hr: true,
+			enableTime: true,
+			noCalendar: false,
+			dateFormat: 'YYYY-MM-DD HH:mm:ss.SSSSSS',
+			parseDate: (s, format) => moment(s, format, true).toDate(),
+			formatDate: (date, format) => moment(date).format(format),
+		});
+
+		_find('.form-date').flatpickr({
+			time_24hr: true,
+			enableTime: false,
+			noCalendar: false,
+			dateFormat: 'YYYY-MM-DD',
+			parseDate: (s, format) => moment(s, format, true).toDate(),
+			formatDate: (date, format) => moment(date).format(format),
+		});
+
+		_find('.form-time').flatpickr({
+			time_24hr: true,
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: 'HH:mm:ss',
+			parseDate: (s, format) => moment(s, format, true).toDate(),
+			formatDate: (date, format) => moment(date).format(format),
+		});
+
+		_find('.form-time-hm').flatpickr({
+			time_24hr: true,
+			enableTime: true,
+			noCalendar: true,
+			dateFormat: 'HH:mm',
+			parseDate: (s, format) => moment(s, format, true).toDate(),
+			formatDate: (date, format) => moment(date).format(format),
+		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
