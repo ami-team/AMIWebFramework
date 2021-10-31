@@ -10474,7 +10474,7 @@ function loadControl(control, options) {
       result.rejectWith(context, ["cannot load control '".concat(control, "': ").concat(message)]);
     });
   } else {
-    result.rejectWith(context, ["cannot load control '".concat(control, "': undefined")]);
+    result.rejectWith(context, ["cannot load control '".concat(control, "': not found")]);
   }
 
   return result.promise();
@@ -10920,7 +10920,7 @@ function loadSubApp(subapp, userdata, options) {
       result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': ").concat(message)]);
     });
   } else {
-    result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': undefined")]);
+    result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': not found")]);
   }
 
   return result.promise();
