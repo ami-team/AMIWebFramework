@@ -64,7 +64,7 @@ class AMIWebApp
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_globalDeferred = $.Deferred();
+	#globalDeferred = $.Deferred();
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -213,11 +213,11 @@ class AMIWebApp
 			...resourcesJS,
 		]).done((resources) => {
 
-			this._globalDeferred.resolve(resources);
+			this.#globalDeferred.resolve(resources);
 
 		}).fail((message) => {
 
-			this._globalDeferred.reject(message);
+			this.#globalDeferred.reject(message);
 
 		}).always(() => {
 
@@ -382,7 +382,7 @@ class AMIWebApp
 
 	start(options)
 	{
-		this._globalDeferred.done(() => {
+		this.#globalDeferred.done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 

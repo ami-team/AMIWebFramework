@@ -11199,6 +11199,8 @@ var _noDateTimePicker = new WeakMap();
 
 var _noSelect = new WeakMap();
 
+var _globalDeferred = new WeakMap();
+
 var AMIWebApp = function () {
   function AMIWebApp() {
     var _this = this;
@@ -11225,7 +11227,10 @@ var AMIWebApp = function () {
       value: false
     });
 
-    _defineProperty(this, "_globalDeferred", $.Deferred());
+    AMIWebApp_classPrivateFieldInitSpec(this, _globalDeferred, {
+      writable: true,
+      value: $.Deferred()
+    });
 
     _defineProperty(this, "_isReady", false);
 
@@ -11369,9 +11374,9 @@ var AMIWebApp = function () {
     }
 
     this.loadResources([].concat(resourcesCSS, resourcesJS)).done(function (resources) {
-      _this._globalDeferred.resolve(resources);
+      AMIWebApp_classPrivateFieldGet(_this, _globalDeferred).resolve(resources);
     }).fail(function (message) {
-      _this._globalDeferred.reject(message);
+      AMIWebApp_classPrivateFieldGet(_this, _globalDeferred).reject(message);
     }).always(function () {
       __webpack_require__(301);
     });
@@ -11400,7 +11405,7 @@ var AMIWebApp = function () {
     value: function start(options) {
       var _this2 = this;
 
-      this._globalDeferred.done(function () {
+      AMIWebApp_classPrivateFieldGet(this, _globalDeferred).done(function () {
         var _setup = setup(['logo_url', 'background_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'http_endpoint_url', 'mqtt_endpoint_url', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed'], [logo, background, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', _this2.originURL + "/twig/".concat(_this2.bootstrapVersion, "/Themes/blue.twig"), _this2.originURL + "/twig/".concat(_this2.bootstrapVersion, "/Lockers/default.twig"), _this2.originURL + '/AMI/FrontEnd', _this2.originURL + '/MQTT', false, false, true, true, true, true, true, true, true, true, true], options),
             _setup2 = AMIWebApp_slicedToArray(_setup, 20),
             logoURL = _setup2[0],
