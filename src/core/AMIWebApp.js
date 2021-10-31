@@ -114,7 +114,7 @@ class AMIWebApp
 	 * @type {String}
 	 */
 
-	bootstrap = 'v4';
+	bootstrapVersion = 'v4';
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* CONSTRUCTOR                                                                                                    */
@@ -157,7 +157,7 @@ class AMIWebApp
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.bootstrap = scriptArgs.bootstrap || 'v4';
+		this.bootstrapVersion = scriptArgs.bootstrap || 'v4';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* LOAD SHEETS AND SCRIPTS                                                                                    */
@@ -182,7 +182,7 @@ class AMIWebApp
 
 		if(!this.#noBootstrap && (typeof jQuery.fn.modal) !== 'function')
 		{
-			if(this.bootstrap === 'v5')
+			if(this.bootstrapVersion === 'v5')
 			{
 				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap5.min.css`);
 				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.min.js`);
@@ -404,8 +404,8 @@ class AMIWebApp
 				'bookmarks_allowed',
 			], [
 				defaultLogoURL, defaultBackgroundURL, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/',
-				this.originURL + `/twig/${this.bootstrap}/Themes/blue.twig`,
-				this.originURL + `/twig/${this.bootstrap}/Lockers/default.twig`,
+				this.originURL + `/twig/${this.bootstrapVersion}/Themes/blue.twig`,
+				this.originURL + `/twig/${this.bootstrapVersion}/Lockers/default.twig`,
 				this.originURL + '/AMI/FrontEnd', this.originURL + '/MQTT',
 				false,
 				false, true, true, true,

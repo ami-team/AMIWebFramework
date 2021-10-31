@@ -12,6 +12,7 @@
 'use strict';
 
 import AMIHttpClient from 'ami-http-client';
+
 import AMIMqttClient from 'ami-mqtt-client';
 
 /*--------------------------------------------------------------------------------------------------------------------*/

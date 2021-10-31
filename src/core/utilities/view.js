@@ -12,9 +12,12 @@
 'use strict';
 
 import { error } from './messages';
-import { asArray, setup } from './tools';
+
+import { isString, isArray, asArray, setup } from './tools';
 
 import amiRouter from '../AMIRouter';
+
+import amiWebApp from '../AMIWebApp';
 
 import amiTwig from 'ami-twig';
 
@@ -24,14 +27,25 @@ import amiTwig from 'ami-twig';
 
 /**
  * Fill the main breadcrumb
- * @param {Array<string>} items the array of items (HTML format)
+ * @param {Array<string>|string} items the array of items (HTML format)
  */
 
 export function fillBreadcrumb(items)
 {
-	const s = Array.isArray(items) ? items.map((item) => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL())}</li>`).join('')
-	                               : ''
-	;
+	let s;
+
+	/**/ if(isArray(items))
+	{
+		s = items.map((item) => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL())}</li>`).join('');
+	}
+	else if(isString(items))
+	{
+		s = items.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL());
+	}
+	else
+	{
+		s = '';
+	}
 
 	$('#ami_breadcrumb_content').html(s);
 }
@@ -54,7 +68,7 @@ function _xxxHTML(selector, twig, mode, options)
 		options
 	);
 
-	/*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	if(suffix)
 	{
@@ -66,7 +80,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 	const html = formatTWIG(twig, dict, twigs);
 
-	/*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	let promise;
 
@@ -94,22 +108,22 @@ function _xxxHTML(selector, twig, mode, options)
 			throw 'internal error';
 	}
 
-	/*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	promise.done(() => {
 
-		/*--------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		let el = $(selector);
 
-		/*--------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		const _find = (mode === 3) ? (_selector) => el.find(selector)
 		                                              .addBack(selector)
 		                           : (_selector) => el.find(_selector)
 		;
 
-		/*--------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(jQuery.fn.tooltip)
 		{
@@ -122,7 +136,7 @@ function _xxxHTML(selector, twig, mode, options)
 			});
 		}
 
-		/*--------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(jQuery.fn.popover)
 		{
@@ -135,18 +149,18 @@ function _xxxHTML(selector, twig, mode, options)
 			});
 		}
 
-		/*--------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		/* TODO */
 
-		/*--------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		result.resolveWith(context, [el]);
 
-		/*--------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 	});
 
-	/*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	return result.promise();
 }
@@ -166,7 +180,7 @@ export function replaceHTML(selector, twig, options)
 	return _xxxHTML(selector, twig, 0, options);
 }
 
-/*----------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
  * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
@@ -181,7 +195,7 @@ export function prependHTML(selector, twig, options)
 	return _xxxHTML(selector, twig, 1, options);
 }
 
-/*----------------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
  * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
@@ -226,6 +240,8 @@ export function formatTWIG(twig, dict, twigs)
 
 		dict['ORIGIN_URL'] = amiRouter.getOriginURL();
 		dict['WEBAPP_URL'] = amiRouter.getWebAppURL();
+
+		dict['BOOTSTRAP_VERSION'] = amiWebApp.bootstrapVersion;
 
 		return amiTwig.engine.render(twig, dict, twigs);
 	};

@@ -14,6 +14,7 @@
   "author": "The AMI Team, Jerome Odier <jerome.odier@lpsc.in2p3.fr>",
   "license": "CECILL-C",
   "dependencies": {
+    "@popperjs/core": "^2.10.2",
     "ami-http-client": "github:ami-team/AMIHTTPClientJS",
     "ami-mqtt-client": "github:ami-team/AMIMQTTClientJS",
     "ami-twig": "github:ami-team/AMITwigJS",
@@ -25,7 +26,6 @@
     "jsdoc-json": "^2.0.2",
     "jspath": "^0.4.0",
     "moment": "^2.29.1",
-    "@popperjs/core": "^2.10.2",
     "select2": "^4.0.13"
   },
   "devDependencies": {

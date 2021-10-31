@@ -12,9 +12,13 @@
 'use strict';
 
 import { error } from './messages';
+
 import { textToHtml } from './text';
+
 import { lock, unlock } from './locks';
+
 import { loadScripts } from './ressources';
+
 import { _internal_then, setup } from './tools';
 
 import amiRouter from '../AMIRouter';
