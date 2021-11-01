@@ -17,11 +17,13 @@ import amiAuth from './AMIAuth';
 
 import amiRouter from './AMIRouter';
 
+import amiCommand from './AMICommand';
+
 import amiExtensions from './AMIExtension';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import { typeOf, asArray, setup } from './utilities/tools';
+import {typeOf, asArray, setup, isString, isArray, isObject, isSet, isMap} from './utilities/tools';
 
 import {_subapps, loadSubApp, loadSubAppByURL} from './utilities/subapps';
 
@@ -225,6 +227,12 @@ class AMIWebApp
 	typeOf = typeOf;
 
 	asArray = asArray;
+
+	isString = isString;
+	isArray = isArray;
+	isObject = isObject;
+	isSet = isSet;
+	isMap = isMap;
 
 	setup = setup;
 

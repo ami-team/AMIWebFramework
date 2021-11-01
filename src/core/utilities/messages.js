@@ -31,7 +31,7 @@ const _linkExp = new RegExp('\\[([^\\]]*)]\\(([^)]*)\\)', 'g');
  *
  * @param {string} clazz the class
  * @param {string} title the title
- * @param {string|Array<string>} message the messaage
+ * @param {string|Array<string>} message the message
  * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
  * @private
  */

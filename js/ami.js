@@ -8981,8 +8981,8 @@ class AMIHTTPClient
 
 	/**
 	  * Sign in by password
-	  * @param {username} username the username
-	  * @param {password} password the password
+	  * @param {string} username the username
+	  * @param {string} password the password
 	  * @param {Object} [options] dictionary of optional parameters (endpoint, converter, context, timeout)
 	  * @returns {$.Deferred} A JQuery deferred object
 	  */
@@ -9948,10 +9948,10 @@ function isArray(x) {
   return ami_twig/* default.stdlib.isArray */.Z.stdlib.isArray(x);
 }
 function isObject(x) {
-  return amiTwig.stdlib.isObject(x);
+  return ami_twig/* default.stdlib.isObject */.Z.stdlib.isObject(x);
 }
 function isSet(x) {
-  return amiTwig.stdlib.isSet(x);
+  return ami_twig/* default.stdlib.isSet */.Z.stdlib.isSet(x);
 }
 function isMap(x) {
   return ami_twig/* default.stdlib.isMap */.Z.stdlib.isMap(x);
@@ -13897,6 +13897,7 @@ function AMIWebApp_classApplyDescriptorSet(receiver, descriptor, value) { if (de
 
 
 
+
 var _embedded = new WeakMap();
 
 var _noBootstrap = new WeakMap();
@@ -13948,6 +13949,16 @@ var AMIWebApp = function () {
     _defineProperty(this, "typeOf", typeOf);
 
     _defineProperty(this, "asArray", asArray);
+
+    _defineProperty(this, "isString", isString);
+
+    _defineProperty(this, "isArray", isArray);
+
+    _defineProperty(this, "isObject", isObject);
+
+    _defineProperty(this, "isSet", isSet);
+
+    _defineProperty(this, "isMap", isMap);
 
     _defineProperty(this, "setup", setup);
 
@@ -14125,7 +14136,7 @@ var AMIWebApp = function () {
             captchaAllowed = _setup2[17],
             bookmarksAllowed = _setup2[18];
 
-        amiCommand.initHttpClient(endpointURL);
+        core_AMICommand.initHttpClient(endpointURL);
 
         window.onbeforeunload = function (e) {
           if (!_canLeave) {
