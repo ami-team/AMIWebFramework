@@ -50,15 +50,15 @@
 }
 
 .form-editor-hidden {
-  opacity: 0;
-  pointer-events: none;
-  position: fixed;
-  z-index: -9999;
-  /**/
-  top: 0;
-  left: 0;
-  height: 0;
-  width: 0;
+	opacity: 0;
+	pointer-events: none;
+	position: fixed;
+	z-index: -9999;
+	/**/
+	top: 0;
+	left: 0;
+	height: 0;
+	width: 0;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -118,6 +118,21 @@
 .form-group-lg .select2-container--default .select2-selection--single,
 .input-group-lg .select2-container--default .select2-selection--single {
 	padding: calc((1.5em + 1.0rem) / 2.0 - 14px) 0.5rem !important;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* FLATPICKR                                                                                                          */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+input.form-datetime,
+input.form-date,
+input.form-time,
+input.form-time-hm {
+	background-color: white !important;
+}
+
+.flatpickr-calendar .dayContainer {
+	padding-bottom: 2px;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

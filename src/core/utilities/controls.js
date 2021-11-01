@@ -104,10 +104,10 @@ export function loadControl(control, options)
 
 /**
  * Asynchronously create a control
- * @param {*} [parent] ???
- * @param {*} [owner] ???
- * @param {string} control ???
- * @param {Array<*>} params ???
+ * @param {*} [parent] the parent entity
+ * @param {*} [owner] the owner entity
+ * @param {string} control the control name
+ * @param {Array<*>} params the control's parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
@@ -151,12 +151,12 @@ export function createControl(parent, owner, control, params, options)
 
 /**
  * Asynchronously create a control in the body
- * @param {*} [parent] ???
- * @param {*} [owner] ???
- * @param {string} control ???
- * @param {Array<*>} controlParamsWithoutOptions ???
- * @param {Object<string, *>} controlOptions ???
- * @param {Object<string, *>} parentOptions ???
+ * @param {*} [parent] the parent entity
+ * @param {*} [owner] the owner entity
+ * @param {string} control the control name
+ * @param {Array<*>} controlParamsWithoutOptions the control's parameters without optional parameters
+ * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
+ * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
@@ -176,16 +176,16 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
 	try
 	{
 		const PARAMS = [];
-		const SETTINGS = {};
+		const OPTIONS = {};
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		for(let key in parentOptions) {
-			SETTINGS[key] = parentOptions[key];
+			OPTIONS[key] = parentOptions[key];
 		}
 
 		for(let key in controlOptions) {
-			SETTINGS[key] = controlOptions[key];
+			OPTIONS[key] = controlOptions[key];
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -194,7 +194,7 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
 
 		Array.prototype.push.apply(PARAMS, controlParamsWithoutOptions);
 
-		PARAMS.push(SETTINGS);
+		PARAMS.push(OPTIONS);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -223,14 +223,14 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
 
 /**
  * Asynchronously create a control in a container
- * @param {*} [parent] ???
- * @param {*} [owner] ???
- * @param {string} control ???
- * @param {Array<*>} controlParamsWithoutOptions ???
- * @param {Object<string, *>} controlOptions ???
- * @param {Object<string, *>} parentOptions ???
- * @param {string} icon ???
- * @param {string} title ???
+ * @param {*} [parent] the parent entity
+ * @param {*} [owner] the owner entity
+ * @param {string} control the control name
+ * @param {Array<*>} controlParamsWithoutOptions the control's parameters without optional parameters
+ * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
+ * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
+ * @param {string} icon the icon
+ * @param {string} title the title
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
@@ -245,34 +245,34 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
 		options
 	);
 
-	/*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	try
 	{
 		parent.appendItem(`<i class="fa fa-${textToHtml(icon)}"></i> ${textToHtml(title)}`).done((selector) => {
 
 			const PARAMS = [];
-			const SETTINGS = {};
+			const OPTIONS = {};
 
-			/*----------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			for(let key in parentOptions) {
-				SETTINGS[key] = parentOptions[key];
+				OPTIONS[key] = parentOptions[key];
 			}
 
 			for(let key in controlOptions) {
-				SETTINGS[key] = controlOptions[key];
+				OPTIONS[key] = controlOptions[key];
 			}
 
-			/*----------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			PARAMS.push(selector);
 
 			Array.prototype.push.apply(PARAMS, controlParamsWithoutOptions);
 
-			PARAMS.push(SETTINGS);
+			PARAMS.push(OPTIONS);
 
-			/*----------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			createControl(parent, owner, control, PARAMS).done((...args) => {
 
@@ -283,7 +283,7 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
 				result.rejectWith(context, [message]);
 			});
 
-			/*----------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 		});
 	}
 	catch(message)
@@ -291,7 +291,7 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
 		result.rejectWith(context, [message]);
 	}
 
-	/*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	return result.promise();
 }
@@ -300,17 +300,17 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
 
 /**
  * Asynchronously create a control in a container from a WEB link
- * @param {*} [parent] ???
- * @param {*} [owner] ???
- * @param {string} el ???
- * @param {Object<string, *>} parentOptions ???
+ * @param {*} [parent] the parent entity
+ * @param {*} [owner] the owner entity
+ * @param {string} el the HTML element
+ * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
  */
 
 export function createControlFromWebLink(parent, owner, el, parentOptions, options)
 {
-	/*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	const dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl')
 	                                              : ''
@@ -320,17 +320,19 @@ export function createControlFromWebLink(parent, owner, el, parentOptions, optio
 	                                                               : ''
 	;
 
-	/*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	const dataParams = el.hasAttribute('data-params') ? JSON.parse(el.getAttribute('data-params'))
 	                                                  : []
 	;
 
-	const dataOptions = el.hasAttribute('data-settings') ? JSON.parse(el.getAttribute('data-settings'))
-	                                                     : {}
-	;
+	const dataOptions = el.hasAttribute('data-options') ? JSON.parse(el.getAttribute('data-options'))
+	                                                    : (
+	                    el.hasAttribute('data-settings') ? JSON.parse(el.getAttribute('data-settings'))
+	                                                    : {
+	});
 
-	/*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	const dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon')
 	                                              : 'question'
@@ -340,7 +342,7 @@ export function createControlFromWebLink(parent, owner, el, parentOptions, optio
 	                                                : 'Unknown'
 	;
 
-	/*------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	lock();
 

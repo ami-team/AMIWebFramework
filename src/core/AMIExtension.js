@@ -11,7 +11,7 @@
 
 'use strict';
 
-import {setup} from './utilities/tools';
+import { setup } from './utilities/tools';
 
 export default function()
 {
@@ -80,7 +80,7 @@ export default function()
 				['context', 'url'],
 				[result, ''],
 				options
-			)
+			);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -113,11 +113,10 @@ export default function()
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	const _ami_internal_jQueryVal = jQuery.fn.val;
+
 	const _ami_internal_jQueryRemove = jQuery.fn.remove;
 
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	const _ami_internal_removeEvt = new $.Event('remove');
+	const _ami_internal_jQueryRemoveEvent = new $.Event('remove');
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -158,7 +157,9 @@ export default function()
 				{
 					const session = this.data('session');
 
-					return session ? session.getValue() : '';
+					if(session) return session.getValue();
+
+					return ('');
 				}
 			}
 			else if(arguments.length === 1) // setter
@@ -167,7 +168,9 @@ export default function()
 				{
 					const session = this.data('session');
 
-					if(session) session.setValue(arguments[0]); return this;
+					if(session) session.setValue(arguments[0]);
+
+					return this;
 				}
 			}
 
@@ -178,7 +181,7 @@ export default function()
 
 		remove: function()
 		{
-			$(this).trigger(_ami_internal_removeEvt);
+			$(this).trigger(_ami_internal_jQueryRemoveEvent);
 
 			return _ami_internal_jQueryRemove.apply(this, arguments);
 		},

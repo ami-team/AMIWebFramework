@@ -13,7 +13,7 @@
 
 import { error } from './messages';
 
-import { isString, isArray, asArray, setup } from './tools';
+import { isString, isArray, isMap, asArray, setup } from './tools';
 
 import amiRouter from '../AMIRouter';
 
@@ -22,10 +22,7 @@ import amiWebApp from '../AMIWebApp';
 import amiTwig from 'ami-twig';
 
 import 'flatpickr/dist/flatpickr.min.css';
-import 'flatpickr/dist/flatpickr.min.js';
-
-import 'select2/dist/css/select2.min.css';
-import 'select2/dist/js/select2.min.js';
+import 'flatpickr';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BREADCRUMB                                                                                                         */
@@ -61,6 +58,18 @@ export function fillBreadcrumb(items)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 const _idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g');
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+function _parseDate(s, format)
+{
+	return moment(s, format, true).toDate();
+}
+
+function _formatDate(date, format)
+{
+	return moment(date).format(format).toString();
+}
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -157,40 +166,44 @@ function _xxxHTML(selector, twig, mode, options)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		_find('.form-datetime').flatpickr({
+		_find('input.form-datetime').flatpickr({
 			time_24hr: true,
 			enableTime: true,
+			enableSeconds: true,
 			noCalendar: false,
 			dateFormat: 'YYYY-MM-DD HH:mm:ss.SSSSSS',
-			parseDate: (s, format) => moment(s, format, true).toDate(),
-			formatDate: (date, format) => moment(date).format(format),
+			parseDate: _parseDate,
+			formatDate: _formatDate,
 		});
 
-		_find('.form-date').flatpickr({
+		_find('input.form-date').flatpickr({
 			time_24hr: true,
 			enableTime: false,
+			enableSeconds: false,
 			noCalendar: false,
 			dateFormat: 'YYYY-MM-DD',
-			parseDate: (s, format) => moment(s, format, true).toDate(),
-			formatDate: (date, format) => moment(date).format(format),
+			parseDate: _parseDate,
+			formatDate: _formatDate,
 		});
 
-		_find('.form-time').flatpickr({
+		_find('input.form-time').flatpickr({
 			time_24hr: true,
 			enableTime: true,
+			enableSeconds: true,
 			noCalendar: true,
 			dateFormat: 'HH:mm:ss',
-			parseDate: (s, format) => moment(s, format, true).toDate(),
-			formatDate: (date, format) => moment(date).format(format),
+			parseDate: _parseDate,
+			formatDate: _formatDate,
 		});
 
-		_find('.form-time-hm').flatpickr({
+		_find('input.form-time-hm').flatpickr({
 			time_24hr: true,
 			enableTime: true,
+			enableSeconds: false,
 			noCalendar: true,
 			dateFormat: 'HH:mm',
-			parseDate: (s, format) => moment(s, format, true).toDate(),
-			formatDate: (date, format) => moment(date).format(format),
+			parseDate: _parseDate,
+			formatDate: _formatDate,
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -272,19 +285,18 @@ export function formatTWIG(twig, dict, twigs)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	const render = (twig, dict) => {
+	const render = (twig, dict, twigs) => {
 
-		if(typeof dict !== 'object') {
+		if(!isMap(dict)) {
 			dict = {};
 		}
 
-		if(typeof dict !== 'object') {
+		if(!isMap(twigs)) {
 			twigs = {};
 		}
 
-		dict['ORIGIN_URL'] = amiRouter.getOriginURL();
-		dict['WEBAPP_URL'] = amiRouter.getWebAppURL();
-
+		dict['ORIGIN_URL'       ] = amiRouter.getOriginURL()  ;
+		dict['WEBAPP_URL'       ] = amiRouter.getWebAppURL()  ;
 		dict['BOOTSTRAP_VERSION'] = amiWebApp.bootstrapVersion;
 
 		return amiTwig.engine.render(twig, dict, twigs);

@@ -19,6 +19,8 @@ import amiRouter from './AMIRouter';
 
 import amiWebApp from './AMIWebApp';
 
+import 'kjua';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 class AMIAuth

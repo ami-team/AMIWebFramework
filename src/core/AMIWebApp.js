@@ -59,7 +59,6 @@ class AMIWebApp
 
 	#embedded = false;
 	#noBootstrap = false;
-	#noDateTimePicker = false;
 	#noSelect2 = false;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -140,6 +139,8 @@ class AMIWebApp
 
 		this.#noBootstrap = 'nobootstrap' in scriptArgs;
 
+		this.#noSelect2 = 'noselect2' in scriptArgs;
+
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GET URLS, ARGS AND HASH                                                                                    */
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -186,6 +187,14 @@ class AMIWebApp
 				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap4.min.css`);
 				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.min.js`);
 			}
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		if(!this.#noSelect2 && (typeof jQuery.fn.select2) !== 'function')
+		{
+			resourcesCSS.push(`${this.originURL}/js/assets/css/select2.min.css`);
+			resourcesJS.push(`${this.originURL}/js/assets/js/select2.min.js`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -370,7 +379,7 @@ class AMIWebApp
 
 			const [
 				logoURL, backgroundURL, homeURL, contactEmail, aboutURL,
-				themeURL, lockerURL, httpEndpointURL, mqttEndpointURL,
+				themeURL, lockerURL, endpointURL,
 				ssoAutoAuthentication,
 				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
@@ -378,7 +387,7 @@ class AMIWebApp
 				bookmarksAllowed,
 			] = setup([
 				'logo_url', 'background_url', 'home_url', 'contact_email', 'about_url',
-				'theme_url', 'locker_url', 'http_endpoint_url', 'mqtt_endpoint_url',
+				'theme_url', 'locker_url', 'endpoint_url',
 				'sso_auto_authentication',
 				'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
 				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
@@ -388,7 +397,7 @@ class AMIWebApp
 				defaultLogoURL, defaultBackgroundURL, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/',
 				this.originURL + `/twig/${this.bootstrapVersion}/Themes/blue.twig`,
 				this.originURL + `/twig/${this.bootstrapVersion}/Lockers/default.twig`,
-				this.originURL + '/AMI/FrontEnd', this.originURL + '/MQTT',
+				this.originURL + '/AMI/FrontEnd',
 				false,
 				false, true, true, true,
 				true, true, true, true,
@@ -398,7 +407,7 @@ class AMIWebApp
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			amiCommand.init(httpEndpointURL, mqttEndpointURL);
+			amiCommand.initHttpClient(endpointURL);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 

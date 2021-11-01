@@ -191,20 +191,20 @@ const config = {
 					'to': path.resolve(__dirname, 'js/assets/js/jquery.min.js')
 				},
 				{
-					'from': path.resolve(__dirname, 'node_modules/jquery-qrcode/dist/jquery-qrcode.min.js'),
-					'to': path.resolve(__dirname, 'js/assets/js/jquery-qrcode.min.js')
-				},
-				{
 					'from': path.resolve(__dirname, 'node_modules/bootstrap4/dist/js/bootstrap.min.js'),
 					'to': path.resolve(__dirname, 'js/assets/js/bootstrap4.min.js')
 				},
 				{
 					'from': path.resolve(__dirname, 'node_modules/bootstrap5/dist/js/bootstrap.min.js'),
 					'to': path.resolve(__dirname, 'js/assets/js/bootstrap5.min.js')
-				}
+				},
+				{
+					'from': path.resolve(__dirname, 'node_modules/select2/dist/js/select2.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/select2.min.js')
+				},
 
 				/*----------------------------------------------------------------------------------------------------*/
-			]
+			],
 		}),
 		new JsDocPlugin({
 			conf: './src/jsdoc/config.js',

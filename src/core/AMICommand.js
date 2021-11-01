@@ -27,20 +27,38 @@ class AMICommand
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	#httpClient = '';
-	#mqttClient = '';
+	/**
+	 * @type {AMIHttpClient}
+	 */
+
+	#httpClient = null;
+
+	/**
+	 * @type {AMIMqttClient}
+	 */
+
+	#mqttClient = null;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * @param {string} httpEndpoint the HTTP endpoint
-	 * @param {string} mqttEndpoint the MQTT endpoint
+	 * @param {string} endpoint the HTTP endpoint
 	 */
 
-	init(httpEndpoint, mqttEndpoint)
+	initHttpClient(endpoint)
 	{
-		this.#httpClient = new AMIHttpClient(httpEndpoint);
-		this.#mqttClient = new AMIMqttClient(mqttEndpoint);
+		this.#httpClient = new AMIHttpClient(endpoint);
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * @param {string} endpoint the MQTT endpoint
+	 */
+
+	initMqttClient(endpoint)
+	{
+		this.#mqttClient = new AMIMqttClient(endpoint);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -52,7 +70,7 @@ class AMICommand
 
 	getHTTPEndpoint()
 	{
-		return this.#httpClient;
+		return this.#httpClient ? this.#httpClient.getEndpoint() : '';
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -64,7 +82,7 @@ class AMICommand
 
 	getMQTTEndpoint()
 	{
-		return this.#mqttClient;
+		return this.#httpClient ? this.#mqttClient.getEndpoint() : '';
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
