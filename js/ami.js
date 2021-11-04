@@ -13749,11 +13749,23 @@ var AMIAuth = function () {
       console.log(roleInfo);
       console.log(bookmarkInfo);
       console.log(awfInfo);
-      triggerLogin().then(function () {
-        result.resolve();
-      }, function (message) {
-        result.reject(message);
-      });
+      var user = userInfo.AMIUser || 'guest';
+      var guest = userInfo.guestUser || 'guest';
+
+      if (user !== guest) {
+        triggerLogin().then(function () {
+          result.resolve();
+        }, function (message) {
+          result.reject(message);
+        });
+      } else {
+        triggerLogout().then(function () {
+          result.resolve();
+        }, function (message) {
+          result.reject(message);
+        });
+      }
+
       return result.promise();
     }
   }, {
