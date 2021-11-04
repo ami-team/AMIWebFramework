@@ -61,12 +61,19 @@ const _idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-function _parseDate(s, format)
+let _datetimeFormat = 'yyyy-MM-dd HH:mm:ss.SSSSSS';
+let _dateFormat = 'yyyy-MM-dd';
+let _timeFormatHMS = 'HH:mm:ss';
+let _timeFormatHM = 'HH:mm';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+function _parseDatetime(s, format)
 {
 	return moment(s, format, true).toDate();
 }
 
-function _formatDate(date, format)
+function _formatDatetime(date, format)
 {
 	return moment(date).format(format).toString();
 }
@@ -171,9 +178,9 @@ function _xxxHTML(selector, twig, mode, options)
 			enableTime: true,
 			enableSeconds: true,
 			noCalendar: false,
-			dateFormat: 'YYYY-MM-DD HH:mm:ss.SSSSSS',
-			parseDate: _parseDate,
-			formatDate: _formatDate,
+			dateFormat: _datetimeFormat,
+			parseDate: _parseDatetime,
+			formatDate: _formatDatetime,
 		});
 
 		_find('input.form-date').flatpickr({
@@ -181,9 +188,9 @@ function _xxxHTML(selector, twig, mode, options)
 			enableTime: false,
 			enableSeconds: false,
 			noCalendar: false,
-			dateFormat: 'YYYY-MM-DD',
-			parseDate: _parseDate,
-			formatDate: _formatDate,
+			dateFormat: _dateFormat,
+			parseDate: _parseDatetime,
+			formatDate: _formatDatetime,
 		});
 
 		_find('input.form-time').flatpickr({
@@ -191,9 +198,9 @@ function _xxxHTML(selector, twig, mode, options)
 			enableTime: true,
 			enableSeconds: true,
 			noCalendar: true,
-			dateFormat: 'HH:mm:ss',
-			parseDate: _parseDate,
-			formatDate: _formatDate,
+			dateFormat: _timeFormatHMS,
+			parseDate: _parseDatetime,
+			formatDate: _formatDatetime,
 		});
 
 		_find('input.form-time-hm').flatpickr({
@@ -201,9 +208,9 @@ function _xxxHTML(selector, twig, mode, options)
 			enableTime: true,
 			enableSeconds: false,
 			noCalendar: true,
-			dateFormat: 'HH:mm',
-			parseDate: _parseDate,
-			formatDate: _formatDate,
+			dateFormat: _timeFormatHM,
+			parseDate: _parseDatetime,
+			formatDate: _formatDatetime,
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -265,6 +272,34 @@ export function prependHTML(selector, twig, options)
 export function appendHTML(selector, twig, options)
 {
 	return _xxxHTML(selector, twig, 2, options);
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Specify the timedate, date and time formats
+ * @param {string} [datetimeFormat='yyyy-MM-dd HH:mm:ss']
+ * @param {string} [dateFormat='yyyy-MM-dd HH:mm:ss']
+ * @param {string} [timeFormatHMS='HH:mm:ss']
+ * @param {string} [timeFormatHM='HH:mm']
+ * @param {number} [timePrecision=6]
+ */
+
+export function setDateTimeFormats(datetimeFormat, dateFormat, timeFormatHMS, timeFormatHM, timePrecision)
+{
+	_datetimeFormat = datetimeFormat || 'yyyy-MM-dd HH:mm:ss';
+	_dateFormat = dateFormat || 'yyyy-MM-dd';
+
+	_timeFormatHMS = timeFormatHMS || 'HH:mm:ss';
+	_timeFormatHM = timeFormatHM || 'HH:mm';
+
+	if(timePrecision > 0)
+	{
+		const s = `.${'S'.repeat(timePrecision)}`;
+
+		_datetimeFormat += s;
+		_timeFormatHMS += s;
+	}
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

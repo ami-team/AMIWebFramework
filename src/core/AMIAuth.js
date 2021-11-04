@@ -13,11 +13,17 @@
 
 import {_internal_then} from './utilities/tools';
 
+import {base64Decode} from './utilities/strings';
+
+import {setDateTimeFormats} from './utilities/view';
+
 import {triggerLogin, triggerLogout} from './utilities/subapps';
 
 import amiRouter from './AMIRouter';
 
 import amiWebApp from './AMIWebApp';
+
+import amiCommand from './AMICommand';
 
 import 'kjua';
 
@@ -42,21 +48,41 @@ class AMIAuth
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		_internal_then(amiWebApp.onReady(userdata), () => {
+		amiCommand.signInByCertificate().then((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
 
-			amiWebApp._isReady = true;
+			try
+			{
+				const config = JSON.parse(base64Decode(awfInfo.config));
 
-			triggerLogin();
+				setDateTimeFormats(
+					config.datetimeFormat,
+					config.dateFormat,
+					config.timeFormatHMS,
+					config.timeFormatHM,
+					config.timePrecision
+				);
+			}
+			catch(e)
+			{
+				/* IGNORE */
+			}
 
-			result.resolve(/*---*/);
+			_internal_then(amiWebApp.onReady(userdata), () => {
 
-		}, (message) => {
+				amiWebApp._isReady = true;
 
-			amiWebApp._isReady = true;
+				triggerLogin();
 
-			triggerLogin();
+				result.resolve(/*---*/);
 
-			result.reject(message);
+			}, (message) => {
+
+				/* TODO */
+			});
+
+		}, (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
+
+			/* TODO */
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/

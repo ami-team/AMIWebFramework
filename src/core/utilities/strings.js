@@ -22,14 +22,15 @@ export function base64Encode(s)
 	return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, (_, $1) => {
 
 		return String.fromCharCode(parseInt($1, 16));
-	}));
+
+	})).replace(/\+/g, '-').replace(/\//g, '_');
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 export function base64Decode(s)
 {
-	return decodeURIComponent(atob(s).split('').map((c) => {
+	return decodeURIComponent(atob(s.replace(/-/g, '+').replace(/_/g, '/')).split('').map((c) => {
 
 		return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
 

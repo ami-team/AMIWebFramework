@@ -9968,6 +9968,53 @@ function setup(optionNames, optionDefaults, options) {
 
   return result;
 }
+;// CONCATENATED MODULE: ./src/core/utilities/strings.js
+
+
+
+function base64Encode(s) {
+  return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, function (_, $1) {
+    return String.fromCharCode(parseInt($1, 16));
+  })).replace(/\+/g, '-').replace(/\//g, '_');
+}
+function base64Decode(s) {
+  return decodeURIComponent(atob(s.replace(/-/g, '+').replace(/_/g, '/')).split('').map(function (c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+}
+var _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
+var _textToHtmlX = ['&', '"', '<', '>'];
+var _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
+function textToHtml(s) {
+  return _replace(s || '', _textToHtmlX, _textToHtmlY);
+}
+function htmlToText(s) {
+  return _replace(s || '', _textToHtmlY, _textToHtmlX);
+}
+var _textToStringX = ['\\', '\n', '"', '\''];
+var _textToStringY = ['\\\\', '\\n', '\\"', '\\\''];
+function textToString(s) {
+  return _replace(s || '', _textToStringX, _textToStringY);
+}
+function stringToText(s) {
+  return _replace(s || '', _textToStringY, _textToStringX);
+}
+var _htmlToStringX = ['\\', '\n', '&quot;', '\''];
+var _htmlToStringY = ['\\\\', '\\n', '\\&quot;', '\\\''];
+function htmlToString(s) {
+  return _replace(s || '', _htmlToStringX, _htmlToStringY);
+}
+function stringToHtml(s) {
+  return _replace(s || '', _htmlToStringY, _htmlToStringX);
+}
+var _textToSQLX = ['\''];
+var _textToSQLY = ['\'\''];
+function textToSQL(s) {
+  return _replace(s || '', _textToSQLX, _textToSQLY);
+}
+function sqlToText(s) {
+  return _replace(s || '', _textToSQLY, _textToSQLX);
+}
 ;// CONCATENATED MODULE: ./src/core/utilities/locks.js
 
 
@@ -10045,53 +10092,6 @@ function modalEnter() {
 var _canLeave = true;
 function canLeave(canLeave) {
   _canLeave = canLeave;
-}
-;// CONCATENATED MODULE: ./src/core/utilities/strings.js
-
-
-
-function base64Encode(s) {
-  return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, function (_, $1) {
-    return String.fromCharCode(parseInt($1, 16));
-  }));
-}
-function base64Decode(s) {
-  return decodeURIComponent(atob(s).split('').map(function (c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
-}
-var _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
-var _textToHtmlX = ['&', '"', '<', '>'];
-var _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
-function textToHtml(s) {
-  return _replace(s || '', _textToHtmlX, _textToHtmlY);
-}
-function htmlToText(s) {
-  return _replace(s || '', _textToHtmlY, _textToHtmlX);
-}
-var _textToStringX = ['\\', '\n', '"', '\''];
-var _textToStringY = ['\\\\', '\\n', '\\"', '\\\''];
-function textToString(s) {
-  return _replace(s || '', _textToStringX, _textToStringY);
-}
-function stringToText(s) {
-  return _replace(s || '', _textToStringY, _textToStringX);
-}
-var _htmlToStringX = ['\\', '\n', '&quot;', '\''];
-var _htmlToStringY = ['\\\\', '\\n', '\\&quot;', '\\\''];
-function htmlToString(s) {
-  return _replace(s || '', _htmlToStringX, _htmlToStringY);
-}
-function stringToHtml(s) {
-  return _replace(s || '', _htmlToStringY, _htmlToStringX);
-}
-var _textToSQLX = ['\''];
-var _textToSQLY = ['\'\''];
-function textToSQL(s) {
-  return _replace(s || '', _textToSQLX, _textToSQLY);
-}
-function sqlToText(s) {
-  return _replace(s || '', _textToSQLY, _textToSQLX);
 }
 ;// CONCATENATED MODULE: ./src/core/utilities/messages.js
 
@@ -12962,11 +12962,16 @@ function fillBreadcrumb(items) {
 
 var _idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g');
 
-function _parseDate(s, format) {
+var _datetimeFormat = 'yyyy-MM-dd HH:mm:ss.SSSSSS';
+var _dateFormat = 'yyyy-MM-dd';
+var _timeFormatHMS = 'HH:mm:ss';
+var _timeFormatHM = 'HH:mm';
+
+function _parseDatetime(s, format) {
   return moment(s, format, true).toDate();
 }
 
-function _formatDate(date, format) {
+function _formatDatetime(date, format) {
   return moment(date).format(format).toString();
 }
 
@@ -13045,9 +13050,9 @@ function _xxxHTML(selector, twig, mode, options) {
       enableTime: true,
       enableSeconds: true,
       noCalendar: false,
-      dateFormat: 'YYYY-MM-DD HH:mm:ss.SSSSSS',
-      parseDate: _parseDate,
-      formatDate: _formatDate
+      dateFormat: _datetimeFormat,
+      parseDate: _parseDatetime,
+      formatDate: _formatDatetime
     });
 
     _find('input.form-date').flatpickr({
@@ -13055,9 +13060,9 @@ function _xxxHTML(selector, twig, mode, options) {
       enableTime: false,
       enableSeconds: false,
       noCalendar: false,
-      dateFormat: 'YYYY-MM-DD',
-      parseDate: _parseDate,
-      formatDate: _formatDate
+      dateFormat: _dateFormat,
+      parseDate: _parseDatetime,
+      formatDate: _formatDatetime
     });
 
     _find('input.form-time').flatpickr({
@@ -13065,9 +13070,9 @@ function _xxxHTML(selector, twig, mode, options) {
       enableTime: true,
       enableSeconds: true,
       noCalendar: true,
-      dateFormat: 'HH:mm:ss',
-      parseDate: _parseDate,
-      formatDate: _formatDate
+      dateFormat: _timeFormatHMS,
+      parseDate: _parseDatetime,
+      formatDate: _formatDatetime
     });
 
     _find('input.form-time-hm').flatpickr({
@@ -13075,9 +13080,9 @@ function _xxxHTML(selector, twig, mode, options) {
       enableTime: true,
       enableSeconds: false,
       noCalendar: true,
-      dateFormat: 'HH:mm',
-      parseDate: _parseDate,
-      formatDate: _formatDate
+      dateFormat: _timeFormatHM,
+      parseDate: _parseDatetime,
+      formatDate: _formatDatetime
     });
 
     result.resolveWith(context, [el]);
@@ -13093,6 +13098,18 @@ function prependHTML(selector, twig, options) {
 }
 function appendHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 2, options);
+}
+function setDateTimeFormats(datetimeFormat, dateFormat, timeFormatHMS, timeFormatHM, timePrecision) {
+  _datetimeFormat = datetimeFormat || 'yyyy-MM-dd HH:mm:ss';
+  _dateFormat = dateFormat || 'yyyy-MM-dd';
+  _timeFormatHMS = timeFormatHMS || 'HH:mm:ss';
+  _timeFormatHM = timeFormatHM || 'HH:mm';
+
+  if (timePrecision > 0) {
+    var s = ".".concat('S'.repeat(timePrecision));
+    _datetimeFormat += s;
+    _timeFormatHMS += s;
+  }
 }
 function formatTWIG(twig, dict, twigs) {
   var result = [];
@@ -13682,6 +13699,9 @@ function AMIAuth_createClass(Constructor, protoProps, staticProps) { if (protoPr
 
 
 
+
+
+
 var AMIAuth = function () {
   function AMIAuth() {
     AMIAuth_classCallCheck(this, AMIAuth);
@@ -13692,17 +13712,18 @@ var AMIAuth = function () {
     value: function init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed) {
       var result = $.Deferred();
       var userdata = core_AMIRouter.getWebAppArgs()['userdata'] || '';
+      core_AMICommand.signInByCertificate().then(function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {
+        try {
+          var config = JSON.parse(base64Decode(awfInfo.config));
+          setDateTimeFormats(config.datetimeFormat, config.dateFormat, config.timeFormatHMS, config.timeFormatHM, config.timePrecision);
+        } catch (e) {}
 
-      _internal_then(core_AMIWebApp.onReady(userdata), function () {
-        core_AMIWebApp._isReady = true;
-        triggerLogin();
-        result.resolve();
-      }, function (message) {
-        core_AMIWebApp._isReady = true;
-        triggerLogin();
-        result.reject(message);
-      });
-
+        _internal_then(core_AMIWebApp.onReady(userdata), function () {
+          core_AMIWebApp._isReady = true;
+          triggerLogin();
+          result.resolve();
+        }, function (message) {});
+      }, function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {});
       return result;
     }
   }, {
