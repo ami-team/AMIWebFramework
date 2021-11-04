@@ -3708,7 +3708,7 @@ amiTwig.expr.interpreter = {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(81);
+/* harmony import */ var _css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(213);
 /* harmony import */ var _css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(645);
 /* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -3731,7 +3731,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".flatpickr-calendar{background:transpa
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(81);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(213);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(645);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -3925,7 +3925,7 @@ module.exports = function (url, options) {
 
 /***/ }),
 
-/***/ 81:
+/***/ 213:
 /***/ ((module) => {
 
 "use strict";
@@ -8899,8 +8899,7 @@ class AMIHTTPClient
 			const userInfo = {};
 			const roleInfo = {};
 			const bookmarkInfo = {};
-			const udpInfo = {};
-			const ssoInfo = {};
+			const awfInfo = {};
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -8911,16 +8910,9 @@ class AMIHTTPClient
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			jspath_default().apply('..rowset{.@type==="udp"}.row.field', data).forEach((item) => {
+			jspath_default().apply('..rowset{.@type==="awf"}.row.field', data).forEach((item) => {
 
-				udpInfo[item['@name']] = item['$'];
-			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			jspath_default().apply('..rowset{.@type==="sso"}.row.field', data).forEach((item) => {
-
-				ssoInfo[item['@name']] = item['$'];
+				awfInfo[item['@name']] = item['$'];
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -8965,11 +8957,11 @@ class AMIHTTPClient
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			result.resolveWith(context, [data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, bookmarkInfo, awfInfo]);
 
 		}, (data, message) => {
 
-			result.rejectWith(context, [data, message, this.#guest(), {}, {}, {}, {}]);
+			result.rejectWith(context, [data, message, this.#guest(), {}, {}, {}]);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -9109,15 +9101,11 @@ function parseJwt(token)
 			/* DECODE PAYLOAD                                                                                         */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const uriEncodedPayload = atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')).split('').map((c) => {
+			const payload = decodeURIComponent(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')).split('').map((c) => {
 
 				return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
 
-			}).join('');
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			const payload = decodeURIComponent(uriEncodedPayload);
+			}).join(''));
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* PARSE PAYLOAD                                                                                          */
@@ -9763,7 +9751,7 @@ var AMICommand = function () {
   }, {
     key: "signInByPassword",
     value: function signInByPassword(username, password, options) {
-      _classPrivateFieldGet(this, _httpClient).signInByPassword(username, password, options);
+      return _classPrivateFieldGet(this, _httpClient).signInByPassword(username, password, options);
     }
   }, {
     key: "signInByCertificate",
@@ -10058,10 +10046,20 @@ var _canLeave = true;
 function canLeave(canLeave) {
   _canLeave = canLeave;
 }
-;// CONCATENATED MODULE: ./src/core/utilities/text.js
+;// CONCATENATED MODULE: ./src/core/utilities/strings.js
 
 
 
+function base64Encode(s) {
+  return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, function (_, $1) {
+    return String.fromCharCode(parseInt($1, 16));
+  }));
+}
+function base64Decode(s) {
+  return decodeURIComponent(atob(s).split('').map(function (c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+}
 var _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
 var _textToHtmlX = ['&', '"', '<', '>'];
 var _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
@@ -13983,6 +13981,10 @@ var AMIWebApp = function () {
     _defineProperty(this, "warning", warning);
 
     _defineProperty(this, "flush", flush);
+
+    _defineProperty(this, "base64Encode", base64Encode);
+
+    _defineProperty(this, "base64Decode", base64Decode);
 
     _defineProperty(this, "textToHtml", textToHtml);
 

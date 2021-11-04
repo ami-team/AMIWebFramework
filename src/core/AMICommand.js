@@ -140,7 +140,7 @@ class AMICommand
 
 	signInByPassword(username, password, options)
 	{
-		this.#httpClient.signInByPassword(username, password, options);
+		return this.#httpClient.signInByPassword(username, password, options);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

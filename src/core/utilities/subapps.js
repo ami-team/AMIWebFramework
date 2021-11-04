@@ -11,13 +11,13 @@
 
 'use strict';
 
-import { lock, unlock } from './locks';
+import {lock, unlock} from './locks';
 
-import { fillBreadcrumb } from './view';
+import {fillBreadcrumb} from './view';
 
-import { loadScripts } from './ressources';
+import {loadScripts} from './ressources';
 
-import { _internal_then, _internal_always, setup } from './tools';
+import {_internal_then, _internal_always, setup} from './tools';
 
 import amiRouter from '../AMIRouter';
 

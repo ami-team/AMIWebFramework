@@ -11,7 +11,7 @@
 
 'use strict';
 
-import { setup } from './utilities/tools';
+import {setup} from './utilities/tools';
 
 export default function()
 {

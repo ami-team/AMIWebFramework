@@ -11,9 +11,9 @@
 
 'use strict';
 
-import { error } from './messages';
+import {error} from './messages';
 
-import { isString, isArray, isMap, asArray, setup } from './tools';
+import {isString, isArray, isMap, asArray, setup} from './tools';
 
 import amiRouter from '../AMIRouter';
 

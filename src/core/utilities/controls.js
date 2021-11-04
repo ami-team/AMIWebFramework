@@ -11,15 +11,15 @@
 
 'use strict';
 
-import { error } from './messages';
+import {error} from './messages';
 
-import { textToHtml } from './text';
+import {textToHtml} from './strings';
 
-import { lock, unlock } from './locks';
+import {lock, unlock} from './locks';
 
-import { loadScripts } from './ressources';
+import {loadScripts} from './ressources';
 
-import { _internal_then, setup } from './tools';
+import {_internal_then, setup} from './tools';
 
 import amiRouter from '../AMIRouter';
 

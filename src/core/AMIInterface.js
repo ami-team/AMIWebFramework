@@ -11,7 +11,7 @@
 
 'use strict';
 
-import { $AMIInterface, $AMIClass } from './AMIObject';
+import {$AMIInterface, $AMIClass} from './AMIObject';
 
 import amiCommand from './AMICommand';
 

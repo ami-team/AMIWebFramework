@@ -11,7 +11,7 @@
 
 'use strict';
 
-import {textToHtml} from './text';
+import {textToHtml} from './strings';
 
 import {getStack, unlock} from './locks';
 

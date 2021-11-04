@@ -11,9 +11,9 @@
 
 'use strict';
 
-import { _internal_then } from './utilities/tools';
+import {_internal_then} from './utilities/tools';
 
-import { triggerLogin, triggerLogout } from './utilities/subapps';
+import {triggerLogin, triggerLogout} from './utilities/subapps';
 
 import amiRouter from './AMIRouter';
 

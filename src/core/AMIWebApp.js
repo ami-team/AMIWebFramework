@@ -23,21 +23,31 @@ import amiExtensions from './AMIExtension';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import {typeOf, asArray, setup, isString, isArray, isObject, isSet, isMap} from './utilities/tools';
+import {error, warning, success, info, flush} from './utilities/messages';
 
 import {_subapps, loadSubApp, loadSubAppByURL} from './utilities/subapps';
 
-import { error, flush, info, success, warning } from './utilities/messages';
+import {fillBreadcrumb, replaceHTML, appendHTML, prependHTML, formatTWIG} from './utilities/view';
 
-import { fillBreadcrumb, replaceHTML, appendHTML, prependHTML, formatTWIG } from './utilities/view';
+import {typeOf, asArray, isString, isArray, isObject, isSet, isMap, setup} from './utilities/tools';
 
-import { getStack, lock, unlock, modalEnter, modalLeave, _canLeave, canLeave } from './utilities/locks';
+import {getStack, lock, unlock, modalEnter, modalLeave, _canLeave, canLeave} from './utilities/locks';
 
-import { loadResources, loadSheets, loadScripts, loadJSONs, loadXMLs, loadHTMLs, loadTWIGs, loadTexts } from './utilities/ressources';
+import {loadResources, loadSheets, loadScripts, loadJSONs, loadXMLs, loadHTMLs, loadTWIGs, loadTexts} from './utilities/ressources';
 
-import { textToHtml, htmlToText, textToString, stringToText, htmlToString, stringToHtml, textToSQL, sqlToText } from './utilities/text';
+import {
+	textToHtml,
+	htmlToText,
+	textToString,
+	stringToText,
+	htmlToString,
+	stringToHtml,
+	textToSQL,
+	sqlToText,
+	base64Encode, base64Decode
+} from './utilities/strings';
 
-import { _controls, loadControl, createControl, createControlInBody, createControlInContainer, createControlFromWebLink } from './utilities/controls';
+import {_controls, loadControl, createControl, createControlInBody, createControlInContainer, createControlFromWebLink} from './utilities/controls';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -266,7 +276,14 @@ class AMIWebApp
 	flush = flush;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-	/* TEXT                                                                                                           */
+	/* BASE64 STRINGS                                                                                                 */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	base64Encode = base64Encode;
+	base64Decode = base64Decode;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* PLAIN STRINGS                                                                                                  */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	textToHtml = textToHtml;
@@ -329,8 +346,10 @@ class AMIWebApp
 	loadControl = loadControl;
 
 	createControl = createControl;
+
 	createControlInBody = createControlInBody;
 	createControlInContainer = createControlInContainer;
+
 	createControlFromWebLink = createControlFromWebLink;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
