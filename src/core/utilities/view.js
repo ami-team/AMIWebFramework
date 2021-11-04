@@ -285,7 +285,7 @@ export function appendHTML(selector, twig, options)
  * @param {number} [timePrecision=6]
  */
 
-export function setDateTimeFormats(datetimeFormat, dateFormat, timeFormatHMS, timeFormatHM, timePrecision)
+export function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timePrecision, timeFormatHMS, timeFormatHM)
 {
 	_datetimeFormat = datetimeFormat || 'yyyy-MM-dd HH:mm:ss';
 	_dateFormat = dateFormat || 'yyyy-MM-dd';
@@ -293,12 +293,12 @@ export function setDateTimeFormats(datetimeFormat, dateFormat, timeFormatHMS, ti
 	_timeFormatHMS = timeFormatHMS || 'HH:mm:ss';
 	_timeFormatHM = timeFormatHM || 'HH:mm';
 
-	if(timePrecision > 0)
-	{
-		const s = `.${'S'.repeat(timePrecision)}`;
+	if(datetimePrecision > 0) {
+		_datetimeFormat += `.${'S'.repeat(datetimePrecision)}`;
+	}
 
-		_datetimeFormat += s;
-		_timeFormatHMS += s;
+	if(timePrecision > 0) {
+		_timeFormatHMS += `.${'S'.repeat(timePrecision)}`;
 	}
 }
 

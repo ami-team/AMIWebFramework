@@ -13099,16 +13099,18 @@ function prependHTML(selector, twig, options) {
 function appendHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 2, options);
 }
-function setDateTimeFormats(datetimeFormat, dateFormat, timeFormatHMS, timeFormatHM, timePrecision) {
+function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timePrecision, timeFormatHMS, timeFormatHM) {
   _datetimeFormat = datetimeFormat || 'yyyy-MM-dd HH:mm:ss';
   _dateFormat = dateFormat || 'yyyy-MM-dd';
   _timeFormatHMS = timeFormatHMS || 'HH:mm:ss';
   _timeFormatHM = timeFormatHM || 'HH:mm';
 
+  if (datetimePrecision > 0) {
+    _datetimeFormat += ".".concat('S'.repeat(datetimePrecision));
+  }
+
   if (timePrecision > 0) {
-    var s = ".".concat('S'.repeat(timePrecision));
-    _datetimeFormat += s;
-    _timeFormatHMS += s;
+    _timeFormatHMS += ".".concat('S'.repeat(timePrecision));
   }
 }
 function formatTWIG(twig, dict, twigs) {
@@ -13710,21 +13712,49 @@ var AMIAuth = function () {
   AMIAuth_createClass(AMIAuth, [{
     key: "init",
     value: function init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed) {
+      var _this = this;
+
       var result = $.Deferred();
       var userdata = core_AMIRouter.getWebAppArgs()['userdata'] || '';
-      core_AMICommand.signInByCertificate().then(function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {
+      core_AMICommand.signInByCertificate().fail(function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {
+        _this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).always(function () {
+          result.reject(message);
+        });
+      }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {
         try {
           var config = JSON.parse(base64Decode(awfInfo.config));
-          setDateTimeFormats(config.datetimeFormat, config.dateFormat, config.timeFormatHMS, config.timeFormatHM, config.timePrecision);
+          setDateTimeFormats(config.datetimePrecision, config.datetimeFormat, config.dateFormat, config.timePrecision, config.timeFormatHMS, config.timeFormatHM);
         } catch (e) {}
 
         _internal_then(core_AMIWebApp.onReady(userdata), function () {
           core_AMIWebApp._isReady = true;
-          triggerLogin();
-          result.resolve();
-        }, function (message) {});
-      }, function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {});
+
+          _this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).then(function (message) {
+            result.resolve(message);
+          }, function (message) {
+            result.reject(message);
+          });
+        }, function (message) {
+          core_AMIWebApp._isReady = true;
+          result.reject(message);
+        });
+      });
       return result;
+    }
+  }, {
+    key: "_update",
+    value: function _update(userInfo, roleInfo, bookmarkInfo, awfInfo) {
+      var result = $.Deferred();
+      console.log(userInfo);
+      console.log(roleInfo);
+      console.log(bookmarkInfo);
+      console.log(awfInfo);
+      triggerLogin().then(function () {
+        result.resolve();
+      }, function (message) {
+        result.reject(message);
+      });
+      return result.promise();
     }
   }, {
     key: "isAuthenticated",

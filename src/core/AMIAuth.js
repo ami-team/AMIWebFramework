@@ -48,18 +48,28 @@ class AMIAuth
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.signInByCertificate().then((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
+		amiCommand.signInByCertificate().fail((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
+
+			this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).always((/*---*/) => {
+
+				result.reject(message);
+			});
+
+		}).done((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			try
 			{
 				const config = JSON.parse(base64Decode(awfInfo.config));
 
 				setDateTimeFormats(
+					config.datetimePrecision,
 					config.datetimeFormat,
 					config.dateFormat,
+					config.timePrecision,
 					config.timeFormatHMS,
-					config.timeFormatHM,
-					config.timePrecision
+					config.timeFormatHM
 				);
 			}
 			catch(e)
@@ -67,27 +77,61 @@ class AMIAuth
 				/* IGNORE */
 			}
 
+			/*--------------------------------------------------------------------------------------------------------*/
+
 			_internal_then(amiWebApp.onReady(userdata), () => {
 
 				amiWebApp._isReady = true;
 
-				triggerLogin();
+				this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).then((message) => {
 
-				result.resolve(/*---*/);
+					result.resolve(message);
+
+				}, (message) => {
+
+					result.reject(message);
+				});
 
 			}, (message) => {
 
-				/* TODO */
+				amiWebApp._isReady = true;
+
+				result.reject(message);
 			});
 
-		}, (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
-
-			/* TODO */
+			/*--------------------------------------------------------------------------------------------------------*/
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		return result;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	_update(userInfo, roleInfo, bookmarkInfo, awfInfo)
+	{
+		const result = $.Deferred();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		console.log(userInfo);
+		console.log(roleInfo);
+		console.log(bookmarkInfo);
+		console.log(awfInfo);
+
+		triggerLogin().then(() => {
+
+			result.resolve();
+
+		}, (message) => {
+
+			result.reject(message);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		return result.promise();
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
