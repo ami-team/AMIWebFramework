@@ -25,7 +25,7 @@ license as circulated by CEA, CNRS and INRIA at the following URL
 
 The fact that you are presently reading this means that you have had
 knowledge of the CeCILL-C license and that you accept its terms.
-`
+`;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -106,8 +106,8 @@ const config = {
 
 			{
 				'type': 'asset/source',
-				test: /\.twig$/,
-				include: [path.resolve(__dirname, 'src/twigs')],
+				'test': /\.twig$/,
+				'include': [path.resolve(__dirname, 'src/twigs')]
 			},
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -136,14 +136,14 @@ const config = {
 
 			{
 				test: /\.css$/,
-				use: ['style-loader', 'css-loader'],
+				use: ['style-loader', 'css-loader']
 			},
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
 				test: /\.scss$/,
-				use: ['style-loader', 'css-loader', 'sass-loader'],
+				use: ['style-loader', 'css-loader', 'sass-loader']
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -156,7 +156,7 @@ const config = {
 	},
 	'plugins': [
 		new CopyPlugin({
-			patterns: [
+			'patterns': [
 				/*----------------------------------------------------------------------------------------------------*/
 				/* CSS                                                                                                */
 				/*----------------------------------------------------------------------------------------------------*/
@@ -205,14 +205,14 @@ const config = {
 				{
 					'from': path.resolve(__dirname, 'node_modules/select2/dist/js/select2.min.js'),
 					'to': path.resolve(__dirname, 'js/assets/js/select2.min.js')
-				},
+				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 			],
 		}),
 		new JsDocPlugin({
-			conf: './src/jsdoc/config.js',
-			'cwd': '.',
+			'conf': './src/jsdoc/config.js',
+			'cwd': '.'
 		}),
 		new ESLintPlugin({
 			'failOnWarning': true
@@ -230,7 +230,7 @@ const config = {
 				'terserOptions': {
 					'mangle': true,
 					'format': {
-						'comments': /AMI Web Framwork/,
+						'comments': /AMI Web Framework/,
 					}
 				}
 			})

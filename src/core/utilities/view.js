@@ -63,22 +63,27 @@ const _idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{
 
 let _datetimeFormat = 'yyyy-MM-dd HH:mm:ss.SSSSSS';
 let _dateFormat = 'yyyy-MM-dd';
-let _timeFormatHMS = 'HH:mm:ss';
-let _timeFormatHM = 'HH:mm';
+
+let _timeHMSFormat = 'HH:mm:ss.SSSSSS';
+let _timeHMFormat = 'HH:mm';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 function _parseDatetime(s, format)
 {
+	// noinspection TypeScriptUMDGlobal
 	format = moment().toMomentFormatString(format);
 
+	// noinspection TypeScriptUMDGlobal
 	return moment(s, format, true).toDate();
 }
 
 function _formatDatetime(date, format)
 {
+	// noinspection TypeScriptUMDGlobal
 	format = moment().toMomentFormatString(format);
 
+	// noinspection TypeScriptUMDGlobal
 	return moment(date).format(format);
 }
 
@@ -202,7 +207,7 @@ function _xxxHTML(selector, twig, mode, options)
 			enableTime: true,
 			enableSeconds: true,
 			noCalendar: true,
-			dateFormat: _timeFormatHMS,
+			dateFormat: _timeHMSFormat,
 			parseDate: _parseDatetime,
 			formatDate: _formatDatetime,
 		});
@@ -212,7 +217,7 @@ function _xxxHTML(selector, twig, mode, options)
 			enableTime: true,
 			enableSeconds: false,
 			noCalendar: true,
-			dateFormat: _timeFormatHM,
+			dateFormat: _timeHMFormat,
 			parseDate: _parseDatetime,
 			formatDate: _formatDatetime,
 		});
@@ -282,28 +287,28 @@ export function appendHTML(selector, twig, options)
 
 /**
  * Specify the timedate, date and time formats
- * @param {string} [datetimePrecision=6]
+ * @param {number} [datetimePrecision=6]
  * @param {string} [datetimeFormat='yyyy-MM-dd HH:mm:ss']
  * @param {string} [dateFormat='yyyy-MM-dd HH:mm:ss']
  * @param {number} [timePrecision=6]
- * @param {string} [timeFormatHMS='HH:mm:ss']
- * @param {string} [timeFormatHM='HH:mm']
+ * @param {string} [timeHMSFormat='HH:mm:ss']
+ * @param {string} [timeHMFormat='HH:mm']
  */
 
-export function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timePrecision, timeFormatHMS, timeFormatHM)
+export function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timePrecision, timeHMSFormat, timeHMFormat)
 {
 	_datetimeFormat = datetimeFormat || 'yyyy-MM-dd HH:mm:ss';
 	_dateFormat = dateFormat || 'yyyy-MM-dd';
 
-	_timeFormatHMS = timeFormatHMS || 'HH:mm:ss';
-	_timeFormatHM = timeFormatHM || 'HH:mm';
+	_timeHMSFormat = timeHMSFormat || 'HH:mm:ss';
+	_timeHMFormat = timeHMFormat || 'HH:mm';
 
 	if(datetimePrecision > 0) {
 		_datetimeFormat += `.${'S'.repeat(datetimePrecision)}`;
 	}
 
 	if(timePrecision > 0) {
-		_timeFormatHMS += `.${'S'.repeat(timePrecision)}`;
+		_timeHMSFormat += `.${'S'.repeat(timePrecision)}`;
 	}
 }
 

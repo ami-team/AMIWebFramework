@@ -68,8 +68,8 @@ class AMIAuth
 					config.datetimeFormat,
 					config.dateFormat,
 					config.timePrecision,
-					config.timeFormatHMS,
-					config.timeFormatHM
+					config.timeHMSFormat,
+					config.timeHMFormat
 				);
 			}
 			catch(e)
