@@ -22,7 +22,7 @@ import amiWebApp from '../AMIWebApp';
 import amiTwig from 'ami-twig';
 
 import 'flatpickr/dist/flatpickr.min.css';
-import 'flatpickr';
+import /*-------*/'flatpickr'/*-------*/;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BREADCRUMB                                                                                                         */
