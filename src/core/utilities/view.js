@@ -79,7 +79,7 @@ function _formatDatetime(date, format)
 {
 	format = moment().toMomentFormatString(format);
 
-	return moment(date).format(format).toString();
+	return moment(date).format(format);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

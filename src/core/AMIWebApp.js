@@ -185,11 +185,13 @@ class AMIWebApp
 			resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
 		}
 
-		if(!window.moment?.fn.toMomentFormatString
+		if(!window.moment
 		   ||
-		   !window.moment?.fn.formatWithJDF
+		   !window.moment.fn.toJDFString
 		   ||
-		   !window.moment?.fn.toJDFString
+		   !window.moment.fn.formatWithJDF
+		   ||
+		   !window.moment.fn.toMomentFormatString
 		 ) {
 			resourcesJS.push(`${this.originURL}/js/assets/js/moment-jdateformatparser.min.js`);
 		}
