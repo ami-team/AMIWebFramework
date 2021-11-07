@@ -282,11 +282,12 @@ export function appendHTML(selector, twig, options)
 
 /**
  * Specify the timedate, date and time formats
+ * @param {string} [datetimePrecision=6]
  * @param {string} [datetimeFormat='yyyy-MM-dd HH:mm:ss']
  * @param {string} [dateFormat='yyyy-MM-dd HH:mm:ss']
+ * @param {number} [timePrecision=6]
  * @param {string} [timeFormatHMS='HH:mm:ss']
  * @param {string} [timeFormatHM='HH:mm']
- * @param {number} [timePrecision=6]
  */
 
 export function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timePrecision, timeFormatHMS, timeFormatHM)
