@@ -13839,7 +13839,7 @@ function AMIExtension_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol
           url = _setup2[1];
 
       if (url) {
-        $('head').append("<link rel=\"stylesheet\" type=\"text/css\" href=\"".concat(url, "\"></link>")).promise().done(function () {
+        $('head').append("<link rel=\"stylesheet\" type=\"text/css\" href=\"".concat(url, "\" />")).promise().done(function () {
           result.resolveWith(context);
         });
       } else {

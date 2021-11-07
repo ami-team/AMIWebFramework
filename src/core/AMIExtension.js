@@ -86,7 +86,7 @@ export default function()
 
 			if(url)
 			{
-				$('head').append(`<link rel="stylesheet" type="text/css" href="${url}"></link>`).promise().done(() => {
+				$('head').append(`<link rel="stylesheet" type="text/css" href="${url}" />`).promise().done(() => {
 
 					result.resolveWith(context);
 				});
