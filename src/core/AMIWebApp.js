@@ -185,6 +185,15 @@ class AMIWebApp
 			resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
 		}
 
+		if(!window.moment?.fn.toMomentFormatString
+		   ||
+		   !window.moment?.fn.formatWithJDF
+		   ||
+		   !window.moment?.fn.toJDFString
+		 ) {
+			resourcesJS.push(`${this.originURL}/js/assets/js/moment-jdateformatparser.min.js`);
+		}
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(!this.#noBootstrap && (typeof jQuery.fn.modal) !== 'function')

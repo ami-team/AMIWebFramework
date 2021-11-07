@@ -70,11 +70,15 @@ let _timeFormatHM = 'HH:mm';
 
 function _parseDatetime(s, format)
 {
+	format = moment().toMomentFormatString(format);
+
 	return moment(s, format, true).toDate();
 }
 
 function _formatDatetime(date, format)
 {
+	format = moment().toMomentFormatString(format);
+
 	return moment(date).format(format).toString();
 }
 

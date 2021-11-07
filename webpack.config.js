@@ -187,6 +187,10 @@ const config = {
 					'to': path.resolve(__dirname, 'js/assets/js/moment.min.js')
 				},
 				{
+					'from': path.resolve(__dirname, 'node_modules/moment-jdateformatparser/moment-jdateformatparser.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/moment-jdateformatparser.min.js')
+				},
+				{
 					'from': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
 					'to': path.resolve(__dirname, 'js/assets/js/jquery.min.js')
 				},
