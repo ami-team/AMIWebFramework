@@ -71,19 +71,17 @@ let _timeHMFormat = 'HH:mm';
 
 function _parseDatetime(s, format)
 {
-	// noinspection TypeScriptUMDGlobal
+	// noinspection JSUnresolvedFunction
 	format = moment().toMomentFormatString(format);
 
-	// noinspection TypeScriptUMDGlobal
 	return moment(s, format, true).toDate();
 }
 
 function _formatDatetime(date, format)
 {
-	// noinspection TypeScriptUMDGlobal
+	// noinspection JSUnresolvedFunction
 	format = moment().toMomentFormatString(format);
 
-	// noinspection TypeScriptUMDGlobal
 	return moment(date).format(format);
 }
 
@@ -103,7 +101,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 	if(suffix)
 	{
-		twig = twig.replace(_idRegExp, function(id) {
+		twig = twig.replace(_idRegExp, (id) => {
 
 			return `${id}_instance${suffix}`;
 		});

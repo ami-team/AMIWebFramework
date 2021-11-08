@@ -13712,6 +13712,14 @@ var AMIAuth = function () {
   }
 
   AMIAuth_createClass(AMIAuth, [{
+    key: "setupAWF",
+    value: function setupAWF(awfInfo) {
+      try {
+        var config = JSON.parse(base64Decode(awfInfo.config));
+        setDateTimeFormats(config.datetimePrecision, config.datetimeFormat, config.dateFormat, config.timePrecision, config.timeHMSFormat, config.timeHMFormat);
+      } catch (e) {}
+    }
+  }, {
     key: "init",
     value: function init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed) {
       var _this = this;
@@ -13719,14 +13727,13 @@ var AMIAuth = function () {
       var result = $.Deferred();
       var userdata = core_AMIRouter.getWebAppArgs()['userdata'] || '';
       core_AMICommand.signInByCertificate().fail(function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {
+        _this.setupAWF(awfInfo);
+
         _this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).always(function () {
           result.reject(message);
         });
       }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {
-        try {
-          var config = JSON.parse(base64Decode(awfInfo.config));
-          setDateTimeFormats(config.datetimePrecision, config.datetimeFormat, config.dateFormat, config.timePrecision, config.timeHMSFormat, config.timeHMFormat);
-        } catch (e) {}
+        _this.setupAWF(awfInfo);
 
         _internal_then(core_AMIWebApp.onReady(userdata), function () {
           core_AMIWebApp._isReady = true;
