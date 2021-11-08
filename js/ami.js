@@ -13544,6 +13544,7 @@ function subapps_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
+
 var _subapps = {};
 
 var _currentSubappInstance = new function () {
@@ -13651,7 +13652,7 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
   var args = core_AMIRouter.getWebAppArgs();
 
   if (args['v']) {
-    amiCommand.execute('GetHashInfo -hash=?', {
+    core_AMICommand.execute('GetHashInfo -hash=?', {
       params: [args['v']]
     }).fail(function (data, message) {
       result.reject(message);
