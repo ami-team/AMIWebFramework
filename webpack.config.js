@@ -88,7 +88,7 @@ const config = {
 					{
 						loader: 'esbuild-loader',
 						options: {
-							target: 'es2015'  // Syntax to compile to (see options below for possible values)
+							target: 'es2015'
 						}
 					}
 				]
@@ -229,7 +229,7 @@ const config = {
 		]
 	},
 	'performance' : {
-		'hints': false
+		'hints': 'warning'
 	}
 };
 

@@ -3708,7 +3708,7 @@ amiTwig.expr.interpreter = {
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(213);
+/* harmony import */ var _css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(81);
 /* harmony import */ var _css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(645);
 /* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -3731,7 +3731,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".flatpickr-calendar{background:transpa
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Z": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(213);
+/* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(81);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_noSourceMaps_js__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(645);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
@@ -3925,7 +3925,7 @@ module.exports = function (url, options) {
 
 /***/ }),
 
-/***/ 213:
+/***/ 81:
 /***/ ((module) => {
 
 "use strict";
@@ -8463,25 +8463,28 @@ var __webpack_exports__ = {};
 
 ;// CONCATENATED MODULE: ./src/core/AMIObject.js
 
-
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-var $this;
-
-if (typeof window !== 'undefined') {
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+let $this;
+if (typeof window !== "undefined") {
   $this = window;
-} else if (typeof __webpack_require__.g !== 'undefined') {
+} else if (typeof __webpack_require__.g !== "undefined") {
   $this = __webpack_require__.g;
 } else {
-  throw 'Neither \'window\' nor \'global\' is defined';
+  throw "Neither 'window' nor 'global' is defined";
 }
-
 function _$createNamespace($name, x) {
-  var i;
-  var parent = $this;
-  var parts = $name.split(/\s*\.\s*/g),
-      l = parts.length - 1;
-
+  let i;
+  let parent = $this;
+  const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
   for (i = 0; i < l; i++) {
     if (parent[parts[i]]) {
       parent = parent[parts[i]];
@@ -8489,36 +8492,27 @@ function _$createNamespace($name, x) {
       parent = parent[parts[i]] = {};
     }
   }
-
   parent[parts[i]] = x;
 }
-
 function _$addToNamespace($name, x) {
-  var i;
-  var parent = $this;
-  var parts = $name.split(/\s*\.\s*/g),
-      l = parts.length - 1;
-
+  let i;
+  let parent = $this;
+  const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
   for (i = 0; i < l; i++) {
     if (parent[parts[i]]) {
       parent = parent[parts[i]];
     } else {
-      throw "'".concat($name, "' ('").concat(parts[i], "') not declared");
+      throw `'${$name}' ('${parts[i]}') not declared`;
     }
   }
-
   parent[parts[i]] = x;
 }
-
 function $AMINamespace($name, $descr) {
   if (!$descr) {
     $descr = {};
   }
-
   $descr.$name = $name;
-
   _$createNamespace($name, $descr);
-
   if ($descr.$) {
     $descr.$.apply($descr);
   }
@@ -8527,123 +8521,97 @@ function $AMIInterface($name, $descr) {
   if (!$descr) {
     $descr = {};
   }
-
-  var $class = function $class() {
-    throw 'could nor instantiate interface';
+  const $class = function() {
+    throw "could nor instantiate interface";
   };
-
   if ($descr.$extends) {
-    throw '`$extends` not allowed for interface';
+    throw "`$extends` not allowed for interface";
   }
-
   if ($descr.$implements) {
-    throw '`$implements` not allowed for interface';
+    throw "`$implements` not allowed for interface";
   }
-
   if ($descr.$) {
-    throw '`$` not allowed for interface';
+    throw "`$` not allowed for interface";
   }
-
   if ($descr.$init) {
-    throw '`$init` not allowed for interface';
+    throw "`$init` not allowed for interface";
   }
-
   $class.$name = $name;
   $class.$class = $class;
   $class.$members = $descr;
-
   _$addToNamespace($name, $class);
 }
 function $AMIClass($name, $descr) {
   if (!$descr) {
     $descr = {};
   }
-
-  var $super = $descr.$extends instanceof Function ? $descr.$extends.prototype : {};
-  var $super_implements = $super.$implements instanceof Array ? $super.$implements : [];
-  var $descr_implements = $descr.$implements instanceof Array ? $descr.$implements : [];
-
-  var $class = function $class() {
-    for (var i in this.$implements) {
+  const $super = $descr.$extends instanceof Function ? $descr.$extends.prototype : {};
+  const $super_implements = $super.$implements instanceof Array ? $super.$implements : [];
+  const $descr_implements = $descr.$implements instanceof Array ? $descr.$implements : [];
+  const $class = function() {
+    for (const i in this.$implements) {
       if (this.$implements.hasOwnProperty(i)) {
-          var $interface = this.$implements[i];
-
-          for (var j in $interface.$members) {
-            if ($interface.$members.hasOwnProperty(j)) {
-                var $member = $interface.$members[j];
-
-                if (_typeof(this[j]) !== _typeof($member)) {
-                  throw "class '".concat(this.$name, "' with must implement '").concat($interface.$name, ".").concat(j, "'");
-                }
-              }
+        const $interface = this.$implements[i];
+        for (const j in $interface.$members) {
+          if ($interface.$members.hasOwnProperty(j)) {
+            const $member = $interface.$members[j];
+            if (typeof this[j] !== typeof $member) {
+              throw `class '${this.$name}' with must implement '${$interface.$name}.${j}'`;
+            }
           }
         }
+      }
     }
-
-    var _super = this.$class._internal_super;
-    var _added = this.$class._internal_added;
+    const _super = this.$class._internal_super;
+    const _added = this.$class._internal_added;
     this.$super = {};
-
-    for (var name in _super) {
+    for (const name in _super) {
       if (_super.hasOwnProperty(name)) {
-          this.$super[name] = function (_super, name, that) {
-            return function () {
-              return _super[name].apply(that, arguments);
-            };
-          }(_super, name, this);
-        }
+        this.$super[name] = ((_super2, name2, that) => function() {
+          return _super2[name2].apply(that, arguments);
+        })(_super, name, this);
+      }
     }
-
     this.$added = {};
-
-    for (var _name in _added) {
-      if (_added.hasOwnProperty(_name)) {
-          this.$added[_name] = function (_added, name, that) {
-            return function () {
-              return _added[name].apply(that, arguments);
-            };
-          }(_added, _name, this);
-        }
+    for (const name in _added) {
+      if (_added.hasOwnProperty(name)) {
+        this.$added[name] = ((_added2, name2, that) => function() {
+          return _added2[name2].apply(that, arguments);
+        })(_added, name, this);
+      }
     }
-
     if (this.$init) {
       this.$init.apply(this, arguments);
     }
   };
-
   $class._internal_super = {};
   $class._internal_added = {};
-
-  for (var name in $super) {
-    if (name === '$init' || name.charAt(0) !== '$' || $super.hasOwnProperty(name)) {
+  for (const name in $super) {
+    if (name === "$init" || name.charAt(0) !== "$" || $super.hasOwnProperty(name)) {
       $class._internal_super[name] = $super[name];
       $class.prototype[name] = $super[name];
     }
   }
-
-  for (var _name2 in $descr) {
-    if (_name2 === '$init' || _name2.charAt(0) !== '$' || $descr.hasOwnProperty(_name2)) {
-      $class._internal_added[_name2] = $descr[_name2];
-      $class.prototype[_name2] = $descr[_name2];
+  for (const name in $descr) {
+    if (name === "$init" || name.charAt(0) !== "$" || $descr.hasOwnProperty(name)) {
+      $class._internal_added[name] = $descr[name];
+      $class.prototype[name] = $descr[name];
     }
   }
-
   $class.prototype.$name = $name;
   $class.prototype.$class = $class;
   $class.prototype.$implements = $super_implements.concat($descr_implements);
-
   _$addToNamespace($name, $class);
-
   if ($descr.$) {
     $descr.$.apply($class);
   }
 }
-
-if (typeof jQuery !== 'undefined') {
+if (typeof jQuery !== "undefined") {
   jQuery.Namespace = $AMINamespace;
   jQuery.Interface = $AMIInterface;
   jQuery.Class = $AMIClass;
 }
+
 // EXTERNAL MODULE: ./node_modules/jspath/index.js
 var jspath = __webpack_require__(915);
 var jspath_default = /*#__PURE__*/__webpack_require__.n(jspath);
@@ -9668,248 +9636,198 @@ if(typeof window !== 'undefined') window.AMIMQTTClient = AMIMQTTClient;
 
 ;// CONCATENATED MODULE: ./src/core/AMICommand.js
 
+var __accessCheck = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var __privateGet = (obj, member, getter) => {
+  __accessCheck(obj, member, "read from private field");
+  return getter ? getter.call(obj) : member.get(obj);
+};
+var __privateAdd = (obj, member, value) => {
+  if (member.has(obj))
+    throw TypeError("Cannot add the same private member more than once");
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+};
+var __privateSet = (obj, member, value, setter) => {
+  __accessCheck(obj, member, "write to private field");
+  setter ? setter.call(obj, value) : member.set(obj, value);
+  return value;
+};
+var _httpClient, _mqttClient;
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
-function AMICommand_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { AMICommand_typeof = function _typeof(obj) { return typeof obj; }; } else { AMICommand_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return AMICommand_typeof(obj); }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
-
-function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
-
-function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
-
-function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
-
-function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
-
-function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
-
-
-
-
-var _httpClient = new WeakMap();
-
-var _mqttClient = new WeakMap();
-
-var AMICommand = function () {
-  function AMICommand() {
-    _classCallCheck(this, AMICommand);
-
-    _classPrivateFieldInitSpec(this, _httpClient, {
-      writable: true,
-      value: null
-    });
-
-    _classPrivateFieldInitSpec(this, _mqttClient, {
-      writable: true,
-      value: null
+class AMICommand {
+  constructor() {
+    __privateAdd(this, _httpClient, null);
+    __privateAdd(this, _mqttClient, null);
+  }
+  initHttpClient(endpoint) {
+    __privateSet(this, _httpClient, new ami_http_client(endpoint));
+  }
+  initMqttClient(endpoint) {
+    __privateSet(this, _mqttClient, new ami_mqtt_client(endpoint));
+  }
+  getHTTPEndpoint() {
+    return __privateGet(this, _httpClient) ? __privateGet(this, _httpClient).getEndpoint() : "";
+  }
+  getMQTTEndpoint() {
+    return __privateGet(this, _httpClient) ? __privateGet(this, _mqttClient).getEndpoint() : "";
+  }
+  execute(command, options) {
+    return typeof options === "object" && "mqtt" in options ? __privateGet(this, _mqttClient).execute(command, options) : __privateGet(this, _httpClient).execute(command, options);
+  }
+  mqttSignInByToken(token, serverName) {
+    return __privateGet(this, _mqttClient).signInByToken(token, serverName);
+  }
+  mqttSignOut(options) {
+    return __privateGet(this, _mqttClient).signOut(options);
+  }
+  signInByPassword(username, password, options) {
+    return __privateGet(this, _httpClient).signInByPassword(username, password, options);
+  }
+  signInByCertificate(options) {
+    return __privateGet(this, _httpClient).signInByCertificate(options);
+  }
+  signOut(options) {
+    return __privateGet(this, _httpClient).signOut(options).always(() => {
+      return __privateGet(this, _mqttClient).signOut(options).done(() => {
+        console.log("MQTT connection closed too");
+      });
     });
   }
-
-  _createClass(AMICommand, [{
-    key: "initHttpClient",
-    value: function initHttpClient(endpoint) {
-      _classPrivateFieldSet(this, _httpClient, new ami_http_client(endpoint));
-    }
-  }, {
-    key: "initMqttClient",
-    value: function initMqttClient(endpoint) {
-      _classPrivateFieldSet(this, _mqttClient, new ami_mqtt_client(endpoint));
-    }
-  }, {
-    key: "getHTTPEndpoint",
-    value: function getHTTPEndpoint() {
-      return _classPrivateFieldGet(this, _httpClient) ? _classPrivateFieldGet(this, _httpClient).getEndpoint() : '';
-    }
-  }, {
-    key: "getMQTTEndpoint",
-    value: function getMQTTEndpoint() {
-      return _classPrivateFieldGet(this, _httpClient) ? _classPrivateFieldGet(this, _mqttClient).getEndpoint() : '';
-    }
-  }, {
-    key: "execute",
-    value: function execute(command, options) {
-      return AMICommand_typeof(options) === 'object' && 'mqtt' in options ? _classPrivateFieldGet(this, _mqttClient).execute(command, options) : _classPrivateFieldGet(this, _httpClient).execute(command, options);
-    }
-  }, {
-    key: "mqttSignInByToken",
-    value: function mqttSignInByToken(token, serverName) {
-      return _classPrivateFieldGet(this, _mqttClient).signInByToken(token, serverName);
-    }
-  }, {
-    key: "mqttSignOut",
-    value: function mqttSignOut(options) {
-      return _classPrivateFieldGet(this, _mqttClient).signOut(options);
-    }
-  }, {
-    key: "signInByPassword",
-    value: function signInByPassword(username, password, options) {
-      return _classPrivateFieldGet(this, _httpClient).signInByPassword(username, password, options);
-    }
-  }, {
-    key: "signInByCertificate",
-    value: function signInByCertificate(options) {
-      return _classPrivateFieldGet(this, _httpClient).signInByCertificate(options);
-    }
-  }, {
-    key: "signOut",
-    value: function signOut(options) {
-      var _this = this;
-
-      return _classPrivateFieldGet(this, _httpClient).signOut(options).always(function () {
-        return _classPrivateFieldGet(_this, _mqttClient).signOut(options).done(function () {
-          console.log('MQTT connection closed too');
-        });
-      });
-    }
-  }, {
-    key: "attachCertificate",
-    value: function attachCertificate(username, password, options) {
-      options = options || {};
-      options.params = [username, password];
-      return this.execute('GetSessionInfo -attachCert -amiLogin=? -amiPassword=?', options);
-    }
-  }, {
-    key: "detachCertificate",
-    value: function detachCertificate(username, password, options) {
-      options = options || {};
-      options.params = [username, password];
-      return this.execute('GetSessionInfo -detachCert -amiLogin=? -amiPassword=?', options);
-    }
-  }, {
-    key: "addUser",
-    value: function addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options) {
-      options = options || {};
-      options.params = [username, password, firstName, lastName, email, captchaHash, captchaText];
-      return this.execute('AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? ' + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), options);
-    }
-  }, {
-    key: "changeInfo",
-    value: function changeInfo(firstName, lastName, email, options) {
-      options = options || {};
-      options.params = [firstName, lastName, email];
-      return this.execute('SetUserInfo -firstName=? -lastName=? -email=?', options);
-    }
-  }, {
-    key: "changePassword",
-    value: function changePassword(username, oldPassword, newPassword, options) {
-      options = options || {};
-      options.params = [username, oldPassword, newPassword];
-      return this.execute('ChangePassword -amiLogin=? -amiPasswordOld=? -amiPasswordNew=?', options);
-    }
-  }, {
-    key: "resetPassword",
-    value: function resetPassword(username, captchaHash, captchaText, options) {
-      options = options || {};
-      options.params = [username, captchaHash, captchaText];
-      return this.execute('ResetPassword -amiLogin=? -captchaHash=? -captchaText=?', options);
-    }
-  }]);
-
-  return AMICommand;
-}();
-
+  attachCertificate(username, password, options) {
+    options = options || {};
+    options.params = [username, password];
+    return this.execute("GetSessionInfo -attachCert -amiLogin=? -amiPassword=?", options);
+  }
+  detachCertificate(username, password, options) {
+    options = options || {};
+    options.params = [username, password];
+    return this.execute("GetSessionInfo -detachCert -amiLogin=? -amiPassword=?", options);
+  }
+  addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options) {
+    options = options || {};
+    options.params = [username, password, firstName, lastName, email, captchaHash, captchaText];
+    return this.execute("AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? " + (attachCert ? " -attachCert" : "") + (agree ? " -agree" : ""), options);
+  }
+  changeInfo(firstName, lastName, email, options) {
+    options = options || {};
+    options.params = [firstName, lastName, email];
+    return this.execute("SetUserInfo -firstName=? -lastName=? -email=?", options);
+  }
+  changePassword(username, oldPassword, newPassword, options) {
+    options = options || {};
+    options.params = [username, oldPassword, newPassword];
+    return this.execute("ChangePassword -amiLogin=? -amiPasswordOld=? -amiPasswordNew=?", options);
+  }
+  resetPassword(username, captchaHash, captchaText, options) {
+    options = options || {};
+    options.params = [username, captchaHash, captchaText];
+    return this.execute("ResetPassword -amiLogin=? -captchaHash=? -captchaText=?", options);
+  }
+}
+_httpClient = new WeakMap();
+_mqttClient = new WeakMap();
 /* harmony default export */ const core_AMICommand = (new AMICommand());
+
 ;// CONCATENATED MODULE: ./src/core/AMIInterface.js
 
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
-
-var ami = {};
-
-if (typeof window !== 'undefined') {
+const ami = {};
+if (typeof window !== "undefined") {
   window.ami = ami;
 }
-
 /* harmony default export */ const AMIInterface = (ami);
-
 function _setupCtx(ctxDefaults, ctxOptionals, ctxOptions, ctx, defaults, optionals, options) {
   if (options) {
-    for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _slicedToArray(_Object$entries[_i], 2),
-          key = _Object$entries$_i[0],
-          val = _Object$entries$_i[1];
-
+    for (let [key, val] of Object.entries(options)) {
       ctxOptions[key] = val;
       ctx[key] = val;
     }
   }
-
   if (optionals) {
-    for (var _i2 = 0, _Object$entries2 = Object.entries(optionals); _i2 < _Object$entries2.length; _i2++) {
-      var _Object$entries2$_i = _slicedToArray(_Object$entries2[_i2], 2),
-          _key = _Object$entries2$_i[0],
-          _val = _Object$entries2$_i[1];
-
-      if (!(_key in ctx)) {
-        if (_key !== 'context') {
-          ctxOptionals[_key] = _val;
+    for (let [key, val] of Object.entries(optionals)) {
+      if (!(key in ctx)) {
+        if (key !== "context") {
+          ctxOptionals[key] = val;
         }
-
-        ctx[_key] = _val;
+        ctx[key] = val;
       }
     }
   }
-
   if (defaults) {
-    for (var _i3 = 0, _Object$entries3 = Object.entries(defaults); _i3 < _Object$entries3.length; _i3++) {
-      var _Object$entries3$_i = _slicedToArray(_Object$entries3[_i3], 2),
-          _key2 = _Object$entries3$_i[0],
-          _val2 = _Object$entries3$_i[1];
-
-      ctxDefaults[_key2] = _val2;
-      ctx[_key2] = _val2;
+    for (let [key, val] of Object.entries(defaults)) {
+      ctxDefaults[key] = val;
+      ctx[key] = val;
     }
   }
-
   ctx.httpEndpoint = core_AMICommand.getHTTPEndpoint();
   ctx.mqttEndpoint = core_AMICommand.getMQTTEndpoint();
   return ctx;
 }
-
-$AMIInterface('ami.ISubApp', {
-  onReady: function onReady(userdata) {},
-  onExit: function onExit(userdata) {},
-  onLogin: function onLogin(userdata) {},
-  onLogout: function onLogout(userdata) {}
+$AMIInterface("ami.ISubApp", {
+  onReady: function(userdata) {
+  },
+  onExit: function(userdata) {
+  },
+  onLogin: function(userdata) {
+  },
+  onLogout: function(userdata) {
+  }
 });
-$AMIClass('ami.SubApp', {
+$AMIClass("ami.SubApp", {
   $implements: [ami.ISubApp],
   ctxDefaults: {},
   ctxOptionals: {},
   ctxOptions: {},
   ctx: {},
-  setupCtx: function setupCtx(defaults, optionals, settings) {
+  setupCtx: function(defaults, optionals, settings) {
     return _setupCtx(this.ctxDefaults, this.ctxOptionals, this.ctxOptions, this.ctx, defaults, optionals, settings);
   },
-  onExit: function onExit() {},
-  onLogin: function onLogin() {},
-  onLogout: function onLogout() {}
+  onExit: function() {
+  },
+  onLogin: function() {
+  },
+  onLogout: function() {
+  }
 });
+
 // EXTERNAL MODULE: ./node_modules/ami-twig/index.js
 var ami_twig = __webpack_require__(444);
 ;// CONCATENATED MODULE: ./src/core/utilities/tools.js
 
-
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 function _internal_then(deferred, doneCallback, failCallback) {
   if (deferred && deferred.then) {
@@ -9926,8 +9844,8 @@ function _internal_always(deferred, alwaysCallback) {
   }
 }
 function typeOf(x) {
-  var name = Object.prototype.toString.call(x);
-  return name.startsWith('[object ') ? name.substring(8, name.length - 1) : '';
+  const name = Object.prototype.toString.call(x);
+  return name.startsWith("[object ") ? name.substring(8, name.length - 1) : "";
 }
 function isString(x) {
   return ami_twig/* default.stdlib.isString */.Z.stdlib.isString(x);
@@ -9948,80 +9866,96 @@ function asArray(x) {
   return Array.isArray(x) ? x : [x];
 }
 function setup(optionNames, optionDefaults, options) {
-  var result = [];
-  var l = optionNames.length;
-  var m = optionDefaults.length;
-
+  const result = [];
+  const l = optionNames.length;
+  const m = optionDefaults.length;
   if (l !== m) {
-    throw 'internal error';
+    throw "internal error";
   }
-
   if (options) {
-    for (var i = 0; i < l; i++) {
+    for (let i = 0; i < l; i++) {
       result.push(optionNames[i] in options ? options[optionNames[i]] : optionDefaults[i]);
     }
   } else {
-    for (var _i = 0; _i < l; _i++) {
-      result.push(optionDefaults[_i]);
+    for (let i = 0; i < l; i++) {
+      result.push(optionDefaults[i]);
     }
   }
-
   return result;
 }
+
 ;// CONCATENATED MODULE: ./src/core/utilities/strings.js
 
-
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 function base64Encode(s) {
-  return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, function (_, $1) {
+  return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, (_, $1) => {
     return String.fromCharCode(parseInt($1, 16));
-  })).replace(/\+/g, '-').replace(/\//g, '_');
+  })).replace(/\+/g, "-").replace(/\//g, "_");
 }
 function base64Decode(s) {
-  return decodeURIComponent(atob(s.replace(/-/g, '+').replace(/_/g, '/')).split('').map(function (c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(''));
+  return decodeURIComponent(atob(s.replace(/-/g, "+").replace(/_/g, "/")).split("").map((c) => {
+    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(""));
 }
-var _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
-var _textToHtmlX = ['&', '"', '<', '>'];
-var _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
+const _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
+const _textToHtmlX = ["&", '"', "<", ">"];
+const _textToHtmlY = ["&amp;", "&quot;", "&lt;", "&gt;"];
 function textToHtml(s) {
-  return _replace(s || '', _textToHtmlX, _textToHtmlY);
+  return _replace(s || "", _textToHtmlX, _textToHtmlY);
 }
 function htmlToText(s) {
-  return _replace(s || '', _textToHtmlY, _textToHtmlX);
+  return _replace(s || "", _textToHtmlY, _textToHtmlX);
 }
-var _textToStringX = ['\\', '\n', '"', '\''];
-var _textToStringY = ['\\\\', '\\n', '\\"', '\\\''];
+const _textToStringX = ["\\", "\n", '"', "'"];
+const _textToStringY = ["\\\\", "\\n", '\\"', "\\'"];
 function textToString(s) {
-  return _replace(s || '', _textToStringX, _textToStringY);
+  return _replace(s || "", _textToStringX, _textToStringY);
 }
 function stringToText(s) {
-  return _replace(s || '', _textToStringY, _textToStringX);
+  return _replace(s || "", _textToStringY, _textToStringX);
 }
-var _htmlToStringX = ['\\', '\n', '&quot;', '\''];
-var _htmlToStringY = ['\\\\', '\\n', '\\&quot;', '\\\''];
+const _htmlToStringX = ["\\", "\n", "&quot;", "'"];
+const _htmlToStringY = ["\\\\", "\\n", "\\&quot;", "\\'"];
 function htmlToString(s) {
-  return _replace(s || '', _htmlToStringX, _htmlToStringY);
+  return _replace(s || "", _htmlToStringX, _htmlToStringY);
 }
 function stringToHtml(s) {
-  return _replace(s || '', _htmlToStringY, _htmlToStringX);
+  return _replace(s || "", _htmlToStringY, _htmlToStringX);
 }
-var _textToSQLX = ['\''];
-var _textToSQLY = ['\'\''];
+const _textToSQLX = ["'"];
+const _textToSQLY = ["''"];
 function textToSQL(s) {
-  return _replace(s || '', _textToSQLX, _textToSQLY);
+  return _replace(s || "", _textToSQLX, _textToSQLY);
 }
 function sqlToText(s) {
-  return _replace(s || '', _textToSQLY, _textToSQLX);
+  return _replace(s || "", _textToSQLY, _textToSQLX);
 }
+
 ;// CONCATENATED MODULE: ./src/core/utilities/locks.js
 
-
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 function _throwError() {
   throw Error();
 }
-
 function getStack() {
   try {
     _throwError();
@@ -10029,21 +9963,19 @@ function getStack() {
     try {
       return e1.stack;
     } catch (e2) {
-      return '';
+      return "";
     }
   }
 }
-var _curLockCnt = 0;
-var _tmpLockCnt = 0;
+let _curLockCnt = 0;
+let _tmpLockCnt = 0;
 function lock() {
-  var lines = getStack().split('\n');
-
+  let lines = getStack().split("\n");
   if (lines.length > 2) {
-    console.log("lock[".concat(_curLockCnt, "] :: ").concat(lines[2]));
+    console.log(`lock[${_curLockCnt}] :: ${lines[2]}`);
   }
-
   if (_curLockCnt <= 0) {
-    $('#ami_locker').css('display', 'flex');
+    $("#ami_locker").css("display", "flex");
     _curLockCnt = 1;
   } else {
     _curLockCnt++;
@@ -10051,365 +9983,264 @@ function lock() {
 }
 function unlock() {
   if (_curLockCnt <= 1) {
-    $('#ami_locker').css('display', 'none');
+    $("#ami_locker").css("display", "none");
     _curLockCnt = 0;
   } else {
     _curLockCnt--;
   }
-
-  var lines = getStack().split('\n');
-
+  let lines = getStack().split("\n");
   if (lines.length > 2) {
-    console.log("unlock[".concat(_curLockCnt, "] :: ").concat(lines[2]));
+    console.log(`unlock[${_curLockCnt}] :: ${lines[2]}`);
   }
 }
 function modalLeave() {
-  var lines = getStack().split('\n');
-
+  let lines = getStack().split("\n");
   if (lines.length > 2) {
-    console.log("modalLock[".concat(_curLockCnt, "] :: ").concat(lines[2]));
+    console.log(`modalLock[${_curLockCnt}] :: ${lines[2]}`);
   }
-
   _curLockCnt = _tmpLockCnt;
-
   if (_curLockCnt > 0) {
-    $('#ami_locker').css('display', 'flex');
+    $("#ami_locker").css("display", "flex");
   }
 }
 function modalEnter() {
   _tmpLockCnt = _curLockCnt;
-
   if (_curLockCnt > 0) {
-    $('#ami_locker').css('display', 'none');
+    $("#ami_locker").css("display", "none");
   }
-
-  var lines = getStack().split('\n');
-
+  let lines = getStack().split("\n");
   if (lines.length > 2) {
-    console.log("modalUnlock[".concat(_curLockCnt, "] :: ").concat(lines[2]));
+    console.log(`modalUnlock[${_curLockCnt}] :: ${lines[2]}`);
   }
 }
-var _canLeave = true;
-function canLeave(canLeave) {
-  _canLeave = canLeave;
+let _canLeave = true;
+function canLeave(canLeave2) {
+  _canLeave = canLeave2;
 }
+
 ;// CONCATENATED MODULE: ./src/core/utilities/messages.js
 
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
 
-
-
-var _linkExp = new RegExp('\\[([^\\]]*)]\\(([^)]*)\\)', 'g');
-
+const _linkExp = new RegExp("\\[([^\\]]*)]\\(([^)]*)\\)", "g");
 function _publishAlert(clazz, title, message, fadeOut) {
   if (Array.isArray(message)) {
-    message = message.map(function (MESSAGE) {
-      return (MESSAGE || '').toString();
-    }).join('. ');
+    message = message.map((MESSAGE) => (MESSAGE || "").toString()).join(". ");
   } else {
-    message = (message || '').toString();
+    message = (message || "").toString();
   }
-
-  var hash = message.hashCode();
-  var date = moment().format('DD MMM, HH:mm:ss');
-  var toast = $("#ami_alert_content > .toast[data-hash=\"".concat(hash, "\"]"));
-
+  const hash = message.hashCode();
+  const date = moment().format("DD MMM, HH:mm:ss");
+  const toast = $(`#ami_alert_content > .toast[data-hash="${hash}"]`);
   if (toast.length === 0) {
-    var twig = __webpack_require__(679)("./" + core_AMIWebApp.bootstrapVersion + "/message.twig");
-
-    var html = ami_twig/* default.engine.render */.Z.engine.render(twig, {
-      date: date,
-      hash: hash,
-      clazz: clazz,
-      title: title,
-      fadeOut: fadeOut,
-      message: message
+    const twig = __webpack_require__(679)("./" + core_AMIWebApp.bootstrapVersion + "/message.twig");
+    const html = ami_twig/* default.engine.render */.Z.engine.render(twig, {
+      date,
+      hash,
+      clazz,
+      title,
+      fadeOut,
+      message
     });
-    $('#ami_alert_content').append(html.replace(_linkExp, '<a href="' + '$1' + '" target="_blank">$2</a>')).promise().done(function () {
-      $("#ami_alert_content > .toast[data-hash=\"".concat(hash, "\"]")).toast('show');
+    $("#ami_alert_content").append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
+      $(`#ami_alert_content > .toast[data-hash="${hash}"]`).toast("show");
     });
   } else {
-    toast.find('.toast-header > strong').html(textToHtml(title) + " <span class=\"badge badge-".concat(clazz, "\">").concat(toast.attr('data-cnt', parseInt(toast.attr('data-cnt')) + 1).attr('data-cnt'), "</span>"));
-    toast.find('.toast-header > small').html(textToHtml(date));
-    toast.toast('show');
+    toast.find(".toast-header > strong").html(textToHtml(title) + ` <span class="badge badge-${clazz}">${toast.attr("data-cnt", parseInt(toast.attr("data-cnt")) + 1).attr("data-cnt")}</span>`);
+    toast.find(".toast-header > small").html(textToHtml(date));
+    toast.toast("show");
   }
-
-  console.log("AMI :: ".concat(title.toUpperCase(), ": ").concat(message, "\n").concat(getStack()));
+  console.log(`AMI :: ${title.toUpperCase()}: ${message}
+${getStack()}`);
   $(document).scrollTop(0);
   unlock();
 }
-
 function info(message, fadeOut) {
-  _publishAlert('info', 'Info', message, fadeOut);
+  _publishAlert("info", "Info", message, fadeOut);
 }
 function success(message, fadeOut) {
-  _publishAlert('success', 'Success', message, fadeOut);
+  _publishAlert("success", "Success", message, fadeOut);
 }
 function warning(message, fadeOut) {
-  _publishAlert('warning', 'Warning', message, fadeOut);
+  _publishAlert("warning", "Warning", message, fadeOut);
 }
 function error(message, fadeOut) {
-  _publishAlert('danger', 'Error', message, fadeOut);
+  _publishAlert("danger", "Error", message, fadeOut);
 }
 function flush() {
-  $('#ami_alert_content').empty();
+  $("#ami_alert_content").empty();
 }
+
 ;// CONCATENATED MODULE: ./src/core/AMIRouter.js
 
-
-function AMIRouter_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function AMIRouter_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function AMIRouter_createClass(Constructor, protoProps, staticProps) { if (protoProps) AMIRouter_defineProperties(Constructor.prototype, protoProps); if (staticProps) AMIRouter_defineProperties(Constructor, staticProps); return Constructor; }
-
-function AMIRouter_classPrivateFieldInitSpec(obj, privateMap, value) { AMIRouter_checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
-
-function AMIRouter_checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-function AMIRouter_classPrivateFieldGet(receiver, privateMap) { var descriptor = AMIRouter_classExtractFieldDescriptor(receiver, privateMap, "get"); return AMIRouter_classApplyDescriptorGet(receiver, descriptor); }
-
-function AMIRouter_classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
-
-function AMIRouter_classPrivateFieldSet(receiver, privateMap, value) { var descriptor = AMIRouter_classExtractFieldDescriptor(receiver, privateMap, "set"); AMIRouter_classApplyDescriptorSet(receiver, descriptor, value); return value; }
-
-function AMIRouter_classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
-
-function AMIRouter_classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
-
-var _webAppURL = new WeakMap();
-
-var _webAppArgs = new WeakMap();
-
-var _webAppHash = new WeakMap();
-
-var _scriptURL = new WeakMap();
-
-var _scriptArgs = new WeakMap();
-
-var _scriptHash = new WeakMap();
-
-var _originURL = new WeakMap();
-
-var _routes = new WeakMap();
-
-var AMIRouter = function () {
-  function AMIRouter(prodJsFilename, devJsFilename) {
-    AMIRouter_classCallCheck(this, AMIRouter);
-
-    AMIRouter_classPrivateFieldInitSpec(this, _webAppURL, {
-      writable: true,
-      value: ''
-    });
-
-    AMIRouter_classPrivateFieldInitSpec(this, _webAppArgs, {
-      writable: true,
-      value: {}
-    });
-
-    AMIRouter_classPrivateFieldInitSpec(this, _webAppHash, {
-      writable: true,
-      value: ''
-    });
-
-    AMIRouter_classPrivateFieldInitSpec(this, _scriptURL, {
-      writable: true,
-      value: ''
-    });
-
-    AMIRouter_classPrivateFieldInitSpec(this, _scriptArgs, {
-      writable: true,
-      value: {}
-    });
-
-    AMIRouter_classPrivateFieldInitSpec(this, _scriptHash, {
-      writable: true,
-      value: ''
-    });
-
-    AMIRouter_classPrivateFieldInitSpec(this, _originURL, {
-      writable: true,
-      value: ''
-    });
-
-    AMIRouter_classPrivateFieldInitSpec(this, _routes, {
-      writable: true,
-      value: []
-    });
-
-    var webappUrl = new URL(window.location);
-
-    var scriptUrl = this._findThisJs(prodJsFilename, devJsFilename);
-
+var AMIRouter_accessCheck = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var AMIRouter_privateGet = (obj, member, getter) => {
+  AMIRouter_accessCheck(obj, member, "read from private field");
+  return getter ? getter.call(obj) : member.get(obj);
+};
+var AMIRouter_privateAdd = (obj, member, value) => {
+  if (member.has(obj))
+    throw TypeError("Cannot add the same private member more than once");
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+};
+var AMIRouter_privateSet = (obj, member, value, setter) => {
+  AMIRouter_accessCheck(obj, member, "write to private field");
+  setter ? setter.call(obj, value) : member.set(obj, value);
+  return value;
+};
+var _webAppURL, _webAppArgs, _webAppHash, _scriptURL, _scriptArgs, _scriptHash, _originURL, _routes;
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+class AMIRouter {
+  constructor(prodJsFilename, devJsFilename) {
+    AMIRouter_privateAdd(this, _webAppURL, "");
+    AMIRouter_privateAdd(this, _webAppArgs, {});
+    AMIRouter_privateAdd(this, _webAppHash, "");
+    AMIRouter_privateAdd(this, _scriptURL, "");
+    AMIRouter_privateAdd(this, _scriptArgs, {});
+    AMIRouter_privateAdd(this, _scriptHash, "");
+    AMIRouter_privateAdd(this, _originURL, "");
+    AMIRouter_privateAdd(this, _routes, []);
+    const webappUrl = new URL(window.location);
+    const scriptUrl = this._findThisJs(prodJsFilename, devJsFilename);
     if (!scriptUrl) {
-      throw "cannot find neither '".concat(prodJsFilename, "' nor '").concat(devJsFilename, "'");
+      throw `cannot find neither '${prodJsFilename}' nor '${devJsFilename}'`;
     }
-
-    AMIRouter_classPrivateFieldSet(this, _webAppURL, webappUrl.protocol === 'file:' ? "file://".concat(webappUrl.pathname) : "".concat(webappUrl.origin).concat(webappUrl.pathname));
-
-    AMIRouter_classPrivateFieldSet(this, _webAppArgs, this._parseSearchString(webappUrl.search));
-
-    AMIRouter_classPrivateFieldSet(this, _webAppHash, webappUrl.hash.substring(1));
-
-    AMIRouter_classPrivateFieldSet(this, _scriptURL, scriptUrl.protocol === 'file:' ? "file://".concat(scriptUrl.pathname) : "".concat(scriptUrl.origin).concat(scriptUrl.pathname));
-
-    AMIRouter_classPrivateFieldSet(this, _scriptArgs, this._parseSearchString(scriptUrl.search));
-
-    AMIRouter_classPrivateFieldSet(this, _scriptHash, scriptUrl.hash.substring(1));
-
-    var idx;
-
-    if ((idx = AMIRouter_classPrivateFieldGet(this, _scriptURL).indexOf(prodJsFilename)) > 0) {
-      AMIRouter_classPrivateFieldSet(this, _originURL, this._eatSlashes(AMIRouter_classPrivateFieldGet(this, _scriptURL).substring(0, idx)));
-    } else if ((idx = AMIRouter_classPrivateFieldGet(this, _scriptURL).indexOf(devJsFilename)) > 0) {
-      AMIRouter_classPrivateFieldSet(this, _originURL, this._eatSlashes(AMIRouter_classPrivateFieldGet(this, _scriptURL).substring(0, idx)));
+    AMIRouter_privateSet(this, _webAppURL, webappUrl.protocol === "file:" ? `file://${webappUrl.pathname}` : `${webappUrl.origin}${webappUrl.pathname}`);
+    AMIRouter_privateSet(this, _webAppArgs, this._parseSearchString(webappUrl.search));
+    AMIRouter_privateSet(this, _webAppHash, webappUrl.hash.substring(1));
+    AMIRouter_privateSet(this, _scriptURL, scriptUrl.protocol === "file:" ? `file://${scriptUrl.pathname}` : `${scriptUrl.origin}${scriptUrl.pathname}`);
+    AMIRouter_privateSet(this, _scriptArgs, this._parseSearchString(scriptUrl.search));
+    AMIRouter_privateSet(this, _scriptHash, scriptUrl.hash.substring(1));
+    let idx;
+    if ((idx = AMIRouter_privateGet(this, _scriptURL).indexOf(prodJsFilename)) > 0) {
+      AMIRouter_privateSet(this, _originURL, this._eatSlashes(AMIRouter_privateGet(this, _scriptURL).substring(0, idx)));
+    } else if ((idx = AMIRouter_privateGet(this, _scriptURL).indexOf(devJsFilename)) > 0) {
+      AMIRouter_privateSet(this, _originURL, this._eatSlashes(AMIRouter_privateGet(this, _scriptURL).substring(0, idx)));
     }
   }
-
-  AMIRouter_createClass(AMIRouter, [{
-    key: "_findThisJs",
-    value: function _findThisJs(prodJsFilename, devJsFilename) {
-      var scripts = document.getElementsByTagName('script');
-
-      for (var i = 0; i < scripts.length; i++) {
-        var url = new URL(scripts[i].src);
-
-        if (url.pathname.endsWith(prodJsFilename) > 0 || url.pathname.endsWith(devJsFilename) > 0) {
-          return url;
-        }
+  _findThisJs(prodJsFilename, devJsFilename) {
+    const scripts = document.getElementsByTagName("script");
+    for (let i = 0; i < scripts.length; i++) {
+      const url = new URL(scripts[i].src);
+      if (url.pathname.endsWith(prodJsFilename) > 0 || url.pathname.endsWith(devJsFilename) > 0) {
+        return url;
       }
-
-      return null;
     }
-  }, {
-    key: "_parseSearchString",
-    value: function _parseSearchString(search) {
-      var result = {};
-      search.substring(1).split('&').forEach(function (param) {
-        var parts = param.split('=');
-
-        if (parts.length === 1) {
-          result[decodeURIComponent(parts[0]).toLowerCase()] = '';
-        } else if (parts.length === 2) {
-          result[decodeURIComponent(parts[0]).toLowerCase()] = decodeURIComponent(parts[1]);
-        }
-      });
-      return result;
-    }
-  }, {
-    key: "_eatSlashes",
-    value: function _eatSlashes(url) {
-      url = url.trim();
-
-      while (url[url.length - 1] === '/') {
-        url = url.substring(0, url.length - 1);
+    return null;
+  }
+  _parseSearchString(search) {
+    const result = {};
+    search.substring(1).split("&").forEach((param) => {
+      const parts = param.split("=");
+      if (parts.length === 1) {
+        result[decodeURIComponent(parts[0]).toLowerCase()] = "";
+      } else if (parts.length === 2) {
+        result[decodeURIComponent(parts[0]).toLowerCase()] = decodeURIComponent(parts[1]);
       }
-
-      return url;
+    });
+    return result;
+  }
+  _eatSlashes(url) {
+    url = url.trim();
+    while (url[url.length - 1] === "/") {
+      url = url.substring(0, url.length - 1);
     }
-  }, {
-    key: "getWebAppURL",
-    value: function getWebAppURL() {
-      return AMIRouter_classPrivateFieldGet(this, _webAppURL);
-    }
-  }, {
-    key: "getWebAppArgs",
-    value: function getWebAppArgs() {
-      return AMIRouter_classPrivateFieldGet(this, _webAppArgs);
-    }
-  }, {
-    key: "getWebAppHash",
-    value: function getWebAppHash() {
-      return AMIRouter_classPrivateFieldGet(this, _webAppHash);
-    }
-  }, {
-    key: "getScriptURL",
-    value: function getScriptURL() {
-      return AMIRouter_classPrivateFieldGet(this, _scriptURL);
-    }
-  }, {
-    key: "getScriptArgs",
-    value: function getScriptArgs() {
-      return AMIRouter_classPrivateFieldGet(this, _scriptArgs);
-    }
-  }, {
-    key: "getWebappHash",
-    value: function getWebappHash() {
-      return AMIRouter_classPrivateFieldGet(this, _scriptHash);
-    }
-  }, {
-    key: "getOriginURL",
-    value: function getOriginURL() {
-      return AMIRouter_classPrivateFieldGet(this, _originURL);
-    }
-  }, {
-    key: "append",
-    value: function append(regExp, handler) {
-      AMIRouter_classPrivateFieldGet(this, _routes).unshift({
-        regExp: regExp,
-        handler: handler
-      });
-
-      return this;
-    }
-  }, {
-    key: "remove",
-    value: function remove(regExp) {
-      AMIRouter_classPrivateFieldSet(this, _routes, AMIRouter_classPrivateFieldGet(this, _routes).filter(function (route) {
-        return route.regExp.toString() !== regExp.toString();
-      }));
-
-      return this;
-    }
-  }, {
-    key: "check",
-    value: function check() {
-      var m;
-
-      for (var i = 0; i < AMIRouter_classPrivateFieldGet(this, _routes).length; i++) {
-        m = AMIRouter_classPrivateFieldGet(this, _webAppHash).match(AMIRouter_classPrivateFieldGet(this, _routes)[i].regExp);
-
-        if (m) {
-          AMIRouter_classPrivateFieldGet(this, _routes)[i].handler.apply(this, m);
-
-          return true;
-        }
-      }
-
-      return false;
-    }
-  }, {
-    key: "appendHistoryEntry",
-    value: function appendHistoryEntry(path) {
-      var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-      if (history.pushState) {
-        history.pushState(context, null, AMIRouter_classPrivateFieldGet(this, _webAppURL) + this._eatSlashes(path));
+    return url;
+  }
+  getWebAppURL() {
+    return AMIRouter_privateGet(this, _webAppURL);
+  }
+  getWebAppArgs() {
+    return AMIRouter_privateGet(this, _webAppArgs);
+  }
+  getWebAppHash() {
+    return AMIRouter_privateGet(this, _webAppHash);
+  }
+  getScriptURL() {
+    return AMIRouter_privateGet(this, _scriptURL);
+  }
+  getScriptArgs() {
+    return AMIRouter_privateGet(this, _scriptArgs);
+  }
+  getWebappHash() {
+    return AMIRouter_privateGet(this, _scriptHash);
+  }
+  getOriginURL() {
+    return AMIRouter_privateGet(this, _originURL);
+  }
+  append(regExp, handler) {
+    AMIRouter_privateGet(this, _routes).unshift({
+      regExp,
+      handler
+    });
+    return this;
+  }
+  remove(regExp) {
+    AMIRouter_privateSet(this, _routes, AMIRouter_privateGet(this, _routes).filter((route) => {
+      return route.regExp.toString() !== regExp.toString();
+    }));
+    return this;
+  }
+  check() {
+    let m;
+    for (let i = 0; i < AMIRouter_privateGet(this, _routes).length; i++) {
+      m = AMIRouter_privateGet(this, _webAppHash).match(AMIRouter_privateGet(this, _routes)[i].regExp);
+      if (m) {
+        AMIRouter_privateGet(this, _routes)[i].handler.apply(this, m);
         return true;
       }
-
-      return false;
     }
-  }, {
-    key: "replaceHistoryEntry",
-    value: function replaceHistoryEntry(path) {
-      var context = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-
-      if (history.replaceState) {
-        history.replaceState(context, null, AMIRouter_classPrivateFieldGet(this, _webAppURL) + this._eatSlashes(path));
-        return true;
-      }
-
-      return false;
+    return false;
+  }
+  appendHistoryEntry(path, context = null) {
+    if (history.pushState) {
+      history.pushState(context, null, AMIRouter_privateGet(this, _webAppURL) + this._eatSlashes(path));
+      return true;
     }
-  }]);
+    return false;
+  }
+  replaceHistoryEntry(path, context = null) {
+    if (history.replaceState) {
+      history.replaceState(context, null, AMIRouter_privateGet(this, _webAppURL) + this._eatSlashes(path));
+      return true;
+    }
+    return false;
+  }
+}
+_webAppURL = new WeakMap();
+_webAppArgs = new WeakMap();
+_webAppHash = new WeakMap();
+_scriptURL = new WeakMap();
+_scriptArgs = new WeakMap();
+_scriptHash = new WeakMap();
+_originURL = new WeakMap();
+_routes = new WeakMap();
+/* harmony default export */ const core_AMIRouter = (new AMIRouter("js/ami.min.js", "js/ami.js"));
 
-  return AMIRouter;
-}();
-
-/* harmony default export */ const core_AMIRouter = (new AMIRouter('js/ami.min.js', 'js/ami.js'));
 // EXTERNAL MODULE: ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
 var injectStylesIntoStyleTag = __webpack_require__(379);
 var injectStylesIntoStyleTag_default = /*#__PURE__*/__webpack_require__.n(injectStylesIntoStyleTag);
@@ -12924,19 +12755,16 @@ if (typeof window !== "undefined") {
 
 ;// CONCATENATED MODULE: ./src/core/utilities/view.js
 
-
-function view_slicedToArray(arr, i) { return view_arrayWithHoles(arr) || view_iterableToArrayLimit(arr, i) || view_unsupportedIterableToArray(arr, i) || view_nonIterableRest(); }
-
-function view_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function view_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return view_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return view_arrayLikeToArray(o, minLen); }
-
-function view_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function view_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function view_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
@@ -12945,88 +12773,59 @@ function view_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 function fillBreadcrumb(items) {
-  var s;
-
+  let s;
   if (isArray(items)) {
-    s = items.map(function (item) {
-      return "<li class=\"breadcrumb-item\">".concat(item.replace(/{{ORIGIN_URL}}/g, core_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, core_AMIRouter.getWebAppURL()), "</li>");
-    }).join('');
+    s = items.map((item) => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, core_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, core_AMIRouter.getWebAppURL())}</li>`).join("");
   } else if (isString(items)) {
     s = items.replace(/{{ORIGIN_URL}}/g, core_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, core_AMIRouter.getWebAppURL());
   } else {
-    s = '';
+    s = "";
   }
-
-  $('#ami_breadcrumb_content').html(s);
+  $("#ami_breadcrumb_content").html(s);
 }
-
-var _idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g');
-
-var _datetimeFormat = 'yyyy-MM-dd HH:mm:ss.SSSSSS';
-var _dateFormat = 'yyyy-MM-dd';
-var _timeHMSFormat = 'HH:mm:ss.SSSSSS';
-var _timeHMFormat = 'HH:mm';
-
+const _idRegExp = new RegExp("[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}", "g");
+let _datetimeFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS";
+let _dateFormat = "yyyy-MM-dd";
+let _timeHMSFormat = "HH:mm:ss.SSSSSS";
+let _timeHMFormat = "HH:mm";
 function _parseDatetime(s, format) {
   format = moment().toMomentFormatString(format);
   return moment(s, format, true).toDate();
 }
-
 function _formatDatetime(date, format) {
   format = moment().toMomentFormatString(format);
   return moment(date).format(format);
 }
-
 function _xxxHTML(selector, twig, mode, options) {
-  var result = $.Deferred();
-
-  var _setup = setup(['context', 'suffix', 'dict', 'twigs'], [result, null, {}, {}], options),
-      _setup2 = view_slicedToArray(_setup, 4),
-      context = _setup2[0],
-      suffix = _setup2[1],
-      dict = _setup2[2],
-      twigs = _setup2[3];
-
+  const result = $.Deferred();
+  const [context, suffix, dict, twigs] = setup(["context", "suffix", "dict", "twigs"], [result, null, {}, {}], options);
   if (suffix) {
-    twig = twig.replace(_idRegExp, function (id) {
-      return "".concat(id, "_instance").concat(suffix);
+    twig = twig.replace(_idRegExp, (id) => {
+      return `${id}_instance${suffix}`;
     });
   }
-
-  var html = formatTWIG(twig, dict, twigs);
-  var promise;
-  var el = $(selector);
-
+  const html = formatTWIG(twig, dict, twigs);
+  let promise;
+  let el = $(selector);
   switch (mode) {
     case 0:
       promise = el.html(html).promise();
       break;
-
     case 1:
       promise = el.prepend(html).promise();
       break;
-
     case 2:
       promise = el.append(html).promise();
       break;
-
     case 3:
-      promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, "$1 id=\"".concat(el.attr('id'), "\"")) : html).promise();
+      promise = el.replaceWith(el.is("[id]") ? html.replace(/^\s*(<[a-zA-Z_-]+)/, `$1 id="${el.attr("id")}"`) : html).promise();
       break;
-
     default:
-      throw 'internal error';
+      throw "internal error";
   }
-
-  promise.done(function () {
-    var el = $(selector);
-
-    var _find = mode === 3 ? function (_selector) {
-      return el.find(selector).addBack(selector);
-    } : function (_selector) {
-      return el.find(_selector);
-    };
-
+  promise.done(() => {
+    let el2 = $(selector);
+    const _find = mode === 3 ? (_selector) => el2.find(selector).addBack(selector) : (_selector) => el2.find(_selector);
     if (jQuery.fn.tooltip) {
       _find('[data-toggle="tooltip"]').tooltip({
         html: false,
@@ -13036,7 +12835,6 @@ function _xxxHTML(selector, twig, mode, options) {
         }
       });
     }
-
     if (jQuery.fn.popover) {
       _find('[data-toggle="popover"]').popover({
         html: true,
@@ -13046,8 +12844,7 @@ function _xxxHTML(selector, twig, mode, options) {
         }
       });
     }
-
-    _find('input.form-datetime').flatpickr({
+    _find("input.form-datetime").flatpickr({
       time_24hr: true,
       enableTime: true,
       enableSeconds: true,
@@ -13056,8 +12853,7 @@ function _xxxHTML(selector, twig, mode, options) {
       parseDate: _parseDatetime,
       formatDate: _formatDatetime
     });
-
-    _find('input.form-date').flatpickr({
+    _find("input.form-date").flatpickr({
       time_24hr: true,
       enableTime: false,
       enableSeconds: false,
@@ -13066,8 +12862,7 @@ function _xxxHTML(selector, twig, mode, options) {
       parseDate: _parseDatetime,
       formatDate: _formatDatetime
     });
-
-    _find('input.form-time').flatpickr({
+    _find("input.form-time").flatpickr({
       time_24hr: true,
       enableTime: true,
       enableSeconds: true,
@@ -13076,8 +12871,7 @@ function _xxxHTML(selector, twig, mode, options) {
       parseDate: _parseDatetime,
       formatDate: _formatDatetime
     });
-
-    _find('input.form-time-hm').flatpickr({
+    _find("input.form-time-hm").flatpickr({
       time_24hr: true,
       enableTime: true,
       enableSeconds: false,
@@ -13086,12 +12880,10 @@ function _xxxHTML(selector, twig, mode, options) {
       parseDate: _parseDatetime,
       formatDate: _formatDatetime
     });
-
-    result.resolveWith(context, [el]);
+    result.resolveWith(context, [el2]);
   });
   return result.promise();
 }
-
 function replaceHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 0, options);
 }
@@ -13102,439 +12894,352 @@ function appendHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 2, options);
 }
 function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timePrecision, timeHMSFormat, timeHMFormat) {
-  _datetimeFormat = datetimeFormat || 'yyyy-MM-dd HH:mm:ss';
-  _dateFormat = dateFormat || 'yyyy-MM-dd';
-  _timeHMSFormat = timeHMSFormat || 'HH:mm:ss';
-  _timeHMFormat = timeHMFormat || 'HH:mm';
-
+  _datetimeFormat = datetimeFormat || "yyyy-MM-dd HH:mm:ss";
+  _dateFormat = dateFormat || "yyyy-MM-dd";
+  _timeHMSFormat = timeHMSFormat || "HH:mm:ss";
+  _timeHMFormat = timeHMFormat || "HH:mm";
   if (datetimePrecision > 0) {
-    _datetimeFormat += ".".concat('S'.repeat(datetimePrecision));
+    _datetimeFormat += `.${"S".repeat(datetimePrecision)}`;
   }
-
   if (timePrecision > 0) {
-    _timeHMSFormat += ".".concat('S'.repeat(timePrecision));
+    _timeHMSFormat += `.${"S".repeat(timePrecision)}`;
   }
 }
 function formatTWIG(twig, dict, twigs) {
-  var result = [];
-
-  var render = function render(twig, dict, twigs) {
-    if (!isMap(dict)) {
-      dict = {};
+  const result = [];
+  const render = (twig2, dict2, twigs2) => {
+    if (!isMap(dict2)) {
+      dict2 = {};
     }
-
-    if (!isMap(twigs)) {
-      twigs = {};
+    if (!isMap(twigs2)) {
+      twigs2 = {};
     }
-
-    dict['ORIGIN_URL'] = core_AMIRouter.getOriginURL();
-    dict['WEBAPP_URL'] = core_AMIRouter.getWebAppURL();
-    dict['BOOTSTRAP_VERSION'] = core_AMIWebApp.bootstrapVersion;
-    return ami_twig/* default.engine.render */.Z.engine.render(twig, dict, twigs);
+    dict2["ORIGIN_URL"] = core_AMIRouter.getOriginURL();
+    dict2["WEBAPP_URL"] = core_AMIRouter.getWebAppURL();
+    dict2["BOOTSTRAP_VERSION"] = core_AMIWebApp.bootstrapVersion;
+    return ami_twig/* default.engine.render */.Z.engine.render(twig2, dict2, twigs2);
   };
-
-  asArray(dict).forEach(function (DICT) {
+  asArray(dict).forEach((DICT) => {
     try {
       result.push(render(twig, DICT, twigs));
     } catch (e) {
-      error("TWIG parsing error: ".concat(e.message));
+      error(`TWIG parsing error: ${e.message}`);
     }
   });
-  return result.join('');
+  return result.join("");
 }
+
 ;// CONCATENATED MODULE: ./src/core/utilities/controls.js
 
-
-function controls_slicedToArray(arr, i) { return controls_arrayWithHoles(arr) || controls_iterableToArrayLimit(arr, i) || controls_unsupportedIterableToArray(arr, i) || controls_nonIterableRest(); }
-
-function controls_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function controls_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return controls_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return controls_arrayLikeToArray(o, minLen); }
-
-function controls_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function controls_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function controls_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
 
 
 
-
-var _controls = {};
+const _controls = {};
 function loadControl(control, options) {
-  var result = $.Deferred();
-
-  var _setup = setup(['context'], [result], options),
-      _setup2 = controls_slicedToArray(_setup, 1),
-      context = _setup2[0];
-
-  if (control.indexOf('ctrl:') === 0) {
+  const result = $.Deferred();
+  const [context] = setup(["context"], [result], options);
+  if (control.indexOf("ctrl:") === 0) {
     control = control.substring(5);
   }
-
-  var descr = _controls[control.toLowerCase()];
-
+  const descr = _controls[control.toLowerCase()];
   if (descr) {
-    loadScripts("".concat(core_AMIRouter.getOriginURL(), "/").concat(descr.file)).then(function (loaded) {
+    loadScripts(`${core_AMIRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
       try {
-        var clazz = window[descr.clazz];
-        var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) : null;
-
-        _internal_then(promise, function () {
+        const clazz = window[descr.clazz];
+        const promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) : null;
+        _internal_then(promise, () => {
           result.resolveWith(context, [clazz]);
-        }, function (message) {
-          result.rejectWith(context, ["cannot load control '".concat(control, "': ").concat(message)]);
+        }, (message) => {
+          result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
         });
       } catch (message) {
-        result.rejectWith(context, ["cannot load control '".concat(control, "': ").concat(message)]);
+        result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
       }
-    }, function (message) {
-      result.rejectWith(context, ["cannot load control '".concat(control, "': ").concat(message)]);
+    }, (message) => {
+      result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
     });
   } else {
-    result.rejectWith(context, ["cannot load control '".concat(control, "': not found")]);
+    result.rejectWith(context, [`cannot load control '${control}': not found`]);
   }
-
   return result.promise();
 }
 function createControl(parent, owner, control, params, options) {
-  var result = $.Deferred();
-
-  var _setup3 = setup(['context'], [result], options),
-      _setup4 = controls_slicedToArray(_setup3, 1),
-      context = _setup4[0];
-
-  loadControl(control, options).done(function (constructor) {
-    var instance = new constructor(parent, owner);
-
-    _internal_then(constructor.prototype.render.apply(instance, params), function () {
-      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-        args[_key] = arguments[_key];
-      }
-
+  const result = $.Deferred();
+  const [context] = setup(["context"], [result], options);
+  loadControl(control, options).done((constructor) => {
+    const instance = new constructor(parent, owner);
+    _internal_then(constructor.prototype.render.apply(instance, params), (...args) => {
       result.resolveWith(context, [instance].concat(args));
-    }, function (message) {
+    }, (message) => {
       result.rejectWith(context, [message]);
     });
-  }).fail(function (message) {
+  }).fail((message) => {
     result.rejectWith(context, [message]);
   });
   return result.promise();
 }
 function createControlInBody(parent, owner, control, controlParamsWithoutOptions, controlOptions, parentOptions, options) {
-  var result = $.Deferred();
-
-  var _setup5 = setup(['context'], [result], options),
-      _setup6 = controls_slicedToArray(_setup5, 1),
-      context = _setup6[0];
-
+  const result = $.Deferred();
+  const [context] = setup(["context"], [result], options);
   try {
-    var PARAMS = [];
-    var OPTIONS = {};
-
-    for (var key in parentOptions) {
+    const PARAMS = [];
+    const OPTIONS = {};
+    for (let key in parentOptions) {
       OPTIONS[key] = parentOptions[key];
     }
-
-    for (var _key2 in controlOptions) {
-      OPTIONS[_key2] = controlOptions[_key2];
+    for (let key in controlOptions) {
+      OPTIONS[key] = controlOptions[key];
     }
-
     Array.prototype.push.apply(PARAMS, controlParamsWithoutOptions);
     PARAMS.push(OPTIONS);
-    createControl(parent, owner, control, PARAMS).done(function () {
-      for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
-        args[_key3] = arguments[_key3];
-      }
-
+    createControl(parent, owner, control, PARAMS).done((...args) => {
       result.resolveWith(context, args);
-    }).fail(function (message) {
+    }).fail((message) => {
       result.rejectWith(context, [message]);
     });
   } catch (message) {
     result.rejectWith(context, [message]);
   }
-
   return result.promise();
 }
 function createControlInContainer(parent, owner, control, controlParamsWithoutOptions, controlOptions, parentOptions, icon, title, options) {
-  var result = $.Deferred();
-
-  var _setup7 = setup(['context'], [result], options),
-      _setup8 = controls_slicedToArray(_setup7, 1),
-      context = _setup8[0];
-
+  const result = $.Deferred();
+  const [context] = setup(["context"], [result], options);
   try {
-    parent.appendItem("<i class=\"fa fa-".concat(textToHtml(icon), "\"></i> ").concat(textToHtml(title))).done(function (selector) {
-      var PARAMS = [];
-      var OPTIONS = {};
-
-      for (var key in parentOptions) {
+    parent.appendItem(`<i class="fa fa-${textToHtml(icon)}"></i> ${textToHtml(title)}`).done((selector) => {
+      const PARAMS = [];
+      const OPTIONS = {};
+      for (let key in parentOptions) {
         OPTIONS[key] = parentOptions[key];
       }
-
-      for (var _key4 in controlOptions) {
-        OPTIONS[_key4] = controlOptions[_key4];
+      for (let key in controlOptions) {
+        OPTIONS[key] = controlOptions[key];
       }
-
       PARAMS.push(selector);
       Array.prototype.push.apply(PARAMS, controlParamsWithoutOptions);
       PARAMS.push(OPTIONS);
-      createControl(parent, owner, control, PARAMS).done(function () {
-        for (var _len3 = arguments.length, args = new Array(_len3), _key5 = 0; _key5 < _len3; _key5++) {
-          args[_key5] = arguments[_key5];
-        }
-
+      createControl(parent, owner, control, PARAMS).done((...args) => {
         result.resolveWith(context, args);
-      }).fail(function (message) {
+      }).fail((message) => {
         result.rejectWith(context, [message]);
       });
     });
   } catch (message) {
     result.rejectWith(context, [message]);
   }
-
   return result.promise();
 }
 function createControlFromWebLink(parent, owner, el, parentOptions, options) {
-  var dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl') : '';
-  var dataCtrlLocation = el.hasAttribute('data-ctrl-location') ? el.getAttribute('data-ctrl-location') : '';
-  var dataParams = el.hasAttribute('data-params') ? JSON.parse(el.getAttribute('data-params')) : [];
-  var dataOptions = el.hasAttribute('data-options') ? JSON.parse(el.getAttribute('data-options')) : el.hasAttribute('data-settings') ? JSON.parse(el.getAttribute('data-settings')) : {};
-  var dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon') : 'question';
-  var dataTitle = el.hasAttribute('data-title') ? el.getAttribute('data-title') : 'Unknown';
+  const dataCtrl = el.hasAttribute("data-ctrl") ? el.getAttribute("data-ctrl") : "";
+  const dataCtrlLocation = el.hasAttribute("data-ctrl-location") ? el.getAttribute("data-ctrl-location") : "";
+  const dataParams = el.hasAttribute("data-params") ? JSON.parse(el.getAttribute("data-params")) : [];
+  const dataOptions = el.hasAttribute("data-options") ? JSON.parse(el.getAttribute("data-options")) : el.hasAttribute("data-settings") ? JSON.parse(el.getAttribute("data-settings")) : {};
+  const dataIcon = el.hasAttribute("data-icon") ? el.getAttribute("data-icon") : "question";
+  const dataTitle = el.hasAttribute("data-title") ? el.getAttribute("data-title") : "Unknown";
   lock();
-
-  if (dataCtrlLocation === 'body') {
-    return createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, parentOptions, options).done(function () {
+  if (dataCtrlLocation === "body") {
+    return createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, parentOptions, options).done(() => {
       unlock();
-    }).fail(function (message) {
+    }).fail((message) => {
       error(message);
     });
   } else {
-    return createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, parentOptions, dataIcon, dataTitle, options).done(function () {
+    return createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, parentOptions, dataIcon, dataTitle, options).done(() => {
       unlock();
-    }).fail(function (message) {
+    }).fail((message) => {
       error(message);
     });
   }
 }
+
 ;// CONCATENATED MODULE: ./src/core/utilities/ressources.js
 
-
-function ressources_slicedToArray(arr, i) { return ressources_arrayWithHoles(arr) || ressources_iterableToArrayLimit(arr, i) || ressources_unsupportedIterableToArray(arr, i) || ressources_nonIterableRest(); }
-
-function ressources_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function ressources_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return ressources_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return ressources_arrayLikeToArray(o, minLen); }
-
-function ressources_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function ressources_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function ressources_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
-
-var _sheets = [];
-var _scripts = [];
-
+const _sheets = [];
+const _scripts = [];
 function _getExtension(url) {
-  var idx = url.lastIndexOf('.');
-  return idx > 0 ? url.substring(idx) : '';
+  const idx = url.lastIndexOf(".");
+  return idx > 0 ? url.substring(idx) : "";
 }
-
 function _getDataType(url, dataType) {
-  var result;
-
-  if (dataType === 'auto') {
-    if (url.indexOf('ctrl:') === 0) {
-      result = 'control';
-    } else if (url.indexOf('subapp:') === 0) {
-      result = 'subapp';
+  let result;
+  if (dataType === "auto") {
+    if (url.indexOf("ctrl:") === 0) {
+      result = "control";
+    } else if (url.indexOf("subapp:") === 0) {
+      result = "subapp";
     } else {
       switch (_getExtension(url).toLowerCase()) {
-        case '.css':
-          result = 'sheet';
+        case ".css":
+          result = "sheet";
           break;
-
-        case '.js':
-          result = 'script';
+        case ".js":
+          result = "script";
           break;
-
-        case '.json':
-          result = 'json';
+        case ".json":
+          result = "json";
           break;
-
-        case '.xml':
-          result = 'xml';
+        case ".xml":
+          result = "xml";
           break;
-
         default:
-          result = 'text';
+          result = "text";
           break;
       }
     }
   } else {
     result = dataType;
   }
-
   return result;
 }
-
 function __loadXXX(deferred, result, urls, dataType, context) {
   if (urls.length === 0) {
     deferred.resolveWith(context, [result]);
     return;
   }
-
-  var url = urls.shift().trim();
-
-  var dataTYPE = _getDataType(url, dataType);
-
+  const url = urls.shift().trim();
+  const dataTYPE = _getDataType(url, dataType);
   switch (dataTYPE) {
-    case 'control':
-      loadControl(url).then(function (data) {
+    case "control":
+      loadControl(url).then((data) => {
         result.push(data);
-
         __loadXXX(deferred, result, urls, dataType, context);
-      }, function (message) {
+      }, (message) => {
         deferred.rejectWith(context, [message]);
       });
       break;
-
-    case 'subapp':
-      loadSubApp(url).then(function (data) {
+    case "subapp":
+      loadSubApp(url).then((data) => {
         result.push(data);
-
         __loadXXX(deferred, result, urls, dataType, context);
-      }, function (message) {
+      }, (message) => {
         deferred.rejectWith(context, [message]);
       });
       break;
-
-    case 'sheet':
+    case "sheet":
       if (_sheets.indexOf(url) >= 0) {
         result.push(false);
-
         __loadXXX(deferred, result, urls, dataType, context);
       } else {
         $.ajax({
-          url: url,
+          url,
           async: false,
           cache: false,
           crossDomain: true,
           dataType: dataTYPE
-        }).then(function () {
+        }).then(() => {
           result.push(true);
-
           _sheets.push(url);
-
           __loadXXX(deferred, result, urls, dataType, context);
-        }, function () {
-          deferred.rejectWith(context, ["cannot load '".concat(url, "'")]);
+        }, () => {
+          deferred.rejectWith(context, [`cannot load '${url}'`]);
         });
       }
-
       break;
-
-    case 'script':
+    case "script":
       if (_scripts.indexOf(url) >= 0) {
         result.push(false);
-
         __loadXXX(deferred, result, urls, dataType, context);
       } else {
         $.ajax({
-          url: url,
+          url,
           async: false,
           cache: false,
           crossDomain: true,
           dataType: dataTYPE
-        }).then(function () {
+        }).then(() => {
           result.push(true);
-
           _scripts.push(url);
-
           __loadXXX(deferred, result, urls, dataType, context);
-        }, function () {
-          deferred.rejectWith(context, ["cannot load '".concat(url, "'")]);
+        }, () => {
+          deferred.rejectWith(context, [`cannot load '${url}'`]);
         });
       }
-
       break;
-
     default:
       $.ajax({
-        url: url,
+        url,
         async: true,
         cache: false,
         crossDomain: true,
         dataType: dataTYPE
-      }).then(function (data) {
+      }).then((data) => {
         result.push(data);
-
         __loadXXX(deferred, result, urls, dataType, context);
-      }, function () {
-        deferred.rejectWith(context, ["cannot load '".concat(url, "'")]);
+      }, () => {
+        deferred.rejectWith(context, [`cannot load '${url}'`]);
       });
       break;
   }
 }
-
 function _loadXXX(urls, dataType, options) {
-  var deferred = $.Deferred();
-
-  var _setup = setup(['context'], [deferred], options),
-      _setup2 = ressources_slicedToArray(_setup, 1),
-      context = _setup2[0];
-
+  const deferred = $.Deferred();
+  const [context] = setup(["context"], [deferred], options);
   __loadXXX(deferred, [], asArray(urls), dataType, context);
-
   return deferred.promise();
 }
-
 function loadResources(urls, options) {
-  return _loadXXX(urls, 'auto', options);
+  return _loadXXX(urls, "auto", options);
 }
 function loadSheets(urls, options) {
-  return _loadXXX(urls, 'sheet', options);
+  return _loadXXX(urls, "sheet", options);
 }
 function loadScripts(urls, options) {
-  return _loadXXX(urls, 'script', options);
+  return _loadXXX(urls, "script", options);
 }
 function loadJSONs(urls, options) {
-  return _loadXXX(urls, 'json', options);
+  return _loadXXX(urls, "json", options);
 }
 function loadXMLs(urls, options) {
-  return _loadXXX(urls, 'xml', options);
+  return _loadXXX(urls, "xml", options);
 }
 function loadHTMLs(urls, options) {
-  return _loadXXX(urls, 'text', options);
+  return _loadXXX(urls, "text", options);
 }
 function loadTWIGs(urls, options) {
-  return _loadXXX(urls, 'text', options);
+  return _loadXXX(urls, "text", options);
 }
 function loadTexts(urls, options) {
-  return _loadXXX(urls, 'text', options);
+  return _loadXXX(urls, "text", options);
 }
+
 ;// CONCATENATED MODULE: ./src/core/utilities/subapps.js
 
-
-function subapps_slicedToArray(arr, i) { return subapps_arrayWithHoles(arr) || subapps_iterableToArrayLimit(arr, i) || subapps_unsupportedIterableToArray(arr, i) || subapps_nonIterableRest(); }
-
-function subapps_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function subapps_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return subapps_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return subapps_arrayLikeToArray(o, minLen); }
-
-function subapps_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function subapps_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function subapps_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
@@ -13544,1500 +13249,647 @@ function subapps_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 
 
-
-var _subapps = {};
-
-var _currentSubappInstance = new function () {
-  this.onReady = function () {};
-
-  this.onExit = function () {};
-
-  this.onLogin = function () {};
-
-  this.onLogout = function () {};
+const _subapps = {};
+let _currentSubappInstance = new function() {
+  this.onReady = function() {
+  };
+  this.onExit = function() {
+  };
+  this.onLogin = function() {
+  };
+  this.onLogout = function() {
+  };
 }();
-
-var _currentUserdata = null;
+let _currentUserdata = null;
 function triggerLogin() {
-  var result = $.Deferred();
-
+  const result = $.Deferred();
   if (core_AMIWebApp._isReady) {
-    _internal_then(_currentSubappInstance.onLogin(_currentUserdata), function (message) {
-      _internal_always(core_AMIWebApp.onRefresh(true), function () {
+    _internal_then(_currentSubappInstance.onLogin(_currentUserdata), (message) => {
+      _internal_always(core_AMIWebApp.onRefresh(true), () => {
         result.resolve(message);
       });
-    }, function (message) {
-      _internal_always(core_AMIWebApp.onRefresh(true), function () {
+    }, (message) => {
+      _internal_always(core_AMIWebApp.onRefresh(true), () => {
         result.reject(message);
       });
     });
   } else {
     result.resolve();
   }
-
   return result.promise();
 }
 function triggerLogout() {
-  var result = $.Deferred();
-
+  const result = $.Deferred();
   if (core_AMIWebApp._isReady) {
-    _internal_then(_currentSubappInstance.onLogout(_currentUserdata), function (message) {
-      _internal_always(core_AMIWebApp.onRefresh(false), function () {
+    _internal_then(_currentSubappInstance.onLogout(_currentUserdata), (message) => {
+      _internal_always(core_AMIWebApp.onRefresh(false), () => {
         result.resolve(message);
       });
-    }, function (message) {
-      _internal_always(core_AMIWebApp.onRefresh(false), function () {
+    }, (message) => {
+      _internal_always(core_AMIWebApp.onRefresh(false), () => {
         result.reject(message);
       });
     });
   } else {
     result.resolve();
   }
-
   return result.promise();
 }
 function loadSubApp(subapp, userdata, options) {
-  var result = $.Deferred();
-
-  var _setup = setup(['context'], [result], options),
-      _setup2 = subapps_slicedToArray(_setup, 1),
-      context = _setup2[0];
-
-  result.always(function () {
+  const result = $.Deferred();
+  const [context] = setup(["context"], [result], options);
+  result.always(() => {
     unlock();
   });
   lock();
-
-  if (subapp.indexOf('subapp:') === 0) {
+  if (subapp.indexOf("subapp:") === 0) {
     subapp = subapp.substring(7);
   }
-
-  var descr = _subapps[subapp.toLowerCase()];
-
+  const descr = _subapps[subapp.toLowerCase()];
   if (descr) {
-    loadScripts("".concat(core_AMIRouter.getOriginURL(), "/").concat(descr.file)).then(function (loaded) {
+    loadScripts(`${core_AMIRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
       fillBreadcrumb(descr.breadcrumb);
-
       try {
         _currentSubappInstance.onExit(userdata);
-
-        var instance = window[descr.instance];
+        const instance = window[descr.instance];
         _currentSubappInstance = instance;
-        var promise = loaded[0] ? instance.onReady(userdata) : null;
-
-        _internal_then(promise, function () {
-          var promise = core_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
-          promise.then(function () {
+        const promise = loaded[0] ? instance.onReady(userdata) : null;
+        _internal_then(promise, () => {
+          const promise2 = core_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
+          promise2.then(() => {
             result.resolveWith(context, [instance]);
-          }, function (message) {
-            result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': ").concat(message)]);
+          }, (message) => {
+            result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
           });
-        }, function (message) {
-          result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': ").concat(message)]);
+        }, (message) => {
+          result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
         });
       } catch (message) {
-        result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': ").concat(message)]);
+        result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
       }
-    }, function (message) {
-      result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': ").concat(message)]);
+    }, (message) => {
+      result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
     });
   } else {
-    result.rejectWith(context, ["cannot load subapp '".concat(subapp, "': not found")]);
+    result.rejectWith(context, [`cannot load subapp '${subapp}': not found`]);
   }
-
   return result.promise();
 }
 function loadSubAppByURL(defaultSubApp, defaultUserData) {
-  var result = $.Deferred();
-  var args = core_AMIRouter.getWebAppArgs();
-
-  if (args['v']) {
-    core_AMICommand.execute('GetHashInfo -hash=?', {
-      params: [args['v']]
-    }).fail(function (data, message) {
+  const result = $.Deferred();
+  const args = core_AMIRouter.getWebAppArgs();
+  if (args["v"]) {
+    core_AMICommand.execute("GetHashInfo -hash=?", { params: [args["v"]] }).fail((data, message) => {
       result.reject(message);
-    }).done(function (data) {
-      var json;
-
+    }).done((data) => {
+      let json;
       try {
-        json = JSON.parse(jspath_default().apply('..field{.@name==="json"}.$', data)[0] || '{}');
+        json = JSON.parse(jspath_default().apply('..field{.@name==="json"}.$', data)[0] || "{}");
       } catch (message) {
         json = {};
       }
-
-      var subapp = json['subapp'] || defaultSubApp;
-      var userdata = json['userdata'] || defaultUserData;
-      loadSubApp(subapp, userdata).then(function () {
+      const subapp = json["subapp"] || defaultSubApp;
+      const userdata = json["userdata"] || defaultUserData;
+      loadSubApp(subapp, userdata).then(() => {
         result.resolve();
-      }, function (message) {
+      }, (message) => {
         result.reject(message);
       });
     });
   } else {
     if (!core_AMIRouter.check()) {
-      var subapp = args['subapp'] || defaultSubApp;
-      var userdata = args['userdata'] || defaultUserData;
-      loadSubApp(subapp, userdata).then(function () {
+      const subapp = args["subapp"] || defaultSubApp;
+      const userdata = args["userdata"] || defaultUserData;
+      loadSubApp(subapp, userdata).then(() => {
         result.resolve();
-      }, function (message) {
+      }, (message) => {
         result.reject(message);
       });
     }
   }
-
   return result.promise();
 }
+
 // EXTERNAL MODULE: ./node_modules/kjua/dist/kjua.min.js
 var kjua_min = __webpack_require__(242);
 ;// CONCATENATED MODULE: ./src/core/AMIAuth.js
 
-
-function AMIAuth_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function AMIAuth_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function AMIAuth_createClass(Constructor, protoProps, staticProps) { if (protoProps) AMIAuth_defineProperties(Constructor.prototype, protoProps); if (staticProps) AMIAuth_defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
-
-
-
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
 
-var AMIAuth = function () {
-  function AMIAuth() {
-    AMIAuth_classCallCheck(this, AMIAuth);
+
+
+
+
+class AMIAuth {
+  setupAWF(awfInfo) {
+    try {
+      const config = JSON.parse(base64Decode(awfInfo.config));
+      setDateTimeFormats(config.datetimePrecision, config.datetimeFormat, config.dateFormat, config.timePrecision, config.timeHMSFormat, config.timeHMFormat);
+    } catch (e) {
+    }
   }
-
-  AMIAuth_createClass(AMIAuth, [{
-    key: "setupAWF",
-    value: function setupAWF(awfInfo) {
-      try {
-        var config = JSON.parse(base64Decode(awfInfo.config));
-        setDateTimeFormats(config.datetimePrecision, config.datetimeFormat, config.dateFormat, config.timePrecision, config.timeHMSFormat, config.timeHMFormat);
-      } catch (e) {}
-    }
-  }, {
-    key: "init",
-    value: function init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed) {
-      var _this = this;
-
-      var result = $.Deferred();
-      var userdata = core_AMIRouter.getWebAppArgs()['userdata'] || '';
-      core_AMICommand.signInByCertificate().fail(function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {
-        _this.setupAWF(awfInfo);
-
-        _this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).always(function () {
-          result.reject(message);
-        });
-      }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {
-        _this.setupAWF(awfInfo);
-
-        _internal_then(core_AMIWebApp.onReady(userdata), function () {
-          core_AMIWebApp._isReady = true;
-
-          _this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).then(function (message) {
-            result.resolve(message);
-          }, function (message) {
-            result.reject(message);
-          });
-        }, function (message) {
-          core_AMIWebApp._isReady = true;
-          result.reject(message);
-        });
+  init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed) {
+    const result = $.Deferred();
+    const userdata = core_AMIRouter.getWebAppArgs()["userdata"] || "";
+    core_AMICommand.signInByCertificate().fail((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
+      this.setupAWF(awfInfo);
+      this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).always(() => {
+        result.reject(message);
       });
-      return result;
-    }
-  }, {
-    key: "_update",
-    value: function _update(userInfo, roleInfo, bookmarkInfo, awfInfo) {
-      var result = $.Deferred();
-      console.log(userInfo);
-      console.log(roleInfo);
-      console.log(bookmarkInfo);
-      console.log(awfInfo);
-      var user = userInfo.AMIUser || 'guest';
-      var guest = userInfo.guestUser || 'guest';
-
-      if (user !== guest) {
-        triggerLogin().then(function () {
-          result.resolve();
-        }, function (message) {
-          result.reject(message);
+    }).done((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
+      this.setupAWF(awfInfo);
+      _internal_then(core_AMIWebApp.onReady(userdata), () => {
+        core_AMIWebApp._isReady = true;
+        this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).then((message2) => {
+          result.resolve(message2);
+        }, (message2) => {
+          result.reject(message2);
         });
-      } else {
-        triggerLogout().then(function () {
-          result.resolve();
-        }, function (message) {
-          result.reject(message);
-        });
-      }
-
-      return result.promise();
+      }, (message2) => {
+        core_AMIWebApp._isReady = true;
+        result.reject(message2);
+      });
+    });
+    return result;
+  }
+  _update(userInfo, roleInfo, bookmarkInfo, awfInfo) {
+    const result = $.Deferred();
+    console.log(userInfo);
+    console.log(roleInfo);
+    console.log(bookmarkInfo);
+    console.log(awfInfo);
+    const user = userInfo.AMIUser || "guest";
+    const guest = userInfo.guestUser || "guest";
+    if (user !== guest) {
+      triggerLogin().then(() => {
+        result.resolve();
+      }, (message) => {
+        result.reject(message);
+      });
+    } else {
+      triggerLogout().then(() => {
+        result.resolve();
+      }, (message) => {
+        result.reject(message);
+      });
     }
-  }, {
-    key: "isAuthenticated",
-    value: function isAuthenticated() {
-      return false;
-    }
-  }]);
-
-  return AMIAuth;
-}();
-
+    return result.promise();
+  }
+  isAuthenticated() {
+    return false;
+  }
+}
 /* harmony default export */ const core_AMIAuth = (new AMIAuth());
+
 ;// CONCATENATED MODULE: ./src/core/AMIExtension.js
 
-
-function AMIExtension_slicedToArray(arr, i) { return AMIExtension_arrayWithHoles(arr) || AMIExtension_iterableToArrayLimit(arr, i) || AMIExtension_unsupportedIterableToArray(arr, i) || AMIExtension_nonIterableRest(); }
-
-function AMIExtension_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function AMIExtension_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return AMIExtension_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return AMIExtension_arrayLikeToArray(o, minLen); }
-
-function AMIExtension_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function AMIExtension_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function AMIExtension_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function AMIExtension_typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { AMIExtension_typeof = function _typeof(obj) { return typeof obj; }; } else { AMIExtension_typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return AMIExtension_typeof(obj); }
-
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 /* harmony default export */ function AMIExtension() {
   if (!String.prototype.startsWith) {
-    String.prototype.startsWith = function (s) {
-      var base = 0x00000000000000000000;
+    String.prototype.startsWith = function(s) {
+      const base = 0;
       return this.indexOf(s, base) === base;
     };
   }
-
   if (!String.prototype.endsWith) {
-    String.prototype.endsWith = function (s) {
-      var base = this.length - s.length;
+    String.prototype.endsWith = function(s) {
+      const base = this.length - s.length;
       return this.indexOf(s, base) === base;
     };
   }
-
   if (!String.prototype.hashCode) {
-    String.prototype.hashCode = function () {
-      var hash = 0;
-
-      for (var i = 0; i < this.length; i++) {
+    String.prototype.hashCode = function() {
+      let hash = 0;
+      for (let i = 0; i < this.length; i++) {
         hash = (hash << 5) - hash + this.charCodeAt(i);
         hash |= 0;
       }
-
       return hash < 0 ? -hash : +hash;
     };
   }
-
-  var _ami_internal_jQueryAjax = jQuery.ajax;
-
-  jQuery.ajax = function (options) {
-    if (AMIExtension_typeof(options) === 'object' && options.dataType === 'sheet') {
-      var result = $.Deferred();
-
-      var _setup = setup(['context', 'url'], [result, ''], options),
-          _setup2 = AMIExtension_slicedToArray(_setup, 2),
-          context = _setup2[0],
-          url = _setup2[1];
-
+  const _ami_internal_jQueryAjax = jQuery.ajax;
+  jQuery.ajax = function(options) {
+    if (typeof options === "object" && options.dataType === "sheet") {
+      const result = $.Deferred();
+      const [context, url] = setup(["context", "url"], [result, ""], options);
       if (url) {
-        $('head').append("<link rel=\"stylesheet\" type=\"text/css\" href=\"".concat(url, "\" />")).promise().done(function () {
+        $("head").append(`<link rel="stylesheet" type="text/css" href="${url}" />`).promise().done(() => {
           result.resolveWith(context);
         });
       } else {
         result.rejectWith(context);
       }
-
       return result.promise();
     } else {
       return _ami_internal_jQueryAjax.apply(this, arguments);
     }
   };
-
-  var _ami_internal_jQueryVal = jQuery.fn.val;
-  var _ami_internal_jQueryRemove = jQuery.fn.remove;
-
-  var _ami_internal_jQueryRemoveEvent = new $.Event('remove');
-
+  const _ami_internal_jQueryVal = jQuery.fn.val;
+  const _ami_internal_jQueryRemove = jQuery.fn.remove;
+  const _ami_internal_jQueryRemoveEvent = new $.Event("remove");
   jQuery.fn.extend({
-    serializeObject: function serializeObject() {
-      var result = {};
-      this.serializeArray().forEach(function (item) {
+    serializeObject: function() {
+      const result = {};
+      this.serializeArray().forEach((item) => {
         if (item.name in result) {
-          if (Object.prototype.toString.call(result[item.name]) === '[object String]') {
+          if (Object.prototype.toString.call(result[item.name]) === "[object String]") {
             result[item.name] = [result[item.name]];
           }
-
-          result[item.name].push(item.value || '');
+          result[item.name].push(item.value || "");
         } else {
-          result[item.name] = item.value || '';
+          result[item.name] = item.value || "";
         }
       });
       return result;
     },
-    val: function val() {
+    val: function() {
       if (arguments.length === 0) {
-          if (this.hasClass('form-editor-hidden')) {
-            var session = this.data('session');
-            if (session) return session.getValue();
-            return '';
-          }
-        } else if (arguments.length === 1) {
-          if (this.hasClass('form-editor-hidden')) {
-            var _session = this.data('session');
-
-            if (_session) _session.setValue(arguments[0]);
-            return this;
-          }
+        if (this.hasClass("form-editor-hidden")) {
+          const session = this.data("session");
+          if (session)
+            return session.getValue();
+          return "";
         }
-
+      } else if (arguments.length === 1) {
+        if (this.hasClass("form-editor-hidden")) {
+          const session = this.data("session");
+          if (session)
+            session.setValue(arguments[0]);
+          return this;
+        }
+      }
       return _ami_internal_jQueryVal.apply(this, arguments);
     },
-    remove: function remove() {
+    remove: function() {
       $(this).trigger(_ami_internal_jQueryRemoveEvent);
       return _ami_internal_jQueryRemove.apply(this, arguments);
     }
   });
-  var _ami_internal_modalZIndex = 1050;
-  $(document).on('show.bs.modal', '.modal', function (e) {
-    var el = $(e.currentTarget);
-    setTimeout(function () {
-      $('body > .modal-backdrop:last').css('z-index', _ami_internal_modalZIndex++);
-      el.css('z-index', _ami_internal_modalZIndex++);
+  let _ami_internal_modalZIndex = 1050;
+  $(document).on("show.bs.modal", ".modal", (e) => {
+    const el = $(e.currentTarget);
+    setTimeout(() => {
+      $("body > .modal-backdrop:last").css("z-index", _ami_internal_modalZIndex++);
+      el.css("z-index", _ami_internal_modalZIndex++);
     }, 10);
   });
 }
+
 // EXTERNAL MODULE: ./src/images/logo.png
 var logo = __webpack_require__(702);
 // EXTERNAL MODULE: ./src/images/background.jpg
 var background = __webpack_require__(122);
 ;// CONCATENATED MODULE: ./src/core/AMIWebApp.js
 
-
-function AMIWebApp_slicedToArray(arr, i) { return AMIWebApp_arrayWithHoles(arr) || AMIWebApp_iterableToArrayLimit(arr, i) || AMIWebApp_unsupportedIterableToArray(arr, i) || AMIWebApp_nonIterableRest(); }
-
-function AMIWebApp_nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
-function AMIWebApp_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return AMIWebApp_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return AMIWebApp_arrayLikeToArray(o, minLen); }
-
-function AMIWebApp_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function AMIWebApp_iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function AMIWebApp_arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function AMIWebApp_classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function AMIWebApp_defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function AMIWebApp_createClass(Constructor, protoProps, staticProps) { if (protoProps) AMIWebApp_defineProperties(Constructor.prototype, protoProps); if (staticProps) AMIWebApp_defineProperties(Constructor, staticProps); return Constructor; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function AMIWebApp_classPrivateFieldInitSpec(obj, privateMap, value) { AMIWebApp_checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
-
-function AMIWebApp_checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
-
-function AMIWebApp_classPrivateFieldGet(receiver, privateMap) { var descriptor = AMIWebApp_classExtractFieldDescriptor(receiver, privateMap, "get"); return AMIWebApp_classApplyDescriptorGet(receiver, descriptor); }
-
-function AMIWebApp_classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
-
-function AMIWebApp_classPrivateFieldSet(receiver, privateMap, value) { var descriptor = AMIWebApp_classExtractFieldDescriptor(receiver, privateMap, "set"); AMIWebApp_classApplyDescriptorSet(receiver, descriptor, value); return value; }
-
-function AMIWebApp_classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
-
-function AMIWebApp_classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _embedded = new WeakMap();
-
-var _noBootstrap = new WeakMap();
-
-var _noSelect = new WeakMap();
-
-var _globalDeferred = new WeakMap();
-
-var AMIWebApp = function () {
-  function AMIWebApp() {
-    var _this = this;
-
-    AMIWebApp_classCallCheck(this, AMIWebApp);
-
-    AMIWebApp_classPrivateFieldInitSpec(this, _embedded, {
-      writable: true,
-      value: false
-    });
-
-    AMIWebApp_classPrivateFieldInitSpec(this, _noBootstrap, {
-      writable: true,
-      value: false
-    });
-
-    AMIWebApp_classPrivateFieldInitSpec(this, _noSelect, {
-      writable: true,
-      value: false
-    });
-
-    AMIWebApp_classPrivateFieldInitSpec(this, _globalDeferred, {
-      writable: true,
-      value: $.Deferred()
-    });
-
-    _defineProperty(this, "_isReady", false);
-
-    _defineProperty(this, "webAppURL", '');
-
-    _defineProperty(this, "scriptURL", '');
-
-    _defineProperty(this, "originURL", '');
-
-    _defineProperty(this, "args", {});
-
-    _defineProperty(this, "hash", '');
-
-    _defineProperty(this, "bootstrapVersion", 'v4');
-
-    _defineProperty(this, "typeOf", typeOf);
-
-    _defineProperty(this, "asArray", asArray);
-
-    _defineProperty(this, "isString", isString);
-
-    _defineProperty(this, "isArray", isArray);
-
-    _defineProperty(this, "isObject", isObject);
-
-    _defineProperty(this, "isSet", isSet);
-
-    _defineProperty(this, "isMap", isMap);
-
-    _defineProperty(this, "setup", setup);
-
-    _defineProperty(this, "getStack", getStack);
-
-    _defineProperty(this, "lock", lock);
-
-    _defineProperty(this, "unlock", unlock);
-
-    _defineProperty(this, "modalEnter", modalEnter);
-
-    _defineProperty(this, "modalLeave", modalLeave);
-
-    _defineProperty(this, "canLeave", canLeave);
-
-    _defineProperty(this, "error", error);
-
-    _defineProperty(this, "info", info);
-
-    _defineProperty(this, "success", success);
-
-    _defineProperty(this, "warning", warning);
-
-    _defineProperty(this, "flush", flush);
-
-    _defineProperty(this, "base64Encode", base64Encode);
-
-    _defineProperty(this, "base64Decode", base64Decode);
-
-    _defineProperty(this, "textToHtml", textToHtml);
-
-    _defineProperty(this, "htmlToText", htmlToText);
-
-    _defineProperty(this, "textToString", textToString);
-
-    _defineProperty(this, "stringToText", stringToText);
-
-    _defineProperty(this, "htmlToString", htmlToString);
-
-    _defineProperty(this, "stringToHtml", stringToHtml);
-
-    _defineProperty(this, "textToSQL", textToSQL);
-
-    _defineProperty(this, "sqlToText", sqlToText);
-
-    _defineProperty(this, "fillBreadcrumb", fillBreadcrumb);
-
-    _defineProperty(this, "replaceHTML", replaceHTML);
-
-    _defineProperty(this, "prependHTML", prependHTML);
-
-    _defineProperty(this, "appendHTML", appendHTML);
-
-    _defineProperty(this, "formatTWIG", formatTWIG);
-
-    _defineProperty(this, "loadResources", loadResources);
-
-    _defineProperty(this, "loadSheets", loadSheets);
-
-    _defineProperty(this, "loadScripts", loadScripts);
-
-    _defineProperty(this, "loadJSONs", loadJSONs);
-
-    _defineProperty(this, "loadXMLs", loadXMLs);
-
-    _defineProperty(this, "loadHTMLs", loadHTMLs);
-
-    _defineProperty(this, "loadTWIGs", loadTWIGs);
-
-    _defineProperty(this, "loadTexts", loadTexts);
-
-    _defineProperty(this, "loadSubApp", loadSubApp);
-
-    _defineProperty(this, "loadSubAppByURL", loadSubAppByURL);
-
-    _defineProperty(this, "loadControl", loadControl);
-
-    _defineProperty(this, "createControl", createControl);
-
-    _defineProperty(this, "createControlInBody", createControlInBody);
-
-    _defineProperty(this, "createControlInContainer", createControlInContainer);
-
-    _defineProperty(this, "createControlFromWebLink", createControlFromWebLink);
-
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => {
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
+var AMIWebApp_accessCheck = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var AMIWebApp_privateGet = (obj, member, getter) => {
+  AMIWebApp_accessCheck(obj, member, "read from private field");
+  return getter ? getter.call(obj) : member.get(obj);
+};
+var AMIWebApp_privateAdd = (obj, member, value) => {
+  if (member.has(obj))
+    throw TypeError("Cannot add the same private member more than once");
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+};
+var AMIWebApp_privateSet = (obj, member, value, setter) => {
+  AMIWebApp_accessCheck(obj, member, "write to private field");
+  setter ? setter.call(obj, value) : member.set(obj, value);
+  return value;
+};
+var _embedded, _noBootstrap, _noSelect2, _globalDeferred;
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class AMIWebApp {
+  constructor() {
+    AMIWebApp_privateAdd(this, _embedded, false);
+    AMIWebApp_privateAdd(this, _noBootstrap, false);
+    AMIWebApp_privateAdd(this, _noSelect2, false);
+    AMIWebApp_privateAdd(this, _globalDeferred, $.Deferred());
+    __publicField(this, "_isReady", false);
+    __publicField(this, "webAppURL", "");
+    __publicField(this, "scriptURL", "");
+    __publicField(this, "originURL", "");
+    __publicField(this, "args", {});
+    __publicField(this, "hash", "");
+    __publicField(this, "bootstrapVersion", "v4");
+    __publicField(this, "typeOf", typeOf);
+    __publicField(this, "asArray", asArray);
+    __publicField(this, "isString", isString);
+    __publicField(this, "isArray", isArray);
+    __publicField(this, "isObject", isObject);
+    __publicField(this, "isSet", isSet);
+    __publicField(this, "isMap", isMap);
+    __publicField(this, "setup", setup);
+    __publicField(this, "getStack", getStack);
+    __publicField(this, "lock", lock);
+    __publicField(this, "unlock", unlock);
+    __publicField(this, "modalEnter", modalEnter);
+    __publicField(this, "modalLeave", modalLeave);
+    __publicField(this, "canLeave", canLeave);
+    __publicField(this, "error", error);
+    __publicField(this, "info", info);
+    __publicField(this, "success", success);
+    __publicField(this, "warning", warning);
+    __publicField(this, "flush", flush);
+    __publicField(this, "base64Encode", base64Encode);
+    __publicField(this, "base64Decode", base64Decode);
+    __publicField(this, "textToHtml", textToHtml);
+    __publicField(this, "htmlToText", htmlToText);
+    __publicField(this, "textToString", textToString);
+    __publicField(this, "stringToText", stringToText);
+    __publicField(this, "htmlToString", htmlToString);
+    __publicField(this, "stringToHtml", stringToHtml);
+    __publicField(this, "textToSQL", textToSQL);
+    __publicField(this, "sqlToText", sqlToText);
+    __publicField(this, "fillBreadcrumb", fillBreadcrumb);
+    __publicField(this, "replaceHTML", replaceHTML);
+    __publicField(this, "prependHTML", prependHTML);
+    __publicField(this, "appendHTML", appendHTML);
+    __publicField(this, "formatTWIG", formatTWIG);
+    __publicField(this, "loadResources", loadResources);
+    __publicField(this, "loadSheets", loadSheets);
+    __publicField(this, "loadScripts", loadScripts);
+    __publicField(this, "loadJSONs", loadJSONs);
+    __publicField(this, "loadXMLs", loadXMLs);
+    __publicField(this, "loadHTMLs", loadHTMLs);
+    __publicField(this, "loadTWIGs", loadTWIGs);
+    __publicField(this, "loadTexts", loadTexts);
+    __publicField(this, "loadSubApp", loadSubApp);
+    __publicField(this, "loadSubAppByURL", loadSubAppByURL);
+    __publicField(this, "loadControl", loadControl);
+    __publicField(this, "createControl", createControl);
+    __publicField(this, "createControlInBody", createControlInBody);
+    __publicField(this, "createControlInContainer", createControlInContainer);
+    __publicField(this, "createControlFromWebLink", createControlFromWebLink);
     AMIExtension();
-    var scriptArgs = core_AMIRouter.getScriptArgs();
-
-    AMIWebApp_classPrivateFieldSet(this, _embedded, 'embedded' in scriptArgs);
-
-    AMIWebApp_classPrivateFieldSet(this, _noBootstrap, 'nobootstrap' in scriptArgs);
-
-    AMIWebApp_classPrivateFieldSet(this, _noSelect, 'noselect2' in scriptArgs);
-
+    const scriptArgs = core_AMIRouter.getScriptArgs();
+    AMIWebApp_privateSet(this, _embedded, "embedded" in scriptArgs);
+    AMIWebApp_privateSet(this, _noBootstrap, "nobootstrap" in scriptArgs);
+    AMIWebApp_privateSet(this, _noSelect2, "noselect2" in scriptArgs);
     this.webAppURL = core_AMIRouter.getWebAppURL();
     this.scriptURL = core_AMIRouter.getScriptURL();
     this.originURL = core_AMIRouter.getOriginURL();
     this.args = core_AMIRouter.getWebAppArgs();
     this.hash = core_AMIRouter.getWebAppHash();
-    this.bootstrapVersion = scriptArgs.bootstrap || 'v4';
-    var resourcesCSS = [];
-    var resourcesJS = [];
-
+    this.bootstrapVersion = scriptArgs.bootstrap || "v4";
+    const resourcesCSS = [];
+    const resourcesJS = [];
     if (!window.Popper) {
-      resourcesJS.push("".concat(this.originURL, "/js/assets/js/popper.min.js"));
+      resourcesJS.push(`${this.originURL}/js/assets/js/popper.min.js`);
     }
-
     if (!window.moment) {
-      resourcesJS.push("".concat(this.originURL, "/js/assets/js/moment.min.js"));
+      resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
     }
-
     if (!window.moment || !window.moment.fn.toJDFString || !window.moment.fn.formatWithJDF || !window.moment.fn.toMomentFormatString) {
-      resourcesJS.push("".concat(this.originURL, "/js/assets/js/moment-jdateformatparser.min.js"));
+      resourcesJS.push(`${this.originURL}/js/assets/js/moment-jdateformatparser.min.js`);
     }
-
-    if (!AMIWebApp_classPrivateFieldGet(this, _noBootstrap) && typeof jQuery.fn.modal !== 'function') {
-      if (this.bootstrapVersion === 'v5') {
-        resourcesJS.push("".concat(this.originURL, "/js/assets/css/bootstrap5.min.css"));
-        resourcesJS.push("".concat(this.originURL, "/js/assets/js/bootstrap5.min.js"));
+    if (!AMIWebApp_privateGet(this, _noBootstrap) && typeof jQuery.fn.modal !== "function") {
+      if (this.bootstrapVersion === "v5") {
+        resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap5.min.css`);
+        resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.min.js`);
       } else {
-        resourcesJS.push("".concat(this.originURL, "/js/assets/css/bootstrap4.min.css"));
-        resourcesJS.push("".concat(this.originURL, "/js/assets/js/bootstrap4.min.js"));
+        resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap4.min.css`);
+        resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.min.js`);
       }
     }
-
-    if (!AMIWebApp_classPrivateFieldGet(this, _noSelect) && typeof jQuery.fn.select2 !== 'function') {
-      resourcesCSS.push("".concat(this.originURL, "/js/assets/css/select2.min.css"));
-      resourcesJS.push("".concat(this.originURL, "/js/assets/js/select2.min.js"));
+    if (!AMIWebApp_privateGet(this, _noSelect2) && typeof jQuery.fn.select2 !== "function") {
+      resourcesCSS.push(`${this.originURL}/js/assets/css/select2.min.css`);
+      resourcesJS.push(`${this.originURL}/js/assets/js/select2.min.js`);
     }
-
-    this.loadResources([].concat(resourcesCSS, resourcesJS)).done(function (resources) {
-      AMIWebApp_classPrivateFieldGet(_this, _globalDeferred).resolve(resources);
-    }).fail(function (message) {
-      AMIWebApp_classPrivateFieldGet(_this, _globalDeferred).reject(message);
-    }).always(function () {
+    this.loadResources([
+      ...resourcesCSS,
+      ...resourcesJS
+    ]).done((resources) => {
+      AMIWebApp_privateGet(this, _globalDeferred).resolve(resources);
+    }).fail((message) => {
+      AMIWebApp_privateGet(this, _globalDeferred).reject(message);
+    }).always(() => {
       __webpack_require__(301);
     });
   }
-
-  AMIWebApp_createClass(AMIWebApp, [{
-    key: "onReady",
-    value: function onReady(userdata) {
-      if (!AMIWebApp_classPrivateFieldGet(this, _embedded)) {
-        alert('error: \'amiWebApp.onReady()\' must be overloaded!');
-      }
-
-      return null;
+  onReady(userdata) {
+    if (!AMIWebApp_privateGet(this, _embedded)) {
+      alert("error: 'amiWebApp.onReady()' must be overloaded!");
     }
-  }, {
-    key: "onRefresh",
-    value: function onRefresh(isAuth) {
-      if (!AMIWebApp_classPrivateFieldGet(this, _embedded)) {
-        alert('error: \'amiWebApp.onRefresh()\' must be overloaded!');
-      }
-
-      return null;
+    return null;
+  }
+  onRefresh(isAuth) {
+    if (!AMIWebApp_privateGet(this, _embedded)) {
+      alert("error: 'amiWebApp.onRefresh()' must be overloaded!");
     }
-  }, {
-    key: "start",
-    value: function start(options) {
-      var _this2 = this;
-
-      AMIWebApp_classPrivateFieldGet(this, _globalDeferred).done(function () {
-        var _setup = setup(['logo_url', 'background_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed'], [logo, background, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', _this2.originURL + "/twig/".concat(_this2.bootstrapVersion, "/Themes/blue.twig"), _this2.originURL + "/twig/".concat(_this2.bootstrapVersion, "/Lockers/default.twig"), _this2.originURL + '/AMI/FrontEnd', false, false, true, true, true, true, true, true, true, true, true], options),
-            _setup2 = AMIWebApp_slicedToArray(_setup, 19),
-            logoURL = _setup2[0],
-            backgroundURL = _setup2[1],
-            homeURL = _setup2[2],
-            contactEmail = _setup2[3],
-            aboutURL = _setup2[4],
-            themeURL = _setup2[5],
-            lockerURL = _setup2[6],
-            endpointURL = _setup2[7],
-            ssoAutoAuthentication = _setup2[8],
-            ssoAuthenticationAllowed = _setup2[9],
-            passwordAuthenticationAllowed = _setup2[10],
-            certificateAuthenticationAllowed = _setup2[11],
-            logoutAllowed = _setup2[12],
-            createAccountAllowed = _setup2[13],
-            changeInfoAllowed = _setup2[14],
-            changePasswordAllowed = _setup2[15],
-            changeCertificateAllowed = _setup2[16],
-            captchaAllowed = _setup2[17],
-            bookmarksAllowed = _setup2[18];
-
-        core_AMICommand.initHttpClient(endpointURL);
-
-        window.onbeforeunload = function (e) {
-          if (!_canLeave) {
-            var f = e || window.event;
-
-            if (f) {
-              f.returnValue = 'Confirm that you want to leave this page?';
-            }
-
-            return 'Confirm that you want to leave this page?';
+    return null;
+  }
+  start(options) {
+    AMIWebApp_privateGet(this, _globalDeferred).done(() => {
+      const [
+        logoURL,
+        backgroundURL,
+        homeURL,
+        contactEmail,
+        aboutURL,
+        themeURL,
+        lockerURL,
+        endpointURL,
+        ssoAutoAuthentication,
+        ssoAuthenticationAllowed,
+        passwordAuthenticationAllowed,
+        certificateAuthenticationAllowed,
+        logoutAllowed,
+        createAccountAllowed,
+        changeInfoAllowed,
+        changePasswordAllowed,
+        changeCertificateAllowed,
+        captchaAllowed,
+        bookmarksAllowed
+      ] = setup([
+        "logo_url",
+        "background_url",
+        "home_url",
+        "contact_email",
+        "about_url",
+        "theme_url",
+        "locker_url",
+        "endpoint_url",
+        "sso_auto_authentication",
+        "sso_authentication_allowed",
+        "password_authentication_allowed",
+        "certificate_authentication_allowed",
+        "logout_allowed",
+        "create_account_allowed",
+        "change_info_allowed",
+        "change_password_allowed",
+        "change_certificate_allowed",
+        "captcha_allowed",
+        "bookmarks_allowed"
+      ], [
+        logo,
+        background,
+        this.webAppURL,
+        "ami@lpsc.in2p3.fr",
+        "https://cern.ch/ami/",
+        this.originURL + `/twig/${this.bootstrapVersion}/Themes/blue.twig`,
+        this.originURL + `/twig/${this.bootstrapVersion}/Lockers/default.twig`,
+        this.originURL + "/AMI/FrontEnd",
+        false,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ], options);
+      core_AMICommand.initHttpClient(endpointURL);
+      window.onbeforeunload = (e) => {
+        if (!_canLeave) {
+          const f = e || window.event;
+          if (f) {
+            f.returnValue = "Confirm that you want to leave this page?";
           }
-        };
-
-        var controlsURL = "".concat(_this2.originURL, "/controls/CONTROLS.json");
-        var subappsURL = "".concat(_this2.originURL, "/subapps/SUBAPPS.json");
-        $.ajax({
-          url: controlsURL,
-          cache: false,
-          crossDomain: true,
-          dataType: 'json'
-        }).then(function (data1) {
-          $.ajax({
-            url: subappsURL,
-            cache: false,
-            crossDomain: true,
-            dataType: 'json'
-          }).then(function (data2) {
-            for (var name in data1) {
-              _controls[name.toLowerCase()] = data1[name];
-            }
-
-            for (var _name in data2) {
-              _subapps[_name.toLowerCase()] = data2[_name];
-            }
-
-            if (!AMIWebApp_classPrivateFieldGet(_this2, _embedded)) {
-              var dict = {
-                LOGO_URL: logoURL,
-                BACKGROUND_URL: backgroundURL,
-                HOME_URL: homeURL,
-                CONTACT_EMAIL: contactEmail,
-                ABOUT_URL: aboutURL
-              };
-              $.ajax({
-                url: themeURL,
-                cache: true,
-                crossDomain: true,
-                dataType: 'text'
-              }).then(function (data3) {
-                $.ajax({
-                  url: lockerURL,
-                  cache: true,
-                  crossDomain: true,
-                  dataType: 'text'
-                }).then(function (data4) {
-                  $('body').append(formatTWIG(data3, dict) + data4).promise().done(function () {
-                    lock();
-                    core_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed).done(function () {
-                      unlock();
-                    }).fail(function (message) {
-                      error(message);
-                    });
-                  });
-                }, function () {
-                  alert("could not open '".concat(lockerURL, "', please reload the page..."));
-                });
-              }, function () {
-                alert("could not open '".concat(themeURL, "', please reload the page..."));
-              });
-            } else {
-              var data3 = '';
-
-              if ($('#ami_alert_content').length === 0) {
-                data3 += '<div id="ami_alert_content"></div>';
-              }
-
-              if ($('#ami_login_menu_content').length === 0) {
-                data3 += '<div id="ami_login_menu_content"></div>';
-              }
-
-              $.ajax({
-                url: lockerURL,
-                cache: true,
-                crossDomain: true,
-                dataType: 'text'
-              }).done(function (data4) {
-                $('body').prepend(data3 + data4).promise().done(function () {
+          return "Confirm that you want to leave this page?";
+        }
+      };
+      const controlsURL = `${this.originURL}/controls/CONTROLS.json`;
+      const subappsURL = `${this.originURL}/subapps/SUBAPPS.json`;
+      $.ajax({ url: controlsURL, cache: false, crossDomain: true, dataType: "json" }).then((data1) => {
+        $.ajax({ url: subappsURL, cache: false, crossDomain: true, dataType: "json" }).then((data2) => {
+          for (const name in data1) {
+            _controls[name.toLowerCase()] = data1[name];
+          }
+          for (const name in data2) {
+            _subapps[name.toLowerCase()] = data2[name];
+          }
+          if (!AMIWebApp_privateGet(this, _embedded)) {
+            const dict = {
+              LOGO_URL: logoURL,
+              BACKGROUND_URL: backgroundURL,
+              HOME_URL: homeURL,
+              CONTACT_EMAIL: contactEmail,
+              ABOUT_URL: aboutURL
+            };
+            $.ajax({ url: themeURL, cache: true, crossDomain: true, dataType: "text" }).then((data3) => {
+              $.ajax({ url: lockerURL, cache: true, crossDomain: true, dataType: "text" }).then((data4) => {
+                $("body").append(formatTWIG(data3, dict) + data4).promise().done(() => {
                   lock();
-                  core_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed).done(function () {
+                  core_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed).done(() => {
                     unlock();
-                  }).fail(function (message) {
+                  }).fail((message) => {
                     error(message);
                   });
                 });
+              }, () => {
+                alert(`could not open '${lockerURL}', please reload the page...`);
               });
+            }, () => {
+              alert(`could not open '${themeURL}', please reload the page...`);
+            });
+          } else {
+            let data3 = "";
+            if ($("#ami_alert_content").length === 0) {
+              data3 += '<div id="ami_alert_content"></div>';
             }
-          }, function () {
-            alert("cannot open '".concat(subappsURL, "', please reload the page..."));
-          });
-        }, function () {
-          alert("cannot open '".concat(controlsURL, "', please reload the page..."));
+            if ($("#ami_login_menu_content").length === 0) {
+              data3 += '<div id="ami_login_menu_content"></div>';
+            }
+            $.ajax({ url: lockerURL, cache: true, crossDomain: true, dataType: "text" }).done((data4) => {
+              $("body").prepend(data3 + data4).promise().done(() => {
+                lock();
+                core_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed).done(() => {
+                  unlock();
+                }).fail((message) => {
+                  error(message);
+                });
+              });
+            });
+          }
+        }, () => {
+          alert(`cannot open '${subappsURL}', please reload the page...`);
         });
-      }).fail(function (message) {
-        alert(message);
+      }, () => {
+        alert(`cannot open '${controlsURL}', please reload the page...`);
       });
-
-      return this;
-    }
-  }]);
-
-  return AMIWebApp;
-}();
-
+    }).fail((message) => {
+      alert(message);
+    });
+    return this;
+  }
+}
+_embedded = new WeakMap();
+_noBootstrap = new WeakMap();
+_noSelect2 = new WeakMap();
+_globalDeferred = new WeakMap();
 /* harmony default export */ const core_AMIWebApp = (new AMIWebApp());
+
 ;// CONCATENATED MODULE: ./src/core/AMIDoc.js
 
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+/* harmony default export */ const AMIDoc = ({ "classes": [{ "name": "AMICommand", "desc": "", "implements": [], "inherits": [], "konstructor": { "name": "AMICommand", "params": [] }, "variables": [{ "name": "httpClient", "type": "AMIHttpClient", "desc": "" }, { "name": "mqttClient", "type": "AMIMqttClient", "desc": "" }], "functions": [{ "name": "initHttpClient", "desc": "", "params": [{ "name": "endpoint", "type": "string", "desc": "the HTTP endpoint", "default": "", "optional": "", "nullable": "" }] }, { "name": "initMqttClient", "desc": "", "params": [{ "name": "endpoint", "type": "string", "desc": "the MQTT endpoint", "default": "", "optional": "", "nullable": "" }] }, { "name": "getHTTPEndpoint", "desc": "Get the HTTP endpoint", "params": [], "returns": [{ "type": "string", "desc": "" }] }, { "name": "getMQTTEndpoint", "desc": "Get the MQTT endpoint", "params": [], "returns": [{ "type": "string", "desc": "" }] }, { "name": "execute", "desc": "Executes an AMI command", "params": [{ "name": "command", "type": "string", "desc": "the command", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "mqttSignInByToken", "desc": "Signs in by JWT token (MQTT client)", "params": [{ "name": "token", "type": "string", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "serverName", "type": "string", "desc": "the server name", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "mqttSignOut", "desc": "Signs out (MQTT client)", "params": [{ "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "signInByPassword", "desc": "Signs in by login/password (HTTP client)", "params": [{ "name": "username", "type": "string", "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "password", "type": "string", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "signInByCertificate", "desc": "Signs in by certificate (HTTP client)", "params": [{ "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "signOut", "desc": "Signs out (HTTP client)", "params": [{ "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "attachCertificate", "desc": "Attaches a certificate", "params": [{ "name": "username", "type": "string", "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "password", "type": "string", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "detachCertificate", "desc": "Detaches a certificate", "params": [{ "name": "username", "type": "string", "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "password", "type": "string", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "addUser", "desc": "Adds a new username", "params": [{ "name": "username", "type": "string", "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "password", "type": "string", "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "firstName", "type": "string", "desc": "the first name", "default": "", "optional": "", "nullable": "" }, { "name": "lastName", "type": "string", "desc": "the last name", "default": "", "optional": "", "nullable": "" }, { "name": "email", "type": "string", "desc": "the email", "default": "", "optional": "", "nullable": "" }, { "name": "captchaHash", "type": "string", "desc": "the captcha hash generated by AMI", "default": "", "optional": "", "nullable": "" }, { "name": "captchaText", "type": "string", "desc": "the captcha text entered by the username", "default": "", "optional": "", "nullable": "" }, { "name": "attachCert", "type": "Boolean", "desc": "attach the current certificate", "default": "", "optional": "", "nullable": "" }, { "name": "agree", "type": "Boolean", "desc": "agree with the terms and conditions", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "changeInfo", "desc": "Changes the account information", "params": [{ "name": "firstName", "type": "string", "desc": "the first name", "default": "", "optional": "", "nullable": "" }, { "name": "lastName", "type": "string", "desc": "the last name", "default": "", "optional": "", "nullable": "" }, { "name": "email", "type": "string", "desc": "the email", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "changePassword", "desc": "Changes the account password", "params": [{ "name": "username", "type": "string", "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "oldPassword", "type": "string", "desc": "the old password", "default": "", "optional": "", "nullable": "" }, { "name": "newPassword", "type": "string", "desc": "the new password", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }, { "name": "resetPassword", "desc": "Resets the account password", "params": [{ "name": "username", "type": "string", "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "captchaHash", "type": "string", "desc": "the captcha hash generated by AMI", "default": "", "optional": "", "nullable": "" }, { "name": "captchaText", "type": "string", "desc": "the captcha text entered by the username", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": "Object.<string, *>", "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": "$.Deferred", "desc": "A JQuery deferred object" }] }] }, { "name": "ami.SubApp", "desc": "The basic AMI sub-application", "implements": ["ami.ISubApp"], "inherits": [], "konstructor": { "name": "SubApp", "params": [] }, "functions": [{ "name": "onReady", "desc": "Called when the sub-application is ready to run", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onExit", "desc": "Called when the sub-application is about to exit", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogin", "desc": "Called when logging in", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogout", "desc": "Called when logging out", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }] }], "functions": [{ "name": "_setupCtx", "desc": "", "params": [{ "name": "ctxDefaults", "type": "Object.<string, *>", "desc": "", "default": "", "optional": "", "nullable": "" }, { "name": "ctxOptionals", "type": "Object.<string, *>", "desc": "", "default": "", "optional": "", "nullable": "" }, { "name": "ctxOptions", "type": "Object.<string, *>", "desc": "", "default": "", "optional": "", "nullable": "" }, { "name": "ctx", "type": "Object.<string, *>", "desc": "", "default": "", "optional": "", "nullable": "" }, { "name": "defaults", "type": "Object.<string, *>", "desc": "", "default": "", "optional": "", "nullable": "" }, { "name": "optionals", "type": "Object.<string, *>", "desc": "", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": "Object.<string, *>", "desc": "", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": "Object.<string, *>", "desc": "" }] }, { "name": "_$createNamespace", "desc": "", "params": [{ "name": "$name", "type": "string", "desc": "", "default": "", "optional": "", "nullable": "" }, { "name": "x", "type": "Object.<string, *>", "desc": "", "default": "", "optional": "", "nullable": "" }] }, { "name": "_$addToNamespace", "desc": "", "params": [{ "name": "$name", "type": "string", "desc": "", "default": "", "optional": "", "nullable": "" }, { "name": "x", "type": "Object.<string, *>", "desc": "", "default": "", "optional": "", "nullable": "" }] }, { "name": "$AMINamespace", "desc": "Create a new namespace", "params": [{ "name": "$name", "type": "string", "desc": "the namespace name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": "Object.<string, *>", "desc": "the namespace body", "default": "{}", "optional": true, "nullable": "" }] }, { "name": "$AMIInterface", "desc": "Create a new interface", "params": [{ "name": "$name", "type": "string", "desc": "the interface name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": "Object.<string, *>", "desc": "the interface body", "default": "{}", "optional": true, "nullable": "" }] }, { "name": "$AMIClass", "desc": "Create a new class", "params": [{ "name": "$name", "type": "string", "desc": "the class name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": "Object.<string, *>", "desc": "the class body", "default": "{}", "optional": true, "nullable": "" }] }], "interfaces": [{ "name": "ami.ISubApp", "desc": "The AMI sub-application interface", "implements": [], "inherits": [], "functions": [{ "name": "onReady", "desc": "Called when the sub-application is ready to run", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onExit", "desc": "Called when the sub-application is about to exit", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogin", "desc": "Called when logging in", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }, { "name": "onLogout", "desc": "Called when logging out", "params": [{ "name": "userdata", "type": "?", "desc": "userdata", "default": "", "optional": "", "nullable": "" }] }] }], "namespaces": [{ "name": "amiRouter", "desc": "The AMI url routing subsystem" }, { "name": "amiWebApp", "desc": "The AMI webapp subsystem", "events": [{ "name": "onReady", "desc": "This method must be overloaded and is called when the Web application starts", "params": [{ "name": "userdata", "type": "string", "desc": "", "default": "", "optional": "", "nullable": "" }] }, { "name": "onRefresh", "desc": "This method must be overloaded and is called when the toolbar needs to be updated", "params": [{ "name": "isAuth", "type": "boolean", "desc": "", "default": "", "optional": "", "nullable": "" }] }] }] });
 
-/* harmony default export */ const AMIDoc = ({
-  "classes": [{
-    "name": "AMICommand",
-    "desc": "",
-    "implements": [],
-    "inherits": [],
-    "konstructor": {
-      "name": "AMICommand",
-      "params": []
-    },
-    "variables": [{
-      "name": "httpClient",
-      "type": "AMIHttpClient",
-      "desc": ""
-    }, {
-      "name": "mqttClient",
-      "type": "AMIMqttClient",
-      "desc": ""
-    }],
-    "functions": [{
-      "name": "initHttpClient",
-      "desc": "",
-      "params": [{
-        "name": "endpoint",
-        "type": "string",
-        "desc": "the HTTP endpoint",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "initMqttClient",
-      "desc": "",
-      "params": [{
-        "name": "endpoint",
-        "type": "string",
-        "desc": "the MQTT endpoint",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "getHTTPEndpoint",
-      "desc": "Get the HTTP endpoint",
-      "params": [],
-      "returns": [{
-        "type": "string",
-        "desc": ""
-      }]
-    }, {
-      "name": "getMQTTEndpoint",
-      "desc": "Get the MQTT endpoint",
-      "params": [],
-      "returns": [{
-        "type": "string",
-        "desc": ""
-      }]
-    }, {
-      "name": "execute",
-      "desc": "Executes an AMI command",
-      "params": [{
-        "name": "command",
-        "type": "string",
-        "desc": "the command",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "mqttSignInByToken",
-      "desc": "Signs in by JWT token (MQTT client)",
-      "params": [{
-        "name": "token",
-        "type": "string",
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "serverName",
-        "type": "string",
-        "desc": "the server name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "mqttSignOut",
-      "desc": "Signs out (MQTT client)",
-      "params": [{
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "signInByPassword",
-      "desc": "Signs in by login/password (HTTP client)",
-      "params": [{
-        "name": "username",
-        "type": "string",
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "password",
-        "type": "string",
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "signInByCertificate",
-      "desc": "Signs in by certificate (HTTP client)",
-      "params": [{
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "signOut",
-      "desc": "Signs out (HTTP client)",
-      "params": [{
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "attachCertificate",
-      "desc": "Attaches a certificate",
-      "params": [{
-        "name": "username",
-        "type": "string",
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "password",
-        "type": "string",
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "detachCertificate",
-      "desc": "Detaches a certificate",
-      "params": [{
-        "name": "username",
-        "type": "string",
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "password",
-        "type": "string",
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "addUser",
-      "desc": "Adds a new username",
-      "params": [{
-        "name": "username",
-        "type": "string",
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "password",
-        "type": "string",
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "firstName",
-        "type": "string",
-        "desc": "the first name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "lastName",
-        "type": "string",
-        "desc": "the last name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "email",
-        "type": "string",
-        "desc": "the email",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "captchaHash",
-        "type": "string",
-        "desc": "the captcha hash generated by AMI",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "captchaText",
-        "type": "string",
-        "desc": "the captcha text entered by the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "attachCert",
-        "type": "Boolean",
-        "desc": "attach the current certificate",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "agree",
-        "type": "Boolean",
-        "desc": "agree with the terms and conditions",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "changeInfo",
-      "desc": "Changes the account information",
-      "params": [{
-        "name": "firstName",
-        "type": "string",
-        "desc": "the first name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "lastName",
-        "type": "string",
-        "desc": "the last name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "email",
-        "type": "string",
-        "desc": "the email",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "changePassword",
-      "desc": "Changes the account password",
-      "params": [{
-        "name": "username",
-        "type": "string",
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "oldPassword",
-        "type": "string",
-        "desc": "the old password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "newPassword",
-        "type": "string",
-        "desc": "the new password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }, {
-      "name": "resetPassword",
-      "desc": "Resets the account password",
-      "params": [{
-        "name": "username",
-        "type": "string",
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "captchaHash",
-        "type": "string",
-        "desc": "the captcha hash generated by AMI",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "captchaText",
-        "type": "string",
-        "desc": "the captcha text entered by the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": "Object.<string, *>",
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": "$.Deferred",
-        "desc": "A JQuery deferred object"
-      }]
-    }]
-  }, {
-    "name": "ami.SubApp",
-    "desc": "The basic AMI sub-application",
-    "implements": ["ami.ISubApp"],
-    "inherits": [],
-    "konstructor": {
-      "name": "SubApp",
-      "params": []
-    },
-    "functions": [{
-      "name": "onReady",
-      "desc": "Called when the sub-application is ready to run",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "onExit",
-      "desc": "Called when the sub-application is about to exit",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "onLogin",
-      "desc": "Called when logging in",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "onLogout",
-      "desc": "Called when logging out",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }]
-  }],
-  "functions": [{
-    "name": "_setupCtx",
-    "desc": "",
-    "params": [{
-      "name": "ctxDefaults",
-      "type": "Object.<string, *>",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "ctxOptionals",
-      "type": "Object.<string, *>",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "ctxOptions",
-      "type": "Object.<string, *>",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "ctx",
-      "type": "Object.<string, *>",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "defaults",
-      "type": "Object.<string, *>",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "optionals",
-      "type": "Object.<string, *>",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "options",
-      "type": "Object.<string, *>",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }],
-    "returns": [{
-      "type": "Object.<string, *>",
-      "desc": ""
-    }]
-  }, {
-    "name": "_$createNamespace",
-    "desc": "",
-    "params": [{
-      "name": "$name",
-      "type": "string",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "x",
-      "type": "Object.<string, *>",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }]
-  }, {
-    "name": "_$addToNamespace",
-    "desc": "",
-    "params": [{
-      "name": "$name",
-      "type": "string",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "x",
-      "type": "Object.<string, *>",
-      "desc": "",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }]
-  }, {
-    "name": "$AMINamespace",
-    "desc": "Create a new namespace",
-    "params": [{
-      "name": "$name",
-      "type": "string",
-      "desc": "the namespace name",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "$descr",
-      "type": "Object.<string, *>",
-      "desc": "the namespace body",
-      "default": "{}",
-      "optional": true,
-      "nullable": ""
-    }]
-  }, {
-    "name": "$AMIInterface",
-    "desc": "Create a new interface",
-    "params": [{
-      "name": "$name",
-      "type": "string",
-      "desc": "the interface name",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "$descr",
-      "type": "Object.<string, *>",
-      "desc": "the interface body",
-      "default": "{}",
-      "optional": true,
-      "nullable": ""
-    }]
-  }, {
-    "name": "$AMIClass",
-    "desc": "Create a new class",
-    "params": [{
-      "name": "$name",
-      "type": "string",
-      "desc": "the class name",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "$descr",
-      "type": "Object.<string, *>",
-      "desc": "the class body",
-      "default": "{}",
-      "optional": true,
-      "nullable": ""
-    }]
-  }],
-  "interfaces": [{
-    "name": "ami.ISubApp",
-    "desc": "The AMI sub-application interface",
-    "implements": [],
-    "inherits": [],
-    "functions": [{
-      "name": "onReady",
-      "desc": "Called when the sub-application is ready to run",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "onExit",
-      "desc": "Called when the sub-application is about to exit",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "onLogin",
-      "desc": "Called when logging in",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "onLogout",
-      "desc": "Called when logging out",
-      "params": [{
-        "name": "userdata",
-        "type": "?",
-        "desc": "userdata",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }]
-  }],
-  "namespaces": [{
-    "name": "amiRouter",
-    "desc": "The AMI url routing subsystem"
-  }, {
-    "name": "amiWebApp",
-    "desc": "The AMI webapp subsystem",
-    "events": [{
-      "name": "onReady",
-      "desc": "This method must be overloaded and is called when the Web application starts",
-      "params": [{
-        "name": "userdata",
-        "type": "string",
-        "desc": "",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "onRefresh",
-      "desc": "This method must be overloaded and is called when the toolbar needs to be updated",
-      "params": [{
-        "name": "isAuth",
-        "type": "boolean",
-        "desc": "",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }]
-  }]
-});
 ;// CONCATENATED MODULE: ./index.js
 
 
@@ -15053,6 +13905,7 @@ $this.amiCommand = core_AMICommand;
 $this.amiWebApp = core_AMIWebApp;
 $this.amiAuth = core_AMIAuth;
 $this.amiDoc = AMIDoc;
+
 })();
 
 /******/ })()
