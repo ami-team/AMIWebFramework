@@ -209,9 +209,6 @@ const config = {
 		new ESLintPlugin({
 			'failOnWarning': true
 		}),
-		new MonacoWebpackPlugin({
-			languages: ['typescript', 'javascript', 'css', 'json']
-		}),
 		new webpack.BannerPlugin({
 			'banner': BANNER
 		})
