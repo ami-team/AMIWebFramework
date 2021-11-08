@@ -56,6 +56,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const JsDocPlugin = require('jsdoc-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -85,18 +86,9 @@ const config = {
 						}
 					},
 					{
-						'loader': 'babel-loader',
-						'options': {
-							'comments': false,
-							'compact': false,
-							'minified': false,
-							'presets': [
-								['@babel/preset-env', {
-									'targets': {
-										'browsers': BROWSER_LIST
-									}
-								}]
-							]
+						loader: 'esbuild-loader',
+						options: {
+							target: 'es2015'  // Syntax to compile to (see options below for possible values)
 						}
 					}
 				]
@@ -216,6 +208,9 @@ const config = {
 		}),
 		new ESLintPlugin({
 			'failOnWarning': true
+		}),
+		new MonacoWebpackPlugin({
+			languages: ['typescript', 'javascript', 'css', 'json']
 		}),
 		new webpack.BannerPlugin({
 			'banner': BANNER
