@@ -19,6 +19,8 @@ import {loadScripts} from './ressources';
 
 import {_internal_then, _internal_always, setup} from './tools';
 
+import amiCommand from '../AMICommand';
+
 import amiRouter from '../AMIRouter';
 
 import amiWebApp from '../AMIWebApp';

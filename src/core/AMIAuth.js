@@ -33,6 +33,29 @@ class AMIAuth
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	setupAWF(awfInfo)
+	{
+		try
+		{
+			const config = JSON.parse(base64Decode(awfInfo.config));
+
+			setDateTimeFormats(
+				config.datetimePrecision,
+				config.datetimeFormat,
+				config.dateFormat,
+				config.timePrecision,
+				config.timeHMSFormat,
+				config.timeHMFormat
+			);
+		}
+		catch(e)
+		{
+			/* IGNORE */
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	init(
 		ssoAutoAuthentication,
 		ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
@@ -50,6 +73,8 @@ class AMIAuth
 
 		amiCommand.signInByCertificate().fail((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
 
+			this.setupAWF(awfInfo);
+
 			this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).always((/*---*/) => {
 
 				result.reject(message);
@@ -59,23 +84,7 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			try
-			{
-				const config = JSON.parse(base64Decode(awfInfo.config));
-
-				setDateTimeFormats(
-					config.datetimePrecision,
-					config.datetimeFormat,
-					config.dateFormat,
-					config.timePrecision,
-					config.timeHMSFormat,
-					config.timeHMFormat
-				);
-			}
-			catch(e)
-			{
-				/* IGNORE */
-			}
+			this.setupAWF(awfInfo);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
