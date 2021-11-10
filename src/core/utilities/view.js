@@ -24,6 +24,8 @@ import amiTwig from 'ami-twig';
 import 'flatpickr/dist/flatpickr.min.css';
 import /*-------*/'flatpickr'/*-------*/;
 
+import * as monaco from 'monaco-editor';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BREADCRUMB                                                                                                         */
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -38,17 +40,17 @@ export function fillBreadcrumb(items)
 	let s;
 
 	/**/ if(isArray(items))
-	{
-		s = items.map((item) => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL())}</li>`).join('');
-	}
-	else if(isString(items))
-	{
-		s = items.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL());
-	}
-	else
-	{
-		s = '';
-	}
+{
+	s = items.map((item) => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL())}</li>`).join('');
+}
+else if(isString(items))
+{
+	s = items.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL());
+}
+else
+{
+	s = '';
+}
 
 	$('#ami_breadcrumb_content').html(s);
 }
@@ -148,8 +150,8 @@ function _xxxHTML(selector, twig, mode, options)
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const _find = (mode === 3) ? (_selector) => el.find(selector)
-		                                              .addBack(selector)
-		                           : (_selector) => el.find(_selector)
+				.addBack(selector)
+				: (_selector) => el.find(_selector)
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -222,7 +224,103 @@ function _xxxHTML(selector, twig, mode, options)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		/* TODO */
+		_find('.form-editor:not(.form-editor-hidden)').each((indx, item) => {
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const textarea = $(item).addClass('form-editor-hidden');
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const div = $('<div>', {
+				'class': textarea.attr('class')
+				.replace('form-editor', '').replace('form-editor-hidden', ''),
+				'style': textarea.attr('style'),
+			}).insertBefore(textarea);
+
+			div.promise().done(() => {
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				const lang = textarea.attr('data-lang') || '';
+				const theme = textarea.attr('data-theme') || 'vs';
+
+				/**/
+
+				const wrap = textarea.attr('data-wrap') || 'false';
+				const readOnly = textarea.attr('data-read-only') || 'false';
+				const showGutter = textarea.attr('data-show-gutter') || 'true';
+				const showMiniMap = textarea.attr('data-show-minimap') || 'false';
+				const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
+
+				/**/
+
+				let minLines = parseInt(textarea.attr('data-minlines'));
+
+				if(isNaN(minLines)) {
+					minLines = 0x000001;
+				}
+
+				let maxLines = parseInt(textarea.attr('data-maxlines'));
+
+				if(isNaN(maxLines)) {
+					maxLines = Infinity;
+				}
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				const editor = monaco.editor.create(div[0], {
+					/* VALUE */
+					value: item.value,
+					/* STYLE */
+					theme: theme,
+					language: lang,
+					wordWrap: wrap === 'true',
+					readOnly: readOnly === 'true',
+					minimap: {
+						enabled: showMiniMap === 'true'
+					},
+					lineNumbers: showGutter === 'true' ? 'on' : 'off',
+					renderLineHighlight: highlightActiveLine === 'true' ? 'all' : 'none',
+					/**/
+					scrollBeyondLastLine: false
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				const updateHeight = () => {
+
+					const height = editor.getContentHeight();
+
+					div.height(height);
+
+					try
+					{
+						editor.layout({
+							width: div.width(),
+							height: height,
+						});
+					}
+					catch
+					{
+						/* IGNORE */
+					}
+				};
+
+				editor.onDidContentSizeChange(updateHeight);
+
+				updateHeight();
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				editor.onDidChangeModelContent(e => {
+					console.log(e)
+				})
+
+
+				/*----------------------------------------------------------------------------------------------------*/
+			});
+		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
