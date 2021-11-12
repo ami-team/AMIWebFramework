@@ -29,6 +29,21 @@
 					'</li>'
 				;
 
+				if(amiAuth.hasRole('AMI_ADMIN'))
+				{
+					menu +=
+						'<li class="nav-item dropdown">' +
+						'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+						'    <i class="bi bi-key"></i> Admin' +
+						'  </a>' +
+						'  <div class="dropdown-menu">' +
+						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=api.html">AMI Web Framework API</a>' +
+						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=document&userdata=info.html">AMI Web Framework Info</a>' +
+						'  </div>' +
+						'</li>'
+					;
+				}
+
 				$('#ami_main_menu_content').html(menu);
 			};
 
