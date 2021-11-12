@@ -228,9 +228,6 @@ const config = {
 		})
 	],
 	'optimization': {
-		'splitChunks': {
-			'minSize': 1
-		},
 		'minimizer': [
 			new TerserPlugin({
 				'test': /\.min\.js$/,

@@ -1,0 +1,104 @@
+<!-- markdown: disabled -->
+
+<div class="row">
+
+	<div class="col-md-3 text-center">
+
+		<h1 style="font-size: 5rem;"><i class="bi bi-app"></i></h1>
+
+	</div>
+
+	<div class="col-md-9">
+
+		<h2><i class="bi bi-caret-right-fill"></i> SubApps</h2>
+
+		<table class="table table-sm table-striped">
+			<thead>
+				<tr>
+					<th>Name <i class="fa fa-link"></i></th>
+					<th>File</th>
+					<th>instance</th>
+				</tr>
+			</thead>
+			<tbody id="E2467A54_0C72_D98D_87EB_38FBD9FC90F4"></tbody>
+		</table>
+
+	</div>
+
+</div>
+
+<div class="row">
+
+	<div class="col-md-3 text-center">
+
+		<h1 style="font-size: 5rem;"><i class="bi bi-boxes"></i></h1>
+
+	</div>
+
+	<div class="col-md-9">
+
+		<h2><i class="bi bi-caret-right-fill"></i> Controls</h2>
+
+		<table class="table table-sm table-striped">
+			<thead>
+				<tr>
+					<th>Name <i class="fa fa-info"></i></th>
+					<th>File</th>
+					<th>Class</th>
+				</tr>
+			</thead>
+			<tbody id="BFB033C8_83F3_F317_4930_E7A695C347E4"></tbody>
+		</table>
+
+	</div>
+
+</div>
+
+<script type="text/javascript">
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	var s1 = [];
+
+	for(var subappName in amiWebApp._subapps)
+	{
+		s1.push(
+			'<tr>'
+		    +
+		    '<td><a href="?subapp=' + amiWebApp.textToHtml(subappName) + '" target="_blank">' + amiWebApp.textToHtml(subappName) + '</a></td>'
+		    +
+		    '<td>' + amiWebApp.textToHtml(amiWebApp._subapps[subappName].file) + '</td>'
+		    +
+		    '<td>' + amiWebApp.textToHtml(amiWebApp._subapps[subappName].instance) + '</td>'
+		    +
+		    '</tr>'
+		);
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	var s2 = [];
+
+	for(var controlName in amiWebApp._controls)
+	{
+		s2.push(
+			'<tr>'
+		    +
+		    '<td>' + amiWebApp.textToHtml(controlName) + '</td>'
+		    +
+		    '<td>' + amiWebApp.textToHtml(amiWebApp._controls[controlName].file) + '</td>'
+		    +
+		    '<td>' + amiWebApp.textToHtml(amiWebApp._controls[controlName].clazz) + '</td>'
+		    +
+		    '</tr>'
+		);
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$('#E2467A54_0C72_D98D_87EB_38FBD9FC90F4').html(s1.join(''));
+	$('#BFB033C8_83F3_F317_4930_E7A695C347E4').html(s2.join(''));
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+</script>
