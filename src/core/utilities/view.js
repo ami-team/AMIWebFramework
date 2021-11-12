@@ -40,17 +40,17 @@ export function fillBreadcrumb(items)
 	let s;
 
 	/**/ if(isArray(items))
-{
-	s = items.map((item) => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL())}</li>`).join('');
-}
-else if(isString(items))
-{
-	s = items.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL());
-}
-else
-{
-	s = '';
-}
+	{
+		s = items.map((item) => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL())}</li>`).join('');
+	}
+	else if(isString(items))
+	{
+		s = items.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL());
+	}
+	else
+	{
+		s = '';
+	}
 
 	$('#ami_breadcrumb_content').html(s);
 }
@@ -93,19 +93,19 @@ function _xxxHTML(selector, twig, mode, options)
 {
 	const result = $.Deferred();
 
-	const [context, suffix, dict, twigs] = setup(
-		['context', 'suffix', 'dict', 'twigs'],
+	const [context, scope, dict, twigs] = setup(
+		['context', 'scope', 'dict', 'twigs'],
 		[result, null, {}, {}],
 		options
 	);
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	if(suffix)
+	if(scope)
 	{
 		twig = twig.replace(_idRegExp, (id) => {
 
-			return `${id}_instance${suffix}`;
+			return `${id}_scope${scope}`;
 		});
 	}
 
@@ -150,8 +150,8 @@ function _xxxHTML(selector, twig, mode, options)
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const _find = (mode === 3) ? (_selector) => el.find(selector)
-				.addBack(selector)
-				: (_selector) => el.find(_selector)
+		                                              .addBack(selector)
+		                           : (_selector) => el.find(_selector)
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -224,7 +224,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		_find('.form-editor:not(.form-editor-hidden)').each((indx, item) => {
+		_find('.form-editor:not(.form-editor-hidden)').each((index, item) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -234,7 +234,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 			const div = $('<div>', {
 				'class': textarea.attr('class')
-				.replace('form-editor', '').replace('form-editor-hidden', ''),
+				                 .replace('form-editor', '').replace('form-editor-hidden', ''),
 				'style': textarea.attr('style'),
 			}).insertBefore(textarea);
 
@@ -290,15 +290,15 @@ function _xxxHTML(selector, twig, mode, options)
 
 				const updateHeight = () => {
 
-					const height = editor.getContentHeight();
+					const contentHeight = editor.getContentHeight();
 
-					div.height(height);
+					div.height(contentHeight);
 
 					try
 					{
 						editor.layout({
 							width: div.width(),
-							height: height,
+							height: contentHeight,
 						});
 					}
 					catch
@@ -309,14 +309,18 @@ function _xxxHTML(selector, twig, mode, options)
 
 				editor.onDidContentSizeChange(updateHeight);
 
-				updateHeight();
+				/*----------------------------------------------------------------------------------------------------*/
+
+				const updateContent = () => {
+
+					item.value = editor.getValue();
+				};
+
+				editor.onDidChangeModelContent(updateContent);
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				editor.onDidChangeModelContent(e => {
-					console.log(e)
-				})
-
+				updateHeight();
 
 				/*----------------------------------------------------------------------------------------------------*/
 			});

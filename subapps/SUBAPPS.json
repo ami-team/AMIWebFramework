@@ -1,4 +1,8 @@
 {
+    "document": {
+        "file": "subapps/Document/js/DocumentApp.js",
+        "instance": "documentApp"
+    },
     "emergency": {
         "breadcrumb": [
             "Tools",
