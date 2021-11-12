@@ -184,6 +184,8 @@ export function loadSubApp(subapp, userdata, options)
 
 				_currentSubappInstance = instance;
 
+				_currentUserdata = userdata;
+
 				/**/
 
 				const promise = loaded[0] ? instance.onReady(userdata)
