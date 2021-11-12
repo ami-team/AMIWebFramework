@@ -51,9 +51,12 @@ $AMIClass('DocumentApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
 
-				$('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').change(() => {
+				$('#EA7E94EC_0876_F03C_9655_0985670D51B4').hide();
+				$('#D2D815F2_0DB1_F1EF_1B81_A76A55F1ACCF').hide();
 
-					amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.toHtml($('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C')[0].value))
+				$('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').change((e) => {
+
+					amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.toHtml($(e.currentTarget).val()));
 				});
 
 				result.resolve();
@@ -162,8 +165,6 @@ $AMIClass('DocumentApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		console.log(breadcrumb);
-
 		amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.toHtml(body)).done(() => {
 
 			amiWebApp.fillBreadcrumb(breadcrumb);
@@ -211,7 +212,7 @@ $AMIClass('DocumentApp', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute('UpdateElements -catalog="self" -entity="router_markdown" -single -fields="body" -values="' + amiWebApp.textToString($('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').val()) + '" -keyFields="name" -keyValues="' + amiWebApp.textToString(this.page) + '"').done((data, message) => {
+			amiCommand.execute('UpdateElements -catalog="self" -entity="router_markdown" -single -fields="body" -values=? -keyFields="name" -keyValues=?', {params: [$('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').val(), this.page]}).done((data, message) => {
 
 				amiWebApp.success(message, true);
 

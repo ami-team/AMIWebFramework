@@ -228,13 +228,13 @@ function _xxxHTML(selector, twig, mode, options)
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const textarea = $(item).addClass('form-editor-hidden');
+			const textarea = $(item).removeClass('form-editor').addClass('form-editor-hidden');
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			const div = $('<div>', {
 				'class': textarea.attr('class')
-				                 .replace('form-editor', '').replace('form-editor-hidden', ''),
+				                 .replace('form-editor-hidden', '').trim() + ' form-editor-monaco',
 				'style': textarea.attr('style'),
 			}).insertBefore(textarea);
 
@@ -251,6 +251,7 @@ function _xxxHTML(selector, twig, mode, options)
 				const readOnly = textarea.attr('data-read-only') || 'false';
 				const showGutter = textarea.attr('data-show-gutter') || 'true';
 				const showMiniMap = textarea.attr('data-show-minimap') || 'false';
+				const renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
 				const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
 
 				/**/
@@ -280,10 +281,14 @@ function _xxxHTML(selector, twig, mode, options)
 					minimap: {
 						enabled: showMiniMap === 'true'
 					},
+					renderWhitespace: renderWhitespace === 'true',
 					lineNumbers: showGutter === 'true' ? 'on' : 'off',
 					renderLineHighlight: highlightActiveLine === 'true' ? 'all' : 'none',
 					/**/
-					scrollBeyondLastLine: false
+					overviewRulerLanes: 0,
+					overviewRulerBorder: false,
+					scrollBeyondLastLine: false,
+					hideCursorInOverviewRuler: true,
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -292,17 +297,22 @@ function _xxxHTML(selector, twig, mode, options)
 
 				/*----------------------------------------------------------------------------------------------------*/
 
+				editor.onDidChangeModelContent(() => {
+
+					item.value = editor.getValue();
+
+					$(item).trigger('change');
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+
 				const updateHeight = () => {
-
-					const contentHeight = editor.getContentHeight();
-
-					div.height(contentHeight);
 
 					try
 					{
 						editor.layout({
 							width: div.width(),
-							height: contentHeight,
+							height: editor.getContentHeight(),
 						});
 					}
 					catch
@@ -311,20 +321,11 @@ function _xxxHTML(selector, twig, mode, options)
 					}
 				};
 
-				editor.onDidContentSizeChange(updateHeight);
-
 				/*----------------------------------------------------------------------------------------------------*/
 
-				const updateTextareaContent = () => {
-
-					item.value = editor.getValue();
-
-					$(item).trigger('change');
-				};
-
-				editor.onDidChangeModelContent(updateTextareaContent);
-
-				/*----------------------------------------------------------------------------------------------------*/
+				editor.onDidContentSizeChange(
+					updateHeight
+				);
 
 				updateHeight();
 

@@ -232,7 +232,7 @@ const config = {
 		]
 	},
 	'performance' : {
-		'hints': 'warning'
+		'hints': false
 	}
 };
 
