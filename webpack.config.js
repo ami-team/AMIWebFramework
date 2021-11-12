@@ -210,12 +210,12 @@ const config = {
 			'failOnWarning': true
 		}),
 		new MonacoWebpackPlugin({
-			'publicPath': '/monaco',
+			'filename': 'assets/js/workers/[name].worker.min.js',
 			'languages': [
 				'sql',
 				'xml', 'json', 'yaml',
 				'text', 'html', 'markdown'
-			],
+			]
 		}),
 		new webpack.BannerPlugin({
 			'banner': BANNER
