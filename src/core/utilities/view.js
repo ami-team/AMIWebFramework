@@ -288,7 +288,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$(item).data('editor', editor);
+				textarea.data('editor', editor);
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -317,7 +317,9 @@ function _xxxHTML(selector, twig, mode, options)
 
 				const updateTextareaContent = () => {
 
-					$(item).val(editor.getValue()).trigger('change');
+					item.value = editor.getValue();
+
+					$(item).trigger('change');
 				};
 
 				editor.onDidChangeModelContent(updateTextareaContent);
