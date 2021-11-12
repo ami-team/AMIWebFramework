@@ -101,7 +101,7 @@ $AMIClass('DocumentApp', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute('GetPageInfo -name="' + amiWebApp.textToString(page) + '"').done((data) => {
+		amiCommand.execute('GetPageInfo -name=?', {params: [page]}).done((data) => {
 
 			this.render(
 				/*------------------------*/ page /*------------------------*/,
