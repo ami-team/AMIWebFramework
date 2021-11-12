@@ -155,9 +155,9 @@ export default function()
 			{
 				if(this.hasClass('form-editor-hidden'))
 				{
-					const session = this.data('session');
+					const editor = this.data('editor');
 
-					if(session) return session.getValue();
+					if(editor) return editor.getValue();
 
 					return ('');
 				}
@@ -166,9 +166,9 @@ export default function()
 			{
 				if(this.hasClass('form-editor-hidden'))
 				{
-					const session = this.data('session');
+					const editor = this.data('editor');
 
-					if(session) session.setValue(arguments[0]);
+					if(editor) editor.setValue(arguments[0]);
 
 					return this;
 				}

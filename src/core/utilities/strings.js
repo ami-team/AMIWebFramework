@@ -17,6 +17,12 @@ import amiTwig from 'ami-twig';
 /* BASE64 STRINGS                                                                                                     */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * Encode the given string to base64
+ * @param {string} s the decoded string
+ * @returns {string} The encoded string
+ */
+
 export function base64Encode(s)
 {
 	return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, (_, $1) => {
@@ -27,6 +33,12 @@ export function base64Encode(s)
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Deccode the given string from base64
+ * @param {string} s the encoded string
+ * @returns {string} The decoded string
+ */
 
 export function base64Decode(s)
 {

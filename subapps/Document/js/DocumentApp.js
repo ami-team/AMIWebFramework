@@ -51,6 +51,11 @@ $AMIClass('DocumentApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
 
+				$('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').change(() => {
+
+					amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.toHtml($('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C')[0].value))
+				});
+
 				result.resolve();
 			});
 
@@ -68,14 +73,14 @@ $AMIClass('DocumentApp', {
 
 	onLogin: function(userdata)
 	{
-		//this.loadPage(userdata || 'home.html');
+		this.loadPage(userdata || 'home.html');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogout: function(userdata)
 	{
-		//this.loadPage(userdata || 'home.html');
+		this.loadPage(userdata || 'home.html');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -140,22 +145,24 @@ $AMIClass('DocumentApp', {
 		breadcrumb.push('<a href="' + amiWebApp.webAppURL + '?subapp=document&userdata=' + /*-*/ 'home.html' /*-*/ + '">' + /*---*/ 'Documents' /*---*/ + '</a>');
 		breadcrumb.push('<a href="' + amiWebApp.webAppURL + '?subapp=document&userdata=' + encodeURIComponent(page) + '">' + amiWebApp.textToHtml(title) + '</a>');
 
-		if(editable && (amiLogin.hasRole('AMI_ADMIN') || amiLogin.hasRole('AMI_WRITER')))
+		if(editable && (amiAuth.hasRole('AMI_ADMIN') || amiAuth.hasRole('AMI_WRITER')))
 		{
 			this.page = page;
 			this.title = title;
 			this.body = body;
 
-			this.editor.getSession().setValue(body);
+			$('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').val(body);
 
 			breadcrumb.push(
-				'<a href="javascript:documentApp.toggleMode();" id="FEF81C5A_5608_2423_9C1A_2F598A1C07C4"><i class="fa fa-pencil text-primary"></i></a>' +
+				'<a href="javascript:documentApp.toggleMode();" id="FEF81C5A_5608_2423_9C1A_2F598A1C07C4"><i class="bi-pencil text-primary"></i></a>' +
 				'&nbsp;&nbsp;' +
-				'<a href="javascript:documentApp.saveDoc();" id="EA7E94EC_0876_F03C_9655_0985670D51B4"><i class="fa fa-save text-success"></i></a>'
+				'<a href="javascript:documentApp.saveDoc();" id="EA7E94EC_0876_F03C_9655_0985670D51B4"><i class="bi-save text-success"></i></a>'
 			);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
+
+		console.log(breadcrumb);
 
 		amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.toHtml(body)).done(() => {
 
@@ -177,14 +184,14 @@ $AMIClass('DocumentApp', {
 		{
 			el1.show();
 			el2.show();
-			this.editor.getSession().setValue(this.body);
+			$('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').val(this.body);
 			el3.removeClass('col-md-12').addClass('col-md-6');
 		}
 		else
 		{
 			el1.hide();
 			el2.hide();
-			this.body = this.editor.getSession().getValue();
+			this.body = $('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').val();
 			el3.removeClass('col-md-6').addClass('col-md-12');
 		}
 	},
@@ -204,7 +211,7 @@ $AMIClass('DocumentApp', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute('UpdateElements -catalog="self" -entity="router_markdown" -single -fields="body" -values="' + amiWebApp.textToString(this.editor.getSession().getValue()) + '" -keyFields="name" -keyValues="' + amiWebApp.textToString(this.page) + '"').done((data, message) => {
+			amiCommand.execute('UpdateElements -catalog="self" -entity="router_markdown" -single -fields="body" -values="' + amiWebApp.textToString($('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').val()) + '" -keyFields="name" -keyValues="' + amiWebApp.textToString(this.page) + '"').done((data, message) => {
 
 				amiWebApp.success(message, true);
 

@@ -13,6 +13,10 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+import JSPath from 'JSPath';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 import amiAuth from './AMIAuth';
 
 import amiRouter from './AMIRouter';
@@ -35,25 +39,19 @@ import {getStack, lock, unlock, modalEnter, modalLeave, _canLeave, canLeave} fro
 
 import {loadResources, loadSheets, loadScripts, loadJSONs, loadXMLs, loadHTMLs, loadTWIGs, loadTexts} from './utilities/ressources';
 
-import {
-	textToHtml,
-	htmlToText,
-	textToString,
-	stringToText,
-	htmlToString,
-	stringToHtml,
-	textToSQL,
-	sqlToText,
-	base64Encode, base64Decode
-} from './utilities/strings';
-
 import {_controls, loadControl, createControl, createControlInBody, createControlInContainer, createControlFromWebLink} from './utilities/controls';
+
+import {textToHtml, htmlToText, textToString, stringToText, htmlToString, stringToHtml, textToSQL, sqlToText, base64Encode, base64Decode} from './utilities/strings';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 import defaultLogoURL from '../images/logo.png';
 
 import defaultBackgroundURL from '../images/background.jpg';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+import 'bootstrap-icons/font/bootstrap-icons.css';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -328,6 +326,12 @@ class AMIWebApp
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	formatTWIG = formatTWIG;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* JSPATH                                                                                                         */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	jspath = JSPath.apply;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* DYNAMIC RESOURCE LOADING                                                                                       */

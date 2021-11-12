@@ -288,6 +288,10 @@ function _xxxHTML(selector, twig, mode, options)
 
 				/*----------------------------------------------------------------------------------------------------*/
 
+				$(item).data('editor', editor);
+
+				/*----------------------------------------------------------------------------------------------------*/
+
 				const updateHeight = () => {
 
 					const contentHeight = editor.getContentHeight();
@@ -311,12 +315,12 @@ function _xxxHTML(selector, twig, mode, options)
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				const updateContent = () => {
+				const updateTextareaContent = () => {
 
-					item.value = editor.getValue();
+					$(item).val(editor.getValue()).trigger('change');
 				};
 
-				editor.onDidChangeModelContent(updateContent);
+				editor.onDidChangeModelContent(updateTextareaContent);
 
 				/*----------------------------------------------------------------------------------------------------*/
 

@@ -124,10 +124,10 @@ class AMIAuth
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		console.log(userInfo);
-		console.log(roleInfo);
-		console.log(bookmarkInfo);
-		console.log(awfInfo);
+		// console.log(userInfo);
+		// console.log(roleInfo);
+		// console.log(bookmarkInfo);
+		// console.log(awfInfo);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -182,6 +182,19 @@ class AMIAuth
 	isAuthenticated()
 	{
 		return false;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Checks whether the user has the given role
+	 * @param {string} roleName the role
+	 * @returns {boolean}
+	 */
+
+	hasRole(roleName)
+	{
+		return true;
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

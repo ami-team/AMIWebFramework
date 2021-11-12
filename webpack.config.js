@@ -210,7 +210,7 @@ const config = {
 			'failOnWarning': true
 		}),
 		new MonacoWebpackPlugin({
-			languages: ['javascript', 'text', 'markdown', 'xml', 'json']
+			languages: ['javascript', 'typescript', 'text', 'markdown', 'xml', 'json']
 		}),
 		new webpack.BannerPlugin({
 			'banner': BANNER
