@@ -15,7 +15,7 @@
 		<table class="table table-sm table-striped">
 			<thead>
 				<tr>
-					<th>Name <i class="fa fa-link"></i></th>
+					<th>Name <i class="bi bi-link"></i></th>
 					<th>File</th>
 					<th>instance</th>
 				</tr>
@@ -65,7 +65,7 @@
 		s1.push(
 			'<tr>'
 		    +
-		    '<td><a href="?subapp=' + amiWebApp.textToHtml(subappName) + '" target="_blank">' + amiWebApp.textToHtml(subappName) + '</a></td>'
+		    '<td><a href="' + amiWebApp.webAppURL + '?subapp=' + amiWebApp.textToHtml(subappName) + '" target="_blank">' + amiWebApp.textToHtml(subappName) + '</a></td>'
 		    +
 		    '<td>' + amiWebApp.textToHtml(amiWebApp._subapps[subappName].file) + '</td>'
 		    +
