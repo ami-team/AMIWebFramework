@@ -60,6 +60,10 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+let chunkCnt = 1;
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 const config = {
 	'entry': {
 		'ami': path.resolve(__dirname, 'index.js'),
@@ -68,7 +72,7 @@ const config = {
 	'output': {
 		'path': path.resolve(__dirname, 'js'),
 		'filename': '[name].js',
-		'chunkFilename': 'assets/js/chunks/[chunkhash].min.js'
+		'chunkFilename': () => `assets/js/chunks/chunk${chunkCnt++}.min.js`
 	},
 	'module': {
 		'rules': [
@@ -224,6 +228,9 @@ const config = {
 		})
 	],
 	'optimization': {
+		'splitChunks': {
+			'minSize': 1
+		},
 		'minimizer': [
 			new TerserPlugin({
 				'test': /\.min\.js$/,
