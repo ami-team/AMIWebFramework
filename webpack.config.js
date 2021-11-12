@@ -60,10 +60,6 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-let chunkCnt = 1;
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 const config = {
 	'entry': {
 		'ami': path.resolve(__dirname, 'index.js'),
@@ -72,7 +68,7 @@ const config = {
 	'output': {
 		'path': path.resolve(__dirname, 'js'),
 		'filename': '[name].js',
-		'chunkFilename': () => `assets/js/chunks/chunk${chunkCnt++}.min.js`
+		'chunkFilename': 'assets/js/chunks/[id].min.js'
 	},
 	'module': {
 		'rules': [
