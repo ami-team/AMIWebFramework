@@ -107,7 +107,7 @@ const config = {
 
 			{
 				'type': 'asset/resource',
-				'test': /\.woff(2)?|eot|ttf|svg$/,
+				'test': /\.(woff(2)?|eot|ttf|svg)$/,
 				'include': [path.resolve(__dirname, 'src/fonts'), path.resolve(__dirname, 'node_modules')],
 				'generator': {
 					'filename': 'assets/fonts/[name][ext]'
