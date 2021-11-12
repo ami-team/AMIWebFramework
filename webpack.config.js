@@ -88,7 +88,8 @@ const config = {
 					{
 						loader: 'esbuild-loader',
 						options: {
-							target: 'es2015'
+							target: 'es2015',
+							legalComments: 'none'
 						}
 					}
 				]
@@ -224,7 +225,7 @@ const config = {
 	'optimization': {
 		'minimizer': [
 			new TerserPlugin({
-				'test': /\.min\.js$/,
+				'test': /(^[0-9]+|\.min)\.js$/,
 				'parallel': true,
 				'extractComments': false,
 				'terserOptions': {
