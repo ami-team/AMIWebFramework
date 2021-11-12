@@ -67,7 +67,8 @@ const config = {
 	},
 	'output': {
 		'path': path.resolve(__dirname, 'js'),
-		'filename': '[name].js'
+		'filename': '[name].js',
+		'chunkFilename': 'assets/js/chunks/[name].min.js'
 	},
 	'module': {
 		'rules': [
@@ -211,7 +212,7 @@ const config = {
 			'failOnWarning': true
 		}),
 		new MonacoWebpackPlugin({
-			'filename': 'assets/js/workers/[name].worker.min.js',
+			'filename': 'assets/js/workers/[name].min.js',
 			'languages': [
 				'sql',
 				'xml', 'json', 'yaml',
@@ -225,7 +226,7 @@ const config = {
 	'optimization': {
 		'minimizer': [
 			new TerserPlugin({
-				'test': /(^[0-9]+|\.min)\.js$/,
+				'test': /\.min\.js$/,
 				'parallel': true,
 				'extractComments': false,
 				'terserOptions': {
