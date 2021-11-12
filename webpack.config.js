@@ -107,7 +107,7 @@ const config = {
 			{
 				'type': 'asset/resource',
 				'test': /\.woff(2)?|eot|ttf|svg$/,
-				'include': [path.resolve(__dirname, 'src/fonts')],
+				'include': [path.resolve(__dirname, 'src/fonts'), path.resolve(__dirname, 'node_modules')],
 				'generator': {
 					'filename': 'assets/fonts/[name][ext]'
 				}
@@ -118,7 +118,7 @@ const config = {
 			{
 				'type': 'asset/resource',
 				'test': /\.(gif|png|jpg|jpeg|svg)$/,
-				'include': [path.resolve(__dirname, 'src/images')],
+				'include': [path.resolve(__dirname, 'src/images'), path.resolve(__dirname, 'node_modules')],
 				'generator': {
 					'filename': 'assets/images/[name][ext]'
 				}
@@ -210,7 +210,12 @@ const config = {
 			'failOnWarning': true
 		}),
 		new MonacoWebpackPlugin({
-			languages: ['javascript', 'typescript', 'text', 'markdown', 'xml', 'json']
+			'publicPath': '/monaco',
+			'languages': [
+				'sql',
+				'xml', 'json', 'yaml',
+				'text', 'html', 'markdown'
+			],
 		}),
 		new webpack.BannerPlugin({
 			'banner': BANNER
@@ -225,7 +230,7 @@ const config = {
 				'terserOptions': {
 					'mangle': true,
 					'format': {
-						'comments': /AMI Web Framework/,
+						'comments': /AMI Web Framework/
 					}
 				}
 			})

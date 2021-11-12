@@ -24,7 +24,7 @@ import amiTwig from 'ami-twig';
 import 'flatpickr/dist/flatpickr.min.css';
 import /*-------*/'flatpickr'/*-------*/;
 
-import * as monaco from 'monaco-editor';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BREADCRUMB                                                                                                         */
