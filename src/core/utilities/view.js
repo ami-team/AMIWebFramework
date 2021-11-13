@@ -247,48 +247,37 @@ function _xxxHTML(selector, twig, mode, options)
 
 				/**/
 
-				const wrap = textarea.attr('data-wrap') || 'false';
+				const wordWrap = textarea.attr('data-word-wrap') || 'false';
 				const readOnly = textarea.attr('data-read-only') || 'false';
-				const showGutter = textarea.attr('data-show-gutter') || 'true';
+				const showGutter = textarea.attr('data-show-gutter') || 'false';
 				const showMiniMap = textarea.attr('data-show-minimap') || 'false';
 				const renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
 				const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
-
-				/**/
-
-				let minLines = parseInt(textarea.attr('data-minlines'));
-
-				if(isNaN(minLines)) {
-					minLines = 0x000001;
-				}
-
-				let maxLines = parseInt(textarea.attr('data-maxlines'));
-
-				if(isNaN(maxLines)) {
-					maxLines = Infinity;
-				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
 				const editor = monaco.editor.create(div[0], {
 					/* VALUE */
 					value: item.value,
-					/* STYLE */
+					/* OPTIONS */
 					theme: theme,
 					language: lang,
-					wordWrap: wrap === 'true',
+					wordWrap: wordWrap === 'true',
 					readOnly: readOnly === 'true',
 					minimap: {
 						enabled: showMiniMap === 'true'
 					},
 					renderWhitespace: renderWhitespace === 'true',
 					lineNumbers: showGutter === 'true' ? 'on' : 'off',
-					renderLineHighlight: highlightActiveLine === 'true' ? 'all' : 'none',
+					renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
 					/**/
 					overviewRulerLanes: 0,
 					overviewRulerBorder: false,
 					scrollBeyondLastLine: false,
 					hideCursorInOverviewRuler: true,
+					scrollbar: {
+						alwaysConsumeMouseWheel: false,
+					}
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
