@@ -66,9 +66,9 @@ const config = {
 		'ami.min': path.resolve(__dirname, 'index.js')
 	},
 	'output': {
-		'path': path.resolve(__dirname, 'js'),
 		'filename': '[name].js',
-		'chunkFilename': 'assets/js/chunks/[id].min.js'
+		'chunkFilename': 'assets/js/chunks/[id].min.js',
+		'path': path.resolve(__dirname, 'js')
 	},
 	'module': {
 		'rules': [
@@ -156,11 +156,11 @@ const config = {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				{
-					'from': path.resolve(__dirname, 'node_modules/bootstrap4/dist/css/bootstrap.min.css'),
+					'from': path.resolve(__dirname, 'src/bootstrap/bootstrap4.min.css'),
 					'to': path.resolve(__dirname, 'js/assets/css/bootstrap4.min.css')
 				},
 				{
-					'from': path.resolve(__dirname, 'node_modules/bootstrap5/dist/css/bootstrap.min.css'),
+					'from': path.resolve(__dirname, 'src/bootstrap/bootstrap5.min.css'),
 					'to': path.resolve(__dirname, 'js/assets/css/bootstrap5.min.css')
 				},
 				{
