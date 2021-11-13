@@ -130,14 +130,41 @@ const config = {
 
 			{
 				test: /\.css$/,
-				use: ['style-loader', 'css-loader']
+				use: [
+					'style-loader',
+					'css-loader',
+					{
+						'loader': 'postcss-loader',
+						'options': {
+							'postcssOptions': {
+								'plugins': [
+									['autoprefixer', {}],
+								],
+							},
+						},
+					}
+				]
 			},
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
 				test: /\.scss$/,
-				use: ['style-loader', 'css-loader', 'sass-loader']
+				use: [
+					'style-loader',
+					'css-loader',
+					{
+						'loader': 'postcss-loader',
+						'options': {
+							'postcssOptions': {
+								'plugins': [
+									['autoprefixer', {}],
+								],
+							},
+						},
+					},
+					'sass-loader'
+				]
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
