@@ -183,17 +183,6 @@ class AMIWebApp
 			resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
 		}
 
-		if(!window.moment
-		   ||
-		   !window.moment.fn.toJDFString
-		   ||
-		   !window.moment.fn.formatWithJDF
-		   ||
-		   !window.moment.fn.toMomentFormatString
-		 ) {
-			resourcesJS.push(`${this.originURL}/js/assets/js/moment-jdate.min.js`);
-		}
-
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(!this.#noBootstrap && (typeof jQuery.fn.modal) !== 'function')
@@ -225,15 +214,21 @@ class AMIWebApp
 			...resourcesJS,
 		]).done((resources) => {
 
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			require('../styles/ami/ami.scss');
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			require('moment-jdateformatparser')(window.moment);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
 			this.#globalDeferred.resolve(resources);
 
 		}).fail((message) => {
 
 			this.#globalDeferred.reject(message);
-
-		}).always(() => {
-
-			require('../styles/ami/ami.scss');
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/

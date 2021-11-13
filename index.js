@@ -1,6 +1,6 @@
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import { $this, $AMIClass, $AMINamespace, $AMIInterface } from './src/core/AMIObject';
+import {$AMIClass, $AMINamespace, $AMIInterface} from './src/core/AMIObject';
 import amiInterface from './src/core/AMIInterface';
 import amiCommand from './src/core/AMICommand';
 import amiWebApp from './src/core/AMIWebApp';
@@ -9,14 +9,14 @@ import amiDoc from './src/core/AMIDoc';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-$this.$AMIClass = $AMIClass;
-$this.$AMINamespace = $AMINamespace;
-$this.$AMIInterface = $AMIInterface;
+window.$AMIClass = $AMIClass;
+window.$AMINamespace = $AMINamespace;
+window.$AMIInterface = $AMIInterface;
 
-$this.amiInterface = amiInterface;
-$this.amiCommand = amiCommand;
-$this.amiWebApp = amiWebApp;
-$this.amiAuth = amiAuth;
-$this.amiDoc = amiDoc;
+window.amiInterface = amiInterface;
+window.amiCommand = amiCommand;
+window.amiWebApp = amiWebApp;
+window.amiAuth = amiAuth;
+window.amiDoc = amiDoc;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
