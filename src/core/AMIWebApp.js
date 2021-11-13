@@ -191,7 +191,7 @@ class AMIWebApp
 		   ||
 		   !window.moment.fn.toMomentFormatString
 		 ) {
-			resourcesJS.push(`${this.originURL}/js/assets/js/moment-jdateformatparser.min.js`);
+			resourcesJS.push(`${this.originURL}/js/assets/js/moment-jdate.min.js`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
