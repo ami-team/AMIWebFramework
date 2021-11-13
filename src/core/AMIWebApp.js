@@ -13,20 +13,6 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import JSPath from 'jspath';
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-import amiAuth from './AMIAuth';
-
-import amiRouter from './AMIRouter';
-
-import amiCommand from './AMICommand';
-
-import amiExtensions from './AMIExtension';
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 import {error, warning, success, info, flush} from './utilities/messages';
 
 import {_subapps, loadSubApp, loadSubAppByURL} from './utilities/subapps';
@@ -42,6 +28,20 @@ import {loadResources, loadSheets, loadScripts, loadJSONs, loadXMLs, loadHTMLs, 
 import {_controls, loadControl, createControl, createControlInBody, createControlInContainer, createControlFromWebLink} from './utilities/controls';
 
 import {textToHtml, htmlToText, textToString, stringToText, htmlToString, stringToHtml, textToSQL, sqlToText, base64Encode, base64Decode} from './utilities/strings';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+import amiAuth from './AMIAuth';
+
+import amiRouter from './AMIRouter';
+
+import amiCommand from './AMICommand';
+
+import amiExtensions from './AMIExtension';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+import JSPath from 'jspath';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
