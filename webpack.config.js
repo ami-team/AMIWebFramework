@@ -173,6 +173,10 @@ const config = {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				{
+					'from': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
+					'to': path.resolve(__dirname, 'js/jquery.min.js')
+				},
+				{
 					'from': path.resolve(__dirname, 'node_modules/popper.js/dist/umd/popper.min.js'),
 					'to': path.resolve(__dirname, 'js/assets/js/popper.min.js')
 				},
@@ -183,10 +187,6 @@ const config = {
 				{
 					'from': path.resolve(__dirname, 'node_modules/moment-jdateformatparser/moment-jdateformatparser.min.js'),
 					'to': path.resolve(__dirname, 'js/assets/js/moment-jdateformatparser.min.js')
-				},
-				{
-					'from': path.resolve(__dirname, 'node_modules/jquery/dist/jquery.min.js'),
-					'to': path.resolve(__dirname, 'js/assets/js/jquery.min.js')
 				},
 				{
 					'from': path.resolve(__dirname, 'node_modules/bootstrap4/dist/js/bootstrap.min.js'),
