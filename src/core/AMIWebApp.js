@@ -13,6 +13,8 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+import {renderJSDoc} from './utilities/jsdoc';
+
 import {error, warning, success, info, flush} from './utilities/messages';
 
 import {_subapps, loadSubApp, loadSubAppByURL} from './utilities/subapps';
@@ -59,6 +61,59 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 /**
  * The AMI webapp subsystem
  * @namespace amiWebApp
+ * @borrows typeOf
+ * @borrows asArray
+ * @borrows isString
+ * @borrows isArray
+ * @borrows isObject
+ * @borrows isSet
+ * @borrows isMap
+ * @borrows setup
+ * @borrows getStack
+ * @borrows lock
+ * @borrows unlock
+ * @borrows modalEnter
+ * @borrows modalLeave
+ * @borrows canLeave
+ * @borrows error
+ * @borrows info
+ * @borrows success
+ * @borrows warning
+ * @borrows flush
+ * @borrows base64Encode
+ * @borrows base64Decode
+ * @borrows textToHtml
+ * @borrows htmlToText
+ * @borrows textToString
+ * @borrows stringToText
+ * @borrows htmlToString
+ * @borrows stringToHtml
+ * @borrows textToSQL
+ * @borrows sqlToText
+ * @borrows fillBreadcrumb
+ * @borrows replaceHTML
+ * @borrows prependHTML
+ * @borrows appendHTML
+ * @borrows formatTWIG
+ * @borrows renderJSDoc
+ * @borrows jspath
+ * @borrows loadResources
+ * @borrows loadSheets
+ * @borrows loadScripts
+ * @borrows loadJSONs
+ * @borrows loadXMLs
+ * @borrows loadHTMLs
+ * @borrows loadTWIGs
+ * @borrows loadTexts
+ * @borrows _subapps
+ * @borrows loadSubApp
+ * @borrows loadSubAppByURL
+ * @borrows _controls
+ * @borrows loadControl
+ * @borrows createControl
+ * @borrows createControlInBody
+ * @borrows createControlInContainer
+ * @borrows createControlFromWebLink
  */
 
 class AMIWebApp
@@ -105,7 +160,7 @@ class AMIWebApp
 	originURL = '';
 
 	/**
-	 * The arguments extracted from the webapp URL
+	 * The arguments of the webapp URL
 	 * @type {Object<String, String>}
 	 */
 
@@ -321,6 +376,12 @@ class AMIWebApp
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	formatTWIG = formatTWIG;
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+	/* JSDOC                                                                                                          */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	renderJSDoc = renderJSDoc;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* JSPATH                                                                                                         */

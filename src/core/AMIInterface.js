@@ -29,7 +29,7 @@ export default ami;
 /*----------------------------------------------------------------------------------------------------------------*/
 
 /**
- *
+ * @ignore
  * @param {Object<string, *>} ctxDefaults
  * @param {Object<string, *>} ctxOptionals
  * @param {Object<string, *>} ctxOptions
@@ -85,9 +85,9 @@ function _setupCtx(ctxDefaults, ctxOptionals, ctxOptions, ctx, defaults, optiona
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	ctx.httpEndpoint = amiCommand.getHTTPEndpoint();
+	ctx.httpEndpoint = amiCommand.getHttpEndpoint();
 
-	ctx.mqttEndpoint = amiCommand.getMQTTEndpoint();
+	ctx.mqttEndpoint = amiCommand.getMqttEndpoint();
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -108,7 +108,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 
 	/**
 	 * Called when the sub-application is ready to run
-	 * @param {?} userdata userdata
+	 * @param {?*} userdata userdata
 	 */
 
 	onReady: function(userdata) {},
@@ -117,7 +117,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 
 	/**
 	 * Called when the sub-application is about to exit
-	 * @param {?} userdata userdata
+	 * @param {?*} userdata userdata
 	 */
 
 	onExit: function(userdata) {},
@@ -126,7 +126,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 
 	/**
 	 * Called when logging in
-	 * @param {?} userdata userdata
+	 * @param {?*} userdata userdata
 	 */
 
 	onLogin: function(userdata) {},
@@ -135,7 +135,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 
 	/**
 	 * Called when logging out
-	 * @param {?} userdata userdata
+	 * @param {?*} userdata userdata
 	 */
 
 	onLogout: function(userdata) {},

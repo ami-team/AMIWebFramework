@@ -19,8 +19,10 @@ import AMIMqttClient from 'ami-mqtt-client';
 /* AMICommand                                                                                                         */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+// noinspection JSUnusedGlobalSymbols
 /**
  * The AMI command subsystem
+ * @namespace amiCommand
  */
 
 class AMICommand
@@ -28,12 +30,14 @@ class AMICommand
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
+	 * @ignore
 	 * @type {AMIHttpClient}
 	 */
 
 	#httpClient = null;
 
 	/**
+	 * @ignore
 	 * @type {AMIMqttClient}
 	 */
 
@@ -68,7 +72,7 @@ class AMICommand
 	 * @returns {string}
 	 */
 
-	getHTTPEndpoint()
+	getHttpEndpoint()
 	{
 		return this.#httpClient ? this.#httpClient.getEndpoint() : '';
 	}
@@ -80,7 +84,7 @@ class AMICommand
 	 * @returns {string}
 	 */
 
-	getMQTTEndpoint()
+	getMqttEndpoint()
 	{
 		return this.#httpClient ? this.#mqttClient.getEndpoint() : '';
 	}

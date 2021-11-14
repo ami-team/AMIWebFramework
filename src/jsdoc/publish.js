@@ -15,6 +15,10 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+const hhh = /@borrows\s+([a-zA-Z0-9_$]+)(?:\s+as\s+([a-zA-Z0-9_$]+))?/g;
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 const filename = 'AMIDoc.js';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -26,18 +30,37 @@ const  fs  = require('fs');
 
 function typeHelper(type)
 {
-	return type ? (type.names.length === 1 ? type.names[0] : type.names) : '';
+	return Array.isArray(type?.names) ? type.names : [];
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-function process(done, nodes, parentDescr, parentLongName)
+function borrowsHelper(node)
 {
-	nodes.forEach(function(element, index) {
+	const result = {};
+
+	for(let m; (m = hhh.exec(node.comment)) !== null;)
+	{
+		result[m[1]] = m[2] || m[1];
+	}
+
+	return result;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+function process(nodes, borrowDict, parentDescr, parentLongName)
+{
+	nodes.forEach((element) => {
+
+		if(element.ignore && !(element.name in borrowDict))
+		{
+			return;
+		}
 
 		if(parentLongName)
 		{
-			if(parentLongName !== element.memberof)
+			if(parentLongName.toLowerCase() !== (element.memberof || '').toLowerCase())
 			{
 				return;
 			}
@@ -51,63 +74,21 @@ function process(done, nodes, parentDescr, parentLongName)
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
-		/* NAMESPACE                                                                                                  */
+		/* NAMESPACE, INTERFACE, CLASS                                                                                */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		/**/ if(element.kind === 'namespace')
-		{
-			/*--------------------------------------------------------------------------------------------------------*/
-			/* THIS                                                                                                   */
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			const descr = {
-				'name': element.longname,
-				'desc': element.description || '',
-			};
-
-			if(!parentDescr.namespaces)
-			{
-				parentDescr.namespaces = [];
-			}
-
-			parentDescr.namespaces.push(descr);
-
-			/*--------------------------------------------------------------------------------------------------------*/
-			/* DETAILS                                                                                                */
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			if(element.version)
-			{
-				descr.see = element.version;
-			}
-
-			if(element.author)
-			{
-				descr.see = element.author;
-			}
-
-			if(element.see)
-			{
-				descr.see = element.see;
-			}
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			process(done, nodes, descr, element.longname);
-
-			/*--------------------------------------------------------------------------------------------------------*/
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-		/* CLASS                                                                                                      */
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		else if(element.kind === 'class'
+		/**/ if(element.kind === 'namespace'
 		        ||
 		        element.kind === 'interface'
+		        ||
+		        element.kind === 'class'
 		 ) {
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* THIS                                                                                                   */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const borrowDict = borrowsHelper(element);
+
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			const descr = {
@@ -117,41 +98,49 @@ function process(done, nodes, parentDescr, parentLongName)
 				'inherits': element.augments ? element.augments : [],
 			};
 
-			/**/ if(element.kind === 'class')
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			/**/ if(element.kind === 'namespace')
 			{
-				if(!parentDescr.classes)
+				if(!Array.isArray(parentDescr.namespaces))
 				{
-					parentDescr.classes = [];
+					parentDescr.namespaces = [];
 				}
 
-				parentDescr.classes.push(descr);
+				parentDescr.namespaces.push(descr);
 			}
 			else if(element.kind === 'interface')
 			{
-				if(!parentDescr.interfaces)
+				if(!Array.isArray(parentDescr.interfaces))
 				{
 					parentDescr.interfaces = [];
 				}
 
 				parentDescr.interfaces.push(descr);
 			}
+			else if(element.kind === 'class')
+			{
+				if(!Array.isArray(parentDescr.classes))
+				{
+					parentDescr.classes = [];
+				}
+
+				parentDescr.classes.push(descr);
+			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* DETAILS                                                                                                */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(element.version)
-			{
+			if(element.version) {
 				descr.see = element.version;
 			}
 
-			if(element.author)
-			{
+			if(element.author) {
 				descr.see = element.author;
 			}
 
-			if(element.see)
-			{
+			if(element.see) {
 				descr.see = element.see;
 			}
 
@@ -178,7 +167,7 @@ function process(done, nodes, parentDescr, parentLongName)
 						'name': element.params[i].name,
 						'type': typeHelper(element.params[i].type),
 						'desc': element.params[i].description || '',
-						'default': element.params[i].defaultvalue || '',
+						'default': element.params[i].defaultvalue !== 'undefined' ? element.params[i].defaultvalue : '',
 						'optional': typeof element.params[i].optional === 'boolean' ? element.params[i].optional : '',
 						'nullable': typeof element.params[i].nullable === 'boolean' ? element.params[i].nullable : '',
 					});
@@ -188,7 +177,7 @@ function process(done, nodes, parentDescr, parentLongName)
 				/* EXCEPTIONS                                                                                         */
 				/*----------------------------------------------------------------------------------------------------*/
 
-				if(element.exceptions)
+				if(Array.isArray(element.exceptions))
 				{
 					descr.konstructor.exceptions = [];
 
@@ -205,14 +194,9 @@ function process(done, nodes, parentDescr, parentLongName)
 				/* EXAMPLES                                                                                           */
 				/*----------------------------------------------------------------------------------------------------*/
 
-				if(element.examples)
+				if(Array.isArray(element.examples))
 				{
-					descr.konstructor.examples = [];
-
-					for(const i in element.examples)
-					{
-						descr.konstructor.examples.push(element.examples[i]);
-					}
+					descr.konstructor.examples = element.examples;
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -223,7 +207,7 @@ function process(done, nodes, parentDescr, parentLongName)
 				{
 					for(const i in element.implements)
 					{
-						process(done, nodes, descr, element.implements[i]);
+						process(nodes, borrowDict, descr, element.implements[i]);
 					}
 				}
 
@@ -233,7 +217,7 @@ function process(done, nodes, parentDescr, parentLongName)
 				{
 					for(const i in element.augments)
 					{
-						process(done, nodes, descr, element.augments[i]);
+						process(nodes, borrowDict, descr, element.augments[i]);
 					}
 				}
 
@@ -242,7 +226,7 @@ function process(done, nodes, parentDescr, parentLongName)
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			process(done, nodes, descr, element.longname);
+			process(nodes, borrowDict, descr, element.longname);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 	 	}
@@ -263,7 +247,9 @@ function process(done, nodes, parentDescr, parentLongName)
 				'desc': element.description || '',
 			};
 
-			if(!parentDescr.variables)
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			if(!Array.isArray(parentDescr.variables))
 			{
 				parentDescr.variables = [];
 			}
@@ -274,18 +260,15 @@ function process(done, nodes, parentDescr, parentLongName)
 			/* DETAILS                                                                                                */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(element.version)
-			{
+			if(element.version) {
 				descr.see = element.version;
 			}
 
-			if(element.author)
-			{
+			if(element.author) {
 				descr.see = element.author;
 			}
 
-			if(element.see)
-			{
+			if(element.see) {
 				descr.see = element.see;
 			}
 
@@ -293,14 +276,9 @@ function process(done, nodes, parentDescr, parentLongName)
 			/* EXAMPLES                                                                                               */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(element.examples)
+			if(Array.isArray(element.examples))
 			{
-				descr.examples = [];
-
-				for(const i in element.examples)
-				{
-					descr.examples.push(element.examples[i]);
-				}
+				descr.examples = element.examples;
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -324,9 +302,11 @@ function process(done, nodes, parentDescr, parentLongName)
 				'params': [],
 			};
 
+			/*--------------------------------------------------------------------------------------------------------*/
+
 			/**/ if(element.kind === 'function')
 			{
-				if(!parentDescr.functions)
+				if(!Array.isArray(parentDescr.functions))
 				{
 					parentDescr.functions = [];
 				}
@@ -335,7 +315,7 @@ function process(done, nodes, parentDescr, parentLongName)
 			}
 			else if(element.kind === 'event')
 			{
-				if(!parentDescr.events)
+				if(!Array.isArray(parentDescr.events))
 				{
 					parentDescr.events = [];
 				}
@@ -347,18 +327,15 @@ function process(done, nodes, parentDescr, parentLongName)
 			/* DETAILS                                                                                                */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(element.version)
-			{
+			if(element.version) {
 				descr.see = element.version;
 			}
 
-			if(element.author)
-			{
+			if(element.author) {
 				descr.see = element.author;
 			}
 
-			if(element.see)
-			{
+			if(element.see) {
 				descr.see = element.see;
 			}
 
@@ -372,7 +349,7 @@ function process(done, nodes, parentDescr, parentLongName)
 					'name': element.params[i].name,
 					'type': typeHelper(element.params[i].type),
 					'desc': element.params[i].description || '',
-					'default': element.params[i].defaultvalue || '',
+					'default': typeof element.params[i].defaultvalue !== 'undefined' ? element.params[i].defaultvalue : '',
 					'optional': typeof element.params[i].optional === 'boolean' ? element.params[i].optional : '',
 					'nullable': typeof element.params[i].nullable === 'boolean' ? element.params[i].nullable : '',
 				});
@@ -382,7 +359,7 @@ function process(done, nodes, parentDescr, parentLongName)
 			/* EXCEPTIONS                                                                                             */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(element.exceptions)
+			if(Array.isArray(element.exceptions))
 			{
 				descr.exceptions = [];
 
@@ -399,7 +376,7 @@ function process(done, nodes, parentDescr, parentLongName)
 			/* RETURNS                                                                                                */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(element.returns)
+			if(Array.isArray(element.returns))
 			{
 				descr.returns = [];
 
@@ -416,14 +393,9 @@ function process(done, nodes, parentDescr, parentLongName)
 			/* EXAMPLES                                                                                               */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(element.examples)
+			if(Array.isArray(element.examples))
 			{
-				descr.examples = [];
-
-				for(const i in element.examples)
-				{
-					descr.examples.push(element.examples[i]);
-				}
+				descr.examples = element.examples;
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -449,7 +421,7 @@ exports.publish = function(data, opts)
 
 	const docs = data().get();
 
-	const root = process({}, docs, {});
+	const root = process(docs, {}, {}, '');
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 

@@ -36,6 +36,7 @@ export const _controls = {};
  * @param {string} control the control name
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function loadControl(control, options)
@@ -104,12 +105,13 @@ export function loadControl(control, options)
 
 /**
  * Asynchronously create a control
- * @param {*} [parent] the parent entity
- * @param {*} [owner] the owner entity
+ * @param {?*} parent the parent entity
+ * @param {?*} owner the owner entity
  * @param {string} control the control name
  * @param {Array<*>} params the control's parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function createControl(parent, owner, control, params, options)
@@ -151,14 +153,15 @@ export function createControl(parent, owner, control, params, options)
 
 /**
  * Asynchronously create a control in the body
- * @param {*} [parent] the parent entity
- * @param {*} [owner] the owner entity
+ * @param {?*} parent the parent entity
+ * @param {?*} owner the owner entity
  * @param {string} control the control name
  * @param {Array<*>} controlParamsWithoutOptions the control's parameters without optional parameters
  * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
  * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function createControlInBody(parent, owner, control, controlParamsWithoutOptions, controlOptions, parentOptions, options)
@@ -223,8 +226,8 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
 
 /**
  * Asynchronously create a control in a container
- * @param {*} [parent] the parent entity
- * @param {*} [owner] the owner entity
+ * @param {?*} parent the parent entity
+ * @param {?*} owner the owner entity
  * @param {string} control the control name
  * @param {Array<*>} controlParamsWithoutOptions the control's parameters without optional parameters
  * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
@@ -233,6 +236,7 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
  * @param {string} title the title
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function createControlInContainer(parent, owner, control, controlParamsWithoutOptions, controlOptions, parentOptions, icon, title, options)
@@ -300,12 +304,13 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
 
 /**
  * Asynchronously create a control in a container from a WEB link
- * @param {*} [parent] the parent entity
- * @param {*} [owner] the owner entity
+ * @param {?*} parent the parent entity
+ * @param {?*} owner the owner entity
  * @param {string} el the HTML element
  * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function createControlFromWebLink(parent, owner, el, parentOptions, options)

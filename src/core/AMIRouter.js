@@ -157,8 +157,8 @@ class AMIRouter
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Gets the arguments extracted from the webapp URL
-     * @returns {Object<string, string>} The arguments extracted from the webapp URL
+     * Gets the arguments of the webapp URL
+     * @returns {Object<string, string>} The arguments of the webapp URL
      */
 
     getWebAppArgs()
@@ -169,8 +169,8 @@ class AMIRouter
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Gets the hash extracted from the webapp URL
-	 * @returns {string} The hash extracted from the webapp URL
+	 * Gets the anchor part of the webapp URL
+	 * @returns {string} The anchor part of the webapp URL
 	 */
 
 	getWebAppHash()
@@ -193,8 +193,8 @@ class AMIRouter
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Gets the arguments extracted from the script URL
-	 * @returns {Object<string, string>} The arguments extracted from the script URL
+	 * Gets the arguments of the script URL
+	 * @returns {Object<string, string>} The arguments of the the script URL
 	 */
 
 	getScriptArgs()
@@ -205,8 +205,8 @@ class AMIRouter
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Gets the hash extracted from the script URL
-	 * @returns {string} The hash extracted from the script URL
+	 * Gets anchor part of the script URL
+	 * @returns {string} The anchor part of the script URL
 	 */
 
 	getWebappHash()

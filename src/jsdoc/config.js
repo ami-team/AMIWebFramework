@@ -3,7 +3,7 @@
 module.exports = {
 
 	"source": {
-		"include": ["../core"],
+		"include": ["../core", "../core/utilities"],
 		"includePattern": ".js$",
 	},
 	"opts": {

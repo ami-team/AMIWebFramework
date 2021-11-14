@@ -52,6 +52,7 @@ let _tmpLockCnt = 0;
 
 /**
  * Locks the Web application
+ * @ignore
  */
 
 export function lock()
@@ -81,6 +82,7 @@ export function lock()
 
 /**
  * Unlocks the Web application
+ * @ignore
  */
 
 export function unlock()
@@ -110,6 +112,7 @@ export function unlock()
 
 /**
  * Leave the modal window
+ * @ignore
  */
 
 export function modalLeave()
@@ -135,6 +138,7 @@ export function modalLeave()
 
 /**
  * Enter the modal window
+ * @ignore
  */
 
 export function modalEnter()
@@ -167,6 +171,7 @@ export let _canLeave = true;
 /**
  * Specify whether leaving the current page must be confirmed.
  * @param canLeave
+ * @ignore
  */
 
 export function canLeave(canLeave)

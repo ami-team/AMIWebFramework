@@ -32,7 +32,8 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
 /**
  * Fill the main breadcrumb
- * @param {Array<string>|string} items the array of items (HTML format)
+ * @param {Array<string>|string} items the array of HTML formatted items
+ * @ignore
  */
 
 export function fillBreadcrumb(items)
@@ -59,7 +60,7 @@ export function fillBreadcrumb(items)
 /* HTML                                                                                                               */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const _idRegExp = new RegExp('[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}', 'g');
+const _idRegExp = /[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}/g;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -88,6 +89,15 @@ function _formatDatetime(date, format)
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {string} selector
+ * @param {string} twig
+ * @param {number} mode
+ * @param {Object<string, *>} [options={}]
+ * @returns {$.Deferred}
+ * @ignore
+ */
 
 function _xxxHTML(selector, twig, mode, options)
 {
@@ -339,9 +349,10 @@ function _xxxHTML(selector, twig, mode, options)
 /**
  * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
  * @param {string} selector the target selector
- * @param {string} twig the TWIG fragment
+ * @param {string} [twig={}] the TWIG fragment
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, suffix, dict, twigs)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function replaceHTML(selector, twig, options)
@@ -354,9 +365,10 @@ export function replaceHTML(selector, twig, options)
 /**
  * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
  * @param {string} selector the target selector
- * @param {string} twig the TWIG fragment
+ * @param {string} [twig={}] the TWIG fragment
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, suffix, dict, twigs)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function prependHTML(selector, twig, options)
@@ -369,9 +381,10 @@ export function prependHTML(selector, twig, options)
 /**
  * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
  * @param {string} selector the target selector
- * @param {string} twig the TWIG fragment
+ * @param {string} [twig={}] the TWIG fragment
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, suffix, dict, twigs)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function appendHTML(selector, twig, options)
@@ -389,6 +402,7 @@ export function appendHTML(selector, twig, options)
  * @param {number} [timePrecision=6]
  * @param {string} [timeHMSFormat='HH:mm:ss']
  * @param {string} [timeHMFormat='HH:mm']
+ * @ignore
  */
 
 export function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timePrecision, timeHMSFormat, timeHMFormat)
@@ -413,11 +427,12 @@ export function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Interprets the given TWIG string, see {@link http://twig.sensiolabs.org/documentation}
+ * Interprets the given TWIG string, see {@link https://twig.symfony.com/doc/}
  * @param {string} twig the TWIG string
- * @param {Object<string, *>|Array<Object<string, *>>} [dict] the dictionary
- * @param {Object<string, string>} [twigs] dictionary of fragments
+ * @param {Object<string, *>|Array<Object<string, *>>} [dict={}] the dictionary
+ * @param {Object<string, string>} [twigs={}] dictionary of fragments
  * @returns {string} The Interpreted TWIG string
+ * @ignore
  */
 
 export function formatTWIG(twig, dict, twigs)

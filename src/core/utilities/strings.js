@@ -21,6 +21,7 @@ import amiTwig from 'ami-twig';
  * Encode the given string to base64
  * @param {string} s the decoded string
  * @returns {string} The encoded string
+ * @ignore
  */
 
 export function base64Encode(s)
@@ -35,9 +36,10 @@ export function base64Encode(s)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Deccode the given string from base64
+ * Decode the given string from base64
  * @param {string} s the encoded string
  * @returns {string} The decoded string
+ * @ignore
  */
 
 export function base64Decode(s)
@@ -64,6 +66,7 @@ const _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
  * Escapes the given string from text to HTML
  * @param {string} s the unescaped string
  * @returns {string} The escaped string
+ * @ignore
  */
 
 export function textToHtml(s)
@@ -75,6 +78,7 @@ export function textToHtml(s)
  * Unescapes the given string from HTML to text
  * @param {string} s the escaped string
  * @returns {string} The unescaped string
+ * @ignore
  */
 
 export function htmlToText(s)
@@ -91,6 +95,7 @@ const _textToStringY = ['\\\\', '\\n', '\\"', '\\\''];
  * Escapes the given string from text to JavaScript string
  * @param {string} s the unescaped string
  * @returns {string} The escaped string
+ * @ignore
  */
 
 export function textToString(s)
@@ -102,6 +107,7 @@ export function textToString(s)
  * Unescapes the given string from JavaScript string to text
  * @param {string} s the escaped string
  * @returns {string} The unescaped string
+ * @ignore
  */
 
 export function stringToText(s)
@@ -118,6 +124,7 @@ const _htmlToStringY = ['\\\\', '\\n', '\\&quot;', '\\\''];
  * Escapes the given string from HTML to JavaScript string
  * @param {string} s the unescaped string
  * @returns {string} The escaped string
+ * @ignore
  */
 
 export function htmlToString(s)
@@ -129,6 +136,7 @@ export function htmlToString(s)
  * Unescapes the given string from JavaScript string to HTML
  * @param {string} s the escaped string
  * @returns {string} The unescaped string
+ * @ignore
  */
 
 export function stringToHtml(s)
@@ -145,6 +153,7 @@ const _textToSQLY = ['\'\''];
  * Escapes the given string from text to SQL
  * @param {string} s the unescaped string
  * @returns {string} The escaped string
+ * @ignore
  */
 
 export function textToSQL(s)
@@ -156,6 +165,7 @@ export function textToSQL(s)
  * Unescapes the given string from SQL to text
  * @param {string} s the escaped string
  * @returns {string} The unescaped string
+ * @ignore
  */
 
 export function sqlToText(s)

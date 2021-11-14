@@ -29,7 +29,7 @@ const _scripts = [];
 /**
  * @param {string} url
  * @returns {string}
- * @private
+ * @ignore
  */
 
 function _getExtension(url)
@@ -45,7 +45,7 @@ function _getExtension(url)
  * @param {string} url
  * @param {string} dataType
  * @returns {string}
- * @private
+ * @ignore
  */
 
 function _getDataType(url, dataType)
@@ -104,7 +104,7 @@ function _getDataType(url, dataType)
  * @param {Array<String>} urls
  * @param {string} dataType
  * @param {*} context
- * @private
+ * @ignore
  */
 
 function __loadXXX(deferred, result, urls, dataType, context)
@@ -276,7 +276,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
  * @param {string} dataType
  * @param {Object<string, *>} [options={}]
  * @returns {$.Deferred}
- * @private
+ * @ignore
  */
 
 function _loadXXX(urls, dataType, options)
@@ -305,6 +305,7 @@ function _loadXXX(urls, dataType, options)
  * @param {Array<string>|string} urls the array of urls
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function loadResources(urls, options)
@@ -319,6 +320,7 @@ export function loadResources(urls, options)
  * @param {Array<string>|string} urls the array of urls
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function loadSheets(urls, options)
@@ -333,6 +335,7 @@ export function loadSheets(urls, options)
  * @param {Array<string>|string} urls the array of urls
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function loadScripts(urls, options)
@@ -347,6 +350,7 @@ export function loadScripts(urls, options)
  * @param {Array<string>|string} urls the array of urls
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function loadJSONs(urls, options)
@@ -361,6 +365,7 @@ export function loadJSONs(urls, options)
  * @param {Array<string>|string} urls the array of urls
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function loadXMLs(urls, options)
@@ -375,6 +380,7 @@ export function loadXMLs(urls, options)
  * @param {Array<string>|string} urls the array of urls
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function loadHTMLs(urls, options)
@@ -389,6 +395,7 @@ export function loadHTMLs(urls, options)
  * @param {Array<string>|string} urls the array of urls
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function loadTWIGs(urls, options)
@@ -403,6 +410,7 @@ export function loadTWIGs(urls, options)
  * @param {Array<string>|string} urls the array of urls
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Deferred} A JQuery deferred object
+ * @ignore
  */
 
 export function loadTexts(urls, options)

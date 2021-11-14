@@ -23,17 +23,16 @@ import amiTwig from 'ami-twig';
 /* MESSAGES                                                                                                           */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const _linkExp = new RegExp('\\[([^\\]]*)]\\(([^)]*)\\)', 'g');
+const _linkExp = /\[\s*([^\s\]]*)\s*]\(\s*([^\s)]*)\s*\)/g;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- *
  * @param {string} clazz the class
  * @param {string} title the title
  * @param {string|Array<string>} message the message
  * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
- * @private
+ * @ignore
  */
 
 function _publishAlert(clazz, title, message, fadeOut)
@@ -117,6 +116,7 @@ function _publishAlert(clazz, title, message, fadeOut)
  * Shows an 'info' message
  * @param {string|Array<string>} message the message
  * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @ignore
  */
 
 export function info(message, fadeOut)
@@ -130,6 +130,7 @@ export function info(message, fadeOut)
  * Shows a 'success' message
  * @param {string|Array<string>} message the message
  * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @ignore
  */
 
 export function success(message, fadeOut)
@@ -143,6 +144,7 @@ export function success(message, fadeOut)
  * Shows a 'warning' message
  * @param {string|Array<string>} message the message
  * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @ignore
  */
 
 export function warning(message, fadeOut)
@@ -156,6 +158,7 @@ export function warning(message, fadeOut)
  * Shows an 'error' message
  * @param {string|Array<string>} message the message
  * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @ignore
  */
 
 export function error(message, fadeOut)
@@ -167,6 +170,7 @@ export function error(message, fadeOut)
 
 /**
  * Flushes messages
+ * @ignore
  */
 
 export function flush()

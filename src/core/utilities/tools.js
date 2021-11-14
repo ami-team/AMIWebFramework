@@ -21,7 +21,7 @@ import amiTwig from 'ami-twig';
  * @param {$.Deferred} deferred
  * @param {function} doneCallback
  * @param {function} failCallback
- * @private
+ * @ignore
  */
 
 export function _internal_then(deferred, doneCallback, failCallback)
@@ -44,7 +44,7 @@ export function _internal_then(deferred, doneCallback, failCallback)
 /**
  * @param {$.Deferred} deferred
  * @param {function} alwaysCallback
- * @private
+ * @ignore
  */
 
 export function _internal_always(deferred, alwaysCallback)
@@ -64,8 +64,10 @@ export function _internal_always(deferred, alwaysCallback)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @param {*} x
- * @returns {string}
+ * Gets the type name of the given object
+ * @param {*} x the object
+ * @returns {string} The type name of the given object
+ * @ignore
  */
 
 export function typeOf(x)
@@ -79,12 +81,20 @@ export function typeOf(x)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * @ignore
+ */
+
 export function isString(x)
 {
 	return amiTwig.stdlib.isString(x);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @ignore
+ */
 
 export function isArray(x)
 {
@@ -93,6 +103,10 @@ export function isArray(x)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * @ignore
+ */
+
 export function isObject(x)
 {
 	return amiTwig.stdlib.isObject(x);
@@ -100,12 +114,20 @@ export function isObject(x)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * @ignore
+ */
+
 export function isSet(x)
 {
 	return amiTwig.stdlib.isSet(x);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @ignore
+ */
 
 export function isMap(x)
 {
@@ -117,6 +139,7 @@ export function isMap(x)
 /**
  * @param {*} x
  * @returns {Array<*>}
+ * @ignore
  */
 
 export function asArray(x)
@@ -133,6 +156,7 @@ export function asArray(x)
  * @param {Array<*>} optionDefaults
  * @param {Object<String, *>} options
  * @returns {Array<*>}
+ * @ignore
  */
 
 export function setup(optionNames, optionDefaults, options)
