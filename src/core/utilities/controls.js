@@ -104,7 +104,7 @@ export function loadControl(control, options)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Asynchronously create a control
+ * Asynchronously creates a control
  * @param {?*} parent the parent entity
  * @param {?*} owner the owner entity
  * @param {string} control the control name
@@ -152,7 +152,7 @@ export function createControl(parent, owner, control, params, options)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Asynchronously create a control in the body
+ * Asynchronously creates a control in the body
  * @param {?*} parent the parent entity
  * @param {?*} owner the owner entity
  * @param {string} control the control name
@@ -225,7 +225,7 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Asynchronously create a control in a container
+ * Asynchronously creates a control in a container
  * @param {?*} parent the parent entity
  * @param {?*} owner the owner entity
  * @param {string} control the control name
@@ -303,7 +303,7 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Asynchronously create a control in a container from a WEB link
+ * Asynchronously creates a control in a container from a WEB link
  * @param {?*} parent the parent entity
  * @param {?*} owner the owner entity
  * @param {string} el the HTML element

@@ -169,7 +169,7 @@ export let _canLeave = true;
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Specify whether leaving the current page must be confirmed.
+ * Specifies whether leaving the current page must be confirmed.
  * @param canLeave
  * @ignore
  */

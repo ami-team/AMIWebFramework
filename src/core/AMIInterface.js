@@ -30,18 +30,18 @@ export default ami;
 
 /**
  * @ignore
+ * @param {Object<string, *>} ctxImmutables
  * @param {Object<string, *>} ctxDefaults
- * @param {Object<string, *>} ctxOptionals
  * @param {Object<string, *>} ctxOptions
  * @param {Object<string, *>} ctx
+ * @param {Object<string, *>} immutables
  * @param {Object<string, *>} defaults
- * @param {Object<string, *>} optionals
  * @param {Object<string, *>} options
  * @returns {Object<string, *>}
  * @private
  */
 
-function _setupCtx(ctxDefaults, ctxOptionals, ctxOptions, ctx, defaults, optionals, options)
+function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defaults, options)
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -56,15 +56,15 @@ function _setupCtx(ctxDefaults, ctxOptionals, ctxOptions, ctx, defaults, optiona
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	if(optionals)
+	if(defaults)
 	{
-		for(let [key, val] of Object.entries(optionals))
+		for(let [key, val] of Object.entries(defaults))
 		{
 			if(!(key in ctx))
 			{
 				if(key !== 'context')
 				{
-					ctxOptionals[key] = val;
+					ctxDefaults[key] = val;
 				}
 
 				ctx[key] = val;
@@ -74,11 +74,11 @@ function _setupCtx(ctxDefaults, ctxOptionals, ctxOptions, ctx, defaults, optiona
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	if(defaults)
+	if(immutables)
 	{
-		for(let [key, val] of Object.entries(defaults))
+		for(let [key, val] of Object.entries(immutables))
 		{
-			ctxDefaults[key] = val;
+			ctxImmutables[key] = val;
 			ctx[key] = val;
 		}
 	}
@@ -108,7 +108,8 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 
 	/**
 	 * Called when the sub-application is ready to run
-	 * @param {?*} userdata userdata
+	 * @param {?*} userdata the user data
+	 * @return {$.Deferred|undefined} A JQuery deferred object or nothing
 	 */
 
 	onReady: function(userdata) {},
@@ -117,7 +118,8 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 
 	/**
 	 * Called when the sub-application is about to exit
-	 * @param {?*} userdata userdata
+	 * @param {?*} userdata the user data
+	 * @return {$.Deferred|undefined} A JQuery deferred object or nothing
 	 */
 
 	onExit: function(userdata) {},
@@ -126,7 +128,8 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 
 	/**
 	 * Called when logging in
-	 * @param {?*} userdata userdata
+	 * @param {?*} userdata the user data
+	 * @return {$.Deferred|undefined} A JQuery deferred object or nothing
 	 */
 
 	onLogin: function(userdata) {},
@@ -135,7 +138,8 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 
 	/**
 	 * Called when logging out
-	 * @param {?*} userdata userdata
+	 * @param {?*} userdata the user data
+	 * @return {$.Deferred|undefined} A JQuery deferred object or nothing
 	 */
 
 	onLogout: function(userdata) {},
@@ -160,14 +164,22 @@ $AMIClass('ami.SubApp', /** @lends ami.SubApp */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	ctxImmutables: {},
 	ctxDefaults: {},
-	ctxOptionals: {},
 	ctxOptions: {},
 	ctx: {},
 
-	setupCtx: function(defaults, optionals, settings)
+	/**
+	 * Sets up the application's context
+	 * @param {Object<string, *>} immutables
+	 * @param {Object<string, *>} defaults
+	 * @param {Object<string, *>} options
+	 * @return {Object<string, *>} The resulting application's context
+	 */
+
+	setupCtx: function(immutables, defaults, options)
 	{
-		return _setupCtx(this.ctxDefaults, this.ctxOptionals, this.ctxOptions, this.ctx, defaults, optionals, settings);
+		return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

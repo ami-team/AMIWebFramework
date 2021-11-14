@@ -82,6 +82,9 @@ export function typeOf(x)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * Checks whether the given object is a string
+ * @param {*} x the object
+ * @return {boolean}
  * @ignore
  */
 
@@ -93,6 +96,9 @@ export function isString(x)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * Checks whether the given object is an array
+ * @param {*} x the object
+ * @return {boolean}
  * @ignore
  */
 
@@ -104,6 +110,9 @@ export function isArray(x)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * Checks whether the given object is an object
+ * @param {*} x the object
+ * @return {boolean}
  * @ignore
  */
 
@@ -115,6 +124,9 @@ export function isObject(x)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * Checks whether the given object is a set
+ * @param {*} x the object
+ * @return {boolean}
  * @ignore
  */
 
@@ -126,6 +138,9 @@ export function isSet(x)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * Checks whether the given object is a map
+ * @param {*} x the object
+ * @return {boolean}
  * @ignore
  */
 
@@ -137,8 +152,9 @@ export function isMap(x)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @param {*} x
- * @returns {Array<*>}
+ * Turns the given object into an array if it is not already the case
+ * @param {*} x the object
+ * @returns {Array<*>} The resulting array
  * @ignore
  */
 

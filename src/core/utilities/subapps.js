@@ -133,7 +133,7 @@ export function triggerLogout()
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- *
+ * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
  * @param {?*} userdata the user data
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
@@ -236,7 +236,7 @@ export function loadSubApp(subapp, userdata, options)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Loads a subapp by URL
+ * Asynchronously loads a subapp by URL
  * @param {string} defaultSubApp if 'amiRouter.getArgs()["subapp"]' is null, the default subapp name
  * @param {?*} defaultUserData if 'amiRouter.getArgs()["userdata"]' is null, the default user data
  * @returns {$.Deferred} A JQuery deferred object

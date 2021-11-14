@@ -614,7 +614,7 @@ class AMIJSDoc
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Render a AMI JSDoc documentation
+ * Renders a AMI JSDoc documentation
  * @param {string} menuSelector selector of the menu div
  * @param {string} bodySelector selector of the body div
  * @param {object} json the JSON documentation

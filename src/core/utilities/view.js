@@ -31,7 +31,7 @@ import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Fill the main breadcrumb
+ * Fills the main breadcrumb
  * @param {Array<string>|string} items the array of HTML formatted items
  * @ignore
  */

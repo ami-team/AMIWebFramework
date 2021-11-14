@@ -18,7 +18,7 @@ import amiTwig from 'ami-twig';
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Encode the given string to base64
+ * Encodes the given string to base64
  * @param {string} s the decoded string
  * @returns {string} The encoded string
  * @ignore
@@ -36,7 +36,7 @@ export function base64Encode(s)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Decode the given string from base64
+ * Decodes the given string from base64
  * @param {string} s the encoded string
  * @returns {string} The decoded string
  * @ignore

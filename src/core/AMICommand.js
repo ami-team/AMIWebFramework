@@ -68,7 +68,7 @@ class AMICommand
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Get the HTTP endpoint
+	 * Gets the HTTP endpoint
 	 * @returns {string}
 	 */
 
@@ -80,7 +80,7 @@ class AMICommand
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Get the MQTT endpoint
+	 * Gets the MQTT endpoint
 	 * @returns {string}
 	 */
 
