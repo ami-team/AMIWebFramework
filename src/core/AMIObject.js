@@ -30,10 +30,9 @@ else {
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @ignore
  * @param {string} $name
  * @param {Object<string, *>} x
- * @private
+ * @ignore
  */
 
 function _$createNamespace($name, x)
@@ -61,10 +60,9 @@ function _$createNamespace($name, x)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @ignore
  * @param {string} $name
  * @param {Object<string, *>} x
- * @private
+ * @ignore
  */
 
 function _$addToNamespace($name, x)
@@ -94,7 +92,7 @@ function _$addToNamespace($name, x)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
-  * Create a new namespace
+  * Creates a new namespace
   * @param {string} $name the namespace name
   * @param {Object<string, *>} [$descr={}] the namespace body
   */
@@ -129,7 +127,7 @@ export function $AMINamespace($name, $descr)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
-  * Create a new interface
+  * Creates a new interface
   * @param {string} $name the interface name
   * @param {Object<string, *>} [$descr={}] the interface body
   */
@@ -190,7 +188,7 @@ export function $AMIInterface($name, $descr)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
-  * Create a new class
+  * Creates a new class
   * @param {string} $name the class name
   * @param {Object<string, *>} [$descr={}] the class body
   */
