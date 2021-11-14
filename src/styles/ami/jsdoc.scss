@@ -10,7 +10,16 @@
 	font-size: 48px;
 	font-weight: 200;
 	letter-spacing: -2px;
-	margin: 12px 24px 20px;
+	margin: 12px 24px 10px 24px;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#jsdoc_content h5 {
+	font-size: 20px;
+	font-weight: 200;
+	letter-spacing: -1px;
+	margin: 12px 0px 8px 0px;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -42,13 +51,14 @@
 }
 
 #jsdoc_content .signature-params {
-	color: #000;
+	color: rgb(000, 000, 000);
 }
 
 #jsdoc_content .signature-params-attrs {
 	color: #AAA;
 	font-size: 60%;
 	font-style: italic;
+	margin-left: 2px;
 }
 
 #jsdoc_content .signature-attrs {
