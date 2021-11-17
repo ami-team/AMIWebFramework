@@ -231,15 +231,15 @@ class AMIRouter
     /**
      * Appends a routing rule
      * @param {string} regExp the regExp
-     * @param {function} handler the handler
+     * @param {function} callback the callback
      * @returns {AMIRouter} The amiRouter singleton
      */
 
-    append(regExp, handler)
+    append(regExp, callback)
     {
         this.#routes.unshift({
             regExp: regExp,
-            handler: handler,
+			callback: callback,
         });
 
         return this;
@@ -248,7 +248,7 @@ class AMIRouter
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Removes some routing rules
+     * Removes a routing rule
      * @param {string} regExp the regExp
      * @returns {AMIRouter} The amiRouter singleton
      */
@@ -280,7 +280,7 @@ class AMIRouter
 
             if(m)
             {
-                this.#routes[i].handler.apply(this, m);
+                this.#routes[i].callback.apply(this, m);
 
                 return true;
             }
@@ -292,7 +292,7 @@ class AMIRouter
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Append a new history entry
+     * Appends a new history entry
      * @param {string} path the new path
      * @param {Object<string, *>} [context=null] the new context
      * @returns {boolean}
@@ -313,7 +313,7 @@ class AMIRouter
     /*----------------------------------------------------------------------------------------------------------------*/
 
     /**
-     * Replace the current history entry
+     * Replaces the current history entry
      * @param {string} path the new path
      * @param {Object<string, *>} [context=null] the new context
      * @returns {boolean}

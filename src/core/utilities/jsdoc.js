@@ -153,7 +153,7 @@ class AMIJSDoc
 		s.push('<div class="card">');
 		s.push('<div class="card-body bg-light">');
 		s.push(`<h1>${textToHtml(title)}: ${textToHtml(item.name)}</h1>`);
-		s.push(`<div>${AMIJSDoc.#makeDesc(item)}</div>`);
+		s.push(AMIJSDoc.#makeDesc(item));
 		s.push(AMIJSDoc.#makeDetails(item));
 		s.push('</div>');
 		s.push('</div>');
@@ -213,7 +213,7 @@ class AMIJSDoc
 
 		result.push(AMIJSDoc.#makeVariableSignature(variable));
 
-		result.push(`<div>${AMIJSDoc.#makeDesc(variable)}</div>`);
+		result.push(AMIJSDoc.#makeDesc(variable));
 
 		result.push(AMIJSDoc.#makeDetails(variable));
 
@@ -251,7 +251,7 @@ class AMIJSDoc
 
 		result.push(AMIJSDoc.#makeFunctionSignature(method));
 
-		result.push(`<div>${AMIJSDoc.#makeDesc(method)}</div>`);
+		result.push(AMIJSDoc.#makeDesc(method));
 
 		result.push(AMIJSDoc.#makeFunctionParameters(method));
 
@@ -441,7 +441,7 @@ class AMIJSDoc
 			{
 				result.push('<h5><strong>Throws:</strong></h5>');
 
-				result.push(`<div>${AMIJSDoc.#makeDesc(_exception)}</div>`);
+				result.push(AMIJSDoc.#makeDesc(_exception));
 
 				result.push(`<div>Type: ${AMIJSDoc.#makeType(_exception)}</div>`);
 			}
@@ -466,7 +466,7 @@ class AMIJSDoc
 			{
 				result.push('<h5><strong>Returns:</strong></h5>');
 
-				result.push(`<div>${AMIJSDoc.#makeDesc(_return)}</div>`);
+				result.push(AMIJSDoc.#makeDesc(_return));
 
 				result.push(`<div>Type: ${AMIJSDoc.#makeType(_return)}</div>`);
 			}
@@ -487,10 +487,14 @@ class AMIJSDoc
 
 		if(x.desc)
 		{
+			result.push('<div>');
+
 			result.push(textToHtml(x.desc).replace(AMIJSDoc.#linkExp, (_, x, y) => {
 
 				return `<a href="${y}">${x || y}</a>`;
 			}));
+
+			result.push('</div>');
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -544,7 +548,7 @@ class AMIJSDoc
 			result.push(`<div>Inherits: ${textToHtml(x.inherits.join(', '))}</div>`);
 		}
 
-		/*----------------------------------------------------------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		const version = [];
 		const author = [];

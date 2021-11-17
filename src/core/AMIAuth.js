@@ -38,6 +38,19 @@ import 'kjua';
 class AMIAuth
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
+	/* PUBLIC MEMBERS                                                                                                 */
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	#flags = {};
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	#userInfo = {};
+	#roleInfo = {};
+	#bookmarkInfo = {};
+	#awfInfo = {};
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	setupAWF(awfInfo)
 	{
@@ -53,6 +66,8 @@ class AMIAuth
 				config.timeHMSFormat,
 				config.timeHMFormat
 			);
+
+			this.#awfInfo = config;
 		}
 		catch(e)
 		{
@@ -70,6 +85,22 @@ class AMIAuth
 		bookmarksAllowed
 	 ) {
 		const result = $.Deferred();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		this.#flags = {
+			ssoAutoAuthentication: ssoAutoAuthentication,
+			ssoAuthenticationAllowed: ssoAuthenticationAllowed,
+			passwordAuthenticationAllowed: passwordAuthenticationAllowed,
+			certificateAuthenticationAllowed: certificateAuthenticationAllowed,
+			logoutAllowed: logoutAllowed,
+			createAccountAllowed: createAccountAllowed,
+			changeInfoAllowed: changeInfoAllowed,
+			changePasswordAllowed: changePasswordAllowed,
+			changeCertificateAllowed: changeCertificateAllowed,
+			captchaAllowed: captchaAllowed,
+			bookmarksAllowed: bookmarksAllowed,
+		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -129,6 +160,11 @@ class AMIAuth
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
+
+		this.#userInfo = userInfo;
+		this.#roleInfo = roleInfo;
+		this.#bookmarkInfo = bookmarkInfo;
+		this.#awfInfo = awfInfo;
 
 		// console.log(userInfo);
 		// console.log(roleInfo);
@@ -201,6 +237,30 @@ class AMIAuth
 	hasRole(roleName)
 	{
 		return true;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the MQTT endpoint
+	 * @return {string} The MQTT endpoint
+	 */
+
+	getMqttEndpoint()
+	{
+		return this.#awfInfo.mqttEndpoint;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the MQTT token
+	 * @return {string} The MQTT token
+	 */
+
+	getMqttToken()
+	{
+		return this.#awfInfo.mqttToken;
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
