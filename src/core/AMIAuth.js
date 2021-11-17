@@ -248,7 +248,7 @@ class AMIAuth
 
 	getMqttEndpoint()
 	{
-		return this.#awfInfo.mqttEndpoint;
+		return this.#awfInfo.mqttEndpoint || '';
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -260,7 +260,7 @@ class AMIAuth
 
 	getMqttToken()
 	{
-		return this.#awfInfo.mqttToken;
+		return this.#awfInfo.mqttToken || '';
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
