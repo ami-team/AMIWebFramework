@@ -11,44 +11,24 @@
 
 'use strict';
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-import * as jsdoc from './utilities/jsdoc';
-
-import * as messages from './utilities/messages';
-
-import * as subapps from './utilities/subapps';
-
 import * as view from './utilities/view';
-
-import * as tools from './utilities/tools';
-
+import * as jsdoc from './utilities/jsdoc';
 import * as locks from './utilities/locks';
-
+import * as tools from './utilities/tools';
+import * as strings from './utilities/strings';
+import * as subapps from './utilities/subapps';
+import * as controls from './utilities/controls';
+import * as messages from './utilities/messages';
 import * as resources from './utilities/resources';
 
-import * as controls from './utilities/controls';
-
-import * as strings from './utilities/strings';
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 import amiAuth from './AMIAuth';
-
 import amiRouter from './AMIRouter';
-
 import amiCommand from './AMICommand';
-
 import amiExtensions from './AMIExtension';
-
-/*--------------------------------------------------------------------------------------------------------------------*/
 
 import JSPath from 'jspath';
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 import defaultLogoURL from '../images/logo.png';
-
 import defaultBackgroundURL from '../images/background.jpg';
 
 /*--------------------------------------------------------------------------------------------------------------------*/

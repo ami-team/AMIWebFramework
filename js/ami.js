@@ -10172,441 +10172,62 @@ _mqttClient = new WeakMap();
 
 // EXTERNAL MODULE: ./node_modules/ami-twig/index.js
 var ami_twig = __webpack_require__(444);
-;// CONCATENATED MODULE: ./src/core/utilities/strings.js
+;// CONCATENATED MODULE: ./src/core/utilities/tools.js
 
 
-function base64Encode(s) {
-  return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, (_, $1) => {
-    return String.fromCharCode(parseInt($1, 16));
-  })).replace(/\+/g, "-").replace(/\//g, "_");
-}
-function base64Decode(s) {
-  return decodeURIComponent(atob(s.replace(/-/g, "+").replace(/_/g, "/")).split("").map((c) => {
-    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(""));
-}
-const _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
-const _textToHtmlX = ["&", '"', "<", ">"];
-const _textToHtmlY = ["&amp;", "&quot;", "&lt;", "&gt;"];
-function textToHtml(s) {
-  return _replace(s || "", _textToHtmlX, _textToHtmlY);
-}
-function htmlToText(s) {
-  return _replace(s || "", _textToHtmlY, _textToHtmlX);
-}
-const _textToStringX = ["\\", "\n", '"', "'"];
-const _textToStringY = ["\\\\", "\\n", '\\"', "\\'"];
-function textToString(s) {
-  return _replace(s || "", _textToStringX, _textToStringY);
-}
-function stringToText(s) {
-  return _replace(s || "", _textToStringY, _textToStringX);
-}
-const _htmlToStringX = ["\\", "\n", "&quot;", "'"];
-const _htmlToStringY = ["\\\\", "\\n", "\\&quot;", "\\'"];
-function htmlToString(s) {
-  return _replace(s || "", _htmlToStringX, _htmlToStringY);
-}
-function stringToHtml(s) {
-  return _replace(s || "", _htmlToStringY, _htmlToStringX);
-}
-const _textToSQLX = ["'"];
-const _textToSQLY = ["''"];
-function textToSQL(s) {
-  return _replace(s || "", _textToSQLX, _textToSQLY);
-}
-function sqlToText(s) {
-  return _replace(s || "", _textToSQLY, _textToSQLX);
-}
-
-;// CONCATENATED MODULE: ./src/core/utilities/jsdoc.js
-
-var jsdoc_accessCheck = (obj, member, msg) => {
-  if (!member.has(obj))
-    throw TypeError("Cannot " + msg);
-};
-var jsdoc_privateGet = (obj, member, getter) => {
-  jsdoc_accessCheck(obj, member, "read from private field");
-  return getter ? getter.call(obj) : member.get(obj);
-};
-var jsdoc_privateAdd = (obj, member, value) => {
-  if (member.has(obj))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-};
-var jsdoc_privateSet = (obj, member, value, setter) => {
-  jsdoc_accessCheck(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
-};
-var __privateMethod = (obj, member, method) => {
-  jsdoc_accessCheck(obj, member, "access private method");
-  return method;
-};
-var _linkExp, _menuSelector, _bodySelector, _json, _makeMenu, makeMenu_fn, _makeSubMenu, makeSubMenu_fn, _makeContent, makeContent_fn, _makeVariable, makeVariable_fn, _makeVariableSignature, makeVariableSignature_fn, _makeFunction, makeFunction_fn, _makeFunctionSignature, makeFunctionSignature_fn, _makeFunctionParameters, makeFunctionParameters_fn, _makeFunctionExceptions, makeFunctionExceptions_fn, _makeFunctionReturn, makeFunctionReturn_fn, _makeDesc, makeDesc_fn, _makeParam, makeParam_fn, _makeType, makeType_fn, _makeDetails, makeDetails_fn, _makeExamples, makeExamples_fn;
-
-const _AMIJSDoc = class {
-  constructor(menuSelector, bodySelector, json) {
-    jsdoc_privateAdd(this, _makeMenu);
-    jsdoc_privateAdd(this, _makeSubMenu);
-    jsdoc_privateAdd(this, _makeContent);
-    jsdoc_privateAdd(this, _menuSelector, null);
-    jsdoc_privateAdd(this, _bodySelector, null);
-    jsdoc_privateAdd(this, _json, null);
-    jsdoc_privateSet(this, _menuSelector, menuSelector);
-    jsdoc_privateSet(this, _bodySelector, bodySelector);
-    jsdoc_privateSet(this, _json, json);
-    __privateMethod(this, _makeMenu, makeMenu_fn).call(this);
+function _internal_then(deferred, doneCallback, failCallback) {
+  if (deferred && deferred.then) {
+    deferred.then(doneCallback, failCallback);
+  } else {
+    doneCallback();
   }
-};
-let AMIJSDoc = _AMIJSDoc;
-_linkExp = new WeakMap();
-_menuSelector = new WeakMap();
-_bodySelector = new WeakMap();
-_json = new WeakMap();
-_makeMenu = new WeakSet();
-makeMenu_fn = function() {
-  const s = `
-<a class="list-group-item list-group-item-action p-2" href="">
-	<i class="bi bi-house"></i> Home
-</a>
-
-<div class="list-group-item list-group-item-action p-2">
-
-	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Global", "global")}
-	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Namespace", "namespaces")}
-	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Interface", "interfaces")}
-	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Class", "classes")}
-
-</div>
-`;
-  $(jsdoc_privateGet(this, _menuSelector)).html(s.trim()).promise().done((_) => {
-    $(jsdoc_privateGet(this, _menuSelector)).find("a[data-name][data-cat][data-name]").click((e) => {
-      const el = $(e.currentTarget);
-      e.preventDefault();
-      __privateMethod(this, _makeContent, makeContent_fn).call(this, el.attr("data-title"), el.attr("data-cat"), el.attr("data-name"));
-    });
-  });
-};
-_makeSubMenu = new WeakSet();
-makeSubMenu_fn = function(title, cat) {
+}
+function _internal_always(deferred, alwaysCallback) {
+  if (deferred && deferred.always) {
+    deferred.always(alwaysCallback);
+  } else {
+    alwaysCallback();
+  }
+}
+function typeOf(x) {
+  const name = Object.prototype.toString.call(x);
+  return name.startsWith("[object ") ? name.substring(8, name.length - 1) : "";
+}
+function isString(x) {
+  return ami_twig/* default.stdlib.isString */.Z.stdlib.isString(x);
+}
+function isArray(x) {
+  return ami_twig/* default.stdlib.isArray */.Z.stdlib.isArray(x);
+}
+function isObject(x) {
+  return ami_twig/* default.stdlib.isObject */.Z.stdlib.isObject(x);
+}
+function isSet(x) {
+  return ami_twig/* default.stdlib.isSet */.Z.stdlib.isSet(x);
+}
+function isMap(x) {
+  return ami_twig/* default.stdlib.isMap */.Z.stdlib.isMap(x);
+}
+function asArray(x) {
+  return Array.isArray(x) ? x : [x];
+}
+function setup(optionNames, optionDefaults, options) {
   const result = [];
-  let items;
-  if (cat === "global") {
-    items = [];
-    if (jsdoc_privateGet(this, _json)["variables"]) {
-      items = items.concat(jsdoc_privateGet(this, _json)["variables"]);
-    }
-    if (jsdoc_privateGet(this, _json)["functions"]) {
-      items = items.concat(jsdoc_privateGet(this, _json)["functions"]);
+  const l = optionNames.length;
+  const m = optionDefaults.length;
+  if (l !== m) {
+    throw "internal error";
+  }
+  if (options) {
+    for (let i = 0; i < l; i++) {
+      result.push(optionNames[i] in options ? options[optionNames[i]] : optionDefaults[i]);
     }
   } else {
-    items = jsdoc_privateGet(this, _json)[cat];
-  }
-  if (Array.isArray(items) && items.length > 0) {
-    result.push("<div>");
-    result.push(`<a href="#jsdoc_menu_${title.toLowerCase()}" data-toggle="collapse" data-bs-toggle="collapse"><i class="bi bi-book"></i> ${textToHtml(title)}</a>`);
-    result.push(`<ul class="collapse mb-0" id="jsdoc_menu_${title.toLowerCase()}">${items.map((_item) => `<li><a href="#" data-title="${textToHtml(title)}" data-cat="${textToHtml(cat)}" data-name="${textToHtml(_item.name)}">${textToHtml(_item.name)}</a></li>`).join("")}</ul>`);
-    result.push("</div>");
-  }
-  return result.join("");
-};
-_makeContent = new WeakSet();
-makeContent_fn = function(title, cat, name) {
-  var _a, _b, _c, _d, _e, _f;
-  const s = [];
-  let item;
-  if (cat === "global") {
-    item = {
-      name: "variables and functions",
-      variables: jsdoc_privateGet(this, _json)["variables"],
-      functions: jsdoc_privateGet(this, _json)["functions"]
-    };
-  } else {
-    item = jsdoc_privateGet(this, _json)[cat].filter((item2) => item2.name === name)[0];
-  }
-  s.push('<div class="card">');
-  s.push('<div class="card-body bg-light">');
-  s.push(`<h1>${textToHtml(title)}: ${textToHtml(item.name)}</h1>`);
-  s.push(__privateMethod(_a = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_a, item));
-  s.push(__privateMethod(_b = _AMIJSDoc, _makeDetails, makeDetails_fn).call(_b, item));
-  s.push("</div>");
-  s.push("</div>");
-  if (item.konstructor) {
-    s.push('<h3 class="mt-3">Constructor</h3>');
-    s.push(__privateMethod(_c = _AMIJSDoc, _makeFunction, makeFunction_fn).call(_c, item.konstructor));
-  }
-  if (Array.isArray(item.variables)) {
-    s.push('<h3 class="mt-3">Members</h3>');
-    for (const _variable of item.variables) {
-      s.push(__privateMethod(_d = _AMIJSDoc, _makeVariable, makeVariable_fn).call(_d, _variable));
+    for (let i = 0; i < l; i++) {
+      result.push(optionDefaults[i]);
     }
-  }
-  if (Array.isArray(item.functions)) {
-    s.push('<h3 class="mt-3">Methods</h3>');
-    for (const _function of item.functions) {
-      s.push(__privateMethod(_e = _AMIJSDoc, _makeFunction, makeFunction_fn).call(_e, _function));
-    }
-  }
-  if (Array.isArray(item.events)) {
-    s.push('<h3 class="mt-3">Events</h3>');
-    for (const _event of item.events) {
-      s.push(__privateMethod(_f = _AMIJSDoc, _makeFunction, makeFunction_fn).call(_f, _event));
-    }
-  }
-  $(jsdoc_privateGet(this, _bodySelector)).html(s.join(""));
-};
-_makeVariable = new WeakSet();
-makeVariable_fn = function(variable) {
-  var _a, _b, _c;
-  const result = [];
-  result.push(`<hr id="jsdoc_variable_${variable.name.toLowerCase()}" />`);
-  result.push(__privateMethod(_a = _AMIJSDoc, _makeVariableSignature, makeVariableSignature_fn).call(_a, variable));
-  result.push(__privateMethod(_b = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_b, variable));
-  result.push(__privateMethod(_c = _AMIJSDoc, _makeDetails, makeDetails_fn).call(_c, variable));
-  return result.join("");
-};
-_makeVariableSignature = new WeakSet();
-makeVariableSignature_fn = function(variable) {
-  var _a;
-  const result = [];
-  result.push(`<span class="signature-name">${textToHtml(variable.name)}</span>`);
-  result.push(`<span class="signature-attrs">: {${__privateMethod(_a = _AMIJSDoc, _makeType, makeType_fn).call(_a, variable)}}</span>`);
-  return result.join("");
-};
-_makeFunction = new WeakSet();
-makeFunction_fn = function(method) {
-  var _a, _b, _c, _d, _e, _f, _g;
-  const result = [];
-  result.push(`<hr id="jsdoc_method_${method.name.toLowerCase()}" />`);
-  result.push(__privateMethod(_a = _AMIJSDoc, _makeFunctionSignature, makeFunctionSignature_fn).call(_a, method));
-  result.push(__privateMethod(_b = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_b, method));
-  result.push(__privateMethod(_c = _AMIJSDoc, _makeFunctionParameters, makeFunctionParameters_fn).call(_c, method));
-  result.push(__privateMethod(_d = _AMIJSDoc, _makeDetails, makeDetails_fn).call(_d, method));
-  result.push(__privateMethod(_e = _AMIJSDoc, _makeFunctionExceptions, makeFunctionExceptions_fn).call(_e, method));
-  result.push(__privateMethod(_f = _AMIJSDoc, _makeFunctionReturn, makeFunctionReturn_fn).call(_f, method));
-  result.push(__privateMethod(_g = _AMIJSDoc, _makeExamples, makeExamples_fn).call(_g, method));
-  return result.join("");
-};
-_makeFunctionSignature = new WeakSet();
-makeFunctionSignature_fn = function(method) {
-  const result = [];
-  result.push(`<span class="signature-name">${textToHtml(method.name)}</span>`);
-  if (method.params) {
-    const L = method.params.map((_param) => {
-      var _a;
-      return __privateMethod(_a = _AMIJSDoc, _makeParam, makeParam_fn).call(_a, _param);
-    });
-    result.push(`<span class="signature-params">(${L.join(", ")})</span>`);
-  }
-  if (method.returns) {
-    const L = method.returns.map((_return) => {
-      var _a;
-      return __privateMethod(_a = _AMIJSDoc, _makeType, makeType_fn).call(_a, _return);
-    });
-    result.push(`<span class="signature-attrs"> &rarr; {${L.join(" or ")}}</span>`);
-  }
-  return result.join("");
-};
-_makeFunctionParameters = new WeakSet();
-makeFunctionParameters_fn = function(method) {
-  var _a, _b;
-  const result = [];
-  if (method.params.length > 0) {
-    const L1 = [], L2 = [], L3 = [], L4 = [], L5 = [], L6 = [];
-    let cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0, cnt6 = 0;
-    for (const _params of method.params) {
-      L1.push(textToHtml(_params["name"]));
-      L2.push(__privateMethod(_a = _AMIJSDoc, _makeType, makeType_fn).call(_a, _params));
-      L3.push(__privateMethod(_b = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_b, _params));
-      L4.push(textToHtml(_params["default"]));
-      L5.push(_params["optional"]);
-      L6.push(_params["nullable"]);
-      if (_params["name"]) {
-        cnt1++;
-      }
-      if (_params["type"]) {
-        cnt2++;
-      }
-      if (_params["desc"]) {
-        cnt3++;
-      }
-      if (_params["default"]) {
-        cnt4++;
-      }
-      if (_params["optional"]) {
-        cnt5++;
-      }
-      if (_params["nullable"]) {
-        cnt6++;
-      }
-    }
-    result.push("<h5><strong>Parameters:</strong></h5>");
-    result.push('<table class="table table-sm table-striped table-bordered" style="width: auto;">');
-    result.push("<thead>");
-    result.push("<tr>");
-    if (cnt1 > 0) {
-      result.push("<th>Name</th>");
-    }
-    if (cnt2 > 0) {
-      result.push("<th>Type</th>");
-    }
-    if (cnt4 > 0) {
-      result.push("<th>Default</th>");
-    }
-    if (cnt5 > 0) {
-      result.push("<th>Optional</th>");
-    }
-    if (cnt6 > 0) {
-      result.push("<th>Nullable</th>");
-    }
-    if (cnt3 > 0) {
-      result.push("<th>Description</th>");
-    }
-    result.push("</tr>");
-    result.push("</thead>");
-    result.push("<tbody>");
-    for (const i in method.params) {
-      result.push("<tr>");
-      if (cnt1 > 0) {
-        result.push(`<td>${L1[i]}</td>`);
-      }
-      if (cnt2 > 0) {
-        result.push(`<td>${L2[i]}</td>`);
-      }
-      if (cnt4 > 0) {
-        result.push(`<td>${L4[i]}</td>`);
-      }
-      if (cnt5 > 0) {
-        result.push(`<td class="text-center">${L5[i] ? "\u2713" : ""}</td>`);
-      }
-      if (cnt6 > 0) {
-        result.push(`<td class="text-center">${L6[i] ? "\u2713" : ""}</td>`);
-      }
-      if (cnt3 > 0) {
-        result.push(`<td>${L3[i]}</td>`);
-      }
-      result.push("</tr>");
-    }
-    result.push("</tbody>");
-    result.push("</table>");
-  }
-  return result.join("");
-};
-_makeFunctionExceptions = new WeakSet();
-makeFunctionExceptions_fn = function(method) {
-  var _a, _b;
-  const result = [];
-  if (Array.isArray(method.exceptions)) {
-    for (const _exception of method.exceptions) {
-      result.push("<h5><strong>Throws:</strong></h5>");
-      result.push(__privateMethod(_a = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_a, _exception));
-      result.push(`<div>Type: ${__privateMethod(_b = _AMIJSDoc, _makeType, makeType_fn).call(_b, _exception)}</div>`);
-    }
-  }
-  return result.join("");
-};
-_makeFunctionReturn = new WeakSet();
-makeFunctionReturn_fn = function(method) {
-  var _a, _b;
-  const result = [];
-  if (Array.isArray(method.returns)) {
-    for (const _return of method.returns) {
-      result.push("<h5><strong>Returns:</strong></h5>");
-      result.push(__privateMethod(_a = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_a, _return));
-      result.push(`<div>Type: ${__privateMethod(_b = _AMIJSDoc, _makeType, makeType_fn).call(_b, _return)}</div>`);
-    }
-  }
-  return result.join("");
-};
-_makeDesc = new WeakSet();
-makeDesc_fn = function(x) {
-  const result = [];
-  if (x.desc) {
-    result.push("<div>");
-    result.push(textToHtml(x.desc).replace(jsdoc_privateGet(_AMIJSDoc, _linkExp), (_, x2, y) => {
-      return `<a href="${y}">${x2 || y}</a>`;
-    }));
-    result.push("</div>");
-  }
-  return result.join("");
-};
-_makeParam = new WeakSet();
-makeParam_fn = function(x) {
-  const result = [];
-  result.push(textToHtml(x.name));
-  if (x.optional) {
-    result.push('<sup class="signature-params-attrs">opt.</sup>');
-  }
-  if (x.nullable) {
-    result.push('<sup class="signature-params-attrs">null.</sup>');
-  }
-  return result.join("");
-};
-_makeType = new WeakSet();
-makeType_fn = function(x) {
-  return x.type.map((y) => `<i>${textToHtml(y.replace(/\s*/g, ""))}</i>`).join(" or ");
-};
-_makeDetails = new WeakSet();
-makeDetails_fn = function(x) {
-  const result = [];
-  if (Array.isArray(x.implements) && x.implements.length > 0) {
-    result.push(`<div>Implements: ${textToHtml(x.implements.join(", "))}</div>`);
-  }
-  if (Array.isArray(x.inherits) && x.inherits.length > 0) {
-    result.push(`<div>Inherits: ${textToHtml(x.inherits.join(", "))}</div>`);
-  }
-  const version = [];
-  const author = [];
-  const see = [];
-  if (x.version) {
-    version.push(`<dt>Version:</dt><dd>${textToHtml(x.version)}</dd>`);
-  }
-  if (Array.isArray(x.author)) {
-    for (const _author of x.author) {
-      author.push(`<dt>Author:</dt><dd>${textToHtml(_author)}</dd>`);
-    }
-  }
-  if (Array.isArray(x.see)) {
-    for (const _see of x.see) {
-      see.push(`<dt>See:</dt><dd>${textToHtml(_see)}</dd>`);
-    }
-  }
-  if (author.length > 0 || version.length > 0 || see.length > 0) {
-    result.push('<dl class="details">');
-    result.push(version.join(""));
-    result.push(author.join(""));
-    result.push(see.join(""));
-    result.push("</dl>");
   }
   return result;
-};
-_makeExamples = new WeakSet();
-makeExamples_fn = function(x, mode) {
-  const result = [];
-  if (Array.isArray(x.examples)) {
-    for (const _example of x.examples) {
-      result.push("<h5><strong>Example:</strong></h5>");
-      result.push(`<textarea class="form-editor" data-mode="${textToHtml(mode)}">${textToHtml(_example)}</textarea>`);
-    }
-  }
-  return result.join("");
-};
-jsdoc_privateAdd(AMIJSDoc, _makeVariable);
-jsdoc_privateAdd(AMIJSDoc, _makeVariableSignature);
-jsdoc_privateAdd(AMIJSDoc, _makeFunction);
-jsdoc_privateAdd(AMIJSDoc, _makeFunctionSignature);
-jsdoc_privateAdd(AMIJSDoc, _makeFunctionParameters);
-jsdoc_privateAdd(AMIJSDoc, _makeFunctionExceptions);
-jsdoc_privateAdd(AMIJSDoc, _makeFunctionReturn);
-jsdoc_privateAdd(AMIJSDoc, _makeDesc);
-jsdoc_privateAdd(AMIJSDoc, _makeParam);
-jsdoc_privateAdd(AMIJSDoc, _makeType);
-jsdoc_privateAdd(AMIJSDoc, _makeDetails);
-jsdoc_privateAdd(AMIJSDoc, _makeExamples);
-jsdoc_privateAdd(AMIJSDoc, _linkExp, /(?:\[\s*([^\s\]]+)\s*])?{@link\s+([^\s}]+)\s*}/g);
-function renderJSDoc(menuSelector, bodySelector, json) {
-  return new AMIJSDoc(menuSelector, bodySelector, json);
 }
 
 ;// CONCATENATED MODULE: ./src/core/utilities/locks.js
@@ -10676,13 +10297,60 @@ function canLeave(canLeave2) {
   _canLeave = canLeave2;
 }
 
+;// CONCATENATED MODULE: ./src/core/utilities/strings.js
+
+
+function base64Encode(s) {
+  return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, (_, $1) => {
+    return String.fromCharCode(parseInt($1, 16));
+  })).replace(/\+/g, "-").replace(/\//g, "_");
+}
+function base64Decode(s) {
+  return decodeURIComponent(atob(s.replace(/-/g, "+").replace(/_/g, "/")).split("").map((c) => {
+    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(""));
+}
+const _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
+const _textToHtmlX = ["&", '"', "<", ">"];
+const _textToHtmlY = ["&amp;", "&quot;", "&lt;", "&gt;"];
+function textToHtml(s) {
+  return _replace(s || "", _textToHtmlX, _textToHtmlY);
+}
+function htmlToText(s) {
+  return _replace(s || "", _textToHtmlY, _textToHtmlX);
+}
+const _textToStringX = ["\\", "\n", '"', "'"];
+const _textToStringY = ["\\\\", "\\n", '\\"', "\\'"];
+function textToString(s) {
+  return _replace(s || "", _textToStringX, _textToStringY);
+}
+function stringToText(s) {
+  return _replace(s || "", _textToStringY, _textToStringX);
+}
+const _htmlToStringX = ["\\", "\n", "&quot;", "'"];
+const _htmlToStringY = ["\\\\", "\\n", "\\&quot;", "\\'"];
+function htmlToString(s) {
+  return _replace(s || "", _htmlToStringX, _htmlToStringY);
+}
+function stringToHtml(s) {
+  return _replace(s || "", _htmlToStringY, _htmlToStringX);
+}
+const _textToSQLX = ["'"];
+const _textToSQLY = ["''"];
+function textToSQL(s) {
+  return _replace(s || "", _textToSQLX, _textToSQLY);
+}
+function sqlToText(s) {
+  return _replace(s || "", _textToSQLY, _textToSQLX);
+}
+
 ;// CONCATENATED MODULE: ./src/core/utilities/messages.js
 
 
 
 
 
-const messages_linkExp = /\[\s*([^\s\]]*)\s*]\(\s*([^\s)]*)\s*\)/g;
+const _linkExp = /\[\s*([^\s\]]*)\s*]\(\s*([^\s)]*)\s*\)/g;
 function _publishAlert(clazz, title, message, fadeOut) {
   if (Array.isArray(message)) {
     message = message.map((MESSAGE) => (MESSAGE || "").toString()).join(". ");
@@ -10702,7 +10370,7 @@ function _publishAlert(clazz, title, message, fadeOut) {
       fadeOut,
       message
     });
-    $("#ami_alert_content").append(html.replace(messages_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
+    $("#ami_alert_content").append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
       $(`#ami_alert_content > .toast[data-hash="${hash}"]`).toast("show");
     });
   } else {
@@ -10729,64 +10397,6 @@ function error(message, fadeOut) {
 }
 function flush() {
   $("#ami_alert_content").empty();
-}
-
-;// CONCATENATED MODULE: ./src/core/utilities/tools.js
-
-
-function _internal_then(deferred, doneCallback, failCallback) {
-  if (deferred && deferred.then) {
-    deferred.then(doneCallback, failCallback);
-  } else {
-    doneCallback();
-  }
-}
-function _internal_always(deferred, alwaysCallback) {
-  if (deferred && deferred.always) {
-    deferred.always(alwaysCallback);
-  } else {
-    alwaysCallback();
-  }
-}
-function typeOf(x) {
-  const name = Object.prototype.toString.call(x);
-  return name.startsWith("[object ") ? name.substring(8, name.length - 1) : "";
-}
-function isString(x) {
-  return ami_twig/* default.stdlib.isString */.Z.stdlib.isString(x);
-}
-function isArray(x) {
-  return ami_twig/* default.stdlib.isArray */.Z.stdlib.isArray(x);
-}
-function isObject(x) {
-  return ami_twig/* default.stdlib.isObject */.Z.stdlib.isObject(x);
-}
-function isSet(x) {
-  return ami_twig/* default.stdlib.isSet */.Z.stdlib.isSet(x);
-}
-function isMap(x) {
-  return ami_twig/* default.stdlib.isMap */.Z.stdlib.isMap(x);
-}
-function asArray(x) {
-  return Array.isArray(x) ? x : [x];
-}
-function setup(optionNames, optionDefaults, options) {
-  const result = [];
-  const l = optionNames.length;
-  const m = optionDefaults.length;
-  if (l !== m) {
-    throw "internal error";
-  }
-  if (options) {
-    for (let i = 0; i < l; i++) {
-      result.push(optionNames[i] in options ? options[optionNames[i]] : optionDefaults[i]);
-    }
-  } else {
-    for (let i = 0; i < l; i++) {
-      result.push(optionDefaults[i]);
-    }
-  }
-  return result;
 }
 
 ;// CONCATENATED MODULE: ./src/core/AMIRouter.js
@@ -13672,6 +13282,396 @@ function formatTWIG(twig, dict, twigs) {
     }
   });
   return result.join("");
+}
+
+;// CONCATENATED MODULE: ./src/core/utilities/jsdoc.js
+
+var jsdoc_accessCheck = (obj, member, msg) => {
+  if (!member.has(obj))
+    throw TypeError("Cannot " + msg);
+};
+var jsdoc_privateGet = (obj, member, getter) => {
+  jsdoc_accessCheck(obj, member, "read from private field");
+  return getter ? getter.call(obj) : member.get(obj);
+};
+var jsdoc_privateAdd = (obj, member, value) => {
+  if (member.has(obj))
+    throw TypeError("Cannot add the same private member more than once");
+  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
+};
+var jsdoc_privateSet = (obj, member, value, setter) => {
+  jsdoc_accessCheck(obj, member, "write to private field");
+  setter ? setter.call(obj, value) : member.set(obj, value);
+  return value;
+};
+var __privateMethod = (obj, member, method) => {
+  jsdoc_accessCheck(obj, member, "access private method");
+  return method;
+};
+var jsdoc_linkExp, _menuSelector, _bodySelector, _json, _makeMenu, makeMenu_fn, _makeSubMenu, makeSubMenu_fn, _makeContent, makeContent_fn, _makeVariable, makeVariable_fn, _makeVariableSignature, makeVariableSignature_fn, _makeFunction, makeFunction_fn, _makeFunctionSignature, makeFunctionSignature_fn, _makeFunctionParameters, makeFunctionParameters_fn, _makeFunctionExceptions, makeFunctionExceptions_fn, _makeFunctionReturn, makeFunctionReturn_fn, _makeDesc, makeDesc_fn, _makeParam, makeParam_fn, _makeType, makeType_fn, _makeDetails, makeDetails_fn, _makeExamples, makeExamples_fn;
+
+const _AMIJSDoc = class {
+  constructor(menuSelector, bodySelector, json) {
+    jsdoc_privateAdd(this, _makeMenu);
+    jsdoc_privateAdd(this, _makeSubMenu);
+    jsdoc_privateAdd(this, _makeContent);
+    jsdoc_privateAdd(this, _menuSelector, null);
+    jsdoc_privateAdd(this, _bodySelector, null);
+    jsdoc_privateAdd(this, _json, null);
+    jsdoc_privateSet(this, _menuSelector, menuSelector);
+    jsdoc_privateSet(this, _bodySelector, bodySelector);
+    jsdoc_privateSet(this, _json, json);
+    __privateMethod(this, _makeMenu, makeMenu_fn).call(this);
+  }
+};
+let AMIJSDoc = _AMIJSDoc;
+jsdoc_linkExp = new WeakMap();
+_menuSelector = new WeakMap();
+_bodySelector = new WeakMap();
+_json = new WeakMap();
+_makeMenu = new WeakSet();
+makeMenu_fn = function() {
+  const s = `
+<a class="list-group-item list-group-item-action p-2" href="">
+	<i class="bi bi-house"></i> Home
+</a>
+
+<div class="list-group-item list-group-item-action p-2">
+
+	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Global", "global")}
+	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Namespace", "namespaces")}
+	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Interface", "interfaces")}
+	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Class", "classes")}
+
+</div>
+`;
+  $(jsdoc_privateGet(this, _menuSelector)).html(s.trim()).promise().done((_) => {
+    $(jsdoc_privateGet(this, _menuSelector)).find("a[data-name][data-cat][data-name]").click((e) => {
+      const el = $(e.currentTarget);
+      e.preventDefault();
+      __privateMethod(this, _makeContent, makeContent_fn).call(this, el.attr("data-title"), el.attr("data-cat"), el.attr("data-name"));
+    });
+  });
+};
+_makeSubMenu = new WeakSet();
+makeSubMenu_fn = function(title, cat) {
+  const result = [];
+  let items;
+  if (cat === "global") {
+    items = [];
+    if (jsdoc_privateGet(this, _json)["variables"]) {
+      items = items.concat(jsdoc_privateGet(this, _json)["variables"]);
+    }
+    if (jsdoc_privateGet(this, _json)["functions"]) {
+      items = items.concat(jsdoc_privateGet(this, _json)["functions"]);
+    }
+  } else {
+    items = jsdoc_privateGet(this, _json)[cat];
+  }
+  if (Array.isArray(items) && items.length > 0) {
+    result.push("<div>");
+    result.push(`<a href="#jsdoc_menu_${title.toLowerCase()}" data-toggle="collapse" data-bs-toggle="collapse"><i class="bi bi-book"></i> ${textToHtml(title)}</a>`);
+    result.push(`<ul class="collapse mb-0" id="jsdoc_menu_${title.toLowerCase()}">${items.map((_item) => `<li><a href="#" data-title="${textToHtml(title)}" data-cat="${textToHtml(cat)}" data-name="${textToHtml(_item.name)}">${textToHtml(_item.name)}</a></li>`).join("")}</ul>`);
+    result.push("</div>");
+  }
+  return result.join("");
+};
+_makeContent = new WeakSet();
+makeContent_fn = function(title, cat, name) {
+  var _a, _b, _c, _d, _e, _f;
+  const s = [];
+  let item;
+  if (cat === "global") {
+    item = {
+      name: "variables and functions",
+      variables: jsdoc_privateGet(this, _json)["variables"],
+      functions: jsdoc_privateGet(this, _json)["functions"]
+    };
+  } else {
+    item = jsdoc_privateGet(this, _json)[cat].filter((item2) => item2.name === name)[0];
+  }
+  s.push('<div class="card">');
+  s.push('<div class="card-body bg-light">');
+  s.push(`<h1>${textToHtml(title)}: ${textToHtml(item.name)}</h1>`);
+  s.push(__privateMethod(_a = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_a, item));
+  s.push(__privateMethod(_b = _AMIJSDoc, _makeDetails, makeDetails_fn).call(_b, item));
+  s.push("</div>");
+  s.push("</div>");
+  if (item.konstructor) {
+    s.push('<h3 class="mt-3">Constructor</h3>');
+    s.push(__privateMethod(_c = _AMIJSDoc, _makeFunction, makeFunction_fn).call(_c, item.konstructor));
+  }
+  if (Array.isArray(item.variables)) {
+    s.push('<h3 class="mt-3">Members</h3>');
+    for (const _variable of item.variables) {
+      s.push(__privateMethod(_d = _AMIJSDoc, _makeVariable, makeVariable_fn).call(_d, _variable));
+    }
+  }
+  if (Array.isArray(item.functions)) {
+    s.push('<h3 class="mt-3">Methods</h3>');
+    for (const _function of item.functions) {
+      s.push(__privateMethod(_e = _AMIJSDoc, _makeFunction, makeFunction_fn).call(_e, _function));
+    }
+  }
+  if (Array.isArray(item.events)) {
+    s.push('<h3 class="mt-3">Events</h3>');
+    for (const _event of item.events) {
+      s.push(__privateMethod(_f = _AMIJSDoc, _makeFunction, makeFunction_fn).call(_f, _event));
+    }
+  }
+  $(jsdoc_privateGet(this, _bodySelector)).html(s.join(""));
+};
+_makeVariable = new WeakSet();
+makeVariable_fn = function(variable) {
+  var _a, _b, _c;
+  const result = [];
+  result.push(`<hr id="jsdoc_variable_${variable.name.toLowerCase()}" />`);
+  result.push(__privateMethod(_a = _AMIJSDoc, _makeVariableSignature, makeVariableSignature_fn).call(_a, variable));
+  result.push(__privateMethod(_b = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_b, variable));
+  result.push(__privateMethod(_c = _AMIJSDoc, _makeDetails, makeDetails_fn).call(_c, variable));
+  return result.join("");
+};
+_makeVariableSignature = new WeakSet();
+makeVariableSignature_fn = function(variable) {
+  var _a;
+  const result = [];
+  result.push(`<span class="signature-name">${textToHtml(variable.name)}</span>`);
+  result.push(`<span class="signature-attrs">: {${__privateMethod(_a = _AMIJSDoc, _makeType, makeType_fn).call(_a, variable)}}</span>`);
+  return result.join("");
+};
+_makeFunction = new WeakSet();
+makeFunction_fn = function(method) {
+  var _a, _b, _c, _d, _e, _f, _g;
+  const result = [];
+  result.push(`<hr id="jsdoc_method_${method.name.toLowerCase()}" />`);
+  result.push(__privateMethod(_a = _AMIJSDoc, _makeFunctionSignature, makeFunctionSignature_fn).call(_a, method));
+  result.push(__privateMethod(_b = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_b, method));
+  result.push(__privateMethod(_c = _AMIJSDoc, _makeFunctionParameters, makeFunctionParameters_fn).call(_c, method));
+  result.push(__privateMethod(_d = _AMIJSDoc, _makeDetails, makeDetails_fn).call(_d, method));
+  result.push(__privateMethod(_e = _AMIJSDoc, _makeFunctionExceptions, makeFunctionExceptions_fn).call(_e, method));
+  result.push(__privateMethod(_f = _AMIJSDoc, _makeFunctionReturn, makeFunctionReturn_fn).call(_f, method));
+  result.push(__privateMethod(_g = _AMIJSDoc, _makeExamples, makeExamples_fn).call(_g, method));
+  return result.join("");
+};
+_makeFunctionSignature = new WeakSet();
+makeFunctionSignature_fn = function(method) {
+  const result = [];
+  result.push(`<span class="signature-name">${textToHtml(method.name)}</span>`);
+  if (method.params) {
+    const L = method.params.map((_param) => {
+      var _a;
+      return __privateMethod(_a = _AMIJSDoc, _makeParam, makeParam_fn).call(_a, _param);
+    });
+    result.push(`<span class="signature-params">(${L.join(", ")})</span>`);
+  }
+  if (method.returns) {
+    const L = method.returns.map((_return) => {
+      var _a;
+      return __privateMethod(_a = _AMIJSDoc, _makeType, makeType_fn).call(_a, _return);
+    });
+    result.push(`<span class="signature-attrs"> &rarr; {${L.join(" or ")}}</span>`);
+  }
+  return result.join("");
+};
+_makeFunctionParameters = new WeakSet();
+makeFunctionParameters_fn = function(method) {
+  var _a, _b;
+  const result = [];
+  if (method.params.length > 0) {
+    const L1 = [], L2 = [], L3 = [], L4 = [], L5 = [], L6 = [];
+    let cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0, cnt6 = 0;
+    for (const _params of method.params) {
+      L1.push(textToHtml(_params["name"]));
+      L2.push(__privateMethod(_a = _AMIJSDoc, _makeType, makeType_fn).call(_a, _params));
+      L3.push(__privateMethod(_b = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_b, _params));
+      L4.push(textToHtml(_params["default"]));
+      L5.push(_params["optional"]);
+      L6.push(_params["nullable"]);
+      if (_params["name"]) {
+        cnt1++;
+      }
+      if (_params["type"]) {
+        cnt2++;
+      }
+      if (_params["desc"]) {
+        cnt3++;
+      }
+      if (_params["default"]) {
+        cnt4++;
+      }
+      if (_params["optional"]) {
+        cnt5++;
+      }
+      if (_params["nullable"]) {
+        cnt6++;
+      }
+    }
+    result.push("<h5><strong>Parameters:</strong></h5>");
+    result.push('<table class="table table-sm table-striped table-bordered" style="width: auto;">');
+    result.push("<thead>");
+    result.push("<tr>");
+    if (cnt1 > 0) {
+      result.push("<th>Name</th>");
+    }
+    if (cnt2 > 0) {
+      result.push("<th>Type</th>");
+    }
+    if (cnt4 > 0) {
+      result.push("<th>Default</th>");
+    }
+    if (cnt5 > 0) {
+      result.push("<th>Optional</th>");
+    }
+    if (cnt6 > 0) {
+      result.push("<th>Nullable</th>");
+    }
+    if (cnt3 > 0) {
+      result.push("<th>Description</th>");
+    }
+    result.push("</tr>");
+    result.push("</thead>");
+    result.push("<tbody>");
+    for (const i in method.params) {
+      result.push("<tr>");
+      if (cnt1 > 0) {
+        result.push(`<td>${L1[i]}</td>`);
+      }
+      if (cnt2 > 0) {
+        result.push(`<td>${L2[i]}</td>`);
+      }
+      if (cnt4 > 0) {
+        result.push(`<td>${L4[i]}</td>`);
+      }
+      if (cnt5 > 0) {
+        result.push(`<td class="text-center">${L5[i] ? "\u2713" : ""}</td>`);
+      }
+      if (cnt6 > 0) {
+        result.push(`<td class="text-center">${L6[i] ? "\u2713" : ""}</td>`);
+      }
+      if (cnt3 > 0) {
+        result.push(`<td>${L3[i]}</td>`);
+      }
+      result.push("</tr>");
+    }
+    result.push("</tbody>");
+    result.push("</table>");
+  }
+  return result.join("");
+};
+_makeFunctionExceptions = new WeakSet();
+makeFunctionExceptions_fn = function(method) {
+  var _a, _b;
+  const result = [];
+  if (Array.isArray(method.exceptions)) {
+    for (const _exception of method.exceptions) {
+      result.push("<h5><strong>Throws:</strong></h5>");
+      result.push(__privateMethod(_a = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_a, _exception));
+      result.push(`<div>Type: ${__privateMethod(_b = _AMIJSDoc, _makeType, makeType_fn).call(_b, _exception)}</div>`);
+    }
+  }
+  return result.join("");
+};
+_makeFunctionReturn = new WeakSet();
+makeFunctionReturn_fn = function(method) {
+  var _a, _b;
+  const result = [];
+  if (Array.isArray(method.returns)) {
+    for (const _return of method.returns) {
+      result.push("<h5><strong>Returns:</strong></h5>");
+      result.push(__privateMethod(_a = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_a, _return));
+      result.push(`<div>Type: ${__privateMethod(_b = _AMIJSDoc, _makeType, makeType_fn).call(_b, _return)}</div>`);
+    }
+  }
+  return result.join("");
+};
+_makeDesc = new WeakSet();
+makeDesc_fn = function(x) {
+  const result = [];
+  if (x.desc) {
+    result.push("<div>");
+    result.push(textToHtml(x.desc).replace(jsdoc_privateGet(_AMIJSDoc, jsdoc_linkExp), (_, x2, y) => {
+      return `<a href="${y}">${x2 || y}</a>`;
+    }));
+    result.push("</div>");
+  }
+  return result.join("");
+};
+_makeParam = new WeakSet();
+makeParam_fn = function(x) {
+  const result = [];
+  result.push(textToHtml(x.name));
+  if (x.optional) {
+    result.push('<sup class="signature-params-attrs">opt.</sup>');
+  }
+  if (x.nullable) {
+    result.push('<sup class="signature-params-attrs">null.</sup>');
+  }
+  return result.join("");
+};
+_makeType = new WeakSet();
+makeType_fn = function(x) {
+  return x.type.map((y) => `<i>${textToHtml(y.replace(/\s*/g, ""))}</i>`).join(" or ");
+};
+_makeDetails = new WeakSet();
+makeDetails_fn = function(x) {
+  const result = [];
+  if (Array.isArray(x.implements) && x.implements.length > 0) {
+    result.push(`<div>Implements: ${textToHtml(x.implements.join(", "))}</div>`);
+  }
+  if (Array.isArray(x.inherits) && x.inherits.length > 0) {
+    result.push(`<div>Inherits: ${textToHtml(x.inherits.join(", "))}</div>`);
+  }
+  const version = [];
+  const author = [];
+  const see = [];
+  if (x.version) {
+    version.push(`<dt>Version:</dt><dd>${textToHtml(x.version)}</dd>`);
+  }
+  if (Array.isArray(x.author)) {
+    for (const _author of x.author) {
+      author.push(`<dt>Author:</dt><dd>${textToHtml(_author)}</dd>`);
+    }
+  }
+  if (Array.isArray(x.see)) {
+    for (const _see of x.see) {
+      see.push(`<dt>See:</dt><dd>${textToHtml(_see)}</dd>`);
+    }
+  }
+  if (author.length > 0 || version.length > 0 || see.length > 0) {
+    result.push('<dl class="details">');
+    result.push(version.join(""));
+    result.push(author.join(""));
+    result.push(see.join(""));
+    result.push("</dl>");
+  }
+  return result;
+};
+_makeExamples = new WeakSet();
+makeExamples_fn = function(x, mode) {
+  const result = [];
+  if (Array.isArray(x.examples)) {
+    for (const _example of x.examples) {
+      result.push("<h5><strong>Example:</strong></h5>");
+      result.push(`<textarea class="form-editor" data-mode="${textToHtml(mode)}">${textToHtml(_example)}</textarea>`);
+    }
+  }
+  return result.join("");
+};
+jsdoc_privateAdd(AMIJSDoc, _makeVariable);
+jsdoc_privateAdd(AMIJSDoc, _makeVariableSignature);
+jsdoc_privateAdd(AMIJSDoc, _makeFunction);
+jsdoc_privateAdd(AMIJSDoc, _makeFunctionSignature);
+jsdoc_privateAdd(AMIJSDoc, _makeFunctionParameters);
+jsdoc_privateAdd(AMIJSDoc, _makeFunctionExceptions);
+jsdoc_privateAdd(AMIJSDoc, _makeFunctionReturn);
+jsdoc_privateAdd(AMIJSDoc, _makeDesc);
+jsdoc_privateAdd(AMIJSDoc, _makeParam);
+jsdoc_privateAdd(AMIJSDoc, _makeType);
+jsdoc_privateAdd(AMIJSDoc, _makeDetails);
+jsdoc_privateAdd(AMIJSDoc, _makeExamples);
+jsdoc_privateAdd(AMIJSDoc, jsdoc_linkExp, /(?:\[\s*([^\s\]]+)\s*])?{@link\s+([^\s}]+)\s*}/g);
+function renderJSDoc(menuSelector, bodySelector, json) {
+  return new AMIJSDoc(menuSelector, bodySelector, json);
 }
 
 ;// CONCATENATED MODULE: ./src/core/utilities/controls.js

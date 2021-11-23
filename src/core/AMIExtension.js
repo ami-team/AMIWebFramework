@@ -11,7 +11,7 @@
 
 'use strict';
 
-import {setup} from './utilities/tools';
+import * as tools from './utilities/tools';
 
 export default function()
 {
@@ -76,7 +76,7 @@ export default function()
 		{
 			const result = $.Deferred();
 
-			const [context, url] = setup(
+			const [context, url] = tools.setup(
 				['context', 'url'],
 				[result, ''],
 				options
