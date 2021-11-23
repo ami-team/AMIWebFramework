@@ -125,42 +125,42 @@ class AMIWebApp
 
 	/**
 	 * The webapp URL
-	 * @type {String}
+	 * @type {string}
 	 */
 
 	webAppURL = '';
 
 	/**
 	 * The script URL
-	 * @type {String}
+	 * @type {string}
 	 */
 
 	scriptURL = '';
 
 	/**
 	 * The origin URL
-	 * @type {String}
+	 * @type {string}
 	 */
 
 	originURL = '';
 
 	/**
 	 * The arguments of the webapp URL
-	 * @type {Object<String, String>}
+	 * @type {Object<string, string>}
 	 */
 
 	args = {};
 
 	/**
 	 * The anchor part of the webapp URL
-	 * @type {String}
+	 * @type {string}
 	 */
 
 	hash = '';
 
 	/**
 	 * The Twitter Bootstrap's version (default, 'v4')
-	 * @type {String}
+	 * @type {string}
 	 */
 
 	bootstrapVersion = 'v4';

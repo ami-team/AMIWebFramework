@@ -168,9 +168,9 @@ export function asArray(x)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @param {Array<String>} optionNames
+ * @param {Array<string>} optionNames
  * @param {Array<*>} optionDefaults
- * @param {Object<String, *>} options
+ * @param {Object<string, *>} options
  * @returns {Array<*>}
  * @ignore
  */

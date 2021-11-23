@@ -210,35 +210,12 @@ class AMIAuth
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Checks whether the user is authenticated
-	 * @returns {boolean}
-	 */
-
-	isAuthenticated()
-	{
-		return false;
-	}
-
+	/* PUBLIC METHODS                                                                                                 */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Checks whether the user has the given role
-	 * @param {string} roleName the role
-	 * @returns {boolean}
-	 */
-
-	hasRole(roleName)
-	{
-		return true;
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Gets the MQTT endpoint
-	 * @return {string} The MQTT endpoint
+	 * Gets the current MQTT endpoint
+	 * @return {string} The current MQTT endpoint
 	 */
 
 	getMqttEndpoint()
@@ -249,13 +226,170 @@ class AMIAuth
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Gets the MQTT token
-	 * @return {string} The MQTT token
+	 * Gets the current MQTT token
+	 * @return {string} The current MQTT token
 	 */
 
 	getMqttToken()
 	{
 		return this.#awfInfo.mqttToken || '';
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current user information
+	 * @returns {Object<string,*>} The current user information
+	 */
+
+	getUserInfo()
+	{
+		return this.#userInfo;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current role information
+	 * @returns {Object<string,*>} The current role information
+	 */
+
+	getRoleInfo()
+	{
+		return this.#roleInfo;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current bookmark information
+	 * @returns {Object<string,*>} The current bookmark information
+	 */
+
+	getBookmarkInfo()
+	{
+		return this.#bookmarkInfo;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current AMI Web Framework information
+	 * @returns {Object<string,*>} The current AMI Web Framework information
+	 */
+
+	getAWFInfo()
+	{
+		return this.#awfInfo;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current user
+	 * @returns {string} The current user
+	 */
+
+	getUser()
+	{
+		return this.#userInfo.AMIUser || 'guest';
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current guest user
+	 * @returns {string} The current guest user
+	 */
+
+	getGuest()
+	{
+		return this.#userInfo.guestUser || 'guest';
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current user `not before` date
+	 * @returns {string} The current user `not before` date
+	 */
+
+	getNotBeforeDate()
+	{
+		return this.#userInfo.notBefore || '';
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current user `not after` date
+	 * @returns {string} The current user `not after` date
+	 */
+
+	getNotAfterDate()
+	{
+		return this.#userInfo.notAfter || '';
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current client DN
+	 * @returns {string} The current client DN
+	 */
+
+	getClientDN()
+	{
+		return this.#userInfo.clientDNInSession || '';
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current issuer DN
+	 * @returns {string} The current issuer DN
+	 */
+
+	getIssuerDN()
+	{
+		return this.#userInfo.issuerDNInSession || '';
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Checks whether the user is valid or not
+	 * @returns {boolean}
+	 */
+
+	isValid()
+	{
+		return (this.#userInfo.valid || 'false') !== 'false';
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Checks whether the user is authenticated or not
+	 * @returns {boolean}
+	 */
+
+	isAuthenticated()
+	{
+		return this.getUser() !== this.getGuest();
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Checks whether the user has the given role or not
+	 * @param {string} roleName the role
+	 * @returns {boolean}
+	 */
+
+	hasRole(roleName)
+	{
+		return roleName in this.#roleInfo;
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
