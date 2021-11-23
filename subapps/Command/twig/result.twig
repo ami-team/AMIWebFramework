@@ -1,0 +1,23 @@
+<div class="mb-0 mt-2 mt-lg-0">
+	<div class="text-{% if BOOTSTRAP_VERSION === 'v5' %}end{% else %}right{% endif %}">
+		<div class="cmd-tools">
+			<button type="button" class="btn btn-sm btn-link" style="font-size: 1.33rem;" onclick="commandApp.copy('{{url|e}}');">
+				<i class="bi bi-clipboard"></i>
+				<strong>URL</strong>
+			</button>
+			<button type="button" class="btn btn-sm btn-link" style="font-size: 1.33rem;" onclick="commandApp.copy($(this).parent().parent().parent().find('.form-editor').text());">
+				<i class="bi bi-clipboard"></i>
+				<strong>TXT</strong>
+			</button>
+			<button type="button" class="btn btn-sm btn-link" style="font-size: 1.33rem;" onclick="commandApp.save($(this).parent().parent().parent().find('.form-editor').text());">
+				<i class="bi bi-download"></i>
+				<strong></strong>
+			</button>
+			<button type="button" class="btn btn-sm btn-link" style="font-size: 1.33rem;" onclick="$(this).parent().parent().parent().remove();">
+				<i class="bi bi-x-circle"></i>
+				<strong></strong>
+			</button>
+		</div>
+	</div>
+	<textarea class="form-editor mb-2" data-lang="{{type|e}}" data-show-gutter="true" data-read-only="true" style="border-top-right-radius: 0 !important;">{{data|e}}</textarea>
+</div>

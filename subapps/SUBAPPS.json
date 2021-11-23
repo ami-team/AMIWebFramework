@@ -1,4 +1,12 @@
 {
+    "command": {
+        "breadcrumb": [
+            "Tools",
+            "<a href=\"{{WEBAPP_URL}}?subapp=command\">Command</a>"
+        ],
+        "file": "subapps/Command/js/CommandApp.js",
+        "instance": "commandApp"
+    },
     "document": {
         "file": "subapps/Document/js/DocumentApp.js",
         "instance": "documentApp"
