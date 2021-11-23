@@ -11,9 +11,8 @@
 
 'use strict';
 
-import {textToHtml} from './strings';
-
-import {getStack, unlock} from './locks';
+import * as locks from './locks';
+import * as strings from './strings';
 
 import amiWebApp from '../AMIWebApp';
 
@@ -90,9 +89,9 @@ function _publishAlert(clazz, title, message, fadeOut)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		toast.find('.toast-header > strong').html(textToHtml(title)
+		toast.find('.toast-header > strong').html(strings.textToHtml(title)
 			+ ` <span class="badge badge-${clazz}">${toast.attr('data-cnt', parseInt(toast.attr('data-cnt')) + 1).attr('data-cnt')}</span>`);
-		toast.find('.toast-header > small').html(textToHtml(date));
+		toast.find('.toast-header > small').html(strings.textToHtml(date));
 
 		toast.toast('show');
 
@@ -101,11 +100,11 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	console.log(`AMI :: ${title.toUpperCase()}: ${message}\n${getStack()}`); // eslint-disable-line no-console
+	console.log(`AMI :: ${title.toUpperCase()}: ${message}\n${locks.getStack()}`); // eslint-disable-line no-console
 
 	$(document).scrollTop(0);
 
-	unlock();
+	locks.unlock();
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 }

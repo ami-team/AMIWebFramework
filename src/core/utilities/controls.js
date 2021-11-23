@@ -11,15 +11,11 @@
 
 'use strict';
 
-import {error} from './messages';
-
-import {textToHtml} from './strings';
-
-import {lock, unlock} from './locks';
-
-import {loadScripts} from './ressources';
-
-import {_internal_then, setup} from './tools';
+import * as locks from './locks';
+import * as tools from './tools';
+import * as strings from './strings';
+import * as messages from './messages';
+import * as resources from './resources';
 
 import amiRouter from '../AMIRouter';
 
@@ -43,7 +39,7 @@ export function loadControl(control, options)
 {
 	const result = $.Deferred();
 
-	const [context] = setup(
+	const [context] = tools.setup(
 		['context'],
 		[result],
 		options
@@ -62,7 +58,7 @@ export function loadControl(control, options)
 
 	if(descr)
 	{
-		loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
+		resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
 
 			try
 			{
@@ -72,7 +68,7 @@ export function loadControl(control, options)
 				                          : /*----------------*/ null /*----------------*/
 				;
 
-				_internal_then(promise, () => {
+				tools._internal_then(promise, () => {
 
 					result.resolveWith(context, [/*-----------------*/ clazz /*-----------------*/]);
 
@@ -118,7 +114,7 @@ export function createControl(parent, owner, control, params, options)
 {
 	const result = $.Deferred();
 
-	const [context] = setup(
+	const [context] = tools.setup(
 		['context'],
 		[result],
 		options
@@ -130,7 +126,7 @@ export function createControl(parent, owner, control, params, options)
 
 		const instance = new constructor(parent, owner);
 
-		_internal_then(constructor.prototype.render.apply(instance, params), (...args) => {
+		tools._internal_then(constructor.prototype.render.apply(instance, params), (...args) => {
 
 			result.resolveWith(context, [instance].concat(args));
 
@@ -168,7 +164,7 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
 {
 	const result = $.Deferred();
 
-	const [context] = setup(
+	const [context] = tools.setup(
 		['context'],
 		[result],
 		options
@@ -243,7 +239,7 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
 {
 	const result = $.Deferred();
 
-	const [context] = setup(
+	const [context] = tools.setup(
 		['context'],
 		[result],
 		options
@@ -253,7 +249,7 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
 
 	try
 	{
-		parent.appendItem(`<i class="fa fa-${textToHtml(icon)}"></i> ${textToHtml(title)}`).done((selector) => {
+		parent.appendItem(`<i class="bi bi-${strings.textToHtml(icon)}"></i> ${strings.textToHtml(title)}`).done((selector) => {
 
 			const PARAMS = [];
 			const OPTIONS = {};
@@ -349,28 +345,28 @@ export function createControlFromWebLink(parent, owner, el, parentOptions, optio
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	lock();
+	locks.lock();
 
 	/**/ if(dataCtrlLocation === 'body')
 	{
 		return createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, parentOptions, options).done(() => {
 
-			unlock();
+			locks.unlock();
 
 		}).fail((message) => {
 
-			error(message);
+			messages.error(message);
 		});
 	}
 	else
 	{
 		return createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, parentOptions, dataIcon, dataTitle, options).done(() => {
 
-			unlock();
+			locks.unlock();
 
 		}).fail((message) => {
 
-			error(message);
+			messages.error(message);
 		});
 	}
 

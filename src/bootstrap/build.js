@@ -21,7 +21,7 @@ const autoprefixer = require(path.resolve(__dirname, '../../node_modules/autopre
 /* AMI-BOOTSTRAP 4                                                                                                    */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-console.log('Buildind AMI-BOOTSTRAP 4...');
+console.log('Building AMI-BOOTSTRAP 4...');
 
 sass.render({file: path.resolve(__dirname, 'bootstrap4.scss')}, (err, result) => {
 
@@ -48,7 +48,7 @@ sass.render({file: path.resolve(__dirname, 'bootstrap4.scss')}, (err, result) =>
 /* AMI-BOOTSTRAP 5                                                                                                    */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-console.log('Buildind AMI-BOOTSTRAP 5...');
+console.log('Building AMI-BOOTSTRAP 5...');
 
 sass.render({file: path.resolve(__dirname, 'bootstrap5.scss')}, (err, result) => {
 

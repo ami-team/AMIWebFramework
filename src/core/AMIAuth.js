@@ -11,18 +11,13 @@
 
 'use strict';
 
-import {_internal_then} from './utilities/tools';
-
-import {base64Decode} from './utilities/strings';
-
-import {setDateTimeFormats} from './utilities/view';
-
-import {triggerLogin, triggerLogout} from './utilities/subapps';
+import * as view from './utilities/view';
+import * as tools from './utilities/tools';
+import * as strings from './utilities/strings';
+import * as subapps from './utilities/subapps';
 
 import amiRouter from './AMIRouter';
-
 import amiWebApp from './AMIWebApp';
-
 import amiCommand from './AMICommand';
 
 import 'kjua';
@@ -56,9 +51,9 @@ class AMIAuth
 	{
 		try
 		{
-			const config = JSON.parse(base64Decode(awfInfo.config));
+			const config = JSON.parse(strings.base64Decode(awfInfo.config));
 
-			setDateTimeFormats(
+			view.setDateTimeFormats(
 				config.datetimePrecision,
 				config.datetimeFormat,
 				config.dateFormat,
@@ -125,7 +120,7 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			_internal_then(amiWebApp.onReady(userdata), () => {
+			tools._internal_then(amiWebApp.onReady(userdata), () => {
 
 				amiWebApp._isReady = true;
 
@@ -182,7 +177,7 @@ class AMIAuth
 		{
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			triggerLogin().then(() => {
+			subapps.triggerLogin().then(() => {
 
 				result.resolve();
 
@@ -197,7 +192,7 @@ class AMIAuth
 		{
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			triggerLogout().then(() => {
+			subapps.triggerLogout().then(() => {
 
 				result.resolve();
 

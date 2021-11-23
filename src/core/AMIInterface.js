@@ -11,7 +11,7 @@
 
 'use strict';
 
-import {$AMIInterface, $AMIClass} from './AMIObject';
+import * as AMIObject from './AMIObject';
 
 import amiCommand from './AMICommand';
 
@@ -103,7 +103,7 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
  * @interface ami.ISubApp
  */
 
-$AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
+AMIObject.$AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
@@ -157,7 +157,7 @@ $AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
  * @implements {ami.ISubApp}
  */
 
-$AMIClass('ami.SubApp', /** @lends ami.SubApp */ {
+AMIObject.$AMIClass('ami.SubApp', /** @lends ami.SubApp */ {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	$implements: [ami.ISubApp],

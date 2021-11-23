@@ -13,23 +13,23 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import {renderJSDoc} from './utilities/jsdoc';
+import * as jsdoc from './utilities/jsdoc';
 
-import {error, warning, success, info, flush} from './utilities/messages';
+import * as messages from './utilities/messages';
 
-import {_subapps, loadSubApp, loadSubAppByURL} from './utilities/subapps';
+import * as subapps from './utilities/subapps';
 
-import {fillBreadcrumb, replaceHTML, appendHTML, prependHTML, formatTWIG} from './utilities/view';
+import * as view from './utilities/view';
 
-import {typeOf, asArray, isString, isArray, isObject, isSet, isMap, setup} from './utilities/tools';
+import * as tools from './utilities/tools';
 
-import {getStack, lock, unlock, modalEnter, modalLeave, _canLeave, canLeave} from './utilities/locks';
+import * as locks from './utilities/locks';
 
-import {loadResources, loadSheets, loadScripts, loadJSONs, loadXMLs, loadHTMLs, loadTWIGs, loadTexts} from './utilities/ressources';
+import * as resources from './utilities/resources';
 
-import {_controls, loadControl, createControl, createControlInBody, createControlInContainer, createControlFromWebLink} from './utilities/controls';
+import * as controls from './utilities/controls';
 
-import {textToHtml, htmlToText, textToString, stringToText, htmlToString, stringToHtml, textToSQL, sqlToText, base64Encode, base64Decode} from './utilities/strings';
+import * as strings from './utilities/strings';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -269,7 +269,7 @@ class AMIWebApp
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.loadResources([
+		resources.loadResources([
 			...resourcesCSS,
 			...resourcesJS,
 		]).done((resources) => {
@@ -298,95 +298,95 @@ class AMIWebApp
 	/* TOOLS                                                                                                          */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	typeOf = typeOf;
+	typeOf = tools.typeOf;
 
-	asArray = asArray;
+	asArray = tools.asArray;
 
-	isString = isString;
-	isArray = isArray;
-	isObject = isObject;
-	isSet = isSet;
-	isMap = isMap;
+	isString = tools.isString;
+	isArray = tools.isArray;
+	isObject = tools.isObject;
+	isSet = tools.isSet;
+	isMap = tools.isMap;
 
-	setup = setup;
+	setup = tools.setup;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* STACK                                                                                                          */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	getStack = getStack;
+	getStack = locks.getStack;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* LOCKS                                                                                                          */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	lock = lock;
-	unlock = unlock;
+	lock = locks.lock;
+	unlock = locks.unlock;
 
-	modalEnter = modalEnter;
-	modalLeave = modalLeave;
+	modalEnter = locks.modalEnter;
+	modalLeave = locks.modalLeave;
 
-	canLeave = canLeave;
+	canLeave = locks.canLeave;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* MESSAGES                                                                                                       */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	error = error;
-	info = info;
-	success = success;
-	warning = warning;
+	error = messages.error;
+	info = messages.info;
+	success = messages.success;
+	warning = messages.warning;
 
-	flush = flush;
+	flush = messages.flush;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* BASE64 STRINGS                                                                                                 */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	base64Encode = base64Encode;
-	base64Decode = base64Decode;
+	base64Encode = strings.base64Encode;
+	base64Decode = strings.base64Decode;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* PLAIN STRINGS                                                                                                  */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	textToHtml = textToHtml;
-	htmlToText = htmlToText;
+	textToHtml = strings.textToHtml;
+	htmlToText = strings.htmlToText;
 
-	textToString = textToString;
-	stringToText = stringToText;
+	textToString = strings.textToString;
+	stringToText = strings.stringToText;
 
-	htmlToString = htmlToString;
-	stringToHtml = stringToHtml;
+	htmlToString = strings.htmlToString;
+	stringToHtml = strings.stringToHtml;
 
-	textToSQL = textToSQL;
-	sqlToText = sqlToText;
+	textToSQL = strings.textToSQL;
+	sqlToText = strings.sqlToText;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* BREADCRUMB                                                                                                     */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	fillBreadcrumb = fillBreadcrumb;
+	fillBreadcrumb = view.fillBreadcrumb;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* HTML                                                                                                           */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	replaceHTML = replaceHTML;
-	prependHTML = prependHTML;
-	appendHTML = appendHTML;
+	replaceHTML = view.replaceHTML;
+	prependHTML = view.prependHTML;
+	appendHTML = view.appendHTML;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* TWIG                                                                                                           */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	formatTWIG = formatTWIG;
+	formatTWIG = view.formatTWIG;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* JSDOC                                                                                                          */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	renderJSDoc = renderJSDoc;
+	renderJSDoc = jsdoc.renderJSDoc;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* JSPATH                                                                                                         */
@@ -398,39 +398,39 @@ class AMIWebApp
 	/* DYNAMIC RESOURCE LOADING                                                                                       */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	loadResources = loadResources;
-	loadSheets = loadSheets;
-	loadScripts = loadScripts;
-	loadJSONs = loadJSONs;
-	loadXMLs = loadXMLs;
-	loadHTMLs = loadHTMLs;
-	loadTWIGs = loadTWIGs;
-	loadTexts = loadTexts;
+	loadResources = resources.loadResources;
+	loadSheets = resources.loadSheets;
+	loadScripts = resources.loadScripts;
+	loadJSONs = resources.loadJSONs;
+	loadXMLs = resources.loadXMLs;
+	loadHTMLs = resources.loadHTMLs;
+	loadTWIGs = resources.loadTWIGs;
+	loadTexts = resources.loadTexts;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* SUBAPPS                                                                                                        */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_subapps = _subapps;
+	_subapps = subapps._subapps;
 
-	loadSubApp = loadSubApp;
+	loadSubApp = subapps.loadSubApp;
 
-	loadSubAppByURL = loadSubAppByURL;
+	loadSubAppByURL = subapps.loadSubAppByURL;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* CONTROLS                                                                                                       */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_controls = _controls;
+	_controls = controls._controls;
 
-	loadControl = loadControl;
+	loadControl = controls.loadControl;
 
-	createControl = createControl;
+	createControl = controls.createControl;
 
-	createControlInBody = createControlInBody;
-	createControlInContainer = createControlInContainer;
+	createControlInBody = controls.createControlInBody;
+	createControlInContainer = controls.createControlInContainer;
 
-	createControlFromWebLink = createControlFromWebLink;
+	createControlFromWebLink = controls.createControlFromWebLink;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* WEB APPLICATION                                                                                                */
@@ -492,7 +492,7 @@ class AMIWebApp
 				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 				captchaAllowed,
 				bookmarksAllowed,
-			] = setup([
+			] = tools.setup([
 				'logo_url', 'background_url', 'home_url', 'contact_email', 'about_url',
 				'theme_url', 'locker_url', 'endpoint_url',
 				'sso_auto_authentication',
@@ -520,7 +520,7 @@ class AMIWebApp
 
 			window.onbeforeunload = (e) => {
 
-				if(!_canLeave)
+				if(!locks._canLeave)
 				{
 					const f = e || window.event;
 
@@ -547,12 +547,12 @@ class AMIWebApp
 
 					for(const name in data1)
 					{
-						_controls[name.toLowerCase()] = data1[name];
+						controls._controls[name.toLowerCase()] = data1[name];
 					}
 
 					for(const name in data2)
 					{
-						_subapps[name.toLowerCase()] = data2[name];
+						subapps._subapps[name.toLowerCase()] = data2[name];
 					}
 
 					if(!this.#embedded)
@@ -573,9 +573,9 @@ class AMIWebApp
 
 							$.ajax({url: lockerURL, cache: true, crossDomain: true, dataType: 'text'}).then((data4) => {
 
-								$('body').append(formatTWIG(data3, dict) + data4).promise().done(() => {
+								$('body').append(view.formatTWIG(data3, dict) + data4).promise().done(() => {
 
-									lock();
+									locks.lock();
 
 									amiAuth.init(
 										ssoAutoAuthentication,
@@ -585,11 +585,11 @@ class AMIWebApp
 										bookmarksAllowed
 									).done(() => {
 
-										unlock();
+										locks.unlock();
 
 									}).fail((message) => {
 
-										error(message);
+										messages.error(message);
 									});
 								});
 
@@ -627,7 +627,7 @@ class AMIWebApp
 
 							$('body').prepend(data3 + data4).promise().done(() => {
 
-								lock();
+								locks.lock();
 
 								amiAuth.init(
 									ssoAutoAuthentication,
@@ -637,11 +637,11 @@ class AMIWebApp
 									bookmarksAllowed
 								).done(() => {
 
-									unlock();
+									locks.unlock();
 
 								}).fail((message) => {
 
-									error(message);
+									messages.error(message);
 								});
 							});
 						});

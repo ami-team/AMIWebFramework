@@ -11,12 +11,10 @@
 
 'use strict';
 
-import {error} from './messages';
-
-import {isString, isArray, isMap, asArray, setup} from './tools';
+import * as tools  from './tools';
+import * as messages from './messages';
 
 import amiRouter from '../AMIRouter';
-
 import amiWebApp from '../AMIWebApp';
 
 import amiTwig from 'ami-twig';
@@ -38,11 +36,11 @@ export function fillBreadcrumb(items)
 {
 	let s;
 
-	/**/ if(isArray(items))
+	/**/ if(tools.isArray(items))
 	{
 		s = items.map((item) => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL())}</li>`).join('');
 	}
-	else if(isString(items))
+	else if(tools.isString(items))
 	{
 		s = items.replace(/{{ORIGIN_URL}}/g, amiRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, amiRouter.getWebAppURL());
 	}
@@ -101,7 +99,7 @@ function _xxxHTML(selector, twig, mode, options)
 {
 	const result = $.Deferred();
 
-	const [context, scope, dict, twigs] = setup(
+	const [context, scope, dict, twigs] = tools.setup(
 		['context', 'scope', 'dict', 'twigs'],
 		[result, null, {}, {}],
 		options
@@ -234,108 +232,110 @@ function _xxxHTML(selector, twig, mode, options)
 
 		const editors = _find('.form-editor:not(.form-editor-hidden)');
 
-		if(editors.length > 0)
-		{
-			import('monaco-editor/esm/vs/editor/editor.api').then((monaco) => {
-				editors.each((index, item) => {
+		if(editors.length > 0) import('monaco-editor/esm/vs/editor/editor.api').then((monaco) => {
 
-					/*--------------------------------------------------------------------------------------------------------*/
+			editors.each((index, item) => {
 
-					const textarea = $(item).removeClass('form-editor').addClass('form-editor-hidden');
+				/*----------------------------------------------------------------------------------------------------*/
 
-					/*--------------------------------------------------------------------------------------------------------*/
+				const textarea = $(item).removeClass('form-editor').addClass('form-editor-hidden');
 
-					const div = $('<div>', {
-						'class': textarea.attr('class').replace('form-editor-hidden', '').trim() + ' form-editor-monaco',
-						'style': textarea.attr('style'),
-					}).insertBefore(textarea);
+				/*----------------------------------------------------------------------------------------------------*/
 
-					div.promise().done(() => {
+				const div = $('<div>', {
+					'class': textarea.attr('class')
+									 .replace('form-editor-hidden', '').trim() + ' form-editor-monaco',
+					'style': textarea.attr('style'),
+				}).insertBefore(textarea);
 
-						/*----------------------------------------------------------------------------------------------------*/
+				div.promise().done(() => {
 
-						const lang = textarea.attr('data-lang') || '';
-						const theme = textarea.attr('data-theme') || 'vs';
+					/*------------------------------------------------------------------------------------------------*/
 
+					const lang = textarea.attr('data-lang') || '';
+					const theme = textarea.attr('data-theme') || 'vs';
+
+					/**/
+
+					const wordWrap = textarea.attr('data-word-wrap') || 'false';
+					const readOnly = textarea.attr('data-read-only') || 'false';
+					const showGutter = textarea.attr('data-show-gutter') || 'false';
+					const showMiniMap = textarea.attr('data-show-minimap') || 'false';
+					const renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
+					const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					const editor = monaco.editor.create(div[0], {
+						/* VALUE */
+						value: item.value,
+						/* OPTIONS */
+						theme: theme,
+						language: lang,
+						wordWrap: wordWrap === 'true',
+						readOnly: readOnly === 'true',
+						minimap: {
+							enabled: showMiniMap === 'true'
+						},
+						renderWhitespace: renderWhitespace === 'true',
+						lineNumbers: showGutter === 'true' ? 'on' : 'off',
+						renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
 						/**/
-
-						const wordWrap = textarea.attr('data-word-wrap') || 'false';
-						const readOnly = textarea.attr('data-read-only') || 'false';
-						const showGutter = textarea.attr('data-show-gutter') || 'false';
-						const showMiniMap = textarea.attr('data-show-minimap') || 'false';
-						const renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
-						const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
-
-						/*----------------------------------------------------------------------------------------------------*/
-
-						const editor = monaco.editor.create(div[0], {
-							/* VALUE */
-							value: item.value,
-							/* OPTIONS */
-							theme: theme,
-							language: lang,
-							wordWrap: wordWrap === 'true',
-							readOnly: readOnly === 'true',
-							minimap: {
-								enabled: showMiniMap === 'true'
-							},
-							renderWhitespace: renderWhitespace === 'true',
-							lineNumbers: showGutter === 'true' ? 'on' : 'off',
-							renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
-							/**/
-							overviewRulerLanes: 0,
-							overviewRulerBorder: false,
-							scrollBeyondLastLine: false,
-							hideCursorInOverviewRuler: true,
-							scrollbar: {
-								alwaysConsumeMouseWheel: false,
-							}
-						});
-
-						/*----------------------------------------------------------------------------------------------------*/
-
-						textarea.data('editor', editor);
-
-						/*----------------------------------------------------------------------------------------------------*/
-
-						editor.onDidChangeModelContent(() => {
-
-							item.value = editor.getValue();
-
-							$(item).trigger('change');
-						});
-
-						/*----------------------------------------------------------------------------------------------------*/
-
-						const updateHeight = () => {
-
-							try
-							{
-								editor.layout({
-									width: div.width(),
-									height: editor.getContentHeight(),
-								});
-							}
-							catch
-							{
-								/* IGNORE */
-							}
-						};
-
-						/*----------------------------------------------------------------------------------------------------*/
-
-						editor.onDidContentSizeChange(
-							updateHeight
-						);
-
-						updateHeight();
-
-						/*----------------------------------------------------------------------------------------------------*/
+						overviewRulerLanes: 0,
+						overviewRulerBorder: false,
+						scrollBeyondLastLine: false,
+						hideCursorInOverviewRuler: true,
+						scrollbar: {
+							alwaysConsumeMouseWheel: false,
+						}
 					});
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					textarea.data('editor', editor);
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					editor.onDidChangeModelContent(() => {
+
+						item.value = editor.getValue();
+
+						$(item).trigger('change');
+					});
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					const updateHeight = () => {
+
+						try
+						{
+							editor.layout({
+								width: div.width(),
+								height: editor.getContentHeight(),
+							});
+						}
+						catch
+						{
+							/* IGNORE */
+						}
+					};
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					editor.onDidContentSizeChange(
+						updateHeight
+					);
+
+					updateHeight();
+
+					/*------------------------------------------------------------------------------------------------*/
 				});
-			})
-			.catch((err) => error(err));
-		}
+			});
+
+		}).catch((message) => {
+
+			messages.error(message);
+		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -448,11 +448,11 @@ export function formatTWIG(twig, dict, twigs)
 
 	const render = (twig, dict, twigs) => {
 
-		if(!isMap(dict)) {
+		if(!tools.isMap(dict)) {
 			dict = {};
 		}
 
-		if(!isMap(twigs)) {
+		if(!tools.isMap(twigs)) {
 			twigs = {};
 		}
 
@@ -465,7 +465,7 @@ export function formatTWIG(twig, dict, twigs)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	asArray(dict).forEach((DICT) => {
+	tools.asArray(dict).forEach((DICT) => {
 
 		try
 		{
@@ -473,7 +473,7 @@ export function formatTWIG(twig, dict, twigs)
 		}
 		catch(e)
 		{
-			error(`TWIG parsing error: ${e.message}`);
+			messages.error(`TWIG parsing error: ${e.message}`);
 		}
 	});
 

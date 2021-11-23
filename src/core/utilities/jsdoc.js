@@ -11,7 +11,7 @@
 
 'use strict';
 
-import {textToHtml} from './strings'
+import * as strings from './strings'
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -113,9 +113,9 @@ class AMIJSDoc
 		{
 			result.push('<div>');
 
-			result.push(`<a href="#jsdoc_menu_${title.toLowerCase()}" data-toggle="collapse" data-bs-toggle="collapse"><i class="bi bi-book"></i> ${textToHtml(title)}</a>`);
+			result.push(`<a href="#jsdoc_menu_${title.toLowerCase()}" data-toggle="collapse" data-bs-toggle="collapse"><i class="bi bi-book"></i> ${strings.textToHtml(title)}</a>`);
 
-			result.push(`<ul class="collapse mb-0" id="jsdoc_menu_${title.toLowerCase()}">${items.map((_item) => `<li><a href="#" data-title="${textToHtml(title)}" data-cat="${textToHtml(cat)}" data-name="${textToHtml(_item.name)}">${textToHtml(_item.name)}</a></li>`).join('')}</ul>`);
+			result.push(`<ul class="collapse mb-0" id="jsdoc_menu_${title.toLowerCase()}">${items.map((_item) => `<li><a href="#" data-title="${strings.textToHtml(title)}" data-cat="${strings.textToHtml(cat)}" data-name="${strings.textToHtml(_item.name)}">${strings.textToHtml(_item.name)}</a></li>`).join('')}</ul>`);
 
 			result.push('</div>');
 		}
@@ -152,7 +152,7 @@ class AMIJSDoc
 
 		s.push('<div class="card">');
 		s.push('<div class="card-body bg-light">');
-		s.push(`<h1>${textToHtml(title)}: ${textToHtml(item.name)}</h1>`);
+		s.push(`<h1>${strings.textToHtml(title)}: ${strings.textToHtml(item.name)}</h1>`);
 		s.push(AMIJSDoc.#makeDesc(item));
 		s.push(AMIJSDoc.#makeDetails(item));
 		s.push('</div>');
@@ -230,7 +230,7 @@ class AMIJSDoc
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		result.push(`<span class="signature-name">${textToHtml(variable.name)}</span>`);
+		result.push(`<span class="signature-name">${strings.textToHtml(variable.name)}</span>`);
 
 		result.push(`<span class="signature-attrs">: {${AMIJSDoc.#makeType(variable)}}</span>`);
 
@@ -276,7 +276,7 @@ class AMIJSDoc
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		result.push(`<span class="signature-name">${textToHtml(method.name)}</span>`);
+		result.push(`<span class="signature-name">${strings.textToHtml(method.name)}</span>`);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -319,10 +319,10 @@ class AMIJSDoc
 
 			for(const _params of method.params)
 			{
-				L1.push(textToHtml(_params['name']));
+				L1.push(strings.textToHtml(_params['name']));
 				L2.push(AMIJSDoc.#makeType(_params));
 				L3.push(AMIJSDoc.#makeDesc(_params));
-				L4.push(textToHtml(_params['default']));
+				L4.push(strings.textToHtml(_params['default']));
 				L5.push(_params['optional']);
 				L6.push(_params['nullable']);
 
@@ -489,7 +489,7 @@ class AMIJSDoc
 		{
 			result.push('<div>');
 
-			result.push(textToHtml(x.desc).replace(AMIJSDoc.#linkExp, (_, x, y) => {
+			result.push(strings.textToHtml(x.desc).replace(AMIJSDoc.#linkExp, (_, x, y) => {
 
 				return `<a href="${y}">${x || y}</a>`;
 			}));
@@ -510,7 +510,7 @@ class AMIJSDoc
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		result.push(textToHtml(x.name));
+		result.push(strings.textToHtml(x.name));
 
 		if(x.optional) {
 			result.push('<sup class="signature-params-attrs">opt.</sup>');
@@ -529,7 +529,7 @@ class AMIJSDoc
 
 	static #makeType(x)
 	{
-		return x.type.map((y) => `<i>${textToHtml(y.replace(/\s*/g, ''))}</i>`).join(' or ');
+		return x.type.map((y) => `<i>${strings.textToHtml(y.replace(/\s*/g, ''))}</i>`).join(' or ');
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -541,11 +541,11 @@ class AMIJSDoc
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(Array.isArray(x.implements) && x.implements.length > 0) {
-			result.push(`<div>Implements: ${textToHtml(x.implements.join(', '))}</div>`);
+			result.push(`<div>Implements: ${strings.textToHtml(x.implements.join(', '))}</div>`);
 		}
 
 		if(Array.isArray(x.inherits) && x.inherits.length > 0) {
-			result.push(`<div>Inherits: ${textToHtml(x.inherits.join(', '))}</div>`);
+			result.push(`<div>Inherits: ${strings.textToHtml(x.inherits.join(', '))}</div>`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -556,20 +556,20 @@ class AMIJSDoc
 
 		if(x.version)
 		{
-			version.push(`<dt>Version:</dt><dd>${textToHtml(x.version)}</dd>`);
+			version.push(`<dt>Version:</dt><dd>${strings.textToHtml(x.version)}</dd>`);
 		}
 
 		if(Array.isArray(x.author))
 		{
 			for(const _author of x.author) {
-				author.push(`<dt>Author:</dt><dd>${textToHtml(_author)}</dd>`);
+				author.push(`<dt>Author:</dt><dd>${strings.textToHtml(_author)}</dd>`);
 			}
 		}
 
 		if(Array.isArray(x.see))
 		{
 			for(const _see of x.see) {
-				see.push(`<dt>See:</dt><dd>${textToHtml(_see)}</dd>`);
+				see.push(`<dt>See:</dt><dd>${strings.textToHtml(_see)}</dd>`);
 			}
 		}
 
@@ -603,7 +603,7 @@ class AMIJSDoc
 			{
 				result.push('<h5><strong>Example:</strong></h5>');
 
-				result.push(`<textarea class="form-editor" data-mode="${textToHtml(mode)}">${textToHtml(_example)}</textarea>`);
+				result.push(`<textarea class="form-editor" data-mode="${strings.textToHtml(mode)}">${strings.textToHtml(_example)}</textarea>`);
 			}
 		}
 

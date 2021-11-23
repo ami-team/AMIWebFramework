@@ -11,21 +11,15 @@
 
 'use strict';
 
-import {lock, unlock} from './locks';
-
-import {fillBreadcrumb} from './view';
-
-import {loadScripts} from './ressources';
-
-import {_internal_then, _internal_always, setup} from './tools';
-
-import amiCommand from '../AMICommand';
-
-import amiRouter from '../AMIRouter';
-
-import amiWebApp from '../AMIWebApp';
+import * as view from './view';
+import * as locks from './locks';
+import * as tools from './tools';
+import * as resources from './resources';
 
 import amiAuth from '../AMIAuth';
+import amiRouter from '../AMIRouter';
+import amiWebApp from '../AMIWebApp';
+import amiCommand from '../AMICommand';
 
 import JSPath from 'jspath';
 
@@ -65,16 +59,16 @@ export function triggerLogin()
 
 	if(amiWebApp._isReady)
 	{
-		_internal_then(_currentSubappInstance.onLogin(_currentUserdata), (message) => {
+		tools._internal_then(_currentSubappInstance.onLogin(_currentUserdata), (message) => {
 
-			_internal_always(amiWebApp.onRefresh(true), () => {
+			tools._internal_always(amiWebApp.onRefresh(true), () => {
 
 				result.resolve(message);
 			});
 
 		}, (message) => {
 
-			_internal_always(amiWebApp.onRefresh(true), () => {
+			tools._internal_always(amiWebApp.onRefresh(true), () => {
 
 				result.reject(message);
 			});
@@ -105,16 +99,16 @@ export function triggerLogout()
 
 	if(amiWebApp._isReady)
 	{
-		_internal_then(_currentSubappInstance.onLogout(_currentUserdata), (message) => {
+		tools._internal_then(_currentSubappInstance.onLogout(_currentUserdata), (message) => {
 
-			_internal_always(amiWebApp.onRefresh(false), () => {
+			tools._internal_always(amiWebApp.onRefresh(false), () => {
 
 				result.resolve(message);
 			});
 
 		}, (message) => {
 
-			_internal_always(amiWebApp.onRefresh(false), () => {
+			tools._internal_always(amiWebApp.onRefresh(false), () => {
 
 				result.reject(message);
 			});
@@ -145,7 +139,7 @@ export function loadSubApp(subapp, userdata, options)
 {
 	const result = $.Deferred();
 
-	const [context] = setup(
+	const [context] = tools.setup(
 		['context'],
 		[result],
 		options
@@ -155,10 +149,10 @@ export function loadSubApp(subapp, userdata, options)
 
 	result.always(() => {
 
-		unlock();
+		locks.unlock();
 	});
 
-	lock();
+	locks.lock();
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -173,9 +167,9 @@ export function loadSubApp(subapp, userdata, options)
 
 	if(descr)
 	{
-		loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
+		resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
 
-			fillBreadcrumb(descr.breadcrumb);
+			view.fillBreadcrumb(descr.breadcrumb);
 
 			try
 			{
@@ -193,7 +187,7 @@ export function loadSubApp(subapp, userdata, options)
 				                          : /*------*/ null /*------*/
 				;
 
-				_internal_then(promise, () => {
+				tools._internal_then(promise, () => {
 
 					const promise = amiAuth.isAuthenticated() ? triggerLogin()
 					                                          : triggerLogout()
