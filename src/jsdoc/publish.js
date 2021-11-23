@@ -53,6 +53,11 @@ function process(nodes, borrowDict, parentDescr, parentLongName)
 {
 	nodes.forEach((element) => {
 
+		if(element.access === 'private')
+		{
+			return;
+		}
+
 		if(element.ignore && !(element.name in borrowDict))
 		{
 			return;

@@ -30,14 +30,12 @@ class AMICommand
 
 	/**
 	 * @type {AMIHttpClient}
-	 * @ignore
 	 */
 
 	#httpClient = null;
 
 	/**
 	 * @type {AMIMqttClient}
-	 * @ignore
 	 */
 
 	#mqttClient = null;

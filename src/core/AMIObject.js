@@ -32,7 +32,7 @@ else {
 /**
  * @param {string} $name
  * @param {Object<string, *>} x
- * @ignore
+ * @private
  */
 
 function _$createNamespace($name, x)
@@ -62,7 +62,7 @@ function _$createNamespace($name, x)
 /**
  * @param {string} $name
  * @param {Object<string, *>} x
- * @ignore
+ * @private
  */
 
 function _$addToNamespace($name, x)

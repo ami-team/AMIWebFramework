@@ -19,7 +19,18 @@ import * as controls from './controls';
 /* DYNAMIC RESOURCE LOADING                                                                                           */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * @type {Array<*>}
+ * @private
+ */
+
 const _sheets = [];
+
+/**
+ * @type {Array<*>}
+ * @private
+ */
+
 const _scripts = [];
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -27,7 +38,7 @@ const _scripts = [];
 /**
  * @param {string} url
  * @returns {string}
- * @ignore
+ * @private
  */
 
 function _getExtension(url)
@@ -43,7 +54,7 @@ function _getExtension(url)
  * @param {string} url
  * @param {string} dataType
  * @returns {string}
- * @ignore
+ * @private
  */
 
 function _getDataType(url, dataType)
@@ -102,7 +113,7 @@ function _getDataType(url, dataType)
  * @param {Array<String>} urls
  * @param {string} dataType
  * @param {*} context
- * @ignore
+ * @private
  */
 
 function __loadXXX(deferred, result, urls, dataType, context)
@@ -274,7 +285,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
  * @param {string} dataType
  * @param {Object<string, *>} [options={}]
  * @returns {$.Deferred}
- * @ignore
+ * @private
  */
 
 function _loadXXX(urls, dataType, options)

@@ -36,18 +36,41 @@ class AMIAuth
 	/* PUBLIC MEMBERS                                                                                                 */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	/**
+	 * @type {Object<string,*>}
+	 */
+
 	#flags = {};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	/**
+	 * @type {Object<string,*>}
+	 */
+
 	#userInfo = {};
+
+	/**
+	 * @type {Object<string,*>}
+	 */
+
 	#roleInfo = {};
+
+	/**
+	 * @type {Object<string,*>}
+	 */
+
 	#bookmarkInfo = {};
+
+	/**
+	 * @type {Object<string,*>}
+	 */
+
 	#awfInfo = {};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setupAWF(awfInfo)
+	#setupAWF(awfInfo)
 	{
 		try
 		{
@@ -105,9 +128,9 @@ class AMIAuth
 
 		amiCommand.signInByCertificate().fail((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
 
-			this.setupAWF(awfInfo);
+			this.#setupAWF(awfInfo);
 
-			this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).always((/*---*/) => {
+			this.#update(userInfo, roleInfo, bookmarkInfo, awfInfo).always((/*---*/) => {
 
 				result.reject(message);
 			});
@@ -116,7 +139,7 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this.setupAWF(awfInfo);
+			this.#setupAWF(awfInfo);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -124,7 +147,7 @@ class AMIAuth
 
 				amiWebApp._isReady = true;
 
-				this._update(userInfo, roleInfo, bookmarkInfo, awfInfo).then((message) => {
+				this.#update(userInfo, roleInfo, bookmarkInfo, awfInfo).then((message) => {
 
 					result.resolve(message);
 
@@ -150,7 +173,7 @@ class AMIAuth
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_update(userInfo, roleInfo, bookmarkInfo, awfInfo)
+	#update(userInfo, roleInfo, bookmarkInfo, awfInfo)
 	{
 		const result = $.Deferred();
 

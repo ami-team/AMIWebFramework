@@ -29,7 +29,6 @@ export default ami;
 /*----------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @ignore
  * @param {Object<string, *>} ctxImmutables
  * @param {Object<string, *>} ctxDefaults
  * @param {Object<string, *>} ctxOptions

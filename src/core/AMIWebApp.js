@@ -102,11 +102,29 @@ class AMIWebApp
 	/* PRIVATE MEMBERS                                                                                                */
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	/**
+	 * @type {boolean}
+	 */
+
 	#embedded = false;
+
+	/**
+	 * @type {boolean}
+	 */
+
 	#noBootstrap = false;
+
+	/**
+	 * @type {boolean}
+	 */
+
 	#noSelect2 = false;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * @type {$.Deferred}
+	 */
 
 	#globalDeferred = $.Deferred();
 
@@ -115,6 +133,7 @@ class AMIWebApp
 	/**
 	 * Indicates whether the framework is ready
 	 * @type {boolean}
+	 * @private
 	 */
 
 	_isReady = false;

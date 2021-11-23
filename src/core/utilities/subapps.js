@@ -27,9 +27,19 @@ import JSPath from 'jspath';
 /* SUBAPPS                                                                                                            */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * @type {Object<string,*>}
+ * @private
+ */
+
 export const _subapps = {};
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @type {*}
+ * @private
+ */
 
 let _currentSubappInstance = new function() {
 	this.onReady = function() {
@@ -41,6 +51,11 @@ let _currentSubappInstance = new function() {
 	this.onLogout = function() {
 	};
 };
+
+/**
+ * @type {*}
+ * @private
+ */
 
 let _currentUserdata = null;
 
