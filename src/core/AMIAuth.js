@@ -180,20 +180,19 @@ class AMIAuth
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.#userInfo = userInfo;
-		this.#roleInfo = roleInfo;
-		this.#bookmarkInfo = bookmarkInfo;
-		this.#awfInfo = awfInfo;
-
-		// console.log(userInfo);
-		// console.log(roleInfo);
-		// console.log(bookmarkInfo);
-		// console.log(awfInfo);
+		const user = userInfo.AMIUser || 'guest';
+		const guest = userInfo.guestUser || 'guest';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const user = userInfo.AMIUser || 'guest';
-		const guest = userInfo.guestUser || 'guest';
+		const dict = {
+			...this.#flags,
+			/**/
+			userInfo    : (this.#userInfo     = userInfo    ),
+			roleInfo    : (this.#roleInfo     = roleInfo    ),
+			bookmarkInfo: (this.#bookmarkInfo = bookmarkInfo),
+			awfInfo     : (this.#awfInfo      = awfInfo     ),
+		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -201,13 +200,20 @@ class AMIAuth
 		{
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			subapps.triggerLogin().then(() => {
+			const button = require('../twigs/' + amiWebApp.bootstrapVersion + '/signout_button.twig');
 
-				result.resolve();
+			/*--------------------------------------------------------------------------------------------------------*/
 
-			}, (message) => {
+			amiWebApp.replaceHTML('#ami_login_menu_content', button, {dict: dict}).done(() => {
 
-				result.reject(message);
+				subapps.triggerLogin().then(() => {
+
+					result.resolve();
+
+				}, (message) => {
+
+					result.reject(message);
+				});
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -216,13 +222,20 @@ class AMIAuth
 		{
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			subapps.triggerLogout().then(() => {
+			const button = require('../twigs/' + amiWebApp.bootstrapVersion + '/signin_button.twig');
 
-				result.resolve();
+			/*--------------------------------------------------------------------------------------------------------*/
 
-			}, (message) => {
+			amiWebApp.replaceHTML('#ami_login_menu_content', button, {dict: dict}).done(() => {
 
-				result.reject(message);
+				subapps.triggerLogout().then(() => {
+
+					result.resolve();
+
+				}, (message) => {
+
+					result.reject(message);
+				});
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/

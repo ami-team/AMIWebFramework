@@ -1,0 +1,31 @@
+<li class="nav-item xxxxxxxx">
+	{{ icon|e }}
+</li>
+{% if bookmarksAllowed %}
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+		<i class="bi bi-star-fill"></i>
+	</a>
+	<div class="dropdown-menu" id="ami_bookmark_menu_content">
+		<a class="dropdown-item xxxxxxxx" href="{{WEBAPP_URL}}?subapp=BookmarkEditor" target="_blank">Edit bookmarks</a>
+		<div class="dropdown-divider"></div>
+		{% for hash, bookmark in bookmarkInfo %}
+		<a class="dropdown-item" href="{{WEBAPP_URL}}?v={{ hash|e }}" target="_blank">{{ bookmark.name|e }}</a>
+		{% else %}
+		<div class="dropdown-item text-muted">-- empty --</div>
+		{% endfor %}
+	</div>
+</li>
+{% endif %}
+<li class="nav-item dropdown">
+	<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+		<i class="bi bi-person-circle"></i> {{ userInfo.AMIUser|e }}
+	</a>
+	<div class="dropdown-menu">
+	</div>
+</li>
+<li class="nav-item xxxxxxxx">
+	<button class="btn btn-outline-secondary mt-1 mt-lg-0 ml-0 ml-lg-1" type="button" onclick="alert('TODO');">
+		<i class="bi bi-box-arrow-right"></i> Sign out
+	</button>
+</li>

@@ -2186,8 +2186,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = /*-----*/(i);
-							dict[sym2] = iterValue[i];
+							dict[sym1] = iterValue[i][0];
+							dict[sym2] = iterValue[i][1];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -8452,6 +8452,66 @@ webpackContext.id = 6679;
 
 /***/ }),
 
+/***/ 1374:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./v4/signin_button.twig": 2429,
+	"./v5/signin_button.twig": 8380
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 1374;
+
+/***/ }),
+
+/***/ 7976:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./v4/signout_button.twig": 4901,
+	"./v5/signout_button.twig": 7259
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 7976;
+
+/***/ }),
+
 /***/ 7076:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -8604,11 +8664,43 @@ module.exports = "<div class=\"toast\" role=\"alert\" {% if fadeOut %}data-delay
 
 /***/ }),
 
+/***/ 2429:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "";
+
+/***/ }),
+
+/***/ 4901:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon|e }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ml-0 ml-lg-1\" type=\"button\" onclick=\"alert('TODO');\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
+
+/***/ }),
+
 /***/ 2408:
 /***/ ((module) => {
 
 "use strict";
 module.exports = "<div class=\"toast\" role=\"alert\" {% if fadeOut %}data-delay=\"60000\"{% else %}data-autohide=\"false\"{% endif %} data-hash=\"{{ hash }}\" data-cnt=\"1\">\n\t<div class=\"toast-header\">\n\t\t<strong class=\"me-auto text-{{ clazz|e }}\">{{ title|e }}</strong>\n\t\t<small class=\"me-2\">{{ date|e }}</small>\n\t\t<button class=\"ms-1 me-0 btn-close\" type=\"button\" data-bs-dismiss=\"toast\"></button>\n\t</div>\n\t<div class=\"toast-body\">\n\t\t{{ message|e }}\n\t</div>\n</div>\n";
+
+/***/ }),
+
+/***/ 8380:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "";
+
+/***/ }),
+
+/***/ 7259:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon|e }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ms-0 ms-lg-1\" type=\"button\" onclick=\"alert('TODO');\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
 
 /***/ }),
 
@@ -13971,6 +14063,25 @@ function loadTexts(urls, options) {
 var kjua_min = __webpack_require__(9242);
 ;// CONCATENATED MODULE: ./src/core/AMIAuth.js
 
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var AMIAuth_accessCheck = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
@@ -14112,23 +14223,31 @@ setupAWF_fn = function(awfInfo) {
 _update = new WeakSet();
 update_fn = function(userInfo, roleInfo, bookmarkInfo, awfInfo) {
   const result = $.Deferred();
-  AMIAuth_privateSet(this, _userInfo, userInfo);
-  AMIAuth_privateSet(this, _roleInfo, roleInfo);
-  AMIAuth_privateSet(this, _bookmarkInfo, bookmarkInfo);
-  AMIAuth_privateSet(this, _awfInfo, awfInfo);
   const user = userInfo.AMIUser || "guest";
   const guest = userInfo.guestUser || "guest";
+  const dict = __spreadProps(__spreadValues({}, AMIAuth_privateGet(this, _flags)), {
+    userInfo: AMIAuth_privateSet(this, _userInfo, userInfo),
+    roleInfo: AMIAuth_privateSet(this, _roleInfo, roleInfo),
+    bookmarkInfo: AMIAuth_privateSet(this, _bookmarkInfo, bookmarkInfo),
+    awfInfo: AMIAuth_privateSet(this, _awfInfo, awfInfo)
+  });
   if (user !== guest) {
-    triggerLogin().then(() => {
-      result.resolve();
-    }, (message) => {
-      result.reject(message);
+    const button = __webpack_require__(7976)("./" + core_AMIWebApp.bootstrapVersion + "/signout_button.twig");
+    core_AMIWebApp.replaceHTML("#ami_login_menu_content", button, { dict }).done(() => {
+      triggerLogin().then(() => {
+        result.resolve();
+      }, (message) => {
+        result.reject(message);
+      });
     });
   } else {
-    triggerLogout().then(() => {
-      result.resolve();
-    }, (message) => {
-      result.reject(message);
+    const button = __webpack_require__(1374)("./" + core_AMIWebApp.bootstrapVersion + "/signin_button.twig");
+    core_AMIWebApp.replaceHTML("#ami_login_menu_content", button, { dict }).done(() => {
+      triggerLogout().then(() => {
+        result.resolve();
+      }, (message) => {
+        result.reject(message);
+      });
     });
   }
   return result.promise();
@@ -14391,10 +14510,10 @@ var bootstrap_icons_update = injectStylesIntoStyleTag_default()(bootstrap_icons/
 
 ;// CONCATENATED MODULE: ./src/core/AMIWebApp.js
 
-var __defProp = Object.defineProperty;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var AMIWebApp_defProp = Object.defineProperty;
+var AMIWebApp_defNormalProp = (obj, key, value) => key in obj ? AMIWebApp_defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => {
-  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  AMIWebApp_defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
 var AMIWebApp_accessCheck = (obj, member, msg) => {
