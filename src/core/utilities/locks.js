@@ -117,7 +117,7 @@ export function unlock()
 
 export function modalLeave()
 {
-	let lines = getStack().split('\n');
+	const lines = getStack().split('\n');
 
 	if(lines.length > 2)
 	{
@@ -152,7 +152,7 @@ export function modalEnter()
 
 	/**/
 
-	let lines = getStack().split('\n');
+	const lines = getStack().split('\n');
 
 	if(lines.length > 2)
 	{
@@ -169,7 +169,7 @@ export let _canLeave = true;
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Specifies whether leaving the current page must be confirmed.
+ * Specifies whether leaving the current page must be confirmed or not
  * @param canLeave
  * @ignore
  */
