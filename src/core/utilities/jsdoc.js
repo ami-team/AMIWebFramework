@@ -153,6 +153,7 @@ class AMIJSDoc
 		s.push('<div class="card">');
 		s.push('<div class="card-body bg-light">');
 		s.push(`<h1>${strings.textToHtml(title)}: ${strings.textToHtml(item.name)}</h1>`);
+		s.push(AMIJSDoc.#makeAlias(item));
 		s.push(AMIJSDoc.#makeDesc(item));
 		s.push(AMIJSDoc.#makeDetails(item));
 		s.push('</div>');
@@ -213,6 +214,8 @@ class AMIJSDoc
 
 		result.push(AMIJSDoc.#makeVariableSignature(variable));
 
+		result.push(AMIJSDoc.#makeAlias(variable));
+
 		result.push(AMIJSDoc.#makeDesc(variable));
 
 		result.push(AMIJSDoc.#makeDetails(variable));
@@ -250,6 +253,8 @@ class AMIJSDoc
 		result.push(`<hr id="jsdoc_method_${method.name.toLowerCase()}" />`);
 
 		result.push(AMIJSDoc.#makeFunctionSignature(method));
+
+		result.push(AMIJSDoc.#makeAlias(method));
 
 		result.push(AMIJSDoc.#makeDesc(method));
 
@@ -475,6 +480,28 @@ class AMIJSDoc
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		return result.join('')
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	static #makeAlias(x)
+	{
+		const result = [];
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		if(x.alias)
+		{
+			result.push('<div>');
+
+			result.push(`Alias: ${strings.textToHtml(x.alias)}`);
+
+			result.push('</div>');
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		return result.join('');
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

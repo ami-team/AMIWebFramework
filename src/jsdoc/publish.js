@@ -53,15 +53,21 @@ function process(nodes, borrowDict, parentDescr, parentLongName)
 {
 	nodes.forEach((element) => {
 
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		if(element.access === 'private')
 		{
 			return;
 		}
 
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		if(element.ignore && !(element.name in borrowDict))
 		{
 			return;
 		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(parentLongName)
 		{
@@ -98,6 +104,7 @@ function process(nodes, borrowDict, parentDescr, parentLongName)
 
 			const descr = {
 				'name': element.longname,
+				'alias': element.alias || '',
 				'desc': element.description || '',
 				'implements': element.implements ? element.implements : [],
 				'inherits': element.augments ? element.augments : [],
@@ -248,6 +255,7 @@ function process(nodes, borrowDict, parentDescr, parentLongName)
 
 			const descr = {
 				'name': element.name,
+				'alias': element.alias || '',
 				'type': typeHelper(element.type),
 				'desc': element.description || '',
 			};
@@ -303,6 +311,7 @@ function process(nodes, borrowDict, parentDescr, parentLongName)
 
 			const descr = {
 				'name': element.name,
+				'alias': element.alias || '',
 				'desc': element.description || '',
 				'params': [],
 			};

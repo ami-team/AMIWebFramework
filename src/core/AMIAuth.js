@@ -28,6 +28,7 @@ import 'kjua';
 /**
  * The AMI authentication subsystem
  * @namespace amiAuth
+ * @alias amiLogin
  */
 
 class AMIAuth
