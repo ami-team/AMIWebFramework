@@ -13215,7 +13215,7 @@ function _xxxHTML(selector, twig, mode, options) {
     let el2 = $(selector);
     const _find = mode === 3 ? (_selector) => el2.find(selector).addBack(selector) : (_selector) => el2.find(_selector);
     if (jQuery.fn.tooltip) {
-      _find('[data-toggle="tooltip"]').tooltip({
+      _find('[data-toggle="tooltip"],[data-bs-toggle="tooltip"]').tooltip({
         html: false,
         delay: {
           show: 500,
@@ -13224,7 +13224,7 @@ function _xxxHTML(selector, twig, mode, options) {
       });
     }
     if (jQuery.fn.popover) {
-      _find('[data-toggle="popover"]').popover({
+      _find('[data-toggle="popover"],[data-bs-toggle="popover"]').popover({
         html: true,
         delay: {
           show: 500,
@@ -14534,7 +14534,7 @@ var AMIWebApp_privateSet = (obj, member, value, setter) => {
   setter ? setter.call(obj, value) : member.set(obj, value);
   return value;
 };
-var _embedded, _noBootstrap, _noSelect2, _globalDeferred;
+var _embedded, _noBootstrap, _noMoment, _noSelect2, _globalDeferred;
 
 
 
@@ -14556,6 +14556,7 @@ class AMIWebApp {
   constructor() {
     AMIWebApp_privateAdd(this, _embedded, false);
     AMIWebApp_privateAdd(this, _noBootstrap, false);
+    AMIWebApp_privateAdd(this, _noMoment, false);
     AMIWebApp_privateAdd(this, _noSelect2, false);
     AMIWebApp_privateAdd(this, _globalDeferred, $.Deferred());
     __publicField(this, "_isReady", false);
@@ -14623,6 +14624,7 @@ class AMIWebApp {
     AMIWebApp_privateSet(this, _embedded, "embedded" in scriptArgs);
     AMIWebApp_privateSet(this, _noBootstrap, "nobootstrap" in scriptArgs);
     AMIWebApp_privateSet(this, _noSelect2, "noselect2" in scriptArgs);
+    AMIWebApp_privateSet(this, _noMoment, "nomoment" in scriptArgs);
     this.webAppURL = core_AMIRouter.getWebAppURL();
     this.scriptURL = core_AMIRouter.getScriptURL();
     this.originURL = core_AMIRouter.getOriginURL();
@@ -14631,24 +14633,21 @@ class AMIWebApp {
     this.bootstrapVersion = scriptArgs.bootstrap || "v4";
     const resourcesCSS = [];
     const resourcesJS = [];
-    if (!window.Popper) {
-      resourcesJS.push(`${this.originURL}/js/assets/js/popper.min.js`);
-    }
-    if (!window.moment) {
-      resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
-    }
     if (!AMIWebApp_privateGet(this, _noBootstrap) && typeof jQuery.fn.modal !== "function") {
       if (this.bootstrapVersion === "v5") {
         resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap5.min.css`);
-        resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.min.js`);
+        resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.bundle.min.js`);
       } else {
         resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap4.min.css`);
-        resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.min.js`);
+        resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.bundle.min.js`);
       }
     }
     if (!AMIWebApp_privateGet(this, _noSelect2) && typeof jQuery.fn.select2 !== "function") {
       resourcesCSS.push(`${this.originURL}/js/assets/css/select2.min.css`);
       resourcesJS.push(`${this.originURL}/js/assets/js/select2.min.js`);
+    }
+    if (!AMIWebApp_privateGet(this, _noMoment) && typeof window.moment !== "function") {
+      resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
     }
     loadResources([
       ...resourcesCSS,
@@ -14813,6 +14812,7 @@ class AMIWebApp {
 }
 _embedded = new WeakMap();
 _noBootstrap = new WeakMap();
+_noMoment = new WeakMap();
 _noSelect2 = new WeakMap();
 _globalDeferred = new WeakMap();
 /* harmony default export */ const core_AMIWebApp = (new AMIWebApp());

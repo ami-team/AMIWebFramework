@@ -1,8 +1,8 @@
 <div class="d-flex">
-	<span class="w-100" style="cursor: pointer;" onclick="commandApp.select('{{proto|e}}');">
-		{{command|e}}
+	<span class="w-100" style="cursor: pointer;" onclick="commandApp.select('{{ proto|e }}');">
+		{{ command|e }}
 	</span>
-	<a class="flex-shrink-1" href="#" data-toggle="popover" data-boundary="window" data-placement="right" data-trigger="focus" data-html="true" data-title="{{command|e}}" data-content="&lt;pre&gt;{{help|e}}&lt;/pre&gt;">
-		<i class="fa fa-question-circle"></i>
+	<a class="flex-shrink-1" href="#" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="popover" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}boundary="window" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}placement="right" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}trigger="focus" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}html="true" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}title="{{ command|e }}" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}content="&lt;pre&gt;{{ help|e }}&lt;/pre&gt;">
+		<i class="bi bi-question-circle-fill"></i>
 	</a>
 </div>

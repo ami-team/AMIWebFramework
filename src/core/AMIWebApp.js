@@ -118,6 +118,12 @@ class AMIWebApp
 	 * @type {boolean}
 	 */
 
+	#noMoment = false;
+
+	/**
+	 * @type {boolean}
+	 */
+
 	#noSelect2 = false;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -207,8 +213,8 @@ class AMIWebApp
 		this.#embedded = 'embedded' in scriptArgs;
 
 		this.#noBootstrap = 'nobootstrap' in scriptArgs;
-
 		this.#noSelect2 = 'noselect2' in scriptArgs;
+		this.#noMoment = 'nomoment' in scriptArgs;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GET URLS, ARGS AND HASH                                                                                    */
@@ -234,27 +240,17 @@ class AMIWebApp
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		if(!window.Popper) {
-			resourcesJS.push(`${this.originURL}/js/assets/js/popper.min.js`);
-		}
-
-		if(!window.moment) {
-			resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		if(!this.#noBootstrap && (typeof jQuery.fn.modal) !== 'function')
 		{
 			if(this.bootstrapVersion === 'v5')
 			{
 				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap5.min.css`);
-				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.min.js`);
+				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.bundle.min.js`);
 			}
 			else
 			{
 				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap4.min.css`);
-				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.min.js`);
+				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.bundle.min.js`);
 			}
 		}
 
@@ -264,6 +260,13 @@ class AMIWebApp
 		{
 			resourcesCSS.push(`${this.originURL}/js/assets/css/select2.min.css`);
 			resourcesJS.push(`${this.originURL}/js/assets/js/select2.min.js`);
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		if(!this.#noMoment && (typeof window.moment) !== 'function')
+		{
+			resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/

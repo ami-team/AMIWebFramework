@@ -164,7 +164,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 		if(jQuery.fn.tooltip)
 		{
-			_find('[data-toggle="tooltip"]').tooltip({
+			_find('[data-toggle="tooltip"],[data-bs-toggle="tooltip"]').tooltip({
 				html: false,
 				delay: {
 					show: 500,
@@ -177,7 +177,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 		if(jQuery.fn.popover)
 		{
-			_find('[data-toggle="popover"]').popover({
+			_find('[data-toggle="popover"],[data-bs-toggle="popover"]').popover({
 				html: true,
 				delay: {
 					show: 500,

@@ -90,14 +90,14 @@ $AMIClass('CommandApp', {
 					let proto;
 
 					if(!usage) {
-						proto = command;
-						help += '<br /><br />Usage:<br />' + command;
+						proto = `${command}`;
+						help += `<br /><br />Usage:<br />${command}`;
 					} else {
-						proto = command + ' ' + usage;
-						help += '<br /><br />Usage:<br />' + command + ' ' + usage;
+						proto = `${command} ${usage}`;
+						help += `<br /><br />Usage:<br />${command} ${usage}`;
 					}
 
-					help = help.replace(new RegExp(command, 'g'), '<strong>' + command + '</strong>');
+					help = help.replace(new RegExp(command, 'g'), `<strong>${command}</strong>`);
 
 					dict.push({
 						command: command,

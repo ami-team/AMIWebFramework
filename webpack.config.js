@@ -204,20 +204,16 @@ const config = {
 					'to': path.resolve(__dirname, 'js/jquery.min.js')
 				},
 				{
-					'from': path.resolve(__dirname, 'node_modules/popper.js/dist/umd/popper.min.js'),
-					'to': path.resolve(__dirname, 'js/assets/js/popper.min.js')
-				},
-				{
 					'from': path.resolve(__dirname, 'node_modules/moment/min/moment.min.js'),
 					'to': path.resolve(__dirname, 'js/assets/js/moment.min.js')
 				},
 				{
-					'from': path.resolve(__dirname, 'node_modules/bootstrap4/dist/js/bootstrap.min.js'),
-					'to': path.resolve(__dirname, 'js/assets/js/bootstrap4.min.js')
+					'from': path.resolve(__dirname, 'node_modules/bootstrap4/dist/js/bootstrap.bundle.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/bootstrap4.bundle.min.js')
 				},
 				{
-					'from': path.resolve(__dirname, 'node_modules/bootstrap5/dist/js/bootstrap.min.js'),
-					'to': path.resolve(__dirname, 'js/assets/js/bootstrap5.min.js')
+					'from': path.resolve(__dirname, 'node_modules/bootstrap5/dist/js/bootstrap.bundle.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/bootstrap5.bundle.min.js')
 				},
 				{
 					'from': path.resolve(__dirname, 'node_modules/select2/dist/js/select2.min.js'),
