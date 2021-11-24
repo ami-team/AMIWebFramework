@@ -28,6 +28,8 @@ import amiExtensions from './AMIExtension';
 
 import JSPath from 'jspath';
 
+import '../images/padlock.png';
+
 import defaultLogoURL from '../images/logo.png';
 import defaultBackgroundURL from '../images/background.jpg';
 

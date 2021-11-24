@@ -8640,6 +8640,14 @@ module.exports = __webpack_require__.p + "assets/images/logo.png";
 
 /***/ }),
 
+/***/ 8475:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "assets/images/padlock.png";
+
+/***/ }),
+
 /***/ 6592:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -14487,6 +14495,8 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
   });
 }
 
+// EXTERNAL MODULE: ./src/images/padlock.png
+var padlock = __webpack_require__(8475);
 // EXTERNAL MODULE: ./src/images/logo.png
 var logo = __webpack_require__(1702);
 // EXTERNAL MODULE: ./src/images/background.jpg
@@ -14549,6 +14559,7 @@ var AMIWebApp_privateSet = (obj, member, value, setter) => {
   return value;
 };
 var _embedded, _noBootstrap, _noMoment, _noSelect2, _globalDeferred;
+
 
 
 

@@ -26,5 +26,13 @@
         ],
         "file": "subapps/Emergency/js/EmergencyApp.js",
         "instance": "emergencyApp"
+    },
+    "resetPassword": {
+        "breadcrumb": [
+            "User",
+            "<a href=\"{{WEBAPP_URL}}?subapp=resetPassword\">Reset Password</a>"
+        ],
+        "file": "subapps/ResetPassword/js/ResetPasswordApp.js",
+        "instance": "resetPasswordApp"
     }
 }
