@@ -230,25 +230,27 @@ function _xxxHTML(selector, twig, mode, options)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const editors = _find('.form-editor:not(.form-editor-hidden)');
-
-		if(editors.length > 0) import('monaco-editor/esm/vs/editor/editor.api').then((monaco) => {
+		const editors = _find('.form-editor:not(.form-editor-done)'); if(editors.length > 0) import('monaco-editor/esm/vs/editor/editor.api').then((monaco) => {
 
 			editors.each((index, item) => {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				const textarea = $(item).removeClass('form-editor').addClass('form-editor-hidden');
+				const textarea = $(item);
 
 				/*----------------------------------------------------------------------------------------------------*/
 
 				const div = $('<div>', {
 					'class': textarea.attr('class')
-									 .replace('form-editor-hidden', '').trim() + ' form-editor-monaco',
+					                 .replace('form-editor', 'form-editor-monaco').trim(),
 					'style': textarea.attr('style'),
-				}).insertBefore(textarea);
+				}).insertAfter(textarea);
 
 				div.promise().done(() => {
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					textarea.addClass('form-editor-done');
 
 					/*------------------------------------------------------------------------------------------------*/
 

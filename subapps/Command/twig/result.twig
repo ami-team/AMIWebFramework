@@ -1,4 +1,4 @@
-<div class="mb-0 mt-2 mt-lg-0">
+<div class="command-result">
 	<div class="text-{% if BOOTSTRAP_VERSION === 'v5' %}end{% else %}right{% endif %}">
 		<div class="cmd-tools">
 			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.copy('{{ url|e }}');">
@@ -9,10 +9,10 @@
 				<i class="bi bi-clipboard" style="font-size: 1.5rem;"></i>
 				<small style="font-size: 0.75rem; margin-left: -1.25rem;">TXT</small>
 			</button>
-			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.save($(this).parent().parent().parent().find('.form-editor').text());">
+			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.save($(this).closest('.command-result').find('.form-editor').val());">
 				<i class="bi bi-download" style="font-size: 1.5rem;"></i>
 			</button>
-			<button type="button" class="btn btn-sm btn-link" onclick="$(this).parent().parent().parent().remove();">
+			<button type="button" class="btn btn-sm btn-link" onclick="$(this).closest('.command-result').remove();">
 				<i class="bi bi-x-circle" style="font-size: 1.5rem;"></i>
 			</button>
 		</div>

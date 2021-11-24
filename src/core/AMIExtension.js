@@ -153,7 +153,7 @@ export default function()
 		{
 			/**/ if(arguments.length === 0) // getter
 			{
-				if(this.hasClass('form-editor-hidden'))
+				if(this.hasClass('form-editor-done'))
 				{
 					const editor = this.data('editor');
 
@@ -164,7 +164,7 @@ export default function()
 			}
 			else if(arguments.length === 1) // setter
 			{
-				if(this.hasClass('form-editor-hidden'))
+				if(this.hasClass('form-editor-done'))
 				{
 					const editor = this.data('editor');
 
