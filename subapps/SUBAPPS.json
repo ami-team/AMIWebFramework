@@ -1,4 +1,12 @@
 {
+    "bookmarkEditor": {
+        "breadcrumb": [
+            "User",
+            "<a href=\"{{WEBAPP_URL}}?subapp=bookmarkEditor\">Bookmark Editor</a>"
+        ],
+        "file": "subapps/BookmarkEditor/js/BookmarkEditorApp.js",
+        "instance": "bookmarkEditorApp"
+    },
     "command": {
         "breadcrumb": [
             "Tools",

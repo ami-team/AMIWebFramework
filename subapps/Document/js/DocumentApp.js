@@ -1,5 +1,5 @@
 /*!
- * AMI Twig Engine
+ * AMI Web Framework
  *
  * Copyright (c) 2014-2019 The AMI Team / LPSC / IN2P3
  *

@@ -1,5 +1,5 @@
 /*!
- * AMI Twig Engine
+ * AMI Web Framework
  *
  * Copyright (c) 2014-2019 The AMI Team / LPSC / IN2P3
  *
@@ -28,6 +28,7 @@ $AMIClass('CommandApp', {
 			'subapps/Command/twig/CommandApp.twig',
 			'subapps/Command/twig/command.twig',
 			'subapps/Command/twig/result.twig',
+			/**/
 			'subapps/Command/js/filesaver.min.js',
 		]).done((data) => {
 

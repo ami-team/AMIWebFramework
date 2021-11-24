@@ -430,6 +430,28 @@ class AMIAuth
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Update the user information
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+
+	update()
+	{
+		amiWebApp.lock();
+
+		return amiCommand.signInByCertificate().done((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
+
+			this.#setupAWF(awfInfo);
+
+			this.#update(userInfo, roleInfo, bookmarkInfo, awfInfo).always(() => {
+
+				amiWebApp.unlock();
+			});
+		});
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
