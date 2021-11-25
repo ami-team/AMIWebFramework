@@ -28,6 +28,7 @@ import amiExtensions from './AMIExtension';
 
 import JSPath from 'jspath';
 
+import '../images/cloud.png';
 import '../images/padlock.png';
 
 import defaultLogoURL from '../images/logo.png';
@@ -488,6 +489,19 @@ class AMIWebApp
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			let defaultThemeURL;
+
+			if(amiRouter.getWebAppArgs()['subapp'].toLowerCase() !== 'userdashboard')
+			{
+				defaultThemeURL = `${this.originURL}/twig/${this.bootstrapVersion}/Themes/blue.twig`;
+			}
+			else
+			{
+				defaultThemeURL = `${this.originURL}/twig/${this.bootstrapVersion}/Themes/cloud.twig`;
+			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
 			const [
 				logoURL, backgroundURL, homeURL, contactEmail, aboutURL,
 				themeURL, lockerURL, endpointURL,
@@ -506,9 +520,9 @@ class AMIWebApp
 				'bookmarks_allowed',
 			], [
 				defaultLogoURL, defaultBackgroundURL, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/',
-				this.originURL + `/twig/${this.bootstrapVersion}/Themes/blue.twig`,
-				this.originURL + `/twig/${this.bootstrapVersion}/Lockers/default.twig`,
-				this.originURL + '/AMI/FrontEnd',
+				defaultThemeURL,
+				`${this.originURL}/twig/${this.bootstrapVersion}/Lockers/default.twig`,
+				`${this.originURL}/AMI/FrontEnd`,
 				false,
 				false, true, true, true,
 				true, true, true, true,

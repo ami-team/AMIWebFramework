@@ -8632,6 +8632,14 @@ module.exports = __webpack_require__.p + "assets/images/blueprint-dark.png";
 
 /***/ }),
 
+/***/ 3507:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "assets/images/cloud.png";
+
+/***/ }),
+
 /***/ 1702:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -14495,6 +14503,8 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
   });
 }
 
+// EXTERNAL MODULE: ./src/images/cloud.png
+var cloud = __webpack_require__(3507);
 // EXTERNAL MODULE: ./src/images/padlock.png
 var padlock = __webpack_require__(8475);
 // EXTERNAL MODULE: ./src/images/logo.png
@@ -14559,6 +14569,7 @@ var AMIWebApp_privateSet = (obj, member, value, setter) => {
   return value;
 };
 var _embedded, _noBootstrap, _noMoment, _noSelect2, _globalDeferred;
+
 
 
 
@@ -14699,6 +14710,12 @@ class AMIWebApp {
   }
   start(options) {
     AMIWebApp_privateGet(this, _globalDeferred).done(() => {
+      let defaultThemeURL;
+      if (core_AMIRouter.getWebAppArgs()["subapp"].toLowerCase() !== "userdashboard") {
+        defaultThemeURL = `${this.originURL}/twig/${this.bootstrapVersion}/Themes/blue.twig`;
+      } else {
+        defaultThemeURL = `${this.originURL}/twig/${this.bootstrapVersion}/Themes/cloud.twig`;
+      }
       const [
         logoURL,
         backgroundURL,
@@ -14745,9 +14762,9 @@ class AMIWebApp {
         this.webAppURL,
         "ami@lpsc.in2p3.fr",
         "https://cern.ch/ami/",
-        this.originURL + `/twig/${this.bootstrapVersion}/Themes/blue.twig`,
-        this.originURL + `/twig/${this.bootstrapVersion}/Lockers/default.twig`,
-        this.originURL + "/AMI/FrontEnd",
+        defaultThemeURL,
+        `${this.originURL}/twig/${this.bootstrapVersion}/Lockers/default.twig`,
+        `${this.originURL}/AMI/FrontEnd`,
         false,
         false,
         true,
