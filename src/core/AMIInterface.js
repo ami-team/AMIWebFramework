@@ -12,7 +12,6 @@
 'use strict';
 
 import * as view from './utilities/view';
-
 import * as controls from './utilities/controls';
 
 import * as AMIObject from './AMIObject';
@@ -243,14 +242,15 @@ AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
 
 	setSelector: function(selector)
 	{
-		selector = selector || '';
-
 		if(selector)
 		{
-			$(selector).on('remove', () => this.onRemove());
+			$(selector).off('remove').on('remove', () => {
+
+				this.onRemove();
+			});
 		}
 
-		return this._selector = selector;
+		return this._selector = selector || '';
 	},
 
 	getSelector: function()
