@@ -28,7 +28,9 @@ import amiExtensions from './AMIExtension';
 
 import JSPath from 'jspath';
 
+import '../images/lpsc.png';
 import '../images/cloud.png';
+import '../images/glass.png';
 import '../images/padlock.png';
 
 import defaultLogoURL from '../images/logo.png';
