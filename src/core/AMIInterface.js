@@ -11,6 +11,10 @@
 
 'use strict';
 
+import * as view from './utilities/view';
+
+import * as controls from './utilities/controls';
+
 import * as AMIObject from './AMIObject';
 
 import amiCommand from './AMICommand';
@@ -94,6 +98,292 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+/* ami.IControl                                                                                                       */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * The AMI control interface
+ * @interface ami.IControl
+ */
+
+AMIObject.$AMIInterface('ami.IControl', /** @lends ami.IControl */ {
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Called when the control is ready to run
+	 */
+
+	onReady: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Called when the control is removed
+	 */
+
+	onRemove: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Patches an HTML identifier
+	 * @param {string} id the unpatched HTML identifier
+	 * @returns {string} The patched HTML identifier
+	 */
+
+	patchId: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+	 * @param {string} selector the target selector
+	 * @param {string} [twig={}] the TWIG fragment
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+
+	replaceHTML: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+	 * @param {string} selector the target selector
+	 * @param {string} [twig={}] the TWIG fragment
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+
+	prependHTML: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+	 * @param {string} selector the target selector
+	 * @param {string} [twig={}] the TWIG fragment
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+
+	appendHTML: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+});
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* ami.Control                                                                                                        */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * The basic AMI control
+ * @class ami.Control
+ * @implements {ami.IControl}
+ * @param {?*} parent the parent entity
+ * @param {?*} owner the owner entity
+ */
+
+AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$implements: [ami.IControl],
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$: function()
+	{
+		ami.Control._instanceScopeCnt = 1;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$init: function(parent, owner)
+	{
+		this._parent = parent || this;
+		this._owner = owner || this;
+
+		this._instanceScope = ami.Control._instanceScopeCnt++;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onReady: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onRemove: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	setParent: function(parent)
+	{
+		return this._parent = parent || this;
+	},
+
+	getParent: function()
+	{
+		return this._parent;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	setOwner: function(owner)
+	{
+		return this._owner = owner || this;
+	},
+
+	getOwner: function()
+	{
+		return this._owner;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	setSelector: function(selector)
+	{
+		selector = selector || '';
+
+		if(selector)
+		{
+			$(selector).on('remove', () => this.onRemove());
+		}
+
+		return this._selector = selector;
+	},
+
+	getSelector: function()
+	{
+		return this._selector;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	ctxImmutables: {},
+	ctxDefaults: {},
+	ctxOptions: {},
+	ctx: {},
+
+	setupCtx: function(immutables, defaults, options)
+	{
+		return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	patchId: function(id)
+	{
+		return `${id}_scope${this._instanceScope}`;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	replaceHTML: function(selector, twig, options)
+	{
+		options = options || {};
+
+		options.scope = this._instanceScope;
+
+		return view.replaceHTML(selector, twig, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	prependHTML: function(selector, twig, options)
+	{
+		options = options || {};
+
+		options.scope = this._instanceScope;
+
+		return view.prependHTML(selector, twig, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	appendHTML: function(selector, twig, options)
+	{
+		options = options || {};
+
+		options.scope = this._instanceScope;
+
+		return view.appendHTML(selector, twig, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Asynchronously creates a control
+	 * @param {?*} parent the parent entity
+	 * @param {string} control the control name
+	 * @param {Array<*>} params the control's parameters
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+
+	createControl: function(parent, control, params, options)
+	{
+		return controls.createControl(parent, this, control, params, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Asynchronously creates a control in the body
+	 * @param {?*} parent the parent entity
+	 * @param {string} control the control name
+	 * @param {Array<*>} controlParamsWithoutOptions the control's parameters without optional parameters
+	 * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
+	 * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+
+	createControlInBody: function(parent, control, controlParamsWithoutOptions, controlOptions, parentOptions, options)
+	{
+		return controls.createControlInBody(parent, this, control, controlParamsWithoutOptions, controlOptions, parentOptions, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Asynchronously creates a control in a container
+	 * @param {?*} parent the parent entity
+	 * @param {string} control the control name
+	 * @param {Array<*>} controlParamsWithoutOptions the control's parameters without optional parameters
+	 * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
+	 * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
+	 * @param {string} icon the icon
+	 * @param {string} title the title
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+
+	createControlInContainer: function(parent, control, controlParamsWithoutOptions, controlOptions, parentOptions, icon, title, options)
+	{
+		return controls.createControlInContainer(parent, this, control, controlParamsWithoutOptions, controlOptions, parentOptions, icon, title, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Asynchronously creates a control in a container from a WEB link
+	 * @param {?*} parent the parent entity
+	 * @param {string} el the HTML element
+	 * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @returns {$.Deferred} A JQuery deferred object
+	 */
+
+	createControlFromWebLink: function(parent, el, parentOptions, options)
+	{
+		return controls.createControlFromWebLink(parent, this, el, parentOptions, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+});
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 /* ami.ISubApp                                                                                                        */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -163,6 +453,22 @@ AMIObject.$AMIClass('ami.SubApp', /** @lends ami.SubApp */ {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	onReady: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onExit: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onLogin: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onLogout: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	ctxImmutables: {},
 	ctxDefaults: {},
 	ctxOptions: {},
@@ -180,18 +486,6 @@ AMIObject.$AMIClass('ami.SubApp', /** @lends ami.SubApp */ {
 	{
 		return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
 	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	onExit: function() {},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	onLogin: function() {},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	onLogout: function() {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 });

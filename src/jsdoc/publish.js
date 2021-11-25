@@ -215,7 +215,7 @@ function process(nodes, borrowDict, parentDescr, parentLongName)
 				/* INHERITED METHODS                                                                                  */
 				/*----------------------------------------------------------------------------------------------------*/
 
-				if(element.implements)
+				if(Array.isArray(element.implements))
 				{
 					for(const i in element.implements)
 					{
@@ -225,7 +225,7 @@ function process(nodes, borrowDict, parentDescr, parentLongName)
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				if(element.augments)
+				if(Array.isArray(element.augments))
 				{
 					for(const i in element.augments)
 					{

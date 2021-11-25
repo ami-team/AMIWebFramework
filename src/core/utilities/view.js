@@ -357,7 +357,7 @@ function _xxxHTML(selector, twig, mode, options)
  * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
  * @param {string} selector the target selector
  * @param {string} [twig={}] the TWIG fragment
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, suffix, dict, twigs)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
  * @returns {$.Deferred} A JQuery deferred object
  * @ignore
  */
@@ -373,7 +373,7 @@ export function replaceHTML(selector, twig, options)
  * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
  * @param {string} selector the target selector
  * @param {string} [twig={}] the TWIG fragment
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, suffix, dict, twigs)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
  * @returns {$.Deferred} A JQuery deferred object
  * @ignore
  */
@@ -389,7 +389,7 @@ export function prependHTML(selector, twig, options)
  * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
  * @param {string} selector the target selector
  * @param {string} [twig={}] the TWIG fragment
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, suffix, dict, twigs)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
  * @returns {$.Deferred} A JQuery deferred object
  * @ignore
  */
