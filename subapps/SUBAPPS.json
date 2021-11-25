@@ -34,5 +34,13 @@
         ],
         "file": "subapps/ResetPassword/js/ResetPasswordApp.js",
         "instance": "resetPasswordApp"
-    }
+    },
+	"userDashboard": {
+		"breadcrumb": [
+			"User",
+			"<a href=\"{{WEBAPP_URL}}?subapp=userDashboard\">User Dashboard</a>"
+		],
+		"file": "subapps/UserDashboard/js/UserDashboardApp.js",
+		"instance": "userDashboardApp"
+	}
 }
