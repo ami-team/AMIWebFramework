@@ -14733,7 +14733,7 @@ class AMIWebApp {
   start(options) {
     AMIWebApp_privateGet(this, _globalDeferred).done(() => {
       let defaultThemeURL;
-      if (core_AMIRouter.getWebAppArgs()["subapp"].toLowerCase() !== "userdashboard") {
+      if ((core_AMIRouter.getWebAppArgs()["subapp"] || "").toLowerCase() !== "userdashboard") {
         defaultThemeURL = `${this.originURL}/twig/${this.bootstrapVersion}/Themes/blue.twig`;
       } else {
         defaultThemeURL = `${this.originURL}/twig/${this.bootstrapVersion}/Themes/cloud.twig`;

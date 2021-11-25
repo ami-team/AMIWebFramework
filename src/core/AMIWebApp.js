@@ -493,7 +493,7 @@ class AMIWebApp
 
 			let defaultThemeURL;
 
-			if(amiRouter.getWebAppArgs()['subapp'].toLowerCase() !== 'userdashboard')
+			if((amiRouter.getWebAppArgs()['subapp'] || '').toLowerCase() !== 'userdashboard')
 			{
 				defaultThemeURL = `${this.originURL}/twig/${this.bootstrapVersion}/Themes/blue.twig`;
 			}
