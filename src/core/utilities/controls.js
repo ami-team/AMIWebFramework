@@ -36,7 +36,7 @@ export const _controls = {};
  * Asynchronously loads a control
  * @param {string} control the control name
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
@@ -111,7 +111,7 @@ export function loadControl(control, options)
  * @param {string} control the control name
  * @param {Array<*>} params the control's parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
@@ -161,7 +161,7 @@ export function createControl(parent, owner, control, params, options)
  * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
  * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
@@ -236,7 +236,7 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
  * @param {string} icon the icon
  * @param {string} title the title
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
@@ -307,10 +307,10 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
  * Asynchronously creates a control in a container from a WEB link
  * @param {?*} parent the parent entity
  * @param {?*} owner the owner entity
- * @param {string} el the HTML element
+ * @param {Element} el the HTML element
  * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 

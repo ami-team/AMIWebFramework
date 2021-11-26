@@ -62,7 +62,7 @@ let _currentUserdata = null;
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
@@ -102,7 +102,7 @@ export function triggerLogin()
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
@@ -144,9 +144,9 @@ export function triggerLogout()
 /**
  * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
- * @param {?*} userdata the user data
+ * @param {?*} [userdata] the user data
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
@@ -248,7 +248,7 @@ export function loadSubApp(subapp, userdata, options)
  * Asynchronously loads a subapp by URL
  * @param {string} defaultSubApp if 'amiRouter.getArgs()["subapp"]' is null, the default subapp name
  * @param {?*} defaultUserData if 'amiRouter.getArgs()["userdata"]' is null, the default user data
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 

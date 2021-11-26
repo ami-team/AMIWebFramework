@@ -13,6 +13,114 @@
 
 import * as tools from './utilities/tools';
 
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* $.Deferred                                                                                                         */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @external $.Deferred
+ * @see {@link http://api.jquery.com/Types/#Deferred Deferred}
+ */
+
+/**
+ * @function resolve
+ * @memberof $.Deferred
+ * @param {...*} args
+ * @instance
+ */
+
+/**
+ * @function resolveWith
+ * @memberof $.Deferred
+ * @param {*} context
+ * @param {Array<*>} args
+ * @instance
+ */
+
+/**
+ * @function reject
+ * @memberof $.Deferred
+ * @param {...*} args
+ * @instance
+ */
+
+/**
+ * @function rejectWith
+ * @memberof $.Deferred
+ * @param {*} context
+ * @param {Array<*>} args
+ * @instance
+ */
+
+/**
+ * @function done
+ * @memberof $.Deferred
+ * @param {function} Done callback
+ * @instance
+ */
+
+/**
+ * @function fail
+ * @memberof $.Deferred
+ * @param {function} Fail callback
+ * @instance
+ */
+
+/**
+ * @function then
+ * @memberof $.Deferred
+ * @param {function} Done callback
+ * @param {function} Fail callback
+ * @instance
+ */
+
+/**
+ * @function always
+ * @memberof $.Deferred
+ * @param {function} Always callback
+ * @instance
+ */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* $.Promise                                                                                                          */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @external $.Promise
+ * @see {@link http://api.jquery.com/Types/#Promise Promise}
+ */
+
+/**
+ * @function done
+ * @memberof $.Promise
+ * @param {function} Done callback
+ * @instance
+ */
+
+/**
+ * @function fail
+ * @memberof $.Promise
+ * @param {function} Fail callback
+ * @instance
+ */
+
+/**
+ * @function then
+ * @memberof $.Promise
+ * @param {function} Done callback
+ * @param {function} Fail callback
+ * @instance
+ */
+
+/**
+ * @function always
+ * @memberof $.Promise
+ * @param {function} Always callback
+ * @instance
+ */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 export default function()
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -140,7 +248,7 @@ export default function()
 				}
 				else
 				{
-					result[item.name] = item.value || '';
+					result[item.name] = (item.value || '');
 				}
 			});
 

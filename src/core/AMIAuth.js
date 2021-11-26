@@ -78,12 +78,12 @@ class AMIAuth
 			const config = JSON.parse(strings.base64Decode(awfInfo.config));
 
 			view.setDateTimeFormats(
-				config.datetimePrecision,
-				config.datetimeFormat,
-				config.dateFormat,
-				config.timePrecision,
-				config.timeHMSFormat,
-				config.timeHMFormat
+				config['datetimePrecision'],
+				config['datetimeFormat'],
+				config['dateFormat'],
+				config['timePrecision'],
+				config['timeHMSFormat'],
+				config['timeHMFormat']
 			);
 
 			this.#awfInfo = config;
@@ -200,7 +200,7 @@ class AMIAuth
 		{
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const button = require('../twigs/' + amiWebApp.bootstrapVersion + '/signout_button.twig');
+			const button = require('../twigs/' + amiWebApp.bootstrapVersion + '/sign_out_button.twig');
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -222,7 +222,7 @@ class AMIAuth
 		{
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const button = require('../twigs/' + amiWebApp.bootstrapVersion + '/signin_button.twig');
+			const button = require('../twigs/' + amiWebApp.bootstrapVersion + '/sign_in_button.twig');
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -433,7 +433,7 @@ class AMIAuth
 
 	/**
 	 * Update the user information
-	 * @returns {$.Deferred} A JQuery deferred object
+	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	update()

@@ -111,6 +111,7 @@ AMIObject.$AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 
 	/**
 	 * Called when the control is ready to run
+ 	 * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
 	 */
 
 	onReady: function() {},
@@ -119,6 +120,7 @@ AMIObject.$AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 
 	/**
 	 * Called when the control is removed
+	 * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
 	 */
 
 	onRemove: function() {},
@@ -127,11 +129,11 @@ AMIObject.$AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 
 	/**
 	 * Patches an HTML identifier
-	 * @param {string} id the unpatched HTML identifier
+	 * @param {string} id the not patched HTML identifier
 	 * @returns {string} The patched HTML identifier
 	 */
 
-	patchId: function() {},
+	patchId: function(id) {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -140,10 +142,10 @@ AMIObject.$AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 	 * @param {string} selector the target selector
 	 * @param {string} [twig={}] the TWIG fragment
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
-	 * @returns {$.Deferred} A JQuery deferred object
+	 * @returns {$.Promise} A JQuery promise object
 	 */
 
-	replaceHTML: function() {},
+	replaceHTML: function(selector, twig, options) {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -152,10 +154,10 @@ AMIObject.$AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 	 * @param {string} selector the target selector
 	 * @param {string} [twig={}] the TWIG fragment
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
-	 * @returns {$.Deferred} A JQuery deferred object
+	 * @returns {$.Promise} A JQuery promise object
 	 */
 
-	prependHTML: function() {},
+	prependHTML: function(selector, twig, options) {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -164,10 +166,10 @@ AMIObject.$AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 	 * @param {string} selector the target selector
 	 * @param {string} [twig={}] the TWIG fragment
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
-	 * @returns {$.Deferred} A JQuery deferred object
+	 * @returns {$.Promise} A JQuery promise object
 	 */
 
-	appendHTML: function() {},
+	appendHTML: function(selector, twig, options) {},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 });
@@ -318,7 +320,7 @@ AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
 	 * @param {string} control the control name
 	 * @param {Array<*>} params the control's parameters
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-	 * @returns {$.Deferred} A JQuery deferred object
+	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	createControl: function(parent, control, params, options)
@@ -336,7 +338,7 @@ AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
 	 * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
 	 * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-	 * @returns {$.Deferred} A JQuery deferred object
+	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	createControlInBody: function(parent, control, controlParamsWithoutOptions, controlOptions, parentOptions, options)
@@ -356,7 +358,7 @@ AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
 	 * @param {string} icon the icon
 	 * @param {string} title the title
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-	 * @returns {$.Deferred} A JQuery deferred object
+	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	createControlInContainer: function(parent, control, controlParamsWithoutOptions, controlOptions, parentOptions, icon, title, options)
@@ -372,7 +374,7 @@ AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
 	 * @param {string} el the HTML element
 	 * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-	 * @returns {$.Deferred} A JQuery deferred object
+	 * @returns {$.Promise} A JQuery promise object
 	 */
 
 	createControlFromWebLink: function(parent, el, parentOptions, options)
@@ -398,7 +400,7 @@ AMIObject.$AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 	/**
 	 * Called when the sub-application is ready to run
 	 * @param {?*} userdata the user data
-	 * @return {$.Deferred|undefined} A JQuery deferred object or nothing
+	 * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
 	 */
 
 	onReady: function(userdata) {},
@@ -408,7 +410,7 @@ AMIObject.$AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 	/**
 	 * Called when the sub-application is about to exit
 	 * @param {?*} userdata the user data
-	 * @return {$.Deferred|undefined} A JQuery deferred object or nothing
+	 * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
 	 */
 
 	onExit: function(userdata) {},
@@ -418,7 +420,7 @@ AMIObject.$AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 	/**
 	 * Called when logging in
 	 * @param {?*} userdata the user data
-	 * @return {$.Deferred|undefined} A JQuery deferred object or nothing
+	 * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
 	 */
 
 	onLogin: function(userdata) {},
@@ -428,7 +430,7 @@ AMIObject.$AMIInterface('ami.ISubApp', /** @lends ami.ISubApp */ {
 	/**
 	 * Called when logging out
 	 * @param {?*} userdata the user data
-	 * @return {$.Deferred|undefined} A JQuery deferred object or nothing
+	 * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
 	 */
 
 	onLogout: function(userdata) {},

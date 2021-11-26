@@ -91,7 +91,7 @@ function _formatDatetime(date, format)
  * @param {string} twig
  * @param {number} mode
  * @param {Object<string, *>} [options={}]
- * @returns {$.Deferred}
+ * @returns {$.Promise}
  * @ignore
  */
 
@@ -232,7 +232,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 		const editors = _find('.form-editor:not(.form-editor-done)'); if(editors.length > 0) import('monaco-editor/esm/vs/editor/editor.api').then((monaco) => {
 
-			editors.each((index, item) => {
+			editors.each((_, item) => {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -358,7 +358,7 @@ function _xxxHTML(selector, twig, mode, options)
  * @param {string} selector the target selector
  * @param {string} [twig={}] the TWIG fragment
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
@@ -374,7 +374,7 @@ export function replaceHTML(selector, twig, options)
  * @param {string} selector the target selector
  * @param {string} [twig={}] the TWIG fragment
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
@@ -390,7 +390,7 @@ export function prependHTML(selector, twig, options)
  * @param {string} selector the target selector
  * @param {string} [twig={}] the TWIG fragment
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
- * @returns {$.Deferred} A JQuery deferred object
+ * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 

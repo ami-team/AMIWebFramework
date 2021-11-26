@@ -1,1 +1,10 @@
-{}
+{
+	"accordion": {
+		"clazz": "AccordionCtrl",
+		"file": "controls/Accordion/js/AccordionCtrl.js"
+	},
+	"tab": {
+		"clazz": "TabCtrl",
+		"file": "controls/Tab/js/TabCtrl.js"
+	}
+}
