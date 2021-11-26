@@ -17,6 +17,22 @@
 	</div>
 </li>
 {% endif %}
+{% if dashboardsAllowed %}
+	<li class="nav-item dropdown">
+		<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+			<i class="bi bi-speedometer"></i>
+		</a>
+		<div class="dropdown-menu" id="ami_dashboard_menu_content">
+			<a class="dropdown-item xxxxxxxx" href="{{WEBAPP_URL}}?subapp=BookmarkEditor" target="_blank">Edit dashboards</a>
+			<div class="dropdown-divider"></div>
+			{% for hash, dashboard in dashboardInfo %}
+				<a class="dropdown-item" href="{{WEBAPP_URL}}?v={{ hash|e }}" target="_blank">{{ dashboard.name|e }}</a>
+			{% else %}
+				<div class="dropdown-item text-muted">-- empty --</div>
+			{% endfor %}
+		</div>
+	</li>
+{% endif %}
 <li class="nav-item dropdown">
 	<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
 		<i class="bi bi-person-circle"></i> {{ userInfo.AMIUser|e }}

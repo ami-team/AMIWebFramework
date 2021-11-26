@@ -67,6 +67,12 @@ class AMIAuth
 	 * @type {Object<string,*>}
 	 */
 
+	#dashboardInfo = {};
+
+	/**
+	 * @type {Object<string,*>}
+	 */
+
 	#awfInfo = {};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -101,7 +107,7 @@ class AMIAuth
 		ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 		createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 		captchaAllowed,
-		bookmarksAllowed
+		bookmarksAllowed, dashboardsAllowed
 	 ) {
 		const result = $.Deferred();
 
@@ -119,6 +125,7 @@ class AMIAuth
 			changeCertificateAllowed: changeCertificateAllowed,
 			captchaAllowed: captchaAllowed,
 			bookmarksAllowed: bookmarksAllowed,
+			dashboardsAllowed: dashboardsAllowed,
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -127,16 +134,16 @@ class AMIAuth
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.signInByCertificate().fail((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
+		amiCommand.signInByCertificate().fail((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
 
 			this.#setupAWF(awfInfo);
 
-			this.#update(userInfo, roleInfo, bookmarkInfo, awfInfo).always((/*---*/) => {
+			this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always((/*---*/) => {
 
 				result.reject(message);
 			});
 
-		}).done((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
+		}).done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -148,7 +155,7 @@ class AMIAuth
 
 				amiWebApp._isReady = true;
 
-				this.#update(userInfo, roleInfo, bookmarkInfo, awfInfo).then((message) => {
+				this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then((message) => {
 
 					result.resolve(message);
 
@@ -174,7 +181,7 @@ class AMIAuth
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	#update(userInfo, roleInfo, bookmarkInfo, awfInfo)
+	#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo)
 	{
 		const result = $.Deferred();
 
@@ -188,10 +195,11 @@ class AMIAuth
 		const dict = {
 			...this.#flags,
 			/**/
-			userInfo    : (this.#userInfo     = userInfo    ),
-			roleInfo    : (this.#roleInfo     = roleInfo    ),
-			bookmarkInfo: (this.#bookmarkInfo = bookmarkInfo),
-			awfInfo     : (this.#awfInfo      = awfInfo     ),
+			userInfo     : (this.#userInfo      = userInfo     ),
+			roleInfo     : (this.#roleInfo      = roleInfo     ),
+			bookmarkInfo : (this.#bookmarkInfo  = bookmarkInfo ),
+			dashboardInfo: (this.#dashboardInfo = dashboardInfo),
+			awfInfo      : (this.#awfInfo       = awfInfo      ),
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -306,6 +314,18 @@ class AMIAuth
 	getBookmarkInfo()
 	{
 		return this.#bookmarkInfo;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Gets the current dashboard information
+	 * @returns {Object<string,*>} The current dashboard information
+	 */
+
+	getDashboardInfo()
+	{
+		return this.#dashboardInfo;
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

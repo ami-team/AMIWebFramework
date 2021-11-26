@@ -511,7 +511,7 @@ class AMIWebApp
 				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 				captchaAllowed,
-				bookmarksAllowed,
+				bookmarksAllowed, dashboardsAllowed
 			] = tools.setup([
 				'logo_url', 'background_url', 'home_url', 'contact_email', 'about_url',
 				'theme_url', 'locker_url', 'endpoint_url',
@@ -519,7 +519,7 @@ class AMIWebApp
 				'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
 				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
 				'captcha_allowed',
-				'bookmarks_allowed',
+				'bookmarks_allowed', 'dashboardsAllowed'
 			], [
 				defaultLogoURL, defaultBackgroundURL, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/',
 				defaultThemeURL,
@@ -529,7 +529,7 @@ class AMIWebApp
 				false, true, true, true,
 				true, true, true, true,
 				true,
-				true,
+				true, true,
 			], options);
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -602,7 +602,7 @@ class AMIWebApp
 										ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 										createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 										captchaAllowed,
-										bookmarksAllowed
+										bookmarksAllowed, dashboardsAllowed
 									).done(() => {
 
 										locks.unlock();
@@ -654,7 +654,7 @@ class AMIWebApp
 									ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 									createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 									captchaAllowed,
-									bookmarksAllowed
+									bookmarksAllowed, dashboardsAllowed
 								).done(() => {
 
 									locks.unlock();

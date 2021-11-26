@@ -18,13 +18,55 @@ $AMIClass('BookmarkEditorApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	bookmarkProfile: {
+		name: 'bookmarkProfile',
+		/**/
+		infoMethod: () => amiAuth.getBookmarkInfo(),
+		/**/
+		addCommand: 'AddHash',
+		updateCommand: 'UpdateHash',
+		removeCommand: 'RemoveHash',
+		/**/
+		listId: '#ACFE5A3E_2548_59BF_7EBB_32821C900AB1',
+		/**/
+		nameId: '#CA130E29_BDD4_CC8C_C71C_9472725DFE5A',
+		shareId: '#B0ECE244_6128_4BB1_569C_18225330963A',
+		jsonId: '#CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17',
+		/**/
+		clearId: '#DB6C48C0_5B8B_F324_5669_C17254E45A5D',
+		removeId: '#FF60636A_49EE_1C5D_BB59_AC077A8999E2',
+		addUpdateId: '#F1814093_A84F_0FC4_4581_699ACA53782F',
+	},
+
+	dashboardProfile: {
+		name: 'dashboardProfile',
+		/**/
+		infoMethod: () => amiAuth.getDashboardInfo(),
+		/**/
+		addCommand: 'AddHash',
+		updateCommand: 'UpdateHash',
+		removeCommand: 'RemoveHash',
+		/**/
+		listId: '#D89CE3F5_9D1D_B338_D895_C344CD4FFE08',
+		/**/
+		nameId: '#CC4A8905_4020_85F9_BDFE_1F3AFFA69A0C',
+		shareId: '#C12DD7B5_DE47_9429_E2AC_5A48A0B7CA6E',
+		jsonId: '#C39F1AF8_26C2_C0A6_C012_B3D6C443DB90',
+		/**/
+		clearId: '#BE2709CF_8E16_DE33_E151_CBF589591E8F',
+		removeId: '#E6F1B904_1835_D1FD_6C2C_7B9465A6DF50',
+		addUpdateId: '#B05BAD9F_4923_FE76_EAD2_FC39CB712853',
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	onReady: function()
 	{
 		const result = $.Deferred();
 
 		amiWebApp.loadResources([
 			'subapps/BookmarkEditor/twig/BookmarkEditorApp.twig',
-			'subapps/BookmarkEditor/twig/bookmarks.twig',
+			'subapps/BookmarkEditor/twig/items.twig',
 		]).done((data) => {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
@@ -37,48 +79,9 @@ $AMIClass('BookmarkEditorApp', {
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					$('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1').sortable({
+					this.makeSortable(this.bookmarkProfile, $('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1'));
 
-						start: (e, ui) => {
-
-							/*----------------------------------------------------------------------------------------*/
-
-							ui.item.ranks1 = {};
-
-							$('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1 > div[data-id]').each((indx, item) => {
-
-								ui.item.ranks1[$(item).attr('data-id')] = indx;
-							});
-
-							/*----------------------------------------------------------------------------------------*/
-						},
-						update: (e, ui) => {
-
-							/*----------------------------------------------------------------------------------------*/
-
-							ui.item.ranks2 = {};
-
-							$('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1 > div[data-id]').each((indx, item) => {
-
-								ui.item.ranks2[$(item).attr('data-id')] = indx;
-							});
-
-							/*----------------------------------------------------------------------------------------*/
-
-							this.ranks = ui.item.ranks2;
-
-							/*----------------------------------------------------------------------------------------*/
-
-							this.swap(
-								ui.item.ranks1,
-								ui.item.ranks2
-							);
-
-							/*----------------------------------------------------------------------------------------*/
-						},
-
-						/*--------------------------------------------------------------------------------------------*/
-					});
+					this.makeSortable(this.dashboardProfile, $('#D89CE3F5_9D1D_B338_D895_C344CD4FFE08'));
 
 					/*------------------------------------------------------------------------------------------------*/
 
@@ -89,11 +92,57 @@ $AMIClass('BookmarkEditorApp', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				this.fragmentBookmarks = data[1];
+				this.fragmentItems = data[1];
 
-				this.setUpdateMode(false);
+				/*----------------------------------------------------------------------------------------------------*/
+				/* BOOKMARKS                                                                                          */
+				/*----------------------------------------------------------------------------------------------------*/
 
-				this.bookmarks = {};
+				this.setUpdateMode(this.bookmarkProfile, false);
+
+				$(this.bookmarkProfile.clearId).click((e) => {
+
+					this.clear(this.bookmarkProfile);
+					e.preventDefault();
+				});
+
+				$(this.bookmarkProfile.removeId).click((e) => {
+
+					this.remove(this.bookmarkProfile);
+					e.preventDefault();
+				});
+
+				$(this.bookmarkProfile.addUpdateId).click((e) => {
+
+					this.save(this.bookmarkProfile);
+					e.preventDefault();
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+				/* BOOKMARKS                                                                                          */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				this.setUpdateMode(this.dashboardProfile, false);
+
+				$(this.dashboardProfile.clearId).click((e) => {
+
+					this.clear(this.dashboardProfile);
+					e.preventDefault();
+				});
+
+				$(this.dashboardProfile.removeId).click((e) => {
+
+					this.remove(this.dashboardProfile);
+					e.preventDefault();
+				});
+
+				$(this.dashboardProfile.addUpdateId).click((e) => {
+
+					this.save(this.dashboardProfile);
+					e.preventDefault();
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
 
 				result.resolve();
 			});
@@ -110,57 +159,66 @@ $AMIClass('BookmarkEditorApp', {
 
 	onLogin: function()
 	{
-		this.showBookmarkList();
+		this.showList(this.bookmarkProfile);
+		this.showList(this.dashboardProfile);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogout: function()
 	{
-		this.showBookmarkList();
+		this.showList(this.bookmarkProfile);
+		this.showList(this.dashboardProfile);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setUpdateMode: function(updateMode)
+	makeSortable: function(profile, el)
 	{
-		if(updateMode)
-		{
-			$('#FF60636A_49EE_1C5D_BB59_AC077A8999E2').prop('disabled', false);
+		el.sortable({
 
-			$('#F1814093_A84F_0FC4_4581_699ACA53782F').text('Update');
-		}
-		else
-		{
-			$('#FF60636A_49EE_1C5D_BB59_AC077A8999E2').prop('disabled', true);
+			start: (_, ui) => {
 
-			$('#F1814093_A84F_0FC4_4581_699ACA53782F').text('Add');
-        }
+				/*----------------------------------------------------------------------------------------*/
+
+				ui.item.ranks1 = {};
+
+				el.find('div[data-id]').each((indx, item) => {
+
+					ui.item.ranks1[$(item).attr('data-id')] = indx;
+				});
+
+				/*----------------------------------------------------------------------------------------*/
+			},
+			update: (_, ui) => {
+
+				/*----------------------------------------------------------------------------------------*/
+
+				ui.item.ranks2 = {};
+
+				el.find('div[data-id]').each((indx, item) => {
+
+					ui.item.ranks2[$(item).attr('data-id')] = indx;
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				this.ranks = ui.item.ranks2;
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				this.swap(
+					profile,
+					ui.item.ranks1,
+					ui.item.ranks2
+				);
+
+				/*----------------------------------------------------------------------------------------------------*/
+			},
+
+			/*--------------------------------------------------------------------------------------------------------*/
+		});
 	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	showBookmarkList: function()
-    {
-    	/*------------------------------------------------------------------------------------------------------------*/
-
-		const this_bookmarks = [];
-
-		/*-*/ this.bookmarks = {};
-
-		for(const x of Object.values(amiAuth.getBookmarkInfo()))
-		{
-			this_bookmarks.push(x);
-
-			this.bookmarks[x.id] = x;
-        }
-
-    	/*------------------------------------------------------------------------------------------------------------*/
-
-		amiWebApp.replaceHTML('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1', this.fragmentBookmarks, {dict: {bookmarks: this_bookmarks}});
-
-    	/*------------------------------------------------------------------------------------------------------------*/
-    },
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -168,21 +226,21 @@ $AMIClass('BookmarkEditorApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	swap: function(ranks1, ranks2)
+	swap: function(profile, ranks1, ranks2)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this._swapNb = Object.keys(this.bookmarks).length;
+		this._swapNb = Object.keys(profile.items).length;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		for(const id in this.bookmarks)
+		for(const id in profile.items)
 		{
 			if(ranks1[id] !== ranks2[id])
 			{
 				amiWebApp.lock();
 
-				amiCommand.execute('UpdateHash -id=? -rank=?', {params: [id, ranks2[id]]}).done(() => {
+				amiCommand.execute(`${profile.updateCommand} -id=? -rank=?`, {params: [id, ranks2[id]]}).done(() => {
 
 					amiWebApp.unlock();
 
@@ -212,7 +270,54 @@ $AMIClass('BookmarkEditorApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	select: function(id)
+	setUpdateMode: function(profile, updateMode)
+	{
+		if(updateMode)
+		{
+			$(profile.removeId).prop('disabled', false);
+
+			$(profile.addUpdateId).text('Update');
+		}
+		else
+		{
+			$(profile.removeId).prop('disabled', true);
+
+			$(profile.addUpdateId).text('Add');
+        }
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	showList: function(profile)
+    {
+    	/*------------------------------------------------------------------------------------------------------------*/
+
+		const items = Object.values(profile.infoMethod());
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		profile.items = {};
+
+		for(const x of items)
+		{
+			profile.items[x.id] = x;
+        }
+
+    	/*------------------------------------------------------------------------------------------------------------*/
+
+		const dict = {
+			profile: profile.name,
+			items: items,
+		};
+
+		amiWebApp.replaceHTML(profile.listId, this.fragmentItems, {dict: dict});
+
+    	/*------------------------------------------------------------------------------------------------------------*/
+    },
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	select: function(profile, id)
 	{
 		if(!(id = id.trim()))
 		{
@@ -221,26 +326,26 @@ $AMIClass('BookmarkEditorApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.selected = id;
+		profile.selectedItem = id;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#CA130E29_BDD4_CC8C_C71C_9472725DFE5A').val(this.bookmarks[id].name);
+		$(profile.nameId).val(profile.items[id].name);
 
-		$('#B0ECE244_6128_4BB1_569C_18225330963A').prop('checked', this.bookmarks[id].shared !== '0');
+		$(profile.shareId).prop('checked', profile.items[id].shared !== '0');
 
-		$('#CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17').val(this.bookmarks[id].json);
+		$(profile.jsonId).val(profile.items[id].json);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.setUpdateMode(true);
+		this.setUpdateMode(profile, true);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	clear: function(checked = true)
+	clear: function(profile, checked = true)
 	{
 		if(checked && !confirm('Please confirm...'))
 		{
@@ -249,26 +354,26 @@ $AMIClass('BookmarkEditorApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.selected = null;
+		profile.selectedItem = null;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#CA130E29_BDD4_CC8C_C71C_9472725DFE5A').val(/*--*/''/*--*/);
+		$(profile.nameId).val('');
 
-		$('#B0ECE244_6128_4BB1_569C_18225330963A').prop('checked', false);
+		$(profile.shareId).prop('checked', false);
 
-		$('#CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17').val('{"subapp": ""}');
+		$(profile.jsonId).val('{}');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.setUpdateMode(false);
+		this.setUpdateMode(profile, false);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	save: function()
+	save: function(profile)
 	{
 		if(!confirm('Please confirm...'))
 		{
@@ -277,15 +382,15 @@ $AMIClass('BookmarkEditorApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const id = this.selected;
+		const id = profile.selectedItem;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const name = ($('#CA130E29_BDD4_CC8C_C71C_9472725DFE5A').val() || '').trim();
+		const name = ($(profile.nameId).val() || '').trim();
 
-		const shared = $('#B0ECE244_6128_4BB1_569C_18225330963A').prop('checked') ? '1' : '0';
+		const shared = $(profile.shareId).prop('checked') ? '1' : '0';
 
-		const json = ($('#CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17').val() || '').trim();
+		const json = ($(profile.jsonId).val() || '').trim();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -295,26 +400,26 @@ $AMIClass('BookmarkEditorApp', {
 
 			amiWebApp.lock();
 
-			amiCommand.execute((id ? 'UpdateHash -id="' + amiWebApp.textToString(id) + '"' : 'AddHash') + ' -name=? -shared=? -json=?', {params: [name, shared, json]}).done((data, message) => {
+			amiCommand.execute((id ? `${profile.updateCommand} -id="${amiWebApp.textToString(id)}"` : profile.addCommand) + ' -name=? -shared=? -json=?', {params: [name, shared, json]}).done((data, message) => {
 
 				amiAuth.update().done(() => {
 
 					this.clear(false);
 
-					this.showBookmarkList();
+					this.showList(profile);
 
 					amiWebApp.success(message, true);
 
 				}).fail((data, message) => {
 
-					this.showBookmarkList();
+					this.showList(profile);
 
 					amiWebApp.error(message, true);
 				});
 
 			}).fail((data, message) => {
 
-				this.showBookmarkList();
+				this.showList(profile);
 
 				amiWebApp.error(message, true);
 			});
@@ -327,7 +432,7 @@ $AMIClass('BookmarkEditorApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	remove: function()
+	remove: function(profile)
 	{
 		if(!confirm('Please confirm...'))
 		{
@@ -336,7 +441,7 @@ $AMIClass('BookmarkEditorApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const id = this.selected;
+		const id = profile.selectedItem;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -346,26 +451,26 @@ $AMIClass('BookmarkEditorApp', {
 
 			amiWebApp.lock();
 
-			amiCommand.execute('RemoveHash -id=?', {params: [id]}).done((data, message) => {
+			amiCommand.execute(`${profile.removeCommand} -id=?`, {params: [id]}).done((data, message) => {
 
 				amiAuth.update().done(() => {
 
 					this.clear(false);
 
-					this.showBookmarkList();
+					this.showList(profile);
 
 					amiWebApp.success(message, true);
 
 				}).fail((data, message) => {
 
-					this.showBookmarkList();
+					this.showList(profile);
 
 					amiWebApp.error(message, true);
 				});
 
 			}).fail((data, message) => {
 
-				this.showBookmarkList();
+				this.showList(profile);
 
 				amiWebApp.error(message, true);
 			});

@@ -1,83 +1,199 @@
-<div class="row">
+<ul class="nav nav-tabs" role="tablist">
+	<li class="nav-item" role="presentation">
+		<button class="nav-link active" type="button" role="tab" data-bs-toggle="tab" data-bs-target="#CD8987A9_620A_D481_5D10_95D5DAFD152B">
+			<i class="bi bi-star-fill"></i> Bookmarks
+		</button>
+	</li>
+	<li class="nav-item" role="presentation">
+		<button class="nav-link xxxxxx" type="button" role="tab" data-bs-toggle="tab" data-bs-target="#CB4B8007_2185_F043_93F7_0C5FEE29F2FA">
+			<i class="bi bi-speedometer"></i> Dashboards
+		</button>
+	</li>
+</ul>
+
+<div class="tab-content">
 
 	<!-- *********************************************************************************************************** -->
+	<!-- BOOKMARKS                                                                                                   -->
+	<!-- *********************************************************************************************************** -->
 
-	<div class="col-md-3">
+	<div class="tab-pane fade show active" id="CD8987A9_620A_D481_5D10_95D5DAFD152B">
 
-		<div class="card mb-2">
+		<div class="row">
 
-			<h5 class="card-header p-2">
-				Bookmarks
-			</h5>
+			<!-- *************************************************************************************************** -->
 
-			<div class="card-body p-2" id="ACFE5A3E_2548_59BF_7EBB_32821C900AB1"></div>
+			<div class="col-md-3">
+
+				<div class="card mb-2">
+
+					<h5 class="card-header p-2">
+						Bookmarks
+					</h5>
+
+					<div class="card-body p-2" id="ACFE5A3E_2548_59BF_7EBB_32821C900AB1"></div>
+
+				</div>
+
+			</div>
+
+			<!-- *************************************************************************************************** -->
+
+			<div class="col-md-9">
+
+				<div class="card">
+
+					<h5 class="card-header p-2">
+						Bookmark editor
+					</h5>
+
+					<div class="card-body" p-2>
+
+						<div class="row">
+							<div class="col-md-8">
+
+								<div class="mb-2">
+									<label class="form-label" for="CA130E29_BDD4_CC8C_C71C_9472725DFE5A">Name<span class="text-danger">*</span></label>
+									<input type="text" class="form-control form-control-sm" id="CA130E29_BDD4_CC8C_C71C_9472725DFE5A" placeholder="Type the bookmark name..." />
+								</div>
+
+							</div>
+							<div class="col-md-4">
+
+								<div class="mb-2">
+									<label class="form-label" for="B0ECE244_6128_4BB1_569C_18225330963A">Share<span class="text-danger">*</span></label>
+									<div class="switch switch-sm switch-off-primary switch-on-success">
+										<input type="checkbox" id="B0ECE244_6128_4BB1_569C_18225330963A">
+										<label for="B0ECE244_6128_4BB1_569C_18225330963A">
+											<span class="text-primary">no</span>
+											/
+											<span class="text-success">yes</span>
+										</label>
+									</div>
+								</div>
+
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-12">
+								<div class="mb-2">
+									<label class="form-label" for="CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17">JSON<span class="text-danger">*</span></label>
+									<textarea class="form-editor" name="json" id="CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17" data-lang="json" data-show-gutter="true">{&quot;subapp&quot;: &quot;&quot;}</textarea>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="card-footer p-2">
+
+						<div class="text-{% if BOOTSTRAP_VERSION === 'v5' %}end{% else %}right{% endif %}">
+							<button type="button" class="btn btn-sm btn-outline-secondary" id="DB6C48C0_5B8B_F324_5669_C17254E45A5D" style="width: 80px;">Clear</button>
+							-
+							<button type="button" class="btn btn-sm btn-danger" id="FF60636A_49EE_1C5D_BB59_AC077A8999E2" style="width: 80px;">Remove</button>
+
+							<button type="button" class="btn btn-sm btn-primary" id="F1814093_A84F_0FC4_4581_699ACA53782F" style="width: 80px;">Add</button>
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<!-- *************************************************************************************************** -->
 
 		</div>
 
 	</div>
 
 	<!-- *********************************************************************************************************** -->
+	<!-- DASHBOARDS                                                                                                  -->
+	<!-- *********************************************************************************************************** -->
 
-	<div class="col-md-9">
+	<div class="tab-pane fade xxxx xxxxxx" id="CB4B8007_2185_F043_93F7_0C5FEE29F2FA">
 
-		<div class="card">
+		<div class="row">
 
-			<h5 class="card-header p-2">
-				Bookmark editor
-			</h5>
+			<!-- *************************************************************************************************** -->
 
-			<div class="card-body" p-2 id="E0982BBF_06E2_5FD3_9C83_B71BD1010870">
+			<div class="col-md-3">
 
-				<div class="row">
-					<div class="col-md-8">
+				<div class="card mb-2">
 
-						<div class="mb-2">
-							<label class="form-label" for="CA130E29_BDD4_CC8C_C71C_9472725DFE5A">Name<span class="text-danger">*</span></label>
-							<input type="text" class="form-control form-control-sm" id="CA130E29_BDD4_CC8C_C71C_9472725DFE5A" placeholder="Type the bookmark name..." />
+					<h5 class="card-header p-2">
+						Dashboards
+					</h5>
+
+					<div class="card-body p-2" id="D89CE3F5_9D1D_B338_D895_C344CD4FFE08"></div>
+
+				</div>
+
+			</div>
+
+			<div class="col-md-9">
+
+				<div class="card">
+
+					<h5 class="card-header p-2">
+						Dashboard editor
+					</h5>
+
+					<div class="card-body" p-2">
+
+					<div class="row">
+						<div class="col-md-8">
+
+							<div class="mb-2">
+								<label class="form-label" for="CC4A8905_4020_85F9_BDFE_1F3AFFA69A0C">Name<span class="text-danger">*</span></label>
+								<input type="text" class="form-control form-control-sm" id="CC4A8905_4020_85F9_BDFE_1F3AFFA69A0C" placeholder="Type the dashboard name..." />
+							</div>
+
 						</div>
+						<div class="col-md-4">
 
+							<div class="mb-2">
+								<label class="form-label" for="C12DD7B5_DE47_9429_E2AC_5A48A0B7CA6E">Share<span class="text-danger">*</span></label>
+								<div class="switch switch-sm switch-off-primary switch-on-success">
+									<input type="checkbox" id="C12DD7B5_DE47_9429_E2AC_5A48A0B7CA6E">
+									<label for="C12DD7B5_DE47_9429_E2AC_5A48A0B7CA6E">
+										<span class="text-primary">no</span>
+										/
+										<span class="text-success">yes</span>
+									</label>
+								</div>
+							</div>
+
+						</div>
 					</div>
-					<div class="col-md-4">
 
-						<div class="mb-2">
-							<label class="form-label" for="B0ECE244_6128_4BB1_569C_18225330963A">Share<span class="text-danger">*</span></label>
-							<div class="switch switch-sm switch-off-primary switch-on-success">
-								<input type="checkbox" id="B0ECE244_6128_4BB1_569C_18225330963A">
-								<label for="B0ECE244_6128_4BB1_569C_18225330963A">
-									<span class="text-primary">no</span>
-									/
-									<span class="text-success">yes</span>
-								</label>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="mb-2">
+								<label class="form-label" for="C39F1AF8_26C2_C0A6_C012_B3D6C443DB90">JSON<span class="text-danger">*</span></label>
+								<textarea class="form-editor" name="json" id="C39F1AF8_26C2_C0A6_C012_B3D6C443DB90" data-lang="json" data-show-gutter="true">{&quot;subapp&quot;: &quot;&quot;}</textarea>
 							</div>
 						</div>
+					</div>
 
 					</div>
-				</div>
 
-				<div class="row">
-					<div class="col-md-12">
-						<div class="mb-2">
-							<label class="form-label" for="CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17">JSON<span class="text-danger">*</span></label>
-							<textarea class="form-editor" name="json" id="CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17" data-lang="json" data-show-gutter="true">{&quot;subapp&quot;: &quot;&quot;}</textarea>
+					<div class="card-footer p-2">
+
+						<div class="text-{% if BOOTSTRAP_VERSION === 'v5' %}end{% else %}right{% endif %}">
+							<button type="button" class="btn btn-sm btn-outline-secondary" id="BE2709CF_8E16_DE33_E151_CBF589591E8F" style="width: 80px;">Clear</button>
+							-
+							<button type="button" class="btn btn-sm btn-danger" id="E6F1B904_1835_D1FD_6C2C_7B9465A6DF50" style="width: 80px;">Remove</button>
+
+							<button type="button" class="btn btn-sm btn-primary" id="B05BAD9F_4923_FE76_EAD2_FC39CB712853" style="width: 80px;">Add</button>
 						</div>
-                	</div>
+
+					</div>
+
 				</div>
 
 			</div>
-
-			<div class="card-footer p-2" id="DA22E4F4_323E_0AFA_AA7D_0E9F21A3D20D">
-
-				<div class="text-{% if BOOTSTRAP_VERSION === 'v5' %}end{% else %}right{% endif %}">
-					<button type="button" class="btn btn-sm btn-outline-secondary" id="DB6C48C0_5B8B_F324_5669_C17254E45A5D" onclick="bookmarkEditorApp.clear();" style="width: 80px;">Clear</button>
-					-
-					<button type="button" class="btn btn-sm btn-danger" id="FF60636A_49EE_1C5D_BB59_AC077A8999E2" onclick="bookmarkEditorApp.remove();" style="width: 80px;">Remove</button>
-
-					<button type="button" class="btn btn-sm btn-primary" id="F1814093_A84F_0FC4_4581_699ACA53782F" onclick="bookmarkEditorApp.save();" style="width: 80px;">Add</button>
-				</div>
-
-			</div>
-
-		</div>
 
 	</div>
 
