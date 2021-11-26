@@ -1,0 +1,69 @@
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.grid-stack-item-content .card {
+	background: none transparent;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.grid-stack-item-transparent-content {
+	background-color: transparent;
+}
+
+.grid-stack-item-transparent-content .card-header {
+	background: none transparent;
+}
+
+.grid-stack-item-transparent-content .card-body {
+	background: none transparent;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.grid-stack-item-translucent-content {
+	background: none rgba(231, 242, 250, 0.4);
+}
+
+.grid-stack-item-translucent-content .card-header {
+	background: none rgba(255, 255, 255, 0.2);
+}
+
+.grid-stack-item-translucent-content .card-body {
+	background: none rgba(255, 255, 255, 0.0);
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.grid-stack-item-close-handle::before {
+	color: rgb(108, 117, 125);
+	content: "\f5de";
+	font-family: bootstrap-icons;
+}
+
+.grid-stack-item-close-handle {
+	cursor: pointer;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 10px;
+	top: -10px;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.grid-stack-item-style-handle::before {
+	color: rgb(108, 117, 125);
+	content: "\f497";
+	font-family: bootstrap-icons;
+}
+
+.grid-stack-item-style-handle {
+	cursor: pointer;
+	position: absolute;
+	width: 20px;
+	height: 20px;
+	left: 32px;
+	top: -10px;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
