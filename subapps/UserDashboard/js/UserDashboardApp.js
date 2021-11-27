@@ -80,7 +80,6 @@ $AMIClass('UserDashboardApp', {
 					'      <span class="text-secondary">view</span>' +
 					'      /' +
 					'      <span class="text-primary">edit</span>' +
-					'      dashboard' +
 					'    </label>' +
 					'  </span>' +
 					'</li>' +

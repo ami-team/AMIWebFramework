@@ -28,6 +28,7 @@ $AMIClass('BookmarkEditorApp', {
 		removeCommand: 'RemoveHash',
 		/**/
 		listId: '#ACFE5A3E_2548_59BF_7EBB_32821C900AB1',
+		nbId: '#FF2DADD9_C566_F421_7114_9C0C39064A9A',
 		/**/
 		nameId: '#CA130E29_BDD4_CC8C_C71C_9472725DFE5A',
 		shareId: '#B0ECE244_6128_4BB1_569C_18225330963A',
@@ -48,6 +49,7 @@ $AMIClass('BookmarkEditorApp', {
 		removeCommand: 'RemoveHash',
 		/**/
 		listId: '#D89CE3F5_9D1D_B338_D895_C344CD4FFE08',
+		nbId: '#FD7350DD_17A4_6EF1_6374_CD339738BD0A',
 		/**/
 		nameId: '#CC4A8905_4020_85F9_BDFE_1F3AFFA69A0C',
 		shareId: '#C12DD7B5_DE47_9429_E2AC_5A48A0B7CA6E',
@@ -60,7 +62,7 @@ $AMIClass('BookmarkEditorApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	onReady: function()
+	onReady: function(userdata)
 	{
 		const result = $.Deferred();
 
@@ -69,7 +71,11 @@ $AMIClass('BookmarkEditorApp', {
 			'subapps/BookmarkEditor/twig/items.twig',
 		]).done((data) => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
+			const dict = {
+				mode: (userdata || 'home').trim()
+			};
+
+			amiWebApp.replaceHTML('#ami_main_content', data[0], {dict: dict}).done(() => {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -270,24 +276,6 @@ $AMIClass('BookmarkEditorApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setUpdateMode: function(profile, updateMode)
-	{
-		if(updateMode)
-		{
-			$(profile.removeId).prop('disabled', false);
-
-			$(profile.addUpdateId).text('Update');
-		}
-		else
-		{
-			$(profile.removeId).prop('disabled', true);
-
-			$(profile.addUpdateId).text('Add');
-        }
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
 	showList: function(profile)
     {
     	/*------------------------------------------------------------------------------------------------------------*/
@@ -303,6 +291,10 @@ $AMIClass('BookmarkEditorApp', {
 			profile.items[x.id] = x;
         }
 
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		$(profile.nbId).text(items.length);
+
     	/*------------------------------------------------------------------------------------------------------------*/
 
 		const dict = {
@@ -314,6 +306,38 @@ $AMIClass('BookmarkEditorApp', {
 
     	/*------------------------------------------------------------------------------------------------------------*/
     },
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	setUpdateMode: function(profile, updateMode)
+	{
+		if(updateMode)
+		{
+			$(profile.removeId).prop('disabled', false);
+
+			$(profile.addUpdateId).text('Update');
+		}
+		else
+		{
+			$(profile.removeId).prop('disabled', true);
+
+			$(profile.addUpdateId).text('Add');
+		}
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	jsonIndent: function(s, espace)
+	{
+		try
+		{
+			return JSON.stringify(JSON.parse(s), null, espace);
+		}
+		catch(e)
+		{
+			return '{}';
+		}
+	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -330,11 +354,11 @@ $AMIClass('BookmarkEditorApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$(profile.nameId).val(profile.items[id].name);
+		$(profile.nameId).val((profile.items[id].name || '').trim());
 
 		$(profile.shareId).prop('checked', profile.items[id].shared !== '0');
 
-		$(profile.jsonId).val(profile.items[id].json);
+		$(profile.jsonId).val(this.jsonIndent((profile.items[id].json || '{}').trim(), 4));
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -362,7 +386,7 @@ $AMIClass('BookmarkEditorApp', {
 
 		$(profile.shareId).prop('checked', false);
 
-		$(profile.jsonId).val('{}');
+		$(profile.jsonId).val(this.jsonIndent('{}', 4));
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -390,7 +414,7 @@ $AMIClass('BookmarkEditorApp', {
 
 		const shared = $(profile.shareId).prop('checked') ? '1' : '0';
 
-		const json = ($(profile.jsonId).val() || '').trim();
+		const json = this.jsonIndent(($(profile.jsonId).val() || '{}').trim(), 0);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

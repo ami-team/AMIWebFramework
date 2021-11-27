@@ -1,11 +1,16 @@
 <ul class="nav nav-tabs" role="tablist">
 	<li class="nav-item" role="presentation">
-		<button class="nav-link active" type="button" role="tab" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}target="#CD8987A9_620A_D481_5D10_95D5DAFD152B">
+		<button class="nav-link {% if mode === 'home' %}active{% else %}xxxxxx{% endif %}" type="button" role="tab" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}target="#E3A72D3D_1720_4201_392E_1F2687B68F78">
+			Home
+		</button>
+	</li>
+	<li class="nav-item" role="presentation">
+		<button class="nav-link {% if mode === 'bookmarks' %}active{% else %}xxxxxx{% endif %}" type="button" role="tab" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}target="#CD8987A9_620A_D481_5D10_95D5DAFD152B">
 			<i class="bi bi-star-fill"></i> Bookmarks
 		</button>
 	</li>
 	<li class="nav-item" role="presentation">
-		<button class="nav-link xxxxxx" type="button" role="tab" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}target="#CB4B8007_2185_F043_93F7_0C5FEE29F2FA">
+		<button class="nav-link {% if mode === 'dashboards' %}active{% else %}xxxxxx{% endif %}" type="button" role="tab" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}target="#CB4B8007_2185_F043_93F7_0C5FEE29F2FA">
 			<i class="bi bi-speedometer"></i> Dashboards
 		</button>
 	</li>
@@ -14,10 +19,34 @@
 <div class="tab-content">
 
 	<!-- *********************************************************************************************************** -->
+	<!-- HOME                                                                                                        -->
+	<!-- *********************************************************************************************************** -->
+
+	<div class="tab-pane fade {% if mode === 'home' %}show active{% else %}xxxx xxxxxx{% endif %}" id="E3A72D3D_1720_4201_392E_1F2687B68F78">
+
+		<div class="d-flex justify-content-around my-5">
+
+			<div>
+				<h1><i class="bi bi-star-fill"></i></h1>
+
+				<p><span id="FF2DADD9_C566_F421_7114_9C0C39064A9A">?</span> bookmark(s)</p>
+			</div>
+
+			<div>
+				<h1><i class="bi bi-speedometer"></i></h1>
+
+				<p><span id="FD7350DD_17A4_6EF1_6374_CD339738BD0A">?</span> dashboard(s)</p>
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- *********************************************************************************************************** -->
 	<!-- BOOKMARKS                                                                                                   -->
 	<!-- *********************************************************************************************************** -->
 
-	<div class="tab-pane fade show active" id="CD8987A9_620A_D481_5D10_95D5DAFD152B">
+	<div class="tab-pane fade {% if mode === 'bookmarks' %}show active{% else %}xxxx xxxxxx{% endif %}" id="CD8987A9_620A_D481_5D10_95D5DAFD152B">
 
 		<div class="row">
 
@@ -79,7 +108,7 @@
 							<div class="col-md-12">
 								<div class="mb-2">
 									<label class="form-label" for="CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17">JSON<span class="text-danger">*</span></label>
-									<textarea class="form-editor" name="json" id="CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17" data-lang="json" data-show-gutter="true">{&quot;subapp&quot;: &quot;&quot;}</textarea>
+									<textarea class="form-editor" name="json" id="CC458B68_FE2E_2EDB_D49E_4EC9C9F8AD17" data-lang="json" data-show-gutter="true" data-automatic-layout="true">{}</textarea>
 								</div>
 							</div>
 						</div>
@@ -112,7 +141,7 @@
 	<!-- DASHBOARDS                                                                                                  -->
 	<!-- *********************************************************************************************************** -->
 
-	<div class="tab-pane fade xxxx xxxxxx" id="CB4B8007_2185_F043_93F7_0C5FEE29F2FA">
+	<div class="tab-pane fade {% if mode === 'dashboards' %}show active{% else %}xxxx xxxxxx{% endif %}" id="CB4B8007_2185_F043_93F7_0C5FEE29F2FA">
 
 		<div class="row">
 
@@ -174,7 +203,7 @@
 						<div class="col-md-12">
 							<div class="mb-2">
 								<label class="form-label" for="C39F1AF8_26C2_C0A6_C012_B3D6C443DB90">JSON<span class="text-danger">*</span></label>
-								<textarea class="form-editor" name="json" id="C39F1AF8_26C2_C0A6_C012_B3D6C443DB90" data-lang="json" data-show-gutter="true">{&quot;subapp&quot;: &quot;&quot;}</textarea>
+								<textarea class="form-editor" name="json" id="C39F1AF8_26C2_C0A6_C012_B3D6C443DB90" data-lang="json" data-show-gutter="true" data-automatic-layout="true">{}</textarea>
 							</div>
 						</div>
 					</div>

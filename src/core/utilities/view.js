@@ -263,6 +263,7 @@ function _xxxHTML(selector, twig, mode, options)
 					const readOnly = textarea.attr('data-read-only') || 'false';
 					const showGutter = textarea.attr('data-show-gutter') || 'false';
 					const showMiniMap = textarea.attr('data-show-minimap') || 'false';
+					const automaticLayout = textarea.attr('data-automatic-layout') || 'false';
 					const renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
 					const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
 
@@ -274,16 +275,20 @@ function _xxxHTML(selector, twig, mode, options)
 						/* OPTIONS */
 						theme: theme,
 						language: lang,
+						/**/
 						wordWrap: wordWrap === 'true',
 						readOnly: readOnly === 'true',
 						minimap: {
 							enabled: showMiniMap === 'true'
 						},
+						automaticLayout: automaticLayout === 'true',
 						renderWhitespace: renderWhitespace === 'true',
+						/**/
 						lineNumbers: showGutter === 'true' ? 'on' : 'off',
 						renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
 						/**/
-						overviewRulerLanes: 0,
+						insertSpaces: false,
+						overviewRulerLanes: 0x00,
 						overviewRulerBorder: false,
 						scrollBeyondLastLine: false,
 						hideCursorInOverviewRuler: true,
