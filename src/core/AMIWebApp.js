@@ -38,10 +38,6 @@ import defaultBackgroundURL from '../images/background.jpg';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import 'bootstrap-icons/font/bootstrap-icons.css';
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 // noinspection JSUnusedGlobalSymbols
 /**
  * The AMI webapp subsystem

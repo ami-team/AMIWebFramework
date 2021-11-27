@@ -163,14 +163,14 @@ class AMIJSDoc
 
 		if(item.konstructor)
 		{
-			s.push('<h3 class="mt-3">Constructor</h3>');
+			s.push('<h4 class="mt-3">Constructor</h4>');
 
 			s.push(AMIJSDoc.#makeFunction(item.konstructor));
 		}
 
 		if(Array.isArray(item.variables))
 		{
-			s.push('<h3 class="mt-3">Members</h3>');
+			s.push('<h4 class="mt-3">Members</h4>');
 
 			for(const _variable of item.variables) {
 				s.push(AMIJSDoc.#makeVariable(_variable));
@@ -179,7 +179,7 @@ class AMIJSDoc
 
 		if(Array.isArray(item.functions))
 		{
-			s.push('<h3 class="mt-3">Methods</h3>');
+			s.push('<h4 class="mt-3">Methods</h4>');
 
 			for(const _function of item.functions) {
 				s.push(AMIJSDoc.#makeFunction(_function));
@@ -188,7 +188,7 @@ class AMIJSDoc
 
 		if(Array.isArray(item.events))
 		{
-			s.push('<h3 class="mt-3">Events</h3>');
+			s.push('<h4 class="mt-3">Events</h4>');
 
 			for(const _event of item.events) {
 				s.push(AMIJSDoc.#makeFunction(_event));
@@ -353,7 +353,7 @@ class AMIJSDoc
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			result.push('<h5><strong>Parameters:</strong></h5>');
+			result.push('<h5 class="mt-2"><strong>Parameters:</strong></h5>');
 
 			result.push('<table class="table table-sm table-striped table-bordered" style="width: auto;">');
 
@@ -444,11 +444,11 @@ class AMIJSDoc
 		{
 			for(const _exception of method.exceptions)
 			{
-				result.push('<h5><strong>Throws:</strong></h5>');
+				result.push('<h5 class="mt-2"><strong>Throws:</strong></h5>');
 
 				result.push(AMIJSDoc.#makeDesc(_exception));
 
-				result.push(`<div>Type: ${AMIJSDoc.#makeType(_exception)}</div>`);
+				result.push(`<div>Type: <span class="signature-attrs">${AMIJSDoc.#makeType(_exception)}</span></div>`);
 			}
 		}
 
@@ -469,11 +469,11 @@ class AMIJSDoc
 		{
 			for(const _return of method.returns)
 			{
-				result.push('<h5><strong>Returns:</strong></h5>');
+				result.push('<h5 class="mt-2"><strong>Returns:</strong></h5>');
 
 				result.push(AMIJSDoc.#makeDesc(_return));
 
-				result.push(`<div>Type: ${AMIJSDoc.#makeType(_return)}</div>`);
+				result.push(`<div>Type: <span class="signature-attrs">${AMIJSDoc.#makeType(_return)}</span></div>`);
 			}
 		}
 
@@ -588,15 +588,27 @@ class AMIJSDoc
 
 		if(Array.isArray(x.author))
 		{
-			for(const _author of x.author) {
-				author.push(`<dt>Author:</dt><dd>${strings.textToHtml(_author)}</dd>`);
+			for(const _author of x.author)
+			{
+				const _AUTHOR = _author.replace(AMIJSDoc.#linkExp, (_, x, y) => {
+
+					return `<a href="${y}">${x || y}</a>`;
+				});
+
+				author.push(`<dt>Author:</dt><dd>${_AUTHOR}</dd>`);
 			}
 		}
 
 		if(Array.isArray(x.see))
 		{
-			for(const _see of x.see) {
-				see.push(`<dt>See:</dt><dd>${strings.textToHtml(_see)}</dd>`);
+			for(const _see of x.see)
+			{
+				const _SEE = _see.replace(AMIJSDoc.#linkExp, (_, x, y) => {
+
+					return `<a href="${y}">${x || y}</a>`;
+				});
+
+				see.push(`<dt>See:</dt><dd>${_SEE}</dd>`);
 			}
 		}
 
@@ -613,7 +625,7 @@ class AMIJSDoc
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return result;
+		return result.join('');
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -628,7 +640,7 @@ class AMIJSDoc
 		{
 			for(const _example of x.examples)
 			{
-				result.push('<h5><strong>Example:</strong></h5>');
+				result.push('<h5 class="mt-2"><strong>Example:</strong></h5>');
 
 				result.push(`<textarea class="form-editor" data-mode="${strings.textToHtml(mode)}">${strings.textToHtml(_example)}</textarea>`);
 			}

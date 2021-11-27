@@ -359,7 +359,8 @@ function _xxxHTML(selector, twig, mode, options)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+ * Puts a HTML or TWIG fragment to the given target
+ * @see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
  * @param {string} selector the target selector
  * @param {string} [twig={}] the TWIG fragment
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
@@ -375,7 +376,8 @@ export function replaceHTML(selector, twig, options)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+ * Prepends a HTML or TWIG fragment to the given target
+ * @see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
  * @param {string} selector the target selector
  * @param {string} [twig={}] the TWIG fragment
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
@@ -391,7 +393,8 @@ export function prependHTML(selector, twig, options)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+ * Appends a HTML or TWIG fragment to the given target
+ * @see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
  * @param {string} selector the target selector
  * @param {string} [twig={}] the TWIG fragment
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
@@ -439,7 +442,8 @@ export function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * Interprets the given TWIG string, see {@link https://twig.symfony.com/doc/}
+ * Interprets the given TWIG string
+ * @see {@link https://twig.symfony.com/doc/}
  * @param {string} twig the TWIG string
  * @param {Object<string, *>|Array<Object<string, *>>} [dict={}] the dictionary
  * @param {Object<string, string>} [twigs={}] dictionary of fragments

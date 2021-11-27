@@ -6,32 +6,14 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-#jsdoc_content h1 {
-	font-size: 48px;
-	font-weight: 200;
-	letter-spacing: -2px;
-	margin: 12px 24px 10px 24px;
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-#jsdoc_content h5 {
-	font-size: 20px;
-	font-weight: 200;
-	letter-spacing: -1px;
-	margin: 12px 0px 8px 0px;
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-#jsdoc_content .details {
+#jsdoc_content dl.details {
 	border-left: 2px solid #DDD;
 	clear: both;
 	margin-top: 10px;
 	margin-bottom: 00px;
 }
 
-#jsdoc_content .details dt {
+#jsdoc_content dl.details dt {
 	float: left;
 	padding-left: 10px;
 	width: 120px;
@@ -39,30 +21,26 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-#jsdoc_content .signature-name,
-#jsdoc_content .signature-params,
-#jsdoc_content .signature-params-attrs,
-#jsdoc_content .signature-attrs {
+#jsdoc_content .signature-name {
+	color: #30708F;
 	font-size: 18px;
 }
 
-#jsdoc_content .signature-name {
-	color: rgb(049, 112, 143);
-}
-
 #jsdoc_content .signature-params {
-	color: rgb(000, 000, 000);
+	color: #000000;
+	font-size: 18px;
 }
 
 #jsdoc_content .signature-params-attrs {
-	color: #AAA;
-	font-size: 60%;
+	color: #AAAAAA;
+	font-size: 11px;
 	font-style: italic;
 	margin-left: 2px;
 }
 
 #jsdoc_content .signature-attrs {
-	color: #AAA;
+	color: #AAAAAA;
+	font-size: 18px;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
