@@ -24,19 +24,35 @@
 
 	<div class="tab-pane fade {% if mode === 'home' %}show active{% else %}xxxx xxxxxx{% endif %}" id="E3A72D3D_1720_4201_392E_1F2687B68F78">
 
-		<div class="d-flex justify-content-around my-5">
+		<div class="row mt-4">
 
-			<div>
-				<h1><i class="bi bi-star-fill"></i></h1>
+			<div class="col-md-2"></div>
 
-				<p><span id="FF2DADD9_C566_F421_7114_9C0C39064A9A">?</span> bookmark(s)</p>
+			<div class="col-md-4">
+				<div class="card mb-4">
+					<div class="card-body">
+						<h1><i class="bi bi-star-fill"></i></h1>
+						<p><span id="FF2DADD9_C566_F421_7114_9C0C39064A9A">?</span> bookmark(s)</p>
+					</div>
+					<a class="card-footer text-{% if BOOTSTRAP_VERSION === 'v5' %}end{% else %}right{% endif %}" href="{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks">
+						<i class="bi bi-arrow-right-circle-fill fs-1"></i>
+					</a>
+				</div>
 			</div>
 
-			<div>
-				<h1><i class="bi bi-speedometer"></i></h1>
-
-				<p><span id="FD7350DD_17A4_6EF1_6374_CD339738BD0A">?</span> dashboard(s)</p>
+			<div class="col-md-4">
+				<div class="card mb-4">
+					<div class="card-body">
+						<h1><i class="bi bi-speedometer"></i></h1>
+						<p><span id="FD7350DD_17A4_6EF1_6374_CD339738BD0A">?</span> dashboard(s)</p>
+					</div>
+					<a class="card-footer text-{% if BOOTSTRAP_VERSION === 'v5' %}end{% else %}right{% endif %}" href="{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards">
+						<i class="bi bi-arrow-right-circle-fill fs-1"></i>
+					</a>
+				</div>
 			</div>
+
+			<div class="col-md-2"></div>
 
 		</div>
 
