@@ -1,0 +1,101 @@
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* FONTS                                                                                                              */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+@font-face {
+	font-family: "Open Sans";
+	font-weight: normal;
+	font-style: normal;
+	src: url("../fonts/OpenSans-Regular-webfont.eot");
+	src: local("Open Sans"), local("OpenSans"),
+	url("../fonts/OpenSans-Regular-webfont.eot?#iefix") format("embedded-opentype"),
+		url("../fonts/Opensans-Regular-webfont.woff2") format("woff2"),
+		url("../fonts/OpenSans-Regular-webfont.woff") format("woff"),
+		url("../fonts/OpenSans-Regular-webfont.svg#open_sansregular") format("svg"),
+		url("../fonts/OpenSans-Regular-webfont.ttf") format("truetype")
+	;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+@font-face {
+	font-family: "Open Sans Light";
+	font-weight: normal;
+	font-style: normal;
+	src: url("../fonts/OpenSans-Light-webfont.eot");
+	src: local("Open Sans Light"), local("OpenSans Light"),
+		url("../fonts/OpenSans-Light-webfont.eot?#iefix") format("embedded-opentype"),
+		url("../fonts/OpenSans-Light-webfont.woff2") format("woff2"),
+		url("../fonts/OpenSans-Light-webfont.woff") format("woff"),
+		url("../fonts/OpenSans-Light-webfont.svg#open_sanslight") format("svg"),
+		url("../fonts/OpenSans-Light-webfont.ttf") format("truetype")
+	;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+@font-face {
+	font-family: "ami";
+	font-weight: normal;
+	font-style: normal;
+	src: url("../fonts/ami.eot");
+	src:
+		url("../fonts/ami.eot#iefix") format("embedded-opentype"),
+		url("../fonts/ami.woff2") format("woff2"),
+		url("../fonts/ami.woff") format("woff"),
+		url("../fonts/ami.svg#ami") format("svg"),
+		url("../fonts/ami.ttf") format("truetype")
+	;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+@font-face {
+	font-family: "Trochut";
+	font-weight: normal;
+	font-style: normal;
+	src: url("../fonts/Trochut-Regular.ttf") format("truetype");
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* GENERAL                                                                                                            */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+a {
+	text-decoration: none;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Open Sans Light", "Open Sans";
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+pre {
+	background-image: url("../images/blueprint-dark.png");
+	border: 1px solid rgb(206, 212, 218);
+	border-radius: 0.2rem;
+	padding: 0.5rem;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+.bi-lpsc:before { font-family: ami !important; vertical-align: 0 !important; content: '\e800'; }
+.bi-cern:before { font-family: ami !important; vertical-align: 0 !important; content: '\e801'; }
+.bi-ami:before { font-family: ami !important; vertical-align: 0 !important; content: '\e802'; }
+.bi-rucio:before { font-family: ami !important; vertical-align: 0 !important; content: '\e803'; }
+.bi-arrow-down-circle-fill:before { font-family: ami !important; vertical-align: 0 !important; content: '\e804'; }
+.bi-arrow-right-circle-fill:before { font-family: ami !important; vertical-align: 0 !important; content: '\e805'; }
+.bi-arrow-left-circle-fill:before { font-family: ami !important; vertical-align: 0 !important; content: '\e806'; }
+.bi-arrow-up-circle-fill:before { font-family: ami !important; vertical-align: 0 !important; content: '\e807'; }
+.bi-globe:before { font-family: ami !important; vertical-align: 0 !important; content: '\e808'; }
+.bi-key:before { font-family: ami !important; vertical-align: 0 !important; content: '\e809'; }
+.bi-leaf:before { font-family: ami !important; vertical-align: 0 !important; content: '\e80a'; }
+.bi-flask:before { font-family: ami !important; vertical-align: 0 !important; content: '\e80b'; }
+.bi-slack:before { font-family: ami !important; vertical-align: 0 !important; content: '\e80c'; }
+.bi-cog:before { font-family: ami !important; vertical-align: 0 !important; content: '\e80d'; }
+.bi-cogs:before { font-family: ami !important; vertical-align: 0 !important; content: '\e80e'; }
+
+/*--------------------------------------------------------------------------------------------------------------------*/

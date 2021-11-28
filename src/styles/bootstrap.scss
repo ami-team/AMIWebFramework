@@ -3,64 +3,40 @@
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 .bg-light {
-	background: rgb(248, 249, 250) url("../../images/stripe1.png");
+	background: rgba(0, 0, 0, 0.03) url("../images/stripe1.png");
 }
 
 .bg-light2 {
-	background: rgb(248, 249, 250) url("../../images/stripe2.png");
+	background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 .breadcrumb {
-	background: rgb(233, 236, 239) url("../../images/stripe2.png");
-	border-radius: 0.25rem;
+	background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
+	border-radius: 0.125rem;
 	padding: 0.25rem 0.5rem;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 .card-header {
-	background: rgb(233, 236, 239) url("../../images/stripe2.png");
+	background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
 }
 
 .card-footer {
-	background: rgb(233, 236, 239) url("../../images/stripe2.png");
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-.input-group-prepend > .form-control {
-	border-top-right-radius: 0 !important;
-	border-bottom-right-radius: 0 !important;
-}
-
-.input-group-prepend > .form-control:not(:first-child) {
-	border-left: none;
-	border-top-left-radius: 0 !important;
-	border-bottom-left-radius: 0 !important;
-}
-
-.input-group-append > .form-control {
-	border-top-left-radius: 0 !important;
-	border-bottom-left-radius: 0 !important;
-}
-
-.input-group-append > .form-control:not(:first-child) {
-	border-left: none;
-	border-top-right-radius: 0 !important;
-	border-bottom-right-radius: 0 !important;
+	background: rgba(0, 0, 0, 0.03) url("../images/stripe2.png");
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 .modal-header {
-	background: rgb(245, 245, 245) url("../../images/stripe1.png");
+	background: rgb(245, 245, 245) url("../images/stripe1.png");
 	border-radius: 0.25rem 0.25rem 0 0;
 }
 
 .modal-footer {
-	background: rgb(245, 245, 245) url("../../images/stripe2.png");
+	background: rgb(245, 245, 245) url("../images/stripe2.png");
 	border-radius: 0 0 0.25rem 0.25rem;
 }
 
@@ -117,8 +93,8 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-.nav-tabs:not(.card-header-tabs) {
-	margin-bottom: 0.5rem;
+.nav-tabs .nav-link {
+	background: none;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

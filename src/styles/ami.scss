@@ -20,37 +20,16 @@
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-
-.ami-code {
-	counter-reset: listing;
-	text-align: left;
-}
-
-.ami-code,
-.ami-code code {
-	white-space: pre-wrap;
-	word-break: break-all;
-}
-
-.ami-code code .line-number {
-	counter-increment: listing;
-	display: inline-block;
-	width: 26px;
-}
-
-.ami-code code .line-number:before {
-	color: rgb(128, 128, 128);
-	content: counter(listing) ". ";
-	font: 800 65% / 1.5 sans-serif;
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
 /* MONACAO                                                                                                            */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 .monaco-editor,
-.overflow-guard {
+.monaco-editor .overflow-guard {
 	border-radius: calc(0.2rem + 1px);
+}
+
+.monaco-editor .margin-view-overlays {
+	background: rgb(248, 249, 250) url("../images/stripe2.png");
 }
 
 .form-editor,
@@ -76,7 +55,6 @@
 /* SELECT2                                                                                                            */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-.form-group .select2-container--default,
 .input-group .select2-container--default {
 	width: 100% !important;
 }
@@ -105,28 +83,22 @@
 
 /* SELECT2-SMALL */
 
-.form-group-sm .select2-container--default .select2-selection--single,
-.form-group-sm .select2-container--default .select2-selection--single .select2-selection__arrow,
 .input-group-sm .select2-container--default .select2-selection--single,
 .input-group-sm .select2-container--default .select2-selection--single .select2-selection__arrow {
 	height: calc(1.5em + 0.5rem + 2px) !important;
 }
 
-.form-group-sm .select2-container--default .select2-selection--single,
 .input-group-sm .select2-container--default .select2-selection--single {
 	padding: calc((1.5em + 0.5rem) / 2.0 - 14px) 0.0rem !important;
 }
 
 /* SELECT2-LAGE */
 
-.form-group-lg .select2-container--default .select2-selection--single,
-.form-group-lg .select2-container--default .select2-selection--single .select2-selection__arrow,
 .input-group-lg .select2-container--default .select2-selection--single,
 .input-group-lg .select2-container--default .select2-selection--single .select2-selection__arrow {
 	height: calc(1.5em + 1.0rem + 2px) !important;
 }
 
-.form-group-lg .select2-container--default .select2-selection--single,
 .input-group-lg .select2-container--default .select2-selection--single {
 	padding: calc((1.5em + 1.0rem) / 2.0 - 14px) 0.5rem !important;
 }

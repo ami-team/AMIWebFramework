@@ -210,7 +210,7 @@ class AMIJSDoc
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		result.push(`<hr id="jsdoc_variable_${variable.name.toLowerCase()}" />`);
+		result.push(`<hr id="jsdoc_variable_${variable.name}" />`);
 
 		result.push(AMIJSDoc.#makeVariableSignature(variable));
 
@@ -250,7 +250,7 @@ class AMIJSDoc
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		result.push(`<hr id="jsdoc_method_${method.name.toLowerCase()}" />`);
+		result.push(`<hr id="jsdoc_method_${method.name}" />`);
 
 		result.push(AMIJSDoc.#makeFunctionSignature(method));
 

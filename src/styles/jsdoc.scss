@@ -7,40 +7,45 @@
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 #jsdoc_content dl.details {
-	border-left: 2px solid #DDD;
-	clear: both;
-	margin-top: 10px;
-	margin-bottom: 00px;
+	border-left: 2px solid #CCCCCC;
+	margin-top: 0.5rem;
 }
 
 #jsdoc_content dl.details dt {
-	float: left;
-	padding-left: 10px;
-	width: 120px;
+	padding-left: 0.5rem;
+}
+
+#jsdoc_content dl.details dd {
+	padding-left: 1.5rem;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 #jsdoc_content .signature-name {
-	color: #30708F;
-	font-size: 18px;
+	color: #007BFF;
+	font-size: calc(1.3 * var(--bs-body-font-size, 0.9375rem));
 }
 
 #jsdoc_content .signature-params {
 	color: #000000;
-	font-size: 18px;
+	font-size: calc(1.3 * var(--bs-body-font-size, 0.9375rem));
 }
 
 #jsdoc_content .signature-params-attrs {
 	color: #AAAAAA;
-	font-size: 11px;
-	font-style: italic;
-	margin-left: 2px;
+	font-size: calc(1.1 * var(--bs-body-font-size, 0.9375rem));
 }
 
 #jsdoc_content .signature-attrs {
 	color: #AAAAAA;
-	font-size: 18px;
+	font-size: calc(1.3 * var(--bs-body-font-size, 0.9375rem));
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+#jsdoc_content .signature-params-attrs {
+	font-style: italic;
+	margin-left: 2px;
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
