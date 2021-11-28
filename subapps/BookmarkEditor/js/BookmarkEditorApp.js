@@ -28,7 +28,6 @@ $AMIClass('BookmarkEditorApp', {
 		removeCommand: 'RemoveHash',
 		/**/
 		listId: '#ACFE5A3E_2548_59BF_7EBB_32821C900AB1',
-		nbId: '#FF2DADD9_C566_F421_7114_9C0C39064A9A',
 		/**/
 		nameId: '#CA130E29_BDD4_CC8C_C71C_9472725DFE5A',
 		shareId: '#B0ECE244_6128_4BB1_569C_18225330963A',
@@ -49,7 +48,6 @@ $AMIClass('BookmarkEditorApp', {
 		removeCommand: 'RemoveHash',
 		/**/
 		listId: '#D89CE3F5_9D1D_B338_D895_C344CD4FFE08',
-		nbId: '#FD7350DD_17A4_6EF1_6374_CD339738BD0A',
 		/**/
 		nameId: '#CC4A8905_4020_85F9_BDFE_1F3AFFA69A0C',
 		shareId: '#C12DD7B5_DE47_9429_E2AC_5A48A0B7CA6E',
@@ -290,10 +288,6 @@ $AMIClass('BookmarkEditorApp', {
 		{
 			profile.items[x.id] = x;
         }
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		$(profile.nbId).text(items.length);
 
     	/*------------------------------------------------------------------------------------------------------------*/
 
