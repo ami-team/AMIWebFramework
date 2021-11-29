@@ -365,7 +365,7 @@ $AMIClass('BookmarkEditorApp', {
 
 	clear: function(profile, checked = true)
 	{
-		if(checked && !confirm('Please confirm...'))
+		if(checked && !confirm('Are you sure?'))
 		{
 			return;
 		}
@@ -393,7 +393,7 @@ $AMIClass('BookmarkEditorApp', {
 
 	save: function(profile)
 	{
-		if(!confirm('Please confirm...'))
+		if(!confirm('Are you sure?'))
 		{
 			return;
 		}
@@ -452,7 +452,7 @@ $AMIClass('BookmarkEditorApp', {
 
 	remove: function(profile)
 	{
-		if(!confirm('Please confirm...'))
+		if(!confirm('Are you sure?'))
 		{
 			return;
 		}
