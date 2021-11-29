@@ -495,6 +495,73 @@ AMIObject.$AMIClass('ami.SubApp', /** @lends ami.SubApp */ {
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Asynchronously creates a control
+	 * @param {?*} parent the parent entity
+	 * @param {string} control the control name
+	 * @param {Array<*>} params the control's parameters
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @returns {$.Promise} A JQuery promise object
+	 */
+
+	createControl: function(parent, control, params, options)
+	{
+		return controls.createControl(parent, this, control, params, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Asynchronously creates a control in the body
+	 * @param {?*} parent the parent entity
+	 * @param {string} control the control name
+	 * @param {Array<*>} controlParams the control's render method mandatory parameters
+	 * @param {Object<string, *>} controlOptions the control's render method optional parameters
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @returns {$.Promise} A JQuery promise object
+	 */
+
+	createControlInBody: function(parent, control, controlParams, controlOptions, options)
+	{
+		return controls.createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Asynchronously creates a control in a container
+	 * @param {?*} parent the parent entity
+	 * @param {string} control the control name
+	 * @param {Array<*>} controlParams the control's render method mandatory parameters
+	 * @param {Object<string, *>} controlOptions the control's render method optional parameters
+	 * @param {string} icon the icon
+	 * @param {string} title the title
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @returns {$.Promise} A JQuery promise object
+	 */
+
+	createControlInContainer: function(parent, control, controlParams, controlOptions, icon, title, options)
+	{
+		return controls.createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Asynchronously creates a control in a container from a WEB link
+	 * @param {?*} parent the parent entity
+	 * @param {Element} el the HTML element
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @returns {$.Promise} A JQuery promise object
+	 */
+
+	createControlFromWebLink: function(parent, el, options)
+	{
+		return controls.createControlFromWebLink(parent, this, el, this.ctx, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
