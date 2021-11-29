@@ -34,8 +34,8 @@ $AMIClass('CommandApp', {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[0], {dict: {command: userdata}}).done(() => {
 
-				this.fragmentCommand = data[1];
-				this.fragmentResult = data[2];
+				this._twigCommand = data[1];
+				this._twigResult = data[2];
 
 				result.resolve();
 			});
@@ -109,7 +109,7 @@ $AMIClass('CommandApp', {
 				}
 			});
 
-			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this.fragmentCommand, {dict: dict}).done(() => {
+			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this._twigCommand, {dict: dict}).done(() => {
 
 				result.resolve();
 			});
@@ -149,7 +149,7 @@ $AMIClass('CommandApp', {
 					url: url,
 				};
 
-				amiWebApp.prependHTML('#AB4BA483_EE27_44D0_BB54_F5BFCFE4DA7E', this.fragmentResult, {dict: dict}).done(() => {
+				amiWebApp.prependHTML('#AB4BA483_EE27_44D0_BB54_F5BFCFE4DA7E', this._twigResult, {dict: dict}).done(() => {
 
 					amiWebApp.unlock();
 				});
