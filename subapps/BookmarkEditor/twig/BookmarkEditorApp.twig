@@ -1,35 +1,25 @@
-<style>
-	.nav-flush .nav-link {
-		border-radius: 0;
-	}
+<div class="d-flex m{% if BOOTSTRAP_VERSION === 'v5' %}s{% else %}l{% endif %}-0 m{% if BOOTSTRAP_VERSION === 'v5' %}e{% else %}r{% endif %}-3">
 
-	.b-example-divider {
-		flex-shrink: 0;
-		width: 0;
-		min-height: calc(100vh - 12.5rem);
-	}
-</style>
-
-<div class="d-flex">
+	<!-- *********************************************************************************************************** -->
 
 	<div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 4.5rem;">
 		<ul class="nav nav-pills nav-flush flex-column text-center">
 			<li class="nav-item" title="Bookmarks" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}placement="right">
-				<a class="nav-link {% if mode === 'bookmarks' %}active{% else %}xxxxxx{% endif %} py-3 border-bottom" href="#CD8987A9_620A_D481_5D10_95D5DAFD152B" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="pill">
+				<a class="nav-link {% if mode === 'bookmarks' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="#CD8987A9_620A_D481_5D10_95D5DAFD152B" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="pill">
 					<i class="bi bi-star-fill" style="font-size: 1.25rem;"></i>
 				</a>
 			</li>
 			<li class="nav-item" title="Dashboards" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}placement="right">
-				<a class="nav-link {% if mode === 'dashboards' %}active{% else %}xxxxxx{% endif %} py-3 border-bottom" href="#CB4B8007_2185_F043_93F7_0C5FEE29F2FA" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="pill">
+				<a class="nav-link {% if mode === 'dashboards' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="#CB4B8007_2185_F043_93F7_0C5FEE29F2FA" data-{% if BOOTSTRAP_VERSION === 'v5' %}bs-{% endif %}toggle="pill">
 					<i class="bi bi-speedometer" style="font-size: 1.25rem;"></i>
 				</a>
 			</li>
 		</ul>
 	</div>
 
-	<div class="b-example-divider"></div>
+	<!-- *********************************************************************************************************** -->
 
-	<div class="tab-content w-100 mx-3">
+	<div class="tab-content p{% if BOOTSTRAP_VERSION === 'v5' %}s{% else %}l{% endif %}-4" style="min-height: calc(100vh - 12.5rem); width: calc(100% - 4.5rem);">
 
 		<!-- ******************************************************************************************************* -->
 		<!-- BOOKMARKS                                                                                               -->
@@ -224,5 +214,7 @@
 		<!-- ******************************************************************************************************* -->
 
 	</div>
+
+	<!-- *********************************************************************************************************** -->
 
 </div>
