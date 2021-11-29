@@ -268,11 +268,11 @@ AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
 	ctx: {},
 
 	/**
-	 * Sets up the application's context
-	 * @param {Object<string, *>} immutables
-	 * @param {Object<string, *>} defaults
-	 * @param {Object<string, *>} options
-	 * @return {Object<string, *>} The resulting application's context
+	 * Sets up the control's context
+	 * @param {Object<string, *>} immutables dictionary of immutable parameters in the control's context
+	 * @param {Object<string, *>} defaults dictionary of default values for optional parameters
+	 * @param {Object<string, *>} options dictionary of values for optional parameters
+	 * @return {Object<string, *>} The resulting control's context
 	 */
 
 	setupCtx: function(immutables, defaults, options)
@@ -342,16 +342,15 @@ AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
 	 * Asynchronously creates a control in the body
 	 * @param {?*} parent the parent entity
 	 * @param {string} control the control name
-	 * @param {Array<*>} controlParamsWithoutOptions the control's parameters without optional parameters
-	 * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
-	 * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
+	 * @param {Array<*>} controlParams the control's render method mandatory parameters
+	 * @param {Object<string, *>} controlOptions the control's render method optional parameters
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
-	createControlInBody: function(parent, control, controlParamsWithoutOptions, controlOptions, parentOptions, options)
+	createControlInBody: function(parent, control, controlParams, controlOptions, options)
 	{
-		return controls.createControlInBody(parent, this, control, controlParamsWithoutOptions, controlOptions, parentOptions, options);
+		return controls.createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -360,18 +359,17 @@ AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
 	 * Asynchronously creates a control in a container
 	 * @param {?*} parent the parent entity
 	 * @param {string} control the control name
-	 * @param {Array<*>} controlParamsWithoutOptions the control's parameters without optional parameters
-	 * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
-	 * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
+	 * @param {Array<*>} controlParams the control's render method mandatory parameters
+	 * @param {Object<string, *>} controlOptions the control's render method optional parameters
 	 * @param {string} icon the icon
 	 * @param {string} title the title
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
-	createControlInContainer: function(parent, control, controlParamsWithoutOptions, controlOptions, parentOptions, icon, title, options)
+	createControlInContainer: function(parent, control, controlParams, controlOptions, icon, title, options)
 	{
-		return controls.createControlInContainer(parent, this, control, controlParamsWithoutOptions, controlOptions, parentOptions, icon, title, options);
+		return controls.createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -379,15 +377,14 @@ AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
 	/**
 	 * Asynchronously creates a control in a container from a WEB link
 	 * @param {?*} parent the parent entity
-	 * @param {string} el the HTML element
-	 * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
+	 * @param {Element} el the HTML element
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
-	createControlFromWebLink: function(parent, el, parentOptions, options)
+	createControlFromWebLink: function(parent, el, options)
 	{
-		return controls.createControlFromWebLink(parent, this, el, parentOptions, options);
+		return controls.createControlFromWebLink(parent, this, el, this.ctx, options);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -486,9 +483,9 @@ AMIObject.$AMIClass('ami.SubApp', /** @lends ami.SubApp */ {
 
 	/**
 	 * Sets up the application's context
-	 * @param {Object<string, *>} immutables
-	 * @param {Object<string, *>} defaults
-	 * @param {Object<string, *>} options
+	 * @param {Object<string, *>} immutables dictionary of immutable parameters in the application's context
+	 * @param {Object<string, *>} defaults dictionary of default values for optional parameters
+	 * @param {Object<string, *>} options dictionary of values for optional parameters
 	 * @return {Object<string, *>} The resulting application's context
 	 */
 

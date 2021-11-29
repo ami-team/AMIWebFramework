@@ -157,15 +157,15 @@ export function createControl(parent, owner, control, params, options)
  * @param {?*} parent the parent entity
  * @param {?*} owner the owner entity
  * @param {string} control the control name
- * @param {Array<*>} controlParamsWithoutOptions the control's parameters without optional parameters
- * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
- * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
+ * @param {Array<*>} controlParams the control's render method mandatory parameters
+ * @param {Object<string, *>} controlOptions the control's render method optional parameters
+ * @param {Object<string, *>} ownerOptions the owner's optional parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
-export function createControlInBody(parent, owner, control, controlParamsWithoutOptions, controlOptions, parentOptions, options)
+export function createControlInBody(parent, owner, control, controlParams, controlOptions, ownerOptions, options)
 {
 	const result = $.Deferred();
 
@@ -184,8 +184,8 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		for(let key in parentOptions) {
-			OPTIONS[key] = parentOptions[key];
+		for(let key in ownerOptions) {
+			OPTIONS[key] = ownerOptions[key];
 		}
 
 		for(let key in controlOptions) {
@@ -196,7 +196,7 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
 
 		//////.push(selector);
 
-		Array.prototype.push.apply(PARAMS, controlParamsWithoutOptions);
+		Array.prototype.push.apply(PARAMS, controlParams);
 
 		PARAMS.push(OPTIONS);
 
@@ -230,9 +230,9 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
  * @param {?*} parent the parent entity
  * @param {?*} owner the owner entity
  * @param {string} control the control name
- * @param {Array<*>} controlParamsWithoutOptions the control's parameters without optional parameters
- * @param {Object<string, *>} controlOptions the control's dictionary of optional parameters
- * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
+ * @param {Array<*>} controlParams the control's render method mandatory parameters
+ * @param {Object<string, *>} controlOptions the control's render method optional parameters
+ * @param {Object<string, *>} ownerOptions the owner's optional parameters
  * @param {string} icon the icon
  * @param {string} title the title
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
@@ -240,7 +240,7 @@ export function createControlInBody(parent, owner, control, controlParamsWithout
  * @ignore
  */
 
-export function createControlInContainer(parent, owner, control, controlParamsWithoutOptions, controlOptions, parentOptions, icon, title, options)
+export function createControlInContainer(parent, owner, control, controlParams, controlOptions, ownerOptions, icon, title, options)
 {
 	const result = $.Deferred();
 
@@ -261,8 +261,8 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			for(let key in parentOptions) {
-				OPTIONS[key] = parentOptions[key];
+			for(let key in ownerOptions) {
+				OPTIONS[key] = ownerOptions[key];
 			}
 
 			for(let key in controlOptions) {
@@ -273,7 +273,7 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
 
 			PARAMS.push(selector);
 
-			Array.prototype.push.apply(PARAMS, controlParamsWithoutOptions);
+			Array.prototype.push.apply(PARAMS, controlParams);
 
 			PARAMS.push(OPTIONS);
 
@@ -308,13 +308,13 @@ export function createControlInContainer(parent, owner, control, controlParamsWi
  * @param {?*} parent the parent entity
  * @param {?*} owner the owner entity
  * @param {Element} el the HTML element
- * @param {Object<string, *>} parentOptions the parent's dictionary of optional parameters
+ * @param {Object<string, *>} ownerOptions the owner's optional parameters
  * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
 
-export function createControlFromWebLink(parent, owner, el, parentOptions, options)
+export function createControlFromWebLink(parent, owner, el, ownerOptions, options)
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -354,7 +354,7 @@ export function createControlFromWebLink(parent, owner, el, parentOptions, optio
 
 	/**/ if(dataCtrlLocation === 'body')
 	{
-		return createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, parentOptions, options).done(() => {
+		return createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, options).done(() => {
 
 			locks.unlock();
 
@@ -365,7 +365,7 @@ export function createControlFromWebLink(parent, owner, el, parentOptions, optio
 	}
 	else
 	{
-		return createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, parentOptions, dataIcon, dataTitle, options).done(() => {
+		return createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, dataIcon, dataTitle, options).done(() => {
 
 			locks.unlock();
 
