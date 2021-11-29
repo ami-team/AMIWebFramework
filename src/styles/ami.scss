@@ -32,6 +32,10 @@
 	background: rgb(248, 249, 250) url("../images/stripe2.png");
 }
 
+.monaco-editor .lines-content {
+	padding-left: 0.125rem;
+}
+
 .form-editor,
 .form-editor-monaco {
 	border: 1px solid rgb(206, 212, 218);
