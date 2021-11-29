@@ -267,6 +267,14 @@ AMIObject.$AMIClass('ami.Control', /** @lends ami.Control */ {
 	ctxOptions: {},
 	ctx: {},
 
+	/**
+	 * Sets up the application's context
+	 * @param {Object<string, *>} immutables
+	 * @param {Object<string, *>} defaults
+	 * @param {Object<string, *>} options
+	 * @return {Object<string, *>} The resulting application's context
+	 */
+
 	setupCtx: function(immutables, defaults, options)
 	{
 		return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
