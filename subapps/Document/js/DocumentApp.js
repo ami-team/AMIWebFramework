@@ -208,7 +208,7 @@ $AMIClass('DocumentApp', {
 
 	saveDoc: function()
 	{
-		if(confirm('Please confirm...'))
+		if(confirm('Are you sure?'))
 		{
 			amiWebApp.lock();
 

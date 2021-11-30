@@ -254,7 +254,7 @@ $AMIClass('UserDashboardApp', {
 
 				$('.grid-stack-item-close-handle').click((e) => {
 
-					if(confirm('Please confirm...'))
+					if(confirm('Are you sure?'))
 					{
 						const el = $(e.currentTarget).parent()[0];
 
