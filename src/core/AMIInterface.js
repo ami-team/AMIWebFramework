@@ -189,7 +189,7 @@ AMIObject.$AMIInterface('ami.IContainer', /** @lends ami.IContainer */ {
 	 * Prepends an item
 	 * @param {string} title the title
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
-	 * @return {$.Promise} A JQuery promise object
+	 * @return {$.Promise} A JQuery promise object returning the new item's identifier
 	 */
 
 	prependItem: function(title, options) {},
@@ -198,7 +198,7 @@ AMIObject.$AMIInterface('ami.IContainer', /** @lends ami.IContainer */ {
 	 * Appends an item
 	 * @param {string} title the title
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
-	 * @return {$.Promise} A JQuery promise object
+	 * @return {$.Promise} A JQuery promise object returning the new item's identifier
 	 */
 
 	appendItem: function(title, options) {},
