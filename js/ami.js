@@ -10547,7 +10547,7 @@ function _publishAlert(clazz, title, message, fadeOut) {
   const date = moment().format("DD MMM, HH:mm:ss");
   const toast = $(`#ami_alert_content > .toast[data-hash="${hash}"]`);
   if (toast.length === 0) {
-    const twig = __webpack_require__(5276)("./v" + core_AMIWebApp.bootstrapVersion + "/message.twig");
+    const twig = __webpack_require__(5276)(`./v${core_AMIWebApp.bootstrapVersion}/message.twig`);
     const html = ami_twig/* default.engine.render */.Z.engine.render(twig, {
       date,
       hash,
