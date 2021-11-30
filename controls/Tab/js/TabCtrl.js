@@ -98,7 +98,7 @@ $AMIClass('TabCtrl', {
 
 	_getPaneEl: function(tabId)
 	{
-		return $(`${this.getSelector()} #${tabId}`);
+		return $(`${this.getSelector()} .tab-pane#${tabId}`);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

@@ -192,14 +192,14 @@ $AMIClass('AccordionCtrl', {
 
 	removeItem: function(itemId)
 	{
-
+		$(`${this.getSelector()} > .card#{itemId}`).remove();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	removeAll: function()
 	{
-		return $(`${this.getSelector()} > .card`).remove();
+		$(this.getSelector()).empty();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
