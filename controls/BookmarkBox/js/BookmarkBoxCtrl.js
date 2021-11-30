@@ -63,7 +63,7 @@ $AMIClass('BookmarkBoxCtrl', {
 
 						amiWebApp.lock();
 
-						amiCommand.execute('AddHash -name=? -shared=? -json=?', {params: [name, shared, JSON.stringify(json)]}).done(() => {
+						amiCommand.execute('AddHash -name=? -shared=? -json=?', {params: [name, shared, json]}).done(() => {
 
 							amiLogin.update().always(() => {
 
