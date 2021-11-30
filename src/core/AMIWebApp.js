@@ -185,11 +185,11 @@ class AMIWebApp
 	hash = '';
 
 	/**
-	 * The Twitter Bootstrap's version (default, 'v4')
-	 * @type {string}
+	 * The Twitter Bootstrap's version (default, 4)
+	 * @type {number}
 	 */
 
-	bootstrapVersion = 'v4';
+	bootstrapVersion = 4;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* CONSTRUCTOR                                                                                                    */
@@ -230,7 +230,12 @@ class AMIWebApp
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.bootstrapVersion = scriptArgs.bootstrap || 'v4';
+		this.bootstrapVersion = parseInt(scriptArgs.bootstrap);
+
+		if(Number.isNaN(this.bootstrapVersion))
+		{
+			this.bootstrapVersion = 4;
+		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* LOAD SHEETS AND SCRIPTS                                                                                    */
@@ -243,15 +248,15 @@ class AMIWebApp
 
 		if(!this.#noBootstrap && (typeof jQuery.fn.modal) !== 'function')
 		{
-			if(this.bootstrapVersion === 'v5')
-			{
-				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap5.min.css`);
-				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.bundle.min.js`);
-			}
-			else
+			if(this.bootstrapVersion === 4)
 			{
 				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap4.min.css`);
 				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.bundle.min.js`);
+			}
+			else
+			{
+				resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap5.min.css`);
+				resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.bundle.min.js`);
 			}
 		}
 
@@ -491,11 +496,11 @@ class AMIWebApp
 
 			if((amiRouter.getWebAppArgs()['subapp'] || '').toLowerCase() !== 'userdashboard')
 			{
-				defaultThemeURL = `${this.originURL}/twig/${this.bootstrapVersion}/Themes/blue.twig`;
+				defaultThemeURL = `${this.originURL}/twig/v${this.bootstrapVersion}/Themes/blue.twig`;
 			}
 			else
 			{
-				defaultThemeURL = `${this.originURL}/twig/${this.bootstrapVersion}/Themes/cloud.twig`;
+				defaultThemeURL = `${this.originURL}/twig/v${this.bootstrapVersion}/Themes/cloud.twig`;
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -519,7 +524,7 @@ class AMIWebApp
 			], [
 				defaultLogoURL, defaultBackgroundURL, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/',
 				defaultThemeURL,
-				`${this.originURL}/twig/${this.bootstrapVersion}/Lockers/default.twig`,
+				`${this.originURL}/twig/v${this.bootstrapVersion}/Lockers/default.twig`,
 				`${this.originURL}/AMI/FrontEnd`,
 				false,
 				false, true, true, true,

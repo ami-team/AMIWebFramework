@@ -3,7 +3,7 @@
 <div class="d-flex" data-id="{{ item.id|e }}">
 
 	<span class="flex-shrink-1" style="cursor: grab;">
-		<i class="bi bi-hand-index-thumb text-secondary {% if BOOTSTRAP_VERSION === 'v5' %}me-2{% else %}mr-2{% endif %}"></i>
+		<i class="bi bi-hand-index-thumb text-secondary {% if BOOTSTRAP_VERSION > 4 %}me-2{% else %}mr-2{% endif %}"></i>
 	</span>
 
 	<span class="w-100" style="cursor: pointer;" onclick="bookmarkEditorApp.select(bookmarkEditorApp.{{ profile|e }}, '{{ item.id|e }}');">
