@@ -175,7 +175,7 @@ $AMIClass('TabCtrl', {
 
 				this._getTabEl(itemId).find('.bi-x').click((e) => {
 
-					this.removeTab(itemId);
+					this.removeItem(itemId);
 
 					e.preventDefault();
 				});
