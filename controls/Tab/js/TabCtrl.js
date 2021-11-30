@@ -16,6 +16,8 @@ $AMIClass('TabCtrl', {
 
 	$extends: ami.Control,
 
+	$implements: [ami.IContainer],
+
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	$init: function(parent, owner)

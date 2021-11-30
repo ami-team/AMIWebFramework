@@ -16,6 +16,8 @@ $AMIClass('AccordionCtrl', {
 
 	$extends: ami.Control,
 
+	$implements: [ami.IContainer],
+
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	$init: function(parent, owner)
@@ -197,7 +199,7 @@ $AMIClass('AccordionCtrl', {
 
 	removeAll: function()
 	{
-		$(`${this.getSelector()} > .card`).remove();
+		return $(`${this.getSelector()} > .card`).remove();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

@@ -175,6 +175,58 @@ AMIObject.$AMIInterface('ami.IControl', /** @lends ami.IControl */ {
 });
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * The AMI container interface
+ * @interface ami.IContainer
+ */
+
+AMIObject.$AMIInterface('ami.IContainer', /** @lends ami.IContainer */ {
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Prepends an item
+	 * @param {string} title the title
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
+	 * @return {$.Promise} A JQuery promise object
+	 */
+
+	prependItem: function(title, options) {},
+
+	/**
+	 * Appends an item
+	 * @param {string} title the title
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
+	 * @return {$.Promise} A JQuery promise object
+	 */
+
+	appendItem: function(title, options) {},
+
+	/**
+	 * Removes an item
+	 * @param {string} itemId the item identifier
+	 */
+
+	removeItem: function(itemId) {},
+
+	/**
+	 * Removes all items
+	 */
+
+	removeAll: function() {},
+
+	/**
+	 * Checks whether the container is empty or not
+	 * @returns {boolean}
+	 */
+
+	isEmpty: function() {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+});
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 /* ami.Control                                                                                                        */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
