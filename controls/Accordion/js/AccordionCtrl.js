@@ -126,13 +126,13 @@ $AMIClass('AccordionCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const id = `${this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711')}_${this._cnt++}`;
+		const itemId = `${this.patchId('C9FA6E82_464D_DB5C_554E_6318EC8DC711')}_${this._cnt++}`;
 
 		const dict = {
-			id: id,
+			id: itemId,
+			clazz: clazz,
 			title: title,
 			extraTitle: extraTitle,
-			clazz: clazz,
 			closable: closable,
 		};
 
@@ -146,9 +146,9 @@ $AMIClass('AccordionCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(`#${id} > .card-header > .bi-x`).click((e) => {
+			$(`#${itemId} > .card-header > .bi-x`).click((e) => {
 
-				$(`#${id}`).remove();
+				$(`#${itemId}`).remove();
 
 				e.preventDefault();
 			});
@@ -157,12 +157,12 @@ $AMIClass('AccordionCtrl', {
 
 			if(show)
 			{
-				$(`#${id}_collapse`).collapse('show');
+				$(`#${itemId}_collapse`).collapse('show');
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			result.resolveWith(context, [`#${id}_collapse`]);
+			result.resolveWith(context, [`#${itemId}_collapse`]);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 		});
@@ -184,6 +184,13 @@ $AMIClass('AccordionCtrl', {
 	appendItem: function(title, options)
 	{
 		return this._xxxItem(1, title, options);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	removeItem: function(itemId)
+	{
+
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

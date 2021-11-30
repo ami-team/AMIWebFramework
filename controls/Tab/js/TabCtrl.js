@@ -131,10 +131,10 @@ $AMIClass('TabCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const tabId = `${this.patchId('F3EF6D3D_723B_F5FB_F299_E0AA9CA0914D')}_${this._cnt}`;
+		const itemId = `${this.patchId('F3EF6D3D_723B_F5FB_F299_E0AA9CA0914D')}_${this._cnt}`;
 
 		const dict = {
-			id: tabId,
+			id: itemId,
 			title: title,
 			height: height,
 			closable: closable,
@@ -164,16 +164,16 @@ $AMIClass('TabCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				this._getLinkEl(tabId).on('show.bs.tab', (e) => {
+				this._getLinkEl(itemId).on('show.bs.tab', (e) => {
 
 					this._previousActiveTab = e.relatedTarget ? $(e.relatedTarget).attr('href').substring(1) : '';
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				this._getTabEl(tabId).find('.bi-x').click((e) => {
+				this._getTabEl(itemId).find('.bi-x').click((e) => {
 
-					this.removeTab(tabId);
+					this.removeTab(itemId);
 
 					e.preventDefault();
 				});
@@ -182,7 +182,7 @@ $AMIClass('TabCtrl', {
 
 				if(this._cnt++ === 0 || active)
 				{
-					this._getLinkEl(tabId).tab('show');
+					this._getLinkEl(itemId).tab('show');
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -198,7 +198,7 @@ $AMIClass('TabCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				result.resolveWith(context, [`#${tabId}`]);
+				result.resolveWith(context, [`#${itemId}`]);
 
 				/*----------------------------------------------------------------------------------------------------*/
 			});
@@ -225,11 +225,11 @@ $AMIClass('TabCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	removeTab: function(tabId)
+	removeItem: function(itemId)
 	{
-		this._getTabEl(tabId).remove();
+		this._getTabEl(itemId).remove();
 
-		this._getPaneEl(tabId).remove();
+		this._getPaneEl(itemId).remove();
 
 		if(this._previousActiveTab)
 		{
@@ -243,7 +243,7 @@ $AMIClass('TabCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	removeTabs: function()
+	removeAll: function()
 	{
 		$(`${this.getSelector()} .nav-tabs`).empty();
 
