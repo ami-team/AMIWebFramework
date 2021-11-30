@@ -245,7 +245,7 @@ $AMIClass('TabCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	removeAll: function()
+	removeAllItems: function()
 	{
 		$(`${this.getSelector()} .nav-tabs`).empty();
 

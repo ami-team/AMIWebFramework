@@ -214,7 +214,7 @@ AMIObject.$AMIInterface('ami.IContainer', /** @lends ami.IContainer */ {
 	 * Removes all items
 	 */
 
-	removeAll: function() {},
+	removeAllItems: function() {},
 
 	/**
 	 * Checks whether the container is empty or not

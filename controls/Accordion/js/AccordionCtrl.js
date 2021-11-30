@@ -197,7 +197,7 @@ $AMIClass('AccordionCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	removeAll: function()
+	removeAllItems: function()
 	{
 		$(`${this.getSelector()}`).empty();
 	},
