@@ -3,6 +3,10 @@
 		"clazz": "AccordionCtrl",
 		"file": "controls/Accordion/js/AccordionCtrl.js"
 	},
+	"bookmarkBox": {
+		"clazz": "BookmarkBoxCtrl",
+		"file": "controls/BookmarkBox/js/BookmarkBoxCtrl.js"
+	},
 	"tab": {
 		"clazz": "TabCtrl",
 		"file": "controls/Tab/js/TabCtrl.js"
