@@ -70,7 +70,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const twig = require('../../twigs/' + amiWebApp.bootstrapVersion + '/message.twig');
+		const twig = require('../../twigs/v' + amiWebApp.bootstrapVersion + '/message.twig');
 
 		const html = amiTwig.engine.render(twig, {
 			date: date,

@@ -208,7 +208,7 @@ class AMIAuth
 		{
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const button = require('../twigs/' + amiWebApp.bootstrapVersion + '/sign_out_button.twig');
+			const button = require(`../twigs/v${amiWebApp.bootstrapVersion}/sign_out_button.twig`);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -230,7 +230,7 @@ class AMIAuth
 		{
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const button = require('../twigs/' + amiWebApp.bootstrapVersion + '/sign_in_button.twig');
+			const button = require(`../twigs/v${amiWebApp.bootstrapVersion}/sign_in_button.twi`);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
