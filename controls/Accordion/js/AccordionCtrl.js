@@ -199,7 +199,7 @@ $AMIClass('AccordionCtrl', {
 
 	removeAll: function()
 	{
-		$(this.getSelector()).empty();
+		$(`${this.getSelector()}`).empty();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
