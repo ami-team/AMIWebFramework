@@ -11,7 +11,7 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-$AMIClass('BookmarkBoxCtrl', {
+$AMIClass('DashboardBoxCtrl', {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	$extends: ami.Control,
@@ -37,24 +37,24 @@ $AMIClass('BookmarkBoxCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#F43F294B_B664_4883_0691_2EAEC8B8B3BB').on('click', () => {
+				$('#D5C96872_D545_4B33_ECD9_55EC32E1703E').on('click', () => {
 
 					amiWebApp.modalLeave();
 
-					$('#A3B9F992_0B7B_82B4_BDD0_E4EF2AF2E197').modal('hide');
+					$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('hide');
 
 					_class.deferred.resolveWith(_class.context || _class.deferred, [null]);
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#E335D6CC_ADA1_92CF_1C64_F446B27B5F93').on('click', () => {
+				$('#E557D8C7_CBA2_3E32_4861_A2A7A81A9D14').on('click', () => {
 
-					const name = $('#DDE98A9F_46A2_F340_F7D8_74F2D1704714').val().trim();
+					const hash = $('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').val().trim();
 
-					const shared = $('#CEB66D23_8782_A96F_A8B6_139AC2A48875').prop('checked') ? '1' : '0';
+					const transparent = $('#DDC88FB6_C193_9C60_53CE_85D885BD42F7').prop('checked') ? '1' : '0';
 
-					if(name)
+					if(hash)
 					{
 						const json = {
 							subapp: _class.subapp,
@@ -63,7 +63,7 @@ $AMIClass('BookmarkBoxCtrl', {
 
 						amiWebApp.lock();
 
-						amiCommand.execute('AddHash -name=? -shared=? -json=?', {params: [name, shared, json]}).done(() => {
+						amiCommand.execute('AddToDashboard -hash=? -transparent=? -json=?', {params: [hash, transparent, json]}).done(() => {
 
 							amiLogin.update().always(() => {
 
@@ -71,7 +71,7 @@ $AMIClass('BookmarkBoxCtrl', {
 
 								amiWebApp.modalLeave();
 
-								$('#A3B9F992_0B7B_82B4_BDD0_E4EF2AF2E197').modal('hide');
+								$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('hide');
 
 								_class.deferred.rejectWith(_class.context || _class.deferred, [name]);
 							});
@@ -97,18 +97,18 @@ $AMIClass('BookmarkBoxCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const [
-			context, name
+			context, hash
 		] = amiWebApp.setup(
-			['context', 'name'],
+			['context', 'hash'],
 			[deferred, ''],
 			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#DDE98A9F_46A2_F340_F7D8_74F2D1704714').val(name || '');
+		$('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').val(hash || '');
 
-		$('#A3B9F992_0B7B_82B4_BDD0_E4EF2AF2E197').modal('show');
+		$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('show');
 
 		this.$class.deferred = deferred;
 		this.$class.context = context;

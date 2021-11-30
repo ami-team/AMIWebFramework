@@ -43,9 +43,9 @@ $AMIClass('BookmarkEditorApp', {
 		/**/
 		infoMethod: () => amiAuth.getDashboardInfo(),
 		/**/
-		addCommand: 'AddHash',
-		updateCommand: 'UpdateHash',
-		removeCommand: 'RemoveHash',
+		addCommand: 'AddToDashboard',
+		updateCommand: 'UpdateInDashboard',
+		removeCommand: 'RemoveInDashboard',
 		/**/
 		listId: '#D89CE3F5_9D1D_B338_D895_C344CD4FFE08',
 		/**/
@@ -420,9 +420,9 @@ $AMIClass('BookmarkEditorApp', {
 
 				amiAuth.update().done(() => {
 
-					this.clear(false);
-
 					this.showList(profile);
+
+					this.clear(profile, false);
 
 					amiWebApp.success(message, true);
 
@@ -471,9 +471,9 @@ $AMIClass('BookmarkEditorApp', {
 
 				amiAuth.update().done(() => {
 
-					this.clear(false);
-
 					this.showList(profile);
+
+					this.clear(profile, false);
 
 					amiWebApp.success(message, true);
 
