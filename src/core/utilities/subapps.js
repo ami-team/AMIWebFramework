@@ -210,7 +210,7 @@ export function loadSubApp(subapp, userdata, options)
 
 					promise.then(() => {
 
-						result.resolveWith(context, [/*---------------*/ instance /*---------------*/]);
+						result.resolveWith(context, [/*-------------*/ instance /*-------------*/]);
 
 					}, (message) => {
 

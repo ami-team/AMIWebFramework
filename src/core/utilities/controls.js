@@ -75,7 +75,7 @@ export function loadControl(control, options)
 
 				tools._internal_then(promise, () => {
 
-					result.resolveWith(context, [/*-----------------*/ clazz /*-----------------*/]);
+					result.resolveWith(context, [/*----------------*/ clazz /*----------------*/]);
 
 				}, (message) => {
 

@@ -85,7 +85,7 @@ class AMICommand
 
 	getMqttEndpoint()
 	{
-		return this.#httpClient ? this.#mqttClient.getEndpoint() : '';
+		return this.#mqttClient ? this.#mqttClient.getEndpoint() : '';
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

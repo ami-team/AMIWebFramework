@@ -1,8 +1,10 @@
-<div class="toast" role="alert" {% if fadeOut %}data-delay="60000"{% else %}data-autohide="false"{% endif %} data-hash="{{ hash }}" data-cnt="1">
-	<div class="toast-header">
+<div class="toast mb-2" role="alert" {% if fadeOut %}data-bs-delay="60000"{% else %}data-bs-autohide="false"{% endif %} data-hash="{{ hash }}" data-cnt="1">
+	<div class="toast-header py-1">
 		<strong class="me-auto text-{{ clazz|e }}">{{ title|e }}</strong>
-		<small class="me-2">{{ date|e }}</small>
-		<button class="ms-1 me-0 btn-close" type="button" data-bs-dismiss="toast"></button>
+		<small>{{ date|e }}</small>
+		<button class="btn btn-link p-0 ms-2" type="button" data-bs-dismiss="toast">
+			<i class="bi bi-x-circle"></i>
+		</button>
 	</div>
 	<div class="toast-body">
 		{{ message|e }}

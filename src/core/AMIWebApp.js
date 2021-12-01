@@ -447,7 +447,7 @@ class AMIWebApp
 	/**
 	 * This method must be overloaded and is called when the Web application starts
 	 * @event amiWebApp#onReady
-	 * @param {string} userdata
+	 * @param {?*} userdata the user data
 	 */
 
 	onReady(userdata)
@@ -465,7 +465,7 @@ class AMIWebApp
 	/**
 	 * This method must be overloaded and is called when the toolbar needs to be updated
 	 * @event amiWebApp#onRefresh
-	 * @param {boolean} isAuth
+	 * @param {boolean} isAuth is the user authenticated
 	 */
 
 	onRefresh(isAuth)

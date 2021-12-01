@@ -114,9 +114,16 @@ $AMIClass('DashboardBoxCtrl', {
 		this.$class.context = context;
 		this.$class.subapp = subapp;
 
-		this.$class.userdata = amiWebApp.typeOf(userdata) === 'Object' ? JSON.stringify(userdata)
-		                                                               : /*----------*/(userdata)
-		;
+		try
+		{
+			this.$class.userdata = amiWebApp.typeOf(userdata) === 'Object' ? /*------*/(userdata)
+			                                                               : JSON.parse(userdata)
+			;
+		}
+		catch(e)
+		{
+			this.$class.userdata = {};
+		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

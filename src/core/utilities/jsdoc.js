@@ -355,7 +355,7 @@ class AMIJSDoc
 
 			result.push('<h5 class="mt-2"><strong>Parameters:</strong></h5>');
 
-			result.push('<table class="table table-sm table-striped table-bordered" style="width: auto;">');
+			result.push('<table class="table table-sm table-hover table-striped table-bordered" style="width: auto;">');
 
 			/*--------*/
 			/* THEAD  */
