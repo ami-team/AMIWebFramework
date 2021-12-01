@@ -9142,7 +9142,7 @@ function $AMIClass($name, $descr) {
           if ($interface.$members.hasOwnProperty(j)) {
             const $member = $interface.$members[j];
             if (typeof this[j] !== typeof $member) {
-              throw `class '${this.$name}' with must implement '${$interface.$name}.${j}'`;
+              alert(`class '${this.$name}' must implement '${$interface.$name}.${j}'`);
             }
           }
         }
