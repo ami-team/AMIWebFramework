@@ -184,9 +184,9 @@ export default function()
 		{
 			const result = $.Deferred();
 
-			const [context, url] = tools.setup(
-				['context', 'url'],
-				[result, ''],
+			const [context, media, url] = tools.setup(
+				['context', 'media', 'url'],
+				[result, 'screen', ''],
 				options
 			);
 
@@ -194,10 +194,20 @@ export default function()
 
 			if(url)
 			{
-				$('head').append(`<link rel="stylesheet" type="text/css" href="${url}" />`).promise().done(() => {
+				$(document.createElement('link')).attr({
+					rel: 'stylesheet',
+					type: 'text/css',
+					media: media,
+					href: url,
+				}).on('load', () => {
 
 					result.resolveWith(context);
-				});
+
+				}).on('error', () => {
+
+					result.rejectWith(context);
+
+				}).appendTo('head');
 			}
 			else
 			{

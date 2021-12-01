@@ -14537,11 +14537,18 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
   jQuery.ajax = function(options) {
     if (typeof options === "object" && options.dataType === "sheet") {
       const result = $.Deferred();
-      const [context, url] = setup(["context", "url"], [result, ""], options);
+      const [context, media, url] = setup(["context", "media", "url"], [result, "screen", ""], options);
       if (url) {
-        $("head").append(`<link rel="stylesheet" type="text/css" href="${url}" />`).promise().done(() => {
+        $(document.createElement("link")).attr({
+          rel: "stylesheet",
+          type: "text/css",
+          media,
+          href: url
+        }).on("load", () => {
           result.resolveWith(context);
-        });
+        }).on("error", () => {
+          result.rejectWith(context);
+        }).appendTo("head");
       } else {
         result.rejectWith(context);
       }
