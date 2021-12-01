@@ -186,6 +186,16 @@ AMIObject.$AMIInterface('ami.IContainer', /** @lends ami.IContainer */ {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
+	 * @param {string} selector the selector
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
+	 * @return {$.Promise} A JQuery promise object
+	 */
+
+	render: function(selector, options) {},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
 	 * Prepends an item
 	 * @param {string} title the title
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
