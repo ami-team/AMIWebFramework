@@ -182,12 +182,10 @@ export function loadSubApp(subapp, userdata, options)
 
 	if(descr)
 	{
-		resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
+		try
+		{
+			resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
 
-			view.fillBreadcrumb(descr.breadcrumb);
-
-			try
-			{
 				_currentSubappInstance.onExit(userdata);
 
 				const instance = window[descr.instance];
@@ -210,6 +208,8 @@ export function loadSubApp(subapp, userdata, options)
 
 					promise.then(() => {
 
+						view.fillBreadcrumb(descr.breadcrumb);
+
 						result.resolveWith(context, [/*-------------*/ instance /*-------------*/]);
 
 					}, (message) => {
@@ -221,16 +221,16 @@ export function loadSubApp(subapp, userdata, options)
 
 					result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
 				});
-			}
-			catch(message)
-			{
+
+			}, (message) => {
+
 				result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
-			}
-
-		}, (message) => {
-
+			});
+		}
+		catch(message)
+		{
 			result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
-		});
+		}
 	}
 	else
 	{

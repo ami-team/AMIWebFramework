@@ -63,10 +63,10 @@ export function loadControl(control, options)
 
 	if(descr)
 	{
-		resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
+		try
+		{
+			resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
 
-			try
-			{
 				const clazz = window[descr.clazz];
 
 				const promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype)
@@ -81,16 +81,16 @@ export function loadControl(control, options)
 
 					result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
 				});
-			}
-			catch(message)
-			{
+
+			}, (message) => {
+
 				result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
-			}
-
-		}, (message) => {
-
+			});
+		}
+		catch(message)
+		{
 			result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
-		});
+		}
 	}
 	else
 	{

@@ -13901,8 +13901,8 @@ function loadControl(control, options) {
   }
   const descr = _controls[control.toLowerCase()];
   if (descr) {
-    loadScripts(`${core_AMIRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
-      try {
+    try {
+      loadScripts(`${core_AMIRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
         const clazz = window[descr.clazz];
         const promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) : null;
         _internal_then(promise, () => {
@@ -13910,12 +13910,12 @@ function loadControl(control, options) {
         }, (message) => {
           result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
         });
-      } catch (message) {
+      }, (message) => {
         result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
-      }
-    }, (message) => {
+      });
+    } catch (message) {
       result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
-    });
+    }
   } else {
     result.rejectWith(context, [`cannot load control '${control}': not found`]);
   }
@@ -14443,9 +14443,8 @@ function loadSubApp(subapp, userdata, options) {
   }
   const descr = _subapps[subapp.toLowerCase()];
   if (descr) {
-    loadScripts(`${core_AMIRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
-      fillBreadcrumb(descr.breadcrumb);
-      try {
+    try {
+      loadScripts(`${core_AMIRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
         _currentSubappInstance.onExit(userdata);
         const instance = window[descr.instance];
         _currentSubappInstance = instance;
@@ -14454,6 +14453,7 @@ function loadSubApp(subapp, userdata, options) {
         _internal_then(promise, () => {
           const promise2 = core_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
           promise2.then(() => {
+            fillBreadcrumb(descr.breadcrumb);
             result.resolveWith(context, [instance]);
           }, (message) => {
             result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
@@ -14461,12 +14461,12 @@ function loadSubApp(subapp, userdata, options) {
         }, (message) => {
           result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
         });
-      } catch (message) {
+      }, (message) => {
         result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
-      }
-    }, (message) => {
+      });
+    } catch (message) {
       result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
-    });
+    }
   } else {
     result.rejectWith(context, [`cannot load subapp '${subapp}': not found`]);
   }
