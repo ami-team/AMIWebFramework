@@ -227,7 +227,7 @@ export function $AMIClass($name, $descr)
 
 						if(typeof(this[j]) !== typeof($member))
 						{
-							throw `class '${this.$name}' with must implement '${$interface.$name}.${j}'`;
+							alert(`class '${this.$name}' must implement '${$interface.$name}.${j}'`); // eslint-disable-line no-alert
 						}
 					}
 				}
