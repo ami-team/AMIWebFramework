@@ -72,6 +72,7 @@ export function triggerLogin()
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	// noinspection JSUnresolvedVariable
 	if(amiWebApp._isReady)
 	{
 		tools._internal_then(_currentSubappInstance.onLogin(_currentUserdata), (message) => {
@@ -112,6 +113,7 @@ export function triggerLogout()
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	// noinspection JSUnresolvedVariable
 	if(amiWebApp._isReady)
 	{
 		tools._internal_then(_currentSubappInstance.onLogout(_currentUserdata), (message) => {

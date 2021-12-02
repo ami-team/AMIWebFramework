@@ -550,6 +550,7 @@ class AMIWebApp
 
 				if(!locks._canLeave)
 				{
+					// noinspection JSDeprecatedSymbols
 					const f = e || window.event;
 
 					if(f)

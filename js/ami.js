@@ -13300,7 +13300,7 @@ function _xxxHTML(selector, twig, mode, options) {
       throw "internal error";
   }
   promise.done(() => {
-    let el2 = $(selector);
+    const el2 = $(selector);
     const _find = mode === 3 ? (_selector) => el2.find(selector).addBack(selector) : (_selector) => el2.find(_selector);
     if (jQuery.fn.tooltip) {
       _find('[data-toggle="tooltip"],[data-bs-toggle="tooltip"]').tooltip({

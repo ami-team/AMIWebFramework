@@ -70,22 +70,25 @@ let _timeHMFormat = 'HH:mm';
 
 function _parseDatetime(s, format)
 {
-	// noinspection JSUnresolvedFunction
+	// noinspection TypeScriptUMDGlobal
 	format = moment().toMomentFormatString(format);
 
+	// noinspection TypeScriptUMDGlobal
 	return moment(s, format, true).toDate();
 }
 
 function _formatDatetime(date, format)
 {
-	// noinspection JSUnresolvedFunction
+	// noinspection TypeScriptUMDGlobal
 	format = moment().toMomentFormatString(format);
 
+	// noinspection TypeScriptUMDGlobal
 	return moment(date).format(format);
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+// noinspection JSUnresolvedVariable
 /**
  * @param {string} selector
  * @param {string} twig
@@ -121,7 +124,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 	let promise;
 
-	let el = $(selector);
+	const el = $(selector);
 
 	switch(mode)
 	{
@@ -148,10 +151,6 @@ function _xxxHTML(selector, twig, mode, options)
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	promise.done(() => {
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		let el = $(selector);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
