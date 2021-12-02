@@ -13282,7 +13282,7 @@ function _xxxHTML(selector, twig, mode, options) {
   }
   const html = formatTWIG(twig, dict, twigs);
   let promise;
-  let el = $(selector);
+  const el = $(selector);
   switch (mode) {
     case 0:
       promise = el.html(html).promise();
@@ -13300,8 +13300,7 @@ function _xxxHTML(selector, twig, mode, options) {
       throw "internal error";
   }
   promise.done(() => {
-    const el2 = $(selector);
-    const _find = mode === 3 ? (_selector) => el2.find(selector).addBack(selector) : (_selector) => el2.find(_selector);
+    const _find = mode === 3 ? (_selector) => el.find(selector).addBack(selector) : (_selector) => el.find(_selector);
     if (jQuery.fn.tooltip) {
       _find('[data-toggle="tooltip"],[data-bs-toggle="tooltip"]').tooltip({
         html: false,
@@ -13419,7 +13418,7 @@ function _xxxHTML(selector, twig, mode, options) {
       }).catch((message) => {
         error(message);
       });
-    result.resolveWith(context, [el2]);
+    result.resolveWith(context, [el]);
   });
   return result.promise();
 }

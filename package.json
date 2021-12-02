@@ -4,8 +4,8 @@
   "description": "AMI Web Framework",
   "main": "index.js",
   "scripts": {
-    "build-dev": "rm -fr js/* && webpack --mode development",
-    "build-prod": "rm -fr js/* && webpack --mode production",
+    "build-dev": "rm -fr js/* && ./tools/awf_build.py && webpack --mode development",
+    "build-prod": "rm -fr js/* && ./tools/awf_build.py && webpack --mode production",
     "bootstrap": "./src/bootstrap/build.js"
   },
   "repository": {
