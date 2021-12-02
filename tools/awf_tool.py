@@ -337,7 +337,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         else:
 
-            os.remove(os.path.join('js', 'ami.js')
+            os.remove(os.path.join('js', 'ami.js'))
 
         ################################################################################################################
 
