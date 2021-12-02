@@ -99,10 +99,7 @@ function _$addToNamespace($name, x)
 
 export function $AMINamespace($name, $descr)
 {
-	if(!$descr)
-	{
-		$descr = {};
-	}
+	$descr = $descr || {};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -134,10 +131,7 @@ export function $AMINamespace($name, $descr)
 
 export function $AMIInterface($name, $descr)
 {
-	if(!$descr)
-	{
-		$descr = {};
-	}
+	$descr = $descr || {};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -195,10 +189,7 @@ export function $AMIInterface($name, $descr)
 
 export function $AMIClass($name, $descr)
 {
-	if(!$descr)
-	{
-		$descr = {};
-	}
+	$descr = $descr || {};
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 

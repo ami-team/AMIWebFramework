@@ -28,7 +28,7 @@ import JSPath from 'jspath';
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @type {Object<string,*>}
+ * @type {Object<string,Object<string,*>>}
  * @private
  */
 
@@ -186,40 +186,39 @@ export function loadSubApp(subapp, userdata, options)
 		{
 			resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
 
-				_currentSubappInstance.onExit(userdata);
+				tools._internal_always(_currentSubappInstance.onExit(userdata), () => {
 
-				const instance = window[descr.instance];
+					_currentSubappInstance = window[descr.instance];
 
-				_currentSubappInstance = instance;
+					_currentUserdata = userdata;
 
-				_currentUserdata = userdata;
+					/**/
 
-				/**/
-
-				const promise = loaded[0] ? instance.onReady(userdata)
-				                          : /*------*/ null /*------*/
-				;
-
-				tools._internal_then(promise, () => {
-
-					const promise = amiAuth.isAuthenticated() ? triggerLogin()
-					                                          : triggerLogout()
+					const promise = loaded[0] ? _currentSubappInstance.onReady(userdata)
+											  : /*-------------*/ null /*-------------*/
 					;
 
-					promise.then(() => {
+					tools._internal_then(promise, () => {
 
-						view.fillBreadcrumb(descr.breadcrumb);
+						const promise = amiAuth.isAuthenticated() ? triggerLogin()
+																  : triggerLogout()
+						;
 
-						result.resolveWith(context, [/*-------------*/ instance /*-------------*/]);
+						promise.then(() => {
+
+							view.fillBreadcrumb(descr.breadcrumb);
+
+							result.resolveWith(context, [/*------*/ _currentSubappInstance /*------*/]);
+
+						}, (message) => {
+
+							result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
+						});
 
 					}, (message) => {
 
 						result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
 					});
-
-				}, (message) => {
-
-					result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
 				});
 
 			}, (message) => {

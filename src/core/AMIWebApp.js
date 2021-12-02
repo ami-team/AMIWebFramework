@@ -25,6 +25,7 @@ import amiAuth from './AMIAuth';
 import amiRouter from './AMIRouter';
 import amiCommand from './AMICommand';
 import amiExtensions from './AMIExtension';
+import amiInterfaces from './AMIInterface';
 
 import JSPath from 'jspath';
 
@@ -202,6 +203,12 @@ class AMIWebApp
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		amiExtensions();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* AMI INTERFACES                                                                                             */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiInterfaces();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* GET SCRIPT FLAGS                                                                                           */

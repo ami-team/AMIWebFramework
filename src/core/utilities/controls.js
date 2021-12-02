@@ -24,7 +24,7 @@ import amiRouter from '../AMIRouter';
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
- * @type {Object<string,*>}
+ * @type {Object<string,Object<string,*>>}
  * @private
  */
 

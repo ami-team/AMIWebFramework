@@ -7,8 +7,6 @@ import amiWebApp from './src/core/AMIWebApp';
 import amiAuth from './src/core/AMIAuth';
 import amiDoc from './src/core/AMIDoc';
 
-import './src/core/AMIInterface';
-
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 window.$AMIClass     = AMIObject.$AMIClass    ;
