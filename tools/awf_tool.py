@@ -479,7 +479,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
 ########################################################################################################################
 
-def createHomePage(verbose):
+def createHomePage(verbose, bootstrapVersion):
 
     try:
 
@@ -514,7 +514,7 @@ def createHomePage(verbose):
 
         ################################################################################################################
 
-        saveText('index.html', AWF_HOME_PAGE_TEMPLATE.replace("{{TITLE}}", TITLE).replace("{{ENDPOINT}}", ENDPOINT if ENDPOINT else 'https://localhost:8443/AMI/FrontEnd'))
+        saveText('index.html', AWF_HOME_PAGE_TEMPLATE.replace('{{BOOTSTRAP_VERSION}}', bootstrapVersion).replace("{{TITLE}}", TITLE).replace('{{DATA}}', 'data-bs' if bootstrapVersion > 4 else 'data').replace("{{ENDPOINT}}", ENDPOINT if ENDPOINT else 'https://localhost:8443/AMI/FrontEnd'))
 
         ################################################################################################################
 
@@ -798,7 +798,8 @@ def main():
     parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
     parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
 
-    parser.add_argument('--git-commit-id', help = 'git commit id (default: HEAD)', type = str, default = 'HEAD')
+    parser.add_argument('--git-commit-id', help = 'git commit id (default: \'HEAD\')', type = str, default = 'HEAD')
+    parser.add_argument('--boostrap-version', help = 'bootstrap version (default: 5)', type = int, default = 5)
 
     parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
 
@@ -807,7 +808,7 @@ def main():
     ####################################################################################################################
 
     if   args.create_home_page:
-        return createHomePage(args.verbose)
+        return createHomePage(args.verbose, args.bootstrap_version)
 
     elif args.create_control:
         return createControl(args.verbose)
@@ -852,7 +853,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 
 		<script type="text/javascript" src="js/jquery.min.js"></script>
 
-		<script type="text/javascript" src="js/ami.min.js?bootstrap=5"></script>
+		<script type="text/javascript" src="js/ami.min.js?bootstrap={{BOOTSTRAP_VERSION}}"></script>
 
 		<script type="text/javascript">
 
@@ -860,7 +861,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 			{
 				var menu =
 					'<li class="nav-item dropdown">' +
-					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown">' +
+					'  <a href="#" class="nav-link dropdown-toggle" {{DATA}}-toggle="dropdown">' +
 					'    Search' +
 					'  </a>' +
 					'  <div class="dropdown-menu">' +
@@ -869,7 +870,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 					'  </div>' +
 					'</li>' +
 					'<li class="nav-item dropdown">' +
-					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown">' +
+					'  <a href="#" class="nav-link dropdown-toggle" {{DATA}}-toggle="dropdown">' +
 					'    Tools' +
 					'  </a>' +
 					'  <div class="dropdown-menu">' +
@@ -888,7 +889,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 				{
 					menu +=
 						'<li class="nav-item dropdown">' +
-						'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown">' +
+						'  <a href="#" class="nav-link dropdown-toggle" {{DATA}}-toggle="dropdown">' +
 						'    <i class="fa fa-key"></i> Admin' +
 						'  </a>' +
 						'  <div class="dropdown-menu">' +
