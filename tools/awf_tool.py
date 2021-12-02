@@ -860,7 +860,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 			{
 				var menu =
 					'<li class="nav-item dropdown">' +
-					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown">' +
 					'    Search' +
 					'  </a>' +
 					'  <div class="dropdown-menu">' +
@@ -869,7 +869,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 					'  </div>' +
 					'</li>' +
 					'<li class="nav-item dropdown">' +
-					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+					'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown">' +
 					'    Tools' +
 					'  </a>' +
 					'  <div class="dropdown-menu">' +
@@ -888,7 +888,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 				{
 					menu +=
 						'<li class="nav-item dropdown">' +
-						'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">' +
+						'  <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown">' +
 						'    <i class="fa fa-key"></i> Admin' +
 						'  </a>' +
 						'  <div class="dropdown-menu">' +
