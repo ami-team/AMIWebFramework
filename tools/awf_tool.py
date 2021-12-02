@@ -514,7 +514,7 @@ def createHomePage(verbose, bootstrapVersion):
 
         ################################################################################################################
 
-        saveText('index.html', AWF_HOME_PAGE_TEMPLATE.replace('{{BOOTSTRAP_VERSION}}', bootstrapVersion).replace("{{TITLE}}", TITLE).replace('{{DATA}}', 'data-bs' if bootstrapVersion > 4 else 'data').replace("{{ENDPOINT}}", ENDPOINT if ENDPOINT else 'https://localhost:8443/AMI/FrontEnd'))
+        saveText('index.html', AWF_HOME_PAGE_TEMPLATE.replace('{{BOOTSTRAP_VERSION}}', '%d' % bootstrapVersion).replace("{{TITLE}}", TITLE).replace('{{DATA}}', 'data-bs' if bootstrapVersion > 4 else 'data').replace("{{ENDPOINT}}", ENDPOINT if ENDPOINT else 'https://localhost:8443/AMI/FrontEnd'))
 
         ################################################################################################################
 
