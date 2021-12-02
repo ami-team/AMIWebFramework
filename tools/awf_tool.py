@@ -24,16 +24,16 @@ import os, re, sys, glob, json, random, shutil, hashlib, argparse, tempfile, sub
 def print_logo():
 
     print('''
- █████╗ ███╗   ███╗██╗    ██╗    ██╗███████╗██████╗                           
-██╔══██╗████╗ ████║██║    ██║    ██║██╔════╝██╔══██╗                          
-███████║██╔████╔██║██║    ██║ █╗ ██║█████╗  ██████╔╝                          
-██╔══██║██║╚██╔╝██║██║    ██║███╗██║██╔══╝  ██╔══██╗                          
-██║  ██║██║ ╚═╝ ██║██║    ╚███╔███╔╝███████╗██████╔╝                          
-╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚══╝╚══╝ ╚══════╝╚═════╝                           
+ █████╗ ███╗   ███╗██╗    ██╗    ██╗███████╗██████╗
+██╔══██╗████╗ ████║██║    ██║    ██║██╔════╝██╔══██╗
+███████║██╔████╔██║██║    ██║ █╗ ██║█████╗  ██████╔╝
+██╔══██║██║╚██╔╝██║██║    ██║███╗██║██╔══╝  ██╔══██╗
+██║  ██║██║ ╚═╝ ██║██║    ╚███╔███╔╝███████╗██████╔╝
+╚═╝  ╚═╝╚═╝     ╚═╝╚═╝     ╚══╝╚══╝ ╚══════╝╚═════╝
 ███████╗██████╗  █████╗ ███╗   ███╗███████╗██╗    ██╗ ██████╗ ██████╗ ██╗  ██╗
 ██╔════╝██╔══██╗██╔══██╗████╗ ████║██╔════╝██║    ██║██╔═══██╗██╔══██╗██║ ██╔╝
-█████╗  ██████╔╝███████║██╔████╔██║█████╗  ██║ █╗ ██║██║   ██║██████╔╝█████╔╝ 
-██╔══╝  ██╔══██╗██╔══██║██║╚██╔╝██║██╔══╝  ██║███╗██║██║   ██║██╔══██╗██╔═██╗ 
+█████╗  ██████╔╝███████║██╔████╔██║█████╗  ██║ █╗ ██║██║   ██║██████╔╝█████╔╝
+██╔══╝  ██╔══██╗██╔══██║██║╚██╔╝██║██╔══╝  ██║███╗██║██║   ██║██╔══██╗██╔═██╗
 ██║     ██║  ██║██║  ██║██║ ╚═╝ ██║███████╗╚███╔███╔╝╚██████╔╝██║  ██║██║  ██╗
 ╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝╚══════╝ ╚══╝╚══╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝'''[1: ])
 
@@ -233,7 +233,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         '*~', '.DS_Store', '.DS_Store?',
         '/docs/api.html', '/docs/info.html', '/js', '/twig', '/.awf',
         '/Gruntfile.js', '/node_modules', '/package-lock.json', '/package.json',
-        '/.eslintrc.json', '/.settings', '/.idea', '/*.iml'
+        '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
     ]
 
     baseTempPath = os.path.join(os.path.abspath(os.path.dirname(__file__)), '.awf')
@@ -316,7 +316,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         print('Copying files...')
 
-        nb += copyFiles(awfTempPath, 'js', None, 'js', '*', verbose, False)
+        nb += copyFiles(awfTempPath, 'js', None, 'js', '*', verbose, True)
         nb += copyFiles(awfTempPath, 'docs', None, 'docs', '*', verbose, False)
         nb += copyFiles(awfTempPath, 'twig', None, 'twig', '*', verbose, True)
 
@@ -333,15 +333,15 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         if inDebugMode:
 
-            shutil.move('js' + os.sep + 'ami.js', 'js' + os.sep + 'ami.min.js')
+            shutil.move(os.path.join('js', 'ami.js'), os.path.join('js', 'ami.min.js'))
 
         else:
 
-            os.remove('js' + os.sep + 'ami.js')
+            os.remove(os.path.join('js', 'ami.js')
 
         ################################################################################################################
 
-        replaceStrInFile('js' + os.sep + 'ami.min.js', '{{AMI_COMMIT_ID}}', awfGITCommitId)
+        replaceStrInFile(os.path.join('js', 'ami.min.js'), '{{AMI_COMMIT_ID}}', awfGITCommitId)
 
         ################################################################################################################
 
