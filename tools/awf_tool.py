@@ -799,7 +799,7 @@ def main():
     parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
 
     parser.add_argument('--git-commit-id', help = 'git commit id (default: \'HEAD\')', type = str, default = 'HEAD')
-    parser.add_argument('--boostrap-version', help = 'bootstrap version (default: 5)', type = int, default = 5)
+    parser.add_argument('--bootstrap-version', help = 'bootstrap version (default: 5)', type = int, default = 5)
 
     parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
 
