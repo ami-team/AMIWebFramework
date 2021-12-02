@@ -231,12 +231,12 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
     ignore = [
         '*~', '.DS_Store', '.DS_Store?',
-        '/docs/api.html', '/docs/info.html', '/js', '/twig', '/.awf',
+        '/docs/api.html', '/docs/info.html', '/js', '/twig',
         '/Gruntfile.js', '/node_modules', '/package-lock.json', '/package.json',
         '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
     ]
 
-    baseTempPath = os.path.join(os.path.abspath(os.path.dirname(__file__)), '.awf')
+    baseTempPath = os.path.join(os.path.expanduser('~'), '.awf-cache')
 
     try:
 
