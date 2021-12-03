@@ -453,11 +453,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         ################################################################################################################
 
-        USER_PACKAGE_JSON = {
-            'name': 'project',
-            'version': '1.0.0',
-            'devDependencies': loadJSON(os.path.join(awfTempPath, 'package.json'))['devDependencies'],
-        }
+        USER_PACKAGE_JSON = loadJSON(os.path.join(awfTempPath, 'tools', 'package.json'))
 
         ################################################################################################################
 
@@ -514,7 +510,7 @@ def createHomePage(verbose, bootstrapVersion):
 
         ################################################################################################################
 
-        saveText('index.html', AWF_HOME_PAGE_TEMPLATE.replace('{{BOOTSTRAP_VERSION}}', '%d' % bootstrapVersion).replace("{{TITLE}}", TITLE).replace('{{DATA}}', 'data-bs' if bootstrapVersion > 4 else 'data').replace("{{ENDPOINT}}", ENDPOINT if ENDPOINT else 'https://localhost:8443/AMI/FrontEnd'))
+        saveText('index.html', AWF_HOME_PAGE_TEMPLATE.replace('{{BOOTSTRAP_VERSION}}', '%d' % bootstrapVersion).replace('{{TITLE}}', TITLE).replace('{{DATA}}', 'data-bs' if bootstrapVersion > 4 else 'data').replace('{{ENDPOINT}}', ENDPOINT if ENDPOINT else 'https://localhost:8443/AMI/FrontEnd'))
 
         ################################################################################################################
 
@@ -566,13 +562,13 @@ def createControl(verbose):
         ################################################################################################################
 
         shutil_makedirs(os.path.join('controls', NAME, 'js'), ignore_errors = False)
-        saveText(os.path.join('controls', NAME, 'js', NAME + 'Ctrl.es6.js'), AWF_CONTROL_JS_TEMPLATE.replace("{{name}}", name).replace("{{NAME}}", NAME))
+        saveText(os.path.join('controls', NAME, 'js', NAME + 'Ctrl.es6.js'), AWF_CONTROL_JS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
 
         shutil_makedirs(os.path.join('controls', NAME, 'css'), ignore_errors = False)
-        saveText(os.path.join('controls', NAME, 'css', NAME + 'Ctrl.css'), AWF_CONTROL_CSS_TEMPLATE.replace("{{name}}", name).replace("{{NAME}}", NAME))
+        saveText(os.path.join('controls', NAME, 'css', NAME + 'Ctrl.css'), AWF_CONTROL_CSS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
 
         shutil_makedirs(os.path.join('controls', NAME, 'twig'), ignore_errors = False)
-        saveText(os.path.join('controls', NAME, 'twig', NAME + 'Ctrl.twig'), AWF_CONTROL_TWIG_TEMPLATE.replace("{{name}}", name).replace("{{NAME}}", NAME))
+        saveText(os.path.join('controls', NAME, 'twig', NAME + 'Ctrl.twig'), AWF_CONTROL_TWIG_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
 
         ################################################################################################################
 
@@ -635,13 +631,13 @@ def createSubapp(verbose):
         ################################################################################################################
 
         shutil_makedirs(os.path.join('subapps', NAME, 'js'), ignore_errors = False)
-        saveText(os.path.join('subapps', NAME, 'js', NAME + 'App.es6.js'), AWF_SUBAPP_JS_TEMPLATE.replace("{{name}}", name).replace("{{NAME}}", NAME))
+        saveText(os.path.join('subapps', NAME, 'js', NAME + 'App.es6.js'), AWF_SUBAPP_JS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
 
         shutil_makedirs(os.path.join('subapps', NAME, 'css'), ignore_errors = False)
-        saveText(os.path.join('subapps', NAME, 'css', NAME + 'App.css'), AWF_SUBAPP_CSS_TEMPLATE.replace("{{name}}", name).replace("{{NAME}}", NAME))
+        saveText(os.path.join('subapps', NAME, 'css', NAME + 'App.css'), AWF_SUBAPP_CSS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
 
         shutil_makedirs(os.path.join('subapps', NAME, 'twig'), ignore_errors = False)
-        saveText(os.path.join('subapps', NAME, 'twig', NAME + 'App.twig'), AWF_SUBAPP_TWIG_TEMPLATE.replace("{{name}}", name).replace("{{NAME}}", NAME))
+        saveText(os.path.join('subapps', NAME, 'twig', NAME + 'App.twig'), AWF_SUBAPP_TWIG_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
 
         ################################################################################################################
 
