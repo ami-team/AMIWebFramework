@@ -227,6 +227,30 @@ def saveText(fileName, data):
 
 ########################################################################################################################
 
+def updateWebpack():
+
+    ####################################################################################################################
+
+    entries = []
+
+    ####################################################################################################################
+
+    for path in glob.glob('controls/**/*.es6.js', recursive = True):
+
+        entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
+
+    ####################################################################################################################
+
+    for path in glob.glob('subapps/**/*.es6.js', recursive = True):
+
+        entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
+
+    ####################################################################################################################
+
+    saveText('webpack.config.js', AWT_WEBPACK_CONFIG_TEMPLATE % ',\n'.join(entries))
+
+########################################################################################################################
+
 def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
     ignore = [
@@ -323,9 +347,9 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         nb += copyFiles(awfTempPath, '.', None, '.', 'favicon.ico', verbose, False)
         nb += copyFiles(awfTempPath, '.', None, '.', '.eslintrc.json', verbose, True)
 
-        nb += copyFiles(awfTempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
+        #nb += copyFiles(awfTempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
 
-        nb += copyFiles(awfTempPath, '.', 'Gruntfile.js', 'tools', 'Gruntfile.js', verbose, True)
+        nb += copyFiles(awfTempPath, '.', 'package.json', 'tools', 'package.json', verbose, True)
 
         print('-> %d files copied.' % nb)
 
@@ -438,26 +462,22 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         ################################################################################################################
 
         print('##############################################################################')
+        print('# GENERATING `webpack.config.js`...                                          #')
+        print('##############################################################################')
+
+        ################################################################################################################
+
+        updateWebpack()
+
+        ################################################################################################################
+
+        print('##############################################################################')
         print('# GENERATING `.gitignore`...                                                 #')
         print('##############################################################################')
 
         ################################################################################################################
 
         saveText('.gitignore', '\n'.join(ignore))
-
-        ################################################################################################################
-
-        print('##############################################################################')
-        print('# GENERATING `package.json`...                                               #')
-        print('##############################################################################')
-
-        ################################################################################################################
-
-        USER_PACKAGE_JSON = loadJSON(os.path.join(awfTempPath, 'tools', 'package.json'))
-
-        ################################################################################################################
-
-        saveJSON('package.json', USER_PACKAGE_JSON)
 
         ################################################################################################################
 
@@ -576,10 +596,14 @@ def createControl(verbose):
 
         USER_CONTROLS_JSON[name] = {
             'clazz': NAME + 'Ctrl',
-            'file': 'controls/' + NAME + '/js/' + NAME + 'Ctrl.js',
+            'file': 'controls/' + NAME + '/js/' + NAME + 'Ctrl.min.js',
         }
 
         saveJSON(os.path.join('controls', 'CONTROLS.json'), USER_CONTROLS_JSON)
+
+        ################################################################################################################
+
+        updateWebpack()
 
         ################################################################################################################
 
@@ -646,10 +670,14 @@ def createSubapp(verbose):
         USER_SUBAPPS_JSON[name] = {
             'breadcrumb': [],
             'instance': name + 'App',
-            'file': 'subapps/' + NAME + '/js/' + NAME + 'App.js',
+            'file': 'subapps/' + NAME + '/js/' + NAME + 'App.min.js',
         }
 
         saveJSON(os.path.join('subapps', 'SUBAPPS.json'), USER_SUBAPPS_JSON)
+
+        ################################################################################################################
+
+        updateWebpack()
 
         ################################################################################################################
 
@@ -832,6 +860,140 @@ def main():
     return createId()
 
 ########################################################################################################################
+# WEBPACK_CONFIG                                                                                                       #
+########################################################################################################################
+
+AWT_WEBPACK_CONFIG_TEMPLATE = '''/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+const BROWSER_LIST = [
+	'>= 1%%',
+	'last 1 major version',
+	'not dead',
+	'Chrome >= 45',
+	'Firefox >= 38',
+	'Edge >= 12',
+	'Explorer >= 10',
+	'iOS >= 9',
+	'Safari >= 9',
+	'Android >= 4.4',
+	'Opera >= 30'
+];
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+console.log('Building: ' + BROWSER_LIST.join(', '));
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+const path = require('path');
+const webpack = require('webpack');
+
+const ESLintPlugin = require('eslint-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+const config = {
+	'entry': {
+%s
+	},
+	'output': {
+		'filename': '[name].min.js',
+		'path': path.resolve(__dirname)
+	},
+	'module': {
+		'rules': [
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			{
+				'test': /\.js$/,
+				'exclude': /node_modules/,
+				'use': {
+					'loader': 'babel-loader',
+					'options': {
+						'presets': [
+							['@babel/preset-env', {
+								'targets': BROWSER_LIST
+							}]
+						]
+					}
+				}
+			},
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			{
+				'type': 'asset/source',
+				'test': /\.twig$/,
+				'exclude': /node_modules/
+			},
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			{
+				test: /\.css$/,
+				use: [
+					'style-loader',
+					'css-loader',
+					{
+						'loader': 'postcss-loader',
+						'options': {
+							'postcssOptions': {
+								'plugins': [
+									['autoprefixer', {}]
+								]
+							}
+						}
+					}
+				]
+			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+		]
+	},
+	'externals': {
+		'$': 'jQuery',
+		'moment': 'moment',
+		'select2': 'select2'
+	},
+	'plugins': [
+		new ESLintPlugin({
+			'failOnWarning': true
+		})
+	],
+	'optimization': {
+		'minimizer': [
+			new TerserPlugin({
+				'test': /\.min\.js$/,
+				'parallel': true,
+				'extractComments': () => false,
+				'terserOptions': {
+					'mangle': true
+				}
+			})
+		]
+	}
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+module.exports = config;
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+'''
+
+########################################################################################################################
 # TEMPLATES                                                                                                            #
 ########################################################################################################################
 
@@ -968,33 +1130,11 @@ $AMIClass('{{NAME}}Ctrl', {
 
 ########################################################################################################################
 
-AWF_CONTROL_CSS_TEMPLATE = '''/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-'''
+AWF_CONTROL_CSS_TEMPLATE = ''''''
 
 ########################################################################################################################
 
-AWF_CONTROL_TWIG_TEMPLATE = '''<!--
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
--->
-
-<div>{{NAME}}</div>
-'''
+AWF_CONTROL_TWIG_TEMPLATE = '''<div>{{NAME}}</div>'''
 
 ########################################################################################################################
 
@@ -1032,7 +1172,7 @@ $AMIClass('{{NAME}}App', {
 				result.resolve();
 			});
 
-		}).fail(function(data) {
+		}).fail((data) => {
 
 			result.reject(data);
 		});
@@ -1072,33 +1212,11 @@ window.{{name}}App = new {{NAME}}App();
 
 ########################################################################################################################
 
-AWF_SUBAPP_CSS_TEMPLATE = '''/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
-'''
+AWF_SUBAPP_CSS_TEMPLATE = ''''''
 
 ########################################################################################################################
 
-AWF_SUBAPP_TWIG_TEMPLATE = '''<!--
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
--->
-
-<div class="m-3">{{NAME}}</div>
-'''
+AWF_SUBAPP_TWIG_TEMPLATE = '''<div class="m-3">{{NAME}}</div>'''
 
 ########################################################################################################################
 # MAIN                                                                                                                 #

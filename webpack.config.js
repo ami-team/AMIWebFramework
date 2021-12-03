@@ -138,10 +138,10 @@ const config = {
 						'options': {
 							'postcssOptions': {
 								'plugins': [
-									['autoprefixer', {}],
-								],
-							},
-						},
+									['autoprefixer', {}]
+								]
+							}
+						}
 					}
 				]
 			},
@@ -158,10 +158,10 @@ const config = {
 						'options': {
 							'postcssOptions': {
 								'plugins': [
-									['autoprefixer', {}],
-								],
-							},
-						},
+									['autoprefixer', {}]
+								]
+							}
+						}
 					},
 					'sass-loader'
 				]
