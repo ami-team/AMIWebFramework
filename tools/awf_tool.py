@@ -584,7 +584,7 @@ def createControl(verbose, sourceCodeFlavour):
         if   sourceCodeFlavour == 'es5':
             XXX_CONTROL_JS_TEMPLATE = AWF_CONTROL_JS_ES5_TEMPLATE
 
-        elif sourceCodeFlavour == 'modern':
+        elif sourceCodeFlavour == 'module':
             XXX_CONTROL_JS_TEMPLATE = AWF_CONTROL_JS_MODULE_TEMPLATE
 
         elif sourceCodeFlavour == 'vue-js':
@@ -668,7 +668,7 @@ def createSubapp(verbose, sourceCodeFlavour):
         if   sourceCodeFlavour == 'es5':
             XXX_SUBAPP_JS_TEMPLATE = AWF_SUBAPP_JS_ES5_TEMPLATE
 
-        elif sourceCodeFlavour == 'modern':
+        elif sourceCodeFlavour == 'module':
             XXX_SUBAPP_JS_TEMPLATE = AWF_SUBAPP_JS_MODULE_TEMPLATE
 
         elif sourceCodeFlavour == 'vue-js':
@@ -814,7 +814,7 @@ def main():
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
 
     parser.add_argument('-v', '--bootstrap-version', help = 'bootstrap version (default: 5)', type = int, default = 0x0005)
-    parser.add_argument('-f', '--source-code-flavour', help = 'source code flavour (default es5)', type = str, choices = ['es5', 'modern', 'vue-js'], default = 'es5')
+    parser.add_argument('-f', '--source-code-flavour', help = 'source code flavour (default es5)', type = str, choices = ['es5', 'module', 'vue-js'], default = 'es5')
 
     parser.add_argument('-r', '--run', help = 'run a web server', action = 'store_true')
     parser.add_argument('-b', '--build', help = 'build JS bundles', action = 'store_true')
