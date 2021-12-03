@@ -544,8 +544,9 @@ def createHomePage(verbose, bootstrapVersion):
 
 ########################################################################################################################
 
-def createControl(verbose):
-
+def createControl(verbose, sourceCodeFlavour):
+    print(sourceCodeFlavour)
+    return
     try:
 
         ################################################################################################################
@@ -581,14 +582,25 @@ def createControl(verbose):
 
         ################################################################################################################
 
-        shutil_makedirs(os.path.join('controls', NAME, 'js'), ignore_errors = False)
-        saveText(os.path.join('controls', NAME, 'js', NAME + 'Ctrl.es6.js'), AWF_CONTROL_JS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
+        if   sourceCodeFlavour == 'es5':
+            XXX_CONTROL_JS_TEMPLATE = AWF_CONTROL_JS_ES5_TEMPLATE
 
-        shutil_makedirs(os.path.join('controls', NAME, 'css'), ignore_errors = False)
-        saveText(os.path.join('controls', NAME, 'css', NAME + 'Ctrl.css'), AWF_CONTROL_CSS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
+        elif sourceCodeFlavour == 'modern':
+            XXX_CONTROL_JS_TEMPLATE = AWF_CONTROL_JS_MODULE_TEMPLATE
 
-        shutil_makedirs(os.path.join('controls', NAME, 'twig'), ignore_errors = False)
-        saveText(os.path.join('controls', NAME, 'twig', NAME + 'Ctrl.twig'), AWF_CONTROL_TWIG_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
+        elif sourceCodeFlavour == 'vue-js':
+            XXX_CONTROL_JS_TEMPLATE = AWF_CONTROL_JS_VUE_JS_TEMPLATE
+
+        ################################################################################################################
+
+        shutil_makedirs(os.path.join('controls', NAME, 'assets', 'css'), ignore_errors = False)
+        shutil_makedirs(os.path.join('controls', NAME, 'assets', 'twig'), ignore_errors = False)
+
+        saveText(os.path.join('controls', NAME, NAME + 'Ctrl.es6.js'), XXX_CONTROL_JS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
+
+        saveText(os.path.join('controls', NAME, 'assets', 'css', NAME + 'Ctrl.css'), AWF_CONTROL_CSS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
+
+        saveText(os.path.join('controls', NAME, 'assets', 'twig', NAME + 'Ctrl.twig'), AWF_CONTROL_TWIG_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
 
         ################################################################################################################
 
@@ -617,8 +629,9 @@ def createControl(verbose):
 
 ########################################################################################################################
 
-def createSubapp(verbose):
-
+def createSubapp(verbose, sourceCodeFlavour):
+    print(sourceCodeFlavour)
+    return
     try:
 
         ################################################################################################################
@@ -654,14 +667,25 @@ def createSubapp(verbose):
 
         ################################################################################################################
 
-        shutil_makedirs(os.path.join('subapps', NAME, 'js'), ignore_errors = False)
-        saveText(os.path.join('subapps', NAME, 'js', NAME + 'App.es6.js'), AWF_SUBAPP_JS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
+        if   sourceCodeFlavour == 'es5':
+            XXX_SUBAPP_JS_TEMPLATE = AWF_SUBAPP_JS_ES5_TEMPLATE
 
-        shutil_makedirs(os.path.join('subapps', NAME, 'css'), ignore_errors = False)
-        saveText(os.path.join('subapps', NAME, 'css', NAME + 'App.css'), AWF_SUBAPP_CSS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
+        elif sourceCodeFlavour == 'modern':
+            XXX_SUBAPP_JS_TEMPLATE = AWF_SUBAPP_JS_MODULE_TEMPLATE
 
-        shutil_makedirs(os.path.join('subapps', NAME, 'twig'), ignore_errors = False)
-        saveText(os.path.join('subapps', NAME, 'twig', NAME + 'App.twig'), AWF_SUBAPP_TWIG_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
+        elif sourceCodeFlavour == 'vue-js':
+            XXX_SUBAPP_JS_TEMPLATE = AWF_SUBAPP_JS_VUE_JS_TEMPLATE
+
+        ################################################################################################################
+
+        shutil_makedirs(os.path.join('subapps', NAME, 'assets', 'css'), ignore_errors = False)
+        shutil_makedirs(os.path.join('subapps', NAME, 'assets', 'twig'), ignore_errors = False)
+
+        saveText(os.path.join('subapps', NAME, NAME + 'App.es6.js'), XXX_SUBAPP_JS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
+
+        saveText(os.path.join('subapps', NAME, 'assets', 'css', NAME + 'App.css'), AWF_SUBAPP_CSS_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
+
+        saveText(os.path.join('subapps', NAME, 'assets', 'twig', NAME + 'App.twig'), AWF_SUBAPP_TWIG_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
 
         ################################################################################################################
 
@@ -790,17 +814,17 @@ def main():
     parser.add_argument('--create-home-page', help = 'create a new home page', action = 'store_true')
     parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
-    parser.add_argument('--create-id', help = 'create a new id', action = 'store_true')
 
-    parser.add_argument('--run', help = 'run a web server', action = 'store_true')
+    parser.add_argument('-v', '--bootstrap-version', help = 'bootstrap version (default: 5)', type = int, default = 0x0005)
+    parser.add_argument('-f', '--source-code-flavour', help = 'source code flavour (default es5)', type = str, choices = ['es5', 'modern', 'vue-js'], default = 'es5')
 
-    parser.add_argument('--build', help = 'build both controls and subapps', action = 'store_true')
+    parser.add_argument('-r', '--run', help = 'run a web server', action = 'store_true')
+    parser.add_argument('-b', '--build', help = 'build JS bundles', action = 'store_true')
 
     parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
     parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
 
-    parser.add_argument('--git-commit-id', help = 'git commit id (default: \'HEAD\')', type = str, default = 'HEAD')
-    parser.add_argument('--bootstrap-version', help = 'bootstrap version (default: 5)', type = int, default = 0x0005)
+    parser.add_argument('--git-commit-id', help = 'git commit id (default: HEAD)', type = str, default = 'HEAD')
 
     parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
 
@@ -812,10 +836,10 @@ def main():
         return createHomePage(args.verbose, args.bootstrap_version)
 
     elif args.create_control:
-        return createControl(args.verbose)
+        return createControl(args.verbose, args.source_code_flavour)
 
     elif args.create_subapp:
-        return createSubapp(args.verbose)
+        return createSubapp(args.verbose, args.source_code_flavour)
 
     elif args.run:
         return run(args.verbose)
@@ -1058,7 +1082,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 
 ########################################################################################################################
 
-AWF_CONTROL_JS_TEMPLATE = '''/*!
+AWF_CONTROL_JS_ES5_TEMPLATE = '''/*!
  * AMI Web Framework
  *
  * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
@@ -1104,6 +1128,96 @@ $AMIClass('{{NAME}}Ctrl', {
 
 ########################################################################################################################
 
+AWF_CONTROL_JS_MODULE_TEMPLATE = '''/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+import 'assets/css/{{NAME}}Ctrl.css';
+
+import twig{{NAME}}Ctrl from 'assets/twig/{{NAME}}Ctrl.twig';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+$AMIClass('{{NAME}}Ctrl', {
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$extends: ami.Control,
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$init: function(parent, owner)
+	{
+		this.$super.$init(parent, owner);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onReady: function()
+	{
+
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+});
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+'''
+
+########################################################################################################################
+
+AWF_CONTROL_JS_VUE_JS_TEMPLATE = '''/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-XXXX The AMI Team / LPSC / CNRS
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+import 'assets/css/{{NAME}}Ctrl.css';
+
+import twig{{NAME}}Ctrl from 'assets/twig/{{NAME}}Ctrl.twig';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+$AMIClass('{{NAME}}Ctrl', {
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$extends: ami.Control,
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$init: function(parent, owner)
+	{
+		this.$super.$init(parent, owner);
+
+		# TODO #
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onReady: function()
+	{
+		# TODO #
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+});
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+'''
+
+########################################################################################################################
+
 AWF_CONTROL_CSS_TEMPLATE = ''''''
 
 ########################################################################################################################
@@ -1112,7 +1226,7 @@ AWF_CONTROL_TWIG_TEMPLATE = '''<div>{{NAME}}</div>'''
 
 ########################################################################################################################
 
-AWF_SUBAPP_JS_TEMPLATE = '''/*!
+AWF_SUBAPP_JS_ES5_TEMPLATE = '''/*!
  * AMI Web Framework
  *
  * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
@@ -1152,6 +1266,135 @@ $AMIClass('{{NAME}}App', {
 		});
 
 		return result;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onExit: function()
+	{
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onLogin: function()
+	{
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onLogout: function()
+	{
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+});
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* GLOBAL INSTANCE                                                                                                    */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+window.{{name}}App = new {{NAME}}App();
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+'''
+
+########################################################################################################################
+
+AWF_SUBAPP_JS_MODULE_TEMPLATE = '''/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+import 'assets/css/{{NAME}}App.css';
+
+import twig{{NAME}}App from 'assets/twig/{{NAME}}App.twig';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+$AMIClass('{{NAME}}App', {
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$extends: ami.SubApp,
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onReady: function(userdata)
+	{
+		const result = $.Deferred();
+
+		amiWebApp.replaceHTML('#ami_main_content', twig{{NAME}}App).done(() => {
+
+			result.resolve();
+		});
+
+		return result;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onExit: function()
+	{
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onLogin: function()
+	{
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onLogout: function()
+	{
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+});
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+/* GLOBAL INSTANCE                                                                                                    */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+window.{{name}}App = new {{NAME}}App();
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+'''
+
+########################################################################################################################
+
+AWF_SUBAPP_JS_VUE_JS_TEMPLATE = '''/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+import 'assets/css/{{NAME}}App.css';
+
+import twig{{NAME}}App from 'assets/twig/{{NAME}}App.twig';
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+$AMIClass('{{NAME}}App', {
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	$extends: ami.SubApp,
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	onReady: function(userdata)
+	{
+		# TODO #
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
