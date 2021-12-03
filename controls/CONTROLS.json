@@ -7,6 +7,10 @@
 		"clazz": "BookmarkBoxCtrl",
 		"file": "controls/BookmarkBox/js/BookmarkBoxCtrl.js"
 	},
+	"dashboardBox": {
+		"clazz": "DashboardBoxCtrl",
+		"file": "controls/DashboardBox/js/DashboardBoxCtrl.js"
+	},
 	"tab": {
 		"clazz": "TabCtrl",
 		"file": "controls/Tab/js/TabCtrl.js"
