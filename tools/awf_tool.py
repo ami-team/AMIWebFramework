@@ -761,7 +761,7 @@ def build(verbose):
 
         ################################################################################################################
 
-        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--mode production'])
+        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--mode', 'production'])
 
         ################################################################################################################
 
