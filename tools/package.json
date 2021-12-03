@@ -1,16 +1,14 @@
 {
-  "name": "project",
-  "version": "1.0.0",
-  "devDependencies": {
-    "@babel/core": "^7.16.0",
-    "@babel/eslint-parser": "^7.15.8",
-    "@babel/preset-env": "^7.14.4",
-    "eslint": "^7.32.0",
-    "eslint-plugin-ami": "^1.0.13",
-    "grunt": "^1.4.1",
-    "grunt-babel": "^8.0.0",
-    "grunt-eslint": "^24.0.0",
-    "grunt-jsdoc": "^2.4.1",
-    "jsdoc": "^3.6.7"
-  }
+	"name": "project",
+	"version": "1.0.0",
+	"devDependencies": {
+		"@babel/core": "^7.15.8",
+		"@babel/eslint-parser": "^7.15.8",
+		"@babel/preset-env": "^7.15.8",
+		"babel-loader": "^8.2.2",
+		"eslint-plugin-ami": "^1.0.14",
+		"terser-webpack-plugin": "^5.2.4",
+		"webpack": "^5.58.1",
+		"webpack-cli": "^4.9.0"
+	}
 }
