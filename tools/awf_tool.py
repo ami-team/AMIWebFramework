@@ -1137,9 +1137,9 @@ AWF_CONTROL_JS_MODULE_TEMPLATE = '''/*!
  *
  */
 
-import 'assets/css/{{NAME}}Ctrl.css';
+import './assets/css/{{NAME}}Ctrl.css';
 
-import twig{{NAME}}Ctrl from 'assets/twig/{{NAME}}Ctrl.twig';
+import twig{{NAME}}Ctrl from './assets/twig/{{NAME}}Ctrl.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -1310,9 +1310,9 @@ AWF_SUBAPP_JS_MODULE_TEMPLATE = '''/*!
  *
  */
 
-import 'assets/css/{{NAME}}App.css';
+import './assets/css/{{NAME}}App.css';
 
-import twig{{NAME}}App from 'assets/twig/{{NAME}}App.twig';
+import twig{{NAME}}App from './assets/twig/{{NAME}}App.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
