@@ -56,7 +56,7 @@ module.exports = function(grunt) {
 
 		"eslint": {
 			"options": {
-				"configFile": ".eslintrc.json",
+				"overrideConfigFile": ".eslintrc.json",
 				"failOnError": false,
 			},
 			"target": Object.values(ES6_FILES)
