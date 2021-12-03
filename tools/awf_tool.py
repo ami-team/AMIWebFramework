@@ -691,28 +691,6 @@ def createSubapp(verbose):
 
 ########################################################################################################################
 
-def transpile(verbose):
-
-    try:
-
-        ################################################################################################################
-
-        subprocess.check_call(['grunt', 'build'])
-
-        ################################################################################################################
-
-        return 0
-
-    except Exception as e:
-
-        print('error: %s' % e)
-
-        print('Try executing `npm install`')
-
-        return 1
-
-########################################################################################################################
-
 def run(verbose, port = 8000):
 
     ####################################################################################################################
@@ -753,13 +731,13 @@ def run(verbose, port = 8000):
 
 ########################################################################################################################
 
-def lint(verbose):
+def build(verbose):
 
     try:
 
         ################################################################################################################
 
-        subprocess.check_call(['grunt', 'lint'])
+        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--mode production'])
 
         ################################################################################################################
 
@@ -816,8 +794,7 @@ def main():
 
     parser.add_argument('--run', help = 'run a web server', action = 'store_true')
 
-    parser.add_argument('--lint', help = 'lint controls and subapps', action = 'store_true')
-    parser.add_argument('--transpile', help = 'transpile controls and subapps', action = 'store_true')
+    parser.add_argument('--build', help = 'build both controls and subapps', action = 'store_true')
 
     parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
     parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
@@ -843,11 +820,8 @@ def main():
     elif args.run:
         return run(args.verbose)
 
-    elif args.lint:
-        return lint(args.verbose)
-
-    elif args.transpile:
-        return transpile(args.verbose)
+    elif args.build:
+        return build(args.verbose)
 
     elif args.update_prod:
         return updateAWF(False, args.git_commit_id, args.verbose)
