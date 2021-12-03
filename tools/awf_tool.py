@@ -970,8 +970,6 @@ const config = {
 	],
 	'optimization': {
 		'minimizer': [
-			new CssnanoPlugin({
-			}),
 			new TerserPlugin({
 				'test': /\.min\.js$/,
 				'parallel': true,
