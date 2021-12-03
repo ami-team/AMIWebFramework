@@ -545,8 +545,7 @@ def createHomePage(verbose, bootstrapVersion):
 ########################################################################################################################
 
 def createControl(verbose, sourceCodeFlavour):
-    print(sourceCodeFlavour)
-    return
+
     try:
 
         ################################################################################################################
@@ -630,8 +629,7 @@ def createControl(verbose, sourceCodeFlavour):
 ########################################################################################################################
 
 def createSubapp(verbose, sourceCodeFlavour):
-    print(sourceCodeFlavour)
-    return
+
     try:
 
         ################################################################################################################
@@ -1112,8 +1110,8 @@ $AMIClass('{{NAME}}Ctrl', {
 	onReady: function()
 	{
 		return amiWebApp.loadResources([
-			amiWebApp.originURL + '/controls/{{NAME}}/css/{{NAME}}Ctrl.css',
-			amiWebApp.originURL + '/controls/{{NAME}}/twig/{{NAME}}Ctrl.twig',
+			amiWebApp.originURL + '/controls/{{NAME}}/assets/css/{{NAME}}Ctrl.css',
+			amiWebApp.originURL + '/controls/{{NAME}}/assets/twig/{{NAME}}Ctrl.twig',
 		]).done((data) => {
 
 			/* TODO */
@@ -1251,8 +1249,8 @@ $AMIClass('{{NAME}}App', {
 		const result = $.Deferred();
 
 		amiWebApp.loadResources([
-			'subapps/{{NAME}}/css/{{NAME}}App.css',
-			'subapps/{{NAME}}/twig/{{NAME}}App.twig',
+			'subapps/{{NAME}}/assets/css/{{NAME}}App.css',
+			'subapps/{{NAME}}/assets/twig/{{NAME}}App.twig',
 		]).done((data) => {
 
 			amiWebApp.replaceHTML('#ami_main_content', data[1]).done(() => {
