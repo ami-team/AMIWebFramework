@@ -607,7 +607,7 @@ def createControl(verbose, sourceCodeFlavour):
 
         USER_CONTROLS_JSON[name] = {
             'clazz': NAME + 'Ctrl',
-            'file': 'controls/' + NAME + '/js/' + NAME + 'Ctrl.min.js',
+            'file': 'controls/' + NAME + '/' + NAME + 'Ctrl.min.js',
         }
 
         saveJSON(os.path.join('controls', 'CONTROLS.json'), USER_CONTROLS_JSON)
@@ -692,7 +692,7 @@ def createSubapp(verbose, sourceCodeFlavour):
         USER_SUBAPPS_JSON[name] = {
             'breadcrumb': [],
             'instance': name + 'App',
-            'file': 'subapps/' + NAME + '/js/' + NAME + 'App.min.js',
+            'file': 'subapps/' + NAME + '/' + NAME + 'App.min.js',
         }
 
         saveJSON(os.path.join('subapps', 'SUBAPPS.json'), USER_SUBAPPS_JSON)
