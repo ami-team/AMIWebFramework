@@ -225,7 +225,7 @@ def saveText(fileName, data):
 
 ########################################################################################################################
 
-def updateWebpack():
+def updateWebpack(configFile):
 
     ####################################################################################################################
 
@@ -233,23 +233,23 @@ def updateWebpack():
 
     ####################################################################################################################
 
-    for path in glob.glob('controls/**/*.es6.js', recursive = True):
+    for path in sorted(glob.glob('controls/**/*.es6.js', recursive = True)):
 
         entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
 
     ####################################################################################################################
 
-    for path in glob.glob('subapps/**/*.es6.js', recursive = True):
+    for path in sorted(glob.glob('subapps/**/*.es6.js', recursive = True)):
 
         entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
 
     ####################################################################################################################
 
-    saveText('webpack.config.js', AWT_WEBPACK_CONFIG_TEMPLATE % ',\n'.join(entries))
+    saveText(configFile, AWT_WEBPACK_CONFIG_TEMPLATE % ',\n'.join(entries))
 
 ########################################################################################################################
 
-def updateAWF(inDebugMode, awfGITCommitId, verbose):
+def updateAWF(inDebugMode, awfGITCommitId, verbose, configFile = 'webpack.config.js'):
 
     ignore = [
         '*~', '.DS_Store', '.DS_Store?',
@@ -514,7 +514,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         ################################################################################################################
 
-        updateWebpack()
+        updateWebpack(configFile)
 
         ################################################################################################################
         ################################################################################################################
@@ -593,7 +593,7 @@ def createHomePage(verbose, bootstrapVersion):
 
 ########################################################################################################################
 
-def createControl(verbose, sourceCodeFlavour):
+def createControl(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
     try:
 
@@ -661,7 +661,7 @@ def createControl(verbose, sourceCodeFlavour):
 
         ################################################################################################################
 
-        updateWebpack()
+        updateWebpack(configFile)
 
         ################################################################################################################
 
@@ -675,7 +675,7 @@ def createControl(verbose, sourceCodeFlavour):
 
 ########################################################################################################################
 
-def createSubapp(verbose, sourceCodeFlavour):
+def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
     try:
 
@@ -744,7 +744,7 @@ def createSubapp(verbose, sourceCodeFlavour):
 
         ################################################################################################################
 
-        updateWebpack()
+        updateWebpack(configFile)
 
         ################################################################################################################
 
@@ -858,7 +858,7 @@ def main():
     parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
 
-    parser.add_argument('-v', '--bootstrap-version', help = 'bootstrap version (default: 5)', type = int, default = 0x0005)
+    parser.add_argument('-v', '--bootstrap-version', help = 'bootstrap version (default: 5)', type = int, default = 5)
     parser.add_argument('-f', '--source-code-flavour', help = 'source code flavour (default module)', type = str, choices = ['legacy', 'module', 'vue-js'], default = 'module')
 
     parser.add_argument('-r', '--run', help = 'run a web server', action = 'store_true')

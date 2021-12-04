@@ -1,4 +1,9 @@
 {
+    "adminDashboard": {
+        "breadcrumb": [],
+        "file": "subapps/AdminDashboard/AdminDashboardApp.min.js",
+        "instance": "adminDashboardApp"
+    },
     "bookmarkEditor": {
         "breadcrumb": [
             "User",
@@ -35,12 +40,12 @@
         "file": "subapps/ResetPassword/ResetPasswordApp.min.js",
         "instance": "resetPasswordApp"
     },
-	"userDashboard": {
-		"breadcrumb": [
-			"User",
-			"<a href=\"{{WEBAPP_URL}}?subapp=userDashboard\">User Dashboard</a>"
-		],
-		"file": "subapps/UserDashboard/UserDashboardApp.min.js",
-		"instance": "userDashboardApp"
-	}
+    "userDashboard": {
+        "breadcrumb": [
+            "User",
+            "<a href=\"{{WEBAPP_URL}}?subapp=userDashboard\">User Dashboard</a>"
+        ],
+        "file": "subapps/UserDashboard/UserDashboardApp.min.js",
+        "instance": "userDashboardApp"
+    }
 }
