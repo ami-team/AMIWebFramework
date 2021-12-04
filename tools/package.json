@@ -1,6 +1,11 @@
 {
-	"name": "project",
+	"name": "awf_project",
 	"version": "1.0.0",
+	"description": "AWF project",
+	"author": "",
+	"license": "",
+	"dependencies": {
+	},
 	"devDependencies": {
 		"@babel/core": "^7.15.8",
 		"@babel/eslint-parser": "^7.15.8",

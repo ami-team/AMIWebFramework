@@ -258,10 +258,15 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
     ]
 
+    packages = [
+    ]
+
     baseTempPath = os.path.join(os.path.expanduser('~'), '.awf-cache')
 
     try:
 
+        ################################################################################################################
+        ################################################################################################################
         ################################################################################################################
 
         print('##############################################################################')
@@ -285,8 +290,11 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
             'path': awfTempPath,
             'controls_json': loadJSON(os.path.join(awfTempPath,'controls', 'CONTROLS.json')),
             'subapps_json': loadJSON(os.path.join(awfTempPath, 'subapps', 'SUBAPPS.json')),
+            'package_json': {loadJSON(os.path.join(awfTempPath, 'tools', 'package.json'))},
         }]
 
+        ################################################################################################################
+        ################################################################################################################
         ################################################################################################################
 
         print('##############################################################################')
@@ -324,8 +332,11 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
                         'path': packageTempPath,
                         'controls_json': loadJSON(os.path.join(packageTempPath, 'controls', 'CONTROLS.json')),
                         'subapps_json': loadJSON(os.path.join(packageTempPath, 'subapps', 'SUBAPPS.json')),
+                        'package_json': loadJSON(os.path.join(packageTempPath, 'package.json')),
                     })
 
+        ################################################################################################################
+        ################################################################################################################
         ################################################################################################################
 
         print('##############################################################################')
@@ -344,10 +355,9 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         nb += copyFiles(awfTempPath, '.', None, '.', 'favicon.ico', verbose, False)
         nb += copyFiles(awfTempPath, '.', None, '.', '.eslintrc.json', verbose, True)
+        nb += copyFiles(awfTempPath, '.', None, 'tools', 'package.json', verbose, False)
 
         nb += copyFiles(awfTempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
-
-        nb += copyFiles(awfTempPath, '.', 'package.json', 'tools', 'package.json', verbose, True)
 
         print('-> %d files copied.' % nb)
 
@@ -365,6 +375,32 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         replaceStrInFile(os.path.join('js', 'ami.min.js'), '{{AMI_COMMIT_ID}}', awfGITCommitId)
 
+        ################################################################################################################
+        ################################################################################################################
+        ################################################################################################################
+
+        print('##############################################################################')
+        print('# COLLECT DEPENDENCIES...                                                    #')
+        print('##############################################################################')
+
+        ################################################################################################################
+
+        USER_PACKAGE_JSON = loadJSON('package.json')
+
+        ################################################################################################################
+
+        for package in PACKAGES:
+
+            if 'dependencies' in package:
+
+                USER_PACKAGE_JSON['dependencies'].update(package['dependencies'])
+
+        ################################################################################################################
+
+        USER_PACKAGE_JSON['devDependencies'] = PACKAGES[0]['devDependencies']
+
+        ################################################################################################################
+        ################################################################################################################
         ################################################################################################################
 
         print('##############################################################################')
@@ -415,6 +451,8 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         saveJSON(os.path.join('controls', 'CONTROLS.json'), USER_CONTROLS_JSON)
 
         ################################################################################################################
+        ################################################################################################################
+        ################################################################################################################
 
         print('##############################################################################')
         print('# INSTALLING SUBAPPS...                                                      #')
@@ -464,6 +502,8 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         saveJSON(os.path.join('subapps', 'SUBAPPS.json'), USER_SUBAPPS_JSON)
 
         ################################################################################################################
+        ################################################################################################################
+        ################################################################################################################
 
         print('##############################################################################')
         print('# GENERATING `webpack.config.js`...                                          #')
@@ -473,6 +513,8 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         updateWebpack()
 
+        ################################################################################################################
+        ################################################################################################################
         ################################################################################################################
 
         print('##############################################################################')
@@ -585,12 +627,10 @@ def createControl(verbose, sourceCodeFlavour):
 
         ################################################################################################################
 
-        if   sourceCodeFlavour == 'es5':
+        if   sourceCodeFlavour == 'legacy':
             XXX_CONTROL_JS_TEMPLATE = AWF_CONTROL_JS_ES5_TEMPLATE
-
         elif sourceCodeFlavour == 'module':
             XXX_CONTROL_JS_TEMPLATE = AWF_CONTROL_JS_MODULE_TEMPLATE
-
         elif sourceCodeFlavour == 'vue-js':
             XXX_CONTROL_JS_TEMPLATE = AWF_CONTROL_JS_VUE_JS_TEMPLATE
 
@@ -669,12 +709,10 @@ def createSubapp(verbose, sourceCodeFlavour):
 
         ################################################################################################################
 
-        if   sourceCodeFlavour == 'es5':
+        if   sourceCodeFlavour == 'legacy':
             XXX_SUBAPP_JS_TEMPLATE = AWF_SUBAPP_JS_ES5_TEMPLATE
-
         elif sourceCodeFlavour == 'module':
             XXX_SUBAPP_JS_TEMPLATE = AWF_SUBAPP_JS_MODULE_TEMPLATE
-
         elif sourceCodeFlavour == 'vue-js':
             XXX_SUBAPP_JS_TEMPLATE = AWF_SUBAPP_JS_VUE_JS_TEMPLATE
 
@@ -818,7 +856,7 @@ def main():
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
 
     parser.add_argument('-v', '--bootstrap-version', help = 'bootstrap version (default: 5)', type = int, default = 0x0005)
-    parser.add_argument('-f', '--source-code-flavour', help = 'source code flavour (default module)', type = str, choices = ['es5', 'module', 'vue-js'], default = 'module')
+    parser.add_argument('-f', '--source-code-flavour', help = 'source code flavour (default module)', type = str, choices = ['legacy', 'module', 'vue-js'], default = 'module')
 
     parser.add_argument('-r', '--run', help = 'run a web server', action = 'store_true')
     parser.add_argument('-b', '--build', help = 'build JS bundles', action = 'store_true')
