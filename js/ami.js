@@ -14665,7 +14665,12 @@ var AMIAuth = function () {
         });
       }, function (message) {
         js_AMIWebApp._isReady = true;
-        result.reject(message);
+
+        AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function () {
+          result.reject(message);
+        }, function (message) {
+          result.reject(message);
+        });
       });
     });
     return result;

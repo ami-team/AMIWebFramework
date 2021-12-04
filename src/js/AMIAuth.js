@@ -168,7 +168,14 @@ class AMIAuth
 
 				amiWebApp._isReady = true;
 
-				result.reject(message);
+				this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then((/*---*/) => {
+
+					result.reject(message);
+
+				}, (message) => {
+
+					result.reject(message);
+				})
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
