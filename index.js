@@ -1,11 +1,11 @@
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-import * as AMIObject from './src/core/AMIObject';
+import * as AMIObject from './src/js/AMIObject';
 
-import amiCommand from './src/core/AMICommand';
-import amiWebApp from './src/core/AMIWebApp';
-import amiAuth from './src/core/AMIAuth';
-import amiDoc from './src/core/AMIDoc';
+import amiCommand from './src/js/AMICommand';
+import amiWebApp from './src/js/AMIWebApp';
+import amiAuth from './src/js/AMIAuth';
+import amiDoc from './src/js/AMIDoc';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 

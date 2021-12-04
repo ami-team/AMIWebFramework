@@ -3,11 +3,11 @@
 module.exports = {
 
 	"source": {
-		"include": ["../core", "../core/utilities"],
+		"include": ["../js", "../js/utilities"],
 		"includePattern": ".js$",
 	},
 	"opts": {
-		"template": "./",
-		"destination": "../core"
+		"template": ".",
+		"destination": "../js"
 	}
 }
