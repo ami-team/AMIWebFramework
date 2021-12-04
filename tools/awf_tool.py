@@ -55,8 +55,6 @@ def gitClone(tempPath, url, commit_id, retry = True):
     # CLONE REPOSITORY                                                                                                 #
     ####################################################################################################################
 
-    print('Working directory: `%s`' % tempPath)
-
     if not os.path.isdir(tempPath):
 
         subprocess.check_call(['git', 'clone', url, tempPath])
