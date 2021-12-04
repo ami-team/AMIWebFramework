@@ -391,13 +391,15 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
         for index, package in enumerate(PACKAGES):
 
-            if index >= 0 and 'dependencies' in package:
+            if index >= 0:
+                if 'dependencies' in package:
 
-                USER_PACKAGE_JSON['dependencies'].update(package['dependencies'])
+                    USER_PACKAGE_JSON['dependencies'].update(package['dependencies'])
 
-            if index == 0 and 'devDependencies' in package:
+            else:
+                if 'devDependencies' in package:
 
-                USER_PACKAGE_JSON['devDependencies'] = dict(package['devDependencies'])
+                    USER_PACKAGE_JSON['devDependencies'] = dict(package['devDependencies'])
 
         ################################################################################################################
 
