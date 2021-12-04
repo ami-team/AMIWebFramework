@@ -1,18 +1,18 @@
 {
 	"accordion": {
 		"clazz": "AccordionCtrl",
-		"file": "controls/Accordion/js/AccordionCtrl.js"
+		"file": "controls/Accordion/AccordionCtrl.min.js"
 	},
 	"bookmarkBox": {
 		"clazz": "BookmarkBoxCtrl",
-		"file": "controls/BookmarkBox/js/BookmarkBoxCtrl.js"
+		"file": "controls/BookmarkBox/BookmarkBoxCtrl.min.js"
 	},
 	"dashboardBox": {
 		"clazz": "DashboardBoxCtrl",
-		"file": "controls/DashboardBox/js/DashboardBoxCtrl.js"
+		"file": "controls/DashboardBo/DashboardBoxCtrl.min.js"
 	},
 	"tab": {
 		"clazz": "TabCtrl",
-		"file": "controls/Tab/js/TabCtrl.js"
+		"file": "controls/Tab/TabCtrl.min.js"
 	}
 }
