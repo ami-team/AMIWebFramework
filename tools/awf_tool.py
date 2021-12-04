@@ -17,7 +17,7 @@ AWF_GIT_URL = 'https://github.com/ami-team/awfwebpack.git'
 
 ########################################################################################################################
 
-import os, re, sys, glob, json, random, shutil, hashlib, argparse, tempfile, subprocess
+import os, re, sys, glob, json, random, shutil, hashlib, argparse, subprocess
 
 ########################################################################################################################
 
@@ -261,7 +261,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
     packages = [
     ]
 
-    baseTempPath = os.path.join(os.path.expanduser('~'), '.awf-cache')
+    baseTempPath = os.path.join(os.path.expanduser('~'), '.awf-cache', hashlib.md5(os.path.realpath(__file__).encode()).hexdigest())
 
     try:
 
