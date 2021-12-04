@@ -774,7 +774,7 @@ def build(verbose, configFile = 'webpack.config.js'):
 
         print('error: %s' % e)
 
-        print('Try executing `npm install`')
+        print('Please run `npm install` and try again')
 
         return 1
 
