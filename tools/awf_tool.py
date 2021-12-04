@@ -290,7 +290,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
             'path': awfTempPath,
             'controls_json': loadJSON(os.path.join(awfTempPath,'controls', 'CONTROLS.json')),
             'subapps_json': loadJSON(os.path.join(awfTempPath, 'subapps', 'SUBAPPS.json')),
-            'package_json': {loadJSON(os.path.join(awfTempPath, 'tools', 'package.json'))},
+            'package_json': loadJSON(os.path.join(awfTempPath, 'tools', 'package.json')),
         }]
 
         ################################################################################################################
