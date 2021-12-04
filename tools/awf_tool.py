@@ -443,11 +443,11 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
                 JS = package['subapps_json'][subapp]['file']
 
-                m = re.search('subapps\/([a-zA-Z0-9_.]+)\/[a-zA-Z0-9_.]+.js$', JS)
+                m = re.search('subapps\/([a-zA-Z0-9_.]+)\/([a-zA-Z0-9_.]+.js)$', JS)
 
                 if m is not None:
 
-                    nb += copyFiles(package['path'], 'subapps', None, 'subapps', m.group(1), verbose)
+                    nb += copyFiles(package['path'], 'subapps/' + m.group(1), None, 'subapps/' + m.group(1), m.group(2), verbose)
 
                     ignore.append('/subapps/' + m.group(1))
 
