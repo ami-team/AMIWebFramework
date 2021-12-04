@@ -401,10 +401,10 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
                 if m is not None:
 
-                    nb += copyFiles(package['path'], 'controls/assets/fonts', None, 'controls/assets/fonts', '*', True)
-                    nb += copyFiles(package['path'], 'controls/assets/images', None, 'controls/assets/images', '*', True)
+                    nb += copyFiles(package['path'], os.path.join('controls', m.group(1), 'assets', 'fonts'), None, os.path.join('controls', m.group(1), 'assets', 'fonts'), '*', True)
+                    nb += copyFiles(package['path'], os.path.join('controls', m.group(1), 'assets', 'images'), None, os.path.join('controls', m.group(1), 'assets', 'images'), '*', True)
 
-                    nb += copyFiles(package['path'], 'controls/' + m.group(1), None, 'controls/' + m.group(1), m.group(2), verbose)
+                    nb += copyFiles(package['path'], os.path.join('controls', m.group(1)), None, os.path.join('controls', m.group(1)), m.group(2), verbose)
 
                     ignore.append('/controls/' + m.group(1))
 
@@ -450,10 +450,10 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
                 if m is not None:
 
-                    nb += copyFiles(package['path'], 'subapps/assets/fonts', None, 'subapps/assets/fonts', '*', True)
-                    nb += copyFiles(package['path'], 'subapps/assets/images', None, 'subapps/assets/images', '*', True)
+                    nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'fonts'), None, os.path.join('subapps', m.group(1), 'assets', 'fonts'), '*', True)
+                    nb += copyFiles(package['path'], os.path.join('subapps', m.group(1), 'assets', 'images'), None, os.path.join('subapps', m.group(1), 'assets', 'images'), '*', True)
 
-                    nb += copyFiles(package['path'], 'subapps/' + m.group(1), None, 'subapps/' + m.group(1), m.group(2), verbose)
+                    nb += copyFiles(package['path'], os.path.join('subapps', m.group(1)), None, os.path.join('subapps', m.group(1)), m.group(2), verbose)
 
                     ignore.append('/subapps/' + m.group(1))
 
