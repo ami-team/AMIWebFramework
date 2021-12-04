@@ -394,13 +394,11 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
             json = package['package_json']
 
             if index > 0:
-                if 'dependencies' in package:
-
+                if 'dependencies' in json:
                     USER_PACKAGE_JSON['dependencies'].update(json['dependencies'])
 
             else:
-                if 'devDependencies' in package:
-
+                if 'devDependencies' in json:
                     USER_PACKAGE_JSON['devDependencies'] = dict(json['devDependencies'])
 
         ################################################################################################################
