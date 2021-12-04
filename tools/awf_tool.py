@@ -347,7 +347,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         nb += copyFiles(awfTempPath, '.', None, '.', 'favicon.ico', verbose, False)
         nb += copyFiles(awfTempPath, '.', None, '.', '.eslintrc.json', verbose, True)
 
-        #nb += copyFiles(awfTempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
+        nb += copyFiles(awfTempPath, '.', 'awf.py', 'tools', 'awf_stub.py', verbose, True)
 
         nb += copyFiles(awfTempPath, '.', 'package.json', 'tools', 'package.json', verbose, True)
 
@@ -397,13 +397,13 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
                 JS = package['controls_json'][control]['file']
 
-                idx = JS.find('/js/')
+                m = re.search('controls\/([a-zA-Z0-9_.]+)\/[a-zA-Z0-9_.]+.js$', JS)
 
-                if idx > 0:
+                if m is not None:
 
-                    nb += copyFiles(package['path'], 'controls', None, 'controls', JS[9: idx], verbose)
+                    nb += copyFiles(package['path'], 'controls', None, 'controls', m.group(1), verbose)
 
-                    ignore.append('/controls/' + JS[9: idx])
+                    ignore.append('/controls/' + m.group(1))
 
                 ########################################################################################################
 
@@ -443,13 +443,13 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
                 JS = package['subapps_json'][subapp]['file']
 
-                idx = JS.find('/js/')
+                m = re.search('subapps\/([a-zA-Z0-9_.]+)\/[a-zA-Z0-9_.]+.js$', JS)
 
-                if idx > 0:
+                if m is not None:
 
-                    nb += copyFiles(package['path'], 'subapps', None, 'subapps', JS[8: idx], verbose)
+                    nb += copyFiles(package['path'], 'subapps', None, 'subapps', m.group(1), verbose)
 
-                    ignore.append('/subapps/' + JS[8: idx])
+                    ignore.append('/subapps/' + m.group(1))
 
                 ########################################################################################################
 
