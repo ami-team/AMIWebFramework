@@ -9,6 +9,10 @@
  *
  */
 
+import twigTabCtrl from './assets/twig/TabCtrl.twig';
+import twigTab     from './assets/twig/tab.twig'    ;
+import twigItem    from './assets/twig/item.twig'   ;
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('TabCtrl', {
@@ -33,16 +37,7 @@ $AMIClass('TabCtrl', {
 
 	onReady: function()
 	{
-		return amiWebApp.loadResources([
-			`${amiWebApp.originURL}/controls/Tab/twig/TabCtrl.twig`,
-			`${amiWebApp.originURL}/controls/Tab/twig/item.twig`,
-			`${amiWebApp.originURL}/controls/Tab/twig/tab.twig`,
-		]).done((data) => {
-
-			this._twigTabCtrl = data[0];
-			this._twigItem = data[1];
-			this._twigTab = data[2];
-		});
+		return $.Deferred().resolve();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -70,7 +65,7 @@ $AMIClass('TabCtrl', {
 			card: this.ctx.card
 		};
 
-		this.replaceHTML(this.setSelector(selector), this._twigTabCtrl, {dict: dict}).done(() => {
+		this.replaceHTML(this.setSelector(selector), twigTabCtrl, {dict: dict}).done(() => {
 
 			result.resolveWith(this.ctx.context);
 		});
@@ -152,13 +147,13 @@ $AMIClass('TabCtrl', {
 
 		if(mode === 0)
 		{
-			promise1 = this.prependHTML(`${this.getSelector()} > ${tabSelector}`, this._twigTab, {dict: dict});
-			promise2 = this.prependHTML(`${this.getSelector()} > ${contentSelector}`, this._twigItem, {dict: dict});
+			promise1 = this.prependHTML(`${this.getSelector()} > ${tabSelector}`, twigTab, {dict: dict});
+			promise2 = this.prependHTML(`${this.getSelector()} > ${contentSelector}`, twigItem, {dict: dict});
 		}
 		else
 		{
-			promise1 = this.appendHTML(`${this.getSelector()} > ${tabSelector}`, this._twigTab, {dict: dict});
-			promise2 = this.appendHTML(`${this.getSelector()} > ${contentSelector}`, this._twigItem, {dict: dict});
+			promise1 = this.appendHTML(`${this.getSelector()} > ${tabSelector}`, twigTab, {dict: dict});
+			promise2 = this.appendHTML(`${this.getSelector()} > ${contentSelector}`, twigItem, {dict: dict});
 		}
 
 		promise1.done(() => {

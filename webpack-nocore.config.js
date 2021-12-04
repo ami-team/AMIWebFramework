@@ -41,6 +41,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const config = {
 	'entry': {
 		'controls/Accordion/AccordionCtrl': path.resolve(__dirname, 'controls/Accordion/AccordionCtrl.es6.js'),
+		'controls/Tab/TabCtrl': path.resolve(__dirname, 'controls/Tab/TabCtrl.es6.js'),
 		'subapps/BookmarkEditor/BookmarkEditorApp': path.resolve(__dirname, 'subapps/BookmarkEditor/BookmarkEditorApp.es6.js'),
 		'subapps/Command/CommandApp': path.resolve(__dirname, 'subapps/Command/CommandApp.es6.js'),
 		'subapps/Document/DocumentApp': path.resolve(__dirname, 'subapps/Document/DocumentApp.es6.js'),
