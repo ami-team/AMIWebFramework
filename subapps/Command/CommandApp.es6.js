@@ -11,6 +11,12 @@
  *
  */
 
+import twigCommandApp from './assets/twig/CommandApp.twig';
+import twigCommand    from './assets/twig/command.twig'   ;
+import twigResult     from './assets/twig/result.twig'    ;
+
+import saveAs from './filesaver.min';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('CommandApp', {
@@ -24,25 +30,9 @@ $AMIClass('CommandApp', {
 	{
 		const result = $.Deferred();
 
-		amiWebApp.loadResources([
-			'subapps/Command/twig/CommandApp.twig',
-			'subapps/Command/twig/command.twig',
-			'subapps/Command/twig/result.twig',
-			/**/
-			'subapps/Command/js/filesaver.min.js',
-		]).done((data) => {
+		amiWebApp.replaceHTML('#ami_main_content', twigCommandApp, {dict: {command: userdata}}).done(() => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {dict: {command: userdata}}).done(() => {
-
-				this._twigCommand = data[1];
-				this._twigResult = data[2];
-
-				result.resolve();
-			});
-
-		}).fail((message) => {
-
-			result.reject(message);
+			result.resolve();
 		});
 
 		return result;
@@ -109,7 +99,7 @@ $AMIClass('CommandApp', {
 				}
 			});
 
-			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', this._twigCommand, {dict: dict}).done(() => {
+			amiWebApp.replaceHTML('#D847C44B_D28F_49B3_AF79_7A68B3305ED2', twigCommand, {dict: dict}).done(() => {
 
 				result.resolve();
 			});
@@ -149,7 +139,7 @@ $AMIClass('CommandApp', {
 					url: url,
 				};
 
-				amiWebApp.prependHTML('#AB4BA483_EE27_44D0_BB54_F5BFCFE4DA7E', this._twigResult, {dict: dict}).done(() => {
+				amiWebApp.prependHTML('#AB4BA483_EE27_44D0_BB54_F5BFCFE4DA7E', twigResult, {dict: dict}).done(() => {
 
 					amiWebApp.unlock();
 				});

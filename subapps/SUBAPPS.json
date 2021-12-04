@@ -4,7 +4,7 @@
             "User",
             "<a href=\"{{WEBAPP_URL}}?subapp=bookmarkEditor\">Bookmark Editor</a>"
         ],
-        "file": "subapps/BookmarkEditor/js/BookmarkEditorApp.js",
+        "file": "subapps/BookmarkEditor/BookmarkEditorApp.min.js",
         "instance": "bookmarkEditorApp"
     },
     "command": {
@@ -12,11 +12,11 @@
             "Tools",
             "<a href=\"{{WEBAPP_URL}}?subapp=command\">Command</a>"
         ],
-        "file": "subapps/Command/js/CommandApp.js",
+        "file": "subapps/Command/CommandApp.min.js",
         "instance": "commandApp"
     },
     "document": {
-        "file": "subapps/Document/js/DocumentApp.js",
+        "file": "subapps/Document/DocumentApp.min.js",
         "instance": "documentApp"
     },
     "emergency": {
@@ -24,7 +24,7 @@
             "Tools",
             "<a href=\"{{WEBAPP_URL}}?subapp=emergency\">Emergency</a>"
         ],
-        "file": "subapps/Emergency/js/EmergencyApp.js",
+        "file": "subapps/Emergency/EmergencyApp.min.js",
         "instance": "emergencyApp"
     },
     "resetPassword": {
@@ -32,7 +32,7 @@
             "User",
             "<a href=\"{{WEBAPP_URL}}?subapp=resetPassword\">Reset Password</a>"
         ],
-        "file": "subapps/ResetPassword/js/ResetPasswordApp.js",
+        "file": "subapps/ResetPassword/ResetPasswordApp.min.js",
         "instance": "resetPasswordApp"
     },
 	"userDashboard": {
@@ -40,7 +40,7 @@
 			"User",
 			"<a href=\"{{WEBAPP_URL}}?subapp=userDashboard\">User Dashboard</a>"
 		],
-		"file": "subapps/UserDashboard/js/UserDashboardApp.js",
+		"file": "subapps/UserDashboard/UserDashboardApp.min.js",
 		"instance": "userDashboardApp"
 	}
 }

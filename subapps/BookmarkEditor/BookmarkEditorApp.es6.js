@@ -9,6 +9,9 @@
  *
  */
 
+import twigBookmarkEditorApp from './assets/twig/BookmarkEditorApp.twig';
+import twigItems             from './assets/twig/items.twig'            ;
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('BookmarkEditorApp', {
@@ -64,98 +67,86 @@ $AMIClass('BookmarkEditorApp', {
 	{
 		const result = $.Deferred();
 
-		amiWebApp.loadResources([
-			'subapps/BookmarkEditor/twig/BookmarkEditorApp.twig',
-			'subapps/BookmarkEditor/twig/items.twig',
-		]).done((data) => {
+		const dict = {
+			mode: (userdata || 'home').trim()
+		};
 
-			const dict = {
-				mode: (userdata || 'home').trim()
-			};
+		amiWebApp.replaceHTML('#ami_main_content', twigBookmarkEditorApp, {dict: dict}).done(() => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0], {dict: dict}).done(() => {
+			/*--------------------------------------------------------------------------------------------------------*/
 
-				/*----------------------------------------------------------------------------------------------------*/
-
-				amiWebApp.loadResources([
-					'subapps/BookmarkEditor/js/jquery-ui.min.js',
-				]).done(() => {
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					this.makeSortable(this.bookmarkProfile, $('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1'));
-
-					this.makeSortable(this.dashboardProfile, $('#D89CE3F5_9D1D_B338_D895_C344CD4FFE08'));
-
-					/*------------------------------------------------------------------------------------------------*/
-
-				}).fail(function(data) {
-
-					amiWebApp.error(data);
-				});
+			amiWebApp.loadResources([
+				'subapps/BookmarkEditor/jquery-ui.min.js',
+			]).done(() => {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				this._twigItems = data[1];
+				this.makeSortable(this.bookmarkProfile, $('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1'));
 
-				this._swapNb = 0;
-
-				/*----------------------------------------------------------------------------------------------------*/
-				/* BOOKMARKS                                                                                          */
-				/*----------------------------------------------------------------------------------------------------*/
-
-				this.setUpdateMode(this.bookmarkProfile, false);
-
-				$(this.bookmarkProfile.clearId).click((e) => {
-
-					this.clear(this.bookmarkProfile);
-					e.preventDefault();
-				});
-
-				$(this.bookmarkProfile.removeId).click((e) => {
-
-					this.remove(this.bookmarkProfile);
-					e.preventDefault();
-				});
-
-				$(this.bookmarkProfile.addUpdateId).click((e) => {
-
-					this.save(this.bookmarkProfile);
-					e.preventDefault();
-				});
-
-				/*----------------------------------------------------------------------------------------------------*/
-				/* BOOKMARKS                                                                                          */
-				/*----------------------------------------------------------------------------------------------------*/
-
-				this.setUpdateMode(this.dashboardProfile, false);
-
-				$(this.dashboardProfile.clearId).click((e) => {
-
-					this.clear(this.dashboardProfile);
-					e.preventDefault();
-				});
-
-				$(this.dashboardProfile.removeId).click((e) => {
-
-					this.remove(this.dashboardProfile);
-					e.preventDefault();
-				});
-
-				$(this.dashboardProfile.addUpdateId).click((e) => {
-
-					this.save(this.dashboardProfile);
-					e.preventDefault();
-				});
+				this.makeSortable(this.dashboardProfile, $('#D89CE3F5_9D1D_B338_D895_C344CD4FFE08'));
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				result.resolve();
+			}).fail(function(data) {
+
+				amiWebApp.error(data);
 			});
 
-		}).fail(function(data) {
+			/*--------------------------------------------------------------------------------------------------------*/
 
-			result.reject(data);
+			this._swapNb = 0;
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* BOOKMARKS                                                                                              */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this.setUpdateMode(this.bookmarkProfile, false);
+
+			$(this.bookmarkProfile.clearId).click((e) => {
+
+				this.clear(this.bookmarkProfile);
+				e.preventDefault();
+			});
+
+			$(this.bookmarkProfile.removeId).click((e) => {
+
+				this.remove(this.bookmarkProfile);
+				e.preventDefault();
+			});
+
+			$(this.bookmarkProfile.addUpdateId).click((e) => {
+
+				this.save(this.bookmarkProfile);
+				e.preventDefault();
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* BOOKMARKS                                                                                              */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			this.setUpdateMode(this.dashboardProfile, false);
+
+			$(this.dashboardProfile.clearId).click((e) => {
+
+				this.clear(this.dashboardProfile);
+				e.preventDefault();
+			});
+
+			$(this.dashboardProfile.removeId).click((e) => {
+
+				this.remove(this.dashboardProfile);
+				e.preventDefault();
+			});
+
+			$(this.dashboardProfile.addUpdateId).click((e) => {
+
+				this.save(this.dashboardProfile);
+				e.preventDefault();
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			result.resolve();
 		});
 
 		return result;
@@ -294,7 +285,7 @@ $AMIClass('BookmarkEditorApp', {
 			items: items,
 		};
 
-		amiWebApp.replaceHTML(profile.listId, this._twigItems, {dict: dict});
+		amiWebApp.replaceHTML(profile.listId, twigItems, {dict: dict});
 
     	/*------------------------------------------------------------------------------------------------------------*/
     },

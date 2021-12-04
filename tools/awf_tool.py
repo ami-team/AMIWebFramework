@@ -713,6 +713,28 @@ def createSubapp(verbose, sourceCodeFlavour):
 
 ########################################################################################################################
 
+def build(verbose, configFile = 'webpack.config.js'):
+
+    try:
+
+        ################################################################################################################
+
+        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--config', configFile, '--mode', 'production'])
+
+        ################################################################################################################
+
+        return 0
+
+    except Exception as e:
+
+        print('error: %s' % e)
+
+        print('Try executing `npm install`')
+
+        return 1
+
+########################################################################################################################
+
 def run(verbose, port = 8000):
 
     ####################################################################################################################
@@ -750,28 +772,6 @@ def run(verbose, port = 8000):
     except KeyboardInterrupt:
 
         print('bye.')
-
-########################################################################################################################
-
-def build(verbose):
-
-    try:
-
-        ################################################################################################################
-
-        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--mode', 'production'])
-
-        ################################################################################################################
-
-        return 0
-
-    except Exception as e:
-
-        print('error: %s' % e)
-
-        print('Try executing `npm install`')
-
-        return 1
 
 ########################################################################################################################
 
@@ -839,11 +839,11 @@ def main():
     elif args.create_subapp:
         return createSubapp(args.verbose, args.source_code_flavour)
 
-    elif args.run:
-        return run(args.verbose)
-
     elif args.build:
         return build(args.verbose)
+
+    elif args.run:
+        return run(args.verbose)
 
     elif args.update_prod:
         return updateAWF(False, args.git_commit_id, args.verbose)
@@ -893,7 +893,6 @@ console.log('Building: ' + BROWSER_LIST.join(', '));
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 const path = require('path');
-const webpack = require('webpack');
 
 const ESLintPlugin = require('eslint-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');

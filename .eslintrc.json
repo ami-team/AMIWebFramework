@@ -10,6 +10,8 @@
 		"sourceType": "module"
 	},
 
+	"ignorePatterns": ["**/*.min.js"],
+
 	"plugins": [
 		"ami"
 	],
@@ -18,12 +20,6 @@
 		"browser": true,
 		"node": true,
 		"es6": true
-	},
-
-	"globals": {
-		"$": false,
-		"jQuery": false,
-		"module": false
 	},
 
 	"rules": {

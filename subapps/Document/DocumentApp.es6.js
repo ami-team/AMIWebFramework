@@ -11,6 +11,10 @@
  *
  */
 
+import twigDocumentApp from './assets/twig/DocumentApp.twig';
+
+import marked from './marked.min';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* DocumentApp                                                                                                        */
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -26,48 +30,38 @@ $AMIClass('DocumentApp', {
 	{
 		const result = $.Deferred();
 
-		amiWebApp.loadResources([
-			'subapps/Document/twig/DocumentApp.twig',
-			'subapps/Document/js/marked.min.js',
-		]).done((data) => {
+		/*------------------------------------------------------------------------------------------------------------*/
 
-			/*--------------------------------------------------------------------------------------------------------*/
+		this.markdownOptions = {
+			gfm: true,
+			tables: true,
+			breaks: false,
+			pedantic: false,
+			sanitize: false,
+			smartLists: true,
+			smartypants: false,
+			xhtml: true,
+			renderer: new marked.Renderer(),
+		};
 
-			this.markdownOptions = {
-				gfm: true,
-				tables: true,
-				breaks: false,
-				pedantic: false,
-				sanitize: false,
-				smartLists: true,
-				smartypants: false,
-				xhtml: true,
-				renderer: new marked.Renderer(),
-			};
+		this.markdownOptions.renderer.table = (header, body) => '<table class="table table-striped"><thead>' + header + '</thead><tbody>\n' + body + '</tbody></table>';
 
-			this.markdownOptions.renderer.table = (header, body) => '<table class="table table-striped"><thead>' + header + '</thead><tbody>\n' + body + '</tbody></table>';
+		/*------------------------------------------------------------------------------------------------------------*/
 
-			/*--------------------------------------------------------------------------------------------------------*/
+		amiWebApp.replaceHTML('#ami_main_content', twigDocumentApp).done(() => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
+			$('#EA7E94EC_0876_F03C_9655_0985670D51B4').hide();
+			$('#D2D815F2_0DB1_F1EF_1B81_A76A55F1ACCF').hide();
 
-				$('#EA7E94EC_0876_F03C_9655_0985670D51B4').hide();
-				$('#D2D815F2_0DB1_F1EF_1B81_A76A55F1ACCF').hide();
+			$('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').change((e) => {
 
-				$('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').change((e) => {
-
-					amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.toHtml($(e.currentTarget).val()));
-				});
-
-				result.resolve();
+				amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.toHtml($(e.currentTarget).val()));
 			});
 
-			/*--------------------------------------------------------------------------------------------------------*/
-
-		}).fail((message) => {
-
-			result.reject(message);
+			result.resolve();
 		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		return result;
 	},

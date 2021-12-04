@@ -154,8 +154,8 @@ function _xxxHTML(selector, twig, mode, options)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const _find = (mode === 3) ? (_selector) => el.find(selector)
-		                                              .addBack(selector)
+		const _find = (mode === 3) ? (_selector) => el.find(_selector)
+		                                              .addBack(_selector)
 		                           : (_selector) => el.find(_selector)
 		;
 

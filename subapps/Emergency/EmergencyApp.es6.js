@@ -9,6 +9,8 @@
  *
  */
 
+import twigEmergencyApp from './assets/twig/EmergencyApp.twig';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('EmergencyApp', {
@@ -22,18 +24,9 @@ $AMIClass('EmergencyApp', {
 	{
 		const result = $.Deferred();
 
-		amiWebApp.loadResources([
-			'subapps/Emergency/twig/EmergencyApp.twig',
-		]).done((data) => {
+		amiWebApp.replaceHTML('#ami_main_content', twigEmergencyApp).done(() => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[0]).done(() => {
-
-				result.resolve();
-			});
-
-		}).fail((message) => {
-
-			result.reject(message);
+			result.resolve();
 		});
 
 		return result;

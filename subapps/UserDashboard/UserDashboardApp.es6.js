@@ -11,6 +11,13 @@
  *
  */
 
+import './assets/css/UserDashboardApp.css';
+
+import twigUserDashboardApp from './assets/twig/UserDashboardApp.twig';
+
+import './gridstack.min.css';
+import GridStack from './gridstack-h5.min';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('UserDashboardApp', {
@@ -24,41 +31,28 @@ $AMIClass('UserDashboardApp', {
 	{
 		const result = $.Deferred();
 
-		amiWebApp.loadResources([
-			'subapps/UserDashboard/css/UserDashboardApp.css',
-			'subapps/UserDashboard/twig/UserDashboardApp.twig',
-			/**/
-			'subapps/UserDashboard/js/gridstack.min.css',
-			'subapps/UserDashboard/js/gridstack-h5.min.js',
-		]).done((data) => {
+		amiWebApp.replaceHTML('#ami_main_content', twigUserDashboardApp).done(() => {
 
-			amiWebApp.replaceHTML('#ami_main_content', data[1]).done(() => {
+			/*--------------------------------------------------------------------------------------------------------*/
 
-				/*----------------------------------------------------------------------------------------------------*/
-
-				this.gridstack = GridStack.init({
-					float: true,
-					cellHeight: 36,
-					staticGrid: true,
-					verticalMargin: 12,
-					width: 12,
-				});
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				this.gridstack.on('dragstop resizestop', (e, el) => {
-
-					this.updateWidget(el.gridstackNode);
-				});
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				result.resolve();
+			this.gridstack = GridStack.init({
+				float: true,
+				cellHeight: 36,
+				staticGrid: true,
+				verticalMargin: 12,
+				width: 12,
 			});
 
-		}).fail((data) => {
+			/*--------------------------------------------------------------------------------------------------------*/
 
-			result.reject(data);
+			this.gridstack.on('dragstop resizestop', (e, el) => {
+
+				this.updateWidget(el.gridstackNode);
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			result.resolve();
 		});
 
 		return result;
