@@ -258,10 +258,7 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
         '/.eslintrc.json', '/.settings', '/.idea', '/*.iml',
     ]
 
-    packages = [
-    ]
-
-    baseTempPath = os.path.join(os.path.expanduser('~'), '.awf-cache', hashlib.md5(os.path.realpath(__file__).encode()).hexdigest())
+    baseTempPath = os.path.join(os.path.expanduser('~'), '.awf-cache', hashlib.md5(os.path.realpath(__file__).encode()).hexdigest()[0: 8])
 
     try:
 
