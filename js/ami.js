@@ -9058,19 +9058,48 @@ var __webpack_exports__ = {};
 "use strict";
 
 ;// CONCATENATED MODULE: ./src/js/AMIObject.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
-let $this;
-if (typeof window !== "undefined") {
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* NAMESPACE HELPERS                                                                                                  */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+var $this;
+/**/
+
+if (typeof window !== 'undefined') {
   $this = window;
-} else if (typeof __webpack_require__.g !== "undefined") {
+} else if (typeof __webpack_require__.g !== 'undefined') {
   $this = __webpack_require__.g;
 } else {
-  throw "Neither 'window' nor 'global' is defined";
+  throw 'Neither \'window\' nor \'global\' is defined';
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {string} $name
+ * @param {Object<string, *>} x
+ * @private
+ */
+
+
 function _$createNamespace($name, x) {
-  let i;
-  let parent = $this;
-  const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
+  var i;
+  var parent = $this;
+  var parts = $name.split(/\s*\.\s*/g),
+      l = parts.length - 1;
+
   for (i = 0; i < l; i++) {
     if (parent[parts[i]]) {
       parent = parent[parts[i]];
@@ -9078,120 +9107,250 @@ function _$createNamespace($name, x) {
       parent = parent[parts[i]] = {};
     }
   }
+
   parent[parts[i]] = x;
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {string} $name
+ * @param {Object<string, *>} x
+ * @private
+ */
+
+
 function _$addToNamespace($name, x) {
-  let i;
-  let parent = $this;
-  const parts = $name.split(/\s*\.\s*/g), l = parts.length - 1;
+  var i;
+  var parent = $this;
+  var parts = $name.split(/\s*\.\s*/g),
+      l = parts.length - 1;
+
   for (i = 0; i < l; i++) {
     if (parent[parts[i]]) {
       parent = parent[parts[i]];
     } else {
-      throw `'${$name}' ('${parts[i]}') not declared`;
+      throw "'" + $name + "' ('" + parts[i] + "') not declared";
     }
   }
+
   parent[parts[i]] = x;
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* NAMESPACES                                                                                                         */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+  * Creates a new namespace
+  * @param {string} $name the namespace name
+  * @param {Object<string, *>} [$descr={}] the namespace body
+  */
+
+
 function $AMINamespace($name, $descr) {
   $descr = $descr || {};
+  /*----------------------------------------------------------------------------------------------------------------*/
+
   $descr.$name = $name;
+  /*----------------------------------------------------------------------------------------------------------------*/
+
   _$createNamespace($name, $descr);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if ($descr.$) {
     $descr.$.apply($descr);
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* INTERFACES                                                                                                         */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+  * Creates a new interface
+  * @param {string} $name the interface name
+  * @param {Object<string, *>} [$descr={}] the interface body
+  */
+
 function $AMIInterface($name, $descr) {
   $descr = $descr || {};
-  const $class = function() {
-    throw "could nor instantiate interface";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  var $class = function $class() {
+    throw 'could nor instantiate interface';
   };
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if ($descr.$extends) {
-    throw "`$extends` not allowed for interface";
+    throw '`$extends` not allowed for interface';
   }
+
   if ($descr.$implements) {
-    throw "`$implements` not allowed for interface";
+    throw '`$implements` not allowed for interface';
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if ($descr.$) {
-    throw "`$` not allowed for interface";
+    throw '`$` not allowed for interface';
   }
+
   if ($descr.$init) {
-    throw "`$init` not allowed for interface";
+    throw '`$init` not allowed for interface';
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   $class.$name = $name;
   $class.$class = $class;
   $class.$members = $descr;
+  /*----------------------------------------------------------------------------------------------------------------*/
+
   _$addToNamespace($name, $class);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* CLASSES                                                                                                            */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+  * Creates a new class
+  * @param {string} $name the class name
+  * @param {Object<string, *>} [$descr={}] the class body
+  */
+
 function $AMIClass($name, $descr) {
   $descr = $descr || {};
-  const $super = $descr.$extends instanceof Function ? $descr.$extends.prototype : {};
-  const $super_implements = $super.$implements instanceof Array ? $super.$implements : [];
-  const $descr_implements = $descr.$implements instanceof Array ? $descr.$implements : [];
-  const $class = function() {
-    for (const i in this.$implements) {
-      if (this.$implements.hasOwnProperty(i)) {
-        const $interface = this.$implements[i];
-        for (const j in $interface.$members) {
-          if ($interface.$members.hasOwnProperty(j)) {
-            const $member = $interface.$members[j];
-            if (typeof this[j] !== typeof $member) {
-              alert(`class '${this.$name}' must implement '${$interface.$name}.${j}'`);
-            }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  var $super = $descr.$extends instanceof Function ? $descr.$extends.prototype : {};
+  var $super_implements = $super.$implements instanceof Array ? $super.$implements : [];
+  var $descr_implements = $descr.$implements instanceof Array ? $descr.$implements : [];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  var $class = function $class() {
+    /*------------------------------------------------------------------------------------------------------------*/
+    for (var i in this.$implements) {
+      if (this.$implements.hasOwnProperty(i)) // eslint-disable-line no-prototype-builtins
+        {
+          var $interface = this.$implements[i];
+
+          for (var j in $interface.$members) {
+            if ($interface.$members.hasOwnProperty(j)) // eslint-disable-line no-prototype-builtins
+              {
+                var $member = $interface.$members[j];
+
+                if (typeof this[j] !== typeof $member) {
+                  alert("class '" + this.$name + "' must implement '" + $interface.$name + "." + j + "'"); // eslint-disable-line no-alert
+                }
+              }
           }
         }
-      }
     }
-    const _super = this.$class._internal_super;
-    const _added = this.$class._internal_added;
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
+    var _super = this.$class._internal_super;
+    var _added = this.$class._internal_added;
+    /*------------------------------------------------------------------------------------------------------------*/
+
     this.$super = {};
-    for (const name in _super) {
-      if (_super.hasOwnProperty(name)) {
-        this.$super[name] = ((_super2, name2, that) => function() {
-          return _super2[name2].apply(that, arguments);
-        })(_super, name, this);
-      }
+
+    for (var name in _super) {
+      if (_super.hasOwnProperty(name)) // eslint-disable-line no-prototype-builtins
+        {
+          this.$super[name] = function (_super, name, that) {
+            return function () {
+              return _super[name].apply(that, arguments);
+            };
+          }(_super, name, this);
+        }
     }
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
     this.$added = {};
-    for (const name in _added) {
-      if (_added.hasOwnProperty(name)) {
-        this.$added[name] = ((_added2, name2, that) => function() {
-          return _added2[name2].apply(that, arguments);
-        })(_added, name, this);
-      }
+
+    for (var _name in _added) {
+      if (_added.hasOwnProperty(_name)) // eslint-disable-line no-prototype-builtins
+        {
+          this.$added[_name] = function (_added, name, that) {
+            return function () {
+              return _added[name].apply(that, arguments);
+            };
+          }(_added, _name, this);
+        }
     }
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
     if (this.$init) {
       this.$init.apply(this, arguments);
     }
+    /*------------------------------------------------------------------------------------------------------------*/
+
   };
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   $class._internal_super = {};
   $class._internal_added = {};
-  for (const name in $super) {
-    if (name === "$init" || name.charAt(0) !== "$" || $super.hasOwnProperty(name)) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  for (var name in $super) {
+    if (name === '$init' || name.charAt(0) !== '$' || $super.hasOwnProperty(name) // eslint-disable-line no-prototype-builtins
+    ) {
       $class._internal_super[name] = $super[name];
       $class.prototype[name] = $super[name];
     }
   }
-  for (const name in $descr) {
-    if (name === "$init" || name.charAt(0) !== "$" || $descr.hasOwnProperty(name)) {
-      $class._internal_added[name] = $descr[name];
-      $class.prototype[name] = $descr[name];
+
+  for (var _name2 in $descr) {
+    if (_name2 === '$init' || _name2.charAt(0) !== '$' || $descr.hasOwnProperty(_name2) // eslint-disable-line no-prototype-builtins
+    ) {
+      $class._internal_added[_name2] = $descr[_name2];
+      $class.prototype[_name2] = $descr[_name2];
     }
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   $class.prototype.$name = $name;
   $class.prototype.$class = $class;
   $class.prototype.$implements = $super_implements.concat($descr_implements);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
   _$addToNamespace($name, $class);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if ($descr.$) {
     $descr.$.apply($class);
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
 }
-if (typeof jQuery !== "undefined") {
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* JQUERY EXTENSION                                                                                                   */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+if (typeof jQuery !== 'undefined') {
   jQuery.Namespace = $AMINamespace;
   jQuery.Interface = $AMIInterface;
   jQuery.Class = $AMIClass;
 }
-
+/*--------------------------------------------------------------------------------------------------------------------*/
 // EXTERNAL MODULE: ./node_modules/jspath/index.js
 var jspath = __webpack_require__(6915);
 var jspath_default = /*#__PURE__*/__webpack_require__.n(jspath);
@@ -10254,106 +10413,328 @@ if(typeof window !== 'undefined') window.AMIMQTTClient = AMIMQTTClient;
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 ;// CONCATENATED MODULE: ./src/js/AMICommand.js
-
-var __accessCheck = (obj, member, msg) => {
-  if (!member.has(obj))
-    throw TypeError("Cannot " + msg);
-};
-var __privateGet = (obj, member, getter) => {
-  __accessCheck(obj, member, "read from private field");
-  return getter ? getter.call(obj) : member.get(obj);
-};
-var __privateAdd = (obj, member, value) => {
-  if (member.has(obj))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-};
-var __privateSet = (obj, member, value, setter) => {
-  __accessCheck(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
-};
-var _httpClient, _mqttClient;
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
-class AMICommand {
-  constructor() {
-    __privateAdd(this, _httpClient, null);
-    __privateAdd(this, _mqttClient, null);
+function _classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
+
+var id = 0;
+
+function _classPrivateFieldLooseKey(name) { return "__private_" + id++ + "_" + name; }
+
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* AMICommand                                                                                                         */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+// noinspection JSUnusedGlobalSymbols
+
+/**
+ * The AMI command subsystem
+ * @namespace amiCommand
+ */
+
+var _httpClient = /*#__PURE__*/_classPrivateFieldLooseKey("httpClient");
+
+var _mqttClient = /*#__PURE__*/_classPrivateFieldLooseKey("mqttClient");
+
+var AMICommand = /*#__PURE__*/function () {
+  function AMICommand() {
+    Object.defineProperty(this, _httpClient, {
+      writable: true,
+      value: null
+    });
+    Object.defineProperty(this, _mqttClient, {
+      writable: true,
+      value: null
+    });
   }
-  initHttpClient(endpoint) {
-    __privateSet(this, _httpClient, new ami_http_client(endpoint));
+
+  var _proto = AMICommand.prototype;
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Initializes the HTTP client
+   * @param {string} endpoint the HTTP endpoint
+   */
+  _proto.initHttpClient = function initHttpClient(endpoint) {
+    _classPrivateFieldLooseBase(this, _httpClient)[_httpClient] = new ami_http_client(endpoint);
   }
-  initMqttClient(endpoint) {
-    __privateSet(this, _mqttClient, new ami_mqtt_client(endpoint));
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Initializes the MQTT client
+   * @param {string} endpoint the MQTT endpoint
+   */
+  ;
+
+  _proto.initMqttClient = function initMqttClient(endpoint) {
+    _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient] = new ami_mqtt_client(endpoint);
   }
-  getHttpEndpoint() {
-    return __privateGet(this, _httpClient) ? __privateGet(this, _httpClient).getEndpoint() : "";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the HTTP endpoint
+   * @returns {string}
+   */
+  ;
+
+  _proto.getHttpEndpoint = function getHttpEndpoint() {
+    return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient] ? _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].getEndpoint() : '';
   }
-  getMqttEndpoint() {
-    return __privateGet(this, _mqttClient) ? __privateGet(this, _mqttClient).getEndpoint() : "";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the MQTT endpoint
+   * @returns {string}
+   */
+  ;
+
+  _proto.getMqttEndpoint = function getMqttEndpoint() {
+    return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient] ? _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].getEndpoint() : '';
   }
-  execute(command, options) {
-    return typeof options === "object" && "mqtt" in options ? __privateGet(this, _mqttClient).execute(command, options) : __privateGet(this, _httpClient).execute(command, options);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Executes an AMI command
+   * @param {string} command the command
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.execute = function execute(command, options) {
+    return typeof options === 'object' && 'mqtt' in options ? _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].execute(command, options) : _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].execute(command, options);
   }
-  mqttSignInByToken(token, serverName) {
-    return __privateGet(this, _mqttClient).signInByToken(token, serverName);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Signs in by JWT token (MQTT client)
+   * @param {string} token the password
+   * @param {string} serverName the server name
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.mqttSignInByToken = function mqttSignInByToken(token, serverName) {
+    return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signInByToken(token, serverName);
   }
-  mqttSignOut(options) {
-    return __privateGet(this, _mqttClient).signOut(options);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Signs out (MQTT client)
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.mqttSignOut = function mqttSignOut(options) {
+    return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signOut(options);
   }
-  signInByPassword(username, password, options) {
-    return __privateGet(this, _httpClient).signInByPassword(username, password, options);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Signs in by login/password (HTTP client)
+   * @param {string} username the username
+   * @param {string} password the password
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.signInByPassword = function signInByPassword(username, password, options) {
+    return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByPassword(username, password, options);
   }
-  signInByCertificate(options) {
-    return __privateGet(this, _httpClient).signInByCertificate(options);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Signs in by certificate (HTTP client)
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.signInByCertificate = function signInByCertificate(options) {
+    return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByCertificate(options);
   }
-  signOut(options) {
-    return __privateGet(this, _httpClient).signOut(options).always(() => {
-      return __privateGet(this, _mqttClient).signOut(options).done(() => {
-        console.log("MQTT connection closed too");
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Signs out (HTTP client)
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.signOut = function signOut(options) {
+    var _this = this;
+
+    return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signOut(options).always(function () {
+      return _classPrivateFieldLooseBase(_this, _mqttClient)[_mqttClient].signOut(options).done(function () {
+        console.log('MQTT connection closed too');
       });
     });
   }
-  attachCertificate(username, password, options) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Attaches a certificate
+   * @param {string} username the username
+   * @param {string} password the password
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.attachCertificate = function attachCertificate(username, password, options) {
     options = options || {};
     options.params = [username, password];
-    return this.execute("GetSessionInfo -attachCert -amiLogin=? -amiPassword=?", options);
+    return this.execute('GetSessionInfo -attachCert -amiLogin=? -amiPassword=?', options);
   }
-  detachCertificate(username, password, options) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Detaches a certificate
+   * @param {string} username the username
+   * @param {string} password the password
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.detachCertificate = function detachCertificate(username, password, options) {
     options = options || {};
     options.params = [username, password];
-    return this.execute("GetSessionInfo -detachCert -amiLogin=? -amiPassword=?", options);
+    return this.execute('GetSessionInfo -detachCert -amiLogin=? -amiPassword=?', options);
   }
-  addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Adds a new username
+   * @param {string} username the username
+   * @param {string} password the password
+   * @param {string} firstName the first name
+   * @param {string} lastName the last name
+   * @param {string} email the email
+   * @param {string} captchaHash the captcha hash generated by AMI
+   * @param {string} captchaText the captcha text entered by the username
+   * @param {boolean} attachCert attach the current certificate
+   * @param {boolean} agree agree with the terms and conditions
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.addUser = function addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options) {
     options = options || {};
     options.params = [username, password, firstName, lastName, email, captchaHash, captchaText];
-    return this.execute("AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? " + (attachCert ? " -attachCert" : "") + (agree ? " -agree" : ""), options);
+    return this.execute('AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? ' + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), options);
   }
-  changeInfo(firstName, lastName, email, options) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Changes the account information
+   * @param {string} firstName the first name
+   * @param {string} lastName the last name
+   * @param {string} email the email
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.changeInfo = function changeInfo(firstName, lastName, email, options) {
     options = options || {};
     options.params = [firstName, lastName, email];
-    return this.execute("SetUserInfo -firstName=? -lastName=? -email=?", options);
+    return this.execute('SetUserInfo -firstName=? -lastName=? -email=?', options);
   }
-  changePassword(username, oldPassword, newPassword, options) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Changes the account password
+   * @param {string} username the username
+   * @param {string} oldPassword the old password
+   * @param {string} newPassword the new password
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.changePassword = function changePassword(username, oldPassword, newPassword, options) {
     options = options || {};
     options.params = [username, oldPassword, newPassword];
-    return this.execute("ChangePassword -amiLogin=? -amiPasswordOld=? -amiPasswordNew=?", options);
+    return this.execute('ChangePassword -amiLogin=? -amiPasswordOld=? -amiPasswordNew=?', options);
   }
-  resetPassword(username, captchaHash, captchaText, options) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Resets the account password
+   * @param {string} username the username
+   * @param {string} captchaHash the captcha hash generated by AMI
+   * @param {string} captchaText the captcha text entered by the username
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.resetPassword = function resetPassword(username, captchaHash, captchaText, options) {
     options = options || {};
     options.params = [username, captchaHash, captchaText];
-    return this.execute("ResetPassword -amiLogin=? -captchaHash=? -captchaText=?", options);
+    return this.execute('ResetPassword -amiLogin=? -captchaHash=? -captchaText=?', options);
   }
-}
-_httpClient = new WeakMap();
-_mqttClient = new WeakMap();
-/* harmony default export */ const js_AMICommand = (new AMICommand());
+  /*----------------------------------------------------------------------------------------------------------------*/
+  ;
 
+  return AMICommand;
+}();
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* amiCommand                                                                                                         */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+
+/* harmony default export */ const js_AMICommand = (new AMICommand());
+/*--------------------------------------------------------------------------------------------------------------------*/
 // EXTERNAL MODULE: ./node_modules/ami-twig/index.js
 var ami_twig = __webpack_require__(444);
 ;// CONCATENATED MODULE: ./src/js/utilities/tools.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* TOOLS                                                                                                              */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {$.Deferred} deferred
+ * @param {function} doneCallback
+ * @param {function} failCallback
+ * @ignore
+ */
 
 function _internal_then(deferred, doneCallback, failCallback) {
   if (deferred && deferred.then) {
@@ -10362,6 +10743,14 @@ function _internal_then(deferred, doneCallback, failCallback) {
     doneCallback();
   }
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {$.Deferred} deferred
+ * @param {function} alwaysCallback
+ * @ignore
+ */
+
 function _internal_always(deferred, alwaysCallback) {
   if (deferred && deferred.always) {
     deferred.always(alwaysCallback);
@@ -10369,52 +10758,159 @@ function _internal_always(deferred, alwaysCallback) {
     alwaysCallback();
   }
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Gets the type name of the given object
+ * @param {*} x the object
+ * @returns {string} The type name of the given object
+ * @ignore
+ */
+
 function typeOf(x) {
-  const name = Object.prototype.toString.call(x);
-  return name.startsWith("[object ") ? name.substring(8, name.length - 1) : "";
+  var name = Object.prototype.toString.call(x);
+  return name.startsWith('[object ') ? name.substring(8, name.length - 1) :
+  /*-----------*/
+  ''
+  /*-----------*/
+  ;
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Checks whether the given object is a string
+ * @param {*} x the object
+ * @return {boolean}
+ * @ignore
+ */
+
 function isString(x) {
   return ami_twig/* default.stdlib.isString */.Z.stdlib.isString(x);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Checks whether the given object is an array
+ * @param {*} x the object
+ * @return {boolean}
+ * @ignore
+ */
+
 function isArray(x) {
   return ami_twig/* default.stdlib.isArray */.Z.stdlib.isArray(x);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Checks whether the given object is an object
+ * @param {*} x the object
+ * @return {boolean}
+ * @ignore
+ */
+
 function isObject(x) {
   return ami_twig/* default.stdlib.isObject */.Z.stdlib.isObject(x);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Checks whether the given object is a set
+ * @param {*} x the object
+ * @return {boolean}
+ * @ignore
+ */
+
 function isSet(x) {
   return ami_twig/* default.stdlib.isSet */.Z.stdlib.isSet(x);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Checks whether the given object is a map
+ * @param {*} x the object
+ * @return {boolean}
+ * @ignore
+ */
+
 function isMap(x) {
   return ami_twig/* default.stdlib.isMap */.Z.stdlib.isMap(x);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Turns the given object into an array if it is not already the case
+ * @param {*} x the object
+ * @returns {Array<*>} The resulting array
+ * @ignore
+ */
+
 function asArray(x) {
   return Array.isArray(x) ? x : [x];
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {Array<string>} optionNames
+ * @param {Array<*>} optionDefaults
+ * @param {Object<string, *>} options
+ * @returns {Array<*>}
+ * @ignore
+ */
+
 function setup(optionNames, optionDefaults, options) {
-  const result = [];
-  const l = optionNames.length;
-  const m = optionDefaults.length;
+  var result = [];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  var l = optionNames.length;
+  var m = optionDefaults.length;
+
   if (l !== m) {
-    throw "internal error";
+    throw 'internal error';
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if (options) {
-    for (let i = 0; i < l; i++) {
+    for (var i = 0; i < l; i++) {
       result.push(optionNames[i] in options ? options[optionNames[i]] : optionDefaults[i]);
     }
   } else {
-    for (let i = 0; i < l; i++) {
-      result.push(optionDefaults[i]);
+    for (var _i = 0; _i < l; _i++) {
+      result.push(
+      /*-------------------------------------------------*/
+      optionDefaults[_i]);
     }
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   return result;
 }
-
+/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/locks.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* STACK                                                                                                              */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 function _throwError() {
   throw Error();
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+
 function getStack() {
   try {
     _throwError();
@@ -10422,311 +10918,799 @@ function getStack() {
     try {
       return e1.stack;
     } catch (e2) {
-      return "";
+      return '';
     }
   }
 }
-let _curLockCnt = 0;
-let _tmpLockCnt = 0;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* LOCK                                                                                                               */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @type {number}
+ * @private
+ */
+
+var _curLockCnt = 0;
+/**
+ * @type {number}
+ * @private
+ */
+
+var _tmpLockCnt = 0;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Locks the Web application
+ * @ignore
+ */
+
 function lock() {
-  let lines = getStack().split("\n");
+  var lines = getStack().split('\n');
+
   if (lines.length > 2) {
-    console.log(`lock[${_curLockCnt}] :: ${lines[2]}`);
+    console.log("lock[" + _curLockCnt + "] :: " + lines[2]); // eslint-disable-line no-console
   }
+  /**/
+
+
   if (_curLockCnt <= 0) {
-    $("#ami_locker").css("display", "flex");
+    $('#ami_locker').css('display', 'flex');
     _curLockCnt = 1;
   } else {
     _curLockCnt++;
   }
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Unlocks the Web application
+ * @ignore
+ */
+
 function unlock() {
   if (_curLockCnt <= 1) {
-    $("#ami_locker").css("display", "none");
+    $('#ami_locker').css('display', 'none');
     _curLockCnt = 0;
   } else {
     _curLockCnt--;
   }
-  let lines = getStack().split("\n");
+  /**/
+
+
+  var lines = getStack().split('\n');
+
   if (lines.length > 2) {
-    console.log(`unlock[${_curLockCnt}] :: ${lines[2]}`);
+    console.log("unlock[" + _curLockCnt + "] :: " + lines[2]); // eslint-disable-line no-console
   }
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Leave the modal window
+ * @ignore
+ */
+
 function modalLeave() {
-  const lines = getStack().split("\n");
+  var lines = getStack().split('\n');
+
   if (lines.length > 2) {
-    console.log(`modalLock[${_curLockCnt}] :: ${lines[2]}`);
+    console.log("modalLock[" + _curLockCnt + "] :: " + lines[2]); // eslint-disable-line no-console
   }
+  /**/
+
+
   _curLockCnt = _tmpLockCnt;
+
   if (_curLockCnt > 0) {
-    $("#ami_locker").css("display", "flex");
+    $('#ami_locker').css('display', 'flex');
   }
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Enter the modal window
+ * @ignore
+ */
+
 function modalEnter() {
   _tmpLockCnt = _curLockCnt;
+
   if (_curLockCnt > 0) {
-    $("#ami_locker").css("display", "none");
+    $('#ami_locker').css('display', 'none');
   }
-  const lines = getStack().split("\n");
+  /**/
+
+
+  var lines = getStack().split('\n');
+
   if (lines.length > 2) {
-    console.log(`modalUnlock[${_curLockCnt}] :: ${lines[2]}`);
+    console.log("modalUnlock[" + _curLockCnt + "] :: " + lines[2]); // eslint-disable-line no-console
   }
 }
-let _canLeave = true;
-function canLeave(canLeave2) {
-  _canLeave = canLeave2;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* WINDOW                                                                                                             */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @type {boolean}
+ * @private
+ */
+
+var _canLeave = true;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Specifies whether leaving the current page must be confirmed or not
+ * @param canLeave
+ * @ignore
+ */
+
+function canLeave(canLeave) {
+  _canLeave = canLeave;
 }
-
+/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/strings.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* BASE64 STRINGS                                                                                                     */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Encodes the given string to base64
+ * @param {string} s the decoded string
+ * @returns {string} The encoded string
+ * @ignore
+ */
 
 function base64Encode(s) {
-  return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, (_, $1) => {
+  return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, function (_, $1) {
     return String.fromCharCode(parseInt($1, 16));
-  })).replace(/\+/g, "-").replace(/\//g, "_");
+  })).replace(/\+/g, '-').replace(/\//g, '_');
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Decodes the given string from base64
+ * @param {string} s the encoded string
+ * @returns {string} The decoded string
+ * @ignore
+ */
+
 function base64Decode(s) {
-  return decodeURIComponent(atob(s.replace(/-/g, "+").replace(/_/g, "/")).split("").map((c) => {
-    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-  }).join(""));
+  return decodeURIComponent(atob(s.replace(/-/g, '+').replace(/_/g, '/')).split('').map(function (c) {
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
 }
-const _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
-const _textToHtmlX = ["&", '"', "<", ">"];
-const _textToHtmlY = ["&amp;", "&quot;", "&lt;", "&gt;"];
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* PLAIN STRINGS                                                                                                      */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+var _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+var _textToHtmlX = ['&', '"', '<', '>'];
+var _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
+/**
+ * Escapes the given string from text to HTML
+ * @param {string} s the unescaped string
+ * @returns {string} The escaped string
+ * @ignore
+ */
+
 function textToHtml(s) {
-  return _replace(s || "", _textToHtmlX, _textToHtmlY);
+  return _replace(s || '', _textToHtmlX, _textToHtmlY);
 }
+/**
+ * Unescapes the given string from HTML to text
+ * @param {string} s the escaped string
+ * @returns {string} The unescaped string
+ * @ignore
+ */
+
 function htmlToText(s) {
-  return _replace(s || "", _textToHtmlY, _textToHtmlX);
+  return _replace(s || '', _textToHtmlY, _textToHtmlX);
 }
-const _textToStringX = ["\\", "\n", '"', "'"];
-const _textToStringY = ["\\\\", "\\n", '\\"', "\\'"];
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+var _textToStringX = ['\\', '\n', '"', '\''];
+var _textToStringY = ['\\\\', '\\n', '\\"', '\\\''];
+/**
+ * Escapes the given string from text to JavaScript string
+ * @param {string} s the unescaped string
+ * @returns {string} The escaped string
+ * @ignore
+ */
+
 function textToString(s) {
-  return _replace(s || "", _textToStringX, _textToStringY);
+  return _replace(s || '', _textToStringX, _textToStringY);
 }
+/**
+ * Unescapes the given string from JavaScript string to text
+ * @param {string} s the escaped string
+ * @returns {string} The unescaped string
+ * @ignore
+ */
+
 function stringToText(s) {
-  return _replace(s || "", _textToStringY, _textToStringX);
+  return _replace(s || '', _textToStringY, _textToStringX);
 }
-const _htmlToStringX = ["\\", "\n", "&quot;", "'"];
-const _htmlToStringY = ["\\\\", "\\n", "\\&quot;", "\\'"];
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+var _htmlToStringX = ['\\', '\n', '&quot;', '\''];
+var _htmlToStringY = ['\\\\', '\\n', '\\&quot;', '\\\''];
+/**
+ * Escapes the given string from HTML to JavaScript string
+ * @param {string} s the unescaped string
+ * @returns {string} The escaped string
+ * @ignore
+ */
+
 function htmlToString(s) {
-  return _replace(s || "", _htmlToStringX, _htmlToStringY);
+  return _replace(s || '', _htmlToStringX, _htmlToStringY);
 }
+/**
+ * Unescapes the given string from JavaScript string to HTML
+ * @param {string} s the escaped string
+ * @returns {string} The unescaped string
+ * @ignore
+ */
+
 function stringToHtml(s) {
-  return _replace(s || "", _htmlToStringY, _htmlToStringX);
+  return _replace(s || '', _htmlToStringY, _htmlToStringX);
 }
-const _textToSQLX = ["'"];
-const _textToSQLY = ["''"];
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+var _textToSQLX = ['\''];
+var _textToSQLY = ['\'\''];
+/**
+ * Escapes the given string from text to SQL
+ * @param {string} s the unescaped string
+ * @returns {string} The escaped string
+ * @ignore
+ */
+
 function textToSQL(s) {
-  return _replace(s || "", _textToSQLX, _textToSQLY);
+  return _replace(s || '', _textToSQLX, _textToSQLY);
 }
+/**
+ * Unescapes the given string from SQL to text
+ * @param {string} s the escaped string
+ * @returns {string} The unescaped string
+ * @ignore
+ */
+
 function sqlToText(s) {
-  return _replace(s || "", _textToSQLY, _textToSQLX);
+  return _replace(s || '', _textToSQLY, _textToSQLX);
 }
-
+/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/messages.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
 
 
-const _linkExp = /\[\s*([^\s\]]*)\s*]\(\s*([^\s)]*)\s*\)/g;
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* MESSAGES                                                                                                           */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @type {RegExp}
+ * @private
+ */
+
+var _linkExp = /\[\s*([^\s\]]*)\s*]\(\s*([^\s)]*)\s*\)/g;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {string} clazz the class
+ * @param {string} title the title
+ * @param {string|Array<string>} message the message
+ * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @ignore
+ */
+
 function _publishAlert(clazz, title, message, fadeOut) {
+  /*----------------------------------------------------------------------------------------------------------------*/
   if (Array.isArray(message)) {
-    message = message.map((MESSAGE) => (MESSAGE || "").toString()).join(". ");
+    message = message.map(function (MESSAGE) {
+      return (MESSAGE || '').toString();
+    }).join('. ');
   } else {
-    message = (message || "").toString();
+    message = (message || '').toString();
   }
-  const hash = message.hashCode();
-  const date = moment().format("DD MMM, HH:mm:ss");
-  const toast = $(`#ami_alert_content > .toast[data-hash="${hash}"]`);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  var hash = message.hashCode(); // noinspection TypeScriptUMDGlobal
+
+  var date = moment().format('DD MMM, HH:mm:ss');
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  var toast = $("#ami_alert_content > .toast[data-hash=\"" + hash + "\"]");
+  /*----------------------------------------------------------------------------------------------------------------*/
+
   if (toast.length === 0) {
-    const twig = __webpack_require__(5276)(`./v${js_AMIWebApp.bootstrapVersion}/message.twig`);
-    const html = ami_twig/* default.engine.render */.Z.engine.render(twig, {
-      date,
-      hash,
-      clazz,
-      title,
-      fadeOut,
-      message
+    /*------------------------------------------------------------------------------------------------------------*/
+    var twig = __webpack_require__(5276)("./v" + js_AMIWebApp.bootstrapVersion + "/message.twig");
+
+    var html = ami_twig/* default.engine.render */.Z.engine.render(twig, {
+      date: date,
+      hash: hash,
+      clazz: clazz,
+      title: title,
+      fadeOut: fadeOut,
+      message: message
     });
-    $("#ami_alert_content").append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
-      $(`#ami_alert_content > .toast[data-hash="${hash}"]`).toast("show");
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    $('#ami_alert_content').append(html.replace(_linkExp, '<a href="' + '$1' + '" target="_blank">$2</a>')).promise().done(function () {
+      $("#ami_alert_content > .toast[data-hash=\"" + hash + "\"]").toast('show');
     });
+    /*------------------------------------------------------------------------------------------------------------*/
   } else {
-    toast.find(".toast-header > strong").html(textToHtml(title) + ` <span class="badge badge-${clazz}">${toast.attr("data-cnt", parseInt(toast.attr("data-cnt")) + 1).attr("data-cnt")}</span>`);
-    toast.find(".toast-header > small").html(textToHtml(date));
-    toast.toast("show");
+    /*------------------------------------------------------------------------------------------------------------*/
+    toast.find('.toast-header > strong').html(textToHtml(title) + (" <span class=\"badge badge-" + clazz + "\">" + toast.attr('data-cnt', parseInt(toast.attr('data-cnt')) + 1).attr('data-cnt') + "</span>"));
+    toast.find('.toast-header > small').html(textToHtml(date));
+    toast.toast('show');
+    /*------------------------------------------------------------------------------------------------------------*/
   }
-  console.log(`AMI :: ${title.toUpperCase()}: ${message}
-${getStack()}`);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  console.log("AMI :: " + title.toUpperCase() + ": " + message + "\n" + getStack()); // eslint-disable-line no-console
+
   $(document).scrollTop(0);
   unlock();
+  /*----------------------------------------------------------------------------------------------------------------*/
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Shows an 'info' message
+ * @param {string|Array<string>} message the message
+ * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @ignore
+ */
+
+
 function info(message, fadeOut) {
-  _publishAlert("info", "Info", message, fadeOut);
+  _publishAlert('info', 'Info', message, fadeOut);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Shows a 'success' message
+ * @param {string|Array<string>} message the message
+ * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @ignore
+ */
+
 function success(message, fadeOut) {
-  _publishAlert("success", "Success", message, fadeOut);
+  _publishAlert('success', 'Success', message, fadeOut);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Shows a 'warning' message
+ * @param {string|Array<string>} message the message
+ * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @ignore
+ */
+
 function warning(message, fadeOut) {
-  _publishAlert("warning", "Warning", message, fadeOut);
+  _publishAlert('warning', 'Warning', message, fadeOut);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Shows an 'error' message
+ * @param {string|Array<string>} message the message
+ * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
+ * @ignore
+ */
+
 function error(message, fadeOut) {
-  _publishAlert("danger", "Error", message, fadeOut);
+  _publishAlert('danger', 'Error', message, fadeOut);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Flushes messages
+ * @ignore
+ */
+
 function flush() {
-  $("#ami_alert_content").empty();
+  $('#ami_alert_content').empty();
 }
-
+/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/AMIRouter.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
-var AMIRouter_accessCheck = (obj, member, msg) => {
-  if (!member.has(obj))
-    throw TypeError("Cannot " + msg);
-};
-var AMIRouter_privateGet = (obj, member, getter) => {
-  AMIRouter_accessCheck(obj, member, "read from private field");
-  return getter ? getter.call(obj) : member.get(obj);
-};
-var AMIRouter_privateAdd = (obj, member, value) => {
-  if (member.has(obj))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-};
-var AMIRouter_privateSet = (obj, member, value, setter) => {
-  AMIRouter_accessCheck(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
-};
-var _webAppURL, _webAppArgs, _webAppHash, _scriptURL, _scriptArgs, _scriptHash, _originURL, _routes;
-class AMIRouter {
-  constructor(prodJsFilename, devJsFilename) {
-    AMIRouter_privateAdd(this, _webAppURL, "");
-    AMIRouter_privateAdd(this, _webAppArgs, {});
-    AMIRouter_privateAdd(this, _webAppHash, "");
-    AMIRouter_privateAdd(this, _scriptURL, "");
-    AMIRouter_privateAdd(this, _scriptArgs, {});
-    AMIRouter_privateAdd(this, _scriptHash, "");
-    AMIRouter_privateAdd(this, _originURL, "");
-    AMIRouter_privateAdd(this, _routes, []);
-    const webappUrl = new URL(window.location);
-    const scriptUrl = this._findThisJs(prodJsFilename, devJsFilename);
+/*--------------------------------------------------------------------------------------------------------------------*/
+// noinspection JSUnusedGlobalSymbols
+
+/**
+ * The AMI url routing subsystem
+ * @namespace amiRouter
+ */
+
+function AMIRouter_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
+
+var AMIRouter_id = 0;
+
+function AMIRouter_classPrivateFieldLooseKey(name) { return "__private_" + AMIRouter_id++ + "_" + name; }
+
+var _webAppURL = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("webAppURL");
+
+var _webAppArgs = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("webAppArgs");
+
+var _webAppHash = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("webAppHash");
+
+var _scriptURL = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("scriptURL");
+
+var _scriptArgs = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("scriptArgs");
+
+var _scriptHash = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("scriptHash");
+
+var _originURL = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("originURL");
+
+var _routes = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("routes");
+
+var AMIRouter = /*#__PURE__*/function () {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* PRIVATE MEMBERS                                                                                                */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+  function AMIRouter(prodJsFilename, devJsFilename) {
+    Object.defineProperty(this, _webAppURL, {
+      writable: true,
+      value: ''
+    });
+    Object.defineProperty(this, _webAppArgs, {
+      writable: true,
+      value: {}
+    });
+    Object.defineProperty(this, _webAppHash, {
+      writable: true,
+      value: ''
+    });
+    Object.defineProperty(this, _scriptURL, {
+      writable: true,
+      value: ''
+    });
+    Object.defineProperty(this, _scriptArgs, {
+      writable: true,
+      value: {}
+    });
+    Object.defineProperty(this, _scriptHash, {
+      writable: true,
+      value: ''
+    });
+    Object.defineProperty(this, _originURL, {
+      writable: true,
+      value: ''
+    });
+    Object.defineProperty(this, _routes, {
+      writable: true,
+      value: []
+    });
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    var webappUrl = new URL(window.location);
+
+    var scriptUrl = this._findThisJs(prodJsFilename, devJsFilename);
+
     if (!scriptUrl) {
-      throw `cannot find neither '${prodJsFilename}' nor '${devJsFilename}'`;
+      throw "cannot find neither '" + prodJsFilename + "' nor '" + devJsFilename + "'";
     }
-    AMIRouter_privateSet(this, _webAppURL, webappUrl.protocol === "file:" ? `file://${webappUrl.pathname}` : `${webappUrl.origin}${webappUrl.pathname}`);
-    AMIRouter_privateSet(this, _webAppArgs, this._parseSearchString(webappUrl.search));
-    AMIRouter_privateSet(this, _webAppHash, webappUrl.hash.substring(1));
-    AMIRouter_privateSet(this, _scriptURL, scriptUrl.protocol === "file:" ? `file://${scriptUrl.pathname}` : `${scriptUrl.origin}${scriptUrl.pathname}`);
-    AMIRouter_privateSet(this, _scriptArgs, this._parseSearchString(scriptUrl.search));
-    AMIRouter_privateSet(this, _scriptHash, scriptUrl.hash.substring(1));
-    let idx;
-    if ((idx = AMIRouter_privateGet(this, _scriptURL).indexOf(prodJsFilename)) > 0) {
-      AMIRouter_privateSet(this, _originURL, this._eatSlashes(AMIRouter_privateGet(this, _scriptURL).substring(0, idx)));
-    } else if ((idx = AMIRouter_privateGet(this, _scriptURL).indexOf(devJsFilename)) > 0) {
-      AMIRouter_privateSet(this, _originURL, this._eatSlashes(AMIRouter_privateGet(this, _scriptURL).substring(0, idx)));
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
+    AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] = webappUrl.protocol === 'file:' ? "file://" + webappUrl.pathname : "" + webappUrl.origin + webappUrl.pathname;
+    AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = this._parseSearchString(webappUrl.search);
+    AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash] = webappUrl.hash.substring(1);
+    AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL] = scriptUrl.protocol === 'file:' ? "file://" + scriptUrl.pathname : "" + scriptUrl.origin + scriptUrl.pathname;
+    AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = this._parseSearchString(scriptUrl.search);
+    AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash] = scriptUrl.hash.substring(1);
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    var idx;
+    /**/
+
+    if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(prodJsFilename)) > 0) {
+      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = this._eatSlashes(AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
+    } else if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(devJsFilename)) > 0) {
+      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = this._eatSlashes(AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
     }
+    /*------------------------------------------------------------------------------------------------------------*/
+
   }
-  _findThisJs(prodJsFilename, devJsFilename) {
-    const scripts = document.getElementsByTagName("script");
-    for (let i = 0; i < scripts.length; i++) {
-      const url = new URL(scripts[i].src);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  var _proto = AMIRouter.prototype;
+
+  _proto._findThisJs = function _findThisJs(prodJsFilename, devJsFilename) {
+    var scripts = document.getElementsByTagName('script');
+
+    for (var i = 0; i < scripts.length; i++) {
+      var url = new URL(scripts[i].src);
+
       if (url.pathname.endsWith(prodJsFilename) > 0 || url.pathname.endsWith(devJsFilename) > 0) {
         return url;
       }
     }
+
     return null;
   }
-  _parseSearchString(search) {
-    const result = {};
-    search.substring(1).split("&").forEach((param) => {
-      const parts = param.split("=");
+  /*----------------------------------------------------------------------------------------------------------------*/
+  ;
+
+  _proto._parseSearchString = function _parseSearchString(search) {
+    var result = {};
+    search.substring(1).split('&').forEach(function (param) {
+      var parts = param.split('=');
+      /**/
+
       if (parts.length === 1) {
-        result[decodeURIComponent(parts[0]).toLowerCase()] = "";
+        result[decodeURIComponent(parts[0]).toLowerCase()] =
+        /*--------*/
+        ''
+        /*--------*/
+        ;
       } else if (parts.length === 2) {
         result[decodeURIComponent(parts[0]).toLowerCase()] = decodeURIComponent(parts[1]);
       }
     });
     return result;
   }
-  _eatSlashes(url) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+  ;
+
+  _proto._eatSlashes = function _eatSlashes(url) {
     url = url.trim();
-    while (url[url.length - 1] === "/") {
+
+    while (url[url.length - 1] === '/') {
       url = url.substring(0, url.length - 1);
     }
+
     return url;
   }
-  getWebAppURL() {
-    return AMIRouter_privateGet(this, _webAppURL);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the webapp URL
+   * @returns {string} The webapp URL
+   */
+  ;
+
+  _proto.getWebAppURL = function getWebAppURL() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL];
   }
-  getWebAppArgs() {
-    return AMIRouter_privateGet(this, _webAppArgs);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the arguments of the webapp URL
+   * @returns {Object<string, string>} The arguments of the webapp URL
+   */
+  ;
+
+  _proto.getWebAppArgs = function getWebAppArgs() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs];
   }
-  getWebAppHash() {
-    return AMIRouter_privateGet(this, _webAppHash);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the anchor part of the webapp URL
+   * @returns {string} The anchor part of the webapp URL
+   */
+  ;
+
+  _proto.getWebAppHash = function getWebAppHash() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash];
   }
-  getScriptURL() {
-    return AMIRouter_privateGet(this, _scriptURL);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the script URL
+   * @returns {string} The script URL
+   */
+  ;
+
+  _proto.getScriptURL = function getScriptURL() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL];
   }
-  getScriptArgs() {
-    return AMIRouter_privateGet(this, _scriptArgs);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the arguments of the script URL
+   * @returns {Object<string, string>} The arguments of the the script URL
+   */
+  ;
+
+  _proto.getScriptArgs = function getScriptArgs() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs];
   }
-  getWebappHash() {
-    return AMIRouter_privateGet(this, _scriptHash);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets anchor part of the script URL
+   * @returns {string} The anchor part of the script URL
+   */
+  ;
+
+  _proto.getWebappHash = function getWebappHash() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash];
   }
-  getOriginURL() {
-    return AMIRouter_privateGet(this, _originURL);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the origin URL
+   * @returns {string} The origin URL
+   */
+  ;
+
+  _proto.getOriginURL = function getOriginURL() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL];
   }
-  append(regExp, callback) {
-    AMIRouter_privateGet(this, _routes).unshift({
-      regExp,
-      callback
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Appends a routing rule
+   * @param {string} regExp the regExp
+   * @param {function} callback the callback
+   * @returns {AMIRouter} The amiRouter singleton
+   */
+  ;
+
+  _proto.append = function append(regExp, callback) {
+    AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].unshift({
+      regExp: regExp,
+      callback: callback
+    });
+
+    return this;
+  }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Removes a routing rule
+   * @param {string} regExp the regExp
+   * @returns {AMIRouter} The amiRouter singleton
+   */
+  ;
+
+  _proto.remove = function remove(regExp) {
+    AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes] = AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].filter(function (route) {
+      return route.regExp.toString() !== regExp.toString();
     });
     return this;
   }
-  remove(regExp) {
-    AMIRouter_privateSet(this, _routes, AMIRouter_privateGet(this, _routes).filter((route) => {
-      return route.regExp.toString() !== regExp.toString();
-    }));
-    return this;
-  }
-  check() {
-    let m;
-    for (let i = 0; i < AMIRouter_privateGet(this, _routes).length; i++) {
-      m = AMIRouter_privateGet(this, _webAppHash).match(AMIRouter_privateGet(this, _routes)[i].regExp);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Checks whether the URL matches with a routing rule
+   * @returns {boolean}
+   */
+  ;
+
+  _proto.check = function check() {
+    var m;
+
+    for (var i = 0; i < AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].length; i++) {
+      m = AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash].match(AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes][i].regExp);
+
       if (m) {
-        AMIRouter_privateGet(this, _routes)[i].callback.apply(this, m);
+        AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes][i].callback.apply(this, m);
+
         return true;
       }
     }
-    return false;
-  }
-  appendHistoryEntry(path, context = null) {
-    if (history.pushState) {
-      history.pushState(context, null, AMIRouter_privateGet(this, _webAppURL) + this._eatSlashes(path));
-      return true;
-    }
-    return false;
-  }
-  replaceHistoryEntry(path, context = null) {
-    if (history.replaceState) {
-      history.replaceState(context, null, AMIRouter_privateGet(this, _webAppURL) + this._eatSlashes(path));
-      return true;
-    }
-    return false;
-  }
-}
-_webAppURL = new WeakMap();
-_webAppArgs = new WeakMap();
-_webAppHash = new WeakMap();
-_scriptURL = new WeakMap();
-_scriptArgs = new WeakMap();
-_scriptHash = new WeakMap();
-_originURL = new WeakMap();
-_routes = new WeakMap();
-/* harmony default export */ const js_AMIRouter = (new AMIRouter("js/ami.min.js", "js/ami.js"));
 
+    return false;
+  }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Appends a new history entry
+   * @param {string} path the new path
+   * @param {Object<string, *>} [context=null] the new context
+   * @returns {boolean}
+   */
+  ;
+
+  _proto.appendHistoryEntry = function appendHistoryEntry(path, context) {
+    if (context === void 0) {
+      context = null;
+    }
+
+    if (history.pushState) {
+      history.pushState(context, null, AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] + this._eatSlashes(path));
+      return true;
+    }
+
+    return false;
+  }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Replaces the current history entry
+   * @param {string} path the new path
+   * @param {Object<string, *>} [context=null] the new context
+   * @returns {boolean}
+   */
+  ;
+
+  _proto.replaceHistoryEntry = function replaceHistoryEntry(path, context) {
+    if (context === void 0) {
+      context = null;
+    }
+
+    if (history.replaceState) {
+      history.replaceState(context, null, AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] + this._eatSlashes(path));
+      return true;
+    }
+
+    return false;
+  };
+
+  return AMIRouter;
+}();
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+
+/* harmony default export */ const js_AMIRouter = (new AMIRouter('js/ami.min.js', 'js/ami.js'));
+/*--------------------------------------------------------------------------------------------------------------------*/
 // EXTERNAL MODULE: ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
 var injectStylesIntoStyleTag = __webpack_require__(3379);
 var injectStylesIntoStyleTag_default = /*#__PURE__*/__webpack_require__.n(injectStylesIntoStyleTag);
@@ -13240,6 +14224,16 @@ if (typeof window !== "undefined") {
 /* harmony default export */ const esm = ((/* unused pure expression or super */ null && (flatpickr)));
 
 ;// CONCATENATED MODULE: ./src/js/utilities/view.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
@@ -13247,60 +14241,133 @@ if (typeof window !== "undefined") {
 
 
 
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* BREADCRUMB                                                                                                         */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Fills the main breadcrumb
+ * @param {Array<string>|string} items the array of HTML formatted items
+ * @ignore
+ */
 
 function fillBreadcrumb(items) {
-  let s;
+  var s;
+  /**/
+
   if (isArray(items)) {
-    s = items.map((item) => `<li class="breadcrumb-item">${item.replace(/{{ORIGIN_URL}}/g, js_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, js_AMIRouter.getWebAppURL())}</li>`).join("");
+    s = items.map(function (item) {
+      return "<li class=\"breadcrumb-item\">" + item.replace(/{{ORIGIN_URL}}/g, js_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, js_AMIRouter.getWebAppURL()) + "</li>";
+    }).join('');
   } else if (isString(items)) {
     s = items.replace(/{{ORIGIN_URL}}/g, js_AMIRouter.getOriginURL).replace(/{{WEBAPP_URL}}/g, js_AMIRouter.getWebAppURL());
   } else {
-    s = "";
+    s = '';
   }
-  $("#ami_breadcrumb_content").html(s);
+
+  $('#ami_breadcrumb_content').html(s);
 }
-const _idRegExp = /[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}/g;
-let _datetimeFormat = "yyyy-MM-dd HH:mm:ss.SSSSSS";
-let _dateFormat = "yyyy-MM-dd";
-let _timeHMSFormat = "HH:mm:ss.SSSSSS";
-let _timeHMFormat = "HH:mm";
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* HTML                                                                                                               */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+var _idRegExp = /[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}/g;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+var _datetimeFormat = 'yyyy-MM-dd HH:mm:ss.SSSSSS';
+var _dateFormat = 'yyyy-MM-dd';
+var _timeHMSFormat = 'HH:mm:ss.SSSSSS';
+var _timeHMFormat = 'HH:mm';
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 function _parseDatetime(s, format) {
-  format = moment().toMomentFormatString(format);
+  // noinspection TypeScriptUMDGlobal
+  format = moment().toMomentFormatString(format); // noinspection TypeScriptUMDGlobal
+
   return moment(s, format, true).toDate();
 }
+
 function _formatDatetime(date, format) {
-  format = moment().toMomentFormatString(format);
+  // noinspection TypeScriptUMDGlobal
+  format = moment().toMomentFormatString(format); // noinspection TypeScriptUMDGlobal
+
   return moment(date).format(format);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+// noinspection JSUnresolvedVariable
+
+/**
+ * @param {string} selector
+ * @param {string} twig
+ * @param {number} mode
+ * @param {Object<string, *>} [options={}]
+ * @returns {$.Promise}
+ * @ignore
+ */
+
+
 function _xxxHTML(selector, twig, mode, options) {
-  const result = $.Deferred();
-  const [context, scope, dict, twigs] = setup(["context", "scope", "dict", "twigs"], [result, null, {}, {}], options);
+  var result = $.Deferred();
+
+  var _tools$setup = setup(['context', 'scope', 'dict', 'twigs'], [result, null, {}, {}], options),
+      context = _tools$setup[0],
+      scope = _tools$setup[1],
+      dict = _tools$setup[2],
+      twigs = _tools$setup[3];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if (scope) {
-    twig = twig.replace(_idRegExp, (id) => {
-      return `${id}_scope${scope}`;
+    twig = twig.replace(_idRegExp, function (id) {
+      return id + "_scope" + scope;
     });
   }
-  const html = formatTWIG(twig, dict, twigs);
-  let promise;
-  const el = $(selector);
+
+  var html = formatTWIG(twig, dict, twigs);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  var promise;
+  var el = $(selector);
+
   switch (mode) {
     case 0:
       promise = el.html(html).promise();
       break;
+
     case 1:
       promise = el.prepend(html).promise();
       break;
+
     case 2:
       promise = el.append(html).promise();
       break;
+
     case 3:
-      promise = el.replaceWith(el.is("[id]") ? html.replace(/^\s*(<[a-zA-Z_-]+)/, `$1 id="${el.attr("id")}"`) : html).promise();
+      promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, "$1 id=\"" + el.attr('id') + "\"") : html).promise();
       break;
+
     default:
-      throw "internal error";
+      throw 'internal error';
   }
-  promise.done(() => {
-    const _find = mode === 3 ? (_selector) => el.find(_selector).addBack(_selector) : (_selector) => el.find(_selector);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  promise.done(function () {
+    /*------------------------------------------------------------------------------------------------------------*/
+    var _find = mode === 3 ? function (_selector) {
+      return el.find(_selector).addBack(_selector);
+    } : function (_selector) {
+      return el.find(_selector);
+    };
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
     if (jQuery.fn.tooltip) {
       _find('[data-toggle="tooltip"],[data-bs-toggle="tooltip"]').tooltip({
         html: false,
@@ -13310,6 +14377,9 @@ function _xxxHTML(selector, twig, mode, options) {
         }
       });
     }
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
     if (jQuery.fn.popover) {
       _find('[data-toggle="popover"],[data-bs-toggle="popover"]').popover({
         html: true,
@@ -13319,7 +14389,10 @@ function _xxxHTML(selector, twig, mode, options) {
         }
       });
     }
-    _find("input.form-datetime").flatpickr({
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
+    _find('input.form-datetime').flatpickr({
       time_24hr: true,
       enableTime: true,
       enableSeconds: true,
@@ -13328,7 +14401,8 @@ function _xxxHTML(selector, twig, mode, options) {
       parseDate: _parseDatetime,
       formatDate: _formatDatetime
     });
-    _find("input.form-date").flatpickr({
+
+    _find('input.form-date').flatpickr({
       time_24hr: true,
       enableTime: false,
       enableSeconds: false,
@@ -13337,7 +14411,8 @@ function _xxxHTML(selector, twig, mode, options) {
       parseDate: _parseDatetime,
       formatDate: _formatDatetime
     });
-    _find("input.form-time").flatpickr({
+
+    _find('input.form-time').flatpickr({
       time_24hr: true,
       enableTime: true,
       enableSeconds: true,
@@ -13346,7 +14421,8 @@ function _xxxHTML(selector, twig, mode, options) {
       parseDate: _parseDatetime,
       formatDate: _formatDatetime
     });
-    _find("input.form-time-hm").flatpickr({
+
+    _find('input.form-time-hm').flatpickr({
       time_24hr: true,
       enableTime: true,
       enableSeconds: false,
@@ -13355,529 +14431,916 @@ function _xxxHTML(selector, twig, mode, options) {
       parseDate: _parseDatetime,
       formatDate: _formatDatetime
     });
-    const editors = _find(".form-editor:not(.form-editor-done)");
-    if (editors.length > 0)
-      Promise.all(/* import() */[__webpack_require__.e(108), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).then((monaco) => {
-        editors.each((_, item) => {
-          const textarea = $(item);
-          const div = $("<div>", {
-            "class": textarea.attr("class").replace("form-editor", "form-editor-monaco").trim(),
-            "style": textarea.attr("style")
-          }).insertAfter(textarea);
-          div.promise().done(() => {
-            textarea.addClass("form-editor-done");
-            const lang = textarea.attr("data-lang") || "";
-            const theme = textarea.attr("data-theme") || "vs";
-            const wordWrap = textarea.attr("data-word-wrap") || "false";
-            const readOnly = textarea.attr("data-read-only") || "false";
-            const showGutter = textarea.attr("data-show-gutter") || "false";
-            const showMiniMap = textarea.attr("data-show-minimap") || "false";
-            const automaticLayout = textarea.attr("data-automatic-layout") || "false";
-            const renderWhitespace = textarea.attr("data-render-whitespace") || "false";
-            const highlightActiveLine = textarea.attr("data-highlight-active-line") || "false";
-            const editor = monaco.editor.create(div[0], {
-              value: item.value,
-              theme,
-              language: lang,
-              wordWrap: wordWrap === "true",
-              readOnly: readOnly === "true",
-              minimap: {
-                enabled: showMiniMap === "true"
-              },
-              automaticLayout: automaticLayout === "true",
-              renderWhitespace: renderWhitespace === "true",
-              lineNumbers: showGutter === "true" ? "on" : "off",
-              renderLineHighlight: highlightActiveLine === "true" ? "line" : "none",
-              insertSpaces: false,
-              overviewRulerLanes: 0,
-              overviewRulerBorder: false,
-              scrollBeyondLastLine: false,
-              hideCursorInOverviewRuler: true,
-              scrollbar: {
-                alwaysConsumeMouseWheel: false
-              }
-            });
-            textarea.data("editor", editor);
-            editor.onDidChangeModelContent(() => {
-              item.value = editor.getValue();
-              $(item).trigger("change");
-            });
-            const updateHeight = () => {
-              try {
-                editor.layout({
-                  width: div.width(),
-                  height: editor.getContentHeight()
-                });
-              } catch (e) {
-              }
-            };
-            editor.onDidContentSizeChange(updateHeight);
-            updateHeight();
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
+    var editors = _find('.form-editor:not(.form-editor-done)');
+
+    if (editors.length > 0) Promise.all(/* import() */[__webpack_require__.e(108), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).then(function (monaco) {
+      editors.each(function (_, item) {
+        /*----------------------------------------------------------------------------------------------------*/
+        var textarea = $(item);
+        /*----------------------------------------------------------------------------------------------------*/
+
+        var div = $('<div>', {
+          'class': textarea.attr('class').replace('form-editor', 'form-editor-monaco').trim(),
+          'style': textarea.attr('style')
+        }).insertAfter(textarea);
+        div.promise().done(function () {
+          /*------------------------------------------------------------------------------------------------*/
+          textarea.addClass('form-editor-done');
+          /*------------------------------------------------------------------------------------------------*/
+
+          var lang = textarea.attr('data-lang') || '';
+          var theme = textarea.attr('data-theme') || 'vs';
+          /**/
+
+          var wordWrap = textarea.attr('data-word-wrap') || 'false';
+          var readOnly = textarea.attr('data-read-only') || 'false';
+          var showGutter = textarea.attr('data-show-gutter') || 'false';
+          var showMiniMap = textarea.attr('data-show-minimap') || 'false';
+          var automaticLayout = textarea.attr('data-automatic-layout') || 'false';
+          var renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
+          var highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
+          /*------------------------------------------------------------------------------------------------*/
+
+          var editor = monaco.editor.create(div[0], {
+            /* VALUE */
+            value: item.value,
+
+            /* OPTIONS */
+            theme: theme,
+            language: lang,
+
+            /**/
+            wordWrap: wordWrap === 'true',
+            readOnly: readOnly === 'true',
+            minimap: {
+              enabled: showMiniMap === 'true'
+            },
+            automaticLayout: automaticLayout === 'true',
+            renderWhitespace: renderWhitespace === 'true',
+
+            /**/
+            lineNumbers: showGutter === 'true' ? 'on' : 'off',
+            renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
+
+            /**/
+            insertSpaces: false,
+            overviewRulerLanes: 0x00,
+            overviewRulerBorder: false,
+            scrollBeyondLastLine: false,
+            hideCursorInOverviewRuler: true,
+            scrollbar: {
+              alwaysConsumeMouseWheel: false
+            }
           });
+          /*------------------------------------------------------------------------------------------------*/
+
+          textarea.data('editor', editor);
+          /*------------------------------------------------------------------------------------------------*/
+
+          editor.onDidChangeModelContent(function () {
+            item.value = editor.getValue();
+            $(item).trigger('change');
+          });
+          /*------------------------------------------------------------------------------------------------*/
+
+          var updateHeight = function updateHeight() {
+            try {
+              editor.layout({
+                width: div.width(),
+                height: editor.getContentHeight()
+              });
+            } catch (_unused) {
+              /* IGNORE */
+            }
+          };
+          /*------------------------------------------------------------------------------------------------*/
+
+
+          editor.onDidContentSizeChange(updateHeight);
+          updateHeight();
+          /*------------------------------------------------------------------------------------------------*/
         });
-      }).catch((message) => {
-        error(message);
       });
+    }).catch(function (message) {
+      error(message);
+    });
+    /*------------------------------------------------------------------------------------------------------------*/
+
     result.resolveWith(context, [el]);
+    /*------------------------------------------------------------------------------------------------------------*/
   });
+  /*----------------------------------------------------------------------------------------------------------------*/
+
   return result.promise();
 }
-function replaceHTML(selector, twig, options) {
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Puts a HTML or TWIG fragment to the given target
+ * @see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+ * @param {string} selector the target selector
+ * @param {string} [twig={}] the TWIG fragment
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+
+function view_replaceHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 0, options);
 }
-function prependHTML(selector, twig, options) {
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Prepends a HTML or TWIG fragment to the given target
+ * @see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+ * @param {string} selector the target selector
+ * @param {string} [twig={}] the TWIG fragment
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function view_prependHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 1, options);
 }
-function appendHTML(selector, twig, options) {
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Appends a HTML or TWIG fragment to the given target
+ * @see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+ * @param {string} selector the target selector
+ * @param {string} [twig={}] the TWIG fragment
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function view_appendHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 2, options);
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Specify the timedate, date and time formats
+ * @param {number} [datetimePrecision=6]
+ * @param {string} [datetimeFormat='yyyy-MM-dd HH:mm:ss']
+ * @param {string} [dateFormat='yyyy-MM-dd HH:mm:ss']
+ * @param {number} [timePrecision=6]
+ * @param {string} [timeHMSFormat='HH:mm:ss']
+ * @param {string} [timeHMFormat='HH:mm']
+ * @ignore
+ */
+
 function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timePrecision, timeHMSFormat, timeHMFormat) {
-  _datetimeFormat = datetimeFormat || "yyyy-MM-dd HH:mm:ss";
-  _dateFormat = dateFormat || "yyyy-MM-dd";
-  _timeHMSFormat = timeHMSFormat || "HH:mm:ss";
-  _timeHMFormat = timeHMFormat || "HH:mm";
+  _datetimeFormat = datetimeFormat || 'yyyy-MM-dd HH:mm:ss';
+  _dateFormat = dateFormat || 'yyyy-MM-dd';
+  _timeHMSFormat = timeHMSFormat || 'HH:mm:ss';
+  _timeHMFormat = timeHMFormat || 'HH:mm';
+
   if (datetimePrecision > 0) {
-    _datetimeFormat += `.${"S".repeat(datetimePrecision)}`;
+    _datetimeFormat += "." + 'S'.repeat(datetimePrecision);
   }
+
   if (timePrecision > 0) {
-    _timeHMSFormat += `.${"S".repeat(timePrecision)}`;
+    _timeHMSFormat += "." + 'S'.repeat(timePrecision);
   }
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* TWIG                                                                                                               */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Interprets the given TWIG string
+ * @see {@link https://twig.symfony.com/doc/}
+ * @param {string} twig the TWIG string
+ * @param {Object<string, *>|Array<Object<string, *>>} [dict={}] the dictionary
+ * @param {Object<string, string>} [twigs={}] dictionary of fragments
+ * @returns {string} The Interpreted TWIG string
+ * @ignore
+ */
+
 function formatTWIG(twig, dict, twigs) {
-  const result = [];
-  const render = (twig2, dict2, twigs2) => {
-    if (!isMap(dict2)) {
-      dict2 = {};
+  var result = [];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  var render = function render(twig, dict, twigs) {
+    if (!isMap(dict)) {
+      dict = {};
     }
-    if (!isMap(twigs2)) {
-      twigs2 = {};
+
+    if (!isMap(twigs)) {
+      twigs = {};
     }
-    dict2["ORIGIN_URL"] = js_AMIRouter.getOriginURL();
-    dict2["WEBAPP_URL"] = js_AMIRouter.getWebAppURL();
-    dict2["BOOTSTRAP_VERSION"] = js_AMIWebApp.bootstrapVersion;
-    return ami_twig/* default.engine.render */.Z.engine.render(twig2, dict2, twigs2);
+
+    dict['ORIGIN_URL'] = js_AMIRouter.getOriginURL();
+    dict['WEBAPP_URL'] = js_AMIRouter.getWebAppURL();
+    dict['BOOTSTRAP_VERSION'] = js_AMIWebApp.bootstrapVersion;
+    return ami_twig/* default.engine.render */.Z.engine.render(twig, dict, twigs);
   };
-  asArray(dict).forEach((DICT) => {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  asArray(dict).forEach(function (DICT) {
     try {
       result.push(render(twig, DICT, twigs));
     } catch (e) {
-      error(`TWIG parsing error: ${e.message}`);
+      error("TWIG parsing error: " + e.message);
     }
   });
-  return result.join("");
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  return result.join('');
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+;// CONCATENATED MODULE: ./src/js/utilities/jsdoc.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+
+function _createForOfIteratorHelperLoose(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (it) return (it = it.call(o)).next.bind(it); if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; return function () { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function jsdoc_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
+
+var jsdoc_id = 0;
+
+function jsdoc_classPrivateFieldLooseKey(name) { return "__private_" + jsdoc_id++ + "_" + name; }
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+var jsdoc_linkExp = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("linkExp");
+
+var _menuSelector = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("menuSelector");
+
+var _bodySelector = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("bodySelector");
+
+var _json = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("json");
+
+var _makeMenu = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeMenu");
+
+var _makeSubMenu = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeSubMenu");
+
+var _makeContent = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeContent");
+
+var _makeVariable = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeVariable");
+
+var _makeVariableSignature = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeVariableSignature");
+
+var _makeFunction = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeFunction");
+
+var _makeFunctionSignature = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeFunctionSignature");
+
+var _makeFunctionParameters = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeFunctionParameters");
+
+var _makeFunctionExceptions = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeFunctionExceptions");
+
+var _makeFunctionReturn = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeFunctionReturn");
+
+var _makeAlias = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeAlias");
+
+var _makeDesc = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeDesc");
+
+var _makeParam = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeParam");
+
+var _makeType = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeType");
+
+var _makeDetails = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeDetails");
+
+var _makeExamples = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeExamples");
+
+var AMIJSDoc =
+/*----------------------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------------------------------------------*/
+function AMIJSDoc(menuSelector, bodySelector, json) {
+  Object.defineProperty(this, _makeContent, {
+    value: _makeContent2
+  });
+  Object.defineProperty(this, _makeSubMenu, {
+    value: _makeSubMenu2
+  });
+  Object.defineProperty(this, _makeMenu, {
+    value: _makeMenu2
+  });
+  Object.defineProperty(this, _menuSelector, {
+    writable: true,
+    value: null
+  });
+  Object.defineProperty(this, _bodySelector, {
+    writable: true,
+    value: null
+  });
+  Object.defineProperty(this, _json, {
+    writable: true,
+    value: null
+  });
+  jsdoc_classPrivateFieldLooseBase(this, _menuSelector)[_menuSelector] = menuSelector;
+  jsdoc_classPrivateFieldLooseBase(this, _bodySelector)[_bodySelector] = bodySelector;
+  jsdoc_classPrivateFieldLooseBase(this, _json)[_json] = json;
+
+  jsdoc_classPrivateFieldLooseBase(this, _makeMenu)[_makeMenu]();
+}
+/*----------------------------------------------------------------------------------------------------------------*/
+
+/*----------------------------------------------------------------------------------------------------------------*/
+;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Renders a AMI JSDoc documentation
+ * @param {string} menuSelector selector of the menu div
+ * @param {string} bodySelector selector of the body div
+ * @param {object} json the JSON documentation
+ * @returns {AMIJSDoc}
+ * @ignore
+ */
+
+
+function _makeMenu2() {
+  var _this = this;
+
+  /*------------------------------------------------------------------------------------------------------------*/
+  var s = "\n<a class=\"list-group-item list-group-item-action p-2\" href=\"\">\n\t<i class=\"bi bi-house\"></i> Home\n</a>\n\n<div class=\"list-group-item list-group-item-action p-2\">\n\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Global', 'global') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Namespace', 'namespaces') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Interface', 'interfaces') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Class', 'classes') + "\n\n</div>\n";
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  $(jsdoc_classPrivateFieldLooseBase(this, _menuSelector)[_menuSelector]).html(s.trim()).promise().done(function (_) {
+    $(jsdoc_classPrivateFieldLooseBase(_this, _menuSelector)[_menuSelector]).find('a[data-name][data-cat][data-name]').click(function (e) {
+      var el = $(e.currentTarget);
+      e.preventDefault();
+
+      jsdoc_classPrivateFieldLooseBase(_this, _makeContent)[_makeContent](el.attr('data-title'), el.attr('data-cat'), el.attr('data-name'));
+    });
+  });
+  /*------------------------------------------------------------------------------------------------------------*/
 }
 
-;// CONCATENATED MODULE: ./src/js/utilities/jsdoc.js
+function _makeSubMenu2(title, cat) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
 
-var jsdoc_accessCheck = (obj, member, msg) => {
-  if (!member.has(obj))
-    throw TypeError("Cannot " + msg);
-};
-var jsdoc_privateGet = (obj, member, getter) => {
-  jsdoc_accessCheck(obj, member, "read from private field");
-  return getter ? getter.call(obj) : member.get(obj);
-};
-var jsdoc_privateAdd = (obj, member, value) => {
-  if (member.has(obj))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-};
-var jsdoc_privateSet = (obj, member, value, setter) => {
-  jsdoc_accessCheck(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
-};
-var __privateMethod = (obj, member, method) => {
-  jsdoc_accessCheck(obj, member, "access private method");
-  return method;
-};
-var jsdoc_linkExp, _menuSelector, _bodySelector, _json, _makeMenu, makeMenu_fn, _makeSubMenu, makeSubMenu_fn, _makeContent, makeContent_fn, _makeVariable, makeVariable_fn, _makeVariableSignature, makeVariableSignature_fn, _makeFunction, makeFunction_fn, _makeFunctionSignature, makeFunctionSignature_fn, _makeFunctionParameters, makeFunctionParameters_fn, _makeFunctionExceptions, makeFunctionExceptions_fn, _makeFunctionReturn, makeFunctionReturn_fn, _makeAlias, makeAlias_fn, _makeDesc, makeDesc_fn, _makeParam, makeParam_fn, _makeType, makeType_fn, _makeDetails, makeDetails_fn, _makeExamples, makeExamples_fn;
+  var items;
 
-const _AMIJSDoc = class {
-  constructor(menuSelector, bodySelector, json) {
-    jsdoc_privateAdd(this, _makeMenu);
-    jsdoc_privateAdd(this, _makeSubMenu);
-    jsdoc_privateAdd(this, _makeContent);
-    jsdoc_privateAdd(this, _menuSelector, null);
-    jsdoc_privateAdd(this, _bodySelector, null);
-    jsdoc_privateAdd(this, _json, null);
-    jsdoc_privateSet(this, _menuSelector, menuSelector);
-    jsdoc_privateSet(this, _bodySelector, bodySelector);
-    jsdoc_privateSet(this, _json, json);
-    __privateMethod(this, _makeMenu, makeMenu_fn).call(this);
-  }
-};
-let AMIJSDoc = _AMIJSDoc;
-jsdoc_linkExp = new WeakMap();
-_menuSelector = new WeakMap();
-_bodySelector = new WeakMap();
-_json = new WeakMap();
-_makeMenu = new WeakSet();
-makeMenu_fn = function() {
-  const s = `
-<a class="list-group-item list-group-item-action p-2" href="">
-	<i class="bi bi-house"></i> Home
-</a>
-
-<div class="list-group-item list-group-item-action p-2">
-
-	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Global", "global")}
-	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Namespace", "namespaces")}
-	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Interface", "interfaces")}
-	${__privateMethod(this, _makeSubMenu, makeSubMenu_fn).call(this, "Class", "classes")}
-
-</div>
-`;
-  $(jsdoc_privateGet(this, _menuSelector)).html(s.trim()).promise().done((_) => {
-    $(jsdoc_privateGet(this, _menuSelector)).find("a[data-name][data-cat][data-name]").click((e) => {
-      const el = $(e.currentTarget);
-      e.preventDefault();
-      __privateMethod(this, _makeContent, makeContent_fn).call(this, el.attr("data-title"), el.attr("data-cat"), el.attr("data-name"));
-    });
-  });
-};
-_makeSubMenu = new WeakSet();
-makeSubMenu_fn = function(title, cat) {
-  const result = [];
-  let items;
-  if (cat === "global") {
+  if (cat === 'global') {
     items = [];
-    if (jsdoc_privateGet(this, _json)["variables"]) {
-      items = items.concat(jsdoc_privateGet(this, _json)["variables"]);
+
+    if (jsdoc_classPrivateFieldLooseBase(this, _json)[_json]['variables']) {
+      items = items.concat(jsdoc_classPrivateFieldLooseBase(this, _json)[_json]['variables']);
     }
-    if (jsdoc_privateGet(this, _json)["functions"]) {
-      items = items.concat(jsdoc_privateGet(this, _json)["functions"]);
+
+    if (jsdoc_classPrivateFieldLooseBase(this, _json)[_json]['functions']) {
+      items = items.concat(jsdoc_classPrivateFieldLooseBase(this, _json)[_json]['functions']);
     }
   } else {
-    items = jsdoc_privateGet(this, _json)[cat];
+    items = jsdoc_classPrivateFieldLooseBase(this, _json)[_json][cat];
   }
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
   if (Array.isArray(items) && items.length > 0) {
-    result.push("<div>");
-    result.push(`<a href="#jsdoc_menu_${title.toLowerCase()}" data-toggle="collapse" data-bs-toggle="collapse"><i class="bi bi-book"></i> ${textToHtml(title)}</a>`);
-    result.push(`<ul class="collapse mb-0" id="jsdoc_menu_${title.toLowerCase()}">${items.map((_item) => `<li><a href="#" data-title="${textToHtml(title)}" data-cat="${textToHtml(cat)}" data-name="${textToHtml(_item.name)}">${textToHtml(_item.name)}</a></li>`).join("")}</ul>`);
-    result.push("</div>");
+    result.push('<div>');
+    result.push("<a href=\"#jsdoc_menu_" + title.toLowerCase() + "\" data-toggle=\"collapse\" data-bs-toggle=\"collapse\"><i class=\"bi bi-book\"></i> " + textToHtml(title) + "</a>");
+    result.push("<ul class=\"collapse mb-0\" id=\"jsdoc_menu_" + title.toLowerCase() + "\">" + items.map(function (_item) {
+      return "<li><a href=\"#\" data-title=\"" + textToHtml(title) + "\" data-cat=\"" + textToHtml(cat) + "\" data-name=\"" + textToHtml(_item.name) + "\">" + textToHtml(_item.name) + "</a></li>";
+    }).join('') + "</ul>");
+    result.push('</div>');
   }
-  return result.join("");
-};
-_makeContent = new WeakSet();
-makeContent_fn = function(title, cat, name) {
-  var _a, _b, _c, _d, _e, _f, _g;
-  const s = [];
-  let item;
-  if (cat === "global") {
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.join('');
+}
+
+function _makeContent2(title, cat, name) {
+  var s = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  var item;
+
+  if (cat === 'global') {
     item = {
-      name: "variables and functions",
-      variables: jsdoc_privateGet(this, _json)["variables"],
-      functions: jsdoc_privateGet(this, _json)["functions"]
+      name: 'variables and functions',
+      variables: jsdoc_classPrivateFieldLooseBase(this, _json)[_json]['variables'],
+      functions: jsdoc_classPrivateFieldLooseBase(this, _json)[_json]['functions']
     };
   } else {
-    item = jsdoc_privateGet(this, _json)[cat].filter((item2) => item2.name === name)[0];
+    item = jsdoc_classPrivateFieldLooseBase(this, _json)[_json][cat].filter(function (item) {
+      return item.name === name;
+    })[0];
   }
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
   s.push('<div class="card">');
   s.push('<div class="card-body bg-light">');
-  s.push(`<h1>${textToHtml(title)}: ${textToHtml(item.name)}</h1>`);
-  s.push(__privateMethod(_a = _AMIJSDoc, _makeAlias, makeAlias_fn).call(_a, item));
-  s.push(__privateMethod(_b = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_b, item));
-  s.push(__privateMethod(_c = _AMIJSDoc, _makeDetails, makeDetails_fn).call(_c, item));
-  s.push("</div>");
-  s.push("</div>");
+  s.push("<h1>" + textToHtml(title) + ": " + textToHtml(item.name) + "</h1>");
+  s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeAlias)[_makeAlias](item));
+  s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](item));
+  s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDetails)[_makeDetails](item));
+  s.push('</div>');
+  s.push('</div>');
+  /*------------------------------------------------------------------------------------------------------------*/
+
   if (item.konstructor) {
     s.push('<h4 class="mt-3">Constructor</h4>');
-    s.push(__privateMethod(_d = _AMIJSDoc, _makeFunction, makeFunction_fn).call(_d, item.konstructor));
+    s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunction)[_makeFunction](item.konstructor));
   }
+
   if (Array.isArray(item.variables)) {
     s.push('<h4 class="mt-3">Members</h4>');
-    for (const _variable of item.variables) {
-      s.push(__privateMethod(_e = _AMIJSDoc, _makeVariable, makeVariable_fn).call(_e, _variable));
+
+    for (var _iterator = _createForOfIteratorHelperLoose(item.variables), _step; !(_step = _iterator()).done;) {
+      var _variable = _step.value;
+      s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeVariable)[_makeVariable](_variable));
     }
   }
+
   if (Array.isArray(item.functions)) {
     s.push('<h4 class="mt-3">Methods</h4>');
-    for (const _function of item.functions) {
-      s.push(__privateMethod(_f = _AMIJSDoc, _makeFunction, makeFunction_fn).call(_f, _function));
+
+    for (var _iterator2 = _createForOfIteratorHelperLoose(item.functions), _step2; !(_step2 = _iterator2()).done;) {
+      var _function = _step2.value;
+      s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunction)[_makeFunction](_function));
     }
   }
+
   if (Array.isArray(item.events)) {
     s.push('<h4 class="mt-3">Events</h4>');
-    for (const _event of item.events) {
-      s.push(__privateMethod(_g = _AMIJSDoc, _makeFunction, makeFunction_fn).call(_g, _event));
+
+    for (var _iterator3 = _createForOfIteratorHelperLoose(item.events), _step3; !(_step3 = _iterator3()).done;) {
+      var _event = _step3.value;
+      s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunction)[_makeFunction](_event));
     }
   }
-  $(jsdoc_privateGet(this, _bodySelector)).html(s.join(""));
-};
-_makeVariable = new WeakSet();
-makeVariable_fn = function(variable) {
-  var _a, _b, _c, _d;
-  const result = [];
-  result.push(`<hr id="jsdoc_variable_${variable.name}" />`);
-  result.push(__privateMethod(_a = _AMIJSDoc, _makeVariableSignature, makeVariableSignature_fn).call(_a, variable));
-  result.push(__privateMethod(_b = _AMIJSDoc, _makeAlias, makeAlias_fn).call(_b, variable));
-  result.push(__privateMethod(_c = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_c, variable));
-  result.push(__privateMethod(_d = _AMIJSDoc, _makeDetails, makeDetails_fn).call(_d, variable));
-  return result.join("");
-};
-_makeVariableSignature = new WeakSet();
-makeVariableSignature_fn = function(variable) {
-  var _a;
-  const result = [];
-  result.push(`<span class="signature-name">${textToHtml(variable.name)}</span>`);
-  result.push(`<span class="signature-attrs">: {${__privateMethod(_a = _AMIJSDoc, _makeType, makeType_fn).call(_a, variable)}}</span>`);
-  return result.join("");
-};
-_makeFunction = new WeakSet();
-makeFunction_fn = function(method) {
-  var _a, _b, _c, _d, _e, _f, _g, _h;
-  const result = [];
-  result.push(`<hr id="jsdoc_method_${method.name}" />`);
-  result.push(__privateMethod(_a = _AMIJSDoc, _makeFunctionSignature, makeFunctionSignature_fn).call(_a, method));
-  result.push(__privateMethod(_b = _AMIJSDoc, _makeAlias, makeAlias_fn).call(_b, method));
-  result.push(__privateMethod(_c = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_c, method));
-  result.push(__privateMethod(_d = _AMIJSDoc, _makeFunctionParameters, makeFunctionParameters_fn).call(_d, method));
-  result.push(__privateMethod(_e = _AMIJSDoc, _makeDetails, makeDetails_fn).call(_e, method));
-  result.push(__privateMethod(_f = _AMIJSDoc, _makeFunctionExceptions, makeFunctionExceptions_fn).call(_f, method));
-  result.push(__privateMethod(_g = _AMIJSDoc, _makeFunctionReturn, makeFunctionReturn_fn).call(_g, method));
-  result.push(__privateMethod(_h = _AMIJSDoc, _makeExamples, makeExamples_fn).call(_h, method));
-  return result.join("");
-};
-_makeFunctionSignature = new WeakSet();
-makeFunctionSignature_fn = function(method) {
-  const result = [];
-  result.push(`<span class="signature-name">${textToHtml(method.name)}</span>`);
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  $(jsdoc_classPrivateFieldLooseBase(this, _bodySelector)[_bodySelector]).html(s.join(''));
+  /*------------------------------------------------------------------------------------------------------------*/
+}
+
+function _makeVariable2(variable) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  result.push("<hr id=\"jsdoc_variable_" + variable.name + "\" />");
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeVariableSignature)[_makeVariableSignature](variable));
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeAlias)[_makeAlias](variable));
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](variable));
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDetails)[_makeDetails](variable));
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  return result.join('');
+}
+
+function _makeVariableSignature2(variable) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  result.push("<span class=\"signature-name\">" + textToHtml(variable.name) + "</span>");
+  result.push("<span class=\"signature-attrs\">: {" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](variable) + "}</span>");
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  return result.join('');
+}
+
+function _makeFunction2(method) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  result.push("<hr id=\"jsdoc_method_" + method.name + "\" />");
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunctionSignature)[_makeFunctionSignature](method));
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeAlias)[_makeAlias](method));
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](method));
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunctionParameters)[_makeFunctionParameters](method));
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDetails)[_makeDetails](method));
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunctionExceptions)[_makeFunctionExceptions](method));
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunctionReturn)[_makeFunctionReturn](method));
+  result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeExamples)[_makeExamples](method));
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  return result.join('');
+}
+
+function _makeFunctionSignature2(method) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  result.push("<span class=\"signature-name\">" + textToHtml(method.name) + "</span>");
+  /*------------------------------------------------------------------------------------------------------------*/
+
   if (method.params) {
-    const L = method.params.map((_param) => {
-      var _a;
-      return __privateMethod(_a = _AMIJSDoc, _makeParam, makeParam_fn).call(_a, _param);
+    var L = method.params.map(function (_param) {
+      return jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeParam)[_makeParam](_param);
     });
-    result.push(`<span class="signature-params">(${L.join(", ")})</span>`);
+    result.push("<span class=\"signature-params\">(" + L.join(', ') + ")</span>");
   }
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
   if (method.returns) {
-    const L = method.returns.map((_return) => {
-      var _a;
-      return __privateMethod(_a = _AMIJSDoc, _makeType, makeType_fn).call(_a, _return);
+    var _L = method.returns.map(function (_return) {
+      return jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_return);
     });
-    result.push(`<span class="signature-attrs"> &rarr; {${L.join(" or ")}}</span>`);
+
+    result.push("<span class=\"signature-attrs\"> &rarr; {" + _L.join(' or ') + "}</span>");
   }
-  return result.join("");
-};
-_makeFunctionParameters = new WeakSet();
-makeFunctionParameters_fn = function(method) {
-  var _a, _b;
-  const result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.join('');
+}
+
+function _makeFunctionParameters2(method) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
   if (method.params.length > 0) {
-    const L1 = [], L2 = [], L3 = [], L4 = [], L5 = [], L6 = [];
-    let cnt1 = 0, cnt2 = 0, cnt3 = 0, cnt4 = 0, cnt5 = 0, cnt6 = 0;
-    for (const _params of method.params) {
-      L1.push(textToHtml(_params["name"]));
-      L2.push(__privateMethod(_a = _AMIJSDoc, _makeType, makeType_fn).call(_a, _params));
-      L3.push(__privateMethod(_b = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_b, _params));
-      L4.push(textToHtml(_params["default"]));
-      L5.push(_params["optional"]);
-      L6.push(_params["nullable"]);
-      if (_params["name"]) {
+    /*--------------------------------------------------------------------------------------------------------*/
+    var L1 = [],
+        L2 = [],
+        L3 = [],
+        L4 = [],
+        L5 = [],
+        L6 = [];
+    var cnt1 = 0,
+        cnt2 = 0,
+        cnt3 = 0,
+        cnt4 = 0,
+        cnt5 = 0,
+        cnt6 = 0;
+
+    for (var _iterator4 = _createForOfIteratorHelperLoose(method.params), _step4; !(_step4 = _iterator4()).done;) {
+      var _params = _step4.value;
+      L1.push(textToHtml(_params['name']));
+      L2.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_params));
+      L3.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](_params));
+      L4.push(textToHtml(_params['default']));
+      L5.push(_params['optional']);
+      L6.push(_params['nullable']);
+
+      if (_params['name']) {
         cnt1++;
       }
-      if (_params["type"]) {
+
+      if (_params['type']) {
         cnt2++;
       }
-      if (_params["desc"]) {
+
+      if (_params['desc']) {
         cnt3++;
       }
-      if (_params["default"]) {
+
+      if (_params['default']) {
         cnt4++;
       }
-      if (_params["optional"]) {
+
+      if (_params['optional']) {
         cnt5++;
       }
-      if (_params["nullable"]) {
+
+      if (_params['nullable']) {
         cnt6++;
       }
     }
+    /*--------------------------------------------------------------------------------------------------------*/
+
+
     result.push('<h5 class="mt-2"><strong>Parameters:</strong></h5>');
     result.push('<table class="table table-sm table-hover table-striped table-bordered" style="width: auto;">');
-    result.push("<thead>");
-    result.push("<tr>");
+    /*--------*/
+
+    /* THEAD  */
+
+    /*--------*/
+
+    result.push('<thead>');
+    result.push('<tr>');
+
     if (cnt1 > 0) {
-      result.push("<th>Name</th>");
+      result.push('<th>Name</th>');
     }
+
     if (cnt2 > 0) {
-      result.push("<th>Type</th>");
+      result.push('<th>Type</th>');
     }
+
     if (cnt4 > 0) {
-      result.push("<th>Default</th>");
+      result.push('<th>Default</th>');
     }
+
     if (cnt5 > 0) {
-      result.push("<th>Optional</th>");
+      result.push('<th>Optional</th>');
     }
+
     if (cnt6 > 0) {
-      result.push("<th>Nullable</th>");
+      result.push('<th>Nullable</th>');
     }
+
     if (cnt3 > 0) {
-      result.push("<th>Description</th>");
+      result.push('<th>Description</th>');
     }
-    result.push("</tr>");
-    result.push("</thead>");
-    result.push("<tbody>");
-    for (const i in method.params) {
-      result.push("<tr>");
+
+    result.push('</tr>');
+    result.push('</thead>');
+    /*--------*/
+
+    /* TBODY  */
+
+    /*--------*/
+
+    result.push('<tbody>');
+
+    for (var i in method.params) {
+      result.push('<tr>');
+
       if (cnt1 > 0) {
-        result.push(`<td>${L1[i]}</td>`);
+        result.push("<td>" + L1[i] + "</td>");
       }
+
       if (cnt2 > 0) {
-        result.push(`<td>${L2[i]}</td>`);
+        result.push("<td>" + L2[i] + "</td>");
       }
+
       if (cnt4 > 0) {
-        result.push(`<td>${L4[i]}</td>`);
+        result.push("<td>" + L4[i] + "</td>");
       }
+
       if (cnt5 > 0) {
-        result.push(`<td class="text-center">${L5[i] ? "\u2713" : ""}</td>`);
+        result.push("<td class=\"text-center\">" + (L5[i] ? '✓' : '') + "</td>");
       }
+
       if (cnt6 > 0) {
-        result.push(`<td class="text-center">${L6[i] ? "\u2713" : ""}</td>`);
+        result.push("<td class=\"text-center\">" + (L6[i] ? '✓' : '') + "</td>");
       }
+
       if (cnt3 > 0) {
-        result.push(`<td>${L3[i]}</td>`);
+        result.push("<td>" + L3[i] + "</td>");
       }
-      result.push("</tr>");
+
+      result.push('</tr>');
     }
-    result.push("</tbody>");
-    result.push("</table>");
+
+    result.push('</tbody>');
+    /*--------*/
+
+    result.push('</table>');
+    /*--------------------------------------------------------------------------------------------------------*/
   }
-  return result.join("");
-};
-_makeFunctionExceptions = new WeakSet();
-makeFunctionExceptions_fn = function(method) {
-  var _a, _b;
-  const result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.join('');
+}
+
+function _makeFunctionExceptions2(method) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
   if (Array.isArray(method.exceptions)) {
-    for (const _exception of method.exceptions) {
+    for (var _iterator5 = _createForOfIteratorHelperLoose(method.exceptions), _step5; !(_step5 = _iterator5()).done;) {
+      var _exception = _step5.value;
       result.push('<h5 class="mt-2"><strong>Throws:</strong></h5>');
-      result.push(__privateMethod(_a = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_a, _exception));
-      result.push(`<div>Type: <span class="signature-attrs">${__privateMethod(_b = _AMIJSDoc, _makeType, makeType_fn).call(_b, _exception)}</span></div>`);
+      result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](_exception));
+      result.push("<div>Type: <span class=\"signature-attrs\">" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_exception) + "</span></div>");
     }
   }
-  return result.join("");
-};
-_makeFunctionReturn = new WeakSet();
-makeFunctionReturn_fn = function(method) {
-  var _a, _b;
-  const result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.join('');
+}
+
+function _makeFunctionReturn2(method) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
   if (Array.isArray(method.returns)) {
-    for (const _return of method.returns) {
+    for (var _iterator6 = _createForOfIteratorHelperLoose(method.returns), _step6; !(_step6 = _iterator6()).done;) {
+      var _return = _step6.value;
       result.push('<h5 class="mt-2"><strong>Returns:</strong></h5>');
-      result.push(__privateMethod(_a = _AMIJSDoc, _makeDesc, makeDesc_fn).call(_a, _return));
-      result.push(`<div>Type: <span class="signature-attrs">${__privateMethod(_b = _AMIJSDoc, _makeType, makeType_fn).call(_b, _return)}</span></div>`);
+      result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](_return));
+      result.push("<div>Type: <span class=\"signature-attrs\">" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_return) + "</span></div>");
     }
   }
-  return result.join("");
-};
-_makeAlias = new WeakSet();
-makeAlias_fn = function(x) {
-  const result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.join('');
+}
+
+function _makeAlias2(x) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
   if (x.alias) {
-    result.push("<div>");
-    result.push(`Alias: ${textToHtml(x.alias)}`);
-    result.push("</div>");
+    result.push('<div>');
+    result.push("Alias: " + textToHtml(x.alias));
+    result.push('</div>');
   }
-  return result.join("");
-};
-_makeDesc = new WeakSet();
-makeDesc_fn = function(x) {
-  const result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.join('');
+}
+
+function _makeDesc2(x) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
   if (x.desc) {
-    result.push("<div>");
-    result.push(textToHtml(x.desc).replace(jsdoc_privateGet(_AMIJSDoc, jsdoc_linkExp), (_, x2, y) => {
-      return `<a href="${y}">${x2 || y}</a>`;
+    result.push('<div>');
+    result.push(textToHtml(x.desc).replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], function (_, x, y) {
+      return "<a href=\"" + y + "\">" + (x || y) + "</a>";
     }));
-    result.push("</div>");
+    result.push('</div>');
   }
-  return result.join("");
-};
-_makeParam = new WeakSet();
-makeParam_fn = function(x) {
-  const result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.join('');
+}
+
+function _makeParam2(x) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
   result.push(textToHtml(x.name));
+
   if (x.optional) {
     result.push('<sup class="signature-params-attrs">opt.</sup>');
   }
+
   if (x.nullable) {
     result.push('<sup class="signature-params-attrs">null.</sup>');
   }
-  return result.join("");
-};
-_makeType = new WeakSet();
-makeType_fn = function(x) {
-  return x.type.map((y) => `<i>${textToHtml(y.replace(/\s*/g, ""))}</i>`).join(" or ");
-};
-_makeDetails = new WeakSet();
-makeDetails_fn = function(x) {
-  const result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.join('');
+}
+
+function _makeType2(x) {
+  return x.type.map(function (y) {
+    return "<i>" + textToHtml(y.replace(/\s*/g, '')) + "</i>";
+  }).join(' or ');
+}
+
+function _makeDetails2(x) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
   if (Array.isArray(x.implements) && x.implements.length > 0) {
-    result.push(`<div>Implements: ${textToHtml(x.implements.join(", "))}</div>`);
+    result.push("<div>Implements: " + textToHtml(x.implements.join(', ')) + "</div>");
   }
+
   if (Array.isArray(x.inherits) && x.inherits.length > 0) {
-    result.push(`<div>Inherits: ${textToHtml(x.inherits.join(", "))}</div>`);
+    result.push("<div>Inherits: " + textToHtml(x.inherits.join(', ')) + "</div>");
   }
-  const version = [];
-  const author = [];
-  const see = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  var version = [];
+  var author = [];
+  var see = [];
+
   if (x.version) {
-    version.push(`<dt>Version:</dt><dd>${textToHtml(x.version)}</dd>`);
+    version.push("<dt>Version:</dt><dd>" + textToHtml(x.version) + "</dd>");
   }
+
   if (Array.isArray(x.author)) {
-    for (const _author of x.author) {
-      const _AUTHOR = _author.replace(jsdoc_privateGet(_AMIJSDoc, jsdoc_linkExp), (_, x2, y) => {
-        return `<a href="${y}">${x2 || y}</a>`;
+    for (var _iterator7 = _createForOfIteratorHelperLoose(x.author), _step7; !(_step7 = _iterator7()).done;) {
+      var _author = _step7.value;
+
+      var _AUTHOR = _author.replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], function (_, x, y) {
+        return "<a href=\"" + y + "\">" + (x || y) + "</a>";
       });
-      author.push(`<dt>Author:</dt><dd>${_AUTHOR}</dd>`);
+
+      author.push("<dt>Author:</dt><dd>" + _AUTHOR + "</dd>");
     }
   }
+
   if (Array.isArray(x.see)) {
-    for (const _see of x.see) {
-      const _SEE = _see.replace(jsdoc_privateGet(_AMIJSDoc, jsdoc_linkExp), (_, x2, y) => {
-        return `<a href="${y}">${x2 || y}</a>`;
+    for (var _iterator8 = _createForOfIteratorHelperLoose(x.see), _step8; !(_step8 = _iterator8()).done;) {
+      var _see = _step8.value;
+
+      var _SEE = _see.replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], function (_, x, y) {
+        return "<a href=\"" + y + "\">" + (x || y) + "</a>";
       });
-      see.push(`<dt>See:</dt><dd>${_SEE}</dd>`);
+
+      see.push("<dt>See:</dt><dd>" + _SEE + "</dd>");
     }
   }
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
   if (author.length > 0 || version.length > 0 || see.length > 0) {
     result.push('<dl class="details">');
-    result.push(version.join(""));
-    result.push(author.join(""));
-    result.push(see.join(""));
-    result.push("</dl>");
+    result.push(version.join(''));
+    result.push(author.join(''));
+    result.push(see.join(''));
+    result.push('</dl>');
   }
-  return result.join("");
-};
-_makeExamples = new WeakSet();
-makeExamples_fn = function(x, mode) {
-  const result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.join('');
+}
+
+function _makeExamples2(x, mode) {
+  var result = [];
+  /*------------------------------------------------------------------------------------------------------------*/
+
   if (Array.isArray(x.examples)) {
-    for (const _example of x.examples) {
+    for (var _iterator9 = _createForOfIteratorHelperLoose(x.examples), _step9; !(_step9 = _iterator9()).done;) {
+      var _example = _step9.value;
       result.push('<h5 class="mt-2"><strong>Example:</strong></h5>');
-      result.push(`<textarea class="form-editor" data-mode="${textToHtml(mode)}">${textToHtml(_example)}</textarea>`);
+      result.push("<textarea class=\"form-editor\" data-mode=\"" + textToHtml(mode) + "\">" + textToHtml(_example) + "</textarea>");
     }
   }
-  return result.join("");
-};
-jsdoc_privateAdd(AMIJSDoc, _makeVariable);
-jsdoc_privateAdd(AMIJSDoc, _makeVariableSignature);
-jsdoc_privateAdd(AMIJSDoc, _makeFunction);
-jsdoc_privateAdd(AMIJSDoc, _makeFunctionSignature);
-jsdoc_privateAdd(AMIJSDoc, _makeFunctionParameters);
-jsdoc_privateAdd(AMIJSDoc, _makeFunctionExceptions);
-jsdoc_privateAdd(AMIJSDoc, _makeFunctionReturn);
-jsdoc_privateAdd(AMIJSDoc, _makeAlias);
-jsdoc_privateAdd(AMIJSDoc, _makeDesc);
-jsdoc_privateAdd(AMIJSDoc, _makeParam);
-jsdoc_privateAdd(AMIJSDoc, _makeType);
-jsdoc_privateAdd(AMIJSDoc, _makeDetails);
-jsdoc_privateAdd(AMIJSDoc, _makeExamples);
-jsdoc_privateAdd(AMIJSDoc, jsdoc_linkExp, /(?:\[\s*([^\s\]]+)\s*])?{@link\s+([^\s}]+)\s*}/g);
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.join('');
+}
+
+Object.defineProperty(AMIJSDoc, _makeExamples, {
+  value: _makeExamples2
+});
+Object.defineProperty(AMIJSDoc, _makeDetails, {
+  value: _makeDetails2
+});
+Object.defineProperty(AMIJSDoc, _makeType, {
+  value: _makeType2
+});
+Object.defineProperty(AMIJSDoc, _makeParam, {
+  value: _makeParam2
+});
+Object.defineProperty(AMIJSDoc, _makeDesc, {
+  value: _makeDesc2
+});
+Object.defineProperty(AMIJSDoc, _makeAlias, {
+  value: _makeAlias2
+});
+Object.defineProperty(AMIJSDoc, _makeFunctionReturn, {
+  value: _makeFunctionReturn2
+});
+Object.defineProperty(AMIJSDoc, _makeFunctionExceptions, {
+  value: _makeFunctionExceptions2
+});
+Object.defineProperty(AMIJSDoc, _makeFunctionParameters, {
+  value: _makeFunctionParameters2
+});
+Object.defineProperty(AMIJSDoc, _makeFunctionSignature, {
+  value: _makeFunctionSignature2
+});
+Object.defineProperty(AMIJSDoc, _makeFunction, {
+  value: _makeFunction2
+});
+Object.defineProperty(AMIJSDoc, _makeVariableSignature, {
+  value: _makeVariableSignature2
+});
+Object.defineProperty(AMIJSDoc, _makeVariable, {
+  value: _makeVariable2
+});
+Object.defineProperty(AMIJSDoc, jsdoc_linkExp, {
+  writable: true,
+  value: /(?:\[\s*([^\s\]]+)\s*])?{@link\s+([^\s}]+)\s*}/g
+});
 function renderJSDoc(menuSelector, bodySelector, json) {
   return new AMIJSDoc(menuSelector, bodySelector, json);
 }
-
+/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/controls.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
@@ -13885,323 +15348,686 @@ function renderJSDoc(menuSelector, bodySelector, json) {
 
 
 
-const _controls = {};
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* CONTROLS                                                                                                           */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @type {Object<string,Object<string,*>>}
+ * @private
+ */
+
+var _controls = {};
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously loads a control
+ * @param {string} control the control name
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
 function loadControl(control, options) {
-  const result = $.Deferred();
-  const [context] = setup(["context"], [result], options);
-  if (control.indexOf("ctrl:") === 0) {
+  var result = $.Deferred();
+
+  var _tools$setup = setup(['context'], [result], options),
+      context = _tools$setup[0];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  if (control.indexOf('ctrl:') === 0) {
     control = control.substring(5);
   }
-  const descr = _controls[control.toLowerCase()];
+
+  var descr = _controls[control.toLowerCase()];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if (descr) {
     try {
-      loadScripts(`${js_AMIRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
-        const clazz = window[descr.clazz];
-        const promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) : null;
-        _internal_then(promise, () => {
-          result.resolveWith(context, [clazz]);
-        }, (message) => {
-          result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
+      loadScripts(js_AMIRouter.getOriginURL() + "/" + descr.file).then(function (loaded) {
+        var clazz = window[descr.clazz];
+        var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) :
+        /*----------------*/
+        null
+        /*----------------*/
+        ;
+
+        _internal_then(promise, function () {
+          result.resolveWith(context, [
+          /*----------------*/
+          clazz
+          /*----------------*/
+          ]);
+        }, function (message) {
+          result.rejectWith(context, ["cannot load control '" + control + "': " + message]);
         });
-      }, (message) => {
-        result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
+      }, function (message) {
+        result.rejectWith(context, ["cannot load control '" + control + "': " + message]);
       });
     } catch (message) {
-      result.rejectWith(context, [`cannot load control '${control}': ${message}`]);
+      result.rejectWith(context, ["cannot load control '" + control + "': " + message]);
     }
   } else {
-    result.rejectWith(context, [`cannot load control '${control}': not found`]);
+    result.rejectWith(context, ["cannot load control '" + control + "': not found"]);
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   return result.promise();
 }
-function createControl(parent, owner, control, params, options) {
-  const result = $.Deferred();
-  const [context] = setup(["context"], [result], options);
-  loadControl(control, options).done((constructor) => {
-    const instance = new constructor(parent, owner);
-    _internal_then(constructor.prototype.render.apply(instance, params), (...args) => {
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously creates a control
+ * @param {?*} parent the parent entity
+ * @param {?*} owner the owner entity
+ * @param {string} control the control name
+ * @param {Array<*>} params the control's parameters
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function controls_createControl(parent, owner, control, params, options) {
+  var result = $.Deferred();
+
+  var _tools$setup2 = setup(['context'], [result], options),
+      context = _tools$setup2[0];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  loadControl(control, options).done(function (constructor) {
+    var instance = new constructor(parent, owner);
+
+    _internal_then(constructor.prototype.render.apply(instance, params), function () {
+      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+        args[_key] = arguments[_key];
+      }
+
       result.resolveWith(context, [instance].concat(args));
-    }, (message) => {
+    }, function (message) {
       result.rejectWith(context, [message]);
     });
-  }).fail((message) => {
+  }).fail(function (message) {
     result.rejectWith(context, [message]);
   });
+  /*----------------------------------------------------------------------------------------------------------------*/
+
   return result.promise();
 }
-function createControlInBody(parent, owner, control, controlParams, controlOptions, ownerOptions, options) {
-  const result = $.Deferred();
-  const [context] = setup(["context"], [result], options);
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously creates a control in the body
+ * @param {?*} parent the parent entity
+ * @param {?*} owner the owner entity
+ * @param {string} control the control name
+ * @param {Array<*>} controlParams the control's render method mandatory parameters
+ * @param {Object<string, *>} controlOptions the control's render method optional parameters
+ * @param {Object<string, *>} ownerOptions the owner's optional parameters
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function controls_createControlInBody(parent, owner, control, controlParams, controlOptions, ownerOptions, options) {
+  var result = $.Deferred();
+
+  var _tools$setup3 = setup(['context'], [result], options),
+      context = _tools$setup3[0];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   try {
-    const PARAMS = [];
-    const OPTIONS = {};
-    for (let key in ownerOptions) {
+    var PARAMS = [];
+    var OPTIONS = {};
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    for (var key in ownerOptions) {
       OPTIONS[key] = ownerOptions[key];
     }
-    for (let key in controlOptions) {
-      OPTIONS[key] = controlOptions[key];
+
+    for (var _key2 in controlOptions) {
+      OPTIONS[_key2] = controlOptions[_key2];
     }
+    /*------------------------------------------------------------------------------------------------------------*/
+    //////.push(selector);
+
+
     Array.prototype.push.apply(PARAMS, controlParams);
     PARAMS.push(OPTIONS);
-    createControl(parent, owner, control, PARAMS).done((...args) => {
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    controls_createControl(parent, owner, control, PARAMS).done(function () {
+      for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
+        args[_key3] = arguments[_key3];
+      }
+
       result.resolveWith(context, args);
-    }).fail((message) => {
+    }).fail(function (message) {
       result.rejectWith(context, [message]);
     });
+    /*------------------------------------------------------------------------------------------------------------*/
   } catch (message) {
     result.rejectWith(context, [message]);
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   return result.promise();
 }
-function createControlInContainer(parent, owner, control, controlParams, controlOptions, ownerOptions, icon, title, options) {
-  const result = $.Deferred();
-  const [context] = setup(["context"], [result], options);
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously creates a control in a container
+ * @param {?*} parent the parent entity
+ * @param {?*} owner the owner entity
+ * @param {string} control the control name
+ * @param {Array<*>} controlParams the control's render method mandatory parameters
+ * @param {Object<string, *>} controlOptions the control's render method optional parameters
+ * @param {Object<string, *>} ownerOptions the owner's optional parameters
+ * @param {string} icon the icon
+ * @param {string} title the title
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function controls_createControlInContainer(parent, owner, control, controlParams, controlOptions, ownerOptions, icon, title, options) {
+  var result = $.Deferred();
+
+  var _tools$setup4 = setup(['context'], [result], options),
+      context = _tools$setup4[0];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   try {
-    parent.appendItem(`<i class="bi bi-${textToHtml(icon)}"></i> ${textToHtml(title)}`).done((selector) => {
-      const PARAMS = [];
-      const OPTIONS = {};
-      for (let key in ownerOptions) {
+    parent.appendItem("<i class=\"bi bi-" + textToHtml(icon) + "\"></i> " + textToHtml(title)).done(function (selector) {
+      var PARAMS = [];
+      var OPTIONS = {};
+      /*--------------------------------------------------------------------------------------------------------*/
+
+      for (var key in ownerOptions) {
         OPTIONS[key] = ownerOptions[key];
       }
-      for (let key in controlOptions) {
-        OPTIONS[key] = controlOptions[key];
+
+      for (var _key4 in controlOptions) {
+        OPTIONS[_key4] = controlOptions[_key4];
       }
+      /*--------------------------------------------------------------------------------------------------------*/
+
+
       PARAMS.push(selector);
       Array.prototype.push.apply(PARAMS, controlParams);
       PARAMS.push(OPTIONS);
-      createControl(parent, owner, control, PARAMS).done((...args) => {
+      /*--------------------------------------------------------------------------------------------------------*/
+
+      controls_createControl(parent, owner, control, PARAMS).done(function () {
+        for (var _len3 = arguments.length, args = new Array(_len3), _key5 = 0; _key5 < _len3; _key5++) {
+          args[_key5] = arguments[_key5];
+        }
+
         result.resolveWith(context, args);
-      }).fail((message) => {
+      }).fail(function (message) {
         result.rejectWith(context, [message]);
       });
+      /*--------------------------------------------------------------------------------------------------------*/
     });
   } catch (message) {
     result.rejectWith(context, [message]);
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   return result.promise();
 }
-function createControlFromWebLink(parent, owner, el, ownerOptions, options) {
-  const dataCtrl = el.hasAttribute("data-ctrl") ? el.getAttribute("data-ctrl") : "";
-  const dataCtrlLocation = el.hasAttribute("data-ctrl-location") ? el.getAttribute("data-ctrl-location") : "";
-  const dataParams = el.hasAttribute("data-params") ? JSON.parse(el.getAttribute("data-params")) : [];
-  const dataOptions = el.hasAttribute("data-options") ? JSON.parse(el.getAttribute("data-options")) : el.hasAttribute("data-settings") ? JSON.parse(el.getAttribute("data-settings")) : {};
-  const dataIcon = el.hasAttribute("data-icon") ? el.getAttribute("data-icon") : "question";
-  const dataTitle = el.hasAttribute("data-title") ? el.getAttribute("data-title") : "Unknown";
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously creates a control in a container from a WEB link
+ * @param {?*} parent the parent entity
+ * @param {?*} owner the owner entity
+ * @param {Element} el the HTML element
+ * @param {Object<string, *>} ownerOptions the owner's optional parameters
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function controls_createControlFromWebLink(parent, owner, el, ownerOptions, options) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+  var dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl') : '';
+  var dataCtrlLocation = el.hasAttribute('data-ctrl-location') ? el.getAttribute('data-ctrl-location') : '';
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  var dataParams = el.hasAttribute('data-params') ? JSON.parse(el.getAttribute('data-params')) : [];
+  var dataOptions = el.hasAttribute('data-options') ? JSON.parse(el.getAttribute('data-options')) : el.hasAttribute('data-settings') ? JSON.parse(el.getAttribute('data-settings')) : {};
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  var dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon') : 'question';
+  var dataTitle = el.hasAttribute('data-title') ? el.getAttribute('data-title') : 'Unknown';
+  /*----------------------------------------------------------------------------------------------------------------*/
+
   lock();
-  if (dataCtrlLocation === "body") {
-    return createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, options).done(() => {
+  /**/
+
+  if (dataCtrlLocation === 'body') {
+    return controls_createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, options).done(function () {
       unlock();
-    }).fail((message) => {
+    }).fail(function (message) {
       error(message);
     });
   } else {
-    return createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, dataIcon, dataTitle, options).done(() => {
+    return controls_createControlInContainer(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, dataIcon, dataTitle, options).done(function () {
       unlock();
-    }).fail((message) => {
+    }).fail(function (message) {
       error(message);
     });
   }
-}
+  /*----------------------------------------------------------------------------------------------------------------*/
 
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/resources.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
 
-const _sheets = [];
-const _scripts = [];
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* DYNAMIC RESOURCE LOADING                                                                                           */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @type {Array<*>}
+ * @private
+ */
+
+var _sheets = [];
+/**
+ * @type {Array<*>}
+ * @private
+ */
+
+var _scripts = [];
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {string} url
+ * @returns {string}
+ * @private
+ */
+
 function _getExtension(url) {
-  const idx = url.lastIndexOf(".");
-  return idx > 0 ? url.substring(idx) : "";
+  var idx = url.lastIndexOf('.');
+  return idx > 0 ? url.substring(idx) : '';
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {string} url
+ * @param {string} dataType
+ * @returns {string}
+ * @private
+ */
+
+
 function _getDataType(url, dataType) {
-  let result;
-  if (dataType === "auto") {
-    if (url.indexOf("ctrl:") === 0) {
-      result = "control";
-    } else if (url.indexOf("subapp:") === 0) {
-      result = "subapp";
+  var result;
+
+  if (dataType === 'auto') {
+    /**/
+    if (url.indexOf('ctrl:') === 0) {
+      result = 'control';
+    } else if (url.indexOf('subapp:') === 0) {
+      result = 'subapp';
     } else {
       switch (_getExtension(url).toLowerCase()) {
-        case ".css":
-          result = "sheet";
+        case '.css':
+          result = 'sheet';
           break;
-        case ".js":
-          result = "script";
+
+        case '.js':
+          result = 'script';
           break;
-        case ".json":
-          result = "json";
+
+        case '.json':
+          result = 'json';
           break;
-        case ".xml":
-          result = "xml";
+
+        case '.xml':
+          result = 'xml';
           break;
+
         default:
-          result = "text";
+          result = 'text';
           break;
       }
     }
   } else {
     result = dataType;
   }
+
   return result;
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {$.Deferred} deferred
+ * @param {Array<*>} result
+ * @param {Array<String>} urls
+ * @param {string} dataType
+ * @param {*} context
+ * @private
+ */
+
+
 function __loadXXX(deferred, result, urls, dataType, context) {
   if (urls.length === 0) {
     deferred.resolveWith(context, [result]);
     return;
   }
-  const url = urls.shift().trim();
-  const dataTYPE = _getDataType(url, dataType);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  var url = urls.shift().trim();
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  var dataTYPE = _getDataType(url, dataType);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   switch (dataTYPE) {
-    case "control":
-      loadControl(url).then((data) => {
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /* CONTROL                                                                                                    */
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    case 'control':
+      loadControl(url).then(function (data) {
         result.push(data);
+
         __loadXXX(deferred, result, urls, dataType, context);
-      }, (message) => {
+      }, function (message) {
         deferred.rejectWith(context, [message]);
       });
       break;
-    case "subapp":
-      loadSubApp(url).then((data) => {
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /* SUBAPP                                                                                                     */
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    case 'subapp':
+      loadSubApp(url).then(function (data) {
         result.push(data);
+
         __loadXXX(deferred, result, urls, dataType, context);
-      }, (message) => {
+      }, function (message) {
         deferred.rejectWith(context, [message]);
       });
       break;
-    case "sheet":
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /* SHEET                                                                                                      */
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    case 'sheet':
       if (_sheets.indexOf(url) >= 0) {
         result.push(false);
+
         __loadXXX(deferred, result, urls, dataType, context);
       } else {
         $.ajax({
-          url,
+          url: url,
           async: false,
           cache: false,
           crossDomain: true,
           dataType: dataTYPE
-        }).then(() => {
+        }).then(function () {
           result.push(true);
+
           _sheets.push(url);
+
           __loadXXX(deferred, result, urls, dataType, context);
-        }, () => {
-          deferred.rejectWith(context, [`cannot load '${url}'`]);
+        }, function () {
+          deferred.rejectWith(context, ["cannot load '" + url + "'"]);
         });
       }
+
       break;
-    case "script":
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /* SCRIPT                                                                                                     */
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    case 'script':
       if (_scripts.indexOf(url) >= 0) {
         result.push(false);
+
         __loadXXX(deferred, result, urls, dataType, context);
       } else {
         $.ajax({
-          url,
+          url: url,
           async: false,
           cache: false,
           crossDomain: true,
           dataType: dataTYPE
-        }).then(() => {
+        }).then(function () {
           result.push(true);
+
           _scripts.push(url);
+
           __loadXXX(deferred, result, urls, dataType, context);
-        }, () => {
-          deferred.rejectWith(context, [`cannot load '${url}'`]);
+        }, function () {
+          deferred.rejectWith(context, ["cannot load '" + url + "'"]);
         });
       }
+
       break;
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /* OTHER                                                                                                      */
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
     default:
       $.ajax({
-        url,
+        url: url,
         async: true,
         cache: false,
         crossDomain: true,
         dataType: dataTYPE
-      }).then((data) => {
+      }).then(function (data) {
         result.push(data);
+
         __loadXXX(deferred, result, urls, dataType, context);
-      }, () => {
-        deferred.rejectWith(context, [`cannot load '${url}'`]);
+      }, function () {
+        deferred.rejectWith(context, ["cannot load '" + url + "'"]);
       });
       break;
+
+    /*------------------------------------------------------------------------------------------------------------*/
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {Array<String>|String} urls
+ * @param {string} dataType
+ * @param {Object<string, *>} [options={}]
+ * @returns {$.Promise}
+ * @private
+ */
+
+
 function _loadXXX(urls, dataType, options) {
-  const deferred = $.Deferred();
-  const [context] = setup(["context"], [deferred], options);
+  var deferred = $.Deferred();
+
+  var _tools$setup = setup(['context'], [deferred], options),
+      context = _tools$setup[0];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   __loadXXX(deferred, [], asArray(urls), dataType, context);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   return deferred.promise();
 }
-function loadResources(urls, options) {
-  return _loadXXX(urls, "auto", options);
-}
-function loadSheets(urls, options) {
-  return _loadXXX(urls, "sheet", options);
-}
-function loadScripts(urls, options) {
-  return _loadXXX(urls, "script", options);
-}
-function loadJSONs(urls, options) {
-  return _loadXXX(urls, "json", options);
-}
-function loadXMLs(urls, options) {
-  return _loadXXX(urls, "xml", options);
-}
-function loadHTMLs(urls, options) {
-  return _loadXXX(urls, "text", options);
-}
-function loadTWIGs(urls, options) {
-  return _loadXXX(urls, "text", options);
-}
-function loadTexts(urls, options) {
-  return _loadXXX(urls, "text", options);
-}
+/*--------------------------------------------------------------------------------------------------------------------*/
 
+/**
+ * Asynchronously loads resources by file extension
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+
+function loadResources(urls, options) {
+  return _loadXXX(urls, 'auto', options);
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously loads CSS sheets
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function loadSheets(urls, options) {
+  return _loadXXX(urls, 'sheet', options);
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously loads JS scripts
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function loadScripts(urls, options) {
+  return _loadXXX(urls, 'script', options);
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously loads JSON files
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function loadJSONs(urls, options) {
+  return _loadXXX(urls, 'json', options);
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously loads XML files
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function loadXMLs(urls, options) {
+  return _loadXXX(urls, 'xml', options);
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously loads HTML files
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function loadHTMLs(urls, options) {
+  return _loadXXX(urls, 'text', options);
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously loads TWIG files
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function loadTWIGs(urls, options) {
+  return _loadXXX(urls, 'text', options);
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously loads text files
+ * @param {Array<string>|string} urls the array of urls
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+function loadTexts(urls, options) {
+  return _loadXXX(urls, 'text', options);
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
 // EXTERNAL MODULE: ./node_modules/kjua/dist/kjua.min.js
 var kjua_min = __webpack_require__(9242);
 ;// CONCATENATED MODULE: ./src/js/AMIAuth.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
-var __defProp = Object.defineProperty;
-var __defProps = Object.defineProperties;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
-var AMIAuth_accessCheck = (obj, member, msg) => {
-  if (!member.has(obj))
-    throw TypeError("Cannot " + msg);
-};
-var AMIAuth_privateGet = (obj, member, getter) => {
-  AMIAuth_accessCheck(obj, member, "read from private field");
-  return getter ? getter.call(obj) : member.get(obj);
-};
-var AMIAuth_privateAdd = (obj, member, value) => {
-  if (member.has(obj))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-};
-var AMIAuth_privateSet = (obj, member, value, setter) => {
-  AMIAuth_accessCheck(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
-};
-var AMIAuth_privateMethod = (obj, member, method) => {
-  AMIAuth_accessCheck(obj, member, "access private method");
-  return method;
-};
-var _flags, _userInfo, _roleInfo, _bookmarkInfo, _dashboardInfo, _awfInfo, _setupAWF, setupAWF_fn, _update, update_fn;
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function AMIAuth_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
+
+var AMIAuth_id = 0;
+
+function AMIAuth_classPrivateFieldLooseKey(name) { return "__private_" + AMIAuth_id++ + "_" + name; }
 
 
 
@@ -14210,569 +16036,1483 @@ var _flags, _userInfo, _roleInfo, _bookmarkInfo, _dashboardInfo, _awfInfo, _setu
 
 
 
-class AMIAuth {
-  constructor() {
-    AMIAuth_privateAdd(this, _setupAWF);
-    AMIAuth_privateAdd(this, _update);
-    AMIAuth_privateAdd(this, _flags, {});
-    AMIAuth_privateAdd(this, _userInfo, {});
-    AMIAuth_privateAdd(this, _roleInfo, {});
-    AMIAuth_privateAdd(this, _bookmarkInfo, {});
-    AMIAuth_privateAdd(this, _dashboardInfo, {});
-    AMIAuth_privateAdd(this, _awfInfo, {});
-  }
-  init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed) {
-    const result = $.Deferred();
-    AMIAuth_privateSet(this, _flags, {
-      ssoAutoAuthentication,
-      ssoAuthenticationAllowed,
-      passwordAuthenticationAllowed,
-      certificateAuthenticationAllowed,
-      logoutAllowed,
-      createAccountAllowed,
-      changeInfoAllowed,
-      changePasswordAllowed,
-      changeCertificateAllowed,
-      captchaAllowed,
-      bookmarksAllowed,
-      dashboardsAllowed
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+// noinspection JSUnusedGlobalSymbols
+
+/**
+ * The AMI authentication subsystem
+ * @namespace amiAuth
+ * @alias amiLogin
+ */
+
+var _flags = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("flags");
+
+var _userInfo = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("userInfo");
+
+var _roleInfo = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("roleInfo");
+
+var _bookmarkInfo = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("bookmarkInfo");
+
+var _dashboardInfo = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("dashboardInfo");
+
+var _awfInfo = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("awfInfo");
+
+var _setupAWF = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("setupAWF");
+
+var _update = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("update");
+
+var AMIAuth = /*#__PURE__*/function () {
+  function AMIAuth() {
+    Object.defineProperty(this, _update, {
+      value: _update2
     });
-    const userdata = js_AMIRouter.getWebAppArgs()["userdata"] || "";
-    js_AMICommand.signInByCertificate().fail((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
-      AMIAuth_privateMethod(this, _setupAWF, setupAWF_fn).call(this, awfInfo);
-      AMIAuth_privateMethod(this, _update, update_fn).call(this, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(() => {
+    Object.defineProperty(this, _setupAWF, {
+      value: _setupAWF2
+    });
+    Object.defineProperty(this, _flags, {
+      writable: true,
+      value: {}
+    });
+    Object.defineProperty(this, _userInfo, {
+      writable: true,
+      value: {}
+    });
+    Object.defineProperty(this, _roleInfo, {
+      writable: true,
+      value: {}
+    });
+    Object.defineProperty(this, _bookmarkInfo, {
+      writable: true,
+      value: {}
+    });
+    Object.defineProperty(this, _dashboardInfo, {
+      writable: true,
+      value: {}
+    });
+    Object.defineProperty(this, _awfInfo, {
+      writable: true,
+      value: {}
+    });
+  }
+
+  var _proto = AMIAuth.prototype;
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+  _proto.init = function init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed) {
+    var _this = this;
+
+    var result = $.Deferred();
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags] = {
+      ssoAutoAuthentication: ssoAutoAuthentication,
+      ssoAuthenticationAllowed: ssoAuthenticationAllowed,
+      passwordAuthenticationAllowed: passwordAuthenticationAllowed,
+      certificateAuthenticationAllowed: certificateAuthenticationAllowed,
+      logoutAllowed: logoutAllowed,
+      createAccountAllowed: createAccountAllowed,
+      changeInfoAllowed: changeInfoAllowed,
+      changePasswordAllowed: changePasswordAllowed,
+      changeCertificateAllowed: changeCertificateAllowed,
+      captchaAllowed: captchaAllowed,
+      bookmarksAllowed: bookmarksAllowed,
+      dashboardsAllowed: dashboardsAllowed
+    };
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    var userdata = js_AMIRouter.getWebAppArgs()['userdata'] || '';
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    js_AMICommand.signInByCertificate().fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+      AMIAuth_classPrivateFieldLooseBase(_this, _setupAWF)[_setupAWF](awfInfo);
+
+      AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
         result.reject(message);
       });
-    }).done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
-      AMIAuth_privateMethod(this, _setupAWF, setupAWF_fn).call(this, awfInfo);
-      _internal_then(js_AMIWebApp.onReady(userdata), () => {
+    }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+      /*--------------------------------------------------------------------------------------------------------*/
+      AMIAuth_classPrivateFieldLooseBase(_this, _setupAWF)[_setupAWF](awfInfo);
+      /*--------------------------------------------------------------------------------------------------------*/
+
+
+      _internal_then(js_AMIWebApp.onReady(userdata), function () {
         js_AMIWebApp._isReady = true;
-        AMIAuth_privateMethod(this, _update, update_fn).call(this, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then((message2) => {
-          result.resolve(message2);
-        }, (message2) => {
-          result.reject(message2);
+
+        AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function (message) {
+          result.resolve(message);
+        }, function (message) {
+          result.reject(message);
         });
-      }, (message2) => {
+      }, function (message) {
         js_AMIWebApp._isReady = true;
-        result.reject(message2);
+        result.reject(message);
       });
+      /*--------------------------------------------------------------------------------------------------------*/
+
     });
+    /*------------------------------------------------------------------------------------------------------------*/
+
     return result;
   }
-  getMqttEndpoint() {
-    return AMIAuth_privateGet(this, _awfInfo).mqttEndpoint || "";
+  /*----------------------------------------------------------------------------------------------------------------*/
+  ;
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* PUBLIC METHODS                                                                                                 */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current MQTT endpoint
+   * @return {string} The current MQTT endpoint
+   */
+  _proto.getMqttEndpoint = function getMqttEndpoint() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].mqttEndpoint || '';
   }
-  getMqttToken() {
-    return AMIAuth_privateGet(this, _awfInfo).mqttToken || "";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current MQTT token
+   * @return {string} The current MQTT token
+   */
+  ;
+
+  _proto.getMqttToken = function getMqttToken() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].mqttToken || '';
   }
-  getUserInfo() {
-    return AMIAuth_privateGet(this, _userInfo);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current user information
+   * @returns {Object<string,*>} The current user information
+   */
+  ;
+
+  _proto.getUserInfo = function getUserInfo() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo];
   }
-  getRoleInfo() {
-    return AMIAuth_privateGet(this, _roleInfo);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current role information
+   * @returns {Object<string,*>} The current role information
+   */
+  ;
+
+  _proto.getRoleInfo = function getRoleInfo() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo];
   }
-  getBookmarkInfo() {
-    return AMIAuth_privateGet(this, _bookmarkInfo);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current bookmark information
+   * @returns {Object<string,*>} The current bookmark information
+   */
+  ;
+
+  _proto.getBookmarkInfo = function getBookmarkInfo() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _bookmarkInfo)[_bookmarkInfo];
   }
-  getDashboardInfo() {
-    return AMIAuth_privateGet(this, _dashboardInfo);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current dashboard information
+   * @returns {Object<string,*>} The current dashboard information
+   */
+  ;
+
+  _proto.getDashboardInfo = function getDashboardInfo() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _dashboardInfo)[_dashboardInfo];
   }
-  getAWFInfo() {
-    return AMIAuth_privateGet(this, _awfInfo);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current AMI Web Framework information
+   * @returns {Object<string,*>} The current AMI Web Framework information
+   */
+  ;
+
+  _proto.getAWFInfo = function getAWFInfo() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo];
   }
-  getUser() {
-    return AMIAuth_privateGet(this, _userInfo).AMIUser || "guest";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current user
+   * @returns {string} The current user
+   */
+  ;
+
+  _proto.getUser = function getUser() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].AMIUser || 'guest';
   }
-  getGuest() {
-    return AMIAuth_privateGet(this, _userInfo).guestUser || "guest";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current guest user
+   * @returns {string} The current guest user
+   */
+  ;
+
+  _proto.getGuest = function getGuest() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].guestUser || 'guest';
   }
-  getNotBeforeDate() {
-    return AMIAuth_privateGet(this, _userInfo).notBefore || "";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current user `not before` date
+   * @returns {string} The current user `not before` date
+   */
+  ;
+
+  _proto.getNotBeforeDate = function getNotBeforeDate() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].notBefore || '';
   }
-  getNotAfterDate() {
-    return AMIAuth_privateGet(this, _userInfo).notAfter || "";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current user `not after` date
+   * @returns {string} The current user `not after` date
+   */
+  ;
+
+  _proto.getNotAfterDate = function getNotAfterDate() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].notAfter || '';
   }
-  getClientDN() {
-    return AMIAuth_privateGet(this, _userInfo).clientDNInSession || "";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current client DN
+   * @returns {string} The current client DN
+   */
+  ;
+
+  _proto.getClientDN = function getClientDN() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].clientDNInSession || '';
   }
-  getIssuerDN() {
-    return AMIAuth_privateGet(this, _userInfo).issuerDNInSession || "";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Gets the current issuer DN
+   * @returns {string} The current issuer DN
+   */
+  ;
+
+  _proto.getIssuerDN = function getIssuerDN() {
+    return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].issuerDNInSession || '';
   }
-  isValid() {
-    return (AMIAuth_privateGet(this, _userInfo).valid || "false") !== "false";
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Checks whether the user is valid or not
+   * @returns {boolean}
+   */
+  ;
+
+  _proto.isValid = function isValid() {
+    return (AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].valid || 'false') !== 'false';
   }
-  isAuthenticated() {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Checks whether the user is authenticated or not
+   * @returns {boolean}
+   */
+  ;
+
+  _proto.isAuthenticated = function isAuthenticated() {
     return this.getUser() !== this.getGuest();
   }
-  hasRole(roleName) {
-    return roleName in AMIAuth_privateGet(this, _roleInfo);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Checks whether the user has the given role or not
+   * @param {string} roleName the role
+   * @returns {boolean}
+   */
+  ;
+
+  _proto.hasRole = function hasRole(roleName) {
+    return roleName in AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo];
   }
-  update() {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Update the user information
+   * @returns {$.Promise} A JQuery promise object
+   */
+  ;
+
+  _proto.update = function update() {
+    var _this2 = this;
+
     js_AMIWebApp.lock();
-    return js_AMICommand.signInByCertificate().done((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
-      AMIAuth_privateMethod(this, _setupAWF, setupAWF_fn).call(this, awfInfo);
-      AMIAuth_privateMethod(this, _update, update_fn).call(this, userInfo, roleInfo, bookmarkInfo, awfInfo).always(() => {
+    return js_AMICommand.signInByCertificate().done(function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {
+      AMIAuth_classPrivateFieldLooseBase(_this2, _setupAWF)[_setupAWF](awfInfo);
+
+      AMIAuth_classPrivateFieldLooseBase(_this2, _update)[_update](userInfo, roleInfo, bookmarkInfo, awfInfo).always(function () {
         js_AMIWebApp.unlock();
       });
     });
   }
-}
-_flags = new WeakMap();
-_userInfo = new WeakMap();
-_roleInfo = new WeakMap();
-_bookmarkInfo = new WeakMap();
-_dashboardInfo = new WeakMap();
-_awfInfo = new WeakMap();
-_setupAWF = new WeakSet();
-setupAWF_fn = function(awfInfo) {
-  try {
-    const config = JSON.parse(base64Decode(awfInfo.config));
-    setDateTimeFormats(config["datetimePrecision"], config["datetimeFormat"], config["dateFormat"], config["timePrecision"], config["timeHMSFormat"], config["timeHMFormat"]);
-    AMIAuth_privateSet(this, _awfInfo, config);
-  } catch (e) {
-  }
-};
-_update = new WeakSet();
-update_fn = function(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-  const result = $.Deferred();
-  const user = userInfo.AMIUser || "guest";
-  const guest = userInfo.guestUser || "guest";
-  const dict = __spreadProps(__spreadValues({}, AMIAuth_privateGet(this, _flags)), {
-    userInfo: AMIAuth_privateSet(this, _userInfo, userInfo),
-    roleInfo: AMIAuth_privateSet(this, _roleInfo, roleInfo),
-    bookmarkInfo: AMIAuth_privateSet(this, _bookmarkInfo, bookmarkInfo),
-    dashboardInfo: AMIAuth_privateSet(this, _dashboardInfo, dashboardInfo),
-    awfInfo: AMIAuth_privateSet(this, _awfInfo, awfInfo)
-  });
-  if (user !== guest) {
-    const button = __webpack_require__(4045)(`./v${js_AMIWebApp.bootstrapVersion}/sign_out_button.twig`);
-    js_AMIWebApp.replaceHTML("#ami_login_menu_content", button, { dict }).done(() => {
-      triggerLogin().then(() => {
-        result.resolve();
-      }, (message) => {
-        result.reject(message);
-      });
-    });
-  } else {
-    const button = __webpack_require__(1477)(`./v${js_AMIWebApp.bootstrapVersion}/sign_in_button.twi`);
-    js_AMIWebApp.replaceHTML("#ami_login_menu_content", button, { dict }).done(() => {
-      triggerLogout().then(() => {
-        result.resolve();
-      }, (message) => {
-        result.reject(message);
-      });
-    });
-  }
-  return result.promise();
-};
-/* harmony default export */ const js_AMIAuth = (new AMIAuth());
+  /*----------------------------------------------------------------------------------------------------------------*/
+  ;
 
-;// CONCATENATED MODULE: ./src/js/utilities/subapps.js
-
-
-
-
-
-
-
-
-
-
-const _subapps = {};
-let _currentSubappInstance = new function() {
-  this.onReady = function() {
-  };
-  this.onExit = function() {
-  };
-  this.onLogin = function() {
-  };
-  this.onLogout = function() {
-  };
+  return AMIAuth;
 }();
-let _currentUserdata = null;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+
+function _setupAWF2(awfInfo) {
+  try {
+    var config = JSON.parse(base64Decode(awfInfo.config));
+    setDateTimeFormats(config['datetimePrecision'], config['datetimeFormat'], config['dateFormat'], config['timePrecision'], config['timeHMSFormat'], config['timeHMFormat']);
+    AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo] = config;
+  } catch (e) {
+    /* IGNORE */
+  }
+}
+
+function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+  var result = $.Deferred();
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  var user = userInfo.AMIUser || 'guest';
+  var guest = userInfo.guestUser || 'guest';
+  /*------------------------------------------------------------------------------------------------------------*/
+
+  var dict = _extends({}, AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags], {
+    /**/
+    userInfo: AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo] = userInfo,
+    roleInfo: AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo] = roleInfo,
+    bookmarkInfo: AMIAuth_classPrivateFieldLooseBase(this, _bookmarkInfo)[_bookmarkInfo] = bookmarkInfo,
+    dashboardInfo: AMIAuth_classPrivateFieldLooseBase(this, _dashboardInfo)[_dashboardInfo] = dashboardInfo,
+    awfInfo: AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo] = awfInfo
+  });
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  if (user !== guest) {
+    /*--------------------------------------------------------------------------------------------------------*/
+    var button = __webpack_require__(4045)("./v" + js_AMIWebApp.bootstrapVersion + "/sign_out_button.twig");
+    /*--------------------------------------------------------------------------------------------------------*/
+
+
+    js_AMIWebApp.replaceHTML('#ami_login_menu_content', button, {
+      dict: dict
+    }).done(function () {
+      triggerLogin().then(function () {
+        result.resolve();
+      }, function (message) {
+        result.reject(message);
+      });
+    });
+    /*--------------------------------------------------------------------------------------------------------*/
+  } else {
+    /*--------------------------------------------------------------------------------------------------------*/
+    var _button = __webpack_require__(1477)("./v" + js_AMIWebApp.bootstrapVersion + "/sign_in_button.twi");
+    /*--------------------------------------------------------------------------------------------------------*/
+
+
+    js_AMIWebApp.replaceHTML('#ami_login_menu_content', _button, {
+      dict: dict
+    }).done(function () {
+      triggerLogout().then(function () {
+        result.resolve();
+      }, function (message) {
+        result.reject(message);
+      });
+    });
+    /*--------------------------------------------------------------------------------------------------------*/
+  }
+  /*------------------------------------------------------------------------------------------------------------*/
+
+
+  return result.promise();
+}
+
+/* harmony default export */ const js_AMIAuth = (new AMIAuth());
+/*--------------------------------------------------------------------------------------------------------------------*/
+;// CONCATENATED MODULE: ./src/js/utilities/subapps.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
+
+
+
+
+
+
+
+
+
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* SUBAPPS                                                                                                            */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @type {Object<string,Object<string,*>>}
+ * @private
+ */
+
+var _subapps = {};
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @type {*}
+ * @private
+ */
+
+var _currentSubappInstance = new function () {
+  this.onReady = function () {};
+
+  this.onExit = function () {};
+
+  this.onLogin = function () {};
+
+  this.onLogout = function () {};
+}();
+/**
+ * @type {*}
+ * @private
+ */
+
+
+var _currentUserdata = null;
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
 function triggerLogin() {
-  const result = $.Deferred();
+  var result = $.Deferred();
+  /*----------------------------------------------------------------------------------------------------------------*/
+  // noinspection JSUnresolvedVariable
+
   if (js_AMIWebApp._isReady) {
-    _internal_then(_currentSubappInstance.onLogin(_currentUserdata), (message) => {
-      _internal_always(js_AMIWebApp.onRefresh(true), () => {
+    _internal_then(_currentSubappInstance.onLogin(_currentUserdata), function (message) {
+      _internal_always(js_AMIWebApp.onRefresh(true), function () {
         result.resolve(message);
       });
-    }, (message) => {
-      _internal_always(js_AMIWebApp.onRefresh(true), () => {
+    }, function (message) {
+      _internal_always(js_AMIWebApp.onRefresh(true), function () {
         result.reject(message);
       });
     });
   } else {
     result.resolve();
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   return result.promise();
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
 function triggerLogout() {
-  const result = $.Deferred();
+  var result = $.Deferred();
+  /*----------------------------------------------------------------------------------------------------------------*/
+  // noinspection JSUnresolvedVariable
+
   if (js_AMIWebApp._isReady) {
-    _internal_then(_currentSubappInstance.onLogout(_currentUserdata), (message) => {
-      _internal_always(js_AMIWebApp.onRefresh(false), () => {
+    _internal_then(_currentSubappInstance.onLogout(_currentUserdata), function (message) {
+      _internal_always(js_AMIWebApp.onRefresh(false), function () {
         result.resolve(message);
       });
-    }, (message) => {
-      _internal_always(js_AMIWebApp.onRefresh(false), () => {
+    }, function (message) {
+      _internal_always(js_AMIWebApp.onRefresh(false), function () {
         result.reject(message);
       });
     });
   } else {
     result.resolve();
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   return result.promise();
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously loads a subapp
+ * @param {string} subapp the subapp name
+ * @param {?*} [userdata] the user data
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
 function loadSubApp(subapp, userdata, options) {
-  const result = $.Deferred();
-  const [context] = setup(["context"], [result], options);
-  result.always(() => {
+  var result = $.Deferred();
+
+  var _tools$setup = setup(['context'], [result], options),
+      context = _tools$setup[0];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  result.always(function () {
     unlock();
   });
   lock();
-  if (subapp.indexOf("subapp:") === 0) {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  if (subapp.indexOf('subapp:') === 0) {
     subapp = subapp.substring(7);
   }
-  const descr = _subapps[subapp.toLowerCase()];
+
+  var descr = _subapps[subapp.toLowerCase()];
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if (descr) {
     try {
-      loadScripts(`${js_AMIRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
-        _internal_always(_currentSubappInstance.onExit(userdata), () => {
+      loadScripts(js_AMIRouter.getOriginURL() + "/" + descr.file).then(function (loaded) {
+        _internal_always(_currentSubappInstance.onExit(userdata), function () {
           _currentSubappInstance = window[descr.instance];
           _currentUserdata = userdata;
-          const promise = loaded[0] ? _currentSubappInstance.onReady(userdata) : null;
-          _internal_then(promise, () => {
-            const promise2 = js_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
-            promise2.then(() => {
+          /**/
+
+          var promise = loaded[0] ? _currentSubappInstance.onReady(userdata) :
+          /*-------------*/
+          null
+          /*-------------*/
+          ;
+
+          _internal_then(promise, function () {
+            var promise = js_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
+            promise.then(function () {
               fillBreadcrumb(descr.breadcrumb);
-              result.resolveWith(context, [_currentSubappInstance]);
-            }, (message) => {
-              result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
+              result.resolveWith(context, [
+              /*------*/
+              _currentSubappInstance
+              /*------*/
+              ]);
+            }, function (message) {
+              result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
             });
-          }, (message) => {
-            result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
+          }, function (message) {
+            result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
           });
         });
-      }, (message) => {
-        result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
+      }, function (message) {
+        result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
       });
     } catch (message) {
-      result.rejectWith(context, [`cannot load subapp '${subapp}': ${message}`]);
+      result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
     }
   } else {
-    result.rejectWith(context, [`cannot load subapp '${subapp}': not found`]);
+    result.rejectWith(context, ["cannot load subapp '" + subapp + "': not found"]);
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   return result.promise();
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Asynchronously loads a subapp by URL
+ * @param {string} defaultSubApp if 'amiRouter.getArgs()["subapp"]' is null, the default subapp name
+ * @param {?*} defaultUserData if 'amiRouter.getArgs()["userdata"]' is null, the default user data
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
 function loadSubAppByURL(defaultSubApp, defaultUserData) {
-  const result = $.Deferred();
-  const args = js_AMIRouter.getWebAppArgs();
-  if (args["v"]) {
-    js_AMICommand.execute("GetHashInfo -hash=?", { params: [args["v"]] }).fail((data, message) => {
+  var result = $.Deferred();
+  var args = js_AMIRouter.getWebAppArgs();
+
+  if (args['v']) {
+    js_AMICommand.execute('GetHashInfo -hash=?', {
+      params: [args['v']]
+    }).fail(function (data, message) {
       result.reject(message);
-    }).done((data) => {
-      let json;
+    }).done(function (data) {
+      var json;
+
       try {
-        json = JSON.parse(jspath_default().apply('..field{.@name==="json"}.$', data)[0] || "{}");
+        json = JSON.parse(jspath_default().apply('..field{.@name==="json"}.$', data)[0] || '{}');
       } catch (message) {
-        json = {};
+        json = {
+          /*-----------------------------------------------------------------*/
+        };
       }
-      const subapp = json["subapp"] || defaultSubApp;
-      const userdata = json["userdata"] || defaultUserData;
-      loadSubApp(subapp, userdata).then(() => {
+      /*--------------------------------------------------------------------------------------------------------*/
+
+
+      var subapp = json['subapp'] || defaultSubApp;
+      var userdata = json['userdata'] || defaultUserData;
+      loadSubApp(subapp, userdata).then(function () {
         result.resolve();
-      }, (message) => {
+      }, function (message) {
         result.reject(message);
       });
+      /*--------------------------------------------------------------------------------------------------------*/
     });
   } else {
     if (!js_AMIRouter.check()) {
-      const subapp = args["subapp"] || defaultSubApp;
-      const userdata = args["userdata"] || defaultUserData;
-      loadSubApp(subapp, userdata).then(() => {
+      /*--------------------------------------------------------------------------------------------------------*/
+      var subapp = args['subapp'] || defaultSubApp;
+      var userdata = args['userdata'] || defaultUserData;
+      loadSubApp(subapp, userdata).then(function () {
         result.resolve();
-      }, (message) => {
+      }, function (message) {
         result.reject(message);
       });
+      /*--------------------------------------------------------------------------------------------------------*/
     }
   }
+
   return result.promise();
 }
-
+/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/AMIExtension.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* $.Deferred                                                                                                         */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @external $.Deferred
+ * @see {@link http://api.jquery.com/Types/#Deferred Deferred}
+ */
+
+/**
+ * @function resolve
+ * @memberof $.Deferred
+ * @param {...*} args
+ * @instance
+ */
+
+/**
+ * @function resolveWith
+ * @memberof $.Deferred
+ * @param {*} context
+ * @param {Array<*>} args
+ * @instance
+ */
+
+/**
+ * @function reject
+ * @memberof $.Deferred
+ * @param {...*} args
+ * @instance
+ */
+
+/**
+ * @function rejectWith
+ * @memberof $.Deferred
+ * @param {*} context
+ * @param {Array<*>} args
+ * @instance
+ */
+
+/**
+ * @function done
+ * @memberof $.Deferred
+ * @param {function} Done callback
+ * @instance
+ */
+
+/**
+ * @function fail
+ * @memberof $.Deferred
+ * @param {function} Fail callback
+ * @instance
+ */
+
+/**
+ * @function then
+ * @memberof $.Deferred
+ * @param {function} Done callback
+ * @param {function} Fail callback
+ * @instance
+ */
+
+/**
+ * @function always
+ * @memberof $.Deferred
+ * @param {function} Always callback
+ * @instance
+ */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/* $.Promise                                                                                                          */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @external $.Promise
+ * @see {@link http://api.jquery.com/Types/#Promise Promise}
+ */
+
+/**
+ * @function done
+ * @memberof $.Promise
+ * @param {function} Done callback
+ * @instance
+ */
+
+/**
+ * @function fail
+ * @memberof $.Promise
+ * @param {function} Fail callback
+ * @instance
+ */
+
+/**
+ * @function then
+ * @memberof $.Promise
+ * @param {function} Done callback
+ * @param {function} Fail callback
+ * @instance
+ */
+
+/**
+ * @function always
+ * @memberof $.Promise
+ * @param {function} Always callback
+ * @instance
+ */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 /* harmony default export */ function AMIExtension() {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* POLYFILLS                                                                                                      */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
   if (!String.prototype.startsWith) {
-    String.prototype.startsWith = function(s) {
-      const base = 0;
+    String.prototype.startsWith = function (s) {
+      var base = 0x00000000000000000000;
       return this.indexOf(s, base) === base;
     };
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if (!String.prototype.endsWith) {
-    String.prototype.endsWith = function(s) {
-      const base = this.length - s.length;
+    String.prototype.endsWith = function (s) {
+      var base = this.length - s.length;
       return this.indexOf(s, base) === base;
     };
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if (!String.prototype.hashCode) {
-    String.prototype.hashCode = function() {
-      let hash = 0;
-      for (let i = 0; i < this.length; i++) {
+    String.prototype.hashCode = function () {
+      var hash = 0;
+
+      for (var i = 0; i < this.length; i++) {
         hash = (hash << 5) - hash + this.charCodeAt(i);
         hash |= 0;
       }
+
       return hash < 0 ? -hash : +hash;
     };
   }
-  const _ami_internal_jQueryAjax = jQuery.ajax;
-  jQuery.ajax = function(options) {
-    if (typeof options === "object" && options.dataType === "sheet") {
-      const result = $.Deferred();
-      const [context, media, url] = setup(["context", "media", "url"], [result, "screen", ""], options);
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* JQUERY EXTENSIONS                                                                                              */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  var _ami_internal_jQueryAjax = jQuery.ajax;
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  jQuery.ajax = function (options) {
+    if (typeof options === 'object' && options.dataType === 'sheet') {
+      var result = $.Deferred();
+
+      var _tools$setup = setup(['context', 'media', 'url'], [result, 'screen', ''], options),
+          context = _tools$setup[0],
+          media = _tools$setup[1],
+          url = _tools$setup[2];
+      /*--------------------------------------------------------------------------------------------------------*/
+
+
       if (url) {
-        $(document.createElement("link")).attr({
-          rel: "stylesheet",
-          type: "text/css",
-          media,
+        $(document.createElement('link')).attr({
+          rel: 'stylesheet',
+          type: 'text/css',
+          media: media,
           href: url
-        }).on("load", () => {
+        }).on('load', function () {
           result.resolveWith(context);
-        }).on("error", () => {
+        }).on('error', function () {
           result.rejectWith(context);
-        }).appendTo("head");
+        }).appendTo('head');
       } else {
         result.rejectWith(context);
       }
+      /*--------------------------------------------------------------------------------------------------------*/
+
+
       return result.promise();
     } else {
+      /*--------------------------------------------------------------------------------------------------------*/
       return _ami_internal_jQueryAjax.apply(this, arguments);
+      /*--------------------------------------------------------------------------------------------------------*/
     }
   };
-  const _ami_internal_jQueryVal = jQuery.fn.val;
-  const _ami_internal_jQueryRemove = jQuery.fn.remove;
-  const _ami_internal_jQueryRemoveEvent = new jQuery.Event("remove");
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  var _ami_internal_jQueryVal = jQuery.fn.val;
+  var _ami_internal_jQueryRemove = jQuery.fn.remove;
+
+  var _ami_internal_jQueryRemoveEvent = new jQuery.Event('remove');
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   jQuery.fn.extend({
-    serializeObject: function() {
-      const result = {};
-      this.serializeArray().forEach((item) => {
+    /*------------------------------------------------------------------------------------------------------------*/
+    serializeObject: function serializeObject() {
+      var result = {};
+      this.serializeArray().forEach(function (item) {
         if (item.name in result) {
-          if (Object.prototype.toString.call(result[item.name]) === "[object String]") {
+          if (Object.prototype.toString.call(result[item.name]) === '[object String]') {
             result[item.name] = [result[item.name]];
           }
-          result[item.name].push(item.value || "");
+
+          result[item.name].push(item.value || '');
         } else {
-          result[item.name] = item.value || "";
+          result[item.name] = item.value || '';
         }
       });
       return result;
     },
-    val: function() {
-      if (arguments.length === 0) {
-        if (this.hasClass("form-editor-done")) {
-          const editor = this.data("editor");
-          if (editor)
-            return editor.getValue();
-          return "";
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    val: function val() {
+      /**/
+      if (arguments.length === 0) // getter
+        {
+          if (this.hasClass('form-editor-done')) {
+            var editor = this.data('editor');
+            if (editor) return editor.getValue();
+            return '';
+          }
+        } else if (arguments.length === 1) // setter
+        {
+          if (this.hasClass('form-editor-done')) {
+            var _editor = this.data('editor');
+
+            if (_editor) _editor.setValue(arguments[0]);
+            return this;
+          }
         }
-      } else if (arguments.length === 1) {
-        if (this.hasClass("form-editor-done")) {
-          const editor = this.data("editor");
-          if (editor)
-            editor.setValue(arguments[0]);
-          return this;
-        }
-      }
+
       return _ami_internal_jQueryVal.apply(this, arguments);
     },
-    remove: function() {
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    remove: function remove() {
       $(this).trigger(_ami_internal_jQueryRemoveEvent);
       return _ami_internal_jQueryRemove.apply(this, arguments);
     }
+    /*------------------------------------------------------------------------------------------------------------*/
+
   });
+  /*----------------------------------------------------------------------------------------------------------------*/
 }
-
 ;// CONCATENATED MODULE: ./src/js/AMIInterface.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
 
 
 
+
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * @param {Object<string, *>} ctxImmutables
+ * @param {Object<string, *>} ctxDefaults
+ * @param {Object<string, *>} ctxOptions
+ * @param {Object<string, *>} ctx
+ * @param {Object<string, *>} immutables
+ * @param {Object<string, *>} defaults
+ * @param {Object<string, *>} options
+ * @returns {Object<string, *>}
+ * @private
+ */
 
 function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defaults, options) {
+  /*----------------------------------------------------------------------------------------------------------------*/
   if (options) {
-    for (let [key, val] of Object.entries(options)) {
+    for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
+      var _Object$entries$_i = _Object$entries[_i],
+          key = _Object$entries$_i[0],
+          val = _Object$entries$_i[1];
       ctxOptions[key] = val;
       ctx[key] = val;
     }
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if (defaults) {
-    for (let [key, val] of Object.entries(defaults)) {
-      if (!(key in ctx)) {
-        if (key !== "context") {
-          ctxDefaults[key] = val;
+    for (var _i2 = 0, _Object$entries2 = Object.entries(defaults); _i2 < _Object$entries2.length; _i2++) {
+      var _Object$entries2$_i = _Object$entries2[_i2],
+          _key = _Object$entries2$_i[0],
+          _val = _Object$entries2$_i[1];
+
+      if (!(_key in ctx)) {
+        if (_key !== 'context') {
+          ctxDefaults[_key] = _val;
         }
-        ctx[key] = val;
+
+        ctx[_key] = _val;
       }
     }
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   if (immutables) {
-    for (let [key, val] of Object.entries(immutables)) {
-      ctxImmutables[key] = val;
-      ctx[key] = val;
+    for (var _i3 = 0, _Object$entries3 = Object.entries(immutables); _i3 < _Object$entries3.length; _i3++) {
+      var _Object$entries3$_i = _Object$entries3[_i3],
+          _key2 = _Object$entries3$_i[0],
+          _val2 = _Object$entries3$_i[1];
+      ctxImmutables[_key2] = _val2;
+      ctx[_key2] = _val2;
     }
   }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
   ctx.httpEndpoint = js_AMICommand.getHttpEndpoint();
   ctx.mqttEndpoint = js_AMICommand.getMqttEndpoint();
+  /*----------------------------------------------------------------------------------------------------------------*/
+
   return ctx;
 }
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+
 /* harmony default export */ function AMIInterface() {
-  $AMINamespace("ami");
-  $AMIInterface("ami.IControl", {
-    onReady: function() {
-    },
-    onRemove: function() {
-    },
-    patchId: function(id) {
-    },
-    replaceHTML: function(selector, twig, options) {
-    },
-    prependHTML: function(selector, twig, options) {
-    },
-    appendHTML: function(selector, twig, options) {
-    }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* ami                                                                                                            */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+  $AMINamespace('ami');
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* ami.IControl                                                                                                   */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * The AMI control interface
+   * @interface ami.IControl
+   */
+
+  $AMIInterface('ami.IControl',
+  /** @lends ami.IControl */
+  {
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Called when the control is ready to run
+     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
+     */
+    onReady: function onReady() {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Called when the control is removed
+     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
+     */
+    onRemove: function onRemove() {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Patches an HTML identifier
+     * @param {string} id the not patched HTML identifier
+     * @returns {string} The patched HTML identifier
+     */
+    patchId: function patchId(id) {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+     * @param {string} selector the target selector
+     * @param {string} [twig={}] the TWIG fragment
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    replaceHTML: function replaceHTML(selector, twig, options) {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+     * @param {string} selector the target selector
+     * @param {string} [twig={}] the TWIG fragment
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    prependHTML: function prependHTML(selector, twig, options) {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+     * @param {string} selector the target selector
+     * @param {string} [twig={}] the TWIG fragment
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    appendHTML: function appendHTML(selector, twig, options) {}
+    /*------------------------------------------------------------------------------------------------------------*/
+
   });
-  $AMIInterface("ami.IContainer", {
-    render: function(selector, options) {
-    },
-    prependItem: function(title, options) {
-    },
-    appendItem: function(title, options) {
-    },
-    removeItem: function(itemId) {
-    },
-    removeAllItems: function() {
-    },
-    isEmpty: function() {
-    }
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * The AMI container interface
+   * @interface ami.IContainer
+   */
+
+  $AMIInterface('ami.IContainer',
+  /** @lends ami.IContainer */
+  {
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * @param {string} selector the selector
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
+     * @return {$.Promise} A JQuery promise object
+     */
+    render: function render(selector, options) {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Prepends an item
+     * @param {string} title the title
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
+     * @return {$.Promise} A JQuery promise object returning the new item's identifier
+     */
+    prependItem: function prependItem(title, options) {},
+
+    /**
+     * Appends an item
+     * @param {string} title the title
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
+     * @return {$.Promise} A JQuery promise object returning the new item's identifier
+     */
+    appendItem: function appendItem(title, options) {},
+
+    /**
+     * Removes an item
+     * @param {string} itemId the item identifier
+     */
+    removeItem: function removeItem(itemId) {},
+
+    /**
+     * Removes all items
+     */
+    removeAllItems: function removeAllItems() {},
+
+    /**
+     * Checks whether the container is empty or not
+     * @returns {boolean}
+     */
+    isEmpty: function isEmpty() {}
+    /*------------------------------------------------------------------------------------------------------------*/
+
   });
-  $AMIClass("ami.Control", {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* ami.Control                                                                                                    */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * The basic AMI control
+   * @class ami.Control
+   * @implements {ami.IControl}
+   * @param {?*} parent the parent entity
+   * @param {?*} owner the owner entity
+   */
+
+  $AMIClass('ami.Control',
+  /** @lends ami.Control */
+  {
+    /*------------------------------------------------------------------------------------------------------------*/
     $implements: [ami.IControl],
-    $: function() {
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    $: function $() {
       ami.Control._instanceScopeCnt = 1;
     },
-    $init: function(parent, owner) {
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    $init: function $init(parent, owner) {
       this._parent = parent || this;
       this._owner = owner || this;
       this._instanceScope = ami.Control._instanceScopeCnt++;
     },
-    onReady: function() {
-    },
-    onRemove: function() {
-    },
-    setParent: function(parent) {
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    onReady: function onReady() {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    onRemove: function onRemove() {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    setParent: function setParent(parent) {
       return this._parent = parent || this;
     },
-    getParent: function() {
+    getParent: function getParent() {
       return this._parent;
     },
-    setOwner: function(owner) {
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    setOwner: function setOwner(owner) {
       return this._owner = owner || this;
     },
-    getOwner: function() {
+    getOwner: function getOwner() {
       return this._owner;
     },
-    setSelector: function(selector) {
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    setSelector: function setSelector(selector) {
+      var _this = this;
+
       if (selector) {
-        $(selector).off("remove").on("remove", () => {
-          this.onRemove();
+        $(selector).off('remove').on('remove', function () {
+          _this.onRemove();
         });
       }
-      return this._selector = selector || "";
+
+      return this._selector = selector || '';
     },
-    getSelector: function() {
+    getSelector: function getSelector() {
       return this._selector;
     },
-    ctxImmutables: {},
-    ctxDefaults: {},
-    ctxOptions: {},
-    ctx: {},
-    setupCtx: function(immutables, defaults, options) {
-      return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
-    },
-    patchId: function(id) {
-      return `${id}_scope${this._instanceScope}`;
-    },
-    replaceHTML: function(selector, twig, options) {
-      options = options || {};
-      options.scope = this._instanceScope;
-      return replaceHTML(selector, twig, options);
-    },
-    prependHTML: function(selector, twig, options) {
-      options = options || {};
-      options.scope = this._instanceScope;
-      return prependHTML(selector, twig, options);
-    },
-    appendHTML: function(selector, twig, options) {
-      options = options || {};
-      options.scope = this._instanceScope;
-      return appendHTML(selector, twig, options);
-    },
-    createControl: function(parent, control, params, options) {
-      return createControl(parent, this, control, params, options);
-    },
-    createControlInBody: function(parent, control, controlParams, controlOptions, options) {
-      return createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
-    },
-    createControlInContainer: function(parent, control, controlParams, controlOptions, icon, title, options) {
-      return createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
-    },
-    createControlFromWebLink: function(parent, el, options) {
-      return createControlFromWebLink(parent, this, el, this.ctx, options);
-    }
-  });
-  $AMIInterface("ami.ISubApp", {
-    onReady: function(userdata) {
-    },
-    onExit: function(userdata) {
-    },
-    onLogin: function(userdata) {
-    },
-    onLogout: function(userdata) {
-    }
-  });
-  $AMIClass("ami.SubApp", {
-    $implements: [ami.ISubApp],
-    onReady: function() {
-    },
-    onExit: function() {
-    },
-    onLogin: function() {
-    },
-    onLogout: function() {
-    },
-    ctxImmutables: {},
-    ctxDefaults: {},
-    ctxOptions: {},
-    ctx: {},
-    setupCtx: function(immutables, defaults, options) {
-      return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
-    },
-    createControl: function(parent, control, params, options) {
-      return createControl(parent, this, control, params, options);
-    },
-    createControlInBody: function(parent, control, controlParams, controlOptions, options) {
-      return createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
-    },
-    createControlInContainer: function(parent, control, controlParams, controlOptions, icon, title, options) {
-      return createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
-    },
-    createControlFromWebLink: function(parent, el, options) {
-      return createControlFromWebLink(parent, this, el, this.ctx, options);
-    }
-  });
-}
 
+    /*------------------------------------------------------------------------------------------------------------*/
+    ctxImmutables: {},
+    ctxDefaults: {},
+    ctxOptions: {},
+    ctx: {},
+
+    /**
+     * Sets up the control's context
+     * @param {Object<string, *>} immutables dictionary of immutable parameters in the control's context
+     * @param {Object<string, *>} defaults dictionary of default values for optional parameters
+     * @param {Object<string, *>} options dictionary of values for optional parameters
+     * @return {Object<string, *>} The resulting control's context
+     */
+    setupCtx: function setupCtx(immutables, defaults, options) {
+      return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    patchId: function patchId(id) {
+      return id + "_scope" + this._instanceScope;
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    replaceHTML: function replaceHTML(selector, twig, options) {
+      options = options || {};
+      options.scope = this._instanceScope;
+      return view_replaceHTML(selector, twig, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    prependHTML: function prependHTML(selector, twig, options) {
+      options = options || {};
+      options.scope = this._instanceScope;
+      return view_prependHTML(selector, twig, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    appendHTML: function appendHTML(selector, twig, options) {
+      options = options || {};
+      options.scope = this._instanceScope;
+      return view_appendHTML(selector, twig, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Asynchronously creates a control
+     * @param {?*} parent the parent entity
+     * @param {string} control the control name
+     * @param {Array<*>} params the control's parameters
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    createControl: function createControl(parent, control, params, options) {
+      return controls_createControl(parent, this, control, params, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Asynchronously creates a control in the body
+     * @param {?*} parent the parent entity
+     * @param {string} control the control name
+     * @param {Array<*>} controlParams the control's render method mandatory parameters
+     * @param {Object<string, *>} controlOptions the control's render method optional parameters
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    createControlInBody: function createControlInBody(parent, control, controlParams, controlOptions, options) {
+      return controls_createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Asynchronously creates a control in a container
+     * @param {?*} parent the parent entity
+     * @param {string} control the control name
+     * @param {Array<*>} controlParams the control's render method mandatory parameters
+     * @param {Object<string, *>} controlOptions the control's render method optional parameters
+     * @param {string} icon the icon
+     * @param {string} title the title
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    createControlInContainer: function createControlInContainer(parent, control, controlParams, controlOptions, icon, title, options) {
+      return controls_createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Asynchronously creates a control in a container from a WEB link
+     * @param {?*} parent the parent entity
+     * @param {Element} el the HTML element
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    createControlFromWebLink: function createControlFromWebLink(parent, el, options) {
+      return controls_createControlFromWebLink(parent, this, el, this.ctx, options);
+    }
+    /*------------------------------------------------------------------------------------------------------------*/
+
+  });
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* ami.ISubApp                                                                                                    */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * The AMI sub-application interface
+   * @interface ami.ISubApp
+   */
+
+  $AMIInterface('ami.ISubApp',
+  /** @lends ami.ISubApp */
+  {
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Called when the sub-application is ready to run
+     * @param {?*} userdata the user data
+     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
+     */
+    onReady: function onReady(userdata) {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Called when the sub-application is about to exit
+     * @param {?*} userdata the user data
+     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
+     */
+    onExit: function onExit(userdata) {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Called when logging in
+     * @param {?*} userdata the user data
+     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
+     */
+    onLogin: function onLogin(userdata) {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Called when logging out
+     * @param {?*} userdata the user data
+     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
+     */
+    onLogout: function onLogout(userdata) {}
+    /*------------------------------------------------------------------------------------------------------------*/
+
+  });
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* ami.SubApp                                                                                                     */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * The basic AMI sub-application
+   * @class ami.SubApp
+   * @implements {ami.ISubApp}
+   */
+
+  $AMIClass('ami.SubApp',
+  /** @lends ami.SubApp */
+  {
+    /*------------------------------------------------------------------------------------------------------------*/
+    $implements: [ami.ISubApp],
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    onReady: function onReady() {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    onExit: function onExit() {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    onLogin: function onLogin() {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    onLogout: function onLogout() {},
+
+    /*------------------------------------------------------------------------------------------------------------*/
+    ctxImmutables: {},
+    ctxDefaults: {},
+    ctxOptions: {},
+    ctx: {},
+
+    /**
+     * Sets up the application's context
+     * @param {Object<string, *>} immutables dictionary of immutable parameters in the application's context
+     * @param {Object<string, *>} defaults dictionary of default values for optional parameters
+     * @param {Object<string, *>} options dictionary of values for optional parameters
+     * @return {Object<string, *>} The resulting application's context
+     */
+    setupCtx: function setupCtx(immutables, defaults, options) {
+      return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Asynchronously creates a control
+     * @param {?*} parent the parent entity
+     * @param {string} control the control name
+     * @param {Array<*>} params the control's parameters
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    createControl: function createControl(parent, control, params, options) {
+      return controls_createControl(parent, this, control, params, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Asynchronously creates a control in the body
+     * @param {?*} parent the parent entity
+     * @param {string} control the control name
+     * @param {Array<*>} controlParams the control's render method mandatory parameters
+     * @param {Object<string, *>} controlOptions the control's render method optional parameters
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    createControlInBody: function createControlInBody(parent, control, controlParams, controlOptions, options) {
+      return controls_createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Asynchronously creates a control in a container
+     * @param {?*} parent the parent entity
+     * @param {string} control the control name
+     * @param {Array<*>} controlParams the control's render method mandatory parameters
+     * @param {Object<string, *>} controlOptions the control's render method optional parameters
+     * @param {string} icon the icon
+     * @param {string} title the title
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    createControlInContainer: function createControlInContainer(parent, control, controlParams, controlOptions, icon, title, options) {
+      return controls_createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
+    },
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /**
+     * Asynchronously creates a control in a container from a WEB link
+     * @param {?*} parent the parent entity
+     * @param {Element} el the HTML element
+     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+     * @returns {$.Promise} A JQuery promise object
+     */
+    createControlFromWebLink: function createControlFromWebLink(parent, el, options) {
+      return controls_createControlFromWebLink(parent, this, el, this.ctx, options);
+    }
+    /*------------------------------------------------------------------------------------------------------------*/
+
+  });
+  /*----------------------------------------------------------------------------------------------------------------*/
+}
+/*--------------------------------------------------------------------------------------------------------------------*/
 // EXTERNAL MODULE: ./src/images/lpsc.png
 var lpsc = __webpack_require__(4998);
 // EXTERNAL MODULE: ./src/images/cloud.png
@@ -14786,32 +17526,23 @@ var logo = __webpack_require__(1702);
 // EXTERNAL MODULE: ./src/images/background.jpg
 var background = __webpack_require__(7122);
 ;// CONCATENATED MODULE: ./src/js/AMIWebApp.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
-var AMIWebApp_defProp = Object.defineProperty;
-var AMIWebApp_defNormalProp = (obj, key, value) => key in obj ? AMIWebApp_defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __publicField = (obj, key, value) => {
-  AMIWebApp_defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
-  return value;
-};
-var AMIWebApp_accessCheck = (obj, member, msg) => {
-  if (!member.has(obj))
-    throw TypeError("Cannot " + msg);
-};
-var AMIWebApp_privateGet = (obj, member, getter) => {
-  AMIWebApp_accessCheck(obj, member, "read from private field");
-  return getter ? getter.call(obj) : member.get(obj);
-};
-var AMIWebApp_privateAdd = (obj, member, value) => {
-  if (member.has(obj))
-    throw TypeError("Cannot add the same private member more than once");
-  member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-};
-var AMIWebApp_privateSet = (obj, member, value, setter) => {
-  AMIWebApp_accessCheck(obj, member, "write to private field");
-  setter ? setter.call(obj, value) : member.set(obj, value);
-  return value;
-};
-var _embedded, _noBootstrap, _noMoment, _noSelect2, _globalDeferred;
+
+function AMIWebApp_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
+
+var AMIWebApp_id = 0;
+
+function AMIWebApp_classPrivateFieldLooseKey(name) { return "__private_" + AMIWebApp_id++ + "_" + name; }
 
 
 
@@ -14833,293 +17564,3467 @@ var _embedded, _noBootstrap, _noMoment, _noSelect2, _globalDeferred;
 
 
 
-class AMIWebApp {
-  constructor() {
-    AMIWebApp_privateAdd(this, _embedded, false);
-    AMIWebApp_privateAdd(this, _noBootstrap, false);
-    AMIWebApp_privateAdd(this, _noMoment, false);
-    AMIWebApp_privateAdd(this, _noSelect2, false);
-    AMIWebApp_privateAdd(this, _globalDeferred, $.Deferred());
-    __publicField(this, "_isReady", false);
-    __publicField(this, "webAppURL", "");
-    __publicField(this, "scriptURL", "");
-    __publicField(this, "originURL", "");
-    __publicField(this, "args", {});
-    __publicField(this, "hash", "");
-    __publicField(this, "bootstrapVersion", 4);
-    __publicField(this, "typeOf", typeOf);
-    __publicField(this, "asArray", asArray);
-    __publicField(this, "isString", isString);
-    __publicField(this, "isArray", isArray);
-    __publicField(this, "isObject", isObject);
-    __publicField(this, "isSet", isSet);
-    __publicField(this, "isMap", isMap);
-    __publicField(this, "setup", setup);
-    __publicField(this, "getStack", getStack);
-    __publicField(this, "lock", lock);
-    __publicField(this, "unlock", unlock);
-    __publicField(this, "modalEnter", modalEnter);
-    __publicField(this, "modalLeave", modalLeave);
-    __publicField(this, "canLeave", canLeave);
-    __publicField(this, "error", error);
-    __publicField(this, "info", info);
-    __publicField(this, "success", success);
-    __publicField(this, "warning", warning);
-    __publicField(this, "flush", flush);
-    __publicField(this, "base64Encode", base64Encode);
-    __publicField(this, "base64Decode", base64Decode);
-    __publicField(this, "textToHtml", textToHtml);
-    __publicField(this, "htmlToText", htmlToText);
-    __publicField(this, "textToString", textToString);
-    __publicField(this, "stringToText", stringToText);
-    __publicField(this, "htmlToString", htmlToString);
-    __publicField(this, "stringToHtml", stringToHtml);
-    __publicField(this, "textToSQL", textToSQL);
-    __publicField(this, "sqlToText", sqlToText);
-    __publicField(this, "fillBreadcrumb", fillBreadcrumb);
-    __publicField(this, "replaceHTML", replaceHTML);
-    __publicField(this, "prependHTML", prependHTML);
-    __publicField(this, "appendHTML", appendHTML);
-    __publicField(this, "formatTWIG", formatTWIG);
-    __publicField(this, "renderJSDoc", renderJSDoc);
-    __publicField(this, "jspath", (jspath_default()).apply);
-    __publicField(this, "loadResources", loadResources);
-    __publicField(this, "loadSheets", loadSheets);
-    __publicField(this, "loadScripts", loadScripts);
-    __publicField(this, "loadJSONs", loadJSONs);
-    __publicField(this, "loadXMLs", loadXMLs);
-    __publicField(this, "loadHTMLs", loadHTMLs);
-    __publicField(this, "loadTWIGs", loadTWIGs);
-    __publicField(this, "loadTexts", loadTexts);
-    __publicField(this, "_subapps", _subapps);
-    __publicField(this, "loadSubApp", loadSubApp);
-    __publicField(this, "loadSubAppByURL", loadSubAppByURL);
-    __publicField(this, "_controls", _controls);
-    __publicField(this, "loadControl", loadControl);
-    __publicField(this, "createControl", createControl);
-    __publicField(this, "createControlInBody", createControlInBody);
-    __publicField(this, "createControlInContainer", createControlInContainer);
-    __publicField(this, "createControlFromWebLink", createControlFromWebLink);
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+// noinspection JSUnusedGlobalSymbols
+
+/**
+ * The AMI webapp subsystem
+ * @namespace amiWebApp
+ * @borrows typeOf
+ * @borrows asArray
+ * @borrows isString
+ * @borrows isArray
+ * @borrows isObject
+ * @borrows isSet
+ * @borrows isMap
+ * @borrows setup
+ * @borrows getStack
+ * @borrows lock
+ * @borrows unlock
+ * @borrows modalEnter
+ * @borrows modalLeave
+ * @borrows canLeave
+ * @borrows error
+ * @borrows info
+ * @borrows success
+ * @borrows warning
+ * @borrows flush
+ * @borrows base64Encode
+ * @borrows base64Decode
+ * @borrows textToHtml
+ * @borrows htmlToText
+ * @borrows textToString
+ * @borrows stringToText
+ * @borrows htmlToString
+ * @borrows stringToHtml
+ * @borrows textToSQL
+ * @borrows sqlToText
+ * @borrows fillBreadcrumb
+ * @borrows replaceHTML
+ * @borrows prependHTML
+ * @borrows appendHTML
+ * @borrows formatTWIG
+ * @borrows renderJSDoc
+ * @borrows jspath
+ * @borrows loadResources
+ * @borrows loadSheets
+ * @borrows loadScripts
+ * @borrows loadJSONs
+ * @borrows loadXMLs
+ * @borrows loadHTMLs
+ * @borrows loadTWIGs
+ * @borrows loadTexts
+ * @borrows _subapps
+ * @borrows loadSubApp
+ * @borrows loadSubAppByURL
+ * @borrows _controls
+ * @borrows loadControl
+ * @borrows createControl
+ * @borrows createControlInBody
+ * @borrows createControlInContainer
+ * @borrows createControlFromWebLink
+ */
+
+var _embedded = /*#__PURE__*/AMIWebApp_classPrivateFieldLooseKey("embedded");
+
+var _noBootstrap = /*#__PURE__*/AMIWebApp_classPrivateFieldLooseKey("noBootstrap");
+
+var _noMoment = /*#__PURE__*/AMIWebApp_classPrivateFieldLooseKey("noMoment");
+
+var _noSelect = /*#__PURE__*/AMIWebApp_classPrivateFieldLooseKey("noSelect2");
+
+var _globalDeferred = /*#__PURE__*/AMIWebApp_classPrivateFieldLooseKey("globalDeferred");
+
+var AMIWebApp = /*#__PURE__*/function () {
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* PRIVATE MEMBERS                                                                                                */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * @type {boolean}
+   */
+
+  /**
+   * @type {boolean}
+   */
+
+  /**
+   * @type {boolean}
+   */
+
+  /**
+   * @type {boolean}
+   */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * @type {$.Deferred}
+   */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Indicates whether the framework is ready
+   * @type {boolean}
+   * @private
+   */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* PUBLIC MEMBERS                                                                                                 */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * The webapp URL
+   * @type {string}
+   */
+
+  /**
+   * The script URL
+   * @type {string}
+   */
+
+  /**
+   * The origin URL
+   * @type {string}
+   */
+
+  /**
+   * The arguments of the webapp URL
+   * @type {Object<string, string>}
+   */
+
+  /**
+   * The anchor part of the webapp URL
+   * @type {string}
+   */
+
+  /**
+   * The Twitter Bootstrap's version (default, 4)
+   * @type {number}
+   */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* CONSTRUCTOR                                                                                                    */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+  function AMIWebApp() {
+    var _this = this;
+
+    Object.defineProperty(this, _embedded, {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, _noBootstrap, {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, _noMoment, {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, _noSelect, {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, _globalDeferred, {
+      writable: true,
+      value: $.Deferred()
+    });
+    this._isReady = false;
+    this.webAppURL = '';
+    this.scriptURL = '';
+    this.originURL = '';
+    this.args = {};
+    this.hash = '';
+    this.bootstrapVersion = 4;
+    this.typeOf = typeOf;
+    this.asArray = asArray;
+    this.isString = isString;
+    this.isArray = isArray;
+    this.isObject = isObject;
+    this.isSet = isSet;
+    this.isMap = isMap;
+    this.setup = setup;
+    this.getStack = getStack;
+    this.lock = lock;
+    this.unlock = unlock;
+    this.modalEnter = modalEnter;
+    this.modalLeave = modalLeave;
+    this.canLeave = canLeave;
+    this.error = error;
+    this.info = info;
+    this.success = success;
+    this.warning = warning;
+    this.flush = flush;
+    this.base64Encode = base64Encode;
+    this.base64Decode = base64Decode;
+    this.textToHtml = textToHtml;
+    this.htmlToText = htmlToText;
+    this.textToString = textToString;
+    this.stringToText = stringToText;
+    this.htmlToString = htmlToString;
+    this.stringToHtml = stringToHtml;
+    this.textToSQL = textToSQL;
+    this.sqlToText = sqlToText;
+    this.fillBreadcrumb = fillBreadcrumb;
+    this.replaceHTML = view_replaceHTML;
+    this.prependHTML = view_prependHTML;
+    this.appendHTML = view_appendHTML;
+    this.formatTWIG = formatTWIG;
+    this.renderJSDoc = renderJSDoc;
+    this.jspath = (jspath_default()).apply;
+    this.loadResources = loadResources;
+    this.loadSheets = loadSheets;
+    this.loadScripts = loadScripts;
+    this.loadJSONs = loadJSONs;
+    this.loadXMLs = loadXMLs;
+    this.loadHTMLs = loadHTMLs;
+    this.loadTWIGs = loadTWIGs;
+    this.loadTexts = loadTexts;
+    this._subapps = _subapps;
+    this.loadSubApp = loadSubApp;
+    this.loadSubAppByURL = loadSubAppByURL;
+    this._controls = _controls;
+    this.loadControl = loadControl;
+    this.createControl = controls_createControl;
+    this.createControlInBody = controls_createControlInBody;
+    this.createControlInContainer = controls_createControlInContainer;
+    this.createControlFromWebLink = controls_createControlFromWebLink;
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /* AMI EXTENSIONS                                                                                             */
+
+    /*------------------------------------------------------------------------------------------------------------*/
     AMIExtension();
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /* AMI INTERFACES                                                                                             */
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
     AMIInterface();
-    const scriptArgs = js_AMIRouter.getScriptArgs();
-    AMIWebApp_privateSet(this, _embedded, "embedded" in scriptArgs);
-    AMIWebApp_privateSet(this, _noBootstrap, "nobootstrap" in scriptArgs);
-    AMIWebApp_privateSet(this, _noSelect2, "noselect2" in scriptArgs);
-    AMIWebApp_privateSet(this, _noMoment, "nomoment" in scriptArgs);
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /* GET SCRIPT FLAGS                                                                                           */
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    var scriptArgs = js_AMIRouter.getScriptArgs();
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded] = 'embedded' in scriptArgs;
+    AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] = 'nobootstrap' in scriptArgs;
+    AMIWebApp_classPrivateFieldLooseBase(this, _noSelect)[_noSelect] = 'noselect2' in scriptArgs;
+    AMIWebApp_classPrivateFieldLooseBase(this, _noMoment)[_noMoment] = 'nomoment' in scriptArgs;
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /* GET URLS, ARGS AND HASH                                                                                    */
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
     this.webAppURL = js_AMIRouter.getWebAppURL();
     this.scriptURL = js_AMIRouter.getScriptURL();
     this.originURL = js_AMIRouter.getOriginURL();
     this.args = js_AMIRouter.getWebAppArgs();
     this.hash = js_AMIRouter.getWebAppHash();
+    /*------------------------------------------------------------------------------------------------------------*/
+
     this.bootstrapVersion = parseInt(scriptArgs.bootstrap);
+
     if (Number.isNaN(this.bootstrapVersion)) {
       this.bootstrapVersion = 4;
     }
-    const resourcesCSS = [];
-    const resourcesJS = [];
-    if (!AMIWebApp_privateGet(this, _noBootstrap) && typeof jQuery.fn.modal !== "function") {
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    /* LOAD SHEETS AND SCRIPTS                                                                                    */
+
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
+    var resourcesCSS = [];
+    var resourcesJS = [];
+    /*------------------------------------------------------------------------------------------------------------*/
+
+    if (!AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] && typeof jQuery.fn.modal !== 'function') {
       if (this.bootstrapVersion === 4) {
-        resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap4.min.css`);
-        resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap4.bundle.min.js`);
+        resourcesJS.push(this.originURL + "/js/assets/css/bootstrap4.min.css");
+        resourcesJS.push(this.originURL + "/js/assets/js/bootstrap4.bundle.min.js");
       } else {
-        resourcesJS.push(`${this.originURL}/js/assets/css/bootstrap5.min.css`);
-        resourcesJS.push(`${this.originURL}/js/assets/js/bootstrap5.bundle.min.js`);
+        resourcesJS.push(this.originURL + "/js/assets/css/bootstrap5.min.css");
+        resourcesJS.push(this.originURL + "/js/assets/js/bootstrap5.bundle.min.js");
       }
     }
-    if (!AMIWebApp_privateGet(this, _noSelect2) && typeof jQuery.fn.select2 !== "function") {
-      resourcesCSS.push(`${this.originURL}/js/assets/css/select2.min.css`);
-      resourcesJS.push(`${this.originURL}/js/assets/js/select2.min.js`);
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
+    if (!AMIWebApp_classPrivateFieldLooseBase(this, _noSelect)[_noSelect] && typeof jQuery.fn.select2 !== 'function') {
+      resourcesCSS.push(this.originURL + "/js/assets/css/select2.min.css");
+      resourcesJS.push(this.originURL + "/js/assets/js/select2.min.js");
     }
-    if (!AMIWebApp_privateGet(this, _noMoment) && typeof window.moment !== "function") {
-      resourcesJS.push(`${this.originURL}/js/assets/js/moment.min.js`);
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
+    if (!AMIWebApp_classPrivateFieldLooseBase(this, _noMoment)[_noMoment] && typeof window.moment !== 'function') {
+      resourcesJS.push(this.originURL + "/js/assets/js/moment.min.js");
     }
-    loadResources([
-      ...resourcesCSS,
-      ...resourcesJS
-    ]).done((resources2) => {
+    /*------------------------------------------------------------------------------------------------------------*/
+
+
+    loadResources([].concat(resourcesCSS, resourcesJS)).done(function (resources) {
+      /*--------------------------------------------------------------------------------------------------------*/
       __webpack_require__(7371);
+      /*--------------------------------------------------------------------------------------------------------*/
+
+
       __webpack_require__(2340)(window.moment);
-      AMIWebApp_privateGet(this, _globalDeferred).resolve(resources2);
-    }).fail((message) => {
-      AMIWebApp_privateGet(this, _globalDeferred).reject(message);
+      /*--------------------------------------------------------------------------------------------------------*/
+
+
+      AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].resolve(resources);
+    }).fail(function (message) {
+      AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].reject(message);
     });
+    /*------------------------------------------------------------------------------------------------------------*/
   }
-  onReady(userdata) {
-    if (!AMIWebApp_privateGet(this, _embedded)) {
-      alert("error: 'amiWebApp.onReady()' must be overloaded!");
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* TOOLS                                                                                                          */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+
+  var _proto = AMIWebApp.prototype;
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /* WEB APPLICATION                                                                                                */
+
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * This method must be overloaded and is called when the Web application starts
+   * @event amiWebApp#onReady
+   * @param {?*} userdata the user data
+   */
+  _proto.onReady = function onReady(userdata) {
+    if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
+      alert('error: \'amiWebApp.onReady()\' must be overloaded!'); // eslint-disable-line no-alert
     }
+
     return null;
   }
-  onRefresh(isAuth) {
-    if (!AMIWebApp_privateGet(this, _embedded)) {
-      alert("error: 'amiWebApp.onRefresh()' must be overloaded!");
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * This method must be overloaded and is called when the toolbar needs to be updated
+   * @event amiWebApp#onRefresh
+   * @param {boolean} isAuth is the user authenticated
+   */
+  ;
+
+  _proto.onRefresh = function onRefresh(isAuth) {
+    if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
+      alert('error: \'amiWebApp.onRefresh()\' must be overloaded!'); // eslint-disable-line no-alert
     }
+
     return null;
   }
-  start(options) {
-    AMIWebApp_privateGet(this, _globalDeferred).done(() => {
-      let defaultThemeURL;
-      if ((js_AMIRouter.getWebAppArgs()["subapp"] || "").toLowerCase() !== "userdashboard") {
-        defaultThemeURL = `${this.originURL}/twig/v${this.bootstrapVersion}/Themes/blue.twig`;
+  /*----------------------------------------------------------------------------------------------------------------*/
+
+  /**
+   * Starts the Web application
+   * @param {Object<string, *>} [options={}] dictionary of optional parameters (logo_url, background_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)
+   * @returns {AMIWebApp}
+   */
+  ;
+
+  _proto.start = function start(options) {
+    var _this2 = this;
+
+    AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].done(function () {
+      /*--------------------------------------------------------------------------------------------------------*/
+      var defaultThemeURL;
+
+      if ((js_AMIRouter.getWebAppArgs()['subapp'] || '').toLowerCase() !== 'userdashboard') {
+        defaultThemeURL = _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/blue.twig";
       } else {
-        defaultThemeURL = `${this.originURL}/twig/v${this.bootstrapVersion}/Themes/cloud.twig`;
+        defaultThemeURL = _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig";
       }
-      const [
-        logoURL,
-        backgroundURL,
-        homeURL,
-        contactEmail,
-        aboutURL,
-        themeURL,
-        lockerURL,
-        endpointURL,
-        ssoAutoAuthentication,
-        ssoAuthenticationAllowed,
-        passwordAuthenticationAllowed,
-        certificateAuthenticationAllowed,
-        logoutAllowed,
-        createAccountAllowed,
-        changeInfoAllowed,
-        changePasswordAllowed,
-        changeCertificateAllowed,
-        captchaAllowed,
-        bookmarksAllowed,
-        dashboardsAllowed
-      ] = setup([
-        "logo_url",
-        "background_url",
-        "home_url",
-        "contact_email",
-        "about_url",
-        "theme_url",
-        "locker_url",
-        "endpoint_url",
-        "sso_auto_authentication",
-        "sso_authentication_allowed",
-        "password_authentication_allowed",
-        "certificate_authentication_allowed",
-        "logout_allowed",
-        "create_account_allowed",
-        "change_info_allowed",
-        "change_password_allowed",
-        "change_certificate_allowed",
-        "captcha_allowed",
-        "bookmarks_allowed",
-        "dashboardsAllowed"
-      ], [
-        logo,
-        background,
-        this.webAppURL,
-        "ami@lpsc.in2p3.fr",
-        "https://cern.ch/ami/",
-        defaultThemeURL,
-        `${this.originURL}/twig/v${this.bootstrapVersion}/Lockers/default.twig`,
-        `${this.originURL}/AMI/FrontEnd`,
-        false,
-        false,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true,
-        true
-      ], options);
+      /*--------------------------------------------------------------------------------------------------------*/
+
+
+      var _tools$setup = setup(['logo_url', 'background_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboardsAllowed'], [logo, background, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', defaultThemeURL, _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", false, false, true, true, true, true, true, true, true, true, true, true], options),
+          logoURL = _tools$setup[0],
+          backgroundURL = _tools$setup[1],
+          homeURL = _tools$setup[2],
+          contactEmail = _tools$setup[3],
+          aboutURL = _tools$setup[4],
+          themeURL = _tools$setup[5],
+          lockerURL = _tools$setup[6],
+          endpointURL = _tools$setup[7],
+          ssoAutoAuthentication = _tools$setup[8],
+          ssoAuthenticationAllowed = _tools$setup[9],
+          passwordAuthenticationAllowed = _tools$setup[10],
+          certificateAuthenticationAllowed = _tools$setup[11],
+          logoutAllowed = _tools$setup[12],
+          createAccountAllowed = _tools$setup[13],
+          changeInfoAllowed = _tools$setup[14],
+          changePasswordAllowed = _tools$setup[15],
+          changeCertificateAllowed = _tools$setup[16],
+          captchaAllowed = _tools$setup[17],
+          bookmarksAllowed = _tools$setup[18],
+          dashboardsAllowed = _tools$setup[19];
+      /*--------------------------------------------------------------------------------------------------------*/
+
+
       js_AMICommand.initHttpClient(endpointURL);
-      window.onbeforeunload = (e) => {
+      /*--------------------------------------------------------------------------------------------------------*/
+
+      window.onbeforeunload = function (e) {
         if (!_canLeave) {
-          const f = e || window.event;
+          // noinspection JSDeprecatedSymbols
+          var f = e || window.event;
+
           if (f) {
-            f.returnValue = "Confirm that you want to leave this page?";
+            f.returnValue = 'Confirm that you want to leave this page?';
           }
-          return "Confirm that you want to leave this page?";
+
+          return 'Confirm that you want to leave this page?';
         }
       };
-      const controlsURL = `${this.originURL}/controls/CONTROLS.json`;
-      const subappsURL = `${this.originURL}/subapps/SUBAPPS.json`;
-      $.ajax({ url: controlsURL, cache: false, crossDomain: true, dataType: "json" }).then((data1) => {
-        $.ajax({ url: subappsURL, cache: false, crossDomain: true, dataType: "json" }).then((data2) => {
-          for (const name in data1) {
+      /*--------------------------------------------------------------------------------------------------------*/
+
+
+      var controlsURL = _this2.originURL + "/controls/CONTROLS.json";
+      var subappsURL = _this2.originURL + "/subapps/SUBAPPS.json";
+      /*--------------------------------------------------------------------------------------------------------*/
+
+      $.ajax({
+        url: controlsURL,
+        cache: false,
+        crossDomain: true,
+        dataType: 'json'
+      }).then(function (data1) {
+        $.ajax({
+          url: subappsURL,
+          cache: false,
+          crossDomain: true,
+          dataType: 'json'
+        }).then(function (data2) {
+          for (var name in data1) {
             _controls[name.toLowerCase()] = data1[name];
           }
-          for (const name in data2) {
-            _subapps[name.toLowerCase()] = data2[name];
+
+          for (var _name in data2) {
+            _subapps[_name.toLowerCase()] = data2[_name];
           }
-          if (!AMIWebApp_privateGet(this, _embedded)) {
-            const dict = {
+
+          if (!AMIWebApp_classPrivateFieldLooseBase(_this2, _embedded)[_embedded]) {
+            /*--------------------------------------------------------------------------------------------*/
+            var dict = {
               LOGO_URL: logoURL,
               BACKGROUND_URL: backgroundURL,
               HOME_URL: homeURL,
               CONTACT_EMAIL: contactEmail,
               ABOUT_URL: aboutURL
             };
-            $.ajax({ url: themeURL, cache: true, crossDomain: true, dataType: "text" }).then((data3) => {
-              $.ajax({ url: lockerURL, cache: true, crossDomain: true, dataType: "text" }).then((data4) => {
-                $("body").append(formatTWIG(data3, dict) + data4).promise().done(() => {
+            /*--------------------------------------------------------------------------------------------*/
+
+            $.ajax({
+              url: themeURL,
+              cache: true,
+              crossDomain: true,
+              dataType: 'text'
+            }).then(function (data3) {
+              $.ajax({
+                url: lockerURL,
+                cache: true,
+                crossDomain: true,
+                dataType: 'text'
+              }).then(function (data4) {
+                $('body').append(formatTWIG(data3, dict) + data4).promise().done(function () {
                   lock();
-                  js_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(() => {
+                  js_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
                     unlock();
-                  }).fail((message) => {
+                  }).fail(function (message) {
                     error(message);
                   });
                 });
-              }, () => {
-                alert(`could not open '${lockerURL}', please reload the page...`);
+              }, function () {
+                alert("could not open '" + lockerURL + "', please reload the page..."); // eslint-disable-line no-alert
               });
-            }, () => {
-              alert(`could not open '${themeURL}', please reload the page...`);
+            }, function () {
+              alert("could not open '" + themeURL + "', please reload the page..."); // eslint-disable-line no-alert
             });
+            /*--------------------------------------------------------------------------------------------*/
           } else {
-            let data3 = "";
-            if ($("#ami_alert_content").length === 0) {
+            /*--------------------------------------------------------------------------------------------*/
+            var data3 = '';
+
+            if ($('#ami_alert_content').length === 0) {
               data3 += '<div id="ami_alert_content"></div>';
             }
-            if ($("#ami_login_menu_content").length === 0) {
+
+            if ($('#ami_login_menu_content').length === 0) {
               data3 += '<div id="ami_login_menu_content"></div>';
             }
-            $.ajax({ url: lockerURL, cache: true, crossDomain: true, dataType: "text" }).done((data4) => {
-              $("body").prepend(data3 + data4).promise().done(() => {
+            /*--------------------------------------------------------------------------------------------*/
+
+
+            $.ajax({
+              url: lockerURL,
+              cache: true,
+              crossDomain: true,
+              dataType: 'text'
+            }).done(function (data4) {
+              $('body').prepend(data3 + data4).promise().done(function () {
                 lock();
-                js_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(() => {
+                js_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
                   unlock();
-                }).fail((message) => {
+                }).fail(function (message) {
                   error(message);
                 });
               });
             });
+            /*--------------------------------------------------------------------------------------------*/
           }
-        }, () => {
-          alert(`cannot open '${subappsURL}', please reload the page...`);
+        }, function () {
+          alert("cannot open '" + subappsURL + "', please reload the page..."); // eslint-disable-line no-alert
         });
-      }, () => {
-        alert(`cannot open '${controlsURL}', please reload the page...`);
+      }, function () {
+        alert("cannot open '" + controlsURL + "', please reload the page..."); // eslint-disable-line no-alert
       });
-    }).fail((message) => {
-      alert(message);
+      /*--------------------------------------------------------------------------------------------------------*/
+    }).fail(function (message) {
+      alert(message); // eslint-disable-line no-alert
     });
+
     return this;
   }
-}
-_embedded = new WeakMap();
-_noBootstrap = new WeakMap();
-_noMoment = new WeakMap();
-_noSelect2 = new WeakMap();
-_globalDeferred = new WeakMap();
+  /*----------------------------------------------------------------------------------------------------------------*/
+  ;
+
+  return AMIWebApp;
+}();
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+
 /* harmony default export */ const js_AMIWebApp = (new AMIWebApp());
-
+/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/AMIDoc.js
+/*!
+ * AMI Web Framework
+ *
+ * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
+ *
+ * This file must be used under the terms of the CeCILL-C:
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
+ * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
+ *
+ */
 
-/* harmony default export */ const AMIDoc = ({ "namespaces": [{ "name": "amiAuth", "alias": "amiLogin", "desc": "The AMI authentication subsystem", "implements": [], "inherits": [], "functions": [{ "name": "getMqttEndpoint", "alias": "", "desc": "Gets the current MQTT endpoint", "params": [], "returns": [{ "type": ["string"], "desc": "The current MQTT endpoint" }] }, { "name": "getMqttToken", "alias": "", "desc": "Gets the current MQTT token", "params": [], "returns": [{ "type": ["string"], "desc": "The current MQTT token" }] }, { "name": "getUserInfo", "alias": "", "desc": "Gets the current user information", "params": [], "returns": [{ "type": ["Object.<string, *>"], "desc": "The current user information" }] }, { "name": "getRoleInfo", "alias": "", "desc": "Gets the current role information", "params": [], "returns": [{ "type": ["Object.<string, *>"], "desc": "The current role information" }] }, { "name": "getBookmarkInfo", "alias": "", "desc": "Gets the current bookmark information", "params": [], "returns": [{ "type": ["Object.<string, *>"], "desc": "The current bookmark information" }] }, { "name": "getDashboardInfo", "alias": "", "desc": "Gets the current dashboard information", "params": [], "returns": [{ "type": ["Object.<string, *>"], "desc": "The current dashboard information" }] }, { "name": "getAWFInfo", "alias": "", "desc": "Gets the current AMI Web Framework information", "params": [], "returns": [{ "type": ["Object.<string, *>"], "desc": "The current AMI Web Framework information" }] }, { "name": "getUser", "alias": "", "desc": "Gets the current user", "params": [], "returns": [{ "type": ["string"], "desc": "The current user" }] }, { "name": "getGuest", "alias": "", "desc": "Gets the current guest user", "params": [], "returns": [{ "type": ["string"], "desc": "The current guest user" }] }, { "name": "getNotBeforeDate", "alias": "", "desc": "Gets the current user `not before` date", "params": [], "returns": [{ "type": ["string"], "desc": "The current user `not before` date" }] }, { "name": "getNotAfterDate", "alias": "", "desc": "Gets the current user `not after` date", "params": [], "returns": [{ "type": ["string"], "desc": "The current user `not after` date" }] }, { "name": "getClientDN", "alias": "", "desc": "Gets the current client DN", "params": [], "returns": [{ "type": ["string"], "desc": "The current client DN" }] }, { "name": "getIssuerDN", "alias": "", "desc": "Gets the current issuer DN", "params": [], "returns": [{ "type": ["string"], "desc": "The current issuer DN" }] }, { "name": "isValid", "alias": "", "desc": "Checks whether the user is valid or not", "params": [], "returns": [{ "type": ["boolean"], "desc": "" }] }, { "name": "isAuthenticated", "alias": "", "desc": "Checks whether the user is authenticated or not", "params": [], "returns": [{ "type": ["boolean"], "desc": "" }] }, { "name": "hasRole", "alias": "", "desc": "Checks whether the user has the given role or not", "params": [{ "name": "roleName", "type": ["string"], "desc": "the role", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["boolean"], "desc": "" }] }, { "name": "update", "alias": "", "desc": "Update the user information", "params": [], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }] }, { "name": "amiCommand", "alias": "", "desc": "The AMI command subsystem", "implements": [], "inherits": [], "functions": [{ "name": "initHttpClient", "alias": "", "desc": "Initializes the HTTP client", "params": [{ "name": "endpoint", "type": ["string"], "desc": "the HTTP endpoint", "default": "", "optional": "", "nullable": "" }] }, { "name": "initMqttClient", "alias": "", "desc": "Initializes the MQTT client", "params": [{ "name": "endpoint", "type": ["string"], "desc": "the MQTT endpoint", "default": "", "optional": "", "nullable": "" }] }, { "name": "getHttpEndpoint", "alias": "", "desc": "Gets the HTTP endpoint", "params": [], "returns": [{ "type": ["string"], "desc": "" }] }, { "name": "getMqttEndpoint", "alias": "", "desc": "Gets the MQTT endpoint", "params": [], "returns": [{ "type": ["string"], "desc": "" }] }, { "name": "execute", "alias": "", "desc": "Executes an AMI command", "params": [{ "name": "command", "type": ["string"], "desc": "the command", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "mqttSignInByToken", "alias": "", "desc": "Signs in by JWT token (MQTT client)", "params": [{ "name": "token", "type": ["string"], "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "serverName", "type": ["string"], "desc": "the server name", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "mqttSignOut", "alias": "", "desc": "Signs out (MQTT client)", "params": [{ "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "signInByPassword", "alias": "", "desc": "Signs in by login/password (HTTP client)", "params": [{ "name": "username", "type": ["string"], "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "password", "type": ["string"], "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "signInByCertificate", "alias": "", "desc": "Signs in by certificate (HTTP client)", "params": [{ "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "signOut", "alias": "", "desc": "Signs out (HTTP client)", "params": [{ "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "attachCertificate", "alias": "", "desc": "Attaches a certificate", "params": [{ "name": "username", "type": ["string"], "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "password", "type": ["string"], "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "detachCertificate", "alias": "", "desc": "Detaches a certificate", "params": [{ "name": "username", "type": ["string"], "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "password", "type": ["string"], "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "addUser", "alias": "", "desc": "Adds a new username", "params": [{ "name": "username", "type": ["string"], "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "password", "type": ["string"], "desc": "the password", "default": "", "optional": "", "nullable": "" }, { "name": "firstName", "type": ["string"], "desc": "the first name", "default": "", "optional": "", "nullable": "" }, { "name": "lastName", "type": ["string"], "desc": "the last name", "default": "", "optional": "", "nullable": "" }, { "name": "email", "type": ["string"], "desc": "the email", "default": "", "optional": "", "nullable": "" }, { "name": "captchaHash", "type": ["string"], "desc": "the captcha hash generated by AMI", "default": "", "optional": "", "nullable": "" }, { "name": "captchaText", "type": ["string"], "desc": "the captcha text entered by the username", "default": "", "optional": "", "nullable": "" }, { "name": "attachCert", "type": ["boolean"], "desc": "attach the current certificate", "default": "", "optional": "", "nullable": "" }, { "name": "agree", "type": ["boolean"], "desc": "agree with the terms and conditions", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "changeInfo", "alias": "", "desc": "Changes the account information", "params": [{ "name": "firstName", "type": ["string"], "desc": "the first name", "default": "", "optional": "", "nullable": "" }, { "name": "lastName", "type": ["string"], "desc": "the last name", "default": "", "optional": "", "nullable": "" }, { "name": "email", "type": ["string"], "desc": "the email", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "changePassword", "alias": "", "desc": "Changes the account password", "params": [{ "name": "username", "type": ["string"], "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "oldPassword", "type": ["string"], "desc": "the old password", "default": "", "optional": "", "nullable": "" }, { "name": "newPassword", "type": ["string"], "desc": "the new password", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "resetPassword", "alias": "", "desc": "Resets the account password", "params": [{ "name": "username", "type": ["string"], "desc": "the username", "default": "", "optional": "", "nullable": "" }, { "name": "captchaHash", "type": ["string"], "desc": "the captcha hash generated by AMI", "default": "", "optional": "", "nullable": "" }, { "name": "captchaText", "type": ["string"], "desc": "the captcha text entered by the username", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }] }, { "name": "amiRouter", "alias": "", "desc": "The AMI url routing subsystem", "implements": [], "inherits": [], "functions": [{ "name": "getWebAppURL", "alias": "", "desc": "Gets the webapp URL", "params": [], "returns": [{ "type": ["string"], "desc": "The webapp URL" }] }, { "name": "getWebAppArgs", "alias": "", "desc": "Gets the arguments of the webapp URL", "params": [], "returns": [{ "type": ["Object.<string, string>"], "desc": "The arguments of the webapp URL" }] }, { "name": "getWebAppHash", "alias": "", "desc": "Gets the anchor part of the webapp URL", "params": [], "returns": [{ "type": ["string"], "desc": "The anchor part of the webapp URL" }] }, { "name": "getScriptURL", "alias": "", "desc": "Gets the script URL", "params": [], "returns": [{ "type": ["string"], "desc": "The script URL" }] }, { "name": "getScriptArgs", "alias": "", "desc": "Gets the arguments of the script URL", "params": [], "returns": [{ "type": ["Object.<string, string>"], "desc": "The arguments of the the script URL" }] }, { "name": "getWebappHash", "alias": "", "desc": "Gets anchor part of the script URL", "params": [], "returns": [{ "type": ["string"], "desc": "The anchor part of the script URL" }] }, { "name": "getOriginURL", "alias": "", "desc": "Gets the origin URL", "params": [], "returns": [{ "type": ["string"], "desc": "The origin URL" }] }, { "name": "append", "alias": "", "desc": "Appends a routing rule", "params": [{ "name": "regExp", "type": ["string"], "desc": "the regExp", "default": "", "optional": "", "nullable": "" }, { "name": "callback", "type": ["function"], "desc": "the callback", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["AMIRouter"], "desc": "The amiRouter singleton" }] }, { "name": "remove", "alias": "", "desc": "Removes a routing rule", "params": [{ "name": "regExp", "type": ["string"], "desc": "the regExp", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["AMIRouter"], "desc": "The amiRouter singleton" }] }, { "name": "check", "alias": "", "desc": "Checks whether the URL matches with a routing rule", "params": [], "returns": [{ "type": ["boolean"], "desc": "" }] }, { "name": "appendHistoryEntry", "alias": "", "desc": "Appends a new history entry", "params": [{ "name": "path", "type": ["string"], "desc": "the new path", "default": "", "optional": "", "nullable": "" }, { "name": "context", "type": ["Object.<string, *>"], "desc": "the new context", "default": null, "optional": true, "nullable": "" }], "returns": [{ "type": ["boolean"], "desc": "" }] }, { "name": "replaceHistoryEntry", "alias": "", "desc": "Replaces the current history entry", "params": [{ "name": "path", "type": ["string"], "desc": "the new path", "default": "", "optional": "", "nullable": "" }, { "name": "context", "type": ["Object.<string, *>"], "desc": "the new context", "default": null, "optional": true, "nullable": "" }], "returns": [{ "type": ["boolean"], "desc": "" }] }] }, { "name": "amiWebApp", "alias": "", "desc": "The AMI webapp subsystem", "implements": [], "inherits": [], "variables": [{ "name": "webAppURL", "alias": "", "type": ["string"], "desc": "The webapp URL" }, { "name": "scriptURL", "alias": "", "type": ["string"], "desc": "The script URL" }, { "name": "originURL", "alias": "", "type": ["string"], "desc": "The origin URL" }, { "name": "args", "alias": "", "type": ["Object.<string, string>"], "desc": "The arguments of the webapp URL" }, { "name": "hash", "alias": "", "type": ["string"], "desc": "The anchor part of the webapp URL" }, { "name": "bootstrapVersion", "alias": "", "type": ["number"], "desc": "The Twitter Bootstrap's version (default, 4)" }], "events": [{ "name": "onReady", "alias": "", "desc": "This method must be overloaded and is called when the Web application starts", "params": [{ "name": "userdata", "type": ["*"], "desc": "the user data", "default": "", "optional": "", "nullable": true }] }, { "name": "onRefresh", "alias": "", "desc": "This method must be overloaded and is called when the toolbar needs to be updated", "params": [{ "name": "isAuth", "type": ["boolean"], "desc": "is the user authenticated", "default": "", "optional": "", "nullable": "" }] }], "functions": [{ "name": "start", "alias": "", "desc": "Starts the Web application", "params": [{ "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (logo_url, background_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["AMIWebApp"], "desc": "" }] }, { "name": "typeOf", "alias": "", "desc": "Gets the type name of the given object", "params": [{ "name": "x", "type": ["*"], "desc": "the object", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The type name of the given object" }] }, { "name": "asArray", "alias": "", "desc": "Turns the given object into an array if it is not already the case", "params": [{ "name": "x", "type": ["*"], "desc": "the object", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["Array.<*>"], "desc": "The resulting array" }] }, { "name": "isString", "alias": "", "desc": "Checks whether the given object is a string", "params": [{ "name": "x", "type": ["*"], "desc": "the object", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["boolean"], "desc": "" }] }, { "name": "isArray", "alias": "", "desc": "Checks whether the given object is an array", "params": [{ "name": "x", "type": ["*"], "desc": "the object", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["boolean"], "desc": "" }] }, { "name": "isObject", "alias": "", "desc": "Checks whether the given object is an object", "params": [{ "name": "x", "type": ["*"], "desc": "the object", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["boolean"], "desc": "" }] }, { "name": "isSet", "alias": "", "desc": "Checks whether the given object is a set", "params": [{ "name": "x", "type": ["*"], "desc": "the object", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["boolean"], "desc": "" }] }, { "name": "isMap", "alias": "", "desc": "Checks whether the given object is a map", "params": [{ "name": "x", "type": ["*"], "desc": "the object", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["boolean"], "desc": "" }] }, { "name": "setup", "alias": "", "desc": "", "params": [{ "name": "optionNames", "type": ["Array.<string>"], "desc": "", "default": "", "optional": "", "nullable": "" }, { "name": "optionDefaults", "type": ["Array.<*>"], "desc": "", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["Array.<*>"], "desc": "" }] }, { "name": "lock", "alias": "", "desc": "Locks the Web application", "params": [] }, { "name": "unlock", "alias": "", "desc": "Unlocks the Web application", "params": [] }, { "name": "modalEnter", "alias": "", "desc": "Enter the modal window", "params": [] }, { "name": "modalLeave", "alias": "", "desc": "Leave the modal window", "params": [] }, { "name": "canLeave", "alias": "", "desc": "Specifies whether leaving the current page must be confirmed or not", "params": [{ "name": "canLeave", "type": [], "desc": "", "default": "", "optional": "", "nullable": "" }] }, { "name": "error", "alias": "", "desc": "Shows an 'error' message", "params": [{ "name": "message", "type": ["string", "Array.<string>"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": ["boolean"], "desc": "if True, the message disappears after 60s", "default": false, "optional": true, "nullable": "" }] }, { "name": "info", "alias": "", "desc": "Shows an 'info' message", "params": [{ "name": "message", "type": ["string", "Array.<string>"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": ["boolean"], "desc": "if True, the message disappears after 60s", "default": false, "optional": true, "nullable": "" }] }, { "name": "success", "alias": "", "desc": "Shows a 'success' message", "params": [{ "name": "message", "type": ["string", "Array.<string>"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": ["boolean"], "desc": "if True, the message disappears after 60s", "default": false, "optional": true, "nullable": "" }] }, { "name": "warning", "alias": "", "desc": "Shows a 'warning' message", "params": [{ "name": "message", "type": ["string", "Array.<string>"], "desc": "the message", "default": "", "optional": "", "nullable": "" }, { "name": "fadeOut", "type": ["boolean"], "desc": "if True, the message disappears after 60s", "default": false, "optional": true, "nullable": "" }] }, { "name": "flush", "alias": "", "desc": "Flushes messages", "params": [] }, { "name": "base64Encode", "alias": "", "desc": "Encodes the given string to base64", "params": [{ "name": "s", "type": ["string"], "desc": "the decoded string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The encoded string" }] }, { "name": "base64Decode", "alias": "", "desc": "Decodes the given string from base64", "params": [{ "name": "s", "type": ["string"], "desc": "the encoded string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The decoded string" }] }, { "name": "textToHtml", "alias": "", "desc": "Escapes the given string from text to HTML", "params": [{ "name": "s", "type": ["string"], "desc": "the unescaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The escaped string" }] }, { "name": "htmlToText", "alias": "", "desc": "Unescapes the given string from HTML to text", "params": [{ "name": "s", "type": ["string"], "desc": "the escaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The unescaped string" }] }, { "name": "textToString", "alias": "", "desc": "Escapes the given string from text to JavaScript string", "params": [{ "name": "s", "type": ["string"], "desc": "the unescaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The escaped string" }] }, { "name": "stringToText", "alias": "", "desc": "Unescapes the given string from JavaScript string to text", "params": [{ "name": "s", "type": ["string"], "desc": "the escaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The unescaped string" }] }, { "name": "htmlToString", "alias": "", "desc": "Escapes the given string from HTML to JavaScript string", "params": [{ "name": "s", "type": ["string"], "desc": "the unescaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The escaped string" }] }, { "name": "stringToHtml", "alias": "", "desc": "Unescapes the given string from JavaScript string to HTML", "params": [{ "name": "s", "type": ["string"], "desc": "the escaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The unescaped string" }] }, { "name": "textToSQL", "alias": "", "desc": "Escapes the given string from text to SQL", "params": [{ "name": "s", "type": ["string"], "desc": "the unescaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The escaped string" }] }, { "name": "sqlToText", "alias": "", "desc": "Unescapes the given string from SQL to text", "params": [{ "name": "s", "type": ["string"], "desc": "the escaped string", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The unescaped string" }] }, { "name": "fillBreadcrumb", "alias": "", "desc": "Fills the main breadcrumb", "params": [{ "name": "items", "type": ["Array.<string>", "string"], "desc": "the array of HTML formatted items", "default": "", "optional": "", "nullable": "" }] }, { "name": "replaceHTML", "alias": "", "desc": "Puts a HTML or TWIG fragment to the given target", "params": [{ "name": "selector", "type": ["string"], "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": ["string"], "desc": "the TWIG fragment", "default": "{}", "optional": true, "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context, scope, dict, twigs)", "default": "{}", "optional": true, "nullable": "" }], "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "prependHTML", "alias": "", "desc": "Prepends a HTML or TWIG fragment to the given target", "params": [{ "name": "selector", "type": ["string"], "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": ["string"], "desc": "the TWIG fragment", "default": "{}", "optional": true, "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context, scope, dict, twigs)", "default": "{}", "optional": true, "nullable": "" }], "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "appendHTML", "alias": "", "desc": "Appends a HTML or TWIG fragment to the given target", "params": [{ "name": "selector", "type": ["string"], "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": ["string"], "desc": "the TWIG fragment", "default": "{}", "optional": true, "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context, scope, dict, twigs)", "default": "{}", "optional": true, "nullable": "" }], "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "formatTWIG", "alias": "", "desc": "Interprets the given TWIG string", "params": [{ "name": "twig", "type": ["string"], "desc": "the TWIG string", "default": "", "optional": "", "nullable": "" }, { "name": "dict", "type": ["Object.<string, *>", "Array.<Object.<string, *>>"], "desc": "the dictionary", "default": "{}", "optional": true, "nullable": "" }, { "name": "twigs", "type": ["Object.<string, string>"], "desc": "dictionary of fragments", "default": "{}", "optional": true, "nullable": "" }], "see": ["{@link https://twig.symfony.com/doc/}"], "returns": [{ "type": ["string"], "desc": "The Interpreted TWIG string" }] }, { "name": "renderJSDoc", "alias": "", "desc": "Renders a AMI JSDoc documentation", "params": [{ "name": "menuSelector", "type": ["string"], "desc": "selector of the menu div", "default": "", "optional": "", "nullable": "" }, { "name": "bodySelector", "type": ["string"], "desc": "selector of the body div", "default": "", "optional": "", "nullable": "" }, { "name": "json", "type": ["object"], "desc": "the JSON documentation", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["AMIJSDoc"], "desc": "" }] }, { "name": "loadResources", "alias": "", "desc": "Asynchronously loads resources by file extension", "params": [{ "name": "urls", "type": ["Array.<string>", "string"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "loadSheets", "alias": "", "desc": "Asynchronously loads CSS sheets", "params": [{ "name": "urls", "type": ["Array.<string>", "string"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "loadScripts", "alias": "", "desc": "Asynchronously loads JS scripts", "params": [{ "name": "urls", "type": ["Array.<string>", "string"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "loadJSONs", "alias": "", "desc": "Asynchronously loads JSON files", "params": [{ "name": "urls", "type": ["Array.<string>", "string"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "loadXMLs", "alias": "", "desc": "Asynchronously loads XML files", "params": [{ "name": "urls", "type": ["Array.<string>", "string"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "loadHTMLs", "alias": "", "desc": "Asynchronously loads HTML files", "params": [{ "name": "urls", "type": ["Array.<string>", "string"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "loadTWIGs", "alias": "", "desc": "Asynchronously loads TWIG files", "params": [{ "name": "urls", "type": ["Array.<string>", "string"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "loadTexts", "alias": "", "desc": "Asynchronously loads text files", "params": [{ "name": "urls", "type": ["Array.<string>", "string"], "desc": "the array of urls", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "loadSubApp", "alias": "", "desc": "Asynchronously loads a subapp", "params": [{ "name": "subapp", "type": ["string"], "desc": "the subapp name", "default": "", "optional": "", "nullable": "" }, { "name": "userdata", "type": ["*"], "desc": "the user data", "default": "", "optional": true, "nullable": true }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "loadSubAppByURL", "alias": "", "desc": "Asynchronously loads a subapp by URL", "params": [{ "name": "defaultSubApp", "type": ["string"], "desc": `if 'amiRouter.getArgs()["subapp"]' is null, the default subapp name`, "default": "", "optional": "", "nullable": "" }, { "name": "defaultUserData", "type": ["*"], "desc": `if 'amiRouter.getArgs()["userdata"]' is null, the default user data`, "default": "", "optional": "", "nullable": true }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "loadControl", "alias": "", "desc": "Asynchronously loads a control", "params": [{ "name": "control", "type": ["string"], "desc": "the control name", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "createControl", "alias": "", "desc": "Asynchronously creates a control", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "owner", "type": ["*"], "desc": "the owner entity", "default": "", "optional": "", "nullable": true }, { "name": "control", "type": ["string"], "desc": "the control name", "default": "", "optional": "", "nullable": "" }, { "name": "params", "type": ["Array.<*>"], "desc": "the control's parameters", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "createControlInBody", "alias": "", "desc": "Asynchronously creates a control in the body", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "owner", "type": ["*"], "desc": "the owner entity", "default": "", "optional": "", "nullable": true }, { "name": "control", "type": ["string"], "desc": "the control name", "default": "", "optional": "", "nullable": "" }, { "name": "controlParams", "type": ["Array.<*>"], "desc": "the control's render method mandatory parameters", "default": "", "optional": "", "nullable": "" }, { "name": "controlOptions", "type": ["Object.<string, *>"], "desc": "the control's render method optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "ownerOptions", "type": ["Object.<string, *>"], "desc": "the owner's optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "createControlInContainer", "alias": "", "desc": "Asynchronously creates a control in a container", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "owner", "type": ["*"], "desc": "the owner entity", "default": "", "optional": "", "nullable": true }, { "name": "control", "type": ["string"], "desc": "the control name", "default": "", "optional": "", "nullable": "" }, { "name": "controlParams", "type": ["Array.<*>"], "desc": "the control's render method mandatory parameters", "default": "", "optional": "", "nullable": "" }, { "name": "controlOptions", "type": ["Object.<string, *>"], "desc": "the control's render method optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "ownerOptions", "type": ["Object.<string, *>"], "desc": "the owner's optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "icon", "type": ["string"], "desc": "the icon", "default": "", "optional": "", "nullable": "" }, { "name": "title", "type": ["string"], "desc": "the title", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "createControlFromWebLink", "alias": "", "desc": "Asynchronously creates a control in a container from a WEB link", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "owner", "type": ["*"], "desc": "the owner entity", "default": "", "optional": "", "nullable": true }, { "name": "el", "type": ["Element"], "desc": "the HTML element", "default": "", "optional": "", "nullable": "" }, { "name": "ownerOptions", "type": ["Object.<string, *>"], "desc": "the owner's optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }] }], "interfaces": [{ "name": "ami.IControl", "alias": "", "desc": "The AMI control interface", "implements": [], "inherits": [], "functions": [{ "name": "onReady", "alias": "", "desc": "Called when the control is ready to run", "params": [], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "onRemove", "alias": "", "desc": "Called when the control is removed", "params": [], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "patchId", "alias": "", "desc": "Patches an HTML identifier", "params": [{ "name": "id", "type": ["string"], "desc": "the not patched HTML identifier", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The patched HTML identifier" }] }, { "name": "replaceHTML", "alias": "", "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": ["string"], "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": ["string"], "desc": "the TWIG fragment", "default": "{}", "optional": true, "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context, dict, twigs)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "prependHTML", "alias": "", "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": ["string"], "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": ["string"], "desc": "the TWIG fragment", "default": "{}", "optional": true, "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context, dict, twigs)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "appendHTML", "alias": "", "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": ["string"], "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": ["string"], "desc": "the TWIG fragment", "default": "{}", "optional": true, "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context, dict, twigs)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }] }, { "name": "ami.IContainer", "alias": "", "desc": "The AMI container interface", "implements": [], "inherits": [], "functions": [{ "name": "render", "alias": "", "desc": "", "params": [{ "name": "selector", "type": ["string"], "desc": "the selector", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (...)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "prependItem", "alias": "", "desc": "Prepends an item", "params": [{ "name": "title", "type": ["string"], "desc": "the title", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (...)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object returning the new item's identifier" }] }, { "name": "appendItem", "alias": "", "desc": "Appends an item", "params": [{ "name": "title", "type": ["string"], "desc": "the title", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (...)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object returning the new item's identifier" }] }, { "name": "removeItem", "alias": "", "desc": "Removes an item", "params": [{ "name": "itemId", "type": ["string"], "desc": "the item identifier", "default": "", "optional": "", "nullable": "" }] }, { "name": "removeAllItems", "alias": "", "desc": "Removes all items", "params": [] }, { "name": "isEmpty", "alias": "", "desc": "Checks whether the container is empty or not", "params": [], "returns": [{ "type": ["boolean"], "desc": "" }] }] }, { "name": "ami.ISubApp", "alias": "", "desc": "The AMI sub-application interface", "implements": [], "inherits": [], "functions": [{ "name": "onReady", "alias": "", "desc": "Called when the sub-application is ready to run", "params": [{ "name": "userdata", "type": ["*"], "desc": "the user data", "default": "", "optional": "", "nullable": true }], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "onExit", "alias": "", "desc": "Called when the sub-application is about to exit", "params": [{ "name": "userdata", "type": ["*"], "desc": "the user data", "default": "", "optional": "", "nullable": true }], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "onLogin", "alias": "", "desc": "Called when logging in", "params": [{ "name": "userdata", "type": ["*"], "desc": "the user data", "default": "", "optional": "", "nullable": true }], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "onLogout", "alias": "", "desc": "Called when logging out", "params": [{ "name": "userdata", "type": ["*"], "desc": "the user data", "default": "", "optional": "", "nullable": true }], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }] }], "classes": [{ "name": "ami.Control", "alias": "", "desc": "The basic AMI control", "implements": ["ami.IControl"], "inherits": [], "konstructor": { "name": "Control", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "optional": "", "nullable": true }, { "name": "owner", "type": ["*"], "desc": "the owner entity", "optional": "", "nullable": true }] }, "functions": [{ "name": "onReady", "alias": "", "desc": "Called when the control is ready to run", "params": [], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "onRemove", "alias": "", "desc": "Called when the control is removed", "params": [], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "patchId", "alias": "", "desc": "Patches an HTML identifier", "params": [{ "name": "id", "type": ["string"], "desc": "the not patched HTML identifier", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["string"], "desc": "The patched HTML identifier" }] }, { "name": "replaceHTML", "alias": "", "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": ["string"], "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": ["string"], "desc": "the TWIG fragment", "default": "{}", "optional": true, "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context, dict, twigs)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "prependHTML", "alias": "", "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": ["string"], "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": ["string"], "desc": "the TWIG fragment", "default": "{}", "optional": true, "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context, dict, twigs)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "appendHTML", "alias": "", "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}", "params": [{ "name": "selector", "type": ["string"], "desc": "the target selector", "default": "", "optional": "", "nullable": "" }, { "name": "twig", "type": ["string"], "desc": "the TWIG fragment", "default": "{}", "optional": true, "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context, dict, twigs)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "setupCtx", "alias": "", "desc": "Sets up the control's context", "params": [{ "name": "immutables", "type": ["Object.<string, *>"], "desc": "dictionary of immutable parameters in the control's context", "default": "", "optional": "", "nullable": "" }, { "name": "defaults", "type": ["Object.<string, *>"], "desc": "dictionary of default values for optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of values for optional parameters", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["Object.<string, *>"], "desc": "The resulting control's context" }] }, { "name": "createControl", "alias": "", "desc": "Asynchronously creates a control", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "control", "type": ["string"], "desc": "the control name", "default": "", "optional": "", "nullable": "" }, { "name": "params", "type": ["Array.<*>"], "desc": "the control's parameters", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "createControlInBody", "alias": "", "desc": "Asynchronously creates a control in the body", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "control", "type": ["string"], "desc": "the control name", "default": "", "optional": "", "nullable": "" }, { "name": "controlParams", "type": ["Array.<*>"], "desc": "the control's render method mandatory parameters", "default": "", "optional": "", "nullable": "" }, { "name": "controlOptions", "type": ["Object.<string, *>"], "desc": "the control's render method optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "createControlInContainer", "alias": "", "desc": "Asynchronously creates a control in a container", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "control", "type": ["string"], "desc": "the control name", "default": "", "optional": "", "nullable": "" }, { "name": "controlParams", "type": ["Array.<*>"], "desc": "the control's render method mandatory parameters", "default": "", "optional": "", "nullable": "" }, { "name": "controlOptions", "type": ["Object.<string, *>"], "desc": "the control's render method optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "icon", "type": ["string"], "desc": "the icon", "default": "", "optional": "", "nullable": "" }, { "name": "title", "type": ["string"], "desc": "the title", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "createControlFromWebLink", "alias": "", "desc": "Asynchronously creates a control in a container from a WEB link", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "el", "type": ["Element"], "desc": "the HTML element", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }] }, { "name": "ami.SubApp", "alias": "", "desc": "The basic AMI sub-application", "implements": ["ami.ISubApp"], "inherits": [], "konstructor": { "name": "SubApp", "params": [] }, "functions": [{ "name": "onReady", "alias": "", "desc": "Called when the sub-application is ready to run", "params": [{ "name": "userdata", "type": ["*"], "desc": "the user data", "default": "", "optional": "", "nullable": true }], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "onExit", "alias": "", "desc": "Called when the sub-application is about to exit", "params": [{ "name": "userdata", "type": ["*"], "desc": "the user data", "default": "", "optional": "", "nullable": true }], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "onLogin", "alias": "", "desc": "Called when logging in", "params": [{ "name": "userdata", "type": ["*"], "desc": "the user data", "default": "", "optional": "", "nullable": true }], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "onLogout", "alias": "", "desc": "Called when logging out", "params": [{ "name": "userdata", "type": ["*"], "desc": "the user data", "default": "", "optional": "", "nullable": true }], "returns": [{ "type": ["$.Promise", "$.Deferred", "undefined"], "desc": "A JQuery promise object, deferred object or nothing" }] }, { "name": "setupCtx", "alias": "", "desc": "Sets up the application's context", "params": [{ "name": "immutables", "type": ["Object.<string, *>"], "desc": "dictionary of immutable parameters in the application's context", "default": "", "optional": "", "nullable": "" }, { "name": "defaults", "type": ["Object.<string, *>"], "desc": "dictionary of default values for optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of values for optional parameters", "default": "", "optional": "", "nullable": "" }], "returns": [{ "type": ["Object.<string, *>"], "desc": "The resulting application's context" }] }, { "name": "createControl", "alias": "", "desc": "Asynchronously creates a control", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "control", "type": ["string"], "desc": "the control name", "default": "", "optional": "", "nullable": "" }, { "name": "params", "type": ["Array.<*>"], "desc": "the control's parameters", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "createControlInBody", "alias": "", "desc": "Asynchronously creates a control in the body", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "control", "type": ["string"], "desc": "the control name", "default": "", "optional": "", "nullable": "" }, { "name": "controlParams", "type": ["Array.<*>"], "desc": "the control's render method mandatory parameters", "default": "", "optional": "", "nullable": "" }, { "name": "controlOptions", "type": ["Object.<string, *>"], "desc": "the control's render method optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "createControlInContainer", "alias": "", "desc": "Asynchronously creates a control in a container", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "control", "type": ["string"], "desc": "the control name", "default": "", "optional": "", "nullable": "" }, { "name": "controlParams", "type": ["Array.<*>"], "desc": "the control's render method mandatory parameters", "default": "", "optional": "", "nullable": "" }, { "name": "controlOptions", "type": ["Object.<string, *>"], "desc": "the control's render method optional parameters", "default": "", "optional": "", "nullable": "" }, { "name": "icon", "type": ["string"], "desc": "the icon", "default": "", "optional": "", "nullable": "" }, { "name": "title", "type": ["string"], "desc": "the title", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }, { "name": "createControlFromWebLink", "alias": "", "desc": "Asynchronously creates a control in a container from a WEB link", "params": [{ "name": "parent", "type": ["*"], "desc": "the parent entity", "default": "", "optional": "", "nullable": true }, { "name": "el", "type": ["Element"], "desc": "the HTML element", "default": "", "optional": "", "nullable": "" }, { "name": "options", "type": ["Object.<string, *>"], "desc": "dictionary of optional parameters (context)", "default": "{}", "optional": true, "nullable": "" }], "returns": [{ "type": ["$.Promise"], "desc": "A JQuery promise object" }] }] }], "functions": [{ "name": "$AMINamespace", "alias": "", "desc": "Creates a new namespace", "params": [{ "name": "$name", "type": ["string"], "desc": "the namespace name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": ["Object.<string, *>"], "desc": "the namespace body", "default": "{}", "optional": true, "nullable": "" }] }, { "name": "$AMIInterface", "alias": "", "desc": "Creates a new interface", "params": [{ "name": "$name", "type": ["string"], "desc": "the interface name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": ["Object.<string, *>"], "desc": "the interface body", "default": "{}", "optional": true, "nullable": "" }] }, { "name": "$AMIClass", "alias": "", "desc": "Creates a new class", "params": [{ "name": "$name", "type": ["string"], "desc": "the class name", "default": "", "optional": "", "nullable": "" }, { "name": "$descr", "type": ["Object.<string, *>"], "desc": "the class body", "default": "{}", "optional": true, "nullable": "" }] }] });
+/*--------------------------------------------------------------------------------------------------------------------*/
 
+/* eslint-disable */
+
+/* harmony default export */ const AMIDoc = ({
+  "namespaces": [{
+    "name": "amiAuth",
+    "alias": "amiLogin",
+    "desc": "The AMI authentication subsystem",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "getMqttEndpoint",
+      "alias": "",
+      "desc": "Gets the current MQTT endpoint",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current MQTT endpoint"
+      }]
+    }, {
+      "name": "getMqttToken",
+      "alias": "",
+      "desc": "Gets the current MQTT token",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current MQTT token"
+      }]
+    }, {
+      "name": "getUserInfo",
+      "alias": "",
+      "desc": "Gets the current user information",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The current user information"
+      }]
+    }, {
+      "name": "getRoleInfo",
+      "alias": "",
+      "desc": "Gets the current role information",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The current role information"
+      }]
+    }, {
+      "name": "getBookmarkInfo",
+      "alias": "",
+      "desc": "Gets the current bookmark information",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The current bookmark information"
+      }]
+    }, {
+      "name": "getDashboardInfo",
+      "alias": "",
+      "desc": "Gets the current dashboard information",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The current dashboard information"
+      }]
+    }, {
+      "name": "getAWFInfo",
+      "alias": "",
+      "desc": "Gets the current AMI Web Framework information",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The current AMI Web Framework information"
+      }]
+    }, {
+      "name": "getUser",
+      "alias": "",
+      "desc": "Gets the current user",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current user"
+      }]
+    }, {
+      "name": "getGuest",
+      "alias": "",
+      "desc": "Gets the current guest user",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current guest user"
+      }]
+    }, {
+      "name": "getNotBeforeDate",
+      "alias": "",
+      "desc": "Gets the current user `not before` date",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current user `not before` date"
+      }]
+    }, {
+      "name": "getNotAfterDate",
+      "alias": "",
+      "desc": "Gets the current user `not after` date",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current user `not after` date"
+      }]
+    }, {
+      "name": "getClientDN",
+      "alias": "",
+      "desc": "Gets the current client DN",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current client DN"
+      }]
+    }, {
+      "name": "getIssuerDN",
+      "alias": "",
+      "desc": "Gets the current issuer DN",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current issuer DN"
+      }]
+    }, {
+      "name": "isValid",
+      "alias": "",
+      "desc": "Checks whether the user is valid or not",
+      "params": [],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "isAuthenticated",
+      "alias": "",
+      "desc": "Checks whether the user is authenticated or not",
+      "params": [],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "hasRole",
+      "alias": "",
+      "desc": "Checks whether the user has the given role or not",
+      "params": [{
+        "name": "roleName",
+        "type": ["string"],
+        "desc": "the role",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "update",
+      "alias": "",
+      "desc": "Update the user information",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }, {
+    "name": "amiCommand",
+    "alias": "",
+    "desc": "The AMI command subsystem",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "initHttpClient",
+      "alias": "",
+      "desc": "Initializes the HTTP client",
+      "params": [{
+        "name": "endpoint",
+        "type": ["string"],
+        "desc": "the HTTP endpoint",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "initMqttClient",
+      "alias": "",
+      "desc": "Initializes the MQTT client",
+      "params": [{
+        "name": "endpoint",
+        "type": ["string"],
+        "desc": "the MQTT endpoint",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "getHttpEndpoint",
+      "alias": "",
+      "desc": "Gets the HTTP endpoint",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": ""
+      }]
+    }, {
+      "name": "getMqttEndpoint",
+      "alias": "",
+      "desc": "Gets the MQTT endpoint",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": ""
+      }]
+    }, {
+      "name": "execute",
+      "alias": "",
+      "desc": "Executes an AMI command",
+      "params": [{
+        "name": "command",
+        "type": ["string"],
+        "desc": "the command",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "mqttSignInByToken",
+      "alias": "",
+      "desc": "Signs in by JWT token (MQTT client)",
+      "params": [{
+        "name": "token",
+        "type": ["string"],
+        "desc": "the password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "serverName",
+        "type": ["string"],
+        "desc": "the server name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "mqttSignOut",
+      "alias": "",
+      "desc": "Signs out (MQTT client)",
+      "params": [{
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "signInByPassword",
+      "alias": "",
+      "desc": "Signs in by login/password (HTTP client)",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "password",
+        "type": ["string"],
+        "desc": "the password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "signInByCertificate",
+      "alias": "",
+      "desc": "Signs in by certificate (HTTP client)",
+      "params": [{
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "signOut",
+      "alias": "",
+      "desc": "Signs out (HTTP client)",
+      "params": [{
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "attachCertificate",
+      "alias": "",
+      "desc": "Attaches a certificate",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "password",
+        "type": ["string"],
+        "desc": "the password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "detachCertificate",
+      "alias": "",
+      "desc": "Detaches a certificate",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "password",
+        "type": ["string"],
+        "desc": "the password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "addUser",
+      "alias": "",
+      "desc": "Adds a new username",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "password",
+        "type": ["string"],
+        "desc": "the password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "firstName",
+        "type": ["string"],
+        "desc": "the first name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "lastName",
+        "type": ["string"],
+        "desc": "the last name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "email",
+        "type": ["string"],
+        "desc": "the email",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "captchaHash",
+        "type": ["string"],
+        "desc": "the captcha hash generated by AMI",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "captchaText",
+        "type": ["string"],
+        "desc": "the captcha text entered by the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "attachCert",
+        "type": ["boolean"],
+        "desc": "attach the current certificate",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "agree",
+        "type": ["boolean"],
+        "desc": "agree with the terms and conditions",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "changeInfo",
+      "alias": "",
+      "desc": "Changes the account information",
+      "params": [{
+        "name": "firstName",
+        "type": ["string"],
+        "desc": "the first name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "lastName",
+        "type": ["string"],
+        "desc": "the last name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "email",
+        "type": ["string"],
+        "desc": "the email",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "changePassword",
+      "alias": "",
+      "desc": "Changes the account password",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "oldPassword",
+        "type": ["string"],
+        "desc": "the old password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "newPassword",
+        "type": ["string"],
+        "desc": "the new password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "resetPassword",
+      "alias": "",
+      "desc": "Resets the account password",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "captchaHash",
+        "type": ["string"],
+        "desc": "the captcha hash generated by AMI",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "captchaText",
+        "type": ["string"],
+        "desc": "the captcha text entered by the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }, {
+    "name": "amiRouter",
+    "alias": "",
+    "desc": "The AMI url routing subsystem",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "getWebAppURL",
+      "alias": "",
+      "desc": "Gets the webapp URL",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The webapp URL"
+      }]
+    }, {
+      "name": "getWebAppArgs",
+      "alias": "",
+      "desc": "Gets the arguments of the webapp URL",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, string>"],
+        "desc": "The arguments of the webapp URL"
+      }]
+    }, {
+      "name": "getWebAppHash",
+      "alias": "",
+      "desc": "Gets the anchor part of the webapp URL",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The anchor part of the webapp URL"
+      }]
+    }, {
+      "name": "getScriptURL",
+      "alias": "",
+      "desc": "Gets the script URL",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The script URL"
+      }]
+    }, {
+      "name": "getScriptArgs",
+      "alias": "",
+      "desc": "Gets the arguments of the script URL",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, string>"],
+        "desc": "The arguments of the the script URL"
+      }]
+    }, {
+      "name": "getWebappHash",
+      "alias": "",
+      "desc": "Gets anchor part of the script URL",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The anchor part of the script URL"
+      }]
+    }, {
+      "name": "getOriginURL",
+      "alias": "",
+      "desc": "Gets the origin URL",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The origin URL"
+      }]
+    }, {
+      "name": "append",
+      "alias": "",
+      "desc": "Appends a routing rule",
+      "params": [{
+        "name": "regExp",
+        "type": ["string"],
+        "desc": "the regExp",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "callback",
+        "type": ["function"],
+        "desc": "the callback",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["AMIRouter"],
+        "desc": "The amiRouter singleton"
+      }]
+    }, {
+      "name": "remove",
+      "alias": "",
+      "desc": "Removes a routing rule",
+      "params": [{
+        "name": "regExp",
+        "type": ["string"],
+        "desc": "the regExp",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["AMIRouter"],
+        "desc": "The amiRouter singleton"
+      }]
+    }, {
+      "name": "check",
+      "alias": "",
+      "desc": "Checks whether the URL matches with a routing rule",
+      "params": [],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "appendHistoryEntry",
+      "alias": "",
+      "desc": "Appends a new history entry",
+      "params": [{
+        "name": "path",
+        "type": ["string"],
+        "desc": "the new path",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "context",
+        "type": ["Object.<string, *>"],
+        "desc": "the new context",
+        "default": null,
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "replaceHistoryEntry",
+      "alias": "",
+      "desc": "Replaces the current history entry",
+      "params": [{
+        "name": "path",
+        "type": ["string"],
+        "desc": "the new path",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "context",
+        "type": ["Object.<string, *>"],
+        "desc": "the new context",
+        "default": null,
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }]
+  }, {
+    "name": "amiWebApp",
+    "alias": "",
+    "desc": "The AMI webapp subsystem",
+    "implements": [],
+    "inherits": [],
+    "variables": [{
+      "name": "webAppURL",
+      "alias": "",
+      "type": ["string"],
+      "desc": "The webapp URL"
+    }, {
+      "name": "scriptURL",
+      "alias": "",
+      "type": ["string"],
+      "desc": "The script URL"
+    }, {
+      "name": "originURL",
+      "alias": "",
+      "type": ["string"],
+      "desc": "The origin URL"
+    }, {
+      "name": "args",
+      "alias": "",
+      "type": ["Object.<string, string>"],
+      "desc": "The arguments of the webapp URL"
+    }, {
+      "name": "hash",
+      "alias": "",
+      "type": ["string"],
+      "desc": "The anchor part of the webapp URL"
+    }, {
+      "name": "bootstrapVersion",
+      "alias": "",
+      "type": ["number"],
+      "desc": "The Twitter Bootstrap's version (default, 4)"
+    }],
+    "events": [{
+      "name": "onReady",
+      "alias": "",
+      "desc": "This method must be overloaded and is called when the Web application starts",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }]
+    }, {
+      "name": "onRefresh",
+      "alias": "",
+      "desc": "This method must be overloaded and is called when the toolbar needs to be updated",
+      "params": [{
+        "name": "isAuth",
+        "type": ["boolean"],
+        "desc": "is the user authenticated",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }],
+    "functions": [{
+      "name": "start",
+      "alias": "",
+      "desc": "Starts the Web application",
+      "params": [{
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (logo_url, background_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["AMIWebApp"],
+        "desc": ""
+      }]
+    }, {
+      "name": "typeOf",
+      "alias": "",
+      "desc": "Gets the type name of the given object",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The type name of the given object"
+      }]
+    }, {
+      "name": "asArray",
+      "alias": "",
+      "desc": "Turns the given object into an array if it is not already the case",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["Array.<*>"],
+        "desc": "The resulting array"
+      }]
+    }, {
+      "name": "isString",
+      "alias": "",
+      "desc": "Checks whether the given object is a string",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "isArray",
+      "alias": "",
+      "desc": "Checks whether the given object is an array",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "isObject",
+      "alias": "",
+      "desc": "Checks whether the given object is an object",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "isSet",
+      "alias": "",
+      "desc": "Checks whether the given object is a set",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "isMap",
+      "alias": "",
+      "desc": "Checks whether the given object is a map",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "setup",
+      "alias": "",
+      "desc": "",
+      "params": [{
+        "name": "optionNames",
+        "type": ["Array.<string>"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "optionDefaults",
+        "type": ["Array.<*>"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["Array.<*>"],
+        "desc": ""
+      }]
+    }, {
+      "name": "lock",
+      "alias": "",
+      "desc": "Locks the Web application",
+      "params": []
+    }, {
+      "name": "unlock",
+      "alias": "",
+      "desc": "Unlocks the Web application",
+      "params": []
+    }, {
+      "name": "modalEnter",
+      "alias": "",
+      "desc": "Enter the modal window",
+      "params": []
+    }, {
+      "name": "modalLeave",
+      "alias": "",
+      "desc": "Leave the modal window",
+      "params": []
+    }, {
+      "name": "canLeave",
+      "alias": "",
+      "desc": "Specifies whether leaving the current page must be confirmed or not",
+      "params": [{
+        "name": "canLeave",
+        "type": [],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "error",
+      "alias": "",
+      "desc": "Shows an 'error' message",
+      "params": [{
+        "name": "message",
+        "type": ["string", "Array.<string>"],
+        "desc": "the message",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "fadeOut",
+        "type": ["boolean"],
+        "desc": "if True, the message disappears after 60s",
+        "default": false,
+        "optional": true,
+        "nullable": ""
+      }]
+    }, {
+      "name": "info",
+      "alias": "",
+      "desc": "Shows an 'info' message",
+      "params": [{
+        "name": "message",
+        "type": ["string", "Array.<string>"],
+        "desc": "the message",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "fadeOut",
+        "type": ["boolean"],
+        "desc": "if True, the message disappears after 60s",
+        "default": false,
+        "optional": true,
+        "nullable": ""
+      }]
+    }, {
+      "name": "success",
+      "alias": "",
+      "desc": "Shows a 'success' message",
+      "params": [{
+        "name": "message",
+        "type": ["string", "Array.<string>"],
+        "desc": "the message",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "fadeOut",
+        "type": ["boolean"],
+        "desc": "if True, the message disappears after 60s",
+        "default": false,
+        "optional": true,
+        "nullable": ""
+      }]
+    }, {
+      "name": "warning",
+      "alias": "",
+      "desc": "Shows a 'warning' message",
+      "params": [{
+        "name": "message",
+        "type": ["string", "Array.<string>"],
+        "desc": "the message",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "fadeOut",
+        "type": ["boolean"],
+        "desc": "if True, the message disappears after 60s",
+        "default": false,
+        "optional": true,
+        "nullable": ""
+      }]
+    }, {
+      "name": "flush",
+      "alias": "",
+      "desc": "Flushes messages",
+      "params": []
+    }, {
+      "name": "base64Encode",
+      "alias": "",
+      "desc": "Encodes the given string to base64",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the decoded string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The encoded string"
+      }]
+    }, {
+      "name": "base64Decode",
+      "alias": "",
+      "desc": "Decodes the given string from base64",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the encoded string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The decoded string"
+      }]
+    }, {
+      "name": "textToHtml",
+      "alias": "",
+      "desc": "Escapes the given string from text to HTML",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the unescaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The escaped string"
+      }]
+    }, {
+      "name": "htmlToText",
+      "alias": "",
+      "desc": "Unescapes the given string from HTML to text",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the escaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The unescaped string"
+      }]
+    }, {
+      "name": "textToString",
+      "alias": "",
+      "desc": "Escapes the given string from text to JavaScript string",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the unescaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The escaped string"
+      }]
+    }, {
+      "name": "stringToText",
+      "alias": "",
+      "desc": "Unescapes the given string from JavaScript string to text",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the escaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The unescaped string"
+      }]
+    }, {
+      "name": "htmlToString",
+      "alias": "",
+      "desc": "Escapes the given string from HTML to JavaScript string",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the unescaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The escaped string"
+      }]
+    }, {
+      "name": "stringToHtml",
+      "alias": "",
+      "desc": "Unescapes the given string from JavaScript string to HTML",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the escaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The unescaped string"
+      }]
+    }, {
+      "name": "textToSQL",
+      "alias": "",
+      "desc": "Escapes the given string from text to SQL",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the unescaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The escaped string"
+      }]
+    }, {
+      "name": "sqlToText",
+      "alias": "",
+      "desc": "Unescapes the given string from SQL to text",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the escaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The unescaped string"
+      }]
+    }, {
+      "name": "fillBreadcrumb",
+      "alias": "",
+      "desc": "Fills the main breadcrumb",
+      "params": [{
+        "name": "items",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of HTML formatted items",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "replaceHTML",
+      "alias": "",
+      "desc": "Puts a HTML or TWIG fragment to the given target",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, scope, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "prependHTML",
+      "alias": "",
+      "desc": "Prepends a HTML or TWIG fragment to the given target",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, scope, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "appendHTML",
+      "alias": "",
+      "desc": "Appends a HTML or TWIG fragment to the given target",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, scope, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "formatTWIG",
+      "alias": "",
+      "desc": "Interprets the given TWIG string",
+      "params": [{
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "dict",
+        "type": ["Object.<string, *>", "Array.<Object.<string, *>>"],
+        "desc": "the dictionary",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "twigs",
+        "type": ["Object.<string, string>"],
+        "desc": "dictionary of fragments",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "see": ["{@link https://twig.symfony.com/doc/}"],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The Interpreted TWIG string"
+      }]
+    }, {
+      "name": "renderJSDoc",
+      "alias": "",
+      "desc": "Renders a AMI JSDoc documentation",
+      "params": [{
+        "name": "menuSelector",
+        "type": ["string"],
+        "desc": "selector of the menu div",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "bodySelector",
+        "type": ["string"],
+        "desc": "selector of the body div",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "json",
+        "type": ["object"],
+        "desc": "the JSON documentation",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["AMIJSDoc"],
+        "desc": ""
+      }]
+    }, {
+      "name": "loadResources",
+      "alias": "",
+      "desc": "Asynchronously loads resources by file extension",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadSheets",
+      "alias": "",
+      "desc": "Asynchronously loads CSS sheets",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadScripts",
+      "alias": "",
+      "desc": "Asynchronously loads JS scripts",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadJSONs",
+      "alias": "",
+      "desc": "Asynchronously loads JSON files",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadXMLs",
+      "alias": "",
+      "desc": "Asynchronously loads XML files",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadHTMLs",
+      "alias": "",
+      "desc": "Asynchronously loads HTML files",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadTWIGs",
+      "alias": "",
+      "desc": "Asynchronously loads TWIG files",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadTexts",
+      "alias": "",
+      "desc": "Asynchronously loads text files",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadSubApp",
+      "alias": "",
+      "desc": "Asynchronously loads a subapp",
+      "params": [{
+        "name": "subapp",
+        "type": ["string"],
+        "desc": "the subapp name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": true,
+        "nullable": true
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadSubAppByURL",
+      "alias": "",
+      "desc": "Asynchronously loads a subapp by URL",
+      "params": [{
+        "name": "defaultSubApp",
+        "type": ["string"],
+        "desc": "if 'amiRouter.getArgs()[\"subapp\"]' is null, the default subapp name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "defaultUserData",
+        "type": ["*"],
+        "desc": "if 'amiRouter.getArgs()[\"userdata\"]' is null, the default user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadControl",
+      "alias": "",
+      "desc": "Asynchronously loads a control",
+      "params": [{
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControl",
+      "alias": "",
+      "desc": "Asynchronously creates a control",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "owner",
+        "type": ["*"],
+        "desc": "the owner entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "params",
+        "type": ["Array.<*>"],
+        "desc": "the control's parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInBody",
+      "alias": "",
+      "desc": "Asynchronously creates a control in the body",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "owner",
+        "type": ["*"],
+        "desc": "the owner entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "ownerOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the owner's optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInContainer",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "owner",
+        "type": ["*"],
+        "desc": "the owner entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "ownerOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the owner's optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "icon",
+        "type": ["string"],
+        "desc": "the icon",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "title",
+        "type": ["string"],
+        "desc": "the title",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlFromWebLink",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container from a WEB link",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "owner",
+        "type": ["*"],
+        "desc": "the owner entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "el",
+        "type": ["Element"],
+        "desc": "the HTML element",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "ownerOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the owner's optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }],
+  "interfaces": [{
+    "name": "ami.IControl",
+    "alias": "",
+    "desc": "The AMI control interface",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "onReady",
+      "alias": "",
+      "desc": "Called when the control is ready to run",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onRemove",
+      "alias": "",
+      "desc": "Called when the control is removed",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "patchId",
+      "alias": "",
+      "desc": "Patches an HTML identifier",
+      "params": [{
+        "name": "id",
+        "type": ["string"],
+        "desc": "the not patched HTML identifier",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The patched HTML identifier"
+      }]
+    }, {
+      "name": "replaceHTML",
+      "alias": "",
+      "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "prependHTML",
+      "alias": "",
+      "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "appendHTML",
+      "alias": "",
+      "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }, {
+    "name": "ami.IContainer",
+    "alias": "",
+    "desc": "The AMI container interface",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "render",
+      "alias": "",
+      "desc": "",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (...)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "prependItem",
+      "alias": "",
+      "desc": "Prepends an item",
+      "params": [{
+        "name": "title",
+        "type": ["string"],
+        "desc": "the title",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (...)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object returning the new item's identifier"
+      }]
+    }, {
+      "name": "appendItem",
+      "alias": "",
+      "desc": "Appends an item",
+      "params": [{
+        "name": "title",
+        "type": ["string"],
+        "desc": "the title",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (...)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object returning the new item's identifier"
+      }]
+    }, {
+      "name": "removeItem",
+      "alias": "",
+      "desc": "Removes an item",
+      "params": [{
+        "name": "itemId",
+        "type": ["string"],
+        "desc": "the item identifier",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "removeAllItems",
+      "alias": "",
+      "desc": "Removes all items",
+      "params": []
+    }, {
+      "name": "isEmpty",
+      "alias": "",
+      "desc": "Checks whether the container is empty or not",
+      "params": [],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }]
+  }, {
+    "name": "ami.ISubApp",
+    "alias": "",
+    "desc": "The AMI sub-application interface",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "onReady",
+      "alias": "",
+      "desc": "Called when the sub-application is ready to run",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onExit",
+      "alias": "",
+      "desc": "Called when the sub-application is about to exit",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onLogin",
+      "alias": "",
+      "desc": "Called when logging in",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onLogout",
+      "alias": "",
+      "desc": "Called when logging out",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }]
+  }],
+  "classes": [{
+    "name": "ami.Control",
+    "alias": "",
+    "desc": "The basic AMI control",
+    "implements": ["ami.IControl"],
+    "inherits": [],
+    "konstructor": {
+      "name": "Control",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "owner",
+        "type": ["*"],
+        "desc": "the owner entity",
+        "optional": "",
+        "nullable": true
+      }]
+    },
+    "functions": [{
+      "name": "onReady",
+      "alias": "",
+      "desc": "Called when the control is ready to run",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onRemove",
+      "alias": "",
+      "desc": "Called when the control is removed",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "patchId",
+      "alias": "",
+      "desc": "Patches an HTML identifier",
+      "params": [{
+        "name": "id",
+        "type": ["string"],
+        "desc": "the not patched HTML identifier",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The patched HTML identifier"
+      }]
+    }, {
+      "name": "replaceHTML",
+      "alias": "",
+      "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "prependHTML",
+      "alias": "",
+      "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "appendHTML",
+      "alias": "",
+      "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "setupCtx",
+      "alias": "",
+      "desc": "Sets up the control's context",
+      "params": [{
+        "name": "immutables",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of immutable parameters in the control's context",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "defaults",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of default values for optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of values for optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The resulting control's context"
+      }]
+    }, {
+      "name": "createControl",
+      "alias": "",
+      "desc": "Asynchronously creates a control",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "params",
+        "type": ["Array.<*>"],
+        "desc": "the control's parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInBody",
+      "alias": "",
+      "desc": "Asynchronously creates a control in the body",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInContainer",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "icon",
+        "type": ["string"],
+        "desc": "the icon",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "title",
+        "type": ["string"],
+        "desc": "the title",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlFromWebLink",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container from a WEB link",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "el",
+        "type": ["Element"],
+        "desc": "the HTML element",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }, {
+    "name": "ami.SubApp",
+    "alias": "",
+    "desc": "The basic AMI sub-application",
+    "implements": ["ami.ISubApp"],
+    "inherits": [],
+    "konstructor": {
+      "name": "SubApp",
+      "params": []
+    },
+    "functions": [{
+      "name": "onReady",
+      "alias": "",
+      "desc": "Called when the sub-application is ready to run",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onExit",
+      "alias": "",
+      "desc": "Called when the sub-application is about to exit",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onLogin",
+      "alias": "",
+      "desc": "Called when logging in",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onLogout",
+      "alias": "",
+      "desc": "Called when logging out",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "setupCtx",
+      "alias": "",
+      "desc": "Sets up the application's context",
+      "params": [{
+        "name": "immutables",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of immutable parameters in the application's context",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "defaults",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of default values for optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of values for optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The resulting application's context"
+      }]
+    }, {
+      "name": "createControl",
+      "alias": "",
+      "desc": "Asynchronously creates a control",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "params",
+        "type": ["Array.<*>"],
+        "desc": "the control's parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInBody",
+      "alias": "",
+      "desc": "Asynchronously creates a control in the body",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInContainer",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "icon",
+        "type": ["string"],
+        "desc": "the icon",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "title",
+        "type": ["string"],
+        "desc": "the title",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlFromWebLink",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container from a WEB link",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "el",
+        "type": ["Element"],
+        "desc": "the HTML element",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }],
+  "functions": [{
+    "name": "$AMINamespace",
+    "alias": "",
+    "desc": "Creates a new namespace",
+    "params": [{
+      "name": "$name",
+      "type": ["string"],
+      "desc": "the namespace name",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "$descr",
+      "type": ["Object.<string, *>"],
+      "desc": "the namespace body",
+      "default": "{}",
+      "optional": true,
+      "nullable": ""
+    }]
+  }, {
+    "name": "$AMIInterface",
+    "alias": "",
+    "desc": "Creates a new interface",
+    "params": [{
+      "name": "$name",
+      "type": ["string"],
+      "desc": "the interface name",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "$descr",
+      "type": ["Object.<string, *>"],
+      "desc": "the interface body",
+      "default": "{}",
+      "optional": true,
+      "nullable": ""
+    }]
+  }, {
+    "name": "$AMIClass",
+    "alias": "",
+    "desc": "Creates a new class",
+    "params": [{
+      "name": "$name",
+      "type": ["string"],
+      "desc": "the class name",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "$descr",
+      "type": ["Object.<string, *>"],
+      "desc": "the class body",
+      "default": "{}",
+      "optional": true,
+      "nullable": ""
+    }]
+  }]
+});
+/* eslint-enable */
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./index.js
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 
 
 
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 
 window.$AMIClass = $AMIClass;
 window.$AMINamespace = $AMINamespace;
@@ -15129,7 +21034,7 @@ window.amiWebApp = js_AMIWebApp;
 window.amiLogin = js_AMIAuth;
 window.amiAuth = js_AMIAuth;
 window.amiDoc = AMIDoc;
-
+/*--------------------------------------------------------------------------------------------------------------------*/
 })();
 
 /******/ })()

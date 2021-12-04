@@ -65,6 +65,7 @@ const config = {
 					'options': {
 						'presets': [
 							['@babel/preset-env', {
+								'loose': true,
 								'targets': BROWSER_LIST
 							}]
 						]
@@ -77,6 +78,14 @@ const config = {
 			{
 				'type': 'asset/source',
 				'test': /\.twig$/,
+				'exclude': /node_modules/
+			},
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			{
+				'type': 'asset/source',
+				'test': /\.(json|yml|xml)$/,
 				'exclude': /node_modules/
 			},
 
@@ -125,7 +134,7 @@ const config = {
 			})
 		]
 	}
-}
+};
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 

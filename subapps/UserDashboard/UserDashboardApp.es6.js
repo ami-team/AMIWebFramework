@@ -15,8 +15,13 @@ import './assets/css/UserDashboardApp.css';
 
 import twigUserDashboardApp from './assets/twig/UserDashboardApp.twig';
 
-import './gridstack.min.css';
-import GridStack from './gridstack-h5.min';
+/**/
+
+import 'gridstack/dist/gridstack.min.css';
+
+import 'gridstack/dist/h5/gridstack-dd-native';
+
+import { GridStack } from 'gridstack';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 

@@ -96,13 +96,6 @@ const config = {
 							'replace': PACKAGE.version,
 							'flags': 'g'
 						}
-					},
-					{
-						loader: 'esbuild-loader',
-						options: {
-							target: 'es2015',
-							legalComments: 'none'
-						}
 					}
 				]
 			},
@@ -140,8 +133,8 @@ const config = {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
-				test: /\.css$/,
-				use: [
+				'test': /\.css$/,
+				'use': [
 					'style-loader',
 					'css-loader',
 					{
@@ -160,8 +153,8 @@ const config = {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
-				test: /\.scss$/,
-				use: [
+				'test': /\.scss$/,
+				'use': [
 					'style-loader',
 					'css-loader',
 					{
@@ -275,6 +268,34 @@ const config = {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-module.exports = config;
+module.exports = (env, argv) => {
+
+	if(argv.mode === 'development')
+	{
+		config.module.rules[0].use.push({
+			'loader': 'esbuild-loader',
+			'options': {
+				'target': 'es2015',
+				'legalComments': 'none'
+			}
+		});
+	}
+	else
+	{
+		config.module.rules[0].use.push({
+			'loader': 'babel-loader',
+			'options': {
+				'presets': [
+					['@babel/preset-env', {
+						'loose': true,
+						'targets': BROWSER_LIST
+					}]
+				]
+			}
+		});
+	}
+
+	return config;
+};
 
 /*--------------------------------------------------------------------------------------------------------------------*/
