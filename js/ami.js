@@ -9058,25 +9058,9 @@ var __webpack_exports__ = {};
 "use strict";
 
 ;// CONCATENATED MODULE: ./src/js/AMIObject.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* NAMESPACE HELPERS                                                                                                  */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
 
 var $this;
-/**/
 
 if (typeof window !== 'undefined') {
   $this = window;
@@ -9085,14 +9069,6 @@ if (typeof window !== 'undefined') {
 } else {
   throw 'Neither \'window\' nor \'global\' is defined';
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {string} $name
- * @param {Object<string, *>} x
- * @private
- */
-
 
 function _$createNamespace($name, x) {
   var i;
@@ -9110,14 +9086,6 @@ function _$createNamespace($name, x) {
 
   parent[parts[i]] = x;
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {string} $name
- * @param {Object<string, *>} x
- * @private
- */
-
 
 function _$addToNamespace($name, x) {
   var i;
@@ -9135,57 +9103,23 @@ function _$addToNamespace($name, x) {
 
   parent[parts[i]] = x;
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* NAMESPACES                                                                                                         */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
-  * Creates a new namespace
-  * @param {string} $name the namespace name
-  * @param {Object<string, *>} [$descr={}] the namespace body
-  */
-
 
 function $AMINamespace($name, $descr) {
   $descr = $descr || {};
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   $descr.$name = $name;
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   _$createNamespace($name, $descr);
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if ($descr.$) {
     $descr.$.apply($descr);
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* INTERFACES                                                                                                         */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
-  * Creates a new interface
-  * @param {string} $name the interface name
-  * @param {Object<string, *>} [$descr={}] the interface body
-  */
-
 function $AMIInterface($name, $descr) {
   $descr = $descr || {};
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   var $class = function $class() {
     throw 'could nor instantiate interface';
   };
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if ($descr.$extends) {
     throw '`$extends` not allowed for interface';
@@ -9194,8 +9128,6 @@ function $AMIInterface($name, $descr) {
   if ($descr.$implements) {
     throw '`$implements` not allowed for interface';
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if ($descr.$) {
     throw '`$` not allowed for interface';
@@ -9204,70 +9136,42 @@ function $AMIInterface($name, $descr) {
   if ($descr.$init) {
     throw '`$init` not allowed for interface';
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   $class.$name = $name;
   $class.$class = $class;
   $class.$members = $descr;
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   _$addToNamespace($name, $class);
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* CLASSES                                                                                                            */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
-  * Creates a new class
-  * @param {string} $name the class name
-  * @param {Object<string, *>} [$descr={}] the class body
-  */
-
 function $AMIClass($name, $descr) {
   $descr = $descr || {};
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   var $super = $descr.$extends instanceof Function ? $descr.$extends.prototype : {};
   var $super_implements = $super.$implements instanceof Array ? $super.$implements : [];
   var $descr_implements = $descr.$implements instanceof Array ? $descr.$implements : [];
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   var $class = function $class() {
-    /*------------------------------------------------------------------------------------------------------------*/
     for (var i in this.$implements) {
-      if (this.$implements.hasOwnProperty(i)) // eslint-disable-line no-prototype-builtins
-        {
+      if (this.$implements.hasOwnProperty(i)) {
           var $interface = this.$implements[i];
 
           for (var j in $interface.$members) {
-            if ($interface.$members.hasOwnProperty(j)) // eslint-disable-line no-prototype-builtins
-              {
+            if ($interface.$members.hasOwnProperty(j)) {
                 var $member = $interface.$members[j];
 
                 if (typeof this[j] !== typeof $member) {
-                  alert("class '" + this.$name + "' must implement '" + $interface.$name + "." + j + "'"); // eslint-disable-line no-alert
+                  alert("class '" + this.$name + "' must implement '" + $interface.$name + "." + j + "'");
                 }
               }
           }
         }
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     var _super = this.$class._internal_super;
     var _added = this.$class._internal_added;
-    /*------------------------------------------------------------------------------------------------------------*/
-
     this.$super = {};
 
     for (var name in _super) {
-      if (_super.hasOwnProperty(name)) // eslint-disable-line no-prototype-builtins
-        {
+      if (_super.hasOwnProperty(name)) {
           this.$super[name] = function (_super, name, that) {
             return function () {
               return _super[name].apply(that, arguments);
@@ -9275,14 +9179,11 @@ function $AMIClass($name, $descr) {
           }(_super, name, this);
         }
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     this.$added = {};
 
     for (var _name in _added) {
-      if (_added.hasOwnProperty(_name)) // eslint-disable-line no-prototype-builtins
-        {
+      if (_added.hasOwnProperty(_name)) {
           this.$added[_name] = function (_added, name, that) {
             return function () {
               return _added[name].apply(that, arguments);
@@ -9290,67 +9191,45 @@ function $AMIClass($name, $descr) {
           }(_added, _name, this);
         }
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     if (this.$init) {
       this.$init.apply(this, arguments);
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
   };
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   $class._internal_super = {};
   $class._internal_added = {};
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   for (var name in $super) {
-    if (name === '$init' || name.charAt(0) !== '$' || $super.hasOwnProperty(name) // eslint-disable-line no-prototype-builtins
-    ) {
+    if (name === '$init' || name.charAt(0) !== '$' || $super.hasOwnProperty(name)) {
       $class._internal_super[name] = $super[name];
       $class.prototype[name] = $super[name];
     }
   }
 
   for (var _name2 in $descr) {
-    if (_name2 === '$init' || _name2.charAt(0) !== '$' || $descr.hasOwnProperty(_name2) // eslint-disable-line no-prototype-builtins
-    ) {
+    if (_name2 === '$init' || _name2.charAt(0) !== '$' || $descr.hasOwnProperty(_name2)) {
       $class._internal_added[_name2] = $descr[_name2];
       $class.prototype[_name2] = $descr[_name2];
     }
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   $class.prototype.$name = $name;
   $class.prototype.$class = $class;
   $class.prototype.$implements = $super_implements.concat($descr_implements);
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   _$addToNamespace($name, $class);
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if ($descr.$) {
     $descr.$.apply($class);
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* JQUERY EXTENSION                                                                                                   */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
 
 if (typeof jQuery !== 'undefined') {
   jQuery.Namespace = $AMINamespace;
   jQuery.Interface = $AMIInterface;
   jQuery.Class = $AMIClass;
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 // EXTERNAL MODULE: ./node_modules/jspath/index.js
 var jspath = __webpack_require__(6915);
 var jspath_default = /*#__PURE__*/__webpack_require__.n(jspath);
@@ -10413,16 +10292,6 @@ if(typeof window !== 'undefined') window.AMIMQTTClient = AMIMQTTClient;
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 ;// CONCATENATED MODULE: ./src/js/AMICommand.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
 function _classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
@@ -10433,23 +10302,12 @@ function _classPrivateFieldLooseKey(name) { return "__private_" + id++ + "_" + n
 
 
 
-/*--------------------------------------------------------------------------------------------------------------------*/
 
-/* AMICommand                                                                                                         */
+var _httpClient = _classPrivateFieldLooseKey("httpClient");
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-// noinspection JSUnusedGlobalSymbols
+var _mqttClient = _classPrivateFieldLooseKey("mqttClient");
 
-/**
- * The AMI command subsystem
- * @namespace amiCommand
- */
-
-var _httpClient = /*#__PURE__*/_classPrivateFieldLooseKey("httpClient");
-
-var _mqttClient = /*#__PURE__*/_classPrivateFieldLooseKey("mqttClient");
-
-var AMICommand = /*#__PURE__*/function () {
+var AMICommand = function () {
   function AMICommand() {
     Object.defineProperty(this, _httpClient, {
       writable: true,
@@ -10463,120 +10321,41 @@ var AMICommand = /*#__PURE__*/function () {
 
   var _proto = AMICommand.prototype;
 
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Initializes the HTTP client
-   * @param {string} endpoint the HTTP endpoint
-   */
   _proto.initHttpClient = function initHttpClient(endpoint) {
     _classPrivateFieldLooseBase(this, _httpClient)[_httpClient] = new ami_http_client(endpoint);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Initializes the MQTT client
-   * @param {string} endpoint the MQTT endpoint
-   */
-  ;
+  };
 
   _proto.initMqttClient = function initMqttClient(endpoint) {
     _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient] = new ami_mqtt_client(endpoint);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the HTTP endpoint
-   * @returns {string}
-   */
-  ;
+  };
 
   _proto.getHttpEndpoint = function getHttpEndpoint() {
     return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient] ? _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].getEndpoint() : '';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the MQTT endpoint
-   * @returns {string}
-   */
-  ;
+  };
 
   _proto.getMqttEndpoint = function getMqttEndpoint() {
     return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient] ? _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].getEndpoint() : '';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Executes an AMI command
-   * @param {string} command the command
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.execute = function execute(command, options) {
     return typeof options === 'object' && 'mqtt' in options ? _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].execute(command, options) : _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].execute(command, options);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Signs in by JWT token (MQTT client)
-   * @param {string} token the password
-   * @param {string} serverName the server name
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.mqttSignInByToken = function mqttSignInByToken(token, serverName) {
     return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signInByToken(token, serverName);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Signs out (MQTT client)
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.mqttSignOut = function mqttSignOut(options) {
     return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signOut(options);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Signs in by login/password (HTTP client)
-   * @param {string} username the username
-   * @param {string} password the password
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.signInByPassword = function signInByPassword(username, password, options) {
     return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByPassword(username, password, options);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Signs in by certificate (HTTP client)
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.signInByCertificate = function signInByCertificate(options) {
     return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByCertificate(options);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Signs out (HTTP client)
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.signOut = function signOut(options) {
     var _this = this;
@@ -10586,155 +10365,53 @@ var AMICommand = /*#__PURE__*/function () {
         console.log('MQTT connection closed too');
       });
     });
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Attaches a certificate
-   * @param {string} username the username
-   * @param {string} password the password
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.attachCertificate = function attachCertificate(username, password, options) {
     options = options || {};
     options.params = [username, password];
     return this.execute('GetSessionInfo -attachCert -amiLogin=? -amiPassword=?', options);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Detaches a certificate
-   * @param {string} username the username
-   * @param {string} password the password
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.detachCertificate = function detachCertificate(username, password, options) {
     options = options || {};
     options.params = [username, password];
     return this.execute('GetSessionInfo -detachCert -amiLogin=? -amiPassword=?', options);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Adds a new username
-   * @param {string} username the username
-   * @param {string} password the password
-   * @param {string} firstName the first name
-   * @param {string} lastName the last name
-   * @param {string} email the email
-   * @param {string} captchaHash the captcha hash generated by AMI
-   * @param {string} captchaText the captcha text entered by the username
-   * @param {boolean} attachCert attach the current certificate
-   * @param {boolean} agree agree with the terms and conditions
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.addUser = function addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options) {
     options = options || {};
     options.params = [username, password, firstName, lastName, email, captchaHash, captchaText];
     return this.execute('AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? ' + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), options);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Changes the account information
-   * @param {string} firstName the first name
-   * @param {string} lastName the last name
-   * @param {string} email the email
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.changeInfo = function changeInfo(firstName, lastName, email, options) {
     options = options || {};
     options.params = [firstName, lastName, email];
     return this.execute('SetUserInfo -firstName=? -lastName=? -email=?', options);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Changes the account password
-   * @param {string} username the username
-   * @param {string} oldPassword the old password
-   * @param {string} newPassword the new password
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.changePassword = function changePassword(username, oldPassword, newPassword, options) {
     options = options || {};
     options.params = [username, oldPassword, newPassword];
     return this.execute('ChangePassword -amiLogin=? -amiPasswordOld=? -amiPasswordNew=?', options);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Resets the account password
-   * @param {string} username the username
-   * @param {string} captchaHash the captcha hash generated by AMI
-   * @param {string} captchaText the captcha text entered by the username
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.resetPassword = function resetPassword(username, captchaHash, captchaText, options) {
     options = options || {};
     options.params = [username, captchaHash, captchaText];
     return this.execute('ResetPassword -amiLogin=? -captchaHash=? -captchaText=?', options);
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-  ;
+  };
 
   return AMICommand;
 }();
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* amiCommand                                                                                                         */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 
 /* harmony default export */ const js_AMICommand = (new AMICommand());
-/*--------------------------------------------------------------------------------------------------------------------*/
 // EXTERNAL MODULE: ./node_modules/ami-twig/index.js
 var ami_twig = __webpack_require__(444);
 ;// CONCATENATED MODULE: ./src/js/utilities/tools.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* TOOLS                                                                                                              */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {$.Deferred} deferred
- * @param {function} doneCallback
- * @param {function} failCallback
- * @ignore
- */
 
 function _internal_then(deferred, doneCallback, failCallback) {
   if (deferred && deferred.then) {
@@ -10743,14 +10420,6 @@ function _internal_then(deferred, doneCallback, failCallback) {
     doneCallback();
   }
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {$.Deferred} deferred
- * @param {function} alwaysCallback
- * @ignore
- */
-
 function _internal_always(deferred, alwaysCallback) {
   if (deferred && deferred.always) {
     deferred.always(alwaysCallback);
@@ -10758,117 +10427,36 @@ function _internal_always(deferred, alwaysCallback) {
     alwaysCallback();
   }
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Gets the type name of the given object
- * @param {*} x the object
- * @returns {string} The type name of the given object
- * @ignore
- */
-
 function typeOf(x) {
   var name = Object.prototype.toString.call(x);
-  return name.startsWith('[object ') ? name.substring(8, name.length - 1) :
-  /*-----------*/
-  ''
-  /*-----------*/
-  ;
+  return name.startsWith('[object ') ? name.substring(8, name.length - 1) : '';
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Checks whether the given object is a string
- * @param {*} x the object
- * @return {boolean}
- * @ignore
- */
-
 function isString(x) {
   return ami_twig/* default.stdlib.isString */.Z.stdlib.isString(x);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Checks whether the given object is an array
- * @param {*} x the object
- * @return {boolean}
- * @ignore
- */
-
 function isArray(x) {
   return ami_twig/* default.stdlib.isArray */.Z.stdlib.isArray(x);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Checks whether the given object is an object
- * @param {*} x the object
- * @return {boolean}
- * @ignore
- */
-
 function isObject(x) {
   return ami_twig/* default.stdlib.isObject */.Z.stdlib.isObject(x);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Checks whether the given object is a set
- * @param {*} x the object
- * @return {boolean}
- * @ignore
- */
-
 function isSet(x) {
   return ami_twig/* default.stdlib.isSet */.Z.stdlib.isSet(x);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Checks whether the given object is a map
- * @param {*} x the object
- * @return {boolean}
- * @ignore
- */
-
 function isMap(x) {
   return ami_twig/* default.stdlib.isMap */.Z.stdlib.isMap(x);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Turns the given object into an array if it is not already the case
- * @param {*} x the object
- * @returns {Array<*>} The resulting array
- * @ignore
- */
-
 function asArray(x) {
   return Array.isArray(x) ? x : [x];
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {Array<string>} optionNames
- * @param {Array<*>} optionDefaults
- * @param {Object<string, *>} options
- * @returns {Array<*>}
- * @ignore
- */
-
 function setup(optionNames, optionDefaults, options) {
   var result = [];
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   var l = optionNames.length;
   var m = optionDefaults.length;
 
   if (l !== m) {
     throw 'internal error';
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if (options) {
     for (var i = 0; i < l; i++) {
@@ -10876,40 +10464,18 @@ function setup(optionNames, optionDefaults, options) {
     }
   } else {
     for (var _i = 0; _i < l; _i++) {
-      result.push(
-      /*-------------------------------------------------*/
-      optionDefaults[_i]);
+      result.push(optionDefaults[_i]);
     }
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   return result;
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/locks.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* STACK                                                                                                              */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
 
 function _throwError() {
   throw Error();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 
 function getStack() {
   try {
@@ -10922,39 +10488,14 @@ function getStack() {
     }
   }
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* LOCK                                                                                                               */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @type {number}
- * @private
- */
-
 var _curLockCnt = 0;
-/**
- * @type {number}
- * @private
- */
-
 var _tmpLockCnt = 0;
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Locks the Web application
- * @ignore
- */
-
 function lock() {
   var lines = getStack().split('\n');
 
   if (lines.length > 2) {
-    console.log("lock[" + _curLockCnt + "] :: " + lines[2]); // eslint-disable-line no-console
+    console.log("lock[" + _curLockCnt + "] :: " + lines[2]);
   }
-  /**/
-
 
   if (_curLockCnt <= 0) {
     $('#ami_locker').css('display', 'flex');
@@ -10963,13 +10504,6 @@ function lock() {
     _curLockCnt++;
   }
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Unlocks the Web application
- * @ignore
- */
-
 function unlock() {
   if (_curLockCnt <= 1) {
     $('#ami_locker').css('display', 'none');
@@ -10977,30 +10511,19 @@ function unlock() {
   } else {
     _curLockCnt--;
   }
-  /**/
-
 
   var lines = getStack().split('\n');
 
   if (lines.length > 2) {
-    console.log("unlock[" + _curLockCnt + "] :: " + lines[2]); // eslint-disable-line no-console
+    console.log("unlock[" + _curLockCnt + "] :: " + lines[2]);
   }
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Leave the modal window
- * @ignore
- */
-
 function modalLeave() {
   var lines = getStack().split('\n');
 
   if (lines.length > 2) {
-    console.log("modalLock[" + _curLockCnt + "] :: " + lines[2]); // eslint-disable-line no-console
+    console.log("modalLock[" + _curLockCnt + "] :: " + lines[2]);
   }
-  /**/
-
 
   _curLockCnt = _tmpLockCnt;
 
@@ -11008,243 +10531,80 @@ function modalLeave() {
     $('#ami_locker').css('display', 'flex');
   }
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Enter the modal window
- * @ignore
- */
-
 function modalEnter() {
   _tmpLockCnt = _curLockCnt;
 
   if (_curLockCnt > 0) {
     $('#ami_locker').css('display', 'none');
   }
-  /**/
-
 
   var lines = getStack().split('\n');
 
   if (lines.length > 2) {
-    console.log("modalUnlock[" + _curLockCnt + "] :: " + lines[2]); // eslint-disable-line no-console
+    console.log("modalUnlock[" + _curLockCnt + "] :: " + lines[2]);
   }
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* WINDOW                                                                                                             */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @type {boolean}
- * @private
- */
-
 var _canLeave = true;
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Specifies whether leaving the current page must be confirmed or not
- * @param canLeave
- * @ignore
- */
-
 function canLeave(canLeave) {
   _canLeave = canLeave;
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/strings.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* BASE64 STRINGS                                                                                                     */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Encodes the given string to base64
- * @param {string} s the decoded string
- * @returns {string} The encoded string
- * @ignore
- */
 
 function base64Encode(s) {
   return btoa(encodeURIComponent(s).replace(/%([0-9A-F]{2})/g, function (_, $1) {
     return String.fromCharCode(parseInt($1, 16));
   })).replace(/\+/g, '-').replace(/\//g, '_');
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Decodes the given string from base64
- * @param {string} s the encoded string
- * @returns {string} The decoded string
- * @ignore
- */
-
 function base64Decode(s) {
   return decodeURIComponent(atob(s.replace(/-/g, '+').replace(/_/g, '/')).split('').map(function (c) {
     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(''));
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* PLAIN STRINGS                                                                                                      */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 var _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 var _textToHtmlX = ['&', '"', '<', '>'];
 var _textToHtmlY = ['&amp;', '&quot;', '&lt;', '&gt;'];
-/**
- * Escapes the given string from text to HTML
- * @param {string} s the unescaped string
- * @returns {string} The escaped string
- * @ignore
- */
-
 function textToHtml(s) {
   return _replace(s || '', _textToHtmlX, _textToHtmlY);
 }
-/**
- * Unescapes the given string from HTML to text
- * @param {string} s the escaped string
- * @returns {string} The unescaped string
- * @ignore
- */
-
 function htmlToText(s) {
   return _replace(s || '', _textToHtmlY, _textToHtmlX);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 var _textToStringX = ['\\', '\n', '"', '\''];
 var _textToStringY = ['\\\\', '\\n', '\\"', '\\\''];
-/**
- * Escapes the given string from text to JavaScript string
- * @param {string} s the unescaped string
- * @returns {string} The escaped string
- * @ignore
- */
-
 function textToString(s) {
   return _replace(s || '', _textToStringX, _textToStringY);
 }
-/**
- * Unescapes the given string from JavaScript string to text
- * @param {string} s the escaped string
- * @returns {string} The unescaped string
- * @ignore
- */
-
 function stringToText(s) {
   return _replace(s || '', _textToStringY, _textToStringX);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 var _htmlToStringX = ['\\', '\n', '&quot;', '\''];
 var _htmlToStringY = ['\\\\', '\\n', '\\&quot;', '\\\''];
-/**
- * Escapes the given string from HTML to JavaScript string
- * @param {string} s the unescaped string
- * @returns {string} The escaped string
- * @ignore
- */
-
 function htmlToString(s) {
   return _replace(s || '', _htmlToStringX, _htmlToStringY);
 }
-/**
- * Unescapes the given string from JavaScript string to HTML
- * @param {string} s the escaped string
- * @returns {string} The unescaped string
- * @ignore
- */
-
 function stringToHtml(s) {
   return _replace(s || '', _htmlToStringY, _htmlToStringX);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 var _textToSQLX = ['\''];
 var _textToSQLY = ['\'\''];
-/**
- * Escapes the given string from text to SQL
- * @param {string} s the unescaped string
- * @returns {string} The escaped string
- * @ignore
- */
-
 function textToSQL(s) {
   return _replace(s || '', _textToSQLX, _textToSQLY);
 }
-/**
- * Unescapes the given string from SQL to text
- * @param {string} s the escaped string
- * @returns {string} The unescaped string
- * @ignore
- */
-
 function sqlToText(s) {
   return _replace(s || '', _textToSQLY, _textToSQLX);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/messages.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
 
 
 
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* MESSAGES                                                                                                           */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @type {RegExp}
- * @private
- */
 
 var _linkExp = /\[\s*([^\s\]]*)\s*]\(\s*([^\s)]*)\s*\)/g;
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {string} clazz the class
- * @param {string} title the title
- * @param {string|Array<string>} message the message
- * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
- * @ignore
- */
 
 function _publishAlert(clazz, title, message, fadeOut) {
-  /*----------------------------------------------------------------------------------------------------------------*/
   if (Array.isArray(message)) {
     message = message.map(function (MESSAGE) {
       return (MESSAGE || '').toString();
@@ -11252,19 +10612,12 @@ function _publishAlert(clazz, title, message, fadeOut) {
   } else {
     message = (message || '').toString();
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
 
-
-  var hash = message.hashCode(); // noinspection TypeScriptUMDGlobal
-
+  var hash = message.hashCode();
   var date = moment().format('DD MMM, HH:mm:ss');
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   var toast = $("#ami_alert_content > .toast[data-hash=\"" + hash + "\"]");
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   if (toast.length === 0) {
-    /*------------------------------------------------------------------------------------------------------------*/
     var twig = __webpack_require__(5276)("./v" + js_AMIWebApp.bootstrapVersion + "/message.twig");
 
     var html = ami_twig/* default.engine.render */.Z.engine.render(twig, {
@@ -11275,107 +10628,37 @@ function _publishAlert(clazz, title, message, fadeOut) {
       fadeOut: fadeOut,
       message: message
     });
-    /*------------------------------------------------------------------------------------------------------------*/
-
     $('#ami_alert_content').append(html.replace(_linkExp, '<a href="' + '$1' + '" target="_blank">$2</a>')).promise().done(function () {
       $("#ami_alert_content > .toast[data-hash=\"" + hash + "\"]").toast('show');
     });
-    /*------------------------------------------------------------------------------------------------------------*/
   } else {
-    /*------------------------------------------------------------------------------------------------------------*/
     toast.find('.toast-header > strong').html(textToHtml(title) + (" <span class=\"badge badge-" + clazz + "\">" + toast.attr('data-cnt', parseInt(toast.attr('data-cnt')) + 1).attr('data-cnt') + "</span>"));
     toast.find('.toast-header > small').html(textToHtml(date));
     toast.toast('show');
-    /*------------------------------------------------------------------------------------------------------------*/
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
 
-
-  console.log("AMI :: " + title.toUpperCase() + ": " + message + "\n" + getStack()); // eslint-disable-line no-console
-
+  console.log("AMI :: " + title.toUpperCase() + ": " + message + "\n" + getStack());
   $(document).scrollTop(0);
   unlock();
-  /*----------------------------------------------------------------------------------------------------------------*/
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Shows an 'info' message
- * @param {string|Array<string>} message the message
- * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
- * @ignore
- */
-
 
 function info(message, fadeOut) {
   _publishAlert('info', 'Info', message, fadeOut);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Shows a 'success' message
- * @param {string|Array<string>} message the message
- * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
- * @ignore
- */
-
 function success(message, fadeOut) {
   _publishAlert('success', 'Success', message, fadeOut);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Shows a 'warning' message
- * @param {string|Array<string>} message the message
- * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
- * @ignore
- */
-
 function warning(message, fadeOut) {
   _publishAlert('warning', 'Warning', message, fadeOut);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Shows an 'error' message
- * @param {string|Array<string>} message the message
- * @param {boolean} [fadeOut=false] if True, the message disappears after 60s
- * @ignore
- */
-
 function error(message, fadeOut) {
   _publishAlert('danger', 'Error', message, fadeOut);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Flushes messages
- * @ignore
- */
-
 function flush() {
   $('#ami_alert_content').empty();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/AMIRouter.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-// noinspection JSUnusedGlobalSymbols
-
-/**
- * The AMI url routing subsystem
- * @namespace amiRouter
- */
 
 function AMIRouter_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
 
@@ -11383,34 +10666,23 @@ var AMIRouter_id = 0;
 
 function AMIRouter_classPrivateFieldLooseKey(name) { return "__private_" + AMIRouter_id++ + "_" + name; }
 
-var _webAppURL = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("webAppURL");
+var _webAppURL = AMIRouter_classPrivateFieldLooseKey("webAppURL");
 
-var _webAppArgs = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("webAppArgs");
+var _webAppArgs = AMIRouter_classPrivateFieldLooseKey("webAppArgs");
 
-var _webAppHash = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("webAppHash");
+var _webAppHash = AMIRouter_classPrivateFieldLooseKey("webAppHash");
 
-var _scriptURL = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("scriptURL");
+var _scriptURL = AMIRouter_classPrivateFieldLooseKey("scriptURL");
 
-var _scriptArgs = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("scriptArgs");
+var _scriptArgs = AMIRouter_classPrivateFieldLooseKey("scriptArgs");
 
-var _scriptHash = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("scriptHash");
+var _scriptHash = AMIRouter_classPrivateFieldLooseKey("scriptHash");
 
-var _originURL = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("originURL");
+var _originURL = AMIRouter_classPrivateFieldLooseKey("originURL");
 
-var _routes = /*#__PURE__*/AMIRouter_classPrivateFieldLooseKey("routes");
+var _routes = AMIRouter_classPrivateFieldLooseKey("routes");
 
-var AMIRouter = /*#__PURE__*/function () {
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* PRIVATE MEMBERS                                                                                                */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /*----------------------------------------------------------------------------------------------------------------*/
+var AMIRouter = function () {
   function AMIRouter(prodJsFilename, devJsFilename) {
     Object.defineProperty(this, _webAppURL, {
       writable: true,
@@ -11444,8 +10716,6 @@ var AMIRouter = /*#__PURE__*/function () {
       writable: true,
       value: []
     });
-
-    /*------------------------------------------------------------------------------------------------------------*/
     var webappUrl = new URL(window.location);
 
     var scriptUrl = this._findThisJs(prodJsFilename, devJsFilename);
@@ -11453,8 +10723,6 @@ var AMIRouter = /*#__PURE__*/function () {
     if (!scriptUrl) {
       throw "cannot find neither '" + prodJsFilename + "' nor '" + devJsFilename + "'";
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] = webappUrl.protocol === 'file:' ? "file://" + webappUrl.pathname : "" + webappUrl.origin + webappUrl.pathname;
     AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = this._parseSearchString(webappUrl.search);
@@ -11462,21 +10730,14 @@ var AMIRouter = /*#__PURE__*/function () {
     AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL] = scriptUrl.protocol === 'file:' ? "file://" + scriptUrl.pathname : "" + scriptUrl.origin + scriptUrl.pathname;
     AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = this._parseSearchString(scriptUrl.search);
     AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash] = scriptUrl.hash.substring(1);
-    /*------------------------------------------------------------------------------------------------------------*/
-
     var idx;
-    /**/
 
     if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(prodJsFilename)) > 0) {
       AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = this._eatSlashes(AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
     } else if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(devJsFilename)) > 0) {
       AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = this._eatSlashes(AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   var _proto = AMIRouter.prototype;
 
@@ -11492,30 +10753,21 @@ var AMIRouter = /*#__PURE__*/function () {
     }
 
     return null;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-  ;
+  };
 
   _proto._parseSearchString = function _parseSearchString(search) {
     var result = {};
     search.substring(1).split('&').forEach(function (param) {
       var parts = param.split('=');
-      /**/
 
       if (parts.length === 1) {
-        result[decodeURIComponent(parts[0]).toLowerCase()] =
-        /*--------*/
-        ''
-        /*--------*/
-        ;
+        result[decodeURIComponent(parts[0]).toLowerCase()] = '';
       } else if (parts.length === 2) {
         result[decodeURIComponent(parts[0]).toLowerCase()] = decodeURIComponent(parts[1]);
       }
     });
     return result;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-  ;
+  };
 
   _proto._eatSlashes = function _eatSlashes(url) {
     url = url.trim();
@@ -11525,93 +10777,35 @@ var AMIRouter = /*#__PURE__*/function () {
     }
 
     return url;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the webapp URL
-   * @returns {string} The webapp URL
-   */
-  ;
+  };
 
   _proto.getWebAppURL = function getWebAppURL() {
     return AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the arguments of the webapp URL
-   * @returns {Object<string, string>} The arguments of the webapp URL
-   */
-  ;
+  };
 
   _proto.getWebAppArgs = function getWebAppArgs() {
     return AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the anchor part of the webapp URL
-   * @returns {string} The anchor part of the webapp URL
-   */
-  ;
+  };
 
   _proto.getWebAppHash = function getWebAppHash() {
     return AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the script URL
-   * @returns {string} The script URL
-   */
-  ;
+  };
 
   _proto.getScriptURL = function getScriptURL() {
     return AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the arguments of the script URL
-   * @returns {Object<string, string>} The arguments of the the script URL
-   */
-  ;
+  };
 
   _proto.getScriptArgs = function getScriptArgs() {
     return AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets anchor part of the script URL
-   * @returns {string} The anchor part of the script URL
-   */
-  ;
+  };
 
   _proto.getWebappHash = function getWebappHash() {
     return AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the origin URL
-   * @returns {string} The origin URL
-   */
-  ;
+  };
 
   _proto.getOriginURL = function getOriginURL() {
     return AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Appends a routing rule
-   * @param {string} regExp the regExp
-   * @param {function} callback the callback
-   * @returns {AMIRouter} The amiRouter singleton
-   */
-  ;
+  };
 
   _proto.append = function append(regExp, callback) {
     AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].unshift({
@@ -11620,29 +10814,14 @@ var AMIRouter = /*#__PURE__*/function () {
     });
 
     return this;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Removes a routing rule
-   * @param {string} regExp the regExp
-   * @returns {AMIRouter} The amiRouter singleton
-   */
-  ;
+  };
 
   _proto.remove = function remove(regExp) {
     AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes] = AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].filter(function (route) {
       return route.regExp.toString() !== regExp.toString();
     });
     return this;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Checks whether the URL matches with a routing rule
-   * @returns {boolean}
-   */
-  ;
+  };
 
   _proto.check = function check() {
     var m;
@@ -11658,16 +10837,7 @@ var AMIRouter = /*#__PURE__*/function () {
     }
 
     return false;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Appends a new history entry
-   * @param {string} path the new path
-   * @param {Object<string, *>} [context=null] the new context
-   * @returns {boolean}
-   */
-  ;
+  };
 
   _proto.appendHistoryEntry = function appendHistoryEntry(path, context) {
     if (context === void 0) {
@@ -11680,16 +10850,7 @@ var AMIRouter = /*#__PURE__*/function () {
     }
 
     return false;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Replaces the current history entry
-   * @param {string} path the new path
-   * @param {Object<string, *>} [context=null] the new context
-   * @returns {boolean}
-   */
-  ;
+  };
 
   _proto.replaceHistoryEntry = function replaceHistoryEntry(path, context) {
     if (context === void 0) {
@@ -11706,11 +10867,8 @@ var AMIRouter = /*#__PURE__*/function () {
 
   return AMIRouter;
 }();
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 
 /* harmony default export */ const js_AMIRouter = (new AMIRouter('js/ami.min.js', 'js/ami.js'));
-/*--------------------------------------------------------------------------------------------------------------------*/
 // EXTERNAL MODULE: ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
 var injectStylesIntoStyleTag = __webpack_require__(3379);
 var injectStylesIntoStyleTag_default = /*#__PURE__*/__webpack_require__.n(injectStylesIntoStyleTag);
@@ -14224,16 +13382,6 @@ if (typeof window !== "undefined") {
 /* harmony default export */ const esm = ((/* unused pure expression or super */ null && (flatpickr)));
 
 ;// CONCATENATED MODULE: ./src/js/utilities/view.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
 
@@ -14242,22 +13390,9 @@ if (typeof window !== "undefined") {
 
 
 
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* BREADCRUMB                                                                                                         */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Fills the main breadcrumb
- * @param {Array<string>|string} items the array of HTML formatted items
- * @ignore
- */
 
 function fillBreadcrumb(items) {
   var s;
-  /**/
 
   if (isArray(items)) {
     s = items.map(function (item) {
@@ -14271,46 +13406,21 @@ function fillBreadcrumb(items) {
 
   $('#ami_breadcrumb_content').html(s);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* HTML                                                                                                               */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 var _idRegExp = /[a-zA-Z][a-zA-Z0-9]{7}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{4}_[a-zA-Z0-9]{12}/g;
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 var _datetimeFormat = 'yyyy-MM-dd HH:mm:ss.SSSSSS';
 var _dateFormat = 'yyyy-MM-dd';
 var _timeHMSFormat = 'HH:mm:ss.SSSSSS';
 var _timeHMFormat = 'HH:mm';
-/*--------------------------------------------------------------------------------------------------------------------*/
 
 function _parseDatetime(s, format) {
-  // noinspection TypeScriptUMDGlobal
-  format = moment().toMomentFormatString(format); // noinspection TypeScriptUMDGlobal
-
+  format = moment().toMomentFormatString(format);
   return moment(s, format, true).toDate();
 }
 
 function _formatDatetime(date, format) {
-  // noinspection TypeScriptUMDGlobal
-  format = moment().toMomentFormatString(format); // noinspection TypeScriptUMDGlobal
-
+  format = moment().toMomentFormatString(format);
   return moment(date).format(format);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-// noinspection JSUnresolvedVariable
-
-/**
- * @param {string} selector
- * @param {string} twig
- * @param {number} mode
- * @param {Object<string, *>} [options={}]
- * @returns {$.Promise}
- * @ignore
- */
-
 
 function _xxxHTML(selector, twig, mode, options) {
   var result = $.Deferred();
@@ -14320,8 +13430,6 @@ function _xxxHTML(selector, twig, mode, options) {
       scope = _tools$setup[1],
       dict = _tools$setup[2],
       twigs = _tools$setup[3];
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if (scope) {
     twig = twig.replace(_idRegExp, function (id) {
@@ -14330,8 +13438,6 @@ function _xxxHTML(selector, twig, mode, options) {
   }
 
   var html = formatTWIG(twig, dict, twigs);
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   var promise;
   var el = $(selector);
 
@@ -14355,18 +13461,13 @@ function _xxxHTML(selector, twig, mode, options) {
     default:
       throw 'internal error';
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   promise.done(function () {
-    /*------------------------------------------------------------------------------------------------------------*/
     var _find = mode === 3 ? function (_selector) {
       return el.find(_selector).addBack(_selector);
     } : function (_selector) {
       return el.find(_selector);
     };
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     if (jQuery.fn.tooltip) {
       _find('[data-toggle="tooltip"],[data-bs-toggle="tooltip"]').tooltip({
@@ -14377,8 +13478,6 @@ function _xxxHTML(selector, twig, mode, options) {
         }
       });
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     if (jQuery.fn.popover) {
       _find('[data-toggle="popover"],[data-bs-toggle="popover"]').popover({
@@ -14389,8 +13488,6 @@ function _xxxHTML(selector, twig, mode, options) {
         }
       });
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     _find('input.form-datetime').flatpickr({
       time_24hr: true,
@@ -14431,30 +13528,20 @@ function _xxxHTML(selector, twig, mode, options) {
       parseDate: _parseDatetime,
       formatDate: _formatDatetime
     });
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     var editors = _find('.form-editor:not(.form-editor-done)');
 
     if (editors.length > 0) Promise.all(/* import() */[__webpack_require__.e(108), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).then(function (monaco) {
       editors.each(function (_, item) {
-        /*----------------------------------------------------------------------------------------------------*/
         var textarea = $(item);
-        /*----------------------------------------------------------------------------------------------------*/
-
         var div = $('<div>', {
           'class': textarea.attr('class').replace('form-editor', 'form-editor-monaco').trim(),
           'style': textarea.attr('style')
         }).insertAfter(textarea);
         div.promise().done(function () {
-          /*------------------------------------------------------------------------------------------------*/
           textarea.addClass('form-editor-done');
-          /*------------------------------------------------------------------------------------------------*/
-
           var lang = textarea.attr('data-lang') || '';
           var theme = textarea.attr('data-theme') || 'vs';
-          /**/
-
           var wordWrap = textarea.attr('data-word-wrap') || 'false';
           var readOnly = textarea.attr('data-read-only') || 'false';
           var showGutter = textarea.attr('data-show-gutter') || 'false';
@@ -14462,17 +13549,10 @@ function _xxxHTML(selector, twig, mode, options) {
           var automaticLayout = textarea.attr('data-automatic-layout') || 'false';
           var renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
           var highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
-          /*------------------------------------------------------------------------------------------------*/
-
           var editor = monaco.editor.create(div[0], {
-            /* VALUE */
             value: item.value,
-
-            /* OPTIONS */
             theme: theme,
             language: lang,
-
-            /**/
             wordWrap: wordWrap === 'true',
             readOnly: readOnly === 'true',
             minimap: {
@@ -14480,12 +13560,8 @@ function _xxxHTML(selector, twig, mode, options) {
             },
             automaticLayout: automaticLayout === 'true',
             renderWhitespace: renderWhitespace === 'true',
-
-            /**/
             lineNumbers: showGutter === 'true' ? 'on' : 'off',
             renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
-
-            /**/
             insertSpaces: false,
             overviewRulerLanes: 0x00,
             overviewRulerBorder: false,
@@ -14495,16 +13571,11 @@ function _xxxHTML(selector, twig, mode, options) {
               alwaysConsumeMouseWheel: false
             }
           });
-          /*------------------------------------------------------------------------------------------------*/
-
           textarea.data('editor', editor);
-          /*------------------------------------------------------------------------------------------------*/
-
           editor.onDidChangeModelContent(function () {
             item.value = editor.getValue();
             $(item).trigger('change');
           });
-          /*------------------------------------------------------------------------------------------------*/
 
           var updateHeight = function updateHeight() {
             try {
@@ -14512,89 +13583,30 @@ function _xxxHTML(selector, twig, mode, options) {
                 width: div.width(),
                 height: editor.getContentHeight()
               });
-            } catch (_unused) {
-              /* IGNORE */
-            }
+            } catch (_unused) {}
           };
-          /*------------------------------------------------------------------------------------------------*/
-
 
           editor.onDidContentSizeChange(updateHeight);
           updateHeight();
-          /*------------------------------------------------------------------------------------------------*/
         });
       });
     }).catch(function (message) {
       error(message);
     });
-    /*------------------------------------------------------------------------------------------------------------*/
-
     result.resolveWith(context, [el]);
-    /*------------------------------------------------------------------------------------------------------------*/
   });
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   return result.promise();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Puts a HTML or TWIG fragment to the given target
- * @see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
- * @param {string} selector the target selector
- * @param {string} [twig={}] the TWIG fragment
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 
 function view_replaceHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 0, options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Prepends a HTML or TWIG fragment to the given target
- * @see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
- * @param {string} selector the target selector
- * @param {string} [twig={}] the TWIG fragment
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function view_prependHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 1, options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Appends a HTML or TWIG fragment to the given target
- * @see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
- * @param {string} selector the target selector
- * @param {string} [twig={}] the TWIG fragment
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function view_appendHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 2, options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Specify the timedate, date and time formats
- * @param {number} [datetimePrecision=6]
- * @param {string} [datetimeFormat='yyyy-MM-dd HH:mm:ss']
- * @param {string} [dateFormat='yyyy-MM-dd HH:mm:ss']
- * @param {number} [timePrecision=6]
- * @param {string} [timeHMSFormat='HH:mm:ss']
- * @param {string} [timeHMFormat='HH:mm']
- * @ignore
- */
-
 function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timePrecision, timeHMSFormat, timeHMFormat) {
   _datetimeFormat = datetimeFormat || 'yyyy-MM-dd HH:mm:ss';
   _dateFormat = dateFormat || 'yyyy-MM-dd';
@@ -14609,25 +13621,8 @@ function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timeP
     _timeHMSFormat += "." + 'S'.repeat(timePrecision);
   }
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* TWIG                                                                                                               */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Interprets the given TWIG string
- * @see {@link https://twig.symfony.com/doc/}
- * @param {string} twig the TWIG string
- * @param {Object<string, *>|Array<Object<string, *>>} [dict={}] the dictionary
- * @param {Object<string, string>} [twigs={}] dictionary of fragments
- * @returns {string} The Interpreted TWIG string
- * @ignore
- */
-
 function formatTWIG(twig, dict, twigs) {
   var result = [];
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   var render = function render(twig, dict, twigs) {
     if (!isMap(dict)) {
@@ -14643,8 +13638,6 @@ function formatTWIG(twig, dict, twigs) {
     dict['BOOTSTRAP_VERSION'] = js_AMIWebApp.bootstrapVersion;
     return ami_twig/* default.engine.render */.Z.engine.render(twig, dict, twigs);
   };
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   asArray(dict).forEach(function (DICT) {
     try {
@@ -14653,22 +13646,9 @@ function formatTWIG(twig, dict, twigs) {
       error("TWIG parsing error: " + e.message);
     }
   });
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   return result.join('');
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/jsdoc.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
 function _createForOfIteratorHelperLoose(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (it) return (it = it.call(o)).next.bind(it); if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; return function () { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -14684,55 +13664,48 @@ var jsdoc_id = 0;
 function jsdoc_classPrivateFieldLooseKey(name) { return "__private_" + jsdoc_id++ + "_" + name; }
 
 
-/*--------------------------------------------------------------------------------------------------------------------*/
 
-var jsdoc_linkExp = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("linkExp");
+var jsdoc_linkExp = jsdoc_classPrivateFieldLooseKey("linkExp");
 
-var _menuSelector = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("menuSelector");
+var _menuSelector = jsdoc_classPrivateFieldLooseKey("menuSelector");
 
-var _bodySelector = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("bodySelector");
+var _bodySelector = jsdoc_classPrivateFieldLooseKey("bodySelector");
 
-var _json = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("json");
+var _json = jsdoc_classPrivateFieldLooseKey("json");
 
-var _makeMenu = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeMenu");
+var _makeMenu = jsdoc_classPrivateFieldLooseKey("makeMenu");
 
-var _makeSubMenu = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeSubMenu");
+var _makeSubMenu = jsdoc_classPrivateFieldLooseKey("makeSubMenu");
 
-var _makeContent = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeContent");
+var _makeContent = jsdoc_classPrivateFieldLooseKey("makeContent");
 
-var _makeVariable = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeVariable");
+var _makeVariable = jsdoc_classPrivateFieldLooseKey("makeVariable");
 
-var _makeVariableSignature = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeVariableSignature");
+var _makeVariableSignature = jsdoc_classPrivateFieldLooseKey("makeVariableSignature");
 
-var _makeFunction = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeFunction");
+var _makeFunction = jsdoc_classPrivateFieldLooseKey("makeFunction");
 
-var _makeFunctionSignature = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeFunctionSignature");
+var _makeFunctionSignature = jsdoc_classPrivateFieldLooseKey("makeFunctionSignature");
 
-var _makeFunctionParameters = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeFunctionParameters");
+var _makeFunctionParameters = jsdoc_classPrivateFieldLooseKey("makeFunctionParameters");
 
-var _makeFunctionExceptions = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeFunctionExceptions");
+var _makeFunctionExceptions = jsdoc_classPrivateFieldLooseKey("makeFunctionExceptions");
 
-var _makeFunctionReturn = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeFunctionReturn");
+var _makeFunctionReturn = jsdoc_classPrivateFieldLooseKey("makeFunctionReturn");
 
-var _makeAlias = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeAlias");
+var _makeAlias = jsdoc_classPrivateFieldLooseKey("makeAlias");
 
-var _makeDesc = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeDesc");
+var _makeDesc = jsdoc_classPrivateFieldLooseKey("makeDesc");
 
-var _makeParam = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeParam");
+var _makeParam = jsdoc_classPrivateFieldLooseKey("makeParam");
 
-var _makeType = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeType");
+var _makeType = jsdoc_classPrivateFieldLooseKey("makeType");
 
-var _makeDetails = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeDetails");
+var _makeDetails = jsdoc_classPrivateFieldLooseKey("makeDetails");
 
-var _makeExamples = /*#__PURE__*/jsdoc_classPrivateFieldLooseKey("makeExamples");
+var _makeExamples = jsdoc_classPrivateFieldLooseKey("makeExamples");
 
-var AMIJSDoc =
-/*----------------------------------------------------------------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------------------------------------------*/
-function AMIJSDoc(menuSelector, bodySelector, json) {
+var AMIJSDoc = function AMIJSDoc(menuSelector, bodySelector, json) {
   Object.defineProperty(this, _makeContent, {
     value: _makeContent2
   });
@@ -14759,30 +13732,12 @@ function AMIJSDoc(menuSelector, bodySelector, json) {
   jsdoc_classPrivateFieldLooseBase(this, _json)[_json] = json;
 
   jsdoc_classPrivateFieldLooseBase(this, _makeMenu)[_makeMenu]();
-}
-/*----------------------------------------------------------------------------------------------------------------*/
-
-/*----------------------------------------------------------------------------------------------------------------*/
-;
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Renders a AMI JSDoc documentation
- * @param {string} menuSelector selector of the menu div
- * @param {string} bodySelector selector of the body div
- * @param {object} json the JSON documentation
- * @returns {AMIJSDoc}
- * @ignore
- */
-
+};
 
 function _makeMenu2() {
   var _this = this;
 
-  /*------------------------------------------------------------------------------------------------------------*/
   var s = "\n<a class=\"list-group-item list-group-item-action p-2\" href=\"\">\n\t<i class=\"bi bi-house\"></i> Home\n</a>\n\n<div class=\"list-group-item list-group-item-action p-2\">\n\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Global', 'global') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Namespace', 'namespaces') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Interface', 'interfaces') + "\n\t" + jsdoc_classPrivateFieldLooseBase(this, _makeSubMenu)[_makeSubMenu]('Class', 'classes') + "\n\n</div>\n";
-  /*------------------------------------------------------------------------------------------------------------*/
-
   $(jsdoc_classPrivateFieldLooseBase(this, _menuSelector)[_menuSelector]).html(s.trim()).promise().done(function (_) {
     $(jsdoc_classPrivateFieldLooseBase(_this, _menuSelector)[_menuSelector]).find('a[data-name][data-cat][data-name]').click(function (e) {
       var el = $(e.currentTarget);
@@ -14791,13 +13746,10 @@ function _makeMenu2() {
       jsdoc_classPrivateFieldLooseBase(_this, _makeContent)[_makeContent](el.attr('data-title'), el.attr('data-cat'), el.attr('data-name'));
     });
   });
-  /*------------------------------------------------------------------------------------------------------------*/
 }
 
 function _makeSubMenu2(title, cat) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
-
   var items;
 
   if (cat === 'global') {
@@ -14813,8 +13765,6 @@ function _makeSubMenu2(title, cat) {
   } else {
     items = jsdoc_classPrivateFieldLooseBase(this, _json)[_json][cat];
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   if (Array.isArray(items) && items.length > 0) {
     result.push('<div>');
@@ -14824,16 +13774,12 @@ function _makeSubMenu2(title, cat) {
     }).join('') + "</ul>");
     result.push('</div>');
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.join('');
 }
 
 function _makeContent2(title, cat, name) {
   var s = [];
-  /*------------------------------------------------------------------------------------------------------------*/
-
   var item;
 
   if (cat === 'global') {
@@ -14847,8 +13793,6 @@ function _makeContent2(title, cat, name) {
       return item.name === name;
     })[0];
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   s.push('<div class="card">');
   s.push('<div class="card-body bg-light">');
@@ -14858,7 +13802,6 @@ function _makeContent2(title, cat, name) {
   s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDetails)[_makeDetails](item));
   s.push('</div>');
   s.push('</div>');
-  /*------------------------------------------------------------------------------------------------------------*/
 
   if (item.konstructor) {
     s.push('<h4 class="mt-3">Constructor</h4>');
@@ -14891,42 +13834,29 @@ function _makeContent2(title, cat, name) {
       s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunction)[_makeFunction](_event));
     }
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   $(jsdoc_classPrivateFieldLooseBase(this, _bodySelector)[_bodySelector]).html(s.join(''));
-  /*------------------------------------------------------------------------------------------------------------*/
 }
 
 function _makeVariable2(variable) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
-
   result.push("<hr id=\"jsdoc_variable_" + variable.name + "\" />");
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeVariableSignature)[_makeVariableSignature](variable));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeAlias)[_makeAlias](variable));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](variable));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDetails)[_makeDetails](variable));
-  /*------------------------------------------------------------------------------------------------------------*/
-
   return result.join('');
 }
 
 function _makeVariableSignature2(variable) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
-
   result.push("<span class=\"signature-name\">" + textToHtml(variable.name) + "</span>");
   result.push("<span class=\"signature-attrs\">: {" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](variable) + "}</span>");
-  /*------------------------------------------------------------------------------------------------------------*/
-
   return result.join('');
 }
 
 function _makeFunction2(method) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
-
   result.push("<hr id=\"jsdoc_method_" + method.name + "\" />");
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunctionSignature)[_makeFunctionSignature](method));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeAlias)[_makeAlias](method));
@@ -14936,17 +13866,12 @@ function _makeFunction2(method) {
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunctionExceptions)[_makeFunctionExceptions](method));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunctionReturn)[_makeFunctionReturn](method));
   result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeExamples)[_makeExamples](method));
-  /*------------------------------------------------------------------------------------------------------------*/
-
   return result.join('');
 }
 
 function _makeFunctionSignature2(method) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
-
   result.push("<span class=\"signature-name\">" + textToHtml(method.name) + "</span>");
-  /*------------------------------------------------------------------------------------------------------------*/
 
   if (method.params) {
     var L = method.params.map(function (_param) {
@@ -14954,8 +13879,6 @@ function _makeFunctionSignature2(method) {
     });
     result.push("<span class=\"signature-params\">(" + L.join(', ') + ")</span>");
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   if (method.returns) {
     var _L = method.returns.map(function (_return) {
@@ -14964,18 +13887,14 @@ function _makeFunctionSignature2(method) {
 
     result.push("<span class=\"signature-attrs\"> &rarr; {" + _L.join(' or ') + "}</span>");
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.join('');
 }
 
 function _makeFunctionParameters2(method) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
 
   if (method.params.length > 0) {
-    /*--------------------------------------------------------------------------------------------------------*/
     var L1 = [],
         L2 = [],
         L3 = [],
@@ -15022,17 +13941,9 @@ function _makeFunctionParameters2(method) {
         cnt6++;
       }
     }
-    /*--------------------------------------------------------------------------------------------------------*/
-
 
     result.push('<h5 class="mt-2"><strong>Parameters:</strong></h5>');
     result.push('<table class="table table-sm table-hover table-striped table-bordered" style="width: auto;">');
-    /*--------*/
-
-    /* THEAD  */
-
-    /*--------*/
-
     result.push('<thead>');
     result.push('<tr>');
 
@@ -15062,12 +13973,6 @@ function _makeFunctionParameters2(method) {
 
     result.push('</tr>');
     result.push('</thead>');
-    /*--------*/
-
-    /* TBODY  */
-
-    /*--------*/
-
     result.push('<tbody>');
 
     for (var i in method.params) {
@@ -15101,20 +14006,14 @@ function _makeFunctionParameters2(method) {
     }
 
     result.push('</tbody>');
-    /*--------*/
-
     result.push('</table>');
-    /*--------------------------------------------------------------------------------------------------------*/
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.join('');
 }
 
 function _makeFunctionExceptions2(method) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
 
   if (Array.isArray(method.exceptions)) {
     for (var _iterator5 = _createForOfIteratorHelperLoose(method.exceptions), _step5; !(_step5 = _iterator5()).done;) {
@@ -15124,15 +14023,12 @@ function _makeFunctionExceptions2(method) {
       result.push("<div>Type: <span class=\"signature-attrs\">" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_exception) + "</span></div>");
     }
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.join('');
 }
 
 function _makeFunctionReturn2(method) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
 
   if (Array.isArray(method.returns)) {
     for (var _iterator6 = _createForOfIteratorHelperLoose(method.returns), _step6; !(_step6 = _iterator6()).done;) {
@@ -15142,30 +14038,24 @@ function _makeFunctionReturn2(method) {
       result.push("<div>Type: <span class=\"signature-attrs\">" + jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_return) + "</span></div>");
     }
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.join('');
 }
 
 function _makeAlias2(x) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
 
   if (x.alias) {
     result.push('<div>');
     result.push("Alias: " + textToHtml(x.alias));
     result.push('</div>');
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.join('');
 }
 
 function _makeDesc2(x) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
 
   if (x.desc) {
     result.push('<div>');
@@ -15174,16 +14064,12 @@ function _makeDesc2(x) {
     }));
     result.push('</div>');
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.join('');
 }
 
 function _makeParam2(x) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
-
   result.push(textToHtml(x.name));
 
   if (x.optional) {
@@ -15193,8 +14079,6 @@ function _makeParam2(x) {
   if (x.nullable) {
     result.push('<sup class="signature-params-attrs">null.</sup>');
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.join('');
 }
@@ -15207,7 +14091,6 @@ function _makeType2(x) {
 
 function _makeDetails2(x) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
 
   if (Array.isArray(x.implements) && x.implements.length > 0) {
     result.push("<div>Implements: " + textToHtml(x.implements.join(', ')) + "</div>");
@@ -15216,8 +14099,6 @@ function _makeDetails2(x) {
   if (Array.isArray(x.inherits) && x.inherits.length > 0) {
     result.push("<div>Inherits: " + textToHtml(x.inherits.join(', ')) + "</div>");
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   var version = [];
   var author = [];
@@ -15250,8 +14131,6 @@ function _makeDetails2(x) {
       see.push("<dt>See:</dt><dd>" + _SEE + "</dd>");
     }
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   if (author.length > 0 || version.length > 0 || see.length > 0) {
     result.push('<dl class="details">');
@@ -15260,15 +14139,12 @@ function _makeDetails2(x) {
     result.push(see.join(''));
     result.push('</dl>');
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.join('');
 }
 
 function _makeExamples2(x, mode) {
   var result = [];
-  /*------------------------------------------------------------------------------------------------------------*/
 
   if (Array.isArray(x.examples)) {
     for (var _iterator9 = _createForOfIteratorHelperLoose(x.examples), _step9; !(_step9 = _iterator9()).done;) {
@@ -15277,8 +14153,6 @@ function _makeExamples2(x, mode) {
       result.push("<textarea class=\"form-editor\" data-mode=\"" + textToHtml(mode) + "\">" + textToHtml(_example) + "</textarea>");
     }
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.join('');
 }
@@ -15329,18 +14203,7 @@ Object.defineProperty(AMIJSDoc, jsdoc_linkExp, {
 function renderJSDoc(menuSelector, bodySelector, json) {
   return new AMIJSDoc(menuSelector, bodySelector, json);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/controls.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
 
@@ -15348,61 +14211,28 @@ function renderJSDoc(menuSelector, bodySelector, json) {
 
 
 
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* CONTROLS                                                                                                           */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @type {Object<string,Object<string,*>>}
- * @private
- */
 
 var _controls = {};
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads a control
- * @param {string} control the control name
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function loadControl(control, options) {
   var result = $.Deferred();
 
   var _tools$setup = setup(['context'], [result], options),
       context = _tools$setup[0];
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if (control.indexOf('ctrl:') === 0) {
     control = control.substring(5);
   }
 
   var descr = _controls[control.toLowerCase()];
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if (descr) {
     try {
       loadScripts(js_AMIRouter.getOriginURL() + "/" + descr.file).then(function (loaded) {
         var clazz = window[descr.clazz];
-        var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) :
-        /*----------------*/
-        null
-        /*----------------*/
-        ;
+        var promise = loaded[0] ? clazz.prototype.onReady.apply(clazz.prototype) : null;
 
         _internal_then(promise, function () {
-          result.resolveWith(context, [
-          /*----------------*/
-          clazz
-          /*----------------*/
-          ]);
+          result.resolveWith(context, [clazz]);
         }, function (message) {
           result.rejectWith(context, ["cannot load control '" + control + "': " + message]);
         });
@@ -15415,31 +14245,14 @@ function loadControl(control, options) {
   } else {
     result.rejectWith(context, ["cannot load control '" + control + "': not found"]);
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   return result.promise();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously creates a control
- * @param {?*} parent the parent entity
- * @param {?*} owner the owner entity
- * @param {string} control the control name
- * @param {Array<*>} params the control's parameters
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function controls_createControl(parent, owner, control, params, options) {
   var result = $.Deferred();
 
   var _tools$setup2 = setup(['context'], [result], options),
       context = _tools$setup2[0];
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   loadControl(control, options).done(function (constructor) {
     var instance = new constructor(parent, owner);
@@ -15456,37 +14269,17 @@ function controls_createControl(parent, owner, control, params, options) {
   }).fail(function (message) {
     result.rejectWith(context, [message]);
   });
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   return result.promise();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously creates a control in the body
- * @param {?*} parent the parent entity
- * @param {?*} owner the owner entity
- * @param {string} control the control name
- * @param {Array<*>} controlParams the control's render method mandatory parameters
- * @param {Object<string, *>} controlOptions the control's render method optional parameters
- * @param {Object<string, *>} ownerOptions the owner's optional parameters
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function controls_createControlInBody(parent, owner, control, controlParams, controlOptions, ownerOptions, options) {
   var result = $.Deferred();
 
   var _tools$setup3 = setup(['context'], [result], options),
       context = _tools$setup3[0];
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   try {
     var PARAMS = [];
     var OPTIONS = {};
-    /*------------------------------------------------------------------------------------------------------------*/
 
     for (var key in ownerOptions) {
       OPTIONS[key] = ownerOptions[key];
@@ -15495,14 +14288,9 @@ function controls_createControlInBody(parent, owner, control, controlParams, con
     for (var _key2 in controlOptions) {
       OPTIONS[_key2] = controlOptions[_key2];
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-    //////.push(selector);
-
 
     Array.prototype.push.apply(PARAMS, controlParams);
     PARAMS.push(OPTIONS);
-    /*------------------------------------------------------------------------------------------------------------*/
-
     controls_createControl(parent, owner, control, PARAMS).done(function () {
       for (var _len2 = arguments.length, args = new Array(_len2), _key3 = 0; _key3 < _len2; _key3++) {
         args[_key3] = arguments[_key3];
@@ -15512,45 +14300,22 @@ function controls_createControlInBody(parent, owner, control, controlParams, con
     }).fail(function (message) {
       result.rejectWith(context, [message]);
     });
-    /*------------------------------------------------------------------------------------------------------------*/
   } catch (message) {
     result.rejectWith(context, [message]);
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   return result.promise();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously creates a control in a container
- * @param {?*} parent the parent entity
- * @param {?*} owner the owner entity
- * @param {string} control the control name
- * @param {Array<*>} controlParams the control's render method mandatory parameters
- * @param {Object<string, *>} controlOptions the control's render method optional parameters
- * @param {Object<string, *>} ownerOptions the owner's optional parameters
- * @param {string} icon the icon
- * @param {string} title the title
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function controls_createControlInContainer(parent, owner, control, controlParams, controlOptions, ownerOptions, icon, title, options) {
   var result = $.Deferred();
 
   var _tools$setup4 = setup(['context'], [result], options),
       context = _tools$setup4[0];
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   try {
     parent.appendItem("<i class=\"bi bi-" + textToHtml(icon) + "\"></i> " + textToHtml(title)).done(function (selector) {
       var PARAMS = [];
       var OPTIONS = {};
-      /*--------------------------------------------------------------------------------------------------------*/
 
       for (var key in ownerOptions) {
         OPTIONS[key] = ownerOptions[key];
@@ -15559,14 +14324,10 @@ function controls_createControlInContainer(parent, owner, control, controlParams
       for (var _key4 in controlOptions) {
         OPTIONS[_key4] = controlOptions[_key4];
       }
-      /*--------------------------------------------------------------------------------------------------------*/
-
 
       PARAMS.push(selector);
       Array.prototype.push.apply(PARAMS, controlParams);
       PARAMS.push(OPTIONS);
-      /*--------------------------------------------------------------------------------------------------------*/
-
       controls_createControl(parent, owner, control, PARAMS).done(function () {
         for (var _len3 = arguments.length, args = new Array(_len3), _key5 = 0; _key5 < _len3; _key5++) {
           args[_key5] = arguments[_key5];
@@ -15576,45 +14337,21 @@ function controls_createControlInContainer(parent, owner, control, controlParams
       }).fail(function (message) {
         result.rejectWith(context, [message]);
       });
-      /*--------------------------------------------------------------------------------------------------------*/
     });
   } catch (message) {
     result.rejectWith(context, [message]);
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   return result.promise();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously creates a control in a container from a WEB link
- * @param {?*} parent the parent entity
- * @param {?*} owner the owner entity
- * @param {Element} el the HTML element
- * @param {Object<string, *>} ownerOptions the owner's optional parameters
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function controls_createControlFromWebLink(parent, owner, el, ownerOptions, options) {
-  /*----------------------------------------------------------------------------------------------------------------*/
   var dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl') : '';
   var dataCtrlLocation = el.hasAttribute('data-ctrl-location') ? el.getAttribute('data-ctrl-location') : '';
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   var dataParams = el.hasAttribute('data-params') ? JSON.parse(el.getAttribute('data-params')) : [];
   var dataOptions = el.hasAttribute('data-options') ? JSON.parse(el.getAttribute('data-options')) : el.hasAttribute('data-settings') ? JSON.parse(el.getAttribute('data-settings')) : {};
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   var dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon') : 'question';
   var dataTitle = el.hasAttribute('data-title') ? el.getAttribute('data-title') : 'Unknown';
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   lock();
-  /**/
 
   if (dataCtrlLocation === 'body') {
     return controls_createControlInBody(parent, owner, dataCtrl, dataParams, dataOptions, ownerOptions, options).done(function () {
@@ -15629,71 +14366,25 @@ function controls_createControlFromWebLink(parent, owner, el, ownerOptions, opti
       error(message);
     });
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/resources.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
 
 
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* DYNAMIC RESOURCE LOADING                                                                                           */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @type {Array<*>}
- * @private
- */
 
 var _sheets = [];
-/**
- * @type {Array<*>}
- * @private
- */
-
 var _scripts = [];
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {string} url
- * @returns {string}
- * @private
- */
 
 function _getExtension(url) {
   var idx = url.lastIndexOf('.');
   return idx > 0 ? url.substring(idx) : '';
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {string} url
- * @param {string} dataType
- * @returns {string}
- * @private
- */
-
 
 function _getDataType(url, dataType) {
   var result;
 
   if (dataType === 'auto') {
-    /**/
     if (url.indexOf('ctrl:') === 0) {
       result = 'control';
     } else if (url.indexOf('subapp:') === 0) {
@@ -15727,39 +14418,18 @@ function _getDataType(url, dataType) {
 
   return result;
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {$.Deferred} deferred
- * @param {Array<*>} result
- * @param {Array<String>} urls
- * @param {string} dataType
- * @param {*} context
- * @private
- */
-
 
 function __loadXXX(deferred, result, urls, dataType, context) {
   if (urls.length === 0) {
     deferred.resolveWith(context, [result]);
     return;
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   var url = urls.shift().trim();
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   var dataTYPE = _getDataType(url, dataType);
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   switch (dataTYPE) {
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /* CONTROL                                                                                                    */
-
-    /*------------------------------------------------------------------------------------------------------------*/
     case 'control':
       loadControl(url).then(function (data) {
         result.push(data);
@@ -15770,12 +14440,6 @@ function __loadXXX(deferred, result, urls, dataType, context) {
       });
       break;
 
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /* SUBAPP                                                                                                     */
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
     case 'subapp':
       loadSubApp(url).then(function (data) {
         result.push(data);
@@ -15785,12 +14449,6 @@ function __loadXXX(deferred, result, urls, dataType, context) {
         deferred.rejectWith(context, [message]);
       });
       break;
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /* SHEET                                                                                                      */
-
-    /*------------------------------------------------------------------------------------------------------------*/
 
     case 'sheet':
       if (_sheets.indexOf(url) >= 0) {
@@ -15817,12 +14475,6 @@ function __loadXXX(deferred, result, urls, dataType, context) {
 
       break;
 
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /* SCRIPT                                                                                                     */
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
     case 'script':
       if (_scripts.indexOf(url) >= 0) {
         result.push(false);
@@ -15848,12 +14500,6 @@ function __loadXXX(deferred, result, urls, dataType, context) {
 
       break;
 
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /* OTHER                                                                                                      */
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
     default:
       $.ajax({
         url: url,
@@ -15869,156 +14515,47 @@ function __loadXXX(deferred, result, urls, dataType, context) {
         deferred.rejectWith(context, ["cannot load '" + url + "'"]);
       });
       break;
-
-    /*------------------------------------------------------------------------------------------------------------*/
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {Array<String>|String} urls
- * @param {string} dataType
- * @param {Object<string, *>} [options={}]
- * @returns {$.Promise}
- * @private
- */
-
 
 function _loadXXX(urls, dataType, options) {
   var deferred = $.Deferred();
 
   var _tools$setup = setup(['context'], [deferred], options),
       context = _tools$setup[0];
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   __loadXXX(deferred, [], asArray(urls), dataType, context);
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   return deferred.promise();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads resources by file extension
- * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 
 function loadResources(urls, options) {
   return _loadXXX(urls, 'auto', options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads CSS sheets
- * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function loadSheets(urls, options) {
   return _loadXXX(urls, 'sheet', options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads JS scripts
- * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function loadScripts(urls, options) {
   return _loadXXX(urls, 'script', options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads JSON files
- * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function loadJSONs(urls, options) {
   return _loadXXX(urls, 'json', options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads XML files
- * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function loadXMLs(urls, options) {
   return _loadXXX(urls, 'xml', options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads HTML files
- * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function loadHTMLs(urls, options) {
   return _loadXXX(urls, 'text', options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads TWIG files
- * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function loadTWIGs(urls, options) {
   return _loadXXX(urls, 'text', options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads text files
- * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function loadTexts(urls, options) {
   return _loadXXX(urls, 'text', options);
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 // EXTERNAL MODULE: ./node_modules/kjua/dist/kjua.min.js
 var kjua_min = __webpack_require__(9242);
 ;// CONCATENATED MODULE: ./src/js/AMIAuth.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -16037,32 +14574,24 @@ function AMIAuth_classPrivateFieldLooseKey(name) { return "__private_" + AMIAuth
 
 
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-// noinspection JSUnusedGlobalSymbols
 
-/**
- * The AMI authentication subsystem
- * @namespace amiAuth
- * @alias amiLogin
- */
+var _flags = AMIAuth_classPrivateFieldLooseKey("flags");
 
-var _flags = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("flags");
+var _userInfo = AMIAuth_classPrivateFieldLooseKey("userInfo");
 
-var _userInfo = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("userInfo");
+var _roleInfo = AMIAuth_classPrivateFieldLooseKey("roleInfo");
 
-var _roleInfo = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("roleInfo");
+var _bookmarkInfo = AMIAuth_classPrivateFieldLooseKey("bookmarkInfo");
 
-var _bookmarkInfo = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("bookmarkInfo");
+var _dashboardInfo = AMIAuth_classPrivateFieldLooseKey("dashboardInfo");
 
-var _dashboardInfo = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("dashboardInfo");
+var _awfInfo = AMIAuth_classPrivateFieldLooseKey("awfInfo");
 
-var _awfInfo = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("awfInfo");
+var _setupAWF = AMIAuth_classPrivateFieldLooseKey("setupAWF");
 
-var _setupAWF = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("setupAWF");
+var _update = AMIAuth_classPrivateFieldLooseKey("update");
 
-var _update = /*#__PURE__*/AMIAuth_classPrivateFieldLooseKey("update");
-
-var AMIAuth = /*#__PURE__*/function () {
+var AMIAuth = function () {
   function AMIAuth() {
     Object.defineProperty(this, _update, {
       value: _update2
@@ -16098,13 +14627,10 @@ var AMIAuth = /*#__PURE__*/function () {
 
   var _proto = AMIAuth.prototype;
 
-  /*----------------------------------------------------------------------------------------------------------------*/
   _proto.init = function init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed) {
     var _this = this;
 
     var result = $.Deferred();
-    /*------------------------------------------------------------------------------------------------------------*/
-
     AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags] = {
       ssoAutoAuthentication: ssoAutoAuthentication,
       ssoAuthenticationAllowed: ssoAuthenticationAllowed,
@@ -16119,11 +14645,7 @@ var AMIAuth = /*#__PURE__*/function () {
       bookmarksAllowed: bookmarksAllowed,
       dashboardsAllowed: dashboardsAllowed
     };
-    /*------------------------------------------------------------------------------------------------------------*/
-
     var userdata = js_AMIRouter.getWebAppArgs()['userdata'] || '';
-    /*------------------------------------------------------------------------------------------------------------*/
-
     js_AMICommand.signInByCertificate().fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       AMIAuth_classPrivateFieldLooseBase(_this, _setupAWF)[_setupAWF](awfInfo);
 
@@ -16131,10 +14653,7 @@ var AMIAuth = /*#__PURE__*/function () {
         result.reject(message);
       });
     }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      /*--------------------------------------------------------------------------------------------------------*/
       AMIAuth_classPrivateFieldLooseBase(_this, _setupAWF)[_setupAWF](awfInfo);
-      /*--------------------------------------------------------------------------------------------------------*/
-
 
       _internal_then(js_AMIWebApp.onReady(userdata), function () {
         js_AMIWebApp._isReady = true;
@@ -16148,202 +14667,73 @@ var AMIAuth = /*#__PURE__*/function () {
         js_AMIWebApp._isReady = true;
         result.reject(message);
       });
-      /*--------------------------------------------------------------------------------------------------------*/
-
     });
-    /*------------------------------------------------------------------------------------------------------------*/
-
     return result;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-  ;
+  };
 
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* PUBLIC METHODS                                                                                                 */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current MQTT endpoint
-   * @return {string} The current MQTT endpoint
-   */
   _proto.getMqttEndpoint = function getMqttEndpoint() {
     return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].mqttEndpoint || '';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current MQTT token
-   * @return {string} The current MQTT token
-   */
-  ;
+  };
 
   _proto.getMqttToken = function getMqttToken() {
     return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].mqttToken || '';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current user information
-   * @returns {Object<string,*>} The current user information
-   */
-  ;
+  };
 
   _proto.getUserInfo = function getUserInfo() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current role information
-   * @returns {Object<string,*>} The current role information
-   */
-  ;
+  };
 
   _proto.getRoleInfo = function getRoleInfo() {
     return AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current bookmark information
-   * @returns {Object<string,*>} The current bookmark information
-   */
-  ;
+  };
 
   _proto.getBookmarkInfo = function getBookmarkInfo() {
     return AMIAuth_classPrivateFieldLooseBase(this, _bookmarkInfo)[_bookmarkInfo];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current dashboard information
-   * @returns {Object<string,*>} The current dashboard information
-   */
-  ;
+  };
 
   _proto.getDashboardInfo = function getDashboardInfo() {
     return AMIAuth_classPrivateFieldLooseBase(this, _dashboardInfo)[_dashboardInfo];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current AMI Web Framework information
-   * @returns {Object<string,*>} The current AMI Web Framework information
-   */
-  ;
+  };
 
   _proto.getAWFInfo = function getAWFInfo() {
     return AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current user
-   * @returns {string} The current user
-   */
-  ;
+  };
 
   _proto.getUser = function getUser() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].AMIUser || 'guest';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current guest user
-   * @returns {string} The current guest user
-   */
-  ;
+  };
 
   _proto.getGuest = function getGuest() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].guestUser || 'guest';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current user `not before` date
-   * @returns {string} The current user `not before` date
-   */
-  ;
+  };
 
   _proto.getNotBeforeDate = function getNotBeforeDate() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].notBefore || '';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current user `not after` date
-   * @returns {string} The current user `not after` date
-   */
-  ;
+  };
 
   _proto.getNotAfterDate = function getNotAfterDate() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].notAfter || '';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current client DN
-   * @returns {string} The current client DN
-   */
-  ;
+  };
 
   _proto.getClientDN = function getClientDN() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].clientDNInSession || '';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Gets the current issuer DN
-   * @returns {string} The current issuer DN
-   */
-  ;
+  };
 
   _proto.getIssuerDN = function getIssuerDN() {
     return AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].issuerDNInSession || '';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Checks whether the user is valid or not
-   * @returns {boolean}
-   */
-  ;
+  };
 
   _proto.isValid = function isValid() {
     return (AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].valid || 'false') !== 'false';
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Checks whether the user is authenticated or not
-   * @returns {boolean}
-   */
-  ;
+  };
 
   _proto.isAuthenticated = function isAuthenticated() {
     return this.getUser() !== this.getGuest();
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Checks whether the user has the given role or not
-   * @param {string} roleName the role
-   * @returns {boolean}
-   */
-  ;
+  };
 
   _proto.hasRole = function hasRole(roleName) {
     return roleName in AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo];
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Update the user information
-   * @returns {$.Promise} A JQuery promise object
-   */
-  ;
+  };
 
   _proto.update = function update() {
     var _this2 = this;
@@ -16356,49 +14746,34 @@ var AMIAuth = /*#__PURE__*/function () {
         js_AMIWebApp.unlock();
       });
     });
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-  ;
+  };
 
   return AMIAuth;
 }();
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 
 function _setupAWF2(awfInfo) {
   try {
     var config = JSON.parse(base64Decode(awfInfo.config));
     setDateTimeFormats(config['datetimePrecision'], config['datetimeFormat'], config['dateFormat'], config['timePrecision'], config['timeHMSFormat'], config['timeHMFormat']);
     AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo] = config;
-  } catch (e) {
-    /* IGNORE */
-  }
+  } catch (e) {}
 }
 
 function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
   var result = $.Deferred();
-  /*------------------------------------------------------------------------------------------------------------*/
-
   var user = userInfo.AMIUser || 'guest';
   var guest = userInfo.guestUser || 'guest';
-  /*------------------------------------------------------------------------------------------------------------*/
 
   var dict = _extends({}, AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags], {
-    /**/
     userInfo: AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo] = userInfo,
     roleInfo: AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo] = roleInfo,
     bookmarkInfo: AMIAuth_classPrivateFieldLooseBase(this, _bookmarkInfo)[_bookmarkInfo] = bookmarkInfo,
     dashboardInfo: AMIAuth_classPrivateFieldLooseBase(this, _dashboardInfo)[_dashboardInfo] = dashboardInfo,
     awfInfo: AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo] = awfInfo
   });
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   if (user !== guest) {
-    /*--------------------------------------------------------------------------------------------------------*/
     var button = __webpack_require__(4045)("./v" + js_AMIWebApp.bootstrapVersion + "/sign_out_button.twig");
-    /*--------------------------------------------------------------------------------------------------------*/
-
 
     js_AMIWebApp.replaceHTML('#ami_login_menu_content', button, {
       dict: dict
@@ -16409,12 +14784,8 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
         result.reject(message);
       });
     });
-    /*--------------------------------------------------------------------------------------------------------*/
   } else {
-    /*--------------------------------------------------------------------------------------------------------*/
     var _button = __webpack_require__(1477)("./v" + js_AMIWebApp.bootstrapVersion + "/sign_in_button.twi");
-    /*--------------------------------------------------------------------------------------------------------*/
-
 
     js_AMIWebApp.replaceHTML('#ami_login_menu_content', _button, {
       dict: dict
@@ -16425,27 +14796,13 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
         result.reject(message);
       });
     });
-    /*--------------------------------------------------------------------------------------------------------*/
   }
-  /*------------------------------------------------------------------------------------------------------------*/
-
 
   return result.promise();
 }
 
 /* harmony default export */ const js_AMIAuth = (new AMIAuth());
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/utilities/subapps.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
 
@@ -16456,25 +14813,8 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
 
 
 
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* SUBAPPS                                                                                                            */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @type {Object<string,Object<string,*>>}
- * @private
- */
 
 var _subapps = {};
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @type {*}
- * @private
- */
 
 var _currentSubappInstance = new function () {
   this.onReady = function () {};
@@ -16485,24 +14825,10 @@ var _currentSubappInstance = new function () {
 
   this.onLogout = function () {};
 }();
-/**
- * @type {*}
- * @private
- */
-
 
 var _currentUserdata = null;
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function triggerLogin() {
   var result = $.Deferred();
-  /*----------------------------------------------------------------------------------------------------------------*/
-  // noinspection JSUnresolvedVariable
 
   if (js_AMIWebApp._isReady) {
     _internal_then(_currentSubappInstance.onLogin(_currentUserdata), function (message) {
@@ -16517,22 +14843,11 @@ function triggerLogin() {
   } else {
     result.resolve();
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   return result.promise();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function triggerLogout() {
   var result = $.Deferred();
-  /*----------------------------------------------------------------------------------------------------------------*/
-  // noinspection JSUnresolvedVariable
 
   if (js_AMIWebApp._isReady) {
     _internal_then(_currentSubappInstance.onLogout(_currentUserdata), function (message) {
@@ -16547,43 +14862,25 @@ function triggerLogout() {
   } else {
     result.resolve();
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   return result.promise();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads a subapp
- * @param {string} subapp the subapp name
- * @param {?*} [userdata] the user data
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function loadSubApp(subapp, userdata, options) {
   var result = $.Deferred();
 
   var _tools$setup = setup(['context'], [result], options),
       context = _tools$setup[0];
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   result.always(function () {
     unlock();
   });
   lock();
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   if (subapp.indexOf('subapp:') === 0) {
     subapp = subapp.substring(7);
   }
 
   var descr = _subapps[subapp.toLowerCase()];
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if (descr) {
     try {
@@ -16591,23 +14888,13 @@ function loadSubApp(subapp, userdata, options) {
         _internal_always(_currentSubappInstance.onExit(userdata), function () {
           _currentSubappInstance = window[descr.instance];
           _currentUserdata = userdata;
-          /**/
-
-          var promise = loaded[0] ? _currentSubappInstance.onReady(userdata) :
-          /*-------------*/
-          null
-          /*-------------*/
-          ;
+          var promise = loaded[0] ? _currentSubappInstance.onReady(userdata) : null;
 
           _internal_then(promise, function () {
             var promise = js_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
             promise.then(function () {
               fillBreadcrumb(descr.breadcrumb);
-              result.resolveWith(context, [
-              /*------*/
-              _currentSubappInstance
-              /*------*/
-              ]);
+              result.resolveWith(context, [_currentSubappInstance]);
             }, function (message) {
               result.rejectWith(context, ["cannot load subapp '" + subapp + "': " + message]);
             });
@@ -16624,21 +14911,9 @@ function loadSubApp(subapp, userdata, options) {
   } else {
     result.rejectWith(context, ["cannot load subapp '" + subapp + "': not found"]);
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   return result.promise();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Asynchronously loads a subapp by URL
- * @param {string} defaultSubApp if 'amiRouter.getArgs()["subapp"]' is null, the default subapp name
- * @param {?*} defaultUserData if 'amiRouter.getArgs()["userdata"]' is null, the default user data
- * @returns {$.Promise} A JQuery promise object
- * @ignore
- */
-
 function loadSubAppByURL(defaultSubApp, defaultUserData) {
   var result = $.Deferred();
   var args = js_AMIRouter.getWebAppArgs();
@@ -16654,12 +14929,8 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
       try {
         json = JSON.parse(jspath_default().apply('..field{.@name==="json"}.$', data)[0] || '{}');
       } catch (message) {
-        json = {
-          /*-----------------------------------------------------------------*/
-        };
+        json = {};
       }
-      /*--------------------------------------------------------------------------------------------------------*/
-
 
       var subapp = json['subapp'] || defaultSubApp;
       var userdata = json['userdata'] || defaultUserData;
@@ -16668,11 +14939,9 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
       }, function (message) {
         result.reject(message);
       });
-      /*--------------------------------------------------------------------------------------------------------*/
     });
   } else {
     if (!js_AMIRouter.check()) {
-      /*--------------------------------------------------------------------------------------------------------*/
       var subapp = args['subapp'] || defaultSubApp;
       var userdata = args['userdata'] || defaultUserData;
       loadSubApp(subapp, userdata).then(function () {
@@ -16680,153 +14949,22 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
       }, function (message) {
         result.reject(message);
       });
-      /*--------------------------------------------------------------------------------------------------------*/
     }
   }
 
   return result.promise();
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/AMIExtension.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* $.Deferred                                                                                                         */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @external $.Deferred
- * @see {@link http://api.jquery.com/Types/#Deferred Deferred}
- */
-
-/**
- * @function resolve
- * @memberof $.Deferred
- * @param {...*} args
- * @instance
- */
-
-/**
- * @function resolveWith
- * @memberof $.Deferred
- * @param {*} context
- * @param {Array<*>} args
- * @instance
- */
-
-/**
- * @function reject
- * @memberof $.Deferred
- * @param {...*} args
- * @instance
- */
-
-/**
- * @function rejectWith
- * @memberof $.Deferred
- * @param {*} context
- * @param {Array<*>} args
- * @instance
- */
-
-/**
- * @function done
- * @memberof $.Deferred
- * @param {function} Done callback
- * @instance
- */
-
-/**
- * @function fail
- * @memberof $.Deferred
- * @param {function} Fail callback
- * @instance
- */
-
-/**
- * @function then
- * @memberof $.Deferred
- * @param {function} Done callback
- * @param {function} Fail callback
- * @instance
- */
-
-/**
- * @function always
- * @memberof $.Deferred
- * @param {function} Always callback
- * @instance
- */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* $.Promise                                                                                                          */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @external $.Promise
- * @see {@link http://api.jquery.com/Types/#Promise Promise}
- */
-
-/**
- * @function done
- * @memberof $.Promise
- * @param {function} Done callback
- * @instance
- */
-
-/**
- * @function fail
- * @memberof $.Promise
- * @param {function} Fail callback
- * @instance
- */
-
-/**
- * @function then
- * @memberof $.Promise
- * @param {function} Done callback
- * @param {function} Fail callback
- * @instance
- */
-
-/**
- * @function always
- * @memberof $.Promise
- * @param {function} Always callback
- * @instance
- */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
 
 /* harmony default export */ function AMIExtension() {
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* POLYFILLS                                                                                                      */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
   if (!String.prototype.startsWith) {
     String.prototype.startsWith = function (s) {
       var base = 0x00000000000000000000;
       return this.indexOf(s, base) === base;
     };
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if (!String.prototype.endsWith) {
     String.prototype.endsWith = function (s) {
@@ -16834,8 +14972,6 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
       return this.indexOf(s, base) === base;
     };
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if (!String.prototype.hashCode) {
     String.prototype.hashCode = function () {
@@ -16849,15 +14985,8 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
       return hash < 0 ? -hash : +hash;
     };
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* JQUERY EXTENSIONS                                                                                              */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   var _ami_internal_jQueryAjax = jQuery.ajax;
-  /*----------------------------------------------------------------------------------------------------------------*/
 
   jQuery.ajax = function (options) {
     if (typeof options === 'object' && options.dataType === 'sheet') {
@@ -16867,8 +14996,6 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
           context = _tools$setup[0],
           media = _tools$setup[1],
           url = _tools$setup[2];
-      /*--------------------------------------------------------------------------------------------------------*/
-
 
       if (url) {
         $(document.createElement('link')).attr({
@@ -16884,28 +15011,19 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
       } else {
         result.rejectWith(context);
       }
-      /*--------------------------------------------------------------------------------------------------------*/
-
 
       return result.promise();
     } else {
-      /*--------------------------------------------------------------------------------------------------------*/
       return _ami_internal_jQueryAjax.apply(this, arguments);
-      /*--------------------------------------------------------------------------------------------------------*/
     }
   };
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   var _ami_internal_jQueryVal = jQuery.fn.val;
   var _ami_internal_jQueryRemove = jQuery.fn.remove;
 
   var _ami_internal_jQueryRemoveEvent = new jQuery.Event('remove');
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   jQuery.fn.extend({
-    /*------------------------------------------------------------------------------------------------------------*/
     serializeObject: function serializeObject() {
       var result = {};
       this.serializeArray().forEach(function (item) {
@@ -16921,19 +15039,14 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
       });
       return result;
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     val: function val() {
-      /**/
-      if (arguments.length === 0) // getter
-        {
+      if (arguments.length === 0) {
           if (this.hasClass('form-editor-done')) {
             var editor = this.data('editor');
             if (editor) return editor.getValue();
             return '';
           }
-        } else if (arguments.length === 1) // setter
-        {
+        } else if (arguments.length === 1) {
           if (this.hasClass('form-editor-done')) {
             var _editor = this.data('editor');
 
@@ -16944,50 +15057,21 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
 
       return _ami_internal_jQueryVal.apply(this, arguments);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     remove: function remove() {
       $(this).trigger(_ami_internal_jQueryRemoveEvent);
       return _ami_internal_jQueryRemove.apply(this, arguments);
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
   });
-  /*----------------------------------------------------------------------------------------------------------------*/
 }
 ;// CONCATENATED MODULE: ./src/js/AMIInterface.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
 
 
 
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * @param {Object<string, *>} ctxImmutables
- * @param {Object<string, *>} ctxDefaults
- * @param {Object<string, *>} ctxOptions
- * @param {Object<string, *>} ctx
- * @param {Object<string, *>} immutables
- * @param {Object<string, *>} defaults
- * @param {Object<string, *>} options
- * @returns {Object<string, *>}
- * @private
- */
 
 function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defaults, options) {
-  /*----------------------------------------------------------------------------------------------------------------*/
   if (options) {
     for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
       var _Object$entries$_i = _Object$entries[_i],
@@ -16997,8 +15081,6 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
       ctx[key] = val;
     }
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if (defaults) {
     for (var _i2 = 0, _Object$entries2 = Object.entries(defaults); _i2 < _Object$entries2.length; _i2++) {
@@ -17015,8 +15097,6 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
       }
     }
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   if (immutables) {
     for (var _i3 = 0, _Object$entries3 = Object.entries(immutables); _i3 < _Object$entries3.length; _i3++) {
@@ -17027,210 +15107,54 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
       ctx[_key2] = _val2;
     }
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   ctx.httpEndpoint = js_AMICommand.getHttpEndpoint();
   ctx.mqttEndpoint = js_AMICommand.getMqttEndpoint();
-  /*----------------------------------------------------------------------------------------------------------------*/
-
   return ctx;
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 
 /* harmony default export */ function AMIInterface() {
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* ami                                                                                                            */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
   $AMINamespace('ami');
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* ami.IControl                                                                                                   */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * The AMI control interface
-   * @interface ami.IControl
-   */
-
-  $AMIInterface('ami.IControl',
-  /** @lends ami.IControl */
-  {
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Called when the control is ready to run
-     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
-     */
+  $AMIInterface('ami.IControl', {
     onReady: function onReady() {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Called when the control is removed
-     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
-     */
     onRemove: function onRemove() {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Patches an HTML identifier
-     * @param {string} id the not patched HTML identifier
-     * @returns {string} The patched HTML identifier
-     */
     patchId: function patchId(id) {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
-     * @param {string} selector the target selector
-     * @param {string} [twig={}] the TWIG fragment
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
-     * @returns {$.Promise} A JQuery promise object
-     */
     replaceHTML: function replaceHTML(selector, twig, options) {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
-     * @param {string} selector the target selector
-     * @param {string} [twig={}] the TWIG fragment
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
-     * @returns {$.Promise} A JQuery promise object
-     */
     prependHTML: function prependHTML(selector, twig, options) {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
-     * @param {string} selector the target selector
-     * @param {string} [twig={}] the TWIG fragment
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, dict, twigs)
-     * @returns {$.Promise} A JQuery promise object
-     */
     appendHTML: function appendHTML(selector, twig, options) {}
-    /*------------------------------------------------------------------------------------------------------------*/
-
   });
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * The AMI container interface
-   * @interface ami.IContainer
-   */
-
-  $AMIInterface('ami.IContainer',
-  /** @lends ami.IContainer */
-  {
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * @param {string} selector the selector
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
-     * @return {$.Promise} A JQuery promise object
-     */
+  $AMIInterface('ami.IContainer', {
     render: function render(selector, options) {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Prepends an item
-     * @param {string} title the title
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
-     * @return {$.Promise} A JQuery promise object returning the new item's identifier
-     */
     prependItem: function prependItem(title, options) {},
-
-    /**
-     * Appends an item
-     * @param {string} title the title
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (...)
-     * @return {$.Promise} A JQuery promise object returning the new item's identifier
-     */
     appendItem: function appendItem(title, options) {},
-
-    /**
-     * Removes an item
-     * @param {string} itemId the item identifier
-     */
     removeItem: function removeItem(itemId) {},
-
-    /**
-     * Removes all items
-     */
     removeAllItems: function removeAllItems() {},
-
-    /**
-     * Checks whether the container is empty or not
-     * @returns {boolean}
-     */
     isEmpty: function isEmpty() {}
-    /*------------------------------------------------------------------------------------------------------------*/
-
   });
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* ami.Control                                                                                                    */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * The basic AMI control
-   * @class ami.Control
-   * @implements {ami.IControl}
-   * @param {?*} parent the parent entity
-   * @param {?*} owner the owner entity
-   */
-
-  $AMIClass('ami.Control',
-  /** @lends ami.Control */
-  {
-    /*------------------------------------------------------------------------------------------------------------*/
+  $AMIClass('ami.Control', {
     $implements: [ami.IControl],
-
-    /*------------------------------------------------------------------------------------------------------------*/
     $: function $() {
       ami.Control._instanceScopeCnt = 1;
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     $init: function $init(parent, owner) {
       this._parent = parent || this;
       this._owner = owner || this;
       this._instanceScope = ami.Control._instanceScopeCnt++;
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     onReady: function onReady() {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
     onRemove: function onRemove() {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
     setParent: function setParent(parent) {
       return this._parent = parent || this;
     },
     getParent: function getParent() {
       return this._parent;
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     setOwner: function setOwner(owner) {
       return this._owner = owner || this;
     },
     getOwner: function getOwner() {
       return this._owner;
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     setSelector: function setSelector(selector) {
       var _this = this;
 
@@ -17245,274 +15169,77 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
     getSelector: function getSelector() {
       return this._selector;
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     ctxImmutables: {},
     ctxDefaults: {},
     ctxOptions: {},
     ctx: {},
-
-    /**
-     * Sets up the control's context
-     * @param {Object<string, *>} immutables dictionary of immutable parameters in the control's context
-     * @param {Object<string, *>} defaults dictionary of default values for optional parameters
-     * @param {Object<string, *>} options dictionary of values for optional parameters
-     * @return {Object<string, *>} The resulting control's context
-     */
     setupCtx: function setupCtx(immutables, defaults, options) {
       return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     patchId: function patchId(id) {
       return id + "_scope" + this._instanceScope;
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     replaceHTML: function replaceHTML(selector, twig, options) {
       options = options || {};
       options.scope = this._instanceScope;
       return view_replaceHTML(selector, twig, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     prependHTML: function prependHTML(selector, twig, options) {
       options = options || {};
       options.scope = this._instanceScope;
       return view_prependHTML(selector, twig, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
     appendHTML: function appendHTML(selector, twig, options) {
       options = options || {};
       options.scope = this._instanceScope;
       return view_appendHTML(selector, twig, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Asynchronously creates a control
-     * @param {?*} parent the parent entity
-     * @param {string} control the control name
-     * @param {Array<*>} params the control's parameters
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-     * @returns {$.Promise} A JQuery promise object
-     */
     createControl: function createControl(parent, control, params, options) {
       return controls_createControl(parent, this, control, params, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Asynchronously creates a control in the body
-     * @param {?*} parent the parent entity
-     * @param {string} control the control name
-     * @param {Array<*>} controlParams the control's render method mandatory parameters
-     * @param {Object<string, *>} controlOptions the control's render method optional parameters
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-     * @returns {$.Promise} A JQuery promise object
-     */
     createControlInBody: function createControlInBody(parent, control, controlParams, controlOptions, options) {
       return controls_createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Asynchronously creates a control in a container
-     * @param {?*} parent the parent entity
-     * @param {string} control the control name
-     * @param {Array<*>} controlParams the control's render method mandatory parameters
-     * @param {Object<string, *>} controlOptions the control's render method optional parameters
-     * @param {string} icon the icon
-     * @param {string} title the title
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-     * @returns {$.Promise} A JQuery promise object
-     */
     createControlInContainer: function createControlInContainer(parent, control, controlParams, controlOptions, icon, title, options) {
       return controls_createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Asynchronously creates a control in a container from a WEB link
-     * @param {?*} parent the parent entity
-     * @param {Element} el the HTML element
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-     * @returns {$.Promise} A JQuery promise object
-     */
     createControlFromWebLink: function createControlFromWebLink(parent, el, options) {
       return controls_createControlFromWebLink(parent, this, el, this.ctx, options);
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
   });
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* ami.ISubApp                                                                                                    */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * The AMI sub-application interface
-   * @interface ami.ISubApp
-   */
-
-  $AMIInterface('ami.ISubApp',
-  /** @lends ami.ISubApp */
-  {
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Called when the sub-application is ready to run
-     * @param {?*} userdata the user data
-     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
-     */
+  $AMIInterface('ami.ISubApp', {
     onReady: function onReady(userdata) {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Called when the sub-application is about to exit
-     * @param {?*} userdata the user data
-     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
-     */
     onExit: function onExit(userdata) {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Called when logging in
-     * @param {?*} userdata the user data
-     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
-     */
     onLogin: function onLogin(userdata) {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Called when logging out
-     * @param {?*} userdata the user data
-     * @return {$.Promise|$.Deferred|undefined} A JQuery promise object, deferred object or nothing
-     */
     onLogout: function onLogout(userdata) {}
-    /*------------------------------------------------------------------------------------------------------------*/
-
   });
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* ami.SubApp                                                                                                     */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * The basic AMI sub-application
-   * @class ami.SubApp
-   * @implements {ami.ISubApp}
-   */
-
-  $AMIClass('ami.SubApp',
-  /** @lends ami.SubApp */
-  {
-    /*------------------------------------------------------------------------------------------------------------*/
+  $AMIClass('ami.SubApp', {
     $implements: [ami.ISubApp],
-
-    /*------------------------------------------------------------------------------------------------------------*/
     onReady: function onReady() {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
     onExit: function onExit() {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
     onLogin: function onLogin() {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
     onLogout: function onLogout() {},
-
-    /*------------------------------------------------------------------------------------------------------------*/
     ctxImmutables: {},
     ctxDefaults: {},
     ctxOptions: {},
     ctx: {},
-
-    /**
-     * Sets up the application's context
-     * @param {Object<string, *>} immutables dictionary of immutable parameters in the application's context
-     * @param {Object<string, *>} defaults dictionary of default values for optional parameters
-     * @param {Object<string, *>} options dictionary of values for optional parameters
-     * @return {Object<string, *>} The resulting application's context
-     */
     setupCtx: function setupCtx(immutables, defaults, options) {
       return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Asynchronously creates a control
-     * @param {?*} parent the parent entity
-     * @param {string} control the control name
-     * @param {Array<*>} params the control's parameters
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-     * @returns {$.Promise} A JQuery promise object
-     */
     createControl: function createControl(parent, control, params, options) {
       return controls_createControl(parent, this, control, params, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Asynchronously creates a control in the body
-     * @param {?*} parent the parent entity
-     * @param {string} control the control name
-     * @param {Array<*>} controlParams the control's render method mandatory parameters
-     * @param {Object<string, *>} controlOptions the control's render method optional parameters
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-     * @returns {$.Promise} A JQuery promise object
-     */
     createControlInBody: function createControlInBody(parent, control, controlParams, controlOptions, options) {
       return controls_createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Asynchronously creates a control in a container
-     * @param {?*} parent the parent entity
-     * @param {string} control the control name
-     * @param {Array<*>} controlParams the control's render method mandatory parameters
-     * @param {Object<string, *>} controlOptions the control's render method optional parameters
-     * @param {string} icon the icon
-     * @param {string} title the title
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-     * @returns {$.Promise} A JQuery promise object
-     */
     createControlInContainer: function createControlInContainer(parent, control, controlParams, controlOptions, icon, title, options) {
       return controls_createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
     },
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /**
-     * Asynchronously creates a control in a container from a WEB link
-     * @param {?*} parent the parent entity
-     * @param {Element} el the HTML element
-     * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
-     * @returns {$.Promise} A JQuery promise object
-     */
     createControlFromWebLink: function createControlFromWebLink(parent, el, options) {
       return controls_createControlFromWebLink(parent, this, el, this.ctx, options);
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
   });
-  /*----------------------------------------------------------------------------------------------------------------*/
 }
-/*--------------------------------------------------------------------------------------------------------------------*/
 // EXTERNAL MODULE: ./src/images/lpsc.png
 var lpsc = __webpack_require__(4998);
 // EXTERNAL MODULE: ./src/images/cloud.png
@@ -17526,16 +15253,6 @@ var logo = __webpack_require__(1702);
 // EXTERNAL MODULE: ./src/images/background.jpg
 var background = __webpack_require__(7122);
 ;// CONCATENATED MODULE: ./src/js/AMIWebApp.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
 
 function AMIWebApp_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
@@ -17565,155 +15282,18 @@ function AMIWebApp_classPrivateFieldLooseKey(name) { return "__private_" + AMIWe
 
 
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-// noinspection JSUnusedGlobalSymbols
 
-/**
- * The AMI webapp subsystem
- * @namespace amiWebApp
- * @borrows typeOf
- * @borrows asArray
- * @borrows isString
- * @borrows isArray
- * @borrows isObject
- * @borrows isSet
- * @borrows isMap
- * @borrows setup
- * @borrows getStack
- * @borrows lock
- * @borrows unlock
- * @borrows modalEnter
- * @borrows modalLeave
- * @borrows canLeave
- * @borrows error
- * @borrows info
- * @borrows success
- * @borrows warning
- * @borrows flush
- * @borrows base64Encode
- * @borrows base64Decode
- * @borrows textToHtml
- * @borrows htmlToText
- * @borrows textToString
- * @borrows stringToText
- * @borrows htmlToString
- * @borrows stringToHtml
- * @borrows textToSQL
- * @borrows sqlToText
- * @borrows fillBreadcrumb
- * @borrows replaceHTML
- * @borrows prependHTML
- * @borrows appendHTML
- * @borrows formatTWIG
- * @borrows renderJSDoc
- * @borrows jspath
- * @borrows loadResources
- * @borrows loadSheets
- * @borrows loadScripts
- * @borrows loadJSONs
- * @borrows loadXMLs
- * @borrows loadHTMLs
- * @borrows loadTWIGs
- * @borrows loadTexts
- * @borrows _subapps
- * @borrows loadSubApp
- * @borrows loadSubAppByURL
- * @borrows _controls
- * @borrows loadControl
- * @borrows createControl
- * @borrows createControlInBody
- * @borrows createControlInContainer
- * @borrows createControlFromWebLink
- */
+var _embedded = AMIWebApp_classPrivateFieldLooseKey("embedded");
 
-var _embedded = /*#__PURE__*/AMIWebApp_classPrivateFieldLooseKey("embedded");
+var _noBootstrap = AMIWebApp_classPrivateFieldLooseKey("noBootstrap");
 
-var _noBootstrap = /*#__PURE__*/AMIWebApp_classPrivateFieldLooseKey("noBootstrap");
+var _noMoment = AMIWebApp_classPrivateFieldLooseKey("noMoment");
 
-var _noMoment = /*#__PURE__*/AMIWebApp_classPrivateFieldLooseKey("noMoment");
+var _noSelect = AMIWebApp_classPrivateFieldLooseKey("noSelect2");
 
-var _noSelect = /*#__PURE__*/AMIWebApp_classPrivateFieldLooseKey("noSelect2");
+var _globalDeferred = AMIWebApp_classPrivateFieldLooseKey("globalDeferred");
 
-var _globalDeferred = /*#__PURE__*/AMIWebApp_classPrivateFieldLooseKey("globalDeferred");
-
-var AMIWebApp = /*#__PURE__*/function () {
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* PRIVATE MEMBERS                                                                                                */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * @type {boolean}
-   */
-
-  /**
-   * @type {boolean}
-   */
-
-  /**
-   * @type {boolean}
-   */
-
-  /**
-   * @type {boolean}
-   */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * @type {$.Deferred}
-   */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Indicates whether the framework is ready
-   * @type {boolean}
-   * @private
-   */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* PUBLIC MEMBERS                                                                                                 */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * The webapp URL
-   * @type {string}
-   */
-
-  /**
-   * The script URL
-   * @type {string}
-   */
-
-  /**
-   * The origin URL
-   * @type {string}
-   */
-
-  /**
-   * The arguments of the webapp URL
-   * @type {Object<string, string>}
-   */
-
-  /**
-   * The anchor part of the webapp URL
-   * @type {string}
-   */
-
-  /**
-   * The Twitter Bootstrap's version (default, 4)
-   * @type {number}
-   */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* CONSTRUCTOR                                                                                                    */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
+var AMIWebApp = function () {
   function AMIWebApp() {
     var _this = this;
 
@@ -17797,61 +15377,26 @@ var AMIWebApp = /*#__PURE__*/function () {
     this.createControlInBody = controls_createControlInBody;
     this.createControlInContainer = controls_createControlInContainer;
     this.createControlFromWebLink = controls_createControlFromWebLink;
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /* AMI EXTENSIONS                                                                                             */
-
-    /*------------------------------------------------------------------------------------------------------------*/
     AMIExtension();
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /* AMI INTERFACES                                                                                             */
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
     AMIInterface();
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /* GET SCRIPT FLAGS                                                                                           */
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
     var scriptArgs = js_AMIRouter.getScriptArgs();
-    /*------------------------------------------------------------------------------------------------------------*/
-
     AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded] = 'embedded' in scriptArgs;
     AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] = 'nobootstrap' in scriptArgs;
     AMIWebApp_classPrivateFieldLooseBase(this, _noSelect)[_noSelect] = 'noselect2' in scriptArgs;
     AMIWebApp_classPrivateFieldLooseBase(this, _noMoment)[_noMoment] = 'nomoment' in scriptArgs;
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /* GET URLS, ARGS AND HASH                                                                                    */
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
     this.webAppURL = js_AMIRouter.getWebAppURL();
     this.scriptURL = js_AMIRouter.getScriptURL();
     this.originURL = js_AMIRouter.getOriginURL();
     this.args = js_AMIRouter.getWebAppArgs();
     this.hash = js_AMIRouter.getWebAppHash();
-    /*------------------------------------------------------------------------------------------------------------*/
-
     this.bootstrapVersion = parseInt(scriptArgs.bootstrap);
 
     if (Number.isNaN(this.bootstrapVersion)) {
       this.bootstrapVersion = 4;
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
-    /* LOAD SHEETS AND SCRIPTS                                                                                    */
-
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     var resourcesCSS = [];
     var resourcesJS = [];
-    /*------------------------------------------------------------------------------------------------------------*/
 
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] && typeof jQuery.fn.modal !== 'function') {
       if (this.bootstrapVersion === 4) {
@@ -17862,95 +15407,49 @@ var AMIWebApp = /*#__PURE__*/function () {
         resourcesJS.push(this.originURL + "/js/assets/js/bootstrap5.bundle.min.js");
       }
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _noSelect)[_noSelect] && typeof jQuery.fn.select2 !== 'function') {
       resourcesCSS.push(this.originURL + "/js/assets/css/select2.min.css");
       resourcesJS.push(this.originURL + "/js/assets/js/select2.min.js");
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _noMoment)[_noMoment] && typeof window.moment !== 'function') {
       resourcesJS.push(this.originURL + "/js/assets/js/moment.min.js");
     }
-    /*------------------------------------------------------------------------------------------------------------*/
-
 
     loadResources([].concat(resourcesCSS, resourcesJS)).done(function (resources) {
-      /*--------------------------------------------------------------------------------------------------------*/
       __webpack_require__(7371);
-      /*--------------------------------------------------------------------------------------------------------*/
-
 
       __webpack_require__(2340)(window.moment);
-      /*--------------------------------------------------------------------------------------------------------*/
-
 
       AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].resolve(resources);
     }).fail(function (message) {
       AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].reject(message);
     });
-    /*------------------------------------------------------------------------------------------------------------*/
   }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* TOOLS                                                                                                          */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
 
   var _proto = AMIWebApp.prototype;
 
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /* WEB APPLICATION                                                                                                */
-
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * This method must be overloaded and is called when the Web application starts
-   * @event amiWebApp#onReady
-   * @param {?*} userdata the user data
-   */
   _proto.onReady = function onReady(userdata) {
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
-      alert('error: \'amiWebApp.onReady()\' must be overloaded!'); // eslint-disable-line no-alert
+      alert('error: \'amiWebApp.onReady()\' must be overloaded!');
     }
 
     return null;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * This method must be overloaded and is called when the toolbar needs to be updated
-   * @event amiWebApp#onRefresh
-   * @param {boolean} isAuth is the user authenticated
-   */
-  ;
+  };
 
   _proto.onRefresh = function onRefresh(isAuth) {
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
-      alert('error: \'amiWebApp.onRefresh()\' must be overloaded!'); // eslint-disable-line no-alert
+      alert('error: \'amiWebApp.onRefresh()\' must be overloaded!');
     }
 
     return null;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-
-  /**
-   * Starts the Web application
-   * @param {Object<string, *>} [options={}] dictionary of optional parameters (logo_url, background_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)
-   * @returns {AMIWebApp}
-   */
-  ;
+  };
 
   _proto.start = function start(options) {
     var _this2 = this;
 
     AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].done(function () {
-      /*--------------------------------------------------------------------------------------------------------*/
       var defaultThemeURL;
 
       if ((js_AMIRouter.getWebAppArgs()['subapp'] || '').toLowerCase() !== 'userdashboard') {
@@ -17958,8 +15457,6 @@ var AMIWebApp = /*#__PURE__*/function () {
       } else {
         defaultThemeURL = _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig";
       }
-      /*--------------------------------------------------------------------------------------------------------*/
-
 
       var _tools$setup = setup(['logo_url', 'background_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboardsAllowed'], [logo, background, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', defaultThemeURL, _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", false, false, true, true, true, true, true, true, true, true, true, true], options),
           logoURL = _tools$setup[0],
@@ -17982,15 +15479,11 @@ var AMIWebApp = /*#__PURE__*/function () {
           captchaAllowed = _tools$setup[17],
           bookmarksAllowed = _tools$setup[18],
           dashboardsAllowed = _tools$setup[19];
-      /*--------------------------------------------------------------------------------------------------------*/
-
 
       js_AMICommand.initHttpClient(endpointURL);
-      /*--------------------------------------------------------------------------------------------------------*/
 
       window.onbeforeunload = function (e) {
         if (!_canLeave) {
-          // noinspection JSDeprecatedSymbols
           var f = e || window.event;
 
           if (f) {
@@ -18000,13 +15493,9 @@ var AMIWebApp = /*#__PURE__*/function () {
           return 'Confirm that you want to leave this page?';
         }
       };
-      /*--------------------------------------------------------------------------------------------------------*/
-
 
       var controlsURL = _this2.originURL + "/controls/CONTROLS.json";
       var subappsURL = _this2.originURL + "/subapps/SUBAPPS.json";
-      /*--------------------------------------------------------------------------------------------------------*/
-
       $.ajax({
         url: controlsURL,
         cache: false,
@@ -18028,7 +15517,6 @@ var AMIWebApp = /*#__PURE__*/function () {
           }
 
           if (!AMIWebApp_classPrivateFieldLooseBase(_this2, _embedded)[_embedded]) {
-            /*--------------------------------------------------------------------------------------------*/
             var dict = {
               LOGO_URL: logoURL,
               BACKGROUND_URL: backgroundURL,
@@ -18036,8 +15524,6 @@ var AMIWebApp = /*#__PURE__*/function () {
               CONTACT_EMAIL: contactEmail,
               ABOUT_URL: aboutURL
             };
-            /*--------------------------------------------------------------------------------------------*/
-
             $.ajax({
               url: themeURL,
               cache: true,
@@ -18059,14 +15545,12 @@ var AMIWebApp = /*#__PURE__*/function () {
                   });
                 });
               }, function () {
-                alert("could not open '" + lockerURL + "', please reload the page..."); // eslint-disable-line no-alert
+                alert("could not open '" + lockerURL + "', please reload the page...");
               });
             }, function () {
-              alert("could not open '" + themeURL + "', please reload the page..."); // eslint-disable-line no-alert
+              alert("could not open '" + themeURL + "', please reload the page...");
             });
-            /*--------------------------------------------------------------------------------------------*/
           } else {
-            /*--------------------------------------------------------------------------------------------*/
             var data3 = '';
 
             if ($('#ami_alert_content').length === 0) {
@@ -18076,8 +15560,6 @@ var AMIWebApp = /*#__PURE__*/function () {
             if ($('#ami_login_menu_content').length === 0) {
               data3 += '<div id="ami_login_menu_content"></div>';
             }
-            /*--------------------------------------------------------------------------------------------*/
-
 
             $.ajax({
               url: lockerURL,
@@ -18094,46 +15576,26 @@ var AMIWebApp = /*#__PURE__*/function () {
                 });
               });
             });
-            /*--------------------------------------------------------------------------------------------*/
           }
         }, function () {
-          alert("cannot open '" + subappsURL + "', please reload the page..."); // eslint-disable-line no-alert
+          alert("cannot open '" + subappsURL + "', please reload the page...");
         });
       }, function () {
-        alert("cannot open '" + controlsURL + "', please reload the page..."); // eslint-disable-line no-alert
+        alert("cannot open '" + controlsURL + "', please reload the page...");
       });
-      /*--------------------------------------------------------------------------------------------------------*/
     }).fail(function (message) {
-      alert(message); // eslint-disable-line no-alert
+      alert(message);
     });
 
     return this;
-  }
-  /*----------------------------------------------------------------------------------------------------------------*/
-  ;
+  };
 
   return AMIWebApp;
 }();
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 
 /* harmony default export */ const js_AMIWebApp = (new AMIWebApp());
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./src/js/AMIDoc.js
-/*!
- * AMI Web Framework
- *
- * Copyright (c) 2014-{{CURRENT_YEAR}} The AMI Team, CNRS/LPSC
- *
- * This file must be used under the terms of the CeCILL-C:
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
- * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
- *
- */
 
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/* eslint-disable */
 
 /* harmony default export */ const AMIDoc = ({
   "namespaces": [{
@@ -21014,17 +18476,11 @@ var AMIWebApp = /*#__PURE__*/function () {
     }]
   }]
 });
-/* eslint-enable */
-
-/*--------------------------------------------------------------------------------------------------------------------*/
 ;// CONCATENATED MODULE: ./index.js
-/*--------------------------------------------------------------------------------------------------------------------*/
 
 
 
 
-
-/*--------------------------------------------------------------------------------------------------------------------*/
 
 window.$AMIClass = $AMIClass;
 window.$AMINamespace = $AMINamespace;
@@ -21034,7 +18490,6 @@ window.amiWebApp = js_AMIWebApp;
 window.amiLogin = js_AMIAuth;
 window.amiAuth = js_AMIAuth;
 window.amiDoc = AMIDoc;
-/*--------------------------------------------------------------------------------------------------------------------*/
 })();
 
 /******/ })()

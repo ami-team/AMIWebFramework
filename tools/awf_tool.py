@@ -962,6 +962,7 @@ const config = {
 				'use': {
 					'loader': 'babel-loader',
 					'options': {
+						'shouldPrintComment': () => false,
 						'presets': [
 							['@babel/preset-env', {
 								'loose': true,

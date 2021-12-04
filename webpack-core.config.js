@@ -285,6 +285,7 @@ module.exports = (env, argv) => {
 		config.module.rules[0].use.push({
 			'loader': 'babel-loader',
 			'options': {
+				'shouldPrintComment': () => false,
 				'presets': [
 					['@babel/preset-env', {
 						'loose': true,
