@@ -9,7 +9,7 @@
 	},
 	"dashboardBox": {
 		"clazz": "DashboardBoxCtrl",
-		"file": "controls/DashboardBo/DashboardBoxCtrl.min.js"
+		"file": "controls/DashboardBox/DashboardBoxCtrl.min.js"
 	},
 	"tab": {
 		"clazz": "TabCtrl",
