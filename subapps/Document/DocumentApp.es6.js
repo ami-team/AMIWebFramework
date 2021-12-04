@@ -13,7 +13,7 @@
 
 import twigDocumentApp from './assets/twig/DocumentApp.twig';
 
-import marked from './marked.min';
+import * as marked from 'marked';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* DocumentApp                                                                                                        */

@@ -15,7 +15,7 @@ import twigCommandApp from './assets/twig/CommandApp.twig';
 import twigCommand    from './assets/twig/command.twig'   ;
 import twigResult     from './assets/twig/result.twig'    ;
 
-import saveAs from './filesaver.min';
+import saveAs from 'file-saver';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
