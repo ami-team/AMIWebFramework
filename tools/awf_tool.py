@@ -397,11 +397,14 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
 
                 JS = package['controls_json'][control]['file']
 
-                m = re.search('controls\/([a-zA-Z0-9_.]+)\/[a-zA-Z0-9_.]+.js$', JS)
+                m = re.search('controls\/([a-zA-Z0-9_.]+)\/([a-zA-Z0-9_.]+.js)$', JS)
 
                 if m is not None:
 
-                    nb += copyFiles(package['path'], 'controls', None, 'controls', m.group(1), verbose)
+                    nb += copyFiles(package['path'], 'controls/assets/fonts', None, 'controls/assets/fonts', '*', True)
+                    nb += copyFiles(package['path'], 'controls/assets/images', None, 'controls/assets/images', '*', True)
+
+                    nb += copyFiles(package['path'], 'controls/' + m.group(1), None, 'controls/' + m.group(1), m.group(2), verbose)
 
                     ignore.append('/controls/' + m.group(1))
 
@@ -446,6 +449,9 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose):
                 m = re.search('subapps\/([a-zA-Z0-9_.]+)\/([a-zA-Z0-9_.]+.js)$', JS)
 
                 if m is not None:
+
+                    nb += copyFiles(package['path'], 'subapps/assets/fonts', None, 'subapps/assets/fonts', '*', True)
+                    nb += copyFiles(package['path'], 'subapps/assets/images', None, 'subapps/assets/images', '*', True)
 
                     nb += copyFiles(package['path'], 'subapps/' + m.group(1), None, 'subapps/' + m.group(1), m.group(2), verbose)
 
