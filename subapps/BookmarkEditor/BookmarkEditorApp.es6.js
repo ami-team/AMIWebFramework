@@ -12,6 +12,10 @@
 import twigBookmarkEditorApp from './assets/twig/BookmarkEditorApp.twig';
 import twigItems             from './assets/twig/items.twig'            ;
 
+import 'jquery-ui/ui/widgets/sortable';
+
+import $ from 'jquery';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('BookmarkEditorApp', {
@@ -75,32 +79,17 @@ $AMIClass('BookmarkEditorApp', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			amiWebApp.loadResources([
-				'subapps/BookmarkEditor/jquery-ui.min.js',
-			]).done(() => {
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				this.makeSortable(this.bookmarkProfile, $('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1'));
-
-				this.makeSortable(this.dashboardProfile, $('#D89CE3F5_9D1D_B338_D895_C344CD4FFE08'));
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-			}).fail(function(data) {
-
-				amiWebApp.error(data);
-			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
 			this._swapNb = 0;
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* BOOKMARKS                                                                                              */
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			this.makeSortable(this.bookmarkProfile, $('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1'));
+
 			this.setUpdateMode(this.bookmarkProfile, false);
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			$(this.bookmarkProfile.clearId).click((e) => {
 
@@ -124,7 +113,11 @@ $AMIClass('BookmarkEditorApp', {
 			/* BOOKMARKS                                                                                              */
 			/*--------------------------------------------------------------------------------------------------------*/
 
+			this.makeSortable(this.dashboardProfile, $('#D89CE3F5_9D1D_B338_D895_C344CD4FFE08'));
+
 			this.setUpdateMode(this.dashboardProfile, false);
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			$(this.dashboardProfile.clearId).click((e) => {
 
@@ -172,6 +165,7 @@ $AMIClass('BookmarkEditorApp', {
 
 	makeSortable: function(profile, el)
 	{
+		//if(profile !== el)return;
 		el.sortable({
 
 			start: (_, ui) => {

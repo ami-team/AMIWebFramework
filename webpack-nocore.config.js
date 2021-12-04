@@ -104,7 +104,7 @@ const config = {
 		]
 	},
 	'externals': {
-		'$': 'jQuery',
+		'jquery': 'jQuery',
 		'moment': 'moment',
 		'select2': 'select2'
 	},
