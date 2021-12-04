@@ -9,6 +9,9 @@
  *
  */
 
+import twigAccordionCtrl from './assets/twig/AccordionCtrl.twig';
+import twigItem          from './assets/twig/item.twig'         ;
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('AccordionCtrl', {
@@ -33,14 +36,7 @@ $AMIClass('AccordionCtrl', {
 
 	onReady: function()
 	{
-		return amiWebApp.loadResources([
-			`${amiWebApp.originURL}/controls/Accordion/twig/AccordionCtrl.twig`,
-			`${amiWebApp.originURL}/controls/Accordion/twig/item.twig`,
-		]).done((data) => {
-
-			this._twigAccordionCtrl = data[0];
-			this._twigItem = data[1];
-		});
+		return $.Deferred().resolve();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -68,7 +64,7 @@ $AMIClass('AccordionCtrl', {
 			toolbar: this.ctx.toolbar,
 		};
 
-		this.replaceHTML(this.setSelector(selector), this._twigAccordionCtrl, {dict: dict}).done(() => {
+		this.replaceHTML(this.setSelector(selector), twigAccordionCtrl, {dict: dict}).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -140,8 +136,8 @@ $AMIClass('AccordionCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const promise = (mode === 0) ? this.prependHTML(this.getSelector(), this._twigItem, {dict: dict})
-		                             : this.appendHTML(this.getSelector(), this._twigItem, {dict: dict})
+		const promise = (mode === 0) ? this.prependHTML(this.getSelector(), twigItem, {dict: dict})
+		                             : this.appendHTML(this.getSelector(), twigItem, {dict: dict})
 		;
 
 		promise.done(() => {
