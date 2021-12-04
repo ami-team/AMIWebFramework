@@ -136,12 +136,18 @@ class AMIAuth
 
 		amiCommand.signInByCertificate().fail((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
 
+			/*--------------------------------------------------------------------------------------------------------*/
+
 			this.#setupAWF(awfInfo);
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always((/*---*/) => {
 
 				result.reject(message);
 			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 		}).done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
 
