@@ -7,6 +7,8 @@ import amiWebApp from './src/js/AMIWebApp';
 import amiAuth from './src/js/AMIAuth';
 import amiDoc from './src/js/AMIDoc';
 
+import * as Vue from 'vue';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 window.$AMIClass     = AMIObject.$AMIClass    ;
@@ -18,5 +20,7 @@ window.amiWebApp = amiWebApp;
 window.amiLogin = amiAuth;
 window.amiAuth = amiAuth;
 window.amiDoc = amiDoc;
+
+window.Vue = Vue;
 
 /*--------------------------------------------------------------------------------------------------------------------*/

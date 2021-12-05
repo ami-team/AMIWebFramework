@@ -7,6 +7,8 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
+ * @global Vue
+ *
  */
 
 import twigHome from './assets/twig/home/home.twig';
@@ -25,7 +27,7 @@ export function init()
 
 		$('#ACA527B0_4581_8292_DB2A_22C900E621A0').text(amiTwig.version);
 
-		//$('#D9C3541F_3534_1312_4C08_F22962C05347').text(Vue.version);
+		$('#D9C3541F_3534_1312_4C08_F22962C05347').text(Vue.version);
 
 		$('#E15C9F8C-A955-2643-196B-BBF3317D1616').text(ami.version);
 
