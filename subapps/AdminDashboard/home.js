@@ -19,9 +19,13 @@ export function init()
 {
 	const result = $.Deferred();
 
-	amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigHome).done(() => {
+	const awfInfo = amiAuth.getAWFInfo();
 
-		const awfInfo = amiAuth.getAWFInfo();
+	const dict = {
+		nodeRedURL: awfInfo.nodeRedURL || 'https://www.nodered.org/',
+	};
+
+	amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigHome, {dict: dict}).done(() => {
 
 		$('#FCA2B6DC_3239_838D_A109_91F164524987').text(jQuery.fn.tooltip.Constructor.VERSION);
 		$('#F8D580E4_05F1_0317_9F3F_E4BA7AB99D3E').text(jQuery.fn./*------*/jquery/*------*/);
