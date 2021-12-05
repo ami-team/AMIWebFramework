@@ -31488,8 +31488,8 @@ var AMIWebApp = function () {
     this.createControlFromWebLink = controls_createControlFromWebLink;
     $AMINamespace('ami', {
       awf: {
-        version: '2.0.0',
-        commit_id: '{{AMI_COMMIT_ID}}',
+        buildVersion: '2.0.0',
+        commitIdAbbrev: '{{AMI_COMMIT_ID}}',
         command: js_AMICommand,
         router: js_AMIRouter,
         webapp: this,

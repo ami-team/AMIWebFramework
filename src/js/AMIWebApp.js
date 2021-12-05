@@ -206,8 +206,8 @@ class AMIWebApp
 
 		AMIObject.$AMINamespace('ami', {
 			awf: {
-				version: '{{AMI_VERSION}}',
-				commit_id: '{{AMI_COMMIT_ID}}',
+				buildVersion: '{{AMI_VERSION}}',
+				commitIdAbbrev: '{{AMI_COMMIT_ID}}',
 				/**/
 				command: amiCommand,
 				router: amiRouter,
