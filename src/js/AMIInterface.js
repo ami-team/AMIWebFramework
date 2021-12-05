@@ -16,12 +16,7 @@ import * as controls from './utilities/controls';
 
 import * as AMIObject from './AMIObject';
 
-import amiAuth from './AMIAuth';
-import amiRouter from './AMIRouter';
-import amiWebapp from './AMIWebApp';
 import amiCommand from './AMICommand';
-
-import * as Vue from 'vue';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -94,22 +89,6 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
 
 export default function()
 {
-	/*----------------------------------------------------------------------------------------------------------------*/
-	/* ami                                                                                                            */
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	AMIObject.$AMINamespace('ami', {
-		awf: {
-			version: '{{AMI_VERSION}}',
-			commit_id: '{{AMI_COMMIT_ID}}',
-		},
-		amiCommand: amiCommand,
-		amiRouter: amiRouter,
-		amiWebapp: amiWebapp,
-		amiAuth: amiAuth,
-		vue: Vue,
-	});
-
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* ami.IControl                                                                                                   */
 	/*----------------------------------------------------------------------------------------------------------------*/

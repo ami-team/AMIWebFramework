@@ -21,6 +21,8 @@ import * as controls from './utilities/controls';
 import * as messages from './utilities/messages';
 import * as resources from './utilities/resources';
 
+import * as AMIObject from './AMIObject';
+
 import amiAuth from './AMIAuth';
 import amiRouter from './AMIRouter';
 import amiCommand from './AMICommand';
@@ -198,6 +200,23 @@ class AMIWebApp
 
 	constructor()
 	{
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* AMI NAMESPACE                                                                                              */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		AMIObject.$AMINamespace('ami', {
+			awf: {
+				version: '{{AMI_VERSION}}',
+				commit_id: '{{AMI_COMMIT_ID}}',
+				/**/
+				command: amiCommand,
+				router: amiRouter,
+				webapp: ((this)),
+				auth: amiAuth,
+			},
+			vue: require('vue'),
+		});
+
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* AMI EXTENSIONS                                                                                             */
 		/*------------------------------------------------------------------------------------------------------------*/
