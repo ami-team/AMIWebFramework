@@ -13,25 +13,29 @@ import twigPages from './assets/twig/pages/pages.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+let adder;
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 export function init()
 {
 	const result = $.Deferred();
 
-	amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigPages).done(() => {
+	amiWebApp.loadResources([
+		'ctrl:adder',
+	]).done((data) => {
 
-		result.resolve();
+		amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigPages).done(() => {
+
+			adder = new data[0]();
+
+			result.resolve();
+		});
+
+	}).fail((message) => {
+
+		result.reject(message);
 	});
-
-	return result;
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-export function onExit()
-{
-	const result = $.Deferred();
-
-	result.resolve();
 
 	return result;
 }
@@ -40,22 +44,7 @@ export function onExit()
 
 export function onLogin()
 {
-	const result = $.Deferred();
-
-	result.resolve();
-
-	return result;
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-export function onLogout()
-{
-	const result = $.Deferred();
-
-	result.resolve();
-
-	return result;
+	adder.render('#D2E57C9B_56BB_A185_357F_22BDCD99812D', 'self', 'router_markdown', 'name', {catalog: 'self', entity: 'router_markdown', primaryField: 'id', start: 1, stop: 25});
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

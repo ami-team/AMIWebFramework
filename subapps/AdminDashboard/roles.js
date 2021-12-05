@@ -13,25 +13,29 @@ import twigRoles from './assets/twig/roles/roles.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+let adder;
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 export function init()
 {
 	const result = $.Deferred();
 
-	amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigRoles).done(() => {
+	amiWebApp.loadResources([
+		'ctrl:adder',
+	]).done((data) => {
 
-		result.resolve();
+		amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigRoles).done(() => {
+
+			adder = new data[0]();
+
+			result.resolve();
+		});
+
+	}).fail((message) => {
+
+		result.reject(message);
 	});
-
-	return result;
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-export function onExit()
-{
-	const result = $.Deferred();
-
-	result.resolve();
 
 	return result;
 }
@@ -40,22 +44,7 @@ export function onExit()
 
 export function onLogin()
 {
-	const result = $.Deferred();
-
-	result.resolve();
-
-	return result;
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-export function onLogout()
-{
-	const result = $.Deferred();
-
-	result.resolve();
-
-	return result;
+	adder.render('#D3C9F8B8_4EAF_B108_267E_066F064F7EF3', 'self', 'router_role', 'role', {catalog: 'self', entity: 'router_role', primaryField: 'id', start: 1, stop: 25});
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

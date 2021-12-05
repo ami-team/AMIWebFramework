@@ -1,18 +1,22 @@
 {
-	"accordion": {
-		"clazz": "AccordionCtrl",
-		"file": "controls/Accordion/AccordionCtrl.min.js"
-	},
-	"bookmarkBox": {
-		"clazz": "BookmarkBoxCtrl",
-		"file": "controls/BookmarkBox/BookmarkBoxCtrl.min.js"
-	},
-	"dashboardBox": {
-		"clazz": "DashboardBoxCtrl",
-		"file": "controls/DashboardBox/DashboardBoxCtrl.min.js"
-	},
-	"tab": {
-		"clazz": "TabCtrl",
-		"file": "controls/Tab/TabCtrl.min.js"
-	}
+    "accordion": {
+        "clazz": "AccordionCtrl",
+        "file": "controls/Accordion/AccordionCtrl.min.js"
+    },
+    "adder": {
+        "clazz": "AdderCtrl",
+        "file": "controls/Adder/AdderCtrl.min.js"
+    },
+    "bookmarkBox": {
+        "clazz": "BookmarkBoxCtrl",
+        "file": "controls/BookmarkBox/BookmarkBoxCtrl.min.js"
+    },
+    "dashboardBox": {
+        "clazz": "DashboardBoxCtrl",
+        "file": "controls/DashboardBox/DashboardBoxCtrl.min.js"
+    },
+    "tab": {
+        "clazz": "TabCtrl",
+        "file": "controls/Tab/TabCtrl.min.js"
+    }
 }
