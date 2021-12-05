@@ -3,7 +3,7 @@
 	<!-- *********************************************************************************************************** -->
 
 	<div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 4.5rem;" id="B8DD5CD8_7D69_2D12_033A_A7BB834F88D0">
-		<ul class="nav nav-pills nav-flush flex-column text-center">
+		<ul class="nav nav-pills nav-flush flex-column text-center mb-auto">
 			<li class="nav-item" title="Home" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right">
 				<a class="nav-link {% if mode === 'home' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="{{ WEBAPP_URL }}?subapp=adminDashboard&userdata=home">
 					<i class="bi bi-layout-text-window-reverse" style="font-size: 1.25rem;"></i>
@@ -40,9 +40,18 @@
 				</a>
 			</li>
 		</ul>
-		<ul class="mb-auto">
-			<li>
-				Hello
+		<ul class="nav nav-pills nav-flush flex-column text-center mt-auto">
+			<li class="nav-item dropup">
+				<a class="nav-link bg-dark text-light rounded-0 dropdown-toggle py-1" href="#" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="dropdown">
+					<i class="bi bi-lightning-charge" style="font-size: 1.25rem;"></i>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a class="dropdown-item" href="javascript:window.adminDashboardApp.findNewCommands();">Find new commands</a></li>
+					<li><a class="dropdown-item" href="javascript:window.adminDashboardApp.flushCommandCache();">Flush command cache</a></li>
+					<li><hr class="dropdown-divider" /></li>
+					<li><a class="dropdown-item" href="javascript:window.adminDashboardApp.flushServerCachesSlow();">Flush server caches (full)</a></li>
+					<li><a class="dropdown-item" href="javascript:window.adminDashboardApp.flushServerCachesFast();">Flush server caches (partial)</a></li>
+				</ul>
 			</li>
 		</ul>
 	</div>
