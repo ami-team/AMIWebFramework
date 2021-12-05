@@ -44,7 +44,7 @@ export function init()
 
 export function onLogin()
 {
-	adder.render('#D3C9F8B8_4EAF_B108_267E_066F064F7EF3', 'self', 'router_role', 'role', {catalog: 'self', entity: 'router_role', primaryField: 'id', start: 1, stop: 25});
+	adder.render('#DFAB6714_D174_BCBC_2F8E_16B4361DC5E7', 'self', 'router_role', 'role', {catalog: 'self', entity: 'router_role', primaryField: 'id', start: 1, stop: 25});
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
