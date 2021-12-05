@@ -15398,3236 +15398,6 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
     }
   });
 }
-// EXTERNAL MODULE: ./src/images/lpsc.png
-var lpsc = __webpack_require__(4998);
-// EXTERNAL MODULE: ./src/images/cloud.png
-var cloud = __webpack_require__(3507);
-// EXTERNAL MODULE: ./src/images/glass.png
-var glass = __webpack_require__(1067);
-// EXTERNAL MODULE: ./src/images/padlock.png
-var padlock = __webpack_require__(8475);
-// EXTERNAL MODULE: ./src/images/logo.png
-var logo = __webpack_require__(1702);
-// EXTERNAL MODULE: ./src/images/background.jpg
-var background = __webpack_require__(7122);
-;// CONCATENATED MODULE: ./src/js/AMIWebApp.js
-
-
-function AMIWebApp_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
-
-var AMIWebApp_id = 0;
-
-function AMIWebApp_classPrivateFieldLooseKey(name) { return "__private_" + AMIWebApp_id++ + "_" + name; }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-var _embedded = AMIWebApp_classPrivateFieldLooseKey("embedded");
-
-var _noBootstrap = AMIWebApp_classPrivateFieldLooseKey("noBootstrap");
-
-var _noMoment = AMIWebApp_classPrivateFieldLooseKey("noMoment");
-
-var _noSelect = AMIWebApp_classPrivateFieldLooseKey("noSelect2");
-
-var _globalDeferred = AMIWebApp_classPrivateFieldLooseKey("globalDeferred");
-
-var AMIWebApp = function () {
-  function AMIWebApp() {
-    var _this = this;
-
-    Object.defineProperty(this, _embedded, {
-      writable: true,
-      value: false
-    });
-    Object.defineProperty(this, _noBootstrap, {
-      writable: true,
-      value: false
-    });
-    Object.defineProperty(this, _noMoment, {
-      writable: true,
-      value: false
-    });
-    Object.defineProperty(this, _noSelect, {
-      writable: true,
-      value: false
-    });
-    Object.defineProperty(this, _globalDeferred, {
-      writable: true,
-      value: $.Deferred()
-    });
-    this._isReady = false;
-    this.webAppURL = '';
-    this.scriptURL = '';
-    this.originURL = '';
-    this.args = {};
-    this.hash = '';
-    this.bootstrapVersion = 4;
-    this.typeOf = typeOf;
-    this.asArray = asArray;
-    this.isString = isString;
-    this.isArray = tools_isArray;
-    this.isObject = tools_isObject;
-    this.isSet = isSet;
-    this.isMap = isMap;
-    this.setup = setup;
-    this.getStack = getStack;
-    this.lock = lock;
-    this.unlock = unlock;
-    this.modalEnter = modalEnter;
-    this.modalLeave = modalLeave;
-    this.canLeave = canLeave;
-    this.error = error;
-    this.info = info;
-    this.success = success;
-    this.warning = warning;
-    this.flush = flush;
-    this.base64Encode = base64Encode;
-    this.base64Decode = base64Decode;
-    this.textToHtml = textToHtml;
-    this.htmlToText = htmlToText;
-    this.textToString = textToString;
-    this.stringToText = stringToText;
-    this.htmlToString = htmlToString;
-    this.stringToHtml = stringToHtml;
-    this.textToSQL = textToSQL;
-    this.sqlToText = sqlToText;
-    this.fillBreadcrumb = fillBreadcrumb;
-    this.replaceHTML = view_replaceHTML;
-    this.prependHTML = view_prependHTML;
-    this.appendHTML = view_appendHTML;
-    this.formatTWIG = formatTWIG;
-    this.renderJSDoc = renderJSDoc;
-    this.jspath = (jspath_default()).apply;
-    this.loadResources = loadResources;
-    this.loadSheets = loadSheets;
-    this.loadScripts = loadScripts;
-    this.loadJSONs = loadJSONs;
-    this.loadXMLs = loadXMLs;
-    this.loadHTMLs = loadHTMLs;
-    this.loadTWIGs = loadTWIGs;
-    this.loadTexts = loadTexts;
-    this._subapps = _subapps;
-    this.loadSubApp = loadSubApp;
-    this.loadSubAppByURL = loadSubAppByURL;
-    this._controls = _controls;
-    this.loadControl = loadControl;
-    this.createControl = controls_createControl;
-    this.createControlInBody = controls_createControlInBody;
-    this.createControlInContainer = controls_createControlInContainer;
-    this.createControlFromWebLink = controls_createControlFromWebLink;
-    AMIExtension();
-    AMIInterface();
-    var scriptArgs = js_AMIRouter.getScriptArgs();
-    AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded] = 'embedded' in scriptArgs;
-    AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] = 'nobootstrap' in scriptArgs;
-    AMIWebApp_classPrivateFieldLooseBase(this, _noSelect)[_noSelect] = 'noselect2' in scriptArgs;
-    AMIWebApp_classPrivateFieldLooseBase(this, _noMoment)[_noMoment] = 'nomoment' in scriptArgs;
-    this.webAppURL = js_AMIRouter.getWebAppURL();
-    this.scriptURL = js_AMIRouter.getScriptURL();
-    this.originURL = js_AMIRouter.getOriginURL();
-    this.args = js_AMIRouter.getWebAppArgs();
-    this.hash = js_AMIRouter.getWebAppHash();
-    this.bootstrapVersion = parseInt(scriptArgs.bootstrap);
-
-    if (Number.isNaN(this.bootstrapVersion)) {
-      this.bootstrapVersion = 4;
-    }
-
-    var resourcesCSS = [];
-    var resourcesJS = [];
-
-    if (!AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] && typeof jQuery.fn.modal !== 'function') {
-      if (this.bootstrapVersion === 4) {
-        resourcesJS.push(this.originURL + "/js/assets/css/bootstrap4.min.css");
-        resourcesJS.push(this.originURL + "/js/assets/js/bootstrap4.bundle.min.js");
-      } else {
-        resourcesJS.push(this.originURL + "/js/assets/css/bootstrap5.min.css");
-        resourcesJS.push(this.originURL + "/js/assets/js/bootstrap5.bundle.min.js");
-      }
-    }
-
-    if (!AMIWebApp_classPrivateFieldLooseBase(this, _noSelect)[_noSelect] && typeof jQuery.fn.select2 !== 'function') {
-      resourcesCSS.push(this.originURL + "/js/assets/css/select2.min.css");
-      resourcesJS.push(this.originURL + "/js/assets/js/select2.min.js");
-    }
-
-    if (!AMIWebApp_classPrivateFieldLooseBase(this, _noMoment)[_noMoment] && typeof window.moment !== 'function') {
-      resourcesJS.push(this.originURL + "/js/assets/js/moment.min.js");
-    }
-
-    loadResources([].concat(resourcesCSS, resourcesJS)).done(function (resources) {
-      __webpack_require__(7371);
-
-      __webpack_require__(2340)(window.moment);
-
-      AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].resolve(resources);
-    }).fail(function (message) {
-      AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].reject(message);
-    });
-  }
-
-  var _proto = AMIWebApp.prototype;
-
-  _proto.onReady = function onReady(userdata) {
-    if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
-      alert('error: \'amiWebApp.onReady()\' must be overloaded!');
-    }
-
-    return null;
-  };
-
-  _proto.onRefresh = function onRefresh(isAuth) {
-    if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
-      alert('error: \'amiWebApp.onRefresh()\' must be overloaded!');
-    }
-
-    return null;
-  };
-
-  _proto.start = function start(options) {
-    var _this2 = this;
-
-    AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].done(function () {
-      var _tools$setup = setup(['logo_url', 'background_url', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboardsAllowed'], [logo, background, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/blue.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", false, false, true, true, true, true, true, true, true, true, true, true], options),
-          logoURL = _tools$setup[0],
-          backgroundURL = _tools$setup[1],
-          homeURL = _tools$setup[2],
-          contactEmail = _tools$setup[3],
-          aboutURL = _tools$setup[4],
-          defaultThemeURL = _tools$setup[5],
-          dashboardThemeURL = _tools$setup[6],
-          lockerURL = _tools$setup[7],
-          endpointURL = _tools$setup[8],
-          ssoAutoAuthentication = _tools$setup[9],
-          ssoAuthenticationAllowed = _tools$setup[10],
-          passwordAuthenticationAllowed = _tools$setup[11],
-          certificateAuthenticationAllowed = _tools$setup[12],
-          logoutAllowed = _tools$setup[13],
-          createAccountAllowed = _tools$setup[14],
-          changeInfoAllowed = _tools$setup[15],
-          changePasswordAllowed = _tools$setup[16],
-          changeCertificateAllowed = _tools$setup[17],
-          captchaAllowed = _tools$setup[18],
-          bookmarksAllowed = _tools$setup[19],
-          dashboardsAllowed = _tools$setup[20];
-
-      js_AMICommand.initHttpClient(endpointURL);
-
-      window.onbeforeunload = function (e) {
-        if (!_canLeave) {
-          var f = e || window.event;
-
-          if (f) {
-            f.returnValue = 'Confirm that you want to leave this page?';
-          }
-
-          return 'Confirm that you want to leave this page?';
-        }
-      };
-
-      var controlsURL = _this2.originURL + "/controls/CONTROLS.json";
-      var subappsURL = _this2.originURL + "/subapps/SUBAPPS.json";
-      $.ajax({
-        url: controlsURL,
-        cache: false,
-        crossDomain: true,
-        dataType: 'json'
-      }).then(function (data1) {
-        $.ajax({
-          url: subappsURL,
-          cache: false,
-          crossDomain: true,
-          dataType: 'json'
-        }).then(function (data2) {
-          for (var name in data1) {
-            _controls[name.toLowerCase()] = data1[name];
-          }
-
-          for (var _name in data2) {
-            _subapps[_name.toLowerCase()] = data2[_name];
-          }
-
-          if (!AMIWebApp_classPrivateFieldLooseBase(_this2, _embedded)[_embedded]) {
-            var dict = {
-              LOGO_URL: logoURL,
-              BACKGROUND_URL: backgroundURL,
-              HOME_URL: homeURL,
-              CONTACT_EMAIL: contactEmail,
-              ABOUT_URL: aboutURL
-            };
-            var themeURL = (js_AMIRouter.getWebAppArgs()['subapp'] || '').toLowerCase() === 'userdashboard' ? dashboardThemeURL : defaultThemeURL;
-            $.ajax({
-              url: themeURL,
-              cache: true,
-              crossDomain: true,
-              dataType: 'text'
-            }).then(function (data3) {
-              $.ajax({
-                url: lockerURL,
-                cache: true,
-                crossDomain: true,
-                dataType: 'text'
-              }).then(function (data4) {
-                $('body').append(formatTWIG(data3, dict) + data4).promise().done(function () {
-                  lock();
-                  js_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
-                    unlock();
-                  }).fail(function (message) {
-                    error(message);
-                  });
-                });
-              }, function () {
-                alert("could not open '" + lockerURL + "', please reload the page...");
-              });
-            }, function () {
-              alert("could not open '" + themeURL + "', please reload the page...");
-            });
-          } else {
-            var data3 = '';
-
-            if ($('#ami_alert_content').length === 0) {
-              data3 += '<div id="ami_alert_content"></div>';
-            }
-
-            if ($('#ami_login_menu_content').length === 0) {
-              data3 += '<div id="ami_login_menu_content"></div>';
-            }
-
-            $.ajax({
-              url: lockerURL,
-              cache: true,
-              crossDomain: true,
-              dataType: 'text'
-            }).done(function (data4) {
-              $('body').prepend(data3 + data4).promise().done(function () {
-                lock();
-                js_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
-                  unlock();
-                }).fail(function (message) {
-                  error(message);
-                });
-              });
-            });
-          }
-        }, function () {
-          alert("cannot open '" + subappsURL + "', please reload the page...");
-        });
-      }, function () {
-        alert("cannot open '" + controlsURL + "', please reload the page...");
-      });
-    }).fail(function (message) {
-      alert(message);
-    });
-
-    return this;
-  };
-
-  return AMIWebApp;
-}();
-
-/* harmony default export */ const js_AMIWebApp = (new AMIWebApp());
-;// CONCATENATED MODULE: ./src/js/AMIDoc.js
-
-
-/* harmony default export */ const AMIDoc = ({
-  "namespaces": [{
-    "name": "amiAuth",
-    "alias": "amiLogin",
-    "desc": "The AMI authentication subsystem",
-    "implements": [],
-    "inherits": [],
-    "functions": [{
-      "name": "getMqttEndpoint",
-      "alias": "",
-      "desc": "Gets the current MQTT endpoint",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The current MQTT endpoint"
-      }]
-    }, {
-      "name": "getMqttToken",
-      "alias": "",
-      "desc": "Gets the current MQTT token",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The current MQTT token"
-      }]
-    }, {
-      "name": "getUserInfo",
-      "alias": "",
-      "desc": "Gets the current user information",
-      "params": [],
-      "returns": [{
-        "type": ["Object.<string, *>"],
-        "desc": "The current user information"
-      }]
-    }, {
-      "name": "getRoleInfo",
-      "alias": "",
-      "desc": "Gets the current role information",
-      "params": [],
-      "returns": [{
-        "type": ["Object.<string, *>"],
-        "desc": "The current role information"
-      }]
-    }, {
-      "name": "getBookmarkInfo",
-      "alias": "",
-      "desc": "Gets the current bookmark information",
-      "params": [],
-      "returns": [{
-        "type": ["Object.<string, *>"],
-        "desc": "The current bookmark information"
-      }]
-    }, {
-      "name": "getDashboardInfo",
-      "alias": "",
-      "desc": "Gets the current dashboard information",
-      "params": [],
-      "returns": [{
-        "type": ["Object.<string, *>"],
-        "desc": "The current dashboard information"
-      }]
-    }, {
-      "name": "getAWFInfo",
-      "alias": "",
-      "desc": "Gets the current AMI Web Framework information",
-      "params": [],
-      "returns": [{
-        "type": ["Object.<string, *>"],
-        "desc": "The current AMI Web Framework information"
-      }]
-    }, {
-      "name": "getUser",
-      "alias": "",
-      "desc": "Gets the current user",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The current user"
-      }]
-    }, {
-      "name": "getGuest",
-      "alias": "",
-      "desc": "Gets the current guest user",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The current guest user"
-      }]
-    }, {
-      "name": "getNotBeforeDate",
-      "alias": "",
-      "desc": "Gets the current user `not before` date",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The current user `not before` date"
-      }]
-    }, {
-      "name": "getNotAfterDate",
-      "alias": "",
-      "desc": "Gets the current user `not after` date",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The current user `not after` date"
-      }]
-    }, {
-      "name": "getClientDN",
-      "alias": "",
-      "desc": "Gets the current client DN",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The current client DN"
-      }]
-    }, {
-      "name": "getIssuerDN",
-      "alias": "",
-      "desc": "Gets the current issuer DN",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The current issuer DN"
-      }]
-    }, {
-      "name": "isValid",
-      "alias": "",
-      "desc": "Checks whether the user is valid or not",
-      "params": [],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }, {
-      "name": "isAuthenticated",
-      "alias": "",
-      "desc": "Checks whether the user is authenticated or not",
-      "params": [],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }, {
-      "name": "hasRole",
-      "alias": "",
-      "desc": "Checks whether the user has the given role or not",
-      "params": [{
-        "name": "roleName",
-        "type": ["string"],
-        "desc": "the role",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }, {
-      "name": "update",
-      "alias": "",
-      "desc": "Update the user information",
-      "params": [],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }]
-  }, {
-    "name": "amiCommand",
-    "alias": "",
-    "desc": "The AMI command subsystem",
-    "implements": [],
-    "inherits": [],
-    "functions": [{
-      "name": "initHttpClient",
-      "alias": "",
-      "desc": "Initializes the HTTP client",
-      "params": [{
-        "name": "endpoint",
-        "type": ["string"],
-        "desc": "the HTTP endpoint",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "initMqttClient",
-      "alias": "",
-      "desc": "Initializes the MQTT client",
-      "params": [{
-        "name": "endpoint",
-        "type": ["string"],
-        "desc": "the MQTT endpoint",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "getHttpEndpoint",
-      "alias": "",
-      "desc": "Gets the HTTP endpoint",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": ""
-      }]
-    }, {
-      "name": "getMqttEndpoint",
-      "alias": "",
-      "desc": "Gets the MQTT endpoint",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": ""
-      }]
-    }, {
-      "name": "execute",
-      "alias": "",
-      "desc": "Executes an AMI command",
-      "params": [{
-        "name": "command",
-        "type": ["string"],
-        "desc": "the command",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "mqttSignInByToken",
-      "alias": "",
-      "desc": "Signs in by JWT token (MQTT client)",
-      "params": [{
-        "name": "token",
-        "type": ["string"],
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "serverName",
-        "type": ["string"],
-        "desc": "the server name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "mqttSignOut",
-      "alias": "",
-      "desc": "Signs out (MQTT client)",
-      "params": [{
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "signInByPassword",
-      "alias": "",
-      "desc": "Signs in by login/password (HTTP client)",
-      "params": [{
-        "name": "username",
-        "type": ["string"],
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "password",
-        "type": ["string"],
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "signInByCertificate",
-      "alias": "",
-      "desc": "Signs in by certificate (HTTP client)",
-      "params": [{
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "signOut",
-      "alias": "",
-      "desc": "Signs out (HTTP client)",
-      "params": [{
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "attachCertificate",
-      "alias": "",
-      "desc": "Attaches a certificate",
-      "params": [{
-        "name": "username",
-        "type": ["string"],
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "password",
-        "type": ["string"],
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "detachCertificate",
-      "alias": "",
-      "desc": "Detaches a certificate",
-      "params": [{
-        "name": "username",
-        "type": ["string"],
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "password",
-        "type": ["string"],
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "addUser",
-      "alias": "",
-      "desc": "Adds a new username",
-      "params": [{
-        "name": "username",
-        "type": ["string"],
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "password",
-        "type": ["string"],
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "firstName",
-        "type": ["string"],
-        "desc": "the first name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "lastName",
-        "type": ["string"],
-        "desc": "the last name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "email",
-        "type": ["string"],
-        "desc": "the email",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "captchaHash",
-        "type": ["string"],
-        "desc": "the captcha hash generated by AMI",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "captchaText",
-        "type": ["string"],
-        "desc": "the captcha text entered by the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "attachCert",
-        "type": ["boolean"],
-        "desc": "attach the current certificate",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "agree",
-        "type": ["boolean"],
-        "desc": "agree with the terms and conditions",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "changeInfo",
-      "alias": "",
-      "desc": "Changes the account information",
-      "params": [{
-        "name": "firstName",
-        "type": ["string"],
-        "desc": "the first name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "lastName",
-        "type": ["string"],
-        "desc": "the last name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "email",
-        "type": ["string"],
-        "desc": "the email",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "changePassword",
-      "alias": "",
-      "desc": "Changes the account password",
-      "params": [{
-        "name": "username",
-        "type": ["string"],
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "oldPassword",
-        "type": ["string"],
-        "desc": "the old password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "newPassword",
-        "type": ["string"],
-        "desc": "the new password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "resetPassword",
-      "alias": "",
-      "desc": "Resets the account password",
-      "params": [{
-        "name": "username",
-        "type": ["string"],
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "captchaHash",
-        "type": ["string"],
-        "desc": "the captcha hash generated by AMI",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "captchaText",
-        "type": ["string"],
-        "desc": "the captcha text entered by the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }]
-  }, {
-    "name": "amiRouter",
-    "alias": "",
-    "desc": "The AMI url routing subsystem",
-    "implements": [],
-    "inherits": [],
-    "functions": [{
-      "name": "getWebAppURL",
-      "alias": "",
-      "desc": "Gets the webapp URL",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The webapp URL"
-      }]
-    }, {
-      "name": "getWebAppArgs",
-      "alias": "",
-      "desc": "Gets the arguments of the webapp URL",
-      "params": [],
-      "returns": [{
-        "type": ["Object.<string, string>"],
-        "desc": "The arguments of the webapp URL"
-      }]
-    }, {
-      "name": "getWebAppHash",
-      "alias": "",
-      "desc": "Gets the anchor part of the webapp URL",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The anchor part of the webapp URL"
-      }]
-    }, {
-      "name": "getScriptURL",
-      "alias": "",
-      "desc": "Gets the script URL",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The script URL"
-      }]
-    }, {
-      "name": "getScriptArgs",
-      "alias": "",
-      "desc": "Gets the arguments of the script URL",
-      "params": [],
-      "returns": [{
-        "type": ["Object.<string, string>"],
-        "desc": "The arguments of the the script URL"
-      }]
-    }, {
-      "name": "getWebappHash",
-      "alias": "",
-      "desc": "Gets anchor part of the script URL",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The anchor part of the script URL"
-      }]
-    }, {
-      "name": "getOriginURL",
-      "alias": "",
-      "desc": "Gets the origin URL",
-      "params": [],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The origin URL"
-      }]
-    }, {
-      "name": "append",
-      "alias": "",
-      "desc": "Appends a routing rule",
-      "params": [{
-        "name": "regExp",
-        "type": ["string"],
-        "desc": "the regExp",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "callback",
-        "type": ["function"],
-        "desc": "the callback",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["AMIRouter"],
-        "desc": "The amiRouter singleton"
-      }]
-    }, {
-      "name": "remove",
-      "alias": "",
-      "desc": "Removes a routing rule",
-      "params": [{
-        "name": "regExp",
-        "type": ["string"],
-        "desc": "the regExp",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["AMIRouter"],
-        "desc": "The amiRouter singleton"
-      }]
-    }, {
-      "name": "check",
-      "alias": "",
-      "desc": "Checks whether the URL matches with a routing rule",
-      "params": [],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }, {
-      "name": "appendHistoryEntry",
-      "alias": "",
-      "desc": "Appends a new history entry",
-      "params": [{
-        "name": "path",
-        "type": ["string"],
-        "desc": "the new path",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "context",
-        "type": ["Object.<string, *>"],
-        "desc": "the new context",
-        "default": null,
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }, {
-      "name": "replaceHistoryEntry",
-      "alias": "",
-      "desc": "Replaces the current history entry",
-      "params": [{
-        "name": "path",
-        "type": ["string"],
-        "desc": "the new path",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "context",
-        "type": ["Object.<string, *>"],
-        "desc": "the new context",
-        "default": null,
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }]
-  }, {
-    "name": "amiWebApp",
-    "alias": "",
-    "desc": "The AMI webapp subsystem",
-    "implements": [],
-    "inherits": [],
-    "variables": [{
-      "name": "webAppURL",
-      "alias": "",
-      "type": ["string"],
-      "desc": "The webapp URL"
-    }, {
-      "name": "scriptURL",
-      "alias": "",
-      "type": ["string"],
-      "desc": "The script URL"
-    }, {
-      "name": "originURL",
-      "alias": "",
-      "type": ["string"],
-      "desc": "The origin URL"
-    }, {
-      "name": "args",
-      "alias": "",
-      "type": ["Object.<string, string>"],
-      "desc": "The arguments of the webapp URL"
-    }, {
-      "name": "hash",
-      "alias": "",
-      "type": ["string"],
-      "desc": "The anchor part of the webapp URL"
-    }, {
-      "name": "bootstrapVersion",
-      "alias": "",
-      "type": ["number"],
-      "desc": "The Twitter Bootstrap's version (default, 4)"
-    }],
-    "events": [{
-      "name": "onReady",
-      "alias": "",
-      "desc": "This method must be overloaded and is called when the Web application starts",
-      "params": [{
-        "name": "userdata",
-        "type": ["*"],
-        "desc": "the user data",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }]
-    }, {
-      "name": "onRefresh",
-      "alias": "",
-      "desc": "This method must be overloaded and is called when the toolbar needs to be updated",
-      "params": [{
-        "name": "isAuth",
-        "type": ["boolean"],
-        "desc": "is the user authenticated",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }],
-    "functions": [{
-      "name": "start",
-      "alias": "",
-      "desc": "Starts the Web application",
-      "params": [{
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (logo_url, background_url, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["AMIWebApp"],
-        "desc": ""
-      }]
-    }, {
-      "name": "typeOf",
-      "alias": "",
-      "desc": "Gets the type name of the given object",
-      "params": [{
-        "name": "x",
-        "type": ["*"],
-        "desc": "the object",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The type name of the given object"
-      }]
-    }, {
-      "name": "asArray",
-      "alias": "",
-      "desc": "Turns the given object into an array if it is not already the case",
-      "params": [{
-        "name": "x",
-        "type": ["*"],
-        "desc": "the object",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["Array.<*>"],
-        "desc": "The resulting array"
-      }]
-    }, {
-      "name": "isString",
-      "alias": "",
-      "desc": "Checks whether the given object is a string",
-      "params": [{
-        "name": "x",
-        "type": ["*"],
-        "desc": "the object",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }, {
-      "name": "isArray",
-      "alias": "",
-      "desc": "Checks whether the given object is an array",
-      "params": [{
-        "name": "x",
-        "type": ["*"],
-        "desc": "the object",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }, {
-      "name": "isObject",
-      "alias": "",
-      "desc": "Checks whether the given object is an object",
-      "params": [{
-        "name": "x",
-        "type": ["*"],
-        "desc": "the object",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }, {
-      "name": "isSet",
-      "alias": "",
-      "desc": "Checks whether the given object is a set",
-      "params": [{
-        "name": "x",
-        "type": ["*"],
-        "desc": "the object",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }, {
-      "name": "isMap",
-      "alias": "",
-      "desc": "Checks whether the given object is a map",
-      "params": [{
-        "name": "x",
-        "type": ["*"],
-        "desc": "the object",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }, {
-      "name": "setup",
-      "alias": "",
-      "desc": "",
-      "params": [{
-        "name": "optionNames",
-        "type": ["Array.<string>"],
-        "desc": "",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "optionDefaults",
-        "type": ["Array.<*>"],
-        "desc": "",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["Array.<*>"],
-        "desc": ""
-      }]
-    }, {
-      "name": "lock",
-      "alias": "",
-      "desc": "Locks the Web application",
-      "params": []
-    }, {
-      "name": "unlock",
-      "alias": "",
-      "desc": "Unlocks the Web application",
-      "params": []
-    }, {
-      "name": "modalEnter",
-      "alias": "",
-      "desc": "Enter the modal window",
-      "params": []
-    }, {
-      "name": "modalLeave",
-      "alias": "",
-      "desc": "Leave the modal window",
-      "params": []
-    }, {
-      "name": "canLeave",
-      "alias": "",
-      "desc": "Specifies whether leaving the current page must be confirmed or not",
-      "params": [{
-        "name": "canLeave",
-        "type": [],
-        "desc": "",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "error",
-      "alias": "",
-      "desc": "Shows an 'error' message",
-      "params": [{
-        "name": "message",
-        "type": ["string", "Array.<string>"],
-        "desc": "the message",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "fadeOut",
-        "type": ["boolean"],
-        "desc": "if True, the message disappears after 60s",
-        "default": false,
-        "optional": true,
-        "nullable": ""
-      }]
-    }, {
-      "name": "info",
-      "alias": "",
-      "desc": "Shows an 'info' message",
-      "params": [{
-        "name": "message",
-        "type": ["string", "Array.<string>"],
-        "desc": "the message",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "fadeOut",
-        "type": ["boolean"],
-        "desc": "if True, the message disappears after 60s",
-        "default": false,
-        "optional": true,
-        "nullable": ""
-      }]
-    }, {
-      "name": "success",
-      "alias": "",
-      "desc": "Shows a 'success' message",
-      "params": [{
-        "name": "message",
-        "type": ["string", "Array.<string>"],
-        "desc": "the message",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "fadeOut",
-        "type": ["boolean"],
-        "desc": "if True, the message disappears after 60s",
-        "default": false,
-        "optional": true,
-        "nullable": ""
-      }]
-    }, {
-      "name": "warning",
-      "alias": "",
-      "desc": "Shows a 'warning' message",
-      "params": [{
-        "name": "message",
-        "type": ["string", "Array.<string>"],
-        "desc": "the message",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "fadeOut",
-        "type": ["boolean"],
-        "desc": "if True, the message disappears after 60s",
-        "default": false,
-        "optional": true,
-        "nullable": ""
-      }]
-    }, {
-      "name": "flush",
-      "alias": "",
-      "desc": "Flushes messages",
-      "params": []
-    }, {
-      "name": "base64Encode",
-      "alias": "",
-      "desc": "Encodes the given string to base64",
-      "params": [{
-        "name": "s",
-        "type": ["string"],
-        "desc": "the decoded string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The encoded string"
-      }]
-    }, {
-      "name": "base64Decode",
-      "alias": "",
-      "desc": "Decodes the given string from base64",
-      "params": [{
-        "name": "s",
-        "type": ["string"],
-        "desc": "the encoded string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The decoded string"
-      }]
-    }, {
-      "name": "textToHtml",
-      "alias": "",
-      "desc": "Escapes the given string from text to HTML",
-      "params": [{
-        "name": "s",
-        "type": ["string"],
-        "desc": "the unescaped string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The escaped string"
-      }]
-    }, {
-      "name": "htmlToText",
-      "alias": "",
-      "desc": "Unescapes the given string from HTML to text",
-      "params": [{
-        "name": "s",
-        "type": ["string"],
-        "desc": "the escaped string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The unescaped string"
-      }]
-    }, {
-      "name": "textToString",
-      "alias": "",
-      "desc": "Escapes the given string from text to JavaScript string",
-      "params": [{
-        "name": "s",
-        "type": ["string"],
-        "desc": "the unescaped string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The escaped string"
-      }]
-    }, {
-      "name": "stringToText",
-      "alias": "",
-      "desc": "Unescapes the given string from JavaScript string to text",
-      "params": [{
-        "name": "s",
-        "type": ["string"],
-        "desc": "the escaped string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The unescaped string"
-      }]
-    }, {
-      "name": "htmlToString",
-      "alias": "",
-      "desc": "Escapes the given string from HTML to JavaScript string",
-      "params": [{
-        "name": "s",
-        "type": ["string"],
-        "desc": "the unescaped string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The escaped string"
-      }]
-    }, {
-      "name": "stringToHtml",
-      "alias": "",
-      "desc": "Unescapes the given string from JavaScript string to HTML",
-      "params": [{
-        "name": "s",
-        "type": ["string"],
-        "desc": "the escaped string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The unescaped string"
-      }]
-    }, {
-      "name": "textToSQL",
-      "alias": "",
-      "desc": "Escapes the given string from text to SQL",
-      "params": [{
-        "name": "s",
-        "type": ["string"],
-        "desc": "the unescaped string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The escaped string"
-      }]
-    }, {
-      "name": "sqlToText",
-      "alias": "",
-      "desc": "Unescapes the given string from SQL to text",
-      "params": [{
-        "name": "s",
-        "type": ["string"],
-        "desc": "the escaped string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The unescaped string"
-      }]
-    }, {
-      "name": "fillBreadcrumb",
-      "alias": "",
-      "desc": "Fills the main breadcrumb",
-      "params": [{
-        "name": "items",
-        "type": ["Array.<string>", "string"],
-        "desc": "the array of HTML formatted items",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "replaceHTML",
-      "alias": "",
-      "desc": "Puts a HTML or TWIG fragment to the given target",
-      "params": [{
-        "name": "selector",
-        "type": ["string"],
-        "desc": "the target selector",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "twig",
-        "type": ["string"],
-        "desc": "the TWIG fragment",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context, scope, dict, twigs)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "prependHTML",
-      "alias": "",
-      "desc": "Prepends a HTML or TWIG fragment to the given target",
-      "params": [{
-        "name": "selector",
-        "type": ["string"],
-        "desc": "the target selector",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "twig",
-        "type": ["string"],
-        "desc": "the TWIG fragment",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context, scope, dict, twigs)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "appendHTML",
-      "alias": "",
-      "desc": "Appends a HTML or TWIG fragment to the given target",
-      "params": [{
-        "name": "selector",
-        "type": ["string"],
-        "desc": "the target selector",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "twig",
-        "type": ["string"],
-        "desc": "the TWIG fragment",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context, scope, dict, twigs)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "formatTWIG",
-      "alias": "",
-      "desc": "Interprets the given TWIG string",
-      "params": [{
-        "name": "twig",
-        "type": ["string"],
-        "desc": "the TWIG string",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "dict",
-        "type": ["Object.<string, *>", "Array.<Object.<string, *>>"],
-        "desc": "the dictionary",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }, {
-        "name": "twigs",
-        "type": ["Object.<string, string>"],
-        "desc": "dictionary of fragments",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "see": ["{@link https://twig.symfony.com/doc/}"],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The Interpreted TWIG string"
-      }]
-    }, {
-      "name": "renderJSDoc",
-      "alias": "",
-      "desc": "Renders a AMI JSDoc documentation",
-      "params": [{
-        "name": "menuSelector",
-        "type": ["string"],
-        "desc": "selector of the menu div",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "bodySelector",
-        "type": ["string"],
-        "desc": "selector of the body div",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "json",
-        "type": ["object"],
-        "desc": "the JSON documentation",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["AMIJSDoc"],
-        "desc": ""
-      }]
-    }, {
-      "name": "loadResources",
-      "alias": "",
-      "desc": "Asynchronously loads resources by file extension",
-      "params": [{
-        "name": "urls",
-        "type": ["Array.<string>", "string"],
-        "desc": "the array of urls",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "loadSheets",
-      "alias": "",
-      "desc": "Asynchronously loads CSS sheets",
-      "params": [{
-        "name": "urls",
-        "type": ["Array.<string>", "string"],
-        "desc": "the array of urls",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "loadScripts",
-      "alias": "",
-      "desc": "Asynchronously loads JS scripts",
-      "params": [{
-        "name": "urls",
-        "type": ["Array.<string>", "string"],
-        "desc": "the array of urls",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "loadJSONs",
-      "alias": "",
-      "desc": "Asynchronously loads JSON files",
-      "params": [{
-        "name": "urls",
-        "type": ["Array.<string>", "string"],
-        "desc": "the array of urls",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "loadXMLs",
-      "alias": "",
-      "desc": "Asynchronously loads XML files",
-      "params": [{
-        "name": "urls",
-        "type": ["Array.<string>", "string"],
-        "desc": "the array of urls",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "loadHTMLs",
-      "alias": "",
-      "desc": "Asynchronously loads HTML files",
-      "params": [{
-        "name": "urls",
-        "type": ["Array.<string>", "string"],
-        "desc": "the array of urls",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "loadTWIGs",
-      "alias": "",
-      "desc": "Asynchronously loads TWIG files",
-      "params": [{
-        "name": "urls",
-        "type": ["Array.<string>", "string"],
-        "desc": "the array of urls",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "loadTexts",
-      "alias": "",
-      "desc": "Asynchronously loads text files",
-      "params": [{
-        "name": "urls",
-        "type": ["Array.<string>", "string"],
-        "desc": "the array of urls",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "loadSubApp",
-      "alias": "",
-      "desc": "Asynchronously loads a subapp",
-      "params": [{
-        "name": "subapp",
-        "type": ["string"],
-        "desc": "the subapp name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "userdata",
-        "type": ["*"],
-        "desc": "the user data",
-        "default": "",
-        "optional": true,
-        "nullable": true
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "loadSubAppByURL",
-      "alias": "",
-      "desc": "Asynchronously loads a subapp by URL",
-      "params": [{
-        "name": "defaultSubApp",
-        "type": ["string"],
-        "desc": "if 'amiRouter.getArgs()[\"subapp\"]' is null, the default subapp name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "defaultUserData",
-        "type": ["*"],
-        "desc": "if 'amiRouter.getArgs()[\"userdata\"]' is null, the default user data",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "loadControl",
-      "alias": "",
-      "desc": "Asynchronously loads a control",
-      "params": [{
-        "name": "control",
-        "type": ["string"],
-        "desc": "the control name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "createControl",
-      "alias": "",
-      "desc": "Asynchronously creates a control",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "owner",
-        "type": ["*"],
-        "desc": "the owner entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "control",
-        "type": ["string"],
-        "desc": "the control name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "params",
-        "type": ["Array.<*>"],
-        "desc": "the control's parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "createControlInBody",
-      "alias": "",
-      "desc": "Asynchronously creates a control in the body",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "owner",
-        "type": ["*"],
-        "desc": "the owner entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "control",
-        "type": ["string"],
-        "desc": "the control name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlParams",
-        "type": ["Array.<*>"],
-        "desc": "the control's render method mandatory parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlOptions",
-        "type": ["Object.<string, *>"],
-        "desc": "the control's render method optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "ownerOptions",
-        "type": ["Object.<string, *>"],
-        "desc": "the owner's optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "createControlInContainer",
-      "alias": "",
-      "desc": "Asynchronously creates a control in a container",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "owner",
-        "type": ["*"],
-        "desc": "the owner entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "control",
-        "type": ["string"],
-        "desc": "the control name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlParams",
-        "type": ["Array.<*>"],
-        "desc": "the control's render method mandatory parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlOptions",
-        "type": ["Object.<string, *>"],
-        "desc": "the control's render method optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "ownerOptions",
-        "type": ["Object.<string, *>"],
-        "desc": "the owner's optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "icon",
-        "type": ["string"],
-        "desc": "the icon",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "title",
-        "type": ["string"],
-        "desc": "the title",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "createControlFromWebLink",
-      "alias": "",
-      "desc": "Asynchronously creates a control in a container from a WEB link",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "owner",
-        "type": ["*"],
-        "desc": "the owner entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "el",
-        "type": ["Element"],
-        "desc": "the HTML element",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "ownerOptions",
-        "type": ["Object.<string, *>"],
-        "desc": "the owner's optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }]
-  }],
-  "interfaces": [{
-    "name": "ami.IControl",
-    "alias": "",
-    "desc": "The AMI control interface",
-    "implements": [],
-    "inherits": [],
-    "functions": [{
-      "name": "onReady",
-      "alias": "",
-      "desc": "Called when the control is ready to run",
-      "params": [],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "onRemove",
-      "alias": "",
-      "desc": "Called when the control is removed",
-      "params": [],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "patchId",
-      "alias": "",
-      "desc": "Patches an HTML identifier",
-      "params": [{
-        "name": "id",
-        "type": ["string"],
-        "desc": "the not patched HTML identifier",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The patched HTML identifier"
-      }]
-    }, {
-      "name": "replaceHTML",
-      "alias": "",
-      "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
-      "params": [{
-        "name": "selector",
-        "type": ["string"],
-        "desc": "the target selector",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "twig",
-        "type": ["string"],
-        "desc": "the TWIG fragment",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context, dict, twigs)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "prependHTML",
-      "alias": "",
-      "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
-      "params": [{
-        "name": "selector",
-        "type": ["string"],
-        "desc": "the target selector",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "twig",
-        "type": ["string"],
-        "desc": "the TWIG fragment",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context, dict, twigs)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "appendHTML",
-      "alias": "",
-      "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
-      "params": [{
-        "name": "selector",
-        "type": ["string"],
-        "desc": "the target selector",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "twig",
-        "type": ["string"],
-        "desc": "the TWIG fragment",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context, dict, twigs)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }]
-  }, {
-    "name": "ami.IContainer",
-    "alias": "",
-    "desc": "The AMI container interface",
-    "implements": [],
-    "inherits": [],
-    "functions": [{
-      "name": "render",
-      "alias": "",
-      "desc": "",
-      "params": [{
-        "name": "selector",
-        "type": ["string"],
-        "desc": "the selector",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (...)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "prependItem",
-      "alias": "",
-      "desc": "Prepends an item",
-      "params": [{
-        "name": "title",
-        "type": ["string"],
-        "desc": "the title",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (...)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object returning the new item's identifier"
-      }]
-    }, {
-      "name": "appendItem",
-      "alias": "",
-      "desc": "Appends an item",
-      "params": [{
-        "name": "title",
-        "type": ["string"],
-        "desc": "the title",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (...)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object returning the new item's identifier"
-      }]
-    }, {
-      "name": "removeItem",
-      "alias": "",
-      "desc": "Removes an item",
-      "params": [{
-        "name": "itemId",
-        "type": ["string"],
-        "desc": "the item identifier",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }]
-    }, {
-      "name": "removeAllItems",
-      "alias": "",
-      "desc": "Removes all items",
-      "params": []
-    }, {
-      "name": "isEmpty",
-      "alias": "",
-      "desc": "Checks whether the container is empty or not",
-      "params": [],
-      "returns": [{
-        "type": ["boolean"],
-        "desc": ""
-      }]
-    }]
-  }, {
-    "name": "ami.ISubApp",
-    "alias": "",
-    "desc": "The AMI sub-application interface",
-    "implements": [],
-    "inherits": [],
-    "functions": [{
-      "name": "onReady",
-      "alias": "",
-      "desc": "Called when the sub-application is ready to run",
-      "params": [{
-        "name": "userdata",
-        "type": ["*"],
-        "desc": "the user data",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "onExit",
-      "alias": "",
-      "desc": "Called when the sub-application is about to exit",
-      "params": [{
-        "name": "userdata",
-        "type": ["*"],
-        "desc": "the user data",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "onLogin",
-      "alias": "",
-      "desc": "Called when logging in",
-      "params": [{
-        "name": "userdata",
-        "type": ["*"],
-        "desc": "the user data",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "onLogout",
-      "alias": "",
-      "desc": "Called when logging out",
-      "params": [{
-        "name": "userdata",
-        "type": ["*"],
-        "desc": "the user data",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }]
-  }],
-  "classes": [{
-    "name": "ami.Control",
-    "alias": "",
-    "desc": "The basic AMI control",
-    "implements": ["ami.IControl"],
-    "inherits": [],
-    "konstructor": {
-      "name": "Control",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "owner",
-        "type": ["*"],
-        "desc": "the owner entity",
-        "optional": "",
-        "nullable": true
-      }]
-    },
-    "functions": [{
-      "name": "onReady",
-      "alias": "",
-      "desc": "Called when the control is ready to run",
-      "params": [],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "onRemove",
-      "alias": "",
-      "desc": "Called when the control is removed",
-      "params": [],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "patchId",
-      "alias": "",
-      "desc": "Patches an HTML identifier",
-      "params": [{
-        "name": "id",
-        "type": ["string"],
-        "desc": "the not patched HTML identifier",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["string"],
-        "desc": "The patched HTML identifier"
-      }]
-    }, {
-      "name": "replaceHTML",
-      "alias": "",
-      "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
-      "params": [{
-        "name": "selector",
-        "type": ["string"],
-        "desc": "the target selector",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "twig",
-        "type": ["string"],
-        "desc": "the TWIG fragment",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context, dict, twigs)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "prependHTML",
-      "alias": "",
-      "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
-      "params": [{
-        "name": "selector",
-        "type": ["string"],
-        "desc": "the target selector",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "twig",
-        "type": ["string"],
-        "desc": "the TWIG fragment",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context, dict, twigs)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "appendHTML",
-      "alias": "",
-      "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
-      "params": [{
-        "name": "selector",
-        "type": ["string"],
-        "desc": "the target selector",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "twig",
-        "type": ["string"],
-        "desc": "the TWIG fragment",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context, dict, twigs)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "setupCtx",
-      "alias": "",
-      "desc": "Sets up the control's context",
-      "params": [{
-        "name": "immutables",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of immutable parameters in the control's context",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "defaults",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of default values for optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of values for optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["Object.<string, *>"],
-        "desc": "The resulting control's context"
-      }]
-    }, {
-      "name": "createControl",
-      "alias": "",
-      "desc": "Asynchronously creates a control",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "control",
-        "type": ["string"],
-        "desc": "the control name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "params",
-        "type": ["Array.<*>"],
-        "desc": "the control's parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "createControlInBody",
-      "alias": "",
-      "desc": "Asynchronously creates a control in the body",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "control",
-        "type": ["string"],
-        "desc": "the control name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlParams",
-        "type": ["Array.<*>"],
-        "desc": "the control's render method mandatory parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlOptions",
-        "type": ["Object.<string, *>"],
-        "desc": "the control's render method optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "createControlInContainer",
-      "alias": "",
-      "desc": "Asynchronously creates a control in a container",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "control",
-        "type": ["string"],
-        "desc": "the control name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlParams",
-        "type": ["Array.<*>"],
-        "desc": "the control's render method mandatory parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlOptions",
-        "type": ["Object.<string, *>"],
-        "desc": "the control's render method optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "icon",
-        "type": ["string"],
-        "desc": "the icon",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "title",
-        "type": ["string"],
-        "desc": "the title",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "createControlFromWebLink",
-      "alias": "",
-      "desc": "Asynchronously creates a control in a container from a WEB link",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "el",
-        "type": ["Element"],
-        "desc": "the HTML element",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }]
-  }, {
-    "name": "ami.SubApp",
-    "alias": "",
-    "desc": "The basic AMI sub-application",
-    "implements": ["ami.ISubApp"],
-    "inherits": [],
-    "konstructor": {
-      "name": "SubApp",
-      "params": []
-    },
-    "functions": [{
-      "name": "onReady",
-      "alias": "",
-      "desc": "Called when the sub-application is ready to run",
-      "params": [{
-        "name": "userdata",
-        "type": ["*"],
-        "desc": "the user data",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "onExit",
-      "alias": "",
-      "desc": "Called when the sub-application is about to exit",
-      "params": [{
-        "name": "userdata",
-        "type": ["*"],
-        "desc": "the user data",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "onLogin",
-      "alias": "",
-      "desc": "Called when logging in",
-      "params": [{
-        "name": "userdata",
-        "type": ["*"],
-        "desc": "the user data",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "onLogout",
-      "alias": "",
-      "desc": "Called when logging out",
-      "params": [{
-        "name": "userdata",
-        "type": ["*"],
-        "desc": "the user data",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }],
-      "returns": [{
-        "type": ["$.Promise", "$.Deferred", "undefined"],
-        "desc": "A JQuery promise object, deferred object or nothing"
-      }]
-    }, {
-      "name": "setupCtx",
-      "alias": "",
-      "desc": "Sets up the application's context",
-      "params": [{
-        "name": "immutables",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of immutable parameters in the application's context",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "defaults",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of default values for optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of values for optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["Object.<string, *>"],
-        "desc": "The resulting application's context"
-      }]
-    }, {
-      "name": "createControl",
-      "alias": "",
-      "desc": "Asynchronously creates a control",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "control",
-        "type": ["string"],
-        "desc": "the control name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "params",
-        "type": ["Array.<*>"],
-        "desc": "the control's parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "createControlInBody",
-      "alias": "",
-      "desc": "Asynchronously creates a control in the body",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "control",
-        "type": ["string"],
-        "desc": "the control name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlParams",
-        "type": ["Array.<*>"],
-        "desc": "the control's render method mandatory parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlOptions",
-        "type": ["Object.<string, *>"],
-        "desc": "the control's render method optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "createControlInContainer",
-      "alias": "",
-      "desc": "Asynchronously creates a control in a container",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "control",
-        "type": ["string"],
-        "desc": "the control name",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlParams",
-        "type": ["Array.<*>"],
-        "desc": "the control's render method mandatory parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "controlOptions",
-        "type": ["Object.<string, *>"],
-        "desc": "the control's render method optional parameters",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "icon",
-        "type": ["string"],
-        "desc": "the icon",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "title",
-        "type": ["string"],
-        "desc": "the title",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "createControlFromWebLink",
-      "alias": "",
-      "desc": "Asynchronously creates a control in a container from a WEB link",
-      "params": [{
-        "name": "parent",
-        "type": ["*"],
-        "desc": "the parent entity",
-        "default": "",
-        "optional": "",
-        "nullable": true
-      }, {
-        "name": "el",
-        "type": ["Element"],
-        "desc": "the HTML element",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "options",
-        "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
-        "default": "{}",
-        "optional": true,
-        "nullable": ""
-      }],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }]
-  }],
-  "functions": [{
-    "name": "$AMINamespace",
-    "alias": "",
-    "desc": "Creates a new namespace",
-    "params": [{
-      "name": "$name",
-      "type": ["string"],
-      "desc": "the namespace name",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "$descr",
-      "type": ["Object.<string, *>"],
-      "desc": "the namespace body",
-      "default": "{}",
-      "optional": true,
-      "nullable": ""
-    }]
-  }, {
-    "name": "$AMIInterface",
-    "alias": "",
-    "desc": "Creates a new interface",
-    "params": [{
-      "name": "$name",
-      "type": ["string"],
-      "desc": "the interface name",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "$descr",
-      "type": ["Object.<string, *>"],
-      "desc": "the interface body",
-      "default": "{}",
-      "optional": true,
-      "nullable": ""
-    }]
-  }, {
-    "name": "$AMIClass",
-    "alias": "",
-    "desc": "Creates a new class",
-    "params": [{
-      "name": "$name",
-      "type": ["string"],
-      "desc": "the class name",
-      "default": "",
-      "optional": "",
-      "nullable": ""
-    }, {
-      "name": "$descr",
-      "type": ["Object.<string, *>"],
-      "desc": "the class body",
-      "default": "{}",
-      "optional": true,
-      "nullable": ""
-    }]
-  }]
-});
 ;// CONCATENATED MODULE: ./node_modules/@vue/shared/dist/shared.esm-bundler.js
 /**
  * Make a map and return a function for checking if a key
@@ -29092,8 +25862,3244 @@ const vue_runtime_esm_bundler_compile = () => {
 
 
 
-;// CONCATENATED MODULE: ./index.js
+// EXTERNAL MODULE: ./src/images/lpsc.png
+var lpsc = __webpack_require__(4998);
+// EXTERNAL MODULE: ./src/images/cloud.png
+var cloud = __webpack_require__(3507);
+// EXTERNAL MODULE: ./src/images/glass.png
+var glass = __webpack_require__(1067);
+// EXTERNAL MODULE: ./src/images/padlock.png
+var padlock = __webpack_require__(8475);
+// EXTERNAL MODULE: ./src/images/logo.png
+var logo = __webpack_require__(1702);
+// EXTERNAL MODULE: ./src/images/background.jpg
+var background = __webpack_require__(7122);
+;// CONCATENATED MODULE: ./src/js/AMIWebApp.js
 
+
+function AMIWebApp_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
+
+var AMIWebApp_id = 0;
+
+function AMIWebApp_classPrivateFieldLooseKey(name) { return "__private_" + AMIWebApp_id++ + "_" + name; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _embedded = AMIWebApp_classPrivateFieldLooseKey("embedded");
+
+var _noBootstrap = AMIWebApp_classPrivateFieldLooseKey("noBootstrap");
+
+var _noMoment = AMIWebApp_classPrivateFieldLooseKey("noMoment");
+
+var _noSelect = AMIWebApp_classPrivateFieldLooseKey("noSelect2");
+
+var _globalDeferred = AMIWebApp_classPrivateFieldLooseKey("globalDeferred");
+
+var AMIWebApp = function () {
+  function AMIWebApp() {
+    var _this = this;
+
+    Object.defineProperty(this, _embedded, {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, _noBootstrap, {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, _noMoment, {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, _noSelect, {
+      writable: true,
+      value: false
+    });
+    Object.defineProperty(this, _globalDeferred, {
+      writable: true,
+      value: $.Deferred()
+    });
+    this._isReady = false;
+    this.webAppURL = '';
+    this.scriptURL = '';
+    this.originURL = '';
+    this.args = {};
+    this.hash = '';
+    this.bootstrapVersion = 4;
+    this.Vue = vue_runtime_esm_bundler_namespaceObject;
+    this.typeOf = typeOf;
+    this.asArray = asArray;
+    this.isString = isString;
+    this.isArray = tools_isArray;
+    this.isObject = tools_isObject;
+    this.isSet = isSet;
+    this.isMap = isMap;
+    this.setup = setup;
+    this.getStack = getStack;
+    this.lock = lock;
+    this.unlock = unlock;
+    this.modalEnter = modalEnter;
+    this.modalLeave = modalLeave;
+    this.canLeave = canLeave;
+    this.error = error;
+    this.info = info;
+    this.success = success;
+    this.warning = warning;
+    this.flush = flush;
+    this.base64Encode = base64Encode;
+    this.base64Decode = base64Decode;
+    this.textToHtml = textToHtml;
+    this.htmlToText = htmlToText;
+    this.textToString = textToString;
+    this.stringToText = stringToText;
+    this.htmlToString = htmlToString;
+    this.stringToHtml = stringToHtml;
+    this.textToSQL = textToSQL;
+    this.sqlToText = sqlToText;
+    this.fillBreadcrumb = fillBreadcrumb;
+    this.replaceHTML = view_replaceHTML;
+    this.prependHTML = view_prependHTML;
+    this.appendHTML = view_appendHTML;
+    this.formatTWIG = formatTWIG;
+    this.renderJSDoc = renderJSDoc;
+    this.jspath = (jspath_default()).apply;
+    this.loadResources = loadResources;
+    this.loadSheets = loadSheets;
+    this.loadScripts = loadScripts;
+    this.loadJSONs = loadJSONs;
+    this.loadXMLs = loadXMLs;
+    this.loadHTMLs = loadHTMLs;
+    this.loadTWIGs = loadTWIGs;
+    this.loadTexts = loadTexts;
+    this._subapps = _subapps;
+    this.loadSubApp = loadSubApp;
+    this.loadSubAppByURL = loadSubAppByURL;
+    this._controls = _controls;
+    this.loadControl = loadControl;
+    this.createControl = controls_createControl;
+    this.createControlInBody = controls_createControlInBody;
+    this.createControlInContainer = controls_createControlInContainer;
+    this.createControlFromWebLink = controls_createControlFromWebLink;
+    AMIExtension();
+    AMIInterface();
+    var scriptArgs = js_AMIRouter.getScriptArgs();
+    AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded] = 'embedded' in scriptArgs;
+    AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] = 'nobootstrap' in scriptArgs;
+    AMIWebApp_classPrivateFieldLooseBase(this, _noSelect)[_noSelect] = 'noselect2' in scriptArgs;
+    AMIWebApp_classPrivateFieldLooseBase(this, _noMoment)[_noMoment] = 'nomoment' in scriptArgs;
+    this.webAppURL = js_AMIRouter.getWebAppURL();
+    this.scriptURL = js_AMIRouter.getScriptURL();
+    this.originURL = js_AMIRouter.getOriginURL();
+    this.args = js_AMIRouter.getWebAppArgs();
+    this.hash = js_AMIRouter.getWebAppHash();
+    this.bootstrapVersion = parseInt(scriptArgs.bootstrap);
+
+    if (Number.isNaN(this.bootstrapVersion)) {
+      this.bootstrapVersion = 4;
+    }
+
+    var resourcesCSS = [];
+    var resourcesJS = [];
+
+    if (!AMIWebApp_classPrivateFieldLooseBase(this, _noBootstrap)[_noBootstrap] && typeof jQuery.fn.modal !== 'function') {
+      if (this.bootstrapVersion === 4) {
+        resourcesJS.push(this.originURL + "/js/assets/css/bootstrap4.min.css");
+        resourcesJS.push(this.originURL + "/js/assets/js/bootstrap4.bundle.min.js");
+      } else {
+        resourcesJS.push(this.originURL + "/js/assets/css/bootstrap5.min.css");
+        resourcesJS.push(this.originURL + "/js/assets/js/bootstrap5.bundle.min.js");
+      }
+    }
+
+    if (!AMIWebApp_classPrivateFieldLooseBase(this, _noSelect)[_noSelect] && typeof jQuery.fn.select2 !== 'function') {
+      resourcesCSS.push(this.originURL + "/js/assets/css/select2.min.css");
+      resourcesJS.push(this.originURL + "/js/assets/js/select2.min.js");
+    }
+
+    if (!AMIWebApp_classPrivateFieldLooseBase(this, _noMoment)[_noMoment] && typeof window.moment !== 'function') {
+      resourcesJS.push(this.originURL + "/js/assets/js/moment.min.js");
+    }
+
+    loadResources([].concat(resourcesCSS, resourcesJS)).done(function (resources) {
+      __webpack_require__(7371);
+
+      __webpack_require__(2340)(window.moment);
+
+      AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].resolve(resources);
+    }).fail(function (message) {
+      AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].reject(message);
+    });
+  }
+
+  var _proto = AMIWebApp.prototype;
+
+  _proto.onReady = function onReady(userdata) {
+    if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
+      alert('error: \'amiWebApp.onReady()\' must be overloaded!');
+    }
+
+    return null;
+  };
+
+  _proto.onRefresh = function onRefresh(isAuth) {
+    if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
+      alert('error: \'amiWebApp.onRefresh()\' must be overloaded!');
+    }
+
+    return null;
+  };
+
+  _proto.start = function start(options) {
+    var _this2 = this;
+
+    AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].done(function () {
+      var _tools$setup = setup(['logo_url', 'background_url', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboardsAllowed'], [logo, background, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/blue.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", false, false, true, true, true, true, true, true, true, true, true, true], options),
+          logoURL = _tools$setup[0],
+          backgroundURL = _tools$setup[1],
+          homeURL = _tools$setup[2],
+          contactEmail = _tools$setup[3],
+          aboutURL = _tools$setup[4],
+          defaultThemeURL = _tools$setup[5],
+          dashboardThemeURL = _tools$setup[6],
+          lockerURL = _tools$setup[7],
+          endpointURL = _tools$setup[8],
+          ssoAutoAuthentication = _tools$setup[9],
+          ssoAuthenticationAllowed = _tools$setup[10],
+          passwordAuthenticationAllowed = _tools$setup[11],
+          certificateAuthenticationAllowed = _tools$setup[12],
+          logoutAllowed = _tools$setup[13],
+          createAccountAllowed = _tools$setup[14],
+          changeInfoAllowed = _tools$setup[15],
+          changePasswordAllowed = _tools$setup[16],
+          changeCertificateAllowed = _tools$setup[17],
+          captchaAllowed = _tools$setup[18],
+          bookmarksAllowed = _tools$setup[19],
+          dashboardsAllowed = _tools$setup[20];
+
+      js_AMICommand.initHttpClient(endpointURL);
+
+      window.onbeforeunload = function (e) {
+        if (!_canLeave) {
+          var f = e || window.event;
+
+          if (f) {
+            f.returnValue = 'Confirm that you want to leave this page?';
+          }
+
+          return 'Confirm that you want to leave this page?';
+        }
+      };
+
+      var controlsURL = _this2.originURL + "/controls/CONTROLS.json";
+      var subappsURL = _this2.originURL + "/subapps/SUBAPPS.json";
+      $.ajax({
+        url: controlsURL,
+        cache: false,
+        crossDomain: true,
+        dataType: 'json'
+      }).then(function (data1) {
+        $.ajax({
+          url: subappsURL,
+          cache: false,
+          crossDomain: true,
+          dataType: 'json'
+        }).then(function (data2) {
+          for (var name in data1) {
+            _controls[name.toLowerCase()] = data1[name];
+          }
+
+          for (var _name in data2) {
+            _subapps[_name.toLowerCase()] = data2[_name];
+          }
+
+          if (!AMIWebApp_classPrivateFieldLooseBase(_this2, _embedded)[_embedded]) {
+            var dict = {
+              LOGO_URL: logoURL,
+              BACKGROUND_URL: backgroundURL,
+              HOME_URL: homeURL,
+              CONTACT_EMAIL: contactEmail,
+              ABOUT_URL: aboutURL
+            };
+            var themeURL = (js_AMIRouter.getWebAppArgs()['subapp'] || '').toLowerCase() === 'userdashboard' ? dashboardThemeURL : defaultThemeURL;
+            $.ajax({
+              url: themeURL,
+              cache: true,
+              crossDomain: true,
+              dataType: 'text'
+            }).then(function (data3) {
+              $.ajax({
+                url: lockerURL,
+                cache: true,
+                crossDomain: true,
+                dataType: 'text'
+              }).then(function (data4) {
+                $('body').append(formatTWIG(data3, dict) + data4).promise().done(function () {
+                  lock();
+                  js_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
+                    unlock();
+                  }).fail(function (message) {
+                    error(message);
+                  });
+                });
+              }, function () {
+                alert("could not open '" + lockerURL + "', please reload the page...");
+              });
+            }, function () {
+              alert("could not open '" + themeURL + "', please reload the page...");
+            });
+          } else {
+            var data3 = '';
+
+            if ($('#ami_alert_content').length === 0) {
+              data3 += '<div id="ami_alert_content"></div>';
+            }
+
+            if ($('#ami_login_menu_content').length === 0) {
+              data3 += '<div id="ami_login_menu_content"></div>';
+            }
+
+            $.ajax({
+              url: lockerURL,
+              cache: true,
+              crossDomain: true,
+              dataType: 'text'
+            }).done(function (data4) {
+              $('body').prepend(data3 + data4).promise().done(function () {
+                lock();
+                js_AMIAuth.init(ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
+                  unlock();
+                }).fail(function (message) {
+                  error(message);
+                });
+              });
+            });
+          }
+        }, function () {
+          alert("cannot open '" + subappsURL + "', please reload the page...");
+        });
+      }, function () {
+        alert("cannot open '" + controlsURL + "', please reload the page...");
+      });
+    }).fail(function (message) {
+      alert(message);
+    });
+
+    return this;
+  };
+
+  return AMIWebApp;
+}();
+
+/* harmony default export */ const js_AMIWebApp = (new AMIWebApp());
+;// CONCATENATED MODULE: ./src/js/AMIDoc.js
+
+
+/* harmony default export */ const AMIDoc = ({
+  "namespaces": [{
+    "name": "amiAuth",
+    "alias": "amiLogin",
+    "desc": "The AMI authentication subsystem",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "getMqttEndpoint",
+      "alias": "",
+      "desc": "Gets the current MQTT endpoint",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current MQTT endpoint"
+      }]
+    }, {
+      "name": "getMqttToken",
+      "alias": "",
+      "desc": "Gets the current MQTT token",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current MQTT token"
+      }]
+    }, {
+      "name": "getUserInfo",
+      "alias": "",
+      "desc": "Gets the current user information",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The current user information"
+      }]
+    }, {
+      "name": "getRoleInfo",
+      "alias": "",
+      "desc": "Gets the current role information",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The current role information"
+      }]
+    }, {
+      "name": "getBookmarkInfo",
+      "alias": "",
+      "desc": "Gets the current bookmark information",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The current bookmark information"
+      }]
+    }, {
+      "name": "getDashboardInfo",
+      "alias": "",
+      "desc": "Gets the current dashboard information",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The current dashboard information"
+      }]
+    }, {
+      "name": "getAWFInfo",
+      "alias": "",
+      "desc": "Gets the current AMI Web Framework information",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The current AMI Web Framework information"
+      }]
+    }, {
+      "name": "getUser",
+      "alias": "",
+      "desc": "Gets the current user",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current user"
+      }]
+    }, {
+      "name": "getGuest",
+      "alias": "",
+      "desc": "Gets the current guest user",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current guest user"
+      }]
+    }, {
+      "name": "getNotBeforeDate",
+      "alias": "",
+      "desc": "Gets the current user `not before` date",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current user `not before` date"
+      }]
+    }, {
+      "name": "getNotAfterDate",
+      "alias": "",
+      "desc": "Gets the current user `not after` date",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current user `not after` date"
+      }]
+    }, {
+      "name": "getClientDN",
+      "alias": "",
+      "desc": "Gets the current client DN",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current client DN"
+      }]
+    }, {
+      "name": "getIssuerDN",
+      "alias": "",
+      "desc": "Gets the current issuer DN",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The current issuer DN"
+      }]
+    }, {
+      "name": "isValid",
+      "alias": "",
+      "desc": "Checks whether the user is valid or not",
+      "params": [],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "isAuthenticated",
+      "alias": "",
+      "desc": "Checks whether the user is authenticated or not",
+      "params": [],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "hasRole",
+      "alias": "",
+      "desc": "Checks whether the user has the given role or not",
+      "params": [{
+        "name": "roleName",
+        "type": ["string"],
+        "desc": "the role",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "update",
+      "alias": "",
+      "desc": "Update the user information",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }, {
+    "name": "amiCommand",
+    "alias": "",
+    "desc": "The AMI command subsystem",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "initHttpClient",
+      "alias": "",
+      "desc": "Initializes the HTTP client",
+      "params": [{
+        "name": "endpoint",
+        "type": ["string"],
+        "desc": "the HTTP endpoint",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "initMqttClient",
+      "alias": "",
+      "desc": "Initializes the MQTT client",
+      "params": [{
+        "name": "endpoint",
+        "type": ["string"],
+        "desc": "the MQTT endpoint",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "getHttpEndpoint",
+      "alias": "",
+      "desc": "Gets the HTTP endpoint",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": ""
+      }]
+    }, {
+      "name": "getMqttEndpoint",
+      "alias": "",
+      "desc": "Gets the MQTT endpoint",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": ""
+      }]
+    }, {
+      "name": "execute",
+      "alias": "",
+      "desc": "Executes an AMI command",
+      "params": [{
+        "name": "command",
+        "type": ["string"],
+        "desc": "the command",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (mqtt, endpoint, serverName, converter, extras, params, context, timeout)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "mqttSignInByToken",
+      "alias": "",
+      "desc": "Signs in by JWT token (MQTT client)",
+      "params": [{
+        "name": "token",
+        "type": ["string"],
+        "desc": "the password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "serverName",
+        "type": ["string"],
+        "desc": "the server name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "mqttSignOut",
+      "alias": "",
+      "desc": "Signs out (MQTT client)",
+      "params": [{
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "signInByPassword",
+      "alias": "",
+      "desc": "Signs in by login/password (HTTP client)",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "password",
+        "type": ["string"],
+        "desc": "the password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "signInByCertificate",
+      "alias": "",
+      "desc": "Signs in by certificate (HTTP client)",
+      "params": [{
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "signOut",
+      "alias": "",
+      "desc": "Signs out (HTTP client)",
+      "params": [{
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "attachCertificate",
+      "alias": "",
+      "desc": "Attaches a certificate",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "password",
+        "type": ["string"],
+        "desc": "the password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "detachCertificate",
+      "alias": "",
+      "desc": "Detaches a certificate",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "password",
+        "type": ["string"],
+        "desc": "the password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "addUser",
+      "alias": "",
+      "desc": "Adds a new username",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "password",
+        "type": ["string"],
+        "desc": "the password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "firstName",
+        "type": ["string"],
+        "desc": "the first name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "lastName",
+        "type": ["string"],
+        "desc": "the last name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "email",
+        "type": ["string"],
+        "desc": "the email",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "captchaHash",
+        "type": ["string"],
+        "desc": "the captcha hash generated by AMI",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "captchaText",
+        "type": ["string"],
+        "desc": "the captcha text entered by the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "attachCert",
+        "type": ["boolean"],
+        "desc": "attach the current certificate",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "agree",
+        "type": ["boolean"],
+        "desc": "agree with the terms and conditions",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "changeInfo",
+      "alias": "",
+      "desc": "Changes the account information",
+      "params": [{
+        "name": "firstName",
+        "type": ["string"],
+        "desc": "the first name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "lastName",
+        "type": ["string"],
+        "desc": "the last name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "email",
+        "type": ["string"],
+        "desc": "the email",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "changePassword",
+      "alias": "",
+      "desc": "Changes the account password",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "oldPassword",
+        "type": ["string"],
+        "desc": "the old password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "newPassword",
+        "type": ["string"],
+        "desc": "the new password",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "resetPassword",
+      "alias": "",
+      "desc": "Resets the account password",
+      "params": [{
+        "name": "username",
+        "type": ["string"],
+        "desc": "the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "captchaHash",
+        "type": ["string"],
+        "desc": "the captcha hash generated by AMI",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "captchaText",
+        "type": ["string"],
+        "desc": "the captcha text entered by the username",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }, {
+    "name": "amiRouter",
+    "alias": "",
+    "desc": "The AMI url routing subsystem",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "getWebAppURL",
+      "alias": "",
+      "desc": "Gets the webapp URL",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The webapp URL"
+      }]
+    }, {
+      "name": "getWebAppArgs",
+      "alias": "",
+      "desc": "Gets the arguments of the webapp URL",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, string>"],
+        "desc": "The arguments of the webapp URL"
+      }]
+    }, {
+      "name": "getWebAppHash",
+      "alias": "",
+      "desc": "Gets the anchor part of the webapp URL",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The anchor part of the webapp URL"
+      }]
+    }, {
+      "name": "getScriptURL",
+      "alias": "",
+      "desc": "Gets the script URL",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The script URL"
+      }]
+    }, {
+      "name": "getScriptArgs",
+      "alias": "",
+      "desc": "Gets the arguments of the script URL",
+      "params": [],
+      "returns": [{
+        "type": ["Object.<string, string>"],
+        "desc": "The arguments of the the script URL"
+      }]
+    }, {
+      "name": "getWebappHash",
+      "alias": "",
+      "desc": "Gets anchor part of the script URL",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The anchor part of the script URL"
+      }]
+    }, {
+      "name": "getOriginURL",
+      "alias": "",
+      "desc": "Gets the origin URL",
+      "params": [],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The origin URL"
+      }]
+    }, {
+      "name": "append",
+      "alias": "",
+      "desc": "Appends a routing rule",
+      "params": [{
+        "name": "regExp",
+        "type": ["string"],
+        "desc": "the regExp",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "callback",
+        "type": ["function"],
+        "desc": "the callback",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["AMIRouter"],
+        "desc": "The amiRouter singleton"
+      }]
+    }, {
+      "name": "remove",
+      "alias": "",
+      "desc": "Removes a routing rule",
+      "params": [{
+        "name": "regExp",
+        "type": ["string"],
+        "desc": "the regExp",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["AMIRouter"],
+        "desc": "The amiRouter singleton"
+      }]
+    }, {
+      "name": "check",
+      "alias": "",
+      "desc": "Checks whether the URL matches with a routing rule",
+      "params": [],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "appendHistoryEntry",
+      "alias": "",
+      "desc": "Appends a new history entry",
+      "params": [{
+        "name": "path",
+        "type": ["string"],
+        "desc": "the new path",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "context",
+        "type": ["Object.<string, *>"],
+        "desc": "the new context",
+        "default": null,
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "replaceHistoryEntry",
+      "alias": "",
+      "desc": "Replaces the current history entry",
+      "params": [{
+        "name": "path",
+        "type": ["string"],
+        "desc": "the new path",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "context",
+        "type": ["Object.<string, *>"],
+        "desc": "the new context",
+        "default": null,
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }]
+  }, {
+    "name": "amiWebApp",
+    "alias": "",
+    "desc": "The AMI webapp subsystem",
+    "implements": [],
+    "inherits": [],
+    "variables": [{
+      "name": "webAppURL",
+      "alias": "",
+      "type": ["string"],
+      "desc": "The webapp URL"
+    }, {
+      "name": "scriptURL",
+      "alias": "",
+      "type": ["string"],
+      "desc": "The script URL"
+    }, {
+      "name": "originURL",
+      "alias": "",
+      "type": ["string"],
+      "desc": "The origin URL"
+    }, {
+      "name": "args",
+      "alias": "",
+      "type": ["Object.<string, string>"],
+      "desc": "The arguments of the webapp URL"
+    }, {
+      "name": "hash",
+      "alias": "",
+      "type": ["string"],
+      "desc": "The anchor part of the webapp URL"
+    }, {
+      "name": "bootstrapVersion",
+      "alias": "",
+      "type": ["number"],
+      "desc": "The Twitter Bootstrap's version (default, 4)"
+    }, {
+      "name": "Vue",
+      "alias": "",
+      "type": ["Module"],
+      "desc": "The Vue.js framework"
+    }],
+    "events": [{
+      "name": "onReady",
+      "alias": "",
+      "desc": "This method must be overloaded and is called when the Web application starts",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }]
+    }, {
+      "name": "onRefresh",
+      "alias": "",
+      "desc": "This method must be overloaded and is called when the toolbar needs to be updated",
+      "params": [{
+        "name": "isAuth",
+        "type": ["boolean"],
+        "desc": "is the user authenticated",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }],
+    "functions": [{
+      "name": "start",
+      "alias": "",
+      "desc": "Starts the Web application",
+      "params": [{
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (logo_url, background_url, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["AMIWebApp"],
+        "desc": ""
+      }]
+    }, {
+      "name": "typeOf",
+      "alias": "",
+      "desc": "Gets the type name of the given object",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The type name of the given object"
+      }]
+    }, {
+      "name": "asArray",
+      "alias": "",
+      "desc": "Turns the given object into an array if it is not already the case",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["Array.<*>"],
+        "desc": "The resulting array"
+      }]
+    }, {
+      "name": "isString",
+      "alias": "",
+      "desc": "Checks whether the given object is a string",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "isArray",
+      "alias": "",
+      "desc": "Checks whether the given object is an array",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "isObject",
+      "alias": "",
+      "desc": "Checks whether the given object is an object",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "isSet",
+      "alias": "",
+      "desc": "Checks whether the given object is a set",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "isMap",
+      "alias": "",
+      "desc": "Checks whether the given object is a map",
+      "params": [{
+        "name": "x",
+        "type": ["*"],
+        "desc": "the object",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }, {
+      "name": "setup",
+      "alias": "",
+      "desc": "",
+      "params": [{
+        "name": "optionNames",
+        "type": ["Array.<string>"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "optionDefaults",
+        "type": ["Array.<*>"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["Array.<*>"],
+        "desc": ""
+      }]
+    }, {
+      "name": "lock",
+      "alias": "",
+      "desc": "Locks the Web application",
+      "params": []
+    }, {
+      "name": "unlock",
+      "alias": "",
+      "desc": "Unlocks the Web application",
+      "params": []
+    }, {
+      "name": "modalEnter",
+      "alias": "",
+      "desc": "Enter the modal window",
+      "params": []
+    }, {
+      "name": "modalLeave",
+      "alias": "",
+      "desc": "Leave the modal window",
+      "params": []
+    }, {
+      "name": "canLeave",
+      "alias": "",
+      "desc": "Specifies whether leaving the current page must be confirmed or not",
+      "params": [{
+        "name": "canLeave",
+        "type": [],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "error",
+      "alias": "",
+      "desc": "Shows an 'error' message",
+      "params": [{
+        "name": "message",
+        "type": ["string", "Array.<string>"],
+        "desc": "the message",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "fadeOut",
+        "type": ["boolean"],
+        "desc": "if True, the message disappears after 60s",
+        "default": false,
+        "optional": true,
+        "nullable": ""
+      }]
+    }, {
+      "name": "info",
+      "alias": "",
+      "desc": "Shows an 'info' message",
+      "params": [{
+        "name": "message",
+        "type": ["string", "Array.<string>"],
+        "desc": "the message",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "fadeOut",
+        "type": ["boolean"],
+        "desc": "if True, the message disappears after 60s",
+        "default": false,
+        "optional": true,
+        "nullable": ""
+      }]
+    }, {
+      "name": "success",
+      "alias": "",
+      "desc": "Shows a 'success' message",
+      "params": [{
+        "name": "message",
+        "type": ["string", "Array.<string>"],
+        "desc": "the message",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "fadeOut",
+        "type": ["boolean"],
+        "desc": "if True, the message disappears after 60s",
+        "default": false,
+        "optional": true,
+        "nullable": ""
+      }]
+    }, {
+      "name": "warning",
+      "alias": "",
+      "desc": "Shows a 'warning' message",
+      "params": [{
+        "name": "message",
+        "type": ["string", "Array.<string>"],
+        "desc": "the message",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "fadeOut",
+        "type": ["boolean"],
+        "desc": "if True, the message disappears after 60s",
+        "default": false,
+        "optional": true,
+        "nullable": ""
+      }]
+    }, {
+      "name": "flush",
+      "alias": "",
+      "desc": "Flushes messages",
+      "params": []
+    }, {
+      "name": "base64Encode",
+      "alias": "",
+      "desc": "Encodes the given string to base64",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the decoded string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The encoded string"
+      }]
+    }, {
+      "name": "base64Decode",
+      "alias": "",
+      "desc": "Decodes the given string from base64",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the encoded string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The decoded string"
+      }]
+    }, {
+      "name": "textToHtml",
+      "alias": "",
+      "desc": "Escapes the given string from text to HTML",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the unescaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The escaped string"
+      }]
+    }, {
+      "name": "htmlToText",
+      "alias": "",
+      "desc": "Unescapes the given string from HTML to text",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the escaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The unescaped string"
+      }]
+    }, {
+      "name": "textToString",
+      "alias": "",
+      "desc": "Escapes the given string from text to JavaScript string",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the unescaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The escaped string"
+      }]
+    }, {
+      "name": "stringToText",
+      "alias": "",
+      "desc": "Unescapes the given string from JavaScript string to text",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the escaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The unescaped string"
+      }]
+    }, {
+      "name": "htmlToString",
+      "alias": "",
+      "desc": "Escapes the given string from HTML to JavaScript string",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the unescaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The escaped string"
+      }]
+    }, {
+      "name": "stringToHtml",
+      "alias": "",
+      "desc": "Unescapes the given string from JavaScript string to HTML",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the escaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The unescaped string"
+      }]
+    }, {
+      "name": "textToSQL",
+      "alias": "",
+      "desc": "Escapes the given string from text to SQL",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the unescaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The escaped string"
+      }]
+    }, {
+      "name": "sqlToText",
+      "alias": "",
+      "desc": "Unescapes the given string from SQL to text",
+      "params": [{
+        "name": "s",
+        "type": ["string"],
+        "desc": "the escaped string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The unescaped string"
+      }]
+    }, {
+      "name": "fillBreadcrumb",
+      "alias": "",
+      "desc": "Fills the main breadcrumb",
+      "params": [{
+        "name": "items",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of HTML formatted items",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "replaceHTML",
+      "alias": "",
+      "desc": "Puts a HTML or TWIG fragment to the given target",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, scope, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "prependHTML",
+      "alias": "",
+      "desc": "Prepends a HTML or TWIG fragment to the given target",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, scope, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "appendHTML",
+      "alias": "",
+      "desc": "Appends a HTML or TWIG fragment to the given target",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, scope, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "formatTWIG",
+      "alias": "",
+      "desc": "Interprets the given TWIG string",
+      "params": [{
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG string",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "dict",
+        "type": ["Object.<string, *>", "Array.<Object.<string, *>>"],
+        "desc": "the dictionary",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "twigs",
+        "type": ["Object.<string, string>"],
+        "desc": "dictionary of fragments",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "see": ["{@link https://twig.symfony.com/doc/}"],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The Interpreted TWIG string"
+      }]
+    }, {
+      "name": "renderJSDoc",
+      "alias": "",
+      "desc": "Renders a AMI JSDoc documentation",
+      "params": [{
+        "name": "menuSelector",
+        "type": ["string"],
+        "desc": "selector of the menu div",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "bodySelector",
+        "type": ["string"],
+        "desc": "selector of the body div",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "json",
+        "type": ["object"],
+        "desc": "the JSON documentation",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["AMIJSDoc"],
+        "desc": ""
+      }]
+    }, {
+      "name": "loadResources",
+      "alias": "",
+      "desc": "Asynchronously loads resources by file extension",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadSheets",
+      "alias": "",
+      "desc": "Asynchronously loads CSS sheets",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadScripts",
+      "alias": "",
+      "desc": "Asynchronously loads JS scripts",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadJSONs",
+      "alias": "",
+      "desc": "Asynchronously loads JSON files",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadXMLs",
+      "alias": "",
+      "desc": "Asynchronously loads XML files",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadHTMLs",
+      "alias": "",
+      "desc": "Asynchronously loads HTML files",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadTWIGs",
+      "alias": "",
+      "desc": "Asynchronously loads TWIG files",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadTexts",
+      "alias": "",
+      "desc": "Asynchronously loads text files",
+      "params": [{
+        "name": "urls",
+        "type": ["Array.<string>", "string"],
+        "desc": "the array of urls",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadSubApp",
+      "alias": "",
+      "desc": "Asynchronously loads a subapp",
+      "params": [{
+        "name": "subapp",
+        "type": ["string"],
+        "desc": "the subapp name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": true,
+        "nullable": true
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadSubAppByURL",
+      "alias": "",
+      "desc": "Asynchronously loads a subapp by URL",
+      "params": [{
+        "name": "defaultSubApp",
+        "type": ["string"],
+        "desc": "if 'amiRouter.getArgs()[\"subapp\"]' is null, the default subapp name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "defaultUserData",
+        "type": ["*"],
+        "desc": "if 'amiRouter.getArgs()[\"userdata\"]' is null, the default user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadControl",
+      "alias": "",
+      "desc": "Asynchronously loads a control",
+      "params": [{
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControl",
+      "alias": "",
+      "desc": "Asynchronously creates a control",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "owner",
+        "type": ["*"],
+        "desc": "the owner entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "params",
+        "type": ["Array.<*>"],
+        "desc": "the control's parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInBody",
+      "alias": "",
+      "desc": "Asynchronously creates a control in the body",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "owner",
+        "type": ["*"],
+        "desc": "the owner entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "ownerOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the owner's optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInContainer",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "owner",
+        "type": ["*"],
+        "desc": "the owner entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "ownerOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the owner's optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "icon",
+        "type": ["string"],
+        "desc": "the icon",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "title",
+        "type": ["string"],
+        "desc": "the title",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlFromWebLink",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container from a WEB link",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "owner",
+        "type": ["*"],
+        "desc": "the owner entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "el",
+        "type": ["Element"],
+        "desc": "the HTML element",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "ownerOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the owner's optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }],
+  "interfaces": [{
+    "name": "ami.IControl",
+    "alias": "",
+    "desc": "The AMI control interface",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "onReady",
+      "alias": "",
+      "desc": "Called when the control is ready to run",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onRemove",
+      "alias": "",
+      "desc": "Called when the control is removed",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "patchId",
+      "alias": "",
+      "desc": "Patches an HTML identifier",
+      "params": [{
+        "name": "id",
+        "type": ["string"],
+        "desc": "the not patched HTML identifier",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The patched HTML identifier"
+      }]
+    }, {
+      "name": "replaceHTML",
+      "alias": "",
+      "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "prependHTML",
+      "alias": "",
+      "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "appendHTML",
+      "alias": "",
+      "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }, {
+    "name": "ami.IContainer",
+    "alias": "",
+    "desc": "The AMI container interface",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "render",
+      "alias": "",
+      "desc": "",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (...)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "prependItem",
+      "alias": "",
+      "desc": "Prepends an item",
+      "params": [{
+        "name": "title",
+        "type": ["string"],
+        "desc": "the title",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (...)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object returning the new item's identifier"
+      }]
+    }, {
+      "name": "appendItem",
+      "alias": "",
+      "desc": "Appends an item",
+      "params": [{
+        "name": "title",
+        "type": ["string"],
+        "desc": "the title",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (...)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object returning the new item's identifier"
+      }]
+    }, {
+      "name": "removeItem",
+      "alias": "",
+      "desc": "Removes an item",
+      "params": [{
+        "name": "itemId",
+        "type": ["string"],
+        "desc": "the item identifier",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "removeAllItems",
+      "alias": "",
+      "desc": "Removes all items",
+      "params": []
+    }, {
+      "name": "isEmpty",
+      "alias": "",
+      "desc": "Checks whether the container is empty or not",
+      "params": [],
+      "returns": [{
+        "type": ["boolean"],
+        "desc": ""
+      }]
+    }]
+  }, {
+    "name": "ami.ISubApp",
+    "alias": "",
+    "desc": "The AMI sub-application interface",
+    "implements": [],
+    "inherits": [],
+    "functions": [{
+      "name": "onReady",
+      "alias": "",
+      "desc": "Called when the sub-application is ready to run",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onExit",
+      "alias": "",
+      "desc": "Called when the sub-application is about to exit",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onLogin",
+      "alias": "",
+      "desc": "Called when logging in",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onLogout",
+      "alias": "",
+      "desc": "Called when logging out",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }]
+  }],
+  "classes": [{
+    "name": "ami.Control",
+    "alias": "",
+    "desc": "The basic AMI control",
+    "implements": ["ami.IControl"],
+    "inherits": [],
+    "konstructor": {
+      "name": "Control",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "owner",
+        "type": ["*"],
+        "desc": "the owner entity",
+        "optional": "",
+        "nullable": true
+      }]
+    },
+    "functions": [{
+      "name": "onReady",
+      "alias": "",
+      "desc": "Called when the control is ready to run",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onRemove",
+      "alias": "",
+      "desc": "Called when the control is removed",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "patchId",
+      "alias": "",
+      "desc": "Patches an HTML identifier",
+      "params": [{
+        "name": "id",
+        "type": ["string"],
+        "desc": "the not patched HTML identifier",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["string"],
+        "desc": "The patched HTML identifier"
+      }]
+    }, {
+      "name": "replaceHTML",
+      "alias": "",
+      "desc": "Puts a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "prependHTML",
+      "alias": "",
+      "desc": "Prepends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "appendHTML",
+      "alias": "",
+      "desc": "Appends a HTML or TWIG fragment to the given target, see method [formatTWIG]{@link #jsdoc_method_formatTWIG}",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "setupCtx",
+      "alias": "",
+      "desc": "Sets up the control's context",
+      "params": [{
+        "name": "immutables",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of immutable parameters in the control's context",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "defaults",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of default values for optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of values for optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The resulting control's context"
+      }]
+    }, {
+      "name": "createControl",
+      "alias": "",
+      "desc": "Asynchronously creates a control",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "params",
+        "type": ["Array.<*>"],
+        "desc": "the control's parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInBody",
+      "alias": "",
+      "desc": "Asynchronously creates a control in the body",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInContainer",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "icon",
+        "type": ["string"],
+        "desc": "the icon",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "title",
+        "type": ["string"],
+        "desc": "the title",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlFromWebLink",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container from a WEB link",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "el",
+        "type": ["Element"],
+        "desc": "the HTML element",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }, {
+    "name": "ami.SubApp",
+    "alias": "",
+    "desc": "The basic AMI sub-application",
+    "implements": ["ami.ISubApp"],
+    "inherits": [],
+    "konstructor": {
+      "name": "SubApp",
+      "params": []
+    },
+    "functions": [{
+      "name": "onReady",
+      "alias": "",
+      "desc": "Called when the sub-application is ready to run",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onExit",
+      "alias": "",
+      "desc": "Called when the sub-application is about to exit",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onLogin",
+      "alias": "",
+      "desc": "Called when logging in",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "onLogout",
+      "alias": "",
+      "desc": "Called when logging out",
+      "params": [{
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }],
+      "returns": [{
+        "type": ["$.Promise", "$.Deferred", "undefined"],
+        "desc": "A JQuery promise object, deferred object or nothing"
+      }]
+    }, {
+      "name": "setupCtx",
+      "alias": "",
+      "desc": "Sets up the application's context",
+      "params": [{
+        "name": "immutables",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of immutable parameters in the application's context",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "defaults",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of default values for optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of values for optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["Object.<string, *>"],
+        "desc": "The resulting application's context"
+      }]
+    }, {
+      "name": "createControl",
+      "alias": "",
+      "desc": "Asynchronously creates a control",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "params",
+        "type": ["Array.<*>"],
+        "desc": "the control's parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInBody",
+      "alias": "",
+      "desc": "Asynchronously creates a control in the body",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlInContainer",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "control",
+        "type": ["string"],
+        "desc": "the control name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlParams",
+        "type": ["Array.<*>"],
+        "desc": "the control's render method mandatory parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "controlOptions",
+        "type": ["Object.<string, *>"],
+        "desc": "the control's render method optional parameters",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "icon",
+        "type": ["string"],
+        "desc": "the icon",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "title",
+        "type": ["string"],
+        "desc": "the title",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "createControlFromWebLink",
+      "alias": "",
+      "desc": "Asynchronously creates a control in a container from a WEB link",
+      "params": [{
+        "name": "parent",
+        "type": ["*"],
+        "desc": "the parent entity",
+        "default": "",
+        "optional": "",
+        "nullable": true
+      }, {
+        "name": "el",
+        "type": ["Element"],
+        "desc": "the HTML element",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }]
+  }],
+  "functions": [{
+    "name": "$AMINamespace",
+    "alias": "",
+    "desc": "Creates a new namespace",
+    "params": [{
+      "name": "$name",
+      "type": ["string"],
+      "desc": "the namespace name",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "$descr",
+      "type": ["Object.<string, *>"],
+      "desc": "the namespace body",
+      "default": "{}",
+      "optional": true,
+      "nullable": ""
+    }]
+  }, {
+    "name": "$AMIInterface",
+    "alias": "",
+    "desc": "Creates a new interface",
+    "params": [{
+      "name": "$name",
+      "type": ["string"],
+      "desc": "the interface name",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "$descr",
+      "type": ["Object.<string, *>"],
+      "desc": "the interface body",
+      "default": "{}",
+      "optional": true,
+      "nullable": ""
+    }]
+  }, {
+    "name": "$AMIClass",
+    "alias": "",
+    "desc": "Creates a new class",
+    "params": [{
+      "name": "$name",
+      "type": ["string"],
+      "desc": "the class name",
+      "default": "",
+      "optional": "",
+      "nullable": ""
+    }, {
+      "name": "$descr",
+      "type": ["Object.<string, *>"],
+      "desc": "the class body",
+      "default": "{}",
+      "optional": true,
+      "nullable": ""
+    }]
+  }]
+});
+;// CONCATENATED MODULE: ./index.js
 
 
 
@@ -29107,7 +29113,6 @@ window.amiWebApp = js_AMIWebApp;
 window.amiLogin = js_AMIAuth;
 window.amiAuth = js_AMIAuth;
 window.amiDoc = AMIDoc;
-window.Vue = vue_runtime_esm_bundler_namespaceObject;
 })();
 
 /******/ })()
