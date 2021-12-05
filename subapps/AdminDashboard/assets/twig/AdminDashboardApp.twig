@@ -2,40 +2,40 @@
 
 	<!-- *********************************************************************************************************** -->
 
-	<div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 4.5rem;">
+	<div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 4.5rem;" id="B8DD5CD8_7D69_2D12_033A_A7BB834F88D0">
 		<ul class="nav nav-pills nav-flush flex-column text-center">
 			<li class="nav-item" title="Home" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right">
-				<a class="nav-link {% if mode === 'bookmarks' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="#E39D6F9F_A0ED_F142_9BB9_4BB6F6A34DFD" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="pill">
+				<a class="nav-link {% if mode === 'home' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="{{ WEBAPP_URL }}?subapp=adminDashboard&userdata=home">
 					<i class="bi bi-layout-text-window-reverse" style="font-size: 1.25rem;"></i>
 				</a>
 			</li>
 			<li class="nav-item" title="Configuration" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right">
-				<a class="nav-link {% if mode === 'dashboards' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="#B7826584_C4F2_C189_339B_1B2E7820DA32" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="pill">
+				<a class="nav-link {% if mode === 'config' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="{{ WEBAPP_URL }}?subapp=adminDashboard&userdata=config">
 					<i class="bi bi-tools" style="font-size: 1.25rem;"></i>
 				</a>
 			</li>
-			<li class="nav-item" title="Documents" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right">
-				<a class="nav-link {% if mode === 'dashboards' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="#D47D1D9A_A6BD_6DAC_201C_CDDA2B4C3565" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="pill">
+			<li class="nav-item" title="Pages" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right">
+				<a class="nav-link {% if mode === 'pages' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="{{ WEBAPP_URL }}?subapp=adminDashboard&userdata=pages">
 					<i class="bi bi-file-earmark-richtext" style="font-size: 1.25rem;"></i>
 				</a>
 			</li>
-			<li class="nav-item" title="Pages" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right">
-				<a class="nav-link {% if mode === 'dashboards' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="#C53820D4_6C5B_0099_2520_D5ABC8432B60" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="pill">
+			<li class="nav-item" title="Roles" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right">
+				<a class="nav-link {% if mode === 'roles' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="{{ WEBAPP_URL }}?subapp=adminDashboard&userdata=roles">
 					<i class="bi bi-hand-thumbs-up" style="font-size: 1.25rem;"></i>
 				</a>
 			</li>
 			<li class="nav-item" title="Commands" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right">
-				<a class="nav-link {% if mode === 'dashboards' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="#C290693B_2640_A032_C95D_7E385771D920" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="pill">
+				<a class="nav-link {% if mode === 'commands' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="{{ WEBAPP_URL }}?subapp=adminDashboard&userdata=commands">
 					<i class="bi bi-code-slash" style="font-size: 1.25rem;"></i>
 				</a>
 			</li>
 			<li class="nav-item" title="Users" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right">
-				<a class="nav-link {% if mode === 'dashboards' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="#C1391712_9CFB_FAEB_7936_A95D94AE503B" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="pill">
+				<a class="nav-link {% if mode === 'users' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="{{ WEBAPP_URL }}?subapp=adminDashboard&userdata=users">
 					<i class="bi bi-people" style="font-size: 1.25rem;"></i>
 				</a>
 			</li>
 			<li class="nav-item" title="Catalogs" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="hover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right">
-				<a class="nav-link {% if mode === 'dashboards' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="#D326F8C8_FE08_35B0_E2CD_6BE9872DFD0B" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="pill">
+				<a class="nav-link {% if mode === 'catalogs' %}active{% else %}xxxxxx{% endif %} border-bottom rounded-0 py-3" href="{{ WEBAPP_URL }}?subapp=adminDashboard&userdata=catalogs">
 					<i class="bi bi-hdd-network" style="font-size: 1.25rem;"></i>
 				</a>
 			</li>
@@ -44,9 +44,7 @@
 
 	<!-- *********************************************************************************************************** -->
 
-	<div class="tab-content p{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-4" style="min-height: calc(100vh - 12.5rem); width: calc(100% - 4.5rem);">
-
-	</div>
+	<div class="p{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-4" style="min-height: calc(100vh - 12.5rem); width: calc(100% - 4.5rem);" id="BCCE2136_3695_AB6F_4F08_3BD3C9035287"></div>
 
 	<!-- *********************************************************************************************************** -->
 

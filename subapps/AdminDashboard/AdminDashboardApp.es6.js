@@ -11,6 +11,14 @@
 
 import twigAdminDashboardApp from './assets/twig/AdminDashboardApp.twig';
 
+import * as home from './home';
+import * as config from './config';
+import * as pages from './pages';
+import * as roles from './roles';
+import * as commands from './commands';
+import * as users from './users';
+import * as catalogs from './catalogs';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('AdminDashboardApp', {
@@ -24,10 +32,54 @@ $AMIClass('AdminDashboardApp', {
 	{
 		const result = $.Deferred();
 
-		amiWebApp.replaceHTML('#ami_main_content', twigAdminDashboardApp).done(() => {
+		/*------------------------------------------------------------------------------------------------------------*/
 
-			result.resolve();
+		const dict = {};
+
+		/**/ if(userdata === 'config') {
+			this.subsubapp = config;
+			dict.mode = 'config';
+		}
+		else if(userdata === 'pages') {
+			this.subsubapp = pages;
+			dict.mode = 'pages';
+		}
+		else if(userdata === 'roles') {
+			this.subsubapp = roles;
+			dict.mode = 'roles';
+		}
+		else if(userdata === 'commands') {
+			this.subsubapp = commands;
+			dict.mode = 'commands';
+		}
+		else if(userdata === 'users') {
+			this.subsubapp = users;
+			dict.mode = 'users';
+		}
+		else if(userdata === 'catalogs') {
+			this.subsubapp = catalogs;
+			dict.mode = 'catalogs';
+		}
+		else {
+			this.subsubapp = home;
+			dict.mode = 'home';
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.replaceHTML('#ami_main_content', twigAdminDashboardApp, {dict: dict}).done(() => {
+
+			this.subsubapp.init().done(() => {
+
+				result.resolve();
+
+			}).fail((message) => {
+
+				result.reject(message);
+			});
 		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		return result;
 	},
@@ -36,18 +88,45 @@ $AMIClass('AdminDashboardApp', {
 
 	onExit: function()
 	{
+		if(this.subsubapp.onExit)
+		{
+			return this.subsubapp.onExit();
+		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogin: function()
 	{
+		if(amiAuth.hasRole('AMI_ADMIN'))
+		{
+			amiWebApp.flush();
+
+			$('#B8DD5CD8_7D69_2D12_033A_A7BB834F88D0 .nav-link').prop('disabled', false);
+			$('#BCCE2136_3695_AB6F_4F08_3BD3C9035287').show();
+
+			if(this.subsubapp.onLogin)
+			{
+				return this.subsubapp.onLogin();
+			}
+		}
+		else
+		{
+			return this.onLogout();
+		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogout: function()
 	{
+		$('#B8DD5CD8_7D69_2D12_033A_A7BB834F88D0 .nav-link').prop('disabled', true);
+		$('#BCCE2136_3695_AB6F_4F08_3BD3C9035287').hide();
+
+		if(this.subsubapp.onLogout)
+		{
+			return this.subsubapp.onLogout();
+		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
