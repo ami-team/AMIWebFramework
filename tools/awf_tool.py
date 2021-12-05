@@ -1098,7 +1098,7 @@ AWF_HOME_PAGE_TEMPLATE = '''<?xml version="1.0" encoding="utf-8"?>
 					menu +=
 						'<li class="nav-item dropdown">' +
 						'  <a href="#" class="nav-link dropdown-toggle" {{DATA}}-toggle="dropdown">' +
-						'    <i class="fa fa-key"></i> Admin' +
+						'    <i class="bi bi-key"></i> Admin' +
 						'  </a>' +
 						'  <div class="dropdown-menu">' +
 						'    <a class="dropdown-item" href="' + amiWebApp.webAppURL + '?subapp=adminDashboard">Admin Dashboard</a>' +
