@@ -27,11 +27,11 @@ export function init()
 
 		$('#ACA527B0_4581_8292_DB2A_22C900E621A0').text(amiTwig.version);
 
-		$('#D9C3541F_3534_1312_4C08_F22962C05347').text(Vue.version);
+		$('#D9C3541F_3534_1312_4C08_F22962C05347').text(ami.vue.version);
 
-		$('#E15C9F8C-A955-2643-196B-BBF3317D1616').text(ami.version);
+		$('#E15C9F8C-A955-2643-196B-BBF3317D1616').text(ami.awf.version);
 
-		$('#A47094A8-3D38-666B-E542-2C88AC486E1D').text(ami.commit_id);
+		$('#A47094A8-3D38-666B-E542-2C88AC486E1D').text(ami.awf.commit_id);
 
 		result.resolve();
 	});

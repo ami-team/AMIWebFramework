@@ -10557,6 +10557,218 @@ var AMICommand = function () {
 }();
 
 /* harmony default export */ const js_AMICommand = (new AMICommand());
+;// CONCATENATED MODULE: ./src/js/AMIRouter.js
+
+
+function AMIRouter_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
+
+var AMIRouter_id = 0;
+
+function AMIRouter_classPrivateFieldLooseKey(name) { return "__private_" + AMIRouter_id++ + "_" + name; }
+
+var _webAppURL = AMIRouter_classPrivateFieldLooseKey("webAppURL");
+
+var _webAppArgs = AMIRouter_classPrivateFieldLooseKey("webAppArgs");
+
+var _webAppHash = AMIRouter_classPrivateFieldLooseKey("webAppHash");
+
+var _scriptURL = AMIRouter_classPrivateFieldLooseKey("scriptURL");
+
+var _scriptArgs = AMIRouter_classPrivateFieldLooseKey("scriptArgs");
+
+var _scriptHash = AMIRouter_classPrivateFieldLooseKey("scriptHash");
+
+var _originURL = AMIRouter_classPrivateFieldLooseKey("originURL");
+
+var _routes = AMIRouter_classPrivateFieldLooseKey("routes");
+
+var AMIRouter = function () {
+  function AMIRouter(prodJsFilename, devJsFilename) {
+    Object.defineProperty(this, _webAppURL, {
+      writable: true,
+      value: ''
+    });
+    Object.defineProperty(this, _webAppArgs, {
+      writable: true,
+      value: {}
+    });
+    Object.defineProperty(this, _webAppHash, {
+      writable: true,
+      value: ''
+    });
+    Object.defineProperty(this, _scriptURL, {
+      writable: true,
+      value: ''
+    });
+    Object.defineProperty(this, _scriptArgs, {
+      writable: true,
+      value: {}
+    });
+    Object.defineProperty(this, _scriptHash, {
+      writable: true,
+      value: ''
+    });
+    Object.defineProperty(this, _originURL, {
+      writable: true,
+      value: ''
+    });
+    Object.defineProperty(this, _routes, {
+      writable: true,
+      value: []
+    });
+    var webappUrl = new URL(window.location);
+
+    var scriptUrl = this._findThisJs(prodJsFilename, devJsFilename);
+
+    if (!scriptUrl) {
+      throw "cannot find neither '" + prodJsFilename + "' nor '" + devJsFilename + "'";
+    }
+
+    AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] = webappUrl.protocol === 'file:' ? "file://" + webappUrl.pathname : "" + webappUrl.origin + webappUrl.pathname;
+    AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = this._parseSearchString(webappUrl.search);
+    AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash] = webappUrl.hash.substring(1);
+    AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL] = scriptUrl.protocol === 'file:' ? "file://" + scriptUrl.pathname : "" + scriptUrl.origin + scriptUrl.pathname;
+    AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = this._parseSearchString(scriptUrl.search);
+    AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash] = scriptUrl.hash.substring(1);
+    var idx;
+
+    if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(prodJsFilename)) > 0) {
+      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = this._eatSlashes(AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
+    } else if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(devJsFilename)) > 0) {
+      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = this._eatSlashes(AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
+    }
+  }
+
+  var _proto = AMIRouter.prototype;
+
+  _proto._findThisJs = function _findThisJs(prodJsFilename, devJsFilename) {
+    var scripts = document.getElementsByTagName('script');
+
+    for (var i = 0; i < scripts.length; i++) {
+      var url = new URL(scripts[i].src);
+
+      if (url.pathname.endsWith(prodJsFilename) > 0 || url.pathname.endsWith(devJsFilename) > 0) {
+        return url;
+      }
+    }
+
+    return null;
+  };
+
+  _proto._parseSearchString = function _parseSearchString(search) {
+    var result = {};
+    search.substring(1).split('&').forEach(function (param) {
+      var parts = param.split('=');
+
+      if (parts.length === 1) {
+        result[decodeURIComponent(parts[0]).toLowerCase()] = '';
+      } else if (parts.length === 2) {
+        result[decodeURIComponent(parts[0]).toLowerCase()] = decodeURIComponent(parts[1]);
+      }
+    });
+    return result;
+  };
+
+  _proto._eatSlashes = function _eatSlashes(url) {
+    url = url.trim();
+
+    while (url[url.length - 1] === '/') {
+      url = url.substring(0, url.length - 1);
+    }
+
+    return url;
+  };
+
+  _proto.getWebAppURL = function getWebAppURL() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL];
+  };
+
+  _proto.getWebAppArgs = function getWebAppArgs() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs];
+  };
+
+  _proto.getWebAppHash = function getWebAppHash() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash];
+  };
+
+  _proto.getScriptURL = function getScriptURL() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL];
+  };
+
+  _proto.getScriptArgs = function getScriptArgs() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs];
+  };
+
+  _proto.getWebappHash = function getWebappHash() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash];
+  };
+
+  _proto.getOriginURL = function getOriginURL() {
+    return AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL];
+  };
+
+  _proto.append = function append(regExp, callback) {
+    AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].unshift({
+      regExp: regExp,
+      callback: callback
+    });
+
+    return this;
+  };
+
+  _proto.remove = function remove(regExp) {
+    AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes] = AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].filter(function (route) {
+      return route.regExp.toString() !== regExp.toString();
+    });
+    return this;
+  };
+
+  _proto.check = function check() {
+    var m;
+
+    for (var i = 0; i < AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].length; i++) {
+      m = AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash].match(AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes][i].regExp);
+
+      if (m) {
+        AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes][i].callback.apply(this, m);
+
+        return true;
+      }
+    }
+
+    return false;
+  };
+
+  _proto.appendHistoryEntry = function appendHistoryEntry(path, context) {
+    if (context === void 0) {
+      context = null;
+    }
+
+    if (history.pushState) {
+      history.pushState(context, null, AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] + this._eatSlashes(path));
+      return true;
+    }
+
+    return false;
+  };
+
+  _proto.replaceHistoryEntry = function replaceHistoryEntry(path, context) {
+    if (context === void 0) {
+      context = null;
+    }
+
+    if (history.replaceState) {
+      history.replaceState(context, null, AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] + this._eatSlashes(path));
+      return true;
+    }
+
+    return false;
+  };
+
+  return AMIRouter;
+}();
+
+/* harmony default export */ const js_AMIRouter = (new AMIRouter('js/ami.min.js', 'js/ami.js'));
 // EXTERNAL MODULE: ./node_modules/ami-twig/index.js
 var ami_twig = __webpack_require__(444);
 ;// CONCATENATED MODULE: ./src/js/utilities/tools.js
@@ -10807,218 +11019,6 @@ function error(message, fadeOut) {
 function flush() {
   $('#ami_alert_content').empty();
 }
-;// CONCATENATED MODULE: ./src/js/AMIRouter.js
-
-
-function AMIRouter_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
-
-var AMIRouter_id = 0;
-
-function AMIRouter_classPrivateFieldLooseKey(name) { return "__private_" + AMIRouter_id++ + "_" + name; }
-
-var _webAppURL = AMIRouter_classPrivateFieldLooseKey("webAppURL");
-
-var _webAppArgs = AMIRouter_classPrivateFieldLooseKey("webAppArgs");
-
-var _webAppHash = AMIRouter_classPrivateFieldLooseKey("webAppHash");
-
-var _scriptURL = AMIRouter_classPrivateFieldLooseKey("scriptURL");
-
-var _scriptArgs = AMIRouter_classPrivateFieldLooseKey("scriptArgs");
-
-var _scriptHash = AMIRouter_classPrivateFieldLooseKey("scriptHash");
-
-var _originURL = AMIRouter_classPrivateFieldLooseKey("originURL");
-
-var _routes = AMIRouter_classPrivateFieldLooseKey("routes");
-
-var AMIRouter = function () {
-  function AMIRouter(prodJsFilename, devJsFilename) {
-    Object.defineProperty(this, _webAppURL, {
-      writable: true,
-      value: ''
-    });
-    Object.defineProperty(this, _webAppArgs, {
-      writable: true,
-      value: {}
-    });
-    Object.defineProperty(this, _webAppHash, {
-      writable: true,
-      value: ''
-    });
-    Object.defineProperty(this, _scriptURL, {
-      writable: true,
-      value: ''
-    });
-    Object.defineProperty(this, _scriptArgs, {
-      writable: true,
-      value: {}
-    });
-    Object.defineProperty(this, _scriptHash, {
-      writable: true,
-      value: ''
-    });
-    Object.defineProperty(this, _originURL, {
-      writable: true,
-      value: ''
-    });
-    Object.defineProperty(this, _routes, {
-      writable: true,
-      value: []
-    });
-    var webappUrl = new URL(window.location);
-
-    var scriptUrl = this._findThisJs(prodJsFilename, devJsFilename);
-
-    if (!scriptUrl) {
-      throw "cannot find neither '" + prodJsFilename + "' nor '" + devJsFilename + "'";
-    }
-
-    AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] = webappUrl.protocol === 'file:' ? "file://" + webappUrl.pathname : "" + webappUrl.origin + webappUrl.pathname;
-    AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = this._parseSearchString(webappUrl.search);
-    AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash] = webappUrl.hash.substring(1);
-    AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL] = scriptUrl.protocol === 'file:' ? "file://" + scriptUrl.pathname : "" + scriptUrl.origin + scriptUrl.pathname;
-    AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = this._parseSearchString(scriptUrl.search);
-    AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash] = scriptUrl.hash.substring(1);
-    var idx;
-
-    if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(prodJsFilename)) > 0) {
-      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = this._eatSlashes(AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
-    } else if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(devJsFilename)) > 0) {
-      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = this._eatSlashes(AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
-    }
-  }
-
-  var _proto = AMIRouter.prototype;
-
-  _proto._findThisJs = function _findThisJs(prodJsFilename, devJsFilename) {
-    var scripts = document.getElementsByTagName('script');
-
-    for (var i = 0; i < scripts.length; i++) {
-      var url = new URL(scripts[i].src);
-
-      if (url.pathname.endsWith(prodJsFilename) > 0 || url.pathname.endsWith(devJsFilename) > 0) {
-        return url;
-      }
-    }
-
-    return null;
-  };
-
-  _proto._parseSearchString = function _parseSearchString(search) {
-    var result = {};
-    search.substring(1).split('&').forEach(function (param) {
-      var parts = param.split('=');
-
-      if (parts.length === 1) {
-        result[decodeURIComponent(parts[0]).toLowerCase()] = '';
-      } else if (parts.length === 2) {
-        result[decodeURIComponent(parts[0]).toLowerCase()] = decodeURIComponent(parts[1]);
-      }
-    });
-    return result;
-  };
-
-  _proto._eatSlashes = function _eatSlashes(url) {
-    url = url.trim();
-
-    while (url[url.length - 1] === '/') {
-      url = url.substring(0, url.length - 1);
-    }
-
-    return url;
-  };
-
-  _proto.getWebAppURL = function getWebAppURL() {
-    return AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL];
-  };
-
-  _proto.getWebAppArgs = function getWebAppArgs() {
-    return AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs];
-  };
-
-  _proto.getWebAppHash = function getWebAppHash() {
-    return AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash];
-  };
-
-  _proto.getScriptURL = function getScriptURL() {
-    return AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL];
-  };
-
-  _proto.getScriptArgs = function getScriptArgs() {
-    return AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs];
-  };
-
-  _proto.getWebappHash = function getWebappHash() {
-    return AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash];
-  };
-
-  _proto.getOriginURL = function getOriginURL() {
-    return AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL];
-  };
-
-  _proto.append = function append(regExp, callback) {
-    AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].unshift({
-      regExp: regExp,
-      callback: callback
-    });
-
-    return this;
-  };
-
-  _proto.remove = function remove(regExp) {
-    AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes] = AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].filter(function (route) {
-      return route.regExp.toString() !== regExp.toString();
-    });
-    return this;
-  };
-
-  _proto.check = function check() {
-    var m;
-
-    for (var i = 0; i < AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes].length; i++) {
-      m = AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash].match(AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes][i].regExp);
-
-      if (m) {
-        AMIRouter_classPrivateFieldLooseBase(this, _routes)[_routes][i].callback.apply(this, m);
-
-        return true;
-      }
-    }
-
-    return false;
-  };
-
-  _proto.appendHistoryEntry = function appendHistoryEntry(path, context) {
-    if (context === void 0) {
-      context = null;
-    }
-
-    if (history.pushState) {
-      history.pushState(context, null, AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] + this._eatSlashes(path));
-      return true;
-    }
-
-    return false;
-  };
-
-  _proto.replaceHistoryEntry = function replaceHistoryEntry(path, context) {
-    if (context === void 0) {
-      context = null;
-    }
-
-    if (history.replaceState) {
-      history.replaceState(context, null, AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] + this._eatSlashes(path));
-      return true;
-    }
-
-    return false;
-  };
-
-  return AMIRouter;
-}();
-
-/* harmony default export */ const js_AMIRouter = (new AMIRouter('js/ami.min.js', 'js/ami.js'));
 // EXTERNAL MODULE: ./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js
 var injectStylesIntoStyleTag = __webpack_require__(3379);
 var injectStylesIntoStyleTag_default = /*#__PURE__*/__webpack_require__.n(injectStylesIntoStyleTag);
@@ -15215,186 +15215,6 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
     remove: function remove() {
       $(this).trigger(_ami_internal_jQueryRemoveEvent);
       return _ami_internal_jQueryRemove.apply(this, arguments);
-    }
-  });
-}
-;// CONCATENATED MODULE: ./src/js/AMIInterface.js
-
-
-
-
-
-
-
-function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defaults, options) {
-  if (options) {
-    for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _Object$entries[_i],
-          key = _Object$entries$_i[0],
-          val = _Object$entries$_i[1];
-      ctxOptions[key] = val;
-      ctx[key] = val;
-    }
-  }
-
-  if (defaults) {
-    for (var _i2 = 0, _Object$entries2 = Object.entries(defaults); _i2 < _Object$entries2.length; _i2++) {
-      var _Object$entries2$_i = _Object$entries2[_i2],
-          _key = _Object$entries2$_i[0],
-          _val = _Object$entries2$_i[1];
-
-      if (!(_key in ctx)) {
-        if (_key !== 'context') {
-          ctxDefaults[_key] = _val;
-        }
-
-        ctx[_key] = _val;
-      }
-    }
-  }
-
-  if (immutables) {
-    for (var _i3 = 0, _Object$entries3 = Object.entries(immutables); _i3 < _Object$entries3.length; _i3++) {
-      var _Object$entries3$_i = _Object$entries3[_i3],
-          _key2 = _Object$entries3$_i[0],
-          _val2 = _Object$entries3$_i[1];
-      ctxImmutables[_key2] = _val2;
-      ctx[_key2] = _val2;
-    }
-  }
-
-  ctx.httpEndpoint = js_AMICommand.getHttpEndpoint();
-  ctx.mqttEndpoint = js_AMICommand.getMqttEndpoint();
-  return ctx;
-}
-
-/* harmony default export */ function AMIInterface() {
-  $AMINamespace('ami', {
-    version: '2.0.0',
-    commit_id: '{{AMI_COMMIT_ID}}'
-  });
-  $AMIInterface('ami.IControl', {
-    onReady: function onReady() {},
-    onRemove: function onRemove() {},
-    patchId: function patchId(id) {},
-    replaceHTML: function replaceHTML(selector, twig, options) {},
-    prependHTML: function prependHTML(selector, twig, options) {},
-    appendHTML: function appendHTML(selector, twig, options) {}
-  });
-  $AMIInterface('ami.IContainer', {
-    render: function render(selector, options) {},
-    prependItem: function prependItem(title, options) {},
-    appendItem: function appendItem(title, options) {},
-    removeItem: function removeItem(itemId) {},
-    removeAllItems: function removeAllItems() {},
-    isEmpty: function isEmpty() {}
-  });
-  $AMIClass('ami.Control', {
-    $implements: [ami.IControl],
-    $: function $() {
-      ami.Control._instanceScopeCnt = 1;
-    },
-    $init: function $init(parent, owner) {
-      this._parent = parent || this;
-      this._owner = owner || this;
-      this._instanceScope = ami.Control._instanceScopeCnt++;
-    },
-    onReady: function onReady() {},
-    onRemove: function onRemove() {},
-    setParent: function setParent(parent) {
-      return this._parent = parent || this;
-    },
-    getParent: function getParent() {
-      return this._parent;
-    },
-    setOwner: function setOwner(owner) {
-      return this._owner = owner || this;
-    },
-    getOwner: function getOwner() {
-      return this._owner;
-    },
-    setSelector: function setSelector(selector) {
-      var _this = this;
-
-      if (selector) {
-        $(selector).off('remove').on('remove', function () {
-          _this.onRemove();
-        });
-      }
-
-      return this._selector = selector || '';
-    },
-    getSelector: function getSelector() {
-      return this._selector;
-    },
-    ctxImmutables: {},
-    ctxDefaults: {},
-    ctxOptions: {},
-    ctx: {},
-    setupCtx: function setupCtx(immutables, defaults, options) {
-      return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
-    },
-    patchId: function patchId(id) {
-      return id + "_scope" + this._instanceScope;
-    },
-    replaceHTML: function replaceHTML(selector, twig, options) {
-      options = options || {};
-      options.scope = this._instanceScope;
-      return view_replaceHTML(selector, twig, options);
-    },
-    prependHTML: function prependHTML(selector, twig, options) {
-      options = options || {};
-      options.scope = this._instanceScope;
-      return view_prependHTML(selector, twig, options);
-    },
-    appendHTML: function appendHTML(selector, twig, options) {
-      options = options || {};
-      options.scope = this._instanceScope;
-      return view_appendHTML(selector, twig, options);
-    },
-    createControl: function createControl(parent, control, params, options) {
-      return controls_createControl(parent, this, control, params, options);
-    },
-    createControlInBody: function createControlInBody(parent, control, controlParams, controlOptions, options) {
-      return controls_createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
-    },
-    createControlInContainer: function createControlInContainer(parent, control, controlParams, controlOptions, icon, title, options) {
-      return controls_createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
-    },
-    createControlFromWebLink: function createControlFromWebLink(parent, el, options) {
-      return controls_createControlFromWebLink(parent, this, el, this.ctx, options);
-    }
-  });
-  $AMIInterface('ami.ISubApp', {
-    onReady: function onReady(userdata) {},
-    onExit: function onExit(userdata) {},
-    onLogin: function onLogin(userdata) {},
-    onLogout: function onLogout(userdata) {}
-  });
-  $AMIClass('ami.SubApp', {
-    $implements: [ami.ISubApp],
-    onReady: function onReady() {},
-    onExit: function onExit() {},
-    onLogin: function onLogin() {},
-    onLogout: function onLogout() {},
-    ctxImmutables: {},
-    ctxDefaults: {},
-    ctxOptions: {},
-    ctx: {},
-    setupCtx: function setupCtx(immutables, defaults, options) {
-      return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
-    },
-    createControl: function createControl(parent, control, params, options) {
-      return controls_createControl(parent, this, control, params, options);
-    },
-    createControlInBody: function createControlInBody(parent, control, controlParams, controlOptions, options) {
-      return controls_createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
-    },
-    createControlInContainer: function createControlInContainer(parent, control, controlParams, controlOptions, icon, title, options) {
-      return controls_createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
-    },
-    createControlFromWebLink: function createControlFromWebLink(parent, el, options) {
-      return controls_createControlFromWebLink(parent, this, el, this.ctx, options);
     }
   });
 }
@@ -25862,6 +25682,197 @@ const vue_runtime_esm_bundler_compile = () => {
 
 
 
+;// CONCATENATED MODULE: ./src/js/AMIInterface.js
+
+
+
+
+
+
+
+
+
+
+
+function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defaults, options) {
+  if (options) {
+    for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
+      var _Object$entries$_i = _Object$entries[_i],
+          key = _Object$entries$_i[0],
+          val = _Object$entries$_i[1];
+      ctxOptions[key] = val;
+      ctx[key] = val;
+    }
+  }
+
+  if (defaults) {
+    for (var _i2 = 0, _Object$entries2 = Object.entries(defaults); _i2 < _Object$entries2.length; _i2++) {
+      var _Object$entries2$_i = _Object$entries2[_i2],
+          _key = _Object$entries2$_i[0],
+          _val = _Object$entries2$_i[1];
+
+      if (!(_key in ctx)) {
+        if (_key !== 'context') {
+          ctxDefaults[_key] = _val;
+        }
+
+        ctx[_key] = _val;
+      }
+    }
+  }
+
+  if (immutables) {
+    for (var _i3 = 0, _Object$entries3 = Object.entries(immutables); _i3 < _Object$entries3.length; _i3++) {
+      var _Object$entries3$_i = _Object$entries3[_i3],
+          _key2 = _Object$entries3$_i[0],
+          _val2 = _Object$entries3$_i[1];
+      ctxImmutables[_key2] = _val2;
+      ctx[_key2] = _val2;
+    }
+  }
+
+  ctx.httpEndpoint = js_AMICommand.getHttpEndpoint();
+  ctx.mqttEndpoint = js_AMICommand.getMqttEndpoint();
+  return ctx;
+}
+
+/* harmony default export */ function AMIInterface() {
+  $AMINamespace('ami', {
+    awf: {
+      version: '2.0.0',
+      commit_id: '{{AMI_COMMIT_ID}}'
+    },
+    amiCommand: js_AMICommand,
+    amiRouter: js_AMIRouter,
+    amiWebapp: js_AMIWebApp,
+    amiAuth: js_AMIAuth,
+    vue: vue_runtime_esm_bundler_namespaceObject
+  });
+  $AMIInterface('ami.IControl', {
+    onReady: function onReady() {},
+    onRemove: function onRemove() {},
+    patchId: function patchId(id) {},
+    replaceHTML: function replaceHTML(selector, twig, options) {},
+    prependHTML: function prependHTML(selector, twig, options) {},
+    appendHTML: function appendHTML(selector, twig, options) {}
+  });
+  $AMIInterface('ami.IContainer', {
+    render: function render(selector, options) {},
+    prependItem: function prependItem(title, options) {},
+    appendItem: function appendItem(title, options) {},
+    removeItem: function removeItem(itemId) {},
+    removeAllItems: function removeAllItems() {},
+    isEmpty: function isEmpty() {}
+  });
+  $AMIClass('ami.Control', {
+    $implements: [ami.IControl],
+    $: function $() {
+      ami.Control._instanceScopeCnt = 1;
+    },
+    $init: function $init(parent, owner) {
+      this._parent = parent || this;
+      this._owner = owner || this;
+      this._instanceScope = ami.Control._instanceScopeCnt++;
+    },
+    onReady: function onReady() {},
+    onRemove: function onRemove() {},
+    setParent: function setParent(parent) {
+      return this._parent = parent || this;
+    },
+    getParent: function getParent() {
+      return this._parent;
+    },
+    setOwner: function setOwner(owner) {
+      return this._owner = owner || this;
+    },
+    getOwner: function getOwner() {
+      return this._owner;
+    },
+    setSelector: function setSelector(selector) {
+      var _this = this;
+
+      if (selector) {
+        $(selector).off('remove').on('remove', function () {
+          _this.onRemove();
+        });
+      }
+
+      return this._selector = selector || '';
+    },
+    getSelector: function getSelector() {
+      return this._selector;
+    },
+    ctxImmutables: {},
+    ctxDefaults: {},
+    ctxOptions: {},
+    ctx: {},
+    setupCtx: function setupCtx(immutables, defaults, options) {
+      return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
+    },
+    patchId: function patchId(id) {
+      return id + "_scope" + this._instanceScope;
+    },
+    replaceHTML: function replaceHTML(selector, twig, options) {
+      options = options || {};
+      options.scope = this._instanceScope;
+      return view_replaceHTML(selector, twig, options);
+    },
+    prependHTML: function prependHTML(selector, twig, options) {
+      options = options || {};
+      options.scope = this._instanceScope;
+      return view_prependHTML(selector, twig, options);
+    },
+    appendHTML: function appendHTML(selector, twig, options) {
+      options = options || {};
+      options.scope = this._instanceScope;
+      return view_appendHTML(selector, twig, options);
+    },
+    createControl: function createControl(parent, control, params, options) {
+      return controls_createControl(parent, this, control, params, options);
+    },
+    createControlInBody: function createControlInBody(parent, control, controlParams, controlOptions, options) {
+      return controls_createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
+    },
+    createControlInContainer: function createControlInContainer(parent, control, controlParams, controlOptions, icon, title, options) {
+      return controls_createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
+    },
+    createControlFromWebLink: function createControlFromWebLink(parent, el, options) {
+      return controls_createControlFromWebLink(parent, this, el, this.ctx, options);
+    }
+  });
+  $AMIInterface('ami.ISubApp', {
+    onReady: function onReady(userdata) {},
+    onExit: function onExit(userdata) {},
+    onLogin: function onLogin(userdata) {},
+    onLogout: function onLogout(userdata) {}
+  });
+  $AMIClass('ami.SubApp', {
+    $implements: [ami.ISubApp],
+    onReady: function onReady() {},
+    onExit: function onExit() {},
+    onLogin: function onLogin() {},
+    onLogout: function onLogout() {},
+    ctxImmutables: {},
+    ctxDefaults: {},
+    ctxOptions: {},
+    ctx: {},
+    setupCtx: function setupCtx(immutables, defaults, options) {
+      return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
+    },
+    createControl: function createControl(parent, control, params, options) {
+      return controls_createControl(parent, this, control, params, options);
+    },
+    createControlInBody: function createControlInBody(parent, control, controlParams, controlOptions, options) {
+      return controls_createControlInBody(parent, this, control, controlParams, controlOptions, this.ctx, options);
+    },
+    createControlInContainer: function createControlInContainer(parent, control, controlParams, controlOptions, icon, title, options) {
+      return controls_createControlInContainer(parent, this, control, controlParams, controlOptions, this.ctx, icon, title, options);
+    },
+    createControlFromWebLink: function createControlFromWebLink(parent, el, options) {
+      return controls_createControlFromWebLink(parent, this, el, this.ctx, options);
+    }
+  });
+}
 // EXTERNAL MODULE: ./src/images/lpsc.png
 var lpsc = __webpack_require__(4998);
 // EXTERNAL MODULE: ./src/images/cloud.png
@@ -25882,7 +25893,6 @@ function AMIWebApp_classPrivateFieldLooseBase(receiver, privateKey) { if (!Objec
 var AMIWebApp_id = 0;
 
 function AMIWebApp_classPrivateFieldLooseKey(name) { return "__private_" + AMIWebApp_id++ + "_" + name; }
-
 
 
 
@@ -25947,7 +25957,6 @@ var AMIWebApp = function () {
     this.args = {};
     this.hash = '';
     this.bootstrapVersion = 4;
-    this.Vue = vue_runtime_esm_bundler_namespaceObject;
     this.typeOf = typeOf;
     this.asArray = asArray;
     this.isString = isString;
@@ -27006,11 +27015,6 @@ var AMIWebApp = function () {
       "alias": "",
       "type": ["number"],
       "desc": "The Twitter Bootstrap's version (default, 4)"
-    }, {
-      "name": "Vue",
-      "alias": "",
-      "type": ["Module"],
-      "desc": "The Vue.js framework"
     }],
     "events": [{
       "name": "onReady",
@@ -29105,10 +29109,12 @@ var AMIWebApp = function () {
 
 
 
+
 window.$AMIClass = $AMIClass;
 window.$AMINamespace = $AMINamespace;
 window.$AMIInterface = $AMIInterface;
 window.amiCommand = js_AMICommand;
+window.amiRouter = js_AMIRouter;
 window.amiWebApp = js_AMIWebApp;
 window.amiLogin = js_AMIAuth;
 window.amiAuth = js_AMIAuth;

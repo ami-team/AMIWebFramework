@@ -29,8 +29,6 @@ import amiInterfaces from './AMIInterface';
 
 import JSPath from 'jspath';
 
-import * as Vue from 'vue';
-
 import '../images/lpsc.png';
 import '../images/cloud.png';
 import '../images/glass.png';
@@ -193,13 +191,6 @@ class AMIWebApp
 	 */
 
 	bootstrapVersion = 4;
-
-	/**
-	 * The Vue.js framework
-	 * @type {Module}
-	 */
-
-	Vue = Vue;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* CONSTRUCTOR                                                                                                    */

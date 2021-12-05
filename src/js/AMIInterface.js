@@ -16,7 +16,12 @@ import * as controls from './utilities/controls';
 
 import * as AMIObject from './AMIObject';
 
+import amiAuth from './AMIAuth';
+import amiRouter from './AMIRouter';
+import amiWebapp from './AMIWebApp';
 import amiCommand from './AMICommand';
+
+import * as Vue from 'vue';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -94,8 +99,15 @@ export default function()
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	AMIObject.$AMINamespace('ami', {
-		version: '{{AMI_VERSION}}',
-		commit_id: '{{AMI_COMMIT_ID}}',
+		awf: {
+			version: '{{AMI_VERSION}}',
+			commit_id: '{{AMI_COMMIT_ID}}',
+		},
+		amiCommand: amiCommand,
+		amiRouter: amiRouter,
+		amiWebapp: amiWebapp,
+		amiAuth: amiAuth,
+		vue: Vue,
 	});
 
 	/*----------------------------------------------------------------------------------------------------------------*/
