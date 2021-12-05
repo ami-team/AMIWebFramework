@@ -18,10 +18,10 @@
 
 <div class="card">
 
-	<div class="card-body row g-4 row-cols-1 row-cols-md-2 row-cols-lg-4">
+	<div class="card-body g-4 row row-cols-1 row-cols-md-2 row-cols-lg-4">
 		<!-- ******************************************************************************************************* -->
 
-		<div class="col d-flex align-items-start">
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
 			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
 				<i class="bi bi-gear" style="font-size: 2rem;"></i>
 			</div>
@@ -36,7 +36,7 @@
 
 		<!-- ******************************************************************************************************* -->
 
-		<div class="col d-flex align-items-start">
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
 			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
 				<i class="bi bi-file-earmark-richtext" style="font-size: 2rem;"></i>
 			</div>
@@ -51,7 +51,7 @@
 
 		<!-- ******************************************************************************************************* -->
 
-		<div class="col d-flex align-items-start">
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
 			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
 				<i class="bi bi-hand-thumbs-up" style="font-size: 2rem;"></i>
 			</div>
@@ -66,7 +66,7 @@
 
 		<!-- ******************************************************************************************************* -->
 
-		<div class="col d-flex align-items-start">
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
 			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
 				<i class="bi bi-code-slash" style="font-size: 2rem;"></i>
 			</div>
@@ -81,7 +81,7 @@
 
 		<!-- ******************************************************************************************************* -->
 
-		<div class="col d-flex align-items-start">
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
 			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
 				<i class="bi bi-people" style="font-size: 2rem;"></i>
 			</div>
@@ -96,7 +96,7 @@
 
 		<!-- ******************************************************************************************************* -->
 
-		<div class="col d-flex align-items-start">
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
 			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
 				<i class="bi bi-hdd-network" style="font-size: 2rem;"></i>
 			</div>
@@ -111,14 +111,14 @@
 
 		<!-- ******************************************************************************************************* -->
 
-		<div class="col d-flex align-items-start">
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
 			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
 				<i class="bi bi-bezier2" style="font-size: 2rem;"></i>
 			</div>
 			<div>
 				<h2>Schema viewer</h2>
 				<p>Schema viewer / editor</p>
-				<a class="btn btn-success" href="{{ WEBAPP_URL }}?subapp=" target="_blank">
+				<a class="btn btn-success" href="{{ WEBAPP_URL }}?subapp=schemaViewer" target="_blank">
 					<i class="bi bi-box-arrow-up-right"></i> Go
 				</a>
 			</div>
@@ -126,14 +126,14 @@
 
 		<!-- ******************************************************************************************************* -->
 
-		<div class="col d-flex align-items-start">
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
 			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
 				<i class="bi bi-magic" style="font-size: 2rem;"></i>
 			</div>
 			<div>
 				<h2>Search modeler</h2>
 				<p>Search interface modeler</p>
-				<a class="btn btn-success" href="{{ WEBAPP_URL }}?subapp=" target="_blank">
+				<a class="btn btn-success" href="{{ WEBAPP_URL }}?subapp=searchModeler" target="_blank">
 					<i class="bi bi-box-arrow-up-right"></i> Go
 				</a>
 			</div>
@@ -141,14 +141,14 @@
 
 		<!-- ******************************************************************************************************* -->
 
-		<div class="col d-flex align-items-start">
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
 			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
 				<i class="bi bi-speedometer" style="font-size: 2rem;"></i>
 			</div>
 			<div>
 				<h2>Node monitoring</h2>
 				<p>Server node monitoring</p>
-				<a class="btn btn-success" href="{{ WEBAPP_URL }}?subapp=" target="_blank">
+				<a class="btn btn-success" href="{{ WEBAPP_URL }}?subapp=nodeMonitoring" target="_blank">
 					<i class="bi bi-box-arrow-up-right"></i> Go
 				</a>
 			</div>
@@ -156,14 +156,29 @@
 
 		<!-- ******************************************************************************************************* -->
 
-		<div class="col d-flex align-items-start">
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
 			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
 				<i class="bi bi-speedometer" style="font-size: 2rem;"></i>
 			</div>
 			<div>
 				<h2>Task monitoring</h2>
 				<p>Task server node monitoring</p>
-				<a class="btn btn-success" href="{{ WEBAPP_URL }}?subapp=" target="_blank">
+				<a class="btn btn-success" href="{{ WEBAPP_URL }}?subapp=taskMonitoring" target="_blank">
+					<i class="bi bi-box-arrow-up-right"></i> Go
+				</a>
+			</div>
+		</div>
+
+		<!-- ******************************************************************************************************* -->
+
+		<div class="col d-flex align-items-start{% if BOOTSTRAP_VERSION < 5 %} mb-4{% endif %}">
+			<div class="icon-square bg-light text-dark flex-shrink-0 me-3">
+				<i class="bi bi-node-red" style="font-size: 2rem;"></i>
+			</div>
+			<div>
+				<h2>Node-RED</h2>
+				<p>Event-driven programming</p>
+				<a class="btn btn-success" href="{{ nodeRedURL|e }}" target="_blank">
 					<i class="bi bi-box-arrow-up-right"></i> Go
 				</a>
 			</div>
@@ -176,7 +191,7 @@
 
 <!-- *************************************************************************************************************** -->
 
-<div class="alert alert-light p-2">
+<div class="alert alert-light p-2 my-1">
 
 	<div class="row">
 		<!-- ******************************************************************************************************* -->
