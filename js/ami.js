@@ -15119,7 +15119,10 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
 }
 
 /* harmony default export */ function AMIInterface() {
-  $AMINamespace('ami');
+  $AMINamespace('ami', {
+    version: '2.0.0',
+    commit_id: '{{AMI_COMMIT_ID}}'
+  });
   $AMIInterface('ami.IControl', {
     onReady: function onReady() {},
     onRemove: function onRemove() {},

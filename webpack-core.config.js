@@ -92,7 +92,7 @@ const config = {
 					{
 						'loader': 'string-replace-loader',
 						'options': {
-							'search': '{{VERSION}}',
+							'search': '{{(VERSION|AMI_VERSION)}}',
 							'replace': PACKAGE.version,
 							'flags': 'g'
 						}

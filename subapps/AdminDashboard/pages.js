@@ -17,7 +17,10 @@ export function init()
 {
 	const result = $.Deferred();
 
-	result.resolve();
+	amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigPages).done(() => {
+
+		result.resolve();
+	});
 
 	return result;
 }

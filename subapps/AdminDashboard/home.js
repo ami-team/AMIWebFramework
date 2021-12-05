@@ -17,7 +17,22 @@ export function init()
 {
 	const result = $.Deferred();
 
-	result.resolve();
+	amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigHome).done(() => {
+
+		$('#FCA2B6DC_3239_838D_A109_91F164524987').text(jQuery.fn.tooltip.Constructor.VERSION);
+
+		$('#F8D580E4_05F1_0317_9F3F_E4BA7AB99D3E').text(jQuery.fn.jquery);
+
+		$('#ACA527B0_4581_8292_DB2A_22C900E621A0').text(amiTwig.version);
+
+		//$('#D9C3541F_3534_1312_4C08_F22962C05347').text(Vue.version);
+
+		$('#E15C9F8C-A955-2643-196B-BBF3317D1616').text(ami.version);
+
+		$('#A47094A8-3D38-666B-E542-2C88AC486E1D').text(ami.commit_id);
+
+		result.resolve();
+	});
 
 	return result;
 }
