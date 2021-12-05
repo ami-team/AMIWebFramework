@@ -24,7 +24,6 @@ import 'kjua';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-// noinspection JSUnusedGlobalSymbols
 /**
  * The AMI authentication subsystem
  * @namespace amiAuth

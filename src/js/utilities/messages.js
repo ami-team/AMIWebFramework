@@ -57,7 +57,6 @@ function _publishAlert(clazz, title, message, fadeOut)
 	const hash = message.hashCode();
 
 	// noinspection TypeScriptUMDGlobal
-
 	const date = moment().format('DD MMM, HH:mm:ss');
 
 	/*----------------------------------------------------------------------------------------------------------------*/

@@ -88,7 +88,6 @@ function _formatDatetime(date, format)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-// noinspection JSUnresolvedVariable
 /**
  * @param {string} selector
  * @param {string} twig

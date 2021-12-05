@@ -1,6 +1,9 @@
 {
     "adminDashboard": {
-        "breadcrumb": [],
+		"breadcrumb": [
+			"Admin",
+			"<a href=\"{{WEBAPP_URL}}?subapp=adminDashboard\">Admin Dashboard</a>"
+		],
         "file": "subapps/AdminDashboard/AdminDashboardApp.min.js",
         "instance": "adminDashboardApp"
     },

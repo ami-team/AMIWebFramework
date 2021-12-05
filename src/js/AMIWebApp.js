@@ -489,32 +489,18 @@ class AMIWebApp
 
 	/**
 	 * Starts the Web application
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (logo_url, background_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (logo_url, background_url, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)
 	 * @returns {AMIWebApp}
 	 */
 
 	start(options)
 	{
 		this.#globalDeferred.done(() => {
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			let defaultThemeURL;
-
-			if((amiRouter.getWebAppArgs()['subapp'] || '').toLowerCase() !== 'userdashboard')
-			{
-				defaultThemeURL = `${this.originURL}/twig/v${this.bootstrapVersion}/Themes/blue.twig`;
-			}
-			else
-			{
-				defaultThemeURL = `${this.originURL}/twig/v${this.bootstrapVersion}/Themes/cloud.twig`;
-			}
-
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			const [
 				logoURL, backgroundURL, homeURL, contactEmail, aboutURL,
-				themeURL, lockerURL, endpointURL,
+				defaultThemeURL, dashboardThemeURL, lockerURL, endpointURL,
 				ssoAutoAuthentication,
 				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
@@ -522,7 +508,7 @@ class AMIWebApp
 				bookmarksAllowed, dashboardsAllowed
 			] = tools.setup([
 				'logo_url', 'background_url', 'home_url', 'contact_email', 'about_url',
-				'theme_url', 'locker_url', 'endpoint_url',
+				'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url',
 				'sso_auto_authentication',
 				'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
 				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
@@ -530,7 +516,8 @@ class AMIWebApp
 				'bookmarks_allowed', 'dashboardsAllowed'
 			], [
 				defaultLogoURL, defaultBackgroundURL, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/',
-				defaultThemeURL,
+				`${this.originURL}/twig/v${this.bootstrapVersion}/Themes/blue.twig`,
+				`${this.originURL}/twig/v${this.bootstrapVersion}/Themes/cloud.twig`,
 				`${this.originURL}/twig/v${this.bootstrapVersion}/Lockers/default.twig`,
 				`${this.originURL}/AMI/FrontEnd`,
 				false,
@@ -595,6 +582,12 @@ class AMIWebApp
 							CONTACT_EMAIL: contactEmail,
 							ABOUT_URL: aboutURL,
 						};
+
+						/*--------------------------------------------------------------------------------------------------------*/
+
+						const themeURL = (amiRouter.getWebAppArgs()['subapp'] || '').toLowerCase() === 'userdashboard' ? dashboardThemeURL
+						                                                                                               : defaultThemeURL
+						;
 
 						/*--------------------------------------------------------------------------------------------*/
 

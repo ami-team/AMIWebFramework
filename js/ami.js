@@ -15455,35 +15455,28 @@ var AMIWebApp = function () {
     var _this2 = this;
 
     AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].done(function () {
-      var defaultThemeURL;
-
-      if ((js_AMIRouter.getWebAppArgs()['subapp'] || '').toLowerCase() !== 'userdashboard') {
-        defaultThemeURL = _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/blue.twig";
-      } else {
-        defaultThemeURL = _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig";
-      }
-
-      var _tools$setup = setup(['logo_url', 'background_url', 'home_url', 'contact_email', 'about_url', 'theme_url', 'locker_url', 'endpoint_url', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboardsAllowed'], [logo, background, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', defaultThemeURL, _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", false, false, true, true, true, true, true, true, true, true, true, true], options),
+      var _tools$setup = setup(['logo_url', 'background_url', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboardsAllowed'], [logo, background, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/blue.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", false, false, true, true, true, true, true, true, true, true, true, true], options),
           logoURL = _tools$setup[0],
           backgroundURL = _tools$setup[1],
           homeURL = _tools$setup[2],
           contactEmail = _tools$setup[3],
           aboutURL = _tools$setup[4],
-          themeURL = _tools$setup[5],
-          lockerURL = _tools$setup[6],
-          endpointURL = _tools$setup[7],
-          ssoAutoAuthentication = _tools$setup[8],
-          ssoAuthenticationAllowed = _tools$setup[9],
-          passwordAuthenticationAllowed = _tools$setup[10],
-          certificateAuthenticationAllowed = _tools$setup[11],
-          logoutAllowed = _tools$setup[12],
-          createAccountAllowed = _tools$setup[13],
-          changeInfoAllowed = _tools$setup[14],
-          changePasswordAllowed = _tools$setup[15],
-          changeCertificateAllowed = _tools$setup[16],
-          captchaAllowed = _tools$setup[17],
-          bookmarksAllowed = _tools$setup[18],
-          dashboardsAllowed = _tools$setup[19];
+          defaultThemeURL = _tools$setup[5],
+          dashboardThemeURL = _tools$setup[6],
+          lockerURL = _tools$setup[7],
+          endpointURL = _tools$setup[8],
+          ssoAutoAuthentication = _tools$setup[9],
+          ssoAuthenticationAllowed = _tools$setup[10],
+          passwordAuthenticationAllowed = _tools$setup[11],
+          certificateAuthenticationAllowed = _tools$setup[12],
+          logoutAllowed = _tools$setup[13],
+          createAccountAllowed = _tools$setup[14],
+          changeInfoAllowed = _tools$setup[15],
+          changePasswordAllowed = _tools$setup[16],
+          changeCertificateAllowed = _tools$setup[17],
+          captchaAllowed = _tools$setup[18],
+          bookmarksAllowed = _tools$setup[19],
+          dashboardsAllowed = _tools$setup[20];
 
       js_AMICommand.initHttpClient(endpointURL);
 
@@ -15529,6 +15522,7 @@ var AMIWebApp = function () {
               CONTACT_EMAIL: contactEmail,
               ABOUT_URL: aboutURL
             };
+            var themeURL = (js_AMIRouter.getWebAppArgs()['subapp'] || '').toLowerCase() === 'userdashboard' ? dashboardThemeURL : defaultThemeURL;
             $.ajax({
               url: themeURL,
               cache: true,
@@ -16426,7 +16420,7 @@ var AMIWebApp = function () {
       "params": [{
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (logo_url, background_url, home_url, contact_email, about_url, theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)",
+        "desc": "dictionary of optional parameters (logo_url, background_url, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed)",
         "default": "{}",
         "optional": true,
         "nullable": ""
