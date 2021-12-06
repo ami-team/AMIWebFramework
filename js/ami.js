@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = iterValue[i][0];
-							dict[sym2] = iterValue[i][1];
+							dict[sym1] = /*-----*/(i);
+							dict[sym2] = iterValue[i];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
