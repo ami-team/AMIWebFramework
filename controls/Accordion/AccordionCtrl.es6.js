@@ -144,7 +144,7 @@ $AMIClass('AccordionCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(`#${itemId} > .card-header > .bi-x`).click((e) => {
+			$(`#${itemId} > .card-header .bi-x`).click((e) => {
 
 				$(`#${itemId}`).remove();
 
