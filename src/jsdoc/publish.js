@@ -15,7 +15,7 @@
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const hhh = /@borrows\s+([a-zA-Z0-9_$]+)(?:\s+as\s+([a-zA-Z0-9_$]+))?/g;
+const borrowsExp = /@borrows\s+([a-zA-Z0-9_$]+)(?:\s+as\s+([a-zA-Z0-9_$]+))?/g;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -39,7 +39,7 @@ function borrowsHelper(node)
 {
 	const result = {};
 
-	for(let m; (m = hhh.exec(node.comment)) !== null;)
+	for(let m; (m = borrowsExp.exec(node.comment)) !== null;)
 	{
 		result[m[1]] = m[2] || m[1];
 	}
