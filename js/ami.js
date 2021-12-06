@@ -29636,6 +29636,7 @@ function _xxxHTML(selector, twig, mode, options) {
     var editors = _find('.form-editor:not(.form-editor-done)');
 
     if (editors.length > 0) Promise.all(/* import() */[__webpack_require__.e(108), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).then(function (monaco) {
+      window.monaco = monaco;
       editors.each(function (_, item) {
         var textarea = $(item);
         var div = $('<div>', {

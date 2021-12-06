@@ -43,6 +43,7 @@ const config = {
 		'controls/Accordion/AccordionCtrl': path.resolve(__dirname, 'controls/Accordion/AccordionCtrl.es6.js'),
 		'controls/Adder/AdderCtrl': path.resolve(__dirname, 'controls/Adder/AdderCtrl.es6.js'),
 		'controls/Tab/TabCtrl': path.resolve(__dirname, 'controls/Tab/TabCtrl.es6.js'),
+		'controls/TextBox/TextBoxCtrl': path.resolve(__dirname, 'controls/TextBox/TextBoxCtrl.es6.js'),
 		'subapps/AdminDashboard/AdminDashboardApp': path.resolve(__dirname, 'subapps/AdminDashboard/AdminDashboardApp.es6.js'),
 		'subapps/BookmarkEditor/BookmarkEditorApp': path.resolve(__dirname, 'subapps/BookmarkEditor/BookmarkEditorApp.es6.js'),
 		'subapps/Command/CommandApp': path.resolve(__dirname, 'subapps/Command/CommandApp.es6.js'),
