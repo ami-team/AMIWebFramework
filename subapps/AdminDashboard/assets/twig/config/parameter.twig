@@ -1,0 +1,17 @@
+<div class="mb-2">
+	<label class="form-label" for="B5C738DB_B705_5E37_24CD_B265532D0853_{{ name|e }}">{{ name|e }}</label>
+	<div class="input-group input-group-sm">
+		<input class="form-control" type="text" name="{{ name|e }}" value="{{ value|e }}" id="B5C738DB_B705_5E37_24CD_B265532D0853_{{ name|e }}" />
+		{% if BOOTSTRAP_VERSION > 4 %}
+		<button class="btn btn-outline-danger" type="button" onclick="window.adminDashboardApp.subsubapp.delParameter('{{ name|e }}');">
+			<i class="bi bi-trash"></i>
+		</button>
+		{% else %}
+		<div class="input-group-append">
+			<button class="btn btn-outline-danger" type="button" onclick="window.adminDashboardApp.subsubapp.delParameter('{{ name|e }}');">
+				<i class="bi bi-trash"></i>
+			</button>
+		</div>
+		{% endif %}
+	</div>
+</div>

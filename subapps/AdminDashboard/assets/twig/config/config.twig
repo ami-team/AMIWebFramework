@@ -1,22 +1,22 @@
 <form class="tabbable" id="D17C089F_FB5D_B2A5_7C9F_65AA0736084F">
 
 	<ul class="nav nav-tabs mb-2">
+		<li class="nav-item {% if BOOTSTRAP_VERSION > 4 %}me-2{% else %}mr-2{% endif %}">
+			<button class="btn btn-outline-primary" type="button" onclick="window.adminDashboardApp.subsubapp.apply();">
+				<i class="bi bi-check-lg"></i> Apply
+			</button>
+		</li>
+		<li class="nav-item {% if BOOTSTRAP_VERSION > 4 %}me-2{% else %}mr-2{% endif %}">
+			<button class="btn btn-outline-danger" type="button" onclick="window.adminDashboardApp.subsubapp.reset();">
+				<i class="bi bi-x-lg"></i> Reset
+			</button>
+		</li>
+		<!-- -->
 		<li class="nav-item"><a class="nav-link active" href="#AECB0E11_094F_F4DB_103A_5D673E09A36F" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab">General</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#EFC2B445_664B_FDFB_42FF_1987B77BE7B4" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab">Pools & caches</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#C5C6F02C_F104_9E65_87A0_2DD60A595BFC" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab">Emails & logs</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#BBA48F7F_8D3B_4FF0_C29F_6CABF23B3F70" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab">Users</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#B18672FB_F009_6F9F_77FC_3334CEA56959" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab">Misc.</a></li>
-		<!-- -->
-		<li class="nav-item ms-auto">
-			<button class="btn btn-outline-primary" type="button" onclick="window.adminDashboardApp.subsubapp.apply();">
-				<i class="bi bi-check-lg"></i> Apply
-			</button>
-		</li>
-		<li class="nav-item ms-2">
-			<button class="btn btn-outline-danger" type="button" onclick="window.adminDashboardApp.subsubapp.reset();">
-				<i class="bi bi-x-lg"></i> Reset
-			</button>
-		</li>
 	</ul>
 
 	<div class="tab-content mb-2">
@@ -35,20 +35,20 @@
 
 				<div class="card-body">
 					<div class="mb-2">
-						<label for="DBB39A79_7E9D_77B2_38E2_7EF6C4BE5C72">base_url</label>
+						<label class="form-label" for="DBB39A79_7E9D_77B2_38E2_7EF6C4BE5C72">base_url</label>
 						<input class="form-control form-control-sm" type="text" name="base_url" value="" id="DBB39A79_7E9D_77B2_38E2_7EF6C4BE5C72" readonly="readonly" />
 					</div>
 
 					<div class="row">
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="E6928AB9_6AF8_D25E_D10D_2CECF1596FAC">admin_user</label>
+								<label class="form-label" for="E6928AB9_6AF8_D25E_D10D_2CECF1596FAC">admin_user</label>
 								<input class="form-control form-control-sm" type="text" name="admin_user" value="" id="E6928AB9_6AF8_D25E_D10D_2CECF1596FAC" readonly="readonly" />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="BD0ADBFA_ED89_62B2_C2B0_E42A5D249F69">admin_pass <span onclick="adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="fa fa-eye"></i></span></label>
+								<label class="form-label" for="BD0ADBFA_ED89_62B2_C2B0_E42A5D249F69">admin_pass <span onclick="window.adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="bi bi-eye"></i></span></label>
 								<input class="form-control form-control-sm" type="password" name="admin_pass" value="" id="BD0ADBFA_ED89_62B2_C2B0_E42A5D249F69" readonly="readonly" />
 							</div>
 						</div>
@@ -57,13 +57,13 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="BEF7D930_09C7_069A_8935_0A1563A4943F">sudoer_user</label>
+								<label class="form-label" for="BEF7D930_09C7_069A_8935_0A1563A4943F">sudoer_user</label>
 								<input class="form-control form-control-sm" type="text" name="sudoer_user" value="" id="BEF7D930_09C7_069A_8935_0A1563A4943F" readonly="readonly" />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="BF66E3A1_3D90_2314_B168_79BF6A1ED2E6">sudoer_pass <span onclick="adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="fa fa-eye"></i></span></label>
+								<label class="form-label" for="BF66E3A1_3D90_2314_B168_79BF6A1ED2E6">sudoer_pass <span onclick="window.adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="bi bi-eye"></i></span></label>
 								<input class="form-control form-control-sm" type="password" name="sudoer_pass" value="" id="BF66E3A1_3D90_2314_B168_79BF6A1ED2E6" readonly="readonly" />
 							</div>
 						</div>
@@ -72,13 +72,13 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="D9887508_5B6E_C64C_DE12_DEA38203C6DF">sso_user</label>
+								<label class="form-label" for="D9887508_5B6E_C64C_DE12_DEA38203C6DF">sso_user</label>
 								<input class="form-control form-control-sm" type="text" name="sso_user" value="" id="D9887508_5B6E_C64C_DE12_DEA38203C6DF" readonly="readonly" />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="AB80987C_03D2_3D21_1ED4_6BD61BE638B4">sso_pass <span onclick="adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="fa fa-eye"></i></span></label>
+								<label class="form-label" for="AB80987C_03D2_3D21_1ED4_6BD61BE638B4">sso_pass <span onclick="window.adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="bi bi-eye"></i></span></label>
 								<input class="form-control form-control-sm" type="password" name="sso_pass" value="" id="AB80987C_03D2_3D21_1ED4_6BD61BE638B4" readonly="readonly" />
 							</div>
 						</div>
@@ -87,30 +87,30 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="A402383D_1E52_8B38_AEFA_D8BF41042994">guest_user</label>
+								<label class="form-label" for="A402383D_1E52_8B38_AEFA_D8BF41042994">guest_user</label>
 								<input class="form-control form-control-sm" type="text" name="guest_user" value="" id="A402383D_1E52_8B38_AEFA_D8BF41042994" readonly="readonly" />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="E3593D78_7D73_50DA_E7D5_5AE1279572DA">guest_pass <span onclick="adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="fa fa-eye"></i></span></label>
+								<label class="form-label" for="E3593D78_7D73_50DA_E7D5_5AE1279572DA">guest_pass <span onclick="window.adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="bi bi-eye"></i></span></label>
 								<input class="form-control form-control-sm" type="password" name="guest_pass" value="" id="E3593D78_7D73_50DA_E7D5_5AE1279572DA" readonly="readonly" />
 							</div>
 						</div>
 					</div>
 
 					<div class="mb-2">
-						<label for="C12BFB0A_AAC1_277D_C70E_B7A57D8049BB">admin_email</label>
+						<label class="form-label" for="C12BFB0A_AAC1_277D_C70E_B7A57D8049BB">admin_email</label>
 						<input class="form-control form-control-sm" type="email" name="admin_email" value="" id="C12BFB0A_AAC1_277D_C70E_B7A57D8049BB" readonly="readonly" />
 					</div>
 
 					<div class="mb-2">
-						<label for="AF1F835B_A41E_A14A_308E_EA4943713775">encryption_key <span onclick="adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="fa fa-eye"></i></span></label>
+						<label class="form-label" for="AF1F835B_A41E_A14A_308E_EA4943713775">encryption_key <span onclick="window.adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="bi bi-eye"></i></span></label>
 						<input class="form-control form-control-sm" type="password" name="encryption_key" value="" id="AF1F835B_A41E_A14A_308E_EA4943713775" readonly="readonly" />
 					</div>
 
 					<div class="mb-2">
-						<label for="FDB07AE5_1F7F_DC72_382B_4C8896F72E88">authorized_ips</label>
+						<label class="form-label" for="FDB07AE5_1F7F_DC72_382B_4C8896F72E88">authorized_ips</label>
 						<input class="form-control form-control-sm" type="text" name="authorized_ips" value="" id="FDB07AE5_1F7F_DC72_382B_4C8896F72E88" readonly="readonly" />
 					</div>
 
@@ -127,40 +127,40 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="D599B140_93F3_2D47_B080_C82D0A34B074">router_catalog</label>
+								<label class="form-label" for="D599B140_93F3_2D47_B080_C82D0A34B074">router_catalog</label>
 								<input class="form-control form-control-sm" type="text" name="router_catalog" value="" id="D599B140_93F3_2D47_B080_C82D0A34B074" readonly="readonly" />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="D9C6E4A6_1486_147C_567B_F701BB8BCB25">router_schema</label>
+								<label class="form-label" for="D9C6E4A6_1486_147C_567B_F701BB8BCB25">router_schema</label>
 								<input class="form-control form-control-sm" type="text" name="router_schema" value="" id="D9C6E4A6_1486_147C_567B_F701BB8BCB25" readonly="readonly" />
 							</div>
 						</div>
 					</div>
 
 					<div class="mb-2">
-						<label for="D7B7F607_6B1C_96FF_A6D1_EC3C39C06938">router_url</label>
+						<label class="form-label" for="D7B7F607_6B1C_96FF_A6D1_EC3C39C06938">router_url</label>
 						<input class="form-control form-control-sm" type="text" name="router_url" value="" id="D7B7F607_6B1C_96FF_A6D1_EC3C39C06938" readonly="readonly" />
 					</div>
 
 					<div class="row">
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="C0FEFC6E_506F_4B60_0852_2FC715747DB4">router_user</label>
+								<label class="form-label" for="C0FEFC6E_506F_4B60_0852_2FC715747DB4">router_user</label>
 								<input class="form-control form-control-sm" type="text" name="router_user" value="" id="C0FEFC6E_506F_4B60_0852_2FC715747DB4" readonly="readonly" />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="DEF65623_22AE_A209_5F1F_B769147646BA">router_pass <span onclick="adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="fa fa-eye"></i></span></label>
+								<label class="form-label" for="DEF65623_22AE_A209_5F1F_B769147646BA">router_pass <span onclick="window.adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="bi bi-eye"></i></span></label>
 								<input class="form-control form-control-sm" name="router_pass" type="password" value="" id="DEF65623_22AE_A209_5F1F_B769147646BA" readonly="readonly" />
 							</div>
 						</div>
 					</div>
 
 					<div class="mb-2">
-						<label for="F05168B8_2A7B_42D0_22DC_D34B561A1F76">time_zone</label>
+						<label class="form-label" for="F05168B8_2A7B_42D0_22DC_D34B561A1F76">time_zone</label>
 						<input class="form-control form-control-sm" type="text" name="time_zone" value="" id="F05168B8_2A7B_42D0_22DC_D34B561A1F76" readonly="readonly" />
 					</div>
 
@@ -175,7 +175,7 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="CDEE1045_A2E5_A314_E01A_EE214612AE91">class_path</label>
+						<label class="form-label" for="CDEE1045_A2E5_A314_E01A_EE214612AE91">class_path</label>
 						<input class="form-control form-control-sm" type="text" name="class_path" value="" id="CDEE1045_A2E5_A314_E01A_EE214612AE91" readonly="readonly" />
 					</div>
 
@@ -196,7 +196,7 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="D0C89264_4608_DACF_2ADF_769574445992">pool_enabled</label>
+						<label class="form-label" for="D0C89264_4608_DACF_2ADF_769574445992">pool_enabled</label>
 						<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="pool_enabled" id="D0C89264_4608_DACF_2ADF_769574445992">
 							<option value="true">true</option>
 							<option value="false">false</option>
@@ -204,22 +204,22 @@
 					</div>
 
 					<div class="mb-2">
-						<label for="DA7048E7_C086_1BD0_8C6D_8B091F10432E">pool_min_idle</label>
+						<label class="form-label" for="DA7048E7_C086_1BD0_8C6D_8B091F10432E">pool_min_idle</label>
 						<input class="form-control form-control-sm" type="number" name="pool_min_idle" min="1" value="10" id="DA7048E7_C086_1BD0_8C6D_8B091F10432E" />
 					</div>
 
 					<div class="mb-2">
-						<label for="D9D55E9D_9A81_16B9_B5EB_94F4FE31C3F7">pool_max_size</label>
+						<label class="form-label" for="D9D55E9D_9A81_16B9_B5EB_94F4FE31C3F7">pool_max_size</label>
 						<input class="form-control form-control-sm" type="number" name="pool_max_size" min="1" value="50" id="D9D55E9D_9A81_16B9_B5EB_94F4FE31C3F7" />
 					</div>
 
 					<div class="mb-2">
-						<label for="BA6AF6A5_03A6_1A14_6EB8_3934E8678430">pool_conn_timeout [ms]</label>
+						<label class="form-label" for="BA6AF6A5_03A6_1A14_6EB8_3934E8678430">pool_conn_timeout [ms]</label>
 						<input class="form-control form-control-sm" type="number" name="pool_conn_timeout" min="250" value="30000" id="BA6AF6A5_03A6_1A14_6EB8_3934E8678430" />
 					</div>
 
 					<div class="mb-2">
-						<label for="BEF3BAD9_4861_D2A7_0BDD_F8C8A7738F2A">pool_idle_timeout [ms]</label>
+						<label class="form-label" for="BEF3BAD9_4861_D2A7_0BDD_F8C8A7738F2A">pool_idle_timeout [ms]</label>
 						<input class="form-control form-control-sm" type="number" name="pool_idle_timeout" min="10000" value="600000" id="BEF3BAD9_4861_D2A7_0BDD_F8C8A7738F2A" />
 					</div>
 
@@ -234,7 +234,7 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="B4391EF0_F480_2547_71A2_F0D25A310382">memcached_enabled</label>
+						<label class="form-label" for="B4391EF0_F480_2547_71A2_F0D25A310382">memcached_enabled</label>
 						<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="memcached_enabled" id="B4391EF0_F480_2547_71A2_F0D25A310382">
 							<option value="false">false</option>
 							<option value="true">true</option>
@@ -242,17 +242,17 @@
 					</div>
 
 					<div class="mb-2">
-						<label for="BDFD511F_D66F_921D_00EC_FA8911A7D1E7">memcached_host</label>
+						<label class="form-label" for="BDFD511F_D66F_921D_00EC_FA8911A7D1E7">memcached_host</label>
 						<input class="form-control form-control-sm" type="text" name="memcached_host" value="localhost" id="BDFD511F_D66F_921D_00EC_FA8911A7D1E7" />
 					</div>
 
 					<div class="mb-2">
-						<label for="E2DE15C0_575E_AFA3_5505_1A92183F6501">memcached_port</label>
+						<label class="form-label" for="E2DE15C0_575E_AFA3_5505_1A92183F6501">memcached_port</label>
 						<input class="form-control form-control-sm" type="number" name="memcached_port" min="0" max="65535" value="11211" id="E2DE15C0_575E_AFA3_5505_1A92183F6501" />
 					</div>
 
 					<div class="mb-2">
-						<label for="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83">memcached_expiration [s]</label>
+						<label class="form-label" for="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83">memcached_expiration [s]</label>
 						<input class="form-control form-control-sm" type="number" name="memcached_expiration" min="0" value="3600" id="D095BE4E_A602_B5AC_FD2C_FAB2981E1A83" />
 					</div>
 
@@ -273,17 +273,17 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="B6333D09_8956_670D_633A_E3D86820A901">email_host</label>
+						<label class="form-label" for="B6333D09_8956_670D_633A_E3D86820A901">email_host</label>
 						<input class="form-control form-control-sm" type="text" name="email_host" value="@NULL" id="B6333D09_8956_670D_633A_E3D86820A901" />
 					</div>
 
 					<div class="mb-2">
-						<label for="DDB724BC_3C4B_D28B_BB01_8A262C37E414">email_port</label>
+						<label class="form-label" for="DDB724BC_3C4B_D28B_BB01_8A262C37E414">email_port</label>
 						<input class="form-control form-control-sm" type="number" name="email_port" min="0" max="65535" value="465" id="DDB724BC_3C4B_D28B_BB01_8A262C37E414" />
 					</div>
 
 					<div class="mb-2">
-						<label for="B6EC0FD3_3AA6_5F4E_48BE_754750C13BF2">email_mode</label>
+						<label class="form-label" for="B6EC0FD3_3AA6_5F4E_48BE_754750C13BF2">email_mode</label>
 						<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="email_mode" id="B6EC0FD3_3AA6_5F4E_48BE_754750C13BF2">
 							<option value="0">NONE</option>
 							<option value="1">SSL</option>
@@ -294,13 +294,13 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="FE75C5BA_B360_1010_A2E8_71BFC8E31A5C">email_user</label>
+								<label class="form-label" for="FE75C5BA_B360_1010_A2E8_71BFC8E31A5C">email_user</label>
 								<input class="form-control form-control-sm" type="text" name="email_user" value="@NULL" id="FE75C5BA_B360_1010_A2E8_71BFC8E31A5C" />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="C2CD0717_606C_AE3C_03A6_0973FCE42F61">email_pass <span onclick="adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="fa fa-eye"></i></span></label>
+								<label class="form-label" for="C2CD0717_606C_AE3C_03A6_0973FCE42F61">email_pass <span onclick="window.adminDashboardApp.subsubapp.togglePasswordVisibility($(this));"><i class="bi bi-eye"></i></span></label>
 								<input class="form-control form-control-sm" type="password" name="email_pass" value="@NULL" id="C2CD0717_606C_AE3C_03A6_0973FCE42F61" />
 							</div>
 						</div>
@@ -313,16 +313,16 @@
 						</div>
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6">Test</label>
+								<label class="form-label" for="EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6">Test</label>
 								<div class="input-group input-group-sm">
 									<input class="form-control" type="email" value="" id="EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6" placeholder="Email adresse" />
 									{% if BOOTSTRAP_VERSION > 4 %}
-									<button class="btn btn-outline-success" onclick="window.adminDashboardApp.subsubapp.testEmail($('#EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6').val());">
+									<button class="btn btn-outline-success" type="button" onclick="window.adminDashboardApp.subsubapp.testEmail($('#EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6').val());">
 										<i class="bi bi-check-lg"></i>
 									</button>
 									{% else %}
 									<div class="input-group-append">
-										<button class="btn btn-outline-success" onclick="window.adminDashboardApp.subsubapp.testEmail($('#EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6').val());">
+										<button class="btn btn-outline-success" type="button" onclick="window.adminDashboardApp.subsubapp.testEmail($('#EF7B0FC2_4754_7B61_BC0F_5CF7DDD630A6').val());">
 											<i class="bi bi-check-lg"></i>
 										</button>
 									</div>
@@ -343,7 +343,7 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="BAD88E12_35FE_A93B_315A_681138989CDE">dev_mode</label>
+						<label class="form-label" for="BAD88E12_35FE_A93B_315A_681138989CDE">dev_mode</label>
 						<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="dev_mode" id="BAD88E12_35FE_A93B_315A_681138989CDE">
 							<option value="false">false</option>
 							<option value="true">true</option>
@@ -351,7 +351,7 @@
 					</div>
 
 					<div class="mb-2">
-						<label for="BA484238_6691_F95E_E2C7_B1B9F962997A">log_level</label>
+						<label class="form-label" for="BA484238_6691_F95E_E2C7_B1B9F962997A">log_level</label>
 						<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="log_level" id="BA484238_6691_F95E_E2C7_B1B9F962997A">
 							<option value="ALL">ALL</option>
 							<option value="TRACE">TRACE</option>
@@ -365,12 +365,12 @@
 					</div>
 
 					<div class="mb-2">
-						<label for="EF356F0E_57B1_557B_E250_D0F7D7984661">log_to (comma separated emails)</label>
+						<label class="form-label" for="EF356F0E_57B1_557B_E250_D0F7D7984661">log_to (comma separated emails)</label>
 						<input class="form-control form-control-sm" type="text" name="log_to" value="@NULL" id="EF356F0E_57B1_557B_E250_D0F7D7984661" />
 					</div>
 
 					<div class="mb-2">
-						<label for="B252B8E1_A004_FAE8_439F_BA1176920718">log_cc (comma separated emails)</label>
+						<label class="form-label" for="B252B8E1_A004_FAE8_439F_BA1176920718">log_cc (comma separated emails)</label>
 						<input class="form-control form-control-sm" type="text" name="log_cc" value="@NULL" id="B252B8E1_A004_FAE8_439F_BA1176920718" />
 					</div>
 
@@ -391,7 +391,7 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="F6E3FA68_5910_D015_24E9_82CFAD648B24">terms_and_conditions</label>
+						<label class="form-label" for="F6E3FA68_5910_D015_24E9_82CFAD648B24">terms_and_conditions</label>
 						<input class="form-control form-control-sm" type="text" name="terms_and_conditions" value="@NULL" id="F6E3FA68_5910_D015_24E9_82CFAD648B24" />
 					</div>
 
@@ -406,7 +406,7 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="C3B15C87_4404_450C_C393_CB43030AB001">has_virtual_organization_management_system</label>
+						<label class="form-label" for="C3B15C87_4404_450C_C393_CB43030AB001">has_virtual_organization_management_system</label>
 						<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="has_virtual_organization_management_system" id="C3B15C87_4404_450C_C393_CB43030AB001">
 							<option value="false">false</option>
 							<option value="true">true</option>
@@ -414,22 +414,22 @@
 					</div>
 
 					<div class="mb-2">
-						<label for="BBCDCD19_3A47_E8DF_0D94_2560FF21E385">new_user_validator_class</label>
+						<label class="form-label" for="BBCDCD19_3A47_E8DF_0D94_2560FF21E385">new_user_validator_class</label>
 						<input class="form-control form-control-sm" type="text" name="new_user_validator_class" value="@NULL" id="BBCDCD19_3A47_E8DF_0D94_2560FF21E385" />
 					</div>
 
 					<div class="mb-2">
-						<label for="B95F1836_7771_4090_9180_9562FC6A3E53">user_cert_validator_class</label>
+						<label class="form-label" for="B95F1836_7771_4090_9180_9562FC6A3E53">user_cert_validator_class</label>
 						<input class="form-control form-control-sm" type="text" name="user_cert_validator_class" value="@NULL" id="B95F1836_7771_4090_9180_9562FC6A3E53" />
 					</div>
 
 					<div class="mb-2">
-						<label for="BDEC4899_46D4_4383_9847_F72A2AE75FED">user_password_validator_class</label>
+						<label class="form-label" for="BDEC4899_46D4_4383_9847_F72A2AE75FED">user_password_validator_class</label>
 						<input class="form-control form-control-sm" type="text" name="user_password_validator_class" value="@NULL" id="BDEC4899_46D4_4383_9847_F72A2AE75FED" />
 					</div>
 
 					<div class="mb-2">
-						<label for="EFF81253_5433_6F28_419C_DB32BD9C0F65">user_cert_validator_class</label>
+						<label class="form-label" for="EFF81253_5433_6F28_419C_DB32BD9C0F65">user_cert_validator_class</label>
 						<input class="form-control form-control-sm" type="text" name="user_cert_validator_class" value="@NULL" id="EFF81253_5433_6F28_419C_DB32BD9C0F65" />
 					</div>
 
@@ -444,17 +444,17 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="D4B322B3_31E0_885F_5777_A9AE02102A94">sso_label</label>
+						<label class="form-label" for="D4B322B3_31E0_885F_5777_A9AE02102A94">sso_label</label>
 						<input class="form-control form-control-sm" type="text" name="sso_label" value="SSO" id="D4B322B3_31E0_885F_5777_A9AE02102A94" />
 					</div>
 
 					<div class="mb-2">
-						<label for="FBF7CABB_E6F1_913D_A1F7_6E6E37F77007">sso_sign_in_url</label>
+						<label class="form-label" for="FBF7CABB_E6F1_913D_A1F7_6E6E37F77007">sso_sign_in_url</label>
 						<input class="form-control form-control-sm" type="text" name="sso_sign_in_url" value="@NULL" id="FBF7CABB_E6F1_913D_A1F7_6E6E37F77007" />
 					</div>
 
 					<div class="mb-2">
-						<label for="D3A0AA08_009C_AB98_6B30_2D751BB2008E">sso_sign_out_url</label>
+						<label class="form-label" for="D3A0AA08_009C_AB98_6B30_2D751BB2008E">sso_sign_out_url</label>
 						<input class="form-control form-control-sm" type="text" name="sso_sign_out_url" value="@NULL" id="D3A0AA08_009C_AB98_6B30_2D751BB2008E" />
 					</div>
 
@@ -475,7 +475,7 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="C62A433E_EB36_42F2_C3CE_71E69045CD06">rebuild_schema_cache_in_background</label>
+						<label class="form-label" for="C62A433E_EB36_42F2_C3CE_71E69045CD06">rebuild_schema_cache_in_background</label>
 						<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="rebuild_schema_cache_in_background" id="C62A433E_EB36_42F2_C3CE_71E69045CD06">
 							<option value="false">false</option>
 							<option value="true">true</option>
@@ -483,17 +483,17 @@
 					</div>
 
 					<div class="mb-2">
-						<label for="CB2F97D6_7DC2_F0FF_888A_7BB399F96B8E">max_path_length</label>
+						<label class="form-label" for="CB2F97D6_7DC2_F0FF_888A_7BB399F96B8E">max_path_length</label>
 						<input class="form-control form-control-sm" type="number" name="max_path_length" min="0" value="999" id="CB2F97D6_7DC2_F0FF_888A_7BB399F96B8E" />
 					</div>
 
 					<div class="mb-2">
-						<label for="F28B83AF_251A_915B_F0FC_993E94E52C17">max_number_of_rows</label>
+						<label class="form-label" for="F28B83AF_251A_915B_F0FC_993E94E52C17">max_number_of_rows</label>
 						<input class="form-control form-control-sm" type="number" name="max_number_of_rows" min="1" value="10000" id="F28B83AF_251A_915B_F0FC_993E94E52C17" />
 					</div>
 
 					<div class="mb-2">
-						<label for="B68AC41C_40BC_0028_A176_1A4C800D8BA2">max_value_size</label>
+						<label class="form-label" for="B68AC41C_40BC_0028_A176_1A4C800D8BA2">max_value_size</label>
 						<input class="form-control form-control-sm" type="number" name="max_value_size" min="1" value="4096" id="B68AC41C_40BC_0028_A176_1A4C800D8BA2" />
 					</div>
 
@@ -508,7 +508,7 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="DADEDC8C_9E86_8AF1_4E5A_48C8FE489712">node_red_url</label>
+						<label class="form-label" for="DADEDC8C_9E86_8AF1_4E5A_48C8FE489712">node_red_url</label>
 						<input class="form-control form-control-sm" type="text" name="node_red_url" value="@NULL" id="DADEDC8C_9E86_8AF1_4E5A_48C8FE489712" />
 					</div>
 
@@ -525,40 +525,40 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="A888CD97_E3CF_3DC0_F994_25250C55F246">datetime_format</label>
+								<label class="form-label" for="A888CD97_E3CF_3DC0_F994_25250C55F246">datetime_format</label>
 								<input class="form-control form-control-sm" type="text" name="datetime_format" value="yyyy-MM-dd HH:mm:ss" id="A888CD97_E3CF_3DC0_F994_25250C55F246" />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="F493C0BA_3101_E71B_20CE_A7ECB9E47DE1">datetime_precision</label>
+								<label class="form-label" for="F493C0BA_3101_E71B_20CE_A7ECB9E47DE1">datetime_precision</label>
 								<input class="form-control form-control-sm" type="number" name="datetime_precision" min="0" max="9" value="6" id="F493C0BA_3101_E71B_20CE_A7ECB9E47DE1" />
 							</div>
 						</div>
 					</div>
 
 					<div class="mb-2">
-						<label for="CBB4788B_FBD3_A44D_97EC_1A9309F9C5D7">date_format</label>
+						<label class="form-label" for="CBB4788B_FBD3_A44D_97EC_1A9309F9C5D7">date_format</label>
 						<input class="form-control form-control-sm" type="text" name="date_format" value="yyyy-MM-dd" id="CBB4788B_FBD3_A44D_97EC_1A9309F9C5D7" />
 					</div>
 
 					<div class="row">
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="A0C55947_17AA_0CEC_1290_DB2FD3BFD1A6">time_hms_format</label>
+								<label class="form-label" for="A0C55947_17AA_0CEC_1290_DB2FD3BFD1A6">time_hms_format</label>
 								<input class="form-control form-control-sm" type="text" name="time_hms_format" value="HH:mm:ss" id="A0C55947_17AA_0CEC_1290_DB2FD3BFD1A6" />
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="mb-2">
-								<label for="C00BEE0B_93C9_91EE_5130_7478EED18B40">time_precision</label>
+								<label class="form-label" for="C00BEE0B_93C9_91EE_5130_7478EED18B40">time_precision</label>
 								<input class="form-control form-control-sm" type="number" name="time_precision" min="0" max="9" value="6" id="C00BEE0B_93C9_91EE_5130_7478EED18B40" />
 							</div>
 						</div>
 					</div>
 
 					<div class="mb-2">
-						<label for="F01BE439_40DC_2339_B70F_9C3328F29B85">time_hm_format</label>
+						<label class="form-label" for="F01BE439_40DC_2339_B70F_9C3328F29B85">time_hm_format</label>
 						<input class="form-control form-control-sm" type="text" name="time_hm_format" value="HH:mm" id="F01BE439_40DC_2339_B70F_9C3328F29B85" />
 					</div>
 
@@ -573,7 +573,7 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label for="F6CF6DDA_4029_F844_B53C_866505FC3ACE">storage_root_path</label>
+						<label class="form-label" for="F6CF6DDA_4029_F844_B53C_866505FC3ACE">storage_root_path</label>
 						<input class="form-control form-control-sm" type="text" name="storage_root_path" value="@NULL" id="F6CF6DDA_4029_F844_B53C_866505FC3ACE" />
 					</div>
 
