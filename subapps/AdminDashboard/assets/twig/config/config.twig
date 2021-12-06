@@ -6,6 +6,17 @@
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#C5C6F02C_F104_9E65_87A0_2DD60A595BFC" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab">Emails & logs</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#BBA48F7F_8D3B_4FF0_C29F_6CABF23B3F70" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab">Users</a></li>
 		<li class="nav-item"><a class="nav-link xxxxxx" href="#B18672FB_F009_6F9F_77FC_3334CEA56959" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab">Misc.</a></li>
+		<!-- -->
+		<li class="nav-item ms-auto">
+			<button class="btn btn-outline-primary" type="button" onclick="window.adminDashboardApp.subsubapp.apply();">
+				<i class="bi bi-check-lg"></i> Apply
+			</button>
+		</li>
+		<li class="nav-item ms-2">
+			<button class="btn btn-outline-danger" type="button" onclick="window.adminDashboardApp.subsubapp.reset();">
+				<i class="bi bi-x-lg"></i> Reset
+			</button>
+		</li>
 	</ul>
 
 	<div class="tab-content mb-2">
