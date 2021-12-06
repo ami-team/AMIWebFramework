@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = iterValue[i][0];
-							dict[sym2] = iterValue[i][1];
+							dict[sym1] = /*-----*/(i);
+							dict[sym2] = iterValue[i];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -25359,9 +25359,8 @@ var jspath_default = /*#__PURE__*/__webpack_require__.n(jspath);
 /* CLIENT                                                                                                             */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/**
- * Class representing an AMI HTTP client
- */
+/** Class representing AMI HTTP client
+  */
 
 class AMIHTTPClient
 {
@@ -25391,10 +25390,10 @@ class AMIHTTPClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * An AMI HTTP client
-	 * @param {string} endpoint the endpoint
-	 * @returns {AMIHTTPClient} The AMI HTTP client
-	 */
+	  * An AMI HTTP client
+	  * @param {string} endpoint the endpoint
+	  * @returns {AMIHTTPClient} The AMI HTTP client
+	  */
 
 	constructor(endpoint)
 	{
@@ -25404,9 +25403,9 @@ class AMIHTTPClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Get the client HTTP endpoint
-	 * @returns {string} The client HTTP endpoint
-	 */
+	  * Get the client HTTP endpoint
+	  * @returns {string} The client HTTP endpoint
+	  */
 
 	getEndpoint()
 	{
@@ -25416,11 +25415,11 @@ class AMIHTTPClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Executes an AMI command
-	 * @param {string} command the AMI command
-	 * @param {Object<string,*>} [options={}] dictionary of settings (endpoint, converter, extras, params, context, timeout)
-	 * @returns {$.Promise} A JQuery promise object
-	 */
+	  * Executes an AMI command
+	  * @param {string} command the AMI command
+	  * @param {Object} [options] dictionary of settings (endpoint, converter, extras, params, context, timeout)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	execute(command, options)
 	{
@@ -25443,11 +25442,7 @@ class AMIHTTPClient
 
 		command = (command || '').trim().replace(this.#paramRegExp, (x, y) => {
 
-			const rawValue = params.shift();
-
-			return Object.prototype.toString.call(rawValue) === '[object String]' ? `-${y}=${JSON.stringify(rawValue)}`
-			                                                                      : `-${y}="${JSON.stringify(rawValue)}"`
-			;
+			return `-${y}=${JSON.stringify(params.shift())}`;
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -25577,12 +25572,6 @@ class AMIHTTPClient
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	/**
-	 * @param {$.Promise}
-	 * @param {Object<string,*>} [options={}]
-	 * @returns {$.Promise} A JQuery promise object
-	 */
-
 	#getUserInfo(deferred, options)
 	{
 		options = options || {};
@@ -25600,7 +25589,6 @@ class AMIHTTPClient
 			const userInfo = {};
 			const roleInfo = {};
 			const bookmarkInfo = {};
-			const dashboardInfo = {};
 			const awfInfo = {};
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -25659,31 +25647,11 @@ class AMIHTTPClient
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			jspath_default().apply('..rowset{.@type==="dashboard"}.row', data).forEach((row) => {
-
-				let hash = '';
-				const dashboard = {};
-
-				row.field.forEach((field) => {
-
-					dashboard[field['@name']] = field['$'];
-
-					if(field['@name'] === 'hash')
-					{
-						hash = field['$'];
-					}
-				});
-
-				dashboardInfo[hash] = dashboard;
-			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			result.resolveWith(context, [data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo]);
+			result.resolveWith(context, [data, message, userInfo, roleInfo, bookmarkInfo, awfInfo]);
 
 		}, (data, message) => {
 
-			result.rejectWith(context, [data, message, this.#guest(), {}, {}, {}, {}]);
+			result.rejectWith(context, [data, message, this.#guest(), {}, {}, {}]);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -25694,12 +25662,12 @@ class AMIHTTPClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Sign in by password
-	 * @param {string} username the username
-	 * @param {string} password the password
-	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (endpoint, converter, context, timeout)
-	 * @returns {$.Promise} A JQuery promise object
-	 */
+	  * Sign in by password
+	  * @param {string} username the username
+	  * @param {string} password the password
+	  * @param {Object} [options] dictionary of optional parameters (endpoint, converter, context, timeout)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	signInByPassword(username, password, options)
 	{
@@ -25712,10 +25680,10 @@ class AMIHTTPClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Sign in by certificate
-	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (endpoint, converter, context, timeout)
-	 * @returns {$.Promise} A JQuery promise object
-	 */
+	  * Sign in by certificate
+	  * @param {Object} [options] dictionary of optional parameters (endpoint, converter, context, timeout)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	signInByCertificate(options)
 	{
@@ -25728,10 +25696,10 @@ class AMIHTTPClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Sign out
-	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (endpoint, converter, context, timeout)
-	 * @returns {$.Promise} A JQuery promise object
-	 */
+	  * Sign out
+	  * @param {Object} [options] dictionary of optional parameters (endpoint, converter, context, timeout)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	signOut(options)
 	{
@@ -25744,11 +25712,11 @@ class AMIHTTPClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Finds data within the given JSON, see {@link https://github.com/dfilatov/jspath}
-	 * @param {string} path the path
-	 * @param {Object<string,*>} json the JSON
-	 * @returns {Array<*>} The resulting array
-	 */
+	  * Finds data within the given JSON, see {@link https://github.com/dfilatov/jspath}
+	  * @param {string} path the path
+	  * @param {Object} json the JSON
+	  * @returns {Array} The resulting array
+	  */
 
 	jspath(path, json)
 	{
@@ -25811,12 +25779,6 @@ var paho_mqtt = __webpack_require__(8295);
 /* JWT                                                                                                                */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/**
- * Parse a JWT token
- * @param {string} token the JWT token
- * @returns {Object<string,string>} The the JWT token content
- */
-
 function parseJwt(token)
 {
 	try
@@ -25858,9 +25820,8 @@ function parseJwt(token)
 /* CLIENT                                                                                                             */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-/**
- * Class representing an AMI MQTT client
- */
+/** Class representing AMI MQTT client
+  */
 
 class AMIMQTTClient
 {
@@ -25894,11 +25855,11 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * An AMI MQTT client
-	 * @param {string} endpoint the endpoint
-	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (onConnected, onConnectionLost, onMessageArrived, onMessageDelivered)
-	 * @returns {AMIMQTTClient} The AMI MQTT client
-	 */
+	  * An AMI MQTT client
+	  * @param {String} endpoint the endpoint
+	  * @param {Object} [options] dictionary of optional parameters (onConnected, onConnectionLost, onMessageArrived, onMessageDelivered)
+	  * @returns {AMIMQTTClient} The AMI MQTT client
+	  */
 
 	constructor(endpoint, options)
 	{
@@ -25953,11 +25914,11 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Sign in by JWT token
-	 * @param {string} password the password
-	 * @param {string} serverName the server name
-	 * @returns {$.Promise} A JQuery promise object
-	 */
+	  * Sign in by JWT token
+	  * @param {String} password the password
+	  * @param {String} serverName the server name
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	signInByToken(password, serverName)
 	{
@@ -26004,9 +25965,9 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Sign out
-	 * @returns {$.Promise} A JQuery promise object
-	 */
+	  * Sign out
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	signOut()
 	{
@@ -26033,9 +25994,9 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Get the client UUID
-	 * @returns {string} The client UUID
-	 */
+	  * Get the client UUID
+	  * @returns {String} The client UUID
+	  */
 
 	getUUID()
 	{
@@ -26045,9 +26006,9 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Get the endpoint
-	 * @returns {string} The endpoint
-	 */
+	  * Get the endpoint
+	  * @returns {String} The endpoint
+	  */
 
 	getEndpoint()
 	{
@@ -26057,9 +26018,9 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Get the username
-	 * @returns {string} The username
-	 */
+	  * Get the username
+	  * @returns {String} The username
+	  */
 
 	getUsername()
 	{
@@ -26069,11 +26030,11 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Subscribe a MQTT topic
-	 * @param {string} topic the topic
-	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (qos=0,1,2, timeout [ms])
-	 * @returns {$.Promise} A JQuery promise object
-	 */
+	  * Subscribe a MQTT topic
+	  * @param {String} topic the topic
+	  * @param {Object} [options] dictionary of optional parameters (qos=0,1,2, timeout [ms])
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	subscribe(topic, options)
 	{
@@ -26098,11 +26059,11 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Unsubscribe a MQTT topic
-	 * @param {string} topic the topic
-	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (qos=0,1,2, timeout [ms])
-	 * @returns {$.Promise} A JQuery promise object
-	 */
+	  * Unsubscribe a MQTT topic
+	  * @param {String} topic the topic
+	  * @param {Object} [options] dictionary of optional parameters (qos=0,1,2, timeout [ms])
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	unsubscribe(topic, options)
 	{
@@ -26127,12 +26088,12 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Sends a MQTT message
-	 * @param {string} topic the topic
-	 * @param {string} payload the payload
-	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (qos=0,1,2, retained=true,false)
-	 * @returns {$.Promise} A JQuery promise object
-	 */
+	  * Sends a MQTT message
+	  * @param {String} topic the topic
+	  * @param {String} payload the payload
+	  * @param {Object} [options] dictionary of optional parameters (qos=0,1,2, retained=true,false)
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	send(topic, payload, options)
 	{
@@ -26165,11 +26126,11 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Executes an AMI command
-	 * @param {string} command the AMI command
-	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (serverName, converter, timeout [ms])
-	 * @returns {$.Promise} A JQuery promise object
-	 */
+	  * Executes an AMI command
+	  * @param {String} command the AMI command
+	  * @param {Object} [options] dictionary of optional parameters (serverName, converter, timeout [ms])
+	  * @returns {$.Deferred} A JQuery deferred object
+	  */
 
 	execute(command, options)
 	{
@@ -26238,11 +26199,11 @@ class AMIMQTTClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
-	 * Finds data within the given JSON, see {@link https://github.com/dfilatov/jspath}
-	 * @param {string} path the path
-	 * @param {Object<string,*>} json the JSON
-	 * @returns {Array<*>} The resulting array
-	 */
+	  * Finds data within the given JSON, see {@link https://github.com/dfilatov/jspath}
+	  * @param {String} path the path
+	  * @param {Object} json the JSON
+	  * @returns {Array} The resulting array
+	  */
 
 	jspath(path, json)
 	{
