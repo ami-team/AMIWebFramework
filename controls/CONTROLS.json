@@ -18,5 +18,9 @@
     "tab": {
         "clazz": "TabCtrl",
         "file": "controls/Tab/TabCtrl.min.js"
+    },
+    "textBox": {
+        "clazz": "TextBoxCtrl",
+        "file": "controls/TextBox/TextBoxCtrl.min.js"
     }
 }

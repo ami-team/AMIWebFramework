@@ -230,6 +230,8 @@ function _xxxHTML(selector, twig, mode, options)
 
 		const editors = _find('.form-editor:not(.form-editor-done)'); if(editors.length > 0) import('monaco-editor/esm/vs/editor/editor.api').then((monaco) => {
 
+			window.monaco = monaco;
+
 			editors.each((_, item) => {
 
 				/*----------------------------------------------------------------------------------------------------*/
