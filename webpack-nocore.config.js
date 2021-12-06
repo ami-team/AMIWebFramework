@@ -42,6 +42,8 @@ const config = {
 	'entry': {
 		'controls/Accordion/AccordionCtrl': path.resolve(__dirname, 'controls/Accordion/AccordionCtrl.es6.js'),
 		'controls/Adder/AdderCtrl': path.resolve(__dirname, 'controls/Adder/AdderCtrl.es6.js'),
+		'controls/BookmarkBox/BookmarkBoxCtrl': path.resolve(__dirname, 'controls/BookmarkBox/BookmarkBoxCtrl.es6.js'),
+		'controls/DashboardBox/DashboardBoxCtrl': path.resolve(__dirname, 'controls/DashboardBox/DashboardBoxCtrl.es6.js'),
 		'controls/Tab/TabCtrl': path.resolve(__dirname, 'controls/Tab/TabCtrl.es6.js'),
 		'controls/TextBox/TextBoxCtrl': path.resolve(__dirname, 'controls/TextBox/TextBoxCtrl.es6.js'),
 		'subapps/AdminDashboard/AdminDashboardApp': path.resolve(__dirname, 'subapps/AdminDashboard/AdminDashboardApp.es6.js'),

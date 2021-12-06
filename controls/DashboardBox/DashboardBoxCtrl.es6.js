@@ -9,6 +9,8 @@
  *
  */
 
+import twigDashboardBoxCtrl from './assets/twig/DashboardBoxCtrl.twig';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('DashboardBoxCtrl', {
@@ -27,65 +29,68 @@ $AMIClass('DashboardBoxCtrl', {
 
 	onReady: function()
 	{
-		return amiWebApp.loadResources([
-			`${amiWebApp.originURL}/controls/BookmarkBox/twig/BookmarkBoxCtrl.twig`,
-		]).done((data) => {
+		const result = $.Deferred();
 
-			amiWebApp.appendHTML('body', data[0]).done(() => {
+		amiWebApp.appendHTML('body', twigDashboardBoxCtrl).done(() => {
 
-				const _class = this.$class;
+			const _class = this.$class;
 
-				/*----------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 
-				$('#D5C96872_D545_4B33_ECD9_55EC32E1703E').on('click', () => {
+			$('#D5C96872_D545_4B33_ECD9_55EC32E1703E').on('click', () => {
 
-					amiWebApp.modalLeave();
+				amiWebApp.modalLeave();
 
-					$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('hide');
+				$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('hide');
 
-					_class.deferred.resolveWith(_class.context || _class.deferred, [null]);
-				});
-
-				/*----------------------------------------------------------------------------------------------------*/
-
-				$('#E557D8C7_CBA2_3E32_4861_A2A7A81A9D14').on('click', () => {
-
-					const hash = $('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').val().trim();
-
-					const transparent = $('#DDC88FB6_C193_9C60_53CE_85D885BD42F7').prop('checked') ? '1' : '0';
-
-					if(hash)
-					{
-						const json = {
-							subapp: _class.subapp,
-							userdata: _class.userdata,
-						};
-
-						amiWebApp.lock();
-
-						amiCommand.execute('AddToDashboard -hash=? -transparent=? -json=?', {params: [hash, transparent, json]}).done(() => {
-
-							amiLogin.update().always(() => {
-
-								amiWebApp.unlock();
-
-								amiWebApp.modalLeave();
-
-								$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('hide');
-
-								_class.deferred.rejectWith(_class.context || _class.deferred, [name]);
-							});
-
-						}).fail((data, message) => {
-
-							amiWebApp.error(message, true);
-						});
-					}
-				});
-
-				/*----------------------------------------------------------------------------------------------------*/
+				_class.deferred.resolveWith(_class.context || _class.deferred, [null]);
 			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#E557D8C7_CBA2_3E32_4861_A2A7A81A9D14').on('click', () => {
+
+				const hash = $('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').val().trim();
+
+				const transparent = $('#DDC88FB6_C193_9C60_53CE_85D885BD42F7').prop('checked') ? '1' : '0';
+
+				if(hash)
+				{
+					const json = {
+						subapp: _class.subapp,
+						userdata: _class.userdata,
+					};
+
+					amiWebApp.lock();
+
+					amiCommand.execute('AddToDashboard -hash=? -transparent=? -json=?', {params: [hash, transparent, json]}).done(() => {
+
+						amiLogin.update().always(() => {
+
+							amiWebApp.unlock();
+
+							amiWebApp.modalLeave();
+
+							$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('hide');
+
+							_class.deferred.rejectWith(_class.context || _class.deferred, [name]);
+						});
+
+					}).fail((data, message) => {
+
+						amiWebApp.error(message, true);
+					});
+				}
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			result.resolve();
+
+			/*--------------------------------------------------------------------------------------------------------*/
 		});
+
+		return result;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
