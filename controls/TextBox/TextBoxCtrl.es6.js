@@ -121,7 +121,7 @@ $AMIClass('TextBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		window.monaco.editor.setModelLanguage(editor.getModel(), lang);
+		monaco.editor.setModelLanguage(editor.getModel(), lang);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
