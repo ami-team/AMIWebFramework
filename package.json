@@ -4,8 +4,8 @@
   "description": "AMI Web Framework",
   "main": "index.js",
   "scripts": {
-    "build-dev": "rm -fr js/* && ./tools/awf_build.py && ./node_modules/webpack/bin/webpack.js --config ./webpack-core.config.js --mode development",
-    "build-prod": "rm -fr js/* && ./tools/awf_build.py && ./node_modules/webpack/bin/webpack.js --config ./webpack-core.config.js --mode production",
+    "build-dev": "rm -fr js/* && ./tools/awf_build.py && node ./node_modules/webpack/bin/webpack.js --config ./webpack-core.config.js --mode development",
+    "build-prod": "rm -fr js/* && ./tools/awf_build.py && node ./node_modules/webpack/bin/webpack.js --config ./webpack-core.config.js --mode production",
     "bootstrap": "./src/bootstrap/build.js"
   },
   "repository": {
