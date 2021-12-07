@@ -13,7 +13,7 @@ import twigRoles from './assets/twig/roles/roles.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-let adder;
+let _adder;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -27,7 +27,7 @@ export function init()
 
 		amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigRoles).done(() => {
 
-			adder = new data[0]();
+			_adder = new data[0]();
 
 			result.resolve();
 		});
@@ -44,7 +44,7 @@ export function init()
 
 export function onLogin()
 {
-	adder.render('#DFAB6714_D174_BCBC_2F8E_16B4361DC5E7', 'self', 'router_role', 'role', {catalog: 'self', entity: 'router_role', primaryField: 'id', start: 1, stop: 25});
+	_adder.render('#DFAB6714_D174_BCBC_2F8E_16B4361DC5E7', 'self', 'router_role', 'role', {catalog: 'self', entity: 'router_role', primaryField: 'id', start: 1, stop: 25});
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

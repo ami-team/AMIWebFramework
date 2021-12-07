@@ -14,9 +14,9 @@ import twigConfig    from './assets/twig/config/config.twig'   ;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-let paramDict = {};
+let _paramDict = {};
 
-let paramDel = [];
+let _paramDel = [];
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -26,9 +26,9 @@ export function init()
 
 	amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigConfig).done(() => {
 
-		paramDict = {};
+		_paramDict = {};
 
-		paramDel = [];
+		_paramDel = [];
 
 		result.resolve();
 	});
@@ -78,8 +78,8 @@ function _load()
 
 		$('#B5C738DB_B705_5E37_24CD_B265532D0853').empty();
 
-		paramDict = {};
-		paramDel = [];
+		_paramDict = {};
+		_paramDel = [];
 
 		const dict = [];
 
@@ -91,7 +91,7 @@ function _load()
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			paramDict[name] = value;
+			_paramDict[name] = value;
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -152,7 +152,7 @@ function _save()
 		name = params[i].name;
 		value = params[i].value;
 
-		if(paramDict[name] !== value)
+		if(_paramDict[name] !== value)
 		{
 			if(name.indexOf('Ø') >= 0) {
 				amiWebApp.error(`character 'Ø' not allow in parameter names (${name}:${value})`, true);
@@ -164,7 +164,7 @@ function _save()
 				return
 			}
 
-			paramDict[name] = value;
+			_paramDict[name] = value;
 
 			names.push(amiWebApp.textToString(name));
 			values.push(amiWebApp.textToString(value));
@@ -173,9 +173,9 @@ function _save()
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	for(const j in paramDel)
+	for(const j in _paramDel)
 	{
-		name = paramDel[j];
+		name = _paramDel[j];
 		value = (('@NULL'));
 
 		names.push(amiWebApp.textToString(name));
@@ -234,7 +234,7 @@ export function testEmail(email)
 {
 	amiWebApp.lock();
 
-	amiCommand.execute('SendEmail -from=? -to=? -subject="Test" -message="This is a test."', {params: [paramDict['admin_email'], email]}).done((data, message) => {
+	amiCommand.execute('SendEmail -from=? -to=? -subject="Test" -message="This is a test."', {params: [_paramDict['admin_email'], email]}).done((data, message) => {
 
 		amiWebApp.success(message, true);
 
@@ -283,11 +283,11 @@ export function delParameter(name)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	paramDel.push(name);
+	_paramDel.push(name);
 
-	if(name in paramDict)
+	if(name in _paramDict)
 	{
-		delete paramDict[name];
+		delete _paramDict[name];
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

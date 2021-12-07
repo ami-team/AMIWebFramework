@@ -13,7 +13,7 @@ import twigPages from './assets/twig/pages/pages.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-let adder;
+let _adder;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -27,7 +27,7 @@ export function init()
 
 		amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigPages).done(() => {
 
-			adder = new data[0]();
+			_adder = new data[0]();
 
 			result.resolve();
 		});
@@ -44,7 +44,7 @@ export function init()
 
 export function onLogin()
 {
-	adder.render('#D2E57C9B_56BB_A185_357F_22BDCD99812D', 'self', 'router_markdown', 'name', {catalog: 'self', entity: 'router_markdown', primaryField: 'id', start: 1, stop: 25});
+	_adder.render('#D2E57C9B_56BB_A185_357F_22BDCD99812D', 'self', 'router_markdown', 'name', {catalog: 'self', entity: 'router_markdown', primaryField: 'id', start: 1, stop: 25});
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

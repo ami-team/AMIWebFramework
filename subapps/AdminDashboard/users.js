@@ -14,7 +14,7 @@ import twigTable from './assets/twig/users/table.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-let roles = {};
+let _roles = {};
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -49,7 +49,7 @@ export function onLogin()
 {
 	return amiCommand.execute('SearchQuery -catalog="self" -entity="router_role" -mql="SELECT `router_role`.`role`"').done((data) => {
 
-		roles = amiWebApp.jspath('..field{.@name==="role"}.$', data);
+		_roles = amiWebApp.jspath('..field{.@name==="role"}.$', data);
 
 	}).fail((data, message) => {
 
@@ -119,7 +119,7 @@ function find(filter)
 			const dict = {
 				ids: ids,
 				users: users,
-				roles: roles,
+				roles: _roles,
 			};
 
 			amiWebApp.replaceHTML('#FCBD6DFC_2061_8CC3_652C_77671A179AAC', twigTable, {dict: dict}).done(() => {

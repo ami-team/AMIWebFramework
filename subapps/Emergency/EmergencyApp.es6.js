@@ -54,7 +54,7 @@ $AMIClass('EmergencyApp', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		message = message.trim();
+		message = (message || '').trim();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -62,7 +62,7 @@ $AMIClass('EmergencyApp', {
 		{
 			amiWebApp.lock();
 
-			amiCommand.execute('GetSessionInfo -message=?', {params: [message]}).done((data, message) => {
+			amiCommand.execute('SendSMS -message=?', {params: [message]}).done((data, message) => {
 
 				amiWebApp.success(message, true);
 

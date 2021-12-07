@@ -29527,14 +29527,14 @@ function _formatDatetime(date, format) {
 }
 
 function _injectMonaco(editors, monaco) {
+  window.monaco = monaco;
   editors.each(function (_, item) {
     var textarea = $(item);
     var div = $('<div>', {
-      'class': textarea.attr('class').replace('form-editor', 'form-editor-monaco').trim(),
+      'class': textarea.attr('class').replace(/form-editor[\-a-zA-Z]*/g, 'form-editor-monaco'),
       'style': textarea.attr('style')
-    }).insertAfter(textarea);
-    div.promise().done(function () {
-      textarea.addClass('form-editor-done');
+    });
+    div.insertAfter(textarea).promise().done(function () {
       var lang = textarea.attr('data-lang') || '';
       var theme = textarea.attr('data-theme') || 'vs';
       var wordWrap = textarea.attr('data-word-wrap') || 'false';
@@ -29694,23 +29694,23 @@ function _xxxHTML(selector, twig, mode, options) {
       formatDate: _formatDatetime
     });
 
-    var editors = _find('.form-editor:not(.form-editor-done)');
+    var editors = _find('.form-editor:not(.form-editor-done)').addClass('form-editor-done');
 
     if (editors.length > 0) {
       if (typeof window.monaco === 'undefined') {
-        Promise.all(/* import() */[__webpack_require__.e(108), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).catch(function (message) {
-          error(message);
-        }).then(function (windowMonaco) {
-          window.monaco = windowMonaco;
+        Promise.all(/* import() */[__webpack_require__.e(108), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).then(function (windowMonaco) {
+          _injectMonaco(editors, windowMonaco);
 
-          _injectMonaco(editors, window.monaco);
+          result.resolveWith(context, [el, html]);
         });
       } else {
         _injectMonaco(editors, window.monaco);
-      }
-    }
 
-    result.resolveWith(context, [el]);
+        result.resolveWith(context, [el, html]);
+      }
+    } else {
+      result.resolveWith(context, [el, html]);
+    }
   });
   return result.promise();
 }

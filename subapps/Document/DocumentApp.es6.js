@@ -30,7 +30,7 @@ $AMIClass('DocumentApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.markdownOptions = {
+		this._markdownOptions = {
 			gfm: true,
 			tables: true,
 			breaks: false,
@@ -42,7 +42,7 @@ $AMIClass('DocumentApp', {
 			renderer: new marked.Renderer(),
 		};
 
-		this.markdownOptions.renderer.table = (header, body) => '<table class="table table-striped"><thead>' + header + '</thead><tbody>\n' + body + '</tbody></table>';
+		this._markdownOptions.renderer.table = (header, body) => '<table class="table table-striped"><thead>' + header + '</thead><tbody>\n' + body + '</tbody></table>';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -82,7 +82,7 @@ $AMIClass('DocumentApp', {
 
 	toHtml: function(body)
 	{
-		return !body.match(/<!--\s+markdown:\s*disabled\s+-->/g) ? marked(body.replace(/[\t ]+[<]/gm, '<'), this.markdownOptions)
+		return !body.match(/<!--\s+markdown:\s*disabled\s+-->/g) ? marked(body.replace(/[\t ]+[<]/gm, '<'), this._markdownOptions)
 		                                                         : body
 		;
 	},

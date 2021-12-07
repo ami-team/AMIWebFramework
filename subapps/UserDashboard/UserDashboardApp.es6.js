@@ -38,7 +38,7 @@ $AMIClass('UserDashboardApp', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this.gridstack = GridStack.init({
+			this._gridstack = GridStack.init({
 				float: true,
 				cellHeight: 36,
 				staticGrid: true,
@@ -48,7 +48,7 @@ $AMIClass('UserDashboardApp', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this.gridstack.on('dragstop resizestop', (e, el) => {
+			this._gridstack.on('dragstop resizestop', (e, el) => {
 
 				this.updateWidget(el.gridstackNode);
 			});
@@ -141,7 +141,7 @@ $AMIClass('UserDashboardApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const el = $(this.gridstack.addWidget({
+		const el = $(this._gridstack.addWidget({
 			x: x,
 			y: y,
 			w: width,
@@ -239,7 +239,7 @@ $AMIClass('UserDashboardApp', {
 
 			$('#B64A4510_C563_4DD4_B161_EDDB560F613C').prop('checked', false);
 
-			this.gridstack.removeAll();
+			this._gridstack.removeAll();
 
 			this.controls = [];
 
@@ -257,7 +257,7 @@ $AMIClass('UserDashboardApp', {
 
 						this.removeWidget(el.gridstackNode).done(() => {
 
-							this.gridstack.removeWidget(el);
+							this._gridstack.removeWidget(el);
 						});
 					}
 				});
@@ -371,7 +371,7 @@ $AMIClass('UserDashboardApp', {
 			$('.grid-stack-item-close-handle,.grid-stack-item-style-handle').show();
 		}
 
-		this.gridstack.setStatic(isStatic);
+		this._gridstack.setStatic(isStatic);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

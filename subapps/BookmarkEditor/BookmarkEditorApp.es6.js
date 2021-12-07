@@ -25,7 +25,7 @@ $AMIClass('BookmarkEditorApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	bookmarkProfile: {
+	_bookmarkProfile: {
 		name: 'bookmarkProfile',
 		/**/
 		infoMethod: () => amiAuth.getBookmarkInfo(),
@@ -45,7 +45,9 @@ $AMIClass('BookmarkEditorApp', {
 		addUpdateId: '#F1814093_A84F_0FC4_4581_699ACA53782F',
 	},
 
-	dashboardProfile: {
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	_dashboardProfile: {
 		name: 'dashboardProfile',
 		/**/
 		infoMethod: () => amiAuth.getDashboardInfo(),
@@ -85,27 +87,27 @@ $AMIClass('BookmarkEditorApp', {
 			/* BOOKMARKS                                                                                              */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this.makeSortable(this.bookmarkProfile, $('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1'));
+			this.makeSortable(this._bookmarkProfile, $('#ACFE5A3E_2548_59BF_7EBB_32821C900AB1'));
 
-			this.setUpdateMode(this.bookmarkProfile, false);
+			this.setUpdateMode(this._bookmarkProfile, false);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this.bookmarkProfile.clearId).click((e) => {
+			$(this._bookmarkProfile.clearId).click((e) => {
 
-				this.clear(this.bookmarkProfile);
+				this.clear(this._bookmarkProfile);
 				e.preventDefault();
 			});
 
-			$(this.bookmarkProfile.removeId).click((e) => {
+			$(this._bookmarkProfile.removeId).click((e) => {
 
-				this.remove(this.bookmarkProfile);
+				this.remove(this._bookmarkProfile);
 				e.preventDefault();
 			});
 
-			$(this.bookmarkProfile.addUpdateId).click((e) => {
+			$(this._bookmarkProfile.addUpdateId).click((e) => {
 
-				this.save(this.bookmarkProfile);
+				this.save(this._bookmarkProfile);
 				e.preventDefault();
 			});
 
@@ -113,27 +115,27 @@ $AMIClass('BookmarkEditorApp', {
 			/* BOOKMARKS                                                                                              */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this.makeSortable(this.dashboardProfile, $('#D89CE3F5_9D1D_B338_D895_C344CD4FFE08'));
+			this.makeSortable(this._dashboardProfile, $('#D89CE3F5_9D1D_B338_D895_C344CD4FFE08'));
 
-			this.setUpdateMode(this.dashboardProfile, false);
+			this.setUpdateMode(this._dashboardProfile, false);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this.dashboardProfile.clearId).click((e) => {
+			$(this._dashboardProfile.clearId).click((e) => {
 
-				this.clear(this.dashboardProfile);
+				this.clear(this._dashboardProfile);
 				e.preventDefault();
 			});
 
-			$(this.dashboardProfile.removeId).click((e) => {
+			$(this._dashboardProfile.removeId).click((e) => {
 
-				this.remove(this.dashboardProfile);
+				this.remove(this._dashboardProfile);
 				e.preventDefault();
 			});
 
-			$(this.dashboardProfile.addUpdateId).click((e) => {
+			$(this._dashboardProfile.addUpdateId).click((e) => {
 
-				this.save(this.dashboardProfile);
+				this.save(this._dashboardProfile);
 				e.preventDefault();
 			});
 
@@ -149,16 +151,16 @@ $AMIClass('BookmarkEditorApp', {
 
 	onLogin: function()
 	{
-		this.showList(this.bookmarkProfile);
-		this.showList(this.dashboardProfile);
+		this.showList(this._bookmarkProfile);
+		this.showList(this._dashboardProfile);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	onLogout: function()
 	{
-		this.showList(this.bookmarkProfile);
-		this.showList(this.dashboardProfile);
+		this.showList(this._bookmarkProfile);
+		this.showList(this._dashboardProfile);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
