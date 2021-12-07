@@ -90,8 +90,6 @@ function _formatDatetime(date, format)
 
 function _injectMonaco(editors, monaco)
 {
-	window.monaco = monaco;
-
 	editors.each((_, item) => {
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -348,14 +346,14 @@ function _xxxHTML(selector, twig, mode, options)
 			{
 				import('monaco-editor/esm/vs/editor/editor.api').then((windowMonaco) => {
 
-					_injectMonaco(editors, windowMonaco);
+					_injectMonaco(editors, window.monaco = windowMonaco);
 
 					result.resolveWith(context, [el, html]);
 				});
 			}
 			else
 			{
-				_injectMonaco(editors, window.monaco);
+				_injectMonaco(editors, /*---*/ window.monaco /*---*/);
 
 				result.resolveWith(context, [el, html]);
 			}
