@@ -1,0 +1,75 @@
+<h1>Users</h1>
+
+{% if users is not empty %}
+<div class="table-responsive">
+	<table class="table table-sm table-striped">
+		<thead>
+			<tr>
+				<th>User</th>
+				<th>SSO User</th>
+				<th>First name</th>
+				<th>Last name</th>
+				<th>Email</th>
+				<th>Valid</th>
+				<th>Delete</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for id in ids %}
+			<tr data-id="{{ id|e }}">
+				<td>
+					{{ users[id].AMIUser|e }}
+				</td>
+				<td>
+					{{ users[id].ssoUser|e }}
+				</td>
+				<td>
+					{{ users[id].firstname|e }}
+				</td>
+				<td>
+					{{ users[id].lastname|e }}
+				</td>
+				<td>
+					{{ users[id].email|e }}
+				</td>
+				<td>
+					<span class="switch switch-sm switch-on-primary switch-off-danger">
+						<input type="checkbox" id="C3EBBFBD_2964_CCBA_92E4_E7C8C36CA916_0_{{ loop.index0 }}" {% if users[id].valid !== '0' %}checked="checked"{% else %}xxxxxxx="xxxxxxx"{% endif %} data-change-valid="{{ id|e }}" />
+						<label for="C3EBBFBD_2964_CCBA_92E4_E7C8C36CA916_0_{{ loop.index0 }}"></label>
+					</span>
+				</td>
+				<td>
+					<a href="#" class="badge {% if BOOTSTRAP_VERSION > 4 %}rounded{% else %}badge{% endif %}-pill {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-danger px-3" data-delete-user="{{ id|e }}"><i class="bi bi-trash"></i></a>
+				</td>
+			</tr>
+			<tr data-id="{{ id|e }}">
+				<td colspan="7">
+					<select class="w-100" multiple="multiple" data-change-role="{{ users[id].AMIUser|e }}">
+						{% for role in roles %}
+						<option {% if role in users[id].roles %}selected="selected"{% else %}xxxxxxxx="xxxxxxxx"{% endif %}>{{ role|e }}</option>
+						{% endfor %}
+					</select>
+					<br />
+					<small data-change-client-dn="{{ id|e }}">
+						<span class="badge {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-primary text-center" style="width: 100px;">Client DN</span>
+						<span class="value">{{ users[id].clientDN|e }}</span>
+					</small>
+					<br />
+					<small data-change-issuer-dn="{{ id|e }}">
+						<span class="badge {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-danger text-center" style="width: 100px;">Issuer DN</span>
+						<span class="value">{{ users[id].issuerDN|e }}</span>
+					</small>
+					<br />
+					<small data-change-json="{{ id|e }}">
+						<span class="badge {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-secondary text-center" style="width: 100px;">JSON</span>
+						<span class="value">{{ users[id].json|e }}</span>
+					</small>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% else %}
+No result found.
+{% endif %}
