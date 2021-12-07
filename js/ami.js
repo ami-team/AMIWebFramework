@@ -29526,6 +29526,67 @@ function _formatDatetime(date, format) {
   return moment(date).format(format);
 }
 
+function _injectMonaco(editors, monaco) {
+  editors.each(function (_, item) {
+    var textarea = $(item);
+    var div = $('<div>', {
+      'class': textarea.attr('class').replace('form-editor', 'form-editor-monaco').trim(),
+      'style': textarea.attr('style')
+    }).insertAfter(textarea);
+    div.promise().done(function () {
+      textarea.addClass('form-editor-done');
+      var lang = textarea.attr('data-lang') || '';
+      var theme = textarea.attr('data-theme') || 'vs';
+      var wordWrap = textarea.attr('data-word-wrap') || 'false';
+      var readOnly = textarea.attr('data-read-only') || 'false';
+      var showGutter = textarea.attr('data-show-gutter') || 'false';
+      var showMiniMap = textarea.attr('data-show-minimap') || 'false';
+      var automaticLayout = textarea.attr('data-automatic-layout') || 'false';
+      var renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
+      var highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
+      var editor = monaco.editor.create(div[0], {
+        value: item.value,
+        theme: theme,
+        language: lang,
+        wordWrap: wordWrap === 'true',
+        readOnly: readOnly === 'true',
+        minimap: {
+          enabled: showMiniMap === 'true'
+        },
+        automaticLayout: automaticLayout === 'true',
+        renderWhitespace: renderWhitespace === 'true',
+        lineNumbers: showGutter === 'true' ? 'on' : 'off',
+        renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
+        insertSpaces: false,
+        overviewRulerLanes: 0x00,
+        overviewRulerBorder: false,
+        scrollBeyondLastLine: false,
+        hideCursorInOverviewRuler: true,
+        scrollbar: {
+          alwaysConsumeMouseWheel: false
+        }
+      });
+      textarea.data('editor', editor);
+      editor.onDidChangeModelContent(function () {
+        item.value = editor.getValue();
+        $(item).trigger('change');
+      });
+
+      var updateHeight = function updateHeight() {
+        try {
+          editor.layout({
+            width: div.width(),
+            height: editor.getContentHeight()
+          });
+        } catch (_unused) {}
+      };
+
+      editor.onDidContentSizeChange(updateHeight);
+      updateHeight();
+    });
+  });
+}
+
 function _xxxHTML(selector, twig, mode, options) {
   var result = $.Deferred();
 
@@ -29635,69 +29696,20 @@ function _xxxHTML(selector, twig, mode, options) {
 
     var editors = _find('.form-editor:not(.form-editor-done)');
 
-    if (editors.length > 0) Promise.all(/* import() */[__webpack_require__.e(108), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).then(function (monaco) {
-      window.monaco = monaco;
-      editors.each(function (_, item) {
-        var textarea = $(item);
-        var div = $('<div>', {
-          'class': textarea.attr('class').replace('form-editor', 'form-editor-monaco').trim(),
-          'style': textarea.attr('style')
-        }).insertAfter(textarea);
-        div.promise().done(function () {
-          textarea.addClass('form-editor-done');
-          var lang = textarea.attr('data-lang') || '';
-          var theme = textarea.attr('data-theme') || 'vs';
-          var wordWrap = textarea.attr('data-word-wrap') || 'false';
-          var readOnly = textarea.attr('data-read-only') || 'false';
-          var showGutter = textarea.attr('data-show-gutter') || 'false';
-          var showMiniMap = textarea.attr('data-show-minimap') || 'false';
-          var automaticLayout = textarea.attr('data-automatic-layout') || 'false';
-          var renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
-          var highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
-          var editor = monaco.editor.create(div[0], {
-            value: item.value,
-            theme: theme,
-            language: lang,
-            wordWrap: wordWrap === 'true',
-            readOnly: readOnly === 'true',
-            minimap: {
-              enabled: showMiniMap === 'true'
-            },
-            automaticLayout: automaticLayout === 'true',
-            renderWhitespace: renderWhitespace === 'true',
-            lineNumbers: showGutter === 'true' ? 'on' : 'off',
-            renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
-            insertSpaces: false,
-            overviewRulerLanes: 0x00,
-            overviewRulerBorder: false,
-            scrollBeyondLastLine: false,
-            hideCursorInOverviewRuler: true,
-            scrollbar: {
-              alwaysConsumeMouseWheel: false
-            }
-          });
-          textarea.data('editor', editor);
-          editor.onDidChangeModelContent(function () {
-            item.value = editor.getValue();
-            $(item).trigger('change');
-          });
+    if (editors.length > 0) {
+      if (typeof window.monaco === 'undefined') {
+        Promise.all(/* import() */[__webpack_require__.e(108), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).catch(function (message) {
+          error(message);
+        }).then(function (windowMonaco) {
+          window.monaco = windowMonaco;
 
-          var updateHeight = function updateHeight() {
-            try {
-              editor.layout({
-                width: div.width(),
-                height: editor.getContentHeight()
-              });
-            } catch (_unused) {}
-          };
-
-          editor.onDidContentSizeChange(updateHeight);
-          updateHeight();
+          _injectMonaco(editors, window.monaco);
         });
-      });
-    }).catch(function (message) {
-      error(message);
-    });
+      } else {
+        _injectMonaco(editors, window.monaco);
+      }
+    }
+
     result.resolveWith(context, [el]);
   });
   return result.promise();

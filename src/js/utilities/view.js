@@ -88,6 +88,117 @@ function _formatDatetime(date, format)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+function _injectMonaco(editors, monaco)
+{
+	editors.each((_, item) => {
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const textarea = $(item);
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const div = $('<div>', {
+			'class': textarea.attr('class').replace('form-editor', 'form-editor-monaco').trim(),
+			'style': textarea.attr('style'),
+		}).insertAfter(textarea);
+
+		div.promise().done(() => {
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			textarea.addClass('form-editor-done');
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const lang = textarea.attr('data-lang') || '';
+			const theme = textarea.attr('data-theme') || 'vs';
+
+			/**/
+
+			const wordWrap = textarea.attr('data-word-wrap') || 'false';
+			const readOnly = textarea.attr('data-read-only') || 'false';
+			const showGutter = textarea.attr('data-show-gutter') || 'false';
+			const showMiniMap = textarea.attr('data-show-minimap') || 'false';
+			const automaticLayout = textarea.attr('data-automatic-layout') || 'false';
+			const renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
+			const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const editor = monaco.editor.create(div[0], {
+				/* VALUE */
+				value: item.value,
+				/* OPTIONS */
+				theme: theme,
+				language: lang,
+				/**/
+				wordWrap: wordWrap === 'true',
+				readOnly: readOnly === 'true',
+				minimap: {
+					enabled: showMiniMap === 'true'
+				},
+				automaticLayout: automaticLayout === 'true',
+				renderWhitespace: renderWhitespace === 'true',
+				/**/
+				lineNumbers: showGutter === 'true' ? 'on' : 'off',
+				renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
+				/**/
+				insertSpaces: false,
+				overviewRulerLanes: 0x00,
+				overviewRulerBorder: false,
+				scrollBeyondLastLine: false,
+				hideCursorInOverviewRuler: true,
+				scrollbar: {
+					alwaysConsumeMouseWheel: false,
+				}
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			textarea.data('editor', editor);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			editor.onDidChangeModelContent(() => {
+
+				item.value = editor.getValue();
+
+				$(item).trigger('change');
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const updateHeight = () => {
+
+				try
+				{
+					editor.layout({
+						width: div.width(),
+						height: editor.getContentHeight(),
+					});
+				}
+				catch
+				{
+					/* IGNORE */
+				}
+			};
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			editor.onDidContentSizeChange(
+				updateHeight
+			);
+
+			updateHeight();
+
+			/*--------------------------------------------------------------------------------------------------------*/
+		});
+	});
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 /**
  * @param {string} selector
  * @param {string} twig
@@ -228,121 +339,28 @@ function _xxxHTML(selector, twig, mode, options)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const editors = _find('.form-editor:not(.form-editor-done)'); if(editors.length > 0) import('monaco-editor/esm/vs/editor/editor.api').then((monaco) => {
+		const editors = _find('.form-editor:not(.form-editor-done)');
 
-			window.monaco = monaco;
+		if(editors.length > 0)
+		{
+			if(typeof window.monaco === 'undefined')
+			{
+				import('monaco-editor/esm/vs/editor/editor.api').catch((message) => {
 
-			editors.each((_, item) => {
+					messages.error(message);
 
-				/*----------------------------------------------------------------------------------------------------*/
+				}).then((windowMonaco) => {
 
-				const textarea = $(item);
+					window.monaco = windowMonaco;
 
-				/*----------------------------------------------------------------------------------------------------*/
-
-				const div = $('<div>', {
-					'class': textarea.attr('class')
-					                 .replace('form-editor', 'form-editor-monaco').trim(),
-					'style': textarea.attr('style'),
-				}).insertAfter(textarea);
-
-				div.promise().done(() => {
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					textarea.addClass('form-editor-done');
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					const lang = textarea.attr('data-lang') || '';
-					const theme = textarea.attr('data-theme') || 'vs';
-
-					/**/
-
-					const wordWrap = textarea.attr('data-word-wrap') || 'false';
-					const readOnly = textarea.attr('data-read-only') || 'false';
-					const showGutter = textarea.attr('data-show-gutter') || 'false';
-					const showMiniMap = textarea.attr('data-show-minimap') || 'false';
-					const automaticLayout = textarea.attr('data-automatic-layout') || 'false';
-					const renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
-					const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					const editor = monaco.editor.create(div[0], {
-						/* VALUE */
-						value: item.value,
-						/* OPTIONS */
-						theme: theme,
-						language: lang,
-						/**/
-						wordWrap: wordWrap === 'true',
-						readOnly: readOnly === 'true',
-						minimap: {
-							enabled: showMiniMap === 'true'
-						},
-						automaticLayout: automaticLayout === 'true',
-						renderWhitespace: renderWhitespace === 'true',
-						/**/
-						lineNumbers: showGutter === 'true' ? 'on' : 'off',
-						renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
-						/**/
-						insertSpaces: false,
-						overviewRulerLanes: 0x00,
-						overviewRulerBorder: false,
-						scrollBeyondLastLine: false,
-						hideCursorInOverviewRuler: true,
-						scrollbar: {
-							alwaysConsumeMouseWheel: false,
-						}
-					});
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					textarea.data('editor', editor);
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					editor.onDidChangeModelContent(() => {
-
-						item.value = editor.getValue();
-
-						$(item).trigger('change');
-					});
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					const updateHeight = () => {
-
-						try
-						{
-							editor.layout({
-								width: div.width(),
-								height: editor.getContentHeight(),
-							});
-						}
-						catch
-						{
-							/* IGNORE */
-						}
-					};
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					editor.onDidContentSizeChange(
-						updateHeight
-					);
-
-					updateHeight();
-
-					/*------------------------------------------------------------------------------------------------*/
+					_injectMonaco(editors, window.monaco);
 				});
-			});
-
-		}).catch((message) => {
-
-			messages.error(message);
-		});
+			}
+			else
+			{
+				_injectMonaco(editors, window.monaco);
+			}
+		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
