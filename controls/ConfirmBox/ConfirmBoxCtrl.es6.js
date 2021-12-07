@@ -75,7 +75,7 @@ $AMIClass('ConfirmBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(text, settings)
+	render: function(text, options)
 	{
 		const deferred = $.Deferred();
 
@@ -86,7 +86,7 @@ $AMIClass('ConfirmBoxCtrl', {
 		] = amiWebApp.setup(
 			['context', 'title'],
 			[deferred, 'Confirm box'],
-			settings
+			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -111,9 +111,9 @@ $AMIClass('ConfirmBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	show: function(text, settings)
+	show: function(text, options)
 	{
-		return this.render(text, settings);
+		return this.render(text, options);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

@@ -1,1 +1,79 @@
-<div>Adder</div>
+<!--------------------------------------------------------------------------------------------------------------------->
+
+<div class="row w-75">
+
+	<!----------------------------------------------------------------------------------------------------------------->
+
+	<div class="col-xl-7">
+		<div class="card mb-4">
+			<div class="card-body p-2">
+				<div class="row">
+					<div class="col-4">
+						<i class="bi bi-funnel text-success" style="font-size: 3rem;"></i>
+					</div>
+					<div class="col-8">
+						Filter <i>{{ entity|e }}</i> by<br /><kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ field|e }}</kbd>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer p-2">
+				<div class="input-group">
+					<input class="form-control" type="text" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Filter {{ entity|e }} by {{ field|e }}..." />
+					{% if BOOTSTRAP_VERSION > 4 %}
+					<button class="btn btn-outline-primary" type="button" id="EBB91625_148B_1606_0D40_30BF170B11EE">
+						<i class="bi bi-arrow-right-circle-fill"></i>
+					</button>
+					{% else %}
+					<div class="input-group-append">
+						<button class="btn btn-outline-primary" type="button" id="EBB91625_148B_1606_0D40_30BF170B11EE">
+							<i class="bi bi-arrow-right-circle-fill"></i>
+						</button>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!----------------------------------------------------------------------------------------------------------------->
+
+	<div class="col-xl-5">
+		<div class="card mb-4">
+			<div class="card-body p-2">
+				<div class="row">
+					<div class="col-md-4">
+						<i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
+					</div>
+					<div class="col-md-8">
+						Add new <i>{{ entity|e }}</i>
+					</div>
+				</div>
+			</div>
+			<div class="card-footer p-2">
+				<div class="input-group">
+					<div class="form-control bg-light2 border-0"></div>
+					{% if BOOTSTRAP_VERSION > 4 %}
+					<button class="btn btn-outline-{% if canAdd %}primary{% else %}secondary{% endif %}" type="button" id="F8A7229A_60B1_0D37_BA18_807B7E29C818">
+						<i class="bi bi-arrow-right-circle-fill"></i>
+					</button>
+					{% else %}
+					<div class="input-group-append">
+						<button class="btn btn-outline-{% if canAdd %}primary{% else %}secondary{% endif %}" type="button" id="F8A7229A_60B1_0D37_BA18_807B7E29C818">
+							<i class="bi bi-arrow-right-circle-fill"></i>
+						</button>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!----------------------------------------------------------------------------------------------------------------->
+
+</div>
+
+<!--------------------------------------------------------------------------------------------------------------------->
+
+<div id="D6FDA711_E893_7CB9_9B97_4161B2CDE139"></div>
+
+<!--------------------------------------------------------------------------------------------------------------------->

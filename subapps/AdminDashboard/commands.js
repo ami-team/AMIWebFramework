@@ -24,18 +24,26 @@ export function init()
 
 	amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigCommands).done(() => {
 
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		$('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').keypress((e) => {
 
 			if(e.keyCode === 13)
 			{
+				e.preventDefault();
+
 				find($('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').val());
 			}
 		});
 
-		$('#CD24BC02_C39F_AE0C_A83F_85B6458421B6').click(() => {
+		$('#CD24BC02_C39F_AE0C_A83F_85B6458421B6').click((e) => {
+
+			e.preventDefault();
 
 			find($('#FA9E8ABC_2469_C3CA_67F9_8DC2FEE6B32D').val());
 		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		result.resolve();
 	});

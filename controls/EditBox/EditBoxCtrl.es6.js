@@ -67,7 +67,7 @@ $AMIClass('EditBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(text, settings)
+	render: function(text, options)
 	{
 		const deferred = $.Deferred();
 
@@ -78,7 +78,7 @@ $AMIClass('EditBoxCtrl', {
 		] = amiWebApp.setup(
 			['context', 'title'],
 			[deferred, 'Edit box'],
-			settings
+			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -103,9 +103,9 @@ $AMIClass('EditBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	show: function(text, settings)
+	show: function(text, options)
 	{
-		return this.render(text, settings);
+		return this.render(text, options);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
