@@ -1,6 +1,6 @@
 <!--------------------------------------------------------------------------------------------------------------------->
 
-<div class="row w-75">
+<div class="row w-lg-75">
 
 	<!----------------------------------------------------------------------------------------------------------------->
 
@@ -8,10 +8,10 @@
 		<div class="card mb-4">
 			<div class="card-body p-2">
 				<div class="row">
-					<div class="col-4">
+					<div class="col-2">
 						<i class="bi bi-funnel text-success" style="font-size: 3rem;"></i>
 					</div>
-					<div class="col-8">
+					<div class="col-10">
 						Filter <i>{{ entity|e }}</i> by<br /><kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ field|e }}</kbd>
 					</div>
 				</div>
@@ -41,10 +41,10 @@
 		<div class="card mb-4">
 			<div class="card-body p-2">
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-md-2">
 						<i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
 					</div>
-					<div class="col-md-8">
+					<div class="col-md-10">
 						Add new <i>{{ entity|e }}</i>
 					</div>
 				</div>
