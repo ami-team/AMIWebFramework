@@ -11,6 +11,10 @@
         "clazz": "BookmarkBoxCtrl",
         "file": "controls/BookmarkBox/BookmarkBoxCtrl.min.js"
     },
+    "confirmBox": {
+        "clazz": "ConfirmBoxCtrl",
+        "file": "controls/ConfirmBox/ConfirmBoxCtrl.min.js"
+    },
     "dashboardBox": {
         "clazz": "DashboardBoxCtrl",
         "file": "controls/DashboardBox/DashboardBoxCtrl.min.js"
