@@ -29527,7 +29527,6 @@ function _formatDatetime(date, format) {
 }
 
 function _injectMonaco(editors, monaco) {
-  window.monaco = monaco;
   editors.each(function (_, item) {
     var textarea = $(item);
     var div = $('<div>', {
@@ -29699,7 +29698,7 @@ function _xxxHTML(selector, twig, mode, options) {
     if (editors.length > 0) {
       if (typeof window.monaco === 'undefined') {
         Promise.all(/* import() */[__webpack_require__.e(108), __webpack_require__.e(164)]).then(__webpack_require__.bind(__webpack_require__, 1401)).then(function (windowMonaco) {
-          _injectMonaco(editors, windowMonaco);
+          _injectMonaco(editors, window.monaco = windowMonaco);
 
           result.resolveWith(context, [el, html]);
         });
