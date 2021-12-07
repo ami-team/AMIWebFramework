@@ -12,7 +12,7 @@
 						<i class="bi bi-funnel text-success" style="font-size: 3rem;"></i>
 					</div>
 					<div class="col-md-10">
-						Filter <i>{{ entity|e }}</i> by <kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ field|e }}</kbd>
+						Filter <kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ entity|e }}</kbd> by <kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ field|e }}</kbd>
 					</div>
 				</div>
 			</div>
@@ -45,7 +45,7 @@
 						<i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
 					</div>
 					<div class="col-md-10">
-						Add new <i>{{ entity|e }}</i>
+						Add new <kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ entity|e }}</kbd>
 					</div>
 				</div>
 			</div>
