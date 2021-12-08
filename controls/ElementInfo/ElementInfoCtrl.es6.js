@@ -9,13 +9,13 @@
  *
  */
 
-import './assets/css/TableCtrl.css';
+import './assets/css/ElementInfoCtrl.css';
 
-import twigTableCtrl from './assets/twig/TableCtrl.twig';
+import twigElementInfoCtrl from './assets/twig/ElementInfoCtrl.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-$AMIClass('TableCtrl', {
+$AMIClass('ElementInfoCtrl', {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	$extends: ami.Control,

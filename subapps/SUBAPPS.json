@@ -1,9 +1,9 @@
 {
     "adminDashboard": {
-		"breadcrumb": [
-			"Admin",
-			"<a href=\"{{WEBAPP_URL}}?subapp=adminDashboard\">Admin Dashboard</a>"
-		],
+        "breadcrumb": [
+            "Admin",
+            "<a href=\"{{WEBAPP_URL}}?subapp=adminDashboard\">Admin Dashboard</a>"
+        ],
         "file": "subapps/AdminDashboard/AdminDashboardApp.min.js",
         "instance": "adminDashboardApp"
     },
@@ -27,6 +27,14 @@
         "file": "subapps/Document/DocumentApp.min.js",
         "instance": "documentApp"
     },
+    "elementInfoViewer": {
+		"breadcrumb": [
+			"Metadata",
+			"<a href=\"{{WEBAPP_URL}}?subapp=elementInfoViewer\">Element Info Viewer</a>"
+		],
+        "file": "subapps/ElementInfoViewer/ElementInfoViewerApp.min.js",
+        "instance": "elementInfoViewerApp"
+    },
     "emergency": {
         "breadcrumb": [
             "Tools",
@@ -42,6 +50,14 @@
         ],
         "file": "subapps/ResetPassword/ResetPasswordApp.min.js",
         "instance": "resetPasswordApp"
+    },
+    "tableViewer": {
+		"breadcrumb": [
+			"Metadata",
+			"<a href=\"{{WEBAPP_URL}}?subapp=tableViewer\">Table Viewer</a>"
+		],
+        "file": "subapps/TableViewer/TableViewerApp.min.js",
+        "instance": "tableViewerApp"
     },
     "userDashboard": {
         "breadcrumb": [

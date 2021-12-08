@@ -46,6 +46,7 @@ const config = {
 		'controls/ConfirmBox/ConfirmBoxCtrl': path.resolve(__dirname, 'controls/ConfirmBox/ConfirmBoxCtrl.es6.js'),
 		'controls/DashboardBox/DashboardBoxCtrl': path.resolve(__dirname, 'controls/DashboardBox/DashboardBoxCtrl.es6.js'),
 		'controls/EditBox/EditBoxCtrl': path.resolve(__dirname, 'controls/EditBox/EditBoxCtrl.es6.js'),
+		'controls/ElementInfo/ElementInfoCtrl': path.resolve(__dirname, 'controls/ElementInfo/ElementInfoCtrl.es6.js'),
 		'controls/Tab/TabCtrl': path.resolve(__dirname, 'controls/Tab/TabCtrl.es6.js'),
 		'controls/Table/TableCtrl': path.resolve(__dirname, 'controls/Table/TableCtrl.es6.js'),
 		'controls/TextBox/TextBoxCtrl': path.resolve(__dirname, 'controls/TextBox/TextBoxCtrl.es6.js'),
@@ -53,8 +54,10 @@ const config = {
 		'subapps/BookmarkEditor/BookmarkEditorApp': path.resolve(__dirname, 'subapps/BookmarkEditor/BookmarkEditorApp.es6.js'),
 		'subapps/Command/CommandApp': path.resolve(__dirname, 'subapps/Command/CommandApp.es6.js'),
 		'subapps/Document/DocumentApp': path.resolve(__dirname, 'subapps/Document/DocumentApp.es6.js'),
+		'subapps/ElementInfoViewer/ElementInfoViewerApp': path.resolve(__dirname, 'subapps/ElementInfoViewer/ElementInfoViewerApp.es6.js'),
 		'subapps/Emergency/EmergencyApp': path.resolve(__dirname, 'subapps/Emergency/EmergencyApp.es6.js'),
 		'subapps/ResetPassword/ResetPasswordApp': path.resolve(__dirname, 'subapps/ResetPassword/ResetPasswordApp.es6.js'),
+		'subapps/TableViewer/TableViewerApp': path.resolve(__dirname, 'subapps/TableViewer/TableViewerApp.es6.js'),
 		'subapps/UserDashboard/UserDashboardApp': path.resolve(__dirname, 'subapps/UserDashboard/UserDashboardApp.es6.js')
 	},
 	'output': {

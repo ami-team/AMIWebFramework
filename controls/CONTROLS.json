@@ -23,6 +23,10 @@
         "clazz": "EditBoxCtrl",
         "file": "controls/EditBox/EditBoxCtrl.min.js"
     },
+    "elementInfo": {
+        "clazz": "ElementInfoCtrl",
+        "file": "controls/ElementInfo/ElementInfoCtrl.min.js"
+    },
     "tab": {
         "clazz": "TabCtrl",
         "file": "controls/Tab/TabCtrl.min.js"
