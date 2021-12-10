@@ -20,7 +20,7 @@ $AMIClass('ElementInfoViewerApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	onReady: function(userdata)
+	onReady: function()
 	{
 		const result = $.Deferred();
 
@@ -75,7 +75,7 @@ $AMIClass('ElementInfoViewerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		if(this.ctx.catalog, this.ctx.entity, this.ctx.primaryFieldName, this.ctx.primaryFieldValue)
+		if(this.ctx.catalog && this.ctx.entity && this.ctx.primaryFieldName && this.ctx.primaryFieldValue)
 		{
 			this._elementInfo.render('#AAE69442_E2AB_D572_F662_A3F519B8E5AC', this.ctx.catalog, this.ctx.entity, this.ctx.primaryFieldName, this.ctx.primaryFieldValue, this.ctx).done(() => {
 

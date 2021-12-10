@@ -19,6 +19,10 @@
         "clazz": "DashboardBoxCtrl",
         "file": "controls/DashboardBox/DashboardBoxCtrl.min.js"
     },
+    "dataTable": {
+        "clazz": "DataTableCtrl",
+        "file": "controls/DataTable/DataTableCtrl.min.js"
+    },
     "editBox": {
         "clazz": "EditBoxCtrl",
         "file": "controls/EditBox/EditBoxCtrl.min.js"
