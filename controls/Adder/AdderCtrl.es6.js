@@ -30,7 +30,7 @@ $AMIClass('AdderCtrl', {
 	onReady: function()
 	{
 		return amiWebApp.loadResources([
-			'ctrl:table'
+			'ctrl:datatable'
 		]).done((data) => {
 
 			this._tableCtor = data[0];
@@ -101,7 +101,16 @@ $AMIClass('AdderCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			result.resolve();
+			this.search().done((listOfFieldDescriptions, listOfRows, sql, mql, ast, totalNumberOfRows) => {
+
+				result.resolveWith(this.ctx.context, [listOfFieldDescriptions, listOfRows, sql, mql, ast, totalNumberOfRows]);
+
+			}).fail((message) => {
+
+				result.rejectWith(this.ctx.context, [message]);
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -113,7 +122,36 @@ $AMIClass('AdderCtrl', {
 
 	search: function(filter)
 	{
-		alert(filter);
+		const val = $(this.patchId('#B28F6454_3862_3031_6BAF_98392DE9C377')).val().trim();
+
+		let mql = 'SELECT *';
+
+		if(val)
+		{
+			if(val.includes('%'))
+			{
+				mql += ' WHERE `' + this.ctx.field + '` LIKE \'' + amiWebApp.textToSQL(val) + '\'';
+			}
+			else
+			{
+				mql += ' WHERE `' + this.ctx.field + '` = \'' + amiWebApp.textToSQL(val) + '\'';
+			}
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		return (this._table = new this._tableCtor()).render(this.patchId('#D6FDA711_E893_7CB9_9B97_4161B2CDE139'), `SearchQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -mql="${amiWebApp.textToString(mql)}"`, this.ctx).done(() => {
+
+			amiWebApp.unlock();
+
+		}).fail((message) => {
+
+			amiWebApp.error(message, true);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

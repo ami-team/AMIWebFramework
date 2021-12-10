@@ -36,8 +36,10 @@ def main():
     parser.add_argument('-v', '--bootstrap-version', help = 'bootstrap version (default: 5)', type = int, choices = [4, 5], default = 5)
     parser.add_argument('-f', '--source-code-flavour', help = 'source code flavour (default module)', type = str, choices = ['legacy', 'module', 'vue-js'], default = 'module')
 
-    parser.add_argument('-b', '--build', help = 'build JS bundles', action = 'store_true')
     parser.add_argument('-r', '--run', help = 'run a web server', action = 'store_true')
+
+    parser.add_argument('-b', '--build-prod', help = 'build JS bundles (prod mode)', action = 'store_true')
+    parser.add_argument('-d', '--build-debug', help = 'build JS bundles (debud mode)', action = 'store_true')
 
     parser.add_argument('--verbose', help = 'make this tool verbose', action = 'store_true')
 
@@ -54,11 +56,14 @@ def main():
     elif args.create_subapp:
         return awf_tool.createSubapp(args.verbose, args.source_code_flavour, 'webpack-nocore.config.js')
 
-    elif args.build:
-        return awf_tool.build(args.verbose, 'webpack-nocore.config.js')
-
     elif args.run:
         return awf_tool.run(args.verbose)
+
+    elif args.build_prod:
+        return awf_tool.build(False, args.verbose, 'webpack-nocore.config.js')
+
+    elif args.build_debug:
+        return awf_tool.build(True, args.verbose, 'webpack-nocore.config.js')
 
     ####################################################################################################################
 

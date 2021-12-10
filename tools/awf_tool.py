@@ -758,13 +758,13 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
 ########################################################################################################################
 
-def build(verbose, configFile = 'webpack.config.js'):
+def build(inDebugMode, verbose, configFile = 'webpack.config.js'):
 
     try:
 
         ################################################################################################################
 
-        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--config', configFile, '--mode', 'production'])
+        subprocess.check_call(['node', './node_modules/webpack/bin/webpack.js', '--config', configFile, '--mode', 'development' if inDebugMode else 'production'])
 
         ################################################################################################################
 
@@ -862,7 +862,9 @@ def main():
     parser.add_argument('-f', '--source-code-flavour', help = 'source code flavour (default module)', type = str, choices = ['legacy', 'module', 'vue-js'], default = 'module')
 
     parser.add_argument('-r', '--run', help = 'run a web server', action = 'store_true')
-    parser.add_argument('-b', '--build', help = 'build JS bundles', action = 'store_true')
+
+    parser.add_argument('-b', '--build-prod', help = 'build JS bundles (prod mode)', action = 'store_true')
+    parser.add_argument('-d', '--build-debug', help = 'build JS bundles (debud mode)', action = 'store_true')
 
     parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
     parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
@@ -884,11 +886,14 @@ def main():
     elif args.create_subapp:
         return createSubapp(args.verbose, args.source_code_flavour)
 
-    elif args.build:
-        return build(args.verbose)
-
     elif args.run:
         return run(args.verbose)
+
+    elif args.build_prod:
+        return build(False, args.verbose)
+
+    elif args.build:
+        return build(True, args.verbose)
 
     elif args.update_prod:
         return updateAWF(False, args.git_commit_id, args.verbose)
