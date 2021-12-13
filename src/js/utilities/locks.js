@@ -70,9 +70,9 @@ export function lock()
 {
 	let lines = getStack().split('\n');
 
-	if(lines.length > 2)
+	if(lines.length > 3)
 	{
-		console.log(`lock[${_curLockCnt}] :: ${lines[2]}`); // eslint-disable-line no-console
+		console.log(`lock[${_curLockCnt}] :: ${lines[3]}`); // eslint-disable-line no-console
 	}
 
 	/**/
@@ -113,9 +113,9 @@ export function unlock()
 
 	let lines = getStack().split('\n');
 
-	if(lines.length > 2)
+	if(lines.length > 3)
 	{
-		console.log(`unlock[${_curLockCnt}] :: ${lines[2]}`); // eslint-disable-line no-console
+		console.log(`unlock[${_curLockCnt}] :: ${lines[3]}`); // eslint-disable-line no-console
 	}
 }
 
