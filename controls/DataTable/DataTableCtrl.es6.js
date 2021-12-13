@@ -10,6 +10,7 @@
  */
 
 import twigTable from './assets/twig/table.twig';
+import twigTools from './assets/twig/tools.twig';
 import twigJS    from './assets/twig/js.twig'   ;
 
 import saveAs from 'file-saver';
@@ -190,7 +191,21 @@ $AMIClass('DataTableCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute(this.ctx.command + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '') + (!this.ctx.showBigContent ? ' -hideBigContent' : '')).done((data) => {
+		let command = this.ctx.command;
+
+		if((this.ctx.orderBy = (this.ctx.orderBy || '').trim()))
+		{
+			command += ` -orderBy="${amiWebApp.textToString(this.ctx.orderBy)}"`;
+
+			if((this.ctx.orderWay = (this.ctx.orderWay || '').trim()))
+			{
+				command += ` -orderWay="${amiWebApp.textToString(this.ctx.orderWay)}"`;
+			}
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiCommand.execute(command + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '') + (!this.ctx.showBigContent ? ' -hideBigContent' : '')).done((data) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -234,16 +249,18 @@ $AMIClass('DataTableCtrl', {
 
 						const columns = [{
 							title: 'tools',
-							class: 'text-center text-nowrap',
+							class: 'text-center text-nowrap ami-table-tools',
 							orderable: false,
+							visible: false,
 						}];
 
 						listOfFieldDescriptions[this.ctx.cnt].forEach(x => {
 
 							columns.push({
 								title: x['@field'],
-								class: 'text-center text-nowrap',
+								class: 'text-center text-nowrap ami-table-data',
 								orderable: true,
+								visible: true,
 							});
 						});
 
@@ -251,11 +268,7 @@ $AMIClass('DataTableCtrl', {
 
 						const data2 = listOfRowSets[this.ctx.cnt].map(x => {
 
-							const result = [
-								'<a class="text-primary" href="#" data-ami-op="clone" data-ami-id=""><i class="bi bi-files"></i></a>' +
-								'&nbsp;&nbsp;&nbsp;' +
-								'<a class="text-danger" href="#" data-ami-op="trash" data-ami-id=""><i class="bi bi-trash"></i></a>'
-							];
+							const result = [twigTools];
 
 							x.field.forEach(y => {
 
@@ -279,6 +292,7 @@ $AMIClass('DataTableCtrl', {
 						const table = $(`${selector} > table`).DataTable({
 							data: data2,
 							columns: columns,
+							order: [[1, 'asc']],
 							pageLength: this.ctx.stop - this.ctx.start + 1,
 							dom: '<"table-responsive" t>',
 							initComplete: (settings) => {
@@ -288,6 +302,10 @@ $AMIClass('DataTableCtrl', {
 								const el = $(selector);
 
 								const table = settings.oInstance.api();
+
+								/*------------------------------------------------------------------------------------*/
+
+								this.setMode(el, table);
 
 								/*------------------------------------------------------------------------------------*/
 
@@ -326,7 +344,7 @@ $AMIClass('DataTableCtrl', {
 
 								el.find('[data-ami-op="edit"]').change(() => {
 
-									alert('Hello');
+									this.setMode(el, table);
 								});
 
 								/*------------------------------------------------------------------------------------*/
@@ -544,6 +562,20 @@ $AMIClass('DataTableCtrl', {
 	toDashboardJSON: function()
 	{
 		return this.ctx;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	setMode: function(el, table)
+	{
+		if(el.find('[data-ami-op="edit"]').prop('checked'))
+		{
+			table.column(0).visible(true);
+		}
+		else
+		{
+			table.column(0).visible(false);
+		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

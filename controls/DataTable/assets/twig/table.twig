@@ -85,7 +85,7 @@
 					</a>
 					<ul class="dropdown-menu ami-table-export">
 						{% for converter in converters %}
-							<a class="dropdown-item" href="#" ami-table-op="export" ami-table-xslt="{{ converter.xslt|e }}" ami-table-mime="{{ converter.mime|e }}">{{ converter.mime|e }}</a>
+						<a class="dropdown-item" href="#" ami-table-op="export" ami-table-xslt="{{ converter.xslt|e }}" ami-table-mime="{{ converter.mime|e }}">{{ converter.mime|e }}</a>
 						{% endfor %}
 					</ul>
 				</li>
