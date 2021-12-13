@@ -57,7 +57,7 @@ $AMIClass('BookmarkBoxCtrl', {
 				if(name)
 				{
 					const json = {
-						subapp: _class.subapp,
+						control: _class.control,
 						userdata: _class.userdata,
 					};
 
@@ -95,7 +95,7 @@ $AMIClass('BookmarkBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(subapp, userdata, options)
+	render: function(control, userdata, options)
 	{
 		const deferred = $.Deferred();
 
@@ -111,24 +111,30 @@ $AMIClass('BookmarkBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#DDE98A9F_46A2_F340_F7D8_74F2D1704714').val(name || '');
-
-		$('#A3B9F992_0B7B_82B4_BDD0_E4EF2AF2E197').modal('show');
-
-		this.$class.deferred = deferred;
-		this.$class.context = context;
-		this.$class.subapp = subapp;
+		let json;
 
 		try
 		{
-			this.$class.userdata = amiWebApp.typeOf(userdata) === 'Object' ? /*------*/(userdata)
-			                                                               : JSON.parse(userdata)
+			json = amiWebApp.typeOf(userdata) === 'Object' ? /*------*/(userdata)
+				                                           : JSON.parse(userdata)
 			;
 		}
 		catch(e)
 		{
-			this.$class.userdata = {};
+			json = {};
 		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		$('#DDE98A9F_46A2_F340_F7D8_74F2D1704714').val(name || '');
+		$('#AC86FF11_7805_C85E_7411_F061BA049208').val(JSON.stringify(json, null, 2)|| '{}');
+		$('#EBABE58F_47EC_314C_5386_280E9D8A32A7').collapse('show');
+		$('#A3B9F992_0B7B_82B4_BDD0_E4EF2AF2E197').modal('show');
+
+		this.$class.deferred = deferred;
+		this.$class.context = context;
+		this.$class.control = control;
+		this.$class.userdata = json
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

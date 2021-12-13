@@ -25,7 +25,7 @@ $AMIClass('TableViewerApp', {
 		const result = $.Deferred();
 
 		amiWebApp.loadResources([
-			'ctrl:table',
+			'ctrl:datatable',
 		]).done((data) => {
 
 			amiWebApp.replaceHTML('#ami_main_content', twigTableViewerApp).done(() => {

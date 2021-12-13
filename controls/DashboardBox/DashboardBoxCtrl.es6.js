@@ -111,24 +111,30 @@ $AMIClass('DashboardBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').val(hash || '');
+		let json;
 
+		try
+		{
+			json = amiWebApp.typeOf(userdata) === 'Object' ? /*------*/(userdata)
+			                                               : JSON.parse(userdata)
+			;
+		}
+		catch(e)
+		{
+			json = {};
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		$('#CA1C2B9C_C66E_16A4_0192_95704C27B6E2').val(hash || '');
+		$('#A7003C5D_0A5C_08A2_DAD9_3EC577328D43').val(JSON.stringify(json, null, 2)|| '{}');
+		$('#CC011903_7C42_70CF_25CD_DE594C3E23C5').collapse('show');
 		$('#C5E27E1F_DEB1_DE92_1301_898529832194').modal('show');
 
 		this.$class.deferred = deferred;
 		this.$class.context = context;
 		this.$class.subapp = subapp;
-
-		try
-		{
-			this.$class.userdata = amiWebApp.typeOf(userdata) === 'Object' ? /*------*/(userdata)
-			                                                               : JSON.parse(userdata)
-			;
-		}
-		catch(e)
-		{
-			this.$class.userdata = {};
-		}
+		this.$class.userdata = json;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

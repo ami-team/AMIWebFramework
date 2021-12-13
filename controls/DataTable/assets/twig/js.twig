@@ -1,0 +1,63 @@
+<script type="text/javascript" src="{{ ORIGIN_URL }}/js/ami.min.js?embedded"></script>
+
+<script type="text/javascript">
+
+	var myTable;
+
+	amiWebApp.onRefresh = function(isAuth) {
+
+		if(isAuth)
+		{
+			myTable.render('#myTable', '{{ command|e('js') }}', {
+				appendCommandFunc: {{ appendCommandFunc.toString() }},
+				updateCommandFunc: {{ updateCommandFunc.toString() }},
+				removeCommandFunc: {{ removeCommandFunc.toString() }},
+				/**/
+				showPrimaryField: {{ showPrimaryField }},
+				showBigContent: {{ showBigContent }},
+				showToolBar: {{ showToolBar }},
+				/**/
+				enableCache: {{ enableCache }},
+				enableCount: {{ enableCount }},
+				enableEditMode: {{ enableEditMode }},
+				/**/
+				canEdit: {{ canEdit }},
+				/**/
+				catalog: '{{ catalog|e('js') }}',
+				entity: '{{ entity|e('js') }}',
+				primaryField: '{{ primaryField|e('js') }}',
+				rowset: '{{ rowset|e('js') }}',
+				/**/
+				start: {{ start }},
+				stop: {{ stop }},
+				orderBy: '{{ orderBy|e('js') }}',
+				orderWay: '{{ orderWay|e('js') }}',
+				/**/
+				maxCellLength: {{ maxCellLength }},
+				/**/
+				card: {{ card }},
+				/**/
+				onRefresh: null,
+			});
+		}
+		else
+		{
+			$('#myTable').empty();
+		}
+	};
+
+	amiWebApp.onReady = function() {
+
+		return amiWebApp.loadResources(['ctrl:datatable']).done(function(ctrls) {
+
+			myTable = new ctrls[0];
+		});
+	};
+
+	amiWebApp.start({
+		endpoint_url: '{{ endpoint|e }}'
+	});
+
+</script>
+
+<div id="myTable"></div>

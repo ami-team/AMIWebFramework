@@ -239,7 +239,8 @@ const config = {
 			'languages': [
 				'sql',
 				'xml', 'json', 'yaml',
-				'text', 'html', 'markdown'
+				'text', 'html', 'markdown',
+				'javascript'
 			]
 		}),
 		new webpack.BannerPlugin({

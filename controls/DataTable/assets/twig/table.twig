@@ -1,0 +1,132 @@
+{% if showToolBar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top border p-0">
+
+	<div class="container-fluid">
+
+		<a class="navbar-brand" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ catalog|default('N/A')|e }}::{{ entity|default('N/A')|e }}">
+			<i class="bi bi-info-circle-fill"></i>
+		</a>
+
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#EEA19C95_12AF_AAE3_250B_282C4E61F9A9_{{ cnt }}">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<div class="collapse navbar-collapse" id="EEA19C95_12AF_AAE3_250B_282C4E61F9A9_{{ cnt }}">
+
+			<div class="d-flex m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
+				<div class="input-group">
+					{% if BOOTSTRAP_VERSION > 4 %}
+					<button class="btn btn-outline-secondary" type="button" data-ami-op="goFirst">
+						<i class="bi bi-chevron-bar-left"></i>
+					</button>
+					<button class="btn btn-outline-secondary" type="button" data-ami-op="goPrevious">
+						<i class="bi bi-chevron-left"></i>
+					</button>
+					{% else %}
+					<div class="input-group-prepend">
+						<button class="btn btn-outline-secondary" type="button" data-ami-op="goFirst">
+							<i class="bi bi-chevron-bar-left"></i>
+						</button>
+						<button class="btn btn-outline-secondary" type="button" data-ami-op="goPrevious">
+							<i class="bi bi-chevron-left"></i>
+						</button>
+					</div>
+					{% endif %}
+					<input class="form-control ami-table-start" type="text" value="{{start}}" pattern="[0-9]+" style="width: 50px" />
+					<span class="input-group-text border-left-0 border-right-0 rounded-0 px-1"><i class="bi bi-dash"></i></span>
+					<input class="form-control ami-table-stop" type="text" value="{{stop}}" pattern="[0-9]+" style="width: 50px" />
+					{% if BOOTSTRAP_VERSION > 4 %}
+					<button class="btn btn-outline-secondary" type="button" data-ami-op="goNext">
+						<i class="bi bi-chevron-right"></i>
+					</button>
+					<button class="btn btn-outline-secondary" type="button" data-ami-op="goLast">
+						<i class="bi bi-chevron-bar-right"></i>
+					</button>
+					{% else %}
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button" data-ami-op="goNext">
+							<i class="bi bi-chevron-right"></i>
+						</button>
+						<button class="btn btn-outline-secondary" type="button" data-ami-op="goLast">
+							<i class="bi bi-chevron-bar-right"></i>
+						</button>
+					</div>
+					{% endif %}
+				</div>
+			</div>
+
+			<div class="d-flex m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
+
+				<input class="form-control m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2" type="search" data-ami-op="filter" placeholder="Filter..." />
+
+				<button class="btn btn-outline-secondary" data-ami-op="refresh" type="button">
+					<i class="bi bi-arrow-repeat"></i>
+				</button>
+
+			</div>
+
+			{% if canEdit %}
+			<div class="d-flex m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
+				<span class="switch switch-on-warning switch-off-secondary">
+					<input type="checkbox" id="E50A7387_3939_07E2_176D_25DE7B3A344F" data-ami-op="edit"{% if enableEditMode and canEdit %} checked="checked"{% endif %} />
+					<label class="text-nowrap" for="E50A7387_3939_07E2_176D_25DE7B3A344F">
+						<span class="text-secondary">view</span>
+						/
+						<span class="text-warning">edit</span>
+					</label>
+				</span>
+			</div>
+			{% endif %}
+
+			<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+						Export
+					</a>
+					<ul class="dropdown-menu ami-table-export">
+						{% for converter in converters %}
+							<a class="dropdown-item" href="#" ami-table-op="export" ami-table-xslt="{{ converter.xslt|e }}" ami-table-mime="{{ converter.mime|e }}">{{ converter.mime|e }}</a>
+						{% endfor %}
+					</ul>
+				</li>
+			</ul>
+
+			<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-auto">
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+						More
+					</a>
+					<ul class="dropdown-menu ami-table-more">
+						<a href="#" class="dropdown-item" ami-table-op="viewSQL">View SQL query</a>
+						<a href="#" class="dropdown-item" ami-table-op="viewMQL">View MQL query</a>
+						<a href="#" class="dropdown-item" ami-table-op="viewCmd">View command</a>
+						<div class="dropdown-divider"></div>
+						<a href="#" class="dropdown-item" ami-table-op="viewES5">View JavaScript</a>
+					</ul>
+				</li>
+			</ul>
+
+			<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
+				Showing <span class="ami-table-shown"></span> of <span class="ami-table-total"></span> entries</span>
+			</span>
+
+			<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
+				<button class="btn btn-link" type="button" ami-table-op="bookmark" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Bookmark this result">
+					<i class="bi bi-star-fill text-secondary"></i>
+				</button>
+			</span>
+
+			<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-0">
+				<button class="btn btn-link" type="button" ami-table-op="dashboard" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Add to dashboard">
+					<i class="bi bi-speedometer text-secondary"></i>
+				</button>
+			</span>
+
+		</div>
+
+	</div>
+
+</nav>
+{% endif %}
+
+<table class="table table-hover table-striped table-bordered w-100"></table>

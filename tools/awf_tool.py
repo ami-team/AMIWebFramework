@@ -892,7 +892,7 @@ def main():
     elif args.build_prod:
         return build(False, args.verbose)
 
-    elif args.build:
+    elif args.build_debug:
         return build(True, args.verbose)
 
     elif args.update_prod:
