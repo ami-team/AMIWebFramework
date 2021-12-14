@@ -61,11 +61,7 @@ $AMIClass('TabCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const dict = {
-			card: this.ctx.card
-		};
-
-		this.replaceHTML(this.setSelector(selector), twigTabCtrl, {dict: dict}).done(() => {
+		this.replaceHTML(this.setSelector(selector), twigTabCtrl, {dict: this.ctx}).done(() => {
 
 			result.resolveWith(this.ctx.context);
 		});

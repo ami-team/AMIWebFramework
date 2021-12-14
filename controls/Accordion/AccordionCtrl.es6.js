@@ -60,11 +60,7 @@ $AMIClass('AccordionCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const dict = {
-			toolbar: this.ctx.toolbar,
-		};
-
-		this.replaceHTML(this.setSelector(selector), twigAccordionCtrl, {dict: dict}).done(() => {
+		this.replaceHTML(this.setSelector(selector), twigAccordionCtrl, {dict: this.ctx}).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 

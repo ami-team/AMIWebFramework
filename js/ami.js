@@ -31288,6 +31288,10 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
       ami.Control._instanceScopeCnt = 1;
     },
     $init: function $init(parent, owner) {
+      this.ctxImmutables = {};
+      this.ctxDefaults = {};
+      this.ctxOptions = {};
+      this.ctx = {};
       this._parent = parent || this;
       this._owner = owner || this;
       this._instanceScope = ami.Control._instanceScopeCnt++;
@@ -31320,10 +31324,6 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
     getSelector: function getSelector() {
       return this._selector;
     },
-    ctxImmutables: {},
-    ctxDefaults: {},
-    ctxOptions: {},
-    ctx: {},
     setupCtx: function setupCtx(immutables, defaults, options) {
       return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
     },
@@ -31366,14 +31366,16 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
   });
   $AMIClass('ami.SubApp', {
     $implements: [ami.ISubApp],
+    $init: function $init() {
+      this.ctxImmutables = {};
+      this.ctxDefaults = {};
+      this.ctxOptions = {};
+      this.ctx = {};
+    },
     onReady: function onReady() {},
     onExit: function onExit() {},
     onLogin: function onLogin() {},
     onLogout: function onLogout() {},
-    ctxImmutables: {},
-    ctxDefaults: {},
-    ctxOptions: {},
-    ctx: {},
     setupCtx: function setupCtx(immutables, defaults, options) {
       return _setupCtx(this.ctxImmutables, this.ctxDefaults, this.ctxOptions, this.ctx, immutables, defaults, options);
     },

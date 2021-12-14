@@ -255,6 +255,11 @@ export default function()
 
 		$init: function(parent, owner)
 		{
+			this.ctxImmutables = {};
+			this.ctxDefaults = {};
+			this.ctxOptions = {};
+			this.ctx = {};
+
 			this._parent = parent || this;
 			this._owner = owner || this;
 
@@ -314,11 +319,6 @@ export default function()
 		},
 
 		/*------------------------------------------------------------------------------------------------------------*/
-
-		ctxImmutables: {},
-		ctxDefaults: {},
-		ctxOptions: {},
-		ctx: {},
 
 		/**
 		 * Sets up the control's context
@@ -513,6 +513,16 @@ export default function()
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		$init: function()
+		{
+			this.ctxImmutables = {};
+			this.ctxDefaults = {};
+			this.ctxOptions = {};
+			this.ctx = {};
+		},
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		onReady: function() {},
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -528,11 +538,6 @@ export default function()
 		onLogout: function() {},
 
 		/*------------------------------------------------------------------------------------------------------------*/
-
-		ctxImmutables: {},
-		ctxDefaults: {},
-		ctxOptions: {},
-		ctx: {},
 
 		/**
 		 * Sets up the application's context

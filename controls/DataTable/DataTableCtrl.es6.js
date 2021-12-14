@@ -110,7 +110,7 @@ $AMIClass('DataTableCtrl', {
 	{
 		if(this.getParent().$name !== 'TabCtrl')
 		{
-			const tab = new this._tabCtor(null, this);
+			const tab = new this._tabCtor(this.getParent(), this.getOwner());
 
 			tab.render(selector, this.ctx).done(() => {
 
@@ -167,9 +167,9 @@ $AMIClass('DataTableCtrl', {
 
 	___render: function(result)
 	{
-		this.refresh().done(() => {
+		this.refresh().done((listOfFieldDescriptions, listOfRowSets, sql, mql, ast) => {
 
-			result.resolveWith(this.ctx.context, []);
+			result.resolveWith(this.ctx.context, [listOfFieldDescriptions, listOfRowSets, sql, mql, ast]);
 
 		}).fail((message) => {
 
@@ -235,7 +235,7 @@ $AMIClass('DataTableCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this.ctx.cnt = 0;
+			let i = 0;
 
 			this._tab.removeAllItems();
 
@@ -246,50 +246,128 @@ $AMIClass('DataTableCtrl', {
 					this.replaceHTML(selector, twigTable, {dict: this.ctx}).done(() => {
 
 						/*--------------------------------------------------------------------------------------------*/
+						/* RETRIEVE PRIMARY KEY                                                                       */
+						/*--------------------------------------------------------------------------------------------*/
 
-						const columns = [{
-							title: 'tools',
-							class: 'text-center text-nowrap ami-table-tools',
-							orderable: false,
-							visible: false,
-						}];
+						let j = 0;
 
-						listOfFieldDescriptions[this.ctx.cnt].forEach(x => {
+						let primaryIdx = -1;
 
-							columns.push({
-								title: x['@field'],
-								class: 'text-center text-nowrap ami-table-data',
-								orderable: true,
-								visible: true,
-							});
+						listOfFieldDescriptions[i].forEach(x => {
+
+							if(this.ctx.primaryField)
+							{
+								if(x['@field'] === this.ctx.primaryField)
+								{
+									primaryIdx = j;
+								}
+							}
+							else
+							{
+								if(x['@primary'] === 'true')
+								{
+									primaryIdx = j;
+								}
+							}
+
+							j++;
 						});
 
 						/*--------------------------------------------------------------------------------------------*/
+						/* BUILD COLUMNS                                                                              */
+						/*--------------------------------------------------------------------------------------------*/
 
-						const data2 = listOfRowSets[this.ctx.cnt].map(x => {
+						const columns = [];
 
-							const result = [twigTools];
+						/*-------*/
+						/* TOOLS */
+						/*-------*/
+
+						if(primaryIdx >= 0)
+						{
+							columns.push({
+								title: 'tools',
+								class: 'text-center text-nowrap ami-table-tools',
+								orderable: false,
+							});
+						}
+
+						/*------*/
+						/* DATA */
+						/*------*/
+
+						j = 0;
+
+						listOfFieldDescriptions[i].forEach(x => {
+
+							if(j !== primaryIdx || this.ctx.showPrimaryField)
+							{
+								columns.push({
+									title: x['@field'],
+									class: 'text-center text-nowrap ami-table-data',
+									orderable: true,
+								});
+							}
+
+							j++;
+						});
+
+						/*--------------------------------------------------------------------------------------------*/
+						/* BUILD ROWS                                                                                 */
+						/*--------------------------------------------------------------------------------------------*/
+
+						const data2 = listOfRowSets[i].map(x => {
+
+							const result = [];
+
+							/*-------*/
+							/* TOOLS */
+							/*-------*/
+
+							if(primaryIdx >= 0)
+							{
+								result.push(twigTools.replace(/{{ id }}/g, x.field[primaryIdx]['$']));
+							}
+
+							/*------*/
+							/* DATA */
+							/*------*/
+
+							j = 0;
 
 							x.field.forEach(y => {
 
-								let data = y['$'];
+								if(j !== primaryIdx || this.ctx.showPrimaryField)
+								{
+									const data = y['$'];
 
-								if(data.length > this.ctx.maxCellLength)
-								{
-									result.push(`<div><a class="text-primary" href="#" data-ctrl="textBox" data-ctrl-location="body" data-params="[${amiWebApp.textToHtml(JSON.stringify(data))}]" data-options="{}"><i class="bi bi-search"></i></a> ${amiWebApp.textToHtml(data.substring(0, this.ctx.maxCellLength))}…</div>`);
+									const fieldDescription = listOfFieldDescriptions[i][j];
+
+									/**/ if(fieldDescription['@json'] === 'true')
+									{
+										result.push(`<div><a class="text-primary" href="#" data-ctrl="textBox" data-ctrl-location="body" data-params="[${amiWebApp.textToHtml(JSON.stringify(data))}]" data-options="${amiWebApp.textToHtml(JSON.stringify({lang: 'json'}))}"><i class="bi bi-search"></i></a> <i>JSON content</i></div>`);
+									}
+									else if(data.length > this.ctx.maxCellLength)
+									{
+										result.push(`<div><a class="text-primary" href="#" data-ctrl="textBox" data-ctrl-location="body" data-params="[${amiWebApp.textToHtml(JSON.stringify(data))}]" data-options="${amiWebApp.textToHtml(JSON.stringify({lang: 'text'}))}"><i class="bi bi-search"></i></a> ${amiWebApp.textToHtml(data.substring(0, this.ctx.maxCellLength))}…</div>`);
+									}
+									else
+									{
+										result.push(`<div>${amiWebApp.textToHtml(data)}`);
+									}
 								}
-								else
-								{
-									result.push(`<div>${amiWebApp.textToHtml(data)}`);
-								}
+
+								j++;
 							});
 
 							return result;
 						});
 
 						/*--------------------------------------------------------------------------------------------*/
+						/* BUILD TABLE                                                                                */
+						/*--------------------------------------------------------------------------------------------*/
 
-						const table = $(`${selector} > table`).DataTable({
+						$(`${selector} > table`).DataTable({
 							data: data2,
 							columns: columns,
 							order: [[1, 'asc']],
@@ -302,17 +380,6 @@ $AMIClass('DataTableCtrl', {
 								const el = $(selector);
 
 								const table = settings.oInstance.api();
-
-								/*------------------------------------------------------------------------------------*/
-
-								this.setMode(el, table);
-
-								/*------------------------------------------------------------------------------------*/
-
-								el.find('[data-ami-op="filter"]').keyup((e) => {
-
-									table.search($(e.currentTarget).val()).draw();
-								});
 
 								/*------------------------------------------------------------------------------------*/
 
@@ -342,13 +409,6 @@ $AMIClass('DataTableCtrl', {
 
 								/*------------------------------------------------------------------------------------*/
 
-								el.find('[data-ami-op="edit"]').change(() => {
-
-									this.setMode(el, table);
-								});
-
-								/*------------------------------------------------------------------------------------*/
-
 								el.find('.ami-table-start').keyup(() => {
 
 									this.setPagination(el, table);
@@ -361,84 +421,112 @@ $AMIClass('DataTableCtrl', {
 
 								/*------------------------------------------------------------------------------------*/
 
-								this.getPagination(el, table);
+								el.find('[data-ami-op="filter"]').keyup((e) => {
+
+									table.search($(e.currentTarget).val()).draw();
+								});
 
 								/*------------------------------------------------------------------------------------*/
-							}
+
+								el.find('[data-ami-op="refresh"]').click(() => {
+
+									this.refresh();
+								});
+
+								/*------------------------------------------------------------------------------------*/
+
+								el.find('[data-ami-op="edit"]').change(() => {
+
+									this.setMode(el, table);
+								});
+
+								/*------------------------------------------------------------------------------------*/
+
+								el.find('[ami-table-op="export"]').click((e) => {
+
+									const el = $(e.currentTarget);
+
+									this.exportResult(
+										el.attr('ami-table-xslt'),
+										el.attr('ami-table-mime')
+									);
+								});
+
+								/*------------------------------------------------------------------------------------*/
+
+								el.find('[ami-table-op="viewSQL"]').click(() => {
+
+									amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.  sql  , {lang: 'sql'}]);
+								});
+
+								el.find('[ami-table-op="viewMQL"]').click(() => {
+
+									amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.  mql  , {lang: 'sql'}]);
+								});
+
+								el.find('[ami-table-op="viewCmd"]').click(() => {
+
+									amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.command, {lang: 'sql'}]);
+								});
+
+								/*------------------------------------------------------------------------------------*/
+
+								el.find('[ami-table-op="viewES5"]').click(() => {
+
+									amiWebApp.createControl(this.getParent(), this, 'textBox', [amiWebApp.formatTWIG(twigJS, this.ctx), {lang: 'javascript'}]);
+								});
+
+								/*------------------------------------------------------------------------------------*/
+
+								el.find('[ami-table-op="bookmark"]').click(() => {
+
+									amiWebApp.createControl(this.getParent(), this, 'bookmarkBox', ['TableViewer', this.toBookmarkJSON(this.ctx)]);
+								});
+
+								el.find('[ami-table-op="dashboard"]').click(() => {
+
+									amiWebApp.createControl(this.getParent(), this, 'dashboardBox', ['DataTable', this.toDashboardJSON(this.ctx)]);
+								});
+
+								/*------------------------------------------------------------------------------------*/
+
+								el.find('table [data-ami-op="clone"]').click((e) => {
+
+									e.preventDefault();
+
+									this.trash($(e.currentTarget).attr('data-ami-id'));
+								});
+
+								el.find('table [data-ami-op="trash"]').click((e) => {
+
+									e.preventDefault();
+
+									this.clone($(e.currentTarget).attr('data-ami-id'));
+								});
+
+								/*------------------------------------------------------------------------------------*/
+
+								el.find('table [data-ctrl]').click((e) => {
+
+									this.createControlFromWebLink(this.getParent(), e.currentTarget, {});
+								});
+
+								/*------------------------------------------------------------------------------------*/
+
+								this.getPagination(el, table);
+
+								this.setMode(el, table);
+
+								/*------------------------------------------------------------------------------------*/
+							},
 						});
 
 						/*--------------------------------------------------------------------------------------------*/
 
-						this.ctx.cnt++;
+						i++;
 					});
 				});
 			}
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			const el = $(this.getSelector());
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			el.find('[data-ctrl]').click((e) => {
-
-				this.createControlFromWebLink(this.getParent(), e.currentTarget, {});
-			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			el.find('[data-ami-op="refresh"]').click(() => {
-
-				this.refresh();
-			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			el.find('[ami-table-op="export"]').click((e) => {
-
-				const el = $(e.currentTarget);
-
-				this.exportResult(
-					el.attr('ami-table-xslt'),
-					el.attr('ami-table-mime')
-				);
-			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			el.find('[ami-table-op="viewSQL"]').click(() => {
-
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.  sql  , {lang: 'sql'}]);
-			});
-
-			el.find('[ami-table-op="viewMQL"]').click(() => {
-
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.  mql  , {lang: 'sql'}]);
-			});
-
-			el.find('[ami-table-op="viewCmd"]').click(() => {
-
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.command, {lang: 'sql'}]);
-			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			el.find('[ami-table-op="viewES5"]').click(() => {
-
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [amiWebApp.formatTWIG(twigJS, this.ctx), {lang: 'javascript'}]);
-			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			el.find('[ami-table-op="bookmark"]').click(() => {
-
-				amiWebApp.createControl(this.getParent(), this, 'bookmarkBox', ['TableViewer', this.toBookmarkJSON(this.ctx)]);
-			});
-
-			el.find('[ami-table-op="dashboard"]').click(() => {
-
-				amiWebApp.createControl(this.getParent(), this, 'dashboardBox', ['DataTable', this.toDashboardJSON(this.ctx)]);
-			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -538,6 +626,40 @@ $AMIClass('DataTableCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	setMode: function(el, table)
+	{
+		if(el.find('[data-ami-op="edit"]').prop('checked'))
+		{
+			table.column(0).visible(true, false);
+
+			//this._fieldEditor.setInEditMode(true);
+			//this._unitEditor.setInEditMode(true);
+		}
+		else
+		{
+			table.column(0).visible(false, false);
+
+			//this._fieldEditor.setInEditMode(false);
+			//this._unitEditor.setInEditMode(false);
+		}
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	trash: function(id)
+	{
+		alert(id);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	clone: function(id)
+	{
+		alert(id);
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	toBookmarkJSON: function()
 	{
 		return {
@@ -562,20 +684,6 @@ $AMIClass('DataTableCtrl', {
 	toDashboardJSON: function()
 	{
 		return this.ctx;
-	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	setMode: function(el, table)
-	{
-		if(el.find('[data-ami-op="edit"]').prop('checked'))
-		{
-			table.column(0).visible(true);
-		}
-		else
-		{
-			table.column(0).visible(false);
-		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

@@ -54,7 +54,6 @@ $AMIClass('AdderCtrl', {
 				catalog: catalog,
 				entity: entity,
 				field: field,
-				card: true,
 			},
 			{
 				context: result,

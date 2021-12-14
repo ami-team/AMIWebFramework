@@ -12,13 +12,13 @@
 						<i class="bi bi-funnel text-success" style="font-size: 3rem;"></i>
 					</div>
 					<div class="col-md-10">
-						Filter <kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ entity|e }}</kbd> by <kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ field|e }}</kbd>
+						Select <kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ catalog|default('N/A')|e }}.{{ entity|default('N/A')|e }}</kbd> by <kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ catalog|default('N/A')|e }}.{{ field|default('N/A')|e }}</kbd>
 					</div>
 				</div>
 			</div>
 			<div class="card-footer p-2">
 				<div class="input-group">
-					<input class="form-control" type="text" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Filter {{ entity|e }} by {{ field|e }}..." />
+					<input class="form-control" type="text" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Select {{ catalog|default('N/A')|e }}.{{ entity|default('N/A')|e }} by {{ field|default('N/A')|e }}..." />
 					{% if BOOTSTRAP_VERSION > 4 %}
 					<button class="btn btn-outline-primary" type="button" id="EBB91625_148B_1606_0D40_30BF170B11EE">
 						<i class="bi bi-arrow-right-circle-fill"></i>
@@ -45,7 +45,7 @@
 						<i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
 					</div>
 					<div class="col-md-10">
-						Add new <kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ entity|e }}</kbd>
+						Add new <kbd class="{% if BOOTSTRAP_VERSION > 4 %}rounded-pill{% else %}badge-pill{% endif %}">{{ catalog|default('N/A')|e }}.{{ entity|default('N/A')|e }}</kbd>
 					</div>
 				</div>
 			</div>
