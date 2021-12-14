@@ -190,7 +190,7 @@ $AMIClass('DataTableCtrl', {
 		const [context] = amiWebApp.setup(['context'], [result], options);
 
 		/*------------------------------------------------------------------------------------------------------------*/
-		this.ctx.command = 'GetSessionInfo';
+
 		amiCommand.execute(this.ctx.command + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '') + (!this.ctx.showBigContent ? ' -hideBigContent' : '')).done((data) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
