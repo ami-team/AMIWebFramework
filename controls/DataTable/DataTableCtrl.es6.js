@@ -465,22 +465,6 @@ $AMIClass('DataTableCtrl', {
 
 								/*------------------------------------------------------------------------------------*/
 
-								if(!this.ctx.canEdit || primaryIdx < 0)
-								{
-									el.find('[data-ami-op="edit"]').hide();
-								}
-								else
-								{
-									el.find('[data-ami-op="edit"]').change(() => {
-
-										this.setMode(el, table);
-									});
-
-									this.setMode(el, table);
-								}
-
-								/*------------------------------------------------------------------------------------*/
-
 								el.find('[ami-table-op="export"]').click((e) => {
 
 									const el = $(e.currentTarget);
@@ -533,14 +517,14 @@ $AMIClass('DataTableCtrl', {
 
 									e.preventDefault();
 
-									this.trash($(e.currentTarget).attr('data-ami-id'));
+									this.cloneRow(el, table, $(e.currentTarget).attr('data-ami-id'));
 								});
 
 								el.find('table [data-ami-op="trash"]').click((e) => {
 
 									e.preventDefault();
 
-									this.clone($(e.currentTarget).attr('data-ami-id'));
+									this.trashRow(el, table, $(e.currentTarget).attr('data-ami-id'));
 								});
 
 								/*------------------------------------------------------------------------------------*/
@@ -551,6 +535,27 @@ $AMIClass('DataTableCtrl', {
 								});
 
 								/*------------------------------------------------------------------------------------*/
+
+								if(!this.ctx.canEdit || primaryIdx < 0)
+								{
+									el.find('[data-ami-op="add"]').hide();
+
+									el.find('[data-ami-op="edit"]').hide();
+								}
+								else
+								{
+									el.find('[data-ami-op="add"]').click(() => {
+
+										this.addRow(el, table);
+									});
+
+									el.find('[data-ami-op="edit"]').change(() => {
+
+										this.setMode(el, table);
+									});
+
+									this.setMode(el, table);
+								}
 
 								this.getPagination(el, table);
 
@@ -667,6 +672,8 @@ $AMIClass('DataTableCtrl', {
 	{
 		if(el.find('[data-ami-op="edit"]').prop('checked'))
 		{
+			el.find('[data-ami-op="add"]').prop('disabled', false);
+
 			table.column(0).visible(true, false);
 
 			//this._fieldEditor.setInEditMode(true);
@@ -674,6 +681,8 @@ $AMIClass('DataTableCtrl', {
 		}
 		else
 		{
+			el.find('[data-ami-op="add"]').prop('disabled', true);
+
 			table.column(0).visible(false, false);
 
 			//this._fieldEditor.setInEditMode(false);
@@ -683,14 +692,21 @@ $AMIClass('DataTableCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	trash: function(id)
+	addRow: function()
+	{
+		alert('new');
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	cloneRow: function(el, table, id)
 	{
 		alert(id);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	clone: function(id)
+	trashRow: function(el, table, id)
 	{
 		alert(id);
 	},

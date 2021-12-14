@@ -170,11 +170,12 @@ class AMICommand
 	signOut(options)
 	{
 		return this.#httpClient.signOut(options).always(() => {
-
+			/*
 			return this.#mqttClient.signOut(options).done(() => {
 
 				console.log('MQTT connection closed too');
 			});
+			*/
 		});
 	}
 

@@ -61,7 +61,7 @@
 
 				<input class="form-control m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2" type="search" data-ami-op="filter" placeholder="Filter..." />
 
-				<button class="btn btn-outline-secondary" data-ami-op="refresh" type="button">
+				<button class="btn btn-outline-secondary" type="button" data-ami-op="refresh">
 					<i class="bi bi-arrow-repeat"></i>
 				</button>
 
@@ -70,14 +70,18 @@
 			{% if canEdit %}
 			<div class="d-flex m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
 
-				<span class="switch switch-on-warning switch-off-secondary">
-					<input type="checkbox" id="E50A7387_3939_07E2_176D_25DE7B3A344F" data-ami-op="edit"{% if enableEditMode and canEdit %} checked="checked"{% endif %} />
+				<span class="switch switch-on-warning switch-off-secondary m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-1">
+					<input type="checkbox" id="E50A7387_3939_07E2_176D_25DE7B3A344F" data-ami-op="edit"{% if enableEditMode %} checked="checked"{% endif %} />
 					<label class="text-nowrap" for="E50A7387_3939_07E2_176D_25DE7B3A344F">
 						<span class="text-secondary">view</span>
 						/
 						<span class="text-warning">edit</span>
 					</label>
 				</span>
+
+				<button class="btn btn-outline-warning" type="button" data-ami-op="add">
+					<i class="bi bi-plus-lg"></i>
+				</button>
 
 			</div>
 			{% endif %}

@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = /*-----*/(i);
-							dict[sym2] = iterValue[i];
+							dict[sym1] = iterValue[i][0];
+							dict[sym2] = iterValue[i][1];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -24890,7 +24890,7 @@ module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAll
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon|e }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ms-0 ms-lg-1\" type=\"button\" onclick=\"alert('TODO');\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon|e }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ms-0 ms-lg-1\" type=\"button\" onclick=\"window.amiAuth.signOut();\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
 
 /***/ }),
 
@@ -25484,9 +25484,9 @@ class AMIHTTPClient
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const data = {
-			...extras,
 			Command: command,
 			Converter: converter,
+			...extras,
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -26493,13 +26493,7 @@ var AMICommand = function () {
   };
 
   _proto.signOut = function signOut(options) {
-    var _this = this;
-
-    return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signOut(options).always(function () {
-      return _classPrivateFieldLooseBase(_this, _mqttClient)[_mqttClient].signOut(options).done(function () {
-        console.log('MQTT connection closed too');
-      });
-    });
+    return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signOut(options).always(function () {});
   };
 
   _proto.attachCertificate = function attachCertificate(username, password, options) {
@@ -30899,6 +30893,19 @@ var AMIAuth = function () {
     });
   };
 
+  _proto.signOut = function signOut() {
+    var _this3 = this;
+
+    js_AMIWebApp.lock();
+    return js_AMICommand.signOut().always(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+      AMIAuth_classPrivateFieldLooseBase(_this3, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function () {
+        js_AMIWebApp.unlock();
+      }, function (message) {
+        js_AMIWebApp.error(message);
+      });
+    });
+  };
+
   _proto.sso = function sso() {
     AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
 
@@ -31953,6 +31960,11 @@ var AMIWebApp = function () {
         "type": ["$.Promise"],
         "desc": "A JQuery promise object"
       }]
+    }, {
+      "name": "signOut",
+      "alias": "",
+      "desc": "Signs out",
+      "params": []
     }]
   }, {
     "name": "amiCommand",

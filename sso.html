@@ -1,37 +1,42 @@
 <!doctype html>
+
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport"
-		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<meta charset="UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<title>SSO</title>
+
 	<script src="https://auth.cern.ch/auth/js/keycloak.js"></script>
-	<title>Document</title>
 </head>
 <body>
 
-
 <script>
+
 	let keycloak = Keycloak({
 		url: 'https://auth.cern.ch/auth',
 		realm: 'cern',
 		clientId: 'amiwf',
 	});
 
-	keycloak.init({ onLoad: 'login-required' }).then(function(authenticated) {
-		if(authenticated) {
-			window.opener.postMessage(keycloak.tokenParsed, '*');
+	keycloak.init({ onLoad: 'login-required', scope: 'id_token' }).then(function(authenticated) {
+
+		if(authenticated)
+		{
+			//window.opener.postMessage(keycloak.tokenParsed, '*');
 
 			console.log(keycloak.token);
-			console.log(JSON.stringify(keycloak.tokenParsed, null, '\t'));
-			window.close();
+			//console.log(JSON.stringify(keycloak.tokenParsed, null, '\t'));
+			//window.close();
 		}
+
 	}).catch(function(e) {
 		console.log(e);
 		alert('failed to initialize');
 	});
 
-
 </script>
+
 </body>
 </html>
