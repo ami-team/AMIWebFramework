@@ -236,42 +236,54 @@ $AMIClass('DataTableCtrl', {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			let i = 0;
+			let j = 0;
 
 			this._tab.removeAllItems();
 
 			for(const rowSetName of listOfRowSetName)
 			{
-				this._tab.appendItem(rowSetName, {closable: false, firstVisible: false}).done((selector) => {
+				this._tab.appendItem(rowSetName, {closable: false, firstVisible: true}).done((selector) => {
 
 					this.replaceHTML(selector, twigTable, {dict: this.ctx}).done(() => {
 
 						/*--------------------------------------------------------------------------------------------*/
-						/* RETRIEVE PRIMARY KEY                                                                       */
+						/* RETRIEVE PRIMARY FIELD                                                                     */
 						/*--------------------------------------------------------------------------------------------*/
-
-						let j = 0;
 
 						let primaryIdx = -1;
 
-						listOfFieldDescriptions[i].forEach(x => {
+						/**/ if(listOfFieldDescriptions[i])
+						{
+							j = 0;
 
-							if(this.ctx.primaryField)
+							for(const x of listOfFieldDescriptions[i])
 							{
-								if(x['@field'] === this.ctx.primaryField)
+								if(this.ctx.primaryField ? (x['@field'] === this.ctx.primaryField) : (x['@primary'] === 'true'))
 								{
 									primaryIdx = j;
+
+									break;
 								}
+
+								j++;
 							}
-							else
+						}
+						else if(listOfRowSets[i][0]?.field)
+						{
+							j = 0;
+
+							for(const x of listOfRowSets[i][0].field)
 							{
-								if(x['@primary'] === 'true')
+								if(this.ctx.primaryField ? (x['@name'] === this.ctx.primaryField) : false)
 								{
 									primaryIdx = j;
-								}
-							}
 
-							j++;
-						});
+									break;
+								}
+
+								j++;
+							}
+						}
 
 						/*--------------------------------------------------------------------------------------------*/
 						/* BUILD COLUMNS                                                                              */
@@ -296,21 +308,42 @@ $AMIClass('DataTableCtrl', {
 						/* DATA */
 						/*------*/
 
-						j = 0;
+						/**/ if(listOfFieldDescriptions[i])
+						{
+							j = 0;
 
-						listOfFieldDescriptions[i].forEach(x => {
-
-							if(j !== primaryIdx || this.ctx.showPrimaryField)
+							for(const x of listOfFieldDescriptions[i])
 							{
-								columns.push({
-									title: x['@field'],
-									class: 'text-center text-nowrap ami-table-data',
-									orderable: true,
-								});
-							}
+								if(this.ctx.showPrimaryField || primaryIdx !== j)
+								{
+									columns.push({
+										title: x['@field'],
+										class: 'text-center text-nowrap ami-table-data',
+										orderable: true,
+									});
+								}
 
-							j++;
-						});
+								j++;
+							}
+						}
+						else if(listOfRowSets[i][0]?.field)
+						{
+							j = 0;
+
+							for(const x of listOfRowSets[i][0].field)
+							{
+								if(this.ctx.showPrimaryField || primaryIdx !== j)
+								{
+									columns.push({
+										title: x['@name'],
+										class: 'text-center text-nowrap ami-table-data',
+										orderable: true,
+									});
+								}
+
+								j++;
+							}
+						}
 
 						/*--------------------------------------------------------------------------------------------*/
 						/* BUILD ROWS                                                                                 */
@@ -324,10 +357,7 @@ $AMIClass('DataTableCtrl', {
 							/* TOOLS */
 							/*-------*/
 
-							if(primaryIdx >= 0)
-							{
-								result.push(twigTools.replace(/{{ id }}/g, x.field[primaryIdx]['$']));
-							}
+							if(primaryIdx >= 0) result.push(twigTools.replace(/{{ id }}/g, x.field[primaryIdx]['$']));
 
 							/*------*/
 							/* DATA */
@@ -335,13 +365,13 @@ $AMIClass('DataTableCtrl', {
 
 							j = 0;
 
-							x.field.forEach(y => {
-
-								if(j !== primaryIdx || this.ctx.showPrimaryField)
+							for(const y of x.field)
+							{
+								if(this.ctx.showPrimaryField || primaryIdx !== j)
 								{
 									const data = y['$'];
 
-									const fieldDescription = listOfFieldDescriptions[i][j];
+									const fieldDescription = ((listOfFieldDescriptions[i] || [])[j] || {});
 
 									/**/ if(fieldDescription['@json'] === 'true')
 									{
@@ -358,7 +388,7 @@ $AMIClass('DataTableCtrl', {
 								}
 
 								j++;
-							});
+							}
 
 							return result;
 						});
@@ -370,7 +400,7 @@ $AMIClass('DataTableCtrl', {
 						$(`${selector} > table`).DataTable({
 							data: data2,
 							columns: columns,
-							order: [[1, 'asc']],
+							order: primaryIdx >= 0 ? [[primaryIdx, 'asc']] : [],
 							pageLength: this.ctx.stop - this.ctx.start + 1,
 							dom: '<"table-responsive" t>',
 							initComplete: (settings) => {
@@ -435,10 +465,19 @@ $AMIClass('DataTableCtrl', {
 
 								/*------------------------------------------------------------------------------------*/
 
-								el.find('[data-ami-op="edit"]').change(() => {
+								if(!this.ctx.canEdit || primaryIdx < 0)
+								{
+									el.find('[data-ami-op="edit"]').hide();
+								}
+								else
+								{
+									el.find('[data-ami-op="edit"]').change(() => {
+
+										this.setMode(el, table);
+									});
 
 									this.setMode(el, table);
-								});
+								}
 
 								/*------------------------------------------------------------------------------------*/
 
@@ -514,8 +553,6 @@ $AMIClass('DataTableCtrl', {
 								/*------------------------------------------------------------------------------------*/
 
 								this.getPagination(el, table);
-
-								this.setMode(el, table);
 
 								/*------------------------------------------------------------------------------------*/
 							},

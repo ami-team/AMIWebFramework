@@ -7,13 +7,14 @@
 			<i class="bi bi-info-circle-fill"></i>
 		</a>
 
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#EEA19C95_12AF_AAE3_250B_282C4E61F9A9_{{ cnt }}">
+		<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#EEA19C95_12AF_AAE3_250B_282C4E61F9A9_{{ cnt }}">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
 		<div class="collapse navbar-collapse" id="EEA19C95_12AF_AAE3_250B_282C4E61F9A9_{{ cnt }}">
 
 			<div class="d-flex m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
+
 				<div class="input-group">
 					{% if BOOTSTRAP_VERSION > 4 %}
 					<button class="btn btn-outline-secondary" type="button" data-ami-op="goFirst">
@@ -53,6 +54,7 @@
 					</div>
 					{% endif %}
 				</div>
+
 			</div>
 
 			<div class="d-flex m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
@@ -67,6 +69,7 @@
 
 			{% if canEdit %}
 			<div class="d-flex m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
+
 				<span class="switch switch-on-warning switch-off-secondary">
 					<input type="checkbox" id="E50A7387_3939_07E2_176D_25DE7B3A344F" data-ami-op="edit"{% if enableEditMode and canEdit %} checked="checked"{% endif %} />
 					<label class="text-nowrap" for="E50A7387_3939_07E2_176D_25DE7B3A344F">
@@ -75,6 +78,7 @@
 						<span class="text-warning">edit</span>
 					</label>
 				</span>
+
 			</div>
 			{% endif %}
 
