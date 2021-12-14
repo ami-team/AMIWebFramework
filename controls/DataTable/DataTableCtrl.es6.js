@@ -623,7 +623,7 @@ $AMIClass('DataTableCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			var fname;
+			let fname;
 
 			/**/ if(xslt === 'application/xml') {
 				fname = 'result.xml';
@@ -702,7 +702,7 @@ $AMIClass('DataTableCtrl', {
 	toBookmarkJSON: function()
 	{
 		return {
-			command: this.ctx.command2,
+			command: this.ctx.command,
 			/**/
 			catalog: this.ctx.catalog,
 			entity: this.ctx.entity,
