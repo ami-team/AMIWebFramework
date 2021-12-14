@@ -207,7 +207,7 @@ $AMIClass('AccordionCtrl', {
 	{
 		this._collapsed = !this._collapsed;
 
-		$(`${this.getSelector()} > .card > .collapse`).collapse( this._collapsed ? 'hide' : 'show');
+		$(`${this.getSelector()} > .card > .collapse`).collapse(this._collapsed ? 'hide' : 'show');
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

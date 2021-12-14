@@ -79,7 +79,7 @@
 					</label>
 				</span>
 
-				<button class="btn btn-outline-warning" type="button" data-ami-op="add">
+				<button class="btn btn-outline-{% if enableEditMode %}warning{% else %}secondary{% endif %}" type="button" data-ami-op="add">
 					<i class="bi bi-plus-lg"></i>
 				</button>
 

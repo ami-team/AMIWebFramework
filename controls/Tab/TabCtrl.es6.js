@@ -138,18 +138,18 @@ $AMIClass('TabCtrl', {
 		let promise1;
 		let promise2;
 
-		const tabSelector = this.ctx.card ? '.card > .card-header > .nav-tabs' : '.nav-tabs';
-		const contentSelector = this.ctx.card ? '.card > .card-body > .tab-content' : '.tab-content';
+		const tabSelector = this.ctx.card ? `${this.getSelector()} > .card > .card-header > .nav-tabs` : `${this.getSelector()} > .nav-tabs`;
+		const contentSelector = this.ctx.card ? `${this.getSelector()} > .card > .card-body > .tab-content` : `${this.getSelector()} > .tab-content`;
 
 		if(mode === 0)
 		{
-			promise1 = this.prependHTML(`${this.getSelector()} > ${tabSelector}`, twigTab, {dict: dict});
-			promise2 = this.prependHTML(`${this.getSelector()} > ${contentSelector}`, twigItem, {dict: dict});
+			promise1 = this.prependHTML(tabSelector, twigTab, {dict: dict});
+			promise2 = this.prependHTML(contentSelector, twigItem, {dict: dict});
 		}
 		else
 		{
-			promise1 = this.appendHTML(`${this.getSelector()} > ${tabSelector}`, twigTab, {dict: dict});
-			promise2 = this.appendHTML(`${this.getSelector()} > ${contentSelector}`, twigItem, {dict: dict});
+			promise1 = this.appendHTML(tabSelector, twigTab, {dict: dict});
+			promise2 = this.appendHTML(contentSelector, twigItem, {dict: dict});
 		}
 
 		promise1.done(() => {
@@ -180,13 +180,11 @@ $AMIClass('TabCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				const els = $(`${this.getSelector()} > ${tabSelector}`);
-
-				if(els.length === 1 && firstVisible === false) {
-					els.hide();
+				if($(`${tabSelector} > .nav-item`).length === 1 && firstVisible === false) {
+					$(tabSelector).hide();
 				}
 				else {
-					els.show();
+					$(tabSelector).show();
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/

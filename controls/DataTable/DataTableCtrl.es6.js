@@ -114,7 +114,7 @@ $AMIClass('DataTableCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem(`<i class="bi bi-table"></i> ${this.ctx.entity}`, {closable: false, firstVisible: this.ctx.card}).done((selector) => {
+				tab.appendItem(`<i class="bi bi-table"></i> ${amiWebApp.textToHtml(this.ctx.entity)}`, {closable: false, firstVisible: this.ctx.card}).done((selector) => {
 
 					this.setParent(tab);
 
@@ -190,22 +190,8 @@ $AMIClass('DataTableCtrl', {
 		const [context] = amiWebApp.setup(['context'], [result], options);
 
 		/*------------------------------------------------------------------------------------------------------------*/
-
-		let command = this.ctx.command;
-
-		if((this.ctx.orderBy = (this.ctx.orderBy || '').trim()))
-		{
-			command += ` -orderBy="${amiWebApp.textToString(this.ctx.orderBy)}"`;
-
-			if((this.ctx.orderWay = (this.ctx.orderWay || '').trim()))
-			{
-				command += ` -orderWay="${amiWebApp.textToString(this.ctx.orderWay)}"`;
-			}
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		amiCommand.execute(command + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '') + (!this.ctx.showBigContent ? ' -hideBigContent' : '')).done((data) => {
+		this.ctx.command = 'GetSessionInfo';
+		amiCommand.execute(this.ctx.command + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '') + (!this.ctx.showBigContent ? ' -hideBigContent' : '')).done((data) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -242,7 +228,7 @@ $AMIClass('DataTableCtrl', {
 
 			for(const rowSetName of listOfRowSetName)
 			{
-				this._tab.appendItem(rowSetName, {closable: false, firstVisible: true}).done((selector) => {
+				this._tab.appendItem(`<i class="bi bi-files-alt"></i> ${amiWebApp.textToHtml(rowSetName)}`, {closable: false, firstVisible: false}).done((selector) => {
 
 					this.replaceHTML(selector, twigTable, {dict: this.ctx}).done(() => {
 
@@ -672,7 +658,7 @@ $AMIClass('DataTableCtrl', {
 	{
 		if(el.find('[data-ami-op="edit"]').prop('checked'))
 		{
-			el.find('[data-ami-op="add"]').prop('disabled', false);
+			el.find('[data-ami-op="add"]').prop('disabled', false).addClass('btn-outline-warning').removeClass('btn-outline-secondary');
 
 			table.column(0).visible(true, false);
 
@@ -681,7 +667,7 @@ $AMIClass('DataTableCtrl', {
 		}
 		else
 		{
-			el.find('[data-ami-op="add"]').prop('disabled', true);
+			el.find('[data-ami-op="add"]').prop('disabled', true).removeClass('btn-outline-warning').addClass('btn-outline-secondary');
 
 			table.column(0).visible(false, false);
 
