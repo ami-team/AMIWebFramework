@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = iterValue[i][0];
-							dict[sym2] = iterValue[i][1];
+							dict[sym1] = /*-----*/(i);
+							dict[sym2] = iterValue[i];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -24882,7 +24882,7 @@ module.exports = "<div class=\"toast mb-2\" role=\"alert\" {% if fadeOut %}data-
 /***/ ((module) => {
 
 "use strict";
-module.exports = "";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAllowed %}\n\t<button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t<i class=\"bi bi-box-arrow-left\"></i> {{awfInfo.ssoLabel}}\n\t</button>\n\t{% endif %}\n</li>\n";
 
 /***/ }),
 
@@ -30738,8 +30738,13 @@ var _setupAWF = AMIAuth_classPrivateFieldLooseKey("setupAWF");
 
 var _update = AMIAuth_classPrivateFieldLooseKey("update");
 
+var _clean = AMIAuth_classPrivateFieldLooseKey("clean");
+
 var AMIAuth = function () {
   function AMIAuth() {
+    Object.defineProperty(this, _clean, {
+      value: _clean2
+    });
     Object.defineProperty(this, _update, {
       value: _update2
     });
@@ -30794,14 +30799,10 @@ var AMIAuth = function () {
     };
     var userdata = js_AMIRouter.getWebAppArgs()['userdata'] || '';
     js_AMICommand.signInByCertificate().fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this, _setupAWF)[_setupAWF](awfInfo);
-
       AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
         result.reject(message);
       });
     }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this, _setupAWF)[_setupAWF](awfInfo);
-
       _internal_then(js_AMIWebApp.onReady(userdata), function () {
         js_AMIWebApp._isReady = true;
 
@@ -30891,13 +30892,31 @@ var AMIAuth = function () {
     var _this2 = this;
 
     js_AMIWebApp.lock();
-    return js_AMICommand.signInByCertificate().done(function (data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this2, _setupAWF)[_setupAWF](awfInfo);
-
-      AMIAuth_classPrivateFieldLooseBase(_this2, _update)[_update](userInfo, roleInfo, bookmarkInfo, awfInfo).always(function () {
+    return js_AMICommand.signInByCertificate().done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+      AMIAuth_classPrivateFieldLooseBase(_this2, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
         js_AMIWebApp.unlock();
       });
     });
+  };
+
+  _proto.sso = function sso() {
+    AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
+
+    window.open(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoSignInURL, 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+
+    window.onmessage = function (_ref) {
+      var data = _ref.data;
+
+      if (data) {
+        var email = data.email,
+            given_name = data.given_name,
+            family_name = data.family_name;
+        console.log(email, given_name, family_name);
+        console.log(data);
+      } else {
+        js_AMIWebApp.error('An error occured while fetching the data from the SSO', true);
+      }
+    };
   };
 
   return AMIAuth;
@@ -30905,14 +30924,18 @@ var AMIAuth = function () {
 
 function _setupAWF2(awfInfo) {
   try {
-    var config = JSON.parse(base64Decode(awfInfo.config));
-    setDateTimeFormats(config['datetimePrecision'], config['datetimeFormat'], config['dateFormat'], config['timePrecision'], config['timeHMSFormat'], config['timeHMFormat']);
-    AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo] = config;
-  } catch (e) {}
+    var result = JSON.parse(base64Decode(awfInfo.config));
+    setDateTimeFormats(result['datetimePrecision'], result['datetimeFormat'], result['dateFormat'], result['timePrecision'], result['timeHMSFormat'], result['timeHMFormat']);
+    return result;
+  } catch (e) {
+    console.log(e);
+    return {};
+  }
 }
 
 function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
   var result = $.Deferred();
+  awfInfo = AMIAuth_classPrivateFieldLooseBase(this, _setupAWF)[_setupAWF](awfInfo);
   var user = userInfo.AMIUser || 'guest';
   var guest = userInfo.guestUser || 'guest';
 
@@ -30951,6 +30974,13 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
   }
 
   return result.promise();
+}
+
+function _clean2() {
+  $('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').trigger('reset');
+  $('#EE055CD4_E58F_4834_8020_986AE3F8D67D').trigger('reset');
+  $('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').trigger('reset');
+  $('#E92A1097_983B_4857_875F_07E4659B41B0').trigger('reset');
 }
 
 /* harmony default export */ const js_AMIAuth = (new AMIAuth());

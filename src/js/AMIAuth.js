@@ -80,22 +80,23 @@ class AMIAuth
 	{
 		try
 		{
-			const config = JSON.parse(strings.base64Decode(awfInfo.config));
+			const result = JSON.parse(strings.base64Decode(awfInfo.config));
 
 			view.setDateTimeFormats(
-				config['datetimePrecision'],
-				config['datetimeFormat'],
-				config['dateFormat'],
-				config['timePrecision'],
-				config['timeHMSFormat'],
-				config['timeHMFormat']
+				result['datetimePrecision'],
+				result['datetimeFormat'],
+				result['dateFormat'],
+				result['timePrecision'],
+				result['timeHMSFormat'],
+				result['timeHMFormat']
 			);
 
-			this.#awfInfo = config;
+			return result;
 		}
 		catch(e)
 		{
-			/* IGNORE */
+			console.log(e);
+			return {};
 		}
 	}
 
@@ -137,10 +138,6 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			this.#setupAWF(awfInfo);
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
 			this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always((/*---*/) => {
 
 				result.reject(message);
@@ -149,10 +146,6 @@ class AMIAuth
 			/*--------------------------------------------------------------------------------------------------------*/
 
 		}).done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			this.#setupAWF(awfInfo);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -196,6 +189,10 @@ class AMIAuth
 	#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo)
 	{
 		const result = $.Deferred();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		awfInfo = this.#setupAWF(awfInfo);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -472,16 +469,47 @@ class AMIAuth
 	{
 		amiWebApp.lock();
 
-		return amiCommand.signInByCertificate().done((data, message, userInfo, roleInfo, bookmarkInfo, awfInfo) => {
+		return amiCommand.signInByCertificate().done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
 
-			this.#setupAWF(awfInfo);
-
-			this.#update(userInfo, roleInfo, bookmarkInfo, awfInfo).always(() => {
+			this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(() => {
 
 				amiWebApp.unlock();
 			});
 		});
 	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	#clean()
+	{
+		$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').trigger('reset');
+		$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').trigger('reset');
+		$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').trigger('reset');
+		$('#E92A1097_983B_4857_875F_07E4659B41B0').trigger('reset');
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	sso()
+	{
+		this.#clean();
+
+		window.open(this.#awfInfo.ssoSignInURL, 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+
+		// On SSO connection
+		window.onmessage = function ({ data }) {
+			if (data) {
+				const { email, given_name, family_name } = data;
+
+				console.log(email, given_name, family_name);
+				console.log(data);
+			} else {
+				amiWebApp.error('An error occured while fetching the data from the SSO', true);
+			}
+		};
+	}
+
+
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 }
