@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="../js/assets/js/keycloak.min.js"></script>
+	<title>Document</title>
+</head>
+<body>
+
+<script>
+	function _parseSearchString(search)
+	{
+		const result = {};
+
+		search.substring(1).split('&').forEach((param) => {
+
+			const parts = param.split('=');
+
+			/**/ if(parts.length === 1)
+			{
+				result[decodeURIComponent(parts[0]).toLowerCase()] = /*--------*/ '' /*--------*/;
+			}
+			else if(parts.length === 2)
+			{
+				result[decodeURIComponent(parts[0]).toLowerCase()] = decodeURIComponent(parts[1]);
+			}
+		});
+
+		return result;
+	}
+
+	const args = _parseSearchString(window.location.search);
+
+	var keycloak = Keycloak({
+		url: args.url || '',
+		realm: args.realm || '',
+		clientId: args.clientid || '',
+	});
+
+	keycloak.init({ onLoad: 'login-required' }).then(function(authenticated) {
+
+		if(authenticated)
+		{
+			window.opener.postMessage({token: keycloak.token}, window.location.origin);
+			window.close();
+		}
+
+	}).catch(function(e) {
+
+		window.opener.postMessage({error: e}, window.location.origin);
+		window.close();
+	});
+</script>
+</body>
+</html>

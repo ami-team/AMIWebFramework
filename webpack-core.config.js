@@ -222,6 +222,10 @@ const config = {
 				{
 					'from': path.resolve(__dirname, 'node_modules/select2/dist/js/select2.min.js'),
 					'to': path.resolve(__dirname, 'js/assets/js/select2.min.js')
+				},
+				{
+					'from': path.resolve(__dirname, 'node_modules/keycloak-js/dist/keycloak.min.js'),
+					'to': path.resolve(__dirname, 'js/assets/js/keycloak.min.js')
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/

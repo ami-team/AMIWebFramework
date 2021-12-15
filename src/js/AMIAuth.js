@@ -128,6 +128,18 @@ class AMIAuth
 			dashboardsAllowed: dashboardsAllowed,
 		};
 
+		// On SSO connection
+		window.onmessage = function (e) {
+			if(amiRouter.getOriginURL().startsWith(e.origin)) {
+				if (e.data.token) {
+					console.log(e.data);
+
+				} else if(e.data.error) {
+					amiWebApp.error(e.data.error, true);
+				}
+			}
+		};
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const userdata = amiRouter.getWebAppArgs()['userdata'] || '';
@@ -517,19 +529,7 @@ class AMIAuth
 	{
 		this.#clean();
 
-		window.open(this.#awfInfo.ssoSignInURL, 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
-
-		// On SSO connection
-		window.onmessage = function ({ data }) {
-			if (data) {
-				const { email, given_name, family_name } = data;
-
-				console.log(email, given_name, family_name);
-				console.log(data);
-			} else {
-				amiWebApp.error('An error occured while fetching the data from the SSO', true);
-			}
-		};
+		window.open(`${amiRouter.getOriginURL()}/docs/sso.html?url=${encodeURIComponent(this.#awfInfo.ssoAuthURL || '')}&realm=${encodeURIComponent(this.#awfInfo.ssoRealm || '')}&clientId=${encodeURIComponent(this.#awfInfo.ssoClientId || '')}`, 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

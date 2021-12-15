@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = iterValue[i][0];
-							dict[sym2] = iterValue[i][1];
+							dict[sym1] = /*-----*/(i);
+							dict[sym2] = iterValue[i];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -25484,9 +25484,9 @@ class AMIHTTPClient
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const data = {
+			...extras,
 			Command: command,
 			Converter: converter,
-			...extras,
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -30791,6 +30791,17 @@ var AMIAuth = function () {
       bookmarksAllowed: bookmarksAllowed,
       dashboardsAllowed: dashboardsAllowed
     };
+
+    window.onmessage = function (e) {
+      if (js_AMIRouter.getOriginURL().startsWith(e.origin)) {
+        if (e.data.token) {
+          console.log(e.data);
+        } else if (e.data.error) {
+          js_AMIWebApp.error(e.data.error, true);
+        }
+      }
+    };
+
     var userdata = js_AMIRouter.getWebAppArgs()['userdata'] || '';
     js_AMICommand.signInByCertificate().fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
@@ -30909,21 +30920,7 @@ var AMIAuth = function () {
   _proto.sso = function sso() {
     AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
 
-    window.open(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoSignInURL, 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
-
-    window.onmessage = function (_ref) {
-      var data = _ref.data;
-
-      if (data) {
-        var email = data.email,
-            given_name = data.given_name,
-            family_name = data.family_name;
-        console.log(email, given_name, family_name);
-        console.log(data);
-      } else {
-        js_AMIWebApp.error('An error occured while fetching the data from the SSO', true);
-      }
-    };
+    window.open(js_AMIRouter.getOriginURL() + "/docs/sso.html?url=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL || '') + "&realm=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoRealm || '') + "&clientId=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || ''), 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
   };
 
   return AMIAuth;
