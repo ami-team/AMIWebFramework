@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = /*-----*/(i);
-							dict[sym2] = iterValue[i];
+							dict[sym1] = iterValue[i][0];
+							dict[sym2] = iterValue[i][1];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -24858,7 +24858,7 @@ module.exports = "<div class=\"toast mb-2\" role=\"alert\" {% if fadeOut %}data-
 /***/ ((module) => {
 
 "use strict";
-module.exports = "";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAllowed %}\n\t<button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t<i class=\"bi bi-box-arrow-in-right\"></i> {{ awfInfo.ssoLabel|default('Single Sign-On') }}\n\t</button>\n\t{% endif %}\n</li>\n";
 
 /***/ }),
 
@@ -24882,7 +24882,7 @@ module.exports = "<div class=\"toast mb-2\" role=\"alert\" {% if fadeOut %}data-
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAllowed %}\n\t<button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t<i class=\"bi bi-box-arrow-left\"></i> {{awfInfo.ssoLabel}}\n\t</button>\n\t{% endif %}\n</li>\n";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAllowed %}\n\t<button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t<i class=\"bi bi-box-arrow-in-right\"></i> {{ awfInfo.ssoLabel|default('Single Sign-On') }}\n\t</button>\n\t{% endif %}\n</li>\n";
 
 /***/ }),
 
@@ -25387,6 +25387,53 @@ var jspath_default = /*#__PURE__*/__webpack_require__.n(jspath);
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+/* JWT                                                                                                                */
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
+ * Parse a JWT token
+ * @param {string} token the JWT token
+ * @returns {Object<string,string>} The the JWT token content
+ */
+
+function parseJwt(token)
+{
+	try
+	{
+		const parts = token.split('.');
+
+		if(parts.length > 1)
+		{
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* DECODE PAYLOAD                                                                                         */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const payload = decodeURIComponent(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')).split('').map((c) => {
+
+				return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+
+			}).join(''));
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* PARSE PAYLOAD                                                                                          */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			return JSON.parse(payload);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+		}
+		else
+		{
+			return {};
+		}
+	}
+	catch(e)
+	{
+		return {};
+	}
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
 /* CLIENT                                                                                                             */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -25484,9 +25531,9 @@ class AMIHTTPClient
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const data = {
-			...extras,
 			Command: command,
 			Converter: converter,
+			...extras,
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -25725,6 +25772,23 @@ class AMIHTTPClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
+	 * Sign in by token
+	 * @param {string} token the token
+	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (endpoint, converter, context, timeout)
+	 * @returns {$.Promise} A JQuery promise object
+	 */
+
+	signInByToken(token, options)
+	{
+		return this.#getUserInfo(
+			this.execute('GetSessionInfo -AMIUser=? -AMIPass=?', {extras: {'NoCert': null}, params: [parseJwt(token).sub, token]}),
+			options
+		);
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
 	 * Sign in by password
 	 * @param {string} username the username
 	 * @param {string} password the password
@@ -25848,7 +25912,7 @@ var paho_mqtt = __webpack_require__(8295);
  * @returns {Object<string,string>} The the JWT token content
  */
 
-function parseJwt(token)
+function client_parseJwt(token)
 {
 	try
 	{
@@ -25996,7 +26060,7 @@ class AMIMQTTClient
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const username = parseJwt(password).sub;
+		const username = client_parseJwt(password).sub;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -26482,6 +26546,10 @@ var AMICommand = function () {
 
   _proto.mqttSignOut = function mqttSignOut(options) {
     return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signOut(options);
+  };
+
+  _proto.signInByToken = function signInByToken(token, options) {
+    return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByToken(token, options);
   };
 
   _proto.signInByPassword = function signInByPassword(username, password, options) {
@@ -30791,17 +30859,30 @@ var AMIAuth = function () {
       bookmarksAllowed: bookmarksAllowed,
       dashboardsAllowed: dashboardsAllowed
     };
-
-    window.onmessage = function (e) {
+    $(window).on('message', function (e) {
       if (js_AMIRouter.getOriginURL().startsWith(e.origin)) {
         if (e.data.token) {
-          console.log(e.data);
+          js_AMIWebApp.lock();
+          js_AMICommand.signInByToken(e.data.token).fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+            AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
+              js_AMIWebApp.error(message, true);
+            });
+          }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+            AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail(function (message) {
+              js_AMIWebApp.error(e.data.error, true);
+            }).done(function () {
+              js_AMIWebApp.unlock();
+            });
+          });
         } else if (e.data.error) {
           js_AMIWebApp.error(e.data.error, true);
+        } else {
+          js_AMIWebApp.error('internal error', true);
         }
+      } else {
+        js_AMIWebApp.error('internal error', true);
       }
-    };
-
+    });
     var userdata = js_AMIRouter.getWebAppArgs()['userdata'] || '';
     js_AMICommand.signInByCertificate().fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
@@ -30821,7 +30902,7 @@ var AMIAuth = function () {
 
         AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function () {
           result.reject(message);
-        }, function (message) {
+        }, function () {
           result.reject(message);
         });
       });
@@ -32062,6 +32143,29 @@ var AMIWebApp = function () {
       "alias": "",
       "desc": "Signs out (MQTT client)",
       "params": [{
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "signInByToken",
+      "alias": "",
+      "desc": "Signs in by token (HTTP client)",
+      "params": [{
+        "name": "token",
+        "type": ["string"],
+        "desc": "the token",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
         "name": "options",
         "type": ["Object.<string, *>"],
         "desc": "dictionary of optional parameters (context)",

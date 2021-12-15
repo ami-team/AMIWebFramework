@@ -134,6 +134,20 @@ class AMICommand
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
+	 * Signs in by token (HTTP client)
+	 * @param {string} token the token
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+	 * @returns {$.Promise} A JQuery promise object
+	 */
+
+	signInByToken(token, options)
+	{
+		return this.#httpClient.signInByToken(token, options);
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
 	 * Signs in by login/password (HTTP client)
 	 * @param {string} username the username
 	 * @param {string} password the password

@@ -1,7 +1,7 @@
 <li class="nav-item xxxxxxxx">
 	{% if ssoAuthenticationAllowed %}
 	<button class="btn btn-outline-secondary" type="button" onclick="amiAuth.sso()">
-		<i class="bi bi-box-arrow-left"></i> {{awfInfo.ssoLabel}}
+		<i class="bi bi-box-arrow-in-right"></i> {{ awfInfo.ssoLabel|default('Single Sign-On') }}
 	</button>
 	{% endif %}
 </li>

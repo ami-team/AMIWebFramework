@@ -128,18 +128,54 @@ class AMIAuth
 			dashboardsAllowed: dashboardsAllowed,
 		};
 
-		// On SSO connection
-		window.onmessage = function (e) {
-			if(amiRouter.getOriginURL().startsWith(e.origin)) {
-				if (e.data.token) {
-					console.log(e.data);
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* SSO AUTHENTICATION                                                                                         */
+		/*------------------------------------------------------------------------------------------------------------*/
 
-				} else if(e.data.error) {
-					amiWebApp.error(e.data.error, true);
+		$(window).on('message', (e) => {
+
+			if(amiRouter.getOriginURL().startsWith(e.origin))
+			{
+				/**/ if(e.data.token)
+				{
+					amiWebApp.lock();
+
+					amiCommand.signInByToken(e.data.token).fail((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+
+						this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always((/*---*/) => {
+
+							amiWebApp.error(message, true);
+						});
+
+					}).done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+
+						this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail((message) => {
+
+							amiWebApp.error(e.data.error, true);
+
+						}).done((/*---*/) => {
+
+							amiWebApp.unlock();
+						});
+					});
+				}
+				else if(e.data.error)
+				{
+					amiWebApp.error(/**/e.data.error/**/, true);
+				}
+				else
+				{
+					amiWebApp.error('internal error', true);
 				}
 			}
-		};
+			else
+			{
+				amiWebApp.error('internal error', true);
+			}
+		});
 
+		/*------------------------------------------------------------------------------------------------------------*/
+		/*  APP INITIALIZATION                                                                                        */
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const userdata = amiRouter.getWebAppArgs()['userdata'] || '';
@@ -182,10 +218,10 @@ class AMIAuth
 
 					result.reject(message);
 
-				}, (message) => {
+				}, (/*---*/) => {
 
 					result.reject(message);
-				})
+				});
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/

@@ -1,13 +1,17 @@
+<!-- *************************************************************************************************************** -->
+
 {% if showToolBar %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top border p-0">
+<nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top border py-0">
 
+	{% if BOOTSTRAP_VERSION > 4 %}
 	<div class="container-fluid">
+	{% endif %}
 
-		<a class="navbar-brand" href="#" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="{{ catalog|default('N/A')|e }}.{{ entity|default('N/A')|e }}">
+		<a class="navbar-brand" href="#" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="bottom" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}title="{{ catalog|default('N/A')|e }}.{{ entity|default('N/A')|e }}">
 			<i class="bi bi-info-circle-fill"></i>
 		</a>
 
-		<button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#EEA19C95_12AF_AAE3_250B_282C4E61F9A9_{{ cnt }}">
+		<button class="navbar-toggler border-0" type="button" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="collapse" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}target="#EEA19C95_12AF_AAE3_250B_282C4E61F9A9_{{ cnt }}">
 			<span class="navbar-toggler-icon"></span>
 		</button>
 
@@ -34,7 +38,7 @@
 					</div>
 					{% endif %}
 					<input class="form-control ami-table-start" type="text" value="{{start}}" pattern="[0-9]+" style="width: 50px" />
-					<span class="input-group-text border-left-0 border-right-0 rounded-0 px-1"><i class="bi bi-dash"></i></span>
+					<span class="input-group-text{% if BOOTSTRAP_VERSION <= 4 %} border-left-0 border-right-0 rounded-0{% endif %} px-1"><i class="bi bi-dash"></i></span>
 					<input class="form-control ami-table-stop" type="text" value="{{stop}}" pattern="[0-9]+" style="width: 50px" />
 					{% if BOOTSTRAP_VERSION > 4 %}
 					<button class="btn btn-outline-secondary" type="button" data-ami-op="goNext">
@@ -88,7 +92,7 @@
 
 			<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="dropdown">
 						Export
 					</a>
 					<ul class="dropdown-menu ami-table-export">
@@ -99,9 +103,9 @@
 				</li>
 			</ul>
 
-			<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-auto">
+			<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+					<a class="nav-link dropdown-toggle" href="#" role="button" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="dropdown">
 						More
 					</a>
 					<ul class="dropdown-menu ami-table-more">
@@ -114,27 +118,33 @@
 				</li>
 			</ul>
 
-			<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
-				Showing <span class="ami-table-shown"></span> of <span class="ami-table-total"></span> entries</span>
+			<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-auto m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
+				<span class="ami-table-shown"></span> of <span class="ami-table-total"></span> entries</span>
 			</span>
 
 			<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
-				<button class="btn btn-link" type="button" ami-table-op="bookmark" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Bookmark this result">
+				<button class="btn btn-link" type="button" ami-table-op="bookmark" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="bottom" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}title="Bookmark this result">
 					<i class="bi bi-star-fill text-secondary"></i>
 				</button>
 			</span>
 
 			<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-0">
-				<button class="btn btn-link" type="button" ami-table-op="dashboard" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Add to dashboard">
+				<button class="btn btn-link" type="button" ami-table-op="dashboard" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tooltip" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="bottom" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}title="Add to dashboard">
 					<i class="bi bi-speedometer text-secondary"></i>
 				</button>
 			</span>
 
 		</div>
 
+	{% if BOOTSTRAP_VERSION > 4 %}
 	</div>
+	{% endif %}
 
 </nav>
 {% endif %}
 
+<!-- *************************************************************************************************************** -->
+
 <table class="table table-hover table-striped table-bordered w-100"></table>
+
+<!-- *************************************************************************************************************** -->

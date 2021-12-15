@@ -543,7 +543,7 @@ $AMIClass('DataTableCtrl', {
 									this.setMode(el, table);
 								}
 
-								this.getPagination(el, table);
+								this.getPage(el, table);
 
 								/*------------------------------------------------------------------------------------*/
 							},
@@ -574,7 +574,7 @@ $AMIClass('DataTableCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	getPagination: function(el, table)
+	getPage: function(el, table)
 	{
 		const info = table.page.info();
 
@@ -587,7 +587,7 @@ $AMIClass('DataTableCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setPagination: function(el, table)
+	setPage: function(el, table)
 	{
 		let start = parseInt(el.find('.ami-table-start').val());
 
@@ -609,7 +609,7 @@ $AMIClass('DataTableCtrl', {
 
 			table.page.len(range).page(page).draw('page');
 
-			this.getPagination(el, table);
+			this.getPage(el, table);
 		}
 	},
 
