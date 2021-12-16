@@ -138,7 +138,6 @@ class AMIAuth
 			{
 				/**/ if(e.data.token)
 				{
-					console.log(e.data.token);
 					amiWebApp.lock();
 
 					amiCommand.signInByToken(e.data.token).fail((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
@@ -156,9 +155,12 @@ class AMIAuth
 
 						}).done((/*---*/) => {
 
-							if((awfInfo.AMIUser || 'guest') === (awfInfo.guestUser || 'guest')) {
+							if((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest'))
+							{
 								amiWebApp.error('Authentification failed');
-							} else {
+							}
+							else
+							{
 								amiWebApp.unlock();
 							}
 						});

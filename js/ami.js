@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = /*-----*/(i);
-							dict[sym2] = iterValue[i];
+							dict[sym1] = iterValue[i][0];
+							dict[sym2] = iterValue[i][1];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -30873,7 +30873,7 @@ var AMIAuth = function () {
             AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail(function (message) {
               js_AMIWebApp.error(message, true);
             }).done(function () {
-              if ((awfInfo.AMIUser || 'guest') === (awfInfo.guestUser || 'guest')) {
+              if ((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest')) {
                 js_AMIWebApp.error('Authentification failed');
               } else {
                 js_AMIWebApp.unlock();
