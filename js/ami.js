@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = iterValue[i][0];
-							dict[sym2] = iterValue[i][1];
+							dict[sym1] = /*-----*/(i);
+							dict[sym2] = iterValue[i];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -25393,7 +25393,7 @@ var jspath_default = /*#__PURE__*/__webpack_require__.n(jspath);
 /**
  * Parse a JWT token
  * @param {string} token the JWT token
- * @returns {Object<string,string>} The the JWT token content
+ * @returns {Object<string,string>} The JWT token content
  */
 
 function parseJwt(token)
@@ -25781,7 +25781,7 @@ class AMIHTTPClient
 	signInByToken(token, options)
 	{
 		return this.#getUserInfo(
-			this.execute('GetSessionInfo -AMIUser=? -AMIPass=?', {extras: {'NoCert': null}, params: [parseJwt(token).sub, token]}),
+			this.execute('GetSessionInfo -AMIUser=? -AMIPass=?', {extras: {'NoCert': null}, params: [parseJwt(token).sub, `Bearer ${token}`]}),
 			options
 		);
 	}
@@ -30859,9 +30859,11 @@ var AMIAuth = function () {
       bookmarksAllowed: bookmarksAllowed,
       dashboardsAllowed: dashboardsAllowed
     };
-    $(window).on('message', function (e) {
+
+    window.onmessage = function (e) {
       if (js_AMIRouter.getOriginURL().startsWith(e.origin)) {
         if (e.data.token) {
+          console.log(e.data.token);
           js_AMIWebApp.lock();
           js_AMICommand.signInByToken(e.data.token).fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
             AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
@@ -30869,20 +30871,21 @@ var AMIAuth = function () {
             });
           }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
             AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail(function (message) {
-              js_AMIWebApp.error(e.data.error, true);
+              js_AMIWebApp.error(message, true);
             }).done(function () {
-              js_AMIWebApp.unlock();
+              if ((awfInfo.AMIUser || 'guest') === (awfInfo.guestUser || 'guest')) {
+                js_AMIWebApp.error('Authentification failed');
+              } else {
+                js_AMIWebApp.unlock();
+              }
             });
           });
         } else if (e.data.error) {
           js_AMIWebApp.error(e.data.error, true);
-        } else {
-          js_AMIWebApp.error('internal error', true);
         }
-      } else {
-        js_AMIWebApp.error('internal error', true);
       }
-    });
+    };
+
     var userdata = js_AMIRouter.getWebAppArgs()['userdata'] || '';
     js_AMICommand.signInByCertificate().fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {

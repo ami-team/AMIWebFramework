@@ -132,12 +132,13 @@ class AMIAuth
 		/* SSO AUTHENTICATION                                                                                         */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$(window).on('message', (e) => {
+		window.onmessage = (e) => {
 
 			if(amiRouter.getOriginURL().startsWith(e.origin))
 			{
 				/**/ if(e.data.token)
 				{
+					console.log(e.data.token);
 					amiWebApp.lock();
 
 					amiCommand.signInByToken(e.data.token).fail((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
@@ -151,28 +152,24 @@ class AMIAuth
 
 						this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail((message) => {
 
-							amiWebApp.error(e.data.error, true);
+							amiWebApp.error(message, true);
 
 						}).done((/*---*/) => {
 
-							amiWebApp.unlock();
+							if((awfInfo.AMIUser || 'guest') === (awfInfo.guestUser || 'guest')) {
+								amiWebApp.error('Authentification failed');
+							} else {
+								amiWebApp.unlock();
+							}
 						});
 					});
 				}
 				else if(e.data.error)
 				{
-					amiWebApp.error(/**/e.data.error/**/, true);
-				}
-				else
-				{
-					amiWebApp.error('internal error', true);
+					amiWebApp.error(e.data.error, true);
 				}
 			}
-			else
-			{
-				amiWebApp.error('internal error', true);
-			}
-		});
+		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/*  APP INITIALIZATION                                                                                        */
