@@ -76,6 +76,8 @@ $AMIClass('AdminDashboardApp', {
 
 		amiWebApp.replaceHTML('#ami_main_content', twigAdminDashboardApp, {dict: dict}).done(() => {
 
+			$('#BCCE2136_3695_AB6F_4F08_3BD3C9035287').hide();
+
 			this.subsubapp.init().done(() => {
 
 				result.resolve();
