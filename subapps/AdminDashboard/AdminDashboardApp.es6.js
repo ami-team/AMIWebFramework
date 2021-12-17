@@ -109,7 +109,6 @@ $AMIClass('AdminDashboardApp', {
 		{
 			amiWebApp.flush();
 
-			$('#B8DD5CD8_7D69_2D12_033A_A7BB834F88D0 .nav-link').prop('disabled', false);
 			$('#BCCE2136_3695_AB6F_4F08_3BD3C9035287').show();
 
 			if(this.subsubapp.onLogin)
@@ -127,7 +126,8 @@ $AMIClass('AdminDashboardApp', {
 
 	onLogout: function()
 	{
-		$('#B8DD5CD8_7D69_2D12_033A_A7BB834F88D0 .nav-link').prop('disabled', true);
+		amiWebApp.error('Administrator roles required!');
+
 		$('#BCCE2136_3695_AB6F_4F08_3BD3C9035287').hide();
 
 		if(this.subsubapp.onLogout)
