@@ -35,6 +35,7 @@ const path = require('path');
 
 const ESLintPlugin = require('eslint-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -128,6 +129,13 @@ const config = {
 						}
 					}
 				]
+			},
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader'
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -141,7 +149,8 @@ const config = {
 	'plugins': [
 		new ESLintPlugin({
 			'failOnWarning': true
-		})
+		}),
+		new VueLoaderPlugin()
 	],
 	'optimization': {
 		'minimizer': [

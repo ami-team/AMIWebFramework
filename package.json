@@ -15,6 +15,7 @@
   "author": "The AMI Team, Jerome Odier <jerome.odier@lpsc.in2p3.fr>",
   "license": "CECILL-C",
   "dependencies": {
+    "@vue/compiler-sfc": "3.2.23",
     "ami-http-client": "github:ami-team/AMIHTTPClientJS",
     "ami-mqtt-client": "github:ami-team/AMIMQTTClientJS",
     "ami-twig": "github:ami-team/AMITwigJS",
@@ -65,6 +66,7 @@
     "style-loader": "3.3.1",
     "terser": "5.10.0",
     "terser-webpack-plugin": "5.2.5",
+    "vue-loader": "^17.0.0",
     "webpack": "5.64.4",
     "webpack-cli": "4.9.1"
   }

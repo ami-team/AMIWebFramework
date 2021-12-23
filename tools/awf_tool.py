@@ -730,6 +730,11 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
 
         saveText(os.path.join('subapps', NAME, 'assets', 'twig', NAME + 'App.twig'), AWF_SUBAPP_TWIG_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
 
+        if sourceCodeFlavour == 'vue-js':
+        	shutil_makedirs(os.path.join('subapps', NAME, 'components'), ignore_errors = False)
+        	saveText(os.path.join('subapps', NAME, 'App.vue'), AWF_SUBAPP_JS_VUE_COMPONENT_TEMPLATE)
+        	saveText(os.path.join('subapps', NAME, 'components', 'HelloWorld.vue'), AWF_SUBAPP_JS_VUE_HELLO_WORLD_TEMPLATE)
+
         ################################################################################################################
 
         USER_SUBAPPS_JSON = loadJSON(os.path.join('subapps', 'SUBAPPS.json'))
@@ -946,6 +951,7 @@ const path = require('path');
 
 const ESLintPlugin = require('eslint-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -997,6 +1003,14 @@ const config = {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			{
+				'type': 'asset/resource',
+				'test': /\.(gif|png|jpg|jpeg|svg)$/,
+				'exclude': /node_modules/
+			},
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			{
 				test: /\.css$/,
 				use: [
 					'style-loader',
@@ -1012,6 +1026,13 @@ const config = {
 						}
 					}
 				]
+			},
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader'
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -1025,7 +1046,8 @@ const config = {
 	'plugins': [
 		new ESLintPlugin({
 			'failOnWarning': true
-		})
+		}),
+		new VueLoaderPlugin()
 	],
 	'optimization': {
 		'minimizer': [
@@ -1511,9 +1533,11 @@ AWF_SUBAPP_JS_VUE_JS_TEMPLATE = '''/*!
  *
  */
 
-import 'assets/css/{{NAME}}App.css';
+import './assets/css/{{NAME}}App.css';
 
-import twig{{NAME}}App from 'assets/twig/{{NAME}}App.twig';
+import App from './App.vue';
+
+import { createApp } from 'vue';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -1533,7 +1557,13 @@ $AMIClass('{{NAME}}App', {
 
 	onReady: function(userdata)
 	{
-		# TODO #
+		const result = $.Deferred();
+
+		createApp(App).mount('#ami_main_content');
+
+		result.resolve();
+
+		return result;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -1567,6 +1597,45 @@ window.{{name}}App = new {{NAME}}App();
 '''
 
 ########################################################################################################################
+
+AWF_SUBAPP_JS_VUE_COMPONENT_TEMPLATE = '''
+<template>
+	<HelloWorld/>
+</template>
+
+<script>
+import HelloWorld from './components/HelloWorld.vue';
+
+export default {
+	name: 'App',
+	components: {
+		HelloWorld
+	}
+};
+</script>
+
+<style scoped>
+
+</style>
+'''
+
+AWF_SUBAPP_JS_VUE_HELLO_WORLD_TEMPLATE = '''
+<template>
+	<h1>Hello World</h1>
+</template>
+
+<script>
+export default {
+	name: 'HelloWorld'
+};
+</script>
+
+<style scoped>
+
+</style>
+'''
+
+############################################ ############################################################################
 
 AWF_SUBAPP_CSS_TEMPLATE = '''/* {{NAME}}App.css */
 '''
