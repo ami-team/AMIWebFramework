@@ -1,7 +1,7 @@
 /*!
  * AMI Web Framework (AWF) 2.0.0
  *
- * Copyright (c) 2014-2021 CNRS/LPSC
+ * Copyright (c) 2014-2022 CNRS/LPSC
  *
  * Author: Jérôme Odier (jerome.odier@lpsc.in2p3.fr)
  *
@@ -30863,7 +30863,6 @@ var AMIAuth = function () {
     window.onmessage = function (e) {
       if (js_AMIRouter.getOriginURL().startsWith(e.origin)) {
         if (e.data.token) {
-          console.log(e.data.token);
           js_AMIWebApp.lock();
           js_AMICommand.signInByToken(e.data.token).fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
             AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
