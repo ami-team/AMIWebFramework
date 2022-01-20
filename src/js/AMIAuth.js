@@ -20,6 +20,9 @@ import amiRouter from './AMIRouter';
 import amiWebApp from './AMIWebApp';
 import amiCommand from './AMICommand';
 
+import greenCertificateImage from '../images/certificate-green.png';
+import pinkCertificateImage from '../images/certificate-pink.png';
+
 import 'kjua';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -127,6 +130,70 @@ class AMIAuth
 			bookmarksAllowed: bookmarksAllowed,
 			dashboardsAllowed: dashboardsAllowed,
 		};
+
+		/*------------------------------------------------------------------------------------------------------------*/
+		/* MODAL INITIALIZATION                                                                                       */
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const signInModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/sign_in_modal.twig`);
+		const changeInfoModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_info_modal.twig`);
+		const changePassModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_pass_modal.twig`);
+		const accountStatusModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/account_status_modal.twig`);
+
+
+		amiWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + accountStatusModal, {dict: this.#flags}).done(() => {
+
+			/*----------------------------------------------------------------------------------------------------*/
+
+			$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit((e) => {
+
+				this.form_login(e);
+			});
+
+			$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit((e) => {
+
+				this.form_addUser(e);
+			});
+
+			$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit((e) => {
+
+				this.form_remindPass(e);
+			});
+
+			$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit((e) => {
+
+				this.form_changeInfo(e);
+			});
+
+			$('#E92A1097_983B_4857_875F_07E4659B41B0').submit((e) => {
+
+				this.form_changePass(e);
+			});
+
+			/*----------------------------------------------------------------------------------------------------*/
+
+			$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
+
+				const pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
+				const pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
+
+				$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(
+					pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
+				);
+			});
+
+			$('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(() => {
+
+				const pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
+				const pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
+
+				$('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').get(0).setCustomValidity(
+					pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
+				);
+			});
+
+			/*----------------------------------------------------------------------------------------------------*/
+		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* SSO AUTHENTICATION                                                                                         */
@@ -271,6 +338,242 @@ class AMIAuth
 			amiWebApp.replaceHTML('#ami_login_menu_content', button, {dict: dict}).done(() => {
 
 				subapps.triggerLogin().then(() => {
+
+					result.resolve();
+
+				}, (message) => {
+
+					result.reject(message);
+				});
+			});
+
+			/*------------------------------------------------------------------------------------------------------------*/
+
+			const user = userInfo.AMIUser || 'guest';
+			const guest = userInfo.guestUser || 'guest';
+
+			const notBefore = userInfo.notBefore || '';
+			const notAfter = userInfo.notAfter || '';
+
+			const clientDNInSession = userInfo.clientDNInSession || '';
+			const issuerDNInSession = userInfo.issuerDNInSession || '';
+
+			/*------------------------------------------------------------------------------------------------------------*/
+
+			$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
+
+			$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', dashboardInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+			$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', dashboardInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
+
+			/*------------------------------------------------------------------------------------------------------------*/
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* GET INFO                                                                                               */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const valid = userInfo.valid || 'false';
+			const certEnabled = userInfo.certEnabled || 'false';
+			const vomsEnabled = userInfo.vomsEnabled || 'false';
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const firstName = userInfo.firstName || '';
+			const lastName = userInfo.lastName || '';
+			const email = userInfo.email || '';
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			const clientDNInAMI = userInfo.clientDNInAMI || '';
+			const issuerDNInAMI = userInfo.issuerDNInAMI || '';
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* SET INFO                                                                                               */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#E513F27D_5521_4B08_BF61_52AFB81356F7').val(firstName);
+			$('#AFF0B5C0_BEEC_4842_916D_DCBA7F589195').val(lastName);
+			$('#C587486B_62C0_4B6E_9288_D8F9F89D157B').val(email);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#ABEB0291_40B0_414A_A42B_E7EABB9B487E').val(firstName);
+			$('#A5AFDB62_1034_4F66_A3E6_9341B31FA290').val(lastName);
+			$('#D730A774_05EA_47AB_A0C8_D92753802E3E').val(email);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#D1BEE3BF_9161_41DC_BC53_C44FFE4D2522').val(clientDNInAMI);
+			$('#C76805D7_1E86_4231_9071_1D04783423BB').val(clientDNInSession);
+			$('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
+			$('#FE2F6232_C256_4B80_939C_EBEC90320308').val(issuerDNInSession);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			let table = [];
+
+			for(let role in roleInfo)
+			{
+				table.push('<tr>');
+				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || 'N/A') + '</td>');
+				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || 'N/A') + '</td>');
+				table.push('</tr>');
+			}
+
+			$('#BB07676B_EACA_9B42_ED51_477DB2976041').html(table.join(''));
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* CHECK USER STATUS                                                                                      */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			let icon = '';
+			let message = '';
+
+			let bgColor = '';
+			let fgColor = '';
+
+			if(valid !== 'false')
+			{
+				/*----------------------------------------------------------------------------------------------------*/
+				/* VALID USER                                                                                         */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				if(!this.#flags.ssoAutoAuthentication && (certEnabled !== 'false' && clientDNInAMI && issuerDNInAMI))
+				{
+					if(!this.getClientDN()
+						||
+						!this.getIssuerDN()
+					) {
+						message = 'It is recommended to authenticate with a X.509 certificate.';
+					}
+					else
+					{
+						if(clientDNInAMI !== clientDNInSession
+							||
+							issuerDNInAMI !== issuerDNInSession
+						) {
+							message = 'The X.509 certificate in the session differs from the one in AMI.';
+						}
+					}
+				}
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				if(message)
+				{
+					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<i class="fa fa-info-circle text-warning"></i> ' + message);
+
+					icon = '<a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">'
+						+
+						'<i class="fa fa-info-circle"></i>'
+						+
+						'</a>'
+					;
+				}
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', '#B8D49B url("' + greenCertificateImage + '") no-repeat center center')
+				.css('background-size', 'cover')
+				;
+
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400')
+				.html('<i class="fa fa-leaf"></i> valid <i class="fa fa-leaf"></i>')
+				;
+
+				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				bgColor = '#B8D49B';
+				fgColor = '#006400';
+
+				/*----------------------------------------------------------------------------------------------------*/
+			}
+			else
+			{
+				/*----------------------------------------------------------------------------------------------------*/
+				/* INVALID USER                                                                                       */
+				/*----------------------------------------------------------------------------------------------------*/
+
+				if(vomsEnabled !== 'false')
+				{
+					if(!clientDNInSession
+						||
+						!issuerDNInSession
+					) {
+						message = 'Register a valid X.509 certificate.';
+					}
+					else
+					{
+						message = 'Check your virtual organization roles.';
+					}
+				}
+				else
+				{
+					message = 'Unexpected issue, contact the AMI team.';
+				}
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				if(message)
+				{
+					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<i class="fa fa-info-circle text-danger"></i> ' + message);
+
+					icon = '<a class="nav-link text-danger" href="javascript:amiLogin.accountStatus();">'
+						+
+						'<i class="fa fa-info-circle"></i>'
+						+
+						'</a>'
+					;
+				}
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', '#E8C8CF url("' + pinkCertificateImage + '") no-repeat center center')
+				.css('background-size', 'cover')
+				;
+
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#DC3545')
+				.html('<i class="fa fa-leaf"></i> invalid <i class="fa fa-leaf"></i>')
+				;
+
+				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				bgColor = '#E8C8CF';
+				fgColor = '#DC3545';
+
+				/*----------------------------------------------------------------------------------------------------*/
+			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* UPDATE QRCODE                                                                                          */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			$('#EC948084_8C0A_CEBF_58C9_086046AB2456').kjua({
+				render: 'canvas',
+				ecLevel: 'H',
+				size: 150,
+				fill: fgColor,
+				background: bgColor,
+				text: user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI,
+				radius: 0,
+				quiet: 1,
+			});
+
+			/*--------------------------------------------------------------------------------------------------------*/
+			/* UPDATE MENU BAR                                                                                        */
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			dict['user'] = user;
+			dict['icon'] = icon;
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			amiWebApp.replaceHTML('#ami_login_menu_content', button , {dict: dict}).done(() => {
+
+				amiWebApp.triggerLogin().then(() => {
 
 					result.resolve();
 
@@ -506,6 +809,311 @@ class AMIAuth
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
+	signIn()
+	{
+		this.#clean();
+
+		if(this.#flags.captchaAllowed)
+		{
+			amiCommand.execute('GenerateCaptcha').then((data) => {
+
+				const image = amiWebApp.jspath('..field{.@name==="image"}.$', data)[0] || '';
+				const hash = amiWebApp.jspath('..field{.@name==="hash"}.$', data)[0] || '';
+
+				$('#AC9836E6_2A20_8711_39D5_0E8340561078').attr('src', image);
+				$('#EA79605C_6EFF_4C77_9D70_88254B00FD52').attr('src', image);
+
+				$('#FD95B3FA_C808_0E08_2D1E_0FE0E3871101').val(/**/hash/**/);
+				$('#A63C0110_E591_6FCE_6D7A_02EEBC094199').val(/**/hash/**/);
+
+				$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('show');
+
+			}, (data, message) => {
+
+				amiWebApp.error(message);
+			});
+		}
+		else
+		{
+			$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('show');
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Opens the 'Change Info' modal window
+	 */
+
+	changeInfo()
+	{
+		this.#clean();
+
+		$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').modal('show');
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Opens the 'Change Password' modal window
+	 */
+
+	changePass()
+	{
+		this.#clean();
+
+		$('#E92A1097_983B_4857_875F_07E4659B41B0').modal('show');
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Opens the 'Account Status' modal window
+	 */
+
+	accountStatus()
+	{
+		this.#clean();
+
+		$('#AB1CB183_96EB_4116_8A9E_4409BE058F34').modal('show');
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	form_login(e)
+	{
+		e.preventDefault();
+
+		const values = $(e.target).serializeObject();
+
+		return this.form_login2(values['user'], values['pass']);
+	}
+
+	form_login2(user, pass)
+	{
+		const promise = (user && pass) ? amiCommand.signInByPassword(user.trim(), pass.trim())
+			: amiCommand.signInByCertificate(/*--------------------*/)
+		;
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		promise.then((data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
+
+			this.#update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).then(() => {
+
+				console.log(userInfo);
+
+				if((userInfo.AMIUser || 'guest') !== (userInfo.guestUser || 'guest'))
+				{
+					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
+
+					amiWebApp.unlock();
+				}
+
+			}, (message) => {
+
+				if((userInfo.AMIUser || 'guest') !== (userInfo.guestUser || 'guest'))
+				{
+					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
+
+					amiWebApp.error(message);
+				}
+			});
+
+			if((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest'))
+			{
+				let message = 'Authentication failed.';
+
+				if(userInfo.clientDNInSession || userInfo.issuerDNInSession)
+				{
+					message += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.'
+						+
+						' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.'
+					;
+				}
+
+				amiWebApp.error(message);
+			}
+
+		}, (data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
+
+			this.#update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).always(() => {
+
+				amiWebApp.error(message);
+			});
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		return promise;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	form_attachCert()
+	{
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
+		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+
+		if(!user || !pass)
+		{
+			amiWebApp.error('Please, fill all fields with a red star.');
+
+			return;
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		return amiCommand.attachCertificate(user, pass).then((data, message) => {
+
+			amiWebApp.success(message);
+
+		}, (data, message) => {
+
+			amiWebApp.error(message);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	}
+
+	form_detachCert()
+	{
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
+		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+
+		if(!user || !pass)
+		{
+			amiWebApp.error('Please, fill all fields with a red star.');
+
+			return;
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		return amiCommand.detachCertificate(user, pass).then((data, message) => {
+
+			amiWebApp.success(message);
+
+		}, (data, message) => {
+
+			amiWebApp.error(message);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	}
+
+	form_addUser(e)
+	{
+		e.preventDefault();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const values = $(e.target).serializeObject();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], values['captcha_hash'], values['captcha_text'], 'attachCert' in values, 'agree' in values).then((data, message) => {
+
+			amiWebApp.success(message);
+
+		}, (data, message) => {
+
+			amiWebApp.error(message);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	form_remindPass(e)
+	{
+		e.preventDefault();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const values = $(e.target).serializeObject();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		amiCommand.resetPassword(values['user'], values['captcha_hash'], values['captcha_text']).then((data, message) => {
+
+			amiWebApp.success(message);
+
+		}, (data, message) => {
+
+			amiWebApp.error(message);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	form_changeInfo(e)
+	{
+		e.preventDefault();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const values = $(e.target).serializeObject();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).then((data, message) => {
+
+			amiWebApp.success(message);
+
+		}, (data, message) => {
+
+			amiWebApp.error(message);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	form_changePass(e)
+	{
+		e.preventDefault();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		const values = $(e.target).serializeObject();
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		amiCommand.changePassword(this.#userInfo.AMIUser || 'guest', values['old_pass'], values['new_pass']).then((data, message) => {
+
+			amiWebApp.success(message);
+
+		}, (data, message) => {
+
+			amiWebApp.error(message);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	}
 
 	#clean()
 	{
