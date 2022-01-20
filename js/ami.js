@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = iterValue[i][0];
-							dict[sym2] = iterValue[i][1];
+							dict[sym1] = /*-----*/(i);
+							dict[sym2] = iterValue[i];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -24540,6 +24540,126 @@ if (true) {
 
 /***/ }),
 
+/***/ 3920:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./v4/Modals/account_status_modal.twig": 504,
+	"./v5/Modals/account_status_modal.twig": 8798
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 3920;
+
+/***/ }),
+
+/***/ 7200:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./v4/Modals/change_info_modal.twig": 6969,
+	"./v5/Modals/change_info_modal.twig": 707
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 7200;
+
+/***/ }),
+
+/***/ 7457:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./v4/Modals/change_pass_modal.twig": 5213,
+	"./v5/Modals/change_pass_modal.twig": 1556
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 7457;
+
+/***/ }),
+
+/***/ 4410:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./v4/Modals/sign_in_modal.twig": 5951,
+	"./v5/Modals/sign_in_modal.twig": 9990
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 4410;
+
+/***/ }),
+
 /***/ 5276:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -24790,6 +24910,22 @@ module.exports = __webpack_require__.p + "assets/images/blueprint-dark.png";
 
 /***/ }),
 
+/***/ 5095:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "assets/images/certificate-green.png";
+
+/***/ }),
+
+/***/ 7148:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+module.exports = __webpack_require__.p + "assets/images/certificate-pink.png";
+
+/***/ }),
+
 /***/ 3507:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -24846,6 +24982,38 @@ module.exports = __webpack_require__.p + "assets/images/stripe2.png";
 
 /***/ }),
 
+/***/ 504:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"AB1CB183_96EB_4116_8A9E_4409BE058F34\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Account Status</h4>\n\t\t\t\t<button class=\"close\" type=\"button\" data-dismiss=\"modal\">×</button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<h5 id=\"D944B01D_2E8D_4EE9_9DCC_2691438BBA16\"></h5>\n\t\t\t\t<div class=\"tabbable\">\n\t\t\t\t\t<ul class=\"nav nav-tabs\">\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link active\" href=\"#B89A9E2D_8969_41F4_B266_230B782FA17D\" role=\"tab\" data-toggle=\"tab\">User account status</a></li>\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link xxxxxx\" href=\"#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\" role=\"tab\" data-toggle=\"tab\">User information</a></li>\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link xxxxxx\" href=\"#D827345F_6762_32F6_1D2D_DB40676804AE\" role=\"tab\" data-toggle=\"tab\">User roles</a></li>\n\t\t\t\t\t</ul>\n\t\t\t\t\t<div class=\"tab-content\">\n\t\t\t\t\t\t<div class=\"tab-pane active\" role=\"tabpanel\" id=\"B89A9E2D_8969_41F4_B266_230B782FA17D\">\n\t\t\t\t\t\t\t<div class=\"text-center rounded mx-auto px-5 py-2 mb-2\">\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex align-items-center justify-content-center\">\n\t\t\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/logo.png\" width=\"150\" />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-6\">\n\t\t\t\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 24pt;\" id=\"D579A431_DBE4_6B30_1CF6_5E23761B4E1A\">Your account is</div>\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family:     'Trochut'    ; font-size: 36pt;\" id=\"F3FF9F43_DE72_40BB_B1BA_B7B3C9002671\">???????????????</div>\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 14pt;\" id=\"E91280F6_E7C6_3E53_A457_646995C99317\">???????????????</div>\n\t\t\t\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex align-items-center justify-content-center\" id=\"EC948084_8C0A_CEBF_58C9_086046AB2456\"></div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"text-center\">\n\t\t\t\t\t\t\t\t<a href=\"#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" data-toggle=\"collapse\">terms and conditions</a>\n\t\t\t\t\t\t\t\t<iframe class=\"form-control collapse\" id=\"E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" style=\"padding: 1px; min-height: 350px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\">\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" style=\"font-weight: normal;\">First name</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" style=\"font-weight: normal;\">Last name</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" style=\"font-weight: normal;\">Email</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" style=\"font-weight: normal;\">Client certificate DN in account</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"C76805D7_1E86_4231_9071_1D04783423BB\" style=\"font-weight: normal;\">Client certificate DN in session</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"C76805D7_1E86_4231_9071_1D04783423BB\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" style=\"font-weight: normal;\">Issuer certificate DN in account</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"FE2F6232_C256_4B80_939C_EBEC90320308\" style=\"font-weight: normal;\">Issuer certificate DN in session</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"FE2F6232_C256_4B80_939C_EBEC90320308\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"D827345F_6762_32F6_1D2D_DB40676804AE\">\n\t\t\t\t\t\t\t<table class=\"table table-sm table-striped\">\n\t\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th>Name</th>\n\t\t\t\t\t\t\t\t\t<th>Description</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t\t<tbody id=\"BB07676B_EACA_9B42_ED51_477DB2976041\"></tbody>\n\t\t\t\t\t\t\t</table>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
+
+/***/ }),
+
+/***/ 6969:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<form class=\"modal fade\" role=\"dialog\" id=\"D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Change Information</h4>\n\t\t\t\t<button class=\"close\" type=\"button\" data-dismiss=\"modal\">×</button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"E513F27D_5521_4B08_BF61_52AFB81356F7\">First name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"first_name\" id=\"E513F27D_5521_4B08_BF61_52AFB81356F7\" required=\"required\" placeholder=\"Type your first name...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"form-group \">\n\t\t\t\t\t\t\t<label for=\"AFF0B5C0_BEEC_4842_916D_DCBA7F589195\">Last name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"last_name\" id=\"AFF0B5C0_BEEC_4842_916D_DCBA7F589195\" required=\"required\" placeholder=\"Type your last name...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"C587486B_62C0_4B6E_9288_D8F9F89D157B\">Email<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input type=\"email\" class=\"form-control form-control-sm\" name=\"email\" id=\"C587486B_62C0_4B6E_9288_D8F9F89D157B\" required=\"required\" placeholder=\"Type your email...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Submit</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</form>\n";
+
+/***/ }),
+
+/***/ 5213:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<form class=\"modal fade\" role=\"dialog\" id=\"E92A1097_983B_4857_875F_07E4659B41B0\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Change Password</h4>\n\t\t\t\t<button class=\"close\" type=\"button\" data-dismiss=\"modal\">×</button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"F238E6EE_44BD_486A_B85D_C927A4D045D3\">Old password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"old_pass\" id=\"F238E6EE_44BD_486A_B85D_C927A4D045D3\" required=\"required\" placeholder=\"Type your old password...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"D487FE72_8D95_4048_BEA3_252274862AF4\">New password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"new_pass\" id=\"D487FE72_8D95_4048_BEA3_252274862AF4\" required=\"required\" placeholder=\"Choose a new password...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"EE1DA58C_3761_4734_A9C2_E808CDD7EE77\">New password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"xxxxxxxx\" id=\"EE1DA58C_3761_4734_A9C2_E808CDD7EE77\" required=\"required\" placeholder=\"Type your new password again...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Submit</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</form>\n";
+
+/***/ }),
+
+/***/ 5951:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Authentication</h4>\n\t\t\t\t<button class=\"close\" type=\"button\" data-dismiss=\"modal\">×</button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<ul class=\"nav nav-tabs mb-0\">\n\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link active\" href=\"#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\" role=\"tab\" data-toggle=\"tab\">Sign In</a></li>\n{% if createAccountAllowed %}\n\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link xxxxxx\" href=\"#EE055CD4_E58F_4834_8020_986AE3F8D67D\" role=\"tab\" data-toggle=\"tab\">Create an account</a></li>\n{% endif %}\n{% if changePasswordAllowed %}\n\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link xxxxxx\" href=\"#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\" role=\"tab\" data-toggle=\"tab\">Reset my password</a></li>\n{% endif %}\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"tab-content\">\n\t\t\t\t<form class=\"tab-pane active\" role=\"tabpanel\" id=\"B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\">\n\t\t\t\t\t<div class=\"modal-body\">\n\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label for=\"E64F24B2_33E6_4DED_9B24_28BE04219613\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"user\" id=\"E64F24B2_33E6_4DED_9B24_28BE04219613\" required=\"required\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your login...\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label for=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"pass\" id=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\" required=\"required\" autocomplete=\"off\" autocorrect=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your password...\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"modal-footer\">\n\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n{% if passwordAuthenticationAllowed %}\n\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Password Login</button>\n{% endif %}\n{% if certificateAuthenticationAllowed %}\n{%   if changeCertificateAllowed %}\n\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"button\" onclick=\"amiLogin.form_login();\">Certificate Login</button>\n\t\t\t\t\t\t\t<span class=\"btn btn-primary dropdown-toggle\" data-toggle=\"dropdown\">\n\t\t\t\t\t\t\t\t<i class=\"fa fa-wrench\"></i>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<div class=\"dropdown-menu dropdown-menu-right\">\n\t\t\t\t\t\t\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.form_attachCert();\">Attach Certificate</a>\n\t\t\t\t\t\t\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.form_detachCert();\">Detach Certificate</a>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n{%   else %}\n\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"button\" onclick=\"amiLogin.form_login();\">Certificate Login</button>\n{%   endif %}\n{% endif %}\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t\t<form class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"EE055CD4_E58F_4834_8020_986AE3F8D67D\">\n\t\t\t\t\t<div class=\"modal-body\">\n{% if captchaAllowed %}\n\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"FD95B3FA_C808_0E08_2D1E_0FE0E3871101\" />\n{% endif %}\n\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\">First name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"first_name\" id=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\" tabindex=\"1\" required=\"required\" placeholder=\"Type your first name...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"A9A08864_6A32_45A4_8898_C167564DB8BB\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"login\" id=\"A9A08864_6A32_45A4_8898_C167564DB8BB\" tabindex=\"3\" required=\"required\" placeholder=\"Choose a login...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"pass\" id=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\" tabindex=\"5\" required=\"required\" placeholder=\"Choose a password...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>\n\t\t\t\t\t\t\t\t\t\t\t<img class=\"form-control form-control-sm\" alt=\"\" src=\"\" id=\"AC9836E6_2A20_8711_39D5_0E8340561078\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n{% endif %}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group \">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\">Last name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"last_name\" id=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\" tabindex=\"2\" required=\"required\" placeholder=\"Type your last name...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\">Email<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"email\" class=\"form-control form-control-sm\" name=\"email\" id=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\" tabindex=\"4\" required=\"required\" placeholder=\"Type your email...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"xxxx\" id=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\" tabindex=\"6\" required=\"required\" placeholder=\"Confirm the password...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"captcha_text\" id=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n{% endif %}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"form-group text-left\">\n\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"attachCert\" id=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\" tabindex=\"8\" checked=\"checked\" />\n\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\">Attach the current certificate</label>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<iframe class=\"form-control\" id=\"C3E94F6D_48E0_86C0_3534_691728E492F4\" style=\"padding: 1px; height: 220px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"form-group text-right\">\n\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"agree\" id=\"C443738D_16BD_469F_1430_84EC13924118\" tabindex=\"9\" xxxxxxx=\"xxxxxxx\" />\n\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"C443738D_16BD_469F_1430_84EC13924118\">I agree with the terms and conditions</label>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"modal-footer\">\n\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Create</button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t\t<form class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\">\n\t\t\t\t\t<div class=\"modal-body\">\n{% if captchaAllowed %}\n\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"A63C0110_E591_6FCE_6D7A_02EEBC094199\" />\n{% endif %}\n\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t<label for=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"user\" id=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\" required=\"required\" placeholder=\"Type your login...\" />\n\t\t\t\t\t\t\t\t</div>\n{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>\n\t\t\t\t\t\t\t\t\t\t\t<img class=\"form-control form-control-sm\" alt=\"\" src=\"\" id=\"EA79605C_6EFF_4C77_9D70_88254B00FD52\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"captcha_text\" id=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n{% endif %}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"modal-footer\">\n\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Reset</button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
+
+/***/ }),
+
 /***/ 6087:
 /***/ ((module) => {
 
@@ -24858,7 +25026,7 @@ module.exports = "<div class=\"toast mb-2\" role=\"alert\" {% if fadeOut %}data-
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAllowed %}\n\t<button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t<i class=\"bi bi-box-arrow-in-right\"></i> {{ awfInfo.ssoLabel|default('Single Sign-On') }}\n\t</button>\n\t{% endif %}\n</li>\n";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAllowed %}\n\t<button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t<i class=\"bi bi-box-arrow-in-right\"></i> {{ awfInfo.ssoLabel|default('Single Sign-On') }}\n\t</button>\n\t{% endif %}\n\t<button class=\"btn btn-primary\" type=\"button\" onclick=\"amiAuth.signIn()\">Sign in</button>\n</li>\n\n";
 
 /***/ }),
 
@@ -24866,7 +25034,39 @@ module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAll
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon|e }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ml-0 ml-lg-1\" type=\"button\" onclick=\"alert('TODO');\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon|e }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t\t{% if changeInfoAllowed %}\n\t\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.changeInfo();\">Change Information</a>\n\t\t{% endif %}\n\t\t{% if changePasswordAllowed %}\n\t\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.changePass();\">Change Password</a>\n\t\t{% endif %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.accountStatus();\">Account Status</a>\n\t\t<div id=\"ami_user_menu_content\"></div>\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ml-0 ml-lg-1\" type=\"button\" onclick=\"alert('TODO');\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
+
+/***/ }),
+
+/***/ 8798:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"AB1CB183_96EB_4116_8A9E_4409BE058F34\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Account Status</h4>\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<h5 id=\"D944B01D_2E8D_4EE9_9DCC_2691438BBA16\"></h5>\n\t\t\t\t<div class=\"tabbable\">\n\t\t\t\t\t<ul class=\"nav nav-tabs\">\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link active\" href=\"#B89A9E2D_8969_41F4_B266_230B782FA17D\" data-bs-toggle=\"tab\" data-bs-target=\"#B89A9E2D_8969_41F4_B266_230B782FA17D\" role=\"tab\" data-toggle=\"tab\">User account status</a></li>\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link xxxxxx\" href=\"#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\" data-bs-toggle=\"tab\" data-bs-target=\"#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\" role=\"tab\" data-toggle=\"tab\">User information</a></li>\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link xxxxxx\" href=\"#D827345F_6762_32F6_1D2D_DB40676804AE\" data-bs-toggle=\"tab\" data-bs-target=\"#D827345F_6762_32F6_1D2D_DB40676804AE\" role=\"tab\" data-toggle=\"tab\">User roles</a></li>\n\t\t\t\t\t</ul>\n\t\t\t\t\t<div class=\"tab-content\">\n\t\t\t\t\t\t<div class=\"tab-pane active\" role=\"tabpanel\" id=\"B89A9E2D_8969_41F4_B266_230B782FA17D\">\n\t\t\t\t\t\t\t<div class=\"text-center rounded mx-auto px-5 py-2 mb-2\">\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex align-items-center justify-content-center\">\n\t\t\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/logo.png\" width=\"150\" />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-6\">\n\t\t\t\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 24pt;\" id=\"D579A431_DBE4_6B30_1CF6_5E23761B4E1A\">Your account is</div>\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family:     'Trochut'    ; font-size: 36pt;\" id=\"F3FF9F43_DE72_40BB_B1BA_B7B3C9002671\">???????????????</div>\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 14pt;\" id=\"E91280F6_E7C6_3E53_A457_646995C99317\">???????????????</div>\n\t\t\t\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex align-items-center justify-content-center\" id=\"EC948084_8C0A_CEBF_58C9_086046AB2456\"></div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"text-center\">\n\t\t\t\t\t\t\t\t<a href=\"#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" data-toggle=\"collapse\">terms and conditions</a>\n\t\t\t\t\t\t\t\t<iframe class=\"form-control collapse\" id=\"E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" style=\"padding: 1px; min-height: 350px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\">\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" style=\"font-weight: normal;\">First name</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" style=\"font-weight: normal;\">Last name</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" style=\"font-weight: normal;\">Email</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" style=\"font-weight: normal;\">Client certificate DN in account</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"C76805D7_1E86_4231_9071_1D04783423BB\" style=\"font-weight: normal;\">Client certificate DN in session</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"C76805D7_1E86_4231_9071_1D04783423BB\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" style=\"font-weight: normal;\">Issuer certificate DN in account</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"FE2F6232_C256_4B80_939C_EBEC90320308\" style=\"font-weight: normal;\">Issuer certificate DN in session</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" id=\"FE2F6232_C256_4B80_939C_EBEC90320308\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"D827345F_6762_32F6_1D2D_DB40676804AE\">\n\t\t\t\t\t\t\t<table class=\"table table-sm table-striped\">\n\t\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th>Name</th>\n\t\t\t\t\t\t\t\t\t<th>Description</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t\t<tbody id=\"BB07676B_EACA_9B42_ED51_477DB2976041\"></tbody>\n\t\t\t\t\t\t\t</table>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
+
+/***/ }),
+
+/***/ 707:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<form class=\"modal fade\" role=\"dialog\" id=\"D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Change Information</h4>\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t<label for=\"E513F27D_5521_4B08_BF61_52AFB81356F7\">First name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"first_name\" id=\"E513F27D_5521_4B08_BF61_52AFB81356F7\" required=\"required\" placeholder=\"Type your first name...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t<label for=\"AFF0B5C0_BEEC_4842_916D_DCBA7F589195\">Last name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"last_name\" id=\"AFF0B5C0_BEEC_4842_916D_DCBA7F589195\" required=\"required\" placeholder=\"Type your last name...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t<label for=\"C587486B_62C0_4B6E_9288_D8F9F89D157B\">Email<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input type=\"email\" class=\"form-control form-control-sm\" name=\"email\" id=\"C587486B_62C0_4B6E_9288_D8F9F89D157B\" required=\"required\" placeholder=\"Type your email...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Submit</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</form>\n";
+
+/***/ }),
+
+/***/ 1556:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<form class=\"modal fade\" role=\"dialog\" id=\"E92A1097_983B_4857_875F_07E4659B41B0\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Change Password</h4>\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t<label for=\"F238E6EE_44BD_486A_B85D_C927A4D045D3\">Old password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"old_pass\" id=\"F238E6EE_44BD_486A_B85D_C927A4D045D3\" required=\"required\" placeholder=\"Type your old password...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t<label for=\"D487FE72_8D95_4048_BEA3_252274862AF4\">New password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"new_pass\" id=\"D487FE72_8D95_4048_BEA3_252274862AF4\" required=\"required\" placeholder=\"Choose a new password...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t<label for=\"EE1DA58C_3761_4734_A9C2_E808CDD7EE77\">New password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"xxxxxxxx\" id=\"EE1DA58C_3761_4734_A9C2_E808CDD7EE77\" required=\"required\" placeholder=\"Type your new password again...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Submit</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</form>\n";
+
+/***/ }),
+
+/***/ 9990:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Authentication</h4>\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<ul class=\"nav nav-tabs mb-0\" role=\"tablist\">\n\t\t\t\t\t<li class=\"nav-item\"><button class=\"nav-link active\" href=\"#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\" role=\"tab\" data-toggle=\"tab\" type=\"button\" data-bs-toggle=\"tab\" data-bs-target=\"#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\" aria-controls=\"B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\">Sign In</button></li>\n\t\t\t\t\t{% if createAccountAllowed %}\n\t\t\t\t\t\t<li class=\"nav-item\"><button class=\"nav-link xxxxxx\" href=\"#EE055CD4_E58F_4834_8020_986AE3F8D67D\" role=\"tab\" data-toggle=\"tab\" type=\"button\" data-bs-toggle=\"tab\" data-bs-target=\"#EE055CD4_E58F_4834_8020_986AE3F8D67D\" aria-controls=\"EE055CD4_E58F_4834_8020_986AE3F8D67D\">Create an account</button></li>\n\t\t\t\t\t{% endif %}\n\t\t\t\t\t{% if changePasswordAllowed %}\n\t\t\t\t\t\t<li class=\"nav-item\"><button class=\"nav-link xxxxxx\" href=\"#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\" role=\"tab\" data-toggle=\"tab\" type=\"button\" data-bs-toggle=\"tab\" data-bs-target=\"#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\" aria-controls=\"DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\">Reset my password</button></li>\n\t\t\t\t\t{% endif %}\n\t\t\t\t</ul>\n\t\t\t</div>\n\t\t\t<div class=\"tab-content\">\n\t\t\t\t<form class=\"tab-pane fade show active\" role=\"tabpanel\" id=\"B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\">\n\t\t\t\t\t<div class=\"modal-body\">\n\t\t\t\t\t\t<div class=\"row mb-5\">\n\t\t\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t<label for=\"E64F24B2_33E6_4DED_9B24_28BE04219613\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"user\" id=\"E64F24B2_33E6_4DED_9B24_28BE04219613\" required=\"required\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your login...\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t<label for=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"pass\" id=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\" required=\"required\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your password...\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t<div class=\"container\">\n\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t<button class=\"btn btn-primary mb-3\">Connect with SSO</button>\n\t\t\t\t\t\t\t\t<button class=\"btn btn-secondary\">Connect with Certificate</button>\n\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"modal-footer\">\n\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t{% if passwordAuthenticationAllowed %}\n\t\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Password Login</button>\n\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t{% if certificateAuthenticationAllowed %}\n\t\t\t\t\t\t\t{% if changeCertificateAllowed %}\n\t\t\t\t\t\t\t\t<div class=\"btn-group\">\n\t\t\t\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"button\" onclick=\"amiAuth.form_login2();\">Certificate Login</button>\n\t\t\t\t\t\t\t\t\t<span class=\"btn btn-primary dropdown-toggle\" data-bs-toggle=\"dropdown\">\n\t\t\t\t\t\t\t\t\t\t<i class=\"fa fa-wrench\"></i>\n\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t<ul class=\"dropdown-menu dropdown-menu-right\">\n\t\t\t\t\t\t\t\t\t\t<li><a class=\"dropdown-item\" href=\"javascript:amiAuth.form_attachCert();\">Attach Certificate</a></li>\n\t\t\t\t\t\t\t\t\t\t<li><a class=\"dropdown-item\" href=\"javascript:amiAuth.form_detachCert();\">Detach Certificate</a></li>\n\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t{%   else %}\n\t\t\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"button\" onclick=\"amiAuth.form_login2();\">Certificate Login</button>\n\t\t\t\t\t\t\t{%   endif %}\n\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t\t<form class=\"tab-pane fade xxxxxx\" role=\"tabpanel\" id=\"EE055CD4_E58F_4834_8020_986AE3F8D67D\">\n\t\t\t\t\t<div class=\"modal-body\">\n\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"FD95B3FA_C808_0E08_2D1E_0FE0E3871101\" />\n\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\">First name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"first_name\" id=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\" tabindex=\"1\" required=\"required\" placeholder=\"Type your first name...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"A9A08864_6A32_45A4_8898_C167564DB8BB\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"login\" id=\"A9A08864_6A32_45A4_8898_C167564DB8BB\" tabindex=\"3\" required=\"required\" placeholder=\"Choose a login...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"pass\" id=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\" tabindex=\"5\" required=\"required\" placeholder=\"Choose a password...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>\n\t\t\t\t\t\t\t\t\t\t\t\t<img class=\"form-control form-control-sm\" alt=\"\" src=\"\" id=\"AC9836E6_2A20_8711_39D5_0E8340561078\" />\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\">Last name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"last_name\" id=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\" tabindex=\"2\" required=\"required\" placeholder=\"Type your last name...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\">Email<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"email\" class=\"form-control form-control-sm\" name=\"email\" id=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\" tabindex=\"4\" required=\"required\" placeholder=\"Type your email...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"xxxx\" id=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\" tabindex=\"6\" required=\"required\" placeholder=\"Confirm the password...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"captcha_text\" id=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"mb-3 text-left\">\n\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"attachCert\" id=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\" tabindex=\"8\" checked=\"checked\" />\n\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\">Attach the current certificate</label>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t<iframe class=\"form-control\" id=\"C3E94F6D_48E0_86C0_3534_691728E492F4\" style=\"padding: 1px; height: 220px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"mb-3 text-right\">\n\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"agree\" id=\"C443738D_16BD_469F_1430_84EC13924118\" tabindex=\"9\" xxxxxxx=\"xxxxxxx\" />\n\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"C443738D_16BD_469F_1430_84EC13924118\">I agree with the terms and conditions</label>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"modal-footer\">\n\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Create</button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t\t<form class=\"tab-pane fade xxxxxx\" role=\"tabpanel\" id=\"DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\">\n\t\t\t\t\t<div class=\"modal-body\">\n\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"A63C0110_E591_6FCE_6D7A_02EEBC094199\" />\n\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t<label for=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"user\" id=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\" required=\"required\" placeholder=\"Type your login...\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>\n\t\t\t\t\t\t\t\t\t\t\t\t<img class=\"form-control form-control-sm\" alt=\"\" src=\"\" id=\"EA79605C_6EFF_4C77_9D70_88254B00FD52\" />\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"captcha_text\" id=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"modal-footer\">\n\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Reset</button>\n\t\t\t\t\t</div>\n\t\t\t\t</form>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
 
 /***/ }),
 
@@ -24882,7 +25082,7 @@ module.exports = "<div class=\"toast mb-2\" role=\"alert\" {% if fadeOut %}data-
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAllowed %}\n\t<button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t<i class=\"bi bi-box-arrow-in-right\"></i> {{ awfInfo.ssoLabel|default('Single Sign-On') }}\n\t</button>\n\t{% endif %}\n</li>\n";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAllowed %}\n\t<button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t<i class=\"bi bi-box-arrow-in-right\"></i> {{ awfInfo.ssoLabel|default('Single Sign-On') }}\n\t</button>\n\t{% endif %}\n\t<button class=\"btn btn-primary\" type=\"button\" onclick=\"amiAuth.signIn()\">Sign in</button>\n</li>\n";
 
 /***/ }),
 
@@ -24890,7 +25090,7 @@ module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAll
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon|e }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ms-0 ms-lg-1\" type=\"button\" onclick=\"window.amiAuth.signOut();\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon|e }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dr                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             opdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t\t{% if changeInfoAllowed %}\n\t\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.changeInfo();\">Change Information</a>\n\t\t{% endif %}\n\t\t{% if changePasswordAllowed %}\n\t\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.changePass();\">Change Password</a>\n\t\t{% endif %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.accountStatus();\">Account Status</a>\n\t\t<div id=\"ami_user_menu_content\"></div>\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ms-0 ms-lg-1\" type=\"button\" onclick=\"window.amiAuth.signOut();\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
 
 /***/ }),
 
@@ -30762,6 +30962,10 @@ function loadTWIGs(urls, options) {
 function loadTexts(urls, options) {
   return _loadXXX(urls, 'text', options);
 }
+// EXTERNAL MODULE: ./src/images/certificate-green.png
+var certificate_green = __webpack_require__(5095);
+// EXTERNAL MODULE: ./src/images/certificate-pink.png
+var certificate_pink = __webpack_require__(7148);
 // EXTERNAL MODULE: ./node_modules/kjua/dist/kjua.min.js
 var kjua_min = __webpack_require__(9242);
 ;// CONCATENATED MODULE: ./src/js/AMIAuth.js
@@ -30774,6 +30978,8 @@ function AMIAuth_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.
 var AMIAuth_id = 0;
 
 function AMIAuth_classPrivateFieldLooseKey(name) { return "__private_" + AMIAuth_id++ + "_" + name; }
+
+
 
 
 
@@ -30859,6 +31065,44 @@ var AMIAuth = function () {
       bookmarksAllowed: bookmarksAllowed,
       dashboardsAllowed: dashboardsAllowed
     };
+
+    var signInModal = __webpack_require__(4410)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/sign_in_modal.twig");
+
+    var changeInfoModal = __webpack_require__(7200)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/change_info_modal.twig");
+
+    var changePassModal = __webpack_require__(7457)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/change_pass_modal.twig");
+
+    var accountStatusModal = __webpack_require__(3920)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/account_status_modal.twig");
+
+    js_AMIWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + accountStatusModal, {
+      dict: AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags]
+    }).done(function () {
+      $('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit(function (e) {
+        _this.form_login(e);
+      });
+      $('#EE055CD4_E58F_4834_8020_986AE3F8D67D').submit(function (e) {
+        _this.form_addUser(e);
+      });
+      $('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').submit(function (e) {
+        _this.form_remindPass(e);
+      });
+      $('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').submit(function (e) {
+        _this.form_changeInfo(e);
+      });
+      $('#E92A1097_983B_4857_875F_07E4659B41B0').submit(function (e) {
+        _this.form_changePass(e);
+      });
+      $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(function () {
+        var pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
+        var pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
+        $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : '');
+      });
+      $('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(function () {
+        var pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
+        var pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
+        $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').get(0).setCustomValidity(pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : '');
+      });
+    });
 
     window.onmessage = function (e) {
       if (js_AMIRouter.getOriginURL().startsWith(e.origin)) {
@@ -30976,23 +31220,182 @@ var AMIAuth = function () {
     return roleName in AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo];
   };
 
-  _proto.update = function update() {
+  _proto.signIn = function signIn() {
+    AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
+
+    if (AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags].captchaAllowed) {
+      js_AMICommand.execute('GenerateCaptcha').then(function (data) {
+        var image = js_AMIWebApp.jspath('..field{.@name==="image"}.$', data)[0] || '';
+        var hash = js_AMIWebApp.jspath('..field{.@name==="hash"}.$', data)[0] || '';
+        $('#AC9836E6_2A20_8711_39D5_0E8340561078').attr('src', image);
+        $('#EA79605C_6EFF_4C77_9D70_88254B00FD52').attr('src', image);
+        $('#FD95B3FA_C808_0E08_2D1E_0FE0E3871101').val(hash);
+        $('#A63C0110_E591_6FCE_6D7A_02EEBC094199').val(hash);
+        $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('show');
+      }, function (data, message) {
+        js_AMIWebApp.error(message);
+      });
+    } else {
+      $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('show');
+    }
+  };
+
+  _proto.changeInfo = function changeInfo() {
+    AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
+
+    $('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').modal('show');
+  };
+
+  _proto.changePass = function changePass() {
+    AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
+
+    $('#E92A1097_983B_4857_875F_07E4659B41B0').modal('show');
+  };
+
+  _proto.accountStatus = function accountStatus() {
+    AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
+
+    $('#AB1CB183_96EB_4116_8A9E_4409BE058F34').modal('show');
+  };
+
+  _proto.form_login = function form_login(e) {
+    e.preventDefault();
+    var values = $(e.target).serializeObject();
+    return this.form_login2(values['user'], values['pass']);
+  };
+
+  _proto.form_login2 = function form_login2(user, pass) {
     var _this2 = this;
+
+    var promise = user && pass ? js_AMICommand.signInByPassword(user.trim(), pass.trim()) : js_AMICommand.signInByCertificate();
+    js_AMIWebApp.lock();
+    promise.then(function (data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) {
+      AMIAuth_classPrivateFieldLooseBase(_this2, _update)[_update](userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).then(function () {
+        console.log(userInfo);
+
+        if ((userInfo.AMIUser || 'guest') !== (userInfo.guestUser || 'guest')) {
+          $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
+          js_AMIWebApp.unlock();
+        }
+      }, function (message) {
+        if ((userInfo.AMIUser || 'guest') !== (userInfo.guestUser || 'guest')) {
+          $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
+          js_AMIWebApp.error(message);
+        }
+      });
+
+      if ((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest')) {
+        var _message = 'Authentication failed.';
+
+        if (userInfo.clientDNInSession || userInfo.issuerDNInSession) {
+          _message += ' Client DN in session: ' + js_AMIWebApp.textToHtml(userInfo.clientDNInSession) + '.' + ' Issuer DN in session: ' + js_AMIWebApp.textToHtml(userInfo.issuerDNInSession) + '.';
+        }
+
+        js_AMIWebApp.error(_message);
+      }
+    }, function (data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) {
+      AMIAuth_classPrivateFieldLooseBase(_this2, _update)[_update](userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).always(function () {
+        js_AMIWebApp.error(message);
+      });
+    });
+    return promise;
+  };
+
+  _proto.form_attachCert = function form_attachCert() {
+    var user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
+    var pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+
+    if (!user || !pass) {
+      js_AMIWebApp.error('Please, fill all fields with a red star.');
+      return;
+    }
+
+    js_AMIWebApp.lock();
+    return js_AMICommand.attachCertificate(user, pass).then(function (data, message) {
+      js_AMIWebApp.success(message);
+    }, function (data, message) {
+      js_AMIWebApp.error(message);
+    });
+  };
+
+  _proto.form_detachCert = function form_detachCert() {
+    var user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
+    var pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+
+    if (!user || !pass) {
+      js_AMIWebApp.error('Please, fill all fields with a red star.');
+      return;
+    }
+
+    js_AMIWebApp.lock();
+    return js_AMICommand.detachCertificate(user, pass).then(function (data, message) {
+      js_AMIWebApp.success(message);
+    }, function (data, message) {
+      js_AMIWebApp.error(message);
+    });
+  };
+
+  _proto.form_addUser = function form_addUser(e) {
+    e.preventDefault();
+    var values = $(e.target).serializeObject();
+    js_AMIWebApp.lock();
+    js_AMICommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], values['captcha_hash'], values['captcha_text'], 'attachCert' in values, 'agree' in values).then(function (data, message) {
+      js_AMIWebApp.success(message);
+    }, function (data, message) {
+      js_AMIWebApp.error(message);
+    });
+  };
+
+  _proto.form_remindPass = function form_remindPass(e) {
+    e.preventDefault();
+    var values = $(e.target).serializeObject();
+    js_AMIWebApp.lock();
+    js_AMICommand.resetPassword(values['user'], values['captcha_hash'], values['captcha_text']).then(function (data, message) {
+      js_AMIWebApp.success(message);
+    }, function (data, message) {
+      js_AMIWebApp.error(message);
+    });
+  };
+
+  _proto.form_changeInfo = function form_changeInfo(e) {
+    e.preventDefault();
+    var values = $(e.target).serializeObject();
+    js_AMIWebApp.lock();
+    js_AMICommand.changeInfo(values['first_name'], values['last_name'], values['email']).then(function (data, message) {
+      js_AMIWebApp.success(message);
+    }, function (data, message) {
+      js_AMIWebApp.error(message);
+    });
+  };
+
+  _proto.form_changePass = function form_changePass(e) {
+    e.preventDefault();
+    var values = $(e.target).serializeObject();
+    js_AMIWebApp.lock();
+    js_AMICommand.changePassword(AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo].AMIUser || 'guest', values['old_pass'], values['new_pass']).then(function (data, message) {
+      js_AMIWebApp.success(message);
+    }, function (data, message) {
+      js_AMIWebApp.error(message);
+    });
+  };
+
+  _proto.update = function update() {
+    var _this3 = this;
 
     js_AMIWebApp.lock();
     return js_AMICommand.signInByCertificate().done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this2, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
+      AMIAuth_classPrivateFieldLooseBase(_this3, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
         js_AMIWebApp.unlock();
       });
     });
   };
 
   _proto.signOut = function signOut() {
-    var _this3 = this;
+    var _this4 = this;
 
     js_AMIWebApp.lock();
     return js_AMICommand.signOut().always(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this3, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function () {
+      AMIAuth_classPrivateFieldLooseBase(_this4, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function () {
         js_AMIWebApp.unlock();
       }, function (message) {
         js_AMIWebApp.error(message);
@@ -31041,6 +31444,116 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       dict: dict
     }).done(function () {
       triggerLogin().then(function () {
+        result.resolve();
+      }, function (message) {
+        result.reject(message);
+      });
+    });
+
+    var _user = userInfo.AMIUser || 'guest';
+
+    var _guest = userInfo.guestUser || 'guest';
+
+    var notBefore = userInfo.notBefore || '';
+    var notAfter = userInfo.notAfter || '';
+    var clientDNInSession = userInfo.clientDNInSession || '';
+    var issuerDNInSession = userInfo.issuerDNInSession || '';
+    $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
+    $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', dashboardInfo.termsAndConditions || js_AMIWebApp.originURL + '/docs/terms_and_conditions.html');
+    $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', dashboardInfo.termsAndConditions || js_AMIWebApp.originURL + '/docs/terms_and_conditions.html');
+    var valid = userInfo.valid || 'false';
+    var certEnabled = userInfo.certEnabled || 'false';
+    var vomsEnabled = userInfo.vomsEnabled || 'false';
+    var firstName = userInfo.firstName || '';
+    var lastName = userInfo.lastName || '';
+    var email = userInfo.email || '';
+    var clientDNInAMI = userInfo.clientDNInAMI || '';
+    var issuerDNInAMI = userInfo.issuerDNInAMI || '';
+    $('#E513F27D_5521_4B08_BF61_52AFB81356F7').val(firstName);
+    $('#AFF0B5C0_BEEC_4842_916D_DCBA7F589195').val(lastName);
+    $('#C587486B_62C0_4B6E_9288_D8F9F89D157B').val(email);
+    $('#ABEB0291_40B0_414A_A42B_E7EABB9B487E').val(firstName);
+    $('#A5AFDB62_1034_4F66_A3E6_9341B31FA290').val(lastName);
+    $('#D730A774_05EA_47AB_A0C8_D92753802E3E').val(email);
+    $('#D1BEE3BF_9161_41DC_BC53_C44FFE4D2522').val(clientDNInAMI);
+    $('#C76805D7_1E86_4231_9071_1D04783423BB').val(clientDNInSession);
+    $('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
+    $('#FE2F6232_C256_4B80_939C_EBEC90320308').val(issuerDNInSession);
+    var table = [];
+
+    for (var role in roleInfo) {
+      table.push('<tr>');
+      table.push('<td>' + js_AMIWebApp.textToHtml(roleInfo[role].name || 'N/A') + '</td>');
+      table.push('<td>' + js_AMIWebApp.textToHtml(roleInfo[role].description || 'N/A') + '</td>');
+      table.push('</tr>');
+    }
+
+    $('#BB07676B_EACA_9B42_ED51_477DB2976041').html(table.join(''));
+    var icon = '';
+    var message = '';
+    var bgColor = '';
+    var fgColor = '';
+
+    if (valid !== 'false') {
+      if (!AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags].ssoAutoAuthentication && certEnabled !== 'false' && clientDNInAMI && issuerDNInAMI) {
+        if (!this.getClientDN() || !this.getIssuerDN()) {
+          message = 'It is recommended to authenticate with a X.509 certificate.';
+        } else {
+          if (clientDNInAMI !== clientDNInSession || issuerDNInAMI !== issuerDNInSession) {
+            message = 'The X.509 certificate in the session differs from the one in AMI.';
+          }
+        }
+      }
+
+      if (message) {
+        $('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<i class="fa fa-info-circle text-warning"></i> ' + message);
+        icon = '<a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">' + '<i class="fa fa-info-circle"></i>' + '</a>';
+      }
+
+      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', '#B8D49B url("' + certificate_green + '") no-repeat center center').css('background-size', 'cover');
+      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400').html('<i class="fa fa-leaf"></i> valid <i class="fa fa-leaf"></i>');
+      $('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
+      bgColor = '#B8D49B';
+      fgColor = '#006400';
+    } else {
+      if (vomsEnabled !== 'false') {
+        if (!clientDNInSession || !issuerDNInSession) {
+          message = 'Register a valid X.509 certificate.';
+        } else {
+          message = 'Check your virtual organization roles.';
+        }
+      } else {
+        message = 'Unexpected issue, contact the AMI team.';
+      }
+
+      if (message) {
+        $('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<i class="fa fa-info-circle text-danger"></i> ' + message);
+        icon = '<a class="nav-link text-danger" href="javascript:amiLogin.accountStatus();">' + '<i class="fa fa-info-circle"></i>' + '</a>';
+      }
+
+      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', '#E8C8CF url("' + certificate_pink + '") no-repeat center center').css('background-size', 'cover');
+      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#DC3545').html('<i class="fa fa-leaf"></i> invalid <i class="fa fa-leaf"></i>');
+      $('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
+      bgColor = '#E8C8CF';
+      fgColor = '#DC3545';
+    }
+
+    $('#EC948084_8C0A_CEBF_58C9_086046AB2456').kjua({
+      render: 'canvas',
+      ecLevel: 'H',
+      size: 150,
+      fill: fgColor,
+      background: bgColor,
+      text: _user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI,
+      radius: 0,
+      quiet: 1
+    });
+    dict['user'] = _user;
+    dict['icon'] = icon;
+    js_AMIWebApp.replaceHTML('#ami_login_menu_content', button, {
+      dict: dict
+    }).done(function () {
+      js_AMIWebApp.triggerLogin().then(function () {
         result.resolve();
       }, function (message) {
         result.reject(message);
@@ -31595,6 +32108,15 @@ var AMIWebApp = function () {
     this.args = {};
     this.hash = '';
     this.bootstrapVersion = 4;
+    this._currentSubAppInstance = new function () {
+      this.onReady = function () {};
+
+      this.onExit = function () {};
+
+      this.onLogin = function () {};
+
+      this.onLogout = function () {};
+    }();
     this.typeOf = typeOf;
     this.asArray = asArray;
     this.isString = isString;
@@ -31711,6 +32233,22 @@ var AMIWebApp = function () {
   }
 
   var _proto = AMIWebApp.prototype;
+
+  _proto._ami_internal_then = function _ami_internal_then(deferred, doneFunc, failFunc) {
+    if (deferred && deferred.then) {
+      deferred.then(doneFunc, failFunc);
+    } else {
+      doneFunc();
+    }
+  };
+
+  _proto._ami_internal_always = function _ami_internal_always(deferred, alwaysFunc) {
+    if (deferred && deferred.always) {
+      deferred.always(alwaysFunc);
+    } else {
+      alwaysFunc();
+    }
+  };
 
   _proto.onReady = function onReady(userdata) {
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {
@@ -31864,6 +32402,50 @@ var AMIWebApp = function () {
     });
 
     return this;
+  };
+
+  _proto.triggerLogin = function triggerLogin() {
+    var _this3 = this;
+
+    var result = $.Deferred();
+
+    if (this._isReady) {
+      this._ami_internal_then(this._currentSubAppInstance.onLogin(this._currentUserdata), function (message) {
+        _this3._ami_internal_always(_this3.onRefresh(true), function () {
+          result.resolve(message);
+        });
+      }, function (message) {
+        _this3._ami_internal_always(_this3.onRefresh(true), function () {
+          result.reject(message);
+        });
+      });
+    } else {
+      result.resolve();
+    }
+
+    return result.promise();
+  };
+
+  _proto.triggerLogout = function triggerLogout() {
+    var _this4 = this;
+
+    var result = $.Deferred();
+
+    if (this._isReady) {
+      this._ami_internal_then(this._currentSubAppInstance.onLogout(this._currentUserdata), function (message) {
+        _this4._ami_internal_always(_this4.onRefresh(false), function () {
+          result.resolve(message);
+        });
+      }, function (message) {
+        _this4._ami_internal_always(_this4.onRefresh(false), function () {
+          result.reject(message);
+        });
+      });
+    } else {
+      result.resolve();
+    }
+
+    return result.promise();
   };
 
   return AMIWebApp;
@@ -32031,6 +32613,21 @@ var AMIWebApp = function () {
         "type": ["boolean"],
         "desc": ""
       }]
+    }, {
+      "name": "changeInfo",
+      "alias": "",
+      "desc": "Opens the 'Change Info' modal window",
+      "params": []
+    }, {
+      "name": "changePass",
+      "alias": "",
+      "desc": "Opens the 'Change Password' modal window",
+      "params": []
+    }, {
+      "name": "accountStatus",
+      "alias": "",
+      "desc": "Opens the 'Account Status' modal window",
+      "params": []
     }, {
       "name": "update",
       "alias": "",
