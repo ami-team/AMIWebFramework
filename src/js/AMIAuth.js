@@ -371,8 +371,6 @@ class AMIAuth
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			const valid = userInfo.valid || 'false';
-			const certEnabled = userInfo.certEnabled || 'false';
-			const vomsEnabled = userInfo.vomsEnabled || 'false';
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -436,7 +434,7 @@ class AMIAuth
 				/* VALID USER                                                                                         */
 				/*----------------------------------------------------------------------------------------------------*/
 
-				if(!this.#flags.ssoAutoAuthentication && (certEnabled !== 'false' && clientDNInAMI && issuerDNInAMI))
+				if(!this.#flags.ssoAutoAuthentication)
 				{
 					if(clientDNInAMI
 					   &&
@@ -452,27 +450,24 @@ class AMIAuth
 
 				if(message)
 				{
-					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<i class="fa fa-info-circle text-warning"></i> ' + message);
+					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(`<i class="fa fa-info-circle text-warning"></i> ${message}`);
 
-					icon = '<a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">'
-						+
-						'<i class="fa fa-info-circle"></i>'
-						+
-						'</a>'
-					;
+					icon = `<a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">
+								<i class="fa fa-info-circle"></i>
+							</a>`;
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', '#B8D49B url("' + greenCertificateImage + '") no-repeat center center')
-				.css('background-size', 'cover')
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', `#B8D49B url("${greenCertificateImage}") no-repeat center center`)
+				                                          .css('background-size', 'cover')
 				;
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400')
-				.html('<i class="fa fa-leaf"></i> valid <i class="fa fa-leaf"></i>')
+				                                          .html('<i class="fa fa-leaf"></i> valid <i class="fa fa-leaf"></i>')
 				;
 
-				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
+				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(`${notBefore} - ${notAfter}`);
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -487,29 +482,16 @@ class AMIAuth
 				/* INVALID USER                                                                                       */
 				/*----------------------------------------------------------------------------------------------------*/
 
-				if(vomsEnabled !== 'false')
+				if(!this.#flags.ssoAutoAuthentication)
 				{
-					if(!clientDNInSession
-						||
-						!issuerDNInSession
-					) {
-						message = 'Register a valid X.509 certificate.';
-					}
-					else
-					{
-						message = 'Check your virtual organization roles.';
-					}
-				}
-				else
-				{
-					message = 'Unexpected issue, contact the AMI team.';
+					message = 'Check your membership.';
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
 				if(message)
 				{
-					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<i class="fa fa-info-circle text-danger"></i> ' + message);
+					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(`<i class="fa fa-info-circle text-danger"></i> ${message}`);
 
 					icon = `<a class="nav-link text-danger" href="javascript:amiAuth.accountStatus();">
 								<i class="fa fa-info-circle"></i>
@@ -518,15 +500,15 @@ class AMIAuth
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', '#E8C8CF url("' + pinkCertificateImage + '") no-repeat center center')
-				.css('background-size', 'cover')
+				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', `#E8C8CF url("${pinkCertificateImage}") no-repeat center center`)
+				                                          .css('background-size', 'cover')
 				;
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#DC3545')
-				.html('<i class="fa fa-leaf"></i> invalid <i class="fa fa-leaf"></i>')
+				                                          .html('<i class="fa fa-leaf"></i> invalid <i class="fa fa-leaf"></i>')
 				;
 
-				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + ' - ' + notAfter);
+				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(`${notBefore} - ${notAfter}`);
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -579,8 +561,6 @@ class AMIAuth
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			const button = require(`../twigs/v${amiWebApp.bootstrapVersion}/sign_in_button.twig`);
-
-			/*--------------------------------------------------------------------------------------------------------*/
 
 			amiWebApp.replaceHTML('#ami_login_menu_content', button, {dict: dict}).done(() => {
 
