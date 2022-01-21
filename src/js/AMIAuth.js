@@ -140,7 +140,6 @@ class AMIAuth
 		const changePassModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_pass_modal.twig`);
 		const accountStatusModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/account_status_modal.twig`);
 
-
 		amiWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + accountStatusModal, {dict: this.#flags}).done(() => {
 
 			/*----------------------------------------------------------------------------------------------------*/
@@ -439,20 +438,13 @@ class AMIAuth
 
 				if(!this.#flags.ssoAutoAuthentication && (certEnabled !== 'false' && clientDNInAMI && issuerDNInAMI))
 				{
-					if(!this.getClientDN()
-						||
-						!this.getIssuerDN()
-					) {
-						message = 'It is recommended to authenticate with a X.509 certificate.';
-					}
-					else
-					{
-						if(clientDNInAMI !== clientDNInSession
-							||
-							issuerDNInAMI !== issuerDNInSession
-						) {
-							message = 'The X.509 certificate in the session differs from the one in AMI.';
-						}
+					if(clientDNInAMI
+					   &&
+					   issuerDNInAMI
+					   &&
+					   (clientDNInAMI !== clientDNInSession || issuerDNInAMI !== issuerDNInSession)
+					 ) {
+						message = 'The X.509 certificate in the session differs from the one in AMI.';
 					}
 				}
 
@@ -519,12 +511,9 @@ class AMIAuth
 				{
 					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html('<i class="fa fa-info-circle text-danger"></i> ' + message);
 
-					icon = '<a class="nav-link text-danger" href="javascript:amiLogin.accountStatus();">'
-						+
-						'<i class="fa fa-info-circle"></i>'
-						+
-						'</a>'
-					;
+					icon = `<a class="nav-link text-danger" href="javascript:amiAuth.accountStatus();">
+								<i class="fa fa-info-circle"></i>
+							</a>`;
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -573,7 +562,7 @@ class AMIAuth
 
 			amiWebApp.replaceHTML('#ami_login_menu_content', button , {dict: dict}).done(() => {
 
-				amiWebApp.triggerLogin().then(() => {
+				subapps.triggerLogin().then(() => {
 
 					result.resolve();
 
@@ -903,8 +892,6 @@ class AMIAuth
 		promise.then((data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
 
 			this.#update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).then(() => {
-
-				console.log(userInfo);
 
 				if((userInfo.AMIUser || 'guest') !== (userInfo.guestUser || 'guest'))
 				{

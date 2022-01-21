@@ -194,14 +194,6 @@ class AMIWebApp
 
 	bootstrapVersion = 4;
 
-	_currentSubAppInstance= new function()
-	{
-		this.onReady = function() {};
-		this.onExit = function() {};
-		this.onLogin = function() {};
-		this.onLogout = function() {};
-	}
-
 	/*----------------------------------------------------------------------------------------------------------------*/
 	/* CONSTRUCTOR                                                                                                    */
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -334,36 +326,6 @@ class AMIWebApp
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
-	}
-
-	/*--------------------------------------------------------------------------------------------------------------------*/
-	/* INTERNAL FUNCTIONS                                                                                                 */
-	/*--------------------------------------------------------------------------------------------------------------------*/
-
-	_ami_internal_then(deferred, doneFunc, failFunc)
-	{
-		if(deferred && deferred.then)
-		{
-			deferred.then(doneFunc, failFunc);
-		}
-		else
-		{
-			doneFunc();
-		}
-	}
-
-	/*--------------------------------------------------------------------------------------------------------------------*/
-
-	_ami_internal_always(deferred, alwaysFunc)
-	{
-		if(deferred && deferred.always)
-		{
-			deferred.always(alwaysFunc);
-		}
-		else
-		{
-			alwaysFunc();
-		}
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -746,76 +708,6 @@ class AMIWebApp
 		});
 
 		return this;
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	triggerLogin()
-	{
-		const result = $.Deferred();
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		if(this._isReady)
-		{
-			this._ami_internal_then(this._currentSubAppInstance.onLogin(this._currentUserdata), (message) => {
-
-				this._ami_internal_always(this.onRefresh(true), () => {
-
-					result.resolve(message);
-				});
-
-			}, (message) => {
-
-				this._ami_internal_always(this.onRefresh(true), () => {
-
-					result.reject(message);
-				});
-			});
-		}
-		else
-		{
-			result.resolve();
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		return result.promise();
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	triggerLogout()
-	{
-		const result = $.Deferred();
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		if(this._isReady)
-		{
-			this._ami_internal_then(this._currentSubAppInstance.onLogout(this._currentUserdata), (message) => {
-
-				this._ami_internal_always(this.onRefresh(false), () => {
-
-					result.resolve(message);
-				});
-
-			}, (message) => {
-
-				this._ami_internal_always(this.onRefresh(false), () => {
-
-					result.reject(message);
-				});
-			});
-		}
-		else
-		{
-			result.resolve();
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		return result.promise();
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
