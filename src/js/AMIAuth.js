@@ -79,7 +79,7 @@ class AMIAuth
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	#setupAWF(awfInfo)
+	static #setupAWF(awfInfo)
 	{
 		try
 		{
@@ -305,12 +305,14 @@ class AMIAuth
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		awfInfo = this.#setupAWF(awfInfo);
+		awfInfo = AMIAuth.#setupAWF(awfInfo);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const user = userInfo.AMIUser || 'guest';
-		const guest = userInfo.guestUser || 'guest';
+		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !userInfo.clientDNInSession || !userInfo.issuerDNInSession);
+
+		$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', awfInfo.privacyPolicy || amiWebApp.originURL + '/docs/privacy_policy.html');
+		$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', awfInfo.privacyPolicy || amiWebApp.originURL + '/docs/privacy_policy.html');
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -326,62 +328,32 @@ class AMIAuth
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		const user = userInfo.AMIUser || 'guest';
+		const guest = userInfo.guestUser || 'guest';
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		if(user !== guest)
 		{
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			const button = require(`../twigs/v${amiWebApp.bootstrapVersion}/sign_out_button.twig`);
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			amiWebApp.replaceHTML('#ami_login_menu_content', button, {dict: dict}).done(() => {
-
-				subapps.triggerLogin().then(() => {
-
-					result.resolve();
-
-				}, (message) => {
-
-					result.reject(message);
-				});
-			});
-
-			/*------------------------------------------------------------------------------------------------------------*/
-
-			const user = userInfo.AMIUser || 'guest';
-			const guest = userInfo.guestUser || 'guest';
-
-			const notBefore = userInfo.notBefore || '';
-			const notAfter = userInfo.notAfter || '';
-
-			const clientDNInSession = userInfo.clientDNInSession || '';
-			const issuerDNInSession = userInfo.issuerDNInSession || '';
-
-			/*------------------------------------------------------------------------------------------------------------*/
-
-			$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
-
-			$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', dashboardInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
-			$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', dashboardInfo.termsAndConditions || amiWebApp.originURL + '/docs/terms_and_conditions.html');
-
-			/*------------------------------------------------------------------------------------------------------------*/
-
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* GET INFO                                                                                               */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const valid = userInfo.valid || 'false';
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
 			const firstName = userInfo.firstName || '';
 			const lastName = userInfo.lastName || '';
+
 			const email = userInfo.email || '';
 
-			/*--------------------------------------------------------------------------------------------------------*/
+			const notBefore = userInfo.notBefore || '';
+			const notAfter = userInfo.notAfter || '';
 
 			const clientDNInAMI = userInfo.clientDNInAMI || '';
 			const issuerDNInAMI = userInfo.issuerDNInAMI || '';
+
+			const clientDNInSession = userInfo.clientDNInSession || '';
+			const issuerDNInSession = userInfo.issuerDNInSession || '';
+
+			const valid = userInfo.valid || 'false';
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* SET INFO                                                                                               */
@@ -406,13 +378,13 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			let table = [];
+			const table = [];
 
-			for(let role in roleInfo)
+			for(const role in roleInfo)
 			{
 				table.push('<tr>');
-				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].name || 'N/A') + '</td>');
-				table.push('<td>' + amiWebApp.textToHtml(roleInfo[role].description || 'N/A') + '</td>');
+				table.push(`<td>${amiWebApp.textToHtml(roleInfo[role].name        || 'N/A')}</td>`);
+				table.push(`<td>${amiWebApp.textToHtml(roleInfo[role].description || 'N/A')}</td>`);
 				table.push('</tr>');
 			}
 
@@ -425,8 +397,8 @@ class AMIAuth
 			let icon = '';
 			let message = '';
 
-			let bgColor = '';
-			let fgColor = '';
+			let bgColor;
+			let fgColor;
 
 			if(valid !== 'false')
 			{
@@ -452,19 +424,17 @@ class AMIAuth
 				{
 					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(`<i class="fa fa-info-circle text-warning"></i> ${message}`);
 
-					icon = `<a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">
-								<i class="fa fa-info-circle"></i>
-							</a>`;
+					icon = `
+<a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">
+	<i class="fa fa-info-circle"></i>
+</a>`;
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', `#B8D49B url("${greenCertificateImage}") no-repeat center center`)
-				                                          .css('background-size', 'cover')
-				;
-
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400')
 				                                          .html('<i class="fa fa-leaf"></i> valid <i class="fa fa-leaf"></i>')
+  				                                          .closest('.rounded').css('background', `#B8D49B url("${greenCertificateImage}") no-repeat center center`).css('background-size', 'cover')
 				;
 
 				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(`${notBefore} - ${notAfter}`);
@@ -493,19 +463,17 @@ class AMIAuth
 				{
 					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(`<i class="fa fa-info-circle text-danger"></i> ${message}`);
 
-					icon = `<a class="nav-link text-danger" href="javascript:amiAuth.accountStatus();">
-								<i class="fa fa-info-circle"></i>
-							</a>`;
+					icon = `
+<a class="nav-link text-danger" href="javascript:amiAuth.accountStatus();">
+	<i class="fa fa-info-circle"></i>
+</a>`;
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', `#E8C8CF url("${pinkCertificateImage}") no-repeat center center`)
-				                                          .css('background-size', 'cover')
-				;
-
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#DC3545')
 				                                          .html('<i class="fa fa-leaf"></i> invalid <i class="fa fa-leaf"></i>')
+				                                          .closest('.rounded').css('background', `#E8C8CF url("${pinkCertificateImage}") no-repeat center center`).css('background-size', 'cover')
 				;
 
 				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(`${notBefore} - ${notAfter}`);
@@ -541,6 +509,8 @@ class AMIAuth
 			dict['icon'] = icon;
 
 			/*--------------------------------------------------------------------------------------------------------*/
+
+			const button = require(`../twigs/v${amiWebApp.bootstrapVersion}/sign_out_button.twig`);
 
 			amiWebApp.replaceHTML('#ami_login_menu_content', button , {dict: dict}).done(() => {
 
@@ -580,6 +550,16 @@ class AMIAuth
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		return result.promise();
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	static #clean()
+	{
+		$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').trigger('reset');
+		$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').trigger('reset');
+		$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').trigger('reset');
+		$('#E92A1097_983B_4857_875F_07E4659B41B0').trigger('reset');
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -779,9 +759,38 @@ class AMIAuth
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	/**
+	 * Update the user information
+	 * @returns {$.Promise} A JQuery promise object
+	 */
+
+	update()
+	{
+		amiWebApp.lock();
+
+		return amiCommand.signInByCertificate().done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+
+			this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(() => {
+
+				amiWebApp.unlock();
+			});
+		});
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	sso()
+	{
+		AMIAuth.#clean();
+
+		window.open(`${amiRouter.getOriginURL()}/docs/sso.html?url=${encodeURIComponent(this.#awfInfo.ssoAuthURL || '')}&realm=${encodeURIComponent(this.#awfInfo.ssoRealm || '')}&clientId=${encodeURIComponent(this.#awfInfo.ssoClientId || '')}`, 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	signIn()
 	{
-		this.#clean();
+		AMIAuth.#clean();
 
 		if(this.#flags.captchaAllowed)
 		{
@@ -812,12 +821,35 @@ class AMIAuth
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
+	 * Signs out
+	 */
+
+	signOut()
+	{
+		amiWebApp.lock();
+
+		return amiCommand.signOut().always((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+
+			this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(() => {
+
+				amiWebApp.unlock();
+
+			}, (message) => {
+
+				amiWebApp.error(message);
+			});
+		});
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
 	 * Opens the 'Change Info' modal window
 	 */
 
 	changeInfo()
 	{
-		this.#clean();
+		AMIAuth.#clean();
 
 		$('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').modal('show');
 	}
@@ -830,7 +862,7 @@ class AMIAuth
 
 	changePass()
 	{
-		this.#clean();
+		AMIAuth.#clean();
 
 		$('#E92A1097_983B_4857_875F_07E4659B41B0').modal('show');
 	}
@@ -843,7 +875,7 @@ class AMIAuth
 
 	accountStatus()
 	{
-		this.#clean();
+		AMIAuth.#clean();
 
 		$('#AB1CB183_96EB_4116_8A9E_4409BE058F34').modal('show');
 	}
@@ -862,7 +894,7 @@ class AMIAuth
 	form_login2(user, pass)
 	{
 		const promise = (user && pass) ? amiCommand.signInByPassword(user.trim(), pass.trim())
-			: amiCommand.signInByCertificate(/*--------------------*/)
+		                               : amiCommand.signInByCertificate(/*--------------------*/)
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -897,8 +929,8 @@ class AMIAuth
 				if(userInfo.clientDNInSession || userInfo.issuerDNInSession)
 				{
 					message += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.'
-						+
-						' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.'
+					           +
+					           ' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.'
 					;
 				}
 
@@ -950,6 +982,8 @@ class AMIAuth
 		/*------------------------------------------------------------------------------------------------------------*/
 	}
 
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	form_detachCert()
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -979,6 +1013,8 @@ class AMIAuth
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
 
 	form_addUser(e)
 	{
@@ -1080,66 +1116,6 @@ class AMIAuth
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
-	}
-
-	#clean()
-	{
-		$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').trigger('reset');
-		$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').trigger('reset');
-		$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').trigger('reset');
-		$('#E92A1097_983B_4857_875F_07E4659B41B0').trigger('reset');
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Update the user information
-	 * @returns {$.Promise} A JQuery promise object
-	 */
-
-	update()
-	{
-		amiWebApp.lock();
-
-		return amiCommand.signInByCertificate().done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
-
-			this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(() => {
-
-				amiWebApp.unlock();
-			});
-		});
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	/**
-	 * Signs out
-	 */
-
-	signOut()
-	{
-		amiWebApp.lock();
-
-		return amiCommand.signOut().always((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
-
-			this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(() => {
-
-				amiWebApp.unlock();
-
-			}, (message) => {
-
-				amiWebApp.error(message);
-			});
-		});
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	sso()
-	{
-		this.#clean();
-
-		window.open(`${amiRouter.getOriginURL()}/docs/sso.html?url=${encodeURIComponent(this.#awfInfo.ssoAuthURL || '')}&realm=${encodeURIComponent(this.#awfInfo.ssoRealm || '')}&clientId=${encodeURIComponent(this.#awfInfo.ssoClientId || '')}`, 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = /*-----*/(i);
-							dict[sym2] = iterValue[i];
+							dict[sym1] = iterValue[i][0];
+							dict[sym2] = iterValue[i][1];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -31010,14 +31010,8 @@ var _clean = AMIAuth_classPrivateFieldLooseKey("clean");
 
 var AMIAuth = function () {
   function AMIAuth() {
-    Object.defineProperty(this, _clean, {
-      value: _clean2
-    });
     Object.defineProperty(this, _update, {
       value: _update2
-    });
-    Object.defineProperty(this, _setupAWF, {
-      value: _setupAWF2
     });
     Object.defineProperty(this, _flags, {
       writable: true,
@@ -31220,8 +31214,25 @@ var AMIAuth = function () {
     return roleName in AMIAuth_classPrivateFieldLooseBase(this, _roleInfo)[_roleInfo];
   };
 
+  _proto.update = function update() {
+    var _this2 = this;
+
+    js_AMIWebApp.lock();
+    return js_AMICommand.signInByCertificate().done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+      AMIAuth_classPrivateFieldLooseBase(_this2, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
+        js_AMIWebApp.unlock();
+      });
+    });
+  };
+
+  _proto.sso = function sso() {
+    AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
+
+    window.open(js_AMIRouter.getOriginURL() + "/docs/sso.html?url=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL || '') + "&realm=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoRealm || '') + "&clientId=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || ''), 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+  };
+
   _proto.signIn = function signIn() {
-    AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
+    AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     if (AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags].captchaAllowed) {
       js_AMICommand.execute('GenerateCaptcha').then(function (data) {
@@ -31240,20 +31251,33 @@ var AMIAuth = function () {
     }
   };
 
+  _proto.signOut = function signOut() {
+    var _this3 = this;
+
+    js_AMIWebApp.lock();
+    return js_AMICommand.signOut().always(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+      AMIAuth_classPrivateFieldLooseBase(_this3, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function () {
+        js_AMIWebApp.unlock();
+      }, function (message) {
+        js_AMIWebApp.error(message);
+      });
+    });
+  };
+
   _proto.changeInfo = function changeInfo() {
-    AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
+    AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     $('#D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD').modal('show');
   };
 
   _proto.changePass = function changePass() {
-    AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
+    AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     $('#E92A1097_983B_4857_875F_07E4659B41B0').modal('show');
   };
 
   _proto.accountStatus = function accountStatus() {
-    AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
+    AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     $('#AB1CB183_96EB_4116_8A9E_4409BE058F34').modal('show');
   };
@@ -31265,12 +31289,12 @@ var AMIAuth = function () {
   };
 
   _proto.form_login2 = function form_login2(user, pass) {
-    var _this2 = this;
+    var _this4 = this;
 
     var promise = user && pass ? js_AMICommand.signInByPassword(user.trim(), pass.trim()) : js_AMICommand.signInByCertificate();
     js_AMIWebApp.lock();
     promise.then(function (data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this2, _update)[_update](userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).then(function () {
+      AMIAuth_classPrivateFieldLooseBase(_this4, _update)[_update](userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).then(function () {
         if ((userInfo.AMIUser || 'guest') !== (userInfo.guestUser || 'guest')) {
           $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
           js_AMIWebApp.unlock();
@@ -31292,7 +31316,7 @@ var AMIAuth = function () {
         js_AMIWebApp.error(_message);
       }
     }, function (data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this2, _update)[_update](userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).always(function () {
+      AMIAuth_classPrivateFieldLooseBase(_this4, _update)[_update](userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).always(function () {
         js_AMIWebApp.error(message);
       });
     });
@@ -31377,36 +31401,6 @@ var AMIAuth = function () {
     });
   };
 
-  _proto.update = function update() {
-    var _this3 = this;
-
-    js_AMIWebApp.lock();
-    return js_AMICommand.signInByCertificate().done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this3, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
-        js_AMIWebApp.unlock();
-      });
-    });
-  };
-
-  _proto.signOut = function signOut() {
-    var _this4 = this;
-
-    js_AMIWebApp.lock();
-    return js_AMICommand.signOut().always(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-      AMIAuth_classPrivateFieldLooseBase(_this4, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).then(function () {
-        js_AMIWebApp.unlock();
-      }, function (message) {
-        js_AMIWebApp.error(message);
-      });
-    });
-  };
-
-  _proto.sso = function sso() {
-    AMIAuth_classPrivateFieldLooseBase(this, _clean)[_clean]();
-
-    window.open(js_AMIRouter.getOriginURL() + "/docs/sso.html?url=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL || '') + "&realm=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoRealm || '') + "&clientId=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || ''), 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
-  };
-
   return AMIAuth;
 }();
 
@@ -31423,9 +31417,10 @@ function _setupAWF2(awfInfo) {
 
 function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
   var result = $.Deferred();
-  awfInfo = AMIAuth_classPrivateFieldLooseBase(this, _setupAWF)[_setupAWF](awfInfo);
-  var user = userInfo.AMIUser || 'guest';
-  var guest = userInfo.guestUser || 'guest';
+  awfInfo = AMIAuth_classPrivateFieldLooseBase(AMIAuth, _setupAWF)[_setupAWF](awfInfo);
+  $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !userInfo.clientDNInSession || !userInfo.issuerDNInSession);
+  $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', awfInfo.privacyPolicy || js_AMIWebApp.originURL + '/docs/privacy_policy.html');
+  $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', awfInfo.privacyPolicy || js_AMIWebApp.originURL + '/docs/privacy_policy.html');
 
   var dict = _extends({}, AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags], {
     userInfo: AMIAuth_classPrivateFieldLooseBase(this, _userInfo)[_userInfo] = userInfo,
@@ -31435,36 +31430,20 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
     awfInfo: AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo] = awfInfo
   });
 
+  var user = userInfo.AMIUser || 'guest';
+  var guest = userInfo.guestUser || 'guest';
+
   if (user !== guest) {
-    var button = __webpack_require__(4045)("./v" + js_AMIWebApp.bootstrapVersion + "/sign_out_button.twig");
-
-    js_AMIWebApp.replaceHTML('#ami_login_menu_content', button, {
-      dict: dict
-    }).done(function () {
-      triggerLogin().then(function () {
-        result.resolve();
-      }, function (message) {
-        result.reject(message);
-      });
-    });
-
-    var _user = userInfo.AMIUser || 'guest';
-
-    var _guest = userInfo.guestUser || 'guest';
-
-    var notBefore = userInfo.notBefore || '';
-    var notAfter = userInfo.notAfter || '';
-    var clientDNInSession = userInfo.clientDNInSession || '';
-    var issuerDNInSession = userInfo.issuerDNInSession || '';
-    $('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !clientDNInSession || !issuerDNInSession);
-    $('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', dashboardInfo.termsAndConditions || js_AMIWebApp.originURL + '/docs/terms_and_conditions.html');
-    $('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', dashboardInfo.termsAndConditions || js_AMIWebApp.originURL + '/docs/terms_and_conditions.html');
-    var valid = userInfo.valid || 'false';
     var firstName = userInfo.firstName || '';
     var lastName = userInfo.lastName || '';
     var email = userInfo.email || '';
+    var notBefore = userInfo.notBefore || '';
+    var notAfter = userInfo.notAfter || '';
     var clientDNInAMI = userInfo.clientDNInAMI || '';
     var issuerDNInAMI = userInfo.issuerDNInAMI || '';
+    var clientDNInSession = userInfo.clientDNInSession || '';
+    var issuerDNInSession = userInfo.issuerDNInSession || '';
+    var valid = userInfo.valid || 'false';
     $('#E513F27D_5521_4B08_BF61_52AFB81356F7').val(firstName);
     $('#AFF0B5C0_BEEC_4842_916D_DCBA7F589195').val(lastName);
     $('#C587486B_62C0_4B6E_9288_D8F9F89D157B').val(email);
@@ -31479,16 +31458,16 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
 
     for (var role in roleInfo) {
       table.push('<tr>');
-      table.push('<td>' + js_AMIWebApp.textToHtml(roleInfo[role].name || 'N/A') + '</td>');
-      table.push('<td>' + js_AMIWebApp.textToHtml(roleInfo[role].description || 'N/A') + '</td>');
+      table.push("<td>" + js_AMIWebApp.textToHtml(roleInfo[role].name || 'N/A') + "</td>");
+      table.push("<td>" + js_AMIWebApp.textToHtml(roleInfo[role].description || 'N/A') + "</td>");
       table.push('</tr>');
     }
 
     $('#BB07676B_EACA_9B42_ED51_477DB2976041').html(table.join(''));
     var icon = '';
     var message = '';
-    var bgColor = '';
-    var fgColor = '';
+    var bgColor;
+    var fgColor;
 
     if (valid !== 'false') {
       if (!AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags].ssoAutoAuthentication) {
@@ -31499,11 +31478,10 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
 
       if (message) {
         $('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html("<i class=\"fa fa-info-circle text-warning\"></i> " + message);
-        icon = "<a class=\"nav-link text-warning\" href=\"javascript:amiLogin.accountStatus();\">\n\t\t\t\t\t\t\t\t<i class=\"fa fa-info-circle\"></i>\n\t\t\t\t\t\t\t</a>";
+        icon = "\n<a class=\"nav-link text-warning\" href=\"javascript:amiLogin.accountStatus();\">\n\t<i class=\"fa fa-info-circle\"></i>\n</a>";
       }
 
-      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', "#B8D49B url(\"" + certificate_green + "\") no-repeat center center").css('background-size', 'cover');
-      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400').html('<i class="fa fa-leaf"></i> valid <i class="fa fa-leaf"></i>');
+      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400').html('<i class="fa fa-leaf"></i> valid <i class="fa fa-leaf"></i>').closest('.rounded').css('background', "#B8D49B url(\"" + certificate_green + "\") no-repeat center center").css('background-size', 'cover');
       $('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + " - " + notAfter);
       bgColor = '#B8D49B';
       fgColor = '#006400';
@@ -31514,11 +31492,10 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
 
       if (message) {
         $('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html("<i class=\"fa fa-info-circle text-danger\"></i> " + message);
-        icon = "<a class=\"nav-link text-danger\" href=\"javascript:amiAuth.accountStatus();\">\n\t\t\t\t\t\t\t\t<i class=\"fa fa-info-circle\"></i>\n\t\t\t\t\t\t\t</a>";
+        icon = "\n<a class=\"nav-link text-danger\" href=\"javascript:amiAuth.accountStatus();\">\n\t<i class=\"fa fa-info-circle\"></i>\n</a>";
       }
 
-      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').closest('.rounded').css('background', "#E8C8CF url(\"" + certificate_pink + "\") no-repeat center center").css('background-size', 'cover');
-      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#DC3545').html('<i class="fa fa-leaf"></i> invalid <i class="fa fa-leaf"></i>');
+      $('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#DC3545').html('<i class="fa fa-leaf"></i> invalid <i class="fa fa-leaf"></i>').closest('.rounded').css('background', "#E8C8CF url(\"" + certificate_pink + "\") no-repeat center center").css('background-size', 'cover');
       $('#E91280F6_E7C6_3E53_A457_646995C99317').text(notBefore + " - " + notAfter);
       bgColor = '#E8C8CF';
       fgColor = '#DC3545';
@@ -31530,12 +31507,15 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       size: 150,
       fill: fgColor,
       background: bgColor,
-      text: _user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI,
+      text: user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI,
       radius: 0,
       quiet: 1
     });
-    dict['user'] = _user;
+    dict['user'] = user;
     dict['icon'] = icon;
+
+    var button = __webpack_require__(4045)("./v" + js_AMIWebApp.bootstrapVersion + "/sign_out_button.twig");
+
     js_AMIWebApp.replaceHTML('#ami_login_menu_content', button, {
       dict: dict
     }).done(function () {
@@ -31569,6 +31549,12 @@ function _clean2() {
   $('#E92A1097_983B_4857_875F_07E4659B41B0').trigger('reset');
 }
 
+Object.defineProperty(AMIAuth, _clean, {
+  value: _clean2
+});
+Object.defineProperty(AMIAuth, _setupAWF, {
+  value: _setupAWF2
+});
 /* harmony default export */ const js_AMIAuth = (new AMIAuth());
 ;// CONCATENATED MODULE: ./src/js/utilities/subapps.js
 
@@ -32531,6 +32517,20 @@ var AMIWebApp = function () {
         "desc": ""
       }]
     }, {
+      "name": "update",
+      "alias": "",
+      "desc": "Update the user information",
+      "params": [],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "signOut",
+      "alias": "",
+      "desc": "Signs out",
+      "params": []
+    }, {
       "name": "changeInfo",
       "alias": "",
       "desc": "Opens the 'Change Info' modal window",
@@ -32544,20 +32544,6 @@ var AMIWebApp = function () {
       "name": "accountStatus",
       "alias": "",
       "desc": "Opens the 'Account Status' modal window",
-      "params": []
-    }, {
-      "name": "update",
-      "alias": "",
-      "desc": "Update the user information",
-      "params": [],
-      "returns": [{
-        "type": ["$.Promise"],
-        "desc": "A JQuery promise object"
-      }]
-    }, {
-      "name": "signOut",
-      "alias": "",
-      "desc": "Signs out",
       "params": []
     }]
   }, {
