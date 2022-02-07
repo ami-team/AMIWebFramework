@@ -139,8 +139,9 @@ class AMIAuth
 		const changeInfoModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_info_modal.twig`);
 		const changePassModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_pass_modal.twig`);
 		const accountStatusModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/account_status_modal.twig`);
+		const updateCertificateModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/update_certificate.twig`);
 
-		amiWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + accountStatusModal, {dict: this.#flags}).done(() => {
+		amiWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + accountStatusModal + updateCertificateModal, {dict: this.#flags}).done(() => {
 
 			/*----------------------------------------------------------------------------------------------------*/
 
@@ -168,6 +169,12 @@ class AMIAuth
 
 				this.form_changePass(e);
 			});
+
+			$('#ECB92A89_A706_7C76_E248_E57D14C8B205').submit((e) => {
+
+				this.form_updateCertificate(e);
+			});
+
 
 			/*----------------------------------------------------------------------------------------------------*/
 
@@ -375,6 +382,26 @@ class AMIAuth
 			$('#C76805D7_1E86_4231_9071_1D04783423BB').val(clientDNInSession);
 			$('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
 			$('#FE2F6232_C256_4B80_939C_EBEC90320308').val(issuerDNInSession);
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			if(!issuerDNInAMI && !clientDNInAMI) {
+				$('#F9652167_40D2_E8A0_F00B_FABA8E490E54').hide();
+			} else {
+				$('#F9652167_40D2_E8A0_F00B_FABA8E490E54').show();
+				$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text(issuerDNInAMI);
+				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text(clientDNInAMI);
+			}
+
+			if(issuerDNInSession && clientDNInSession) {
+				$('#A81B2279_2AFC_F19C_E4C9_BFB97D48F967').show();
+				$('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').text(issuerDNInSession);
+				$('#A962ED59_DB71_C10C_6173_3615C6F48028').text(clientDNInSession);
+			}
+
+			if(issuerDNInAMI === issuerDNInSession && clientDNInAMI === clientDNInSession) {
+				$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').hide();
+			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -880,6 +907,16 @@ class AMIAuth
 		$('#AB1CB183_96EB_4116_8A9E_4409BE058F34').modal('show');
 	}
 
+	/**
+	 * Opens the 'Update certificate' modal window
+	 */
+
+	updateCertificate() {
+		AMIAuth.#clean();
+
+		$('#ECB92A89_A706_7C76_E248_E57D14C8B205').modal('show');
+	}
+
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	form_login(e)
@@ -956,8 +993,8 @@ class AMIAuth
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
-		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val() || $('#D75BFCC1_B2F1_9599_B1AB_F2FF096631AA').val();
+		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val() || $('#C72E51F1_FAF2_CB6B_0AAF_B312A4D378C1').val();
 
 		if(!user || !pass)
 		{
@@ -974,6 +1011,11 @@ class AMIAuth
 
 			amiWebApp.success(message);
 
+			$('#A81B2279_2AFC_F19C_E4C9_BFB97D48F967').hide();
+			$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text(this.#userInfo.issuerDNInSession);
+			$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text(this.#userInfo.clientDNInSession);
+			$('#F9652167_40D2_E8A0_F00B_FABA8E490E54').show();
+
 		}, (data, message) => {
 
 			amiWebApp.error(message);
@@ -988,8 +1030,8 @@ class AMIAuth
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val();
-		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val();
+		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val() || $('#D75BFCC1_B2F1_9599_B1AB_F2FF096631AA').val();
+		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val() || $('#C72E51F1_FAF2_CB6B_0AAF_B312A4D378C1').val();
 
 		if(!user || !pass)
 		{
@@ -1005,6 +1047,13 @@ class AMIAuth
 		return amiCommand.detachCertificate(user, pass).then((data, message) => {
 
 			amiWebApp.success(message);
+
+			$('#F9652167_40D2_E8A0_F00B_FABA8E490E54').hide();
+			$('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').text(this.#userInfo.issuerDNInSession);
+			$('#A962ED59_DB71_C10C_6173_3615C6F48028').text(this.#userInfo.clientDNInSession);
+			$('#A81B2279_2AFC_F19C_E4C9_BFB97D48F967').show();
+
+			$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').show();
 
 		}, (data, message) => {
 

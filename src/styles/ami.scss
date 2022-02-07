@@ -123,3 +123,25 @@ input.form-time-hm {
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
+
+.card-certificate {
+	&.card-body {
+		border: 2px dashed rgb(206, 212, 218);
+		transition: all .3s ease-in-out;
+	}
+
+	i {
+		font-size: 2rem;
+		transition: transform .3s ease-in-out;
+	}
+
+	&:hover {
+		cursor: pointer;
+		border-color: #0d6efd;
+		background-color: #f4f4f4;
+
+		i {
+			transform: scale(1.5);
+		}
+	}
+}
