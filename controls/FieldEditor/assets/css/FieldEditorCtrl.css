@@ -1,0 +1,24 @@
+.field-edit [data-action="edit-row"]:hover {
+
+	background-color: rgb(248, 215, 218);
+	border-radius: 0.25rem;
+	cursor: pointer;
+}
+
+#A8572167_6898_AD6F_8EAD_9D4E2AEB3550 .nav-tabs,
+#F44687A3_036C_9C77_3284_DD495D9F4D7D .nav-tabs {
+
+	border-bottom: 0px;
+	margin-bottom: 1px;
+}
+
+#A8572167_6898_AD6F_8EAD_9D4E2AEB3550 .nav-link,
+#F44687A3_036C_9C77_3284_DD495D9F4D7D .nav-link {
+
+	padding: 0px 4px;
+}
+
+#A8572167_6898_AD6F_8EAD_9D4E2AEB3550 .form-control {
+
+	border-top-right-radius: 0;
+}

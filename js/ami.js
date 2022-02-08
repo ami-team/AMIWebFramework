@@ -18204,8 +18204,8 @@ amiTwig.engine = {
 
 						for(const i in iterValue)
 						{
-							dict[sym1] = /*-----*/(i);
-							dict[sym2] = iterValue[i];
+							dict[sym1] = iterValue[i][0];
+							dict[sym2] = iterValue[i][1];
 
 							dict.loop.first = (k === (0 - 0));
 							dict.loop.last = (k === (l - 1));
@@ -32285,6 +32285,10 @@ var AMIWebApp = function () {
   }
 
   var _proto = AMIWebApp.prototype;
+
+  _proto.isEmbedded = function isEmbedded() {
+    return AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded];
+  };
 
   _proto.onReady = function onReady(userdata) {
     if (!AMIWebApp_classPrivateFieldLooseBase(this, _embedded)[_embedded]) {

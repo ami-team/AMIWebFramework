@@ -1,0 +1,150 @@
+{% for info in fieldInfo %}
+{%   if ((filter is not empty) and (info.field === filter)) or ((filter is empty) and (info.field !== primaryField)) %}
+
+{%     set rand = random() %}
+{%     set name = info.field %}
+{%     set type = info.type %}
+{%     set nullable = (info.nullable === 'true') %}
+
+{%     set value = values[info.field] or info.def %}
+
+{#     -------------------------------------------------------------------------------------------------------------- #}
+{%     if info.media !== 'false' %}
+{#     -------------------------------------------------------------------------------------------------------------- #}
+media {{info.media}}
+{#     -------------------------------------------------------------------------------------------------------------- #}
+{%     else %}
+{#     -------------------------------------------------------------------------------------------------------------- #}
+
+{%       set ctx = {"doCustomLabel": false, "doCustomInput": false, "doCustomHTML": false} %}
+
+{%       if hasCustomLabels %}
+{%         set _label = include('customLabels') %}
+{%       endif %}
+
+{%       if hasCustomInputs %}
+{%         set _input = include('customInputs') %}
+{%       endif %}
+
+{%       if hasCustomHTMLs %}
+{%         set _html = include('customHTMLs') %}
+{%       endif %}
+
+{#       ------------------------------------------------------------------------------------------------------------ #}
+{%       if ctx.doCustomInput %}
+{#       ------------------------------------------------------------------------------------------------------------ #}
+<div class="mb-2 row">
+
+	{% if ctx.doCustomLabel %}
+	{{ _label }}
+	{% else %}
+	<label class="col-sm-3 col-form-label" for="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{name|e}}</label>
+	{% endif %}
+
+	{{ _input }}
+
+	{% if ctx.doCustomHTML %}
+	{{ _html }}
+	{% endif %}
+
+</div>
+{#       ------------------------------------------------------------------------------------------------------------ #}
+{%       else %}
+{#       ------------------------------------------------------------------------------------------------------------ #}
+<ul class="nav nav-tabs ami-field-list-type" role="tablist">
+    {% if nullable %}
+	<li class="nav-item m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-auto">
+		<div class="nav-link{% if value === '@NULL' %} active{% endif %}" role="tab">
+			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changeamitype" data-ami-type="@NULL" data-sql-type="{{info.type|e}}">
+				NULL
+			</a>
+		</div>
+	</li>
+	{% endif %}
+	<li class="nav-item {% if nullable %}m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-xxxx{% else %}m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-auto{% endif %}">
+		<div class="nav-link{% if value !== '@NULL' %} active{% endif %}" role="tab">
+			<a href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-action="changeamitype" data-ami-type="{{type}}" data-sql-type="{{info.type|e}}">
+				{% if     type === 'BOOL'%}
+				Boolean
+				{% elseif type === 'INT' %}
+				Integer
+				{% elseif type === 'REAL' %}
+				Real
+				{% elseif type === 'TIMESTAMP' %}
+				Timestamp
+				{% elseif type === 'DATE' %}
+				Date
+				{% elseif type === 'TIME' %}
+				Time
+				{% elseif type starts with 'ENUM' %}
+				Enum
+				{% elseif type === 'LONGTEXT' %}
+				Long text
+				{% elseif type === 'TEXT' %}
+				Short text
+				{% endif %}
+			</a>
+			<a class="dropdown-toggle" href="#" data-toggle="dropdown"></a>
+			<div class="dropdown-menu">
+				<a class="dropdown-item{% if type === 'BOOL' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="BOOL" data-sql-type="{{info.type|e}}">Boolean</a>
+				<a class="dropdown-item{% if type === 'INT' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="INT" data-sql-type="{{info.type|e}}">Integer</a>
+				<a class="dropdown-item{% if type === 'REAL' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="REAL" data-sql-type="{{info.type|e}}">Real</a>
+				<a class="dropdown-item{% if type === 'TIMESTAMP' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TIMESTAMP" data-sql-type="{{info.type|e}}">Timestamp</a>
+				<a class="dropdown-item{% if type === 'DATE' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="DATE" data-sql-type="{{info.type|e}}">Date</a>
+				<a class="dropdown-item{% if type === 'TIME' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TIME" data-sql-type="{{info.type|e}}">Time</a>
+				<a class="dropdown-item{% if type starts with 'ENUM' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="ENUM" data-sql-type="{{info.type|e}}">Enum</a>
+				<a class="dropdown-item{% if type === 'LONGTEXT' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="LONGTEXT" data-sql-type="{{info.type|e}}">Long text</a>
+				<a class="dropdown-item{% if type === 'TEXT' %} active{% endif %}" href="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" role="tab" data-action="changeamitype" data-ami-type="TEXT" data-sql-type="{{info.type|e}}">Short text</a>
+			</div>
+		</div>
+	</li>
+</ul>
+
+<div class="form-group mb-1 row">
+
+	{% if ctx.doCustomLabel %}
+	{{ _label }}
+	{% else %}
+	<label class="col-sm-3 col-form-label" for="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{name|e}}</label>
+	{% endif %}
+
+	<div class="col-sm-9">
+		{% if nullable and value === '@NULL' %}
+		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" readonly="readonly" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		{% elseif type === 'BOOL' %}
+		<select class="custom-select custom-select-sm" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">
+			<option value="0" {% if value === '0' %}selected="selected"{% endif %}>0</option>
+			<option value="1" {% if value !== '0' %}selected="selected"{% endif %}>1</option>
+		</select>
+		{% elseif type === 'INT' %}
+		<input class="form-control form-control-sm" type="number" name="{{name|e}}" value="{{value|e}}" step="1" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		{% elseif type === 'REAL' %}
+		<input class="form-control form-control-sm" type="number" name="{{name|e}}" value="{{value|e}}" step="any" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		{% elseif type === 'TIMESTAMP' %}
+		<input class="form-control form-control-sm form-datetime" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		{% elseif type === 'DATE' %}
+		<input class="form-control form-control-sm form-date" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		{% elseif type === 'TIME' %}
+		<input class="form-control form-control-sm form-time" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		{% elseif type starts with 'ENUM' %}
+		<select class="custom-select custom-select-sm" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{ getAMITypeToEnumOptions(info.type, value) }}</select>
+		{% elseif type === 'LONGTEXT' %}
+		<textarea class="form-control form-control-sm" name="{{name|e}}" rows="6" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{value|e}}</textarea>
+		{% elseif type === 'TEXT' %}
+		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
+		{% endif %}{{ cnt }}
+	</div>
+
+	{% if ctx.doCustomHTML %}
+	{{ _html }}
+	{% endif %}
+
+</div>
+{#       ------------------------------------------------------------------------------------------------------------ #}
+{%       endif %}
+{#       ------------------------------------------------------------------------------------------------------------ #}
+{#     -------------------------------------------------------------------------------------------------------------- #}
+{%     endif %}
+{#     -------------------------------------------------------------------------------------------------------------- #}
+{%   endif %}
+{% endfor %}

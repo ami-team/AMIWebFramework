@@ -32,7 +32,7 @@ $AMIClass('TableViewerApp', {
 		const result = $.Deferred();
 
 		amiWebApp.loadResources([
-			'ctrl:datatable',
+			'ctrl:table',
 		]).done((data) => {
 
 			amiWebApp.replaceHTML('#ami_main_content', twigTableViewerApp).done(() => {
@@ -84,7 +84,9 @@ $AMIClass('TableViewerApp', {
 
 		if(this.ctx.catalog && this.ctx.entity)
 		{
-			this._table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', (this.ctx.command || '').trim() || `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -mql="SELECT `*` WHERE ${amiWebApp.textToString((this.ctx.expression || '').trim() || '1 = 1')}"`, this.ctx).done(() => {
+			let cmd = (this.ctx.command || '').trim() || `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -mql="SELECT * WHERE ${amiWebApp.textToString((this.ctx.expression || '').trim() || '1 = 1')}"`;
+			//this._table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', (this.ctx.command || '').trim() || `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -mql="SELECT `*` WHERE ${amiWebApp.textToString((this.ctx.expression || '').trim() || '1 = 1')}"`, this.ctx).done(() => {
+			this._table.render('#A2944C0A_9249_E4D2_3679_494C1A3AAAF0', cmd, this.ctx).done(() => {
 
 				amiWebApp.flush();
 
