@@ -1,0 +1,18 @@
+<div class="card pull-left m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 mt-2 align-self-start" id="C12133EC_2A38_3545_0685_974260DCC950_Q{{cnt}}" style="min-width: 285px;">
+	<div class="card-header d-flex justify-content-between align-items-center px-2 py-1">
+		<div>
+			<span class="text-success">Q{{cnt}}</span>: {{name|e}}
+		</div>
+		<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
+	</div>
+	<div class="card-body text-center" style="padding: 0.5rem;">
+		<span class="switch switch-sm switch-on-primary switch-off-secondary">
+			<input type="checkbox" id="ACC12068_1831_2272_F2EF_E6FC1125E1E4_Q{{cnt}}"{% if more.init_value[0] === more.on %} checked="checked"{% endif %} />
+			<label for="ACC12068_1831_2272_F2EF_E6FC1125E1E4_Q{{cnt}}">
+				<span class="text-secondary">{{ more.off | default('false') }}</span>
+				/
+				<span class="text-primary">{{ more.on | default('true') }}</span>
+			</label>
+		</span>
+	</div>
+</div>

@@ -1,0 +1,31 @@
+<div class="card pull-left m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 mt-2 align-self-start" id="C12133EC_2A38_3545_0685_974260DCC950_Q{{cnt}}" style="min-width: 285px;">
+	<div class="card-header d-flex justify-content-between align-items-center px-2 py-1">
+		<div>
+			<span class="text-success">Q{{cnt}}</span>: {{name|e}}
+		</div>
+		<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
+		<span class="switch switch-sm switch-on-primary switch-off-secondary float-{% if BOOTSTRAP_VERSION > 4 %}end{% else %}right{% endif %}">
+			<input type="checkbox" id="F85E166D-2527-752B-C6A2-C0222A41E4F1_Q{{cnt}}" />
+			<label for="F85E166D-2527-752B-C6A2-C0222A41E4F1_Q{{cnt}}">
+				<span class="text-secondary">IN</span>
+				/
+				<span class="text-primary">! IN</span>
+			</label>
+		</span>
+	</div>
+	<div class="card-body" style="padding: 0.5rem;">
+		<table style="width: 100%;">
+			<tr class="mb-2">
+				<td><label for="AF5A97D2_E1E1_CED6_F4B0_31C1127CB96A_Q{{cnt}}">Min:</label>&nbsp;</td>
+				<td><input type="number" step="any" class="form-control form-control-sm min" id="AF5A97D2_E1E1_CED6_F4B0_31C1127CB96A_Q{{cnt}}" /></td>
+			</tr>
+			<tr class="mb-2">
+				<td><label for="D653324C_887D_9766_B0C8_E9D5E5B7D8B4_Q{{cnt}}">Max:</label>&nbsp;</td>
+				<td><input type="number" step="any" class="form-control form-control-sm max" id="D653324C_887D_9766_B0C8_E9D5E5B7D8B4_Q{{cnt}}" /></td>
+			</tr>
+		</table>
+		<div class="text-{% if BOOTSTRAP_VERSION > 4 %}end{% else %}right{% endif %}">
+			<a href="#" class="set">set</a> - <a href="#" class="reset">reset</a>
+		</div>
+	</div>
+</div>

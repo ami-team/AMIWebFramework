@@ -1,0 +1,45 @@
+<script type="text/javascript" src="{{ORIGIN_URL}}/js/ami.min.js?embedded"></script>
+
+<script type="text/javascript">
+
+	var mySearch;
+
+	amiWebApp.onRefresh = function(isAuth) {
+
+		if(isAuth)
+		{
+			mySearch.render('#mySearch', {
+				name: '{{name|e('js')}}',
+				defaultCatalog: '{{defaultCatalog|e('js')}}',
+				defaultEntity: '{{defaultEntity|e('js')}}',
+				defaultField: '{{defaultField|e('js')}}',
+				defaultPrimaryField: '{{defaultPrimaryField|e('js')}}',
+				defaultSelect: '{{defaultSelect|e('js')}}',
+				defaultOrderBy: '{{defaultOrderBy|e('js')}}',
+				defaultOrderWay: '{{defaultOrderWay|e('js')}}',
+				criteria: {{criteria|json_encode(0)}},
+				more: {{more|json_encode(0)}},
+				canEdit: {{canEdit}},
+			});
+		}
+		else
+		{
+			$('#mySearch').empty();
+		}
+	};
+
+	amiWebApp.onReady = function() {
+
+		return amiWebApp.loadResources(['ctrl:search']).done(function(ctrls) {
+
+			mySearch = new ctrls[0];
+		});
+	};
+
+	amiWebApp.start({
+		endpoint_url: '{{endpoint}}'
+	});
+
+</script>
+
+<div id="mySearch"></div>

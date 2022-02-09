@@ -1,7 +1,7 @@
 {% if listOfRowSetName.length > 1 %}
 <ul class="nav nav-tabs" role="tablist" style="margin-bottom: -1px;">
 	{% for rowSetName in listOfRowSetName %}
-	<li class="nav-item"><a class="nav-link px-2 py-1 {% if loop.index0 === currentTabIndex %}active{% else %}xxxxx{% endif %}" href="#CC05FC77_9364_97FB_E575_BE8190DCC295_{{loop.index0}}" role="tab" data-toggle="tab" data-tab-index="{{loop.index0}}">{{rowSetName|e}}</a></li>
+	<li class="nav-item"><a class="nav-link px-2 py-1 {% if loop.index0 === currentTabIndex %}active{% else %}xxxxx{% endif %}" href="#CC05FC77_9364_97FB_E575_BE8190DCC295_{{loop.index0}}" role="tab" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="tab" data-tab-index="{{loop.index0}}">{{rowSetName|e}}</a></li>
 	{% endfor %}
 </ul>
 {% endif %}
@@ -39,7 +39,7 @@
 					{%     if not (fieldDescription['@field'] in ignoredFields) and not (fieldDescription['@hidden'] === 'true') %}
 					<th class="text-center">
 						<a href="#" class="text-secondary" data-orderway="DESC" data-row-name="{{fieldDescription['@field']|e}}" data-row-label="{{fieldDescription['@label']|e}}"><i class="bi bi-chevron-down"></i></a>
-						<span class="text-primary"{% if fieldDescription['$'] is not empty and fieldDescription['$'] !== 'N/A' %} data-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{fieldDescription['@label']|e}}</span>
+						<span class="text-primary"{% if fieldDescription['$'] is not empty and fieldDescription['$'] !== 'N/A' %} data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="tooltip" data-title="{{fieldDescription['$']|e}}"{% endif %}>{{fieldDescription['@label']|e}}</span>
 						<a href="#" class="text-secondary" data-orderway="ASC" data-row-name="{{fieldDescription['@field']|e}}" data-row-label="{{fieldDescription['@label']|e}}"><i class="bi bi-chevron-up"></i></a>
 						{% if showTools %}
 						<br />

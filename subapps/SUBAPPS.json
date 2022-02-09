@@ -28,10 +28,10 @@
         "instance": "documentApp"
     },
     "elementInfoViewer": {
-		"breadcrumb": [
-			"Metadata",
-			"<a href=\"{{WEBAPP_URL}}?subapp=elementInfoViewer\">Element Info Viewer</a>"
-		],
+        "breadcrumb": [
+            "Metadata",
+            "<a href=\"{{WEBAPP_URL}}?subapp=elementInfoViewer\">Element Info Viewer</a>"
+        ],
         "file": "subapps/ElementInfoViewer/ElementInfoViewerApp.min.js",
         "instance": "elementInfoViewerApp"
     },
@@ -51,11 +51,19 @@
         "file": "subapps/ResetPassword/ResetPasswordApp.min.js",
         "instance": "resetPasswordApp"
     },
-    "tableViewer": {
+    "search": {
 		"breadcrumb": [
 			"Metadata",
-			"<a href=\"{{WEBAPP_URL}}?subapp=tableViewer\">Table Viewer</a>"
+			"<a href=\"{{WEBAPP_URL}}?subapp=search\">Search</a>"
 		],
+        "file": "subapps/Search/SearchApp.min.js",
+        "instance": "searchApp"
+    },
+    "tableViewer": {
+        "breadcrumb": [
+            "Metadata",
+            "<a href=\"{{WEBAPP_URL}}?subapp=tableViewer\">Table Viewer</a>"
+        ],
         "file": "subapps/TableViewer/TableViewerApp.min.js",
         "instance": "tableViewerApp"
     },
