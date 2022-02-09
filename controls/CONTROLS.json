@@ -31,6 +31,10 @@
         "clazz": "ElementInfoCtrl",
         "file": "controls/ElementInfo/ElementInfoCtrl.min.js"
     },
+    "fieldEditor": {
+        "clazz": "FieldEditorCtrl",
+        "file": "controls/FieldEditor/FieldEditorCtrl.min.js"
+    },
     "tab": {
         "clazz": "TabCtrl",
         "file": "controls/Tab/TabCtrl.min.js"
@@ -42,5 +46,9 @@
     "textBox": {
         "clazz": "TextBoxCtrl",
         "file": "controls/TextBox/TextBoxCtrl.min.js"
+    },
+    "unitEditor": {
+        "clazz": "UnitEditorCtrl",
+        "file": "controls/UnitEditor/UnitEditorCtrl.min.js"
     }
 }
