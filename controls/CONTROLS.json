@@ -43,6 +43,10 @@
         "clazz": "SearchCtrl",
         "file": "controls/Search/SearchCtrl.min.js"
     },
+    "simpleSearch": {
+        "clazz": "SimpleSearchCtrl",
+        "file": "controls/SimpleSearch/SimpleSearchCtrl.min.js"
+    },
     "tab": {
         "clazz": "TabCtrl",
         "file": "controls/Tab/TabCtrl.min.js"

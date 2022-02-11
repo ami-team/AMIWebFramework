@@ -52,6 +52,7 @@ const config = {
 		'controls/FieldEditor/FieldEditorCtrl': path.resolve(__dirname, 'controls/FieldEditor/FieldEditorCtrl.es6.js'),
 		'controls/Graph/GraphCtrl': path.resolve(__dirname, 'controls/Graph/GraphCtrl.es6.js'),
 		'controls/Search/SearchCtrl': path.resolve(__dirname, 'controls/Search/SearchCtrl.es6.js'),
+		'controls/SimpleSearch/SimpleSearchCtrl': path.resolve(__dirname, 'controls/SimpleSearch/SimpleSearchCtrl.es6.js'),
 		'controls/Tab/TabCtrl': path.resolve(__dirname, 'controls/Tab/TabCtrl.es6.js'),
 		'controls/Table/TableCtrl': path.resolve(__dirname, 'controls/Table/TableCtrl.es6.js'),
 		'controls/TextBox/TextBoxCtrl': path.resolve(__dirname, 'controls/TextBox/TextBoxCtrl.es6.js'),
@@ -64,6 +65,7 @@ const config = {
 		'subapps/Emergency/EmergencyApp': path.resolve(__dirname, 'subapps/Emergency/EmergencyApp.es6.js'),
 		'subapps/ResetPassword/ResetPasswordApp': path.resolve(__dirname, 'subapps/ResetPassword/ResetPasswordApp.es6.js'),
 		'subapps/Search/SearchApp': path.resolve(__dirname, 'subapps/Search/SearchApp.es6.js'),
+		'subapps/SimpleSearch/SimpleSearchApp': path.resolve(__dirname, 'subapps/SimpleSearch/SimpleSearchApp.es6.js'),
 		'subapps/TableViewer/TableViewerApp': path.resolve(__dirname, 'subapps/TableViewer/TableViewerApp.es6.js'),
 		'subapps/UserDashboard/UserDashboardApp': path.resolve(__dirname, 'subapps/UserDashboard/UserDashboardApp.es6.js')
 	},

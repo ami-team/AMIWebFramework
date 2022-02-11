@@ -182,7 +182,7 @@ $AMIClass('GraphCtrl', {
 
 		svg.find('a[data-title-icon]').each((i, el) => {
 
-			$('<tspan font-family="FontAwesome">' + String.fromCharCode('0x' + $(el).attr('data-title-icon')) + '</tspan><tspan> </tspan>').prependTo($(el).find('text'));
+			$('<tspan font-family="bootstrap-icons" class="align-items-center">' + String.fromCharCode('0x' + $(el).attr('data-title-icon').replace(/f1f8/,'f5dd')) + '</tspan><tspan> </tspan>').prependTo($(el).find('text'));
 		});
 
 		this.graph = doc.documentElement.outerHTML;

@@ -52,12 +52,17 @@
         "instance": "resetPasswordApp"
     },
     "search": {
-		"breadcrumb": [
-			"Metadata",
-			"<a href=\"{{WEBAPP_URL}}?subapp=search\">Search</a>"
-		],
+        "breadcrumb": [
+            "Metadata",
+            "<a href=\"{{WEBAPP_URL}}?subapp=search\">Search</a>"
+        ],
         "file": "subapps/Search/SearchApp.min.js",
         "instance": "searchApp"
+    },
+    "simpleSearch": {
+        "breadcrumb": [],
+        "file": "subapps/SimpleSearch/SimpleSearchApp.min.js",
+        "instance": "simpleSearchApp"
     },
     "tableViewer": {
         "breadcrumb": [

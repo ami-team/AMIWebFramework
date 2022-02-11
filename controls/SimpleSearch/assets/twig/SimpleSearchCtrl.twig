@@ -1,0 +1,23 @@
+<form class="text-center" id="E8F152B0_66C6_132C_0155_955D36654C13">
+	<div class="my-3">
+		<img src="{{ORIGIN_URL}}/controls/SimpleSearch/assets/images/glass-simple.png" alt="" style="width: 80px; height: 80px;" />
+	</div>
+	<div class="row mb-2">
+		<div class="col-md-2">
+		</div>
+		<div class="col-md-8">
+			<div class="input-group input-group-sm">
+				<input type="text" class="form-control" name="q" id="F8D8C2FB_81D9_F7A0_121B_6FB2949F8DB6" placeholder="{{placeholder|e}}" />
+				{% if BOOTSTRAP_VERSION > 4 %}
+				<button type="submit" class="btn btn-outline-secondary">Search</button>
+				{% else %}
+				<div class="input-group-append">
+					<button type="submit" class="btn btn-outline-secondary">Search</button>
+				</div>
+				{% endif %}
+			</div>
+		</div>
+		<div class="col-md-2">
+		</div>
+	</div>
+</form>
