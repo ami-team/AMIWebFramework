@@ -1,1 +1,78 @@
-<div>ElementInfo</div>
+<!-- ******************************************************************** -->
+
+{% if showToolBar %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top border mb-1" style="padding: 0.1rem 0.75rem 0.1rem 1.0rem;">
+
+	<span class="navbar-brand" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="tooltip" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-placement="bottom" data-title="{{catalog|e}}::{{entity|e}}">
+		<i class="bi bi-info-circle"></i>
+	</span>
+
+	<button type="button" class="navbar-toggler" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="collapse" data-target="#E0C44E70_07E8_24BC_72DD_DCB120E25FAE">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+
+	<div class="collapse navbar-collapse" id="E0C44E70_07E8_24BC_72DD_DCB120E25FAE">
+
+		<div class="form-inline m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-sm-2 my-2 my-lg-0">
+			<button id="ACFEDF15_7894_6D91_CBE7_D98B5F7E9C6A" type="button" class="btn btn-outline-secondary m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2"><i class="bi bi-arrow-repeat"></i></button>
+		</div>
+
+		<div class="form-inline m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-sm-2 my-2 my-lg-0">
+			<span class="switch switch-on-warning switch-off-secondary">
+				<input type="checkbox" id="D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73" />
+				<label for="D98B6B9A_1D5A_021E_5F90_2B55A6C3BE73">
+					empty fields
+					<span class="text-secondary"> hidden</span>
+					/
+					<span class="text-warning"> shown</span>
+				</label>
+			</span>
+		</div>
+
+		{% if canEdit %}
+		<div class="form-inline m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-sm-2 my-2 my-lg-0">
+			<span class="switch switch-on-warning switch-off-secondary">
+				<input type="checkbox" id="AB84A8CC_5E70_EBE7_8766_317FEE71EFE8"{% if enableEditMode and canEdit %} checked="checked"{% endif %} />
+				<label for="AB84A8CC_5E70_EBE7_8766_317FEE71EFE8">
+					<span class="text-secondary">view</span>
+					/
+					<span class="text-warning">edit</span>
+				</label>
+			</span>
+		</div>
+		{% endif %}
+
+		<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-sm-2 my-2 my-lg-0">
+			<div class="nav-item dropdown">
+				<a href="#" class="nav-link dropdown-toggle" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="dropdown">More...</a>
+				<div class="dropdown-menu">
+					<a href="#" class="dropdown-item" id="BF7E7885_DB34_7993_9F17_37990DDD4BF3">View command</a>
+					<div class="dropdown-divider"></div>
+					<a href="#" class="dropdown-item" id="F1232710_45E2_92BF_7378_1BCD05FBF131">View JavaScript</a>
+					<a href="#" class="dropdown-item" id="C28C33B1_9BCE_808C_0E57_4C8704359932">Add to Dashboard</a>
+				</div>
+			<div>
+		</ul>
+
+		<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-auto">
+			<button class="btn btn-link" type="button" id="A29F1487_C747_18BF_94B1_9F3C32DA838C" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="tooltip" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-placement="bottom" data-title="Bookmark this result">
+				<i class="bi bi-star-fill text-secondary"></i>
+			</button>
+		</span>
+
+{% if isEmbedded %}
+		<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-auto d-none d-lg-inline">
+			<img src="{{ORIGIN_URL}}/images/logo.png" alt="AMI" height="24" />
+		</span>
+{% endif %}
+
+	</div>
+
+</nav>
+{% endif %}
+
+<!-- ******************************************************************** -->
+
+<div class="pb-4 unit-edit" id="BBD391C7_759D_01DD_E234_488D46504638" style="overflow-x: scroll;"></div>
+
+<!-- ******************************************************************** -->

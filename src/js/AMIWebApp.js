@@ -100,6 +100,13 @@ import defaultBackgroundURL from '../images/background.jpg';
  * @borrows createControlFromWebLink
  */
 
+/**/ if(typeof window !== 'undefined') {
+	window.JSPath = JSPath;
+}
+else if(typeof global !== 'undefined') {
+	global.JSPath = JSPath;
+}
+
 class AMIWebApp
 {
 	/*----------------------------------------------------------------------------------------------------------------*/

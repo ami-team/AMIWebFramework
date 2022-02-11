@@ -1,0 +1,33 @@
+<script type="text/javascript" src="{{ORIGIN_URL}}/js/ami.min.js?embedded"></script>
+
+<script type="text/javascript">
+
+	var myElementInfo;
+
+	amiWebApp.onRefresh = function(isAuth) {
+
+		if(isAuth)
+		{
+			myElementInfo.render('#myElementInfo', '{{defaults.catalog|e('js')}}', '{{defaults.entity|e('js')}}', '{{defaults.primaryFieldName|e('js')}}', '{{defaults.primaryFieldValue|e('js')}}', {{ optionals|json_encode }});
+		}
+		else
+		{
+			$('#myElementInfo').empty();
+		}
+	};
+
+	amiWebApp.onReady = function() {
+
+		return amiWebApp.loadResources(['ctrl:elementInfo']).done(function(ctrls) {
+
+			myElementInfo = new ctrls[0];
+		});
+	};
+
+	amiWebApp.start({
+		endpoint_url: '{{endpoint}}'
+	});
+
+</script>
+
+<div id="myElementInfo"></div>

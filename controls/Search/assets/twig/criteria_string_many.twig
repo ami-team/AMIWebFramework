@@ -12,9 +12,13 @@
 		</div>
 		<div class="input-group input-group-sm">
 			<input type="text" class="form-control filter" placeholder="Filter, % for wildcarding" />
+			{% if BOOTSTRAP_VERSION > 4 %}
+			<button type="button" class="btn btn-secondary filter">Apply</button>
+			{% else %}
 			<div class="input-group-append">
 				<button type="button" class="btn btn-secondary filter">Apply</button>
 			</div>
+			{% endif %}
 		</div>
 	</div>
 </div>
