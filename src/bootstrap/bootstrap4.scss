@@ -4,6 +4,28 @@ $font-family-base: "Open Sans", "-apple-system", "BlinkMacSystemFont", "Segoe UI
 
 $font-size-base: 0.9375rem;
 
-@import "../../node_modules/bootstrap4/scss/bootstrap";
+@import "../../node_modules/bootstrap4/scss/functions";
+@import "../../node_modules/bootstrap4/scss/variables";
 
 @import "switch4.scss";
+
+@for $i from 0 through 5 {
+	.ps-#{$i} {
+		@extend .pl-#{$i};
+	}
+
+	.pe-#{$i} {
+		@extend .pr-#{$i};
+	}
+
+	.ms-#{$i} {
+		@extend .ml-#{$i};
+	}
+
+	.me-#{$i} {
+		@extend .mr-#{$i};
+	}
+}
+
+@import "../../node_modules/bootstrap4/scss/bootstrap";
+
