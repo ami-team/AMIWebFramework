@@ -27,5 +27,13 @@ $font-size-base: 0.9375rem;
 	}
 }
 
+.text-start {
+	@extend .text-left;
+}
+
+.text-end {
+	@extend .text-right;
+}
+
 @import "../../node_modules/bootstrap4/scss/bootstrap";
 
