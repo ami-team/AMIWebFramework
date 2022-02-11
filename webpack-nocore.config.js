@@ -50,6 +50,7 @@ const config = {
 		'controls/EditBox/EditBoxCtrl': path.resolve(__dirname, 'controls/EditBox/EditBoxCtrl.es6.js'),
 		'controls/ElementInfo/ElementInfoCtrl': path.resolve(__dirname, 'controls/ElementInfo/ElementInfoCtrl.es6.js'),
 		'controls/FieldEditor/FieldEditorCtrl': path.resolve(__dirname, 'controls/FieldEditor/FieldEditorCtrl.es6.js'),
+		'controls/Graph/GraphCtrl': path.resolve(__dirname, 'controls/Graph/GraphCtrl.es6.js'),
 		'controls/Search/SearchCtrl': path.resolve(__dirname, 'controls/Search/SearchCtrl.es6.js'),
 		'controls/Tab/TabCtrl': path.resolve(__dirname, 'controls/Tab/TabCtrl.es6.js'),
 		'controls/Table/TableCtrl': path.resolve(__dirname, 'controls/Table/TableCtrl.es6.js'),

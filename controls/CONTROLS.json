@@ -35,6 +35,10 @@
         "clazz": "FieldEditorCtrl",
         "file": "controls/FieldEditor/FieldEditorCtrl.min.js"
     },
+    "graph": {
+        "clazz": "GraphCtrl",
+        "file": "controls/Graph/GraphCtrl.min.js"
+    },
     "search": {
         "clazz": "SearchCtrl",
         "file": "controls/Search/SearchCtrl.min.js"
