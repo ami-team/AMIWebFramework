@@ -138,10 +138,10 @@ class AMIAuth
 		const signInModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/sign_in_modal.twig`);
 		const changeInfoModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_info_modal.twig`);
 		const changePassModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_pass_modal.twig`);
-		const updateCertificateModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/update_certificate.twig`);
+		const changeCertModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_cert_modal.twig`);
 		const accountStatusModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/account_status_modal.twig`);
 
-		amiWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + updateCertificateModal + accountStatusModal, {dict: this.#flags}).done(() => {
+		amiWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + changeCertModal + accountStatusModal, {dict: this.#flags}).done(() => {
 
 			/*----------------------------------------------------------------------------------------------------*/
 
@@ -385,22 +385,30 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(!issuerDNInAMI && !clientDNInAMI) {
-				$('#F9652167_40D2_E8A0_F00B_FABA8E490E54').hide();
-			} else {
-				$('#F9652167_40D2_E8A0_F00B_FABA8E490E54').show();
-				$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text(issuerDNInAMI);
-				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text(clientDNInAMI);
+			if(issuerDNInAMI && clientDNInAMI)
+			{
+				$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(issuerDNInAMI);
+				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(clientDNInAMI);
+				$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disable', /*-----------------------------*/ false /*-----------------------------*/);
+			}
+			else
+			{
+				$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('N/A');
+				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('N/A');
+				$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disable', true);
 			}
 
-			if(issuerDNInSession && clientDNInSession) {
-				$('#A81B2279_2AFC_F19C_E4C9_BFB97D48F967').show();
-				$('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').text(issuerDNInSession);
-				$('#A962ED59_DB71_C10C_6173_3615C6F48028').text(clientDNInSession);
+			if(issuerDNInSession && clientDNInSession)
+			{
+				$('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').val(issuerDNInSession);
+				$('#A962ED59_DB71_C10C_6173_3615C6F48028').val(clientDNInSession);
+				$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disable', issuerDNInAMI === issuerDNInSession && clientDNInAMI === clientDNInSession);
 			}
-
-			if(issuerDNInAMI === issuerDNInSession && clientDNInAMI === clientDNInSession) {
-				$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').hide();
+			else
+			{
+				$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('Issuer DN not registered');
+				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('Client DN not registered');
+				$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disable', true);
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -897,6 +905,19 @@ class AMIAuth
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
+	 * Opens the 'Change Certificate' modal window
+	 */
+
+	changeCertificate()
+	{
+		AMIAuth.#clean();
+
+		$('#ECB92A89_A706_7C76_E248_E57D14C8B205').modal('show');
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
 	 * Opens the 'Account Status' modal window
 	 */
 
@@ -905,16 +926,6 @@ class AMIAuth
 		AMIAuth.#clean();
 
 		$('#AB1CB183_96EB_4116_8A9E_4409BE058F34').modal('show');
-	}
-
-	/**
-	 * Opens the 'Update certificate' modal window
-	 */
-
-	updateCertificate() {
-		AMIAuth.#clean();
-
-		$('#ECB92A89_A706_7C76_E248_E57D14C8B205').modal('show');
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

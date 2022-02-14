@@ -1,0 +1,52 @@
+<div class="modal fade" role="dialog" id="ECB92A89_A706_7C76_E248_E57D14C8B205">
+	<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Change Certificate</h4>
+				{% if BOOTSTRAP_VERSION > 4 %}
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				{% else %}
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				{% endif %}
+			</div>
+			<div class="modal-body">
+
+				<!-- *********************************************************************************************** -->
+
+				<div class="card mb-2">
+					<div class="card-body">
+						<h5 class="card-title d-flex justify-content-between">
+							<span>Certificate in AMI</span>
+							<a class="btn btn-sm btn-danger" href="javascript:amiAuth.form_detachCert();" id="B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2">
+								Detach this certificate
+							</a>
+						</h5>
+						<input class="form-control form-control-sm border-0 mb-1" type="text" readonly="readonly" id="C9297C00_920D_4AE6_8A20_B0DDB383CC6A" />
+						<input class="form-control form-control-sm border-0 mb-0" type="text" readonly="readonly" id="D4B29AC0_4867_815B_8657_5A1D623C29CF" />
+					</div>
+				</div>
+
+				<!-- *********************************************************************************************** -->
+
+				<div class="card mb-0">
+					<div class="card-body">
+						<h5 class="card-title d-flex justify-content-between">
+							<span>Certificate in session</span>
+							<a class="btn btn-sm btn-primary" href="javascript:amiAuth.form_attachCert();" id="DB0223B3_D721_7EEB_50B8_032A04C7D218">
+								Attach this certificate
+							</a>
+						</h5>
+						<input class="form-control form-control-sm border-0 mb-1" type="text" readonly="readonly" id="C8B8F968_CCAA_26DF_8665_2B518189E3DE" />
+						<input class="form-control form-control-sm border-0 mb-0" type="text" readonly="readonly" id="A962ED59_DB71_C10C_6173_3615C6F48028" />
+					</div>
+				</div>
+
+				<!-- *********************************************************************************************** -->
+
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
