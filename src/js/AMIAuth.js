@@ -138,10 +138,10 @@ class AMIAuth
 		const signInModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/sign_in_modal.twig`);
 		const changeInfoModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_info_modal.twig`);
 		const changePassModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_pass_modal.twig`);
-		const accountStatusModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/account_status_modal.twig`);
 		const updateCertificateModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/update_certificate.twig`);
+		const accountStatusModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/account_status_modal.twig`);
 
-		amiWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + accountStatusModal + updateCertificateModal, {dict: this.#flags}).done(() => {
+		amiWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + updateCertificateModal + accountStatusModal, {dict: this.#flags}).done(() => {
 
 			/*----------------------------------------------------------------------------------------------------*/
 
