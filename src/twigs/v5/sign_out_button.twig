@@ -39,13 +39,15 @@
 	</a>
 	<div class="dropdown-menu">
 		{% if changeInfoAllowed %}
-			<a class="dropdown-item" href="javascript:amiLogin.changeInfo();">Change Information</a>
+		<a class="dropdown-item" href="javascript:window.amiAuth.changeInfo();">Change Information</a>
 		{% endif %}
 		{% if changePasswordAllowed %}
-			<a class="dropdown-item" href="javascript:amiLogin.changePass();">Change Password</a>
+		<a class="dropdown-item" href="javascript:window.amiAuth.changePass();">Change Password</a>
 		{% endif %}
-		<a class="dropdown-item" href="javascript:amiLogin.accountStatus();">Account Status</a>
-		<a class="dropdown-item" href="javascript:amiLogin.updateCertificate();">Manage Certificate</a>
+		{% if changeCertificateAllowed %}
+		<a class="dropdown-item" href="javascript:window.amiAuth.changeCertificate();">Change Certificate</a>
+		{% endif %}
+		<a class="dropdown-item" href="javascript:window.amiAuth.accountStatus();">Account Status</a>
 		<div id="ami_user_menu_content"></div>
 	</div>
 </li>
