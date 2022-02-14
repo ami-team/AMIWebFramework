@@ -35,7 +35,6 @@ const path = require('path');
 
 const ESLintPlugin = require('eslint-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
-const { VueLoaderPlugin } = require('vue-loader');
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -71,7 +70,8 @@ const config = {
 	},
 	'output': {
 		'filename': '[name].min.js',
-		'path': path.resolve(__dirname)
+		'path': path.resolve(__dirname),
+		'assetModuleFilename': (o) => path.join(path.dirname(o.runtime), 'assets', 'images', '[hash][ext][query]')
 	},
 	'module': {
 		'rules': [
@@ -115,7 +115,7 @@ const config = {
 			{
 				'type': 'asset/resource',
 				'test': /\.(gif|png|jpg|jpeg|svg)$/,
-				'exclude': /node_modules/
+				'exclude': /node_modules/,
 			},
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -136,13 +136,6 @@ const config = {
 						}
 					}
 				]
-			},
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			{
-				test: /\.vue$/,
-				loader: 'vue-loader'
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -156,8 +149,7 @@ const config = {
 	'plugins': [
 		new ESLintPlugin({
 			'failOnWarning': true
-		}),
-		new VueLoaderPlugin()
+		})
 	],
 	'optimization': {
 		'minimizer': [
