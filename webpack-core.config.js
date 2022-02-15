@@ -63,7 +63,7 @@ console.log('Building AMI HTTP Client for: ' + BROWSER_LIST.join(', '));
 const path = require('path');
 const webpack = require('webpack');
 
-const CopyPlugin = require("copy-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin');
 const JsDocPlugin = require('jsdoc-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');

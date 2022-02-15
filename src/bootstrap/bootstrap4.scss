@@ -68,8 +68,22 @@ $properties: 'text', 'float', 'border', 'rounded';
 
 $formsProperties: 'checkbox', 'switch', 'select', 'range';
 @each $formProperty in $formsProperties {
-	.form-#{$formProperty} {
-		@extend .custom-#{$formProperty};
+	@if $formProperty == 'select' {
+		.form-#{$formProperty}-sm {
+			@extend .custom-#{$formProperty}-sm;
+		}
+
+		.form-#{$formProperty} {
+			@extend .custom-#{$formProperty};
+		}
+
+		.form-#{$formProperty}-lg {
+			@extend .custom-#{$formProperty}-lg;
+		}
+	} @else {
+		.form-#{$formProperty} {
+			@extend .custom-#{$formProperty};
+		}
 	}
 }
 

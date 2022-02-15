@@ -24570,6 +24570,35 @@ webpackContext.id = 3920;
 
 /***/ }),
 
+/***/ 7262:
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+var map = {
+	"./v5/Modals/change_cert_modal.twig": 2309
+};
+
+
+function webpackContext(req) {
+	var id = webpackContextResolve(req);
+	return __webpack_require__(id);
+}
+function webpackContextResolve(req) {
+	if(!__webpack_require__.o(map, req)) {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	}
+	return map[req];
+}
+webpackContext.keys = function webpackContextKeys() {
+	return Object.keys(map);
+};
+webpackContext.resolve = webpackContextResolve;
+module.exports = webpackContext;
+webpackContext.id = 7262;
+
+/***/ }),
+
 /***/ 7200:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -24657,36 +24686,6 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = 4410;
-
-/***/ }),
-
-/***/ 8968:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var map = {
-	"./v4/Modals/update_certificate.twig": 2076,
-	"./v5/Modals/update_certificate.twig": 3490
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 8968;
 
 /***/ }),
 
@@ -25044,14 +25043,6 @@ module.exports = "<div class=\"modal fade\" tabindex=\"-1\" id=\"D2B5FADE_97A3_4
 
 /***/ }),
 
-/***/ 2076:
-/***/ ((module) => {
-
-"use strict";
-module.exports = "<form class=\"modal fade\" role=\"dialog\" id=\"ECB92A89_A706_7C76_E248_E57D14C8B205\">\n\t<div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Update my certificate</h4>\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-12\">\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"D75BFCC1_B2F1_9599_B1AB_F2FF096631AA\" class=\"form-label\">Login</label>\n\t\t\t\t\t\t\t<input type=\"email\" class=\"form-control\" id=\"D75BFCC1_B2F1_9599_B1AB_F2FF096631AA\" placeholder=\"name@example.com\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"C72E51F1_FAF2_CB6B_0AAF_B312A4D378C1\" class=\"form-label\">Password</label>\n\t\t\t\t\t\t\t<input type=\"password\" class=\"form-control\" id=\"C72E51F1_FAF2_CB6B_0AAF_B312A4D378C1\">\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-12\" id=\"F9652167_40D2_E8A0_F00B_FABA8E490E54\">\n\t\t\t\t\t\t<div class=\"card h-100\">\n\t\t\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t\t\t<h5 class=\"card-title\">AMI registered certificate</h5>\n\t\t\t\t\t\t\t\t<p class=\"card-text\" id=\"C9297C00_920D_4AE6_8A20_B0DDB383CC6A\"></p>\n\t\t\t\t\t\t\t\t<p class=\"card-text\" id=\"D4B29AC0_4867_815B_8657_5A1D623C29CF\"></p>\n\t\t\t\t\t\t\t\t<div class=\"card-footer border-top-0 bg-transparent\">\n\t\t\t\t\t\t\t\t\t<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\">\n\t\t\t\t\t\t\t\t\t\t<a class=\"btn btn-danger\" id=\"B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2\" href=\"javascript:amiAuth.form_detachCert();\">Detach this certificate</a>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-12\" id=\"A81B2279_2AFC_F19C_E4C9_BFB97D48F967\">\n\t\t\t\t\t\t<div class=\"card h-100\">\n\t\t\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t\t\t<h5 class=\"card-title\">Certificate in session</h5>\n\t\t\t\t\t\t\t\t<p class=\"card-text\" id=\"C8B8F968_CCAA_26DF_8665_2B518189E3DE\"></p>\n\t\t\t\t\t\t\t\t<p class=\"card-text\" id=\"A962ED59_DB71_C10C_6173_3615C6F48028\"></p>\n\t\t\t\t\t\t\t\t<div class=\"card-footer border-top-0 bg-transparent\">\n\t\t\t\t\t\t\t\t\t<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\">\n\t\t\t\t\t\t\t\t\t\t<a class=\"btn btn-primary\" id=\"DB0223B3_D721_7EEB_50B8_032A04C7D218\" href=\"javascript:amiAuth.form_attachCert();\">Attach this certificate</a>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</form>\n";
-
-/***/ }),
-
 /***/ 6087:
 /***/ ((module) => {
 
@@ -25084,6 +25075,14 @@ module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"AB1CB183_96EB_4
 
 /***/ }),
 
+/***/ 2309:
+/***/ ((module) => {
+
+"use strict";
+module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"ECB92A89_A706_7C76_E248_E57D14C8B205\">\n\t<div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Change Certificate</h4>\n\t\t\t\t{% if BOOTSTRAP_VERSION > 4 %}\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>\n\t\t\t\t{% else %}\n\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\t\t\t\t{% endif %}\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t\t<div class=\"card mb-2\">\n\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t<h5 class=\"card-title d-flex justify-content-between\">\n\t\t\t\t\t\t\t<span>Certificate in AMI</span>\n\t\t\t\t\t\t\t<a class=\"btn btn-sm btn-danger\" href=\"javascript:amiAuth.form_detachCert();\" id=\"B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2\">\n\t\t\t\t\t\t\t\tDetach this certificate\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-1\" type=\"text\" readonly=\"readonly\" id=\"C9297C00_920D_4AE6_8A20_B0DDB383CC6A\" />\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-0\" type=\"text\" readonly=\"readonly\" id=\"D4B29AC0_4867_815B_8657_5A1D623C29CF\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t\t<div class=\"card mb-0\">\n\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t<h5 class=\"card-title d-flex justify-content-between\">\n\t\t\t\t\t\t\t<span>Certificate in session</span>\n\t\t\t\t\t\t\t<a class=\"btn btn-sm btn-primary\" href=\"javascript:amiAuth.form_attachCert();\" id=\"DB0223B3_D721_7EEB_50B8_032A04C7D218\">\n\t\t\t\t\t\t\t\tAttach this certificate\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-1\" type=\"text\" readonly=\"readonly\" id=\"C8B8F968_CCAA_26DF_8665_2B518189E3DE\" />\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-0\" type=\"text\" readonly=\"readonly\" id=\"A962ED59_DB71_C10C_6173_3615C6F48028\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-bs-dismiss=\"modal\">Close</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
+
+/***/ }),
+
 /***/ 707:
 /***/ ((module) => {
 
@@ -25108,19 +25107,11 @@ module.exports = "<div class=\"modal fade\" tabindex=\"-1\" id=\"D2B5FADE_97A3_4
 
 /***/ }),
 
-/***/ 3490:
-/***/ ((module) => {
-
-"use strict";
-module.exports = "<form class=\"modal fade\" role=\"dialog\" id=\"ECB92A89_A706_7C76_E248_E57D14C8B205\">\n\t<div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Update my certificate</h4>\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t<label for=\"D75BFCC1_B2F1_9599_B1AB_F2FF096631AA\" class=\"form-label\">Login</label>\n\t\t\t\t\t\t<input type=\"email\" class=\"form-control\" id=\"D75BFCC1_B2F1_9599_B1AB_F2FF096631AA\" placeholder=\"name@example.com\">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t<label for=\"C72E51F1_FAF2_CB6B_0AAF_B312A4D378C1\" class=\"form-label\">Password</label>\n\t\t\t\t\t\t<input type=\"password\" class=\"form-control\" id=\"C72E51F1_FAF2_CB6B_0AAF_B312A4D378C1\">\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-12\" id=\"F9652167_40D2_E8A0_F00B_FABA8E490E54\">\n\t\t\t\t\t\t<div class=\"card h-100\">\n\t\t\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t\t\t<h5 class=\"card-title\">AMI registered certificate</h5>\n\t\t\t\t\t\t\t\t<p class=\"card-text\" id=\"C9297C00_920D_4AE6_8A20_B0DDB383CC6A\"></p>\n\t\t\t\t\t\t\t\t<p class=\"card-text\" id=\"D4B29AC0_4867_815B_8657_5A1D623C29CF\"></p>\n\t\t\t\t\t\t\t\t<div class=\"card-footer border-top-0 bg-transparent\">\n\t\t\t\t\t\t\t\t\t<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\">\n\t\t\t\t\t\t\t\t\t\t<a class=\"btn btn-danger\" id=\"B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2\" href=\"javascript:amiAuth.form_detachCert();\">Detach this certificate</a>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-12\" id=\"A81B2279_2AFC_F19C_E4C9_BFB97D48F967\">\n\t\t\t\t\t\t<div class=\"card h-100\">\n\t\t\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t\t\t<h5 class=\"card-title\">Certificate in session</h5>\n\t\t\t\t\t\t\t\t<p class=\"card-text\" id=\"C8B8F968_CCAA_26DF_8665_2B518189E3DE\"></p>\n\t\t\t\t\t\t\t\t<p class=\"card-text\" id=\"A962ED59_DB71_C10C_6173_3615C6F48028\"></p>\n\t\t\t\t\t\t\t\t<div class=\"card-footer border-top-0 bg-transparent\">\n\t\t\t\t\t\t\t\t\t<div class=\"d-grid gap-2 d-md-flex justify-content-md-end\">\n\t\t\t\t\t\t\t\t\t\t<a class=\"btn btn-primary\" id=\"DB0223B3_D721_7EEB_50B8_032A04C7D218\" href=\"javascript:amiAuth.form_attachCert();\">Attach this certificate</a>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-bs-dismiss=\"modal\">Close</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</form>\n";
-
-/***/ }),
-
 /***/ 2408:
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<div class=\"toast mb-2\" role=\"alert\" {% if fadeOut %}data-bs-delay=\"60000\"{% else %}data-bs-autohide=\"false\"{% endif %} data-hash=\"{{ hash }}\" data-cnt=\"1\">\n\t<div class=\"toast-header py-1\">\n\t\t<strong class=\"me-auto text-{{ clazz|e }}\">{{ title|e }}</strong>\n\t\t<small>{{ date|e }}</small>\n\t\t<button class=\"btn btn-link text-muted p-0 ms-2\" type=\"button\" data-bs-dismiss=\"toast\">\n\t\t\t<i class=\"bi bi-x-circle\"></i>\n\t\t</button>\n\t</div>\n\t<div class=\"toast-body\">\n\t\t{{ message|e }}\n\t</div>\n</div>\n";
+module.exports = "<div class=\"toast mb-2\" role=\"alert\" {% if fadeOut %}data-bs-delay=\"60000\" {% else %}data-bs-autohide=\"false\"{% endif %} data-hash=\"{{ hash }}\" data-cnt=\"1\">\n\t<div class=\"toast-header py-1\">\n\t\t<strong class=\"me-auto text-{{ clazz|e }}\">{{ title|e }}</strong>\n\t\t<small>{{ date|e }}</small>\n\t\t<button class=\"btn btn-link text-muted p-0 ms-2\" type=\"button\" data-bs-dismiss=\"toast\">\n\t\t\t<i class=\"bi bi-x-circle\"></i>\n\t\t</button>\n\t</div>\n\t<div class=\"toast-body\">\n\t\t{{ message|e }}\n\t</div>\n</div>\n";
 
 /***/ }),
 
@@ -25136,7 +25127,7 @@ module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAll
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t\t{% if changeInfoAllowed %}\n\t\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.changeInfo();\">Change Information</a>\n\t\t{% endif %}\n\t\t{% if changePasswordAllowed %}\n\t\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.changePass();\">Change Password</a>\n\t\t{% endif %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.accountStatus();\">Account Status</a>\n\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.updateCertificate();\">Manage Certificate</a>\n\t\t<div id=\"ami_user_menu_content\"></div>\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ms-0 ms-lg-1\" type=\"button\" onclick=\"window.amiAuth.signOut();\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-bs-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t\t{% if changeInfoAllowed %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.changeInfo();\">Change Information</a>\n\t\t{% endif %}\n\t\t{% if changePasswordAllowed %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.changePass();\">Change Password</a>\n\t\t{% endif %}\n\t\t{% if changeCertificateAllowed %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.changeCertificate();\">Change Certificate</a>\n\t\t{% endif %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.accountStatus();\">Account Status</a>\n\t\t<div id=\"ami_user_menu_content\"></div>\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ms-0 ms-lg-1\" type=\"button\" onclick=\"window.amiAuth.signOut();\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
 
 /***/ }),
 
@@ -31112,11 +31103,11 @@ var AMIAuth = function () {
 
     var changePassModal = __webpack_require__(7457)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/change_pass_modal.twig");
 
+    var changeCertModal = __webpack_require__(7262)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/change_cert_modal.twig");
+
     var accountStatusModal = __webpack_require__(3920)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/account_status_modal.twig");
 
-    var updateCertificateModal = __webpack_require__(8968)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/update_certificate.twig");
-
-    js_AMIWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + accountStatusModal + updateCertificateModal, {
+    js_AMIWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + changeCertModal + accountStatusModal, {
       dict: AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags]
     }).done(function () {
       $('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit(function (e) {
@@ -31327,16 +31318,16 @@ var AMIAuth = function () {
     $('#E92A1097_983B_4857_875F_07E4659B41B0').modal('show');
   };
 
+  _proto.changeCertificate = function changeCertificate() {
+    AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
+
+    $('#ECB92A89_A706_7C76_E248_E57D14C8B205').modal('show');
+  };
+
   _proto.accountStatus = function accountStatus() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
     $('#AB1CB183_96EB_4116_8A9E_4409BE058F34').modal('show');
-  };
-
-  _proto.updateCertificate = function updateCertificate() {
-    AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
-
-    $('#ECB92A89_A706_7C76_E248_E57D14C8B205').modal('show');
   };
 
   _proto.form_login = function form_login(e) {
@@ -31525,22 +31516,24 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
     $('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
     $('#FE2F6232_C256_4B80_939C_EBEC90320308').val(issuerDNInSession);
 
-    if (!issuerDNInAMI && !clientDNInAMI) {
-      $('#F9652167_40D2_E8A0_F00B_FABA8E490E54').hide();
+    if (issuerDNInAMI && clientDNInAMI) {
+      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(issuerDNInAMI);
+      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(clientDNInAMI);
+      $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disable', false);
     } else {
-      $('#F9652167_40D2_E8A0_F00B_FABA8E490E54').show();
-      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text(issuerDNInAMI);
-      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text(clientDNInAMI);
+      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('N/A');
+      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('N/A');
+      $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disable', true);
     }
 
     if (issuerDNInSession && clientDNInSession) {
-      $('#A81B2279_2AFC_F19C_E4C9_BFB97D48F967').show();
-      $('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').text(issuerDNInSession);
-      $('#A962ED59_DB71_C10C_6173_3615C6F48028').text(clientDNInSession);
-    }
-
-    if (issuerDNInAMI === issuerDNInSession && clientDNInAMI === clientDNInSession) {
-      $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').hide();
+      $('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').val(issuerDNInSession);
+      $('#A962ED59_DB71_C10C_6173_3615C6F48028').val(clientDNInSession);
+      $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disable', issuerDNInAMI === issuerDNInSession && clientDNInAMI === clientDNInSession);
+    } else {
+      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('Issuer DN not registered');
+      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('Client DN not registered');
+      $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disable', true);
     }
 
     var table = [];
@@ -32128,12 +32121,6 @@ function AMIWebApp_classPrivateFieldLooseKey(name) { return "__private_" + AMIWe
 
 
 
-if (typeof window !== 'undefined') {
-  window.JSPath = (jspath_default());
-} else if (typeof __webpack_require__.g !== 'undefined') {
-  __webpack_require__.g.JSPath = (jspath_default());
-}
-
 var _embedded = AMIWebApp_classPrivateFieldLooseKey("embedded");
 
 var _noBootstrap = AMIWebApp_classPrivateFieldLooseKey("noBootstrap");
@@ -32283,6 +32270,8 @@ var AMIWebApp = function () {
       __webpack_require__(7371);
 
       __webpack_require__(2340)(window.moment);
+
+      window.JSPath = (jspath_default());
 
       AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].resolve(resources);
     }).fail(function (message) {
@@ -32640,14 +32629,14 @@ var AMIWebApp = function () {
       "desc": "Opens the 'Change Password' modal window",
       "params": []
     }, {
+      "name": "changeCertificate",
+      "alias": "",
+      "desc": "Opens the 'Change Certificate' modal window",
+      "params": []
+    }, {
       "name": "accountStatus",
       "alias": "",
       "desc": "Opens the 'Account Status' modal window",
-      "params": []
-    }, {
-      "name": "updateCertificate",
-      "alias": "",
-      "desc": "Opens the 'Update certificate' modal window",
       "params": []
     }]
   }, {
