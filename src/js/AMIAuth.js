@@ -20,6 +20,14 @@ import amiRouter from './AMIRouter';
 import amiWebApp from './AMIWebApp';
 import amiCommand from './AMICommand';
 
+import signInButtonTwig from '../twigs/sign_in_button.twig';
+import signOutButtonTwig from '../twigs/sign_out_button.twig';
+import signInModalTwig from '../twigs/Modals/sign_in_modal.twig';
+import changeInfoModalTwig from '../twigs/Modals/change_info_modal.twig';
+import changePassModalTwig from '../twigs/Modals/change_pass_modal.twig';
+import changeCertModalTwig from '../twigs/Modals/change_cert_modal.twig';
+import accountStatusModalTwig from '../twigs/Modals/account_status_modal.twig';
+
 import greenCertificateImage from '../images/certificate-green.png';
 import pinkCertificateImage from '../images/certificate-pink.png';
 
@@ -135,13 +143,7 @@ class AMIAuth
 		/* MODAL INITIALIZATION                                                                                       */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const signInModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/sign_in_modal.twig`);
-		const changeInfoModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_info_modal.twig`);
-		const changePassModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_pass_modal.twig`);
-		const changeCertModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/change_cert_modal.twig`);
-		const accountStatusModal = require(`../twigs/v${amiWebApp.bootstrapVersion}/Modals/account_status_modal.twig`);
-
-		amiWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + changeCertModal + accountStatusModal, {dict: this.#flags}).done(() => {
+		amiWebApp.appendHTML('body', signInModalTwig + changeInfoModalTwig + changePassModalTwig + changeCertModalTwig + accountStatusModalTwig, {dict: this.#flags}).done(() => {
 
 			/*----------------------------------------------------------------------------------------------------*/
 
@@ -385,30 +387,30 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(issuerDNInAMI && clientDNInAMI)
+			if(issuerDNInSession && clientDNInSession)
 			{
-				$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(issuerDNInAMI);
-				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(clientDNInAMI);
-				$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disable', /*-----------------------------*/ false /*-----------------------------*/);
+				$('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').val(issuerDNInSession);
+				$('#A962ED59_DB71_C10C_6173_3615C6F48028').val(clientDNInSession);
+				$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', issuerDNInSession === issuerDNInAMI && clientDNInSession === clientDNInAMI);
 			}
 			else
 			{
 				$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('N/A');
 				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('N/A');
-				$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disable', true);
+				$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', true);
 			}
 
-			if(issuerDNInSession && clientDNInSession)
+			if(issuerDNInAMI && clientDNInAMI)
 			{
-				$('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').val(issuerDNInSession);
-				$('#A962ED59_DB71_C10C_6173_3615C6F48028').val(clientDNInSession);
-				$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disable', issuerDNInAMI === issuerDNInSession && clientDNInAMI === clientDNInSession);
+				$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(issuerDNInAMI);
+				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(clientDNInAMI);
+				$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', /*-----------------------------*/ false /*-----------------------------*/);
 			}
 			else
 			{
-				$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('Issuer DN not registered');
-				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('Client DN not registered');
-				$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disable', true);
+				$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('N/A');
+				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('N/A');
+				$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', true);
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -525,15 +527,19 @@ class AMIAuth
 			/* UPDATE QRCODE                                                                                          */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$('#EC948084_8C0A_CEBF_58C9_086046AB2456').kjua({
-				render: 'canvas',
+			$('#EC948084_8C0A_CEBF_58C9_086046AB2456').empty().kjua({
+				render: 'image',
+				crisp: true,
 				ecLevel: 'H',
-				size: 150,
+				size: 175,
 				fill: fgColor,
-				background: bgColor,
+				back: bgColor,
 				text: user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI,
-				radius: 0,
-				quiet: 1,
+				mode: 'label',
+				mSize: 10,
+				label: 'AMI',
+				fontname: 'Trochut',
+				fontcolor: fgColor,
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -545,9 +551,7 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const button = require(`../twigs/v${amiWebApp.bootstrapVersion}/sign_out_button.twig`);
-
-			amiWebApp.replaceHTML('#ami_login_menu_content', button , {dict: dict}).done(() => {
+			amiWebApp.replaceHTML('#ami_login_menu_content', signOutButtonTwig, {dict: dict}).done(() => {
 
 				subapps.triggerLogin().then(() => {
 
@@ -565,9 +569,7 @@ class AMIAuth
 		{
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const button = require(`../twigs/v${amiWebApp.bootstrapVersion}/sign_in_button.twig`);
-
-			amiWebApp.replaceHTML('#ami_login_menu_content', button, {dict: dict}).done(() => {
+			amiWebApp.replaceHTML('#ami_login_menu_content', signInButtonTwig, {dict: dict}).done(() => {
 
 				subapps.triggerLogout().then(() => {
 
@@ -834,8 +836,8 @@ class AMIAuth
 				const image = amiWebApp.jspath('..field{.@name==="image"}.$', data)[0] || '';
 				const hash = amiWebApp.jspath('..field{.@name==="hash"}.$', data)[0] || '';
 
-				$('#AC9836E6_2A20_8711_39D5_0E8340561078').attr('src', image);
-				$('#EA79605C_6EFF_4C77_9D70_88254B00FD52').attr('src', image);
+				$('#AC9836E6_2A20_8711_39D5_0E8340561078').css('background-image', `url('${image}')`);
+				$('#EA79605C_6EFF_4C77_9D70_88254B00FD52').css('background-image', `url('${image}')`);
 
 				$('#FD95B3FA_C808_0E08_2D1E_0FE0E3871101').val(/**/hash/**/);
 				$('#A63C0110_E591_6FCE_6D7A_02EEBC094199').val(/**/hash/**/);
@@ -1004,21 +1006,9 @@ class AMIAuth
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val() || $('#D75BFCC1_B2F1_9599_B1AB_F2FF096631AA').val();
-		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val() || $('#C72E51F1_FAF2_CB6B_0AAF_B312A4D378C1').val();
-
-		if(!user || !pass)
-		{
-			amiWebApp.error('Please, fill all fields with a red star.');
-
-			return;
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		amiWebApp.lock();
 
-		return amiCommand.attachCertificate(user, pass).then((data, message) => {
+		return amiCommand.attachCertificate().then((data, message) => {
 
 			amiWebApp.success(message);
 
@@ -1041,21 +1031,9 @@ class AMIAuth
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val() || $('#D75BFCC1_B2F1_9599_B1AB_F2FF096631AA').val();
-		const pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val() || $('#C72E51F1_FAF2_CB6B_0AAF_B312A4D378C1').val();
-
-		if(!user || !pass)
-		{
-			amiWebApp.error('Please, fill all fields with a red star.');
-
-			return;
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		amiWebApp.lock();
 
-		return amiCommand.detachCertificate(user, pass).then((data, message) => {
+		return amiCommand.detachCertificate().then((data, message) => {
 
 			amiWebApp.success(message);
 

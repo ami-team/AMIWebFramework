@@ -14,9 +14,9 @@
 import * as locks from './locks';
 import * as strings from './strings';
 
-import amiWebApp from '../AMIWebApp';
-
 import amiTwig from 'ami-twig';
+
+import messageTwig from '../../twigs/message.twig';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* MESSAGES                                                                                                           */
@@ -69,9 +69,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const twig = require(`../../twigs/v${amiWebApp.bootstrapVersion}/message.twig`);
-
-		const html = amiTwig.engine.render(twig, {
+		const html = amiTwig.engine.render(messageTwig, {
 			date: date,
 			hash: hash,
 			clazz: clazz,

@@ -24540,245 +24540,6 @@ if (true) {
 
 /***/ }),
 
-/***/ 3920:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var map = {
-	"./v4/Modals/account_status_modal.twig": 504,
-	"./v5/Modals/account_status_modal.twig": 8798
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 3920;
-
-/***/ }),
-
-/***/ 7262:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var map = {
-	"./v5/Modals/change_cert_modal.twig": 2309
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 7262;
-
-/***/ }),
-
-/***/ 7200:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var map = {
-	"./v4/Modals/change_info_modal.twig": 6969,
-	"./v5/Modals/change_info_modal.twig": 707
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 7200;
-
-/***/ }),
-
-/***/ 7457:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var map = {
-	"./v4/Modals/change_pass_modal.twig": 5213,
-	"./v5/Modals/change_pass_modal.twig": 1556
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 7457;
-
-/***/ }),
-
-/***/ 4410:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var map = {
-	"./v4/Modals/sign_in_modal.twig": 5951,
-	"./v5/Modals/sign_in_modal.twig": 9990
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 4410;
-
-/***/ }),
-
-/***/ 5276:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var map = {
-	"./v4/message.twig": 6087,
-	"./v5/message.twig": 2408
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 5276;
-
-/***/ }),
-
-/***/ 4125:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var map = {
-	"./v4/sign_in_button.twig": 3396,
-	"./v5/sign_in_button.twig": 3830
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 4125;
-
-/***/ }),
-
-/***/ 4045:
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var map = {
-	"./v4/sign_out_button.twig": 2017,
-	"./v5/sign_out_button.twig": 520
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = 4045;
-
-/***/ }),
-
 /***/ 9980:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
@@ -25011,79 +24772,23 @@ module.exports = __webpack_require__.p + "assets/images/stripe2.png";
 
 /***/ }),
 
-/***/ 504:
+/***/ 4764:
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"AB1CB183_96EB_4116_8A9E_4409BE058F34\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Account Status</h4>\n\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n\t\t\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<h5 id=\"D944B01D_2E8D_4EE9_9DCC_2691438BBA16\"></h5>\n\t\t\t\t<div class=\"tabbable\">\n\t\t\t\t\t<ul class=\"nav nav-tabs\">\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link active\" href=\"#B89A9E2D_8969_41F4_B266_230B782FA17D\" role=\"tab\" data-toggle=\"tab\">User account status</a></li>\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link xxxxxx\" href=\"#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\" role=\"tab\" data-toggle=\"tab\">User information</a></li>\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link xxxxxx\" href=\"#D827345F_6762_32F6_1D2D_DB40676804AE\" role=\"tab\" data-toggle=\"tab\">User roles</a></li>\n\t\t\t\t\t</ul>\n\t\t\t\t\t<div class=\"tab-content\">\n\t\t\t\t\t\t<div class=\"tab-pane active\" role=\"tabpanel\" id=\"B89A9E2D_8969_41F4_B266_230B782FA17D\">\n\t\t\t\t\t\t\t<div class=\"text-center rounded mx-auto px-5 py-2 mb-2\">\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex align-items-center justify-content-center\">\n\t\t\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/logo.png\" width=\"150\"  alt=\"\"/>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-6\">\n\t\t\t\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 24pt;\" id=\"D579A431_DBE4_6B30_1CF6_5E23761B4E1A\">Your account is</div>\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family:     'Trochut'    ; font-size: 36pt;\" id=\"F3FF9F43_DE72_40BB_B1BA_B7B3C9002671\">???????????????</div>\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 14pt;\" id=\"E91280F6_E7C6_3E53_A457_646995C99317\">???????????????</div>\n\t\t\t\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex align-items-center justify-content-center\" id=\"EC948084_8C0A_CEBF_58C9_086046AB2456\"></div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"text-center\">\n\t\t\t\t\t\t\t\t<a href=\"#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" data-toggle=\"collapse\">terms and conditions</a>\n\t\t\t\t\t\t\t\t<iframe class=\"form-control collapse\" id=\"E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" style=\"padding: 1px; min-height: 350px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\">\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" style=\"font-weight: normal;\">First name</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" style=\"font-weight: normal;\">Last name</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" style=\"font-weight: normal;\">Email</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" style=\"font-weight: normal;\">Client certificate DN in account</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"C76805D7_1E86_4231_9071_1D04783423BB\" style=\"font-weight: normal;\">Client certificate DN in session</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"C76805D7_1E86_4231_9071_1D04783423BB\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" style=\"font-weight: normal;\">Issuer certificate DN in account</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"form-group row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"FE2F6232_C256_4B80_939C_EBEC90320308\" style=\"font-weight: normal;\">Issuer certificate DN in session</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"FE2F6232_C256_4B80_939C_EBEC90320308\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"D827345F_6762_32F6_1D2D_DB40676804AE\">\n\t\t\t\t\t\t\t<table class=\"table table-sm table-striped\">\n\t\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th>Name</th>\n\t\t\t\t\t\t\t\t\t<th>Description</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t\t<tbody id=\"BB07676B_EACA_9B42_ED51_477DB2976041\"></tbody>\n\t\t\t\t\t\t\t</table>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
+module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"AB1CB183_96EB_4116_8A9E_4409BE058F34\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Account Status</h4>\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<h5 id=\"D944B01D_2E8D_4EE9_9DCC_2691438BBA16\"></h5>\n\n\t\t\t\t<nav class=\"mb-2\">\n\t\t\t\t\t<div class=\"nav nav-tabs\" role=\"tablist\">\n\t\t\t\t\t\t<button class=\"nav-link active\" data-bs-toggle=\"tab\" data-bs-target=\"#B89A9E2D_8969_41F4_B266_230B782FA17D\" type=\"button\" role=\"tab\">User account status</button>\n\t\t\t\t\t\t<button class=\"nav-link xxxxxx\" data-bs-toggle=\"tab\" data-bs-target=\"#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\" type=\"button\" role=\"tab\">User information</button>\n\t\t\t\t\t\t<button class=\"nav-link xxxxxx\" data-bs-toggle=\"tab\" data-bs-target=\"#D827345F_6762_32F6_1D2D_DB40676804AE\" type=\"button\" role=\"tab\">User roles</button>\n\t\t\t\t\t</div>\n\t\t\t\t</nav>\n\n\t\t\t\t<div class=\"tab-content\">\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t\t<div class=\"tab-pane active\" role=\"tabpanel\" id=\"B89A9E2D_8969_41F4_B266_230B782FA17D\">\n\t\t\t\t\t\t<div class=\"text-center rounded mx-auto px-5 py-2 mb-2\">\n\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex align-items-center justify-content-center\" id=\"C6B32F5B_9187_0B6D_E336_E144A579A96E\">\n\t\t\t\t\t\t\t\t\t<!-- dynamic -->\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"col-xl-6\">\n\t\t\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 32pt;\" id=\"D579A431_DBE4_6B30_1CF6_5E23761B4E1A\">Your account is</div>\n\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 32pt;\" id=\"F3FF9F43_DE72_40BB_B1BA_B7B3C9002671\">???????????????</div>\n\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 14pt;\" id=\"E91280F6_E7C6_3E53_A457_646995C99317\">???????????????</div>\n\t\t\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex align-items-center justify-content-center\" id=\"EC948084_8C0A_CEBF_58C9_086046AB2456\">\n\t\t\t\t\t\t\t\t\t<!-- dynamic -->\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"text-center\">\n\t\t\t\t\t\t\t<a href=\"#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" data-bs-toggle=\"collapse\">terms and conditions</a>\n\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t<iframe class=\"form-control collapse\" id=\"E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" style=\"padding: 1px; min-height: 350px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\">\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" style=\"font-weight: normal;\">First name</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" style=\"font-weight: normal;\">Last name</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" style=\"font-weight: normal;\">Email</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" style=\"font-weight: normal;\">Client certificate DN in account</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"C76805D7_1E86_4231_9071_1D04783423BB\" style=\"font-weight: normal;\">Client certificate DN in session</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"C76805D7_1E86_4231_9071_1D04783423BB\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" style=\"font-weight: normal;\">Issuer certificate DN in account</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"FE2F6232_C256_4B80_939C_EBEC90320308\" style=\"font-weight: normal;\">Issuer certificate DN in session</label>\n\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"FE2F6232_C256_4B80_939C_EBEC90320308\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"D827345F_6762_32F6_1D2D_DB40676804AE\">\n\t\t\t\t\t\t<table class=\"table table-sm table-striped\">\n\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t<th>Name</th>\n\t\t\t\t\t\t\t\t<th>Description</th>\n\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t<tbody id=\"BB07676B_EACA_9B42_ED51_477DB2976041\"></tbody>\n\t\t\t\t\t\t</table>\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<!-- ******************************************************************************************* -->\n\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
 
 /***/ }),
 
-/***/ 6969:
+/***/ 5373:
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<form class=\"modal fade\" role=\"dialog\" id=\"D9EAF998_ED8E_44D2_A0BE_8C5CF5E438BD\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Change Information</h4>\n\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n\t\t\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"E513F27D_5521_4B08_BF61_52AFB81356F7\">First name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"first_name\" id=\"E513F27D_5521_4B08_BF61_52AFB81356F7\" required=\"required\" placeholder=\"Type your first name...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"form-group \">\n\t\t\t\t\t\t\t<label for=\"AFF0B5C0_BEEC_4842_916D_DCBA7F589195\">Last name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"last_name\" id=\"AFF0B5C0_BEEC_4842_916D_DCBA7F589195\" required=\"required\" placeholder=\"Type your last name...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"C587486B_62C0_4B6E_9288_D8F9F89D157B\">Email<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input type=\"email\" class=\"form-control\" name=\"email\" id=\"C587486B_62C0_4B6E_9288_D8F9F89D157B\" required=\"required\" placeholder=\"Type your email...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Submit</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</form>\n";
+module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"ECB92A89_A706_7C76_E248_E57D14C8B205\">\n\t<div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Change Certificate</h4>\n\t\t\t\t{% if BOOTSTRAP_VERSION > 4 %}\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>\n\t\t\t\t{% else %}\n\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\t\t\t\t{% endif %}\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t\t<div class=\"card mb-2\">\n\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t<h5 class=\"card-title d-flex justify-content-between\">\n\t\t\t\t\t\t\t<span>Certificate in session</span>\n\t\t\t\t\t\t\t<button class=\"btn btn-sm btn-primary\" onclick=\"amiAuth.form_attachCert();\" id=\"DB0223B3_D721_7EEB_50B8_032A04C7D218\">\n\t\t\t\t\t\t\t\tAttach this certificate\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-1\" type=\"text\" readonly=\"readonly\" id=\"C8B8F968_CCAA_26DF_8665_2B518189E3DE\" />\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-0\" type=\"text\" readonly=\"readonly\" id=\"A962ED59_DB71_C10C_6173_3615C6F48028\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t\t<div class=\"card mb-0\">\n\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t<h5 class=\"card-title d-flex justify-content-between\">\n\t\t\t\t\t\t\t<span>Certificate in AMI</span>\n\t\t\t\t\t\t\t<button class=\"btn btn-sm btn-danger\" onclick=\"amiAuth.form_detachCert();\" id=\"B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2\">\n\t\t\t\t\t\t\t\tDetach this certificate\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-1\" type=\"text\" readonly=\"readonly\" id=\"C9297C00_920D_4AE6_8A20_B0DDB383CC6A\" />\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-0\" type=\"text\" readonly=\"readonly\" id=\"D4B29AC0_4867_815B_8657_5A1D623C29CF\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-bs-dismiss=\"modal\">Close</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
 
 /***/ }),
 
-/***/ 5213:
-/***/ ((module) => {
-
-"use strict";
-module.exports = "<form class=\"modal fade\" role=\"dialog\" id=\"E92A1097_983B_4857_875F_07E4659B41B0\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Change Password</h4>\n\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n\t\t\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t\t\t</button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<div class=\"row\">\n\t\t\t\t\t<div class=\"col-md-2 text-center\">\n\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-md-10\">\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"F238E6EE_44BD_486A_B85D_C927A4D045D3\">Old password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control\" type=\"password\" name=\"old_pass\" id=\"F238E6EE_44BD_486A_B85D_C927A4D045D3\" required=\"required\" placeholder=\"Type your old password...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"D487FE72_8D95_4048_BEA3_252274862AF4\">New password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control\" type=\"password\" name=\"new_pass\" id=\"D487FE72_8D95_4048_BEA3_252274862AF4\" required=\"required\" placeholder=\"Choose a new password...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t<label for=\"EE1DA58C_3761_4734_A9C2_E808CDD7EE77\">New password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t<input class=\"form-control\" type=\"password\" name=\"xxxxxxxx\" id=\"EE1DA58C_3761_4734_A9C2_E808CDD7EE77\" required=\"required\" placeholder=\"Type your new password again...\" />\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Submit</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</form>\n";
-
-/***/ }),
-
-/***/ 5951:
-/***/ ((module) => {
-
-"use strict";
-module.exports = "<div class=\"modal fade\" tabindex=\"-1\" id=\"D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B\">\n\t<div class=\"modal-dialog modal-dialog-centered modal-xl\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"container-fluid pl-0\">\n\t\t\t\t<div class=\"row align-content-between\">\n\t\t\t\t\t<div class=\"d-none d-lg-block col-12 col-lg-6 p-0\">\n\t\t\t\t\t\t<img class=\"img-fluid rounded-start h-100\" src=\"https://mediaarchive.cern.ch/MediaArchive/Photo/Public/2005/0511013/0511013_01/0511013_01-A4-at-144-dpi.jpg\" alt=\"\" style=\"object-fit: cover;\">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-12 col-lg-6 p-0 d-flex flex-column justify-content-center align-content-between\">\n\t\t\t\t\t\t<div class=\"bg-transparent modal-header border-bottom-0\">\n\t\t\t\t\t\t\t<ul class=\"nav nav-tabs\" id=\"myTab\" role=\"tablist\">\n\t\t\t\t\t\t\t\t<li class=\"nav-item\" role=\"presentation\">\n\t\t\t\t\t\t\t\t\t<a class=\"nav-link active\" id=\"home-tab\" data-toggle=\"tab\" href=\"#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\" role=\"tab\" aria-controls=\"home\" aria-selected=\"true\"><i class=\"bi bi-box-arrow-in-right\"></i> Sign in</a>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"nav-item\" role=\"presentation\">\n\t\t\t\t\t\t\t\t\t<a class=\"nav-link\" id=\"profile-tab\" data-toggle=\"tab\" href=\"#EE055CD4_E58F_4834_8020_986AE3F8D67D\" role=\"tab\" aria-controls=\"profile\" aria-selected=\"false\"><i class=\"bi bi-person-plus-fill\"></i> Create an account</a>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t\t<li class=\"nav-item\" role=\"presentation\">\n\t\t\t\t\t\t\t\t\t<a class=\"nav-link\" id=\"contact-tab\" data-toggle=\"tab\" href=\"#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\" role=\"tab\" aria-controls=\"contact\" aria-selected=\"false\"><i class=\"bi bi-key-fill\"></i> Reset my password</a>\n\t\t\t\t\t\t\t\t</li>\n\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n\t\t\t\t\t\t\t\t<span aria-hidden=\"true\">&times;</span>\n\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"modal-body d-flex flex-column justify-content-center\">\n\t\t\t\t\t\t\t<div class=\"tab-content\">\n\t\t\t\t\t\t\t\t{# Sign in #}\n\t\t\t\t\t\t\t\t<form class=\"tab-pane fade show active pb-5\" role=\"tabpanel\" id=\"B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\">\n\t\t\t\t\t\t\t\t\t<div class=\"container-fluid\">\n\t\t\t\t\t\t\t\t\t\t<h1 class=\"font-weight-bold mb-3\">Welcome back !</h1>\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-12 gx-0\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"E64F24B2_33E6_4DED_9B24_28BE04219613\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"user\" id=\"E64F24B2_33E6_4DED_9B24_28BE04219613\" required=\"required\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your login...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"password\" name=\"pass\" id=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\" required=\"required\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your password...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t{% if passwordAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-primary shadowed w-100\">Sign in</button>\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t{% if certificateAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"hr-sect\">OR</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\n\t\t\t\t\t\t\t\t\t\t\t\t{% if certificateAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{% if changeCertificateAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"btn-group w-100\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-dark shadowed w-100 d-flex align-items-center justify-content-center\" type=\"button\" onclick=\"amiAuth.form_login2();\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"bi bi-patch-check pr-1\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCertificate Login\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"btn btn-dark dropdown-toggle shadowed\" data-toggle=\"dropdown\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"bi bi-wrench\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<ul class=\"dropdown-menu dropdown-menu-right\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li><a class=\"dropdown-item\" href=\"javascript:amiAuth.form_attachCert();\">Attach Certificate</a></li>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li><a class=\"dropdown-item\" href=\"javascript:amiAuth.form_detachCert();\">Detach Certificate</a></li>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t{% else %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-dark shadowed w-100 d-flex align-items-center justify-content-center\" type=\"button\" onclick=\"amiAuth.form_login2();\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"bi bi-patch-check pr-1\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCertificate Login\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\n\t\t\t\t\t\t\t\t\t\t\t\t{% if ssoAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<button class=\"btn light-primary shadowed w-100 mt-3\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"bi bi-box-arrow-in-right\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tSSO Login\n\t\t\t\t\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\n\t\t\t\t\t\t\t\t{# Create an account #}\n\t\t\t\t\t\t\t\t<form class=\"tab-pane fade xxxxxx\" role=\"tabpanel\" id=\"EE055CD4_E58F_4834_8020_986AE3F8D67D\">\n\t\t\t\t\t\t\t\t\t<h1 class=\"font-weight-bold mb-3\">Welcome.</h1>\n\t\t\t\t\t\t\t\t\t<div class=\"modal-body pb-5\">\n\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"FD95B3FA_C808_0E08_2D1E_0FE0E3871101\" />\n\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-12\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\">First name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"first_name\" id=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\" tabindex=\"1\" required=\"required\" placeholder=\"Type your first name...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"A9A08864_6A32_45A4_8898_C167564DB8BB\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"login\" id=\"A9A08864_6A32_45A4_8898_C167564DB8BB\" tabindex=\"3\" required=\"required\" placeholder=\"Choose a login...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"password\" name=\"pass\" id=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\" tabindex=\"5\" required=\"required\" placeholder=\"Choose a password...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img class=\"form-control\" alt=\"\" src=\"\" id=\"AC9836E6_2A20_8711_39D5_0E8340561078\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\">Last name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"last_name\" id=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\" tabindex=\"2\" required=\"required\" placeholder=\"Type your last name...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\">Email<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"email\" class=\"form-control\" name=\"email\" id=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\" tabindex=\"4\" required=\"required\" placeholder=\"Type your email...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"password\" name=\"xxxx\" id=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\" tabindex=\"6\" required=\"required\" placeholder=\"Confirm the password...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"captcha_text\" id=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3 text-left\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"attachCert\" id=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\" tabindex=\"8\" checked=\"checked\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\">Attach the current certificate</label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"text-center\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href=\"#C3E94F6D_48E0_86C0_3534_691728E492F4\" data-toggle=\"collapse\">terms and conditions</a>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<iframe class=\"border collapse\" id=\"C3E94F6D_48E0_86C0_3534_691728E492F4\" style=\"padding: 1px; height: 220px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3 text-right\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"agree\" id=\"C443738D_16BD_469F_1430_84EC13924118\" tabindex=\"9\" xxxxxxx=\"xxxxxxx\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"C443738D_16BD_469F_1430_84EC13924118\">I agree with the terms and conditions</label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"modal-footer bg-transparent border-top-0\">\n\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-primary shadowed\" type=\"submit\">Create</button>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\n\t\t\t\t\t\t\t\t{# Reset a password #}\n\t\t\t\t\t\t\t\t<form class=\"tab-pane fade xxxxxx\" role=\"tabpanel\" id=\"DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\">\n\t\t\t\t\t\t\t\t\t<h1 class=\"font-weight-bold mb-3\">Recover your password.</h1>\n\n\t\t\t\t\t\t\t\t\t<div class=\"modal-body\">\n\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"A63C0110_E591_6FCE_6D7A_02EEBC094199\" />\n\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-12\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"user\" id=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\" required=\"required\" placeholder=\"Type your login...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img class=\"form-control\" alt=\"\" src=\"\" id=\"EA79605C_6EFF_4C77_9D70_88254B00FD52\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-group\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"captcha_text\" id=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"modal-footer bg-transparent border-top-0\">\n\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-primary shadowed\" type=\"submit\">Reset</button>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
-
-/***/ }),
-
-/***/ 6087:
-/***/ ((module) => {
-
-"use strict";
-module.exports = "<div class=\"toast mb-2\" role=\"alert\" {% if fadeOut %}data-delay=\"60000\"{% else %}data-autohide=\"false\"{% endif %} data-hash=\"{{ hash }}\" data-cnt=\"1\">\n\t<div class=\"toast-header py-1\">\n\t\t<strong class=\"mr-auto text-{{ clazz|e }}\">{{ title|e }}</strong>\n\t\t<small>{{ date|e }}</small>\n\t\t<button class=\"btn btn-link text-muted p-0 ml-2\" type=\"button\" data-dismiss=\"toast\">\n\t\t\t<i class=\"bi bi-x-circle\"></i>\n\t\t</button>\n\t</div>\n\t<div class=\"toast-body\">\n\t\t{{ message|e }}\n\t</div>\n</div>\n";
-
-/***/ }),
-
-/***/ 3396:
-/***/ ((module) => {
-
-"use strict";
-module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAllowed %}\n\t<button class=\"btn btn-outline-secondary\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t<i class=\"bi bi-box-arrow-in-right\"></i> {{ awfInfo.ssoLabel|default('Single Sign-On') }}\n\t</button>\n\t{% endif %}\n\t<button class=\"btn btn-primary\" type=\"button\" onclick=\"amiAuth.signIn()\"><i class=\"bi bi-box-arrow-in-right\"></i> Sign in</button>\n</li>\n\n";
-
-/***/ }),
-
-/***/ 2017:
-/***/ ((module) => {
-
-"use strict";
-module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon }}\n</li>\n{% if bookmarksAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-star-fill\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t\t{% if changeInfoAllowed %}\n\t\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.changeInfo();\">Change Information</a>\n\t\t{% endif %}\n\t\t{% if changePasswordAllowed %}\n\t\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.changePass();\">Change Password</a>\n\t\t{% endif %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.accountStatus();\">Account Status</a>\n\t\t<a class=\"dropdown-item\" href=\"javascript:amiLogin.updateCertificate();\">Manage Certificate</a>\n\t\t<div id=\"ami_user_menu_content\"></div>\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-secondary mt-1 mt-lg-0 ms-0 ms-lg-1\" type=\"button\" onclick=\"window.amiAuth.signOut();\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign out\n\t</button>\n</li>\n";
-
-/***/ }),
-
-/***/ 8798:
-/***/ ((module) => {
-
-"use strict";
-module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"AB1CB183_96EB_4116_8A9E_4409BE058F34\">\n\t<div class=\"modal-dialog modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Account Status</h4>\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\t\t\t\t<h5 id=\"D944B01D_2E8D_4EE9_9DCC_2691438BBA16\"></h5>\n\t\t\t\t<div class=\"tabbable\">\n\t\t\t\t\t<ul class=\"nav nav-tabs\">\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link active\" href=\"#B89A9E2D_8969_41F4_B266_230B782FA17D\" data-bs-toggle=\"tab\" data-bs-target=\"#B89A9E2D_8969_41F4_B266_230B782FA17D\" role=\"tab\" data-toggle=\"tab\">User account status</a></li>\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link xxxxxx\" href=\"#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\" data-bs-toggle=\"tab\" data-bs-target=\"#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\" role=\"tab\" data-toggle=\"tab\">User information</a></li>\n\t\t\t\t\t\t<li class=\"nav-item\"><a class=\"nav-link xxxxxx\" href=\"#D827345F_6762_32F6_1D2D_DB40676804AE\" data-bs-toggle=\"tab\" data-bs-target=\"#D827345F_6762_32F6_1D2D_DB40676804AE\" role=\"tab\" data-toggle=\"tab\">User roles</a></li>\n\t\t\t\t\t</ul>\n\t\t\t\t\t<div class=\"tab-content\">\n\t\t\t\t\t\t<div class=\"tab-pane active\" role=\"tabpanel\" id=\"B89A9E2D_8969_41F4_B266_230B782FA17D\">\n\t\t\t\t\t\t\t<div class=\"text-center rounded mx-auto px-5 py-2 mb-2\">\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex align-items-center justify-content-center\">\n\t\t\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/logo.png\" width=\"150\" />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-6\">\n\t\t\t\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 24pt;\" id=\"D579A431_DBE4_6B30_1CF6_5E23761B4E1A\">Your account is</div>\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family:     'Trochut'    ; font-size: 36pt;\" id=\"F3FF9F43_DE72_40BB_B1BA_B7B3C9002671\">???????????????</div>\n\t\t\t\t\t\t\t\t\t\t<div style=\"font-family: 'Open Sans Light'; font-size: 14pt;\" id=\"E91280F6_E7C6_3E53_A457_646995C99317\">???????????????</div>\n\t\t\t\t\t\t\t\t\t\t<br />\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-xl-3 d-flex align-items-center justify-content-center\" id=\"EC948084_8C0A_CEBF_58C9_086046AB2456\"></div>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"text-center\">\n\t\t\t\t\t\t\t\t<a href=\"#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" data-bs-toggle=\"collapse\">terms and conditions</a>\n\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t<iframe class=\"form-control collapse\" id=\"E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27\" style=\"padding: 1px; min-height: 350px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC\">\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" style=\"font-weight: normal;\">First name</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"ABEB0291_40B0_414A_A42B_E7EABB9B487E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" style=\"font-weight: normal;\">Last name</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"A5AFDB62_1034_4F66_A3E6_9341B31FA290\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" style=\"font-weight: normal;\">Email</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"D730A774_05EA_47AB_A0C8_D92753802E3E\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" style=\"font-weight: normal;\">Client certificate DN in account</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"D1BEE3BF_9161_41DC_BC53_C44FFE4D2522\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"C76805D7_1E86_4231_9071_1D04783423BB\" style=\"font-weight: normal;\">Client certificate DN in session</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"C76805D7_1E86_4231_9071_1D04783423BB\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" style=\"font-weight: normal;\">Issuer certificate DN in account</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t<div class=\"mb-3 row\">\n\t\t\t\t\t\t\t\t<label class=\"col-sm-3 col-form-label col-form-label-sm\" for=\"FE2F6232_C256_4B80_939C_EBEC90320308\" style=\"font-weight: normal;\">Issuer certificate DN in session</label>\n\t\t\t\t\t\t\t\t<div class=\"col-sm-9\">\n\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" id=\"FE2F6232_C256_4B80_939C_EBEC90320308\" readonly=\"readonly\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"tab-pane xxxxxx\" role=\"tabpanel\" id=\"D827345F_6762_32F6_1D2D_DB40676804AE\">\n\t\t\t\t\t\t\t<table class=\"table table-sm table-striped\">\n\t\t\t\t\t\t\t\t<thead>\n\t\t\t\t\t\t\t\t<tr>\n\t\t\t\t\t\t\t\t\t<th>Name</th>\n\t\t\t\t\t\t\t\t\t<th>Description</th>\n\t\t\t\t\t\t\t\t</tr>\n\t\t\t\t\t\t\t\t</thead>\n\t\t\t\t\t\t\t\t<tbody id=\"BB07676B_EACA_9B42_ED51_477DB2976041\"></tbody>\n\t\t\t\t\t\t\t</table>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
-
-/***/ }),
-
-/***/ 2309:
-/***/ ((module) => {
-
-"use strict";
-module.exports = "<div class=\"modal fade\" role=\"dialog\" id=\"ECB92A89_A706_7C76_E248_E57D14C8B205\">\n\t<div class=\"modal-dialog modal-dialog-centered modal-lg\" role=\"document\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-header\">\n\t\t\t\t<h4 class=\"modal-title\">Change Certificate</h4>\n\t\t\t\t{% if BOOTSTRAP_VERSION > 4 %}\n\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\"></button>\n\t\t\t\t{% else %}\n\t\t\t\t<button type=\"button\" class=\"close\" data-dismiss=\"modal\">&times;</button>\n\t\t\t\t{% endif %}\n\t\t\t</div>\n\t\t\t<div class=\"modal-body\">\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t\t<div class=\"card mb-2\">\n\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t<h5 class=\"card-title d-flex justify-content-between\">\n\t\t\t\t\t\t\t<span>Certificate in AMI</span>\n\t\t\t\t\t\t\t<a class=\"btn btn-sm btn-danger\" href=\"javascript:amiAuth.form_detachCert();\" id=\"B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2\">\n\t\t\t\t\t\t\t\tDetach this certificate\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-1\" type=\"text\" readonly=\"readonly\" id=\"C9297C00_920D_4AE6_8A20_B0DDB383CC6A\" />\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-0\" type=\"text\" readonly=\"readonly\" id=\"D4B29AC0_4867_815B_8657_5A1D623C29CF\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t\t<div class=\"card mb-0\">\n\t\t\t\t\t<div class=\"card-body\">\n\t\t\t\t\t\t<h5 class=\"card-title d-flex justify-content-between\">\n\t\t\t\t\t\t\t<span>Certificate in session</span>\n\t\t\t\t\t\t\t<a class=\"btn btn-sm btn-primary\" href=\"javascript:amiAuth.form_attachCert();\" id=\"DB0223B3_D721_7EEB_50B8_032A04C7D218\">\n\t\t\t\t\t\t\t\tAttach this certificate\n\t\t\t\t\t\t\t</a>\n\t\t\t\t\t\t</h5>\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-1\" type=\"text\" readonly=\"readonly\" id=\"C8B8F968_CCAA_26DF_8665_2B518189E3DE\" />\n\t\t\t\t\t\t<input class=\"form-control form-control-sm border-0 mb-0\" type=\"text\" readonly=\"readonly\" id=\"A962ED59_DB71_C10C_6173_3615C6F48028\" />\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\n\t\t\t\t<!-- *********************************************************************************************** -->\n\n\t\t\t</div>\n\t\t\t<div class=\"modal-footer\">\n\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-bs-dismiss=\"modal\">Close</button>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
-
-/***/ }),
-
-/***/ 707:
+/***/ 3111:
 /***/ ((module) => {
 
 "use strict";
@@ -25091,7 +24796,7 @@ module.exports = "<form class=\"modal fade\" role=\"dialog\" id=\"D9EAF998_ED8E_
 
 /***/ }),
 
-/***/ 1556:
+/***/ 3334:
 /***/ ((module) => {
 
 "use strict";
@@ -25099,15 +24804,15 @@ module.exports = "<form class=\"modal fade\" role=\"dialog\" id=\"E92A1097_983B_
 
 /***/ }),
 
-/***/ 9990:
+/***/ 8841:
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<div class=\"modal fade\" tabindex=\"-1\" id=\"D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B\">\n\t<div class=\"modal-dialog modal-dialog-centered modal-xl\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"container-fluid pl-0\">\n\t\t\t\t<div class=\"row align-content-between\">\n\t\t\t\t\t<div class=\"d-none d-lg-block col-12 col-lg-6 p-0 align-self-stretch\">\n\t\t\t\t\t\t<img class=\"img-fluid rounded-end h-100\" src=\"https://mediaarchive.cern.ch/MediaArchive/Photo/Public/2005/0511013/0511013_01/0511013_01-A4-at-144-dpi.jpg\" alt=\"\" style=\"object-fit: cover;\">\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"col-12 col-lg-6 p-0 d-flex flex-column justify-content-center align-content-between\">\n\t\t\t\t\t\t<div class=\"bg-transparent modal-header border-bottom-0\">\n\t\t\t\t\t\t\t<nav>\n\t\t\t\t\t\t\t\t<div class=\"nav nav-tabs\" id=\"nav-tab\" role=\"tablist\">\n\t\t\t\t\t\t\t\t\t<button class=\"nav-link active\" id=\"nav-home-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\" type=\"button\" role=\"tab\" aria-controls=\"nav-home\" aria-selected=\"true\"><i class=\"bi bi-box-arrow-in-right\"></i> Sign in</button>\n\t\t\t\t\t\t\t\t\t<button class=\"nav-link\" id=\"nav-profile-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#EE055CD4_E58F_4834_8020_986AE3F8D67D\" type=\"button\" role=\"tab\" aria-controls=\"nav-profile\" aria-selected=\"false\"><i class=\"bi bi-person-plus-fill\"></i> Create an account</button>\n\t\t\t\t\t\t\t\t\t<button class=\"nav-link\" id=\"nav-profile-tab\" data-bs-toggle=\"tab\" data-bs-target=\"#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\" type=\"button\" role=\"tab\" aria-controls=\"nav-profile\" aria-selected=\"false\"><i class=\"bi bi-key-fill\"></i> Reset my password</button>\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t</nav>\n\t\t\t\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t\t<div class=\"modal-body d-flex flex-column justify-content-center\">\n\t\t\t\t\t\t\t<div class=\"tab-content\">\n\t\t\t\t\t\t\t\t{# Sign in #}\n\t\t\t\t\t\t\t\t<form class=\"tab-pane fade show active pb-5\" role=\"tabpanel\" id=\"B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\">\n\t\t\t\t\t\t\t\t\t<div class=\"container-fluid\">\n\n\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t<h1 class=\"fw-bold mb-3 ps-0\">Welcome back !</h1>\n\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-12 gx-0\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"E64F24B2_33E6_4DED_9B24_28BE04219613\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"user\" id=\"E64F24B2_33E6_4DED_9B24_28BE04219613\" required=\"required\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your login...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"password\" name=\"pass\" id=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\" required=\"required\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your password...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t{% if passwordAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<button type=\"submit\" class=\"btn btn-primary shadowed w-100\">Sign in</button>\n\n\t\t\t\t\t\t\t\t\t\t\t\t\t{% if certificateAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"hr-sect\">OR</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\n\t\t\t\t\t\t\t\t\t\t\t\t{% if certificateAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t{% if changeCertificateAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"btn-group w-100\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-dark shadowed w-100 d-flex align-items-center justify-content-center\" type=\"button\" onclick=\"amiAuth.form_login2();\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"bi bi-patch-check pe-1\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCertificate Login\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<span class=\"btn btn-dark dropdown-toggle shadowed\" data-bs-toggle=\"dropdown\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"bi bi-wrench\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<ul class=\"dropdown-menu dropdown-menu-right\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li><a class=\"dropdown-item\" href=\"javascript:amiAuth.form_attachCert();\">Attach Certificate</a></li>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<li><a class=\"dropdown-item\" href=\"javascript:amiAuth.form_detachCert();\">Detach Certificate</a></li>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</ul>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t{% else %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-dark shadowed w-100 d-flex align-items-center justify-content-center\" type=\"button\" onclick=\"amiAuth.form_login2();\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"bi bi-patch-check pe-1\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tCertificate Login\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\n\t\t\t\t\t\t\t\t\t\t\t\t{% if ssoAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<button class=\"btn light-primary shadowed w-100 mt-3\" type=\"button\" onclick=\"amiAuth.sso()\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<i class=\"bi bi-box-arrow-in-right\"></i>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\tSSO Login\n\t\t\t\t\t\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t\t\t{# Create an account #}\n\t\t\t\t\t\t\t\t<form class=\"tab-pane fade xxxxxx\" role=\"tabpanel\" id=\"EE055CD4_E58F_4834_8020_986AE3F8D67D\">\n\t\t\t\t\t\t\t\t\t<h1 class=\"fw-bold mb-3\">Welcome.</h1>\n\t\t\t\t\t\t\t\t\t<div class=\"modal-body pb-5\">\n\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"FD95B3FA_C808_0E08_2D1E_0FE0E3871101\" />\n\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-12\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\">First name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"first_name\" id=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\" tabindex=\"1\" required=\"required\" placeholder=\"Type your first name...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"A9A08864_6A32_45A4_8898_C167564DB8BB\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"login\" id=\"A9A08864_6A32_45A4_8898_C167564DB8BB\" tabindex=\"3\" required=\"required\" placeholder=\"Choose a login...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"password\" name=\"pass\" id=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\" tabindex=\"5\" required=\"required\" placeholder=\"Choose a password...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img class=\"form-control\" alt=\"\" src=\"\" id=\"AC9836E6_2A20_8711_39D5_0E8340561078\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\">Last name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"last_name\" id=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\" tabindex=\"2\" required=\"required\" placeholder=\"Type your last name...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\">Email<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"email\" class=\"form-control\" name=\"email\" id=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\" tabindex=\"4\" required=\"required\" placeholder=\"Type your email...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"password\" name=\"xxxx\" id=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\" tabindex=\"6\" required=\"required\" placeholder=\"Confirm the password...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"captcha_text\" id=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3 text-left\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"attachCert\" id=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\" tabindex=\"8\" checked=\"checked\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\">Attach the current certificate</label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"text-center\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<a href=\"#C3E94F6D_48E0_86C0_3534_691728E492F4\" data-bs-toggle=\"collapse\">terms and conditions</a>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<iframe class=\"form-control collapse\" id=\"C3E94F6D_48E0_86C0_3534_691728E492F4\" style=\"padding: 1px; height: 220px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3 text-end\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"agree\" id=\"C443738D_16BD_469F_1430_84EC13924118\" tabindex=\"9\" xxxxxxx=\"xxxxxxx\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"C443738D_16BD_469F_1430_84EC13924118\">I agree with the terms and conditions</label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"modal-footer bg-transparent border-top-0\">\n\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-primary shadowed\" type=\"submit\">Create</button>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\n\t\t\t\t\t\t\t\t{# Reset a password #}\n\t\t\t\t\t\t\t\t<form class=\"tab-pane fade xxxxxx\" role=\"tabpanel\" id=\"DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\">\n\t\t\t\t\t\t\t\t\t<h1 class=\"fw-bold mb-3\">Recover your password.</h1>\n\n\t\t\t\t\t\t\t\t\t<div class=\"modal-body\">\n\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"A63C0110_E591_6FCE_6D7A_02EEBC094199\" />\n\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-12\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"user\" id=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\" required=\"required\" placeholder=\"Type your login...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<img class=\"form-control\" alt=\"\" src=\"\" id=\"EA79605C_6EFF_4C77_9D70_88254B00FD52\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control\" type=\"text\" name=\"captcha_text\" id=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"modal-footer bg-transparent border-top-0\">\n\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t\t\t\t\t<button class=\"btn btn-primary shadowed\" type=\"submit\">Reset</button>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</form>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div>\n\t\t\t\t</div>\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n\n\n{#<div class=\"modal fade\" role=\"dialog\" id=\"D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B\">#}\n{#\t<div class=\"modal-dialog modal-lg\" role=\"document\">#}\n{#\t\t<div class=\"modal-content\">#}\n{#\t\t\t<div class=\"modal-header\">#}\n{#\t\t\t\t<h4 class=\"modal-title\">Authentication</h4>#}\n{#\t\t\t\t<button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>#}\n{#\t\t\t</div>#}\n{#\t\t\t<div class=\"modal-body\">#}\n{#\t\t\t\t<ul class=\"nav nav-tabs mb-0\" role=\"tablist\">#}\n{#\t\t\t\t\t<li class=\"nav-item\"><button class=\"nav-link active\" href=\"#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\" role=\"tab\" data-toggle=\"tab\" type=\"button\" data-bs-toggle=\"tab\" data-bs-target=\"#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\" aria-controls=\"B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\">Sign In</button></li>#}\n{#\t\t\t\t\t{% if createAccountAllowed %}#}\n{#\t\t\t\t\t\t<li class=\"nav-item\"><button class=\"nav-link xxxxxx\" href=\"#EE055CD4_E58F_4834_8020_986AE3F8D67D\" role=\"tab\" data-toggle=\"tab\" type=\"button\" data-bs-toggle=\"tab\" data-bs-target=\"#EE055CD4_E58F_4834_8020_986AE3F8D67D\" aria-controls=\"EE055CD4_E58F_4834_8020_986AE3F8D67D\">Create an account</button></li>#}\n{#\t\t\t\t\t{% endif %}#}\n{#\t\t\t\t\t{% if changePasswordAllowed %}#}\n{#\t\t\t\t\t\t<li class=\"nav-item\"><button class=\"nav-link xxxxxx\" href=\"#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\" role=\"tab\" data-toggle=\"tab\" type=\"button\" data-bs-toggle=\"tab\" data-bs-target=\"#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\" aria-controls=\"DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\">Reset my password</button></li>#}\n{#\t\t\t\t\t{% endif %}#}\n{#\t\t\t\t</ul>#}\n{#\t\t\t</div>#}\n{#\t\t\t<div class=\"tab-content\">#}\n{#\t\t\t\t<form class=\"tab-pane fade show active\" role=\"tabpanel\" id=\"B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\">#}\n{#\t\t\t\t\t<div class=\"modal-body\">#}\n{#\t\t\t\t\t\t<div class=\"row mb-5\">#}\n{#\t\t\t\t\t\t\t<div class=\"col-md-2 text-center\">#}\n{#\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />#}\n{#\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t<div class=\"col-md-10\">#}\n{#\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t<label for=\"E64F24B2_33E6_4DED_9B24_28BE04219613\">Login<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"user\" id=\"E64F24B2_33E6_4DED_9B24_28BE04219613\" required=\"required\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your login...\" />#}\n{#\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t<label for=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\">Password<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"pass\" id=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\" required=\"required\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your password...\" />#}\n{#\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t</div>#}\n{##}\n{#\t\t\t\t\t\t<div class=\"container\">#}\n{#\t\t\t\t\t\t\t<div class=\"row\">#}\n{#\t\t\t\t\t\t\t\t<button class=\"btn btn-primary mb-3\">Connect with SSO</button>#}\n{#\t\t\t\t\t\t\t\t<button class=\"btn btn-secondary\">Connect with Certificate</button>#}\n{#\t\t\t\t\t\t\t</div>#}\n{##}\n{#\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t</div>#}\n{#\t\t\t\t\t<div class=\"modal-footer\">#}\n{#\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>#}\n{#\t\t\t\t\t\t{% if passwordAuthenticationAllowed %}#}\n{#\t\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Password Login</button>#}\n{#\t\t\t\t\t\t{% endif %}#}\n{#\t\t\t\t\t\t{% if certificateAuthenticationAllowed %}#}\n{#\t\t\t\t\t\t\t{% if changeCertificateAllowed %}#}\n{#\t\t\t\t\t\t\t\t<div class=\"btn-group\">#}\n{#\t\t\t\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"button\" onclick=\"amiAuth.form_login2();\">Certificate Login</button>#}\n{#\t\t\t\t\t\t\t\t\t<span class=\"btn btn-primary dropdown-toggle\" data-bs-toggle=\"dropdown\">#}\n{#\t\t\t\t\t\t\t\t\t\t<i class=\"bi bi-wrench\"></i>#}\n{#\t\t\t\t\t\t\t\t\t</span>#}\n{#\t\t\t\t\t\t\t\t\t<ul class=\"dropdown-menu dropdown-menu-right\">#}\n{#\t\t\t\t\t\t\t\t\t\t<li><a class=\"dropdown-item\" href=\"javascript:amiAuth.form_attachCert();\">Attach Certificate</a></li>#}\n{#\t\t\t\t\t\t\t\t\t\t<li><a class=\"dropdown-item\" href=\"javascript:amiAuth.form_detachCert();\">Detach Certificate</a></li>#}\n{#\t\t\t\t\t\t\t\t\t</ul>#}\n{#\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t{%   else %}#}\n{#\t\t\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"button\" onclick=\"amiAuth.form_login2();\">Certificate Login</button>#}\n{#\t\t\t\t\t\t\t{%   endif %}#}\n{#\t\t\t\t\t\t{% endif %}#}\n{#\t\t\t\t\t</div>#}\n{#\t\t\t\t</form>#}\n{#\t\t\t\t<form class=\"tab-pane fade xxxxxx\" role=\"tabpanel\" id=\"EE055CD4_E58F_4834_8020_986AE3F8D67D\">#}\n{#\t\t\t\t\t<div class=\"modal-body\">#}\n{#\t\t\t\t\t\t{% if captchaAllowed %}#}\n{#\t\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"FD95B3FA_C808_0E08_2D1E_0FE0E3871101\" />#}\n{#\t\t\t\t\t\t{% endif %}#}\n{#\t\t\t\t\t\t<div class=\"row\">#}\n{#\t\t\t\t\t\t\t<div class=\"col-md-2 text-center\">#}\n{#\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />#}\n{#\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t<div class=\"col-md-10\">#}\n{#\t\t\t\t\t\t\t\t<div class=\"row\">#}\n{#\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">#}\n{#\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t<label for=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\">First name<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"first_name\" id=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\" tabindex=\"1\" required=\"required\" placeholder=\"Type your first name...\" />#}\n{#\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t<label for=\"A9A08864_6A32_45A4_8898_C167564DB8BB\">Login<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"login\" id=\"A9A08864_6A32_45A4_8898_C167564DB8BB\" tabindex=\"3\" required=\"required\" placeholder=\"Choose a login...\" />#}\n{#\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t<label for=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\">Password<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"pass\" id=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\" tabindex=\"5\" required=\"required\" placeholder=\"Choose a password...\" />#}\n{#\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}#}\n{#\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>#}\n{#\t\t\t\t\t\t\t\t\t\t\t\t<img class=\"form-control form-control-sm\" alt=\"\" src=\"\" id=\"AC9836E6_2A20_8711_39D5_0E8340561078\" />#}\n{#\t\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t{% endif %}#}\n{#\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">#}\n{#\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t<label for=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\">Last name<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"last_name\" id=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\" tabindex=\"2\" required=\"required\" placeholder=\"Type your last name...\" />#}\n{#\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t<label for=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\">Email<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t\t\t<input type=\"email\" class=\"form-control form-control-sm\" name=\"email\" id=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\" tabindex=\"4\" required=\"required\" placeholder=\"Type your email...\" />#}\n{#\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t<label for=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\">Password<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"xxxx\" id=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\" tabindex=\"6\" required=\"required\" placeholder=\"Confirm the password...\" />#}\n{#\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}#}\n{#\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\">Captcha<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"captcha_text\" id=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />#}\n{#\t\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t{% endif %}#}\n{#\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t<div class=\"mb-3 text-left\">#}\n{#\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">#}\n{#\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"attachCert\" id=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\" tabindex=\"8\" checked=\"checked\" />#}\n{#\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\">Attach the current certificate</label>#}\n{#\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t<iframe class=\"form-control\" id=\"C3E94F6D_48E0_86C0_3534_691728E492F4\" style=\"padding: 1px; height: 220px; width: 100%;\"></iframe>#}\n{#\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t<div class=\"mb-3 text-right\">#}\n{#\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">#}\n{#\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"agree\" id=\"C443738D_16BD_469F_1430_84EC13924118\" tabindex=\"9\" xxxxxxx=\"xxxxxxx\" />#}\n{#\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"C443738D_16BD_469F_1430_84EC13924118\">I agree with the terms and conditions</label>#}\n{#\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t</div>#}\n{#\t\t\t\t\t<div class=\"modal-footer\">#}\n{#\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>#}\n{#\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Create</button>#}\n{#\t\t\t\t\t</div>#}\n{#\t\t\t\t</form>#}\n{#\t\t\t\t<form class=\"tab-pane fade xxxxxx\" role=\"tabpanel\" id=\"DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\">#}\n{#\t\t\t\t\t<div class=\"modal-body\">#}\n{#\t\t\t\t\t\t{% if captchaAllowed %}#}\n{#\t\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"A63C0110_E591_6FCE_6D7A_02EEBC094199\" />#}\n{#\t\t\t\t\t\t{% endif %}#}\n{#\t\t\t\t\t\t<div class=\"row\">#}\n{#\t\t\t\t\t\t\t<div class=\"col-md-2 text-center\">#}\n{#\t\t\t\t\t\t\t\t<img src=\"{{ORIGIN_URL}}/js/assets/images/padlock.png\" alt=\"\" height=\"90\" width=\"90\" />#}\n{#\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t<div class=\"col-md-10\">#}\n{#\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t<label for=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\">Login<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"user\" id=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\" required=\"required\" placeholder=\"Type your login...\" />#}\n{#\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t{% if captchaAllowed %}#}\n{#\t\t\t\t\t\t\t\t\t<div class=\"row\">#}\n{#\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>#}\n{#\t\t\t\t\t\t\t\t\t\t\t\t<img class=\"form-control form-control-sm\" alt=\"\" src=\"\" id=\"EA79605C_6EFF_4C77_9D70_88254B00FD52\" />#}\n{#\t\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">#}\n{#\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\">Captcha<span class=\"text-danger\">*</span></label>#}\n{#\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"captcha_text\" id=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />#}\n{#\t\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t\t\t{% endif %}#}\n{#\t\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t\t</div>#}\n{#\t\t\t\t\t</div>#}\n{#\t\t\t\t\t<div class=\"modal-footer\">#}\n{#\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-dismiss=\"modal\">Close</button>#}\n{#\t\t\t\t\t\t<button class=\"btn btn-primary\" type=\"submit\">Reset</button>#}\n{#\t\t\t\t\t</div>#}\n{#\t\t\t\t</form>#}\n{#\t\t\t</div>#}\n{#\t\t</div>#}\n{#\t</div>#}\n{#</div>#}\n";
+module.exports = "<div class=\"modal fade\" tabindex=\"-1\" id=\"D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B\">\n\t<div class=\"modal-dialog modal-dialog-centered modal-xl\">\n\t\t<div class=\"modal-content\">\n\t\t\t<div class=\"modal-body p-0\">\n\n\t\t\t\t<div class=\"row m-0\">\n\n\t\t\t\t\t<div class=\"col-lg-6 m-0 p-0\"\n\t\t\t\t\t\tstyle=\"background: url('https://mediaarchive.cern.ch/MediaArchive/Photo/Public/2007/0706038/0706038_02/0706038_02-A4-at-144-dpi.jpg') center center; background-size: auto 100%;\">\n\t\t\t\t\t</div>\n\n\t\t\t\t\t<div class=\"col-lg-6 m-0 p-0\">\n\n\t\t\t\t\t\t<nav class=\"p-3\">\n\t\t\t\t\t\t\t<div class=\"nav nav-tabs\" role=\"tablist\">\n\t\t\t\t\t\t\t\t<button class=\"nav-link active\" data-bs-toggle=\"tab\" data-bs-target=\"#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\" type=\"button\" role=\"tab\"><i class=\"bi bi-box-arrow-in-right\"></i> Sign In</button>\n\t\t\t\t\t\t\t\t<button class=\"nav-link xxxxxx\" data-bs-toggle=\"tab\" data-bs-target=\"#EE055CD4_E58F_4834_8020_986AE3F8D67D\" type=\"button\" role=\"tab\"><i class=\"bi bi-person-plus\"></i> Sign Up</button>\n\t\t\t\t\t\t\t\t<button class=\"nav-link xxxxxx\" data-bs-toggle=\"tab\" data-bs-target=\"#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\" type=\"button\" role=\"tab\"><i class=\"bi bi-bandaid\"></i> Password Lost</button>\n\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t</nav>\n\n\t\t\t\t\t\t<div class=\"tab-content px-3 pb-3\" style=\"height: 400px; overflow-y: scroll;\">\n\n\t\t\t\t\t\t\t<!-- *********************************************************************************** -->\n\n\t\t\t\t\t\t\t<form class=\"tab-pane fade show active\" role=\"tabpanel\" id=\"B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73\">\n\n\t\t\t\t\t\t\t\t<h1 class=\"fw-bold\">Welcome in AMI</h1>\n\n\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t<label for=\"E64F24B2_33E6_4DED_9B24_28BE04219613\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"username\" id=\"E64F24B2_33E6_4DED_9B24_28BE04219613\" required=\"required\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your username...\" />\n\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t<label for=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"password\" id=\"A4DFD039_034F_4D10_9668_385AEF4FBBB9\" required=\"required\" autocomplete=\"off\" autocapitalize=\"off\" spellcheck=\"false\" placeholder=\"Type your password...\" />\n\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t{% if passwordAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t<button class=\"btn btn-primary shadow w-100 mt-3\" type=\"submit\">\n\t\t\t\t\t\t\t\t\tSign In by Username\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t{% endif %}\n\n\t\t\t\t\t\t\t\t{% if certificateAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t<button class=\"btn btn-primary shadow w-100 mt-3\" type=\"button\" onclick=\"amiAuth.form_login2();\">\n\t\t\t\t\t\t\t\t\tSign In by Certificate\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t{% endif %}\n\n\t\t\t\t\t\t\t\t{% if ssoAuthenticationAllowed %}\n\t\t\t\t\t\t\t\t<button class=\"btn btn-light shadow w-100 mt-3\" type=\"button\" onclick=\"amiAuth.sso();\">\n\t\t\t\t\t\t\t\t\tSingle Sign-On\n\t\t\t\t\t\t\t\t</button>\n\t\t\t\t\t\t\t\t{% endif %}\n\n\t\t\t\t\t\t\t</form>\n\n\t\t\t\t\t\t\t<!-- *********************************************************************************** -->\n\n\t\t\t\t\t\t\t<form class=\"tab-pane fade xxxx xxxxxx\" role=\"tabpanel\" id=\"EE055CD4_E58F_4834_8020_986AE3F8D67D\">\n\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\">First name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"first_name\" id=\"D752CE80_49C3_4BDC_8B1A_8ED6BD57C538\" tabindex=\"1\" required=\"required\" placeholder=\"Type your first name...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"A9A08864_6A32_45A4_8898_C167564DB8BB\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"login\" id=\"A9A08864_6A32_45A4_8898_C167564DB8BB\" tabindex=\"3\" required=\"required\" placeholder=\"Choose a login...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"pass\" id=\"E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388\" tabindex=\"5\" required=\"required\" placeholder=\"Choose a password...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label>Captcha</label>\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-control form-control-sm\" id=\"AC9836E6_2A20_8711_39D5_0E8340561078\" style=\"background-size: 100% 100%;\"></div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\">Last name<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"last_name\" id=\"B3E6D18C_ABA3_402C_88A2_55FA99555A7A\" tabindex=\"2\" required=\"required\" placeholder=\"Type your last name...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\">Email<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input type=\"email\" class=\"form-control form-control-sm\" name=\"email\" id=\"D1007165_B40F_4DAE_BA50_853F2C9DA32D\" tabindex=\"4\" required=\"required\" placeholder=\"Type your email...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\">Password<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"password\" name=\"xxxx\" id=\"CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187\" tabindex=\"6\" required=\"required\" placeholder=\"Confirm the password...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"captcha_text\" id=\"F36FED50_1ACC_CD15_ABEC_6E06247BE2DD\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t<div class=\"mb-3 text-start\">\n\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"attachCert\" id=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\" tabindex=\"8\" checked=\"checked\" />\n\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"A09AE316_7068_4BC1_96A9_6B87D28863FE\">Attach the current certificate</label>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t<iframe class=\"form-control form-control-sm\" id=\"C3E94F6D_48E0_86C0_3534_691728E492F4\" style=\"padding: 1px; height: 220px; width: 100%;\"></iframe>\n\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t<div class=\"mb-3 text-end\">\n\t\t\t\t\t\t\t\t\t<div class=\"custom-control custom-checkbox\">\n\t\t\t\t\t\t\t\t\t\t<input type=\"checkbox\" class=\"custom-control-input\" name=\"agree\" id=\"C443738D_16BD_469F_1430_84EC13924118\" tabindex=\"9\" xxxxxxx=\"xxxxxxx\" />\n\t\t\t\t\t\t\t\t\t\t<label class=\"custom-control-label\" for=\"C443738D_16BD_469F_1430_84EC13924118\">I agree with the terms and conditions</label>\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t<div class=\"text-end\">\n\t\t\t\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t\t\t\t<button class=\"btn btn-primary shadowed\" type=\"submit\">Create</button>\n\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t</form>\n\n\t\t\t\t\t\t\t<!-- *********************************************************************************** -->\n\n\t\t\t\t\t\t\t<form class=\"tab-pane fade xxxx xxxxxx\" role=\"tabpanel\" id=\"DA2047A2_9E5D_420D_B6E7_FA261D2EF10F\">\n\n\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t<input type=\"hidden\" name=\"captcha_hash\" id=\"A63C0110_E591_6FCE_6D7A_02EEBC094199\" />\n\t\t\t\t\t\t\t\t{% endif %}\n\n\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t<div class=\"col-md-12\">\n\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t<label for=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\">Login<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"user\" id=\"F0B93AF7_6049_4271_B1C9_C494A012D6D0\" required=\"required\" placeholder=\"Type your username...\" />\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t{% if captchaAllowed %}\n\t\t\t\t\t\t\t\t\t\t<div class=\"row\">\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"EA79605C_6EFF_4C77_9D70_88254B00FD52\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"form-control form-control-sm\" id=\"EA79605C_6EFF_4C77_9D70_88254B00FD52\" style=\"background-size: 100% 100%;\"></div>\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t<div class=\"col-md-6\">\n\t\t\t\t\t\t\t\t\t\t\t\t<div class=\"mb-3\">\n\t\t\t\t\t\t\t\t\t\t\t\t\t<label for=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\">Captcha<span class=\"text-danger\">*</span></label>\n\t\t\t\t\t\t\t\t\t\t\t\t\t<input class=\"form-control form-control-sm\" type=\"text\" name=\"captcha_text\" id=\"ECCBE7F1_1D33_169C_313E_C462B19DCDA0\" tabindex=\"7\" required=\"required\" placeholder=\"Confirm the captcha...\" />\n\t\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t\t\t{% endif %}\n\t\t\t\t\t\t\t\t\t</div>\n\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t\t<div class=\"text-end\">\n\t\t\t\t\t\t\t\t\t<button class=\"btn btn-outline-secondary\" type=\"button\" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss=\"modal\">Close</button>\n\t\t\t\t\t\t\t\t\t<button class=\"btn btn-primary shadowed\" type=\"submit\">Reset</button>\n\t\t\t\t\t\t\t\t</div>\n\n\t\t\t\t\t\t\t</form>\n\n\t\t\t\t\t\t\t<!-- *********************************************************************************** -->\n\n\t\t\t\t\t\t</div>\n\n\t\t\t\t\t</div>\n\n\t\t\t\t</div>\n\n\t\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n";
 
 /***/ }),
 
-/***/ 2408:
+/***/ 3988:
 /***/ ((module) => {
 
 "use strict";
@@ -25115,7 +24820,7 @@ module.exports = "<div class=\"toast mb-2\" role=\"alert\" {% if fadeOut %}data-
 
 /***/ }),
 
-/***/ 3830:
+/***/ 7378:
 /***/ ((module) => {
 
 "use strict";
@@ -25123,7 +24828,7 @@ module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAll
 
 /***/ }),
 
-/***/ 520:
+/***/ 6549:
 /***/ ((module) => {
 
 "use strict";
@@ -26801,16 +26506,14 @@ var AMICommand = function () {
     return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signOut(options).always(function () {});
   };
 
-  _proto.attachCertificate = function attachCertificate(username, password, options) {
+  _proto.attachCertificate = function attachCertificate(options) {
     options = options || {};
-    options.params = [username, password];
-    return this.execute('GetSessionInfo -attachCert -amiLogin=? -amiPassword=?', options);
+    return this.execute('GetSessionInfo -attachCert', options);
   };
 
-  _proto.detachCertificate = function detachCertificate(username, password, options) {
+  _proto.detachCertificate = function detachCertificate(options) {
     options = options || {};
-    options.params = [username, password];
-    return this.execute('GetSessionInfo -detachCert -amiLogin=? -amiPassword=?', options);
+    return this.execute('GetSessionInfo -detachCert', options);
   };
 
   _proto.addUser = function addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options) {
@@ -27241,6 +26944,8 @@ function textToSQL(s) {
 function sqlToText(s) {
   return _replace(s || '', _textToSQLY, _textToSQLX);
 }
+// EXTERNAL MODULE: ./src/twigs/message.twig
+var twigs_message = __webpack_require__(3988);
 ;// CONCATENATED MODULE: ./src/js/utilities/messages.js
 
 
@@ -27264,9 +26969,7 @@ function _publishAlert(clazz, title, message, fadeOut) {
   var toast = $("#ami_alert_content > .toast[data-hash=\"" + hash + "\"]");
 
   if (toast.length === 0) {
-    var twig = __webpack_require__(5276)("./v" + js_AMIWebApp.bootstrapVersion + "/message.twig");
-
-    var html = ami_twig/* default.engine.render */.Z.engine.render(twig, {
+    var html = ami_twig/* default.engine.render */.Z.engine.render(twigs_message, {
       date: date,
       hash: hash,
       clazz: clazz,
@@ -30999,6 +30702,20 @@ function loadTWIGs(urls, options) {
 function loadTexts(urls, options) {
   return _loadXXX(urls, 'text', options);
 }
+// EXTERNAL MODULE: ./src/twigs/sign_in_button.twig
+var sign_in_button = __webpack_require__(7378);
+// EXTERNAL MODULE: ./src/twigs/sign_out_button.twig
+var sign_out_button = __webpack_require__(6549);
+// EXTERNAL MODULE: ./src/twigs/Modals/sign_in_modal.twig
+var sign_in_modal = __webpack_require__(8841);
+// EXTERNAL MODULE: ./src/twigs/Modals/change_info_modal.twig
+var change_info_modal = __webpack_require__(3111);
+// EXTERNAL MODULE: ./src/twigs/Modals/change_pass_modal.twig
+var change_pass_modal = __webpack_require__(3334);
+// EXTERNAL MODULE: ./src/twigs/Modals/change_cert_modal.twig
+var change_cert_modal = __webpack_require__(5373);
+// EXTERNAL MODULE: ./src/twigs/Modals/account_status_modal.twig
+var account_status_modal = __webpack_require__(4764);
 // EXTERNAL MODULE: ./src/images/certificate-green.png
 var certificate_green = __webpack_require__(5095);
 // EXTERNAL MODULE: ./src/images/certificate-pink.png
@@ -31015,6 +30732,13 @@ function AMIAuth_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.
 var AMIAuth_id = 0;
 
 function AMIAuth_classPrivateFieldLooseKey(name) { return "__private_" + AMIAuth_id++ + "_" + name; }
+
+
+
+
+
+
+
 
 
 
@@ -31096,18 +30820,7 @@ var AMIAuth = function () {
       bookmarksAllowed: bookmarksAllowed,
       dashboardsAllowed: dashboardsAllowed
     };
-
-    var signInModal = __webpack_require__(4410)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/sign_in_modal.twig");
-
-    var changeInfoModal = __webpack_require__(7200)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/change_info_modal.twig");
-
-    var changePassModal = __webpack_require__(7457)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/change_pass_modal.twig");
-
-    var changeCertModal = __webpack_require__(7262)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/change_cert_modal.twig");
-
-    var accountStatusModal = __webpack_require__(3920)("./v" + js_AMIWebApp.bootstrapVersion + "/Modals/account_status_modal.twig");
-
-    js_AMIWebApp.appendHTML('body', signInModal + changeInfoModal + changePassModal + changeCertModal + accountStatusModal, {
+    js_AMIWebApp.appendHTML('body', sign_in_modal + change_info_modal + change_pass_modal + change_cert_modal + account_status_modal, {
       dict: AMIAuth_classPrivateFieldLooseBase(this, _flags)[_flags]
     }).done(function () {
       $('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit(function (e) {
@@ -31280,8 +30993,8 @@ var AMIAuth = function () {
       js_AMICommand.execute('GenerateCaptcha').then(function (data) {
         var image = js_AMIWebApp.jspath('..field{.@name==="image"}.$', data)[0] || '';
         var hash = js_AMIWebApp.jspath('..field{.@name==="hash"}.$', data)[0] || '';
-        $('#AC9836E6_2A20_8711_39D5_0E8340561078').attr('src', image);
-        $('#EA79605C_6EFF_4C77_9D70_88254B00FD52').attr('src', image);
+        $('#AC9836E6_2A20_8711_39D5_0E8340561078').css('background-image', "url('" + image + "')");
+        $('#EA79605C_6EFF_4C77_9D70_88254B00FD52').css('background-image', "url('" + image + "')");
         $('#FD95B3FA_C808_0E08_2D1E_0FE0E3871101').val(hash);
         $('#A63C0110_E591_6FCE_6D7A_02EEBC094199').val(hash);
         $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('show');
@@ -31374,16 +31087,8 @@ var AMIAuth = function () {
   _proto.form_attachCert = function form_attachCert() {
     var _this5 = this;
 
-    var user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val() || $('#D75BFCC1_B2F1_9599_B1AB_F2FF096631AA').val();
-    var pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val() || $('#C72E51F1_FAF2_CB6B_0AAF_B312A4D378C1').val();
-
-    if (!user || !pass) {
-      js_AMIWebApp.error('Please, fill all fields with a red star.');
-      return;
-    }
-
     js_AMIWebApp.lock();
-    return js_AMICommand.attachCertificate(user, pass).then(function (data, message) {
+    return js_AMICommand.attachCertificate().then(function (data, message) {
       js_AMIWebApp.success(message);
       $('#A81B2279_2AFC_F19C_E4C9_BFB97D48F967').hide();
       $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text(AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].issuerDNInSession);
@@ -31397,16 +31102,8 @@ var AMIAuth = function () {
   _proto.form_detachCert = function form_detachCert() {
     var _this6 = this;
 
-    var user = $('#E64F24B2_33E6_4DED_9B24_28BE04219613').val() || $('#D75BFCC1_B2F1_9599_B1AB_F2FF096631AA').val();
-    var pass = $('#A4DFD039_034F_4D10_9668_385AEF4FBBB9').val() || $('#C72E51F1_FAF2_CB6B_0AAF_B312A4D378C1').val();
-
-    if (!user || !pass) {
-      js_AMIWebApp.error('Please, fill all fields with a red star.');
-      return;
-    }
-
     js_AMIWebApp.lock();
-    return js_AMICommand.detachCertificate(user, pass).then(function (data, message) {
+    return js_AMICommand.detachCertificate().then(function (data, message) {
       js_AMIWebApp.success(message);
       $('#F9652167_40D2_E8A0_F00B_FABA8E490E54').hide();
       $('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').text(AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].issuerDNInSession);
@@ -31516,24 +31213,24 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
     $('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
     $('#FE2F6232_C256_4B80_939C_EBEC90320308').val(issuerDNInSession);
 
-    if (issuerDNInAMI && clientDNInAMI) {
-      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(issuerDNInAMI);
-      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(clientDNInAMI);
-      $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disable', false);
-    } else {
-      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('N/A');
-      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('N/A');
-      $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disable', true);
-    }
-
     if (issuerDNInSession && clientDNInSession) {
       $('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').val(issuerDNInSession);
       $('#A962ED59_DB71_C10C_6173_3615C6F48028').val(clientDNInSession);
-      $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disable', issuerDNInAMI === issuerDNInSession && clientDNInAMI === clientDNInSession);
+      $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', issuerDNInSession === issuerDNInAMI && clientDNInSession === clientDNInAMI);
     } else {
-      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('Issuer DN not registered');
-      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('Client DN not registered');
-      $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disable', true);
+      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('N/A');
+      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('N/A');
+      $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', true);
+    }
+
+    if (issuerDNInAMI && clientDNInAMI) {
+      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(issuerDNInAMI);
+      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(clientDNInAMI);
+      $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', false);
+    } else {
+      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val('N/A');
+      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('N/A');
+      $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', true);
     }
 
     var table = [];
@@ -31583,22 +31280,23 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       fgColor = '#DC3545';
     }
 
-    $('#EC948084_8C0A_CEBF_58C9_086046AB2456').kjua({
-      render: 'canvas',
+    $('#EC948084_8C0A_CEBF_58C9_086046AB2456').empty().kjua({
+      render: 'image',
+      crisp: true,
       ecLevel: 'H',
-      size: 150,
+      size: 175,
       fill: fgColor,
-      background: bgColor,
+      back: bgColor,
       text: user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI,
-      radius: 0,
-      quiet: 1
+      mode: 'label',
+      mSize: 10,
+      label: 'AMI',
+      fontname: 'Trochut',
+      fontcolor: fgColor
     });
     dict['user'] = user;
     dict['icon'] = icon;
-
-    var button = __webpack_require__(4045)("./v" + js_AMIWebApp.bootstrapVersion + "/sign_out_button.twig");
-
-    js_AMIWebApp.replaceHTML('#ami_login_menu_content', button, {
+    js_AMIWebApp.replaceHTML('#ami_login_menu_content', sign_out_button, {
       dict: dict
     }).done(function () {
       triggerLogin().then(function () {
@@ -31608,9 +31306,7 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       });
     });
   } else {
-    var _button = __webpack_require__(4125)("./v" + js_AMIWebApp.bootstrapVersion + "/sign_in_button.twig");
-
-    js_AMIWebApp.replaceHTML('#ami_login_menu_content', _button, {
+    js_AMIWebApp.replaceHTML('#ami_login_menu_content', sign_in_button, {
       dict: dict
     }).done(function () {
       triggerLogout().then(function () {

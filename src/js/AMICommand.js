@@ -203,13 +203,11 @@ class AMICommand
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
-	attachCertificate(username, password, options)
+	attachCertificate(options)
 	{
 		options = options || {};
 
-		options.params = [username, password];
-
-		return this.execute('GetSessionInfo -attachCert -amiLogin=? -amiPassword=?', options);
+		return this.execute('GetSessionInfo -attachCert', options);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -222,13 +220,11 @@ class AMICommand
 	 * @returns {$.Promise} A JQuery promise object
 	 */
 
-	detachCertificate(username, password, options)
+	detachCertificate(options)
 	{
 		options = options || {};
 
-		options.params = [username, password];
-
-		return this.execute('GetSessionInfo -detachCert -amiLogin=? -amiPassword=?', options);
+		return this.execute('GetSessionInfo -detachCert', options);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
