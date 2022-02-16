@@ -172,12 +172,6 @@ class AMIAuth
 				this.form_changePass(e);
 			});
 
-			$('#ECB92A89_A706_7C76_E248_E57D14C8B205').submit((e) => {
-
-				this.form_updateCertificate(e);
-			});
-
-
 			/*----------------------------------------------------------------------------------------------------*/
 
 			$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
@@ -232,10 +226,14 @@ class AMIAuth
 
 							if((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest'))
 							{
-								amiWebApp.error('Authentification failed');
+								amiWebApp.error('Authentification failed', true);
 							}
 							else
 							{
+								$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
+
+								AMIAuth.#clean();
+
 								amiWebApp.unlock();
 							}
 						});
@@ -308,6 +306,16 @@ class AMIAuth
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	static #clean()
+	{
+		$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').trigger('reset');
+		$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').trigger('reset');
+		$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').trigger('reset');
+		$('#E92A1097_983B_4857_875F_07E4659B41B0').trigger('reset');
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo)
 	{
 		const result = $.Deferred();
@@ -320,8 +328,8 @@ class AMIAuth
 
 		$('#A09AE316_7068_4BC1_96A9_6B87D28863FE').prop('disabled', !userInfo.clientDNInSession || !userInfo.issuerDNInSession);
 
-		$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', awfInfo.privacyPolicy || amiWebApp.originURL + '/docs/privacy_policy.html');
-		$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', awfInfo.privacyPolicy || amiWebApp.originURL + '/docs/privacy_policy.html');
+		$('#C3E94F6D_48E0_86C0_3534_691728E492F4').attr('src', awfInfo.privacyPolicy || `${amiWebApp.originURL}/docs/privacy_policy.html`);
+		$('#E50FF8BD_B0F5_CD72_F9DC_FC2BFA5DBA27').attr('src', awfInfo.privacyPolicy || `${amiWebApp.originURL}/docs/privacy_policy.html`);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -356,11 +364,11 @@ class AMIAuth
 			const notBefore = userInfo.notBefore || '';
 			const notAfter = userInfo.notAfter || '';
 
-			const clientDNInAMI = userInfo.clientDNInAMI || '';
-			const issuerDNInAMI = userInfo.issuerDNInAMI || '';
-
 			const clientDNInSession = userInfo.clientDNInSession || '';
 			const issuerDNInSession = userInfo.issuerDNInSession || '';
+
+			const clientDNInAMI = userInfo.clientDNInAMI || '';
+			const issuerDNInAMI = userInfo.issuerDNInAMI || '';
 
 			const valid = userInfo.valid || 'false';
 
@@ -399,6 +407,8 @@ class AMIAuth
 				$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val('N/A');
 				$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', true);
 			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			if(issuerDNInAMI && clientDNInAMI)
 			{
@@ -587,16 +597,6 @@ class AMIAuth
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		return result.promise();
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	static #clean()
-	{
-		$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').trigger('reset');
-		$('#EE055CD4_E58F_4834_8020_986AE3F8D67D').trigger('reset');
-		$('#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F').trigger('reset');
-		$('#E92A1097_983B_4857_875F_07E4659B41B0').trigger('reset');
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -873,7 +873,7 @@ class AMIAuth
 
 			}, (message) => {
 
-				amiWebApp.error(message);
+				amiWebApp.error(message, true);
 			});
 		});
 	}
@@ -938,13 +938,15 @@ class AMIAuth
 
 		const values = $(e.target).serializeObject();
 
-		return this.form_login2(values['user'], values['pass']);
+		return this.form_login2(values['username'], values['password']);
 	}
 
-	form_login2(user, pass)
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	form_login2(username, password)
 	{
-		const promise = (user && pass) ? amiCommand.signInByPassword(user.trim(), pass.trim())
-		                               : amiCommand.signInByCertificate(/*--------------------*/)
+		const promise = (username && password) ? amiCommand.signInByPassword(username.trim(), password.trim())
+		                                       : amiCommand.signInByCertificate(/*----------------------------*/)
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -959,6 +961,8 @@ class AMIAuth
 				{
 					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
+					AMIAuth.#clean();
+
 					amiWebApp.unlock();
 				}
 
@@ -968,7 +972,7 @@ class AMIAuth
 				{
 					$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
 
-					amiWebApp.error(message);
+					amiWebApp.error(message, true);
 				}
 			});
 
@@ -978,78 +982,26 @@ class AMIAuth
 
 				if(userInfo.clientDNInSession || userInfo.issuerDNInSession)
 				{
-					message += ' Client DN in session: ' + amiWebApp.textToHtml(userInfo.clientDNInSession) + '.'
+					message += `Client DN in session: ${amiWebApp.textToHtml(userInfo.clientDNInSession)}.`
 					           +
-					           ' Issuer DN in session: ' + amiWebApp.textToHtml(userInfo.issuerDNInSession) + '.'
+					           `Issuer DN in session: ${amiWebApp.textToHtml(userInfo.issuerDNInSession)}.`
 					;
 				}
 
-				amiWebApp.error(message);
+				amiWebApp.error(message, true);
 			}
 
 		}, (data, message, userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo) => {
 
 			this.#update(userInfo, roleInfo, bookmarkInfo, udpInfo, ssoInfo).always(() => {
 
-				amiWebApp.error(message);
+				amiWebApp.error(message, true);
 			});
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		return promise;
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	form_attachCert()
-	{
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		amiWebApp.lock();
-
-		return amiCommand.attachCertificate().then((data, message) => {
-
-			amiWebApp.success(message);
-
-			$('#A81B2279_2AFC_F19C_E4C9_BFB97D48F967').hide();
-			$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text(this.#userInfo.issuerDNInSession);
-			$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text(this.#userInfo.clientDNInSession);
-			$('#F9652167_40D2_E8A0_F00B_FABA8E490E54').show();
-
-		}, (data, message) => {
-
-			amiWebApp.error(message);
-		});
-
-		/*------------------------------------------------------------------------------------------------------------*/
-	}
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
-	form_detachCert()
-	{
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		amiWebApp.lock();
-
-		return amiCommand.detachCertificate().then((data, message) => {
-
-			amiWebApp.success(message);
-
-			$('#F9652167_40D2_E8A0_F00B_FABA8E490E54').hide();
-			$('#C8B8F968_CCAA_26DF_8665_2B518189E3DE').text(this.#userInfo.issuerDNInSession);
-			$('#A962ED59_DB71_C10C_6173_3615C6F48028').text(this.#userInfo.clientDNInSession);
-			$('#A81B2279_2AFC_F19C_E4C9_BFB97D48F967').show();
-
-			$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').show();
-
-		}, (data, message) => {
-
-			amiWebApp.error(message);
-		});
-
-		/*------------------------------------------------------------------------------------------------------------*/
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -1066,13 +1018,13 @@ class AMIAuth
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(values['login'], values['pass'], values['first_name'], values['last_name'], values['email'], values['captcha_hash'], values['captcha_text'], 'attachCert' in values, 'agree' in values).then((data, message) => {
+		amiCommand.addUser(values['usernme'], values['password'], values['first_name'], values['last_name'], values['email'], values['captcha_hash'], values['captcha_text'], 'attachCert' in values, 'agree' in values).then((data, message) => {
 
-			amiWebApp.success(message);
+			amiWebApp.success(message, true);
 
 		}, (data, message) => {
 
-			amiWebApp.error(message);
+			amiWebApp.error(message, true);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -1092,13 +1044,13 @@ class AMIAuth
 
 		amiWebApp.lock();
 
-		amiCommand.resetPassword(values['user'], values['captcha_hash'], values['captcha_text']).then((data, message) => {
+		amiCommand.resetPassword(values['username'], values['captcha_hash'], values['captcha_text']).then((data, message) => {
 
-			amiWebApp.success(message);
+			amiWebApp.success(message, true);
 
 		}, (data, message) => {
 
-			amiWebApp.error(message);
+			amiWebApp.error(message, true);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -1120,11 +1072,11 @@ class AMIAuth
 
 		amiCommand.changeInfo(values['first_name'], values['last_name'], values['email']).then((data, message) => {
 
-			amiWebApp.success(message);
+			amiWebApp.success(message, true);
 
 		}, (data, message) => {
 
-			amiWebApp.error(message);
+			amiWebApp.error(message, true);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -1144,13 +1096,65 @@ class AMIAuth
 
 		amiWebApp.lock();
 
-		amiCommand.changePassword(this.#userInfo.AMIUser || 'guest', values['old_pass'], values['new_pass']).then((data, message) => {
+		amiCommand.changePassword(this.#userInfo.AMIUser || 'guest', values['old_password'], values['new_password']).then((data, message) => {
 
-			amiWebApp.success(message);
+			amiWebApp.success(message, true);
 
 		}, (data, message) => {
 
-			amiWebApp.error(message);
+			amiWebApp.error(message, true);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	form_attachCert()
+	{
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		return amiCommand.attachCertificate().then((data, message) => {
+
+			$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text(this.#userInfo.issuerDNInSession);
+			$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text(this.#userInfo.clientDNInSession);
+
+			$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', /*----------------------------*/ true /*----------------------------*/);
+			$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', false);
+
+			amiWebApp.success(message, true);
+
+		}, (data, message) => {
+
+			amiWebApp.error(message, true);
+		});
+
+		/*------------------------------------------------------------------------------------------------------------*/
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	form_detachCert()
+	{
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		amiWebApp.lock();
+
+		return amiCommand.detachCertificate().then((data, message) => {
+
+			$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text('N/A');
+			$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text('N/A');
+
+			$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', !this.#userInfo.clientDNInSession || !this.#userInfo.issuerDNInSession);
+			$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', true);
+
+			amiWebApp.success(message, true);
+
+		}, (data, message) => {
+
+			amiWebApp.error(message, true);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/

@@ -1,4 +1,4 @@
-<div class="toast mb-2" role="alert" {% if fadeOut %}data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}delay="60000" {% else %}data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}autohide="false"{% endif %} data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}hash="{{ hash }}" data-cnt="1">
+<div class="toast mb-2" role="alert" {% if fadeOut %}data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}delay="60000" {% else %}data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}autohide="false"{% endif %} data-ami-hash="{{ hash }}" data-ami-cnt="1">
 	<div class="toast-header py-1">
 		<strong class="me-auto text-{{ clazz|e }}">{{ title|e }}</strong>
 		<small>{{ date|e }}</small>

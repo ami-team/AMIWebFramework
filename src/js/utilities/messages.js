@@ -11,10 +11,9 @@
 
 'use strict';
 
+import * as view from './view';
 import * as locks from './locks';
 import * as strings from './strings';
-
-import amiTwig from 'ami-twig';
 
 import messageTwig from '../../twigs/message.twig';
 
@@ -61,7 +60,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	const toast = $(`#ami_alert_content > .toast[data-hash="${hash}"]`);
+	const toast = $(`#ami_alert_content > .toast[data-ami-hash="${hash}"]`);
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -69,7 +68,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html = amiTwig.engine.render(messageTwig, {
+		const html = view.formatTWIG(messageTwig, {
 			date: date,
 			hash: hash,
 			clazz: clazz,
@@ -80,9 +79,9 @@ function _publishAlert(clazz, title, message, fadeOut)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#ami_alert_content').append(html.replace(_linkExp, '<a href="' + '$1' + '" target="_blank">$2</a>')).promise().done(() => {
+		$('#ami_alert_content').append(html.replace(_linkExp, '<a href="$1" target="_blank">$2</a>')).promise().done(() => {
 
-			$(`#ami_alert_content > .toast[data-hash="${hash}"]`).toast('show');
+			$(`#ami_alert_content > .toast[data-ami-hash="${hash}"]`).toast('show');
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -92,7 +91,7 @@ function _publishAlert(clazz, title, message, fadeOut)
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		toast.find('.toast-header > strong').html(strings.textToHtml(title)
-			+ ` <span class="badge badge-${clazz}">${toast.attr('data-cnt', parseInt(toast.attr('data-cnt')) + 1).attr('data-cnt')}</span>`);
+			+ ` <span class="badge badge-${clazz}">${toast.attr('data-ami-cnt', parseInt(toast.attr('data-ami-cnt')) + 1).attr('data-ami-cnt')}</span>`);
 		toast.find('.toast-header > small').html(strings.textToHtml(date));
 
 		toast.toast('show');
