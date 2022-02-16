@@ -4,9 +4,9 @@
 			<div class="modal-header">
 				<h4 class="modal-title">Change Certificate</h4>
 				{% if BOOTSTRAP_VERSION > 4 %}
-				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+				<button type="button" class="btn-close" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss="modal"></button>
 				{% else %}
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<button type="button" class="close" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss="modal">&times;</button>
 				{% endif %}
 			</div>
 			<div class="modal-body">
@@ -45,7 +45,7 @@
 
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Close</button>
+				<button class="btn btn-outline-secondary" type="button" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>

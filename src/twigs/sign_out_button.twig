@@ -3,7 +3,7 @@
 </li>
 {% if bookmarksAllowed %}
 <li class="nav-item dropdown">
-	<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+	<a class="nav-link dropdown-toggle" href="#" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="dropdown">
 		<i class="bi bi-star-fill"></i>
 	</a>
 	<div class="dropdown-menu" id="ami_bookmark_menu_content">
@@ -19,7 +19,7 @@
 {% endif %}
 {% if dashboardsAllowed %}
 	<li class="nav-item dropdown">
-		<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+		<a class="nav-link dropdown-toggle" href="#" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="dropdown">
 			<i class="bi bi-speedometer"></i>
 		</a>
 		<div class="dropdown-menu" id="ami_dashboard_menu_content">
@@ -34,7 +34,7 @@
 	</li>
 {% endif %}
 <li class="nav-item dropdown">
-	<a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
+	<a class="nav-link dropdown-toggle" href="#" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="dropdown">
 		<i class="bi bi-person-circle"></i> {{ userInfo.AMIUser|e }}
 	</a>
 	<div class="dropdown-menu">

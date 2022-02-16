@@ -3,7 +3,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<h4 class="modal-title">Change Information</h4>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				<button type="button" class="btn-close" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
 				<div class="row">
@@ -27,7 +27,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button class="btn btn-outline-secondary" type="button" data-dismiss="modal">Close</button>
+				<button class="btn btn-outline-secondary" type="button" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss="modal">Close</button>
 				<button class="btn btn-primary" type="submit">Submit</button>
 			</div>
 		</div>

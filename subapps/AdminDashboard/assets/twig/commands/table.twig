@@ -23,7 +23,7 @@
 					</span>
 					</td>
 					<td>
-						<a href="#" class="badge {% if BOOTSTRAP_VERSION > 4 %}rounded{% else %}badge{% endif %}-pill {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-danger px-3" data-delete-command="{{ id|e }}"><i class="bi bi-trash"></i></a>
+						<a href="#" class="badge rounded-pill bg-danger text-white px-3" data-delete-command="{{ id|e }}"><i class="bi bi-trash"></i></a>
 					</td>
 				</tr>
 				<tr data-id="{{ id|e }}">
@@ -35,12 +35,12 @@
 						</select>
 						<br />
 						<small data-change-command-class="{{ id|e }}">
-							<span class="badge {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-primary">Java command class</span>
+							<span class="badge bg-primary text-white">Java command class</span>
 							<span class="value">{{ commands[id].clazz|e }}</span>
 						</small>
 						<br />
 						<small data-change-role-validator-class="{{ id|e }}">
-							<span class="badge {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-warning">Java role validator class</span>
+							<span class="badge bg-warning text-white">Java role validator class</span>
 							<span class="value">{{ commands[id].roleValidatorClazz|e }}</span>
 						</small>
 					</td>

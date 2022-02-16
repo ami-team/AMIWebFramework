@@ -39,7 +39,7 @@
 					</span>
 				</td>
 				<td>
-					<a href="#" class="badge {% if BOOTSTRAP_VERSION > 4 %}rounded{% else %}badge{% endif %}-pill {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-danger px-3" data-delete-user="{{ id|e }}"><i class="bi bi-trash"></i></a>
+					<a href="#" class="badge rounded-pill bg-danger text-white px-3" data-delete-user="{{ id|e }}"><i class="bi bi-trash"></i></a>
 				</td>
 			</tr>
 			<tr data-id="{{ id|e }}">
@@ -51,17 +51,17 @@
 					</select>
 					<br />
 					<small data-change-client-dn="{{ id|e }}">
-						<span class="badge {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-primary text-center" style="width: 100px;">Client DN</span>
+						<span class="badge bg-primary text-white text-center" style="width: 100px;">Client DN</span>
 						<span class="value">{{ users[id].clientDN|e }}</span>
 					</small>
 					<br />
 					<small data-change-issuer-dn="{{ id|e }}">
-						<span class="badge {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-danger text-center" style="width: 100px;">Issuer DN</span>
+						<span class="badge bg-danger text-white text-center" style="width: 100px;">Issuer DN</span>
 						<span class="value">{{ users[id].issuerDN|e }}</span>
 					</small>
 					<br />
 					<small data-change-json="{{ id|e }}">
-						<span class="badge {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-secondary text-center" style="width: 100px;">JSON</span>
+						<span class="badge bg-secondary text-white text-center" style="width: 100px;">JSON</span>
 						<span class="value">{{ users[id].json|e }}</span>
 					</small>
 				</td>

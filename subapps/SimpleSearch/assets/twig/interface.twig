@@ -1,9 +1,9 @@
 {% for group in groups %}
 <div>
-	<span class="badge {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-primary px-3">{{group}}</span>
+	<span class="badge bg-primary text-white px-3">{{group}}</span>
 	<i class="bi bi-chevron-double-right"></i>
 	{% for interface in groups[group] %}
-	<a class="badge {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-secondary px-3" href="javascript: simpleSearchApp.select('{{interface.id|e}}');">{{interface.name}}</a>
+	<a class="badge bg-secondary text-white px-3" href="javascript: simpleSearchApp.select('{{interface.id|e}}');">{{interface.name}}</a>
 	{% endfor %}
 </div>
 {% else %}
