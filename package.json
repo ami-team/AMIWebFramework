@@ -15,7 +15,6 @@
   "author": "The AMI Team, Jerome Odier <jerome.odier@lpsc.in2p3.fr>",
   "license": "CECILL-C",
   "dependencies": {
-    "@vue/compiler-sfc": "3.2.23",
     "ami-http-client": "github:ami-team/AMIHTTPClientJS",
     "ami-mqtt-client": "github:ami-team/AMIMQTTClientJS",
     "ami-twig": "github:ami-team/AMITwigJS",
@@ -34,14 +33,13 @@
     "jquery-ui": "1.13.0",
     "jspath": "0.4.0",
     "keycloak-js": "15.1.0",
-    "kjua": "0.9.0",
     "marked": "4.0.6",
     "moment": "2.29.1",
     "moment-jdateformatparser": "1.2.1",
     "monaco-editor": "0.30.1",
+    "qrcode": "^1.5.0",
     "select2": "4.0.13",
-    "viz.js": "^1.8.1",
-    "vue": "3.2.23"
+    "viz.js": "^1.8.1"
   },
   "devDependencies": {
     "@babel/core": "7.16.0",
@@ -68,7 +66,6 @@
     "style-loader": "3.3.1",
     "terser": "5.10.0",
     "terser-webpack-plugin": "5.2.5",
-    "vue-loader": "^17.0.0",
     "webpack": "5.64.4",
     "webpack-cli": "4.9.1"
   }

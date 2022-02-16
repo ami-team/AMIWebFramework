@@ -31,7 +31,7 @@ import accountStatusModalTwig from '../twigs/Modals/account_status_modal.twig';
 import greenCertificateImage from '../images/certificate-green.png';
 import pinkCertificateImage from '../images/certificate-pink.png';
 
-import 'kjua';
+import QRCode from 'qrcode';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -388,10 +388,10 @@ class AMIAuth
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$('#D1BEE3BF_9161_41DC_BC53_C44FFE4D2522').val(clientDNInAMI);
-			$('#C76805D7_1E86_4231_9071_1D04783423BB').val(clientDNInSession);
-			$('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
 			$('#FE2F6232_C256_4B80_939C_EBEC90320308').val(issuerDNInSession);
+			$('#F42FAF6B_2C8D_4142_8BD9_E5BCDCAA05AA').val(issuerDNInAMI);
+			$('#C76805D7_1E86_4231_9071_1D04783423BB').val(clientDNInSession);
+			$('#D1BEE3BF_9161_41DC_BC53_C44FFE4D2522').val(clientDNInAMI);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -455,11 +455,9 @@ class AMIAuth
 
 				if(!this.#flags.ssoAutoAuthentication)
 				{
-					if(clientDNInAMI
+					if((clientDNInSession && clientDNInAMI && issuerDNInSession && issuerDNInAMI)
 					   &&
-					   issuerDNInAMI
-					   &&
-					   (clientDNInAMI !== clientDNInSession || issuerDNInAMI !== issuerDNInSession)
+					   (clientDNInSession !== clientDNInAMI || issuerDNInSession !== issuerDNInAMI)
 					 ) {
 						message = 'The X.509 certificate in the session differs from the one in AMI.';
 					}
@@ -537,19 +535,13 @@ class AMIAuth
 			/* UPDATE QRCODE                                                                                          */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$('#EC948084_8C0A_CEBF_58C9_086046AB2456').empty().kjua({
-				render: 'image',
-				crisp: true,
-				ecLevel: 'H',
-				size: 175,
-				fill: fgColor,
-				back: bgColor,
-				text: user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI,
-				mode: 'label',
-				mSize: 10,
-				label: 'AMI',
-				fontname: 'Trochut',
-				fontcolor: fgColor,
+			QRCode.toCanvas(document.getElementById('EC948084_8C0A_CEBF_58C9_086046AB2456'), user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI, {
+				color: {
+					dark: fgColor,
+					light: bgColor,
+				},
+				margin: 0,
+				width: 150,
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
