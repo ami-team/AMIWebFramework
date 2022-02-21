@@ -4,9 +4,9 @@
 			<div class="modal-header">
 				<h4 class="modal-title">Change Certificate</h4>
 				{% if BOOTSTRAP_VERSION > 4 %}
-				<button type="button" class="btn-close" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss="modal"></button>
+				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				{% else %}
-				<button type="button" class="close" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss="modal">&times;</button>
+				<button type="button" class="close" data-dismiss="modal"><i class="bi bi-x-lg"></i></button>
 				{% endif %}
 			</div>
 			<div class="modal-body">

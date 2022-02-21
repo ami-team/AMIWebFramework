@@ -7,19 +7,15 @@ $font-size-base: 0.9375rem;
 @import "../../node_modules/bootstrap4/scss/functions";
 @import "../../node_modules/bootstrap4/scss/variables";
 
-@import "switch4.scss";
+.font-monospace {
+	@extend .text-monospace;
+}
 
 $breakpoints: false, 'sm', 'md', 'lg', 'xl';
 
 @each $breakpoint in $breakpoints {
 	@if $breakpoint {
 		@for $i from 0 through 5 {
-			.ps-#{$breakpoint}-#{$i} {
-				@extend .pl-#{$breakpoint}-#{$i};
-			}
-			.pe-#{$breakpoint}-#{$i} {
-				@extend .pr-#{$breakpoint}-#{$i};
-			}
 
 			.ms-#{$breakpoint}-#{$i} {
 				@extend .ml-#{$breakpoint}-#{$i};
@@ -28,16 +24,17 @@ $breakpoints: false, 'sm', 'md', 'lg', 'xl';
 			.me-#{$breakpoint}-#{$i} {
 				@extend .mr-#{$breakpoint}-#{$i};
 			}
+
+			.ps-#{$breakpoint}-#{$i} {
+				@extend .pl-#{$breakpoint}-#{$i};
+			}
+
+			.pe-#{$breakpoint}-#{$i} {
+				@extend .pr-#{$breakpoint}-#{$i};
+			}
 		}
 	} @else {
 		@for $i from 0 through 5 {
-			.ps-#{$i} {
-				@extend .pl-#{$i};
-			}
-
-			.pe-#{$i} {
-				@extend .pr-#{$i};
-			}
 
 			.ms-#{$i} {
 				@extend .ml-#{$i};
@@ -46,12 +43,20 @@ $breakpoints: false, 'sm', 'md', 'lg', 'xl';
 			.me-#{$i} {
 				@extend .mr-#{$i};
 			}
+
+			.ps-#{$i} {
+				@extend .pl-#{$i};
+			}
+
+			.pe-#{$i} {
+				@extend .pr-#{$i};
+			}
 		}
 	}
-
 }
 
 $properties: 'text', 'float', 'border', 'rounded';
+
 @each $property in $properties {
 	.#{$property}-start {
 		@extend .#{$property}-left;
@@ -62,11 +67,8 @@ $properties: 'text', 'float', 'border', 'rounded';
 	}
 }
 
-.font-monospace {
-	@extend .text-monospace;
-}
-
 $formsProperties: 'checkbox', 'switch', 'select', 'range';
+
 @each $formProperty in $formsProperties {
 	@if $formProperty == 'select' {
 		.form-#{$formProperty}-sm {
@@ -93,3 +95,4 @@ $formsProperties: 'checkbox', 'switch', 'select', 'range';
 
 @import "../../node_modules/bootstrap4/scss/bootstrap";
 
+@import "switch4.scss";
