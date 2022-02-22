@@ -467,18 +467,18 @@ class AMIAuth
 
 				if(message)
 				{
-					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(`<i class="fa fa-info-circle text-warning"></i> ${message}`);
+					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(`<i class="bi bi-info-circle text-warning"></i> ${message}`);
 
 					icon = `
 <a class="nav-link text-warning" href="javascript:amiLogin.accountStatus();">
-	<i class="fa fa-info-circle"></i>
+	<i class="bi bi-info-circle"></i>
 </a>`;
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#006400')
-				                                          .html('<i class="fa fa-leaf"></i> valid <i class="fa fa-leaf"></i>')
+				                                          .html('<i class="bi bi-asterisk"></i> valid <i class="bi bi-asterisk"></i>')
   				                                          .closest('.rounded').css('background', `#B8D49B url("${greenCertificateImage}") no-repeat center center`).css('background-size', 'cover')
 				;
 
@@ -506,18 +506,18 @@ class AMIAuth
 
 				if(message)
 				{
-					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(`<i class="fa fa-info-circle text-danger"></i> ${message}`);
+					$('#D944B01D_2E8D_4EE9_9DCC_2691438BBA16').html(`<i class="bi bi-info-circle text-danger"></i> ${message}`);
 
 					icon = `
 <a class="nav-link text-danger" href="javascript:amiAuth.accountStatus();">
-	<i class="fa fa-info-circle"></i>
+	<i class="bi bi-info-circle"></i>
 </a>`;
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
 				$('#F3FF9F43_DE72_40BB_B1BA_B7B3C9002671').css('color', '#DC3545')
-				                                          .html('<i class="fa fa-leaf"></i> invalid <i class="fa fa-leaf"></i>')
+				                                          .html('<i class="bi bi-asterisk"></i> invalid <i class="bi bi-asterisk"></i>')
 				                                          .closest('.rounded').css('background', `#E8C8CF url("${pinkCertificateImage}") no-repeat center center`).css('background-size', 'cover')
 				;
 
