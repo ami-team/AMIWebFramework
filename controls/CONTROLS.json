@@ -23,6 +23,10 @@
         "clazz": "DataTableCtrl",
         "file": "controls/DataTable/DataTableCtrl.min.js"
     },
+    "diffBox": {
+        "clazz": "DiffBoxCtrl",
+        "file": "controls/DiffBox/DiffBoxCtrl.min.js"
+    },
     "editBox": {
         "clazz": "EditBoxCtrl",
         "file": "controls/EditBox/EditBoxCtrl.min.js"
@@ -35,9 +39,17 @@
         "clazz": "FieldEditorCtrl",
         "file": "controls/FieldEditor/FieldEditorCtrl.min.js"
     },
+    "fixTWikiStyle": {
+        "clazz": "FixTWikiStyleCtrl",
+        "file": "controls/FixTWikiStyle/FixTWikiStyleCtrl.min.js"
+    },
     "graph": {
         "clazz": "GraphCtrl",
         "file": "controls/Graph/GraphCtrl.min.js"
+    },
+    "mediaViewer": {
+        "clazz": "MediaViewerCtrl",
+        "file": "controls/MediaViewer/MediaViewerCtrl.min.js"
     },
     "search": {
         "clazz": "SearchCtrl",

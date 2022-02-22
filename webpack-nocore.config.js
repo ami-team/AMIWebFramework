@@ -46,16 +46,20 @@ const config = {
 		'controls/ConfirmBox/ConfirmBoxCtrl': path.resolve(__dirname, 'controls/ConfirmBox/ConfirmBoxCtrl.es6.js'),
 		'controls/DashboardBox/DashboardBoxCtrl': path.resolve(__dirname, 'controls/DashboardBox/DashboardBoxCtrl.es6.js'),
 		'controls/DataTable/DataTableCtrl': path.resolve(__dirname, 'controls/DataTable/DataTableCtrl.es6.js'),
+		'controls/DiffBox/DiffBoxCtrl': path.resolve(__dirname, 'controls/DiffBox/DiffBoxCtrl.es6.js'),
 		'controls/EditBox/EditBoxCtrl': path.resolve(__dirname, 'controls/EditBox/EditBoxCtrl.es6.js'),
 		'controls/ElementInfo/ElementInfoCtrl': path.resolve(__dirname, 'controls/ElementInfo/ElementInfoCtrl.es6.js'),
 		'controls/FieldEditor/FieldEditorCtrl': path.resolve(__dirname, 'controls/FieldEditor/FieldEditorCtrl.es6.js'),
+		'controls/FixTWikiStyle/FixTWikiStyleCtrl': path.resolve(__dirname, 'controls/FixTWikiStyle/FixTWikiStyleCtrl.es6.js'),
 		'controls/Graph/GraphCtrl': path.resolve(__dirname, 'controls/Graph/GraphCtrl.es6.js'),
+		'controls/MediaViewer/MediaViewerCtrl': path.resolve(__dirname, 'controls/MediaViewer/MediaViewerCtrl.es6.js'),
 		'controls/Search/SearchCtrl': path.resolve(__dirname, 'controls/Search/SearchCtrl.es6.js'),
 		'controls/SimpleSearch/SimpleSearchCtrl': path.resolve(__dirname, 'controls/SimpleSearch/SimpleSearchCtrl.es6.js'),
 		'controls/Tab/TabCtrl': path.resolve(__dirname, 'controls/Tab/TabCtrl.es6.js'),
 		'controls/Table/TableCtrl': path.resolve(__dirname, 'controls/Table/TableCtrl.es6.js'),
 		'controls/TextBox/TextBoxCtrl': path.resolve(__dirname, 'controls/TextBox/TextBoxCtrl.es6.js'),
 		'controls/UnitEditor/UnitEditorCtrl': path.resolve(__dirname, 'controls/UnitEditor/UnitEditorCtrl.es6.js'),
+		'subapps/Adder/AdderApp': path.resolve(__dirname, 'subapps/Adder/AdderApp.es6.js'),
 		'subapps/AdminDashboard/AdminDashboardApp': path.resolve(__dirname, 'subapps/AdminDashboard/AdminDashboardApp.es6.js'),
 		'subapps/BookmarkEditor/BookmarkEditorApp': path.resolve(__dirname, 'subapps/BookmarkEditor/BookmarkEditorApp.es6.js'),
 		'subapps/Command/CommandApp': path.resolve(__dirname, 'subapps/Command/CommandApp.es6.js'),
@@ -64,7 +68,6 @@ const config = {
 		'subapps/Emergency/EmergencyApp': path.resolve(__dirname, 'subapps/Emergency/EmergencyApp.es6.js'),
 		'subapps/ResetPassword/ResetPasswordApp': path.resolve(__dirname, 'subapps/ResetPassword/ResetPasswordApp.es6.js'),
 		'subapps/Search/SearchApp': path.resolve(__dirname, 'subapps/Search/SearchApp.es6.js'),
-		'subapps/SearchModeler/SearchModelerApp': path.resolve(__dirname, 'subapps/SearchModeler/SearchModelerApp.es6.js'),
 		'subapps/SimpleSearch/SimpleSearchApp': path.resolve(__dirname, 'subapps/SimpleSearch/SimpleSearchApp.es6.js'),
 		'subapps/TableViewer/TableViewerApp': path.resolve(__dirname, 'subapps/TableViewer/TableViewerApp.es6.js'),
 		'subapps/UserDashboard/UserDashboardApp': path.resolve(__dirname, 'subapps/UserDashboard/UserDashboardApp.es6.js')
@@ -116,7 +119,7 @@ const config = {
 			{
 				'type': 'asset/resource',
 				'test': /\.(gif|png|jpg|jpeg|svg)$/,
-				'exclude': /node_modules/,
+				'exclude': /node_modules/
 			},
 
 			/*--------------------------------------------------------------------------------------------------------*/
