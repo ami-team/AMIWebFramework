@@ -235,7 +235,7 @@ $AMIClass('TableCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem('<i class="fa fa-table"></i> ' + this.ctx.entity, {closable: false, firstVisible: this.ctx.card}).done((selector) => {
+				tab.appendItem('<i class="bi bi-table"></i> ' + this.ctx.entity, {closable: false, firstVisible: this.ctx.card}).done((selector) => {
 
 					this.setParent(tab);
 

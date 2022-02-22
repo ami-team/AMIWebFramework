@@ -140,7 +140,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem('<i class="fa fa-search"></i> ' + this.ctx.entity, {closable: false, firstVisible: false}).done((selector) => {
+				tab.appendItem('<i class="bi bi-search"></i> ' + this.ctx.entity, {closable: false, firstVisible: false}).done((selector) => {
 
 					this.setParent(tab);
 

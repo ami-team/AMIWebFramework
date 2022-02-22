@@ -151,7 +151,7 @@ $AMIClass('SearchCtrl', {
 	{
 		const result = $.Deferred();
 
-		this.tabCtrl.appendItem('<i class="fa fa-search"></i> ' + this.ctx.name).done((selector) => {
+		this.tabCtrl.appendItem('<i class="bi bi-search"></i> ' + this.ctx.name).done((selector) => {
 
 			this.replaceHTML(selector, this.fragmentSearchCtrl, {dict: this.ctx}).done(() => {
 
