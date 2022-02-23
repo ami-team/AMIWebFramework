@@ -18,8 +18,8 @@ import twigJS from './assets/twig/js.twig';
 import twigRefineModal from './assets/twig/refineModal.twig';
 import twigTable from './assets/twig/table.twig';
 
-import './assets/js/libxql.js'
-import './assets/js/filesaver.min.js'
+import './assets/js/libxql.js';
+import './assets/js/filesaver.min.js';
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('TableCtrl', {
@@ -44,7 +44,6 @@ $AMIClass('TableCtrl', {
 			'ctrl:fieldEditor',
 			'ctrl:unitEditor',
 			'ctrl:tab',
-
 		]).done((data) => {
 
 			amiWebApp.appendHTML('body', twigRefineModal).done(() => {
