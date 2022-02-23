@@ -18,6 +18,8 @@ import twigJS from './assets/twig/js.twig';
 import twigRefineModal from './assets/twig/refineModal.twig';
 import twigTable from './assets/twig/table.twig';
 
+import './assets/js/libxql.js'
+import './assets/js/filesaver.min.js'
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('TableCtrl', {
@@ -39,11 +41,6 @@ $AMIClass('TableCtrl', {
 		const result = $.Deferred();
 
 		amiWebApp.loadResources([
-			/**/
-			amiWebApp.originURL + '/controls/Table/assets/js/libxql.js',
-			/**/
-			amiWebApp.originURL + '/controls/Table/assets/js/filesaver.min.js',
-			/**/
 			'ctrl:fieldEditor',
 			'ctrl:unitEditor',
 			'ctrl:tab',
@@ -57,9 +54,9 @@ $AMIClass('TableCtrl', {
 				this.fragmentJS = twigJS;
 				this.fragmentExport = twigExport;
 
-				this.fieldEditorCtor = data[2];
-				this.fieldUnitCtor = data[3];
-				this.tabCtor = data[4];
+				this.fieldEditorCtor = data[0];
+				this.fieldUnitCtor = data[1];
+				this.tabCtor = data[2];
 
 				result.resolve();
 			});
