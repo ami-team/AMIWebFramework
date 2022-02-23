@@ -45,6 +45,8 @@ import defaultBackgroundURL from '../images/background.jpg';
 /**
  * The AMI webapp subsystem
  * @namespace amiWebApp
+ * @borrows _internal_then
+ * @borrows _internal_always
  * @borrows typeOf
  * @borrows asArray
  * @borrows isString
@@ -342,6 +344,11 @@ class AMIWebApp
 	{
 		return this.#embedded;
 	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	_internal_then = tools._internal_then;
+	_internal_always = tools._internal_always;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
