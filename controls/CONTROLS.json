@@ -39,10 +39,6 @@
         "clazz": "FieldEditorCtrl",
         "file": "controls/FieldEditor/FieldEditorCtrl.min.js"
     },
-    "fixTWikiStyle": {
-        "clazz": "FixTWikiStyleCtrl",
-        "file": "controls/FixTWikiStyle/FixTWikiStyleCtrl.min.js"
-    },
     "graph": {
         "clazz": "GraphCtrl",
         "file": "controls/Graph/GraphCtrl.min.js"

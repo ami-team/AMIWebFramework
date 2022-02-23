@@ -50,7 +50,6 @@ const config = {
 		'controls/EditBox/EditBoxCtrl': path.resolve(__dirname, 'controls/EditBox/EditBoxCtrl.es6.js'),
 		'controls/ElementInfo/ElementInfoCtrl': path.resolve(__dirname, 'controls/ElementInfo/ElementInfoCtrl.es6.js'),
 		'controls/FieldEditor/FieldEditorCtrl': path.resolve(__dirname, 'controls/FieldEditor/FieldEditorCtrl.es6.js'),
-		'controls/FixTWikiStyle/FixTWikiStyleCtrl': path.resolve(__dirname, 'controls/FixTWikiStyle/FixTWikiStyleCtrl.es6.js'),
 		'controls/Graph/GraphCtrl': path.resolve(__dirname, 'controls/Graph/GraphCtrl.es6.js'),
 		'controls/MediaViewer/MediaViewerCtrl': path.resolve(__dirname, 'controls/MediaViewer/MediaViewerCtrl.es6.js'),
 		'controls/Search/SearchCtrl': path.resolve(__dirname, 'controls/Search/SearchCtrl.es6.js'),
