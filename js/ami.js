@@ -18884,11 +18884,11 @@ var AMIWebApp = function () {
     }
 
     loadResources([].concat(resourcesCSS, resourcesJS)).done(function (resources) {
+      window.JSPath = (jspath_default());
+
       __webpack_require__(7371);
 
       __webpack_require__(2340)(window.moment);
-
-      window.JSPath = (jspath_default());
 
       AMIWebApp_classPrivateFieldLooseBase(_this, _globalDeferred)[_globalDeferred].resolve(resources);
     }).fail(function (message) {
