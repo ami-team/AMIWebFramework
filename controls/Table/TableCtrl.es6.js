@@ -18,7 +18,7 @@ import twigJS from './assets/twig/js.twig';
 import twigRefineModal from './assets/twig/refineModal.twig';
 import twigTable from './assets/twig/table.twig';
 
-import './assets/js/libxql.js';
+import xqlGetRegions from './assets/js/libxql.js';
 import './assets/js/filesaver.min.js';
 /*--------------------------------------------------------------------------------------------------------------------*/
 
