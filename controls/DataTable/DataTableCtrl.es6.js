@@ -474,7 +474,6 @@ $AMIClass('DataTableCtrl', {
 								});
 
 								el.find('[ami-table-op="viewCmd"]').click(() => {
-
 									amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.command, {lang: 'sql'}]);
 								});
 

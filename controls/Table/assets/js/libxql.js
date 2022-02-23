@@ -191,4 +191,6 @@ function xqlGetRegions(xql, fieldDescriptions, addCatalogInALiases)
 	return result;
 }
 
+export { xqlGetRegions };
+
 /*--------------------------------------------------------------------------------------------------------------------*/

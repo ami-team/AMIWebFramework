@@ -47,6 +47,10 @@
         "clazz": "MediaViewerCtrl",
         "file": "controls/MediaViewer/MediaViewerCtrl.min.js"
     },
+    "messageBox": {
+        "clazz": "MessageBoxCtrl",
+        "file": "controls/MessageBox/MessageBoxCtrl.min.js"
+    },
     "search": {
         "clazz": "SearchCtrl",
         "file": "controls/Search/SearchCtrl.min.js"

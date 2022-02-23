@@ -7,7 +7,7 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global xqlGetRegions, saveAs
+ * @global saveAs
  */
 
 import './assets/css/TableCtrl.css';
@@ -18,7 +18,7 @@ import twigJS from './assets/twig/js.twig';
 import twigRefineModal from './assets/twig/refineModal.twig';
 import twigTable from './assets/twig/table.twig';
 
-import xqlGetRegions from './assets/js/libxql.js';
+import { xqlGetRegions } from './assets/js/libxql.js';
 import './assets/js/filesaver.min.js';
 /*--------------------------------------------------------------------------------------------------------------------*/
 
