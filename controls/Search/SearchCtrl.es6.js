@@ -10,6 +10,7 @@
  */
 
 import './assets/css/daterangepicker.css';
+import './assets/js/daterangepicker.js'
 
 import twigCriteriaBool from './assets/twig/criteria_bool.twig';
 import twigCriteriaDate from './assets/twig/criteria_date.twig';
@@ -42,8 +43,6 @@ $AMIClass('SearchCtrl', {
 		const result = $.Deferred();
 
 		amiWebApp.loadResources([
-			amiWebApp.originURL + '/controls/Search/assets/js/daterangepicker.js',
-			/**/
 			'ctrl:tab',
 		]).done((data) => {
 
@@ -59,7 +58,7 @@ $AMIClass('SearchCtrl', {
 			this.fragmentSearchCtrl = twigSearchCtrl;
 
 			/**/
-			this.tabCtor = data[1];
+			this.tabCtor = data[0];
 
 			result.resolve();
 
