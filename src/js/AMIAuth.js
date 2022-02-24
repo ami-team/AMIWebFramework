@@ -1116,7 +1116,14 @@ class AMIAuth
 			$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', /*----------------------------*/ true /*----------------------------*/);
 			$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', false);
 
-			amiWebApp.success(message, true);
+			this.#update(this.#userInfo, this.#roleInfo, this.#bookmarkInfo, this.#dashboardInfo, this.#awfInfo).then((/*---*/) => {
+
+				amiWebApp.success(message, true);
+
+			}, (message) => {
+
+				amiWebApp.error(message, true);
+			});
 
 		}, (data, message) => {
 
@@ -1142,7 +1149,14 @@ class AMIAuth
 			$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', !this.#userInfo.clientDNInSession || !this.#userInfo.issuerDNInSession);
 			$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', true);
 
-			amiWebApp.success(message, true);
+			this.#update(this.#userInfo, this.#roleInfo, this.#bookmarkInfo, this.#dashboardInfo, this.#awfInfo).then((/*---*/) => {
+
+				amiWebApp.success(message, true);
+
+			}, (message) => {
+
+				amiWebApp.error(message, true);
+			});
 
 		}, (data, message) => {
 

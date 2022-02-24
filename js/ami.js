@@ -18063,7 +18063,12 @@ var AMIAuth = function () {
       $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].clientDNInAMI = AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].clientDNInSession);
       $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', true);
       $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', false);
-      js_AMIWebApp.success(message, true);
+
+      AMIAuth_classPrivateFieldLooseBase(_this5, _update)[_update](AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo], AMIAuth_classPrivateFieldLooseBase(_this5, _roleInfo)[_roleInfo], AMIAuth_classPrivateFieldLooseBase(_this5, _bookmarkInfo)[_bookmarkInfo], AMIAuth_classPrivateFieldLooseBase(_this5, _dashboardInfo)[_dashboardInfo], AMIAuth_classPrivateFieldLooseBase(_this5, _awfInfo)[_awfInfo]).then(function () {
+        js_AMIWebApp.success(message, true);
+      }, function (message) {
+        js_AMIWebApp.error(message, true);
+      });
     }, function (data, message) {
       js_AMIWebApp.error(message, true);
     });
@@ -18078,7 +18083,12 @@ var AMIAuth = function () {
       $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].clientDNInAMI = '');
       $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', !AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].clientDNInSession || !AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].issuerDNInSession);
       $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', true);
-      js_AMIWebApp.success(message, true);
+
+      AMIAuth_classPrivateFieldLooseBase(_this6, _update)[_update](AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo], AMIAuth_classPrivateFieldLooseBase(_this6, _roleInfo)[_roleInfo], AMIAuth_classPrivateFieldLooseBase(_this6, _bookmarkInfo)[_bookmarkInfo], AMIAuth_classPrivateFieldLooseBase(_this6, _dashboardInfo)[_dashboardInfo], AMIAuth_classPrivateFieldLooseBase(_this6, _awfInfo)[_awfInfo]).then(function () {
+        js_AMIWebApp.success(message, true);
+      }, function (message) {
+        js_AMIWebApp.error(message, true);
+      });
     }, function (data, message) {
       js_AMIWebApp.error(message, true);
     });
