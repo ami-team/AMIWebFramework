@@ -12,13 +12,13 @@
 						<i class="bi bi-funnel text-success" style="font-size: 3rem;"></i>
 					</div>
 					<div class="col-10">
-						Select <span class="badge {% if BOOTSTRAP_VERSION > 4 %}rounded{% else %}badge{% endif %}-pill {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-dark {% if BOOTSTRAP_VERSION > 4 %}text-white{% endif %}">{{ catalog|default('N/A')|e }}.{{ entity|default('N/A')|e }}</span> by <span class="badge {% if BOOTSTRAP_VERSION > 4 %}rounded{% else %}badge{% endif %}-pill {% if BOOTSTRAP_VERSION > 4 %}bg{% else %}badge{% endif %}-dark {% if BOOTSTRAP_VERSION > 4 %}text-white{% endif %}">{{ catalog|default('N/A')|e }}.{{ field|default('N/A')|e }}</span>
+						Select <span>{% if showCatalog %}{{ catalog|default('N/A')|e }}.{% endif %}{{ entity|default('N/A')|e }}</span> by <span class="{% if BOOTSTRAP_VERSION > 4 %}fw{% else %}font-weight{% endif %}-bold">{{ field|default('N/A')|e }}</span>
 					</div>
 				</div>
 			</div>
 			<div class="card-footer p-2">
 				<div class="input-group">
-					<input class="form-control" type="text" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Select {{ catalog|default('N/A')|e }}.{{ entity|default('N/A')|e }} by {{ field|default('N/A')|e }}..." />
+					<input class="form-control" type="text" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Select {% if showCatalog %}{{ catalog|default('N/A')|e }}.{% endif %}{{ entity|default('N/A')|e }} by {{ field|default('N/A')|e }}..." />
 					{% if BOOTSTRAP_VERSION > 4 %}
 					<button class="btn btn-outline-primary" type="button" id="EBB91625_148B_1606_0D40_30BF170B11EE">
 						<i class="bi bi-arrow-right-circle-fill"></i>
