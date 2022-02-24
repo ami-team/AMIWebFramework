@@ -30,7 +30,7 @@ $AMIClass('AdderCtrl', {
 	onReady: function()
 	{
 		return amiWebApp.loadResources([
-			'ctrl:datatable'
+			'ctrl:table'
 		]).done((data) => {
 
 			this._tableCtor = data[0];
