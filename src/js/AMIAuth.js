@@ -1110,8 +1110,8 @@ class AMIAuth
 
 		return amiCommand.attachCertificate().then((data, message) => {
 
-			$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text(this.#userInfo.issuerDNInSession);
-			$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text(this.#userInfo.clientDNInSession);
+			$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(this.#userInfo.issuerDNInAMI = this.#userInfo.issuerDNInSession);
+			$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(this.#userInfo.clientDNInAMI = this.#userInfo.clientDNInSession);
 
 			$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', /*----------------------------*/ true /*----------------------------*/);
 			$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', false);
@@ -1136,8 +1136,8 @@ class AMIAuth
 
 		return amiCommand.detachCertificate().then((data, message) => {
 
-			$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text('N/A');
-			$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text('N/A');
+			$('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(this.#userInfo.issuerDNInAMI = '');
+			$('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(this.#userInfo.clientDNInAMI = '');
 
 			$('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', !this.#userInfo.clientDNInSession || !this.#userInfo.issuerDNInSession);
 			$('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', true);

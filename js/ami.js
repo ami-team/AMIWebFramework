@@ -18059,8 +18059,8 @@ var AMIAuth = function () {
 
     js_AMIWebApp.lock();
     return js_AMICommand.attachCertificate().then(function (data, message) {
-      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text(AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].issuerDNInSession);
-      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text(AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].clientDNInSession);
+      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].issuerDNInAMI = AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].issuerDNInSession);
+      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].clientDNInAMI = AMIAuth_classPrivateFieldLooseBase(_this5, _userInfo)[_userInfo].clientDNInSession);
       $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', true);
       $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', false);
       js_AMIWebApp.success(message, true);
@@ -18074,8 +18074,8 @@ var AMIAuth = function () {
 
     js_AMIWebApp.lock();
     return js_AMICommand.detachCertificate().then(function (data, message) {
-      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').text('N/A');
-      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').text('N/A');
+      $('#C9297C00_920D_4AE6_8A20_B0DDB383CC6A').val(AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].issuerDNInAMI = '');
+      $('#D4B29AC0_4867_815B_8657_5A1D623C29CF').val(AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].clientDNInAMI = '');
       $('#DB0223B3_D721_7EEB_50B8_032A04C7D218').prop('disabled', !AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].clientDNInSession || !AMIAuth_classPrivateFieldLooseBase(_this6, _userInfo)[_userInfo].issuerDNInSession);
       $('#B39BA3DE_4BA7_CE2F_BB80_BB6F4A5CB2A2').prop('disabled', true);
       js_AMIWebApp.success(message, true);
