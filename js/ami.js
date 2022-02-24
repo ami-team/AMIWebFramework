@@ -19947,6 +19947,51 @@ var AMIWebApp = function () {
         "desc": ""
       }]
     }, {
+      "name": "_internal_then",
+      "alias": "",
+      "desc": "",
+      "params": [{
+        "name": "deferred",
+        "type": ["$.Deferred"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "doneCallback",
+        "type": ["function"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "failCallback",
+        "type": ["function"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
+      "name": "_internal_always",
+      "alias": "",
+      "desc": "",
+      "params": [{
+        "name": "deferred",
+        "type": ["$.Deferred"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "alwaysCallback",
+        "type": ["function"],
+        "desc": "",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }]
+    }, {
       "name": "typeOf",
       "alias": "",
       "desc": "Gets the type name of the given object",
