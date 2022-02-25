@@ -7,13 +7,13 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
- * @global DiffMatchPatch
+ * @global diff_match_patch
  */
 
 import './assets/css/DiffBoxCtrl.css';
 
 import twigDiffBoxCtrl from './assets/twig/DiffBoxCtrl.twig';
-import DiffMatchPatch from 'diff-match-patch';
+import 'diff-match-patch';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -46,7 +46,7 @@ $AMIClass('DiffBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.dmp = new DiffMatchPatch();
+		this.dmp = new diff_match_patch();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
