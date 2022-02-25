@@ -13,7 +13,7 @@
 import './assets/css/DiffBoxCtrl.css';
 
 import twigDiffBoxCtrl from './assets/twig/DiffBoxCtrl.twig';
-import {diff_match_patch, diff_main, diff_cleanupEfficiency, diff_prettyHtml} from 'diff-match-patch';
+import diff_match_patch from 'diff-match-patch';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
