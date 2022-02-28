@@ -12,13 +12,13 @@
 						<i class="bi bi-funnel text-success" style="font-size: 3rem;"></i>
 					</div>
 					<div class="col-10 p-4">
-						Select {% if showCatalog %}{{ catalog|default('N/A')|e }}.{% endif %}{{ entity|default('N/A')|e }}</span> by <span class="{% if BOOTSTRAP_VERSION > 4 %}fw{% else %}font-weight{% endif %}-bold">{{ field|default('N/A')|e }}
+						Select <kbd class="rounded-pill">{{ entity|default('N/A')|e }}</kbd> by <kbd class="rounded-pill">{{ entity|default('N/A')|e }}.{{ field|default('N/A')|e }}</kbd>
 					</div>
 				</div>
 			</div>
 			<div class="card-footer p-2">
 				<div class="input-group">
-					<input class="form-control" type="text" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Select {% if showCatalog %}{{ catalog|default('N/A')|e }}.{% endif %}{{ entity|default('N/A')|e }} by {{ field|default('N/A')|e }}..." />
+					<input class="form-control" type="text" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Select {{ entity|default('N/A')|e }} by {{ entity|default('N/A')|e }}.{{ field|default('N/A')|e }}..." />
 					{% if BOOTSTRAP_VERSION > 4 %}
 					<button class="btn btn-outline-primary" type="button" id="EBB91625_148B_1606_0D40_30BF170B11EE">
 						<i class="bi bi-arrow-right-circle-fill"></i>
@@ -45,7 +45,7 @@
 						<i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
 					</div>
 					<div class="col-10 p-4">
-						Add new {% if showCatalog %}{{ catalog|default('N/A')|e }}.{% endif %}{{ entity|default('N/A')|e }}
+						Add new <kbd class="rounded-pill">{{ entity|default('N/A')|e }}</kbd>
 					</div>
 				</div>
 			</div>

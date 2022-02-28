@@ -49,8 +49,6 @@ $AMIClass('AdderCtrl', {
 
 		const canAdd = amiAuth.hasRole('AMI_ADMIN') || amiAuth.hasRole('AMI_WRITER');
 
-		const showCatalog = true;
-
 		this.setupCtx(
 			{
 				catalog: catalog,
@@ -61,7 +59,6 @@ $AMIClass('AdderCtrl', {
 				context: result,
 				showAddModalFunc: showAddModalFunc,
 				canAdd: canAdd,
-				showCatalog: showCatalog
 			},
 			options
 		);
