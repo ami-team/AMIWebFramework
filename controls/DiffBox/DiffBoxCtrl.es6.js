@@ -10,8 +10,6 @@
  * @global diff_match_patch
  */
 
-import './assets/css/DiffBoxCtrl.css';
-
 import twigDiffBoxCtrl from './assets/twig/DiffBoxCtrl.twig';
 import diff_match_patch from 'diff-match-patch';
 
@@ -33,24 +31,25 @@ $AMIClass('DiffBoxCtrl', {
 
 	onReady: function()
 	{
-		const _class = this.$class;
+		amiWebApp.appendHTML('body', twigDiffBoxCtrl).done(() => {
 
-		/*------------------------------------------------------------------------------------------------------------*/
+			const _class = this.$class;
 
-		$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').on('hidden.bs.modal', () => {
+			/*----------------------------------------------------------------------------------------------------*/
 
-			amiWebApp.modalLeave();
+			$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').on('hidden.bs.modal', () => {
 
-			_class.deferred.resolveWith(_class.context || _class.deferred);
+				amiWebApp.modalLeave();
+
+				_class.deferred.resolveWith(_class.context || _class.deferred);
+			});
+
+			/*----------------------------------------------------------------------------------------------------*/
+
+			this.dmp = new diff_match_patch();
+
+			/*----------------------------------------------------------------------------------------------------*/
 		});
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		this.dmp = new diff_match_patch();
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		return $.Deferred().resolve();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
