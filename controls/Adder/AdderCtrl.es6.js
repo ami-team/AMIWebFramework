@@ -129,11 +129,11 @@ $AMIClass('AdderCtrl', {
 		{
 			if(val.includes('%'))
 			{
-				mql += ' WHERE `' + this.ctx.field + '` LIKE \'' + amiWebApp.textToSQL(val) + '\'';
+				mql += ` WHERE \`${this.ctx.field }\` LIKE '${amiWebApp.textToSQL(val)}'`;
 			}
 			else
 			{
-				mql += ' WHERE `' + this.ctx.field + '` = \'' + amiWebApp.textToSQL(val) + '\'';
+				mql += ` WHERE \`${this.ctx.field }\` = '${amiWebApp.textToSQL(val)}'`;
 			}
 		}
 
