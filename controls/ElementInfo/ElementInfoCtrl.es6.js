@@ -51,7 +51,7 @@ $AMIClass('ElementInfoCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(selector, catalog, entity, primaryFieldName, primaryFieldValue, settings)
+	render: function(selector, catalog, entity, primaryFieldName, primaryFieldValue, options)
 	{
 		const result = $.Deferred();
 
@@ -97,7 +97,7 @@ $AMIClass('ElementInfoCtrl', {
 				/**/
 				onRefresh: null,
 			},
-			settings
+			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/

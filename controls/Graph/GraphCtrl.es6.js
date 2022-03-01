@@ -40,19 +40,26 @@ $AMIClass('GraphCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-    render: function(selector, command, settings)
+    render: function(selector, command, options)
     {
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [context, direction] = amiWebApp.setup(['context', 'direction'], [result, 'LR'], settings);
-
-		this.direction = direction;
+		this.setupCtx(
+			{
+				command: command,
+			},
+			{
+				context: result,
+				direction: 'LR',
+			},
+			options
+		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute(command).done((data) => {
+		amiCommand.execute(this.ctx.command).done((data) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -121,7 +128,7 @@ $AMIClass('GraphCtrl', {
 
 				this.display().done(() => {
 
-					result.resolveWith(context, [data]);
+					result.resolveWith(this.ctx.context, [data]);
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -129,7 +136,7 @@ $AMIClass('GraphCtrl', {
 
 		}).fail((data) => {
 
-			result.rejectWith(context, [data]);
+			result.rejectWith(this.ctx.context, [data]);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -228,15 +235,15 @@ $AMIClass('GraphCtrl', {
 
      	/*------------------------------------------------------------------------------------------------------------*/
 
-     	if(direction === 'LR' )
+     	/**/ if(direction === 'LR')
      	{
      		this.dotString = this.dotString.replace(regex, '$1TB$3');
-     		this.direction = 'TB';
+     		this.ctx.direction = 'TB';
      	}
-     	else if(direction === 'TB' )
+     	else if(direction === 'TB')
      	{
 			this.dotString = this.dotString.replace(regex, '$1LR$3');
-			this.direction = 'LR';
+			this.ctx.direction = 'LR';
      	}
 
 		this.display();
@@ -317,7 +324,7 @@ $AMIClass('GraphCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-    	let dot = 'digraph "provenance" {graph [rankdir="' + this.direction + '", ranksep="0.30"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", shape="rectangle"];';
+    	let dot = 'digraph "provenance" {graph [rankdir="' + this.ctx.direction + '", ranksep="0.30"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", shape="rectangle"];';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

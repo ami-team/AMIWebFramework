@@ -36,35 +36,27 @@ $AMIClass('MediaViewerCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(selector, catalog, entity, primaryFieldName, primaryFieldValue, field, base64, mime, settings)
+	render: function(selector, catalog, entity, primaryFieldName, primaryFieldValue, field, base64, mime, options)
 	{
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.ctx = {
-			catalog: catalog,
-			entity: entity,
-			primaryFieldName: primaryFieldName,
-			primaryFieldValue: primaryFieldValue,
-			field: field,
-			base64: base64,
-			mime: mime,
-		};
-
-		[
-			this.ctx.context,
-			this.ctx.card
-		] = amiWebApp.setup(
-			[
-				'context',
-				'card',
-			],
-			[
-				result,
-				false,
-			],
-			settings
+		this.setupCtx(
+			{
+				catalog: catalog,
+				entity: entity,
+				primaryFieldName: primaryFieldName,
+				primaryFieldValue: primaryFieldValue,
+				field: field,
+				base64: base64,
+				mime: mime,
+			},
+			{
+				context: result,
+				card: false,
+			},
+			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/

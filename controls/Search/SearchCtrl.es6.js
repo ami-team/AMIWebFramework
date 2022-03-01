@@ -72,46 +72,38 @@ $AMIClass('SearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(selector, settings)
+	render: function(selector, options)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.ctx = {
-			isEmbedded: amiWebApp.isEmbedded(),
+		this.setupCtx(
+			{
+				isEmbedded: amiWebApp.isEmbedded(),
 
-			endpoint: amiCommand.endpoint,
+				endpoint: amiCommand.endpoint,
 
-			/**/
+				/**/
 
-			cnt: 1,
-			ast: null,
-			predicates: {},
-			mql: '',
-			js: '',
-		};
-
-		[
-			this.ctx.name,
-			this.ctx.defaultCatalog, this.ctx.defaultEntity, this.ctx.defaultField, this.ctx.defaultPrimaryField,
-			this.ctx.defaultSelect, this.ctx.defaultOrderBy, this.ctx.defaultOrderWay,
-			this.ctx.criteria, this.ctx.more,
-			this.ctx.canEdit
-		] = amiWebApp.setup(
-			[
-				'name',
-				'defaultCatalog', 'defaultEntity', 'defaultField', 'defaultPrimaryField',
-				'defaultSelect', 'defaultOrderBy', 'defaultOrderWay',
-				'criteria', 'more',
-				'canEdit',
-			],
-			[
-				'N/A',
-				'', '', '', '',
-				'*', '', '',
-				[], {},
-				false,
-			],
-			settings
+				cnt: 1,
+				ast: null,
+				predicates: {},
+				mql: '',
+				js: '',
+			},
+			{
+				name: 'N/A',
+				defaultCatalog: '',
+				defaultEntity: '',
+				defaultField: '',
+				defaultPrimaryField: '',
+				defaultSelect: '*',
+				defaultOrderBy: '',
+				defaultOrderWay: '',
+				criteria: [],
+				more: {},
+				canEdit: false,
+			},
+			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/

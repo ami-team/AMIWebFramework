@@ -43,7 +43,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(selector, settings)
+	render: function(selector, options)
 	{
 		const result = $.Deferred();
 
@@ -52,74 +52,41 @@ $AMIClass('SimpleSearchCtrl', {
 		const fn = (catalog, entity, fields, value) => {
 
 			const select = fields.length === 0 ? ['0 = 1']
-			                                   : (value.indexOf('%') < 0) ? fields.map(field => field + ' = \'' + amiWebApp.textToSQL(value) + '\'')
-			                                                              : fields.map(field => field + ' LIKE \'' + amiWebApp.textToSQL(value) + '\'')
+			                                   : (value.indexOf('%') < 0) ? fields.map(field => `${field} = '${amiWebApp.textToSQL(value)}'`)
+			                                                              : fields.map(field => `${field} LIKE '${amiWebApp.textToSQL(value)}'`)
 			;
 
-			return 'BrowseQuery' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -mql="SELECT * WHERE ' + select.join(' OR ') + '"';
+			return `BrowseQuery -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -mql="SELECT * WHERE ${select.join(' OR ')}"`;
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [
-			context,
-			placeholder,
-			catalog, defaultCatalog,
-			entity, defaultEntity,
-			fields, criteria,
-			searchCommandFunc,
-			card
-		] = amiWebApp.setup(
-			[
-				'context',
-				'placeholder',
-				'catalog', 'defaultCatalog',
-				'entity', 'defaultEntity',
-				'fields', 'criteria',
-				'searchCommandFunc',
-				'card',
-			],
-			[
-				result,
-				'% for wildcarding',
-				'', '',
-				'', '',
-				[], [],
-				fn,
-				false,
-			],
-			settings
+		this.setupCtx(
+			{
+				isEmbedded: amiWebApp.isEmbedded(),
+				endpoint: amiCommand.endpoint,
+			},
+			{
+				context: result,
+				placeholder: '% for wildcarding',
+				defaultCatalog: '',
+				defaultEntity: '',
+				fields: [], criteria: [],
+				searchCommandFunc: fn,
+				card: false,
+			},
+			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.ctx = {};
-
-		for(const key in settings)
+		if(this.ctx.fields.length === 0)
 		{
-		    this.ctx[key] = settings[key];
+			this.ctx.fields = this.ctx.criteria.filter(criterion => criterion.more.simple_search).map(criterion => `\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\``);
 		}
 
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		this.ctx.isEmbedded = amiWebApp.isEmbedded();
-
-		this.ctx.endpoint = amiCommand.endpoint;
-
-		this.ctx.context = context;
-
-		this.ctx.placeholder = placeholder;
-
-		this.ctx.catalog = defaultCatalog ? defaultCatalog : catalog;
-		this.ctx.entity = defaultEntity ? defaultEntity : entity;
-
-		this.ctx.fields = criteria.length > 0 ? criteria.filter(criterion => criterion.more.simple_search).map(criterion => '`' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '`')
-		                                      : fields
-		;
-
-		this.ctx.searchCommandFunc = searchCommandFunc;
-
-		this.ctx.card = card;
+		this.ctx.catalog = this.ctx.defaultCatalog;
+		this.ctx.entity = this.ctx.defaultEntity;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -140,7 +107,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem('<i class="bi bi-search"></i> ' + this.ctx.entity, {closable: false, firstVisible: false}).done((selector) => {
+				tab.appendItem(`<i class="bi bi-search"></i> ${this.ctx.entity}`, {closable: false, firstVisible: false}).done((selector) => {
 
 					this.setParent(tab);
 
@@ -186,7 +153,7 @@ $AMIClass('SimpleSearchCtrl', {
 
 	search: function(value)
 	{
-		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.fields, value)], {}, this.ctx, 'table', this.ctx.entity);
+		return amiWebApp.createControlInContainer(this.getParent(), this, 'table', [this.ctx.searchCommandFunc(this.ctx.defaultCatalog, this.ctx.defaultEntity, this.ctx.fields, value)], {}, this.ctx, 'table', this.ctx.entity);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
