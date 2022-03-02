@@ -380,13 +380,11 @@ $AMIClass('GraphCtrl', {
 						dot += ', style ="filled"';
 					}
 
-					dot	+= ', URL="' + this.url(
+					dot	+= `, URL="${this.url(
 											(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
 											(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
 											(amiWebApp.jspath('..field{.@name==="ICON"}.$', node)[0] || ''),
-										  ) + '" ';
-
-				dot += ']';
+										  )}" ]`;
 
 				/*----------------------------------------------------------------------------------------------------*/
     		}
