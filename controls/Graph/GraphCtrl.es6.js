@@ -397,12 +397,10 @@ $AMIClass('GraphCtrl', {
 
 			[...destinations].forEach((destination) => {
 
-			let edge = (amiWebApp.jspath('..{.field{.@name === "SOURCE"}.$ === "'+ source +'" && .field{.@name === "DESTINATION"}.$ === "'+ destination +'"}', edges)[0] || '');
+			let edge = (amiWebApp.jspath(`..{.field{.@name === "SOURCE"}.$ === "${source}" && .field{.@name === "DESTINATION"}.$ === "${destination}"}`, edges)[0] || '');
 
-			dot += '"' + source + '" '
-				+ '->'
-				+ '"' + destination + '" '
-				+ (edge === '' ? '[style="dashed"]' : '')
+			dot += `"${source}" -> "${destination}"`
+				+ (edge === '' ? ' [style="dashed"]' : '');
 			})
 		});
 
