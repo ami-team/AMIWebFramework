@@ -49,7 +49,7 @@ $AMIClass('DocumentApp', {
 			renderer: new marked.Renderer(),
 		};
 
-		this._markdownOptions.renderer.table = (header, body) => '<table class="table table-striped"><thead>' + header + '</thead><tbody>\n' + body + '</tbody></table>';
+		this._markdownOptions.renderer.table = (header, body) => `<table class="table table-striped"><thead>${header}</thead><tbody>${body}</tbody></table>`;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -60,7 +60,7 @@ $AMIClass('DocumentApp', {
 
 			$('#D51A8FD2_21EB_CF57_B7E0_DD6B0367FB0C').change((e) => {
 
-				amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.toHtml($(e.currentTarget).val()));
+				amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.markdownToHtml($(e.currentTarget).val()));
 			});
 
 			result.resolve();
@@ -87,9 +87,9 @@ $AMIClass('DocumentApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	toHtml: function(body)
+	markdownToHtml: function(body)
 	{
-		return !body.match(/<!--\s+markdown:\s*disabled\s+-->/g) ? marked(body.replace(/[\t ]+[<]/gm, '<'), this._markdownOptions)
+		return !body.match(/<!--\s+markdown:\s*disabled\s+-->/g) ? marked.marked(body.replace(/[\t ]+[<]/gm, '<'), this._markdownOptions)
 		                                                         : body
 		;
 	},
@@ -98,6 +98,10 @@ $AMIClass('DocumentApp', {
 
 	loadPage: function(page)
 	{
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		this.setMode(false);
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		amiCommand.execute('GetPageInfo -name=?', {params: [page]}).done((data) => {
@@ -127,10 +131,6 @@ $AMIClass('DocumentApp', {
 					this.loadPage('404.html');
 				}
 			});
-
-		}).always(() => {
-
-			this.setMode(false);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -144,8 +144,8 @@ $AMIClass('DocumentApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		breadcrumb.push('<a href="' + amiWebApp.webAppURL + '?subapp=document&userdata=' + /*-*/ 'home.html' /*-*/ + '">' + /*---*/ 'Documents' /*---*/ + '</a>');
-		breadcrumb.push('<a href="' + amiWebApp.webAppURL + '?subapp=document&userdata=' + encodeURIComponent(page) + '">' + amiWebApp.textToHtml(title) + '</a>');
+		breadcrumb.push(`<a href="${amiWebApp.webAppURL}?subapp=document&userdata=${/*-*/ 'home.html' /*-*/ }">${/*---*/ 'Documents' /*---*/}</a>`);
+		breadcrumb.push(`<a href="${amiWebApp.webAppURL}?subapp=document&userdata=${encodeURIComponent(page)}">${amiWebApp.textToHtml(title)}</a>`);
 
 		if(editable && (amiAuth.hasRole('AMI_ADMIN') || amiAuth.hasRole('AMI_WRITER')))
 		{
@@ -164,7 +164,7 @@ $AMIClass('DocumentApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.toHtml(body)).done(() => {
+		amiWebApp.replaceHTML('#E974FB62_3BAD_A0CF_7B96_10EBA1B0C3FF', this.markdownToHtml(body)).done(() => {
 
 			amiWebApp.fillBreadcrumb(breadcrumb);
 		});
