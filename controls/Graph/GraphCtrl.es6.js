@@ -40,19 +40,26 @@ $AMIClass('GraphCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-    render: function(selector, command, settings)
+    render: function(selector, command, options)
     {
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [context, direction] = amiWebApp.setup(['context', 'direction'], [result, 'LR'], settings);
-
-		this.direction = direction;
+		this.setupCtx(
+			{
+				command: command,
+			},
+			{
+				context: result,
+				direction: 'LR',
+			},
+			options
+		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute(command).done((data) => {
+		amiCommand.execute(this.ctx.command).done((data) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -121,7 +128,7 @@ $AMIClass('GraphCtrl', {
 
 				this.display().done(() => {
 
-					result.resolveWith(context, [data]);
+					result.resolveWith(this.ctx.context, [data]);
 				});
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -129,7 +136,7 @@ $AMIClass('GraphCtrl', {
 
 		}).fail((data) => {
 
-			result.rejectWith(context, [data]);
+			result.rejectWith(this.ctx.context, [data]);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -162,16 +169,16 @@ $AMIClass('GraphCtrl', {
 			const jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
 
 			const attrs = [
-				'data-ctrl="' + amiWebApp.textToHtml(jsonbObj['data-ctrl']) + '"',
-				'data-ctrl-location="' + amiWebApp.textToHtml(jsonbObj['data-ctrl-location']) + '"',
-				'data-params="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params'])) + '"',
-				'data-settings="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings'])) + '"',
-				'data-icon="' + amiWebApp.textToHtml(jsonbObj['data-icon']) + '"',
-				'data-title="' + amiWebApp.textToHtml(jsonbObj['data-title']) + '"',
-				'data-title-icon="' + amiWebApp.textToHtml(jsonbObj['data-title-icon']) + '"',
+				`data-ctrl="${amiWebApp.textToHtml(jsonbObj['data-ctrl'])}"`,
+				`data-ctrl-location="${amiWebApp.textToHtml(jsonbObj['data-ctrl-location'])}"`,
+				`data-params="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params']))}"`,
+				`data-settings="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings']))}"`,
+				`data-icon="${amiWebApp.textToHtml(jsonbObj['data-icon'])}"`,
+				`data-title="${amiWebApp.textToHtml(jsonbObj['data-title'])}"`,
+				`data-title-icon="${amiWebApp.textToHtml(jsonbObj['data-title-icon'])}"`,
 			];
 
-			return 'xlink:href="#" ' + attrs.join(' ');
+			return `xlink:href="#" ${attrs.join(' ')}`;
 		});
 
 		/*--------------------------------------------------------------------------------------------------------*/
@@ -182,7 +189,7 @@ $AMIClass('GraphCtrl', {
 
 		svg.find('a[data-title-icon]').each((i, el) => {
 
-			$('<tspan font-family="bootstrap-icons" class="align-items-center">' + String.fromCharCode('0x' + $(el).attr('data-title-icon').replace(/f1f8/,'f5dd')) + '</tspan><tspan> </tspan>').prependTo($(el).find('text'));
+			$(`<tspan font-family="bootstrap-icons" class="align-items-center">${String.fromCharCode(`0x${$(el).attr('data-title-icon').replace(/f1f8/,'f5dd')}`)}</tspan><tspan> </tspan>`).prependTo($(el).find('text'));
 		});
 
 		this.graph = doc.documentElement.outerHTML;
@@ -228,15 +235,15 @@ $AMIClass('GraphCtrl', {
 
      	/*------------------------------------------------------------------------------------------------------------*/
 
-     	if(direction === 'LR' )
+     	/**/ if(direction === 'LR')
      	{
      		this.dotString = this.dotString.replace(regex, '$1TB$3');
-     		this.direction = 'TB';
+     		this.ctx.direction = 'TB';
      	}
-     	else if(direction === 'TB' )
+     	else if(direction === 'TB')
      	{
 			this.dotString = this.dotString.replace(regex, '$1LR$3');
-			this.direction = 'LR';
+			this.ctx.direction = 'LR';
      	}
 
 		this.display();
@@ -317,7 +324,7 @@ $AMIClass('GraphCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-    	let dot = 'digraph "provenance" {graph [rankdir="' + this.direction + '", ranksep="0.30"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", shape="rectangle"];';
+    	let dot = `digraph "provenance" {graph [rankdir="${this.ctx.direction}", ranksep="0.30"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", shape="rectangle"];`;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -358,27 +365,27 @@ $AMIClass('GraphCtrl', {
 			{
 				/*----------------------------------------------------------------------------------------------------*/
 
-				dot += '"' + label + '" '
-					+ '[ '
-					+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '') + '", '
-					+ 'label="' + label + '" ';
+				dot += `"${label}"
+				[
+					color="${(amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '')}",
+					label="${label}"
+				`;
 
-					if((amiWebApp.jspath('..field{.@name==="DISTANCE"}.$', node)[0] || '') === '0')
-					{
-						dot += ', style ="filled, rounded"';
-					}
-					else
-					{
-						dot += ', style ="filled"';
-					}
+				if((amiWebApp.jspath('..field{.@name==="DISTANCE"}.$', node)[0] || '') === '0')
+				{
+					dot += ', style ="filled, rounded"';
+				}
+				else
+				{
+					dot += ', style ="filled"';
+				}
 
-					dot	+= ', URL="' + this.url(
-											(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
-											(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
-											(amiWebApp.jspath('..field{.@name==="ICON"}.$', node)[0] || ''),
-										  ) + '" ';
-
-				dot += ']';
+				dot	+= `, URL="${this.url(
+										(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
+										(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
+										(amiWebApp.jspath('..field{.@name==="ICON"}.$', node)[0] || ''),
+									  )}"
+				]`;
 
 				/*----------------------------------------------------------------------------------------------------*/
     		}
@@ -390,12 +397,10 @@ $AMIClass('GraphCtrl', {
 
 			[...destinations].forEach((destination) => {
 
-			let edge = (amiWebApp.jspath('..{.field{.@name === "SOURCE"}.$ === "'+ source +'" && .field{.@name === "DESTINATION"}.$ === "'+ destination +'"}', edges)[0] || '');
+			let edge = (amiWebApp.jspath(`..{.field{.@name === "SOURCE"}.$ === "${source}" && .field{.@name === "DESTINATION"}.$ === "${destination}"}`, edges)[0] || '');
 
-			dot += '"' + source + '" '
-				+ '->'
-				+ '"' + destination + '" '
-				+ (edge === '' ? '[style="dashed"]' : '')
+			dot += `"${source}" -> "${destination}"`
+				+ (edge === '' ? ' [style="dashed"]' : '');
 			})
 		});
 
@@ -413,22 +418,22 @@ $AMIClass('GraphCtrl', {
 	url: function(id, catalog, icon)
 	{
 		return '{&quot;data-ctrl&quot;:&quot;elementInfo&quot;, '
-			 + '&quot;data-params&quot;:[&quot;' + catalog + '&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;' + id + '&quot;], '
+			 + `&quot;data-params&quot;:[&quot;${catalog}&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;' + id + '&quot;], `
 			 + '&quot;data-settings&quot;: {'
 			 + '&quot;expandedLinkedElements&quot;: ['
-			 + '{&quot;catalog&quot;: &quot;'+ catalog + '&quot;, '
+			 + `{&quot;catalog&quot;: &quot;${catalog}&quot;, `
 			 + '&quot;entity&quot;: &quot;physicsParameterVals&quot;, '
 			 + '&quot;fields&quot;: [&quot;paramName&quot;, &quot;paramValue&quot;, &quot;units&quot;, &quot;physicsGroup&quot;], '
 			 + '&quot;keyValMode&quot;:true'
 			 + '}, {'
-			 + '&quot;catalog&quot;: &quot;' + catalog + '&quot;, '
+			 + `&quot;catalog&quot;: &quot;${catalog}&quot;, `
 			 + '&quot;entity&quot;: &quot;dataset_extra&quot;, '
 			 + '&quot;fields&quot;: [&quot;field&quot;, &quot;value&quot;], '
 			 + '&quot;keyValMode&quot;:true'
 			 + '}]}, '
 			 + '&quot;data-icon&quot;: &quot;arrows-alt&quot;, '
 			 + '&quot;data-title&quot;: &quot;dataset&quot; '
-			 + ('' === icon ? '' : ', &quot;data-title-icon&quot;: &quot;' + icon + '&quot;')
+			 + ('' === icon ? '' : `, &quot;data-title-icon&quot;: &quot;${icon}&quot;`)
 			 + '}';
 	},
 

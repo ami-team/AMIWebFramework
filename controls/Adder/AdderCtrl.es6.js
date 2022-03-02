@@ -30,7 +30,7 @@ $AMIClass('AdderCtrl', {
 	onReady: function()
 	{
 		return amiWebApp.loadResources([
-			'ctrl:datatable'
+			'ctrl:table'
 		]).done((data) => {
 
 			this._tableCtor = data[0];
@@ -129,11 +129,11 @@ $AMIClass('AdderCtrl', {
 		{
 			if(val.includes('%'))
 			{
-				mql += ' WHERE `' + this.ctx.field + '` LIKE \'' + amiWebApp.textToSQL(val) + '\'';
+				mql += ` WHERE \`${this.ctx.field }\` LIKE '${amiWebApp.textToSQL(val)}'`;
 			}
 			else
 			{
-				mql += ' WHERE `' + this.ctx.field + '` = \'' + amiWebApp.textToSQL(val) + '\'';
+				mql += ` WHERE \`${this.ctx.field }\` = '${amiWebApp.textToSQL(val)}'`;
 			}
 		}
 

@@ -36,35 +36,27 @@ $AMIClass('MediaViewerCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(selector, catalog, entity, primaryFieldName, primaryFieldValue, field, base64, mime, settings)
+	render: function(selector, catalog, entity, primaryFieldName, primaryFieldValue, field, base64, mime, options)
 	{
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.ctx = {
-			catalog: catalog,
-			entity: entity,
-			primaryFieldName: primaryFieldName,
-			primaryFieldValue: primaryFieldValue,
-			field: field,
-			base64: base64,
-			mime: mime,
-		};
-
-		[
-			this.ctx.context,
-			this.ctx.card
-		] = amiWebApp.setup(
-			[
-				'context',
-				'card',
-			],
-			[
-				result,
-				false,
-			],
-			settings
+		this.setupCtx(
+			{
+				catalog: catalog,
+				entity: entity,
+				primaryFieldName: primaryFieldName,
+				primaryFieldValue: primaryFieldValue,
+				field: field,
+				base64: base64,
+				mime: mime,
+			},
+			{
+				context: result,
+				card: false,
+			},
+			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -86,7 +78,7 @@ $AMIClass('MediaViewerCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem('<i class="bi bi-arrows-fullscreen"></i> ' + this.ctx.entity, {closable: false}).done((selector) => {
+				tab.appendItem(`<i class="bi bi-arrows-fullscreen"></i> ${this.ctx.entity}`, {closable: false}).done((selector) => {
 
 					this.setParent(tab);
 
@@ -134,7 +126,7 @@ $AMIClass('MediaViewerCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -sql="SELECT `' + amiWebApp.textToString(this.ctx.field) + '` FROM `' + amiWebApp.textToString(this.ctx.entity) + '` WHERE `' + amiWebApp.textToString(this.ctx.primaryFieldName) + '` = \'' + amiWebApp.textToString(this.ctx.primaryFieldValue) + '\'"';
+		const command = `SearchQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -sql="SELECT \`${amiWebApp.textToString(this.ctx.field)}\` FROM \`${amiWebApp.textToString(this.ctx.entity)}\` WHERE \`${amiWebApp.textToString(this.ctx.primaryFieldName)}\` = \'${amiWebApp.textToString(this.ctx.primaryFieldValue)}\'"`;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

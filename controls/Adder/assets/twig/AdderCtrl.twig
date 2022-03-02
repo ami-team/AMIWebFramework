@@ -6,19 +6,19 @@
 
 	<div class="col-xl-7 px-0">
 		<div class="card mb-3 m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-0 m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-lg-3">
-			<div class="card-body p-2">
+			<div class="card-body">
 				<div class="row">
 					<div class="col-2">
 						<i class="bi bi-funnel text-success" style="font-size: 3rem;"></i>
 					</div>
-					<div class="col-10">
-						Select <kbd class="rounded-pill">{{ catalog|default('N/A')|e }}.{{ entity|default('N/A')|e }}</kbd> by <kbd class="rounded-pill">{{ catalog|default('N/A')|e }}.{{ field|default('N/A')|e }}</kbd>
+					<div class="col-10 p-4">
+						Select <kbd class="rounded-pill">{{ entity|default('N/A')|e }}</kbd> by <kbd class="rounded-pill">{{ entity|default('N/A')|e }}.{{ field|default('N/A')|e }}</kbd>
 					</div>
 				</div>
 			</div>
 			<div class="card-footer p-2">
 				<div class="input-group">
-					<input class="form-control" type="text" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Select {{ catalog|default('N/A')|e }}.{{ entity|default('N/A')|e }} by {{ field|default('N/A')|e }}..." />
+					<input class="form-control" type="text" id="B28F6454_3862_3031_6BAF_98392DE9C377" placeholder="Select {{ entity|default('N/A')|e }} by {{ entity|default('N/A')|e }}.{{ field|default('N/A')|e }}..." />
 					{% if BOOTSTRAP_VERSION > 4 %}
 					<button class="btn btn-outline-primary" type="button" id="EBB91625_148B_1606_0D40_30BF170B11EE">
 						<i class="bi bi-arrow-right-circle-fill"></i>
@@ -39,13 +39,13 @@
 
 	<div class="col-xl-5 px-0">
 		<div class="card mb-3 m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-0 m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-lg-3">
-			<div class="card-body p-2">
+			<div class="card-body">
 				<div class="row">
 					<div class="col-2">
 						<i class="bi bi-plus-lg text-primary" style="font-size: 3rem;"></i>
 					</div>
-					<div class="col-10">
-						Add new <kbd class="rounded-pill">{{ catalog|default('N/A')|e }}.{{ entity|default('N/A')|e }}</kbd>
+					<div class="col-10 p-4">
+						Add new <kbd class="rounded-pill">{{ entity|default('N/A')|e }}</kbd>
 					</div>
 				</div>
 			</div>

@@ -62,10 +62,10 @@ amiTwig.stdlib.getAMITypeToEnumOptions = function(sqlType, defaultValue)
 		value = amiWebApp.textToHtml(value.replace(/'/g, '').trim());
 
 		if(value.toUpperCase() === defaultValue.toUpperCase()) {
-			result.push('<option value="' + value + '" selected="selected">' + value + '</option>');
+			result.push(`<option value="${value}" selected="selected">${value}</option>`);
 		}
 		else {
-			result.push('<option value="' + value + '" xxxxxxx="xxxxxxxxx">' + value + '</option>');
+			result.push(`<option value="${value}" xxxxxxx="xxxxxxxxx">${value}</option>`);
 		}
 	});
 
@@ -135,7 +135,7 @@ $AMIClass('FieldEditorCtrl', {
 
 		const fieldInfo = [];
 
-		amiCommand.execute('GetEntityInfo -catalog="' + amiWebApp.textToString(primaryCatalog) + '" -entity="' + amiWebApp.textToString(primaryEntity) + '"').done((data) => {
+		amiCommand.execute(`GetEntityInfo -catalog="${amiWebApp.textToString(primaryCatalog)}" -entity="${amiWebApp.textToString(primaryEntity)}"`).done((data) => {
 
 			const rows = amiWebApp.jspath('..{.@type==="fields"}.row', data);
 
@@ -211,7 +211,7 @@ $AMIClass('FieldEditorCtrl', {
 
 		const values = {};
 
-		amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(primaryCatalog) + '" -entity="' + amiWebApp.textToString(primaryEntity) + '" -sql="SELECT * FROM `' + amiWebApp.textToString(primaryEntity) + '` WHERE `' + amiWebApp.textToString(primaryField) + '` = \'' + amiWebApp.textToString(primaryValue) + '\'"').done((data) => {
+		amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(primaryCatalog)}" -entity="${amiWebApp.textToString(primaryEntity)}" -sql="SELECT * FROM \`${amiWebApp.textToString(primaryEntity)}\` WHERE \`${amiWebApp.textToString(primaryField)}\` = \'${amiWebApp.textToString(primaryValue)}\'"`).done((data) => {
 
 			const fields = amiWebApp.jspath('..{.@type==="' + amiWebApp.textToString(primaryCatalog) + '"}..field', data);
 
@@ -239,19 +239,19 @@ $AMIClass('FieldEditorCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const fn1 = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) =>
-			'GetElementInfo' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"' + (hideBigContent ? ' -hideBigContent' : '')
+			`GetElementInfo -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -primaryFieldName="${amiWebApp.textToString(primaryFieldName)}" -primaryFieldValue="${amiWebApp.textToString(primaryFieldValue)}"${(hideBigContent ? ' -hideBigContent' : '')}`
 		;
 
 		const fn2 = (catalog, entity, fields, values) =>
-			(('AddElement')) + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"'
+			`AddElement -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -fields="${amiWebApp.textToString(fields.join('§'))}" -values="${amiWebApp.textToString(values.join('§'))}"`
 		;
 
 		const fn3 = (catalog, entity, fields, values, primaryFields, primaryValues) =>
-			'UpdateElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
+			`UpdateElements -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -fields="${amiWebApp.textToString(fields.join('§'))}" -values="${amiWebApp.textToString(values.join('§'))}" -keyFields="${amiWebApp.textToString(primaryFields.join('§'))}" -keyValues="${amiWebApp.textToString(primaryValues.join('§'))}"`
 		;
 
 		const fn4 = (catalog, entity, primaryFields, primaryValues) =>
-			'RemoveElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
+			`RemoveElements -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -keyFields="${amiWebApp.textToString(primaryFields.join('§'))}" -keyValues="${amiWebApp.textToString(primaryValues.join('§'))}"`
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -417,16 +417,16 @@ $AMIClass('FieldEditorCtrl', {
 			html = '<input class="form-control form-control-sm" type="number" step="any" />';
 		}
 		else if(amiType === 'TIMESTAMP') {
-			html = '<input class="form-control form-control-sm form-datetime" type="text" data-target="' + selector + '" />';
+			html = `<input class="form-control form-control-sm form-datetime" type="text" data-target="${selector}" />`;
 		}
 		else if(amiType === 'DATE') {
-			html = '<input class="form-control form-control-sm form-date" type="text" data-target="' + selector + '" />';
+			html = `<input class="form-control form-control-sm form-date" type="text" data-target="${selector}" />`;
 		}
 		else if(amiType === 'TIME') {
-			html = '<input class="form-control form-control-sm form-time" type="text" data-target="' + selector + '" />';
+			html = `<input class="form-control form-control-sm form-time" type="text" data-target="${selector}" />`;
 		}
 		else if(amiType === 'ENUM') {
-			html = '<select class="custom-select custom-select-sm">' + amiTwig.stdlib.getAMITypeToEnumOptions(sqlType, value) + '</select>';
+			html = `<select class="custom-select custom-select-sm">${amiTwig.stdlib.getAMITypeToEnumOptions(sqlType, value)}</select>`;
 		}
 		else if(amiType === 'LONGTEXT') {
 			html = '<textarea class="form-control form-control-sm" rows="6"></textarea>';

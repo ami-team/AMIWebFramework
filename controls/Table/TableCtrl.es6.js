@@ -70,7 +70,7 @@ $AMIClass('TableCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(selector, command, settings)
+	render: function(selector, command, options)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -100,79 +100,46 @@ $AMIClass('TableCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.ctx = {
-			isEmbedded: amiWebApp.isEmbedded(),
+		this.setupCtx(
+			{
+				ignoredFields: {
+            			'ORACLE_ROWNUM': '',
+            			'PROJECT': '',
+            			'PROCESS': '',
+            			'AMIENTITYNAME': '',
+            			'AMIELEMENTID': '',
+            			'AMICREATED': '',
+            			'AMILASTMODIFIED': '',
+            			'AMISYSDATE': ''
+            	},
+				isEmbedded: amiWebApp.isEmbedded(),
+				endpoint: amiCommand.endpoint,
+				command: command.trim(),
 
-			endpoint: amiCommand.endpoint,
+				/**/
 
-			command: command.trim(),
+				mql: 'N/A',
+				sql: 'N/A',
+				ast: 'N/A',
 
-			/**/
-
-			sql: 'N/A',
-			mql: 'N/A',
-			ast: 'N/A',
-
-			currentTabIndex: 0,
-		};
-
-		[
-			this.ctx.context,
-			this.ctx.elementInfoCommandFunc, this.ctx.appendCommandFunc, this.ctx.updateCommandFunc, this.ctx.removeCommandFunc,
-			this.ctx.customLabelsFragment, this.ctx.customInputsFragment, this.ctx.customHTMLsFragment,
-			this.ctx.expandedLinkedElements,
-			this.ctx.enableCache, this.ctx.enableCount, this.ctx.enableEditMode,
-			this.ctx.hideBigContent,
-			this.ctx.showPrimaryField, this.ctx.showToolBar, this.ctx.showDetails, this.ctx.showTools, this.ctx.showEditTools, this.ctx.canEdit,
-			this.ctx.catalog, this.ctx.entity, this.ctx.primaryField, this.ctx.rowset,
-			this.ctx.start, this.ctx.stop, this.ctx.orderBy, this.ctx.orderWay,
-			this.ctx.maxCellLength,
-			this.ctx.card,
-			this.ctx.onRefresh,
-		] = amiWebApp.setup(
-			[
-				'context',
-				'elementInfoCommandFunc', 'appendCommandFunc', 'updateCommandFunc', 'removeCommandFunc',
-				'customLabelsFragment', 'customInputsFragment', 'customHTMLsFragment',
-				'expandedLinkedElements',
-				'enableCache', 'enableCount', 'enableEditMode',
-				'hideBigContent',
-				'showPrimaryField', 'showToolBar', 'showDetails', 'showTools', 'showEditTools', 'canEdit',
-				'catalog', 'entity', 'primaryField', 'rowset',
-				'start', 'stop', 'orderBy', 'orderWay',
-				'maxCellLength',
-				'card',
-				'onRefresh',
-			],
-			[
-				result,
-				fn1, fn2, fn3, fn4,
-				null, null, null,
-				[],
-				false, true, false,
-				true,
-				true, true, true, true, true, amiLogin.hasRole('AMI_ADMIN') || amiLogin.hasRole('AMI_WRITER'),
-				'', '', '', '',
-				1, 10, '', '',
-				64,
-				false,
-				null,
-			],
-			settings
+				currentTabIndex: 0,
+			},
+			{
+				context: result,
+				elementInfoCommandFunc: fn1, appendCommandFunc: fn2, updateCommandFunc: fn3, removeCommandFunc: fn4,
+				customLabelsFragment: null, customInputsFragment: null, customHTMLsFragment: null,
+				expandedLinkedElements: [],
+				enableCache: false, enableCount: true, enableEditMode: false,
+				hideBigContent: true,
+				showPrimaryField: true, showToolBar: true, showDetails: true, showTools: true, showEditTools: true, canEdit: amiLogin.hasRole('AMI_ADMIN') || amiLogin.hasRole('AMI_WRITER'),
+				catalog: '', entity: '', primaryField: '', rowset: '',
+				start: 1, stop: 10, orderBy: '', orderWay: '',
+				maxCellLength: 64,
+				card: false,
+				onRefresh: null,
+			},
+			options
 		);
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		this.ctx.ignoredFields = {
-			'ORACLE_ROWNUM': '',
-			'PROJECT': '',
-			'PROCESS': '',
-			'AMIENTITYNAME': '',
-			'AMIELEMENTID': '',
-			'AMICREATED': '',
-			'AMILASTMODIFIED': '',
-			'AMISYSDATE': ''
-		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

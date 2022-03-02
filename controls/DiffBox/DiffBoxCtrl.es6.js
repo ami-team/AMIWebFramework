@@ -7,12 +7,11 @@
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html
  * http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
  *
+ * @global diff_match_patch
  */
 
-import './assets/css/DiffBoxCtrl.css';
-
 import twigDiffBoxCtrl from './assets/twig/DiffBoxCtrl.twig';
-import DiffMatchPatch from 'diff-match-patch';
+import diff_match_patch from 'diff-match-patch';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -32,24 +31,25 @@ $AMIClass('DiffBoxCtrl', {
 
 	onReady: function()
 	{
-		const _class = this.$class;
+		amiWebApp.appendHTML('body', twigDiffBoxCtrl).done(() => {
 
-		/*------------------------------------------------------------------------------------------------------------*/
+			const _class = this.$class;
 
-		$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').on('hidden.bs.modal', () => {
+			/*----------------------------------------------------------------------------------------------------*/
 
-			amiWebApp.modalLeave();
+			$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').on('hidden.bs.modal', () => {
 
-			_class.deferred.resolveWith(_class.context || _class.deferred);
+				amiWebApp.modalLeave();
+
+				_class.deferred.resolveWith(_class.context || _class.deferred);
+			});
+
+			/*----------------------------------------------------------------------------------------------------*/
+
+			this.dmp = new diff_match_patch();
+
+			/*----------------------------------------------------------------------------------------------------*/
 		});
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		this.dmp = new DiffMatchPatch();
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		return $.Deferred().resolve();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -76,19 +76,19 @@ $AMIClass('DiffBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html1 = '<i class="line-number"></i>' + amiWebApp.textToHtml(text1).replace(/\n/g, '\n<i class="line-number"></i>');
+		const html1 = `<i class="line-number"></i>${amiWebApp.textToHtml(text1).replace(/\n/g, '\n<i class="line-number"></i>')}`;
 
 		$('#E94A7FE7_FEBC_AE12_0C13_E625FC2ADFE6').html(html1);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html2 = '<i class="line-number"></i>' + this.dmp.diff_prettyHtml(d).replace(/\n/g, '\n<i class="line-number"></i>');
+		const html2 = `<i class="line-number"></i>${this.dmp.diff_prettyHtml(d).replace(/\n/g, '\n<i class="line-number"></i>')}`;
 
 		$('#AF0BD692_6F09_4527_2684_AAF623658767').html(html2);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html3 = '<i class="line-number"></i>' + amiWebApp.textToHtml(text3).replace(/\n/g, '\n<i class="line-number"></i>');
+		const html3 = `<i class="line-number"></i>${amiWebApp.textToHtml(text3).replace(/\n/g, '\n<i class="line-number"></i>')}`;
 
 		$('#C604C636_346F_64A8_3EBE_ADCDE2AEB343').html(html3);
 
