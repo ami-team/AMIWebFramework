@@ -111,7 +111,7 @@ $AMIClass('GraphCtrl', {
 
 					e.preventDefault();
 
-					this.dotString = this.jsonToDot(this.json,$(this.patchId('#D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
+					this.dotString = this.jsonToDot(this.json,$('#' + this.patchId('D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
 					this.display();
 				});
 
@@ -119,7 +119,7 @@ $AMIClass('GraphCtrl', {
 
 					if(e.keyCode == 13)
 					{
-						this.dotString = this.jsonToDot(this.json,$(this.patchId('#D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
+						this.dotString = this.jsonToDot(this.json,$('#' + this.patchId('D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
                         this.display();
 					}
 				});
@@ -169,16 +169,16 @@ $AMIClass('GraphCtrl', {
 			const jsonbObj = JSON.parse(amiWebApp.htmlToText(json));
 
 			const attrs = [
-				`data-ctrl="${amiWebApp.textToHtml(jsonbObj['data-ctrl'])}"`,
-				`data-ctrl-location="${amiWebApp.textToHtml(jsonbObj['data-ctrl-location'])}"`,
-				`data-params="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params']))}"`,
-				`data-settings="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings']))}"`,
-				`data-icon="${amiWebApp.textToHtml(jsonbObj['data-icon'])}"`,
-				`data-title="${amiWebApp.textToHtml(jsonbObj['data-title'])}"`,
-				`data-title-icon="${amiWebApp.textToHtml(jsonbObj['data-title-icon'])}"`,
+				'data-ctrl="' + amiWebApp.textToHtml(jsonbObj['data-ctrl']) + '"',
+				'data-ctrl-location="' + amiWebApp.textToHtml(jsonbObj['data-ctrl-location']) + '"',
+				'data-params="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params'])) + '"',
+				'data-settings="' + amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings'])) + '"',
+				'data-icon="' + amiWebApp.textToHtml(jsonbObj['data-icon']) + '"',
+				'data-title="' + amiWebApp.textToHtml(jsonbObj['data-title']) + '"',
+				'data-title-icon="' + amiWebApp.textToHtml(jsonbObj['data-title-icon']) + '"',
 			];
 
-			return `xlink:href="#" ${attrs.join(' ')}`;
+			return 'xlink:href="#" ' + attrs.join(' ');
 		});
 
 		/*--------------------------------------------------------------------------------------------------------*/
@@ -189,7 +189,7 @@ $AMIClass('GraphCtrl', {
 
 		svg.find('a[data-title-icon]').each((i, el) => {
 
-			$(`<tspan font-family="bootstrap-icons" class="align-items-center">${String.fromCharCode(`0x${$(el).attr('data-title-icon').replace(/f1f8/,'f5dd')}`)}</tspan><tspan> </tspan>`).prependTo($(el).find('text'));
+			$('<tspan font-family="bootstrap-icons" class="align-items-center">' + String.fromCharCode('0x' + $(el).attr('data-title-icon').replace(/f1f8/,'f5dd')) + '</tspan><tspan> </tspan>').prependTo($(el).find('text'));
 		});
 
 		this.graph = doc.documentElement.outerHTML;
@@ -324,7 +324,7 @@ $AMIClass('GraphCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-    	let dot = `digraph "provenance" {graph [rankdir="${this.ctx.direction}", ranksep="0.30"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", shape="rectangle"];`;
+    	let dot = 'digraph "provenance" {graph [rankdir="' + this.ctx.direction + '", ranksep="0.30"]; node [width="7.5em",height="0.3em", fontcolor="#004bffff", fontname="Arial", fontsize="10.0", shape="rectangle"];';
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -365,10 +365,10 @@ $AMIClass('GraphCtrl', {
 			{
 				/*----------------------------------------------------------------------------------------------------*/
 
-				dot += `"${label}"
-					[
-						color="${(amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '')}",
-						label="${label}" `;
+				dot += '"' + label + '" '
+					+ '[ '
+					+ 'color="' + (amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '') + '", '
+					+ 'label="' + label + '" ';
 
 					if((amiWebApp.jspath('..field{.@name==="DISTANCE"}.$', node)[0] || '') === '0')
 					{
@@ -379,12 +379,13 @@ $AMIClass('GraphCtrl', {
 						dot += ', style ="filled"';
 					}
 
-					dot	+= `, URL="${this.url(
+					dot	+= ', URL="' + this.url(
 											(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
 											(amiWebApp.jspath('..field{.@name==="CATALOG"}.$', node)[0] || ''),
 											(amiWebApp.jspath('..field{.@name==="ICON"}.$', node)[0] || ''),
-										  )}"
-					]`;
+										  ) + '" ';
+
+				dot += ']';
 
 				/*----------------------------------------------------------------------------------------------------*/
     		}
@@ -396,12 +397,12 @@ $AMIClass('GraphCtrl', {
 
 			[...destinations].forEach((destination) => {
 
-			let edge = (amiWebApp.jspath(`..{.field{.@name === "SOURCE"}.$ === "${source}" && .field{.@name === "DESTINATION"}.$ === "${destination}"}`, edges)[0] || '');
+			let edge = (amiWebApp.jspath('..{.field{.@name === "SOURCE"}.$ === "'+ source +'" && .field{.@name === "DESTINATION"}.$ === "'+ destination +'"}', edges)[0] || '');
 
-			dot += `"${source}"
-				->
-				"${destination}"
-				(edge === '' ? '[style="dashed"]' : '')`
+			dot += '"' + source + '" '
+				+ '->'
+				+ '"' + destination + '" '
+				+ (edge === '' ? '[style="dashed"]' : '')
 			})
 		});
 
@@ -419,15 +420,15 @@ $AMIClass('GraphCtrl', {
 	url: function(id, catalog, icon)
 	{
 		return '{&quot;data-ctrl&quot;:&quot;elementInfo&quot;, '
-			 + `&quot;data-params&quot;:[&quot;${catalog}&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;${id}&quot;], `
+			 + '&quot;data-params&quot;:[&quot;' + catalog + '&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;' + id + '&quot;], '
 			 + '&quot;data-settings&quot;: {'
 			 + '&quot;expandedLinkedElements&quot;: ['
-			 + `{&quot;catalog&quot;: &quot;${catalog}&quot;, `
+			 + '{&quot;catalog&quot;: &quot;'+ catalog + '&quot;, '
 			 + '&quot;entity&quot;: &quot;physicsParameterVals&quot;, '
 			 + '&quot;fields&quot;: [&quot;paramName&quot;, &quot;paramValue&quot;, &quot;units&quot;, &quot;physicsGroup&quot;], '
 			 + '&quot;keyValMode&quot;:true'
 			 + '}, {'
-			 + `&quot;catalog&quot;: &quot;${catalog}&quot;, `
+			 + '&quot;catalog&quot;: &quot;' + catalog + '&quot;, '
 			 + '&quot;entity&quot;: &quot;dataset_extra&quot;, '
 			 + '&quot;fields&quot;: [&quot;field&quot;, &quot;value&quot;], '
 			 + '&quot;keyValMode&quot;:true'
