@@ -58,11 +58,11 @@ $AMIClass('ElementInfoCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const elementInfoCommandFunc = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) =>
-			'GetElementInfo' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"' + (hideBigContent ? ' -hideBigContent' : '')
+			`GetElementInfo -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -primaryFieldName="${amiWebApp.textToString(primaryFieldName)}" -primaryFieldValue="${amiWebApp.textToString(primaryFieldValue)}"${(hideBigContent ? ' -hideBigContent' : '')}`
 		;
 
 		const updateCommandFunc = (catalog, entity, fields, values, primaryFields, primaryValues) =>
-			'UpdateElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
+			`UpdateElements -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -fields="${amiWebApp.textToString(fields.join('§'))}" -values="${amiWebApp.textToString(values.join('§'))}" -keyFields="${amiWebApp.textToString(primaryFields.join('§'))}" -keyValues="${amiWebApp.textToString(primaryValues.join('§'))}"`
 		;
 
 		const canEdit = amiLogin.hasRole('AMI_ADMIN') || amiLogin.hasRole('AMI_WRITER');
@@ -124,7 +124,7 @@ $AMIClass('ElementInfoCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem('<i class="bi bi-arrows-fullscreen"></i> ' + this.ctx.entity, {closable: false, firstVisible: this.ctx.card}).done((selector) => {
+				tab.appendItem(`<i class="bi bi-arrows-fullscreen"></i> ${this.ctx.entity}`, {closable: false, firstVisible: this.ctx.card}).done((selector) => {
 
 					this.setParent(tab);
 
@@ -226,7 +226,7 @@ $AMIClass('ElementInfoCtrl', {
 
 				amiWebApp.lock();
 
-				amiCommand.execute('AddWidget -control="ElementInfo" -params="' + amiWebApp.textToString(JSON.stringify(params)) + '" -settings="' + amiWebApp.textToString(JSON.stringify(optionals)) + '" -transparent' + (autoRefresh ? ' -autoRefresh' : '')).done((data, message) => {
+				amiCommand.execute(`AddWidget -control="ElementInfo" -params="${amiWebApp.textToString(JSON.stringify(params))}" -settings="${amiWebApp.textToString(JSON.stringify(optionals))}" -transparent${(autoRefresh ? ' -autoRefresh' : '')}`).done((data, message) => {
 
 					amiWebApp.success(message);
 
