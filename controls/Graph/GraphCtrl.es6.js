@@ -368,17 +368,18 @@ $AMIClass('GraphCtrl', {
 				dot += `"${label}"
 				[
 					color="${(amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '')}",
-					label="${label}" `
-				;
+					label="${label}"
 
 					if((amiWebApp.jspath('..field{.@name==="DISTANCE"}.$', node)[0] || '') === '0')
 					{
-						dot += ', style ="filled, rounded"';
+						, style ="filled, rounded"
 					}
 					else
 					{
-						dot += ', style ="filled"';
+						, style ="filled"
 					}
+
+					`;
 
 					dot	+= `, URL="${this.url(
 											(amiWebApp.jspath('..field{.@name==="IDENTIFIER"}.$', node)[0] || ''),
