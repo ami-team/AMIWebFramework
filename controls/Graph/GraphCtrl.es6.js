@@ -366,7 +366,10 @@ $AMIClass('GraphCtrl', {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				dot += `"${label}"
-				[ color="${(amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '')}", label="${label}" `;
+				[
+					color="${(amiWebApp.jspath('..field{.@name==="COLOUR"}.$', node)[0] || '')}",
+					label="${label}" `
+				;
 
 					if((amiWebApp.jspath('..field{.@name==="DISTANCE"}.$', node)[0] || '') === '0')
 					{
