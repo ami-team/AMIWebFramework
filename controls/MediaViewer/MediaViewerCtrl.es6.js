@@ -78,7 +78,7 @@ $AMIClass('MediaViewerCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem('<i class="bi bi-arrows-fullscreen"></i> ' + this.ctx.entity, {closable: false}).done((selector) => {
+				tab.appendItem(`<i class="bi bi-arrows-fullscreen"></i> ${this.ctx.entity}`, {closable: false}).done((selector) => {
 
 					this.setParent(tab);
 
@@ -126,7 +126,7 @@ $AMIClass('MediaViewerCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = 'SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -sql="SELECT `' + amiWebApp.textToString(this.ctx.field) + '` FROM `' + amiWebApp.textToString(this.ctx.entity) + '` WHERE `' + amiWebApp.textToString(this.ctx.primaryFieldName) + '` = \'' + amiWebApp.textToString(this.ctx.primaryFieldValue) + '\'"';
+		const command = `SearchQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -sql="SELECT \`${amiWebApp.textToString(this.ctx.field)}\` FROM \`${amiWebApp.textToString(this.ctx.entity)}\` WHERE \`${amiWebApp.textToString(this.ctx.primaryFieldName)}\` = \'${amiWebApp.textToString(this.ctx.primaryFieldValue)}\'"`;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
