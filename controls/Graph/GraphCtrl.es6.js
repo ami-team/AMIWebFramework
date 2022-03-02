@@ -418,26 +418,24 @@ $AMIClass('GraphCtrl', {
 
 	url: function(id, catalog, icon)
 	{
-		return `{
-					&quot;data-ctrl&quot;:&quot;elementInfo&quot;,
-					&quot;data-params&quot;:[&quot;${catalog}&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;${id}&quot;],
-					&quot;data-settings&quot;: {
-					&quot;expandedLinkedElements&quot;: [
-					{
-						&quot;catalog&quot;: &quot;${catalog}&quot;,
-						&quot;entity&quot;: &quot;physicsParameterVals&quot;,
-						&quot;fields&quot;: [&quot;paramName&quot;, &quot;paramValue&quot;, &quot;units&quot;, &quot;physicsGroup&quot;],
-						&quot;keyValMode&quot;:true
-					}, {
-						&quot;catalog&quot;: &quot;${catalog}&quot;,
-						&quot;entity&quot;: &quot;dataset_extra&quot;,
-						&quot;fields&quot;: [&quot;field&quot;, &quot;value&quot;],
-						&quot;keyValMode&quot;:true
-					}]},
-					&quot;data-icon&quot;: &quot;arrows-alt&quot;,
-					&quot;data-title&quot;: &quot;dataset&quot;
-					${('' === icon ? '' : `, &quot;data-title-icon&quot;: &quot;${icon}&quot;`)}
-			 	}`;
+		return '{&quot;data-ctrl&quot;:&quot;elementInfo&quot;, '
+			 + `&quot;data-params&quot;:[&quot;${catalog}&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;${id}&quot;], `
+			 + '&quot;data-settings&quot;: {'
+			 + '&quot;expandedLinkedElements&quot;: ['
+			 + `{&quot;catalog&quot;: &quot;${catalog}&quot;, `
+			 + '&quot;entity&quot;: &quot;physicsParameterVals&quot;, '
+			 + '&quot;fields&quot;: [&quot;paramName&quot;, &quot;paramValue&quot;, &quot;units&quot;, &quot;physicsGroup&quot;], '
+			 + '&quot;keyValMode&quot;:true'
+			 + '}, {'
+			 + `&quot;catalog&quot;: &quot;${catalog}&quot;, `
+			 + '&quot;entity&quot;: &quot;dataset_extra&quot;, '
+			 + '&quot;fields&quot;: [&quot;field&quot;, &quot;value&quot;], '
+			 + '&quot;keyValMode&quot;:true'
+			 + '}]}, '
+			 + '&quot;data-icon&quot;: &quot;arrows-alt&quot;, '
+			 + '&quot;data-title&quot;: &quot;dataset&quot; '
+			 + ('' === icon ? '' : ', &quot;data-title-icon&quot;: &quot;' + icon + '&quot;')
+			 + '}';
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
