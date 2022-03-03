@@ -306,7 +306,7 @@ $AMIClass('TableCtrl', {
 
 				this.replaceHTML(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05'), this.fragmentExport, {dict: this.ctx, xslts : xslts}).done(() => {
 
-					$(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05') + ' a').click((e) => {
+					$(`${this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05')} a`).click((e) => {
 
 						this.exportResult(e.currentTarget.getAttribute('xslt'));
 					});
@@ -404,12 +404,12 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command2.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command2.substring(11) : this.ctx.command2]);
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command2.startsWith('BrowseQuery') ? `SearchQuery${this.ctx.command2.substring(11)}` : this.ctx.command2]);
 			});
 
 			$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command.substring(11) : this.ctx.command]);
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command.startsWith('BrowseQuery') ? `SearchQuery${this.ctx.command.substring(11)}` : this.ctx.command]);
 			});
 
 			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(() => {
@@ -472,7 +472,7 @@ $AMIClass('TableCtrl', {
 
 				amiWebApp.lock();
 
-				amiCommand.execute('AddWidget -control="Table" -params="' + amiWebApp.textToString(JSON.stringify(params)) + '" -settings="' + amiWebApp.textToString(JSON.stringify(settings)) + '" -transparent' + (autoRefresh ? ' -autoRefresh' : '')).done((data, message) => {
+				amiCommand.execute(`AddWidget -control="Table" -params="${amiWebApp.textToString(JSON.stringify(params))}" -settings="${amiWebApp.textToString(JSON.stringify(settings))}" -transparent${autoRefresh ? ' -autoRefresh' : ''}`).done((data, message) => {
 
 					amiWebApp.success(message);
 
@@ -653,11 +653,11 @@ $AMIClass('TableCtrl', {
 
 		if((this.ctx.orderBy = this.ctx.orderBy.trim()))
 		{
-			this.ctx.command2 += ' -orderBy="' + this.ctx.orderBy + '"';
+			this.ctx.command2 += ` -orderBy="${this.ctx.orderBy}"`;
 
 			if((this.ctx.orderWay = this.ctx.orderWay.trim()))
 			{
-				this.ctx.command2 += ' -orderWay="' + this.ctx.orderWay + '"';
+				this.ctx.command2 += ` -orderWay="${this.ctx.orderWay}"`;
 			}
 		}
 
@@ -671,9 +671,9 @@ $AMIClass('TableCtrl', {
 			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
-		this.ctx.command2 += ' -limit="' + (stop - start + 1) + '"';
+		this.ctx.command2 += ` -limit="${stop - start + 1}"`;
 
-		this.ctx.command2 += ' -offset="' + (0x00 + start - 1) + '"';
+		this.ctx.command2 += ` -offset="${0x00 + start - 1}"`;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
