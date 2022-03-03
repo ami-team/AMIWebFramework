@@ -416,6 +416,27 @@ $AMIClass('GraphCtrl', {
 
 	url: function(id, catalog, icon)
 	{
+		alert(`{
+              	"data-ctrl": "elementInfo",
+              	"data-params": ["${catalog}", "dataset", "identifier", "${id}"],
+              	"data-options": {
+              		"expandedLinkedElements": [
+              			{
+              				"catalog": "${catalog}",
+              				"entity": "physicsParameterVals",
+              				"fields": ["paramName", "paramValue", "units", "physicsGroup"],
+              				"keyValMode": true
+              			}, {
+              				"catalog": "${catalog}",
+              				"entity": "dataset_extra",
+              				"fields": ["field", "value"],
+              				"keyValMode": true
+              			}
+              		]
+              	},
+              	"data-icon": "arrows-alt",
+              	"data-title": "dataset" ${icon ? ', "data-title-icon": "${icon}"' : ''}
+              }`);
 		return amiWebApp.textToHtml(
 `{
 	"data-ctrl": "elementInfo",
@@ -436,7 +457,7 @@ $AMIClass('GraphCtrl', {
 		]
 	},
 	"data-icon": "arrows-alt",
-	"data-title": "dataset" ${!icon ? '' : ', "data-title-icon": "${icon}"'}
+	"data-title": "dataset" ${icon ? ', "data-title-icon": "${icon}"' : ''}
 }`
 		);
 
