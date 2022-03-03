@@ -882,9 +882,9 @@ $AMIClass('SearchCtrl', {
 				const valuehtml = amiWebApp.textToHtml(value);
 
 				if(value in predicate.select) {
-					L.push('<option value="' + valuehtml + '" selected="selected">' + valuehtml + '</option>');
+					L.push(`<option value="${valuehtml}" selected="selected">${valuehtml}</option>`);
 				} else {
-					L.push('<option value="' + valuehtml + '" xxxxxxxx="xxxxxxxx">' + valuehtml + '</option>');
+					L.push(`<option value="${valuehtml}" xxxxxxxx="xxxxxxxx">${valuehtml}</option>`);
 				}
 			});
 
