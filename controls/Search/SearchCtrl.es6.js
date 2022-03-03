@@ -719,7 +719,7 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(this.ctx.defaultCatalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"').done((data) => {
+			return amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(this.ctx.defaultCatalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 				const nb = amiWebApp.jspath('..field{.@name==="nb"}.$', data)[0] || 'N/A';
 
@@ -764,34 +764,31 @@ $AMIClass('SearchCtrl', {
 				switch(this.ctx.more.summary[idx].type)
 				{
 					case 0:
-						mql = 'SELECT COUNT(DISTINCT `' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ') AS RES';
+						mql = `SELECT COUNT(DISTINCT \`${this.ctx.more.summary[idx].catalog}\`.\`${this.ctx.more.summary[idx].entity}\`.\`${this.ctx.more.summary[idx].field}\`${constraints}) AS RES`;
 						if(filter)
 						{
-							mql += ' WHERE ';
-							mql += filter;
+							mql += ` WHERE ${filter}`;
 						}
 						break;
 
 					case 1:
-						mql = 'SELECT SUM(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ') AS RES';
+						mql = `SELECT SUM(\`${this.ctx.more.summary[idx].catalog}\`.\`${this.ctx.more.summary[idx].entity}\`.\`${this.ctx.more.summary[idx].field}\`${constraints}) AS RES`;
 						if(filter)
 						{
-							mql += ' WHERE ';
-							mql += filter;
+							mql += ` WHERE ${filter}`;
 						}
 						break;
 
 					case 2:
-						mql = 'SELECT ROUND(AVG(`' + this.ctx.more.summary[idx].catalog + '`.`' + this.ctx.more.summary[idx].entity + '`.`' + this.ctx.more.summary[idx].field + '`' + constraints + ')) AS RES';
+						mql = `SELECT ROUND(AVG(\`${this.ctx.more.summary[idx].catalog}\`.\`${this.ctx.more.summary[idx].entity}\`.\`${this.ctx.more.summary[idx].field}\`${constraints})) AS RES`;
 						if(filter)
 						{
-							mql += ' WHERE ';
-							mql += filter;
+							mql += ` WHERE ${filter}`;
 						}
 						break;
 				}
 
-				const command ='SearchQuery -catalog="' + this.ctx.more.summary[idx].catalog + '" -entity="' + this.ctx.defaultEntity + '" -mql="' + mql + '" ';
+				const command =`SearchQuery -catalog="${this.ctx.more.summary[idx].catalog}" -entity="${this.ctx.defaultEntity}" -mql="${mql}"`;
 
 				amiCommand.execute(command).done((data) => {
 
@@ -828,7 +825,7 @@ $AMIClass('SearchCtrl', {
 		/* BUILD SQL QUERY                                                                                            */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion);
+		let mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}`;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 		/* ADD FILTER                                                                                                 */
@@ -840,7 +837,7 @@ $AMIClass('SearchCtrl', {
 
 		if(filter)
 		{
-			mql += ' WHERE ' + filter;
+			mql += ` WHERE ${filter}`;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -849,12 +846,12 @@ $AMIClass('SearchCtrl', {
 
 		if (criterion.more.order)
 		{
-			mql += ' ORDER BY `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '` ' + criterion.more.order;
+			mql += ` ORDER BY  \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\` ${criterion.more.order}`;
 		}
 
 		if(applyLimit)
 		{
-			mql += ' LIMIT ' + predicate.limit + ' OFFSET 0'
+			mql += ` LIMIT ${predicate.limit} OFFSET 0`;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
