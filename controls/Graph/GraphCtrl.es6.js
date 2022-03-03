@@ -419,24 +419,24 @@ $AMIClass('GraphCtrl', {
 		return amiWebApp.textToHtml(
 `{
 	"data-ctrl": "elementInfo",
-	"data-params": ["${catalog}", "dataset", "identifier", "${id}"],
+	"data-params": ["${catalog}", "DATASET", "IDENTIFIER", "${id}"],
 	"data-options": {
 		"expandedLinkedElements": [
 			{
 				"catalog": "${catalog}",
-				"entity": "physicsParameterVals",
-				"fields": ["paramName", "paramValue", "units", "physicsGroup"],
+				"entity": "PHYSICSPARAMETERVALS",
+				"fields": ["PARAMNAME", "PARAMVALUE", "UNITS", "PHYSICSGROUP"],
 				"keyValMode": true
 			}, {
 				"catalog": "${catalog}",
-				"entity": "dataset_extra",
-				"fields": ["field", "value"],
+				"entity": "DATASET_EXTRA",
+				"fields": ["FIELD", "VALUE"],
 				"keyValMode": true
 			}
 		]
 	},
-	"data-icon": "arrows-alt",
-	"data-title": "dataset" ${icon ? `, "data-title-icon": "${icon}"` : ''}
+	"data-icon": "arrows-fullscreen",
+	"data-title": "DATASET" ${icon ? `, "data-title-icon": "${icon}"` : ''}
 }`
 		);
 	},
