@@ -677,16 +677,16 @@ $AMIClass('TableCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '') + (this.ctx.hideBigContent ? ' -hideBigContent' : '')).done((data) => {
+		amiCommand.execute(`${this.ctx.command2}${this.ctx.enableCache ? ' -cached' : ''}${this.ctx.enableCount ? ' -count' : ''}${this.ctx.hideBigContent ? ' -hideBigContent' : ''}`).done((data) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const fieldDescriptionSet = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}', data)
-			                                            : amiWebApp.jspath('..fieldDescriptions'                                      , data)
+			const fieldDescriptionSet = this.ctx.rowset ? amiWebApp.jspath(`..fieldDescriptions{.@rowset==="${this.ctx.rowset}"}`, data)
+			                                            : amiWebApp.jspath('..fieldDescriptions'                                 , data)
 			;
 
-			const rowSet = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)
-			                               : amiWebApp.jspath('..rowset'                                     , data)
+			const rowSet = this.ctx.rowset ? amiWebApp.jspath(`..rowset{.@type==="${this.ctx.rowset}"}`, data)
+			                               : amiWebApp.jspath('..rowset'                               , data)
 			;
 
 			/*--------------------------------------------------------------------------------------------------------*/
