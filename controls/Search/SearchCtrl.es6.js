@@ -282,27 +282,27 @@ $AMIClass('SearchCtrl', {
 		switch(criterion.type)
 		{
 			case 0:
-				name = 'Q' + (criterion.cnt = this.ctx.cnt++);
+				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaStringFew, {dict: criterion});
 				break;
 
 			case 1:
-				name = 'Q' + (criterion.cnt = this.ctx.cnt++);
+				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaStringMany, {dict: criterion});
 				break;
 
 			case 2:
-				name = 'Q' + (criterion.cnt = this.ctx.cnt++);
+				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaNumber, {dict: criterion});
 				break;
 
 			case 3:
-				name = 'Q' + (criterion.cnt = this.ctx.cnt++);
+				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaDate, {dict: criterion});
 				break;
 
 			case 4:
-				name = 'Q' + (criterion.cnt = this.ctx.cnt++);
+				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaBool, {dict: criterion});
 				break;
 
@@ -314,14 +314,14 @@ $AMIClass('SearchCtrl', {
 			case 5:
 			case 7:
 			case 9:
-				name = 'Q' + (criterion.cnt = this.ctx.cnt++);
+				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaParamFew, {dict: criterion});
 				break;
 
 			case 6:
 			case 8:
 			case 10:
-				name = 'Q' + (criterion.cnt = this.ctx.cnt++);
+				name = `Q${criterion.cnt = this.ctx.cnt++}`;
 				promise = this.appendHTML(selector, this.fragmentCriteriaParamMany, {dict: criterion});
 				break;
 
@@ -337,7 +337,7 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const selector = this.patchId('#C12133EC_2A38_3545_0685_974260DCC950') + '_' + name;
+			const selector = `${this.patchId('#C12133EC_2A38_3545_0685_974260DCC950')}_${name}`;
 
 			const el = $(selector);
 
@@ -409,11 +409,11 @@ $AMIClass('SearchCtrl', {
 
 							if(criterion.more.init_value === '@NULL')
 							{
-								tmp.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' IS NULL');
+								tmp.push(`\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} IS NULL`);
 							}
 							else
 							{
-								tmp.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' = \'' + criterion.more.init_value[i].replace(/'/g, '\'\'') + '\'');
+								tmp.push(`\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} = '${criterion.more.init_value[i].replace(/'/g, '\'\'')}'`);
 							}
 						}
 
@@ -423,7 +423,7 @@ $AMIClass('SearchCtrl', {
 						}
 						else
 						{
-							filter.push('[' + tmp.join(' OR ') + ']');
+							filter.push(`[${tmp.join(' OR ')}]`);
 						}
 
 					}
@@ -472,11 +472,11 @@ $AMIClass('SearchCtrl', {
 						{
 							if (isDefaultEntity)
 							{
-								filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= AMI_TIMESTAMP(\'' + new String(criterion.more.min).replace(/'/g, '\'\'') + '\')');
+								filter.push(`\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} >= AMI_TIMESTAMP('${new String(criterion.more.min).replace(/'/g, '\'\'')}')`);
 							}
 							else
 							{
-								filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' >= AMI_TIMESTAMP(\'' + new String(criterion.more.min).replace(/'/g, '\'\'') + '\')]');
+								filter.push(`[\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} >= AMI_TIMESTAMP('${new String(criterion.more.min).replace(/'/g, '\'\'')}')]`);
 							}
 						}
 
@@ -484,11 +484,11 @@ $AMIClass('SearchCtrl', {
 						{
 							if (isDefaultEntity)
 							{
-								filter.push('`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= AMI_TIMESTAMP(\'' + new String(criterion.more.max).replace(/'/g, '\'\'') + '\')');
+								filter.push(`\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} <= AMI_TIMESTAMP('${new String(criterion.more.max).replace(/'/g, '\'\'')}')`);
 							}
 							else
 							{
-								filter.push('[`' + catalog + '`.`' + entity + '`.`' + field + '`' + this.dumpConstraints(criterion) + ' <= AMI_TIMESTAMP(\'' + new String(criterion.more.max).replace(/'/g, '\'\'') + '\')]');
+								filter.push(`[\`${catalog}\`.\`${entity}\`.\`${field}\`${this.dumpConstraints(criterion)} <= AMI_TIMESTAMP('${new String(criterion.more.max).replace(/'/g, '\'\'')}')]`);
 							}
 						}
 					}
@@ -703,16 +703,14 @@ $AMIClass('SearchCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			let mql = 'SELECT COUNT(' + this.ctx.defaultPrimaryField + ') AS `nb`';
+			let mql = `SELECT COUNT(${this.ctx.defaultPrimaryField}) AS \`nb\``;
 
-			this.ctx.mql = 'SELECT ' + this.ctx.defaultSelect;
+			this.ctx.mql = `SELECT ${this.ctx.defaultSelect}`;
 
 			if(filter)
 			{
-				mql += ' WHERE ';
-				mql += filter;
-				this.ctx.mql += ' WHERE ';
-				this.ctx.mql += filter;
+				mql += ` WHERE ${filter}`;
+				this.ctx.mql += ` WHERE ${filter}`;
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
