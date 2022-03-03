@@ -172,7 +172,7 @@ $AMIClass('GraphCtrl', {
 				`data-ctrl="${amiWebApp.textToHtml(jsonbObj['data-ctrl'])}"`,
 				`data-ctrl-location="${amiWebApp.textToHtml(jsonbObj['data-ctrl-location'])}"`,
 				`data-params="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params']))}"`,
-				`data-settings="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings']))}"`,
+				`data-options="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-options']))}"`,
 				`data-icon="${amiWebApp.textToHtml(jsonbObj['data-icon'])}"`,
 				`data-title="${amiWebApp.textToHtml(jsonbObj['data-title'])}"`,
 				`data-title-icon="${amiWebApp.textToHtml(jsonbObj['data-title-icon'])}"`,
@@ -416,27 +416,6 @@ $AMIClass('GraphCtrl', {
 
 	url: function(id, catalog, icon)
 	{
-		alert(`{
-              	"data-ctrl": "elementInfo",
-              	"data-params": ["${catalog}", "dataset", "identifier", "${id}"],
-              	"data-options": {
-              		"expandedLinkedElements": [
-              			{
-              				"catalog": "${catalog}",
-              				"entity": "physicsParameterVals",
-              				"fields": ["paramName", "paramValue", "units", "physicsGroup"],
-              				"keyValMode": true
-              			}, {
-              				"catalog": "${catalog}",
-              				"entity": "dataset_extra",
-              				"fields": ["field", "value"],
-              				"keyValMode": true
-              			}
-              		]
-              	},
-              	"data-icon": "arrows-alt",
-              	"data-title": "dataset" ${icon ? ', "data-title-icon": "${icon}"' : ''}
-              }`);
 		return amiWebApp.textToHtml(
 `{
 	"data-ctrl": "elementInfo",
@@ -457,28 +436,9 @@ $AMIClass('GraphCtrl', {
 		]
 	},
 	"data-icon": "arrows-alt",
-	"data-title": "dataset" ${icon ? ', "data-title-icon": "${icon}"' : ''}
+	"data-title": "dataset" ${icon ? `, "data-title-icon": "${icon}"` : ''}
 }`
 		);
-
-		/*return '{&quot;data-ctrl&quot;:&quot;elementInfo&quot;, '
-			 + `&quot;data-params&quot;:[&quot;${catalog}&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;' + id + '&quot;], `
-			 + '&quot;data-settings&quot;: {'
-			 + '&quot;expandedLinkedElements&quot;: ['
-			 + `{&quot;catalog&quot;: &quot;${catalog}&quot;, `
-			 + '&quot;entity&quot;: &quot;physicsParameterVals&quot;, '
-			 + '&quot;fields&quot;: [&quot;paramName&quot;, &quot;paramValue&quot;, &quot;units&quot;, &quot;physicsGroup&quot;], '
-			 + '&quot;keyValMode&quot;:true'
-			 + '}, {'
-			 + `&quot;catalog&quot;: &quot;${catalog}&quot;, `
-			 + '&quot;entity&quot;: &quot;dataset_extra&quot;, '
-			 + '&quot;fields&quot;: [&quot;field&quot;, &quot;value&quot;], '
-			 + '&quot;keyValMode&quot;:true'
-			 + '}]}, '
-			 + '&quot;data-icon&quot;: &quot;arrows-alt&quot;, '
-			 + '&quot;data-title&quot;: &quot;dataset&quot; '
-			 + ('' === icon ? '' : `, &quot;data-title-icon&quot;: &quot;${icon}&quot;`)
-			 + '}';*/
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

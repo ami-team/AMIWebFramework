@@ -83,19 +83,19 @@ $AMIClass('TableCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const fn1 = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) =>
-			'GetElementInfo' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"' + (hideBigContent ? ' -hideBigContent' : '')
+			`GetElementInfo -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -primaryFieldName="${amiWebApp.textToString(primaryFieldName)}" -primaryFieldValue="${amiWebApp.textToString(primaryFieldValue)}"${hideBigContent ? ' -hideBigContent' : ''}`
 		;
 
 		const fn2 = (catalog, entity, fields, values) =>
-			(('AddElement')) + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"'
+			`AddElement -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -fields="${amiWebApp.textToString(fields.join('§'))}" -values="${amiWebApp.textToString(values.join('§'))}"`
 		;
 
 		const fn3 = (catalog, entity, fields, values, primaryFields, primaryValues) =>
-			'UpdateElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
+			`UpdateElements -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -fields="${amiWebApp.textToString(fields.join('§'))}" -values="${amiWebApp.textToString(values.join('§'))}" -keyFields="${amiWebApp.textToString(primaryFields.join('§'))}" -keyValues="${amiWebApp.textToString(primaryValues.join('§'))}"`
 		;
 
 		const fn4 = (catalog, entity, primaryFields, primaryValues) =>
-			'RemoveElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
+			`RemoveElements -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -keyFields="${amiWebApp.textToString(primaryFields.join('§'))}" -keyValues="${amiWebApp.textToString(primaryValues.join('§'))}"`
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -198,7 +198,7 @@ $AMIClass('TableCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem('<i class="bi bi-table"></i> ' + this.ctx.entity, {closable: false, firstVisible: this.ctx.card}).done((selector) => {
+				tab.appendItem(`<i class="bi bi-table"></i> ${this.ctx.entity}`, {closable: false, firstVisible: this.ctx.card}).done((selector) => {
 
 					this.setParent(tab);
 
