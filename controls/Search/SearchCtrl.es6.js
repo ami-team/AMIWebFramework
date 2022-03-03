@@ -855,10 +855,10 @@ $AMIClass('SearchCtrl', {
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
-		/* FILL BOX																								   */
+		/* FILL BOX                                                                                                   */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criterion.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"').done((data) => {
+		return amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 			const L = [];
 
@@ -883,11 +883,11 @@ $AMIClass('SearchCtrl', {
 				}
 			});
 
-			$(predicate.selector + ' select').html(L.join(''));
+			$(`${predicate.selector} select`).html(L.join(''));
 
-			$(predicate.selector + ' .count').text(L.length - 1);
+			$(`${predicate.selector} .count`).text(L.length - 1);
 
-			$(predicate.selector + ' .limit').text(predicate.limit);
+			$(`${predicate.selector} .limit`).text(predicate.limit);
 
 		}).fail((data) => {
 
@@ -913,13 +913,13 @@ $AMIClass('SearchCtrl', {
 		{
 			case 5:
 			case 6:
-				mql = 'SELECT JSON_PATHS(`' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.field + '`' + this.dumpConstraints(criterion) + ', \'$\') WHERE 1';
+				mql = `SELECT JSON_PATHS(\`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.field}\`${this.dumpConstraints(criterion)}, '$') WHERE 1`;
 				break;
 			case 7:
 			case 8:
 			case 9:
 			case 10:
-				mql = 'SELECT DISTINCT `' + criterion.catalog + '`.`' + criterion.entity + '`.`' + criterion.key_field + '`' + this.dumpConstraints(criterion);
+				mql = `SELECT DISTINCT \`${criterion.catalog}\`.\`${criterion.entity}\`.\`${criterion.key_field}\`${this.dumpConstraints(criterion)}`;
 				break;
 		}
 
@@ -927,12 +927,12 @@ $AMIClass('SearchCtrl', {
 
 		if(filter)
 		{
-			mql += ' WHERE ' + filter;
+			mql += ` WHERE ${filter}`;
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute('SearchQuery -catalog="' + amiWebApp.textToString(criterion.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.defaultEntity) + '" -mql="' + amiWebApp.textToString(mql) + '"').done((data) => {
+		amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(criterion.catalog)}" -entity="${amiWebApp.textToString(this.ctx.defaultEntity)}" -mql="${amiWebApp.textToString(mql)}"`).done((data) => {
 
 			const fields = amiWebApp.jspath('..field', data);
 
@@ -994,25 +994,25 @@ $AMIClass('SearchCtrl', {
 			{
 				if(key === predicate.selectedParam) {
 					selected = true;
-					L.push('<option value="' + amiWebApp.textToHtml(key) + '" selected="selected">' + amiWebApp.textToHtml(key) + '</option>');
+					L.push(`<option value="${amiWebApp.textToHtml(key)}" selected="selected">${amiWebApp.textToHtml(key)}</option>`);
 				} else {
-					L.push('<option value="' + amiWebApp.textToHtml(key) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(key) + '</option>');
+					L.push(`<option value="${amiWebApp.textToHtml(key)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(key)}</option>`);
 				}
 			}
 
-			$(predicate.selector + ' select:first').html(L.join(''));
+			$(`${predicate.selector} select:first`).html(L.join(''));
 
 			if(!selected)
 			{
-				$(predicate.selector + ' select:last').html('');
-				$(predicate.selector + ' select:last').attr('disabled','disabled');
+				$(`${predicate.selector} select:last`).html('');
+				$(`${predicate.selector} select:last`).attr('disabled','disabled');
 			}
 		}
 		else
 		{
-			$(predicate.selector + ' select:first').html('');
-			$(predicate.selector + ' select:last').html('');
-			$(predicate.selector + ' select:last').attr('disabled','disabled');
+			$(`${predicate.selector} select:first`).html('');
+			$(`${predicate.selector} select:last`).html('');
+			$(`${predicate.selector} select:last`).attr('disabled','disabled');
 		}
 	},
 
