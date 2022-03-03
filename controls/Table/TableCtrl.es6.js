@@ -918,11 +918,11 @@ $AMIClass('TableCtrl', {
 				const numbers = [];
 
 				if(!Number.isNaN(this.ctx.numberOfRows)) {
-					numbers.push('shown: ' + this.ctx.numberOfRows);
+					numbers.push(`shown: ${this.ctx.numberOfRows}`);
 				}
 
 				if(!Number.isNaN(this.ctx.totalNumberOfRows)) {
-					numbers.push('total: ' + this.ctx.totalNumberOfRows);
+					numbers.push(`total: ${this.ctx.totalNumberOfRows}`);
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -931,7 +931,7 @@ $AMIClass('TableCtrl', {
 
 				if(!Number.isNaN(this.ctx.maxNumberOfRows))
 				{
-					const tooltip = 'maximum number of showable rows: ' + this.ctx.maxNumberOfRows;
+					const tooltip = `maximum number of showable rows: ${this.ctx.maxNumberOfRows}`;
 
 					span.attr('data-toggle', 'tooltip')
 					    .attr('data-title', tooltip)
@@ -1094,15 +1094,15 @@ $AMIClass('TableCtrl', {
 		const result = [];
 
 		if(catalog && catalog !== 'N/A') {
-			result.push('`' + catalog + '`');
+			result.push(`\`${catalog}\``);
 		}
 
 		if(entity && entity !== 'N/A') {
-			result.push('`' + entity + '`');
+			result.push(`\`${entity}\``);
 		}
 
 		if(field && field !== 'N/A') {
-			result.push('`' + field + '`');
+			result.push(`\`${field}\``);
 		}
 
 		return result.join('.');
@@ -1173,51 +1173,51 @@ $AMIClass('TableCtrl', {
 		switch(filter)
 		{
 			case '0':
-				cond = x + ' IS NULL';
+				cond = `${x} IS NULL`;
 				break;
 
 			case '1':
-				cond = x + ' IS NOT NULL';
+				cond = `${x} IS NOT NULL`;
 				break;
 
 			case '2':
-				cond = x + ' = \'' + y + '\'';
+				cond = `${x} = '${y}'`;
 				break;
 
 			case '3':
-				cond = x + ' != \'' + y + '\'';
+				cond = `${x} != '${y}'`;
 				break;
 
 			case '4':
-				cond = x + ' LIKE \'' + y + '\'';
+				cond = `${x} LIKE '${y}'`;
 				break;
 
 			case '5':
-				cond = x + ' NOT LIKE \'' + y + '\'';
+				cond = `${x} NOT LIKE '${y}'`;
 				break;
 
 			case '6':
-				cond = x + ' < \'' + y + '\'';
+				cond = `${x} < '${y}'`;
 				break;
 
 			case '7':
-				cond = x + ' <= \'' + y + '\'';
+				cond = `${x} <= '${y}'`;
 				break;
 
 			case '8':
-				cond = x + ' > \'' + y + '\'';
+				cond = `${x} > '${y}'`;
 				break;
 
 			case '9':
-				cond = x + ' >= \'' + y + '\'';
+				cond = `${x} >= '${y}'`;
 				break;
 
 			case '10':
-				cond = x + ' BETWEEN \'' + y1 + '\' AND \'' + y2 + '\'';
+				cond = `${x} BETWEEN '${y1}' AND '${y2}'`;
 				break;
 
 			case '11':
-				cond = x + ' NOT BETWEEN \'' + y1 + '\' AND \'' + y2 + '\'';
+				cond = `${x} NOT BETWEEN '${y1}' AND '${y2}'`;
 				break;
 
 			default:
@@ -1238,7 +1238,7 @@ $AMIClass('TableCtrl', {
 
 		if(regions['WHERE'])
 		{
-			regions['WHERE'] += ' AND ' + cond;
+			regions['WHERE'] += ` AND ${cond}`;
 		}
 		else
 		{
@@ -1250,20 +1250,20 @@ $AMIClass('TableCtrl', {
 		const xql = [];
 
 		if(regions['SELECT']) {
-			xql.push('SELECT ' + regions['SELECT']);
+			xql.push(`SELECT ${regions['SELECT']}`);
 		}
 
 		if(regions['FROM']) {
-			xql.push('FROM ' + regions['FROM']);
+			xql.push(`FROM ${regions['FROM']}`);
 		}
 
 		if(regions['WHERE']) {
-			xql.push('WHERE ' + regions['WHERE']);
+			xql.push(`WHERE ${regions['WHERE']}`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+		const command = `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -${isMQL ? 'mql' : 'sql'}="${amiWebApp.textToString(xql.join(' '))}"`;
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {}, this.ctx, 'table', this.ctx.entity);
 
@@ -1284,19 +1284,7 @@ $AMIClass('TableCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		regions['SELECT'] = '\'' + columnName.replace(/'/g, '\'\'') + '\' AS `field`'
-		                    + ', ' +
-		                    'MIN(' + columnName + ') AS `min`'
-		                    + ', ' +
-		                    'MAX(' + columnName + ') AS `max`'
-		                    + ', ' +
-		                    'SUM(' + columnName + ') AS `sum`'
-		                    + ', ' +
-		                    'AVG(' + columnName + ') AS `avg`'
-		                    + ', ' +
-		                    'STDDEV(' + columnName + ') AS `stddev`'
-		                    + ', ' +
-		                    'COUNT(' + columnName + ') AS `count`'
+		regions['SELECT'] = `'${columnName.replace(/'/g, '\'\'')}' AS \`field\`, MIN(${columnName}) AS \`min\`, MAX(${columnName}) AS \`max\`, SUM(${columnName}) AS \`sum\`, AVG(${columnName}) AS \`avg\`, STDDEV(${columnName}) AS \`stddev\`, COUNT(${columnName}) AS \`count\``
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -1304,20 +1292,20 @@ $AMIClass('TableCtrl', {
 		const xql = [];
 
 		if(regions['SELECT']) {
-			xql.push('SELECT ' + regions['SELECT']);
+			xql.push(`SELECT ${regions['SELECT']}`);
 		}
 
 		if(regions['FROM']) {
-			xql.push('FROM ' + regions['FROM']);
+			xql.push(`FROM ${regions['FROM']}`);
 		}
 
 		if(regions['WHERE']) {
-			xql.push('WHERE ' + regions['WHERE']);
+			xql.push(`WHERE ${regions['WHERE']}`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+		const command = `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -${isMQL ? 'mql' : 'sql'}="${amiWebApp.textToString(xql.join(' '))}"`;
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: '', orderWay: '', showDetails: false}, this.ctx, 'superscript', this.ctx.entity);
 
@@ -1345,20 +1333,20 @@ $AMIClass('TableCtrl', {
 		const xql = [];
 
 		if(regions['SELECT']) {
-			xql.push('SELECT ' + regions['SELECT']);
+			xql.push(`SELECT ${regions['SELECT']}`);
 		}
 
 		if(regions['FROM']) {
-			xql.push('FROM ' + regions['FROM']);
+			xql.push(`FROM ${regions['FROM']}`);
 		}
 
 		if(regions['WHERE']) {
-			xql.push('WHERE ' + regions['WHERE']);
+			xql.push(`WHERE ${regions['WHERE']}`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = 'RootH1I -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+		const command = `RootH1I -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -${isMQL ? 'mql' : 'sql'}="${amiWebApp.textToString(xql.join(' '))}"`;
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'root', [command], {height: 600, width: 800}, this.ctx, 'bar-chart', this.ctx.entity);
 
@@ -1379,8 +1367,7 @@ $AMIClass('TableCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		regions['SELECT'] = columnName
-				+ ', count(*) AS `total`, CONCAT(\'@OWNER::' + columnName + '::\', ' + columnName + ') AS `go`';
+		regions['SELECT'] = `${columnName}, count(*) AS \`total\`, CONCAT('@OWNER::${columnName}::', ${columnName}) AS \`go\``;
 		regions['GROUP'] = columnName;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -1388,27 +1375,27 @@ $AMIClass('TableCtrl', {
 		const xql = [];
 
 		if(regions['SELECT']) {
-			xql.push('SELECT ' + regions['SELECT']);
+			xql.push(`SELECT ${regions['SELECT']}`);
 		}
 
 		if(regions['FROM']) {
-			xql.push('FROM ' + regions['FROM']);
+			xql.push(`FROM ${regions['FROM']}`);
 		}
 
 		if(regions['WHERE']) {
-			xql.push('WHERE ' + regions['WHERE']);
+			xql.push(`WHERE ${regions['WHERE']}`);
 		}
 
 		if(regions['GROUP'])
 		{
 			const label = regions['GROUP'].replace(entity, regions['ALIASES'][field].tableAlias).trim();
 
-			xql.push('GROUP BY ' + ((!label.startsWith('`') || !label.endsWith('`')) ? '`' + label.replace(/`/g, '``') + '`' : label));
+			xql.push(`GROUP BY ${((!label.startsWith('`') || !label.endsWith('`')) ? `\`${label.replace(/`/g, '``')}\`` : label)}`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+		const command = `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -${isMQL ? 'mql' : 'sql'}="${amiWebApp.textToString(xql.join(' '))}"`;
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: columnName, orderWay: 'ASC', showDetails: false}, this.ctx, 'slack', this.ctx.entity);
 
