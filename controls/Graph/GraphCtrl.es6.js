@@ -416,7 +416,31 @@ $AMIClass('GraphCtrl', {
 
 	url: function(id, catalog, icon)
 	{
-		return '{&quot;data-ctrl&quot;:&quot;elementInfo&quot;, '
+		return amiWebApp.textToHtml(
+`{
+	"data-ctrl": "elementInfo",
+	"data-params": ["${catalog}", "dataset", "identifier", "${id}"],
+	"data-options": {
+		"expandedLinkedElements": [
+			{
+				"catalog": "${catalog}",
+				"entity": "physicsParameterVals",
+				"fields": ["paramName", "paramValue", "units", "physicsGroup"],
+				"keyValMode": true
+			}, {
+				"catalog": "${catalog}",
+				"entity": "dataset_extra",
+				"fields": ["field", "value"],
+				"keyValMode": true
+			}
+		]
+	},
+	"data-icon": "arrows-alt",
+	"data-title": "dataset" ${!icon ? '' : ', "data-title-icon": "${icon}"'}
+}`
+		);
+
+		/*return '{&quot;data-ctrl&quot;:&quot;elementInfo&quot;, '
 			 + `&quot;data-params&quot;:[&quot;${catalog}&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;' + id + '&quot;], `
 			 + '&quot;data-settings&quot;: {'
 			 + '&quot;expandedLinkedElements&quot;: ['
@@ -433,7 +457,7 @@ $AMIClass('GraphCtrl', {
 			 + '&quot;data-icon&quot;: &quot;arrows-alt&quot;, '
 			 + '&quot;data-title&quot;: &quot;dataset&quot; '
 			 + ('' === icon ? '' : `, &quot;data-title-icon&quot;: &quot;${icon}&quot;`)
-			 + '}';
+			 + '}';*/
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
