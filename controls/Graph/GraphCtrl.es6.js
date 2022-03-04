@@ -111,7 +111,7 @@ $AMIClass('GraphCtrl', {
 
 					e.preventDefault();
 
-					this.dotString = this.jsonToDot(this.json,$('#' + this.patchId('D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
+					this.dotString = this.jsonToDot(this.json,$(this.patchId('#D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
 					this.display();
 				});
 
@@ -119,7 +119,7 @@ $AMIClass('GraphCtrl', {
 
 					if(e.keyCode == 13)
 					{
-						this.dotString = this.jsonToDot(this.json,$('#' + this.patchId('D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
+						this.dotString = this.jsonToDot(this.json,$(this.patchId('#D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
                         this.display();
 					}
 				});
