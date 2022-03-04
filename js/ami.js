@@ -13441,7 +13441,7 @@ var AMICommand = function () {
   _proto.addUser = function addUser(username, password, firstName, lastName, email, captchaHash, captchaText, attachCert, agree, options) {
     options = options || {};
     options.params = [username, password, firstName, lastName, email, captchaHash, captchaText];
-    return this.execute('AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? ' + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), options);
+    return this.execute("AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? " + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), options);
   };
 
   _proto.changeInfo = function changeInfo(firstName, lastName, email, options) {
@@ -13830,7 +13830,7 @@ function base64Encode(s) {
 }
 function base64Decode(s) {
   return decodeURIComponent(atob(s.replace(/-/g, '+').replace(/_/g, '/')).split('').map(function (c) {
-    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(''));
 }
 var _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
@@ -18222,7 +18222,7 @@ function _update2(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
       fgColor = '#DC3545';
     }
 
-    browser.toCanvas(document.getElementById('EC948084_8C0A_CEBF_58C9_086046AB2456'), user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI, {
+    browser.toCanvas(document.getElementById('EC948084_8C0A_CEBF_58C9_086046AB2456'), user + "|" + firstName + " " + lastName + "|" + email + "|" + clientDNInAMI + "|" + issuerDNInAMI, {
       color: {
         dark: fgColor,
         light: bgColor
