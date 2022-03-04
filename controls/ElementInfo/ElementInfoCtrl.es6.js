@@ -285,10 +285,10 @@ $AMIClass('ElementInfoCtrl', {
 			const catalog = amiWebApp.textToString(expandedLinkedElement.catalog);
 			const entity = amiWebApp.textToString(expandedLinkedElement.entity);
 
-			L.push(catalog + '.' + entity);
+			L.push(`${catalog}.${entity}`);
 		});
 
-		this.ctx.command = this.ctx.elementInfoCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.primaryFieldName, this.ctx.primaryFieldValue, this.ctx.hideBigContent) + ' -expandedLinkedElements="' + L.join(',') + '"';
+		this.ctx.command = `${this.ctx.elementInfoCommandFunc(this.ctx.catalog, this.ctx.entity, this.ctx.primaryFieldName, this.ctx.primaryFieldValue, this.ctx.hideBigContent)} -expandedLinkedElements="${L.join(',')}"`;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -315,7 +315,7 @@ $AMIClass('ElementInfoCtrl', {
 					entity: expandedLinkedElement.entity,
 					fields: expandedLinkedElement.fields,
 					keyValMode: expandedLinkedElement.keyValMode,
-					rows: amiWebApp.jspath('..rowset{.@type==="' + expandedLinkedElement.entity + '"}.row', data),
+					rows: amiWebApp.jspath(`..rowset{.@type==="${expandedLinkedElement.entity}"}.row`, data),
 				});
 			});
 
