@@ -77,9 +77,9 @@ $AMIClass('SearchApp', {
 								{
 									const name = parts[1].trim();
 
-									if(this.groups2.indexOf(group + ':' + name) < 0)
+									if(this.groups2.indexOf(`${group}:${name}`) < 0)
 									{
-										this.groups2.push((group + ':' + name));
+										this.groups2.push((`${group}:${name}`));
 									}
 								}
 							}
@@ -121,10 +121,10 @@ $AMIClass('SearchApp', {
 		amiWebApp.lock();
 
 		const sql = (this.groups1.length === 0) ? 'SELECT `id`, `group`, `name`, `rank`, `json` FROM `router_search_interface` WHERE `archived` = 0 ORDER BY `rank` ASC, `group` ASC, `name` ASC'
-		                                        : 'SELECT `id`, `group`, `name`, `rank`, `json` FROM `router_search_interface` WHERE `archived` = 0 AND `group` IN (' + this.groups1.map(group => '\'' + amiWebApp.textToSQL(group) + '\'').join(', ') + ') ORDER BY `rank` ASC, `group` ASC, `name` ASC'
+		                                        : `SELECT \`id\`, \`group\`, \`name\`, \`rank\`, \`json\` FROM \`router_search_interface\` WHERE \`archived\` = 0 AND \`group\` IN (${this.groups1.map(group => `'${amiWebApp.textToSQL(group)}'`).join(', ')}) ORDER BY \`rank\` ASC, \`group\` ASC, \`name\` ASC`
 		;
 
-		amiCommand.execute('SearchQuery -catalog="self" -entity="router_search_interface" -sql="' + sql + '"').done((data) => {
+		amiCommand.execute(`SearchQuery -catalog="self" -entity="router_search_interface" -sql="${sql}"`).done((data) => {
 
 			const rows = amiWebApp.jspath('..row', data);
 
@@ -158,7 +158,7 @@ $AMIClass('SearchApp', {
 
 					this.searchInterfaces[id] = searchInterface;
 
-					if(this.groups2.indexOf(group + ':' + name) >= 0)
+					if(this.groups2.indexOf(`${group}:${name}`) >= 0)
 					{
 						auto_open.push(id);
 					}

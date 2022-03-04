@@ -115,7 +115,7 @@ $AMIClass('DocumentApp', {
 
 		}).fail(() => {
 
-			amiWebApp.loadTexts(amiWebApp.originURL + '/docs/' + page).done((data) => {
+			amiWebApp.loadTexts(`${amiWebApp.originURL}/docs/${page}`).done((data) => {
 
 				this.render(
 					/*------------------------*/ page /*------------------------*/,
