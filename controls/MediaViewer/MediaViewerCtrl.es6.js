@@ -146,7 +146,7 @@ $AMIClass('MediaViewerCtrl', {
 
 					alt: this.ctx.field,
 
-					src: 'data:' + this.ctx.mime + ';base64,' + text,
+					src: `data:${this.ctx.mime};base64,${text}`,
 
 					height: 'auto',
 					width: '800',

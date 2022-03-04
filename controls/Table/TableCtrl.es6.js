@@ -780,7 +780,7 @@ $AMIClass('TableCtrl', {
 
 					const label = e.currentTarget.getAttribute('data-row-label');
 
-					this.ctx.orderBy = field !== label && (!label.startsWith('`') || !label.endsWith('`')) ? '`' + label.replace(/`/g, '``') + '`' : label;
+					this.ctx.orderBy = field !== label && (!label.startsWith('`') || !label.endsWith('`')) ? `\`${label.replace(/`/g, '``')}\`` : label;
 					this.ctx.orderWay = 'DESC';
 
 					this.refresh();
@@ -796,7 +796,7 @@ $AMIClass('TableCtrl', {
 
 					const label = e.currentTarget.getAttribute('data-row-label');
 
-					this.ctx.orderBy = field !== label && (!label.startsWith('`') || !label.endsWith('`')) ? '`' + label.replace(/`/g, '``') + '`' : label;
+					this.ctx.orderBy = field !== label && (!label.startsWith('`') || !label.endsWith('`')) ? `\`${label.replace(/`/g, '``')}\`` : label;
 					this.ctx.orderWay = 'ASC';
 
 					this.refresh();
