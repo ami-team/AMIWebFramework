@@ -537,7 +537,7 @@ class AMIAuth
 			/* UPDATE QRCODE                                                                                          */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			QRCode.toCanvas(document.getElementById('EC948084_8C0A_CEBF_58C9_086046AB2456'), user + '|' + firstName + ' ' + lastName + '|' + email + '|' + clientDNInAMI + '|' + issuerDNInAMI, {
+			QRCode.toCanvas(document.getElementById('EC948084_8C0A_CEBF_58C9_086046AB2456'), `${user}|${firstName} ${lastName}|${email}|${clientDNInAMI}|${issuerDNInAMI}`, {
 				color: {
 					dark: fgColor,
 					light: bgColor,

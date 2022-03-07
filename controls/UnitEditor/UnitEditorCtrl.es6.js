@@ -179,7 +179,7 @@ $AMIClass('UnitEditorCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#DB6F1B3B_A1E1_474F_494D_B673367D6020').text('raw value: ' + rawUnitVal + ' ' + rawUnitFactor + rawUnitName);
+		$('#DB6F1B3B_A1E1_474F_494D_B673367D6020').text(`raw value: ${rawUnitVal} ${rawUnitFactor}${rawUnitName}`);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -259,13 +259,7 @@ $AMIClass('UnitEditorCtrl', {
 	{
 		if(el.attr('data-human-readable').replace(/^\s+|\s+$/g, '').toLowerCase() === 'false')
 		{
-			el.text(
-				el.attr('data-raw-unit-val')
-				+ ' ' +
-				el.attr('data-raw-unit-factor')
-				+
-				el.attr('data-raw-unit-name')
-			);
+			el.text(`${el.attr('data-raw-unit-val')} ${el.attr('data-raw-unit-factor')}${el.attr('data-raw-unit-name')}`);
 		}
 		else
 		{

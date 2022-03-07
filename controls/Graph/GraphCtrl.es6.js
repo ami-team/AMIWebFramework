@@ -111,7 +111,7 @@ $AMIClass('GraphCtrl', {
 
 					e.preventDefault();
 
-					this.dotString = this.jsonToDot(this.json,$('#' + this.patchId('D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
+					this.dotString = this.jsonToDot(this.json,$(this.patchId('#D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
 					this.display();
 				});
 
@@ -119,7 +119,7 @@ $AMIClass('GraphCtrl', {
 
 					if(e.keyCode == 13)
 					{
-						this.dotString = this.jsonToDot(this.json,$('#' + this.patchId('D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
+						this.dotString = this.jsonToDot(this.json,$(this.patchId('#D9256B01_3DBE_6E51_AA91_B2F80944607D')).val().trim());
                         this.display();
 					}
 				});
@@ -172,7 +172,7 @@ $AMIClass('GraphCtrl', {
 				`data-ctrl="${amiWebApp.textToHtml(jsonbObj['data-ctrl'])}"`,
 				`data-ctrl-location="${amiWebApp.textToHtml(jsonbObj['data-ctrl-location'])}"`,
 				`data-params="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-params']))}"`,
-				`data-settings="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-settings']))}"`,
+				`data-options="${amiWebApp.textToHtml(JSON.stringify(jsonbObj['data-options']))}"`,
 				`data-icon="${amiWebApp.textToHtml(jsonbObj['data-icon'])}"`,
 				`data-title="${amiWebApp.textToHtml(jsonbObj['data-title'])}"`,
 				`data-title-icon="${amiWebApp.textToHtml(jsonbObj['data-title-icon'])}"`,
@@ -397,11 +397,10 @@ $AMIClass('GraphCtrl', {
 
 			[...destinations].forEach((destination) => {
 
-			let edge = (amiWebApp.jspath(`..{.field{.@name === "SOURCE"}.$ === "${source}" && .field{.@name === "DESTINATION"}.$ === "${destination}"}`, edges)[0] || '');
+				let edge = (amiWebApp.jspath(`..{.field{.@name === "SOURCE"}.$ === "${source}" && .field{.@name === "DESTINATION"}.$ === "${destination}"}`, edges)[0] || '');
 
-			dot += `"${source}" -> "${destination}"`
-				+ (edge === '' ? ' [style="dashed"]' : '');
-			})
+				dot += `"${source}" -> "${destination}"${!edge ? ' [style="dashed"]' : ''}`;
+			});
 		});
 
     	/*------------------------------------------------------------------------------------------------------------*/
@@ -417,24 +416,29 @@ $AMIClass('GraphCtrl', {
 
 	url: function(id, catalog, icon)
 	{
-		return '{&quot;data-ctrl&quot;:&quot;elementInfo&quot;, '
-			 + `&quot;data-params&quot;:[&quot;${catalog}&quot;, &quot;dataset&quot;, &quot;identifier&quot;, &quot;' + id + '&quot;], `
-			 + '&quot;data-settings&quot;: {'
-			 + '&quot;expandedLinkedElements&quot;: ['
-			 + `{&quot;catalog&quot;: &quot;${catalog}&quot;, `
-			 + '&quot;entity&quot;: &quot;physicsParameterVals&quot;, '
-			 + '&quot;fields&quot;: [&quot;paramName&quot;, &quot;paramValue&quot;, &quot;units&quot;, &quot;physicsGroup&quot;], '
-			 + '&quot;keyValMode&quot;:true'
-			 + '}, {'
-			 + `&quot;catalog&quot;: &quot;${catalog}&quot;, `
-			 + '&quot;entity&quot;: &quot;dataset_extra&quot;, '
-			 + '&quot;fields&quot;: [&quot;field&quot;, &quot;value&quot;], '
-			 + '&quot;keyValMode&quot;:true'
-			 + '}]}, '
-			 + '&quot;data-icon&quot;: &quot;arrows-alt&quot;, '
-			 + '&quot;data-title&quot;: &quot;dataset&quot; '
-			 + ('' === icon ? '' : `, &quot;data-title-icon&quot;: &quot;${icon}&quot;`)
-			 + '}';
+		return amiWebApp.textToHtml(
+`{
+	"data-ctrl": "elementInfo",
+	"data-params": ["${catalog}", "DATASET", "IDENTIFIER", "${id}"],
+	"data-options": {
+		"expandedLinkedElements": [
+			{
+				"catalog": "${catalog}",
+				"entity": "PHYSICSPARAMETERVALS",
+				"fields": ["PARAMNAME", "PARAMVALUE", "UNITS", "PHYSICSGROUP"],
+				"keyValMode": true
+			}, {
+				"catalog": "${catalog}",
+				"entity": "DATASET_EXTRA",
+				"fields": ["FIELD", "VALUE"],
+				"keyValMode": true
+			}
+		]
+	},
+	"data-icon": "arrows-fullscreen",
+	"data-title": "DATASET" ${icon ? `, "data-title-icon": "${icon}"` : ''}
+}`
+		);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

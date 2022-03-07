@@ -120,7 +120,7 @@ $AMIClass('FieldEditorCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const key = primaryCatalog + '$' + primaryEntity;
+		const key = `${primaryCatalog}$${primaryEntity}`;
 
 		if(key in this.cache)
 		{
@@ -213,7 +213,7 @@ $AMIClass('FieldEditorCtrl', {
 
 		amiCommand.execute(`SearchQuery -catalog="${amiWebApp.textToString(primaryCatalog)}" -entity="${amiWebApp.textToString(primaryEntity)}" -sql="SELECT * FROM \`${amiWebApp.textToString(primaryEntity)}\` WHERE \`${amiWebApp.textToString(primaryField)}\` = \'${amiWebApp.textToString(primaryValue)}\'"`).done((data) => {
 
-			const fields = amiWebApp.jspath('..{.@type==="' + amiWebApp.textToString(primaryCatalog) + '"}..field', data);
+			const fields = amiWebApp.jspath(`..{.@type==="${amiWebApp.textToString(primaryCatalog)}"}..field`, data);
 
 			for(let i in fields)
 			{
@@ -491,7 +491,7 @@ $AMIClass('FieldEditorCtrl', {
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					el2.text(catalog + '.' + entity + '.' + primaryField + ' = ' + primaryValue);
+					el2.text(`${catalog}.${entity}.${primaryField} = ${primaryValue}`);
 
 					/*------------------------------------------------------------------------------------------------*/
 
@@ -587,7 +587,7 @@ $AMIClass('FieldEditorCtrl', {
 
 					/*------------------------------------------------------------------------------------------------*/
 
-					el2.text(primaryCatalog + '.' + primaryEntity);
+					el2.text(`${primaryCatalog}.${primaryEntity}`);
 
 					/*------------------------------------------------------------------------------------------------*/
 

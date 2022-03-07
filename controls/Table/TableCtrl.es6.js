@@ -83,19 +83,19 @@ $AMIClass('TableCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const fn1 = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) =>
-			'GetElementInfo' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -primaryFieldName="' + amiWebApp.textToString(primaryFieldName) + '" -primaryFieldValue="' + amiWebApp.textToString(primaryFieldValue) + '"' + (hideBigContent ? ' -hideBigContent' : '')
+			`GetElementInfo -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -primaryFieldName="${amiWebApp.textToString(primaryFieldName)}" -primaryFieldValue="${amiWebApp.textToString(primaryFieldValue)}"${hideBigContent ? ' -hideBigContent' : ''}`
 		;
 
 		const fn2 = (catalog, entity, fields, values) =>
-			(('AddElement')) + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '"'
+			`AddElement -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -fields="${amiWebApp.textToString(fields.join('§'))}" -values="${amiWebApp.textToString(values.join('§'))}"`
 		;
 
 		const fn3 = (catalog, entity, fields, values, primaryFields, primaryValues) =>
-			'UpdateElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -fields="' + amiWebApp.textToString(fields.join('§')) + '" -values="' + amiWebApp.textToString(values.join('§')) + '" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
+			`UpdateElements -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -fields="${amiWebApp.textToString(fields.join('§'))}" -values="${amiWebApp.textToString(values.join('§'))}" -keyFields="${amiWebApp.textToString(primaryFields.join('§'))}" -keyValues="${amiWebApp.textToString(primaryValues.join('§'))}"`
 		;
 
 		const fn4 = (catalog, entity, primaryFields, primaryValues) =>
-			'RemoveElements' + ' -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -separator="§" -keyFields="' + amiWebApp.textToString(primaryFields.join('§')) + '" -keyValues="' + amiWebApp.textToString(primaryValues.join('§')) + '"'
+			`RemoveElements -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -keyFields="${amiWebApp.textToString(primaryFields.join('§'))}" -keyValues="${amiWebApp.textToString(primaryValues.join('§'))}"`
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -198,7 +198,7 @@ $AMIClass('TableCtrl', {
 
 			tab.render(selector, this.ctx).done(() => {
 
-				tab.appendItem('<i class="bi bi-table"></i> ' + this.ctx.entity, {closable: false, firstVisible: this.ctx.card}).done((selector) => {
+				tab.appendItem(`<i class="bi bi-table"></i> ${this.ctx.entity}`, {closable: false, firstVisible: this.ctx.card}).done((selector) => {
 
 					this.setParent(tab);
 
@@ -306,7 +306,7 @@ $AMIClass('TableCtrl', {
 
 				this.replaceHTML(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05'), this.fragmentExport, {dict: this.ctx, xslts : xslts}).done(() => {
 
-					$(this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05') + ' a').click((e) => {
+					$(`${this.patchId('#A49B2730_4FAB_F089_5864_41029D65BF05')} a`).click((e) => {
 
 						this.exportResult(e.currentTarget.getAttribute('xslt'));
 					});
@@ -404,12 +404,12 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command2.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command2.substring(11) : this.ctx.command2]);
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command2.startsWith('BrowseQuery') ? `SearchQuery${this.ctx.command2.substring(11)}` : this.ctx.command2]);
 			});
 
 			$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command.startsWith('BrowseQuery') ? 'SearchQuery' + this.ctx.command.substring(11) : this.ctx.command]);
+				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command.startsWith('BrowseQuery') ? `SearchQuery${this.ctx.command.substring(11)}` : this.ctx.command]);
 			});
 
 			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(() => {
@@ -472,7 +472,7 @@ $AMIClass('TableCtrl', {
 
 				amiWebApp.lock();
 
-				amiCommand.execute('AddWidget -control="Table" -params="' + amiWebApp.textToString(JSON.stringify(params)) + '" -settings="' + amiWebApp.textToString(JSON.stringify(settings)) + '" -transparent' + (autoRefresh ? ' -autoRefresh' : '')).done((data, message) => {
+				amiCommand.execute(`AddWidget -control="Table" -params="${amiWebApp.textToString(JSON.stringify(params))}" -settings="${amiWebApp.textToString(JSON.stringify(settings))}" -transparent${autoRefresh ? ' -autoRefresh' : ''}`).done((data, message) => {
 
 					amiWebApp.success(message);
 
@@ -653,11 +653,11 @@ $AMIClass('TableCtrl', {
 
 		if((this.ctx.orderBy = this.ctx.orderBy.trim()))
 		{
-			this.ctx.command2 += ' -orderBy="' + this.ctx.orderBy + '"';
+			this.ctx.command2 += ` -orderBy="${this.ctx.orderBy}"`;
 
 			if((this.ctx.orderWay = this.ctx.orderWay.trim()))
 			{
-				this.ctx.command2 += ' -orderWay="' + this.ctx.orderWay + '"';
+				this.ctx.command2 += ` -orderWay="${this.ctx.orderWay}"`;
 			}
 		}
 
@@ -671,22 +671,22 @@ $AMIClass('TableCtrl', {
 			$(this.patchId('#BF85DC0E_C07E_DE5E_A65B_237FCA3D461C')).val(), this.ctx.stop
 		);
 
-		this.ctx.command2 += ' -limit="' + (stop - start + 1) + '"';
+		this.ctx.command2 += ` -limit="${stop - start + 1}"`;
 
-		this.ctx.command2 += ' -offset="' + (0x00 + start - 1) + '"';
+		this.ctx.command2 += ` -offset="${0x00 + start - 1}"`;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute(this.ctx.command2 + (this.ctx.enableCache ? ' -cached' : '') + (this.ctx.enableCount ? ' -count' : '') + (this.ctx.hideBigContent ? ' -hideBigContent' : '')).done((data) => {
+		amiCommand.execute(`${this.ctx.command2}${this.ctx.enableCache ? ' -cached' : ''}${this.ctx.enableCount ? ' -count' : ''}${this.ctx.hideBigContent ? ' -hideBigContent' : ''}`).done((data) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const fieldDescriptionSet = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}', data)
-			                                            : amiWebApp.jspath('..fieldDescriptions'                                      , data)
+			const fieldDescriptionSet = this.ctx.rowset ? amiWebApp.jspath(`..fieldDescriptions{.@rowset==="${this.ctx.rowset}"}`, data)
+			                                            : amiWebApp.jspath('..fieldDescriptions'                                 , data)
 			;
 
-			const rowSet = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)
-			                               : amiWebApp.jspath('..rowset'                                     , data)
+			const rowSet = this.ctx.rowset ? amiWebApp.jspath(`..rowset{.@type==="${this.ctx.rowset}"}`, data)
+			                               : amiWebApp.jspath('..rowset'                               , data)
 			;
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -780,7 +780,7 @@ $AMIClass('TableCtrl', {
 
 					const label = e.currentTarget.getAttribute('data-row-label');
 
-					this.ctx.orderBy = field !== label && (!label.startsWith('`') || !label.endsWith('`')) ? '`' + label.replace(/`/g, '``') + '`' : label;
+					this.ctx.orderBy = field !== label && (!label.startsWith('`') || !label.endsWith('`')) ? `\`${label.replace(/`/g, '``')}\`` : label;
 					this.ctx.orderWay = 'DESC';
 
 					this.refresh();
@@ -796,7 +796,7 @@ $AMIClass('TableCtrl', {
 
 					const label = e.currentTarget.getAttribute('data-row-label');
 
-					this.ctx.orderBy = field !== label && (!label.startsWith('`') || !label.endsWith('`')) ? '`' + label.replace(/`/g, '``') + '`' : label;
+					this.ctx.orderBy = field !== label && (!label.startsWith('`') || !label.endsWith('`')) ? `\`${label.replace(/`/g, '``')}\`` : label;
 					this.ctx.orderWay = 'ASC';
 
 					this.refresh();
@@ -918,11 +918,11 @@ $AMIClass('TableCtrl', {
 				const numbers = [];
 
 				if(!Number.isNaN(this.ctx.numberOfRows)) {
-					numbers.push('shown: ' + this.ctx.numberOfRows);
+					numbers.push(`shown: ${this.ctx.numberOfRows}`);
 				}
 
 				if(!Number.isNaN(this.ctx.totalNumberOfRows)) {
-					numbers.push('total: ' + this.ctx.totalNumberOfRows);
+					numbers.push(`total: ${this.ctx.totalNumberOfRows}`);
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -931,7 +931,7 @@ $AMIClass('TableCtrl', {
 
 				if(!Number.isNaN(this.ctx.maxNumberOfRows))
 				{
-					const tooltip = 'maximum number of showable rows: ' + this.ctx.maxNumberOfRows;
+					const tooltip = `maximum number of showable rows: ${this.ctx.maxNumberOfRows}`;
 
 					span.attr('data-toggle', 'tooltip')
 					    .attr('data-title', tooltip)
@@ -1094,15 +1094,15 @@ $AMIClass('TableCtrl', {
 		const result = [];
 
 		if(catalog && catalog !== 'N/A') {
-			result.push('`' + catalog + '`');
+			result.push(`\`${catalog}\``);
 		}
 
 		if(entity && entity !== 'N/A') {
-			result.push('`' + entity + '`');
+			result.push(`\`${entity}\``);
 		}
 
 		if(field && field !== 'N/A') {
-			result.push('`' + field + '`');
+			result.push(`\`${field}\``);
 		}
 
 		return result.join('.');
@@ -1173,51 +1173,51 @@ $AMIClass('TableCtrl', {
 		switch(filter)
 		{
 			case '0':
-				cond = x + ' IS NULL';
+				cond = `${x} IS NULL`;
 				break;
 
 			case '1':
-				cond = x + ' IS NOT NULL';
+				cond = `${x} IS NOT NULL`;
 				break;
 
 			case '2':
-				cond = x + ' = \'' + y + '\'';
+				cond = `${x} = '${y}'`;
 				break;
 
 			case '3':
-				cond = x + ' != \'' + y + '\'';
+				cond = `${x} != '${y}'`;
 				break;
 
 			case '4':
-				cond = x + ' LIKE \'' + y + '\'';
+				cond = `${x} LIKE '${y}'`;
 				break;
 
 			case '5':
-				cond = x + ' NOT LIKE \'' + y + '\'';
+				cond = `${x} NOT LIKE '${y}'`;
 				break;
 
 			case '6':
-				cond = x + ' < \'' + y + '\'';
+				cond = `${x} < '${y}'`;
 				break;
 
 			case '7':
-				cond = x + ' <= \'' + y + '\'';
+				cond = `${x} <= '${y}'`;
 				break;
 
 			case '8':
-				cond = x + ' > \'' + y + '\'';
+				cond = `${x} > '${y}'`;
 				break;
 
 			case '9':
-				cond = x + ' >= \'' + y + '\'';
+				cond = `${x} >= '${y}'`;
 				break;
 
 			case '10':
-				cond = x + ' BETWEEN \'' + y1 + '\' AND \'' + y2 + '\'';
+				cond = `${x} BETWEEN '${y1}' AND '${y2}'`;
 				break;
 
 			case '11':
-				cond = x + ' NOT BETWEEN \'' + y1 + '\' AND \'' + y2 + '\'';
+				cond = `${x} NOT BETWEEN '${y1}' AND '${y2}'`;
 				break;
 
 			default:
@@ -1238,7 +1238,7 @@ $AMIClass('TableCtrl', {
 
 		if(regions['WHERE'])
 		{
-			regions['WHERE'] += ' AND ' + cond;
+			regions['WHERE'] += ` AND ${cond}`;
 		}
 		else
 		{
@@ -1250,20 +1250,20 @@ $AMIClass('TableCtrl', {
 		const xql = [];
 
 		if(regions['SELECT']) {
-			xql.push('SELECT ' + regions['SELECT']);
+			xql.push(`SELECT ${regions['SELECT']}`);
 		}
 
 		if(regions['FROM']) {
-			xql.push('FROM ' + regions['FROM']);
+			xql.push(`FROM ${regions['FROM']}`);
 		}
 
 		if(regions['WHERE']) {
-			xql.push('WHERE ' + regions['WHERE']);
+			xql.push(`WHERE ${regions['WHERE']}`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+		const command = `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -${isMQL ? 'mql' : 'sql'}="${amiWebApp.textToString(xql.join(' '))}"`;
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {}, this.ctx, 'table', this.ctx.entity);
 
@@ -1284,19 +1284,7 @@ $AMIClass('TableCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		regions['SELECT'] = '\'' + columnName.replace(/'/g, '\'\'') + '\' AS `field`'
-		                    + ', ' +
-		                    'MIN(' + columnName + ') AS `min`'
-		                    + ', ' +
-		                    'MAX(' + columnName + ') AS `max`'
-		                    + ', ' +
-		                    'SUM(' + columnName + ') AS `sum`'
-		                    + ', ' +
-		                    'AVG(' + columnName + ') AS `avg`'
-		                    + ', ' +
-		                    'STDDEV(' + columnName + ') AS `stddev`'
-		                    + ', ' +
-		                    'COUNT(' + columnName + ') AS `count`'
+		regions['SELECT'] = `'${columnName.replace(/'/g, '\'\'')}' AS \`field\`, MIN(${columnName}) AS \`min\`, MAX(${columnName}) AS \`max\`, SUM(${columnName}) AS \`sum\`, AVG(${columnName}) AS \`avg\`, STDDEV(${columnName}) AS \`stddev\`, COUNT(${columnName}) AS \`count\``
 		;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -1304,20 +1292,20 @@ $AMIClass('TableCtrl', {
 		const xql = [];
 
 		if(regions['SELECT']) {
-			xql.push('SELECT ' + regions['SELECT']);
+			xql.push(`SELECT ${regions['SELECT']}`);
 		}
 
 		if(regions['FROM']) {
-			xql.push('FROM ' + regions['FROM']);
+			xql.push(`FROM ${regions['FROM']}`);
 		}
 
 		if(regions['WHERE']) {
-			xql.push('WHERE ' + regions['WHERE']);
+			xql.push(`WHERE ${regions['WHERE']}`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+		const command = `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -${isMQL ? 'mql' : 'sql'}="${amiWebApp.textToString(xql.join(' '))}"`;
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: '', orderWay: '', showDetails: false}, this.ctx, 'superscript', this.ctx.entity);
 
@@ -1345,20 +1333,20 @@ $AMIClass('TableCtrl', {
 		const xql = [];
 
 		if(regions['SELECT']) {
-			xql.push('SELECT ' + regions['SELECT']);
+			xql.push(`SELECT ${regions['SELECT']}`);
 		}
 
 		if(regions['FROM']) {
-			xql.push('FROM ' + regions['FROM']);
+			xql.push(`FROM ${regions['FROM']}`);
 		}
 
 		if(regions['WHERE']) {
-			xql.push('WHERE ' + regions['WHERE']);
+			xql.push(`WHERE ${regions['WHERE']}`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = 'RootH1I -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+		const command = `RootH1I -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -${isMQL ? 'mql' : 'sql'}="${amiWebApp.textToString(xql.join(' '))}"`;
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'root', [command], {height: 600, width: 800}, this.ctx, 'bar-chart', this.ctx.entity);
 
@@ -1379,8 +1367,7 @@ $AMIClass('TableCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		regions['SELECT'] = columnName
-				+ ', count(*) AS `total`, CONCAT(\'@OWNER::' + columnName + '::\', ' + columnName + ') AS `go`';
+		regions['SELECT'] = `${columnName}, count(*) AS \`total\`, CONCAT('@OWNER::${columnName}::', ${columnName}) AS \`go\``;
 		regions['GROUP'] = columnName;
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -1388,27 +1375,27 @@ $AMIClass('TableCtrl', {
 		const xql = [];
 
 		if(regions['SELECT']) {
-			xql.push('SELECT ' + regions['SELECT']);
+			xql.push(`SELECT ${regions['SELECT']}`);
 		}
 
 		if(regions['FROM']) {
-			xql.push('FROM ' + regions['FROM']);
+			xql.push(`FROM ${regions['FROM']}`);
 		}
 
 		if(regions['WHERE']) {
-			xql.push('WHERE ' + regions['WHERE']);
+			xql.push(`WHERE ${regions['WHERE']}`);
 		}
 
 		if(regions['GROUP'])
 		{
 			const label = regions['GROUP'].replace(entity, regions['ALIASES'][field].tableAlias).trim();
 
-			xql.push('GROUP BY ' + ((!label.startsWith('`') || !label.endsWith('`')) ? '`' + label.replace(/`/g, '``') + '`' : label));
+			xql.push(`GROUP BY ${((!label.startsWith('`') || !label.endsWith('`')) ? `\`${label.replace(/`/g, '``')}\`` : label)}`);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = 'BrowseQuery -catalog="' + amiWebApp.textToString(this.ctx.catalog) + '" -entity="' + amiWebApp.textToString(this.ctx.entity) + '" -' + (isMQL ? 'mql' : 'sql') + '="' + amiWebApp.textToString(xql.join(' ')) + '"';
+		const command = `BrowseQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -${isMQL ? 'mql' : 'sql'}="${amiWebApp.textToString(xql.join(' '))}"`;
 
 		amiWebApp.createControlInContainer(this.getParent(), this, 'table', [command], {orderBy: columnName, orderWay: 'ASC', showDetails: false}, this.ctx, 'slack', this.ctx.entity);
 

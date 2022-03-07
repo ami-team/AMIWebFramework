@@ -195,12 +195,12 @@ $AMIClass('DataTableCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			const fieldDescriptionSet = this.ctx.rowset ? amiWebApp.jspath('..fieldDescriptions{.@rowset==="' + this.ctx.rowset + '"}', data)
-			                                            : amiWebApp.jspath('..fieldDescriptions'                                      , data)
+			const fieldDescriptionSet = this.ctx.rowset ? amiWebApp.jspath(`..fieldDescriptions{.@rowset==="${this.ctx.rowset}"}`, data)
+			                                            : amiWebApp.jspath('..fieldDescriptions'                                 , data)
 			;
 
-			const rowSets = this.ctx.rowset ? amiWebApp.jspath('..rowset{.@type==="' + this.ctx.rowset + '"}"', data)
-			                                : amiWebApp.jspath('..rowset'                                     , data)
+			const rowSets = this.ctx.rowset ? amiWebApp.jspath(`..rowset{.@type==="${this.ctx.rowset}"}"`, data)
+			                                : amiWebApp.jspath('..rowset'                                , data)
 			;
 
 			/*--------------------------------------------------------------------------------------------------------*/

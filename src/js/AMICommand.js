@@ -250,7 +250,7 @@ class AMICommand
 
 		options.params = [username, password, firstName, lastName, email, captchaHash, captchaText];
 
-		return this.execute('AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? ' + (attachCert ? ' -attachCert' : '') + (agree ? ' -agree' : ''), options);
+		return this.execute(`AddUser -amiLogin=? -amiPassword=? -firstName=? -lastName=? -email=? -captchaHash=? -captchaText=? ${attachCert ? ' -attachCert' : ''}${agree ? ' -agree' : ''}`, options);
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
