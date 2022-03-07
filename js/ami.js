@@ -13838,7 +13838,7 @@ function base64Encode(s) {
 }
 function base64Decode(s) {
   return decodeURIComponent(atob(s).split('').map(function (c) {
-    return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+    return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(''));
 }
 var _replace = ami_twig/* default.stdlib._replace */.Z.stdlib._replace;
