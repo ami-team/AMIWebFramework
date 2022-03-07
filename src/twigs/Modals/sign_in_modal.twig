@@ -4,7 +4,7 @@
 			<div class="modal-body row m-0 p-0">
 
 				<div class="col-lg-6 m-0 p-0"
-					style="background: url('https://mediaarchive.cern.ch/MediaArchive/Photo/Public/2007/0706038/0706038_02/0706038_02-A4-at-144-dpi.jpg') center center; background-size: auto 100%;">
+					style="background: url('{{ signInImageURL|e }}') center center; background-size: auto 100%;">
 				</div>
 
 				<div class="col-lg-6 m-0 p-0">
@@ -12,8 +12,12 @@
 					<nav class="p-3">
 						<div class="nav nav-tabs" role="tablist">
 							<button class="nav-link active" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}target="#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73" type="button" role="tab"><i class="bi bi-box-arrow-in-right"></i> Sign In</button>
+							{% if createAccountAllowed %}
 							<button class="nav-link xxxxxx" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}target="#EE055CD4_E58F_4834_8020_986AE3F8D67D" type="button" role="tab"><i class="bi bi-person-plus"></i> Sign Up</button>
+							{% endif %}
+							{% if changePasswordAllowed %}
 							<button class="nav-link xxxxxx" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}target="#DA2047A2_9E5D_420D_B6E7_FA261D2EF10F" type="button" role="tab"><i class="bi bi-bandaid"></i> Reset Password</button>
+							{% endif %}
 						</div>
 					</nav>
 
@@ -56,6 +60,7 @@
 
 						<!-- *************************************************************************************** -->
 
+						{% if createAccountAllowed %}
 						<form class="tab-pane fade xxxx xxxxxx" role="tabpanel" id="EE055CD4_E58F_4834_8020_986AE3F8D67D">
 
 							<h1 class="fw-bold">Sign Up</h1>
@@ -133,9 +138,11 @@
 							</div>
 
 						</form>
+						{% endif %}
 
 						<!-- *************************************************************************************** -->
 
+						{% if changePasswordAllowed %}
 						<form class="tab-pane fade xxxx xxxxxx" role="tabpanel" id="DA2047A2_9E5D_420D_B6E7_FA261D2EF10F">
 
 							<h1 class="fw-bold">Reset Password</h1>
@@ -179,6 +186,7 @@
 							</div>
 
 						</form>
+						{% endif %}
 
 						<!-- *************************************************************************************** -->
 

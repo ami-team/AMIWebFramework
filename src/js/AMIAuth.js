@@ -114,6 +114,7 @@ class AMIAuth
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	init(
+		signInImageURL,
 		ssoAutoAuthentication,
 		ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 		createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
@@ -125,6 +126,7 @@ class AMIAuth
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.#flags = {
+			signInImageURL: signInImageURL,
 			ssoAutoAuthentication: ssoAutoAuthentication,
 			ssoAuthenticationAllowed: ssoAuthenticationAllowed,
 			passwordAuthenticationAllowed: passwordAuthenticationAllowed,
