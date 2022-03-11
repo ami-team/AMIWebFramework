@@ -235,11 +235,15 @@ def updateWebpack(configFile):
 
     for path in sorted(glob.glob('controls/**/*.es6.js', recursive = True)):
 
+        path = path.replace('\\', '/')
+
         entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
 
     ####################################################################################################################
 
     for path in sorted(glob.glob('subapps/**/*.es6.js', recursive = True)):
+
+        path = path.replace('\\', '/')
 
         entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
 
