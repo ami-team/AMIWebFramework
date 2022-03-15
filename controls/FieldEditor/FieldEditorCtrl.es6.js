@@ -12,7 +12,7 @@
 import './assets/css/FieldEditorCtrl.css';
 
 import twigFieldEditorCtrl from './assets/twig/FieldEditorCtrl.twig';
-import twigFieldList from './assets/twig/fieldList.twig';
+import twigFieldList       from './assets/twig/fieldList.twig'      ;
 
 /*---berk-------------------------------------------------------------------------------------------------------------*/
 

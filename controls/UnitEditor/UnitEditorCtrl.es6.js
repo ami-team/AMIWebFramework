@@ -86,7 +86,7 @@ $AMIClass('UnitEditorCtrl', {
 
 			let scale = 0.0;
 
-			const base = parseFloat(unitBase);
+			const base = parseFloat(unitBase) * 1.000000000000000000000000000000000;
 
 			const rawVal = parseFloat(unitVal) * this.getFactorFlt(unitFactor, base);
 
@@ -187,13 +187,13 @@ $AMIClass('UnitEditorCtrl', {
 		$('#C9712C7B_9A5C_BD83_45D1_4CC52CD81DA9').val(unitFactor);
 		$('#CE77B2CF_A83B_854D_6B94_1A7A65555833').val(unitBase);
 
-		if(el.attr('data-human-readable').replace(/^\s+|\s+$/g, '').toLowerCase() === 'false')
+		if(el.attr('data-human-readable').replace(/^\s+|\s+$/g, '').toLowerCase() === 'true')
 		{
-			$('#D84D615F_8E4A_C9FB_18DD_D927B9CD68BD').prop('checked', false);
+			$('#D84D615F_8E4A_C9FB_18DD_D927B9CD68BD').prop('checked', true);
 		}
 		else
 		{
-			$('#D84D615F_8E4A_C9FB_18DD_D927B9CD68BD').prop('checked', true);
+			$('#D84D615F_8E4A_C9FB_18DD_D927B9CD68BD').prop('checked', false);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -257,19 +257,13 @@ $AMIClass('UnitEditorCtrl', {
 
 	updateText: function(el)
 	{
-		if(el.attr('data-human-readable').replace(/^\s+|\s+$/g, '').toLowerCase() === 'false')
+		if(el.attr('data-human-readable').replace(/^\s+|\s+$/g, '').toLowerCase() === 'true')
 		{
-			el.text(`${el.attr('data-raw-unit-val')} ${el.attr('data-raw-unit-factor')}${el.attr('data-raw-unit-name')}`);
+			el.text(`${el.attr('data-unit-val')} ${el.attr('data-unit-factor')}${el.attr('data-unit-name')}`);
 		}
 		else
 		{
-			el.text(
-				el.attr('data-unit-val')
-				+ ' ' +
-				el.attr('data-unit-factor')
-				+
-				el.attr('data-unit-name')
-			);
+			el.text(`${el.attr('data-raw-unit-val')} ${el.attr('data-raw-unit-factor')}${el.attr('data-raw-unit-name')}`);
 		}
 	},
 
@@ -316,7 +310,7 @@ $AMIClass('UnitEditorCtrl', {
 		/**/ if(base === 1000.0) {
 			result = factor in this.factor2Unit_1000 ? this.factor2Unit_1000[factor] : '?';
 		}
-		else if(base == 1024.0) {
+		else if(base === 1024.0) {
 			result = factor in this.factor2Unit_1024 ? this.factor2Unit_1024[factor] : '?';
 		}
 		else {
@@ -369,7 +363,7 @@ $AMIClass('UnitEditorCtrl', {
 		/**/ if(base === 1000.0) {
 			result = unit in this.unit2Factor_1000 ? this.unit2Factor_1000[unit] : 1.0;
 		}
-		else if(base == 1024.0) {
+		else if(base === 1024.0) {
 			result = unit in this.unit2Factor_1024 ? this.unit2Factor_1024[unit] : 1.0;
 		}
 		else {
@@ -378,9 +372,6 @@ $AMIClass('UnitEditorCtrl', {
 
 		return result;
 	},
-
-	/*----------------------------------------------------------------------------------------------------------------*/
-
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 });
