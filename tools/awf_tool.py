@@ -17,7 +17,7 @@ AWF_GIT_URL = 'https://github.com/ami-team/awfwebpack.git'
 
 ########################################################################################################################
 
-import os, re, sys, glob, json, random, shutil, hashlib, argparse, subprocess
+import os, re, sys, glob, json, random, shutil, hashlib, argparse, subprocess, platform
 
 ########################################################################################################################
 
@@ -235,11 +235,17 @@ def updateWebpack(configFile):
 
     for path in sorted(glob.glob('controls/**/*.es6.js', recursive = True)):
 
+        if platform.system() == 'Windows':
+            path = path.replace('\\', '/')
+
         entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
 
     ####################################################################################################################
 
     for path in sorted(glob.glob('subapps/**/*.es6.js', recursive = True)):
+
+        if platform.system() == 'Windows':
+            path = path.replace('\\', '/')
 
         entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
 
@@ -550,7 +556,7 @@ def createHomePage(verbose, bootstrapVersion, title = None, endpoint = None):
 
         ################################################################################################################
 
-        if title is not None:
+        if title is None:
 
             print('Page title:')
 
@@ -568,7 +574,7 @@ def createHomePage(verbose, bootstrapVersion, title = None, endpoint = None):
 
         ################################################################################################################
 
-        if endpoint is not None:
+        if endpoint is None:
 
             print('Service URL:')
 
