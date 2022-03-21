@@ -17,7 +17,7 @@ AWF_GIT_URL = 'https://github.com/ami-team/awfwebpack.git'
 
 ########################################################################################################################
 
-import os, re, sys, glob, json, random, shutil, hashlib, argparse, subprocess
+import os, re, sys, glob, json, random, shutil, hashlib, argparse, subprocess, platform
 
 ########################################################################################################################
 
@@ -235,7 +235,8 @@ def updateWebpack(configFile):
 
     for path in sorted(glob.glob('controls/**/*.es6.js', recursive = True)):
 
-        path = path.replace('\\', '/')
+        if platform.system() == 'Windows':
+            path = path.replace('\\', '/')
 
         entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
 
@@ -243,7 +244,8 @@ def updateWebpack(configFile):
 
     for path in sorted(glob.glob('subapps/**/*.es6.js', recursive = True)):
 
-        path = path.replace('\\', '/')
+        if platform.system() == 'Windows':
+            path = path.replace('\\', '/')
 
         entries.append('\t\t\'%s\': path.resolve(__dirname, \'%s\')' % (path.replace('.es6.js', ''), path))
 
