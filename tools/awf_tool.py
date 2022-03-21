@@ -556,7 +556,7 @@ def createHomePage(verbose, bootstrapVersion, title = None, endpoint = None):
 
         ################################################################################################################
 
-        if title is not None:
+        if title is None:
 
             print('Page title:')
 
@@ -574,7 +574,7 @@ def createHomePage(verbose, bootstrapVersion, title = None, endpoint = None):
 
         ################################################################################################################
 
-        if endpoint is not None:
+        if endpoint is None:
 
             print('Service URL:')
 
