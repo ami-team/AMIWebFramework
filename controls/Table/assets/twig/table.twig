@@ -149,7 +149,7 @@
 						{%   if field['links'] is defined %}
 						{%     for link in field['links'] %}
 						{%       if not loop.first %} - {% endif %}
-						<a href="{{link['@href']|e}}"
+						<{% if link['@href'] or link['@data-ctrl'] %}a href="{{link['@href']|e}}"{% else %}span{% endif %}
 						   {% if link['@target'] %}target="{{link['@target']|e}}"{% endif %}
 						   {% if link['@id'] %}id="{{link['@id']|e}}"{% endif %}
 						   {% if link['@class'] %}class="{{link['@class']|e}}"{% endif %}
@@ -159,8 +159,12 @@
 						   {% if link['@data-settings'] %}data-settings="{{link['@data-settings']|e}}"{% endif %}
 						   {% if link['@data-icon'] %}data-icon="{{link['@data-icon']|e}}"{% endif %}
 						   {% if link['@data-title'] %}data-title="{{link['@data-title']|e}}"{% endif %}>
+							{% if link['@escape'] === 'true' %}
 							{{link['@label']|e}}
-						</a>
+							{% else %}
+							{{link['@label']}}
+							{% endif %}
+						</{% if link['@href'] %}a{% else %}span{% endif %}>
 						{%     endfor %}
 						{%   endif %}
 						{% endif %}

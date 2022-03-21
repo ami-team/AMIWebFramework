@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<title>AMI</title>
+
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+
+		<script type="text/javascript" src="js/ami.min.js?embedded&bootstrap=5"></script>
+
+		<script type="text/javascript">
+
+			let accordionCtor;
+			let tabCtor;
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			amiWebApp.onRefresh = function(isAuth)
+			{
+				const result = $.Deferred();
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				const accordion = new accordionCtor();
+				const tab1 = new tabCtor();
+				const tab2 = new tabCtor();
+
+				window.textBox = new textBoxCtor();
+				window.confirmBox = new confirmBoxCtor();
+
+				window.editBox = new editBoxCtor();
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				accordion.render('#accordion' , {}).done(() => {
+
+					/*------------------------------------------------------------------------------------------------*/
+
+					accordion.appendItem('accordion 1', {closable: false}).done((sel1_1) => {
+
+						tab1.render(sel1_1, {}).done(() => {
+
+							tab1.appendItem('tab1_1', {active: true, closable: false}).done((sel1_2) => {
+
+								amiWebApp.replaceHTML(sel1_2,'tab1_1 content under accordion 1').done(() => {
+
+									tab1.appendItem('tab1_2', {active: false, closable: false}).done((sel1_3) => {
+
+										amiWebApp.replaceHTML(sel1_3,'tab1_2 content under accordion 1').done(() => {
+
+											/*------------------------------------------------------------------------*/
+
+											accordion.appendItem('accordion 2', {}).done((sel2_1) => {
+
+												tab2.render(sel2_1, {}).done(() => {
+
+													tab2.appendItem('tab2_1', {active: true}).done((sel2_2) => {
+
+														amiWebApp.replaceHTML(sel2_2,'closable tab2_1 content under closable accordion 2').done(() => {
+
+															tab2.appendItem('tab2_2', {active: false}).done((sel2_3) => {
+
+																amiWebApp.replaceHTML(sel2_3,'closable tab2_2 content under closable accordion 2').done(() => {
+
+																		result.resolve();
+																});
+															});
+														});
+													});
+												});
+											});
+
+											/*------------------------------------------------------------------------*/
+
+										});
+									});
+								});
+							});
+						});
+				 	});
+
+				 	/*------------------------------------------------------------------------------------------------*/
+
+				});
+
+				/*----------------------------------------------------------------------------------------------------*/
+
+				return result;
+			};
+
+			amiWebApp.onReady = function()
+			{
+				const result = $.Deferred();
+
+		 		amiWebApp.loadResources(['ctrl:accordion', 'ctrl:tab', 'ctrl:textBox', 'ctrl:confirmBox', 'ctrl:EditBox'], {context: this}).done((controls) => {
+
+					accordionCtor = controls[0];
+					tabCtor = controls[1];
+					textBoxCtor = controls[2];
+					confirmBoxCtor = controls[3];
+					editBoxCtor = controls[4];
+
+					result.resolve();
+
+				 }).fail(function(){
+
+					 result.reject();
+				 });
+
+				 return result;
+			};
+
+		</script>
+	</head>
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom" id="ami_top_menu">
+
+			<div class="container-fluid mx-3 px-0">
+
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#FCE61AFD_012B_2816_B9FD_C737908FAF72">
+					<span class="navbar-toggler-icon"></span>
+				</button>
+
+				<div class="collapse navbar-collapse" id="FCE61AFD_012B_2816_B9FD_C737908FAF72">
+
+					<ul class="navbar-nav me-xxxx" id="ami_main_menu_content"></ul>
+					<ul class="navbar-nav ms-auto" id="ami_ext_menu_content"></ul>
+					<ul class="navbar-nav me-xxxx" id="ami_login_menu_content"></ul>
+
+				</div>
+
+			</div>
+
+		</nav>
+
+		<div id="accordion"></div>
+
+		<div>
+			<h4>TextBox control</h4>
+			<button class="btn btn-primary" type="button" onclick="textBox.show('Hello I\'am a text box')">Click me 1!</button>
+			<button class="btn btn-primary" type="button" onclick="textBox.show('{&quot;Hello&quot;:&quot;JSON&quot;}', {lang: 'json'})">Click me 2!</button>
+		</div>
+
+		<br>
+
+		<div>
+			<h4>ConfirmBox control</h4>
+			<button class="btn btn-primary" type="button" onclick="confirmBox.show('Are you really really sure ?', {}).done(() => { alert('Really ?')}).fail(() => { alert('You are right ! It is better to cancel...')})">Confirm me !</button>
+		</div>
+
+		<br>
+
+		<div class="col-md-8 py-2">
+			<label for="editTextArea"><h4>EditBox control</h4></label>
+			<textarea id="editTextArea" class="form-control form-control-sm" readonly="readonly">I am an editable text</textarea>
+		</div>
+		<button class="btn btn-primary" type="button" onclick="editBox.show($('#editTextArea').val(), {}).done((instance) => {$('#editTextArea').val(instance);}).fail((instance) => { alert(instance)})">Edit me !</button>
+
+		<script type="text/javascript">
+
+			amiWebApp.start({
+				endpoint_url: 'https://ami.in2p3.fr/AMI2/FrontEnd',
+			});
+
+		</script>
+
+	</body>
+</html>
