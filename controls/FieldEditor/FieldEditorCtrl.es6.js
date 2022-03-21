@@ -733,8 +733,7 @@ $AMIClass('FieldEditorCtrl', {
 
 	success: function(message, fadeOut, target)
 	{
-		amiWebApp.success(message, fadeOut, target);
-		/*if(this.getOwner().refresh)
+		if(this.getOwner().refresh)
 		{
 			_internal_then(this.getOwner().refresh(), () => {
 
@@ -748,7 +747,7 @@ $AMIClass('FieldEditorCtrl', {
 		else
 		{
 			amiWebApp.success(message, fadeOut, target);
-		}*/
+		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -756,8 +755,7 @@ $AMIClass('FieldEditorCtrl', {
 
 	error: function(message, fadeOut, target)
 	{
-		amiWebApp.error(message, fadeOut, target);
-		/*if(this.getOwner().refresh)
+		if(this.getOwner().refresh)
 		{
 			_internal_then(this.getOwner().refresh(), () => {
 
@@ -771,7 +769,7 @@ $AMIClass('FieldEditorCtrl', {
 		else
 		{
 			amiWebApp.error(message, fadeOut, target);
-		}*/
+		}
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
