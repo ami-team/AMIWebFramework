@@ -20,6 +20,7 @@ import twigTable from './assets/twig/table.twig';
 
 import { xqlGetRegions } from './assets/js/libxql.js';
 import './assets/js/filesaver.min.js';
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('TableCtrl', {

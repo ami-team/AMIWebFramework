@@ -550,33 +550,45 @@ def updateAWF(inDebugMode, awfGITCommitId, verbose, configFile = 'webpack.config
 
 ########################################################################################################################
 
-def createHomePage(verbose, bootstrapVersion):
+def createHomePage(verbose, bootstrapVersion, title = None, endpoint = None):
 
     try:
 
         ################################################################################################################
 
-        print('Page title:')
+        if title is not None:
 
-        try:
+            print('Page title:')
 
-            TITLE = raw_input()
+            try:
 
-        except NameError as e:
+                TITLE = raw_input()
 
-            TITLE = input()
+            except NameError as e:
+
+                TITLE = input()
+
+        else:
+
+            TITLE = title
 
         ################################################################################################################
 
-        print('Service URL:')
+        if endpoint is not None:
 
-        try:
+            print('Service URL:')
 
-            ENDPOINT = raw_input()
+            try:
 
-        except NameError as e:
+                ENDPOINT = raw_input()
 
-            ENDPOINT = input()
+            except NameError as e:
+
+                ENDPOINT = input()
+
+        else:
+
+            ENDPOINT = endpoint
 
         ################################################################################################################
 
@@ -737,9 +749,9 @@ def createSubapp(verbose, sourceCodeFlavour, configFile = 'webpack.config.js'):
         saveText(os.path.join('subapps', NAME, 'assets', 'twig', NAME + 'App.twig'), AWF_SUBAPP_TWIG_TEMPLATE.replace('{{name}}', name).replace('{{NAME}}', NAME))
 
         if sourceCodeFlavour == 'vue-js':
-        	shutil_makedirs(os.path.join('subapps', NAME, 'components'), ignore_errors = False)
-        	saveText(os.path.join('subapps', NAME, 'App.vue'), AWF_SUBAPP_JS_VUE_COMPONENT_TEMPLATE)
-        	saveText(os.path.join('subapps', NAME, 'components', 'HelloWorld.vue'), AWF_SUBAPP_JS_VUE_HELLO_WORLD_TEMPLATE)
+            shutil_makedirs(os.path.join('subapps', NAME, 'components'), ignore_errors = False)
+            saveText(os.path.join('subapps', NAME, 'App.vue'), AWF_SUBAPP_JS_VUE_COMPONENT_TEMPLATE)
+            saveText(os.path.join('subapps', NAME, 'components', 'HelloWorld.vue'), AWF_SUBAPP_JS_VUE_HELLO_WORLD_TEMPLATE)
 
         ################################################################################################################
 
@@ -866,6 +878,10 @@ def main():
     parser = argparse.ArgumentParser(formatter_class = argparse.RawTextHelpFormatter, epilog = 'Authors:\n  Jerome ODIER (jerome.odier@lpsc.in2p3.fr)\n  Fabian LAMBERT (fabian.lambert@lpsc.in2p3.fr)\n  Jerome FULACHIER (jerome.fulachier@lpsc.in2p3.fr')
 
     parser.add_argument('--create-home-page', help = 'create a new home page', action = 'store_true')
+
+    parser.add_argument('-t', '--home-page-title', help = 'home page title (default: None)', type = str, default = None)
+    parser.add_argument('-p', '--home-page-endpoint', help = 'home page endpoint (default: None)', type = str, default = None)
+
     parser.add_argument('--create-control', help = 'create a new control', action = 'store_true')
     parser.add_argument('--create-subapp', help = 'create a new subapp', action = 'store_true')
 
@@ -875,10 +891,10 @@ def main():
     parser.add_argument('-r', '--run', help = 'run a web server', action = 'store_true')
 
     parser.add_argument('-b', '--build-prod', help = 'build JS bundles (prod mode)', action = 'store_true')
-    parser.add_argument('-d', '--build-debug', help = 'build JS bundles (debud mode)', action = 'store_true')
+    parser.add_argument('-d', '--build-debug', help = 'build JS bundles (debug mode)', action = 'store_true')
 
-    parser.add_argument('--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
-    parser.add_argument('--update-debug', help = 'update AWF (debud mode)', action = 'store_true')
+    parser.add_argument('-u', '--update-prod', help = 'update AWF (prod mode)', action = 'store_true')
+    parser.add_argument('-D', '--update-debug', help = 'update AWF (debug mode)', action = 'store_true')
 
     parser.add_argument('--git-commit-id', help = 'git commit id (default: HEAD)', type = str, default = 'HEAD')
 
@@ -889,7 +905,7 @@ def main():
     ####################################################################################################################
 
     if   args.create_home_page:
-        return createHomePage(args.verbose, args.bootstrap_version)
+        return createHomePage(args.verbose, args.bootstrap_version, title = args.home_page_title, endpoint = args.home_page_endpoint)
 
     elif args.create_control:
         return createControl(args.verbose, args.source_code_flavour)

@@ -12,8 +12,8 @@
 import './assets/css/ElementInfoCtrl.css';
 
 import twigElementInfoCtrl from './assets/twig/ElementInfoCtrl.twig';
-import twigDetails from './assets/twig/details.twig';
-import twigJS from './assets/twig/js.twig';
+import twigDetails         from './assets/twig/details.twig'        ;
+import twigJS              from './assets/twig/js.twig'             ;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 

@@ -11,6 +11,7 @@
  */
 
 import twigDiffBoxCtrl from './assets/twig/DiffBoxCtrl.twig';
+
 import diff_match_patch from 'diff-match-patch';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
