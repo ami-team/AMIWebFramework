@@ -1,5 +1,5 @@
 <div class="modal fade" tabindex="-1" id="D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B">
-	<div class="modal-dialog modal-dialog-centered modal-xl">
+	<div class="modal-dialog modal-dialog-centered modal-{% if signInImageURL|e %}xl{% else %}lg{% endif %}">
 		<div class="modal-content">
 			<div class="modal-body row m-0 p-0">
 
@@ -21,7 +21,7 @@
 						</div>
 					</nav>
 
-					<div class="tab-content px-3 pb-3" style="{% if signInImageURL|e %}height: 390px {% endif %}; overflow-y: scroll;">
+					<div class="tab-content px-3 pb-3" style="{% if signInImageURL|e %}height: 390px; {% endif %}">
 
 						<!-- *************************************************************************************** -->
 
