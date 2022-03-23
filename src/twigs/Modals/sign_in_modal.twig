@@ -3,11 +3,11 @@
 		<div class="modal-content">
 			<div class="modal-body row m-0 p-0">
 
-				<div class="col-lg-6 m-0 p-0"
+				<div class="{% if signInImageURL|e %}col-lg-6{% else %}col-0{% endif %} m-0 p-0"
 					style="background: url('{{ signInImageURL|e }}') center center; background-size: auto 100%;">
 				</div>
 
-				<div class="col-lg-6 m-0 p-0">
+				<div class="{% if signInImageURL|e %}col-lg-6{% else %}col-lg-12{% endif %} m-0 p-0">
 
 					<nav class="p-3">
 						<div class="nav nav-tabs" role="tablist">
@@ -27,7 +27,7 @@
 
 						<form class="tab-pane fade show active" role="tabpanel" id="B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73">
 
-							<h1 class="fw-bold">Welcome in AMI</h1>
+							<h1 class="fw-bold">{{ signInText|e }}</h1>
 
 							<div class="mb-3">
 								<label for="E64F24B2_33E6_4DED_9B24_28BE04219613">Username<span class="text-danger">*</span></label>
