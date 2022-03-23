@@ -8,4 +8,4 @@
 
 ## URL
 
-<!-- An URL where the bug can be seen -->
+<!-- A URL where the bug can be seen -->
