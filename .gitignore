@@ -122,6 +122,9 @@ package-lock.json
 # IntelliJ directory
 .idea
 
+# Visual Studio Code
+.vscode/
+
 .DS_Store
 
 __pycache__
