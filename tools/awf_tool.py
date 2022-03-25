@@ -985,6 +985,11 @@ const config = {
 		'path': path.resolve(__dirname),
 		'assetModuleFilename': (o) => path.join(path.dirname(o.runtime), 'assets', 'images', '[hash][ext][query]')
 	},
+	'devServer': {
+		'static': {
+			'directory': path.join(__dirname, './'),
+		}
+	},
 	'module': {
 		'rules': [
 			/*--------------------------------------------------------------------------------------------------------*/
