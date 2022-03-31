@@ -128,12 +128,15 @@ $AMIClass('FieldEditorCtrl', {
 				this.cache[key].primaryField
 				,
 				this.cache[key].fieldInfo
+				,
+				this.cache[key].foreignKeysInfo
 			);
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const fieldInfo = [];
+		const foreignKeysInfo = [];
 
 		amiCommand.execute(`GetEntityInfo -catalog="${amiWebApp.textToString(primaryCatalog)}" -entity="${amiWebApp.textToString(primaryEntity)}"`).done((data) => {
 
@@ -189,7 +192,39 @@ $AMIClass('FieldEditorCtrl', {
 				/*----------------------------------------------------------------------------------------------------*/
 			}
 
-			result.resolve(primaryField, fieldInfo);
+			/*--------------------------------------------------------------------------------------------------------*/
+			
+			const rows2 = amiWebApp.jspath('..{.@type==="foreignKeys"}.row', data);
+
+			for(let i in rows2)
+			{
+				const name = amiWebApp.jspath('..field{.@name==="name"}.$', rows2[i])[0] || '';
+				const fkExternalCatalog = amiWebApp.jspath('..field{.@name==="fkExternalCatalog"}.$', rows2[i])[0] || '';
+				const fkInternalCatalog = amiWebApp.jspath('..field{.@name==="fkInternalCatalog"}.$', rows2[i])[0] || '';
+				const fkEntity = amiWebApp.jspath('..field{.@name==="fkEntity"}.$', rows2[i])[0] || '';
+				const fkColumn = amiWebApp.jspath('..field{.@name==="fkColumn"}.$', rows2[i])[0] || '';
+				const pkExternalCatalog = amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', rows2[i])[0] || '';
+				const pkInternalCatalog = amiWebApp.jspath('..field{.@name==="pkInternalCatalog"}.$', rows2[i])[0] || '';
+				const pkEntity = amiWebApp.jspath('..field{.@name==="pkEntity"}.$', rows2[i])[0] || '';
+				const pkColumn = amiWebApp.jspath('..field{.@name==="pkColumn"}.$', rows2[i])[0] || '';
+
+				foreignKeysInfo.push({
+					name: name,
+					fkExternalCatalog: fkExternalCatalog,
+					fkInternalCatalog: fkInternalCatalog,
+					fkEntity: fkEntity,
+					fkColumn: fkColumn,
+					pkExternalCatalog: pkExternalCatalog,
+					pkInternalCatalog: pkInternalCatalog,
+					pkEntity: pkEntity,
+					pkColumn: pkColumn,
+				});
+			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+
+			result.resolve(primaryField, fieldInfo, foreignKeysInfo);
 
 		}).fail((data, message) => {
 
@@ -293,6 +328,8 @@ $AMIClass('FieldEditorCtrl', {
 
 			hasCustomHTMLs: hasCustomHTMLs,
 			customHTMLsFragment: customHTMLsFragment,
+
+			sql: settings.sql || '',
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -554,95 +591,73 @@ $AMIClass('FieldEditorCtrl', {
 
 	showRowModal: function(primaryCatalog, primaryEntity, primaryField, primaryValue)
 	{
-		this.getInfo(primaryCatalog, primaryEntity, primaryField).done((primaryField, fieldInfo) => {
+		this.getInfo(primaryCatalog, primaryEntity, primaryField).done((primaryField, fieldInfo, foreignKeysInfo) => {
 
 			this.getValues(primaryCatalog, primaryEntity, primaryField, primaryValue).done((values) => {
+				
+				if(foreignKeysInfo.length !== 0 && Object.keys(values).length === 0)
+				{
+					const fks = [];
 
-				const dict = {
-					primaryCatalog: primaryCatalog,
-					primaryEntity: primaryEntity,
-					primaryField: primaryField,
-					fieldInfo: fieldInfo,
-					values: values,
-					filter: '',
-					hasCustomLabels: this.ctx.hasCustomLabels,
-					hasCustomInputs: this.ctx.hasCustomInputs,
-					hasCustomHTMLs: this.ctx.hasCustomHTMLs,
-					inEditMode: this.ctx.inEditMode,
-				};
+					for(let i in foreignKeysInfo)
+					{
+						fks.push(`\`${foreignKeysInfo[i].fkInternalCatalog}\`.\`${foreignKeysInfo[i].fkEntity}\`.\`${foreignKeysInfo[i].fkColumn}\``);
+					}
+	
+					const sql = `SELECT DISTINCT ${fks.join()} ${this.ctx.sql.substring(this.ctx.sql.indexOf('FROM'))}`;
+					const command =`SearchQuery -catalog="${primaryCatalog}" -entity="${primaryEntity}" -sql="${sql}"`;
 
-				const twigs = {
-					customLabels: this.ctx.customLabelsFragment,
-					customInputs: this.ctx.customInputsFragment,
-					customHTMLs: this.ctx.customHTMLsFragment,
-				};
+					amiCommand.execute(command, {}).done((data) => {
+						
+						const rows = amiWebApp.jspath('..row', data) || [];
 
-				amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {dict: dict, twigs: twigs}).done(() => {
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					const el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
-					const el2 = $('#E44B299D_96B3_9C00_C91C_555C549BF87B');
-					const el3 = $('#F2E58136_73F5_D2E2_A0B7_2F810830AD98');
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					el2.text(`${primaryCatalog}.${primaryEntity}`);
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					el3.find('[data-action="changeamitype"]').click((e) => {
-
-						e.preventDefault();
-
-						$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().attr('data-ami-type', $(e.currentTarget).attr('data-ami-type'))
-						                                                                                               .attr('data-sql-type', $(e.currentTarget).attr('data-sql-type'))
-						                                                                                               .text($(e.currentTarget).text().replace('default', ''))
-						;
-
-						this.changeFormInputType(
-							e.currentTarget.getAttribute('href')
-							,
-							e.currentTarget.getAttribute('data-ami-type')
-							,
-							e.currentTarget.getAttribute('data-sql-type')
-						);
-					});
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					el3.off().submit((e) => {
-
-						/*--------------------------------------------------------------------------------------------*/
-
-						e.preventDefault();
-
-						/*--------------------------------------------------------------------------------------------*/
-
-						const fields = [];
-						const values = [];
-
-						const form = el3.serializeArray();
-
-						for(let i in form)
+						if(rows.length === 1)
 						{
-							fields.push(form[i].name);
-							values.push(form[i].value);
+							const fields = amiWebApp.jspath('..field', data) || [];
+
+							for(let i in fields)
+							{
+								values[fields[i]['@name']] = fields[i]['$'];
+							}
 						}
 
-						/*--------------------------------------------------------------------------------------------*/
+						const dict = {
+							primaryCatalog: primaryCatalog,
+							primaryEntity: primaryEntity,
+							primaryField: primaryField,
+							fieldInfo: fieldInfo,
+							values: values,
+							filter: '',
+							hasCustomLabels: this.ctx.hasCustomLabels,
+							hasCustomInputs: this.ctx.hasCustomInputs,
+							hasCustomHTMLs: this.ctx.hasCustomHTMLs,
+							inEditMode: this.ctx.inEditMode,
+						};
+		
+						this._showRowModal(dict);
 
-						this.appendRow(primaryCatalog, primaryEntity, fields, values);
+					}).fail((data, message) => {
 
-						/*--------------------------------------------------------------------------------------------*/
+						amiWebApp.error(message, true);
 					});
-
-					/*------------------------------------------------------------------------------------------------*/
-
-					el1.modal('show');
-
-					/*------------------------------------------------------------------------------------------------*/
-				});
+				}
+				else
+				{
+					const dict = {
+						primaryCatalog: primaryCatalog,
+						primaryEntity: primaryEntity,
+						primaryField: primaryField,
+						fieldInfo: fieldInfo,
+						values: values,
+						filter: '',
+						hasCustomLabels: this.ctx.hasCustomLabels,
+						hasCustomInputs: this.ctx.hasCustomInputs,
+						hasCustomHTMLs: this.ctx.hasCustomHTMLs,
+						inEditMode: this.ctx.inEditMode,
+					};
+	
+					this._showRowModal(dict);
+				}
 
 			}).fail((message) => {
 
@@ -652,6 +667,84 @@ $AMIClass('FieldEditorCtrl', {
 		}).fail((message) => {
 
 			this.error(message, true);
+		});
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	_showRowModal: function(dict)
+	{
+		const twigs = {
+			customLabels: this.ctx.customLabelsFragment,
+			customInputs: this.ctx.customInputsFragment,
+			customHTMLs: this.ctx.customHTMLsFragment,
+		};
+
+		amiWebApp.replaceHTML('#F2E58136_73F5_D2E2_A0B7_2F810830AD98', this.fragmentFieldList, {dict: dict, twigs: twigs}).done(() => {
+
+			/*------------------------------------------------------------------------------------------------*/
+
+			const el1 = $('#A8572167_6898_AD6F_8EAD_9D4E2AEB3550');
+			const el2 = $('#E44B299D_96B3_9C00_C91C_555C549BF87B');
+			const el3 = $('#F2E58136_73F5_D2E2_A0B7_2F810830AD98');
+
+			/*------------------------------------------------------------------------------------------------*/
+
+			el2.text(`${dict.primaryCatalog}.${dict.primaryEntity}`);
+
+			/*------------------------------------------------------------------------------------------------*/
+
+			el3.find('[data-action="changeamitype"]').click((e) => {
+
+				e.preventDefault();
+
+				$(e.currentTarget).closest('.nav-item').find('.nav-link').addClass('active').children().first().attr('data-ami-type', $(e.currentTarget).attr('data-ami-type'))
+																											   .attr('data-sql-type', $(e.currentTarget).attr('data-sql-type'))
+																											   .text($(e.currentTarget).text().replace('default', ''))
+				;
+
+				this.changeFormInputType(
+					e.currentTarget.getAttribute('href')
+					,
+					e.currentTarget.getAttribute('data-ami-type')
+					,
+					e.currentTarget.getAttribute('data-sql-type')
+				);
+			});
+
+			/*------------------------------------------------------------------------------------------------*/
+
+			el3.off().submit((e) => {
+
+				/*--------------------------------------------------------------------------------------------*/
+
+				e.preventDefault();
+
+				/*--------------------------------------------------------------------------------------------*/
+
+				const fields = [];
+				const values = [];
+
+				const form = el3.serializeArray();
+
+				for(let i in form)
+				{
+					fields.push(form[i].name);
+					values.push(form[i].value);
+				}
+
+				/*--------------------------------------------------------------------------------------------*/
+
+				this.appendRow(dict.primaryCatalog, dict.primaryEntity, fields, values);
+
+				/*--------------------------------------------------------------------------------------------*/
+			});
+
+			/*------------------------------------------------------------------------------------------------*/
+
+			el1.modal('show');
+
+			/*------------------------------------------------------------------------------------------------*/
 		});
 	},
 
