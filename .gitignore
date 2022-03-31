@@ -125,3 +125,4 @@ package-lock.json
 .DS_Store
 
 __pycache__
+.vscode/settings.json
