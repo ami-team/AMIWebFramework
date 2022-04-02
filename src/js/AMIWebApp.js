@@ -55,6 +55,7 @@ import defaultSignInImageURL from '../images/sign_in_image.jpg';
  * @borrows isObject
  * @borrows isSet
  * @borrows isMap
+ * @borrows setupParams
  * @borrows setup
  * @borrows getStack
  * @borrows lock
@@ -363,6 +364,7 @@ class AMIWebApp
 	isSet = tools.isSet;
 	isMap = tools.isMap;
 
+	setupParams = tools.setupParams;
 	setup = tools.setup;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
