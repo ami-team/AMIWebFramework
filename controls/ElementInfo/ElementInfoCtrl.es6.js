@@ -187,12 +187,12 @@ $AMIClass('ElementInfoCtrl', {
 
 			$(this.patchId('#BF7E7885_DB34_7993_9F17_37990DDD4BF3')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command]);
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.command, {lang: 'shell'}]);
 			});
 
 			$(this.patchId('#F1232710_45E2_92BF_7378_1BCD05FBF131')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js, {mode: 'javascript'}]);
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js, {lang: 'javascript'}]);
 			});
 
 			$(this.patchId('#A29F1487_C747_18BF_94B1_9F3C32DA838C')).click(() => {
@@ -262,7 +262,7 @@ $AMIClass('ElementInfoCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	refresh: function(settings)
+	refresh: function(options)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -274,7 +274,12 @@ $AMIClass('ElementInfoCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [context] = amiWebApp.setup(['context'], [result], settings);
+		const params = amiWebApp.setupParams(
+			{}, {
+				context: result,
+			},
+			options
+		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -363,7 +368,7 @@ $AMIClass('ElementInfoCtrl', {
 
 				amiWebApp.unlock();
 
-				result.resolveWith(context, [fieldDescriptions, elementRowset, linkedElementRowset, expandedLinkedElements]);
+				result.resolveWith(params.context, [fieldDescriptions, elementRowset, linkedElementRowset, expandedLinkedElements]);
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
@@ -372,7 +377,7 @@ $AMIClass('ElementInfoCtrl', {
 
 			amiWebApp.unlock();
 
-			result.rejectWith(context, [message]);
+			result.rejectWith(params.context, [message]);
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/

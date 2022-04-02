@@ -98,27 +98,14 @@ $AMIClass('TabCtrl', {
 	{
 		const result = $.Deferred();
 
-		const [
-			context,
-			height,
-			active,
-			closable,
-			firstVisible
-		] = amiWebApp.setup(
-			[
-				'context',
-				'height',
-				'active',
-				'closable',
-				'firstVisible',
-			],
-			[
-				result,
-				'auto',
-				true,
-				this.ctx.closable,
-				this.ctx.firstVisible,
-			],
+		const params = amiWebApp.setupParams(
+			{}, {
+				context: result,
+				height: 'auto',
+				active: true,
+				closable: this.ctx.closable,
+				firstVisible: this.ctx.firstVisible,
+			},
 			options
 		);
 
@@ -129,8 +116,8 @@ $AMIClass('TabCtrl', {
 		const dict = {
 			id: itemId,
 			title: title,
-			height: height,
-			closable: closable,
+			height: params.height,
+			closable: params.closable,
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -173,14 +160,14 @@ $AMIClass('TabCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				if(this._cnt++ === 0 || active)
+				if(this._cnt++ === 0 || params.active)
 				{
 					this._getLinkEl(itemId).tab('show');
 				}
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				if($(`${tabSelector} > .nav-item`).length === 1 && firstVisible === false) {
+				if($(`${tabSelector} > .nav-item`).length === 1 && params.firstVisible === false) {
 					$(tabSelector).hide();
 				}
 				else {
@@ -189,7 +176,7 @@ $AMIClass('TabCtrl', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				result.resolveWith(context, [`#${itemId}`]);
+				result.resolveWith(params.context, [`#${itemId}`]);
 
 				/*----------------------------------------------------------------------------------------------------*/
 			});

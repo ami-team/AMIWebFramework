@@ -167,12 +167,64 @@ export function asArray(x)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+/* Setups a parameter context
+ * @param {Object<string, *>} immutables the dictionary of immutable values
+ * @param {Object<string, *>} defaults the dictionary of default values
+ * @param {Object<string, *>} options the dictionary of options
+ * @returns {Object<string, *>} The resulting parameter context
+ */
+
+export function setupParams(immutables, defaults, options)
+{
+	const result = {};
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	if(options)
+	{
+		for(let [key, val] of Object.entries(options))
+		{
+			result[key] = val;
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	if(defaults)
+	{
+		for(let [key, val] of Object.entries(defaults))
+		{
+			if(!(key in result))
+			{
+				result[key] = val;
+			}
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	if(immutables)
+	{
+		for(let [key, val] of Object.entries(immutables))
+		{
+			result[key] = val;
+		}
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	return result;
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 /**
  * @param {Array<string>} optionNames
  * @param {Array<*>} optionDefaults
  * @param {Object<string, *>} options
  * @returns {Array<*>}
  * @ignore
+ * @deprecated
  */
 
 export function setup(optionNames, optionDefaults, options)

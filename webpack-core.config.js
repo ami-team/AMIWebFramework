@@ -242,6 +242,7 @@ const config = {
 			'filename': 'assets/js/workers/[name].min.js',
 			'languages': [
 				'sql',
+				'shell',
 				'xml', 'json', 'yaml',
 				'text', 'html', 'markdown',
 				'javascript'

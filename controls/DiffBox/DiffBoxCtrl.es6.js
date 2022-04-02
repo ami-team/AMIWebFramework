@@ -55,18 +55,21 @@ $AMIClass('DiffBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(text1, text3, settings)
+	render: function(text1, text3, options)
 	{
 		const deferred = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [
-			context, title
-		] = amiWebApp.setup(
-			['context', 'title'],
-			[deferred, 'Diff box'],
-			settings
+		const params = amiWebApp.setupParams(
+			{
+				text1: text1,
+				text3: text3
+			}, {
+				context: deferred,
+				title: 'Diff box',
+			},
+			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -77,7 +80,7 @@ $AMIClass('DiffBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html1 = `<i class="line-number"></i> ${amiWebApp.textToHtml(text1).replace(/\n/g, '\n<i class="line-number"></i>')}`;
+		const html1 = `<i class="line-number"></i> ${amiWebApp.textToHtml(params.text1).replace(/\n/g, '\n<i class="line-number"></i>')}`;
 
 		$('#E94A7FE7_FEBC_AE12_0C13_E625FC2ADFE6').html(html1);
 
@@ -89,18 +92,18 @@ $AMIClass('DiffBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const html3 = `<i class="line-number"></i> ${amiWebApp.textToHtml(text3).replace(/\n/g, '\n<i class="line-number"></i>')}`;
+		const html3 = `<i class="line-number"></i> ${amiWebApp.textToHtml(params.text3).replace(/\n/g, '\n<i class="line-number"></i>')}`;
 
 		$('#C604C636_346F_64A8_3EBE_ADCDE2AEB343').html(html3);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#D12ACA0D_8E47_F13D_0DCD_E7D1ED5CA4AA').text(title);
+		$('#D12ACA0D_8E47_F13D_0DCD_E7D1ED5CA4AA').text(params.title);
 
 		$('#B8D42DF0_0D25_C818_1438_5BAD52BB9E0B').modal('show');
 
-		this.$class.deferred = deferred;
-		this.$class.context = context;
+		this.$class.deferred = /**/deferred/**/;
+		this.$class.context = params.context;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

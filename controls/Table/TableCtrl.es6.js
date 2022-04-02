@@ -395,27 +395,27 @@ $AMIClass('TableCtrl', {
 
 			$(this.patchId('#CD458FEC_9AD9_30E8_140F_263F119961BE')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.sql, {mode: 'sql'}]);
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.sql, {lang: 'sql'}]);
 			});
 
 			$(this.patchId('#F4F0EB6C_6535_7714_54F7_4BC28C254872')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.mql, {mode: 'sql'}]);
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.mql, {lang: 'sql'}]);
 			});
 
 			$(this.patchId('#EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command2.startsWith('BrowseQuery') ? `SearchQuery${this.ctx.command2.substring(11)}` : this.ctx.command2]);
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.command2.startsWith('BrowseQuery') ? `SearchQuery${this.ctx.command2.substring(11)}` : this.ctx.command2, {lang: 'shell'}]);
 			});
 
 			$(this.patchId('#D49853E2_9319_52C3_5253_A208F9500408')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'messageBox', [this.ctx.command.startsWith('BrowseQuery') ? `SearchQuery${this.ctx.command.substring(11)}` : this.ctx.command]);
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.command.startsWith('BrowseQuery') ? `SearchQuery${this.ctx.command.substring(11)}` : this.ctx.command, {lang: 'shell'}]);
 			});
 
 			$(this.patchId('#C50C3427_FEE5_F115_1FEC_6A6668763EC4')).click(() => {
 
-				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js, {mode: 'javascript'}]);
+				amiWebApp.createControl(this.getParent(), this, 'textBox', [this.ctx.js, {lang: 'javascript'}]);
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/
