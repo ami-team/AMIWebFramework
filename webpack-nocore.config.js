@@ -53,6 +53,8 @@ const config = {
 		'controls/Graph/GraphCtrl': path.resolve(__dirname, 'controls/Graph/GraphCtrl.es6.js'),
 		'controls/MediaViewer/MediaViewerCtrl': path.resolve(__dirname, 'controls/MediaViewer/MediaViewerCtrl.es6.js'),
 		'controls/MessageBox/MessageBoxCtrl': path.resolve(__dirname, 'controls/MessageBox/MessageBoxCtrl.es6.js'),
+		'controls/Schema/SchemaCtrl': path.resolve(__dirname, 'controls/Schema/SchemaCtrl.es6.js'),
+		'controls/Schema/joint.shapes.sql': path.resolve(__dirname, 'controls/Schema/joint.shapes.sql.es6.js'),
 		'controls/Search/SearchCtrl': path.resolve(__dirname, 'controls/Search/SearchCtrl.es6.js'),
 		'controls/SimpleSearch/SimpleSearchCtrl': path.resolve(__dirname, 'controls/SimpleSearch/SimpleSearchCtrl.es6.js'),
 		'controls/Tab/TabCtrl': path.resolve(__dirname, 'controls/Tab/TabCtrl.es6.js'),
@@ -67,6 +69,7 @@ const config = {
 		'subapps/ElementInfoViewer/ElementInfoViewerApp': path.resolve(__dirname, 'subapps/ElementInfoViewer/ElementInfoViewerApp.es6.js'),
 		'subapps/Emergency/EmergencyApp': path.resolve(__dirname, 'subapps/Emergency/EmergencyApp.es6.js'),
 		'subapps/ResetPassword/ResetPasswordApp': path.resolve(__dirname, 'subapps/ResetPassword/ResetPasswordApp.es6.js'),
+		'subapps/SchemaViewer/SchemaViewerApp': path.resolve(__dirname, 'subapps/SchemaViewer/SchemaViewerApp.es6.js'),
 		'subapps/Search/SearchApp': path.resolve(__dirname, 'subapps/Search/SearchApp.es6.js'),
 		'subapps/SimpleSearch/SimpleSearchApp': path.resolve(__dirname, 'subapps/SimpleSearch/SimpleSearchApp.es6.js'),
 		'subapps/TableViewer/TableViewerApp': path.resolve(__dirname, 'subapps/TableViewer/TableViewerApp.es6.js'),
@@ -76,6 +79,11 @@ const config = {
 		'filename': '[name].min.js',
 		'path': path.resolve(__dirname),
 		'assetModuleFilename': (o) => path.join(path.dirname(o.runtime), 'assets', 'images', '[hash][ext][query]')
+	},
+	'devServer': {
+		'static': {
+			'directory': path.join(__dirname, './'),
+		}
 	},
 	'module': {
 		'rules': [

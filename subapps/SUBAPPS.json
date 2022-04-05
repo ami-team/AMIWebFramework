@@ -56,6 +56,11 @@
         "file": "subapps/ResetPassword/ResetPasswordApp.min.js",
         "instance": "resetPasswordApp"
     },
+    "schemaViewer": {
+        "breadcrumb": [],
+        "file": "subapps/SchemaViewer/SchemaViewerApp.min.js",
+        "instance": "schemaViewerApp"
+    },
     "search": {
         "breadcrumb": [
             "Metadata",

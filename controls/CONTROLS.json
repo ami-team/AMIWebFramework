@@ -51,6 +51,10 @@
         "clazz": "MessageBoxCtrl",
         "file": "controls/MessageBox/MessageBoxCtrl.min.js"
     },
+    "schema": {
+        "clazz": "SchemaCtrl",
+        "file": "controls/Schema/SchemaCtrl.min.js"
+    },
     "search": {
         "clazz": "SearchCtrl",
         "file": "controls/Search/SearchCtrl.min.js"
