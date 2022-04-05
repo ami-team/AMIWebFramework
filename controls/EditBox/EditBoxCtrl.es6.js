@@ -73,24 +73,26 @@ $AMIClass('EditBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [
-			context, title
-		] = amiWebApp.setup(
-			['context', 'title'],
-			[deferred, 'Edit box'],
+		const params = amiWebApp.setupParams(
+			{
+				text: text
+			}, {
+				context: deferred,
+				title: 'Edit box',
+			},
 			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#D042A24A_4F19_BEF9_A843_15391EAD26A1').html(title);
+		$('#D042A24A_4F19_BEF9_A843_15391EAD26A1').html(params.title);
 
-		$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val(this.$class.origText = text || '');
+		$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10 textarea').val(this.$class.origText = params.text || '');
 
 		$('#F9BC65C1_07EB_2F56_E152_9B76DB218F10').modal('show');
 
-		this.$class.deferred = deferred;
-		this.$class.context = context;
+		this.$class.deferred = /**/deferred/**/;
+		this.$class.context = params.context;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

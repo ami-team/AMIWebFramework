@@ -163,12 +163,12 @@ def replaceStrInFile(fileName, oldStr, newStr):
 
     print('Patching `%s`...' % fileName)
 
-    with open(fileName, 'rt', encoding = 'utf-8') as f:
+    with open(fileName, mode = 'rt', encoding = 'utf-8') as f:
         txt = f.read()
 
     txt = txt.replace(oldStr, newStr, 1)
 
-    with open(fileName, 'wt', encoding = 'utf-8') as f:
+    with open(fileName, mode = 'wt', encoding = 'utf-8') as f:
         f.write(txt)
 
 ########################################################################################################################
@@ -179,7 +179,7 @@ def loadJSON(fileName):
 
     try:
 
-        with open(fileName, 'rt', encoding = 'utf-8') as f:
+        with open(fileName, mode = 'rt', encoding = 'utf-8') as f:
 
             return json.load(f)
 
@@ -193,7 +193,7 @@ def saveJSON(fileName, data):
 
     print('Saving `%s`...' % fileName)
 
-    with open(fileName, 'wt', encoding = 'utf-8') as f:
+    with open(fileName, mode = 'wt', encoding = 'utf-8') as f:
 
         f.write(json.dumps(data, indent = 4, sort_keys = True))
 
@@ -205,7 +205,7 @@ def loadText(fileName):
 
     try:
 
-        with open(fileName, 'rt', encoding = 'utf-8') as f:
+        with open(fileName, mode = 'rt', encoding = 'utf-8') as f:
 
             return f.read()
 
@@ -219,7 +219,7 @@ def saveText(fileName, data):
 
     print('Saving `%s`...' % fileName)
 
-    with open(fileName, 'wt', encoding = 'utf-8') as f:
+    with open(fileName, mode = 'wt', encoding = 'utf-8') as f:
 
         f.write(data)
 

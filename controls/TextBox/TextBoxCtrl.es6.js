@@ -63,29 +63,15 @@ $AMIClass('TextBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(text, options)
+	format: function(text, lang)
 	{
-		const deferred = $.Deferred();
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		const [
-			context, title, lang
-		] = amiWebApp.setup(
-			['context', 'title', 'lang'],
-			[deferred, 'Text box', 'text'],
-			options
-		);
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		if(lang === 'json')
 		{
 			try
 			{
-				if(amiWebApp.typeOf(text) !== 'String')
+				if(!amiWebApp.isString(text))
 				{
-					text = JSON.stringify(/*------*/(text), null, 2);
+					return JSON.stringify(/*------*/(text), null, 2);
 				}
 				else
 				{
@@ -93,11 +79,11 @@ $AMIClass('TextBoxCtrl', {
 
 					if(text && text.toUpperCase() !== '@NULL')
 					{
-						text = JSON.stringify(JSON.parse(text), null, 2);
+						return JSON.stringify(JSON.parse(text), null, 2);
 					}
 					else
 					{
-						text = 'null';
+						return 'null';
 					}
 				}
 			}
@@ -105,24 +91,47 @@ $AMIClass('TextBoxCtrl', {
 			{
 				amiWebApp.error('invalid JSON string', true);
 
-				text = 'null';
+				return 'null';
 			}
 		}
 
+		return text;
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	render: function(text, options)
+	{
+		const deferred = $.Deferred();
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#B6FA759D_D2DD_D079_B591_5023C422B87F').text(title);
+		const params = amiWebApp.setupParams(
+			{
+				text: text
+			}, {
+				context: deferred,
+				title: 'Text box',
+				lang: 'text'
+			},
+			options
+		);
 
-		const editor = $('#B8927006_7FCE_87BD_FC8D_C7575D69C362 .form-editor').val(text).data('editor');
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		$('#B6FA759D_D2DD_D079_B591_5023C422B87F').text(params.title);
+		$('#AF62E47C_F3A6_FEB6_A48B_CCD3BAFE6647').text(params.lang);
+
+		const editor = $('#B8927006_7FCE_87BD_FC8D_C7575D69C362 .form-editor').val(this.format(params.text, params.lang)).data('editor');
 
 		$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').modal('show');
 
-		this.$class.deferred = deferred;
-		this.$class.context = context;
+		this.$class.deferred = /**/deferred/**/;
+		this.$class.context = params.context;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		monaco.editor.setModelLanguage(editor.getModel(), lang);
+		monaco.editor.setModelLanguage(editor.getModel(), params.lang);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

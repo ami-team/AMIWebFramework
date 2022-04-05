@@ -13728,6 +13728,41 @@ function isMap(x) {
 function asArray(x) {
   return Array.isArray(x) ? x : [x];
 }
+function setupParams(immutables, defaults, options) {
+  var result = {};
+
+  if (options) {
+    for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
+      var _Object$entries$_i = _Object$entries[_i],
+          key = _Object$entries$_i[0],
+          val = _Object$entries$_i[1];
+      result[key] = val;
+    }
+  }
+
+  if (defaults) {
+    for (var _i2 = 0, _Object$entries2 = Object.entries(defaults); _i2 < _Object$entries2.length; _i2++) {
+      var _Object$entries2$_i = _Object$entries2[_i2],
+          _key = _Object$entries2$_i[0],
+          _val = _Object$entries2$_i[1];
+
+      if (!(_key in result)) {
+        result[_key] = _val;
+      }
+    }
+  }
+
+  if (immutables) {
+    for (var _i3 = 0, _Object$entries3 = Object.entries(immutables); _i3 < _Object$entries3.length; _i3++) {
+      var _Object$entries3$_i = _Object$entries3[_i3],
+          _key2 = _Object$entries3$_i[0],
+          _val2 = _Object$entries3$_i[1];
+      result[_key2] = _val2;
+    }
+  }
+
+  return result;
+}
 function setup(optionNames, optionDefaults, options) {
   var result = [];
   var l = optionNames.length;
@@ -13742,8 +13777,8 @@ function setup(optionNames, optionDefaults, options) {
       result.push(optionNames[i] in options ? options[optionNames[i]] : optionDefaults[i]);
     }
   } else {
-    for (var _i = 0; _i < l; _i++) {
-      result.push(optionDefaults[_i]);
+    for (var _i4 = 0; _i4 < l; _i4++) {
+      result.push(optionDefaults[_i4]);
     }
   }
 
@@ -18809,6 +18844,7 @@ var AMIWebApp = function () {
     this.isObject = isObject;
     this.isSet = isSet;
     this.isMap = isMap;
+    this.setupParams = setupParams;
     this.setup = setup;
     this.getStack = getStack;
     this.lock = lock;
@@ -18947,30 +18983,29 @@ var AMIWebApp = function () {
     var _this2 = this;
 
     AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].done(function () {
-      var _tools$setup = setup(['logo_url', 'background_url', 'sign_in_image_url', 'sign_in_text', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboards_allowed'], [logo, background, sign_in_image, 'Welcome in AMI', _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/blue.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", false, false, true, true, true, true, true, true, true, true, true, true], options),
+      var _tools$setup = setup(['logo_url', 'background_url', 'sign_in_image_url', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboards_allowed'], [logo, background, sign_in_image, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/blue.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", false, false, true, true, true, true, true, true, true, true, true, true], options),
           logoURL = _tools$setup[0],
           backgroundURL = _tools$setup[1],
           signInImageURL = _tools$setup[2],
-          signInText = _tools$setup[3],
-          homeURL = _tools$setup[4],
-          contactEmail = _tools$setup[5],
-          aboutURL = _tools$setup[6],
-          defaultThemeURL = _tools$setup[7],
-          dashboardThemeURL = _tools$setup[8],
-          lockerURL = _tools$setup[9],
-          endpointURL = _tools$setup[10],
-          ssoAutoAuthentication = _tools$setup[11],
-          ssoAuthenticationAllowed = _tools$setup[12],
-          passwordAuthenticationAllowed = _tools$setup[13],
-          certificateAuthenticationAllowed = _tools$setup[14],
-          logoutAllowed = _tools$setup[15],
-          createAccountAllowed = _tools$setup[16],
-          changeInfoAllowed = _tools$setup[17],
-          changePasswordAllowed = _tools$setup[18],
-          changeCertificateAllowed = _tools$setup[19],
-          captchaAllowed = _tools$setup[20],
-          bookmarksAllowed = _tools$setup[21],
-          dashboardsAllowed = _tools$setup[22];
+          homeURL = _tools$setup[3],
+          contactEmail = _tools$setup[4],
+          aboutURL = _tools$setup[5],
+          defaultThemeURL = _tools$setup[6],
+          dashboardThemeURL = _tools$setup[7],
+          lockerURL = _tools$setup[8],
+          endpointURL = _tools$setup[9],
+          ssoAutoAuthentication = _tools$setup[10],
+          ssoAuthenticationAllowed = _tools$setup[11],
+          passwordAuthenticationAllowed = _tools$setup[12],
+          certificateAuthenticationAllowed = _tools$setup[13],
+          logoutAllowed = _tools$setup[14],
+          createAccountAllowed = _tools$setup[15],
+          changeInfoAllowed = _tools$setup[16],
+          changePasswordAllowed = _tools$setup[17],
+          changeCertificateAllowed = _tools$setup[18],
+          captchaAllowed = _tools$setup[19],
+          bookmarksAllowed = _tools$setup[20],
+          dashboardsAllowed = _tools$setup[21];
 
       js_AMICommand.initHttpClient(endpointURL);
 
@@ -19031,7 +19066,7 @@ var AMIWebApp = function () {
               }).then(function (data4) {
                 $('body').append(formatTWIG(data3, dict) + data4).promise().done(function () {
                   lock();
-                  js_AMIAuth.init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
+                  js_AMIAuth.init(signInImageURL, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
                     unlock();
                   }).fail(function (message) {
                     error(message);
@@ -19062,7 +19097,7 @@ var AMIWebApp = function () {
             }).done(function (data4) {
               $('body').prepend(data3 + data4).promise().done(function () {
                 lock();
-                js_AMIAuth.init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
+                js_AMIAuth.init(signInImageURL, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
                   unlock();
                 }).fail(function (message) {
                   error(message);
@@ -19962,7 +19997,7 @@ var AMIWebApp = function () {
       "params": [{
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (logo_url, background_url, sign_in_image_url, sign_in_text, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed, dashboards_allowed)",
+        "desc": "dictionary of optional parameters (logo_url, background_url, sign_in_image_url, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed, dashboards_allowed)",
         "default": "{}",
         "optional": true,
         "nullable": ""

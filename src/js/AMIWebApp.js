@@ -55,6 +55,7 @@ import defaultSignInImageURL from '../images/sign_in_image.jpg';
  * @borrows isObject
  * @borrows isSet
  * @borrows isMap
+ * @borrows setupParams
  * @borrows setup
  * @borrows getStack
  * @borrows lock
@@ -363,6 +364,7 @@ class AMIWebApp
 	isSet = tools.isSet;
 	isMap = tools.isMap;
 
+	setupParams = tools.setupParams;
 	setup = tools.setup;
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -529,7 +531,7 @@ class AMIWebApp
 
 	/**
 	 * Starts the Web application
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (logo_url, background_url, sign_in_image_url, sign_in_text, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed, dashboards_allowed)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (logo_url, background_url, sign_in_image_url, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed, dashboards_allowed)
 	 * @returns {AMIWebApp}
 	 */
 
@@ -539,7 +541,7 @@ class AMIWebApp
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			const [
-				logoURL, backgroundURL, signInImageURL, signInText, homeURL, contactEmail, aboutURL,
+				logoURL, backgroundURL, signInImageURL, homeURL, contactEmail, aboutURL,
 				defaultThemeURL, dashboardThemeURL, lockerURL, endpointURL,
 				ssoAutoAuthentication,
 				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
@@ -547,7 +549,7 @@ class AMIWebApp
 				captchaAllowed,
 				bookmarksAllowed, dashboardsAllowed
 			] = tools.setup([
-				'logo_url', 'background_url', 'sign_in_image_url', 'sign_in_text', 'home_url', 'contact_email', 'about_url',
+				'logo_url', 'background_url', 'sign_in_image_url', 'home_url', 'contact_email', 'about_url',
 				'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url',
 				'sso_auto_authentication',
 				'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
@@ -555,7 +557,7 @@ class AMIWebApp
 				'captcha_allowed',
 				'bookmarks_allowed', 'dashboards_allowed',
 			], [
-				defaultLogoURL, defaultBackgroundURL, defaultSignInImageURL, 'Welcome in AMI', this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/',
+				defaultLogoURL, defaultBackgroundURL, defaultSignInImageURL, this.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/',
 				`${this.originURL}/twig/v${this.bootstrapVersion}/Themes/blue.twig`,
 				`${this.originURL}/twig/v${this.bootstrapVersion}/Themes/cloud.twig`,
 				`${this.originURL}/twig/v${this.bootstrapVersion}/Lockers/default.twig`,
@@ -641,7 +643,6 @@ class AMIWebApp
 
 									amiAuth.init(
 										signInImageURL,
-										signInText,
 										ssoAutoAuthentication,
 										ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 										createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
@@ -695,7 +696,6 @@ class AMIWebApp
 
 								amiAuth.init(
 									signInImageURL,
-									signInText,
 									ssoAutoAuthentication,
 									ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 									createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,

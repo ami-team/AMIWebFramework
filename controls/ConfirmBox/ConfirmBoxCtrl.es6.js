@@ -81,24 +81,26 @@ $AMIClass('ConfirmBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [
-			context, title
-		] = amiWebApp.setup(
-			['context', 'title'],
-			[deferred, 'Confirm box'],
+		const params = amiWebApp.setupParams(
+			{
+				text: text
+			}, {
+				context: deferred,
+				title: 'Confirm box',
+			},
 			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#DF8EBE84_FA77_2711_8EB5_4B3213739A54').html(title);
+		$('#DF8EBE84_FA77_2711_8EB5_4B3213739A54').html(params.title);
 
-		$('#DCDB367E_FB67_A957_68AC_B54038F860DB .modal-body').text(text || '');
+		$('#DCDB367E_FB67_A957_68AC_B54038F860DB .modal-body').text(params.text || '');
 
 		$('#DCDB367E_FB67_A957_68AC_B54038F860DB').modal('show');
 
-		this.$class.deferred = deferred;
-		this.$class.context = context;
+		this.$class.deferred = /**/deferred/**/;
+		this.$class.context = params.context;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

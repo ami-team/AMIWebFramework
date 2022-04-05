@@ -63,30 +63,32 @@ $AMIClass('MessageBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(text, settings)
+	render: function(text, options)
 	{
 		const deferred = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [
-			context, title
-		] = amiWebApp.setup(
-			['context', 'title'],
-			[deferred, 'Message box'],
-			settings
+		const params = amiWebApp.setupParams(
+			{
+				text: text
+			}, {
+				context: deferred,
+				title: 'Message box',
+			},
+			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		$('#ADCD09FF_5A30_AC10_397D_1F213001977E').html(title);
+		$('#ADCD09FF_5A30_AC10_397D_1F213001977E').html(params.title);
 
-		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(text || '');
+		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548 .modal-body').text(params.text || '');
 
 		$('#E7C0EB6B_4C9E_BA8D_7FDA_F23F47DA8548').modal('show');
 
-		this.$class.deferred = deferred;
-		this.$class.context = context;
+		this.$class.deferred = /**/deferred/**/;
+		this.$class.context = params.context;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

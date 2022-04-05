@@ -94,27 +94,14 @@ $AMIClass('AccordionCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [
-			context,
-			show,
-			clazz,
-			extraTitle,
-			closable,
-		] = amiWebApp.setup(
-			[
-				'context',
-				'show',
-				'clazz',
-				'extraTitle',
-				'closable',
-			],
-			[
-				result,
-				false,
-				this.ctx.clazz,
-				'<span class="extraTitle"></span>',
-				this.ctx.closable,
-			],
+		const params = amiWebApp.setupParams(
+			{}, {
+				context: result,
+				show: false,
+				clazz: this.ctx.clazz,
+				extraTitle: '<span class="extraTitle"></span>',
+				closable: this.ctx.closable,
+			},
 			options
 		);
 
@@ -124,10 +111,10 @@ $AMIClass('AccordionCtrl', {
 
 		const dict = {
 			id: itemId,
-			clazz: clazz,
 			title: title,
-			extraTitle: extraTitle,
-			closable: closable,
+			clazz: params.clazz,
+			extraTitle: params.extraTitle,
+			closable: params.closable,
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -149,14 +136,14 @@ $AMIClass('AccordionCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			if(show)
+			if(params.show)
 			{
 				$(`#${itemId}_collapse`).collapse('show');
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			result.resolveWith(context, [`#${itemId}_collapse`]);
+			result.resolveWith(params.context, [`#${itemId}_collapse`]);
 
 			/*--------------------------------------------------------------------------------------------------------*/
 		});
