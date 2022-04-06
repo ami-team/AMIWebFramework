@@ -118,7 +118,7 @@ $AMIClass('SchemaCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.graph = new dia.Graph({}, {cellNamespace: shapes.sql});
+		this.graph = new dia.Graph({}, {cellNamespace: shapes, cellViewNamespace: shapes});
 
 		this.paper = new dia.Paper({
 			model: this.graph,

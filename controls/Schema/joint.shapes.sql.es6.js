@@ -106,11 +106,11 @@ Object.assign(shapes, {
 });
 */
 
-shapes.sql  /*  */= {};
+/*shapes.sql = {};*/
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-shapes.sql.Entity = dia.Element.define('sql.Entity', {
+shapes.Entity = dia.Element.define('Entity', {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	entity: 'N/A',
@@ -410,7 +410,7 @@ shapes.sql.Entity = dia.Element.define('sql.Entity', {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-shapes.sql.EntityView = dia.ElementView.extend({
+shapes.EntityView = dia.ElementView.extend({
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	initialize: function()
@@ -486,7 +486,7 @@ shapes.sql.EntityView = dia.ElementView.extend({
 
 dia.Graph.prototype.newEntity = function(entity)
 {
-	const result = new shapes.sql.Entity(entity);
+	const result = new shapes.Entity(entity);
 
 	this.addCell(result);
 
