@@ -21,7 +21,7 @@ import './joint.shapes.sql.es6.js';
 
 import { saveAs } from 'file-saver';
 
-import { dia } from 'jointjs';
+import { dia, shapes } from 'jointjs';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -118,7 +118,7 @@ $AMIClass('SchemaCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.graph = new dia.Graph();
+		this.graph = new dia.Graph({}, {cellNamespace: shapes});
 
 		this.paper = new dia.Paper({
 			model: this.graph,

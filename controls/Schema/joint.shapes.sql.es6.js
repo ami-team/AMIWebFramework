@@ -137,10 +137,10 @@ shapes.sql.Entity = dia.Element.define('sql.Entity', {
 		/*------------------------------------------------------------------------------------------------------------*/
 		'.sql-entity-show-text': {
 			'ref-x': '2%',
-			'ref-y': 5.0,
+			'ref-y': 8.0,
 			'text-anchor': 'start',
 			'fill': 'white',
-			'font-family': 'FontAwesome',
+			'font-family': 'bootstrap-icons',
 			'font-weight': 'normal',
 			'font-size': 12,
 		},
@@ -155,10 +155,10 @@ shapes.sql.Entity = dia.Element.define('sql.Entity', {
 		},
 		'.sql-entity-edit-text': {
 			'ref-x': '98%',
-			'ref-y': 5.0,
+			'ref-y': 8.0,
 			'text-anchor': 'end',
 			'fill': 'white',
-			'font-family': 'FontAwesome',
+			'font-family': 'bootstrap-icons',
 			'font-weight': 'normal',
 			'font-size': 12,
 		},
@@ -295,7 +295,7 @@ shapes.sql.Entity = dia.Element.define('sql.Entity', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.attr('.sql-entity-show-text/text', this.get('showShowTool') ? ''
+		this.attr('.sql-entity-show-text/text', this.get('showShowTool') ? '\uF52A'
 		                                                                : ''
 		);
 
@@ -307,7 +307,7 @@ shapes.sql.Entity = dia.Element.define('sql.Entity', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.attr('.sql-entity-edit-text/text', this.get('showEditTool') ? ''
+		this.attr('.sql-entity-edit-text/text', this.get('showEditTool') ? '\uF4CB'
 		                                                                : ''
 		);
 
