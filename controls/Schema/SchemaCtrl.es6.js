@@ -266,9 +266,9 @@ $AMIClass('SchemaCtrl', {
 							y = schema[entity].y;
 							color = schema[entity].color;
 						}
-						let hhh = null;
+
 						entities[entity] = {
-							entity: hhh = this.graph.newEntity({
+							entity: this.graph.newEntity({
 								position: {
 									x: x,
 									y: y,
@@ -280,8 +280,6 @@ $AMIClass('SchemaCtrl', {
 							}),
 							fields: [],
 						};
-
-						alert(this.paper.findViewByModel(hhh).renderMarkup);
 					}
 
 					if(!(field in entities[entity]['fields']))
