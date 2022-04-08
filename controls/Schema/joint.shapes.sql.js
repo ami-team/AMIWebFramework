@@ -11,7 +11,7 @@
 
 import _ from 'lodash';
 
-import { V, dia, shapes } from 'jointjs';
+import * as joint from 'jointjs';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -67,8 +67,8 @@ function _intToStr(v)
 		const V = v.toString(16);
 
 		return (v < 16) ? '0' + V
-		                : /*-*/ V
-		;
+			: /*-*/ V
+			;
 	}
 
 	return 0;
@@ -97,20 +97,14 @@ function _getStroke(color)
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-/*
-Object.assign(shapes, {
-    sql: {
-		//Entity,
-		//EntityView,
-    }
-});
-*/
 
-/*shapes.sql = {};*/
+joint.shapes.sql = {
+
+};
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-shapes.Entity = dia.Element.define('Entity', {
+joint.shapes.sql.Entity = joint.dia.Element.define('sql.Entity', {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	entity: 'N/A',
@@ -184,16 +178,16 @@ shapes.Entity = dia.Element.define('Entity', {
 
 	markup: [
 		'<g>',
-			'<path class="sql-entity-top" />',
-			'<path class="sql-entity-body" />',
-			'<a class="sql-entity-show-link" xlink:href="#" data-entity="">',
-				'<text class="sql-entity-show-text" />',
-			'</a>',
-			'<text class="sql-entity-name-text" />',
-			'<a class="sql-entity-edit-link" xlink:href="#" data-entity="">',
-				'<text class="sql-entity-edit-text" />',
-			'</a>',
-			'<g class="sql-fields"></g>',
+		'<path class="sql-entity-top" />',
+		'<path class="sql-entity-body" />',
+		'<a class="sql-entity-show-link" xlink:href="#" data-entity="">',
+		'<text class="sql-entity-show-text" />',
+		'</a>',
+		'<text class="sql-entity-name-text" />',
+		'<a class="sql-entity-edit-link" xlink:href="#" data-entity="">',
+		'<text class="sql-entity-edit-text" />',
+		'</a>',
+		'<g class="sql-fields"></g>',
 		'</g>',
 	].join(''),
 
@@ -201,9 +195,9 @@ shapes.Entity = dia.Element.define('Entity', {
 
 	fieldMarkup: [
 		'<g class="sql-field">',
-			'<a class="sql-field-link" xlink:href="#" data-entity="" data-field="">',
-				'<text class="sql-field-text">N/A</text>',
-			'</a>',
+		'<a class="sql-field-link" xlink:href="#" data-entity="" data-field="">',
+		'<text class="sql-field-text">N/A</text>',
+		'</a>',
 		'</g>'
 	].join(''),
 
@@ -211,7 +205,7 @@ shapes.Entity = dia.Element.define('Entity', {
 
 	initialize: function()
 	{
-		dia.Element.prototype.initialize.apply(this, arguments);
+		joint.dia.Element.prototype.initialize.apply(this, arguments);
 
 		this.on('change:entity', this.onEntityChange, this);
 		this.on('change:showShowTool', this.onEntityChange, this);
@@ -296,19 +290,19 @@ shapes.Entity = dia.Element.define('Entity', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.attr('.sql-entity-show-text/text', this.get('showShowTool') ? '\uF52A'
-		                                                                : ''
+			: ''
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.attr('.sql-entity-name-text/text', entity.length > 23 ? entity.substring(0, 21) + '…'
-		                                                         : entity
+		                                                           : entity
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.attr('.sql-entity-edit-text/text', this.get('showEditTool') ? '\uF4CB'
-		                                                                : ''
+		                                                                 : ''
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -373,10 +367,10 @@ shapes.Entity = dia.Element.define('Entity', {
 				text = '🔑' + text;
 			}
 			if(field.automatic
-			   ||
-			   field.created || field.createdBy
-			   ||
-			   field.modified || field.modifiedBy
+				||
+				field.created || field.createdBy
+				||
+				field.modified || field.modifiedBy
 			 ) {
 				text = '⚙️' + text;
 			}
@@ -410,14 +404,14 @@ shapes.Entity = dia.Element.define('Entity', {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-shapes.EntityView = dia.ElementView.extend({
+joint.shapes.sql.EntityView = joint.dia.ElementView.extend({
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	initialize: function()
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		dia.ElementView.prototype.initialize.apply(this, arguments);
+		joint.dia.ElementView.prototype.initialize.apply(this, arguments);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -432,11 +426,11 @@ shapes.EntityView = dia.ElementView.extend({
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		dia.ElementView.prototype.renderMarkup.apply(this, arguments);
+		joint.dia.ElementView.prototype.renderMarkup.apply(this, arguments);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.src = V(this.model.fieldMarkup);
+		this.src = joint.V(this.model.fieldMarkup);
 
 		this.dst = this.$('.sql-fields');
 
@@ -464,7 +458,7 @@ shapes.EntityView = dia.ElementView.extend({
 			clone.attr('transform', 'translate(0, ' + field.offset + ')');
 
 			clone.find('.sql-field-link')[0].attr('data-entity', field.entity)
-			                                .attr('data-field', field.field)
+			.attr('data-field', field.field)
 			;
 
 			clone.find('.sql-field-text')[0].text(field.text);
@@ -484,9 +478,9 @@ shapes.EntityView = dia.ElementView.extend({
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-dia.Graph.prototype.newEntity = function(entity)
+joint.dia.Graph.prototype.newEntity = function(entity)
 {
-	const result = new shapes.Entity(entity);
+	const result = new joint.shapes.sql.Entity(entity);
 
 	this.addCell(result);
 
@@ -495,9 +489,9 @@ dia.Graph.prototype.newEntity = function(entity)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-dia.Graph.prototype.newForeignKey = function(fkEntityId, pkEntityId)
+joint.dia.Graph.prototype.newForeignKey = function(fkEntityId, pkEntityId)
 {
-	const result = new dia.Link({
+	const result = new joint.dia.Link({
 		source: {id: fkEntityId},
 		target: {id: pkEntityId},
 		attrs: {

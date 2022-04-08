@@ -54,7 +54,7 @@ const config = {
 		'controls/MediaViewer/MediaViewerCtrl': path.resolve(__dirname, 'controls/MediaViewer/MediaViewerCtrl.es6.js'),
 		'controls/MessageBox/MessageBoxCtrl': path.resolve(__dirname, 'controls/MessageBox/MessageBoxCtrl.es6.js'),
 		'controls/Schema/SchemaCtrl': path.resolve(__dirname, 'controls/Schema/SchemaCtrl.es6.js'),
-		'controls/Schema/joint.shapes.sql': path.resolve(__dirname, 'controls/Schema/joint.shapes.sql.es6.js'),
+		'controls/Schema/joint.shapes.sql': path.resolve(__dirname, 'controls/Schema/joint.shapes.sql.js'),
 		'controls/Search/SearchCtrl': path.resolve(__dirname, 'controls/Search/SearchCtrl.es6.js'),
 		'controls/SimpleSearch/SimpleSearchCtrl': path.resolve(__dirname, 'controls/SimpleSearch/SimpleSearchCtrl.es6.js'),
 		'controls/Tab/TabCtrl': path.resolve(__dirname, 'controls/Tab/TabCtrl.es6.js'),

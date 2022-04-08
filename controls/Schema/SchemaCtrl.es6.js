@@ -15,13 +15,11 @@ import twigSchemaCtrl from './assets/twig/SchemaCtrl.twig';
 
 import jsonDatatype from './assets/json/datatype.json';
 
-import './joint.shapes.sql.es6.js';
-
-/* 3rd Party */
+import './joint.shapes.sql.js';
 
 import { saveAs } from 'file-saver';
 
-import { dia, shapes } from 'jointjs';
+import * as joint from 'jointjs';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -35,6 +33,8 @@ $AMIClass('SchemaCtrl', {
 	$init: function(parent, owner)
 	{
 		this.$super.$init(parent, owner);
+
+		window.joint = joint;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -118,20 +118,14 @@ $AMIClass('SchemaCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		this.graph = new dia.Graph({}, {cellNamespace: shapes, cellViewNamespace: shapes});
+		this.graph = new joint.dia.Graph();
 
-		this.paper = new dia.Paper({
+		this.paper = new joint.dia.Paper({
 			model: this.graph,
 			el: el2,
-			width: 1,
-			height: 1,
+			width: 100,
+			height: 100,
 			gridSize: 5.0,
-			drawGrid: {
-				name: 'dot',
-				args: [
-					{color: 'red', scaleFactor: 2, thickness: 1},
-				]
-			}
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -181,14 +175,14 @@ $AMIClass('SchemaCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	_refresh: function(result, catalog, settings)
+	_refresh: function(result, catalog, options)
 	{
 		this._currentCatalog = catalog;
 
 		const [context, _width, _height, _showShowTool, _showEditTool] = amiWebApp.setup(
 			['context', 'width', 'height', 'showShowTool', 'showEditTool'],
 			[result, 2000, 2000, false, false],
-			settings
+			options
 		);
 
 		this._width = _width;
@@ -272,9 +266,9 @@ $AMIClass('SchemaCtrl', {
 							y = schema[entity].y;
 							color = schema[entity].color;
 						}
-
+						let hhh = null;
 						entities[entity] = {
-							entity: this.graph.newEntity({
+							entity: hhh = this.graph.newEntity({
 								position: {
 									x: x,
 									y: y,
@@ -286,6 +280,8 @@ $AMIClass('SchemaCtrl', {
 							}),
 							fields: [],
 						};
+
+						alert(this.paper.findViewByModel(hhh).renderMarkup);
 					}
 
 					if(!(field in entities[entity]['fields']))
@@ -386,7 +382,7 @@ $AMIClass('SchemaCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	refresh: function(catalog, settings)
+	refresh: function(catalog, options)
 	{
 		const result = $.Deferred();
 
@@ -396,7 +392,7 @@ $AMIClass('SchemaCtrl', {
 			this._entities = amiWebApp.jspath('..rowset{.@type==="entities"}.row', data) || [];
 			this._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data) || [];
 
-			this._refresh(result, catalog, settings);
+			this._refresh(result, catalog, options);
 		});
 
 		return result.promise();
@@ -469,7 +465,7 @@ $AMIClass('SchemaCtrl', {
 
 		const w = window.open('', '', 'height=' + svg.height() + ', width=' + svg.width() + ', toolbar=no');
 
-		w.document.write('<html><head><style>body { margin: 10px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap, .sql-entity-link { display: none; } .connection { fill: none; }</style></head><body>' + $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').html() + '</body></html>');
+		w.document.write('<html lang="en"><head><title>Catalog</title><style>body { margin: 10px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap, .sql-entity-link { display: none; } .connection { fill: none; }</style></head><body>' + $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').html() + '</body></html>');
 
 		w.print();
 		w.close();
@@ -622,7 +618,7 @@ $AMIClass('SchemaCtrl', {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-SchemaCtrl.resetEntity = function()
+window.SchemaCtrl.resetEntity = function()
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -660,7 +656,7 @@ SchemaCtrl.resetEntity = function()
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-SchemaCtrl.applyEntity = function()
+window.SchemaCtrl.applyEntity = function()
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -709,7 +705,7 @@ SchemaCtrl.applyEntity = function()
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-SchemaCtrl.resetField = function()
+window.SchemaCtrl.resetField = function()
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -747,7 +743,7 @@ SchemaCtrl.resetField = function()
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-SchemaCtrl.applyField = function()
+window.SchemaCtrl.applyField = function()
 {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
