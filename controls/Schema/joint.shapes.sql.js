@@ -67,8 +67,8 @@ function _intToStr(v)
 		const V = v.toString(16);
 
 		return (v < 16) ? '0' + V
-			: /*-*/ V
-			;
+		                : /*-*/ V
+		;
 	}
 
 	return 0;
@@ -98,9 +98,7 @@ function _getStroke(color)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-joint.shapes.sql = {
-
-};
+joint.shapes.sql = {};
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -367,10 +365,10 @@ joint.shapes.sql.Entity = joint.dia.Element.define('sql.Entity', {
 				text = '🔑' + text;
 			}
 			if(field.automatic
-				||
-				field.created || field.createdBy
-				||
-				field.modified || field.modifiedBy
+			   ||
+			   field.created || field.createdBy
+			   ||
+			   field.modified || field.modifiedBy
 			 ) {
 				text = '⚙️' + text;
 			}
@@ -458,7 +456,7 @@ joint.shapes.sql.EntityView = joint.dia.ElementView.extend({
 			clone.attr('transform', 'translate(0, ' + field.offset + ')');
 
 			clone.find('.sql-field-link')[0].attr('data-entity', field.entity)
-			.attr('data-field', field.field)
+			                                .attr('data-field', field.field)
 			;
 
 			clone.find('.sql-field-text')[0].text(field.text);
