@@ -13,13 +13,13 @@ import './assets/css/SchemaCtrl.css';
 
 import twigSchemaCtrl from './assets/twig/SchemaCtrl.twig';
 
-import jsonDatatype from './assets/json/datatype.json';
-
-import './joint.shapes.sql.js';
-
 import { saveAs } from 'file-saver';
 
+import 'jointjs/dist/joint.min.css';
+
 import * as joint from 'jointjs';
+
+import './joint.shapes.sql.js';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -41,10 +41,7 @@ $AMIClass('SchemaCtrl', {
 
 	onReady: function()
 	{
-
-		amiWebApp.appendHTML('body', twigSchemaCtrl).done(() => {
-
-			/*----------------------------------------------------------------------------------------------------*/
+		amiWebApp.appendHTML('body', twigSchemaCtrl, {dict: {controls: amiWebApp._controls}}).done(() => {
 
 			this._fields = null;
 			this._foreignKeys = null;
@@ -52,50 +49,30 @@ $AMIClass('SchemaCtrl', {
 			this._currentCell = null;
 			this._currentCatalog = null;
 
-			/*----------------------------------------------------------------------------------------------------*/
-
-			const L = ['<option value="@NULL">NONE</option>'];
-
-			for(const dataType in jsonDatatype)
-			{
-				L.push('<option value="' + amiWebApp.textToHtml(dataType) + '">' + amiWebApp.textToHtml(jsonDatatype[dataType]) + '</option>');
-			}
-
-			$('#CE54048D_702D_0132_4659_9E558BE2AC11').html(L.join('')).select2({
+			$('#CE54048D_702D_0132_4659_9E558BE2AC11').select2({
 				allowClear: true,
 				placeholder: 'Choose a media type',
 				dropdownParent: $('#B0BEB5C7_8978_7433_F076_A55D2091777C .modal-body')
 			});
 
-			/*----------------------------------------------------------------------------------------------------*/
-
-			const M = ['<option value="@NULL">NONE</option>'];
-
-			for(const controlName in amiWebApp._controls)
-			{
-				M.push('<option value="' + amiWebApp.textToHtml(controlName) + '">' + amiWebApp.textToHtml(controlName) + '</option>');
-			}
-
-			$('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').html(M.join('')).select2({
+			$('#F3F31D1D_6B74_F457_4FDC_1887A57ED3DF').select2({
 				allowClear: true,
 				placeholder: 'Choose a control',
 				dropdownParent: $('#B0BEB5C7_8978_7433_F076_A55D2091777C .modal-body')
 			});
-
-			/*----------------------------------------------------------------------------------------------------*/
 		});
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(selector, settings)
+	render: function(selector, options)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		const [_onFocus, _onBlur] = amiWebApp.setup(
 			['onFocus', 'onBlur'],
 			[null, null],
-			settings
+			options
 		);
 
 		this._onFocus = _onFocus;
@@ -103,7 +80,7 @@ $AMIClass('SchemaCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let el1 = $(this.setSelector(selector));
+		const el1 = $(this.setSelector(selector));
 
 		el1.css('box-shadow', '0px 1px 0px rgba(255, 255, 255, 0.15) inset, 0 1px 5px rgba(0, 0, 0, 0.075)');
 		el1.css('border', '1px solid rgb(231, 231, 231)');
@@ -114,7 +91,7 @@ $AMIClass('SchemaCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		let el2 = $('<div class="ami-schema"></div>').appendTo(el1);
+		const el2 = $('<div class="ami-schema"></div>').appendTo(el1);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -126,6 +103,12 @@ $AMIClass('SchemaCtrl', {
 			width: 100,
 			height: 100,
 			gridSize: 5.0,
+			drawGrid: {
+				name: 'dot',
+				args: [
+					{color: 'red', scaleFactor: 2, thickness: 1},
+				],
+			},
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -133,7 +116,7 @@ $AMIClass('SchemaCtrl', {
 		this.paper.on({
 			'cell:pointerclick': (cellView) => {
 
-				$('g[model-id]').removeClass('ami-schema-shadow').filter('[model-id="' + cellView.model.id + '"]').addClass('ami-schema-shadow');
+				$('g[model-id]').removeClass('ami-schema-shadow').filter(`[model-id="${cellView.model.id}"]`).addClass('ami-schema-shadow');
 
 				this._currentCell = cellView.model;
 
@@ -155,7 +138,7 @@ $AMIClass('SchemaCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		return this.refresh(null, settings);
+		return $.Deferred().resolve().promise();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	},
@@ -303,7 +286,7 @@ $AMIClass('SchemaCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this.getSelector() + ' a.sql-entity-show-link').click((e) => {
+			$(`${this.getSelector()} a.sql-entity-show-link`).click((e) => {
 
 				e.preventDefault();
 
@@ -316,7 +299,7 @@ $AMIClass('SchemaCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this.getSelector() + ' a.sql-entity-edit-link').click((e) => {
+			$(`${this.getSelector()} a.sql-entity-edit-link`).click((e) => {
 
 				e.preventDefault();
 
@@ -329,7 +312,7 @@ $AMIClass('SchemaCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			$(this.getSelector() + ' a.sql-field-link').click((e) => {
+			$(`${this.getSelector()} a.sql-field-link`).click((e) => {
 
 				e.preventDefault();
 
@@ -533,7 +516,7 @@ $AMIClass('SchemaCtrl', {
 			return;
 		}
 
-		amiCommand.execute('GetFieldInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '" -field="' + amiWebApp.textToString(field) + '"').done((data) => {
+		amiCommand.execute('GetFieldInfo -catalog=? -entity=? -field=?', {params: [catalog, entity, field]}).done((data) => {
 
 			$('#A1AA5034_F183_9365_2D09_DF80F1775C95').text(catalog);
 			$('#C52644CB_45E9_586E_DF23_38DD69147735').text(entity);
@@ -550,6 +533,7 @@ $AMIClass('SchemaCtrl', {
 
 			const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', data)[0] || 'false';
 			const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', data)[0] || 'false';
+			const hashed = amiWebApp.jspath('..field{.@name==="hashed"}.$', data)[0] || 'false';
 			const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', data)[0] || 'false';
 			const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', data)[0] || 'false';
 			const json = amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || 'false';
@@ -579,6 +563,7 @@ $AMIClass('SchemaCtrl', {
 
 			$('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked', hidden === 'true');
 			$('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked', adminOnly === 'true');
+			$('#AB8FF40A_4D44_56B5_DCBC_1A0E877E10F5').prop('checked', hashed === 'true');
 			$('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked', crypted === 'true');
 			$('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked', primary === 'true');
 			$('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked', json === 'true');

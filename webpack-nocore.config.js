@@ -39,7 +39,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 const config = {
-	'entry': {
+	'entry': {/*
 		'controls/Accordion/AccordionCtrl': path.resolve(__dirname, 'controls/Accordion/AccordionCtrl.es6.js'),
 		'controls/Adder/AdderCtrl': path.resolve(__dirname, 'controls/Adder/AdderCtrl.es6.js'),
 		'controls/BookmarkBox/BookmarkBoxCtrl': path.resolve(__dirname, 'controls/BookmarkBox/BookmarkBoxCtrl.es6.js'),
@@ -54,7 +54,6 @@ const config = {
 		'controls/MediaViewer/MediaViewerCtrl': path.resolve(__dirname, 'controls/MediaViewer/MediaViewerCtrl.es6.js'),
 		'controls/MessageBox/MessageBoxCtrl': path.resolve(__dirname, 'controls/MessageBox/MessageBoxCtrl.es6.js'),
 		'controls/Schema/SchemaCtrl': path.resolve(__dirname, 'controls/Schema/SchemaCtrl.es6.js'),
-		'controls/Schema/joint.shapes.sql': path.resolve(__dirname, 'controls/Schema/joint.shapes.sql.js'),
 		'controls/Search/SearchCtrl': path.resolve(__dirname, 'controls/Search/SearchCtrl.es6.js'),
 		'controls/SimpleSearch/SimpleSearchCtrl': path.resolve(__dirname, 'controls/SimpleSearch/SimpleSearchCtrl.es6.js'),
 		'controls/Tab/TabCtrl': path.resolve(__dirname, 'controls/Tab/TabCtrl.es6.js'),
@@ -73,7 +72,9 @@ const config = {
 		'subapps/Search/SearchApp': path.resolve(__dirname, 'subapps/Search/SearchApp.es6.js'),
 		'subapps/SimpleSearch/SimpleSearchApp': path.resolve(__dirname, 'subapps/SimpleSearch/SimpleSearchApp.es6.js'),
 		'subapps/TableViewer/TableViewerApp': path.resolve(__dirname, 'subapps/TableViewer/TableViewerApp.es6.js'),
-		'subapps/UserDashboard/UserDashboardApp': path.resolve(__dirname, 'subapps/UserDashboard/UserDashboardApp.es6.js')
+		'subapps/UserDashboard/UserDashboardApp': path.resolve(__dirname, 'subapps/UserDashboard/UserDashboardApp.es6.js')*/
+		'controls/Schema/SchemaCtrl': path.resolve(__dirname, 'controls/Schema/SchemaCtrl.es6.js'),
+		'subapps/SchemaViewer/SchemaViewerApp': path.resolve(__dirname, 'subapps/SchemaViewer/SchemaViewerApp.es6.js'),
 	},
 	'output': {
 		'filename': '[name].min.js',

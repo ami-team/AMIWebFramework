@@ -18,7 +18,7 @@
     "ami-http-client": "git+https://github.com/ami-team/AMIHTTPClientJS.git",
     "ami-mqtt-client": "git+https://github.com/ami-team/AMIMQTTClientJS.git",
     "ami-twig": "github:ami-team/AMITwigJS",
-    "bootstrap-icons": "1.7.2",
+    "bootstrap-icons": "1.8.1",
     "bootstrap4": "npm:bootstrap@4.6.0",
     "bootstrap5": "npm:bootstrap@5.1.3",
     "clipboard": "2.0.8",

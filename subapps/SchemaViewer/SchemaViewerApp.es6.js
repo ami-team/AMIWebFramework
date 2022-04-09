@@ -13,8 +13,6 @@ import './assets/css/SchemaViewerApp.css';
 
 import twigSchemaViewerApp from './assets/twig/SchemaViewerApp.twig';
 
-import Color from 'jscolor';
-
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 $AMIClass('SchemaViewerApp', {
@@ -48,12 +46,6 @@ $AMIClass('SchemaViewerApp', {
 			amiWebApp.replaceHTML('#ami_main_content', twigSchemaViewerApp, {dict: {command: userdata}}).done(() => {
 
 				/*----------------------------------------------------------------------------------------------------*/
-				/* COLOR PICKER                                                                                       */
-				/*----------------------------------------------------------------------------------------------------*/
-
-				this.colorPicker = new Color('F542C5DA_46FD_6A57_76CB_9A6A949E7F39', {hash: true});
-
-				/*----------------------------------------------------------------------------------------------------*/
 				/* DROP ZONE                                                                                          */
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -78,13 +70,13 @@ $AMIClass('SchemaViewerApp', {
 					onFocus: (cell) => {
 
 						if(cell) {
-							this.colorPicker.fromString(cell.getColor());
+							$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').val(cell.getColor());
 						}
 					},
 					onBlur: () => {
 
 						/*----*/ {
-							this.colorPicker.fromString(((('#0066CC'))));
+							$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').val(((('#0066CC'))));
 						}
 					},
 				}).done(() => {
