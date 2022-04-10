@@ -98,11 +98,7 @@ function _getStroke(color)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-joint.shapes.sql = {};
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-joint.shapes.sql.Entity = joint.dia.Element.define('sql.Entity', {
+export const Entity = joint.dia.Element.define('sql.Entity', {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	entity: 'N/A',
@@ -402,7 +398,7 @@ joint.shapes.sql.Entity = joint.dia.Element.define('sql.Entity', {
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-joint.shapes.sql.EntityView = joint.dia.ElementView.extend({
+export const EntityView = joint.dia.ElementView.extend({
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	initialize: function()
@@ -476,9 +472,16 @@ joint.shapes.sql.EntityView = joint.dia.ElementView.extend({
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+joint.shapes.sql = {
+	Entity: Entity,
+	EntityView: EntityView,
+};
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 joint.dia.Graph.prototype.newEntity = function(entity)
 {
-	const result = new joint.shapes.sql.Entity(entity);
+	const result = new Entity(entity);
 
 	this.addCell(result);
 
@@ -493,9 +496,15 @@ joint.dia.Graph.prototype.newForeignKey = function(fkEntityId, pkEntityId)
 		source: {id: fkEntityId},
 		target: {id: pkEntityId},
 		attrs: {
-			'.connection': {'stroke': '#707070', 'stroke-width': 3},
-			'.marker-source': {'stroke': '#707070', 'fill': '#707070', 'd': 'm 14.456044,15.990164 1.23e-4,7.500564 0,-7.179668 -9.0002053,5.179668 0,-11.000206 9.0000823,5.178745 1.23e-4,-7.178745 z'}
-		}
+			'.link-tools': {display: 'none'},
+			'.tool-options': {display: 'none'},
+			'.marker-vertex': {display: 'none'},
+			'.connection-wrap': {display: 'none'},
+			'.marker-arrowheads': {display: 'none'},
+			/**/
+			'.connection': {'stroke': '#707070', 'fill': '#FFFFFF', 'stroke-width': 3},
+			'.marker-source': {'stroke': '#707070', 'fill': '#707070', 'd': 'm 14.456044,15.990164 1.23e-4,7.500564 0,-7.179668 -9.0002053,5.179668 0,-11.000206 9.0000823,5.178745 1.23e-4,-7.178745 z'},
+		},
 	});
 
 	this.addCell(result);

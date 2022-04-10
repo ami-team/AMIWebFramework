@@ -69,13 +69,13 @@ $AMIClass('SchemaViewerApp', {
 				this.schema.render('#C6DDFAF6_9E75_41C5_87BD_0896B5299559', {
 					onFocus: (cell) => {
 
-						if(cell) {
+						if(cell && typeof cell.getColor !== 'undefined') {
 							$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').val(cell.getColor());
 						}
 					},
 					onBlur: () => {
 
-						/*----*/ {
+						/*--------------------------------------------*/ {
 							$('#F542C5DA_46FD_6A57_76CB_9A6A949E7F39').val(((('#0066CC'))));
 						}
 					},
@@ -122,10 +122,10 @@ $AMIClass('SchemaViewerApp', {
 			$.each(amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', data), (index, value) => {
 
 				if(value === this.defaultCatalog) {
-					L.push('<option value="' + amiWebApp.textToHtml(value) + '" selected="selected">' + amiWebApp.textToHtml(value) + '</option>');
+					L.push(`<option value="${amiWebApp.textToHtml(value)}" selected="selected">${amiWebApp.textToHtml(value)}</option>`);
 				}
 				else {
-					L.push('<option value="' + amiWebApp.textToHtml(value) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(value) + '</option>');
+					L.push(`<option value="${amiWebApp.textToHtml(value)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(value)}</option>`);
 				}
 
 			});
@@ -245,7 +245,7 @@ $AMIClass('SchemaViewerApp', {
 
 		return this.schema.refresh(this.defaultCatalog, {showShowTool: true, showEditTool: amiLogin.hasRole('AMI_ADMIN')}).done(() => {
 
-			window.history.pushState('', '', amiWebApp.webAppURL + '?subapp=schemaViewer' + (this.defaultCatalog ? '&userdata=' + encodeURIComponent(this.defaultCatalog) : ''));
+			window.history.pushState('', '', `${amiWebApp.webAppURL}?subapp=schemaViewer${this.defaultCatalog ? `&userdata=${encodeURIComponent(this.defaultCatalog)}` : ''}`);
 
 			amiWebApp.unlock();
 
@@ -297,7 +297,7 @@ $AMIClass('SchemaViewerApp', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			amiCommand.execute('SetJSONSchema -catalog="' + amiWebApp.textToString(this.defaultCatalog) + '" -json="' + amiWebApp.textToString(text) + '"').done((data, message) => {
+			amiCommand.execute('SetJSONSchema -catalog=? -json=?', {params: [this.defaultCatalog, text]}).done((data, message) => {
 
 				amiWebApp.success(message, true);
 
