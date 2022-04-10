@@ -497,9 +497,6 @@ joint.dia.Graph.prototype.newForeignKey = function(fkEntityId, pkEntityId)
 		target: {id: pkEntityId},
 		attrs: {
 			'.link-tools': {display: 'none'},
-			'.tool-options': {display: 'none'},
-			'.marker-vertex': {display: 'none'},
-			'.connection-wrap': {display: 'none'},
 			'.marker-arrowheads': {display: 'none'},
 			/**/
 			'.connection': {'stroke': '#707070', 'fill': '#FFFFFF', 'stroke-width': 3},

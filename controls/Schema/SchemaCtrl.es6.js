@@ -9,13 +9,15 @@
  *
  */
 
-import 'jointjs/dist/joint.css';
+//import 'jointjs/dist/joint.css';
+
+import './assets/joint.core.min.css';
 
 import twigSchemaCtrl from './assets/twig/SchemaCtrl.twig';
 
 import { saveAs } from 'file-saver';
 
-import * as joint from 'jointjs/';
+import * as joint from 'jointjs';
 
 import './joint.shapes.sql.js';
 
