@@ -159,10 +159,10 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 		'.sql-field-text': {
 			'ref-x': 0.03,
 			'fill': 'black',
-			'font-family': 'Courier New',
+			'font-family': '"Courier New", "monospace"',
 			'font-weight': 'normal',
 			'font-size': 14,
-		}
+		},
 		/*------------------------------------------------------------------------------------------------------------*/
 	},
 
@@ -172,16 +172,16 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 
 	markup: [
 		'<g>',
-		'<path class="sql-entity-top" />',
-		'<path class="sql-entity-body" />',
-		'<a class="sql-entity-show-link" xlink:href="#" data-entity="">',
-		'<text class="sql-entity-show-text" />',
-		'</a>',
-		'<text class="sql-entity-name-text" />',
-		'<a class="sql-entity-edit-link" xlink:href="#" data-entity="">',
-		'<text class="sql-entity-edit-text" />',
-		'</a>',
-		'<g class="sql-fields"></g>',
+			'<path class="sql-entity-top" />',
+			'<path class="sql-entity-body" />',
+			'<a class="sql-entity-show-link" xlink:href="#" data-entity="">',
+				'<text class="sql-entity-show-text" />',
+			'</a>',
+			'<text class="sql-entity-name-text" />',
+			'<a class="sql-entity-edit-link" xlink:href="#" data-entity="">',
+				'<text class="sql-entity-edit-text" />',
+			'</a>',
+			'<g class="sql-fields"></g>',
 		'</g>',
 	].join(''),
 
@@ -189,9 +189,9 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 
 	fieldMarkup: [
 		'<g class="sql-field">',
-		'<a class="sql-field-link" xlink:href="#" data-entity="" data-field="">',
-		'<text class="sql-field-text">N/A</text>',
-		'</a>',
+			'<a class="sql-field-link" xlink:href="#" data-entity="" data-field="">',
+				'<text class="sql-field-text">N/A</text>',
+			'</a>',
 		'</g>'
 	].join(''),
 
@@ -346,19 +346,23 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 
 		this.get('fields').forEach((field) => {
 
-			let text = field.field + ': ' + field.type;
+			let text = field.field;
+			let type = field.type;
 
+			if(field.primary) {
+				type = `🔑${type}`;
+			}
 			if(field.hidden) {
-				text = '❌' + text;
+				type = `❌${type}`;
 			}
 			if(field.adminOnly) {
-				text = '🚫' + text;
+				type = `🚫${type}`;
 			}
-			if(field.crypted) {
-				text = '🔐' + text;
-			}
-			if(field.primary) {
-				text = '🔑' + text;
+			if(field.hashed
+			   ||
+			   field.crypted
+			 ) {
+				type = `🔐${type}`;
 			}
 			if(field.automatic
 			   ||
@@ -366,11 +370,11 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 			   ||
 			   field.modified || field.modifiedBy
 			 ) {
-				text = '⚙️' + text;
+				type = `⚙${type}`;
 			}
 
 			field.entity = entity;
-			field.text = (text.length > 26) ? text.substring(0, 24) + '…' : text;
+			field.text = `${(text.length + type.length + 2 > 26) ? text.substring(0, 22 - type.length) + '…' : text}: ${type}`;
 			field.offset = height;
 
 			height += 15;
@@ -449,7 +453,7 @@ export const EntityView = joint.dia.ElementView.extend({
 
 			const clone = this.src.clone().addClass(field.selector);
 
-			clone.attr('transform', 'translate(0, ' + field.offset + ')');
+			clone.attr('transform', `translate(0, ${field.offset})`);
 
 			clone.find('.sql-field-link')[0].attr('data-entity', field.entity)
 			                                .attr('data-field', field.field)
@@ -496,8 +500,8 @@ joint.dia.Graph.prototype.newForeignKey = function(fkEntityId, pkEntityId)
 		source: {id: fkEntityId},
 		target: {id: pkEntityId},
 		attrs: {
-			'.link-tools': {display: 'none'},
-			'.marker-arrowheads': {display: 'none'},
+			'.link-tools': {'display': 'none'},
+			'.marker-arrowheads': {'display': 'none'},
 			/**/
 			'.connection': {'stroke': '#707070', 'fill': '#FFFFFF', 'stroke-width': 3},
 			'.marker-source': {'stroke': '#707070', 'fill': '#707070', 'd': 'm 14.456044,15.990164 1.23e-4,7.500564 0,-7.179668 -9.0002053,5.179668 0,-11.000206 9.0000823,5.178745 1.23e-4,-7.178745 z'},

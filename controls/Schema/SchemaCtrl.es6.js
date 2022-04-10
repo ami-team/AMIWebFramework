@@ -9,8 +9,6 @@
  *
  */
 
-//import 'jointjs/dist/joint.css';
-
 import './assets/joint.core.min.css';
 
 import twigSchemaCtrl from './assets/twig/SchemaCtrl.twig';
@@ -189,7 +187,7 @@ $AMIClass('SchemaCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute('GetJSONSchema -catalog="' + amiWebApp.textToString(catalog) + '"').done((data) => {
+		amiCommand.execute('GetJSONSchema -catalog=?', {params: [catalog]}).done((data) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* GET SCHEMA                                                                                             */
@@ -223,6 +221,7 @@ $AMIClass('SchemaCtrl', {
 					const type = amiWebApp.jspath('..field{.@name==="type"}.$', value)[0] || '';
 					const hidden = amiWebApp.jspath('..field{.@name==="hidden"}.$', value)[0] || '';
 					const adminOnly = amiWebApp.jspath('..field{.@name==="adminOnly"}.$', value)[0] || '';
+					const hashed = amiWebApp.jspath('..field{.@name==="hashed"}.$', value)[0] || '';
 					const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', value)[0] || '';
 					const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0] || '';
 					const automatic = amiWebApp.jspath('..field{.@name==="automatic"}.$', value)[0] || '';
@@ -272,6 +271,7 @@ $AMIClass('SchemaCtrl', {
 							type: type,
 							hidden: hidden === 'true',
 							adminOnly: adminOnly === 'true',
+							hashed: hashed === 'true',
 							crypted: crypted === 'true',
 							primary: primary === 'true',
 							automatic: automatic === 'true',
@@ -367,7 +367,7 @@ $AMIClass('SchemaCtrl', {
 	{
 		const result = $.Deferred();
 
-		amiCommand.execute('GetCatalogInfo -catalog="' + catalog + '"').always((data) => {
+		amiCommand.execute('GetCatalogInfo -catalog=?', {params: [catalog]}).always((data) => {
 
 			this._fields = amiWebApp.jspath('..rowset{.@type==="fields"}.row', data) || [];
 			this._entities = amiWebApp.jspath('..rowset{.@type==="entities"}.row', data) || [];
@@ -440,11 +440,11 @@ $AMIClass('SchemaCtrl', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const svg = $(this.getSelector() + ' svg');
+		const svg = $(`${this.getSelector()} svg`);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const w = window.open('', '', 'height=' + svg.height() + ', width=' + svg.width() + ', toolbar=no');
+		const w = window.open('', '', `height=${svg.height()}, width=${svg.width()}, toolbar=no`);
 
 		w.document.write('<html lang="en"><head><title>Catalog</title><style>body { margin: 10px; } .link-tools, .marker-vertices, .marker-arrowheads, .connection-wrap, .sql-entity-link { display: none; } .connection { fill: none; }</style></head><body>' + $('#C6DDFAF6_9E75_41C5_87BD_0896B5299559').html() + '</body></html>');
 
@@ -458,7 +458,7 @@ $AMIClass('SchemaCtrl', {
 
 	showEntity: function(catalog, entity)
 	{
-		window.open(amiWebApp.webAppURL + '?subapp=tableViewer&userdata=' + encodeURIComponent('{"catalog": "' + amiWebApp.textToString(catalog) + '", "entity": "' + amiWebApp.textToString(entity) + '"}'), '_blank').focus();
+		window.open(`${amiWebApp.webAppURL}?subapp=tableViewer&userdata=${encodeURIComponent(`{"catalog": "${amiWebApp.textToString(catalog)}", "entity": "${amiWebApp.textToString(entity)}}`)}`, '_blank').focus();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
@@ -470,7 +470,7 @@ $AMIClass('SchemaCtrl', {
 			return;
 		}
 
-		amiCommand.execute('GetEntityInfo -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '"').done((data) => {
+		amiCommand.execute('GetEntityInfo -catalog=? -entity=?', {params: [catalog, entity]}).done((data) => {
 
 			$('#AF826BB7_E7A8_C5A8_711C_84D00F042418').text(catalog);
 			$('#BA295CEC_F262_BB7F_09BF_4420E9EDBD6E').text(entity);
@@ -622,7 +622,7 @@ window.SchemaCtrl.resetEntity = function()
 
 			$('#B7852284_B6C4_8ED5_502D_B8EA22689D2A').modal('hide');
 
-			amiWebApp.success(message + ', please reload the page', true);
+			amiWebApp.success(`${message}, please reload the page`, true);
 
 		}).fail((data, message) => {
 
@@ -740,6 +740,7 @@ window.SchemaCtrl.applyField = function()
 	const json = {
 		'hidden': $('#F82C7F86_1260_D5B1_4CBF_EE519415B3FD').prop('checked'),
 		'adminOnly': $('#DEA15A0F_5EBF_49E7_3E75_F29850184968').prop('checked'),
+		'hashed': $('#AB8FF40A_4D44_56B5_DCBC_1A0E877E10F5').prop('checked'),
 		'crypted': $('#E2D8A4EB_1065_01B5_C8DB_7B2E01F03AD4').prop('checked'),
 		'primary': $('#A4F33332_8DDD_B235_F523_6A35B902519C').prop('checked'),
 		'json': $('#D1D48065_3C6B_B0A0_BA7C_8A0D0AB84F55').prop('checked'),
@@ -780,7 +781,7 @@ window.SchemaCtrl.applyField = function()
 
 				$('#B0BEB5C7_8978_7433_F076_A55D2091777C').modal('hide');
 
-				amiWebApp.success(message + ', please reload the page', true);
+				amiWebApp.success(`${message}, please reload the page`, true);
 
 			}).fail((data, message) => {
 
