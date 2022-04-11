@@ -45,7 +45,7 @@ $AMIClass('SchemaCtrl', {
 			this._foreignKeys = null;
 
 			this._currentCell = null;
-			this._currentCatalog = null;
+			this.ctx.currentCatalog = null;
 
 			$('#CE54048D_702D_0132_4659_9E558BE2AC11').select2({
 				allowClear: true,
@@ -67,14 +67,13 @@ $AMIClass('SchemaCtrl', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [_onFocus, _onBlur] = amiWebApp.setup(
-			['onFocus', 'onBlur'],
-			[null, null],
+		this.setupCtx(
+			{}, {
+				onFocus: null,
+				onBlur: null,
+			},
 			options
 		);
-
-		this._onFocus = _onFocus;
-		this._onBlur = _onBlur;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -118,16 +117,16 @@ $AMIClass('SchemaCtrl', {
 
 				this._currentCell = cellView.model;
 
-				if(this._onFocus) {
-					this._onFocus(this._currentCell);
+				if(this.ctx.onFocus) {
+					this.ctx.onFocus(this._currentCell);
 				}
 			},
 			'blank:pointerdown': (/*----*/) => {
 
 				$('g[model-id]').removeClass('ami-schema-shadow');
 
-				if(this._onBlur) {
-					this._onBlur(this._currentCell);
+				if(this.ctx.onBlur) {
+					this.ctx.onBlur(this._currentCell);
 				}
 
 				this._currentCell = /*-*/null/*-*/;
@@ -149,8 +148,8 @@ $AMIClass('SchemaCtrl', {
 			padding: 10,
 			gridWidth: 10,
 			gridHeight: 10,
-			minWidth: this._width,
-			minHeight: this._height,
+			minWidth: this.ctx.width,
+			minHeight: this.ctx.height,
 		});
 	},
 
@@ -158,25 +157,27 @@ $AMIClass('SchemaCtrl', {
 
 	_refresh: function(result, catalog, options)
 	{
-		this._currentCatalog = catalog;
+		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [context, _width, _height, _showShowTool, _showEditTool] = amiWebApp.setup(
-			['context', 'width', 'height', 'showShowTool', 'showEditTool'],
-			[result, 2000, 2000, false, false],
+		this.setupCtx(
+			{
+				currentCatalog: catalog,
+			}, {
+				context: result,
+				/**/
+				width: 2000,
+				height: 2000,
+				showShowTool: false,
+				showEditTool: false,
+			},
 			options
 		);
-
-		this._width = _width;
-		this._height = _height;
-
-		this._showShowTool = _showShowTool;
-		this._showEditTool = _showEditTool;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		if(!catalog)
 		{
-			result.resolveWith(context, [null]);
+			result.resolveWith(this.ctx.context, [null]);
 
 			return;
 		}
@@ -257,8 +258,8 @@ $AMIClass('SchemaCtrl', {
 								},
 								entity: entity,
 								color: color,
-								showShowTool: this._showShowTool,
-								showEditTool: this._showEditTool,
+								showShowTool: this.ctx.showShowTool,
+								showEditTool: this.ctx.showEditTool,
 							}),
 							fields: [],
 						};
@@ -353,11 +354,11 @@ $AMIClass('SchemaCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			result.resolveWith(context, [schema]);
+			result.resolveWith(this.ctx.context, [schema]);
 
 		}).fail((data, message) => {
 
-			result.rejectWith(context, [message]);
+			result.rejectWith(this.ctx.context, [message]);
 		});
 	},
 
@@ -458,7 +459,7 @@ $AMIClass('SchemaCtrl', {
 
 	showEntity: function(catalog, entity)
 	{
-		window.open(`${amiWebApp.webAppURL}?subapp=tableViewer&userdata=${encodeURIComponent(`{"catalog": "${amiWebApp.textToString(catalog)}", "entity": "${amiWebApp.textToString(entity)}}`)}`, '_blank').focus();
+		window.open(`${amiWebApp.webAppURL}?subapp=tableViewer&userdata=${encodeURIComponent(`{"catalog": "${amiWebApp.textToString(catalog)}", "entity": "${amiWebApp.textToString(entity)}"}`)}`, '_blank').focus();
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/
