@@ -543,6 +543,7 @@ class AMIWebApp
 			const [
 				logoURL, backgroundURL, signInImageURL, homeURL, contactEmail, aboutURL,
 				defaultThemeURL, dashboardThemeURL, lockerURL, endpointURL,
+				signInText,
 				ssoAutoAuthentication,
 				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
@@ -551,6 +552,7 @@ class AMIWebApp
 			] = tools.setup([
 				'logo_url', 'background_url', 'sign_in_image_url', 'home_url', 'contact_email', 'about_url',
 				'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url',
+				'sign_in_text',
 				'sso_auto_authentication',
 				'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
 				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
@@ -562,6 +564,7 @@ class AMIWebApp
 				`${this.originURL}/twig/v${this.bootstrapVersion}/Themes/cloud.twig`,
 				`${this.originURL}/twig/v${this.bootstrapVersion}/Lockers/default.twig`,
 				`${this.originURL}/AMI/FrontEnd`,
+				'Welcome in AMI',
 				false,
 				false, true, true, true,
 				true, true, true, true,
@@ -642,7 +645,7 @@ class AMIWebApp
 									locks.lock();
 
 									amiAuth.init(
-										signInImageURL,
+										signInImageURL, signInText,
 										ssoAutoAuthentication,
 										ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 										createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
@@ -695,7 +698,7 @@ class AMIWebApp
 								locks.lock();
 
 								amiAuth.init(
-									signInImageURL,
+									signInImageURL, signInText,
 									ssoAutoAuthentication,
 									ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
 									createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
