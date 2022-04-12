@@ -158,15 +158,29 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 		/*------------------------------------------------------------------------------------------------------------*/
 		'.sql-field-name': {
 			'ref-x': '2%',
-			'fill': 'black',
+			'text-anchor' : 'start',
+
+			'fill': '#000000',
 			'font-family': '"Courier New", "monospace"',
 			'font-weight': 'normal',
 			'font-size': 14,
 		},
-		'.sql-field-type': {
+		'.sql-field-desc': {
 			'ref-x': '98%',
 			'text-anchor' : 'end',
-			'fill': 'black',
+			'font-family': '"Courier New", "monospace"',
+			'font-weight': 'normal',
+			'font-size': 14,
+		},
+		/*------------------------------------------------------------------------------------------------------------*/
+		'.sql-field-icon': {
+			'fill': '#9C9C9C',
+			'font-family': 'bootstrap-icons',
+			'font-weight': 'normal',
+			'font-size': 14,
+		},
+		'.sql-field-type': {
+			'fill': '#636363',
 			'font-family': '"Courier New", "monospace"',
 			'font-weight': 'normal',
 			'font-size': 14,
@@ -199,7 +213,10 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 		'<g class="sql-field">',
 			'<a class="sql-field-link" xlink:href="#" data-entity="" data-field="">',
 				'<text class="sql-field-name">N/A</text>',
-				'<text class="sql-field-type">N/A</text>',
+				'<g class="sql-field-desc">',
+					'<text class="sql-field-icon">N/A</text>',
+					'<text class="sql-field-type">N/A</text>',
+				'</g>',
 			'</a>',
 		'</g>'
 	].join(''),
@@ -356,25 +373,31 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 		this.get('fields').forEach((field) => {
 
 			let fieldName = field.field;
+			let fieldIcon = [];
 			let fieldType = field.type;
 
+			if(fieldName.length > 20)
+			{
+				fieldName = `${fieldName.substring(0, 18)}…`;
+			}
+
 			if(field.primary) {
-				fieldType = `🔑${fieldType}`;
+				fieldIcon.push('\uF44F');
 			}
 
 			if(field.hidden) {
-				fieldType = `❌${fieldType}`;
+				fieldIcon.push('\uF623');
 			}
 
 			if(field.adminOnly) {
-				fieldType = `🚫${fieldType}`;
+				fieldIcon.push('\uF2E6');
 			}
 
 			if(field.hashed
 			   ||
 			   field.crypted
 			 ) {
-				fieldType = `🔐${fieldType}`;
+				fieldIcon.push('\uF653');
 			}
 
 			if(field.automatic
@@ -383,13 +406,13 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 			   ||
 			   field.modified || field.modifiedBy
 			 ) {
-				fieldType = `⚙${fieldType}`;
+				fieldIcon.push('\uF3E5');
 			}
 
 			field.entity = entity;
-			field.fieldName = (fieldName.length > 26) ? `${fieldName.substring(0, 24)}…` : fieldName;
-			field.fieldType = /*--------------------------------------------------------*/ fieldType;
-
+			field.fieldName = fieldName;
+			field.fieldIcon = fieldIcon.join('');
+			field.fieldType = fieldType;
 			field.offset = height;
 
 			height += 15;
@@ -466,7 +489,7 @@ export const EntityView = joint.dia.ElementView.extend({
 
 		this.model.get('fields').forEach((field) => {
 
-			const clone = this.src.clone().addClass(field.selector);
+			const clone = this.src.clone();
 
 			clone.attr('transform', `translate(0, ${field.offset})`);
 
@@ -475,6 +498,9 @@ export const EntityView = joint.dia.ElementView.extend({
 			;
 
 			clone.find('.sql-field-name')[0].text(field.fieldName);
+
+			clone.find('.sql-field-icon')[0].text(field.fieldIcon)
+			                                .attr('x', -(field.fieldType.length * 8.8));
 			clone.find('.sql-field-type')[0].text(field.fieldType);
 
 			this.dst.append(clone.node);
@@ -515,6 +541,8 @@ joint.dia.Graph.prototype.newForeignKey = function(fkEntityId, pkEntityId)
 	const result = new joint.dia.Link({
 		source: {id: fkEntityId},
 		target: {id: pkEntityId},
+		//router: {name: 'metro'},
+    	//connector: {name: 'rounded'},
 		attrs: {
 			'.link-tools': {'display': 'none'},
 			'.marker-arrowheads': {'display': 'none'},

@@ -41,12 +41,6 @@ $AMIClass('SchemaCtrl', {
 	{
 		amiWebApp.appendHTML('body', twigSchemaCtrl, {dict: {controls: amiWebApp._controls}}).done(() => {
 
-			this._fields = null;
-			this._foreignKeys = null;
-
-			this._currentCell = null;
-			this.ctx.currentCatalog = null;
-
 			$('#CE54048D_702D_0132_4659_9E558BE2AC11').select2({
 				allowClear: true,
 				placeholder: 'Choose a media type',
@@ -65,6 +59,10 @@ $AMIClass('SchemaCtrl', {
 
 	render: function(selector, options)
 	{
+		/*------------------------------------------------------------------------------------------------------------*/
+
+		this._currentCell = null;
+
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.setupCtx(
@@ -160,9 +158,7 @@ $AMIClass('SchemaCtrl', {
 		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.setupCtx(
-			{
-				currentCatalog: catalog,
-			}, {
+			{}, {
 				context: result,
 				/**/
 				width: 2000,
@@ -371,7 +367,6 @@ $AMIClass('SchemaCtrl', {
 		amiCommand.execute('GetCatalogInfo -catalog=?', {params: [catalog]}).always((data) => {
 
 			this._fields = amiWebApp.jspath('..rowset{.@type==="fields"}.row', data) || [];
-			this._entities = amiWebApp.jspath('..rowset{.@type==="entities"}.row', data) || [];
 			this._foreignKeys = amiWebApp.jspath('..rowset{.@type==="foreignKeys"}.row', data) || [];
 
 			this._refresh(result, catalog, options);
