@@ -564,7 +564,7 @@ class AMIWebApp
 				`${this.originURL}/twig/v${this.bootstrapVersion}/Themes/cloud.twig`,
 				`${this.originURL}/twig/v${this.bootstrapVersion}/Lockers/default.twig`,
 				`${this.originURL}/AMI/FrontEnd`,
-				'Welcome in AMI',
+				'Welcome in AMI!',
 				false,
 				false, true, true, true,
 				true, true, true, true,
