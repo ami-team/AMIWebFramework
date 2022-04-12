@@ -400,6 +400,10 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 				fieldIcon.push('\uF653');
 			}
 
+			if(field.json) {
+				fieldIcon.push('\uF791');
+			}
+
 			if(field.automatic
 			   ||
 			   field.created || field.createdBy

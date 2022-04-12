@@ -221,6 +221,7 @@ $AMIClass('SchemaCtrl', {
 					const hashed = amiWebApp.jspath('..field{.@name==="hashed"}.$', value)[0] || '';
 					const crypted = amiWebApp.jspath('..field{.@name==="crypted"}.$', value)[0] || '';
 					const primary = amiWebApp.jspath('..field{.@name==="primary"}.$', value)[0] || '';
+					const json = amiWebApp.jspath('..field{.@name==="json"}.$', value)[0] || '';
 					const automatic = amiWebApp.jspath('..field{.@name==="automatic"}.$', value)[0] || '';
 					const created = amiWebApp.jspath('..field{.@name==="created"}.$', value)[0] || '';
 					const createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', value)[0] || '';
@@ -271,6 +272,7 @@ $AMIClass('SchemaCtrl', {
 							hashed: hashed === 'true',
 							crypted: crypted === 'true',
 							primary: primary === 'true',
+							json: json === 'true',
 							automatic: automatic === 'true',
 							created: created === 'true',
 							createdBy: createdBy === 'true',
