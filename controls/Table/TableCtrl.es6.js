@@ -428,7 +428,7 @@ $AMIClass('TableCtrl', {
 					this.ctx.command
 				];
 
-				const settings = {
+				const options = {
 					elementInfoCommandFunc: this.ctx.elementInfoCommandFunc,
 					appendCommandFunc: this.ctx.appendCommandFunc,
 					updateCommandFunc: this.ctx.updateCommandFunc,
@@ -473,7 +473,7 @@ $AMIClass('TableCtrl', {
 
 				amiWebApp.lock();
 
-				amiCommand.execute(`AddWidget -control="Table" -params="${amiWebApp.textToString(JSON.stringify(params))}" -settings="${amiWebApp.textToString(JSON.stringify(settings))}" -transparent${autoRefresh ? ' -autoRefresh' : ''}`).done((data, message) => {
+				amiCommand.execute(`AddWidget -control="Table" -params="${amiWebApp.textToString(JSON.stringify(params))}" -settings="${amiWebApp.textToString(JSON.stringify(options))}" -transparent${autoRefresh ? ' -autoRefresh' : ''}`).done((data, message) => {
 
 					amiWebApp.success(message);
 
@@ -632,7 +632,7 @@ $AMIClass('TableCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	refresh: function(settings)
+	refresh: function(options)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -644,7 +644,7 @@ $AMIClass('TableCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [context] = amiWebApp.setup(['context'], [result], settings);
+		const [context] = amiWebApp.setup(['context'], [result], options);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 

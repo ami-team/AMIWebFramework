@@ -132,7 +132,7 @@ $AMIClass('UserDashboardApp', {
 		const id = amiWebApp.jspath('..field{.@name==="id"}.$', row)[0] || '';
 		const control = amiWebApp.jspath('..field{.@name==="control"}.$', row)[0] || '';
 		const params = amiWebApp.jspath('..field{.@name==="params"}.$', row)[0] || '[]';
-		const settings = amiWebApp.jspath('..field{.@name==="settings"}.$', row)[0] || '{}';
+		const options = amiWebApp.jspath('..field{.@name==="settings"}.$', row)[0] || '{}';
 		const transparent = amiWebApp.jspath('..field{.@name==="transparent"}.$', row)[0] || '0';
 		const autoRefresh = amiWebApp.jspath('..field{.@name==="autoRefresh"}.$', row)[0] || '1';
 		const x = amiWebApp.jspath('..field{.@name==="x"}.$', row)[0] || '0';
@@ -184,7 +184,7 @@ $AMIClass('UserDashboardApp', {
 
 			try
 			{
-				amiWebApp.createControl(this, this, control, [`#EB4DF671_2C31_BED0_6BED_44790525F28F_${idx} > .grid-stack-item-content`].concat(JSON.parse(params), JSON.parse(settings))).done((control) => {
+				amiWebApp.createControl(this, this, control, [`#EB4DF671_2C31_BED0_6BED_44790525F28F_${idx} > .grid-stack-item-content`].concat(JSON.parse(params), JSON.parse(options))).done((control) => {
 
 					/*------------------------------------------------------------------------------------------------*/
 

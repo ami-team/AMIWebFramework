@@ -116,9 +116,9 @@ $AMIClass('DiffBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	show: function(text1, text3, settings)
+	show: function(text1, text3, options)
 	{
-		return this.render(text1, text3, settings);
+		return this.render(text1, text3, options);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

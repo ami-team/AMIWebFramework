@@ -226,7 +226,7 @@ $AMIClass('ElementInfoCtrl', {
 
 				amiWebApp.lock();
 
-				amiCommand.execute(`AddWidget -control="ElementInfo" -params="${amiWebApp.textToString(JSON.stringify(params))}" -settings="${amiWebApp.textToString(JSON.stringify(optionals))}" -transparent${(autoRefresh ? ' -autoRefresh' : '')}`).done((data, message) => {
+				amiCommand.execute(`AddWidget -control="ElementInfo" -params=? -settings=? -transparent${(autoRefresh ? ' -autoRefresh' : '')}`, {params: [JSON.stringify(params), JSON.stringify(optionals)]}).done((data, message) => {
 
 					amiWebApp.success(message);
 

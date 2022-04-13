@@ -193,7 +193,7 @@ $AMIClass('FieldEditorCtrl', {
 			}
 
 			/*--------------------------------------------------------------------------------------------------------*/
-			
+
 			const rows2 = amiWebApp.jspath('..{.@type==="foreignKeys"}.row', data);
 
 			for(let i in rows2)
@@ -269,7 +269,7 @@ $AMIClass('FieldEditorCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	setup: function(selector, settings)
+	setup: function(selector, options)
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -303,7 +303,7 @@ $AMIClass('FieldEditorCtrl', {
 				fn1, fn2, fn3, fn4,
 				null, null, null,
 			],
-			settings
+			options
 		);
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -329,7 +329,7 @@ $AMIClass('FieldEditorCtrl', {
 			hasCustomHTMLs: hasCustomHTMLs,
 			customHTMLsFragment: customHTMLsFragment,
 
-			sql: settings.sql || '',
+			sql: options.sql || '',
 		};
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -594,7 +594,7 @@ $AMIClass('FieldEditorCtrl', {
 		this.getInfo(primaryCatalog, primaryEntity, primaryField).done((primaryField, fieldInfo, foreignKeysInfo) => {
 
 			this.getValues(primaryCatalog, primaryEntity, primaryField, primaryValue).done((values) => {
-				
+
 				if(foreignKeysInfo.length !== 0 && Object.keys(values).length === 0)
 				{
 					const fks = [];
@@ -603,12 +603,12 @@ $AMIClass('FieldEditorCtrl', {
 					{
 						fks.push(`\`${foreignKeysInfo[i].fkInternalCatalog}\`.\`${foreignKeysInfo[i].fkEntity}\`.\`${foreignKeysInfo[i].fkColumn}\``);
 					}
-	
+
 					const sql = `SELECT DISTINCT ${fks.join()} ${this.ctx.sql.substring(this.ctx.sql.indexOf('FROM'))}`;
 					const command =`SearchQuery -catalog="${primaryCatalog}" -entity="${primaryEntity}" -sql="${sql}"`;
 
 					amiCommand.execute(command, {}).done((data) => {
-						
+
 						const rows = amiWebApp.jspath('..row', data) || [];
 
 						if(rows.length === 1)
@@ -633,7 +633,7 @@ $AMIClass('FieldEditorCtrl', {
 							hasCustomHTMLs: this.ctx.hasCustomHTMLs,
 							inEditMode: this.ctx.inEditMode,
 						};
-		
+
 						this._showRowModal(dict);
 
 					}).fail((data, message) => {
@@ -655,7 +655,7 @@ $AMIClass('FieldEditorCtrl', {
 						hasCustomHTMLs: this.ctx.hasCustomHTMLs,
 						inEditMode: this.ctx.inEditMode,
 					};
-	
+
 					this._showRowModal(dict);
 				}
 

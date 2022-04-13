@@ -101,9 +101,9 @@ $AMIClass('MessageBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	show: function(text, settings)
+	show: function(text, options)
 	{
-		return this.render(text, settings);
+		return this.render(text, options);
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

@@ -1,13 +1,17 @@
 <div class="modal fade" tabindex="-1" id="D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B">
-	<div class="modal-dialog modal-dialog-centered modal-{% if signInImageURL|e %}xl{% else %}lg{% endif %}">
+	<div class="modal-dialog modal-dialog-centered modal-{% if signInImageURL %}xl{% else %}lg{% endif %}">
 		<div class="modal-content">
 			<div class="modal-body row m-0 p-0">
 
-				<div class="{% if signInImageURL|e %}col-lg-6{% else %}col-0{% endif %} m-0 p-0"
+				{% if signInImageURL %}
+				<div class="col-lg-6 m-0 p-0"
 					style="background: url('{{ signInImageURL|e }}') center center; background-size: auto 100%;">
 				</div>
 
-				<div class="{% if signInImageURL|e %}col-lg-6{% else %}col-lg-12{% endif %} m-0 p-0">
+				<div class="col-lg-6 m-0 p-0">
+				{% else %}
+				<div class="col-lg-12 m-0 p-0">
+				{% endif %}
 
 					<nav class="p-3">
 						<div class="nav nav-tabs" role="tablist">
@@ -21,7 +25,7 @@
 						</div>
 					</nav>
 
-					<div class="tab-content px-3 pb-3" style="{% if signInImageURL|e %}height: 390px; {% endif %}">
+					<div class="tab-content px-3 pb-3" style="height: 390px; overflow-y: scroll;">
 
 						<!-- *************************************************************************************** -->
 

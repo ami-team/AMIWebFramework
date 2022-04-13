@@ -389,13 +389,13 @@ $AMIClass('DataTableCtrl', {
 							order: primaryIdx >= 0 ? [[primaryIdx, 'asc']] : [],
 							pageLength: this.ctx.stop - this.ctx.start + 1,
 							dom: '<"table-responsive" t>',
-							initComplete: (settings) => {
+							initComplete: (options) => {
 
 								/*------------------------------------------------------------------------------------*/
 
 								const el = $(selector);
 
-								const table = settings.oInstance.api();
+								const table = options.oInstance.api();
 
 								/*------------------------------------------------------------------------------------*/
 

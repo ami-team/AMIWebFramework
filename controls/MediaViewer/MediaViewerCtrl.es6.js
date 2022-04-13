@@ -116,21 +116,17 @@ $AMIClass('MediaViewerCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	refresh: function(settings)
+	refresh: function(options)
 	{
 		const result = $.Deferred();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const [context] = amiWebApp.setup(['context'], [result], settings);
+		const [context] = amiWebApp.setup(['context'], [result], options);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const command = `SearchQuery -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -sql="SELECT \`${amiWebApp.textToString(this.ctx.field)}\` FROM \`${amiWebApp.textToString(this.ctx.entity)}\` WHERE \`${amiWebApp.textToString(this.ctx.primaryFieldName)}\` = \'${amiWebApp.textToString(this.ctx.primaryFieldValue)}\'"`;
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		amiCommand.execute(command).done((data) => {
+		amiCommand.execute('SearchQuery -catalog=? -entity=?', {params: [this.ctx.catalog, this.ctx.entity, `SELECT \`${amiWebApp.textToString(this.ctx.field)}\` FROM \`${amiWebApp.textToString(this.ctx.entity)}\` WHERE \`${amiWebApp.textToString(this.ctx.primaryFieldName)}\` = \'${amiWebApp.textToString(this.ctx.primaryFieldValue)}\'`]}).done((data) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
