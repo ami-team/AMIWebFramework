@@ -26,7 +26,7 @@ $AMIClass('BookmarkEditorApp', {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_bookmarkProfile: {
-		name: 'bookmarkProfile',
+		name: '_bookmarkProfile',
 		/**/
 		infoMethod: () => amiAuth.getBookmarkInfo(),
 		/**/
@@ -48,7 +48,7 @@ $AMIClass('BookmarkEditorApp', {
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	_dashboardProfile: {
-		name: 'dashboardProfile',
+		name: '_dashboardProfile',
 		/**/
 		infoMethod: () => amiAuth.getDashboardInfo(),
 		/**/
