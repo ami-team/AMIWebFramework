@@ -234,6 +234,8 @@ export default function()
 
 	const _ami_internal_jQueryRemove = jQuery.fn.remove;
 
+	/*----------------------------------------------------------------------------------------------------------------*/
+
 	const _ami_internal_jQueryRemoveEvent = new jQuery.Event('remove');
 
 	/*----------------------------------------------------------------------------------------------------------------*/

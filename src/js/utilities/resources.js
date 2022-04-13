@@ -113,10 +113,11 @@ function _getDataType(url, dataType)
  * @param {Array<String>} urls
  * @param {string} dataType
  * @param {*} context
+ * @param {boolean} cache
  * @private
  */
 
-function __loadXXX(deferred, result, urls, dataType, context)
+function __loadXXX(deferred, result, urls, dataType, context, cache)
 {
 	if(urls.length === 0)
 	{
@@ -147,7 +148,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 				result.push(data);
 
-				__loadXXX(deferred, result, urls, dataType, context);
+				__loadXXX(deferred, result, urls, dataType, context, cache);
 
 			}, (message) => {
 
@@ -166,7 +167,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 				result.push(data);
 
-				__loadXXX(deferred, result, urls, dataType, context);
+				__loadXXX(deferred, result, urls, dataType, context, cache);
 
 			}, (message) => {
 
@@ -185,14 +186,14 @@ function __loadXXX(deferred, result, urls, dataType, context)
 			{
 				result.push(false);
 
-				__loadXXX(deferred, result, urls, dataType, context);
+				__loadXXX(deferred, result, urls, dataType, context, cache);
 			}
 			else
 			{
 				$.ajax({
 					url: url,
 					async: false,
-					cache: false,
+					cache: cache,
 					crossDomain: true,
 					dataType: dataTYPE,
 				}).then(() => {
@@ -201,7 +202,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 					_sheets.push(url);
 
-					__loadXXX(deferred, result, urls, dataType, context);
+					__loadXXX(deferred, result, urls, dataType, context, cache);
 
 				}, () => {
 
@@ -221,14 +222,14 @@ function __loadXXX(deferred, result, urls, dataType, context)
 			{
 				result.push(false);
 
-				__loadXXX(deferred, result, urls, dataType, context);
+				__loadXXX(deferred, result, urls, dataType, context, cache);
 			}
 			else
 			{
 				$.ajax({
 					url: url,
 					async: false,
-					cache: false,
+					cache: cache,
 					crossDomain: true,
 					dataType: dataTYPE,
 				}).then(() => {
@@ -237,7 +238,7 @@ function __loadXXX(deferred, result, urls, dataType, context)
 
 					_scripts.push(url);
 
-					__loadXXX(deferred, result, urls, dataType, context);
+					__loadXXX(deferred, result, urls, dataType, context, cache);
 
 				}, () => {
 
@@ -256,14 +257,14 @@ function __loadXXX(deferred, result, urls, dataType, context)
 			$.ajax({
 				url: url,
 				async: true,
-				cache: false,
+				cache: cache,
 				crossDomain: true,
 				dataType: dataTYPE,
 			}).then((data) => {
 
 				result.push(data);
 
-				__loadXXX(deferred, result, urls, dataType, context);
+				__loadXXX(deferred, result, urls, dataType, context, cache);
 
 			}, () => {
 
@@ -292,15 +293,15 @@ function _loadXXX(urls, dataType, options)
 {
 	const deferred = $.Deferred();
 
-	const [context] = tools.setup(
-		['context'],
-		[deferred],
+	const [context, cache] = tools.setup(
+		['context', 'cache'],
+		[deferred, false],
 		options
 	);
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	__loadXXX(deferred, [], tools.asArray(urls), dataType, context);
+	__loadXXX(deferred, [], tools.asArray(urls), dataType, context, cache);
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -312,7 +313,7 @@ function _loadXXX(urls, dataType, options)
 /**
  * Asynchronously loads resources by file extension
  * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -327,7 +328,7 @@ export function loadResources(urls, options)
 /**
  * Asynchronously loads CSS sheets
  * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -342,7 +343,7 @@ export function loadSheets(urls, options)
 /**
  * Asynchronously loads JS scripts
  * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -357,7 +358,7 @@ export function loadScripts(urls, options)
 /**
  * Asynchronously loads JSON files
  * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -372,7 +373,7 @@ export function loadJSONs(urls, options)
 /**
  * Asynchronously loads XML files
  * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -387,7 +388,7 @@ export function loadXMLs(urls, options)
 /**
  * Asynchronously loads HTML files
  * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -402,7 +403,7 @@ export function loadHTMLs(urls, options)
 /**
  * Asynchronously loads TWIG files
  * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -417,7 +418,7 @@ export function loadTWIGs(urls, options)
 /**
  * Asynchronously loads text files
  * @param {Array<string>|string} urls the array of urls
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */

@@ -35,7 +35,7 @@ export const _controls = {};
 /**
  * Asynchronously loads a control
  * @param {string} control the control name
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -44,9 +44,9 @@ export function loadControl(control, options)
 {
 	const result = $.Deferred();
 
-	const [context] = tools.setup(
-		['context'],
-		[result],
+	const [context, cache] = tools.setup(
+		['context', 'cache'],
+		[result, false],
 		options
 	);
 
@@ -65,7 +65,7 @@ export function loadControl(control, options)
 	{
 		try
 		{
-			resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
+			resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`, {cache: cache}).then((loaded) => {
 
 				const clazz = window[descr.clazz];
 
@@ -110,7 +110,7 @@ export function loadControl(control, options)
  * @param {?*} owner the owner entity
  * @param {string} control the control name
  * @param {Array<*>} params the control's parameters
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -160,7 +160,7 @@ export function createControl(parent, owner, control, params, options)
  * @param {Array<*>} controlParams the control's render method mandatory parameters
  * @param {Object<string, *>} controlOptions the control's render method optional parameters
  * @param {Object<string, *>} ownerOptions the owner's optional parameters
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -235,7 +235,7 @@ export function createControlInBody(parent, owner, control, controlParams, contr
  * @param {Object<string, *>} ownerOptions the owner's optional parameters
  * @param {string} icon the icon
  * @param {string} title the title
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -309,7 +309,7 @@ export function createControlInContainer(parent, owner, control, controlParams, 
  * @param {?*} owner the owner entity
  * @param {Element} el the HTML element
  * @param {Object<string, *>} ownerOptions the owner's optional parameters
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */

@@ -147,7 +147,7 @@ export function triggerLogout()
  * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
  * @param {?*} [userdata] the user data
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -156,9 +156,9 @@ export function loadSubApp(subapp, userdata, options)
 {
 	const result = $.Deferred();
 
-	const [context] = tools.setup(
-		['context'],
-		[result],
+	const [context, cache] = tools.setup(
+		['context', 'cache'],
+		[result, false],
 		options
 	);
 
@@ -186,7 +186,7 @@ export function loadSubApp(subapp, userdata, options)
 	{
 		try
 		{
-			resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`).then((loaded) => {
+			resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`, {cache: cache}).then((loaded) => {
 
 				tools._internal_always(_currentSubappInstance.onExit(userdata), () => {
 

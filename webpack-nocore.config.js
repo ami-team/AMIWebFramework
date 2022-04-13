@@ -76,6 +76,7 @@ const config = {
 	},
 	'output': {
 		'filename': '[name].min.js',
+		'chunkFilename': 'assets/js/chunks/[id].min.js',
 		'path': path.resolve(__dirname),
 		'assetModuleFilename': (o) => path.join(path.dirname(o.runtime), 'assets', 'images', '[hash][ext][query]')
 	},

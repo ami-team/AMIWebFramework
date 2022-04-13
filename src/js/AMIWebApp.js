@@ -312,7 +312,7 @@ class AMIWebApp
 		resources.loadResources([
 			...resourcesCSS,
 			...resourcesJS,
-		]).done((resources) => {
+		], {cache: true}).done((resources) => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
