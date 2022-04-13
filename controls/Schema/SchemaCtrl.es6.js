@@ -95,8 +95,8 @@ $AMIClass('SchemaCtrl', {
 		this.paper = new joint.dia.Paper({
 			model: this.graph,
 			el: el2,
-			width: 100,
-			height: 100,
+			width: 2000,
+			height: 2000,
 			gridSize: 5.0,
 			drawGrid: {
 				name: 'dot',
