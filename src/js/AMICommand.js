@@ -197,8 +197,6 @@ class AMICommand
 
 	/**
 	 * Attaches a certificate
-	 * @param {string} username the username
-	 * @param {string} password the password
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
 	 * @returns {$.Promise} A JQuery promise object
 	 */
@@ -214,8 +212,6 @@ class AMICommand
 
 	/**
 	 * Detaches a certificate
-	 * @param {string} username the username
-	 * @param {string} password the password
 	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
 	 * @returns {$.Promise} A JQuery promise object
 	 */

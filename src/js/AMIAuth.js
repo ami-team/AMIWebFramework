@@ -319,6 +319,15 @@ class AMIAuth
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	/**
+	 * @param userInfo {Object<string, *>}
+	 * @param roleInfo {Object<string, *>}
+	 * @param bookmarkInfo {Object<string, *>}
+	 * @param dashboardInfo {Object<string, *>}
+	 * @param awfInfo {Object<string, *>}
+	 * @return {$.Promise}
+	 */
+
 	#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo)
 	{
 		const result = $.Deferred();
@@ -811,6 +820,10 @@ class AMIAuth
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
+	/**
+	 * Opens the SSO popup window
+	 */
+
 	sso()
 	{
 		AMIAuth.#clean();
@@ -819,6 +832,10 @@ class AMIAuth
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Signs in
+	 */
 
 	signIn()
 	{

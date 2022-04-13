@@ -380,7 +380,7 @@ export default function()
 		 * @param {?*} parent the parent entity
 		 * @param {string} control the control name
 		 * @param {Array<*>} params the control's parameters
-		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
 		 * @returns {$.Promise} A JQuery promise object
 		 */
 
@@ -397,7 +397,7 @@ export default function()
 		 * @param {string} control the control name
 		 * @param {Array<*>} controlParams the control's render method mandatory parameters
 		 * @param {Object<string, *>} controlOptions the control's render method optional parameters
-		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
 		 * @returns {$.Promise} A JQuery promise object
 		 */
 
@@ -416,7 +416,7 @@ export default function()
 		 * @param {Object<string, *>} controlOptions the control's render method optional parameters
 		 * @param {string} icon the icon
 		 * @param {string} title the title
-		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
 		 * @returns {$.Promise} A JQuery promise object
 		 */
 
@@ -431,7 +431,7 @@ export default function()
 		 * Asynchronously creates a control in a container from a WEB link
 		 * @param {?*} parent the parent entity
 		 * @param {Element} el the HTML element
-		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
 		 * @returns {$.Promise} A JQuery promise object
 		 */
 
@@ -559,7 +559,7 @@ export default function()
 		 * @param {?*} parent the parent entity
 		 * @param {string} control the control name
 		 * @param {Array<*>} params the control's parameters
-		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
 		 * @returns {$.Promise} A JQuery promise object
 		 */
 
@@ -576,7 +576,7 @@ export default function()
 		 * @param {string} control the control name
 		 * @param {Array<*>} controlParams the control's render method mandatory parameters
 		 * @param {Object<string, *>} controlOptions the control's render method optional parameters
-		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
 		 * @returns {$.Promise} A JQuery promise object
 		 */
 
@@ -595,7 +595,7 @@ export default function()
 		 * @param {Object<string, *>} controlOptions the control's render method optional parameters
 		 * @param {string} icon the icon
 		 * @param {string} title the title
-		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
 		 * @returns {$.Promise} A JQuery promise object
 		 */
 
@@ -610,7 +610,7 @@ export default function()
 		 * Asynchronously creates a control in a container from a WEB link
 		 * @param {?*} parent the parent entity
 		 * @param {Element} el the HTML element
-		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context)
+		 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
 		 * @returns {$.Promise} A JQuery promise object
 		 */
 

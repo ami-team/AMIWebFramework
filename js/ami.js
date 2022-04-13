@@ -19303,6 +19303,16 @@ var AMIWebApp = function () {
         "desc": "A JQuery promise object"
       }]
     }, {
+      "name": "sso",
+      "alias": "",
+      "desc": "Opens the SSO popup window",
+      "params": []
+    }, {
+      "name": "signIn",
+      "alias": "",
+      "desc": "Signs in",
+      "params": []
+    }, {
       "name": "signOut",
       "alias": "",
       "desc": "Signs out",
@@ -19528,20 +19538,6 @@ var AMIWebApp = function () {
       "alias": "",
       "desc": "Attaches a certificate",
       "params": [{
-        "name": "username",
-        "type": ["string"],
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "password",
-        "type": ["string"],
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
         "name": "options",
         "type": ["Object.<string, *>"],
         "desc": "dictionary of optional parameters (context)",
@@ -19558,20 +19554,6 @@ var AMIWebApp = function () {
       "alias": "",
       "desc": "Detaches a certificate",
       "params": [{
-        "name": "username",
-        "type": ["string"],
-        "desc": "the username",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "password",
-        "type": ["string"],
-        "desc": "the password",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
         "name": "options",
         "type": ["Object.<string, *>"],
         "desc": "dictionary of optional parameters (context)",
@@ -20893,7 +20875,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (context, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -21631,7 +21613,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (context, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -21675,7 +21657,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (context, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -21733,7 +21715,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (context, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -21763,7 +21745,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (context, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -21905,7 +21887,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (context, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -21949,7 +21931,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (context, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -22007,7 +21989,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (context, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -22037,7 +22019,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context)",
+        "desc": "dictionary of optional parameters (context, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""
