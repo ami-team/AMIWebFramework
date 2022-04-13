@@ -174,6 +174,9 @@ const config = {
 				}
 			})
 		]
+	},
+	'performance' : {
+		'hints': false
 	}
 };
 
