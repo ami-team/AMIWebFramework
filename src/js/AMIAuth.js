@@ -114,10 +114,9 @@ class AMIAuth
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	init(
-		signInImageURL,
-		signInText,
+		signInImageURL, signInText,
 		ssoAutoAuthentication,
-		ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
+		ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed,
 		createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 		captchaAllowed,
 		bookmarksAllowed, dashboardsAllowed
@@ -133,7 +132,7 @@ class AMIAuth
 			ssoAuthenticationAllowed: ssoAuthenticationAllowed,
 			passwordAuthenticationAllowed: passwordAuthenticationAllowed,
 			certificateAuthenticationAllowed: certificateAuthenticationAllowed,
-			logoutAllowed: logoutAllowed,
+			signOutAllowed: signOutAllowed,
 			createAccountAllowed: createAccountAllowed,
 			changeInfoAllowed: changeInfoAllowed,
 			changePasswordAllowed: changePasswordAllowed,

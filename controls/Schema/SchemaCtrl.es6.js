@@ -227,6 +227,7 @@ $AMIClass('SchemaCtrl', {
 					const createdBy = amiWebApp.jspath('..field{.@name==="createdBy"}.$', value)[0] || '';
 					const modified = amiWebApp.jspath('..field{.@name==="modified"}.$', value)[0] || '';
 					const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', value)[0] || '';
+					const media = amiWebApp.jspath('..field{.@name==="media"}.$', value)[0] || '';
 
 					if(!(entity in entities))
 					{
@@ -278,6 +279,7 @@ $AMIClass('SchemaCtrl', {
 							createdBy: createdBy === 'true',
 							modified: modified === 'true',
 							modifiedBy: modifiedBy === 'true',
+							media: media === 'true',
 						});
 					}
 				}

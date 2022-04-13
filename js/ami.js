@@ -11762,7 +11762,7 @@ module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{% if ssoAuthenticationAll
 /***/ ((module) => {
 
 "use strict";
-module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t\t{% if changeInfoAllowed %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.changeInfo();\">Change Information</a>\n\t\t{% endif %}\n\t\t{% if changePasswordAllowed %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.changePass();\">Change Password</a>\n\t\t{% endif %}\n\t\t{% if changeCertificateAllowed %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.changeCertificate();\">Change Certificate</a>\n\t\t{% endif %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.accountStatus();\">Account Status</a>\n\t\t<div id=\"ami_user_menu_content\"></div>\n\t</div>\n</li>\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-primary mt-1 mt-lg-0 ms-0 ms-lg-1\" type=\"button\" onclick=\"window.amiAuth.signOut();\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign Out\n\t</button>\n</li>\n";
+module.exports = "<li class=\"nav-item xxxxxxxx\">\n\t{{ icon }}\n</li>\n{% if bookmarksAllowed %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle=\"dropdown\">\n\t\t<i class=\"bi bi-star-fill\"></i>\n\t</a>\n\t<div class=\"dropdown-menu\" id=\"ami_bookmark_menu_content\">\n\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=bookmarks\" target=\"_blank\">Edit bookmarks</a>\n\t\t<div class=\"dropdown-divider\"></div>\n\t\t{% for hash, bookmark in bookmarkInfo %}\n\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ bookmark.name|e }}</a>\n\t\t{% else %}\n\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t{% endfor %}\n\t</div>\n</li>\n{% endif %}\n{% if dashboardsAllowed %}\n\t<li class=\"nav-item dropdown\">\n\t\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle=\"dropdown\">\n\t\t\t<i class=\"bi bi-speedometer\"></i>\n\t\t</a>\n\t\t<div class=\"dropdown-menu\" id=\"ami_dashboard_menu_content\">\n\t\t\t<a class=\"dropdown-item xxxxxxxx\" href=\"{{WEBAPP_URL}}?subapp=BookmarkEditor&userdata=dashboards\" target=\"_blank\">Edit dashboards</a>\n\t\t\t<div class=\"dropdown-divider\"></div>\n\t\t\t{% for hash, dashboard in dashboardInfo %}\n\t\t\t<a class=\"dropdown-item\" href=\"{{WEBAPP_URL}}?v={{ hash|e }}\" target=\"_blank\">{{ dashboard.name|e }}</a>\n\t\t\t{% else %}\n\t\t\t<div class=\"dropdown-item text-muted\">-- empty --</div>\n\t\t\t{% endfor %}\n\t\t</div>\n\t</li>\n{% endif %}\n<li class=\"nav-item dropdown\">\n\t<a class=\"nav-link dropdown-toggle\" href=\"#\" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle=\"dropdown\">\n\t\t<i class=\"bi bi-person-circle\"></i> {{ userInfo.AMIUser|e }}\n\t</a>\n\t<div class=\"dropdown-menu\">\n\t\t{% if changeInfoAllowed %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.changeInfo();\">Change Information</a>\n\t\t{% endif %}\n\t\t{% if changePasswordAllowed %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.changePass();\">Change Password</a>\n\t\t{% endif %}\n\t\t{% if changeCertificateAllowed %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.changeCertificate();\">Change Certificate</a>\n\t\t{% endif %}\n\t\t<a class=\"dropdown-item\" href=\"javascript:window.amiAuth.accountStatus();\">Account Status</a>\n\t\t<div id=\"ami_user_menu_content\"></div>\n\t</div>\n</li>\n{% if logoutAllowed %}\n<li class=\"nav-item xxxxxxxx\">\n\t<button class=\"btn btn-outline-primary mt-1 mt-lg-0 ms-0 ms-lg-1\" type=\"button\" onclick=\"window.amiAuth.signOut();\">\n\t\t<i class=\"bi bi-box-arrow-right\"></i> Sign Out\n\t</button>\n</li>\n{% endif %}\n";
 
 /***/ }),
 
@@ -17767,7 +17767,7 @@ var AMIAuth = function () {
 
   var _proto = AMIAuth.prototype;
 
-  _proto.init = function init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed) {
+  _proto.init = function init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed) {
     var _this = this;
 
     var result = $.Deferred();
@@ -17778,7 +17778,7 @@ var AMIAuth = function () {
       ssoAuthenticationAllowed: ssoAuthenticationAllowed,
       passwordAuthenticationAllowed: passwordAuthenticationAllowed,
       certificateAuthenticationAllowed: certificateAuthenticationAllowed,
-      logoutAllowed: logoutAllowed,
+      signOutAllowed: signOutAllowed,
       createAccountAllowed: createAccountAllowed,
       changeInfoAllowed: changeInfoAllowed,
       changePasswordAllowed: changePasswordAllowed,
@@ -18983,7 +18983,7 @@ var AMIWebApp = function () {
     var _this2 = this;
 
     AMIWebApp_classPrivateFieldLooseBase(this, _globalDeferred)[_globalDeferred].done(function () {
-      var _tools$setup = setup(['logo_url', 'background_url', 'sign_in_image_url', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sign_in_text', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboards_allowed'], [logo, background, sign_in_image, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/blue.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", 'Welcome in AMI!', false, false, true, true, true, true, true, true, true, true, true, true], options),
+      var _tools$setup = setup(['logo_url', 'background_url', 'sign_in_image_url', 'home_url', 'contact_email', 'about_url', 'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url', 'sign_in_text', 'sso_auto_authentication', 'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'sign_out_allowed', 'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed', 'captcha_allowed', 'bookmarks_allowed', 'dashboards_allowed'], [logo, background, sign_in_image, _this2.webAppURL, 'ami@lpsc.in2p3.fr', 'https://cern.ch/ami/', _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/blue.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Themes/cloud.twig", _this2.originURL + "/twig/v" + _this2.bootstrapVersion + "/Lockers/default.twig", _this2.originURL + "/AMI/FrontEnd", 'Welcome in AMI!', false, false, true, true, true, true, true, true, true, true, true, true], options),
           logoURL = _tools$setup[0],
           backgroundURL = _tools$setup[1],
           signInImageURL = _tools$setup[2],
@@ -18999,7 +18999,7 @@ var AMIWebApp = function () {
           ssoAuthenticationAllowed = _tools$setup[12],
           passwordAuthenticationAllowed = _tools$setup[13],
           certificateAuthenticationAllowed = _tools$setup[14],
-          logoutAllowed = _tools$setup[15],
+          signOutAllowed = _tools$setup[15],
           createAccountAllowed = _tools$setup[16],
           changeInfoAllowed = _tools$setup[17],
           changePasswordAllowed = _tools$setup[18],
@@ -19067,7 +19067,7 @@ var AMIWebApp = function () {
               }).then(function (data4) {
                 $('body').append(formatTWIG(data3, dict) + data4).promise().done(function () {
                   lock();
-                  js_AMIAuth.init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
+                  js_AMIAuth.init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
                     unlock();
                   }).fail(function (message) {
                     error(message);
@@ -19098,7 +19098,7 @@ var AMIWebApp = function () {
             }).done(function (data4) {
               $('body').prepend(data3 + data4).promise().done(function () {
                 lock();
-                js_AMIAuth.init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
+                js_AMIAuth.init(signInImageURL, signInText, ssoAutoAuthentication, ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed, createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed, captchaAllowed, bookmarksAllowed, dashboardsAllowed).done(function () {
                   unlock();
                 }).fail(function (message) {
                   error(message);
@@ -19998,7 +19998,7 @@ var AMIWebApp = function () {
       "params": [{
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (logo_url, background_url, sign_in_image_url, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed, dashboards_allowed)",
+        "desc": "dictionary of optional parameters (logo_url, background_url, sign_in_image_url, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, sign_out_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed, dashboards_allowed)",
         "default": "{}",
         "optional": true,
         "nullable": ""

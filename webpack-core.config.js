@@ -245,7 +245,7 @@ const config = {
 				'shell',
 				'xml', 'json', 'yaml',
 				'text', 'html', 'markdown',
-				'javascript'
+				'javascript', 'java',
 			]
 		}),
 		new webpack.BannerPlugin({

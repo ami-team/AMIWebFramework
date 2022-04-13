@@ -531,7 +531,7 @@ class AMIWebApp
 
 	/**
 	 * Starts the Web application
-	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (logo_url, background_url, sign_in_image_url, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, logout_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed, dashboards_allowed)
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (logo_url, background_url, sign_in_image_url, home_url, contact_email, about_url, default_theme_url, dashboard_theme_url, locker_url, endpoint_url, sso_auto_authentication, sso_authentication_allowed, password_authentication_allowed, certificate_authentication_allowed, sign_out_allowed, create_account_allowed, change_info_allowed, change_password_allowed, change_certificate_allowed, captcha_allowed, bookmarks_allowed, dashboards_allowed)
 	 * @returns {AMIWebApp}
 	 */
 
@@ -545,7 +545,7 @@ class AMIWebApp
 				defaultThemeURL, dashboardThemeURL, lockerURL, endpointURL,
 				signInText,
 				ssoAutoAuthentication,
-				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
+				ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed,
 				createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 				captchaAllowed,
 				bookmarksAllowed, dashboardsAllowed
@@ -554,7 +554,7 @@ class AMIWebApp
 				'default_theme_url', 'dashboard_theme_url', 'locker_url', 'endpoint_url',
 				'sign_in_text',
 				'sso_auto_authentication',
-				'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'logout_allowed',
+				'sso_authentication_allowed', 'password_authentication_allowed', 'certificate_authentication_allowed', 'sign_out_allowed',
 				'create_account_allowed', 'change_info_allowed', 'change_password_allowed', 'change_certificate_allowed',
 				'captcha_allowed',
 				'bookmarks_allowed', 'dashboards_allowed',
@@ -647,7 +647,7 @@ class AMIWebApp
 									amiAuth.init(
 										signInImageURL, signInText,
 										ssoAutoAuthentication,
-										ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
+										ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed,
 										createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 										captchaAllowed,
 										bookmarksAllowed, dashboardsAllowed
@@ -700,7 +700,7 @@ class AMIWebApp
 								amiAuth.init(
 									signInImageURL, signInText,
 									ssoAutoAuthentication,
-									ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, logoutAllowed,
+									ssoAuthenticationAllowed, passwordAuthenticationAllowed, certificateAuthenticationAllowed, signOutAllowed,
 									createAccountAllowed, changeInfoAllowed, changePasswordAllowed, changeCertificateAllowed,
 									captchaAllowed,
 									bookmarksAllowed, dashboardsAllowed

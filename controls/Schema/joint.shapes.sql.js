@@ -413,6 +413,10 @@ export const Entity = joint.dia.Element.define('sql.Entity', {
 				fieldIcon.push('\uF3E5');
 			}
 
+			if(field.media) {
+				fieldIcon.push('\uF226');
+			}
+
 			field.entity = entity;
 			field.fieldName = fieldName;
 			field.fieldIcon = fieldIcon.join('');
