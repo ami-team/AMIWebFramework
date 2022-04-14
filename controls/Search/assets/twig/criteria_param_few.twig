@@ -14,7 +14,7 @@
 		</span>
 	</div>
 	<div class="card-body" style="padding: 0.5rem;">
-		<select class="custom-select custom-select-sm form-control-sm key mb-2" style="font-size: 13px;"></select>
+		<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %} form-control-sm key mb-2" style="font-size: 13px;"></select>
 		<select class="form-control form-control-sm value" multiple="multiple" size="6" style="font-size: 13px;" disabled="disabled"></select>
 		<div class="text-{% if BOOTSTRAP_VERSION > 4 %}end{% else %}right{% endif %}">
 			#<span class="count">?</span>

@@ -6,7 +6,7 @@
 		<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" type="button" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
 	</div>
 	<div class="card-body" style="padding: 0.5rem;">
-		<select class="custom-select custom-select-sm form-control-sm key mb-2" style="font-size: 13px;"></select>
+		<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %} form-control-sm key mb-2" style="font-size: 13px;"></select>
 		<select class="form-control value" multiple="multiple" size="6" disabled="disabled" style="font-size: 13px;"></select>
 		<div class="text-{% if BOOTSTRAP_VERSION > 4 %}end{% else %}right{% endif %}">
 			#<span class="count">?</span>, limit: <span class="limit">?</span> <a href="#" class="show-less"><i class="bi bi-dash"></i></a>/<a href="#" class="show-more"><i class="bi bi-plus"></i></a>

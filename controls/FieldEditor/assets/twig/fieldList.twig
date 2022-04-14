@@ -112,7 +112,7 @@ media {{info.media}}
 		{% if nullable and value === '@NULL' %}
 		<input class="form-control form-control-sm" type="text" name="{{name|e}}" value="{{value|e}}" readonly="readonly" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type === 'BOOL' %}
-		<select class="custom-select custom-select-sm" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">
+		<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">
 			<option value="0" {% if value === '0' %}selected="selected"{% endif %}>0</option>
 			<option value="1" {% if value !== '0' %}selected="selected"{% endif %}>1</option>
 		</select>
@@ -127,7 +127,7 @@ media {{info.media}}
 		{% elseif type === 'TIME' %}
 		<input class="form-control form-control-sm form-time" type="text" name="{{name|e}}" value="{{value|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" data-target="#F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}" />
 		{% elseif type starts with 'ENUM' %}
-		<select class="custom-select custom-select-sm" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{ getAMITypeToEnumOptions(info.type, value) }}</select>
+		<select class="{% if BOOTSTRAP_VERSION > 4 %}form-select form-select-sm{% else %}custom-select custom-select-sm{% endif %}" name="{{name|e}}" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{ getAMITypeToEnumOptions(info.type, value) }}</select>
 		{% elseif type === 'LONGTEXT' %}
 		<textarea class="form-control form-control-sm" name="{{name|e}}" rows="6" id="F6E6F7A4_5096_9F54_0726_60CCFE19FB4A_{{rand}}">{{value|e}}</textarea>
 		{% elseif type === 'TEXT' %}

@@ -2,8 +2,8 @@
 <div class="d-flex" data-id="{{searchInterface.id|e}}">
 
 	<span class="flex-shrink-1" style="cursor: grab;">
-		<span class="text-secondary mr-2">
-			<i class="fa fa-hand-o-up"></i>
+		<span class="text-secondary me-2">
+			<i class="bi bi-hand-index-thumb me-2"></i>
 		</span>
 	</span>
 
@@ -16,9 +16,9 @@
 	</span>
 
 	<span class="flex-shrink-1" style="cursor: pointer;">
-		<span class="dropdown ml-2">
-			<a class="dropdown-toggle" href="#" data-toggle="dropdown">
-				<i class="fa fa-link"></i> goto
+		<span class="dropdown ms-2">
+			<a class="dropdown-toggle" href="#" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="dropdown">
+				<i class="bi bi-link"></i> goto
 			</a>
 			<span class="dropdown-menu">
 				<a class="dropdown-item" href="{{WEBAPP_URL}}?subapp=search&userdata={{searchInterface.group|e}}:{{searchInterface.name|e}}" target="_blank">Search</a>
