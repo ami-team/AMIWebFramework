@@ -69,6 +69,14 @@
         "file": "subapps/Search/SearchApp.min.js",
         "instance": "searchApp"
     },
+    "searchModeler": {
+        "breadcrumb": [
+            "Metadata",
+            "<a href=\"{{WEBAPP_URL}}?subapp=searchModeler\">Search Modeler</a>"
+        ],
+        "file": "subapps/SearchModeler/SearchModelerApp.min.js",
+        "instance": "searchModelerApp"
+    },
     "simpleSearch": {
         "breadcrumb": [],
         "file": "subapps/SimpleSearch/SimpleSearchApp.min.js",
