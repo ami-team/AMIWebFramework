@@ -1,0 +1,387 @@
+<!-- *************************************************************************************************************** -->
+
+<div class="row">
+
+	<div class="col-md-3">
+
+		<div class="card mb-2">
+
+			<h5 class="card-header p-2">
+				Search interfaces
+			</h5>
+
+			<div class="card-body p-2" id="CFB6CA12_2D42_3111_3183_EC1006F7E039"></div>
+
+		</div>
+
+	</div>
+
+	<div class="col-md-9">
+
+		<div class="card">
+
+			<h5 class="card-header p-2">
+				Search interface modeler
+			</h5>
+
+			<div class="card-body" p-2 id="E8799895_7169_41DA_189F_ACEFE120C72F">
+
+				<div class="row">
+
+					<div class="col-md-2 text-center">
+						<img src="images/glass.png" alt="" height="90" wigth="90" />
+					</div>
+
+					<div class="col-md-10">
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="B08B0D55_227C_8AB2_DD3F_B9E783E606F8">Group<span class="text-danger">*</span></label>
+									<input type="text" class="form-control form-control-sm" id="B08B0D55_227C_8AB2_DD3F_B9E783E606F8" placeholder="Type the search interface group..." />
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16">Name<span class="text-danger">*</span></label>
+									<input type="text" class="form-control form-control-sm" id="BC4ABCC1_39F9_2020_4B64_0BC86DDA6B16" placeholder="Type the search interface name..." />
+								</div>
+							</div>
+							<div class="col-md-2">
+								<div class="form-group">
+									<label for="A2C54F33_AC45_3553_86D6_4A479D10CD54">Archived</label>
+									<div class="switch switch-sm switch-off-primary switch-on-danger">
+										<input type="checkbox" id="A2C54F33_AC45_3553_86D6_4A479D10CD54">
+										<label for="A2C54F33_AC45_3553_86D6_4A479D10CD54">
+											<span class="text-primary">no</span>
+											/
+											<span class="text-danger">yes</span>
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-2">
+								<label for="B1786DE7_BCD6_F336_D811_9CBB6ECB583F">Options</label>
+								<button type="button" class="btn btn-sm btn-outline-primary w-100" id="B1786DE7_BCD6_F336_D811_9CBB6ECB583F">
+									<i class="fa fa-flag"></i>
+								</button>
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="ECAE118F_BBFB_6F69_590F_C6F38611F8C3">Catalog<span class="text-danger">*</span></label>
+									<select type="text" class="custom-select custom-select-sm" id="ECAE118F_BBFB_6F69_590F_C6F38611F8C3" onchange="searchModelerApp.getEntities('#F71D1452_8613_5FB5_27D3_C1540573F450', $('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val());"></select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="F71D1452_8613_5FB5_27D3_C1540573F450">Entity<span class="text-danger">*</span></label>
+									<select type="text" class="custom-select custom-select-sm" id="F71D1452_8613_5FB5_27D3_C1540573F450" onchange="searchModelerApp.getFields('#BB89A473_0842_CB8F_E146_A6CCD8D3F15E', $('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val(), $('#F71D1452_8613_5FB5_27D3_C1540573F450').val());"></select>
+								</div>
+							</div>
+							<div class="col-md-4">
+								<div class="form-group">
+									<label for="BB89A473_0842_CB8F_E146_A6CCD8D3F15E">Primary field<span class="text-danger">*</span></label>
+									<select type="text" class="custom-select custom-select-sm" id="BB89A473_0842_CB8F_E146_A6CCD8D3F15E"></select>
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+				</div>
+
+				<input type="hidden" value="0" id="E7C7B106_876A_4B8A_2CE2_084A9E89BF3E" />
+
+				<label class="d-flex border-bottom">
+					<div class="mr-auto">
+						Criteria (alias, catalog<span class="text-danger">*</span>, entity<span class="text-danger">*</span>, field<span class="text-danger">*</span>, type<span class="text-danger">*</span>)
+					</div>
+					<div class="ml-auto">
+						<a href="javascript:searchModelerApp.addCriterion($('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val(), $('#F71D1452_8613_5FB5_27D3_C1540573F450').val(), null, null, false);"><i class="fa fa-plus-circle"></i> Add simple criterion</a>
+						&nbsp;
+						<a href="javascript:searchModelerApp.addCriterion($('#ECAE118F_BBFB_6F69_590F_C6F38611F8C3').val(), $('#F71D1452_8613_5FB5_27D3_C1540573F450').val(), null, null, true);"><i class="fa fa-plus-circle"></i> Add key/val criterion</a>
+					</div>
+				</label>
+
+				<form id="FEC360FA_EC1D_90DC_FFD5_8A498CF60305">
+					<table class="table-striped w-100">
+						<tbody id="DD89D783_6F39_7B3B_3F3F_D875737A5E68"></tbody>
+					</table>
+				</form>
+
+			</div>
+
+			<div class="card-footer p-2" id="DA22E4F4_323E_0AFA_AA7D_0E9F21A3D20D">
+
+				<div class="text-right">
+
+					<button type="button" class="btn btn-sm btn-outline-secondary" onclick="searchModelerApp.clear();" style="width: 80px;">Clear</button>
+					-
+					<button type="button" class="btn btn-sm btn-outline-danger" onclick="searchModelerApp.remove();" style="width: 80px;">Remove</button>
+
+					<div class="btn-group" role="group" style="width: 80px;">
+						<button type="button" class="btn btn-sm btn-outline-primary" onclick="searchModelerApp.save(0);">Save</button>
+						<button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle-split dropdown-toggle" data-toggle="dropdown">
+							<span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<div class="dropdown-menu dropdown-menu-right">
+							<button class="dropdown-item" type="button" onclick="searchModelerApp.save(1);">Change default catalog</button>
+							<button class="dropdown-item" type="button" onclick="searchModelerApp.save(2);">Show JSON</button>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<!-- *************************************************************************************************************** -->
+
+<div class="modal" role="dialog" id="AAC55FA7_4919_DF1A_F194_30DF6435B539">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h4 class="modal-title">
+					<i class="fa fa-flag"></i> Options
+				</h4>
+				<button class="close" data-dismiss="modal">×</button>
+			</div>
+
+			<div class="modal-body">
+
+				<div class="row">
+
+					<div class="col-md-6">
+
+						<div class="form-group">
+
+							<div class="switch switch-sm switch-off-secondary switch-on-primary">
+								<input type="checkbox" id="CECEF559_7DC7_1AE7_AE83_81C19AFB8A06">
+								<label for="CECEF559_7DC7_1AE7_AE83_81C19AFB8A06">
+									Distinct
+									<span class="text-secondary">no</span>
+									/
+									<span class="text-primary">yes</span>
+								</label>
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="col-md-6">
+
+						<div class="form-group">
+
+							<div class="switch switch-sm switch-off-secondary switch-on-primary">
+								<input type="checkbox" id="C7E2B53C_AE06_57AF_C7EC_57336E7013A0">
+								<label for="C7E2B53C_AE06_57AF_C7EC_57336E7013A0">
+									Can edit
+									<span class="text-secondary">no</span>
+									/
+									<span class="text-primary">yes</span>
+								</label>
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="form-group">
+					<textarea class="form-editor" id="A3D83B42_4FBF_5DAE_6A38_12F1F53493B5" data-mode="groovy">{}</textarea>
+				</div>
+
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+				<button class="btn btn-primary" onclick="searchModelerApp.setOptions1();">Apply</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- *************************************************************************************************************** -->
+
+<div class="modal" role="dialog" id="E78A17C0_799E_8E34_4986_322B9EA80D9F">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<h4 class="modal-title">
+					<i class="fa fa-flag"></i> Options
+				</h4>
+				<button class="close" data-dismiss="modal">×</button>
+			</div>
+
+			<div class="modal-body">
+
+				<div class="row">
+
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="F87B8D4A_BE3E_6C93_B432_9195DD1E5A15">Constraints, separator: <input type="text" class="text-monospace rounded border border-top-0 border-bottom-0" id="C64EE3C9_DB38_DDA5_20C2_B3B2E8140637" placeholder="Separator" style="line-height: 14pt;" /></label>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<input type="checkbox" id="F9931091_31DD_A960_2AD0_C08417FE8484" />
+									</div>
+								 </div>
+								<input type="text" class="form-control form-control-sm" id="F87B8D4A_BE3E_6C93_B432_9195DD1E5A15" placeholder="Constraints" />
+							</div>
+						</div>
+
+						<div class="form-group">
+
+							<div class="switch switch-sm switch-off-secondary switch-on-primary">
+								<input type="checkbox" id="E3951FA5_8B76_3C9E_CFC2_EC3749451226">
+								<label for="E3951FA5_8B76_3C9E_CFC2_EC3749451226">
+									Auto open
+									<span class="text-secondary">no</span>
+									/
+									<span class="text-primary">yes</span>
+								</label>
+							</div>
+
+						</div>
+
+						<div class="form-group">
+
+							<div class="switch switch-sm switch-off-secondary switch-on-primary">
+								<input type="checkbox" id="D6089F83_363A_F322_1E92_25567D89BD3B">
+								<label for="D6089F83_363A_F322_1E92_25567D89BD3B">
+									Inclusive
+									<span class="text-secondary">no</span>
+									/
+									<span class="text-primary">yes</span>
+								</label>
+							</div>
+
+						</div>
+
+						<div class="form-group">
+
+							<div class="switch switch-sm switch-off-secondary switch-on-primary">
+								<input type="checkbox" id="B6671716_EA4E_E4A6_454B_79140FFC1532">
+								<label for="B6671716_EA4E_E4A6_454B_79140FFC1532">
+									Simple search
+									<span class="text-secondary">no</span>
+									/
+									<span class="text-primary">yes</span>
+								</label>
+							</div>
+
+						</div>
+
+						<div class="row">
+
+							<div class="col-md-4">
+
+								<div class="form-group form-check">
+									<input class="form-check-input" type="radio" name="C1F5D43B" id="C1F5D43B_000E_F867_ABA5_13EA519F55CA" />
+									<label class="form-check-label" for="C1F5D43B_000E_F867_ABA5_13EA519F55CA">Order <i class="fa fa-arrow-circle-o-up"></i></label>
+								</div>
+
+							</div>
+
+							<div class="col-md-4">
+
+								<div class="form-group form-check">
+									<input class="form-check-input" type="radio" name="C1F5D43B" id="BB6ADE31_B629_DB15_9319_DAFAAD9999CF" />
+									<label class="form-check-label" for="BB6ADE31_B629_DB15_9319_DAFAAD9999CF">Order <i class="fa fa-circle-o"></i></label>
+								</div>
+
+							</div>
+
+							<div class="col-md-4">
+
+								<div class="form-group form-check">
+									<input class="form-check-input" type="radio" name="C1F5D43B" id="A10FF5C5_4D17_36BB_A18F_4E2C4EB05A3B" />
+									<label class="form-check-label" for="A10FF5C5_4D17_36BB_A18F_4E2C4EB05A3B">Order <i class="fa fa-arrow-circle-o-down"></i></label>
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+					<div class="col-md-6">
+
+						<div class="form-group">
+							<label for="B302D100_DDD0_904F_5B50_E0E85FB0C4D3">Init values, separator: <input type="text" class="text-monospace rounded border border-top-0 border-bottom-0" id="B06166B2_2DE1_255D_7350_9C21370DB32F" placeholder="Separator" style="line-height: 14pt;" /></label>
+							<div class="input-group">
+								<div class="input-group-prepend">
+									<div class="input-group-text">
+										<input type="checkbox" id="F4570E3E_B4DB_42DE_3E10_6A44F04F2FA7" />
+									</div>
+								 </div>
+								<input type="text" class="form-control form-control-sm" id="B302D100_DDD0_904F_5B50_E0E85FB0C4D3" placeholder="Default value" />
+							</div>
+						</div>
+
+						<div class="row">
+
+							<div class="col-md-6">
+
+								<div class="form-group">
+									<label for="C1788970_4C94_D98F_4199_5A185B4D97A3">"Min" value</label>
+									<input type="text" class="form-control form-control-sm" id="C1788970_4C94_D98F_4199_5A185B4D97A3" placeholder="" />
+								</div>
+
+								<div class="form-group">
+									<label for="ED6493B8_63FC_96F1_48AA_F2D670E63836">"Off" value</label>
+									<input type="text" class="form-control form-control-sm" id="ED6493B8_63FC_96F1_48AA_F2D670E63836" placeholder="" />
+								</div>
+
+							</div>
+
+							<div class="col-md-6">
+
+								<div class="form-group">
+									<label for="D580EF7E_AD6A_BC51_FFAB_41782CC3F2CF">"Max" value</label>
+									<input type="text" class="form-control form-control-sm" id="D580EF7E_AD6A_BC51_FFAB_41782CC3F2CF" placeholder="" />
+								</div>
+
+								<div class="form-group">
+									<label for="A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33">"On" value</label>
+									<input type="text" class="form-control form-control-sm" id="A6D9F53B_DCBF_96D2_8DCE_4EFAB0F46E33" placeholder="" />
+								</div>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="form-group">
+					<textarea class="form-editor" id="A78C0694_128B_1AD8_2596_C321DAA4690B" data-mode="json"></textarea>
+				</div>
+
+			</div>
+
+			<div class="modal-footer">
+				<button class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+				<button class="btn btn-primary" onclick="searchModelerApp.setOptions2(searchModelerApp.currentInputCnt, searchModelerApp.currentInputType);">Apply</button>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- *************************************************************************************************************** -->
