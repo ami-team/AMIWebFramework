@@ -529,19 +529,19 @@ $AMIClass('SearchModelerApp', {
 
 			dict.criteria.forEach((criterion) => {
 
-				this.getCatalogs('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_' + this.cnt, criterion.catalog);
+				this.getCatalogs(`#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_${this.cnt}`, criterion.catalog);
 
 				if(criterion.catalog)
 				{
-					this.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_' + this.cnt, criterion.catalog, criterion.entity);
+					this.getEntities(`#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_${this.cnt}`, criterion.catalog, criterion.entity);
 
 					if(criterion.entity)
 					{
-						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, criterion.catalog, criterion.entity, criterion.field);
+						this.getFields(`#A45F0216_6C35_19F3_2CEC_103A8536914F_${this.cnt}`, criterion.catalog, criterion.entity, criterion.field);
 
 						if(criterion.type > 6)
 						{
-							this.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_' + this.cnt, criterion.catalog, criterion.entity, criterion.key_field);
+							this.getFields(`#F83CE4BB_3851_3C40_242E_F7384C68A1A5_${this.cnt}`, criterion.catalog, criterion.entity, criterion.key_field);
 						}
 					}
 				}
@@ -574,19 +574,19 @@ $AMIClass('SearchModelerApp', {
 
 			dict.criteria.forEach((criterion) => {
 
-				this.getCatalogs('#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_' + this.cnt, catalog);
+				this.getCatalogs(`#E3ACBBAC_D452_5B9A_4926_D8FEE356CD63_${this.cnt}`, catalog);
 
 				if(catalog)
 				{
-					this.getEntities('#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_' + this.cnt, catalog, entity);
+					this.getEntities(`#A4D2FD72_FF0A_3C87_B1CF_4A31331D3F8B_${this.cnt}`, catalog, entity);
 
 					if(entity)
 					{
-						this.getFields('#A45F0216_6C35_19F3_2CEC_103A8536914F_' + this.cnt, catalog, entity, field);
+						this.getFields(`#A45F0216_6C35_19F3_2CEC_103A8536914F_${this.cnt}`, catalog, entity, field);
 
 						if(criterion.type > 6)
 						{
-							this.getFields('#F83CE4BB_3851_3C40_242E_F7384C68A1A5_' + this.cnt, catalog, entity, field);
+							this.getFields(`#F83CE4BB_3851_3C40_242E_F7384C68A1A5_${this.cnt}`, catalog, entity, field);
 						}
 					}
 				}
@@ -915,7 +915,7 @@ $AMIClass('SearchModelerApp', {
 
 		amiWebApp.lock();
 
-		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '"').done((data, message) => {
+		amiCommand.execute('RemoveElements -catalog="self" -entity="router_search_interface" -separator="£" -keyFields="group£name" -keyValues=?', {params: [`${amiWebApp.textToString(group)}£${amiWebApp.textToString(name)}`]}).done((data, message) => {
 
 			this.getInterfaceList();
 
@@ -1046,7 +1046,7 @@ $AMIClass('SearchModelerApp', {
 		}
 		else
 		{
-			amiCommand.execute('AddUpdateElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£rank£json£archived" -values="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '£' + amiWebApp.textToString(rank) + '£' + amiWebApp.textToString(JSON.stringify(json)) + '£' + amiWebApp.textToString(archived) + '" -keyFields="group£name" -keyValues="' + amiWebApp.textToString(group) + '£' + amiWebApp.textToString(name) + '"').done((data, message) => {
+			amiCommand.execute('AddUpdateElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£rank£json£archived" -values=? -keyFields="group£name" -keyValues=?', {params: [`${amiWebApp.textToString(group)}£${amiWebApp.textToString(name)}£${amiWebApp.textToString(rank)}£${amiWebApp.textToString(JSON.stringify(json))}£${amiWebApp.textToString(archived)}`, `${amiWebApp.textToString(group)}£${amiWebApp.textToString(name)}`]}).done((data, message) => {
 
 				this.getInterfaceList();
 
