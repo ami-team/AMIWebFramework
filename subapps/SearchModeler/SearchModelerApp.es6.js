@@ -403,10 +403,10 @@ $AMIClass('SearchModelerApp', {
 				const entity = amiWebApp.jspath('..field{.@name==="entity"}.$', row)[0] || '';
 
 				if(entity.toLowerCase() !== defaultEntity.toLowerCase()) {
-					s.push('<option value="' + amiWebApp.textToHtml(entity) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(entity) + '</option>');
+					s.push(`<option value="${amiWebApp.textToHtml(entity)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(entity)}</option>`);
 				}
 				else {
-					s.push('<option value="' + amiWebApp.textToHtml(entity) + '" selected="selected">' + amiWebApp.textToHtml(entity) + '</option>');
+					s.push(`<option value="${amiWebApp.textToHtml(entity)}" selected="selected">${amiWebApp.textToHtml(entity)}</option>`);
 				}
 			});
 
@@ -442,7 +442,7 @@ $AMIClass('SearchModelerApp', {
 
 		$(dst).empty();
 
-		amiCommand.execute('ListFields -catalog="' + amiWebApp.textToString(catalog) + '" -entity="' + amiWebApp.textToString(entity) + '"').done((data) => {
+		amiCommand.execute('ListFields -catalog=? -entity=?', {params: [amiWebApp.textToString(catalog), amiWebApp.textToString(entity)]}).done((data) => {
 
 			const s = [
 				'<option value="" style="display: none;">-- select a field --</option>'
@@ -453,10 +453,10 @@ $AMIClass('SearchModelerApp', {
 				const field = amiWebApp.jspath('..field{.@name==="field"}.$', row)[0] || '';
 
 				if(field.toLowerCase() !== defaultField.toLowerCase()) {
-					s.push('<option value="' + amiWebApp.textToHtml(field) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(field) + '</option>');
+					s.push(`<option value="${amiWebApp.textToHtml(field)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(field)}</option>`);
 				}
 				else {
-					s.push('<option value="' + amiWebApp.textToHtml(field) + '" selected="selected">' + amiWebApp.textToHtml(field) + '</option>');
+					s.push(`<option value="${amiWebApp.textToHtml(field)}" selected="selected">${amiWebApp.textToHtml(field)}</option>`);
 				}
 			});
 
