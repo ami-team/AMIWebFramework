@@ -934,8 +934,8 @@ $AMIClass('TableCtrl', {
 				{
 					const tooltip = `maximum number of showable rows: ${this.ctx.maxNumberOfRows}`;
 
-					span.attr('data-toggle', 'tooltip')
-					    .attr('data-title', tooltip)
+					span.attr(amiWebApp.bootstrapVersion > 4 ? 'data-bs-toggle' : 'data-toggle', 'tooltip')
+					    .attr('title', tooltip)
 					    .tooltip('dispose')
 					    .tooltip()
 					;

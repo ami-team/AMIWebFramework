@@ -89,7 +89,7 @@ $AMIClass('UserDashboardApp', {
 					'</li>' +
 					'<li class="nav-item">' +
 					'  <div class="btn-group">' +
-					'    <button class="btn btn-outline-secondary dropdown-toggle mr-2 my-1" type="button" data-toggle="dropdown" data-bs-toggle="dropdown">' +
+					'    <button class="btn btn-outline-secondary dropdown-toggle mr-2 my-1" type="button" data-' + (amiWebApp.bootstrapVersion > 4 ? 'bs-' : '') + 'toggle="dropdown" data-bs-toggle="dropdown">' +
 					'      <i class="bi bi-arrow-repeat"></i>' +
 					'    </button>' +
 					'    <div class="dropdown-menu">' +
