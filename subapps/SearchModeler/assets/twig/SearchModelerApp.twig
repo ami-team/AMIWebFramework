@@ -158,7 +158,11 @@
 					<h4 class="modal-title">
 						<i class="bi bi-flag-fill"></i> Options
 					</h4>
-					<button class="close" data-dismiss="modal">×</button>
+					{% if BOOTSTRAP_VERSION > 4 %}
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					{% else %}
+					<button type="button" class="close" data-dismiss="modal"><i class="bi bi-x-lg"></i></button>
+					{% endif %}
 				</div>
 
 				<div class="modal-body">
@@ -204,13 +208,13 @@
 					</div>
 
 					<div class="mb-3">
-						<textarea class="form-editor" id="A3D83B42_4FBF_5DAE_6A38_12F1F53493B5" data-mode="groovy">{}</textarea>
+						<textarea class="form-editor" id="A3D83B42_4FBF_5DAE_6A38_12F1F53493B5" data-lang="json">{}</textarea>
 					</div>
 
 				</div>
 
 				<div class="modal-footer">
-					<button class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+					<button class="btn btn-outline-secondary" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss="modal">Close</button>
 					<button class="btn btn-primary" onclick="searchModelerApp.setOptions1();">Apply</button>
 				</div>
 
@@ -228,7 +232,11 @@
 					<h4 class="modal-title">
 						<i class="bi bi-flag-fill"></i> Options
 					</h4>
-					<button class="close" data-dismiss="modal">×</button>
+					{% if BOOTSTRAP_VERSION > 4 %}
+					<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					{% else %}
+					<button type="button" class="close" data-dismiss="modal"><i class="bi bi-x-lg"></i></button>
+					{% endif %}
 				</div>
 
 				<div class="modal-body">
@@ -375,13 +383,13 @@
 					</div>
 
 					<div class="mb-3">
-						<textarea class="form-editor" id="A78C0694_128B_1AD8_2596_C321DAA4690B" data-mode="json"></textarea>
+						<textarea class="form-editor" id="A78C0694_128B_1AD8_2596_C321DAA4690B" data-lang="json"></textarea>
 					</div>
 
 				</div>
 
 				<div class="modal-footer">
-					<button class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
+					<button class="btn btn-outline-secondary" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}dismiss="modal">Close</button>
 					<button class="btn btn-primary" onclick="searchModelerApp.setOptions2(searchModelerApp.currentInputCnt, searchModelerApp.currentInputType);">Apply</button>
 				</div>
 
