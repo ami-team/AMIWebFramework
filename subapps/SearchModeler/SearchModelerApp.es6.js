@@ -355,10 +355,10 @@ $AMIClass('SearchModelerApp', {
 				const catalog = amiWebApp.jspath('..field{.@name==="externalCatalog"}.$', row)[0] || '';
 
 				if(catalog.toLowerCase() !== defaultCatalog.toLowerCase()) {
-					s.push('<option value="' + amiWebApp.textToHtml(catalog) + '" xxxxxxxx="xxxxxxxx">' + amiWebApp.textToHtml(catalog) + '</option>');
+					s.push(`<option value="${amiWebApp.textToHtml(catalog)}" xxxxxxxx="xxxxxxxx">${amiWebApp.textToHtml(catalog)}</option>`);
 				}
 				else {
-					s.push('<option value="' + amiWebApp.textToHtml(catalog) + '" selected="selected">' + amiWebApp.textToHtml(catalog) + '</option>');
+					s.push(`<option value="${amiWebApp.textToHtml(catalog)}" selected="selected">${amiWebApp.textToHtml(catalog)}</option>`);
 				}
 			});
 
@@ -392,7 +392,7 @@ $AMIClass('SearchModelerApp', {
 
 		$(dst).empty();
 
-		amiCommand.execute('ListEntities -catalog="' + amiWebApp.textToString(catalog) + '"').done((data) => {
+		amiCommand.execute('ListEntities -catalog=?', {params: [amiWebApp.textToString(catalog)]}).done((data) => {
 
 			const s = [
 				'<option value="" style="display: none;">-- select an entity --</option>'
