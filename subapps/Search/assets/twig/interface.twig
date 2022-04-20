@@ -1,6 +1,6 @@
 {% for group in groups %}
 <div>
-	<span class="badge bg-primary text-white px-3">{{group}}</span>
+	<span class="badge bg-primary px-3">{{group}}</span>
 	<i class="bi bi-chevron-double-right"></i>
 	{% for interface in groups[group] %}
 	<a class="badge bg-secondary text-white px-3" href="javascript: searchApp.select('{{interface.id|e}}');">{{interface.name}}</a>
