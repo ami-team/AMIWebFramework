@@ -246,7 +246,7 @@ $AMIClass('UserDashboardApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiCommand.execute('GetDashboardInfo').done((data) => {
+		amiCommand.execute('GetDashboardInfo -amiLogin=?', {params: [this.amiLogin]}).done((data) => { // BERK
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
