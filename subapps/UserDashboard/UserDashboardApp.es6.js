@@ -70,8 +70,10 @@ $AMIClass('UserDashboardApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	onLogin: function()
+	onLogin: function(userdata)
 	{
+		this.amiLogin = userdata || amiLogin.getUser(); // BERK
+
 		return this.reload().done(() => {
 
 			setTimeout(() => {
@@ -105,9 +107,13 @@ $AMIClass('UserDashboardApp', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	onLogout: function()
+	onLogout: function(userdata)
 	{
+		this.amiLogin = userdata || amiLogin.getUser(); // BERK
+
 		$('#F251696F_D42E_F7FF_86F7_2E6B4F2E8F74').empty();
+
+		$('#ami_ext_menu_content').empty();
 
 		clearInterval(this.interval);
 
