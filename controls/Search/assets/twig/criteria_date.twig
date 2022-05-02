@@ -3,7 +3,6 @@
 		<div>
 			<span class="text-success">Q{{cnt}}</span>: {{name|e}}
 		</div>
-		<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
 		<span class="switch switch-sm switch-on-primary switch-off-secondary float-{% if BOOTSTRAP_VERSION > 4 %}end{% else %}right{% endif %}">
 			<input type="checkbox" id="AC90DA3B-9AC6-61B5-2C17-FFD123BE5F0C_Q{{cnt}}" />
 			<label for="AC90DA3B-9AC6-61B5-2C17-FFD123BE5F0C_Q{{cnt}}">
@@ -12,6 +11,7 @@
 				<span class="text-primary">! IN</span>
 			</label>
 		</span>
+		<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
 	</div>
 	<div class="card-body" style="padding: 0.5rem;">
 		<table style="width: 100%;">

@@ -3,7 +3,6 @@
 		<div>
 			<span class="text-success">Q{{cnt}}</span>: {{name|e}}
 		</div>
-		<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
 		{% if isDefaultEntity !== true %}
 		<span class="switch switch-sm switch-on-primary switch-off-secondary float-{% if BOOTSTRAP_VERSION > 4 %}end{% else %}right{% endif %}">
 			<input type="checkbox" id="EC39F3BF_99C8_FCE2_46C9_2EE80E9637FD_Q{{cnt}}" />
@@ -14,6 +13,7 @@
 			</label>
 		</span>
 		{% endif %}
+		<button type="button" class="btn close box-close m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-1 px-0" data-dismiss="box"><i class="bi bi-x-circle-fill"></i></button>
 	</div>
 	<div class="card-body" style="padding: 0.5rem;">
 		<select multiple="multiple" size="6" class="form-control" style="font-size: 13px;"></select>
