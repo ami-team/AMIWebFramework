@@ -474,7 +474,7 @@ $AMIClass('FieldEditorCtrl', {
 
 		/*-----------------------------------------------------------------*/
 
-		amiWebApp._xxxHTML(selector, html, 3).done((el) => {
+		amiWebApp.parentHTML(selector, html).done((el) => {
 
 			el.attr('name', name).val(amiType !== '@NULL' ? (value !== '@NULL' ? value : '') : '@NULL');
 		});
