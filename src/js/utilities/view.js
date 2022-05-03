@@ -425,6 +425,23 @@ export function appendHTML(selector, twig, options)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * Puts a HTML or TWIG fragment to the given target
+ * @see method [formatTWIG]{@link #jsdoc_method_formatTWIG}
+ * @param {string} selector the target selector
+ * @param {string} [twig={}] the TWIG fragment
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, scope, dict, twigs)
+ * @returns {$.Promise} A JQuery promise object
+ * @ignore
+ */
+
+export function parentHTML(selector, twig, options)
+{
+	return _xxxHTML(selector, twig, 3, options);
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
  * Specify the timedate, date and time formats
  * @param {number} [datetimePrecision=6]
  * @param {string} [datetimeFormat='yyyy-MM-dd HH:mm:ss']

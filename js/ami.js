@@ -16721,6 +16721,9 @@ function view_prependHTML(selector, twig, options) {
 function view_appendHTML(selector, twig, options) {
   return _xxxHTML(selector, twig, 2, options);
 }
+function parentHTML(selector, twig, options) {
+  return _xxxHTML(selector, twig, 3, options);
+}
 function setDateTimeFormats(datetimePrecision, datetimeFormat, dateFormat, timePrecision, timeHMSFormat, timeHMFormat) {
   _datetimeFormat = datetimeFormat || 'yyyy-MM-dd HH:mm:ss';
   _dateFormat = dateFormat || 'yyyy-MM-dd';
@@ -18801,6 +18804,7 @@ function AMIWebApp_classPrivateFieldLooseKey(name) { return "__private_" + AMIWe
 
 
 
+
 var _embedded = AMIWebApp_classPrivateFieldLooseKey("embedded");
 
 var _noBootstrap = AMIWebApp_classPrivateFieldLooseKey("noBootstrap");
@@ -18878,6 +18882,7 @@ var AMIWebApp = function () {
     this.replaceHTML = view_replaceHTML;
     this.prependHTML = view_prependHTML;
     this.appendHTML = view_appendHTML;
+    this.parentHTML = parentHTML;
     this.formatTWIG = formatTWIG;
     this.renderJSDoc = renderJSDoc;
     this.jspath = (jspath_default()).apply;
