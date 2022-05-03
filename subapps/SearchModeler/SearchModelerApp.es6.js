@@ -1046,7 +1046,8 @@ $AMIClass('SearchModelerApp', {
 		}
 		else
 		{
-			amiCommand.execute('AddUpdateElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£rank£json£archived" -values=? -keyFields="group£name" -keyValues=?', {params: [`${amiWebApp.textToString(group)}£${amiWebApp.textToString(name)}£${amiWebApp.textToString(rank)}£${amiWebApp.textToString(JSON.stringify(json))}£${amiWebApp.textToString(archived)}`, `${amiWebApp.textToString(group)}£${amiWebApp.textToString(name)}`]}).done((data, message) => {
+			//amiCommand.execute('AddUpdateElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£rank£json£archived" -values=? -keyFields="group£name" -keyValues=?', {params: [`${amiWebApp.textToString(group)}£${amiWebApp.textToString(name)}£${amiWebApp.textToString(rank)}£${amiWebApp.textToString(JSON.stringify(json))}£${amiWebApp.textToString(archived)}`, `${amiWebApp.textToString(group)}£${amiWebApp.textToString(name)}`]}).done((data, message) => {
+				amiCommand.execute('AddUpdateElement -catalog="self" -entity="router_search_interface" -separator="£" -fields="group£name£rank£json£archived" -values=? -keyFields="group£name" -keyValues=?', {params: [`${amiWebApp.textToSQL(group)}£${amiWebApp.textToSQL(name)}£${amiWebApp.textToSQL(rank)}£${amiWebApp.textToSQL(JSON.stringify(json))}£${amiWebApp.textToSQL(archived)}`, `${amiWebApp.textToSQL(group)}£${amiWebApp.textToSQL(name)}`]}).done((data, message) => {
 
 				this.getInterfaceList();
 
