@@ -57,13 +57,13 @@ $AMIClass('DashboardBoxCtrl', {
 				if(hash)
 				{
 					const json = {
-						subapp: _class.subapp,
-						userdata: _class.userdata,
+						control: _class.control,
+						userdata: JSON.stringify(_class.userdata),
 					};
 
 					amiWebApp.lock();
 
-					amiCommand.execute('AddToDashboard -hash=? -transparent=? -json=?', {params: [hash, transparent, json]}).done(() => {
+					amiCommand.execute('AddToDashboard -hash=? -transparent=? -json=?', {params: [hash, transparent, JSON.stringify(json)]}).done(() => {
 
 						amiLogin.update().always(() => {
 
@@ -95,7 +95,7 @@ $AMIClass('DashboardBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(subapp, userdata, options)
+	render: function(control, userdata, options)
 	{
 		const deferred = $.Deferred();
 
@@ -133,7 +133,7 @@ $AMIClass('DashboardBoxCtrl', {
 
 		this.$class.deferred = deferred;
 		this.$class.context = context;
-		this.$class.subapp = subapp;
+		this.$class.control = control;
 		this.$class.userdata = json;
 
 		/*------------------------------------------------------------------------------------------------------------*/

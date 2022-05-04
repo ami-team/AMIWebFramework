@@ -57,7 +57,7 @@ $AMIClass('BookmarkBoxCtrl', {
 				if(name)
 				{
 					const json = {
-						subapp: _class.control,
+						subapp: _class.subapp,
 						userdata: JSON.stringify(_class.userdata),
 					};
 
@@ -95,7 +95,7 @@ $AMIClass('BookmarkBoxCtrl', {
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	render: function(control, userdata, options)
+	render: function(subapp, userdata, options)
 	{
 		const deferred = $.Deferred();
 
@@ -133,7 +133,7 @@ $AMIClass('BookmarkBoxCtrl', {
 
 		this.$class.deferred = deferred;
 		this.$class.context = context;
-		this.$class.control = control;
+		this.$class.subapp = subapp;
 		this.$class.userdata = json
 
 		/*------------------------------------------------------------------------------------------------------------*/
