@@ -9,11 +9,6 @@
 		if(isAuth)
 		{
 			myTable.render('#myTable', '{{ command|e('js') }}', {
-				elementInfoCommandFunc: {{ elementInfoCommandFunc.toString() }},
-				appendCommandFunc: {{ appendCommandFunc.toString() }},
-				updateCommandFunc: {{ updateCommandFunc.toString() }},
-				removeCommandFunc: {{ removeCommandFunc.toString() }},
-				/**/
 				customLabelsFragment: '{{ customLabelsFragment|e('js') }}',
 				customInputsFragment: '{{ customInputsFragment|e('js') }}',
 				customHTMLsFragment: '{{ customHTMLsFragment|e('js') }}',

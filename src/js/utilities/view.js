@@ -233,7 +233,7 @@ function _xxxHTML(selector, twig, mode, options)
 
 	let promise;
 
-	const el = $(selector);
+	let el = $(selector), el2;
 
 	switch(mode)
 	{
@@ -250,7 +250,9 @@ function _xxxHTML(selector, twig, mode, options)
 			break;
 
 		case 3:
-			promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, `$1 id="${el.attr('id')}"`) : html).promise();
+			el2 = $(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, `$1 id="${el.attr('id')}"`) : html);
+			promise = el.replaceWith(el2).promise();
+			el = el2;
 			break;
 
 		default:

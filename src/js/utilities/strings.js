@@ -91,8 +91,8 @@ export function htmlToText(s)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const _textToStringX = ['\\'  , '\n' , '"'  , '\''  ];
-const _textToStringY = ['\\\\', '\\n', '\\"', '\\\''];
+const _textToStringX = ['\\'  , '\r' , '\n' , '"'  , '\''  ];
+const _textToStringY = ['\\\\', '\\r', '\\n', '\\"', '\\\''];
 
 /**
  * Escapes the given string from text to JavaScript string
@@ -120,8 +120,8 @@ export function stringToText(s)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-const _htmlToStringX = ['\\'  , '\n' , '&quot;'  , '\''  ];
-const _htmlToStringY = ['\\\\', '\\n', '\\&quot;', '\\\''];
+const _htmlToStringX = ['\\'  , '\r' , '\n' , '&quot;'  , '\''  ];
+const _htmlToStringY = ['\\\\', '\\r', '\\n', '\\&quot;', '\\\''];
 
 /**
  * Escapes the given string from HTML to JavaScript string

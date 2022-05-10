@@ -13885,16 +13885,16 @@ function textToHtml(s) {
 function htmlToText(s) {
   return _replace(s || '', _textToHtmlY, _textToHtmlX);
 }
-var _textToStringX = ['\\', '\n', '"', '\''];
-var _textToStringY = ['\\\\', '\\n', '\\"', '\\\''];
+var _textToStringX = ['\\', '\r', '\n', '"', '\''];
+var _textToStringY = ['\\\\', '\\r', '\\n', '\\"', '\\\''];
 function textToString(s) {
   return _replace(s || '', _textToStringX, _textToStringY);
 }
 function stringToText(s) {
   return _replace(s || '', _textToStringY, _textToStringX);
 }
-var _htmlToStringX = ['\\', '\n', '&quot;', '\''];
-var _htmlToStringY = ['\\\\', '\\n', '\\&quot;', '\\\''];
+var _htmlToStringX = ['\\', '\r', '\n', '&quot;', '\''];
+var _htmlToStringY = ['\\\\', '\\r', '\\n', '\\&quot;', '\\\''];
 function htmlToString(s) {
   return _replace(s || '', _htmlToStringX, _htmlToStringY);
 }
@@ -16601,7 +16601,8 @@ function _xxxHTML(selector, twig, mode, options) {
 
   var html = formatTWIG(twig, dict, twigs);
   var promise;
-  var el = $(selector);
+  var el = $(selector),
+      el2;
 
   switch (mode) {
     case 0:
@@ -16617,7 +16618,9 @@ function _xxxHTML(selector, twig, mode, options) {
       break;
 
     case 3:
-      promise = el.replaceWith(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, "$1 id=\"" + el.attr('id') + "\"") : html).promise();
+      el2 = $(el.is('[id]') ? html.replace(/^\s*(<[a-zA-Z_-]+)/, "$1 id=\"" + el.attr('id') + "\"") : html);
+      promise = el.replaceWith(el2).promise();
+      el = el2;
       break;
 
     default:
@@ -20541,6 +20544,37 @@ var AMIWebApp = function () {
       "name": "appendHTML",
       "alias": "",
       "desc": "Appends a HTML or TWIG fragment to the given target",
+      "params": [{
+        "name": "selector",
+        "type": ["string"],
+        "desc": "the target selector",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "twig",
+        "type": ["string"],
+        "desc": "the TWIG fragment",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context, scope, dict, twigs)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "see": ["method [formatTWIG]{@link #jsdoc_method_formatTWIG}"],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "parentHTML",
+      "alias": "",
+      "desc": "Puts a HTML or TWIG fragment to the given target",
       "params": [{
         "name": "selector",
         "type": ["string"],

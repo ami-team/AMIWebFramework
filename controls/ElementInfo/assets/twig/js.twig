@@ -8,7 +8,24 @@
 
 		if(isAuth)
 		{
-			myElementInfo.render('#myElementInfo', '{{defaults.catalog|e('js')}}', '{{defaults.entity|e('js')}}', '{{defaults.primaryFieldName|e('js')}}', '{{defaults.primaryFieldValue|e('js')}}', {{ optionals|json_encode }});
+			myElementInfo.render('#myElementInfo', '{{ immutables.catalog|e('js') }}', '{{ immutables.entity|e('js') }}', '{{ immutables.primaryFieldName|e('js') }}', '{{ immutables.primaryFieldValue|e('js') }}', {
+				elementInfoCommandFunc: {{ options.elementInfoCommandFunc.toString() }},
+				/**/
+				enableCache: {{ options.enableCache }},
+				/**/
+				expandedLinkedElements: [{{ options.expandedLinkedElements|join(', ')|e('js') }}],
+				/**/
+				showPrimaryField: {{ options.showPrimaryField }},
+				showToolBar: {{ options.showToolBar }},
+				canEdit: {{ options.canEdit }},
+				/**/
+				enableEditMode: {{ options.enableEditMode }},
+				/**/
+				hideBigContent: {{ options.hideBigContent }},
+				maxCellLength: {{ options.maxCellLength }},
+				/**/
+				card: {{ options.card }},
+			});
 		}
 		else
 		{

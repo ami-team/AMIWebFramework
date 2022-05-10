@@ -83,24 +83,6 @@ $AMIClass('TableCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const fn1 = (catalog, entity, primaryFieldName, primaryFieldValue, hideBigContent) =>
-			`GetElementInfo -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -primaryFieldName="${amiWebApp.textToString(primaryFieldName)}" -primaryFieldValue="${amiWebApp.textToString(primaryFieldValue)}"${hideBigContent ? ' -hideBigContent' : ''}`
-		;
-
-		const fn2 = (catalog, entity, fields, values) =>
-			`AddElement -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -fields="${amiWebApp.textToString(fields.join('§'))}" -values="${amiWebApp.textToString(values.join('§'))}"`
-		;
-
-		const fn3 = (catalog, entity, fields, values, primaryFields, primaryValues) =>
-			`UpdateElements -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -fields="${amiWebApp.textToString(fields.join('§'))}" -values="${amiWebApp.textToString(values.join('§'))}" -keyFields="${amiWebApp.textToString(primaryFields.join('§'))}" -keyValues="${amiWebApp.textToString(primaryValues.join('§'))}"`
-		;
-
-		const fn4 = (catalog, entity, primaryFields, primaryValues) =>
-			`RemoveElements -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -keyFields="${amiWebApp.textToString(primaryFields.join('§'))}" -keyValues="${amiWebApp.textToString(primaryValues.join('§'))}"`
-		;
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		this.setupCtx(
 			{
 				ignoredFields: {
@@ -127,7 +109,6 @@ $AMIClass('TableCtrl', {
 			},
 			{
 				context: result,
-				elementInfoCommandFunc: fn1, appendCommandFunc: fn2, updateCommandFunc: fn3, removeCommandFunc: fn4,
 				customLabelsFragment: null, customInputsFragment: null, customHTMLsFragment: null,
 				expandedLinkedElements: [],
 				enableCache: false, enableCount: true, enableEditMode: false,

@@ -61,11 +61,11 @@ $AMIClass('ElementInfoCtrl', {
 			`GetElementInfo -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -primaryFieldName="${amiWebApp.textToString(primaryFieldName)}" -primaryFieldValue="${amiWebApp.textToString(primaryFieldValue)}"${(hideBigContent ? ' -hideBigContent' : '')}`
 		;
 
-		const updateCommandFunc = (catalog, entity, fields, values, primaryFields, primaryValues) =>
-			`UpdateElements -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -separator="§" -fields="${amiWebApp.textToString(fields.join('§'))}" -values="${amiWebApp.textToString(values.join('§'))}" -keyFields="${amiWebApp.textToString(primaryFields.join('§'))}" -keyValues="${amiWebApp.textToString(primaryValues.join('§'))}"`
-		;
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		const canEdit = amiLogin.hasRole('AMI_ADMIN') || amiLogin.hasRole('AMI_WRITER');
+
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		this.setupCtx(
 			{
@@ -78,7 +78,6 @@ $AMIClass('ElementInfoCtrl', {
 				context: result,
 				/**/
 				elementInfoCommandFunc: elementInfoCommandFunc,
-				updateCommandFunc: updateCommandFunc,
 				/**/
 				enableCache: false,
 				/**/
@@ -241,8 +240,8 @@ $AMIClass('ElementInfoCtrl', {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			this.ctx.js = amiWebApp.formatTWIG(this.fragmentJS, {
-				defaults: this.ctxDefaults,
-				optionals: this.ctxOptionals,
+				immutables: this.ctxImmutables,
+				options: this.ctxOptions,
 			});
 
 			/*--------------------------------------------------------------------------------------------------------*/

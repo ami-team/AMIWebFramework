@@ -472,7 +472,7 @@ $AMIClass('FieldEditorCtrl', {
 			html = '<input class="form-control form-control-sm" type="text" />';
 		}
 
-		/*-----------------------------------------------------------------*/
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		amiWebApp.parentHTML(selector, html).done((el) => {
 
