@@ -206,10 +206,10 @@ $AMIClass('ElementInfoCtrl', {
 				/*----------------------------------------------------------------------------------------------------*/
 
 				const params = [
-					this.ctxDefaults.catalog,
-					this.ctxDefaults.entity,
-					this.ctxDefaults.primaryFieldName,
-					this.ctxDefaults.primaryFieldValue,
+					this.ctxImmutables.catalog,
+					this.ctxImmutables.entity,
+					this.ctxImmutables.primaryFieldName,
+					this.ctxImmutables.primaryFieldValue,
 				];
 
 				const optionals = {

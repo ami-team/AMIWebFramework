@@ -272,6 +272,22 @@ function _xxxHTML(selector, twig, mode, options)
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		if(amiWebApp.bootstrapVersion < 5)
+		{
+			_find('*').each((idx, element) => {
+
+				$(element.attributes).each((idx, attribute) => {
+
+					if(attribute.name.startsWith('data-bs-'))
+					{
+						element.setAttribute(`data-${attribute.name.substring(8)}`, attribute.value);
+					}
+				});
+			});
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		if(jQuery.fn.tooltip)
 		{
 			_find('[data-toggle="tooltip"],[data-bs-toggle="tooltip"]').tooltip({

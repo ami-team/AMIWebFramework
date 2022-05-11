@@ -56,6 +56,7 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
 				if(key !== 'context')
 				{
 					ctxDefaults[key] = val;
+					ctxOptions[key] = val;
 				}
 
 				ctx[key] = val;

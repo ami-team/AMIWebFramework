@@ -16634,6 +16634,16 @@ function _xxxHTML(selector, twig, mode, options) {
       return el.find(_selector);
     };
 
+    if (js_AMIWebApp.bootstrapVersion < 5) {
+      _find('*').each(function (idx, element) {
+        $(element.attributes).each(function (idx, attribute) {
+          if (attribute.name.startsWith('data-bs-')) {
+            element.setAttribute("data-" + attribute.name.substring(8), attribute.value);
+          }
+        });
+      });
+    }
+
     if (jQuery.fn.tooltip) {
       _find('[data-toggle="tooltip"],[data-bs-toggle="tooltip"]').tooltip({
         html: false,
@@ -17467,11 +17477,20 @@ function controls_createControlInContainer(parent, owner, control, controlParams
 
   return result.promise();
 }
+
+function _parseJSON(s, _default) {
+  try {
+    return JSON.parse(s);
+  } catch (e) {
+    return _default;
+  }
+}
+
 function controls_createControlFromWebLink(parent, owner, el, ownerOptions, options) {
   var dataCtrl = el.hasAttribute('data-ctrl') ? el.getAttribute('data-ctrl') : '';
   var dataCtrlLocation = el.hasAttribute('data-ctrl-location') ? el.getAttribute('data-ctrl-location') : '';
-  var dataParams = el.hasAttribute('data-params') ? JSON.parse(el.getAttribute('data-params')) : [];
-  var dataOptions = el.hasAttribute('data-options') ? JSON.parse(el.getAttribute('data-options')) : el.hasAttribute('data-settings') ? JSON.parse(el.getAttribute('data-settings')) : {};
+  var dataParams = el.hasAttribute('data-params') ? _parseJSON(el.getAttribute('data-params'), []) : [];
+  var dataOptions = el.hasAttribute('data-options') ? _parseJSON(el.getAttribute('data-options'), {}) : el.hasAttribute('data-settings') ? _parseJSON(el.getAttribute('data-settings'), {}) : {};
   var dataIcon = el.hasAttribute('data-icon') ? el.getAttribute('data-icon') : 'question';
   var dataTitle = el.hasAttribute('data-title') ? el.getAttribute('data-title') : 'Unknown';
   lock();
@@ -18610,6 +18629,7 @@ function _setupCtx(ctxImmutables, ctxDefaults, ctxOptions, ctx, immutables, defa
       if (!(_key in ctx)) {
         if (_key !== 'context') {
           ctxDefaults[_key] = _val;
+          ctxOptions[_key] = _val;
         }
 
         ctx[_key] = _val;

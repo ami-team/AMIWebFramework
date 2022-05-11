@@ -14,23 +14,6 @@ import './assets/css/FieldEditorCtrl.css';
 import twigFieldEditorCtrl from './assets/twig/FieldEditorCtrl.twig';
 import twigFieldList       from './assets/twig/fieldList.twig'      ;
 
-/*---berk-------------------------------------------------------------------------------------------------------------*/
-
-function _internal_then(deferred, doneCallback, failCallback)
-{
-	if(deferred && deferred.then)
-	{
-		deferred.then(
-			doneCallback,
-			failCallback
-		);
-	}
-	else
-	{
-		doneCallback();
-	}
-}
-
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 amiTwig.stdlib.getAMITypeToEnumOptions = function(sqlType, defaultValue)
@@ -828,7 +811,7 @@ $AMIClass('FieldEditorCtrl', {
 	{
 		if(this.getOwner().refresh)
 		{
-			_internal_then(this.getOwner().refresh(), () => {
+			amiWebApp._internal_then(this.getOwner().refresh(), () => {
 
 				amiWebApp.success(message, fadeOut, target);
 
@@ -850,7 +833,7 @@ $AMIClass('FieldEditorCtrl', {
 	{
 		if(this.getOwner().refresh)
 		{
-			_internal_then(this.getOwner().refresh(), () => {
+			amiWebApp._internal_then(this.getOwner().refresh(), () => {
 
 				amiWebApp.error(message, fadeOut, target);
 

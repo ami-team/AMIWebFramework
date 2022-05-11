@@ -303,6 +303,20 @@ export function createControlInContainer(parent, owner, control, controlParams, 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+function _parseJSON(s, _default)
+{
+	try
+	{
+		return JSON.parse(s);
+	}
+	catch(e)
+	{
+		return _default;
+	}
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 /**
  * Asynchronously creates a control in a container from a WEB link
  * @param {?*} parent the parent entity
@@ -328,13 +342,13 @@ export function createControlFromWebLink(parent, owner, el, ownerOptions, option
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	const dataParams = el.hasAttribute('data-params') ? JSON.parse(el.getAttribute('data-params'))
+	const dataParams = el.hasAttribute('data-params') ? _parseJSON(el.getAttribute('data-params'), [])
 	                                                  : []
 	;
 
-	const dataOptions = el.hasAttribute('data-options') ? JSON.parse(el.getAttribute('data-options'))
+	const dataOptions = el.hasAttribute('data-options') ? _parseJSON(el.getAttribute('data-options'), {})
 	                                                    : (
-	                    el.hasAttribute('data-settings') ? JSON.parse(el.getAttribute('data-settings'))
+	                    el.hasAttribute('data-settings') ? _parseJSON(el.getAttribute('data-settings'), {})
 	                                                    : {
 	});
 
