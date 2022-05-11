@@ -17,7 +17,7 @@
 						{%       if (showEmptyFields or (field.$ is not empty and field.$ !== '@NULL' and field.$ !== 'N/A')) and not (hasFieldDescriptions and fieldDescriptions[loop.index0]['@hidden'] === 'true') %}
 						<tr>
 							<td class="text-left">
-								<strong>{{field['@name']|e}}</strong>
+								<strong{% if hasFieldDescriptions and fieldDescriptions[loop.index0]['$'] is not empty and fieldDescriptions[loop.index0]['$'] !== 'N/A' %} data-bs-toggle="tooltip" title="{{fieldDescriptions[loop.index0]['$']|e}}"{% endif %}>{{field['@name']|e}}</strong>
 							</td>
 							<td class="text-center">
 								{% if field.$ starts with '@OWNER::' %}
