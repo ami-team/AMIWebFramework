@@ -136,7 +136,7 @@
 							{%   if (field.$|length) > maxCellLength %}
 							<a href="#" class="view-more" data-ctrl="textBox" data-ctrl-location="body" data-params="[&quot;{{field.$|e('js')|e}}&quot;]" data-settings="{}"><i class="bi bi-zoom-in"></i></a> {{field.$|slice(0, maxCellLength)|e}}…
 							{%   else %}
-							{%     if field.$ === '@LONG' %}
+							{%     if     field.$ === '@LONG' %}
 							<div class="font-italic text-secondary">long value</div>
 							{%     elseif field.$ === '@NULL' %}
 							<div class="font-italic text-secondary">null value</div>
