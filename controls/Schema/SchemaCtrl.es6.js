@@ -229,13 +229,15 @@ $AMIClass('SchemaCtrl', {
 					const modifiedBy = amiWebApp.jspath('..field{.@name==="modifiedBy"}.$', value)[0] || '';
 					const media = amiWebApp.jspath('..field{.@name==="media"}.$', value)[0] || '';
 
-					if(!(entity in entities))
+					const key = entity.toLowerCase();
+
+					if(!(key in entities))
 					{
 						let x;
 						let y;
 						let color;
 
-						if(!(entity in schema))
+						if(!(key in schema))
 						{
 							x = y
 							  = 20 + 10 * cnt++;
@@ -243,12 +245,12 @@ $AMIClass('SchemaCtrl', {
 						}
 						else
 						{
-							x = schema[entity].x;
-							y = schema[entity].y;
-							color = schema[entity].color;
+							x = schema[key].x;
+							y = schema[key].y;
+							color = schema[key].color;
 						}
 
-						entities[entity] = {
+						entities[key] = {
 							entity: this.graph.newEntity({
 								position: {
 									x: x,
@@ -263,9 +265,9 @@ $AMIClass('SchemaCtrl', {
 						};
 					}
 
-					if(!(field in entities[entity]['fields']))
+					if(!(field in entities[key]['fields']))
 					{
-						entities[entity]['entity'].appendField({
+						entities[key]['entity'].appendField({
 							field: field,
 							type: type,
 							hidden: hidden === 'true',
@@ -336,19 +338,19 @@ $AMIClass('SchemaCtrl', {
 				   &&
 				   amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', value)[0] === catalog
 				 ) {
-					const fkEntity = amiWebApp.jspath('..field{.@name==="fkEntity"}.$', value)[0];
-					const pkEntity = amiWebApp.jspath('..field{.@name==="pkEntity"}.$', value)[0];
+					const fkEntity = amiWebApp.jspath('..field{.@name==="fkEntity"}.$', value)[0].toLowerCase();
+					const pkEntity = amiWebApp.jspath('..field{.@name==="pkEntity"}.$', value)[0].toLowerCase();
 
-					try
-					{
+					if(fkEntity in entities
+					   &&
+					   pkEntity in entities
+					   &&
+					   fkEntity !== pkEntity
+					 ) {
 						this.graph.newForeignKey(
 							entities[fkEntity]['entity'].get('id'),
 							entities[pkEntity]['entity'].get('id')
 						);
-					}
-					catch(e)
-					{
-						/* IGNORE */
 					}
 				}
 			});
@@ -430,7 +432,7 @@ $AMIClass('SchemaCtrl', {
 
 			const blob = new Blob([json], {
 				type: 'application/json',
-				endings : 'native',
+				endings: 'native',
 			});
 
 			saveAs(blob, 'schema.json');
