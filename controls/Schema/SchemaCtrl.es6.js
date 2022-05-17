@@ -339,10 +339,17 @@ $AMIClass('SchemaCtrl', {
 					const fkEntity = amiWebApp.jspath('..field{.@name==="fkEntity"}.$', value)[0];
 					const pkEntity = amiWebApp.jspath('..field{.@name==="pkEntity"}.$', value)[0];
 
-					this.graph.newForeignKey(
-						entities[fkEntity]['entity'].get('id'),
-						entities[pkEntity]['entity'].get('id')
-					);
+					try
+					{
+						this.graph.newForeignKey(
+							entities[fkEntity]['entity'].get('id'),
+							entities[pkEntity]['entity'].get('id')
+						);
+					}
+					catch(e)
+					{
+						/* IGNORE */
+					}
 				}
 			});
 

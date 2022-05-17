@@ -106,7 +106,6 @@ class AMIAuth
 		}
 		catch(e)
 		{
-			console.log(e);
 			return {};
 		}
 	}
