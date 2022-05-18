@@ -9,10 +9,8 @@
  *
  */
 
-import './assets/css/SimpleSearchApp.css';
-
 import twigSimpleSearchApp from './assets/twig/SimpleSearchApp.twig';
-import twigInterface from './assets/twig/interface.twig';
+import twigInterface       from './assets/twig/interface.twig'      ;
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
