@@ -51,8 +51,8 @@ $AMIClass('SchemaViewerApp', {
 
 				const dropZone = document.getElementById('EFAEDA1C_C8B2_46EA_AC47_A591A0704FE3');
 
-				dropZone.addEventListener('dragover', this.handleDragOver, false);
-				dropZone.addEventListener('drop'    , this.handleDrop    , false);
+				dropZone.addEventListener('dragover', this.handleDragOver.bind(this), false);
+				dropZone.addEventListener('drop'    , this.handleDrop    .bind(this), false);
 
 				/*----------------------------------------------------------------------------------------------------*/
 				/* EDITOR                                                                                             */
@@ -64,9 +64,7 @@ $AMIClass('SchemaViewerApp', {
 
 				/*----------------------------------------------------------------------------------------------------*/
 
-				this.schema = new data[0]();
-
-				this.schema.render('#C6DDFAF6_9E75_41C5_87BD_0896B5299559', {
+				(this.schema = new data[0]()).render('#C6DDFAF6_9E75_41C5_87BD_0896B5299559', {
 					onFocus: (cell) => {
 
 						if(cell && typeof cell.getColor !== 'undefined') {
@@ -223,9 +221,7 @@ $AMIClass('SchemaViewerApp', {
 
 				try
 				{
-					const json = JSON.parse(e.target.result);
-
-					this.schema.setJSON(json);
+					this.schema.setJSON(JSON.parse(e.target.result));
 				}
 				catch(message)
 				{
