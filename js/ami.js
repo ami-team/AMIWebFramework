@@ -18348,6 +18348,7 @@ Object.defineProperty(AMIAuth, _setupAWF, {
 
 
 
+
 var _subapps = {};
 
 var _currentSubappInstance = new function () {
@@ -18421,13 +18422,12 @@ function loadSubApp(subapp, userdata, options) {
     try {
       loadScripts(js_AMIRouter.getOriginURL() + "/" + descr.file, {
         cache: cache
-      }).then(function (loaded) {
+      }).then(function () {
         _internal_always(_currentSubappInstance.onExit(userdata), function () {
           _currentSubappInstance = window[descr.instance];
           _currentUserdata = userdata;
-          var promise = loaded[0] ? _currentSubappInstance.onReady(userdata) : null;
 
-          _internal_then(promise, function () {
+          _internal_then(_currentSubappInstance.onReady(userdata), function () {
             var promise = js_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
             promise.then(function () {
               fillBreadcrumb(descr.breadcrumb);
@@ -18452,7 +18452,9 @@ function loadSubApp(subapp, userdata, options) {
   return result.promise();
 }
 function loadSubAppAlt(subapp, userdata, options) {
-  loadSubApp(subapp, userdata, options);
+  loadSubApp(subapp, userdata, options).fail(function (message) {
+    error(message);
+  });
 }
 function loadSubAppByURL(defaultSubApp, defaultUserData) {
   var result = $.Deferred();

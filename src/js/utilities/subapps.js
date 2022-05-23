@@ -14,6 +14,7 @@
 import * as view from './view';
 import * as locks from './locks';
 import * as tools from './tools';
+import * as messages from './messages';
 import * as resources from './resources';
 
 import amiAuth from '../AMIAuth';
@@ -186,7 +187,7 @@ export function loadSubApp(subapp, userdata, options)
 	{
 		try
 		{
-			resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`, {cache: cache}).then((loaded) => {
+			resources.loadScripts(`${amiRouter.getOriginURL()}/${descr.file}`, {cache: cache}).then(() => {
 
 				tools._internal_always(_currentSubappInstance.onExit(userdata), () => {
 
@@ -196,11 +197,7 @@ export function loadSubApp(subapp, userdata, options)
 
 					/**/
 
-					const promise = loaded[0] ? _currentSubappInstance.onReady(userdata)
-											  : /*-------------*/ null /*-------------*/
-					;
-
-					tools._internal_then(promise, () => {
+					tools._internal_then(_currentSubappInstance.onReady(userdata), () => {
 
 						const promise = amiAuth.isAuthenticated() ? triggerLogin()
 																  : triggerLogout()
@@ -256,7 +253,10 @@ export function loadSubApp(subapp, userdata, options)
 
 export function loadSubAppAlt(subapp, userdata, options)
 {
-	loadSubApp(subapp, userdata, options);
+	loadSubApp(subapp, userdata, options).fail((message) => {
+
+		messages.error(message);
+	});
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
