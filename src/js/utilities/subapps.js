@@ -246,6 +246,22 @@ export function loadSubApp(subapp, userdata, options)
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 /**
+ * Asynchronously loads a subapp
+ * @param {string} subapp the subapp name
+ * @param {?*} [userdata] the user data
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (cache)
+ * @returns {undefined} Nothing
+ * @ignore
+ */
+
+export function loadSubAppAlt(subapp, userdata, options)
+{
+	loadSubApp(subapp, userdata, options);
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
+/**
  * Asynchronously loads a subapp by URL
  * @param {string} defaultSubApp if 'amiRouter.getArgs()["subapp"]' is null, the default subapp name
  * @param {?*} defaultUserData if 'amiRouter.getArgs()["userdata"]' is null, the default user data

@@ -18451,6 +18451,9 @@ function loadSubApp(subapp, userdata, options) {
 
   return result.promise();
 }
+function loadSubAppAlt(subapp, userdata, options) {
+  loadSubApp(subapp, userdata, options);
+}
 function loadSubAppByURL(defaultSubApp, defaultUserData) {
   var result = $.Deferred();
   var args = js_AMIRouter.getWebAppArgs();
@@ -18918,6 +18921,7 @@ var AMIWebApp = function () {
     this.loadTexts = loadTexts;
     this._subapps = _subapps;
     this.loadSubApp = loadSubApp;
+    this.loadSubAppAlt = loadSubAppAlt;
     this.loadSubAppByURL = loadSubAppByURL;
     this._controls = _controls;
     this.loadControl = loadControl;
@@ -20895,6 +20899,36 @@ var AMIWebApp = function () {
       "returns": [{
         "type": ["$.Promise"],
         "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "loadSubAppAlt",
+      "alias": "",
+      "desc": "Asynchronously loads a subapp",
+      "params": [{
+        "name": "subapp",
+        "type": ["string"],
+        "desc": "the subapp name",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
+        "name": "userdata",
+        "type": ["*"],
+        "desc": "the user data",
+        "default": "",
+        "optional": true,
+        "nullable": true
+      }, {
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (cache)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["undefined"],
+        "desc": "Nothing"
       }]
     }, {
       "name": "loadSubAppByURL",

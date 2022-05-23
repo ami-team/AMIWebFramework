@@ -97,6 +97,7 @@ import {parentHTML} from './utilities/view';
  * @borrows loadTexts
  * @borrows _subapps
  * @borrows loadSubApp
+ * @borrows loadSubAppAlt
  * @borrows loadSubAppByURL
  * @borrows _controls
  * @borrows loadControl
@@ -474,6 +475,8 @@ class AMIWebApp
 	_subapps = subapps._subapps;
 
 	loadSubApp = subapps.loadSubApp;
+
+	loadSubAppAlt = subapps.loadSubAppAlt;
 
 	loadSubAppByURL = subapps.loadSubAppByURL;
 
