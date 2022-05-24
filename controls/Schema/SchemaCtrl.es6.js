@@ -111,7 +111,10 @@ $AMIClass('SchemaCtrl', {
 		this.paper.on({
 			'cell:pointerclick': (cellView) => {
 
-				$('g[model-id]').removeClass('ami-schema-shadow').filter(`[model-id="${cellView.model.id}"]`).addClass('ami-schema-shadow');
+				$('g[model-id]').removeClass('ami-schema-shadow')
+				                .filter(`[model-id="${cellView.model.id}"]`)
+				                .addClass('ami-schema-shadow')
+				;
 
 				this._currentCell = cellView.model;
 
@@ -157,6 +160,15 @@ $AMIClass('SchemaCtrl', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
+		if(!catalog)
+		{
+			result.resolveWith(this.ctx.context, [null]);
+
+			return;
+		}
+
+		/*------------------------------------------------------------------------------------------------------------*/
+
 		this.setupCtx(
 			{}, {
 				context: result,
@@ -168,15 +180,6 @@ $AMIClass('SchemaCtrl', {
 			},
 			options
 		);
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		if(!catalog)
-		{
-			result.resolveWith(this.ctx.context, [null]);
-
-			return;
-		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
