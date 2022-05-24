@@ -190,16 +190,20 @@ $AMIClass('SchemaCtrl', {
 			/* GET SCHEMA                                                                                             */
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			let schema;
+			let posAndCol;
 
 			try
 			{
-				schema = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
+				posAndCol = JSON.parse(amiWebApp.jspath('..field{.@name==="json"}.$', data)[0] || '{}');
 			}
 			catch(e)
 			{
-				schema = {/*---------------------------------------------------------------------*/};
+				posAndCol = {/*---------------------------------------------------------------------*/};
 			}
+
+			/*--------------------------------------------------------------------------------------------------------*/
+
+			posAndCol = Object.fromEntries(Object.entries(posAndCol).map(([key, val]) => [key.toLowerCase(), val]));
 
 			/*--------------------------------------------------------------------------------------------------------*/
 			/* GET COLUMNS                                                                                            */
@@ -231,13 +235,13 @@ $AMIClass('SchemaCtrl', {
 
 					const key = entity.toLowerCase();
 
-					if(!(key in entities))
+					if(!(entity in entities))
 					{
 						let x;
 						let y;
 						let color;
 
-						if(!(key in schema))
+						if(!(key in posAndCol))
 						{
 							x = y
 							  = 20 + 10 * cnt++;
@@ -245,12 +249,12 @@ $AMIClass('SchemaCtrl', {
 						}
 						else
 						{
-							x = schema[key].x;
-							y = schema[key].y;
-							color = schema[key].color;
+							x = posAndCol[key].x;
+							y = posAndCol[key].y;
+							color = posAndCol[key].color;
 						}
 
-						entities[key] = {
+						entities[entity] = {
 							entity: this.graph.newEntity({
 								position: {
 									x: x,
@@ -265,9 +269,9 @@ $AMIClass('SchemaCtrl', {
 						};
 					}
 
-					if(!(field in entities[key]['fields']))
+					if(!(field in entities[entity]['fields']))
 					{
-						entities[key]['entity'].appendField({
+						entities[entity]['entity'].appendField({
 							field: field,
 							type: type,
 							hidden: hidden === 'true',
@@ -338,8 +342,8 @@ $AMIClass('SchemaCtrl', {
 				   &&
 				   amiWebApp.jspath('..field{.@name==="pkExternalCatalog"}.$', value)[0] === catalog
 				 ) {
-					const fkEntity = amiWebApp.jspath('..field{.@name==="fkEntity"}.$', value)[0].toLowerCase();
-					const pkEntity = amiWebApp.jspath('..field{.@name==="pkEntity"}.$', value)[0].toLowerCase();
+					const fkEntity = amiWebApp.jspath('..field{.@name==="fkEntity"}.$', value)[0];
+					const pkEntity = amiWebApp.jspath('..field{.@name==="pkEntity"}.$', value)[0];
 
 					if(fkEntity in entities
 					   &&
@@ -363,7 +367,7 @@ $AMIClass('SchemaCtrl', {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
-			result.resolveWith(this.ctx.context, [schema]);
+			result.resolveWith(this.ctx.context, [posAndCol]);
 
 		}).fail((data, message) => {
 
@@ -420,6 +424,30 @@ $AMIClass('SchemaCtrl', {
 		this.fitToContent();
 
 		return this.graph.toJSON();
+	},
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	exportPositionsAndColors: function()
+	{
+		const result = {};
+
+		$.each(this.graph.getCells(), (index, value) => {
+
+			if(value.get('type') === 'sql.Entity')
+			{
+				const position = value.getPosition();
+				const color    = value.getColor()   ;
+
+				result[value.get('entity').toLowerCase()] = {
+					x: position.x,
+					y: position.y,
+					color: color,
+				};
+			}
+		});
+
+		return result;
 	},
 
 	/*----------------------------------------------------------------------------------------------------------------*/

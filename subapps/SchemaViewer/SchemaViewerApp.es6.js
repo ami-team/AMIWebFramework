@@ -262,38 +262,15 @@ $AMIClass('SchemaViewerApp', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.lock();
+		const json = this.schema.exportPositionsAndColors();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const custom = {};
-
-		$.each(this.schema.graph.getCells(), (index, value) => {
-
-			if(value.get('type') === 'sql.Entity')
-			{
-				const position = value.getPosition();
-				const color    = value.getColor()   ;
-
-				custom[value.get('entity')] = {
-					x: position.x,
-					y: position.y,
-					color: color,
-				};
-			}
-		});
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		if(jQuery.isEmptyObject(custom) === false)
+		if(jQuery.isEmptyObject(json) === false)
 		{
-			/*--------------------------------------------------------------------------------------------------------*/
+			amiWebApp.lock();
 
-			const text = JSON.stringify(custom);
-
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			amiCommand.execute('SetJSONSchema -catalog=? -json=?', {params: [this.defaultCatalog, text]}).done((data, message) => {
+			amiCommand.execute('SetJSONSchema -catalog=? -json=?', {params: [this.defaultCatalog, JSON.stringify(json)]}).done((data, message) => {
 
 				amiWebApp.success(message, true);
 
@@ -301,8 +278,6 @@ $AMIClass('SchemaViewerApp', {
 
 				amiWebApp.error(message, true);
 			});
-
-			/*--------------------------------------------------------------------------------------------------------*/
 		}
 
 		/*------------------------------------------------------------------------------------------------------------*/
