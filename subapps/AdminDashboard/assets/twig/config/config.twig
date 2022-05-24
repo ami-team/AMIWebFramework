@@ -391,8 +391,8 @@
 				<div class="card-body">
 
 					<div class="mb-2">
-						<label class="form-label" for="F6E3FA68_5910_D015_24E9_82CFAD648B24">terms_and_conditions</label>
-						<input class="form-control form-control-sm" type="text" name="terms_and_conditions" value="@NULL" id="F6E3FA68_5910_D015_24E9_82CFAD648B24" />
+						<label class="form-label" for="F6E3FA68_5910_D015_24E9_82CFAD648B24">privacy_policy</label>
+						<input class="form-control form-control-sm" type="text" name="privacy_policy" value="@NULL" id="F6E3FA68_5910_D015_24E9_82CFAD648B24" />
 					</div>
 
 				</div>
@@ -419,18 +419,13 @@
 					</div>
 
 					<div class="mb-2">
-						<label class="form-label" for="B95F1836_7771_4090_9180_9562FC6A3E53">user_cert_validator_class</label>
-						<input class="form-control form-control-sm" type="text" name="user_cert_validator_class" value="@NULL" id="B95F1836_7771_4090_9180_9562FC6A3E53" />
-					</div>
-
-					<div class="mb-2">
 						<label class="form-label" for="BDEC4899_46D4_4383_9847_F72A2AE75FED">user_password_validator_class</label>
 						<input class="form-control form-control-sm" type="text" name="user_password_validator_class" value="@NULL" id="BDEC4899_46D4_4383_9847_F72A2AE75FED" />
 					</div>
 
 					<div class="mb-2">
-						<label class="form-label" for="EFF81253_5433_6F28_419C_DB32BD9C0F65">user_cert_validator_class</label>
-						<input class="form-control form-control-sm" type="text" name="user_cert_validator_class" value="@NULL" id="EFF81253_5433_6F28_419C_DB32BD9C0F65" />
+						<label class="form-label" for="EFF81253_5433_6F28_419C_DB32BD9C0F65">user_certificate_validator_class</label>
+						<input class="form-control form-control-sm" type="text" name="user_certificate_validator_class" value="@NULL" id="EFF81253_5433_6F28_419C_DB32BD9C0F65" />
 					</div>
 
 				</div>
@@ -439,7 +434,7 @@
 
 			<div class="card mx-auto mt-3">
 
-				<h5 class="card-header p-2"><i class="bi bi-box-arrow-right text-primary"></i> Single Sign-On</h5>
+				<h5 class="card-header p-2"><i class="bi bi-box-arrow-right text-primary"></i> OIDC Single Sign-On</h5>
 
 				<div class="card-body">
 
@@ -448,14 +443,35 @@
 						<input class="form-control form-control-sm" type="text" name="sso_label" value="SSO" id="D4B322B3_31E0_885F_5777_A9AE02102A94" />
 					</div>
 
+					<hr />
+
 					<div class="mb-2">
-						<label class="form-label" for="FBF7CABB_E6F1_913D_A1F7_6E6E37F77007">sso_sign_in_url</label>
-						<input class="form-control form-control-sm" type="text" name="sso_sign_in_url" value="@NULL" id="FBF7CABB_E6F1_913D_A1F7_6E6E37F77007" />
+						<label class="form-label" for="F5C64728_1C2A_8890_0FE2_8CFFB4D79014">sso_realm</label>
+						<input class="form-control form-control-sm" type="text" name="sso_realm" value="@NULL" id="F5C64728_1C2A_8890_0FE2_8CFFB4D79014" />
+					</div>
+
+					<div class="mb-2">
+						<label class="form-label" for="C5947933_D731_8856_8D9E_DDBC4135427D">sso_client_id</label>
+						<input class="form-control form-control-sm" type="text" name="sso_client_id" value="@NULL" id="C5947933_D731_8856_8D9E_DDBC4135427D" />
+					</div>
+
+					<hr />
+
+					<div class="mb-2">
+						<label class="form-label" for="FBF7CABB_E6F1_913D_A1F7_6E6E37F77007">sso_auth_url</label>
+						<input class="form-control form-control-sm" type="text" name="sso_auth_url" value="@NULL" id="FBF7CABB_E6F1_913D_A1F7_6E6E37F77007" />
 					</div>
 
 					<div class="mb-2">
 						<label class="form-label" for="D3A0AA08_009C_AB98_6B30_2D751BB2008E">sso_sign_out_url</label>
 						<input class="form-control form-control-sm" type="text" name="sso_sign_out_url" value="@NULL" id="D3A0AA08_009C_AB98_6B30_2D751BB2008E" />
+					</div>
+
+					<hr />
+
+					<div class="mb-2">
+						<label class="form-label" for="DB9C7807_5407_297C_070B_7D406E0DA422">sso_userinfo_endpoint</label>
+						<input class="form-control form-control-sm" type="text" name="sso_userinfo_endpoint" value="@NULL" id="DB9C7807_5407_297C_070B_7D406E0DA422" />
 					</div>
 
 				</div>
