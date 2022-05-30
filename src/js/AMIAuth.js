@@ -827,7 +827,7 @@ class AMIAuth
 	{
 		AMIAuth.#clean();
 
-		window.open(`${amiRouter.getOriginURL()}/docs/sso.html?url=${encodeURIComponent(this.#awfInfo.ssoAuthURL || '')}&realm=${encodeURIComponent(this.#awfInfo.ssoRealm || '')}&clientId=${encodeURIComponent(this.#awfInfo.ssoClientId || '')}`, 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+		window.open(`${this.#awfInfo.ssoAuthURL || ''}?response_type=code&client_id=${encodeURIComponent(this.#awfInfo.ssoClientId || '')}&redirect_url=${encodeURIComponent(amiRouter.getOriginURL())}/docs/sso.html`, this.#awfInfo.ssoLabel || 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
 	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/

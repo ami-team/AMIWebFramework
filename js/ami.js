@@ -17980,7 +17980,7 @@ var AMIAuth = function () {
   _proto.sso = function sso() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
-    window.open(js_AMIRouter.getOriginURL() + "/docs/sso.html?url=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL || '') + "&realm=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoRealm || '') + "&clientId=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || ''), 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+    window.open((AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL || '') + "?response_type=code&client_id=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || '') + "&redirect_url=" + encodeURIComponent(js_AMIRouter.getOriginURL()) + "/docs/sso.html", AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoLabel || 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
   };
 
   _proto.signIn = function signIn() {
