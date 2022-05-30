@@ -12259,53 +12259,6 @@ var jspath_default = /*#__PURE__*/__webpack_require__.n(jspath);
 
 
 /*--------------------------------------------------------------------------------------------------------------------*/
-/* JWT                                                                                                                */
-/*--------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Parse a JWT token
- * @param {string} token the JWT token
- * @returns {Object<string,string>} The JWT token content
- */
-
-function parseJwt(token)
-{
-	try
-	{
-		const parts = token.split('.');
-
-		if(parts.length > 1)
-		{
-			/*--------------------------------------------------------------------------------------------------------*/
-			/* DECODE PAYLOAD                                                                                         */
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			const payload = decodeURIComponent(atob(parts[1].replace(/-/g, '+').replace(/_/g, '/')).split('').map((c) => {
-
-				return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-
-			}).join(''));
-
-			/*--------------------------------------------------------------------------------------------------------*/
-			/* PARSE PAYLOAD                                                                                          */
-			/*--------------------------------------------------------------------------------------------------------*/
-
-			return JSON.parse(payload);
-
-			/*--------------------------------------------------------------------------------------------------------*/
-		}
-		else
-		{
-			return {};
-		}
-	}
-	catch(e)
-	{
-		return {};
-	}
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
 /* CLIENT                                                                                                             */
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -12644,6 +12597,23 @@ class AMIHTTPClient
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	/**
+	 * Sign in by code
+	 * @param {string} code the code
+	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (endpoint, converter, context, timeout)
+	 * @returns {$.Promise} A JQuery promise object
+	 */
+
+	signInByCode(code, options)
+	{
+		return this.#getUserInfo(
+			this.execute('GetSessionInfo -AMIUser="__oidc_code__" -AMIPass=?', {extras: {'NoCert': null}, params: [code]}),
+			options
+		);
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
 	 * Sign in by token
 	 * @param {string} token the token
 	 * @param {Object<string,*>} [options={}] dictionary of optional parameters (endpoint, converter, context, timeout)
@@ -12653,7 +12623,7 @@ class AMIHTTPClient
 	signInByToken(token, options)
 	{
 		return this.#getUserInfo(
-			this.execute('GetSessionInfo -AMIUser=? -AMIPass=?', {extras: {'NoCert': null}, params: [parseJwt(token).sub, `Bearer ${token}`]}),
+			this.execute('GetSessionInfo -AMIUser="__oidc_token__" -AMIPass=?', {extras: {'NoCert': null}, params: [token]}),
 			options
 		);
 	}
@@ -12784,7 +12754,7 @@ var paho_mqtt = __webpack_require__(8295);
  * @returns {Object<string,string>} The the JWT token content
  */
 
-function client_parseJwt(token)
+function parseJwt(token)
 {
 	try
 	{
@@ -12932,7 +12902,7 @@ class AMIMQTTClient
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const username = client_parseJwt(password).sub;
+		const username = parseJwt(password).sub;
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -13418,6 +13388,10 @@ var AMICommand = function () {
 
   _proto.mqttSignOut = function mqttSignOut(options) {
     return _classPrivateFieldLooseBase(this, _mqttClient)[_mqttClient].signOut(options);
+  };
+
+  _proto.signInByCode = function signInByCode(code, options) {
+    return _classPrivateFieldLooseBase(this, _httpClient)[_httpClient].signInByCode(code, options);
   };
 
   _proto.signInByToken = function signInByToken(token, options) {
@@ -17848,30 +17822,37 @@ var AMIAuth = function () {
 
     window.onmessage = function (e) {
       if (js_AMIRouter.getOriginURL().startsWith(e.origin)) {
-        if (e.data.token) {
+        var promise;
+
+        if ('oidc_code' in e.data) {
           js_AMIWebApp.lock();
-          js_AMICommand.signInByToken(e.data.token).fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-            AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
-              js_AMIWebApp.error(message, true);
-            });
-          }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
-            AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail(function (message) {
-              js_AMIWebApp.error(message, true);
-            }).done(function () {
-              if ((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest')) {
-                js_AMIWebApp.error('Authentification failed', true);
-              } else {
-                $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
-
-                AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
-
-                js_AMIWebApp.unlock();
-              }
-            });
-          });
-        } else if (e.data.error) {
-          js_AMIWebApp.error(e.data.error, true);
+          promise = js_AMICommand.signInByCode(e.data.oidc_code);
+        } else if ('oidc_token' in e.data) {
+          js_AMIWebApp.lock();
+          promise = js_AMICommand.signInByToken(e.data.oidc_token);
+        } else {
+          return;
         }
+
+        promise.fail(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+          AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always(function () {
+            js_AMIWebApp.error(message, true);
+          });
+        }).done(function (data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) {
+          AMIAuth_classPrivateFieldLooseBase(_this, _update)[_update](userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail(function (message) {
+            js_AMIWebApp.error(message, true);
+          }).done(function () {
+            if ((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest')) {
+              js_AMIWebApp.error('Authentification failed', true);
+            } else {
+              $('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
+
+              AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
+
+              js_AMIWebApp.unlock();
+            }
+          });
+        });
       }
     };
 
@@ -19470,6 +19451,29 @@ var AMIWebApp = function () {
       "alias": "",
       "desc": "Signs out (MQTT client)",
       "params": [{
+        "name": "options",
+        "type": ["Object.<string, *>"],
+        "desc": "dictionary of optional parameters (context)",
+        "default": "{}",
+        "optional": true,
+        "nullable": ""
+      }],
+      "returns": [{
+        "type": ["$.Promise"],
+        "desc": "A JQuery promise object"
+      }]
+    }, {
+      "name": "signInByCode",
+      "alias": "",
+      "desc": "Signs in by code (HTTP client)",
+      "params": [{
+        "name": "code",
+        "type": ["string"],
+        "desc": "the code",
+        "default": "",
+        "optional": "",
+        "nullable": ""
+      }, {
         "name": "options",
         "type": ["Object.<string, *>"],
         "desc": "dictionary of optional parameters (context)",

@@ -7,8 +7,6 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
 	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
 
-	<script src="../js/assets/js/keycloak.min.js"></script>
-
 	<title>SSO</title>
 
 </head>
@@ -44,27 +42,14 @@
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	var keycloak = Keycloak({
-		url: args.url || '',
-		realm: args.realm || '',
-		clientId: args.clientid || '',
-	});
+	var oidc_code = args['code'] || '';
 
-	/*----------------------------------------------------------------------------------------------------------------*/
+	if(oidc_code)
+	{
+		window.opener.postMessage({oidc_code: oidc_code}, window.location.origin);
 
-	keycloak.init({onLoad: 'login-required'}).then(function(authenticated) {
-
-		if(authenticated)
-		{
-			window.opener.postMessage({token: keycloak.token}, window.location.origin);
-			window.close();
-		}
-
-	}).catch(function(e) {
-
-		window.opener.postMessage({error: e}, window.location.origin);
 		window.close();
-	});
+	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 </script>

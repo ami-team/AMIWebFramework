@@ -147,7 +147,7 @@ class AMIAuth
 
 		amiWebApp.appendHTML('body', signInModalTwig + changeInfoModalTwig + changePassModalTwig + changeCertModalTwig + accountStatusModalTwig, {dict: this.#flags}).done(() => {
 
-			/*----------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			$('#B7894CC1_1DAA_4A7E_B7D1_DBDF6F06AC73').submit((e) => {
 
@@ -174,7 +174,7 @@ class AMIAuth
 				this.form_changePass(e);
 			});
 
-			/*----------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 
 			$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
 
@@ -196,7 +196,7 @@ class AMIAuth
 				);
 			});
 
-			/*----------------------------------------------------------------------------------------------------*/
+			/*--------------------------------------------------------------------------------------------------------*/
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -207,44 +207,52 @@ class AMIAuth
 
 			if(amiRouter.getOriginURL().startsWith(e.origin))
 			{
-				/**/ if(e.data.token)
+				let promise;
+
+				/**/ if('oidc_code' in e.data)
 				{
 					amiWebApp.lock();
-
-					amiCommand.signInByToken(e.data.token).fail((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
-
-						this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always((/*---*/) => {
-
-							amiWebApp.error(message, true);
-						});
-
-					}).done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
-
-						this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail((message) => {
-
-							amiWebApp.error(message, true);
-
-						}).done((/*---*/) => {
-
-							if((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest'))
-							{
-								amiWebApp.error('Authentification failed', true);
-							}
-							else
-							{
-								$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
-
-								AMIAuth.#clean();
-
-								amiWebApp.unlock();
-							}
-						});
-					});
+					promise = amiCommand.signInByCode(e.data.oidc_code);
 				}
-				else if(e.data.error)
+				else if('oidc_token' in e.data)
 				{
-					amiWebApp.error(e.data.error, true);
+					amiWebApp.lock();
+					promise = amiCommand.signInByToken(e.data.oidc_token);
 				}
+				else
+				{
+					return;
+				}
+
+				promise.fail((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+
+					this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).always((/*---*/) => {
+
+						amiWebApp.error(message, true);
+					});
+
+				}).done((data, message, userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo) => {
+
+					this.#update(userInfo, roleInfo, bookmarkInfo, dashboardInfo, awfInfo).fail((message) => {
+
+						amiWebApp.error(message, true);
+
+					}).done((/*---*/) => {
+
+						if((userInfo.AMIUser || 'guest') === (userInfo.guestUser || 'guest'))
+						{
+							amiWebApp.error('Authentification failed', true);
+						}
+						else
+						{
+							$('#D2B5FADE_97A3_4B8C_8561_7A9AEACDBE5B').modal('hide');
+
+							AMIAuth.#clean();
+
+							amiWebApp.unlock();
+						}
+					});
+				});
 			}
 		};
 
