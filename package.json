@@ -1,5 +1,5 @@
 {
-  "name": "awfwebpack",
+  "name": "awf",
   "version": "2.0.0",
   "description": "AMI Web Framework",
   "main": "index.js",
@@ -15,8 +15,8 @@
   "author": "The AMI Team, Jerome Odier <jerome.odier@lpsc.in2p3.fr>",
   "license": "CECILL-C",
   "dependencies": {
-    "ami-http-client": "git+https://github.com/ami-team/AMIHTTPClientJS.git",
-    "ami-mqtt-client": "git+https://github.com/ami-team/AMIMQTTClientJS.git",
+    "ami-http-client": "github:ami-team/AMIHTTPClientJS",
+    "ami-mqtt-client": "github:ami-team/AMIMQTTClientJS",
     "ami-twig": "github:ami-team/AMITwigJS",
     "bootstrap-icons": "1.8.1",
     "bootstrap4": "npm:bootstrap@4.6.0",

@@ -1,4 +1,4 @@
-<!-- ******************************************************************** -->
+<!-- *************************************************************************************************************** -->
 
 <style type="text/css">
 
@@ -26,132 +26,140 @@
 
 </style>
 
-<!-- ******************************************************************** -->
+<!-- *************************************************************************************************************** -->
 
 {% if showToolBar %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-top border mb-1" style="padding: 0.1rem 0.75rem 0.1rem 1.0rem;">
 
-	<span class="navbar-brand">
-		<a href="#" class="text-secondary" id="C8CB30DC_414F_7559_B618_42B7CC04F993" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="tooltip" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-placement="bottom" title="{{catalog|e}}::{{entity|e}}">
-			<i class="bi bi-info-circle"></i>
-		</a>
-	</span>
+	{% if BOOTSTRAP_VERSION > 4 %}
+	<div class="container-fluid">
+	{% endif %}
 
-	<button type="button" class="navbar-toggler" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="collapse" data-target="#F4B10C5C_47BC_2093_5269_EA03881409FA">
-		<span class="navbar-toggler-icon"></span>
-	</button>
+		<span class="navbar-brand">
+			<a href="#" class="text-secondary" id="C8CB30DC_414F_7559_B618_42B7CC04F993" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="tooltip" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-placement="bottom" title="{{catalog|e}}::{{entity|e}}">
+				<i class="bi bi-info-circle"></i>
+			</a>
+		</span>
 
-	<div class="collapse navbar-collapse" id="F4B10C5C_47BC_2093_5269_EA03881409FA">
+		<button class="navbar-toggler border-0" type="button" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="collapse" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}target="#F4B10C5C_47BC_2093_5269_EA03881409FA">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-		<div class="form-inline m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-lg-0">
-			<div class="input-group">
-				{% if BOOTSTRAP_VERSION > 4 %}
-				<button class="btn btn-outline-secondary" id="BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570">
-					<i class="bi bi-chevron-bar-left"></i>
-				</button>
-				<button class="btn btn-outline-secondary" id="BB126294_FFC2_24B8_8765_CF653EB950F7">
-					<i class="bi bi-chevron-left"></i>
-				</button>
-				{% else %}
-				<div class="input-group-prepend">
+		<div class="collapse navbar-collapse" id="F4B10C5C_47BC_2093_5269_EA03881409FA">
+
+			<div class="form-inline m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-lg-0">
+				<div class="input-group">
+					{% if BOOTSTRAP_VERSION > 4 %}
 					<button class="btn btn-outline-secondary" id="BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570">
 						<i class="bi bi-chevron-bar-left"></i>
 					</button>
 					<button class="btn btn-outline-secondary" id="BB126294_FFC2_24B8_8765_CF653EB950F7">
 						<i class="bi bi-chevron-left"></i>
 					</button>
-				</div>
-				{% endif %}
-				<input class="form-control" type="text" id="DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB" value="{{start}}" pattern="[0-9]+" />
-				<span class="input-group-text border-left-0 border-right-0 rounded-0 px-1"><i class="bi bi-dash"></i></span>
-				<input class="form-control" type="text" id="BF85DC0E_C07E_DE5E_A65B_237FCA3D461C" value="{{stop}}" pattern="[0-9]+" />
-				{% if BOOTSTRAP_VERSION > 4 %}
-				<button class="btn btn-outline-secondary" id="E7FDF4C8_ECD2_3FE0_8C75_541E511239C2">
-					<i class="bi bi-chevron-right"></i>
-				</button>
-				<button class="btn btn-outline-secondary" id="B7979619_196F_F39D_A893_17E5EDAA8628">
-					<i class="bi bi-chevron-bar-right"></i>
-				</button>
-				{% else %}
-				<div class="input-group-append">
+					{% else %}
+					<div class="input-group-prepend">
+						<button class="btn btn-outline-secondary" id="BA1A7EEA_2BB5_52F2_5BCF_64B0C381B570">
+							<i class="bi bi-chevron-bar-left"></i>
+						</button>
+						<button class="btn btn-outline-secondary" id="BB126294_FFC2_24B8_8765_CF653EB950F7">
+							<i class="bi bi-chevron-left"></i>
+						</button>
+					</div>
+					{% endif %}
+					<input class="form-control" type="text" id="DBE5AEB2_FF3E_F781_4DF9_30D97462D9BB" value="{{start}}" pattern="[0-9]+" />
+					<span class="input-group-text border-left-0 border-right-0 rounded-0 px-1"><i class="bi bi-dash"></i></span>
+					<input class="form-control" type="text" id="BF85DC0E_C07E_DE5E_A65B_237FCA3D461C" value="{{stop}}" pattern="[0-9]+" />
+					{% if BOOTSTRAP_VERSION > 4 %}
 					<button class="btn btn-outline-secondary" id="E7FDF4C8_ECD2_3FE0_8C75_541E511239C2">
 						<i class="bi bi-chevron-right"></i>
 					</button>
 					<button class="btn btn-outline-secondary" id="B7979619_196F_F39D_A893_17E5EDAA8628">
 						<i class="bi bi-chevron-bar-right"></i>
 					</button>
+					{% else %}
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" id="E7FDF4C8_ECD2_3FE0_8C75_541E511239C2">
+							<i class="bi bi-chevron-right"></i>
+						</button>
+						<button class="btn btn-outline-secondary" id="B7979619_196F_F39D_A893_17E5EDAA8628">
+							<i class="bi bi-chevron-bar-right"></i>
+						</button>
+					</div>
+					{% endif %}
 				</div>
-				{% endif %}
 			</div>
-		</div>
 
-		<div class="form-inline m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-lg-0">
-			<button type="button" class="btn btn-outline-secondary mr-2" id="D809166F_A40B_2376_C8A5_977AA0C8C408"><i class="bi bi-arrow-repeat"></i></button>
-		</div>
+			<div class="form-inline m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-lg-0">
+				<button type="button" class="btn btn-outline-secondary mr-2" id="D809166F_A40B_2376_C8A5_977AA0C8C408"><i class="bi bi-arrow-repeat"></i></button>
+			</div>
 
-		{% if canEdit and primaryField is not empty %}
-		<div class="form-inline m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-lg-0">
-			<span class="switch switch-on-warning switch-off-secondary">
-				<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D"{% if enableEditMode and canEdit %} checked="checked"{% endif %} />
-				<label for="DDC32238_DD25_8354_AC6C_F6E27CA6E18D">
-					<span class="text-secondary">view</span>
-					/
-					<span class="text-warning">edit</span>
-				</label>
+			{% if canEdit and primaryField is not empty %}
+			<div class="form-inline m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-lg-0">
+				<span class="switch switch-on-warning switch-off-secondary">
+					<input type="checkbox" id="DDC32238_DD25_8354_AC6C_F6E27CA6E18D"{% if enableEditMode and canEdit %} checked="checked"{% endif %} />
+					<label for="DDC32238_DD25_8354_AC6C_F6E27CA6E18D">
+						<span class="text-secondary">view</span>
+						/
+						<span class="text-warning">edit</span>
+					</label>
+				</span>
+				<button type="button" class="btn btn-outline-warning ami-table-plus ml-2" id="CDE5AD14_1268_8FA7_F5D8_0D690F3FB850"><i class="bi bi-plus-lg"></i></button>
+			</div>
+			{% endif %}
+
+			<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-lg-0">
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle ami-table-export" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="dropdown">Export</a>
+					<div class="dropdown-menu" id="A49B2730_4FAB_F089_5864_41029D65BF05">
+	{# 					<a href="#" class="dropdown-item" id="C9F4DBE7_EF4F_09F1_C31D_97581978BD13">XML</a>#}
+	{# 					<a href="#" class="dropdown-item" id="A4B03239_52F9_5FBB_0799_C932B9E95FCD">JSON</a>#}
+	{# 					<a href="#" class="dropdown-item" id="C6182164_9432_FA0C_5273_EFF56376660E">CSV</a>#}
+	{# 					<div class="dropdown-divider"></div>#}
+	{# 					<a href="#" class="dropdown-item" id="B8CCCCA1_9829_3EA5_280E_ED47FCD33ADE">Text</a>#}
+					</div>
+				</li>
+			</ul>
+
+			<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-lg-0">
+				<li class="nav-item dropdown">
+					<a href="#" class="nav-link dropdown-toggle ami-table-more" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="dropdown">More</a>
+					<div class="dropdown-menu">
+						<a href="#" class="dropdown-item" id="CD458FEC_9AD9_30E8_140F_263F119961BE">View SQL query</a>
+						<a href="#" class="dropdown-item" id="F4F0EB6C_6535_7714_54F7_4BC28C254872">View MQL query</a>
+						<a href="#" class="dropdown-item" id="EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92">View command (with paging)</a>
+						<a href="#" class="dropdown-item" id="D49853E2_9319_52C3_5253_A208F9500408">View command (without paging)</a>
+						<div class="dropdown-divider"></div>
+						<a href="#" class="dropdown-item" id="C50C3427_FEE5_F115_1FEC_6A6668763EC4">View JavaScript</a>
+						<a href="#" class="dropdown-item" id="F1C79246_17B2_B9B0_3ABF_8C10FA0852DD">Add to Dashboard</a>
+					</div>
+				</li>
+			</ul>
+
+			<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-auto" id="C57C824B_166C_4C23_F349_8B0C8E94114A"></span>
+
+			<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
+				<button class="btn btn-link" type="button" id="E830DA2D_A52E_8012_D358_100821361270" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="tooltip" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-placement="bottom" title="Bookmark this result">
+					<i class="bi bi-star-fill text-secondary"></i>
+				</button>
 			</span>
-			<button type="button" class="btn btn-outline-warning ami-table-plus ml-2" id="CDE5AD14_1268_8FA7_F5D8_0D690F3FB850"><i class="bi bi-plus-lg"></i></button>
+
+			{% if isEmbedded %}
+			<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 d-none d-lg-inline">
+				<img src="{{ORIGIN_URL}}/images/logo.png" alt="AMI" height="24" />
+			</span>
+			{% endif %}
+
 		</div>
-		{% endif %}
 
-		<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-lg-0">
-			<li class="nav-item dropdown">
-				<a href="#" class="nav-link dropdown-toggle ami-table-export" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="dropdown">Export</a>
-				<div class="dropdown-menu" id="A49B2730_4FAB_F089_5864_41029D65BF05">
-{# 					<a href="#" class="dropdown-item" id="C9F4DBE7_EF4F_09F1_C31D_97581978BD13">XML</a>#}
-{# 					<a href="#" class="dropdown-item" id="A4B03239_52F9_5FBB_0799_C932B9E95FCD">JSON</a>#}
-{# 					<a href="#" class="dropdown-item" id="C6182164_9432_FA0C_5273_EFF56376660E">CSV</a>#}
-{# 					<div class="dropdown-divider"></div>#}
-{# 					<a href="#" class="dropdown-item" id="B8CCCCA1_9829_3EA5_280E_ED47FCD33ADE">Text</a>#}
-				</div>
-			</li>
-		</ul>
-
-		<ul class="navbar-nav m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 my-lg-0">
-			<li class="nav-item dropdown">
-				<a href="#" class="nav-link dropdown-toggle ami-table-more" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="dropdown">More</a>
-				<div class="dropdown-menu">
-					<a href="#" class="dropdown-item" id="CD458FEC_9AD9_30E8_140F_263F119961BE">View SQL query</a>
-					<a href="#" class="dropdown-item" id="F4F0EB6C_6535_7714_54F7_4BC28C254872">View MQL query</a>
-					<a href="#" class="dropdown-item" id="EF739EE0_DB79_0A4E_9FDD_7BA3C0F74F92">View command (with paging)</a>
-					<a href="#" class="dropdown-item" id="D49853E2_9319_52C3_5253_A208F9500408">View command (without paging)</a>
-					<div class="dropdown-divider"></div>
-					<a href="#" class="dropdown-item" id="C50C3427_FEE5_F115_1FEC_6A6668763EC4">View JavaScript</a>
-					<a href="#" class="dropdown-item" id="F1C79246_17B2_B9B0_3ABF_8C10FA0852DD">Add to Dashboard</a>
-				</div>
-			</li>
-		</ul>
-
-		<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}s{% else %}l{% endif %}-auto" id="C57C824B_166C_4C23_F349_8B0C8E94114A"></span>
-
-		<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2">
-			<button class="btn btn-link" type="button" id="E830DA2D_A52E_8012_D358_100821361270" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-toggle="tooltip" data{% if BOOTSTRAP_VERSION > 4 %}-bs{% endif %}-placement="bottom" title="Bookmark this result">
-				<i class="bi bi-star-fill text-secondary"></i>
-			</button>
-		</span>
-
-		{% if isEmbedded %}
-		<span class="navbar-text m{% if BOOTSTRAP_VERSION > 4 %}e{% else %}r{% endif %}-2 d-none d-lg-inline">
-			<img src="{{ORIGIN_URL}}/images/logo.png" alt="AMI" height="24" />
-		</span>
-		{% endif %}
-
+	{% if BOOTSTRAP_VERSION > 4 %}
 	</div>
+	{% endif %}
 
 </nav>
 {% endif %}
 
-<!-- ******************************************************************** -->
+<!-- *************************************************************************************************************** -->
 
 <div class="pb-0 mb-4 unit-edit" id="FEF9E8D8_D4AB_B545_B394_C12DD5817D61" style="overflow-x: scroll;"></div>
 
-<!-- ******************************************************************** -->
+<!-- *************************************************************************************************************** -->

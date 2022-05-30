@@ -11893,7 +11893,7 @@ module.exports = moment;
 /******/ 	/* webpack/runtime/load script */
 /******/ 	(() => {
 /******/ 		var inProgress = {};
-/******/ 		var dataWebpackPrefix = "awfwebpack:";
+/******/ 		var dataWebpackPrefix = "awf:";
 /******/ 		// loadScript function to load a script via script tag
 /******/ 		__webpack_require__.l = (url, done, key, chunkId) => {
 /******/ 			if(inProgress[url]) { inProgress[url].push(done); return; }
@@ -12053,7 +12053,7 @@ module.exports = moment;
 /******/ 		
 /******/ 		}
 /******/ 		
-/******/ 		var chunkLoadingGlobal = self["webpackChunkawfwebpack"] = self["webpackChunkawfwebpack"] || [];
+/******/ 		var chunkLoadingGlobal = self["webpackChunkawf"] = self["webpackChunkawf"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
 /******/ 	})();
