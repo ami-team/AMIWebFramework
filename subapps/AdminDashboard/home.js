@@ -19,22 +19,13 @@ export function init()
 {
 	const result = $.Deferred();
 
-	const awfInfo = amiAuth.getAWFInfo();
-
-	const dict = {
-		nodeRedURL: awfInfo.nodeRedURL || 'https://www.nodered.org/',
-	};
-
-	amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigHome, {dict: dict}).done(() => {
+	amiWebApp.replaceHTML('#BCCE2136_3695_AB6F_4F08_3BD3C9035287', twigHome).done(() => {
 
 		$('#FCA2B6DC_3239_838D_A109_91F164524987').text(jQuery.fn.tooltip.Constructor.VERSION);
-		$('#F8D580E4_05F1_0317_9F3F_E4BA7AB99D3E').text(jQuery.fn./*------*/jquery/*------*/);
+		$('#F8D580E4_05F1_0317_9F3F_E4BA7AB99D3E').text(jQuery.fn./*-------*/jquery/*-------*/);
 
 		$('#ACA527B0_4581_8292_DB2A_22C900E621A0').text(amiTwig.version);
 		$('#D9C3541F_3534_1312_4C08_F22962C05347').text(ami.vue.version);
-
-		$('#F1FA8298_F283_E0C4_A9F6_74C8EB2E4762').text(awfInfo.buildVersion || 'N/A');
-		$('#A8F46B0F_4657_09B7_BB0D_6B4434FD79A3').text(awfInfo.commitIdAbbrev || 'N/A');
 
 		$('#E15C9F8C-A955-2643-196B-BBF3317D1616').text(ami.awf.buildVersion);
 		$('#A47094A8-3D38-666B-E542-2C88AC486E1D').text(ami.awf.commitIdAbbrev);
@@ -47,35 +38,30 @@ export function init()
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-export function onExit()
-{
-	const result = $.Deferred();
-
-	result.resolve();
-
-	return result;
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 export function onLogin()
 {
-	const result = $.Deferred();
-
-	result.resolve();
-
-	return result;
+	update();
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 export function onLogout()
 {
-	const result = $.Deferred();
+	update();
+}
 
-	result.resolve();
+/*--------------------------------------------------------------------------------------------------------------------*/
 
-	return result;
+function update()
+{
+	const awfInfo = amiAuth.getAWFInfo();
+
+	$('#BD4F9D14_B1CD_F377_29B6_130C3EA8C7C2').attr(
+		'href', awfInfo.nodeRedURL || 'https://www.nodered.org/'
+	);
+
+	$('#F1FA8298_F283_E0C4_A9F6_74C8EB2E4762').text(awfInfo.buildVersion || 'N/A');
+	$('#A8F46B0F_4657_09B7_BB0D_6B4434FD79A3').text(awfInfo.commitIdAbbrev || 'N/A');
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/
