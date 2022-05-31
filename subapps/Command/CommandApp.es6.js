@@ -141,6 +141,7 @@ $AMIClass('CommandApp', {
 					                  'text'
 					            ) : 'xml'
 					      ) : 'json',
+					cmd: command,
 					url: url,
 				};
 

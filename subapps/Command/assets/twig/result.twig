@@ -1,6 +1,10 @@
 <div class="command-result">
 	<div class="text-end">
 		<div class="cmd-tools">
+			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.copy('{{ cmd|e }}');">
+				<i class="bi bi-clipboard" style="font-size: 1.5rem;"></i>
+				<small style="font-size: 0.75rem; margin-left: -1.25rem;">CMD</small>
+			</button>
 			<button type="button" class="btn btn-sm btn-link" onclick="commandApp.copy('{{ url|e }}');">
 				<i class="bi bi-clipboard" style="font-size: 1.5rem;"></i>
 				<small style="font-size: 0.75rem; margin-left: -1.25rem;">URL</small>
