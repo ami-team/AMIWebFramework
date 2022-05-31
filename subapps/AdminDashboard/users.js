@@ -75,7 +75,7 @@ function find(filter)
 
 	amiCommand.execute(`SearchQuery -catalog="self" -entity="router_user" -mql="SELECT \`router_user\`.\`id\`, \`router_role\`.\`role\` WHERE LOWER(\`router_user\`.\`AMIUser\`) LIKE '%${amiWebApp.textToString(amiWebApp.textToSQL(filter))}%' OR LOWER(\`router_user\`.\`ssoUser\`) LIKE '%${amiWebApp.textToString(amiWebApp.textToSQL(filter))}%' OR LOWER(\`router_user\`.\`email\`) LIKE '%${amiWebApp.textToString(amiWebApp.textToSQL(filter))}%'"` ).done((data2) => {
 
-		amiCommand.execute(`SearchQuery -catalog="self" -entity="router_user" -mql="SELECT \`id\`, \`AMIUser\`, \`ssoUser\`, \`clientDN\`, \`issuerDN\`, \`firstName\`, \`lastName\`, \`email\`, \`json\`, \`valid\` WHERE LOWER(\`AMIUser\`) LIKE '%${amiWebApp.textToString(amiWebApp.textToSQL(filter))}%' OR LOWER(\`router_user\`.\`ssoUser\`) LIKE '%${amiWebApp.textToString(amiWebApp.textToSQL(filter))}%' OR LOWER(\`email\`) LIKE '%${amiWebApp.textToString(amiWebApp.textToSQL(filter))}%' ORDER BY \`AMIUser\` LIMIT 50"`).done((data1) => {
+		amiCommand.execute(`SearchQuery -catalog="self" -entity="router_user" -mql="SELECT \`id\`, \`AMIUser\`, \`ssoUser\`, \`clientDN\`, \`issuerDN\`, \`firstName\`, \`lastName\`, \`email\`, \`country\`, \`json\`, \`valid\` WHERE LOWER(\`AMIUser\`) LIKE '%${amiWebApp.textToString(amiWebApp.textToSQL(filter))}%' OR LOWER(\`router_user\`.\`ssoUser\`) LIKE '%${amiWebApp.textToString(amiWebApp.textToSQL(filter))}%' OR LOWER(\`email\`) LIKE '%${amiWebApp.textToString(amiWebApp.textToSQL(filter))}%' ORDER BY \`AMIUser\` LIMIT 50"`).done((data1) => {
 
 			const rows1 = amiWebApp.jspath('..rowset.row', data1);
 			const rows2 = amiWebApp.jspath('..rowset.row', data2);
@@ -94,6 +94,7 @@ function find(filter)
 				const firstname = amiWebApp.jspath('..field{.@name==="firstName"}.$', row)[0] || '';
 				const lastname = amiWebApp.jspath('..field{.@name==="lastName"}.$', row)[0] || '';
 				const email = amiWebApp.jspath('..field{.@name==="email"}.$', row)[0] || '';
+				const country = amiWebApp.jspath('..field{.@name==="country"}.$', row)[0] || '';
 				const json = amiWebApp.jspath('..field{.@name==="json"}.$', row)[0] || '';
 				const valid = amiWebApp.jspath('..field{.@name==="valid"}.$', row)[0] || '';
 
@@ -107,6 +108,7 @@ function find(filter)
 					firstname: firstname,
 					lastname: lastname,
 					email: email,
+					country: country,
 					json: json,
 					valid: valid,
 					roles: [],
