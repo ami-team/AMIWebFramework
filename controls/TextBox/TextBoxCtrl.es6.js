@@ -131,7 +131,7 @@ $AMIClass('TextBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		monaco.editor.setModelLanguage(editor.getModel(), params.lang);
+		monaco.editor.setModelLanguage(editor.getModel(), params.lang !== 'mql' ? params.lang : 'sql'); /* TEMP */
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
