@@ -17961,7 +17961,7 @@ var AMIAuth = function () {
   _proto.sso = function sso() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
-    window.open((AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL || '') + "?response_type=code&client_id=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || '') + "&redirect_uri=" + encodeURIComponent(js_AMIRouter.getOriginURL()) + "/docs/sso.html", AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoLabel || 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+    window.open(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL ? AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL + "?response_type=code&client_id=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || '') + "&redirect_uri=" + encodeURIComponent(js_AMIRouter.getOriginURL()) + "/docs/sso.html" : js_AMIRouter.getOriginURL() + "/docs/sso_not_configured.html", AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoLabel || 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
   };
 
   _proto.signIn = function signIn() {
