@@ -26,7 +26,7 @@ import signInModalTwig from '../twigs/Modals/sign_in_modal.twig';
 import changeInfoModalTwig from '../twigs/Modals/change_info_modal.twig';
 import changePassModalTwig from '../twigs/Modals/change_pass_modal.twig';
 import changeCertModalTwig from '../twigs/Modals/change_cert_modal.twig';
-import accountStatusModalTwig from '../twigs/Modals/account_status_modal.twig';
+import accountModalTwig from '../twigs/Modals/account_modal.twig';
 
 import greenCertificateImage from '../images/certificate-green.png';
 import pinkCertificateImage from '../images/certificate-pink.png';
@@ -145,7 +145,7 @@ class AMIAuth
 		/* MODAL INITIALIZATION                                                                                       */
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		amiWebApp.appendHTML('body', signInModalTwig + changeInfoModalTwig + changePassModalTwig + changeCertModalTwig + accountStatusModalTwig, {dict: this.#flags}).done(() => {
+		amiWebApp.appendHTML('body', signInModalTwig + changeInfoModalTwig + changePassModalTwig + changeCertModalTwig + accountModalTwig, {dict: this.#flags}).done(() => {
 
 			/*--------------------------------------------------------------------------------------------------------*/
 
@@ -380,6 +380,9 @@ class AMIAuth
 
 			const email = userInfo.email || '';
 
+			const caNotBefore = userInfo.caNotBefore || '';
+			const caNotAfter = userInfo.caNotAfter || '';
+
 			const notBefore = userInfo.notBefore || '';
 			const notAfter = userInfo.notAfter || '';
 
@@ -501,7 +504,8 @@ class AMIAuth
   				                                          .closest('.rounded').css('background', `#B8D49B url("${greenCertificateImage}") no-repeat center center`).css('background-size', 'cover')
 				;
 
-				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(`${notBefore} - ${notAfter}`);
+				$('#D14FF052_5DBD_363A_820D_8C2B9388F3A3').text(`valid from ${caNotBefore || 'N/A'} to ${caNotAfter || 'N/A'}`);
+				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(`valid from ${notBefore || 'N/A'} to ${notAfter || 'N/A'}`);
 
 				/*----------------------------------------------------------------------------------------------------*/
 
@@ -540,7 +544,8 @@ class AMIAuth
 				                                          .closest('.rounded').css('background', `#E8C8CF url("${pinkCertificateImage}") no-repeat center center`).css('background-size', 'cover')
 				;
 
-				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(`${notBefore} - ${notAfter}`);
+				$('#D14FF052_5DBD_363A_820D_8C2B9388F3A3').text(`valid from ${caNotBefore || 'N/A'} to ${caNotAfter || 'N/A'}`);
+				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(`valid from ${notBefore || 'N/A'} to ${notAfter || 'N/A'}`);
 
 				/*----------------------------------------------------------------------------------------------------*/
 

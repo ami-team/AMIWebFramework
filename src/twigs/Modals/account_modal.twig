@@ -2,7 +2,7 @@
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">Account Status</h4>
+				<h4 class="modal-title">Account</h4>
 				{% if BOOTSTRAP_VERSION > 4 %}
 				<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 				{% else %}
@@ -14,7 +14,7 @@
 
 				<nav class="mb-2">
 					<div class="nav nav-tabs" role="tablist">
-						<button class="nav-link active" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}target="#B89A9E2D_8969_41F4_B266_230B782FA17D" type="button" role="tab">User account status</button>
+						<button class="nav-link active" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}target="#B89A9E2D_8969_41F4_B266_230B782FA17D" type="button" role="tab">Account status</button>
 						<button class="nav-link xxxxxx" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}target="#F22A8AD8_08EB_434C_B6F8_DC92FC0F69AC" type="button" role="tab">User information</button>
 						<button class="nav-link xxxxxx" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="tab" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}target="#D827345F_6762_32F6_1D2D_DB40676804AE" type="button" role="tab">User roles</button>
 					</div>
@@ -27,16 +27,14 @@
 					<div class="tab-pane active" role="tabpanel" id="B89A9E2D_8969_41F4_B266_230B782FA17D">
 						<div class="text-center rounded mx-auto px-5 py-2 mb-2">
 							<div class="row">
-								<div class="col-xl-3 d-flex align-items-center justify-content-center">
+								<div class="col-xl-3 d-flex flex-column align-items-center justify-content-between">
 <!--								<canvas id="EC948084_8C0A_CEBF_58C9_086046AB2456" height="175" width="175" />
 -->								</div>
-								<div class="col-xl-6">
-									<div style="font-family: 'Open Sans Light'; font-size: 32pt;" id="D579A431_DBE4_6B30_1CF6_5E23761B4E1A">Your account is</div>
-									<div style="font-family: 'Open Sans Light'; font-size: 32pt;" id="F3FF9F43_DE72_40BB_B1BA_B7B3C9002671">???????????????</div>
-									<div style="font-family: 'Open Sans Light'; font-size: 14pt;" id="E91280F6_E7C6_3E53_A457_646995C99317">???????????????</div>
-									<br />
+								<div class="col-xl-6 d-flex flex-column align-items-center justify-content-between">
+									<div style="font-family: 'Open Sans Light'; font-size: 34pt;" id="D579A431_DBE4_6B30_1CF6_5E23761B4E1A">Your account is</div>
+									<div style="font-family: 'Open Sans Light'; font-size: 34pt;" id="F3FF9F43_DE72_40BB_B1BA_B7B3C9002671">???????????????</div>
 								</div>
-								<div class="col-xl-3 d-flex align-items-center justify-content-center">
+								<div class="col-xl-3 d-flex flex-column align-items-center justify-content-between">
 									<canvas id="EC948084_8C0A_CEBF_58C9_086046AB2456" height="175" width="175" />
 								</div>
 							</div>
@@ -74,6 +72,9 @@
 							<label class="col-sm-3 col-form-label col-form-label-sm" for="FE2F6232_C256_4B80_939C_EBEC90320308" style="font-weight: normal;">Issuer certificate DN in session</label>
 							<div class="col-sm-9">
 								<input class="form-control" type="text" id="FE2F6232_C256_4B80_939C_EBEC90320308" readonly="readonly" />
+								<div class="text-end">
+									<small class="text-muted" id="D14FF052_5DBD_363A_820D_8C2B9388F3A3"></small>
+								</div>
 							</div>
 						</div>
 						<div class="mb-3 row">
@@ -86,6 +87,9 @@
 							<label class="col-sm-3 col-form-label col-form-label-sm" for="C76805D7_1E86_4231_9071_1D04783423BB" style="font-weight: normal;">Client certificate DN in session</label>
 							<div class="col-sm-9">
 								<input class="form-control" type="text" id="C76805D7_1E86_4231_9071_1D04783423BB" readonly="readonly" />
+								<div class="text-end">
+									<small class="text-muted" id="E91280F6_E7C6_3E53_A457_646995C99317"></small>
+								</div>
 							</div>
 						</div>
 						<div class="mb-3 row">
