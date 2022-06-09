@@ -17,7 +17,7 @@ import ssl, sys, zlib, base64, random
 
 ########################################################################################################################
 
-AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/awfwebpack/master/tools/awf.img?_=%d' % random.uniform(0, 1000000000)
+AWF_IMAGE_URL = 'https://raw.githubusercontent.com/ami-team/AMIWebFramework/master/tools/awf.img?_=%d' % random.uniform(0, 1000000000)
 
 ########################################################################################################################
 

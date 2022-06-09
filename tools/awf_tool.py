@@ -13,7 +13,7 @@
 # http://www.cecill.info/licences/Licence_CeCILL-C_V1-fr.html
 ########################################################################################################################
 
-AWF_GIT_URL = 'https://github.com/ami-team/awfwebpack.git'
+AWF_GIT_URL = 'https://github.com/ami-team/AMIWebFramework.git'
 
 ########################################################################################################################
 
