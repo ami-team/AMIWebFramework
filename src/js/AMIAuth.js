@@ -380,17 +380,14 @@ class AMIAuth
 
 			const email = userInfo.email || '';
 
-			const caNotBefore = userInfo.caNotBefore || '';
-			const caNotAfter = userInfo.caNotAfter || '';
-
-			const notBefore = userInfo.notBefore || '';
-			const notAfter = userInfo.notAfter || '';
-
 			const clientDNInSession = userInfo.clientDNInSession || '';
 			const issuerDNInSession = userInfo.issuerDNInSession || '';
 
 			const clientDNInAMI = userInfo.clientDNInAMI || '';
 			const issuerDNInAMI = userInfo.issuerDNInAMI || '';
+
+			const notBefore = userInfo.notBefore || '';
+			const notAfter = userInfo.notAfter || '';
 
 			const valid = userInfo.valid || 'false';
 
@@ -504,7 +501,6 @@ class AMIAuth
   				                                          .closest('.rounded').css('background', `#B8D49B url("${greenCertificateImage}") no-repeat center center`).css('background-size', 'cover')
 				;
 
-				$('#D14FF052_5DBD_363A_820D_8C2B9388F3A3').text(`valid from ${caNotBefore || 'N/A'} to ${caNotAfter || 'N/A'}`);
 				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(`valid from ${notBefore || 'N/A'} to ${notAfter || 'N/A'}`);
 
 				/*----------------------------------------------------------------------------------------------------*/
@@ -544,7 +540,6 @@ class AMIAuth
 				                                          .closest('.rounded').css('background', `#E8C8CF url("${pinkCertificateImage}") no-repeat center center`).css('background-size', 'cover')
 				;
 
-				$('#D14FF052_5DBD_363A_820D_8C2B9388F3A3').text(`valid from ${caNotBefore || 'N/A'} to ${caNotAfter || 'N/A'}`);
 				$('#E91280F6_E7C6_3E53_A457_646995C99317').text(`valid from ${notBefore || 'N/A'} to ${notAfter || 'N/A'}`);
 
 				/*----------------------------------------------------------------------------------------------------*/
