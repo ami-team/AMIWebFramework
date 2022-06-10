@@ -36,7 +36,7 @@
 /*!
  * AMI Twig Engine 1.2.0
  *
- * Copyright © 2014-2021 CNRS/LPSC
+ * Copyright © 2014-2022 CNRS/LPSC
  *
  * Author: Jérôme ODIER (jerome.odier@lpsc.in2p3.fr)
  *
@@ -3029,13 +3029,13 @@ __l0:	for(let i = 0; i < l; i += 0)
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	'_textToStringX': ['\\'  , '\n' , '"'  , '\''  ],
-	'_textToStringY': ['\\\\', '\\n', '\\"', '\\\''],
+	'_textToStringX': ['\\'  , '\r' , '\n' , '"'  , '\''  ],
+	'_textToStringY': ['\\\\', '\\r', '\\n', '\\"', '\\\''],
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-	'_textToJsonStringX': ['\\'  , '\n' , '"'  ],
-	'_textToJsonStringY': ['\\\\', '\\n', '\\"'],
+	'_textToJsonStringX': ['\\'  , '\r' , '\n' , '"'  ],
+	'_textToJsonStringY': ['\\\\', '\\r', '\\n', '\\"'],
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -12751,7 +12751,7 @@ var paho_mqtt = __webpack_require__(8295);
 /**
  * Parse a JWT token
  * @param {string} token the JWT token
- * @returns {Object<string,string>} The the JWT token content
+ * @returns {Object<string,string>} The JWT token content
  */
 
 function parseJwt(token)
@@ -13130,7 +13130,11 @@ class AMIMQTTClient
 
 		command = (command || '').trim().replace(this.#paramRegExp, (x, y) => {
 
-			return `-${y}="${String(params.shift()).replace('\\', '\\\\').replace('\n', '\\n').replace('"', '\\"').replace('\'', '\\\'')}"`;
+			const rawValue = params.shift();
+
+			return Object.prototype.toString.call(rawValue) === '[object String]' ? `-${y}=${JSON.stringify(rawValue)}`
+			                                                                      : `-${y}="${JSON.stringify(rawValue)}"`
+			;
 		});
 
 		/*------------------------------------------------------------------------------------------------------------*/
@@ -17693,7 +17697,7 @@ var browser = __webpack_require__(2592);
 ;// CONCATENATED MODULE: ./src/js/AMIAuth.js
 
 
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function AMIAuth_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
 
@@ -17961,7 +17965,7 @@ var AMIAuth = function () {
   _proto.sso = function sso() {
     AMIAuth_classPrivateFieldLooseBase(AMIAuth, _clean)[_clean]();
 
-    window.open(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL ? AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL + "?response_type=code&client_id=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || '') + "&redirect_uri=" + encodeURIComponent(js_AMIRouter.getOriginURL()) + "/docs/sso.html" : js_AMIRouter.getOriginURL() + "/docs/sso_not_configured.html", AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoLabel || 'Single Sign-On', 'menubar=no, status=no, scrollbars=no, width=800, height=450');
+    window.open(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL ? AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoAuthURL + "?response_type=code&client_id=" + encodeURIComponent(AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoClientId || '') + "&redirect_uri=" + encodeURIComponent(js_AMIRouter.getOriginURL()) + "/docs/sso.html" : js_AMIRouter.getOriginURL() + "/docs/sso_not_configured.html", AMIAuth_classPrivateFieldLooseBase(this, _awfInfo)[_awfInfo].ssoLabel || 'Single Sign-On', 'location=no, menubar=no, status=no, scrollbars=no, width=800, height=525');
   };
 
   _proto.signIn = function signIn() {
