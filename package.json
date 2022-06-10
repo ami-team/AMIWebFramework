@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://gitlab.in2p3.fr/ami-team/awfwebpack.git"
+    "url": "https://gitlab.in2p3.fr/ami-team/AMIWebFramework.git"
   },
   "author": "The AMI Team, Jerome Odier <jerome.odier@lpsc.in2p3.fr>",
   "license": "CECILL-C",
