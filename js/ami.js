@@ -17813,14 +17813,18 @@ var AMIAuth = function () {
         _this.form_changePass(e);
       });
       $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(function () {
-        var pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
-        var pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
-        $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : '');
+        var el1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388');
+        var el2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187');
+        var pass1 = el1.val();
+        var pass2 = el2.val();
+        el2.get(0).setCustomValidity(pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : '');
       });
       $('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(function () {
-        var pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
-        var pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
-        $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').get(0).setCustomValidity(pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : '');
+        var el1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4');
+        var el2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77');
+        var pass1 = el1.val();
+        var pass2 = el2.val();
+        el2.get(0).setCustomValidity(pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : '');
       });
     });
 
@@ -18791,7 +18795,6 @@ function AMIWebApp_classPrivateFieldLooseBase(receiver, privateKey) { if (!Objec
 var AMIWebApp_id = 0;
 
 function AMIWebApp_classPrivateFieldLooseKey(name) { return "__private_" + AMIWebApp_id++ + "_" + name; }
-
 
 
 

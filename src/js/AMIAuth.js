@@ -178,20 +178,26 @@ class AMIAuth
 
 			$('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388,#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').change(() => {
 
-				const pass1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388').val();
-				const pass2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').val();
+				const el1 = $('#E6E30EEC_15EE_4FCF_9809_2B8EC2FEF388');
+				const el2 = $('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187');
 
-				$('#CCD8E6F1_6DF8_4BDD_A0EC_C3C380830187').get(0).setCustomValidity(
+				const pass1 = el1.val();
+				const pass2 = el2.val();
+
+				el2.get(0).setCustomValidity(
 					pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
 				);
 			});
 
 			$('#D487FE72_8D95_4048_BEA3_252274862AF4,#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').change(() => {
 
-				const pass1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4').val();
-				const pass2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').val();
+				const el1 = $('#D487FE72_8D95_4048_BEA3_252274862AF4');
+				const el2 = $('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77');
 
-				$('#EE1DA58C_3761_4734_A9C2_E808CDD7EE77').get(0).setCustomValidity(
+				const pass1 = el1.val();
+				const pass2 = el2.val();
+
+				el2.get(0).setCustomValidity(
 					pass1.length > 0 && pass2.length > 0 && pass1 !== pass2 ? 'Passwords don\'t match.' : ''
 				);
 			});

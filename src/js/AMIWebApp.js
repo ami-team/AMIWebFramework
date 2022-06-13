@@ -39,7 +39,6 @@ import '../images/padlock.png';
 import defaultLogoURL from '../images/logo.png';
 import defaultBackgroundURL from '../images/background.jpg';
 import defaultSignInImageURL from '../images/sign_in_image.jpg';
-import {parentHTML} from './utilities/view';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
