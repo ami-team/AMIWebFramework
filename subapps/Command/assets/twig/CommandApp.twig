@@ -34,7 +34,8 @@
 		overflow-y: scroll;
 	}
 
-	#FBACBE5B_D5BC_5EE4_862C_538784442F93 {
+	#FBACBE5B_D5BC_5EE4_862C_538784442F93,
+	#FDCB42DD_8E29_9B1A_5EB4_309C6B55BAFB {
 
 		border-left: 0px solid #CCC;
 	}
@@ -56,7 +57,8 @@
 		overflow-y: scroll;
 	}
 
-	#FBACBE5B_D5BC_5EE4_862C_538784442F93 {
+	#FBACBE5B_D5BC_5EE4_862C_538784442F93,
+	#FDCB42DD_8E29_9B1A_5EB4_309C6B55BAFB {
 
     	border-left: 1px solid #CCC;
     }
@@ -90,8 +92,15 @@
 				</div>
 			</div>
 		</div>
-		<div class="card-footer text-end">
-			<button type="button" class="btn btn-primary" id="C124A2A9_B5F5_46F0_AFBC_234859F3F6FA" onclick="commandApp.execute($('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').val(), $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val());">Execute</button>
+		<div class="card-footer py-0">
+			<div class="row">
+				<div class="col-md-4 text-start py-2" id="A42CD433_6185_8196_7218_ECBFD3863A7F">
+					<input class="form-control" type="text" placeholder="Command filter" id="CE18AED2_E6E7_9CB6_EC3E_790F3D2D5791" onkeyup="commandApp.filter($('#CE18AED2_E6E7_9CB6_EC3E_790F3D2D5791').val());" />
+				</div>
+				<div class="col-md-8 text-end py-2" id="FDCB42DD_8E29_9B1A_5EB4_309C6B55BAFB">
+					<button type="button" class="btn btn-primary" id="C124A2A9_B5F5_46F0_AFBC_234859F3F6FA" onclick="commandApp.execute($('#CE9A50CD_63CA_4A1E_B336_F45399BEC84D').val(), $('#C8D10895_E8A7_46A0_B638_C8DDDED8F91C').val());">Execute</button>
+				</div>
+			</div>
 		</div>
 	</div>
 
