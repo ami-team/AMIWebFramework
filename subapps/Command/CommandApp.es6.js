@@ -121,7 +121,7 @@ $AMIClass('CommandApp', {
 
 	filter: function(filter)
 	{
-		filter = (filter || '').trim();
+		filter = (filter || '').trim().toLowerCase();
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
@@ -129,7 +129,7 @@ $AMIClass('CommandApp', {
 
 			const el = $(element);
 
-			if(!filter || el.attr('data-ami-command').indexOf(filter) >= 0) {
+			if(!filter || el.attr('data-ami-command').toLowerCase().indexOf(filter) >= 0) {
 				el.addClass('d-flex').removeClass('d-none');
 			}
 			else {
