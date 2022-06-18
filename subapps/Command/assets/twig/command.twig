@@ -3,6 +3,6 @@
 		{{ command|e }}
 	</span>
 	<a class="flex-shrink-1" href="#" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}toggle="popover" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}boundary="window" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}placement="right" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}trigger="focus" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}html="true" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}title="{{ command|e }}" data-{% if BOOTSTRAP_VERSION > 4 %}bs-{% endif %}content="&lt;pre&gt;{{ help|e }}&lt;/pre&gt;">
-		<i class="bi bi-question-circle-fill"></i>
+		<i class="bi bi-question-circle-fill {% if visible %}text-primary{% else %}text-secondary{% endif %}"></i>
 	</a>
 </div>

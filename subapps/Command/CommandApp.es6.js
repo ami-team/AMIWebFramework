@@ -76,12 +76,11 @@ $AMIClass('CommandApp', {
 				const command = amiWebApp.jspath('..field{.@name==="command"}.$', row)[0] || '';
 
 				const visible = (amiWebApp.jspath('..field{.@name==="visible"}.$', row)[0] || 'true') !== 'false';
-				const secured = (amiWebApp.jspath('..field{.@name==="secured"}.$', row)[0] || 'false') !== 'false';
-
+	
 				let help = amiWebApp.jspath('..field{.@name==="help"}.$', row)[0] || '';
 				const usage = amiWebApp.jspath('..field{.@name==="usage"}.$', row)[0] || '';
 
-				if((visible && isAuthenticated) || amiLogin.hasRole('AMI_ADMIN') || command === 'GetSessionInfo' || command === 'ResetPassword' || command === 'AddUser')
+				if((visible && isAuthenticated) || amiLogin.hasRole('AMI_ADMIN'))
 				{
 					let proto;
 
@@ -97,7 +96,7 @@ $AMIClass('CommandApp', {
 
 					dict.push({
 						command: command,
-						secured: secured,
+						visible: visible,
 						help: help,
 						proto: proto,
 					});
