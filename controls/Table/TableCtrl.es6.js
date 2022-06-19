@@ -1300,37 +1300,13 @@ $AMIClass('TableCtrl', {
 	{
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		const isMQL = this.ctx.mql && this.ctx.mql !== 'N/A';
-
-		const regions = xqlGetRegions(isMQL ? this.ctx.mql : this.ctx.sql, this.ctx.listOfFieldDescriptions[this.ctx.currentTabIndex], isMQL);
-
-		const columnName = this._buildColumnName(regions['ALIASES'][field].catalog, regions['ALIASES'][field].tableAlias, regions['ALIASES'][field].field);
+		const regions = xqlGetRegions(this.ctx.sql, this.ctx.listOfFieldDescriptions[this.ctx.currentTabIndex]);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		regions['SELECT'] = columnName;
+		const command = `Histogram -catalog="${amiWebApp.textToString(catalog)}" -entity="${amiWebApp.textToString(entity)}" -field="${amiWebApp.textToString(field)}" -where="${amiWebApp.textToString(regions['WHERE'])}"`;
 
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		const xql = [];
-
-		if(regions['SELECT']) {
-			xql.push(`SELECT ${regions['SELECT']}`);
-		}
-
-		if(regions['FROM']) {
-			xql.push(`FROM ${regions['FROM']}`);
-		}
-
-		if(regions['WHERE']) {
-			xql.push(`WHERE ${regions['WHERE']}`);
-		}
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
-		const command = `RootH1I -catalog="${amiWebApp.textToString(this.ctx.catalog)}" -entity="${amiWebApp.textToString(this.ctx.entity)}" -${isMQL ? 'mql' : 'sql'}="${amiWebApp.textToString(xql.join(' '))}"`;
-
-		amiWebApp.createControlInContainer(this.getParent(), this, 'root', [command], {height: 600, width: 800}, this.ctx, 'bar-chart', this.ctx.entity);
+		amiWebApp.createControlInContainer(this.getParent(), this, 'histogram', [command], {height: 600, width: 800}, this.ctx, 'bar-chart', this.ctx.entity);
 
 		/*------------------------------------------------------------------------------------------------------------*/
 	},
