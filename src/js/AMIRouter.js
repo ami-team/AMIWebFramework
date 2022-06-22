@@ -92,13 +92,20 @@ class AMIRouter
 
 		for(let i = 0; i < scripts.length; i++)
 		{
-			const url = new URL(scripts[i].src);
+			try
+			{
+				const url = new URL(scripts[i].src);
 
-			if(url.pathname.endsWith(prodJsFilename) > 0
-			   ||
-			   url.pathname.endsWith(devJsFilename) > 0
-			 ) {
-				return url;
+				if(url.pathname.endsWith(prodJsFilename) > 0
+				   ||
+				   url.pathname.endsWith(devJsFilename) > 0
+				 ) {
+					return url;
+				}
+			}
+			catch(e)
+			{
+				/* IGNORE */
 			}
 		}
 

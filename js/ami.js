@@ -13540,11 +13540,13 @@ var AMIRouter = function () {
     var scripts = document.getElementsByTagName('script');
 
     for (var i = 0; i < scripts.length; i++) {
-      var url = new URL(scripts[i].src);
+      try {
+        var url = new URL(scripts[i].src);
 
-      if (url.pathname.endsWith(prodJsFilename) > 0 || url.pathname.endsWith(devJsFilename) > 0) {
-        return url;
-      }
+        if (url.pathname.endsWith(prodJsFilename) > 0 || url.pathname.endsWith(devJsFilename) > 0) {
+          return url;
+        }
+      } catch (e) {}
     }
 
     return null;
