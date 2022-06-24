@@ -144,23 +144,6 @@ export function triggerLogout()
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-function updateURL(subapp, userdata)
-{
-	const url = new URL(amiRouter.getOriginURL());
-
-	if(subapp) {
-		url.searchParams.set('subapp', subapp);
-	}
-
-	if(userdata) {
-		url.searchParams.set('userdata', userdata);
-	}
-
-	window.history.pushState({}, '', url.toString());
-}
-
-/*--------------------------------------------------------------------------------------------------------------------*/
-
 /**
  * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
@@ -174,9 +157,9 @@ export function loadSubApp(subapp, userdata, options)
 {
 	const result = $.Deferred();
 
-	const [context, cache] = tools.setup(
-		['context', 'cache'],
-		[result, false],
+	const [context, defaultSubApp, cache] = tools.setup(
+		['context', 'defaultSubApp', 'cache'],
+		[result, '', false],
 		options
 	);
 
@@ -222,7 +205,15 @@ export function loadSubApp(subapp, userdata, options)
 
 						promise.then(() => {
 
-							updateURL(subapp, userdata);
+							if(subapp !== defaultSubApp)
+							{
+								amiRouter.appendHistoryEntry({
+									searchParams: {
+										'subapp': subapp,
+										'userdata': userdata,
+									}
+								});
+							}
 
 							view.fillBreadcrumb(descr.breadcrumb);
 
@@ -318,7 +309,7 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 			const subapp = json['subapp'] || defaultSubApp;
 			const userdata = json['userdata'] || defaultUserData;
 
-			loadSubApp(subapp, userdata).then((/*---*/) => {
+			loadSubApp(subapp, userdata, {defaultSubApp: defaultSubApp}).then((/*---*/) => {
 
 				result.resolve(/*---*/);
 
@@ -339,7 +330,7 @@ export function loadSubAppByURL(defaultSubApp, defaultUserData)
 			const subapp = args['subapp'] || defaultSubApp;
 			const userdata = args['userdata'] || defaultUserData;
 
-			loadSubApp(subapp, userdata).then((/*---*/) => {
+			loadSubApp(subapp, userdata, {defaultSubApp: defaultSubApp}).then((/*---*/) => {
 
 				result.resolve(/*---*/);
 

@@ -14,6 +14,8 @@
 /*--------------------------------------------------------------------------------------------------------------------*/
 
 // noinspection JSUnusedGlobalSymbols
+import * as tools from './utilities/tools';
+
 /**
  * The AMI url routing subsystem
  * @namespace amiRouter
@@ -44,8 +46,8 @@ class AMIRouter
 	/*----------------------------------------------------------------------------------------------------------------*/
 
 	constructor(prodJsFilename, devJsFilename)
-    {
-        /*------------------------------------------------------------------------------------------------------------*/
+	{
+		/*------------------------------------------------------------------------------------------------------------*/
 
 		const webappUrl = new URL(window.location);
 
@@ -137,41 +139,41 @@ class AMIRouter
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
-    _eatSlashes(url)
-    {
-        url = url.trim();
+	_eatSlashes(url)
+	{
+		url = url.trim();
 
-        while(url[url.length - 1] === '/')
-        {
-            url = url.substring(0, url.length - 1);
-        }
+		while(url[url.length - 1] === '/')
+		{
+			url = url.substring(0, url.length - 1);
+		}
 
-        return url;
-    }
+		return url;
+	}
 
-    /*----------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-    /**
-     * Gets the webapp URL
-     * @returns {string} The webapp URL
-     */
+	/**
+	 * Gets the webapp URL
+	 * @returns {string} The webapp URL
+	 */
 
-    getWebAppURL()
-    {
-        return this.#webAppURL;
-    }
+	getWebAppURL()
+	{
+		return this.#webAppURL;
+	}
 
-    /*----------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-    /**
-     * Gets the arguments of the webapp URL
-     * @returns {Object<string, string>} The arguments of the webapp URL
-     */
+	/**
+	 * Gets the arguments of the webapp URL
+	 * @returns {Object<string, string>} The arguments of the webapp URL
+	 */
 
-    getWebAppArgs()
-    {
-        return this.#webAppArgs;
-    }
+	getWebAppArgs()
+	{
+		return this.#webAppArgs;
+	}
 
 	/*----------------------------------------------------------------------------------------------------------------*/
 
@@ -233,110 +235,152 @@ class AMIRouter
 		return this.#originURL;
 	}
 
-    /*----------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-    /**
-     * Appends a routing rule
-     * @param {string} regExp the regExp
-     * @param {function} callback the callback
-     * @returns {AMIRouter} The amiRouter singleton
-     */
+	/**
+	 * Appends a routing rule
+	 * @param {string} regExp the regExp
+	 * @param {function} callback the callback
+	 * @returns {AMIRouter} The amiRouter singleton
+	 */
 
-    append(regExp, callback)
-    {
-        this.#routes.unshift({
-            regExp: regExp,
+	append(regExp, callback)
+	{
+		this.#routes.unshift({
+			regExp: regExp,
 			callback: callback,
-        });
+		});
 
-        return this;
-    }
+		return this;
+	}
 
-    /*----------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-    /**
-     * Removes a routing rule
-     * @param {string} regExp the regExp
-     * @returns {AMIRouter} The amiRouter singleton
-     */
+	/**
+	 * Removes a routing rule
+	 * @param {string} regExp the regExp
+	 * @returns {AMIRouter} The amiRouter singleton
+	 */
 
-    remove(regExp)
-    {
-        this.#routes = this.#routes.filter((route) => {
+	remove(regExp)
+	{
+		this.#routes = this.#routes.filter((route) => {
 
-            return route.regExp.toString() !== regExp.toString();
-        });
+			return route.regExp.toString() !== regExp.toString();
+		});
 
-        return this;
-    }
+		return this;
+	}
 
-    /*----------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-    /**
-     * Checks whether the URL matches with a routing rule
-     * @returns {boolean}
-     */
+	/**
+	 * Checks whether the URL matches with a routing rule
+	 * @returns {boolean}
+	 */
 
-    check()
-    {
-        let m;
+	check()
+	{
+		let m;
 
-        for(let i = 0; i < this.#routes.length; i++)
-        {
-            m = this.#webAppHash.match(this.#routes[i].regExp);
+		for(let i = 0; i < this.#routes.length; i++)
+		{
+			m = this.#webAppHash.match(this.#routes[i].regExp);
 
-            if(m)
-            {
-                this.#routes[i].callback.apply(this, m);
+			if(m)
+			{
+				this.#routes[i].callback.apply(this, m);
 
-                return true;
-            }
-        }
+				return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    /*----------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-    /**
-     * Appends a new history entry
-     * @param {string} path the new path
-     * @param {Object<string, *>} [context=null] the new context
-     * @returns {boolean}
-     */
+	#buildURL(searchParams, hash)
+	{
+		const result = new URL(this.#webAppURL);
 
-    appendHistoryEntry(path, context = null)
-    {
-        if(history.pushState)
-        {
-            history.pushState(context, null, this.#webAppURL + this._eatSlashes(path));
+		for(const [name, value] of Object.entries(searchParams))
+		{
+			if(typeof value === 'string')
+			{
+				result.searchParams.set(name, value);
+			}
+		}
 
-            return true;
-        }
+		if(hash)
+		{
+			result.hash = hash;
+		}
 
-        return false;
-    }
+		return result;
+	}
 
-    /*----------------------------------------------------------------------------------------------------------------*/
+	/*----------------------------------------------------------------------------------------------------------------*/
 
-    /**
-     * Replaces the current history entry
-     * @param {string} path the new path
-     * @param {Object<string, *>} [context=null] the new context
-     * @returns {boolean}
-     */
+	/**
+	 * Appends a new history entry
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, searchParams, hash)
+	 * @returns {boolean}
+	 */
 
-    replaceHistoryEntry(path, context = null)
-    {
-        if(history.replaceState)
-        {
-            history.replaceState(context, null, this.#webAppURL + this._eatSlashes(path));
+	appendHistoryEntry(options)
+	{
+		if(history.pushState)
+		{
+			const [context, searchParams, hash] = tools.setup(
+				['context', 'searchParams', 'hash'],
+				[{}, {}, null],
+				options
+			);
 
-            return true;
-        }
+			const url = this.#buildURL(searchParams, hash);
 
-        return false;
-    }
+			if(window.location !== url.toString())
+			{
+				history.pushState(context, null, url.toString());
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+	/*----------------------------------------------------------------------------------------------------------------*/
+
+	/**
+	 * Replaces the current history entry
+	 * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, searchParams, hash)
+	 * @returns {boolean}
+	 */
+
+	replaceHistoryEntry(options)
+	{
+		if(history.replaceState)
+		{
+			const [context, searchParams, hash] = tools.setup(
+				['context', 'searchParams', 'hash'],
+				[{}, {}, null],
+				options
+			);
+
+			const url = this.#buildURL(searchParams, hash);
+
+			if(window.location !== url.toString())
+			{
+				history.replaceState(context, null, url.toString());
+			}
+
+			return true;
+		}
+
+		return false;
+	}
 }
 
 /*--------------------------------------------------------------------------------------------------------------------*/

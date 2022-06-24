@@ -13452,6 +13452,104 @@ var AMICommand = function () {
 }();
 
 /* harmony default export */ const js_AMICommand = (new AMICommand());
+// EXTERNAL MODULE: ./node_modules/ami-twig/index.js
+var ami_twig = __webpack_require__(444);
+;// CONCATENATED MODULE: ./src/js/utilities/tools.js
+
+
+
+function _internal_then(deferred, doneCallback, failCallback) {
+  if (deferred && deferred.then) {
+    deferred.then(doneCallback, failCallback);
+  } else {
+    doneCallback();
+  }
+}
+function _internal_always(deferred, alwaysCallback) {
+  if (deferred && deferred.always) {
+    deferred.always(alwaysCallback);
+  } else {
+    alwaysCallback();
+  }
+}
+function typeOf(x) {
+  var name = Object.prototype.toString.call(x);
+  return name.startsWith('[object ') ? name.substring(8, name.length - 1) : '';
+}
+function isString(x) {
+  return ami_twig/* default.stdlib.isString */.Z.stdlib.isString(x);
+}
+function isArray(x) {
+  return ami_twig/* default.stdlib.isArray */.Z.stdlib.isArray(x);
+}
+function isObject(x) {
+  return ami_twig/* default.stdlib.isObject */.Z.stdlib.isObject(x);
+}
+function isSet(x) {
+  return ami_twig/* default.stdlib.isSet */.Z.stdlib.isSet(x);
+}
+function isMap(x) {
+  return ami_twig/* default.stdlib.isMap */.Z.stdlib.isMap(x);
+}
+function asArray(x) {
+  return Array.isArray(x) ? x : [x];
+}
+function setupParams(immutables, defaults, options) {
+  var result = {};
+
+  if (options) {
+    for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
+      var _Object$entries$_i = _Object$entries[_i],
+          key = _Object$entries$_i[0],
+          val = _Object$entries$_i[1];
+      result[key] = val;
+    }
+  }
+
+  if (defaults) {
+    for (var _i2 = 0, _Object$entries2 = Object.entries(defaults); _i2 < _Object$entries2.length; _i2++) {
+      var _Object$entries2$_i = _Object$entries2[_i2],
+          _key = _Object$entries2$_i[0],
+          _val = _Object$entries2$_i[1];
+
+      if (!(_key in result)) {
+        result[_key] = _val;
+      }
+    }
+  }
+
+  if (immutables) {
+    for (var _i3 = 0, _Object$entries3 = Object.entries(immutables); _i3 < _Object$entries3.length; _i3++) {
+      var _Object$entries3$_i = _Object$entries3[_i3],
+          _key2 = _Object$entries3$_i[0],
+          _val2 = _Object$entries3$_i[1];
+      result[_key2] = _val2;
+    }
+  }
+
+  return result;
+}
+function setup(optionNames, optionDefaults, options) {
+  var result = [];
+  var l = optionNames.length;
+  var m = optionDefaults.length;
+
+  if (l !== m) {
+    throw 'internal error';
+  }
+
+  if (options) {
+    for (var i = 0; i < l; i++) {
+      result.push(optionNames[i] in options ? options[optionNames[i]] : optionDefaults[i]);
+    }
+  } else {
+    for (var _i4 = 0; _i4 < l; _i4++) {
+      result.push(optionDefaults[_i4]);
+    }
+  }
+
+  return result;
+}
 ;// CONCATENATED MODULE: ./src/js/AMIRouter.js
 
 
@@ -13460,6 +13558,8 @@ function AMIRouter_classPrivateFieldLooseBase(receiver, privateKey) { if (!Objec
 var AMIRouter_id = 0;
 
 function AMIRouter_classPrivateFieldLooseKey(name) { return "__private_" + AMIRouter_id++ + "_" + name; }
+
+
 
 var _webAppURL = AMIRouter_classPrivateFieldLooseKey("webAppURL");
 
@@ -13477,8 +13577,13 @@ var _originURL = AMIRouter_classPrivateFieldLooseKey("originURL");
 
 var _routes = AMIRouter_classPrivateFieldLooseKey("routes");
 
+var _buildURL = AMIRouter_classPrivateFieldLooseKey("buildURL");
+
 var AMIRouter = function () {
   function AMIRouter(prodJsFilename, devJsFilename) {
+    Object.defineProperty(this, _buildURL, {
+      value: _buildURL2
+    });
     Object.defineProperty(this, _webAppURL, {
       writable: true,
       value: ''
@@ -13636,26 +13741,38 @@ var AMIRouter = function () {
     return false;
   };
 
-  _proto.appendHistoryEntry = function appendHistoryEntry(path, context) {
-    if (context === void 0) {
-      context = null;
-    }
-
+  _proto.appendHistoryEntry = function appendHistoryEntry(options) {
     if (history.pushState) {
-      history.pushState(context, null, AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] + this._eatSlashes(path));
+      var _tools$setup = setup(['context', 'searchParams', 'hash'], [{}, {}, null], options),
+          context = _tools$setup[0],
+          searchParams = _tools$setup[1],
+          hash = _tools$setup[2];
+
+      var url = AMIRouter_classPrivateFieldLooseBase(this, _buildURL)[_buildURL](searchParams, hash);
+
+      if (window.location !== url.toString()) {
+        history.pushState(context, null, url.toString());
+      }
+
       return true;
     }
 
     return false;
   };
 
-  _proto.replaceHistoryEntry = function replaceHistoryEntry(path, context) {
-    if (context === void 0) {
-      context = null;
-    }
-
+  _proto.replaceHistoryEntry = function replaceHistoryEntry(options) {
     if (history.replaceState) {
-      history.replaceState(context, null, AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] + this._eatSlashes(path));
+      var _tools$setup2 = setup(['context', 'searchParams', 'hash'], [{}, {}, null], options),
+          context = _tools$setup2[0],
+          searchParams = _tools$setup2[1],
+          hash = _tools$setup2[2];
+
+      var url = AMIRouter_classPrivateFieldLooseBase(this, _buildURL)[_buildURL](searchParams, hash);
+
+      if (window.location !== url.toString()) {
+        history.replaceState(context, null, url.toString());
+      }
+
       return true;
     }
 
@@ -13665,105 +13782,27 @@ var AMIRouter = function () {
   return AMIRouter;
 }();
 
+function _buildURL2(searchParams, hash) {
+  var result = new URL(AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL]);
+
+  for (var _i = 0, _Object$entries = Object.entries(searchParams); _i < _Object$entries.length; _i++) {
+    var _Object$entries$_i = _Object$entries[_i],
+        name = _Object$entries$_i[0],
+        value = _Object$entries$_i[1];
+
+    if (typeof value === 'string') {
+      result.searchParams.set(name, value);
+    }
+  }
+
+  if (hash) {
+    result.hash = hash;
+  }
+
+  return result;
+}
+
 /* harmony default export */ const js_AMIRouter = (new AMIRouter('js/ami.min.js', 'js/ami.js'));
-// EXTERNAL MODULE: ./node_modules/ami-twig/index.js
-var ami_twig = __webpack_require__(444);
-;// CONCATENATED MODULE: ./src/js/utilities/tools.js
-
-
-
-function _internal_then(deferred, doneCallback, failCallback) {
-  if (deferred && deferred.then) {
-    deferred.then(doneCallback, failCallback);
-  } else {
-    doneCallback();
-  }
-}
-function _internal_always(deferred, alwaysCallback) {
-  if (deferred && deferred.always) {
-    deferred.always(alwaysCallback);
-  } else {
-    alwaysCallback();
-  }
-}
-function typeOf(x) {
-  var name = Object.prototype.toString.call(x);
-  return name.startsWith('[object ') ? name.substring(8, name.length - 1) : '';
-}
-function isString(x) {
-  return ami_twig/* default.stdlib.isString */.Z.stdlib.isString(x);
-}
-function isArray(x) {
-  return ami_twig/* default.stdlib.isArray */.Z.stdlib.isArray(x);
-}
-function isObject(x) {
-  return ami_twig/* default.stdlib.isObject */.Z.stdlib.isObject(x);
-}
-function isSet(x) {
-  return ami_twig/* default.stdlib.isSet */.Z.stdlib.isSet(x);
-}
-function isMap(x) {
-  return ami_twig/* default.stdlib.isMap */.Z.stdlib.isMap(x);
-}
-function asArray(x) {
-  return Array.isArray(x) ? x : [x];
-}
-function setupParams(immutables, defaults, options) {
-  var result = {};
-
-  if (options) {
-    for (var _i = 0, _Object$entries = Object.entries(options); _i < _Object$entries.length; _i++) {
-      var _Object$entries$_i = _Object$entries[_i],
-          key = _Object$entries$_i[0],
-          val = _Object$entries$_i[1];
-      result[key] = val;
-    }
-  }
-
-  if (defaults) {
-    for (var _i2 = 0, _Object$entries2 = Object.entries(defaults); _i2 < _Object$entries2.length; _i2++) {
-      var _Object$entries2$_i = _Object$entries2[_i2],
-          _key = _Object$entries2$_i[0],
-          _val = _Object$entries2$_i[1];
-
-      if (!(_key in result)) {
-        result[_key] = _val;
-      }
-    }
-  }
-
-  if (immutables) {
-    for (var _i3 = 0, _Object$entries3 = Object.entries(immutables); _i3 < _Object$entries3.length; _i3++) {
-      var _Object$entries3$_i = _Object$entries3[_i3],
-          _key2 = _Object$entries3$_i[0],
-          _val2 = _Object$entries3$_i[1];
-      result[_key2] = _val2;
-    }
-  }
-
-  return result;
-}
-function setup(optionNames, optionDefaults, options) {
-  var result = [];
-  var l = optionNames.length;
-  var m = optionDefaults.length;
-
-  if (l !== m) {
-    throw 'internal error';
-  }
-
-  if (options) {
-    for (var i = 0; i < l; i++) {
-      result.push(optionNames[i] in options ? options[optionNames[i]] : optionDefaults[i]);
-    }
-  } else {
-    for (var _i4 = 0; _i4 < l; _i4++) {
-      result.push(optionDefaults[_i4]);
-    }
-  }
-
-  return result;
-}
 ;// CONCATENATED MODULE: ./src/js/utilities/locks.js
 
 
@@ -18391,27 +18430,13 @@ function triggerLogout() {
 
   return result.promise();
 }
-
-function updateURL(subapp, userdata) {
-  var url = new URL(js_AMIRouter.getOriginURL());
-
-  if (subapp) {
-    url.searchParams.set('subapp', subapp);
-  }
-
-  if (userdata) {
-    url.searchParams.set('userdata', userdata);
-  }
-
-  window.history.pushState({}, '', url.toString());
-}
-
 function loadSubApp(subapp, userdata, options) {
   var result = $.Deferred();
 
-  var _tools$setup = setup(['context', 'cache'], [result, false], options),
+  var _tools$setup = setup(['context', 'defaultSubApp', 'cache'], [result, '', false], options),
       context = _tools$setup[0],
-      cache = _tools$setup[1];
+      defaultSubApp = _tools$setup[1],
+      cache = _tools$setup[2];
 
   result.always(function () {
     unlock();
@@ -18436,7 +18461,15 @@ function loadSubApp(subapp, userdata, options) {
           _internal_then(_currentSubappInstance.onReady(userdata), function () {
             var promise = js_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
             promise.then(function () {
-              updateURL(subapp, userdata);
+              if (subapp !== defaultSubApp) {
+                js_AMIRouter.appendHistoryEntry({
+                  searchParams: {
+                    'subapp': subapp,
+                    'userdata': userdata
+                  }
+                });
+              }
+
               fillBreadcrumb(descr.breadcrumb);
               result.resolveWith(context, [_currentSubappInstance]);
             }, function (message) {
@@ -18483,7 +18516,9 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
 
       var subapp = json['subapp'] || defaultSubApp;
       var userdata = json['userdata'] || defaultUserData;
-      loadSubApp(subapp, userdata).then(function () {
+      loadSubApp(subapp, userdata, {
+        defaultSubApp: defaultSubApp
+      }).then(function () {
         result.resolve();
       }, function (message) {
         result.reject(message);
@@ -18493,7 +18528,9 @@ function loadSubAppByURL(defaultSubApp, defaultUserData) {
     if (!js_AMIRouter.check()) {
       var subapp = args['subapp'] || defaultSubApp;
       var userdata = args['userdata'] || defaultUserData;
-      loadSubApp(subapp, userdata).then(function () {
+      loadSubApp(subapp, userdata, {
+        defaultSubApp: defaultSubApp
+      }).then(function () {
         result.resolve();
       }, function (message) {
         result.reject(message);
@@ -19940,17 +19977,10 @@ var AMIWebApp = function () {
       "alias": "",
       "desc": "Appends a new history entry",
       "params": [{
-        "name": "path",
-        "type": ["string"],
-        "desc": "the new path",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "context",
+        "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "the new context",
-        "default": null,
+        "desc": "dictionary of optional parameters (context, searchParams, hash)",
+        "default": "{}",
         "optional": true,
         "nullable": ""
       }],
@@ -19963,17 +19993,10 @@ var AMIWebApp = function () {
       "alias": "",
       "desc": "Replaces the current history entry",
       "params": [{
-        "name": "path",
-        "type": ["string"],
-        "desc": "the new path",
-        "default": "",
-        "optional": "",
-        "nullable": ""
-      }, {
-        "name": "context",
+        "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "the new context",
-        "default": null,
+        "desc": "dictionary of optional parameters (context, searchParams, hash)",
+        "default": "{}",
         "optional": true,
         "nullable": ""
       }],
