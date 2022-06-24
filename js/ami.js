@@ -18391,6 +18391,21 @@ function triggerLogout() {
 
   return result.promise();
 }
+
+function updateURL(subapp, userdata) {
+  var url = new URL(js_AMIRouter.getOriginURL());
+
+  if (subapp) {
+    url.searchParams.set('subapp', subapp);
+  }
+
+  if (userdata) {
+    url.searchParams.set('userdata', userdata);
+  }
+
+  window.history.pushState({}, '', url.toString());
+}
+
 function loadSubApp(subapp, userdata, options) {
   var result = $.Deferred();
 
@@ -18421,6 +18436,7 @@ function loadSubApp(subapp, userdata, options) {
           _internal_then(_currentSubappInstance.onReady(userdata), function () {
             var promise = js_AMIAuth.isAuthenticated() ? triggerLogin() : triggerLogout();
             promise.then(function () {
+              updateURL(subapp, userdata);
               fillBreadcrumb(descr.breadcrumb);
               result.resolveWith(context, [_currentSubappInstance]);
             }, function (message) {

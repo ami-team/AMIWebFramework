@@ -144,6 +144,23 @@ export function triggerLogout()
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+function updateURL(subapp, userdata)
+{
+	const url = new URL(amiRouter.getOriginURL());
+
+	if(subapp) {
+		url.searchParams.set('subapp', subapp);
+	}
+
+	if(userdata) {
+		url.searchParams.set('userdata', userdata);
+	}
+
+	window.history.pushState({}, '', url.toString());
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 /**
  * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
@@ -204,6 +221,8 @@ export function loadSubApp(subapp, userdata, options)
 						;
 
 						promise.then(() => {
+
+							updateURL(subapp, userdata);
 
 							view.fillBreadcrumb(descr.breadcrumb);
 
