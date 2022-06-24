@@ -22,6 +22,12 @@ import amiTwig from 'ami-twig';
 import 'flatpickr/dist/flatpickr.min.css';
 import /*-------*/'flatpickr'/*-------*/;
 
+import {EditorState} from '@codemirror/state'
+import {EditorView, basicSetup} from 'codemirror'
+import {keymap} from '@codemirror/view';
+import {defaultKeymap} from '@codemirror/commands'
+import {javascript} from '@codemirror/lang-javascript'
+
 /*--------------------------------------------------------------------------------------------------------------------*/
 /* BREADCRUMB                                                                                                         */
 /*--------------------------------------------------------------------------------------------------------------------*/
@@ -88,32 +94,56 @@ function _formatDatetime(date, format)
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
-function _injectMonaco(editors, monaco)
-{
+function createCodeInstance(editors) {
 	editors.each((_, item) => {
-
-		/*------------------------------------------------------------------------------------------------------------*/
-
 		const textarea = $(item);
-
-		/*------------------------------------------------------------------------------------------------------------*/
 
 		const div = $('<div>', {
 			'class': textarea.attr('class')
-			                 .replace(/form-editor[\-a-zA-Z]*/g, 'form-editor-monaco'),
+				.replace(/form-editor[\-a-zA-Z]*/g, 'form-editor-codemirror'),
 			'style': textarea.attr('style'),
 		});
 
-		/*------------------------------------------------------------------------------------------------------------*/
+		div.insertAfter(textarea).promise().done(() => {
+			let startState = EditorState.create({
+				doc: item.value,
+				extensions: [keymap.of(defaultKeymap), basicSetup, javascript()]
+			})
+
+			let view = new EditorView({
+				state: startState,
+				parent: div[0]
+			})
+		});
+	})
+}
+
+/*function _injectMonaco(editors, monaco)
+{
+	editors.each((_, item) => {
+
+		/!*------------------------------------------------------------------------------------------------------------*!/
+
+		const textarea = $(item);
+
+		/!*------------------------------------------------------------------------------------------------------------*!/
+
+		const div = $('<div>', {
+			'class': textarea.attr('class')
+			                 .replace(/form-editor[\-a-zA-Z]*!/g, 'form-editor-monaco'),
+			'style': textarea.attr('style'),
+		});
+
+		/!*------------------------------------------------------------------------------------------------------------*!/
 
 		div.insertAfter(textarea).promise().done(() => {
 
-			/*--------------------------------------------------------------------------------------------------------*/
+			/!*--------------------------------------------------------------------------------------------------------*!/
 
 			const lang = textarea.attr('data-lang') || '';
 			const theme = textarea.attr('data-theme') || 'vs';
 
-			/**/
+			/!**!/
 
 			const wordWrap = textarea.attr('data-word-wrap') || 'false';
 			const readOnly = textarea.attr('data-read-only') || 'false';
@@ -123,15 +153,15 @@ function _injectMonaco(editors, monaco)
 			const renderWhitespace = textarea.attr('data-render-whitespace') || 'false';
 			const highlightActiveLine = textarea.attr('data-highlight-active-line') || 'false';
 
-			/*--------------------------------------------------------------------------------------------------------*/
+			/!*--------------------------------------------------------------------------------------------------------*!/
 
 			const editor = monaco.editor.create(div[0], {
-				/* VALUE */
+				/!* VALUE *!/
 				value: item.value,
-				/* OPTIONS */
+				/!* OPTIONS *!/
 				theme: theme,
 				language: lang,
-				/**/
+				/!**!/
 				wordWrap: wordWrap === 'true',
 				readOnly: readOnly === 'true',
 				minimap: {
@@ -139,10 +169,10 @@ function _injectMonaco(editors, monaco)
 				},
 				automaticLayout: automaticLayout === 'true',
 				renderWhitespace: renderWhitespace === 'true',
-				/**/
+				/!**!/
 				lineNumbers: showGutter === 'true' ? 'on' : 'off',
 				renderLineHighlight: highlightActiveLine === 'true' ? 'line' : 'none',
-				/**/
+				/!**!/
 				insertSpaces: false,
 				overviewRulerLanes: 0x00,
 				overviewRulerBorder: false,
@@ -153,11 +183,11 @@ function _injectMonaco(editors, monaco)
 				}
 			});
 
-			/*--------------------------------------------------------------------------------------------------------*/
+			/!*--------------------------------------------------------------------------------------------------------*!/
 
 			textarea.data('editor', editor);
 
-			/*--------------------------------------------------------------------------------------------------------*/
+			/!*--------------------------------------------------------------------------------------------------------*!/
 
 			editor.onDidChangeModelContent(() => {
 
@@ -166,7 +196,7 @@ function _injectMonaco(editors, monaco)
 				$(item).trigger('change');
 			});
 
-			/*--------------------------------------------------------------------------------------------------------*/
+			/!*--------------------------------------------------------------------------------------------------------*!/
 
 			const updateHeight = () => {
 
@@ -179,11 +209,11 @@ function _injectMonaco(editors, monaco)
 				}
 				catch
 				{
-					/* IGNORE */
+					/!* IGNORE *!/
 				}
 			};
 
-			/*--------------------------------------------------------------------------------------------------------*/
+			/!*--------------------------------------------------------------------------------------------------------*!/
 
 			editor.onDidContentSizeChange(
 				updateHeight
@@ -191,10 +221,10 @@ function _injectMonaco(editors, monaco)
 
 			updateHeight();
 
-			/*--------------------------------------------------------------------------------------------------------*/
+			/!*--------------------------------------------------------------------------------------------------------*!/
 		});
 	});
-}
+}*/
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -360,7 +390,11 @@ function _xxxHTML(selector, twig, mode, options)
 
 		if(editors.length > 0)
 		{
-			if(typeof window.monaco === 'undefined')
+			createCodeInstance(editors);
+
+			result.resolveWith(context, [el, html]);
+
+			/*if(typeof window.monaco === 'undefined')
 			{
 				import('monaco-editor/esm/vs/editor/editor.api').then((windowMonaco) => {
 
@@ -371,10 +405,10 @@ function _xxxHTML(selector, twig, mode, options)
 			}
 			else
 			{
-				_injectMonaco(editors, /*---*/ window.monaco /*---*/);
+				_injectMonaco(editors, /!*---*!/ window.monaco /!*---*!/);
 
 				result.resolveWith(context, [el, html]);
-			}
+			}*/
 		}
 		else
 		{

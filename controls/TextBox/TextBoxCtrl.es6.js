@@ -13,6 +13,11 @@
 import twigTextBoxCtrl from './assets/twig/TextBoxCtrl.twig';
 
 import ClipboardJS from 'clipboard';
+import {basicSetup, EditorView} from 'codemirror';
+import {EditorState, Transaction} from '@codemirror/state';
+import {keymap} from '@codemirror/view';
+import {defaultKeymap} from '@codemirror/commands';
+import {javascript} from '@codemirror/lang-javascript';
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
@@ -41,6 +46,14 @@ $AMIClass('TextBoxCtrl', {
 			/*--------------------------------------------------------------------------------------------------------*/
 
 			$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').on('hidden.bs.modal', () => {
+
+				// const editor = EditorView.findFromDOM($('.form-editor-codemirror.form-editor-codemirror')[0]);
+				//
+				// let transaction = editor.state.update({
+				// 	changes: { from: 0, to: editor.state.doc.length, insert: '' }
+				// });
+				//
+				// editor.dispatch(transaction)
 
 				amiWebApp.modalLeave();
 
@@ -122,7 +135,9 @@ $AMIClass('TextBoxCtrl', {
 		$('#B6FA759D_D2DD_D079_B591_5023C422B87F').text(params.title);
 		$('#AF62E47C_F3A6_FEB6_A48B_CCD3BAFE6647').text(params.lang);
 
-		const editor = $('#B8927006_7FCE_87BD_FC8D_C7575D69C362 .form-editor').val(this.format(params.text, params.lang)).data('editor');
+		// const editor = $('#B8927006_7FCE_87BD_FC8D_C7575D69C362 .form-editor').val(this.format(params.text, params.lang)).data('editor');
+		const editor = $('.form-editor-codemirror.form-editor-codemirror');
+		const editorInstance = EditorView.findFromDOM(editor[0]);
 
 		$('#B8927006_7FCE_87BD_FC8D_C7575D69C362').modal('show');
 
@@ -131,7 +146,13 @@ $AMIClass('TextBoxCtrl', {
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
-		monaco.editor.setModelLanguage(editor.getModel(), params.lang !== 'mql' ? params.lang : 'sql'); /* TEMP */
+		let transaction = editorInstance.state.update({
+			changes: { from: 0, to: editorInstance.state.doc.length, insert: this.format(params.text, params.lang) }
+		});
+
+		editorInstance.dispatch(transaction)
+
+		// monaco.editor.setModelLanguage(editor.getModel(), params.lang !== 'mql' ? params.lang : 'sql'); /* TEMP */
 
 		/*------------------------------------------------------------------------------------------------------------*/
 
