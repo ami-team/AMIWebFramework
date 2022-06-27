@@ -105,9 +105,23 @@ function createCodeInstance(editors) {
 		});
 
 		div.insertAfter(textarea).promise().done(() => {
+			const readOnly = textarea.attr('data-read-only') || 'false';
+			const wordWrap = textarea.attr('data-word-wrap') || 'false';
+
 			let startState = EditorState.create({
 				doc: item.value,
-				extensions: [keymap.of(defaultKeymap), basicSetup, javascript()]
+				extensions: [
+					keymap.of(defaultKeymap),
+					basicSetup,
+					javascript(),
+					wordWrap ? EditorView.lineWrapping : '',
+					EditorView.updateListener.of((update) => {
+						if(update.state.doc.toString() !== textarea.text()) {
+							textarea.text(update.state.doc.toString())
+						}
+					}),
+					EditorView.editable.of(!readOnly),
+				],
 			})
 
 			let view = new EditorView({
