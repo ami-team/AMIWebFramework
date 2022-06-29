@@ -18118,7 +18118,7 @@ var AMIAuth = function () {
     e.preventDefault();
     var values = $(e.target).serializeObject();
     js_AMIWebApp.lock();
-    js_AMICommand.addUser(values['usernme'], values['password'], values['first_name'], values['last_name'], values['email'], values['captcha_hash'], values['captcha_text'], 'attachCert' in values, 'agree' in values).then(function (data, message) {
+    js_AMICommand.addUser(values['username'], values['password'], values['first_name'], values['last_name'], values['email'], values['captcha_hash'], values['captcha_text'], 'attachCert' in values, 'agree' in values).then(function (data, message) {
       js_AMIWebApp.success(message, true);
     }, function (data, message) {
       js_AMIWebApp.error(message, true);
