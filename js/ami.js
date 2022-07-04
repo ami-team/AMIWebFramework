@@ -13754,9 +13754,9 @@ var AMIRouter = function () {
         history.pushState(context, null, url.toString());
 
         if (url.hash) {
-          alert(url.hash);
-          alert($(url.hash).length);
-          alert($(url.hash).offset().top);
+          setTimeout(function () {
+            return $(document.body).scrollTop($(url.hash).offset().top);
+          }, 500);
         }
       }
 
@@ -13779,8 +13779,9 @@ var AMIRouter = function () {
         history.replaceState(context, null, url.toString());
 
         if (url.hash) {
-          alert($(url.hash).length);
-          alert($(url.hash).offset().top);
+          setTimeout(function () {
+            return $(document.body).scrollTop($(url.hash).offset().top);
+          }, 500);
         }
       }
 
