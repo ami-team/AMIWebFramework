@@ -18433,10 +18433,11 @@ function triggerLogout() {
 function loadSubApp(subapp, userdata, options) {
   var result = $.Deferred();
 
-  var _tools$setup = setup(['context', 'defaultSubApp', 'cache'], [result, '', false], options),
+  var _tools$setup = setup(['context', 'defaultSubApp', 'hash', 'cache'], [result, '', null, false], options),
       context = _tools$setup[0],
       defaultSubApp = _tools$setup[1],
-      cache = _tools$setup[2];
+      hash = _tools$setup[2],
+      cache = _tools$setup[3];
 
   result.always(function () {
     unlock();
@@ -18466,7 +18467,8 @@ function loadSubApp(subapp, userdata, options) {
                   searchParams: {
                     'subapp': subapp,
                     'userdata': userdata
-                  }
+                  },
+                  hash: hash
                 });
               }
 
@@ -20945,7 +20947,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (context, cache)",
+        "desc": "dictionary of optional parameters (context, defaultSubApp, hash, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""
@@ -20975,7 +20977,7 @@ var AMIWebApp = function () {
       }, {
         "name": "options",
         "type": ["Object.<string, *>"],
-        "desc": "dictionary of optional parameters (cache)",
+        "desc": "dictionary of optional parameters (context, defaultSubApp, hash, cache)",
         "default": "{}",
         "optional": true,
         "nullable": ""

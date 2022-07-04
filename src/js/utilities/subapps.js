@@ -148,7 +148,7 @@ export function triggerLogout()
  * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
  * @param {?*} [userdata] the user data
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, cache)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, defaultSubApp, hash, cache)
  * @returns {$.Promise} A JQuery promise object
  * @ignore
  */
@@ -157,9 +157,9 @@ export function loadSubApp(subapp, userdata, options)
 {
 	const result = $.Deferred();
 
-	const [context, defaultSubApp, cache] = tools.setup(
-		['context', 'defaultSubApp', 'cache'],
-		[result, '', false],
+	const [context, defaultSubApp, hash, cache] = tools.setup(
+		['context', 'defaultSubApp', 'hash', 'cache'],
+		[result, '', null, false],
 		options
 	);
 
@@ -200,7 +200,7 @@ export function loadSubApp(subapp, userdata, options)
 					tools._internal_then(_currentSubappInstance.onReady(userdata), () => {
 
 						const promise = amiAuth.isAuthenticated() ? triggerLogin()
-																  : triggerLogout()
+						                                          : triggerLogout()
 						;
 
 						promise.then(() => {
@@ -211,7 +211,8 @@ export function loadSubApp(subapp, userdata, options)
 									searchParams: {
 										'subapp': subapp,
 										'userdata': userdata,
-									}
+									},
+									hash: hash,
 								});
 							}
 
@@ -256,7 +257,7 @@ export function loadSubApp(subapp, userdata, options)
  * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
  * @param {?*} [userdata] the user data
- * @param {Object<string, *>} [options={}] dictionary of optional parameters (cache)
+ * @param {Object<string, *>} [options={}] dictionary of optional parameters (context, defaultSubApp, hash, cache)
  * @returns {undefined} Nothing
  * @ignore
  */
