@@ -343,6 +343,11 @@ class AMIRouter
 			if(window.location !== url.toString())
 			{
 				history.pushState(context, null, url.toString());
+
+				if(url.hash)
+				{
+					$(document.body).scrollTop($(url.hash).offset().top);
+				}
 			}
 
 			return true;
@@ -374,6 +379,11 @@ class AMIRouter
 			if(window.location !== url.toString())
 			{
 				history.replaceState(context, null, url.toString());
+
+				if(url.hash)
+				{
+					$(document.body).scrollTop($(url.hash).offset().top);
+				}
 			}
 
 			return true;
