@@ -3774,7 +3774,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, ".flatpickr-calendar{background:transpa
 
 
 var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(7446), __webpack_require__.b);
-var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(6744), __webpack_require__.b);
+var ___CSS_LOADER_URL_IMPORT_1___ = new URL(/* asset import */ __webpack_require__(414), __webpack_require__.b);
 var ___CSS_LOADER_URL_IMPORT_2___ = new URL(/* asset import */ __webpack_require__(7058), __webpack_require__.b);
 var ___CSS_LOADER_URL_IMPORT_3___ = new URL(/* asset import */ __webpack_require__(9824), __webpack_require__.b);
 var ___CSS_LOADER_URL_IMPORT_4___ = new URL(/* asset import */ __webpack_require__(6929), __webpack_require__.b);
@@ -11550,11 +11550,11 @@ module.exports = __webpack_require__.p + "assets/fonts/OpenSans-Regular-webfont.
 
 /***/ }),
 
-/***/ 6744:
+/***/ 414:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
-module.exports = __webpack_require__.p + "assets/fonts/Opensans-Regular-webfont.woff2";
+module.exports = __webpack_require__.p + "assets/fonts/OpenSans-Regular-webfont.woff2";
 
 /***/ }),
 
