@@ -1043,7 +1043,7 @@ class AMIAuth
 
 		amiWebApp.lock();
 
-		amiCommand.addUser(values['usernme'], values['password'], values['first_name'], values['last_name'], values['email'], values['captcha_hash'], values['captcha_text'], 'attachCert' in values, 'agree' in values).then((data, message) => {
+		amiCommand.addUser(values['username'], values['password'], values['first_name'], values['last_name'], values['email'], values['captcha_hash'], values['captcha_text'], 'attachCert' in values, 'agree' in values).then((data, message) => {
 
 			amiWebApp.success(message, true);
 
