@@ -18433,13 +18433,14 @@ function triggerLogout() {
 
 function gotoAnchor(anchor) {
   if (anchor) {
-    var el = $("#" + anchor);
+    setTimeout(function () {
+      console.log("#" + anchor);
+      var el = $("#" + anchor);
 
-    if (el.length > 0) {
-      setTimeout(function () {
-        return $(document.body).scrollTop(el.offset().top);
-      }, 1000);
-    }
+      if (el.length > 0) {
+        $(document.body).scrollTop(el.offset().top);
+      }
+    }, 1000);
   }
 }
 

@@ -148,12 +148,18 @@ function gotoAnchor(anchor)
 {
 	if(anchor)
 	{
-		const el = $(`#${anchor}`);
+		setTimeout(() => {
 
-		if(el.length > 0)
-		{
-			setTimeout(() => $(document.body).scrollTop(el.offset().top), 1000);
-		}
+			console.log(`#${anchor}`);
+
+			const el = $(`#${anchor}`);
+
+			if(el.length > 0)
+			{
+				$(document.body).scrollTop(el.offset().top);
+			}
+
+		}, 1000);
 	}
 }
 
