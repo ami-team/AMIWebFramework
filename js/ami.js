@@ -18437,8 +18437,7 @@ function gotoAnchor(anchor) {
       var el = $("#" + anchor);
 
       if (el.length > 0) {
-        console.log(el.length + ' :::: ' + el.offset().top);
-        $(document.body).scrollTop(el.offset().top);
+        $(document).scrollTop(el.offset().top);
       }
     }, 1000);
   }
