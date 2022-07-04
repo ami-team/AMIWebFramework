@@ -150,12 +150,12 @@ function gotoAnchor(anchor)
 	{
 		setTimeout(() => {
 
-			console.log(`#${anchor}`);
-
 			const el = $(`#${anchor}`);
 
 			if(el.length > 0)
 			{
+				console.log(el.length + ' :::: ' + el.offset().top);
+
 				$(document.body).scrollTop(el.offset().top);
 			}
 

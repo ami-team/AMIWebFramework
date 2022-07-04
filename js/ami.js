@@ -18434,10 +18434,10 @@ function triggerLogout() {
 function gotoAnchor(anchor) {
   if (anchor) {
     setTimeout(function () {
-      console.log("#" + anchor);
       var el = $("#" + anchor);
 
       if (el.length > 0) {
+        console.log(el.length + ' :::: ' + el.offset().top);
         $(document.body).scrollTop(el.offset().top);
       }
     }, 1000);
