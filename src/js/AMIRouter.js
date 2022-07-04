@@ -346,6 +346,7 @@ class AMIRouter
 
 				if(url.hash)
 				{
+					alert(url.hash);
 					alert($(url.hash).length);
 					alert($(url.hash).offset().top);
 					//$(document.body).scrollTop($(url.hash).offset().top);

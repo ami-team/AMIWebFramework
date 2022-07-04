@@ -13754,6 +13754,7 @@ var AMIRouter = function () {
         history.pushState(context, null, url.toString());
 
         if (url.hash) {
+          alert(url.hash);
           alert($(url.hash).length);
           alert($(url.hash).offset().top);
         }
