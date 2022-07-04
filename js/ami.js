@@ -18436,7 +18436,9 @@ function gotoAnchor(anchor) {
     var el = $("#" + anchor);
 
     if (el.length > 0) {
-      $(document.body).scrollTop(el.offset().top);
+      setTimeout(function () {
+        return $(document.body).scrollTop(el.offset().top);
+      }, 1000);
     }
   }
 }
