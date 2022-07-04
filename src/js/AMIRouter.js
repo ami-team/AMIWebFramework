@@ -346,7 +346,9 @@ class AMIRouter
 
 				if(url.hash)
 				{
-					$(document.body).scrollTop($(url.hash).offset().top);
+					alert($(url.hash).length);
+					alert($(url.hash).offset().top);
+					//$(document.body).scrollTop($(url.hash).offset().top);
 				}
 			}
 
@@ -382,7 +384,9 @@ class AMIRouter
 
 				if(url.hash)
 				{
-					$(document.body).scrollTop($(url.hash).offset().top);
+					alert($(url.hash).length);
+					alert($(url.hash).offset().top);
+					//$(document.body).scrollTop($(url.hash).offset().top);
 				}
 			}
 
