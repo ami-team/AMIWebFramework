@@ -13752,12 +13752,6 @@ var AMIRouter = function () {
 
       if (window.location !== url.toString()) {
         history.pushState(context, null, url.toString());
-
-        if (url.hash) {
-          setTimeout(function () {
-            return $(document.body).scrollTop($(url.hash).offset().top);
-          }, 500);
-        }
       }
 
       return true;
@@ -13777,12 +13771,6 @@ var AMIRouter = function () {
 
       if (window.location !== url.toString()) {
         history.replaceState(context, null, url.toString());
-
-        if (url.hash) {
-          setTimeout(function () {
-            return $(document.body).scrollTop($(url.hash).offset().top);
-          }, 500);
-        }
       }
 
       return true;
@@ -18442,6 +18430,17 @@ function triggerLogout() {
 
   return result.promise();
 }
+
+function gotoAnchor(anchor) {
+  if (anchor) {
+    var el = $("#" + anchor);
+
+    if (el.length > 0) {
+      $(document.body).scrollTop(el.offset().top);
+    }
+  }
+}
+
 function loadSubApp(subapp, userdata, options) {
   var result = $.Deferred();
 
@@ -18484,6 +18483,7 @@ function loadSubApp(subapp, userdata, options) {
                 });
               }
 
+              gotoAnchor(hash);
               fillBreadcrumb(descr.breadcrumb);
               result.resolveWith(context, [_currentSubappInstance]);
             }, function (message) {

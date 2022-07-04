@@ -144,6 +144,21 @@ export function triggerLogout()
 
 /*--------------------------------------------------------------------------------------------------------------------*/
 
+function gotoAnchor(anchor)
+{
+	if(anchor)
+	{
+		const el = $(`#${anchor}`);
+
+		if(el.length > 0)
+		{
+			$(document.body).scrollTop(el.offset().top);
+		}
+	}
+}
+
+/*--------------------------------------------------------------------------------------------------------------------*/
+
 /**
  * Asynchronously loads a subapp
  * @param {string} subapp the subapp name
@@ -215,6 +230,8 @@ export function loadSubApp(subapp, userdata, options)
 									hash: hash,
 								});
 							}
+
+							gotoAnchor(hash);
 
 							view.fillBreadcrumb(descr.breadcrumb);
 
