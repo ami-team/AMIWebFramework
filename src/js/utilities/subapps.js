@@ -152,7 +152,7 @@ function gotoAnchor(anchor)
 
 		if(el.length > 0)
 		{
-			$(document.body).scrollTop(el.offset().top);
+			setTimeout(() => $(document.body).scrollTop(el.offset().top), 1000);
 		}
 	}
 }
