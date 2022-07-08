@@ -13553,6 +13553,12 @@ function setup(optionNames, optionDefaults, options) {
 ;// CONCATENATED MODULE: ./src/js/AMIRouter.js
 
 
+function _createForOfIteratorHelperLoose(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (it) return (it = it.call(o)).next.bind(it); if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; return function () { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 function AMIRouter_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
 
 var AMIRouter_id = 0;
@@ -13577,17 +13583,32 @@ var _originURL = AMIRouter_classPrivateFieldLooseKey("originURL");
 
 var _routes = AMIRouter_classPrivateFieldLooseKey("routes");
 
+var _findThisJs = AMIRouter_classPrivateFieldLooseKey("findThisJs");
+
+var _getSearchParamDict = AMIRouter_classPrivateFieldLooseKey("getSearchParamDict");
+
+var _eatSlashes = AMIRouter_classPrivateFieldLooseKey("eatSlashes");
+
 var _buildURL = AMIRouter_classPrivateFieldLooseKey("buildURL");
 
 var _goto = AMIRouter_classPrivateFieldLooseKey("goto");
 
 var AMIRouter = function () {
-  function AMIRouter(prodJsFilename, devJsFilename) {
+  function AMIRouter(_prodJsFilename, _devJsFilename) {
     Object.defineProperty(this, _goto, {
       value: _goto2
     });
     Object.defineProperty(this, _buildURL, {
       value: _buildURL2
+    });
+    Object.defineProperty(this, _eatSlashes, {
+      value: _eatSlashes2
+    });
+    Object.defineProperty(this, _getSearchParamDict, {
+      value: _getSearchParamDict2
+    });
+    Object.defineProperty(this, _findThisJs, {
+      value: _findThisJs2
     });
     Object.defineProperty(this, _webAppURL, {
       writable: true,
@@ -13623,68 +13644,28 @@ var AMIRouter = function () {
     });
     var webappUrl = new URL(window.location);
 
-    var scriptUrl = this._findThisJs(prodJsFilename, devJsFilename);
+    var scriptUrl = AMIRouter_classPrivateFieldLooseBase(this, _findThisJs)[_findThisJs](_prodJsFilename, _devJsFilename);
 
     if (!scriptUrl) {
-      throw "cannot find neither '" + prodJsFilename + "' nor '" + devJsFilename + "'";
+      throw "cannot find neither '" + _prodJsFilename + "' nor '" + _devJsFilename + "'";
     }
 
     AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL] = webappUrl.protocol === 'file:' ? "file://" + webappUrl.pathname : "" + webappUrl.origin + webappUrl.pathname;
-    AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = this._parseSearchString(webappUrl.search);
+    AMIRouter_classPrivateFieldLooseBase(this, _webAppArgs)[_webAppArgs] = AMIRouter_classPrivateFieldLooseBase(this, _getSearchParamDict)[_getSearchParamDict](webappUrl);
     AMIRouter_classPrivateFieldLooseBase(this, _webAppHash)[_webAppHash] = webappUrl.hash.substring(1);
     AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL] = scriptUrl.protocol === 'file:' ? "file://" + scriptUrl.pathname : "" + scriptUrl.origin + scriptUrl.pathname;
-    AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = this._parseSearchString(scriptUrl.search);
+    AMIRouter_classPrivateFieldLooseBase(this, _scriptArgs)[_scriptArgs] = AMIRouter_classPrivateFieldLooseBase(this, _getSearchParamDict)[_getSearchParamDict](scriptUrl);
     AMIRouter_classPrivateFieldLooseBase(this, _scriptHash)[_scriptHash] = scriptUrl.hash.substring(1);
     var idx;
 
-    if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(prodJsFilename)) > 0) {
-      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = this._eatSlashes(AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
-    } else if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(devJsFilename)) > 0) {
-      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = this._eatSlashes(AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
+    if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(_prodJsFilename)) > 0) {
+      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = AMIRouter_classPrivateFieldLooseBase(this, _eatSlashes)[_eatSlashes](AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
+    } else if ((idx = AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].indexOf(_devJsFilename)) > 0) {
+      AMIRouter_classPrivateFieldLooseBase(this, _originURL)[_originURL] = AMIRouter_classPrivateFieldLooseBase(this, _eatSlashes)[_eatSlashes](AMIRouter_classPrivateFieldLooseBase(this, _scriptURL)[_scriptURL].substring(0, idx));
     }
   }
 
   var _proto = AMIRouter.prototype;
-
-  _proto._findThisJs = function _findThisJs(prodJsFilename, devJsFilename) {
-    var scripts = document.getElementsByTagName('script');
-
-    for (var i = 0; i < scripts.length; i++) {
-      try {
-        var url = new URL(scripts[i].src);
-
-        if (url.pathname.endsWith(prodJsFilename) > 0 || url.pathname.endsWith(devJsFilename) > 0) {
-          return url;
-        }
-      } catch (e) {}
-    }
-
-    return null;
-  };
-
-  _proto._parseSearchString = function _parseSearchString(search) {
-    var result = {};
-    search.substring(1).split('&').forEach(function (param) {
-      var parts = param.split('=');
-
-      if (parts.length === 1) {
-        result[decodeURIComponent(parts[0]).toLowerCase()] = '';
-      } else if (parts.length === 2) {
-        result[decodeURIComponent(parts[0]).toLowerCase()] = decodeURIComponent(parts[1]);
-      }
-    });
-    return result;
-  };
-
-  _proto._eatSlashes = function _eatSlashes(url) {
-    url = url.trim();
-
-    while (url[url.length - 1] === '/') {
-      url = url.substring(0, url.length - 1);
-    }
-
-    return url;
-  };
 
   _proto.getWebAppURL = function getWebAppURL() {
     return AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL];
@@ -13790,6 +13771,45 @@ var AMIRouter = function () {
 
   return AMIRouter;
 }();
+
+function _findThisJs2(prodJsFilename, devJsFilename) {
+  var scripts = document.getElementsByTagName('script');
+
+  for (var i = 0; i < scripts.length; i++) {
+    try {
+      var url = new URL(scripts[i].src);
+
+      if (url.pathname.endsWith(prodJsFilename) > 0 || url.pathname.endsWith(devJsFilename) > 0) {
+        return url;
+      }
+    } catch (e) {}
+  }
+
+  return null;
+}
+
+function _getSearchParamDict2(url) {
+  var result = {};
+
+  for (var _iterator = _createForOfIteratorHelperLoose(url.searchParams.entries()), _step; !(_step = _iterator()).done;) {
+    var _step$value = _step.value,
+        key = _step$value[0],
+        val = _step$value[1];
+    result[key] = val;
+  }
+
+  return result;
+}
+
+function _eatSlashes2(url) {
+  url = url.trim();
+
+  while (url[url.length - 1] === '/') {
+    url = url.substring(0, url.length - 1);
+  }
+
+  return url;
+}
 
 function _buildURL2(searchParams, hash) {
   var result = new URL(AMIRouter_classPrivateFieldLooseBase(this, _webAppURL)[_webAppURL]);
@@ -16821,11 +16841,11 @@ function formatTWIG(twig, dict, twigs) {
 ;// CONCATENATED MODULE: ./src/js/utilities/jsdoc.js
 
 
-function _createForOfIteratorHelperLoose(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (it) return (it = it.call(o)).next.bind(it); if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; return function () { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function jsdoc_createForOfIteratorHelperLoose(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (it) return (it = it.call(o)).next.bind(it); if (Array.isArray(o) || (it = jsdoc_unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; return function () { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function jsdoc_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return jsdoc_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return jsdoc_arrayLikeToArray(o, minLen); }
 
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function jsdoc_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function jsdoc_classPrivateFieldLooseBase(receiver, privateKey) { if (!Object.prototype.hasOwnProperty.call(receiver, privateKey)) { throw new TypeError("attempted to use private field on non-instance"); } return receiver; }
 
@@ -16981,7 +17001,7 @@ function _makeContent2(title, cat, name) {
   if (Array.isArray(item.variables)) {
     s.push('<h4 class="mt-3">Members</h4>');
 
-    for (var _iterator = _createForOfIteratorHelperLoose(item.variables), _step; !(_step = _iterator()).done;) {
+    for (var _iterator = jsdoc_createForOfIteratorHelperLoose(item.variables), _step; !(_step = _iterator()).done;) {
       var _variable = _step.value;
       s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeVariable)[_makeVariable](_variable));
     }
@@ -16990,7 +17010,7 @@ function _makeContent2(title, cat, name) {
   if (Array.isArray(item.functions)) {
     s.push('<h4 class="mt-3">Methods</h4>');
 
-    for (var _iterator2 = _createForOfIteratorHelperLoose(item.functions), _step2; !(_step2 = _iterator2()).done;) {
+    for (var _iterator2 = jsdoc_createForOfIteratorHelperLoose(item.functions), _step2; !(_step2 = _iterator2()).done;) {
       var _function = _step2.value;
       s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunction)[_makeFunction](_function));
     }
@@ -16999,7 +17019,7 @@ function _makeContent2(title, cat, name) {
   if (Array.isArray(item.events)) {
     s.push('<h4 class="mt-3">Events</h4>');
 
-    for (var _iterator3 = _createForOfIteratorHelperLoose(item.events), _step3; !(_step3 = _iterator3()).done;) {
+    for (var _iterator3 = jsdoc_createForOfIteratorHelperLoose(item.events), _step3; !(_step3 = _iterator3()).done;) {
       var _event = _step3.value;
       s.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeFunction)[_makeFunction](_event));
     }
@@ -17078,7 +17098,7 @@ function _makeFunctionParameters2(method) {
         cnt5 = 0,
         cnt6 = 0;
 
-    for (var _iterator4 = _createForOfIteratorHelperLoose(method.params), _step4; !(_step4 = _iterator4()).done;) {
+    for (var _iterator4 = jsdoc_createForOfIteratorHelperLoose(method.params), _step4; !(_step4 = _iterator4()).done;) {
       var _params = _step4.value;
       L1.push(textToHtml(_params['name']));
       L2.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeType)[_makeType](_params));
@@ -17186,7 +17206,7 @@ function _makeFunctionExceptions2(method) {
   var result = [];
 
   if (Array.isArray(method.exceptions)) {
-    for (var _iterator5 = _createForOfIteratorHelperLoose(method.exceptions), _step5; !(_step5 = _iterator5()).done;) {
+    for (var _iterator5 = jsdoc_createForOfIteratorHelperLoose(method.exceptions), _step5; !(_step5 = _iterator5()).done;) {
       var _exception = _step5.value;
       result.push('<h5 class="mt-2"><strong>Throws:</strong></h5>');
       result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](_exception));
@@ -17201,7 +17221,7 @@ function _makeFunctionReturn2(method) {
   var result = [];
 
   if (Array.isArray(method.returns)) {
-    for (var _iterator6 = _createForOfIteratorHelperLoose(method.returns), _step6; !(_step6 = _iterator6()).done;) {
+    for (var _iterator6 = jsdoc_createForOfIteratorHelperLoose(method.returns), _step6; !(_step6 = _iterator6()).done;) {
       var _return = _step6.value;
       result.push('<h5 class="mt-2"><strong>Returns:</strong></h5>');
       result.push(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, _makeDesc)[_makeDesc](_return));
@@ -17279,7 +17299,7 @@ function _makeDetails2(x) {
   }
 
   if (Array.isArray(x.author)) {
-    for (var _iterator7 = _createForOfIteratorHelperLoose(x.author), _step7; !(_step7 = _iterator7()).done;) {
+    for (var _iterator7 = jsdoc_createForOfIteratorHelperLoose(x.author), _step7; !(_step7 = _iterator7()).done;) {
       var _author = _step7.value;
 
       var _AUTHOR = _author.replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], function (_, x, y) {
@@ -17291,7 +17311,7 @@ function _makeDetails2(x) {
   }
 
   if (Array.isArray(x.see)) {
-    for (var _iterator8 = _createForOfIteratorHelperLoose(x.see), _step8; !(_step8 = _iterator8()).done;) {
+    for (var _iterator8 = jsdoc_createForOfIteratorHelperLoose(x.see), _step8; !(_step8 = _iterator8()).done;) {
       var _see = _step8.value;
 
       var _SEE = _see.replace(jsdoc_classPrivateFieldLooseBase(AMIJSDoc, jsdoc_linkExp)[jsdoc_linkExp], function (_, x, y) {
@@ -17317,7 +17337,7 @@ function _makeExamples2(x, mode) {
   var result = [];
 
   if (Array.isArray(x.examples)) {
-    for (var _iterator9 = _createForOfIteratorHelperLoose(x.examples), _step9; !(_step9 = _iterator9()).done;) {
+    for (var _iterator9 = jsdoc_createForOfIteratorHelperLoose(x.examples), _step9; !(_step9 = _iterator9()).done;) {
       var _example = _step9.value;
       result.push('<h5 class="mt-2"><strong>Example:</strong></h5>');
       result.push("<textarea class=\"form-editor\" data-mode=\"" + textToHtml(mode) + "\">" + textToHtml(_example) + "</textarea>");
